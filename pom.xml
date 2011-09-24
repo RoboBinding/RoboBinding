@@ -5,7 +5,7 @@
     <groupId>robobinding</groupId>
     <artifactId>robobinding</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>apk</packaging>
+    <packaging>jar</packaging>
     <name>RoboBinding</name>
 
     <dependencies>
@@ -52,23 +52,23 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                <artifactId>maven-android-plugin</artifactId>
-                <version>3.0.0-alpha-3</version>
-                <configuration>
-                    <androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
-                    <assetsDirectory>${project.basedir}/assets</assetsDirectory>
-                    <resourceDirectory>${project.basedir}/res</resourceDirectory>
-                    <nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
-                    <sdk>
-                        <platform>7</platform>
-                    </sdk>
-                    <deleteConflictingFiles>true</deleteConflictingFiles>
-                    <undeployBeforeDeploy>true</undeployBeforeDeploy>
-                </configuration>
-                <extensions>true</extensions>
-            </plugin>
+<!--             <plugin> -->
+<!--                 <groupId>com.jayway.maven.plugins.android.generation2</groupId> -->
+<!--                 <artifactId>maven-android-plugin</artifactId> -->
+<!--                 <version>3.0.0-alpha-3</version> -->
+<!--                 <configuration> -->
+<!--                     <androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile> -->
+<!--                     <assetsDirectory>${project.basedir}/assets</assetsDirectory> -->
+<!--                     <resourceDirectory>${project.basedir}/res</resourceDirectory> -->
+<!--                     <nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory> -->
+<!--                     <sdk> -->
+<!--                         <platform>7</platform> -->
+<!--                     </sdk> -->
+<!--                     <deleteConflictingFiles>true</deleteConflictingFiles> -->
+<!--                     <undeployBeforeDeploy>true</undeployBeforeDeploy> -->
+<!--                 </configuration> -->
+<!--                 <extensions>true</extensions> -->
+<!--             </plugin> -->
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
