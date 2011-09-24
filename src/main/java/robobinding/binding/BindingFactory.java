@@ -31,12 +31,12 @@ import android.view.View;
  * @author Robert Taylor
  *
  */
-public class BindingFactory implements Factory
+class BindingFactory implements Factory
 {
 	private final LayoutInflater layoutInflater;
-	private HashMap<View, BindingMap> viewBindingsMap = new HashMap<View, BindingMap>();
+	private final HashMap<View, BindingMap> viewBindingsMap = new HashMap<View, BindingMap>();
 
-	public BindingFactory(LayoutInflater layoutInflater)
+	BindingFactory(LayoutInflater layoutInflater)
 	{
 		this.layoutInflater = layoutInflater;
 	}
@@ -59,7 +59,7 @@ public class BindingFactory implements Factory
 		}
 	}
 
-	public Map<View, BindingMap> getViewBindingsMap()
+	Map<View, BindingMap> getViewBindingsMap()
 	{
 		return viewBindingsMap;
 	}
