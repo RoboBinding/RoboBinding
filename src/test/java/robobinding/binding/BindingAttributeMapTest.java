@@ -31,12 +31,12 @@ import android.util.AttributeSet;
  * @author Robert Taylor
  *
  */
-public class BindingMapTest
+public class BindingAttributeMapTest
 {
 	@Test
 	public void givenAnAttributeSetWithNoBindingAttributes_WhenCreatingBindingMap_ThenReturnEmptyMap()
 	{
-		BindingMap bindingMap = BindingMap.createFrom(MockAttributeSet.withNoBindingAttributes());
+		BindingAttributeMap bindingMap = BindingAttributeMap.createFrom(MockAttributeSet.withNoBindingAttributes());
 		assertTrue(bindingMap.isEmpty());
 	}
 	
@@ -45,7 +45,7 @@ public class BindingMapTest
 	{
 		int numberOfBindingAttributes = anyNumber();
 		int numberOfNonBindingAttributes = anyNumber();
-		BindingMap bindingMap = BindingMap.createFrom(MockAttributeSet.withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes));
+		BindingAttributeMap bindingMap = BindingAttributeMap.createFrom(MockAttributeSet.withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes));
 		assertThat(bindingMap.size(), equalTo(numberOfBindingAttributes));
 	}
 	
@@ -55,10 +55,10 @@ public class BindingMapTest
 		int numberOfBindingAttributes = anyNumber();
 		int numberOfNonBindingAttributes = anyNumber();
 		AttributeSet attributeSetWithAttributes = MockAttributeSet.withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes);
-		BindingMap bindingMap = BindingMap.createFrom(attributeSetWithAttributes);
+		BindingAttributeMap bindingMap = BindingAttributeMap.createFrom(attributeSetWithAttributes);
 		
 		for (String attribute : bindingMap.keySet())
-			assertThat(bindingMap.get(attribute), equalTo(attributeSetWithAttributes.getAttributeValue(BindingMap.ROBOBINDING_NAMESPACE, attribute)));
+			assertThat(bindingMap.get(attribute), equalTo(attributeSetWithAttributes.getAttributeValue(BindingAttributeMap.ROBOBINDING_NAMESPACE, attribute)));
 	}
 	
 	private int anyNumber()

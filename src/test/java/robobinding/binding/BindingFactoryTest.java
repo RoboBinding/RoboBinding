@@ -27,7 +27,6 @@ import org.junit.runner.RunWith;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -83,7 +82,7 @@ public class BindingFactoryTest
 	{
 		when(layoutInflater.createView(name, prefix, attrs)).thenReturn(theView);
 		bindingFactory.onCreateView(name, context, attrs);
-		assertThat(bindingFactory.getViewBindingsMap().get(theView), equalTo(BindingMap.createFrom(attrs)));
+		assertThat(bindingFactory.getViewBindingsMap().get(theView), equalTo(BindingAttributeMap.createFrom(attrs)));
 	}
 	
 	@Test
@@ -103,13 +102,6 @@ public class BindingFactoryTest
 	}
 
 	@Test (expected=RuntimeException.class)
-	public void whenCreatingAViewThrowsAnInflateException_ThenPropagateAsRuntimeException() throws Exception
-	{
-		when(layoutInflater.createView(name, prefix, attrs)).thenThrow(new InflateException());
-		bindingFactory.onCreateView(name, context, attrs);
-	}
-	
-	@Test (expected=RuntimeException.class)
 	public void whenCreatingAViewThrowsAClassNotFoundException_ThenPropagateAsRuntimeException() throws Exception
 	{
 		when(layoutInflater.createView(name, prefix, attrs)).thenThrow(new ClassNotFoundException());
@@ -119,6 +111,6 @@ public class BindingFactoryTest
 	private void assertViewBindingsMapContainsEntriesFor(View view, AttributeSet attrs)
 	{
 		assertTrue(bindingFactory.getViewBindingsMap().containsKey(view));
-		assertThat(bindingFactory.getViewBindingsMap().get(view), equalTo(BindingMap.createFrom(attrs)));
+		assertThat(bindingFactory.getViewBindingsMap().get(view), equalTo(BindingAttributeMap.createFrom(attrs)));
 	}
 }

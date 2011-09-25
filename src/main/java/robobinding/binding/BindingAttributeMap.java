@@ -26,15 +26,15 @@ import android.util.AttributeSet;
  *
  */
 @SuppressWarnings("serial")
-class BindingMap extends HashMap<String, String>
+class BindingAttributeMap extends HashMap<String, String>
 {
-	static final String ROBOBINDING_NAMESPACE = "http://schemas.android.com/apk/res/robobinding";
+	static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/robobinding.android";
 
-	private BindingMap(){}
+	BindingAttributeMap(){}
 	
-	public static BindingMap createFrom(AttributeSet attributeSet)
+	public static BindingAttributeMap createFrom(AttributeSet attributeSet)
 	{
-		BindingMap bindingMap = new BindingMap();
+		BindingAttributeMap bindingMap = new BindingAttributeMap();
 		
 		for (int i = 0; i < attributeSet.getAttributeCount(); i++)
 		{

@@ -15,15 +15,15 @@
  */
 package robobinding.binding;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.LayoutInflater.Factory;
 import android.view.View;
+
+import com.google.common.collect.Maps;
 
 /**
  * @since 1.0
@@ -31,10 +31,10 @@ import android.view.View;
  * @author Robert Taylor
  *
  */
-class BindingFactory implements Factory
+public class BindingFactory implements Factory
 {
 	private final LayoutInflater layoutInflater;
-	private final HashMap<View, BindingMap> viewBindingsMap = new HashMap<View, BindingMap>();
+	private final Map<View, BindingAttributeMap> viewBindingsMap = Maps.newHashMap();
 
 	BindingFactory(LayoutInflater layoutInflater)
 	{
@@ -46,12 +46,8 @@ class BindingFactory implements Factory
 		try
 		{
 			View view = layoutInflater.createView(name, null, attrs);
-			viewBindingsMap.put(view, BindingMap.createFrom(attrs));
+			viewBindingsMap.put(view, BindingAttributeMap.createFrom(attrs));
 			return view;
-		} 
-		catch (InflateException e)
-		{
-			throw new RuntimeException(e);
 		} 
 		catch (ClassNotFoundException e)
 		{
@@ -59,7 +55,7 @@ class BindingFactory implements Factory
 		}
 	}
 
-	Map<View, BindingMap> getViewBindingsMap()
+	public Map<View, BindingAttributeMap> getViewBindingsMap()
 	{
 		return viewBindingsMap;
 	}

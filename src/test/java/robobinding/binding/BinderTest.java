@@ -18,11 +18,16 @@ package robobinding.binding;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.android.R;
+import robobinding.binding.Binder.BindingFactoryProvider;
 import robobinding.binding.Binder.InflationResult;
 import android.app.Activity;
 import android.content.Context;
@@ -43,17 +48,57 @@ public class BinderTest
 {	
 	private Context context = new Activity();
 	private LayoutInflater layoutInflater = LayoutInflater.from(context);
-
+	private Binder binder = new Binder();
+	private int activityLayoutId = R.layout.no_bound_views_activity;
+	private ViewGroup rootViewGroup = null;
+	private boolean attachToRoot = false;
+	
 	@Test
 	public void whenInflatingView_ShouldReturnRootViewInResult()
 	{
-		Binder binder = new Binder();
-		int resourceId = R.layout.test_activity;
-		ViewGroup rootViewGroup = null;
-		boolean attachToRoot = false;
+		InflationResult inflationResult = binder.inflateView(context, activityLayoutId, rootViewGroup, attachToRoot);
+		assertViewsAreEqual(inflationResult.getRootView(), layoutInflater.inflate(activityLayoutId, rootViewGroup, attachToRoot));
+	}
+	
+	@Test
+	public void givenAViewWithTwoBoundChildViews_WhenInflatingView_ShouldReturnChildViewsWithBindingsInResult()
+	{
+		viewWithBoundChildViews(2);
+		
+		InflationResult inflationResult = binder.inflateView(context, activityLayoutId, rootViewGroup, attachToRoot);
+		assertThat(inflationResult.getChildViewBindingsMap().size(), equalTo(2));
+	}
+	
+	@Test
+	public void givenAViewWithNoBoundChildViews_WhenInflatingView_ShouldReturnZeroChildViewsWithBindingsInResult()
+	{
+		viewWithNoBoundChildViews();
+		
+		InflationResult inflationResult = binder.inflateView(context, activityLayoutId, rootViewGroup, attachToRoot);
+		assertThat(inflationResult.getChildViewBindingsMap().size(), equalTo(0));
+	}
+	
+	private void viewWithNoBoundChildViews()
+	{
+		viewWithBoundChildViews(0);
+	}
+
+	private void viewWithBoundChildViews(final int boundChildViews)
+	{
+		binder.setBindingFactoryProvider(new BindingFactoryProvider(){
+			BindingFactory getBindingFactory(LayoutInflater layoutInflater)
+			{
+				BindingFactory bindingFactory = mock(BindingFactory.class);
+				HashMap<View, BindingAttributeMap> viewsAndBindings = new HashMap<View, BindingAttributeMap>();
 				
-		InflationResult inflationResult = binder.inflateView(context, resourceId, rootViewGroup, attachToRoot);
-		assertViewsAreEqual(inflationResult.getRootView(), layoutInflater.inflate(resourceId, rootViewGroup, attachToRoot));
+				for (int i = 0; i < boundChildViews; i++)
+					viewsAndBindings.put(new View(context), new BindingAttributeMap());
+					
+				when(bindingFactory.getViewBindingsMap()).thenReturn(viewsAndBindings);
+				
+				return bindingFactory;
+			}
+		});
 	}
 	
 	private void assertViewsAreEqual(View viewOne, View viewTwo)
