@@ -5,9 +5,6 @@ import java.text.ParseException;
 
 import robobinding.utils.Validate;
 
-/**
- * 
- */
 public class Converters
 {
 

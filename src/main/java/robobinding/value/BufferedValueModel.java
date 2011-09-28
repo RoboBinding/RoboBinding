@@ -277,7 +277,7 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 	 * 
 	 * @return true if a value has been assigned since the last commit or flush
 	 */
-	boolean isBuffering()
+	public boolean isBuffering()
 	{
 		return valueAssigned;
 	}

@@ -15,6 +15,10 @@ public abstract class AbstractValueModel0<T> implements ValueModel<T>
 {
 	public static final String PROPERTY_VALUE = "value";
 	private ExtendedPropertyChangeSupport propertyChangeSupport;
+	public AbstractValueModel0()
+	{
+		this(false);
+	}
 	public AbstractValueModel0(boolean checkIdentity)
 	{
 		propertyChangeSupport = new ExtendedPropertyChangeSupport(this, checkIdentity);

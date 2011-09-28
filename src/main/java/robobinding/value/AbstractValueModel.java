@@ -3,7 +3,6 @@ package robobinding.value;
 
 public abstract class AbstractValueModel<T> extends AbstractValueModel0<T> implements ValueModel<T>
 {
-	public static final String PROPERTY_VALUE = "value";
 	private T value;
 	public AbstractValueModel(T value, boolean checkIdentity)
 	{

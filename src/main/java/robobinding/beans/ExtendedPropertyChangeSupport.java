@@ -128,4 +128,12 @@ public final class ExtendedPropertyChangeSupport extends PropertyChangeSupport
 			}
 		}
 	}
+	public void removeAllListeners()
+	{
+		PropertyChangeListener[] propertyChangeListeners = getPropertyChangeListeners();
+		for(PropertyChangeListener propertyChangeListener : propertyChangeListeners)
+		{
+			removePropertyChangeListener(propertyChangeListener);
+		}
+	}
 }
