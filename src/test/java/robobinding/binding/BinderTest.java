@@ -54,14 +54,14 @@ public class BinderTest
 	private boolean attachToRoot = false;
 	
 	@Test
-	public void whenInflatingView_ShouldReturnRootViewInResult()
+	public void whenInflatingView_ThenReturnRootViewInResult()
 	{
 		InflationResult inflationResult = binder.inflateView(context, activityLayoutId, rootViewGroup, attachToRoot);
 		assertViewsAreEqual(inflationResult.getRootView(), layoutInflater.inflate(activityLayoutId, rootViewGroup, attachToRoot));
 	}
 	
 	@Test
-	public void givenAViewWithTwoBoundChildViews_WhenInflatingView_ShouldReturnChildViewsWithBindingsInResult()
+	public void givenAViewWithTwoBoundChildViews_WhenInflatingView_ThenReturnChildViewsWithBindingsInResult()
 	{
 		viewWithBoundChildViews(2);
 		
@@ -70,7 +70,7 @@ public class BinderTest
 	}
 	
 	@Test
-	public void givenAViewWithNoBoundChildViews_WhenInflatingView_ShouldReturnZeroChildViewsWithBindingsInResult()
+	public void givenAViewWithNoBoundChildViews_WhenInflatingView_ThenReturnZeroChildViewsWithBindingsInResult()
 	{
 		viewWithNoBoundChildViews();
 		
