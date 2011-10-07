@@ -21,6 +21,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -39,13 +40,23 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class TextViewConnectorTest
 {
+	private static final CharSequence INITIAL_VALUE = "initial value";
+	private static final CharSequence NEW_VALUE = "new value";
+	
+	private TextView textView;
+	private ValueModel<CharSequence> valueModel;
+	
 	@SuppressWarnings("unchecked")
+	@Before
+	public void setUp()
+	{
+		textView = new TextView(new Activity());
+		valueModel = mock(ValueModel.class);
+	}
+	
 	@Test
 	public void givenAValueModelAndATextView_WhenInitializingTextViewConnector_ThenTextViewTextPropertyShouldReflectValueModel()
 	{
-		Activity context = new Activity();
-		TextView textView = new TextView(context);
-		ValueModel<CharSequence> valueModel = mock(ValueModel.class);
 		CharSequence initialValue = "initial value";
 		when(valueModel.getValue()).thenReturn(initialValue);
 		
@@ -56,14 +67,10 @@ public class TextViewConnectorTest
 	@Test
 	public void givenABoundTextViewAndValueModel_WhenUpdatingTextPropertyOnTheTextView_ThenValueModelShouldBeUpdated()
 	{
-		Activity context = new Activity();
-		TextView textView = new TextView(context);
-		ValueModel<CharSequence> valueModel = mock(ValueModel.class);
-		CharSequence initialValue = "initial value";
-		when(valueModel.getValue()).thenReturn(initialValue);
+		when(valueModel.getValue()).thenReturn(INITIAL_VALUE);
 		
 		TextViewConnector textViewConnector = new TextViewConnector(valueModel, textView);
-		textView.setText("new value");
-		verify(valueModel).setValue("new value");
+		textView.setText(NEW_VALUE);
+		verify(valueModel).setValue(NEW_VALUE);
 	}
 }
