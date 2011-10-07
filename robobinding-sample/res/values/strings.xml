@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Robobinding-sample</string>
+    <string name="create">Create</string>
+    <string name="view_albums">View Albums</string>
+    <string name="view_album">View Album</string>
+</resources>
