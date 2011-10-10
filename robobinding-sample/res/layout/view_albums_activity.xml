@@ -23,6 +23,7 @@
   		android:layout_above="@id/create_button"
   		android:layout_below="@id/window_title"
   		binding:itemTemplate="@layout/album_row"
-  		binding:itemSource="albums" />
+  		binding:itemSource="albums"
+  		binding:onItemClick="viewAlbum" />
     
 </RelativeLayout>

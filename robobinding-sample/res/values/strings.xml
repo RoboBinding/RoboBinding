@@ -4,4 +4,6 @@
     <string name="create">Create</string>
     <string name="view_albums">View Albums</string>
     <string name="view_album">View Album</string>
+    <string name="create_album">Create Album</string>
+    <string name="edit_album">Edit Album</string>
 </resources>

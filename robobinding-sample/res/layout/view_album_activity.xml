@@ -29,6 +29,6 @@
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
 	    binding:text="{composer}"
-	    binding:visibility="{shouldEnableComposer}" />
+	    binding:visibility="{composerEnabled}" />
 	    
 </LinearLayout>

@@ -25,4 +25,6 @@ package robobinding.sample;
 public class ViewAlbumActivity
 {
 
+	public static final String ALBUM_ID = "album_id";
+
 }

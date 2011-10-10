@@ -21,7 +21,7 @@ import android.os.Bundle;
 
 /**
  * @since 1.0
- * @author Cheng Wei, 
+ * @author Cheng Wei
  * @author Robert Taylor
  *
  */

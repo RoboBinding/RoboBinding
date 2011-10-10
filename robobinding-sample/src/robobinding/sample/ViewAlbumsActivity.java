@@ -16,13 +16,26 @@
  */
 package robobinding.sample;
 
+import robobinding.binding.Binder;
+import robobinding.sample.presentationmodel.ViewAlbumsPresentationModel;
+import android.app.Activity;
+import android.os.Bundle;
+
 /**
  * @since 1.0
  * @author Cheng Wei, 
  * @author Robert Taylor
  *
  */
-public class ViewAlbumsActivity
+public class ViewAlbumsActivity extends Activity
 {
-
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		
+		ViewAlbumsPresentationModel viewAlbumsPresentationModel = new ViewAlbumsPresentationModel();
+		Binder binder = new Binder();
+		binder.setAndBindContentView(this, R.layout.view_albums_activity, viewAlbumsPresentationModel);
+	}
 }
