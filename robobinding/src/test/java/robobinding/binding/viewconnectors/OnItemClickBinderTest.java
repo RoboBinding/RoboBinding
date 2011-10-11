@@ -19,10 +19,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.presentationmodel.ItemClickEvent;
-
 import android.widget.ListView;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.xtremelabs.robolectric.shadows.ShadowListView;
 
 /**
  * @since 1.0
@@ -41,6 +41,9 @@ public class OnItemClickBinderTest
 		MockPresentationModel mockPresentationModel = new MockPresentationModel();
 		
 		OnItemClickBinder onItemClickBinder = new OnItemClickBinder(adapterView, commandName, mockPresentationModel);
+		ShadowListView shadowListView;
+		shadowListView.performItemClick(5);
+		adapterView.performItemClick(view, position, id)
 	}
 	
 	private static class MockPresentationModel
