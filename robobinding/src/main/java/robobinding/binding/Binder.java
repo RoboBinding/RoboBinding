@@ -15,12 +15,9 @@
  */
 package robobinding.binding;
 
-import java.util.Map;
-
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import robobinding.binding.BindingInflater.InflationResult;
+import robobinding.presentationmodel.ObservableProperties;
+import android.app.Activity;
 
 /**
  * @since 1.0
@@ -30,67 +27,21 @@ import android.view.ViewGroup;
  */
 public class Binder
 {
-	private LayoutInflaterProvider layoutInflaterProvider = new LayoutInflaterProvider();
-	private BindingFactoryProvider bindingFactoryProvider = new BindingFactoryProvider();
-	
-	public InflationResult inflateView(Context context, int resourceId, ViewGroup rootViewGroup, boolean attachToRoot)
+	private final BindingInflater bindingInflater;
+
+	public Binder()
 	{
-		LayoutInflater layoutInflater = layoutInflaterProvider.getLayoutInflater(context);
-		BindingFactory bindingFactory = bindingFactoryProvider.getBindingFactory(layoutInflater);
-		
-		View rootView = layoutInflater.inflate(resourceId, rootViewGroup, attachToRoot);
-		Map<View, BindingAttributeMap> childViewBindingsMap = bindingFactory.getViewBindingsMap();
-		
-		return new InflationResult(rootView, childViewBindingsMap);
+		this.bindingInflater = new BindingInflater();
+	}
+	
+	public Binder(BindingInflater bindingInflater)
+	{
+		this.bindingInflater = bindingInflater;
 	}
 
-	static class InflationResult
+	public void setAndBindContentView(Activity activity, int layoutId, ObservableProperties presentationModel)
 	{
-		private View rootView;
-		private Map<View, BindingAttributeMap> childViewBindingsMap;
-		
-		public InflationResult(View rootView, Map<View, BindingAttributeMap> childViewBindingsMap)
-		{
-			this.rootView = rootView;
-			this.childViewBindingsMap = childViewBindingsMap;
-		}
-		
-		public View getRootView()
-		{
-			return rootView;
-		}
-		
-		public Map<View, BindingAttributeMap> getChildViewBindingsMap()
-		{
-			return childViewBindingsMap;
-		}
-	}
-	
-	void setLayoutInflaterProvider(LayoutInflaterProvider layoutInflaterProvider)
-	{
-		this.layoutInflaterProvider = layoutInflaterProvider;
-	}
-	
-	void setBindingFactoryProvider(BindingFactoryProvider bindingFactoryProvider)
-	{
-		this.bindingFactoryProvider = bindingFactoryProvider;
-	}
-	
-	static class LayoutInflaterProvider
-	{
-		LayoutInflater getLayoutInflater(Context context)
-		{
-			return LayoutInflater.from(context).cloneInContext(context);
-		}
-	}
-	
-	static class BindingFactoryProvider
-	{
-		BindingFactory getBindingFactory(LayoutInflater layoutInflater)
-		{
-			BindingFactory bindingFactory = new BindingFactory(layoutInflater);
-			layoutInflater.setFactory(bindingFactory);
-			return bindingFactory;
-		}
+		InflationResult inflationResult = bindingInflater.inflateView(activity, layoutId);
+		activity.setContentView(inflationResult.getRootView());
 	}
 }

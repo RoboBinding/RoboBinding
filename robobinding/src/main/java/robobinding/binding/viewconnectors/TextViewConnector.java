@@ -15,6 +15,10 @@
  */
 package robobinding.binding.viewconnectors;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import robobinding.binding.BindingType;
 import robobinding.value.ValueModel;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,33 +32,45 @@ import android.widget.TextView;
  */
 public class TextViewConnector
 {
+	public TextViewConnector(ValueModel<CharSequence> valueModel, TextView textView)
+	{
+		this(valueModel, textView, BindingType.ONE_WAY);
+	}
 
-	public TextViewConnector(final ValueModel<CharSequence> valueModel, TextView textView)
+	public TextViewConnector(final ValueModel<CharSequence> valueModel, final TextView textView, BindingType bindingType)
 	{
 		textView.setText(valueModel.getValue());
 		
-		textView.addTextChangedListener(new TextWatcher() {
+		valueModel.addValueChangeListener(new PropertyChangeListener() {
 			
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count)
+			public void propertyChange(PropertyChangeEvent evt)
 			{
-				valueModel.setValue(s);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{
-				// TODO Auto-generated method stub
-				
+				textView.setText(valueModel.getValue());
 			}
 		});
+		
+		if (bindingType == BindingType.TWO_WAY)
+		{
+			textView.addTextChangedListener(new TextWatcher() {
+				
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count)
+				{
+					valueModel.setValue(s);
+				}
+				
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after)
+				{
+				}
+				
+				@Override
+				public void afterTextChanged(Editable s)
+				{
+				}
+			});
+		}
 	}
 
 }

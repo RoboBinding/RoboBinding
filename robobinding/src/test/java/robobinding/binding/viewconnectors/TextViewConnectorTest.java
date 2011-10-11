@@ -17,14 +17,15 @@ package robobinding.binding.viewconnectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import robobinding.binding.BindingType;
+import robobinding.value.ValueHolders;
 import robobinding.value.ValueModel;
 import android.app.Activity;
 import android.widget.TextView;
@@ -46,31 +47,68 @@ public class TextViewConnectorTest
 	private TextView textView;
 	private ValueModel<CharSequence> valueModel;
 	
-	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp()
 	{
 		textView = new TextView(new Activity());
-		valueModel = mock(ValueModel.class);
+		valueModel = ValueHolders.create(INITIAL_VALUE);
 	}
 	
 	@Test
-	public void givenAValueModelAndATextView_WhenInitializingTextViewConnector_ThenTextViewTextPropertyShouldReflectValueModel()
+	public void givenAValueModelAndTextView_WhenInitializingTextViewConnectorWith1WayOr2WayBinding_ThenTextViewShouldReflectValueModel()
 	{
-		CharSequence initialValue = "initial value";
-		when(valueModel.getValue()).thenReturn(initialValue);
+		textConnectorWithEither1WayOr2WayBinding();
 		
-		TextViewConnector textViewConnector = new TextViewConnector(valueModel, textView);
-		assertThat(textView.getText(), equalTo(initialValue));
+		assertThat(textView.getText(), equalTo(INITIAL_VALUE));
+	}
+
+	@Test
+	public void givenAValueModelAndTextViewBoundWithEither1WayOr2WayBinding_WhenUpdatingValueModelText_ThenTextViewShouldBeUpdated()
+	{
+		textConnectorWithEither1WayOr2WayBinding();
+		
+		valueModel.setValue(NEW_VALUE);
+		
+		assertThat(textView.getText(), equalTo(NEW_VALUE));
 	}
 	
 	@Test
-	public void givenABoundTextViewAndValueModel_WhenUpdatingTextPropertyOnTheTextView_ThenValueModelShouldBeUpdated()
+	public void givenValueModelAndTextViewBoundWith1WayBinding_WhenUpdatingTextPropertyOnTheTextView_ThenValueModelShouldNotBeUpdated()
 	{
-		when(valueModel.getValue()).thenReturn(INITIAL_VALUE);
+		textConnectorWith1WayBinding();
 		
-		TextViewConnector textViewConnector = new TextViewConnector(valueModel, textView);
 		textView.setText(NEW_VALUE);
-		verify(valueModel).setValue(NEW_VALUE);
+		
+		assertThat(valueModel.getValue(), equalTo(INITIAL_VALUE));
+	}
+	
+	@Test
+	public void givenValueModelAndTextViewBoundWith2WayBinding_WhenUpdatingTextPropertyOnTheTextView_ThenValueModelShouldBeUpdated()
+	{
+		textConnectorWith2WayBinding();
+		
+		textView.setText(NEW_VALUE);
+		
+		assertThat(valueModel.getValue(), equalTo(NEW_VALUE));
+	}
+
+	@SuppressWarnings("unused")
+	private void textConnectorWith1WayBinding()
+	{
+		TextViewConnector textViewConnector = new TextViewConnector(valueModel, textView, BindingType.ONE_WAY);
+	}
+	
+	@SuppressWarnings("unused")
+	private void textConnectorWith2WayBinding()
+	{
+		TextViewConnector textViewConnector = new TextViewConnector(valueModel, textView, BindingType.TWO_WAY);
+	}
+	
+	private void textConnectorWithEither1WayOr2WayBinding()
+	{
+		if (new Random().nextInt(2) == 0)
+			textConnectorWith1WayBinding();
+		else
+			textConnectorWith2WayBinding();
 	}
 }

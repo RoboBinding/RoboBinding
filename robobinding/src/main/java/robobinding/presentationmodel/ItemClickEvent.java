@@ -32,6 +32,14 @@ public class ItemClickEvent
 	private int position;
 	private long id;
 	
+	public ItemClickEvent(AdapterView<?> parent, View view, int position, long id)
+	{
+		this.parent = parent;
+		this.view = view;
+		this.position = position;
+		this.id = id;
+	}
+
 	public int getPosition()
 	{
 		return position;
