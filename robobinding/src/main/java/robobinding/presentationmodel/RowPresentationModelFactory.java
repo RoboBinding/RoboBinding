@@ -1,5 +1,5 @@
 /**
- * ActionEvent.java
+ * RowFactory.java
  * Sep 27, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,15 +14,16 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.contact;
+package robobinding.presentationmodel;
+
 
 /**
  * @since 1.0
- * @version $Revision:  $
+ * @version $Revision: 1.0 $
  * @author Cheng Wei
  *
  */
-public interface ActionEvent
+public interface RowPresentationModelFactory<T>
 {
-
+	RowPresentationModel<T> newRowPresentationModel();
 }

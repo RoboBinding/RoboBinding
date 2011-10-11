@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.contact;
+package robobinding.presentationmodel;
 
 import java.beans.PropertyChangeListener;
-import java.util.Collection;
+import java.util.List;
 
 import robobinding.value.ValueModel;
 
@@ -28,24 +28,27 @@ import robobinding.value.ValueModel;
  * @author Cheng Wei
  *
  */
-public class CollectionValueModel<R extends RowObservableBean<B>, B> extends AbstractCollectionValueModel<R, B> implements ValueModel<Collection<B>>
+public class ListValueModel<T> extends AbstractDataSetValueModel<T> implements ValueModel<List<T>>
 {
-	public CollectionValueModel(Class<R> rowPresentationModelClass)
+	private List<T> data;
+	
+	public ListValueModel(Class<? extends RowPresentationModel<T>> rowPresentationModelClass, List<T> data)
 	{
-		super(rowPresentationModelClass);
+		this(new DefaultRowPresentationModelFactory<T>(rowPresentationModelClass), data);
 	}
-	public CollectionValueModel(RowPresentationModelFactory<R, B> factory)
+	public ListValueModel(RowPresentationModelFactory<T> factory, List<T> data)
 	{
 		super(factory);
+		this.data = data;
 	}
 	@Override
-	public Collection<B> getValue()
+	public List<T> getValue()
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
-	public void setValue(Collection<B> newValue)
+	public void setValue(List<T> newValue)
 	{
 		// TODO Auto-generated method stub
 		
@@ -64,12 +67,10 @@ public class CollectionValueModel<R extends RowObservableBean<B>, B> extends Abs
 	}
 	public int size()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return data.size();
 	}
-	public B getBean(int index)
+	public T getBean(int index)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return data.get(index);
 	}
 }

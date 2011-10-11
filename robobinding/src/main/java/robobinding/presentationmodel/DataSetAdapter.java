@@ -1,12 +1,13 @@
-package robobinding.sample.contact;
+package robobinding.presentationmodel;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
-public class CollectionAdapter<R extends RowObservableBean<B>, B> extends BaseAdapter
+public class DataSetAdapter<T> extends BaseAdapter
 {
-	private CollectionValueModel<R, B> valueModel;
+	private AbstractDataSetValueModel<T> valueModel;
 	private int layoutId;
 	private int dropDownLayoutId;
 
@@ -52,41 +53,21 @@ public class CollectionAdapter<R extends RowObservableBean<B>, B> extends BaseAd
 			view = convertView;
 		}
 
-		bindView(view, position);
+		updateRowPresentationModel(view, position);
 
 		return view;
 	}
 
-	private void bindView(View view, int position)
+	private void updateRowPresentationModel(View view, int position)
 	{
-		R rowPresentationModel = getAttachedPresentationModel(view);
-		B bean = valueModel.getBean(position);
-		rowPresentationModel.setData(bean);
+		RowPresentationModel<T> rowPresentationModel = binder.getRowPresentationModel(view);
+		valueModel.updateRowPresentationModel(rowPresentationModel, position);
 	}
 
 	private View newView(int position, ViewGroup parent, int layoutId)
 	{
-		View view = inflateView(layoutId, parent, false);
-		R rowPresentationModel = valueModel.newRowPresentationModel();
-		attachPresentationModel(view, rowPresentationModel);
+		RowPresentationModel<T> rowPresentationModel = null;
+		View view = binder.inflateAndBindView(layoutId, parent, false, rowPresentationModel);
 		return view;
-	}
-
-	private View inflateView(int layoutId, ViewGroup parent, boolean b)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private R getAttachedPresentationModel(View view)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private void attachPresentationModel(View view, R rowPresentationModel)
-	{
-		// TODO Auto-generated method stub
-		
 	}
 }

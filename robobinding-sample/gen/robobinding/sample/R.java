@@ -21,15 +21,20 @@ public final class R {
     public static final class layout {
         public static final int album_row=0x7f030000;
         public static final int create_edit_album_activity=0x7f030001;
-        public static final int view_album_activity=0x7f030002;
-        public static final int view_albums_activity=0x7f030003;
+        public static final int home_activity=0x7f030002;
+        public static final int view_album_activity=0x7f030003;
+        public static final int view_albums_activity=0x7f030004;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
         public static final int create=0x7f040001;
         public static final int create_album=0x7f040004;
+        public static final int cursor_backed_albums=0x7f040007;
         public static final int edit_album=0x7f040005;
+        public static final int list_backed_albums=0x7f040008;
+        public static final int the_choice_is_yours=0x7f040009;
         public static final int view_album=0x7f040003;
         public static final int view_albums=0x7f040002;
+        public static final int welcome=0x7f040006;
     }
 }

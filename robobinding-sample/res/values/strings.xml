@@ -6,4 +6,8 @@
     <string name="view_album">View Album</string>
     <string name="create_album">Create Album</string>
     <string name="edit_album">Edit Album</string>
+    <string name="welcome">Welcome</string>
+    <string name="cursor_backed_albums">Cursor-backed albums</string>
+    <string name="list_backed_albums">List-backed albums</string>
+    <string name="the_choice_is_yours">The choice is yours...</string>
 </resources>

@@ -1,6 +1,6 @@
 /**
- * RowObservableBean.java
- * Sep 27, 2011 Copyright Cheng Wei and Robert Taylor
+ * ItemClickEvent.java
+ * 10 Oct 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,41 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.contact;
+package robobinding.presentationmodel;
 
-import robobinding.beans.ObservableBean;
+import android.view.View;
+import android.widget.AdapterView;
 
 /**
  * @since 1.0
- * @version $Revision: 1.0 $
  * @author Cheng Wei
+ * @author Robert Taylor
  *
  */
-public interface RowObservableBean<B> extends ObservableBean
+public class ItemClickEvent
 {
-	void setData(B bean);
+	private AdapterView<?> parent;
+	private View view;
+	private int position;
+	private long id;
+	
+	public int getPosition()
+	{
+		return position;
+	}
+
+	public long getId()
+	{
+		return id;
+	}
+
+	public AdapterView<?> getParent()
+	{
+		return parent;
+	}
+
+	public View getView()
+	{
+		return view;
+	}
 }

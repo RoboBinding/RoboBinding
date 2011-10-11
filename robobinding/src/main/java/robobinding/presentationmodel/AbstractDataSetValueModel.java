@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.contact;
+package robobinding.presentationmodel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -29,38 +29,39 @@ import robobinding.utils.Validate;
  * @author Cheng Wei
  *
  */
-public abstract class AbstractCollectionValueModel<R extends RowObservableBean<B>, B>
+public abstract class AbstractDataSetValueModel<T>
 {
-	private final RowPresentationModelFactory<R, B> factory;
-	protected AbstractCollectionValueModel(Class<R> rowPresentationModelClass)
-	{
-		this(new DefaultRowPresentationModelFactory<R,B>(rowPresentationModelClass));
-	}
-	protected AbstractCollectionValueModel(RowPresentationModelFactory<R, B> factory)
+	private final RowPresentationModelFactory<T> factory;
+
+	protected AbstractDataSetValueModel(RowPresentationModelFactory<T> factory)
 	{
 		Validate.notNull(factory, "Factory must not be null");
 		this.factory = factory;
 	}
-	public final R newRowPresentationModel()
+	public final RowPresentationModel<T> newRowPresentationModel()
 	{
 		return factory.newRowPresentationModel();
 	}
-	public final void fillData(R rowPresentationModel, B bean)
+	
+	public abstract int size();
+	public abstract T getBean(int position);
+	
+	public void updateRowPresentationModel(RowPresentationModel<T> rowPresentationModel, int position)
 	{
+		T bean = getBean(position);
 		rowPresentationModel.setData(bean);
 	}
-
-	private static class DefaultRowPresentationModelFactory<R extends RowObservableBean<B>, B> implements RowPresentationModelFactory<R, B>
+	protected final static class DefaultRowPresentationModelFactory<T> implements RowPresentationModelFactory<T>
 	{
-		private Constructor<R> rowPresentationModelConstructor;
-		public DefaultRowPresentationModelFactory(Class<R> rowPresentationModelClass)
+		private Constructor<? extends RowPresentationModel<T>> rowPresentationModelConstructor;
+		public DefaultRowPresentationModelFactory(Class<? extends RowPresentationModel<T>> rowPresentationModelClass)
 		{
 			Validate.notNull(rowPresentationModelClass, "rowPresentationModelClass must not be null");
 			rowPresentationModelConstructor = ConstructorUtils.getAccessibleConstructor(rowPresentationModelClass, new Class<?>[0]);
 			Validate.notNull(rowPresentationModelConstructor, "rowPresentationModelClass does not have a sdefault constructor");
 		}
 		@Override
-		public R newRowPresentationModel()
+		public RowPresentationModel<T> newRowPresentationModel()
 		{
 			try
 			{
@@ -80,4 +81,5 @@ public abstract class AbstractCollectionValueModel<R extends RowObservableBean<B
 			}
 		}
 	}
+	
 }

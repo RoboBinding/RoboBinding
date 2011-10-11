@@ -18,10 +18,13 @@ package robobinding.sample.dao;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import robobinding.sample.model.Album;
+import robobinding.sample.presentationmodel.AlbumCursor;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -87,10 +90,16 @@ public class AlbumDao
 	{
 		return albums.size() + 1;
 	}
-
+	
 	public Collection<Album> getAll()
 	{
 		return Collections.unmodifiableCollection(albums);
+	}
+
+	public AlbumCursor getCursor()
+	{
+		List<Album> albumsList = Lists.newArrayList(albums);
+		return new AlbumCursor(albumsList);
 	}
 
 }

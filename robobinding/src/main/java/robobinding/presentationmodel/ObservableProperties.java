@@ -1,6 +1,6 @@
 /**
- * ItemClickEvent.java
- * 10 Oct 2011 Copyright Cheng Wei and Robert Taylor
+ * PresentationModel.java
+ * 11 Oct 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.event;
+package robobinding.presentationmodel;
 
-import android.view.View;
-import android.widget.AdapterView;
+import java.beans.PropertyChangeListener;
 
 /**
  * @since 1.0
@@ -25,20 +24,8 @@ import android.widget.AdapterView;
  * @author Robert Taylor
  *
  */
-public class ItemClickEvent
+public interface ObservableProperties
 {
-	private AdapterView<?> parent;
-	private View view;
-	private int position;
-	private long id;
-	
-	public int getPosition()
-	{
-		return position;
-	}
-
-	public long getId()
-	{
-		return id;
-	}
+	void addPropertyChangeListener(PropertyChangeListener listener);
+	void removePropertyChangeListener(PropertyChangeListener listener);
 }

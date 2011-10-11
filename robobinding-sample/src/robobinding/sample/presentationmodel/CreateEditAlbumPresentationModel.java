@@ -16,7 +16,7 @@
  */
 package robobinding.sample.presentationmodel;
 
-import robobinding.beans.ExtendedPropertyChangeSupport;
+import robobinding.presentationmodel.AbstractPresentationModel;
 import robobinding.sample.R;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
@@ -28,13 +28,11 @@ import android.content.Context;
  * @author Robert Taylor
  *
  */
-public class CreateEditAlbumPresentationModel
+public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 {
 	private Album.Builder albumBuilder;
 	private AlbumDao albumDao;
 	private Context context;
-	
-	private ExtendedPropertyChangeSupport propertyChangeSupport;
 	
 	public CreateEditAlbumPresentationModel(Context context, AlbumDao albumDao, long albumId)
 	{
@@ -53,7 +51,6 @@ public class CreateEditAlbumPresentationModel
 	{
 		this.context = context;
 		this.albumDao = albumDao;
-		propertyChangeSupport = new ExtendedPropertyChangeSupport(this);
 	}
 	
 	public String getWindowTitle()
@@ -84,7 +81,7 @@ public class CreateEditAlbumPresentationModel
 		String oldValue = albumBuilder.getTitle();
 		albumBuilder.setTitle(title);
 		
-		propertyChangeSupport.firePropertyChange("title", oldValue, title);
+		firePropertyChange("title", oldValue, title);
 	}
 
 	public String getArtist()
@@ -97,7 +94,7 @@ public class CreateEditAlbumPresentationModel
 		String oldValue = albumBuilder.getArtist();
 		albumBuilder.setArtist(artist);
 		
-		propertyChangeSupport.firePropertyChange("artist", oldValue, artist);
+		firePropertyChange("artist", oldValue, artist);
 	}
 
 	public boolean isClassical()
@@ -110,8 +107,8 @@ public class CreateEditAlbumPresentationModel
 		boolean oldValue = albumBuilder.isClassical();
 		albumBuilder.setClassical(classical);
 		
-		propertyChangeSupport.firePropertyChange("classical", oldValue, classical);
-		propertyChangeSupport.firePropertyChange("composerEnabled", oldValue, classical);
+		firePropertyChange("classical", oldValue, classical);
+		firePropertyChange("composerEnabled", oldValue, classical);
 	}
 
 	public String getComposer()
@@ -124,8 +121,9 @@ public class CreateEditAlbumPresentationModel
 		String oldValue = albumBuilder.getComposer();
 		albumBuilder.setComposer(composer);
 		
-		propertyChangeSupport.firePropertyChange("composer", oldValue, composer);
+		firePropertyChange("composer", oldValue, composer);
 	}
+
 	
 	
 }

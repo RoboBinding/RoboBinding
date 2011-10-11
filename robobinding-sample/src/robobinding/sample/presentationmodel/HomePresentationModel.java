@@ -1,6 +1,6 @@
 /**
- * CustomPropertyProvider.java
- * 10 Oct 2011 Copyright Cheng Wei and Robert Taylor
+ * HomePresentationModel.java
+ * 11 Oct 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,28 @@
  */
 package robobinding.sample.presentationmodel;
 
+import robobinding.sample.CursorBackedViewAlbumsActivity;
+import robobinding.sample.ListBackedViewAlbumsActivity;
+import android.content.Context;
+import android.content.Intent;
+
 /**
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
  *
  */
-public interface CustomPropertyProvider
+public class HomePresentationModel
 {
+	private Context context;
 
-	PropertyAdapter<?> createCustomProperty(String propertyName);
-
+	public void cursorBackedAlbums()
+	{
+		context.startActivity(new Intent(context, CursorBackedViewAlbumsActivity.class));
+	}
+	
+	public void listBackedAlbums()
+	{
+		context.startActivity(new Intent(context, ListBackedViewAlbumsActivity.class));
+	}
 }

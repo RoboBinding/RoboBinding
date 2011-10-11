@@ -1,6 +1,6 @@
 /**
- * PropertyConverterProvider.java
- * Sep 27, 2011 Copyright Cheng Wei and Robert Taylor
+ * CustomPropertyProvider.java
+ * 10 Oct 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,17 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.contact;
-
-import robobinding.value.ValueModel;
+package robobinding.presentationmodel;
 
 /**
  * @since 1.0
- * @version $Revision: 1.0 $
  * @author Cheng Wei
+ * @author Robert Taylor
  *
  */
 public interface CustomPropertyProvider
 {
-	boolean supports(String propertyName);
-	ValueModel<?> createProperty(String propertyName);
+
+	PropertyAdapter<?> createCustomProperty(String propertyName);
+
 }

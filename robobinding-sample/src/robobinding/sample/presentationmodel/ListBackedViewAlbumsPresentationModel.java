@@ -1,5 +1,5 @@
 /**
- * ViewAlbumPresentationModel.java
+ * ViewAlbumsPresentationModel.java
  * 10 Oct 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +16,21 @@
  */
 package robobinding.sample.presentationmodel;
 
+import java.util.List;
+
 import robobinding.beans.PropertyAdapter;
 import robobinding.presentationmodel.CustomPropertyProvider;
-import robobinding.presentationmodel.RowPresentationModel;
+import robobinding.presentationmodel.ItemClickEvent;
+import robobinding.presentationmodel.ListValueModel;
+import robobinding.sample.CreateEditAlbumActivity;
+import robobinding.sample.ViewAlbumActivity;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
-import robobinding.value.Converters;
+import android.content.Context;
+import android.content.Intent;
+import android.view.ViewParent;
+
+import com.google.common.collect.Lists;
 
 /**
  * @since 1.0
@@ -29,47 +38,21 @@ import robobinding.value.Converters;
  * @author Robert Taylor
  *
  */
-public class ViewAlbumPresentationModel implements CustomPropertyProvider, RowPresentationModel<Album>
+public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel implements CustomPropertyProvider
 {
-	private Album album;
-	
-	public ViewAlbumPresentationModel(AlbumDao albumDao, long albumId)
+	public ListBackedViewAlbumsPresentationModel(Context context, AlbumDao albumDao)
 	{
-		this.album = albumDao.get(albumId);
+		super(context, albumDao);
 	}
 
-	public String getTitle()
-	{
-		return album.getTitle();
-	}
-	
-	public String getArtist()
-	{
-		return album.getArtist();
-	}
-	
-	public String getComposer()
-	{
-		return album.getComposer();
-	}
-	
-	public boolean isComposerEnabled()
-	{
-		return album.isClassical();
-	}
-	
 	@Override
 	public PropertyAdapter<?> createCustomProperty(String propertyName)
 	{
-		if ("classicalDescription".equals(propertyName))
-			Converters.createBooleanToStringConverter(album.isClassical(), "Classical", "Not classical");
-		
+		if(PROPERTY_ALBUMS.equals(propertyName))
+		{
+			List<Album> albums = Lists.newArrayList(albumDao.getAll());
+			return new ListValueModel<Album>(ViewAlbumPresentationModel.class, albums);
+		}
 		return null;
-	}
-
-	@Override
-	public void setData(Album bean)
-	{
-		this.album = bean;
 	}
 }
