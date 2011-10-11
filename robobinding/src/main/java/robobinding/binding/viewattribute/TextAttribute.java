@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.viewconnectors;
+package robobinding.binding.viewattribute;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -30,17 +30,28 @@ import android.widget.TextView;
  * @author Robert Taylor
  *
  */
-public class TextViewConnector
+public class TextAttribute extends AbstractPropertyViewAttribute<CharSequence>
 {
-	public TextViewConnector(ValueModel<CharSequence> valueModel, TextView textView)
+	private final TextView textView;
+	
+	public TextAttribute(final TextView textView)
 	{
-		this(valueModel, textView, BindingType.ONE_WAY);
+		this.textView = textView;
 	}
 
-	public TextViewConnector(final ValueModel<CharSequence> valueModel, final TextView textView, BindingType bindingType)
+	@Override
+	protected void bindOnto(final ValueModel<CharSequence> valueModel, BindingType bindingType)
 	{
 		textView.setText(valueModel.getValue());
 		
+		observeChangesOnTheValueModel(valueModel);
+		
+		if (bindingType == BindingType.TWO_WAY)
+			observeChangesOnTheTextView(valueModel);
+	}
+
+	private void observeChangesOnTheValueModel(final ValueModel<CharSequence> valueModel)
+	{
 		valueModel.addValueChangeListener(new PropertyChangeListener() {
 			
 			@Override
@@ -49,28 +60,28 @@ public class TextViewConnector
 				textView.setText(valueModel.getValue());
 			}
 		});
-		
-		if (bindingType == BindingType.TWO_WAY)
-		{
-			textView.addTextChangedListener(new TextWatcher() {
-				
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count)
-				{
-					valueModel.setValue(s);
-				}
-				
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after)
-				{
-				}
-				
-				@Override
-				public void afterTextChanged(Editable s)
-				{
-				}
-			});
-		}
+	}
+
+	private void observeChangesOnTheTextView(final ValueModel<CharSequence> valueModel)
+	{
+		textView.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count)
+			{
+				valueModel.setValue(s);
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after)
+			{
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s)
+			{
+			}
+		});
 	}
 
 }

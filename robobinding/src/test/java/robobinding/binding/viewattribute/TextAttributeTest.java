@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.viewconnectors;
+package robobinding.binding.viewattribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.binding.BindingType;
+import robobinding.binding.viewattribute.TextAttribute;
 import robobinding.value.ValueHolders;
 import robobinding.value.ValueModel;
 import android.app.Activity;
@@ -39,7 +40,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  *
  */
 @RunWith(RobolectricTestRunner.class)
-public class TextViewConnectorTest
+public class TextAttributeTest
 {
 	private static final CharSequence INITIAL_VALUE = "initial value";
 	private static final CharSequence NEW_VALUE = "new value";
@@ -92,16 +93,16 @@ public class TextViewConnectorTest
 		assertThat(valueModel.getValue(), equalTo(NEW_VALUE));
 	}
 
-	@SuppressWarnings("unused")
 	private void textConnectorWith1WayBinding()
 	{
-		TextViewConnector textViewConnector = new TextViewConnector(valueModel, textView, BindingType.ONE_WAY);
+		TextAttribute textViewConnector = new TextAttribute(textView);
+		textViewConnector.bindOnto(valueModel,  BindingType.ONE_WAY);
 	}
 	
-	@SuppressWarnings("unused")
 	private void textConnectorWith2WayBinding()
 	{
-		TextViewConnector textViewConnector = new TextViewConnector(valueModel, textView, BindingType.TWO_WAY);
+		TextAttribute textViewConnector = new TextAttribute(textView);
+		textViewConnector.bindOnto(valueModel,  BindingType.TWO_WAY);
 	}
 	
 	private void textConnectorWithEither1WayOr2WayBinding()

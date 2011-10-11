@@ -13,14 +13,25 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.viewconnectors;
+package robobinding.binding.viewattribute;
+
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import robobinding.beans.BeanAdapter;
 import robobinding.presentationmodel.ItemClickEvent;
+import android.R;
+import android.app.Activity;
+import android.content.Context;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.common.collect.Lists;
+import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 import com.xtremelabs.robolectric.shadows.ShadowListView;
 
@@ -31,19 +42,33 @@ import com.xtremelabs.robolectric.shadows.ShadowListView;
  *
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnItemClickBinderTest
+public class OnItemClickAttributeTest
 {
 	@Test
-	public void name()
+	public void whenClickingOnItemInTheList_ShouldInvokeCommand()
 	{
 		ListView adapterView = new ListView(null);
 		String commandName = "someCommand";
 		MockPresentationModel mockPresentationModel = new MockPresentationModel();
 		
-		OnItemClickBinder onItemClickBinder = new OnItemClickBinder(adapterView, commandName, mockPresentationModel);
-		ShadowListView shadowListView;
+		ArrayAdapter<String> mockArrayAdapter = new MockArrayAdapter(new Activity(), R.layout.simple_list_item_1, Lists.newArrayList("0", "1", "2", "3", "4", "5"));
+		adapterView.setAdapter(mockArrayAdapter);
+		
+		OnItemClickAttribute onItemClickAttribute = new OnItemClickAttribute(adapterView);
+		onItemClickAttribute.bindOnto(new BeanAdapter(mockPresentationModel, true), commandName);
+		
+		ShadowListView shadowListView = Robolectric.shadowOf(adapterView);
 		shadowListView.performItemClick(5);
-		adapterView.performItemClick(view, position, id)
+		
+		assertTrue(mockPresentationModel.commandInvoked);
+	}
+	
+	private static class MockArrayAdapter extends ArrayAdapter<String>
+	{
+		public MockArrayAdapter(Context context, int textViewResourceId, List<String> data)
+		{
+			super(context, textViewResourceId, data);
+		}
 	}
 	
 	private static class MockPresentationModel

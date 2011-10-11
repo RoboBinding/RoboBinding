@@ -13,12 +13,15 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.viewconnectors;
+package robobinding.binding.viewattribute;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import robobinding.beans.BeanAdapter;
+import robobinding.binding.viewattribute.OnClickAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -31,7 +34,7 @@ import android.view.View;
  *
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnClickBinderTest
+public class OnClickAttributeTest
 {
 	private MockPresentationModel mockPresentationModel;
 	private View view;
@@ -42,13 +45,13 @@ public class OnClickBinderTest
 		view = new View(null);
 	}
 	
-	@SuppressWarnings("unused")
 	@Test
-	public void givenAViewAPresentationModelAndACommandName_WhenClickingOnTheView_ShouldInvokeAMethodOnThePresentationModelWithTheGivenCommandName()
+	public void givenAViewAPresentationModelAndACommandName_WhenClickingOnTheView_ShouldInvokeCommandOnThePresentationModel()
 	{
 		String commandName = "someCommand";
-		OnClickBinder onClickBinder = new OnClickBinder(view, commandName, mockPresentationModel);
-
+		OnClickAttribute onClickAttribute = new OnClickAttribute(view);
+		onClickAttribute.bindOnto(new BeanAdapter(mockPresentationModel, true), commandName);
+		
 		view.performClick();
 	
 		assertTrue(mockPresentationModel.commandInvoked);
@@ -59,7 +62,8 @@ public class OnClickBinderTest
 	public void whenInitializingWithAnInvalidCommandName_ShouldThrowARuntimeException()
 	{
 		String invalidCommandName = "invalidCommand";
-		OnClickBinder onClickBinder = new OnClickBinder(view, invalidCommandName, mockPresentationModel);
+		OnClickAttribute onClickAttribute = new OnClickAttribute(view);
+		onClickAttribute.bindOnto(new BeanAdapter(mockPresentationModel, true), invalidCommandName);
 	}
 	
 	private static class MockPresentationModel

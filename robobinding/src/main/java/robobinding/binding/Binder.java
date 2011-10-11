@@ -18,6 +18,7 @@ package robobinding.binding;
 import robobinding.binding.BindingInflater.InflationResult;
 import robobinding.presentationmodel.ObservableProperties;
 import android.app.Activity;
+import android.view.View;
 
 /**
  * @since 1.0
@@ -28,7 +29,8 @@ import android.app.Activity;
 public class Binder
 {
 	private final BindingInflater bindingInflater;
-
+	private final AttributeBinder attributeBinder = new AttributeBinder();
+	
 	public Binder()
 	{
 		this.bindingInflater = new BindingInflater();
@@ -43,5 +45,10 @@ public class Binder
 	{
 		InflationResult inflationResult = bindingInflater.inflateView(activity, layoutId);
 		activity.setContentView(inflationResult.getRootView());
+		
+		for (View view : inflationResult.getChildViewBindingsMap().keySet())
+		{
+			attributeBinder.bindView(view, inflationResult.getChildViewBindingsMap().get(view), presentationModel);
+		}
 	}
 }
