@@ -46,7 +46,7 @@ public class OnClickAttributeTest
 	}
 	
 	@Test
-	public void givenAViewAPresentationModelAndACommandName_WhenClickingOnTheView_ShouldInvokeCommandOnThePresentationModel()
+	public void whenClickingOnTheView_ShouldInvokeCommandOnThePresentationModel()
 	{
 		String commandName = "someCommand";
 		OnClickAttribute onClickAttribute = new OnClickAttribute(view);
@@ -55,15 +55,6 @@ public class OnClickAttributeTest
 		view.performClick();
 	
 		assertTrue(mockPresentationModel.commandInvoked);
-	}
-	
-	@SuppressWarnings("unused")
-	@Test (expected=RuntimeException.class)
-	public void whenInitializingWithAnInvalidCommandName_ShouldThrowARuntimeException()
-	{
-		String invalidCommandName = "invalidCommand";
-		OnClickAttribute onClickAttribute = new OnClickAttribute(view);
-		onClickAttribute.bindOnto(new BeanAdapter(mockPresentationModel, true), invalidCommandName);
 	}
 	
 	private static class MockPresentationModel

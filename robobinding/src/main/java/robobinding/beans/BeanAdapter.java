@@ -107,11 +107,12 @@ public class BeanAdapter<B>
 	public BeanAdapter(B bean, boolean observeChanges)
 	{
 		this.observeChanges = observeChanges;
-		setBean(bean);
 		
 		propertyAdapters = Maps.newHashMap();
 		propertyChangeSupport = new ExtendedPropertyChangeSupport(this);
 		propertyChangeHandler = new PropertyChangeHandler();
+		
+		setBean(bean);
 	}
 	public B getBean()
 	{

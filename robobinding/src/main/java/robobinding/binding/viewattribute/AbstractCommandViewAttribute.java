@@ -56,15 +56,15 @@ public abstract class AbstractCommandViewAttribute implements ViewAttribute
 
 	private Method getPreferredMethod()
 	{
-		return getCorrespondingMethod(getPreferredCommandParameterTypes());
+		return findMethodWithMatchingName(getPreferredCommandParameterTypes());
 	}
 
 	private Method getNoArgsMethod()
 	{
-		return getCorrespondingMethod();
+		return findMethodWithMatchingName();
 	}
 	
-	private Method getCorrespondingMethod(Class<?>... parameterTypes)
+	private Method findMethodWithMatchingName(Class<?>... parameterTypes)
 	{
 		try
 		{
@@ -80,8 +80,8 @@ public abstract class AbstractCommandViewAttribute implements ViewAttribute
 
 	protected static class Command
 	{
-		private final Object presentationModel;
-		private final Method method;
+		final Object presentationModel;
+		final Method method;
 
 		public Command(Object presentationModel, Method method)
 		{

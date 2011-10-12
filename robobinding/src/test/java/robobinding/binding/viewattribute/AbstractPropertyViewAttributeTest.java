@@ -52,7 +52,7 @@ public class AbstractPropertyViewAttributeTest
 	@Theory
 	public void shouldDeterminePropertyBindingDetails(LegalPropertyViewAttributeValues attributeValues)
 	{
-		AbstractPropertyViewAttribute<?> propertyViewAttribute = new DummyAbstractPropertyViewAttribute();
+		AbstractPropertyViewAttribute<?> propertyViewAttribute = new DummyPropertyViewAttribute();
 		PropertyBindingDetails propertyBindingDetails = propertyViewAttribute.determinePropertyBindingDetails(attributeValues.value);
 		
 		assertThat(propertyBindingDetails.propertyName, equalTo(attributeValues.expectedPropertyName));
@@ -63,7 +63,7 @@ public class AbstractPropertyViewAttributeTest
 	@Test (expected=RuntimeException.class)
 	public void whenDeterminingPropertyBindingDetailsForIllegalAttributeValues_ThenThrowARuntimeException(String illegalAttributeValue)
 	{
-		AbstractPropertyViewAttribute<?> propertyViewAttribute = new DummyAbstractPropertyViewAttribute();
+		AbstractPropertyViewAttribute<?> propertyViewAttribute = new DummyPropertyViewAttribute();
 		propertyViewAttribute.determinePropertyBindingDetails(illegalAttributeValue);
 	}
 	
@@ -81,7 +81,7 @@ public class AbstractPropertyViewAttributeTest
 	}
 	
 	@SuppressWarnings("rawtypes")
-	private static class DummyAbstractPropertyViewAttribute extends AbstractPropertyViewAttribute
+	private static class DummyPropertyViewAttribute extends AbstractPropertyViewAttribute
 	{
 		@Override
 		protected void bindOnto(ValueModel valueModel, BindingType bindingType)
