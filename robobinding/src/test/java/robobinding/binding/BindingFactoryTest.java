@@ -16,6 +16,7 @@
 package robobinding.binding;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -59,32 +60,27 @@ public class BindingFactoryTest
 	@Test
 	public void whenCreatingABindingFactory_ThenShouldHaveAnEmptyViewBindingsMap()
 	{
-		assertTrue(bindingFactory.getViewBindingsMap().isEmpty());
+		assertTrue(bindingFactory.getViewAttributeBinders().isEmpty());
 	}
 	
 	@Test
 	public void whenCreatingAView_ThenReturnViewInflatedFromLayoutInflater() throws Exception
 	{
 		when(layoutInflater.createView(name, prefix, attrs)).thenReturn(theView);
+		
 		assertThat(bindingFactory.onCreateView(name, context, attrs), equalTo(theView));
 	}
 	
 	@Test
-	public void whenCreatingAView_ThenAddViewToViewBindingsMap() throws Exception
+	public void whenCreatingAView_ThenCreateNewViewAttributeBinder() throws Exception
 	{
 		when(layoutInflater.createView(name, prefix, attrs)).thenReturn(theView);
 		bindingFactory.onCreateView(name, context, attrs);
-		assertTrue(bindingFactory.getViewBindingsMap().containsKey(theView));
+		
+		assertTrue(bindingFactory.getViewAttributeBinders().size() == 1);
+		assertNotNull(findViewAttributeBinderForView(theView));
 	}
 
-	@Test
-	public void whenCreatingAView_ThenAssociateBindingMapFromAttributeSetWithView() throws Exception
-	{
-		when(layoutInflater.createView(name, prefix, attrs)).thenReturn(theView);
-		bindingFactory.onCreateView(name, context, attrs);
-		assertThat(bindingFactory.getViewBindingsMap().get(theView), equalTo(BindingAttributeMap.createFrom(attrs)));
-	}
-	
 	@Test
 	public void whenCreatingMultipleViews_ThenAddEachOneToTheViewBindingsMap() throws Exception
 	{
@@ -97,8 +93,8 @@ public class BindingFactoryTest
 		bindingFactory.onCreateView(name, context, attrs);
 		bindingFactory.onCreateView(name, context, someOtherAttrs);
 		
-		assertViewBindingsMapContainsEntriesFor(theView, attrs);
-		assertViewBindingsMapContainsEntriesFor(anotherView, someOtherAttrs);
+		assertViewAttributeBindersContainsEntriesFor(theView, attrs);
+		assertViewAttributeBindersContainsEntriesFor(anotherView, someOtherAttrs);
 	}
 
 	@Test (expected=RuntimeException.class)
@@ -108,9 +104,23 @@ public class BindingFactoryTest
 		bindingFactory.onCreateView(name, context, attrs);
 	}
 	
-	private void assertViewBindingsMapContainsEntriesFor(View view, AttributeSet attrs)
+	private void assertViewAttributeBindersContainsEntriesFor(View view, AttributeSet attrs)
 	{
-		assertTrue(bindingFactory.getViewBindingsMap().containsKey(view));
-		assertThat(bindingFactory.getViewBindingsMap().get(view), equalTo(BindingAttributeMap.createFrom(attrs)));
+		ViewAttributeBinder viewAttributeBinder = findViewAttributeBinderForView(view);
+		
+		assertNotNull(viewAttributeBinder);
+		
+		assertThat(viewAttributeBinder.getBindingAttributes(), equalTo(new ViewAttributeBinder(view, attrs).getBindingAttributes()));
+	}
+
+	private ViewAttributeBinder findViewAttributeBinderForView(View view)
+	{
+		for (ViewAttributeBinder viewAttributeBinder : bindingFactory.getViewAttributeBinders())
+		{
+			if (viewAttributeBinder.getView() == view)
+				return viewAttributeBinder;
+		}
+		
+		return null;
 	}
 }

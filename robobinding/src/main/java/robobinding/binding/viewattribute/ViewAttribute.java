@@ -15,7 +15,7 @@
  */
 package robobinding.binding.viewattribute;
 
-import robobinding.beans.BeanAdapter;
+import robobinding.beans.PresentationModelAdapterImpl;
 
 /**
  * @since 1.0
@@ -25,5 +25,5 @@ import robobinding.beans.BeanAdapter;
  */
 public interface ViewAttribute
 {
-	void bindOnto(BeanAdapter<?> beanAdapter, String attributeValue);
+	void bindOnto(PresentationModelAdapterImpl beanAdapter, String attributeValue);
 }

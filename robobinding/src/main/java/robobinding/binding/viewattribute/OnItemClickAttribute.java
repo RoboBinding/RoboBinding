@@ -15,6 +15,7 @@
  */
 package robobinding.binding.viewattribute;
 
+import robobinding.beans.Command;
 import robobinding.presentationmodel.ItemClickEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +37,7 @@ public class OnItemClickAttribute extends AbstractCommandViewAttribute
 	}
 
 	@Override
-	protected void bindOnto(final Command command)
+	protected void bind(final Command command)
 	{
 		adapterView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -49,8 +50,9 @@ public class OnItemClickAttribute extends AbstractCommandViewAttribute
 	}
 
 	@Override
-	protected Class<?>[] getPreferredCommandParameterTypes()
+	public Class<?>[] getPreferredCommandParameterTypes()
 	{
 		return new Class<?>[]{ItemClickEvent.class};
 	}
+
 }

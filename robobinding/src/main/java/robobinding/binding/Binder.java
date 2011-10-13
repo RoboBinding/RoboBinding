@@ -15,10 +15,10 @@
  */
 package robobinding.binding;
 
+import robobinding.beans.PresentationModelAdapter;
+import robobinding.beans.PresentationModelAdapterImpl;
 import robobinding.binding.BindingInflater.InflationResult;
-import robobinding.presentationmodel.ObservableProperties;
 import android.app.Activity;
-import android.view.View;
 
 /**
  * @since 1.0
@@ -29,7 +29,6 @@ import android.view.View;
 public class Binder
 {
 	private final BindingInflater bindingInflater;
-	private final AttributeBinder attributeBinder = new AttributeBinder();
 	
 	public Binder()
 	{
@@ -41,14 +40,16 @@ public class Binder
 		this.bindingInflater = bindingInflater;
 	}
 
-	public void setAndBindContentView(Activity activity, int layoutId, ObservableProperties presentationModel)
+	public void setAndBindContentView(Activity activity, int layoutId, Object presentationModel)
 	{
 		InflationResult inflationResult = bindingInflater.inflateView(activity, layoutId);
 		activity.setContentView(inflationResult.getRootView());
 		
-		for (View view : inflationResult.getChildViewBindingsMap().keySet())
+		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
+		
+		for (ViewAttributeBinder viewAttributeBinder : inflationResult.getViewAttributeBinders())
 		{
-			attributeBinder.bindView(view, inflationResult.getChildViewBindingsMap().get(view), presentationModel);
+			viewAttributeBinder.bind(presentationModelAdapter);
 		}
 	}
 }

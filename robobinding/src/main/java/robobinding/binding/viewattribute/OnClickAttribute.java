@@ -15,6 +15,7 @@
  */
 package robobinding.binding.viewattribute;
 
+import robobinding.beans.Command;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -34,7 +35,7 @@ public class OnClickAttribute extends AbstractCommandViewAttribute
 	}
 
 	@Override
-	protected void bindOnto(final Command command)
+	protected void bind(final Command command)
 	{
 		view.setOnClickListener(new OnClickListener() {
 			@Override
@@ -46,7 +47,7 @@ public class OnClickAttribute extends AbstractCommandViewAttribute
 	}
 	
 	@Override
-	protected Class<?>[] getPreferredCommandParameterTypes()
+	public Class<?>[] getPreferredCommandParameterTypes()
 	{
 		return null;
 	}

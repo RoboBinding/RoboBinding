@@ -137,12 +137,12 @@ public class ConvertersTest
 		assertConversions(source, value, converter, convertedValue);
 	}
 
-	private <S,D> void assertConversions(ValueModel<S> source, S soruceValue, ValueModel<D> converter, D convertedValue)
+	private <S,D> void assertConversions(ValueModel<S> source, S sourceValue, ValueModel<D> converter, D convertedValue)
 	{
-		source.setValue(soruceValue);
+		source.setValue(sourceValue);
 		Assert.assertEquals("The value returned by converter is not the expected one:", convertedValue, converter.getValue());
 		converter.setValue(convertedValue);
-		Assert.assertEquals("The value returned by subject is not the expected one:", soruceValue, source.getValue());
+		Assert.assertEquals("The value returned by subject is not the expected one:", sourceValue, source.getValue());
 	}
 
 }

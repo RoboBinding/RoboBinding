@@ -15,19 +15,19 @@ import com.google.common.collect.Maps;
 public class BufferedBeanAdapter<B>
 {
 	/**
-	 * @see BeanAdapter#PROPERTY_BEFORE_BEAN
+	 * @see PresentationModelAdapterImpl#PROPERTY_BEFORE_BEAN
 	 */
-	public static final String PROPERTY_BEFORE_BEAN = BeanAdapter.PROPERTY_BEFORE_BEAN;
+	public static final String PROPERTY_BEFORE_BEAN = PresentationModelAdapterImpl.PROPERTY_BEFORE_BEAN;
 
 	/**
-	 * @see BeanAdapter#PROPERTY_BEAN
+	 * @see PresentationModelAdapterImpl#PROPERTY_BEAN
 	 */
-	public static final String PROPERTY_BEAN = BeanAdapter.PROPERTY_BEAN;
+	public static final String PROPERTY_BEAN = PresentationModelAdapterImpl.PROPERTY_BEAN;
 
 	/**
-	 * @see BeanAdapter#PROPERTY_AFTER_BEAN
+	 * @see PresentationModelAdapterImpl#PROPERTY_AFTER_BEAN
 	 */
-	public static final String PROPERTY_AFTER_BEAN = BeanAdapter.PROPERTY_AFTER_BEAN;
+	public static final String PROPERTY_AFTER_BEAN = PresentationModelAdapterImpl.PROPERTY_AFTER_BEAN;
 
 	/**
 	 * The name of the read-write bound bean property for the trigger channel
@@ -46,16 +46,16 @@ public class BufferedBeanAdapter<B>
 	public static final String PROPERTY_BUFFERING = BufferedValueModel.PROPERTY_BUFFERING;
 
 	/**
-	 * @see BeanAdapter#PROPERTY_CHANGED
+	 * @see PresentationModelAdapterImpl#PROPERTY_CHANGED
 	 */
-	public static final String PROPERTY_CHANGED = BeanAdapter.PROPERTY_CHANGED;
+	public static final String PROPERTY_CHANGED = PresentationModelAdapterImpl.PROPERTY_CHANGED;
 
 	/**
 	 * Refers to the BeanAdapter that provides all underlying behavior to vend
 	 * adapting ValueModels, track bean changes, and to register with bound bean
 	 * properties.
 	 */
-	private final BeanAdapter<B> beanAdapter;
+	private final PresentationModelAdapterImpl<B> beanAdapter;
 
 	private Trigger triggerChannel;
 
@@ -104,7 +104,7 @@ public class BufferedBeanAdapter<B>
 	 */
 	public BufferedBeanAdapter(B bean, Trigger triggerChannel)
 	{
-		this.beanAdapter = new BeanAdapter<B>(bean, true);
+		this.beanAdapter = new PresentationModelAdapterImpl<B>(bean, true);
 		this.triggerChannel = triggerChannel;
 		
 		propertyChangeSupport = new ExtendedPropertyChangeSupport(this);
@@ -114,7 +114,7 @@ public class BufferedBeanAdapter<B>
 
 	public B getBean()
 	{
-		return beanAdapter.getBean();
+		return beanAdapter.getPresentationModel();
 	}
 
 	public void setBean(B newBean)
@@ -123,7 +123,7 @@ public class BufferedBeanAdapter<B>
 	}
 
 	/**
-	 * @see BeanAdapter#getValue(String)
+	 * @see PresentationModelAdapterImpl#getValue(String)
 	 */
 	public Object getValue(String propertyName)
 	{
@@ -131,7 +131,7 @@ public class BufferedBeanAdapter<B>
 	}
 
 	/**
-	 * @see BeanAdapter#setValue(String, Object)
+	 * @see PresentationModelAdapterImpl#setValue(String, Object)
 	 */
 	public void setValue(String propertyName, Object newValue)
 	{
@@ -139,7 +139,7 @@ public class BufferedBeanAdapter<B>
 	}
 
 	/**
-	 * @see BeanAdapter#getPropertyValueModel(String)
+	 * @see PresentationModelAdapterImpl#getPropertyValueModel(String)
 	 */
 	public BufferedValueModel<Object> getPropertyValueModel(String propertyName)
 	{
@@ -147,7 +147,7 @@ public class BufferedBeanAdapter<B>
 	}
 
 	/**
-	 * @see BeanAdapter#getPropertyValueModel(String, String, String)
+	 * @see PresentationModelAdapterImpl#getPropertyValueModel(String, String, String)
 	 */
 	public BufferedValueModel<Object> getPropertyValueModel(String propertyName, String readMethodName, String writeMethodName)
 	{
@@ -311,7 +311,7 @@ public class BufferedBeanAdapter<B>
 		}
 	}
 	/**
-	 * @see BeanAdapter#addBeanPropertyChangeListener(PropertyChangeListener)
+	 * @see PresentationModelAdapterImpl#addBeanPropertyChangeListener(PropertyChangeListener)
 	 */
 	public void addBeanPropertyChangeListener(PropertyChangeListener listener)
 	{
@@ -319,7 +319,7 @@ public class BufferedBeanAdapter<B>
 	}
 
 	/**
-	 * @see BeanAdapter#removeBeanPropertyChangeListener(PropertyChangeListener)
+	 * @see PresentationModelAdapterImpl#removeBeanPropertyChangeListener(PropertyChangeListener)
 	 */
 	public void removeBeanPropertyChangeListener(PropertyChangeListener listener)
 	{
@@ -327,7 +327,7 @@ public class BufferedBeanAdapter<B>
 	}
 
 	/**
-	 * @see BeanAdapter#addBeanPropertyChangeListener(String,
+	 * @see PresentationModelAdapterImpl#addBeanPropertyChangeListener(String,
 	 *      PropertyChangeListener)
 	 */
 	public void addBeanPropertyChangeListener(String propertyName, PropertyChangeListener listener)
@@ -336,7 +336,7 @@ public class BufferedBeanAdapter<B>
 	}
 
 	/**
-	 * @see BeanAdapter#removeBeanPropertyChangeListener(String,
+	 * @see PresentationModelAdapterImpl#removeBeanPropertyChangeListener(String,
 	 *      PropertyChangeListener)
 	 */
 	public void removeBeanPropertyChangeListener(String propertyName, PropertyChangeListener listener)
@@ -345,7 +345,7 @@ public class BufferedBeanAdapter<B>
 	}
 
 	/**
-	 * @see BeanAdapter#getBeanPropertyChangeListeners()
+	 * @see PresentationModelAdapterImpl#getBeanPropertyChangeListeners()
 	 */
 	public PropertyChangeListener[] getBeanPropertyChangeListeners()
 	{
@@ -353,7 +353,7 @@ public class BufferedBeanAdapter<B>
 	}
 
 	/**
-	 * @see BeanAdapter#getBeanPropertyChangeListeners(String)
+	 * @see PresentationModelAdapterImpl#getBeanPropertyChangeListeners(String)
 	 */
 	public PropertyChangeListener[] getBeanPropertyChangeListeners(String propertyName)
 	{
@@ -361,7 +361,7 @@ public class BufferedBeanAdapter<B>
 	}
 
 	/**
-	 * @see BeanAdapter#release()
+	 * @see PresentationModelAdapterImpl#release()
 	 */
 	public void release()
 	{

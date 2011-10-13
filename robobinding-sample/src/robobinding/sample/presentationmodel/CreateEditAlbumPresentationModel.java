@@ -16,10 +16,14 @@
  */
 package robobinding.sample.presentationmodel;
 
+import robobinding.beans.PropertyAdapter;
 import robobinding.presentationmodel.AbstractPresentationModel;
+import robobinding.presentationmodel.CustomPropertyProvider;
 import robobinding.sample.R;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
+import robobinding.value.Converters;
+import robobinding.value.ValueModel;
 import android.content.Context;
 
 /**
@@ -28,7 +32,7 @@ import android.content.Context;
  * @author Robert Taylor
  *
  */
-public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
+public class CreateEditAlbumPresentationModel extends AbstractPresentationModel implements CustomPropertyProvider
 {
 	private Album.Builder albumBuilder;
 	private AlbumDao albumDao;
@@ -124,6 +128,15 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 		firePropertyChange("composer", oldValue, composer);
 	}
 
-	
+	@Override
+	public PropertyAdapter<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider propertyValueModelAccessor)
+	{
+		if ("windowTitle".equals(propertyName))
+		{
+			ValueModel<Boolean> dependentValueModel = propertyValueModelAccessor.getDependentPropertyValueModel("classical");
+			return Converters.createBooleanToStringConverter(dependentValueModel, "Edit Classical Album", "Edit Album");
+		}
+	}
+
 	
 }

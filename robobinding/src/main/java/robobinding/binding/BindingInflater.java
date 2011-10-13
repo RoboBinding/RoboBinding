@@ -15,7 +15,7 @@
  */
 package robobinding.binding;
 
-import java.util.Map;
+import java.util.List;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -38,31 +38,32 @@ public class BindingInflater
 		BindingFactory bindingFactory = bindingFactoryProvider.getBindingFactory(layoutInflater);
 		
 		View rootView = layoutInflater.inflate(resourceId, null, false);
-		Map<View, BindingAttributeMap> childViewBindingsMap = bindingFactory.getViewBindingsMap();
+		List<ViewAttributeBinder> viewAttributeBinders = bindingFactory.getViewAttributeBinders();
 		
-		return new InflationResult(rootView, childViewBindingsMap);
+		return new InflationResult(rootView, viewAttributeBinders);
 	}
 
 	static class InflationResult
 	{
 		private View rootView;
-		private Map<View, BindingAttributeMap> childViewBindingsMap;
+		private List<ViewAttributeBinder> viewAttributeBinders;
 		
-		public InflationResult(View rootView, Map<View, BindingAttributeMap> childViewBindingsMap)
+		public InflationResult(View rootView, List<ViewAttributeBinder> viewAttributeBinders)
 		{
 			this.rootView = rootView;
-			this.childViewBindingsMap = childViewBindingsMap;
+			this.viewAttributeBinders = viewAttributeBinders;
 		}
-		
+
 		public View getRootView()
 		{
 			return rootView;
 		}
-		
-		public Map<View, BindingAttributeMap> getChildViewBindingsMap()
+
+		public List<ViewAttributeBinder> getViewAttributeBinders()
 		{
-			return childViewBindingsMap;
+			return viewAttributeBinders;
 		}
+		
 	}
 	
 	void setLayoutInflaterProvider(LayoutInflaterProvider layoutInflaterProvider)

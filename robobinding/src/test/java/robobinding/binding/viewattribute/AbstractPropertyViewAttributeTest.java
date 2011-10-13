@@ -17,15 +17,17 @@ package robobinding.binding.viewattribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import robobinding.binding.BindingType;
-import robobinding.binding.viewattribute.AbstractPropertyViewAttribute.PropertyBindingDetails;
+import robobinding.beans.PresentationModelAdapter;
 import robobinding.value.ValueModel;
 
 /**
@@ -37,6 +39,8 @@ import robobinding.value.ValueModel;
 @RunWith(Theories.class)
 public class AbstractPropertyViewAttributeTest
 {
+	private enum BindingType {NO_BINDING, ONE_WAY, TWO_WAY}
+	
 	@DataPoints
 	public static LegalPropertyViewAttributeValues[] legalPropertyViewAttributeValues = {
 		new LegalPropertyViewAttributeValues("{propertyX}", "propertyX", BindingType.ONE_WAY),
@@ -49,29 +53,43 @@ public class AbstractPropertyViewAttributeTest
 		"{propertyX", "propertyX", "propertyX}", "$${propertyX}", "!{propertyX}"
 	};
 	
-	@Theory
-	public void shouldDeterminePropertyBindingDetails(LegalPropertyViewAttributeValues attributeValues)
+	private PresentationModelAdapter presentationModelAdapter;
+	
+	@Before
+	public void setUp()
 	{
-		AbstractPropertyViewAttribute<?> propertyViewAttribute = new DummyPropertyViewAttribute();
-		PropertyBindingDetails propertyBindingDetails = propertyViewAttribute.determinePropertyBindingDetails(attributeValues.value);
+		presentationModelAdapter = mock(PresentationModelAdapter.class);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Theory
+	public void whenBindingWithLegalAttributeValues_thenBindCorrectly(LegalPropertyViewAttributeValues attributeValues)
+	{
+		DummyPropertyViewAttribute propertyViewAttribute = new DummyPropertyViewAttribute();
 		
-		assertThat(propertyBindingDetails.propertyName, equalTo(attributeValues.expectedPropertyName));
-		assertThat(propertyBindingDetails.bindingType, equalTo(attributeValues.expectedBindingType));
+		ValueModel<Object> valueModel = mock(ValueModel.class);
+		when(presentationModelAdapter.getReadOnlyPropertyValueModel(attributeValues.expectedPropertyName)).thenReturn(valueModel);
+		when(presentationModelAdapter.getPropertyValueModel(attributeValues.expectedPropertyName)).thenReturn(valueModel);
+		
+		propertyViewAttribute.bind(presentationModelAdapter, attributeValues.value);
+				
+		assertThat(propertyViewAttribute.valueModelBound, equalTo(valueModel));
+		assertThat(propertyViewAttribute.bindingType, equalTo(attributeValues.expectedBindingType));
 	}
 	
 	@Theory
 	@Test (expected=RuntimeException.class)
-	public void whenDeterminingPropertyBindingDetailsForIllegalAttributeValues_ThenThrowARuntimeException(String illegalAttributeValue)
+	public void whenBindingWithIllegalAttributeValues_ThenThrowARuntimeException(String illegalAttributeValue)
 	{
 		AbstractPropertyViewAttribute<?> propertyViewAttribute = new DummyPropertyViewAttribute();
-		propertyViewAttribute.determinePropertyBindingDetails(illegalAttributeValue);
+		propertyViewAttribute.bind(presentationModelAdapter, illegalAttributeValue);
 	}
 	
-	public static class LegalPropertyViewAttributeValues
+	static class LegalPropertyViewAttributeValues
 	{
-		public String value;
-		public String expectedPropertyName;
-		public BindingType expectedBindingType;
+		String value;
+		String expectedPropertyName;
+		BindingType expectedBindingType;
 		public LegalPropertyViewAttributeValues(String value, String expectedPropertyName, BindingType expectedBindingType)
 		{
 			this.value = value;
@@ -83,9 +101,27 @@ public class AbstractPropertyViewAttributeTest
 	@SuppressWarnings("rawtypes")
 	private static class DummyPropertyViewAttribute extends AbstractPropertyViewAttribute
 	{
+		private BindingType bindingType = BindingType.NO_BINDING;
+		private ValueModel valueModelBound;
+		
 		@Override
-		protected void bindOnto(ValueModel valueModel, BindingType bindingType)
+		protected void initializeView(ValueModel valueModel)
 		{
+		}
+
+		@Override
+		protected void observeChangesOnTheValueModel(ValueModel valueModel)
+		{
+			if (bindingType != BindingType.TWO_WAY)
+				bindingType = BindingType.ONE_WAY;
+		
+			valueModelBound = valueModel;
+		}
+
+		@Override
+		protected void observeChangesOnTheView(ValueModel valueModel)
+		{
+			bindingType = BindingType.TWO_WAY;
 		}
 	}
 }

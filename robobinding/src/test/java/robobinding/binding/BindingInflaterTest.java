@@ -21,7 +21,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +35,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.common.collect.Lists;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
@@ -66,7 +67,7 @@ public class BindingInflaterTest
 		
 		InflationResult inflationResult = binder.inflateView(context, activityLayoutId);
 		
-		assertThat(inflationResult.getChildViewBindingsMap().size(), equalTo(2));
+		assertThat(inflationResult.getViewAttributeBinders().size(), equalTo(2));
 	}
 	
 	@Test
@@ -76,7 +77,7 @@ public class BindingInflaterTest
 		
 		InflationResult inflationResult = binder.inflateView(context, activityLayoutId);
 		
-		assertThat(inflationResult.getChildViewBindingsMap().size(), equalTo(0));
+		assertThat(inflationResult.getViewAttributeBinders().size(), equalTo(0));
 	}
 	
 	private void viewWithNoBoundChildViews()
@@ -90,12 +91,12 @@ public class BindingInflaterTest
 			BindingFactory getBindingFactory(LayoutInflater layoutInflater)
 			{
 				BindingFactory bindingFactory = mock(BindingFactory.class);
-				HashMap<View, BindingAttributeMap> viewsAndBindings = new HashMap<View, BindingAttributeMap>();
+				List<ViewAttributeBinder> viewsAttributeBinders = Lists.newArrayList();
 				
 				for (int i = 0; i < boundChildViews; i++)
-					viewsAndBindings.put(new View(context), new BindingAttributeMap());
+					viewsAttributeBinders.add(new ViewAttributeBinder(new View(context), MockAttributeSet.withNoBindingAttributes()));
 					
-				when(bindingFactory.getViewBindingsMap()).thenReturn(viewsAndBindings);
+				when(bindingFactory.getViewAttributeBinders()).thenReturn(viewsAttributeBinders);
 				
 				return bindingFactory;
 			}

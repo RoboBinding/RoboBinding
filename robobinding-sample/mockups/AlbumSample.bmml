@@ -489,9 +489,9 @@
         <text>Artist</text>
       </controlProperties>
     </control>
-    <control controlID="80" controlTypeID="com.balsamiq.mockups::Label" x="1221" y="1556" w="221" h="25" measuredW="72" measuredH="25" zOrder="47" locked="false" isInGroup="-1">
+    <control controlID="80" controlTypeID="com.balsamiq.mockups::Label" x="1221" y="1556" w="221" h="25" measuredW="129" measuredH="25" zOrder="47" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Edit%20Album</text>
+        <text>Edit%20Classical%20Album</text>
       </controlProperties>
     </control>
     <control controlID="81" controlTypeID="com.balsamiq.mockups::Button" x="1245" y="1841" w="177" h="28" measuredW="54" measuredH="28" zOrder="48" locked="false" isInGroup="-1">
@@ -607,8 +607,8 @@
     </control>
     <control controlID="93" controlTypeID="com.balsamiq.mockups::Label" x="358" y="62" w="-1" h="-1" measuredW="113" measuredH="29" zOrder="59" locked="false" isInGroup="-1">
       <controlProperties>
-        <size>16</size>
         <underline>true</underline>
+        <size>16</size>
         <text>Home%20Activity</text>
       </controlProperties>
     </control>
@@ -631,6 +631,11 @@
       <controlProperties>
         <text>The%20choice%20is%20yours...</text>
         <align>center</align>
+      </controlProperties>
+    </control>
+    <control controlID="107" controlTypeID="com.balsamiq.mockups::StickyNote" x="985" y="1510" w="226" h="135" measuredW="109" measuredH="123" zOrder="64" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>To%20demo%20dependent%20value%20models%20and%20converters%2C%20title%20can%20change%20as%20Classical%20mode%20is%20toggled</text>
       </controlProperties>
     </control>
   </controls>

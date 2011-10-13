@@ -15,10 +15,11 @@
  */
 package robobinding.binding.viewattribute;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import robobinding.beans.BeanAdapter;
+import robobinding.beans.Command;
+import robobinding.beans.PresentationModelAdapter;
+import robobinding.binding.CommandViewAttribute;
 
 /**
  * @since 1.0
@@ -26,24 +27,23 @@ import robobinding.beans.BeanAdapter;
  * @author Robert Taylor
  *
  */
-public abstract class AbstractCommandViewAttribute implements ViewAttribute
+public abstract class AbstractCommandViewAttribute implements CommandViewAttribute
 {
-	private Object bean;
-	private String attributeValue;
+	private Object presentationModel;
+	private String commandName;
 	
 	@Override
-	public void bindOnto(BeanAdapter<?> beanAdapter, String attributeValue)
+	public void bind(PresentationModelAdapter presentationModelAdapter, String commandName)
 	{
-		this.bean = beanAdapter.getBean();
-		this.attributeValue = attributeValue;
+		this.presentationModel = presentationModelAdapter.getPresentationModel();
+		this.commandName = commandName;
 		
 		Command command = getCommand();
-		
-		bindOnto(command);
+		bind(command);
 	}
-
-	protected abstract void bindOnto(Command command);
-
+	
+	protected abstract void bind(Command command);
+	
 	private Command getCommand()
 	{
 		Method method = getPreferredMethod();
@@ -51,7 +51,7 @@ public abstract class AbstractCommandViewAttribute implements ViewAttribute
 		if (method == null)
 			method = getNoArgsMethod();
 		
-		return new Command(bean, method);
+		return new Command(presentationModel, method);
 	}
 
 	private Method getPreferredMethod()
@@ -68,49 +68,11 @@ public abstract class AbstractCommandViewAttribute implements ViewAttribute
 	{
 		try
 		{
-			return bean.getClass().getMethod(attributeValue, parameterTypes);
+			return presentationModel.getClass().getMethod(commandName, parameterTypes);
 		} 
 		catch (NoSuchMethodException e)
 		{}
 		
 		return null;
-	}
-	
-	protected abstract Class<?>[] getPreferredCommandParameterTypes();
-
-	protected static class Command
-	{
-		final Object presentationModel;
-		final Method method;
-
-		public Command(Object presentationModel, Method method)
-		{
-			if (method == null)
-				throw new RuntimeException();
-			
-			this.presentationModel = presentationModel;
-			this.method = method;
-		}
-		
-		public void invoke(Object... preferredArgs)
-		{
-			try
-			{
-				method.invoke(presentationModel, methodAcceptsArguments() ? preferredArgs : null);
-			} 
-			catch (IllegalAccessException e)
-			{
-				throw new RuntimeException(e);
-			} 
-			catch (InvocationTargetException e)
-			{
-				throw new RuntimeException(e);
-			}
-		}
-
-		private boolean methodAcceptsArguments()
-		{
-			return method.getParameterTypes().length > 0;
-		}
 	}
 }

@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.BeanAdapter;
+import robobinding.beans.PresentationModelAdapterImpl;
 import robobinding.binding.viewattribute.OnClickAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -50,7 +50,7 @@ public class OnClickAttributeTest
 	{
 		String commandName = "someCommand";
 		OnClickAttribute onClickAttribute = new OnClickAttribute(view);
-		onClickAttribute.bindOnto(new BeanAdapter(mockPresentationModel, true), commandName);
+		onClickAttribute.bind(new PresentationModelAdapterImpl(mockPresentationModel), commandName);
 		
 		view.performClick();
 	

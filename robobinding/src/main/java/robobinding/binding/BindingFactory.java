@@ -15,7 +15,7 @@
  */
 package robobinding.binding;
 
-import java.util.Map;
+import java.util.List;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -23,7 +23,7 @@ import android.view.LayoutInflater;
 import android.view.LayoutInflater.Factory;
 import android.view.View;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.Lists;
 
 /**
  * @since 1.0
@@ -34,7 +34,7 @@ import com.google.common.collect.Maps;
 public class BindingFactory implements Factory
 {
 	private final LayoutInflater layoutInflater;
-	private final Map<View, BindingAttributeMap> viewBindingsMap = Maps.newHashMap();
+	private final List<ViewAttributeBinder> viewAttributeBinders = Lists.newArrayList();
 
 	BindingFactory(LayoutInflater layoutInflater)
 	{
@@ -46,7 +46,7 @@ public class BindingFactory implements Factory
 		try
 		{
 			View view = layoutInflater.createView(name, null, attrs);
-			viewBindingsMap.put(view, BindingAttributeMap.createFrom(attrs));
+			viewAttributeBinders.add(new ViewAttributeBinder(view, attrs));
 			return view;
 		} 
 		catch (ClassNotFoundException e)
@@ -55,8 +55,8 @@ public class BindingFactory implements Factory
 		}
 	}
 
-	public Map<View, BindingAttributeMap> getViewBindingsMap()
+	public List<ViewAttributeBinder> getViewAttributeBinders()
 	{
-		return viewBindingsMap;
+		return viewAttributeBinders;
 	}
 }

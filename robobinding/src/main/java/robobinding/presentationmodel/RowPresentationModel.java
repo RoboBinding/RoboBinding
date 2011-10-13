@@ -22,7 +22,7 @@ package robobinding.presentationmodel;
  * @author Robert Taylor
  *
  */
-public interface RowPresentationModel<T> extends ObservableProperties
+public interface RowPresentationModel<T>
 {
 	void setData(T bean);
 }

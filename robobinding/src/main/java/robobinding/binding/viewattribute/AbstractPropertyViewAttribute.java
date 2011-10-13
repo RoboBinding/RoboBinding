@@ -18,8 +18,8 @@ package robobinding.binding.viewattribute;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import robobinding.beans.BeanAdapter;
-import robobinding.binding.BindingType;
+import robobinding.beans.PresentationModelAdapter;
+import robobinding.binding.PropertyViewAttribute;
 import robobinding.value.ValueModel;
 
 /**
@@ -28,48 +28,40 @@ import robobinding.value.ValueModel;
  * @author Robert Taylor
  *
  */
-public abstract class AbstractPropertyViewAttribute<T> implements ViewAttribute
+public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAttribute
 {
 	private final static Pattern BINDING_ATTRIBUTE_PATTERN = Pattern.compile("[$]{0,1}\\{[\\w]+\\}");
 	private final static Pattern PROPERTY_NAME_PATTERN = Pattern.compile("\\w+");
 	
-	@Override
-	public void bindOnto(BeanAdapter<?> beanAdapter, String attributeValue)
-	{
-		PropertyBindingDetails propertyBindingDetails = determinePropertyBindingDetails(attributeValue);
-		
-		ValueModel<T> valueModel = beanAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
-		
-		bindOnto(valueModel, propertyBindingDetails.bindingType);
-	}
+	private PresentationModelAdapter presentationModelAdapter;
+	private String propertyName;
 	
-	protected abstract void bindOnto(ValueModel<T> valueModel, BindingType bindingType);
-
-	public PropertyBindingDetails determinePropertyBindingDetails(String attributeValue)
+	@Override
+	public void bind(PresentationModelAdapter presentationModelAdapter, String attributeValue)
 	{
 		validate(attributeValue);
 		
-		BindingType bindingType = determineBindingType(attributeValue);
-		String propertyName = determinePropertyName(attributeValue);
-		
-		return new PropertyBindingDetails(propertyName, bindingType);
+		setPresentationModelAdapter(presentationModelAdapter);
+		setPropertyName(determinePropertyName(attributeValue));
+				
+		performBind(attributeValue);
 	}
 	
+	private void performBind(String attributeValue)
+	{
+		if (attributeValue.startsWith("$"))
+			performTwoWayBinding();
+		else
+			performOneWayBinding();
+	}
+
 	private String determinePropertyName(String attributeValue)
 	{
 		Matcher matcher = PROPERTY_NAME_PATTERN.matcher(attributeValue);
 		matcher.find();
 		return matcher.group();
 	}
-
-	private BindingType determineBindingType(String attributeValue)
-	{
-		if (attributeValue.startsWith("$"))
-			return BindingType.TWO_WAY;
-		
-		return BindingType.ONE_WAY;
-	}
-
+	
 	private void validate(String attributeValue)
 	{
 		Matcher matcher = BINDING_ATTRIBUTE_PATTERN.matcher(attributeValue);
@@ -78,15 +70,55 @@ public abstract class AbstractPropertyViewAttribute<T> implements ViewAttribute
 			throw new RuntimeException("Invalid binding attribute value: " + attributeValue);
 	}
 
-	static class PropertyBindingDetails
+	void performOneWayBinding()
 	{
-		String propertyName;
-		BindingType bindingType;
+		new OneWayBinder().performBind();
+	}
+	
+	void performTwoWayBinding()
+	{
+		new TwoWayBinder().performBind();
+	}
+	
+	void setPropertyName(String propertyName)
+	{
+		this.propertyName = propertyName;
+	}
 
-		public PropertyBindingDetails(String propertyName, BindingType bindingType)
+	void setPresentationModelAdapter(PresentationModelAdapter presentationModelAdapter)
+	{
+		this.presentationModelAdapter = presentationModelAdapter;
+	}
+	
+	protected abstract void initializeView(ValueModel<T> valueModel);
+	protected abstract void observeChangesOnTheValueModel(final ValueModel<T> valueModel);
+	protected abstract void observeChangesOnTheView(final ValueModel<T> valueModel);
+	
+	abstract class PropertyBinder
+	{
+		public abstract void performBind();
+	}
+	
+	class OneWayBinder extends PropertyBinder
+	{
+		@Override
+		public void performBind()
 		{
-			this.propertyName = propertyName;
-			this.bindingType = bindingType;
+			ValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
+			initializeView(valueModel);
+			observeChangesOnTheValueModel(valueModel);
+		}
+	}
+	
+	class TwoWayBinder extends PropertyBinder
+	{
+		@Override
+		public void performBind()
+		{
+			ValueModel<T> valueModel = presentationModelAdapter.getPropertyValueModel(propertyName);
+			initializeView(valueModel);
+			observeChangesOnTheValueModel(valueModel);
+			observeChangesOnTheView(valueModel);
 		}
 	}
 }

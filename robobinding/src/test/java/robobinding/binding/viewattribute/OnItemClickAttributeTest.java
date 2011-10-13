@@ -22,7 +22,7 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.BeanAdapter;
+import robobinding.beans.PresentationModelAdapterImpl;
 import robobinding.presentationmodel.ItemClickEvent;
 import android.R;
 import android.app.Activity;
@@ -55,7 +55,7 @@ public class OnItemClickAttributeTest
 		adapterView.setAdapter(mockArrayAdapter);
 		
 		OnItemClickAttribute onItemClickAttribute = new OnItemClickAttribute(adapterView);
-		onItemClickAttribute.bindOnto(new BeanAdapter(mockPresentationModel, true), commandName);
+		onItemClickAttribute.bind(new PresentationModelAdapterImpl(mockPresentationModel), commandName);
 		
 		ShadowListView shadowListView = Robolectric.shadowOf(adapterView);
 		shadowListView.performItemClick(5);

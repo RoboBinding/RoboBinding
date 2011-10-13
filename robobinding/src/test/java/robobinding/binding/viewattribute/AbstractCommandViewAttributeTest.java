@@ -17,6 +17,8 @@ package robobinding.binding.viewattribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +27,8 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.BeanAdapter;
+import robobinding.beans.Command;
+import robobinding.beans.PresentationModelAdapter;
 
 /**
  * @since 1.0
@@ -36,6 +39,9 @@ import robobinding.beans.BeanAdapter;
 @RunWith(Theories.class)
 public class AbstractCommandViewAttributeTest
 {
+	//TODO Handle arg subclasses
+	//See Apache Commons MethodUtils
+	
 	@SuppressWarnings("unused")
 	private static class DummyPresentationModel
 	{
@@ -67,13 +73,14 @@ public class AbstractCommandViewAttributeTest
 	};
 	
 	
-	private DummyPresentationModel presentationModel;
 	private DummyCommandViewAttribute commandViewAttribute;
+	private PresentationModelAdapter presentationModelAdapter;
 	
 	@Before
 	public void setUp()
 	{
-		presentationModel = new DummyPresentationModel();
+		presentationModelAdapter = mock(PresentationModelAdapter.class);
+		when(presentationModelAdapter.getPresentationModel()).thenReturn(new DummyPresentationModel());
 	}
 	
 	@Theory
@@ -81,7 +88,7 @@ public class AbstractCommandViewAttributeTest
 	{
 		newCommandViewAttributeWith(mapping.preferredParameterTypes);
 		
-		commandViewAttribute.bindOnto(new BeanAdapter(presentationModel), mapping.attributeValue);
+		commandViewAttribute.bind(presentationModelAdapter, mapping.attributeValue);
 		
 		assertThat(commandViewAttribute.commandMethodName(), equalTo(mapping.expectedCommandName));
 		assertThat(commandViewAttribute.commandParameterTypes(), equalTo(mapping.expectedCommandParameterTypes));
@@ -92,7 +99,7 @@ public class AbstractCommandViewAttributeTest
 	public void whenBindingToAnInvalidCommandName_ShouldThrowARuntimeException(InvalidRequestedCommand requestedCommand)
 	{
 		newCommandViewAttributeWith(requestedCommand.preferredParameterTypes);
-		commandViewAttribute.bindOnto(new BeanAdapter(presentationModel), requestedCommand.attributeValue);
+		commandViewAttribute.bind(presentationModelAdapter, requestedCommand.attributeValue);
 	}
 	
 	private static class DummyCommandViewAttribute extends AbstractCommandViewAttribute
@@ -106,25 +113,25 @@ public class AbstractCommandViewAttributeTest
 		}
 
 		@Override
-		protected void bindOnto(Command command)
+		protected void bind(Command command)
 		{
 			this.command = command;
 		}
 
 		@Override
-		protected Class<?>[] getPreferredCommandParameterTypes()
+		public Class<?>[] getPreferredCommandParameterTypes()
 		{
 			return preferredCommandParameterTypes;
 		}
 		
 		String commandMethodName()
 		{
-			return command.method.getName();
+			return command.getMethod().getName();
 		}
 		
 		Class<?>[] commandParameterTypes()
 		{
-			return command.method.getParameterTypes();
+			return command.getMethod().getParameterTypes();
 		}
 	}
 	

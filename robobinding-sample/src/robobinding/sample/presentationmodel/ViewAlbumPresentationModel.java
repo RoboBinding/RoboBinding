@@ -16,12 +16,9 @@
  */
 package robobinding.sample.presentationmodel;
 
-import robobinding.beans.PropertyAdapter;
-import robobinding.presentationmodel.CustomPropertyProvider;
 import robobinding.presentationmodel.RowPresentationModel;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
-import robobinding.value.Converters;
 
 /**
  * @since 1.0
@@ -29,7 +26,7 @@ import robobinding.value.Converters;
  * @author Robert Taylor
  *
  */
-public class ViewAlbumPresentationModel implements CustomPropertyProvider, RowPresentationModel<Album>
+public class ViewAlbumPresentationModel implements RowPresentationModel<Album>
 {
 	private Album album;
 	
@@ -58,13 +55,9 @@ public class ViewAlbumPresentationModel implements CustomPropertyProvider, RowPr
 		return album.isClassical();
 	}
 	
-	@Override
-	public PropertyAdapter<?> createCustomProperty(String propertyName)
+	public String getClassicalDescription()
 	{
-		if ("classicalDescription".equals(propertyName))
-			Converters.createBooleanToStringConverter(album.isClassical(), "Classical", "Not classical");
-		
-		return null;
+		return album.isClassical() ? "Classical" : "Not classical";
 	}
 
 	@Override
