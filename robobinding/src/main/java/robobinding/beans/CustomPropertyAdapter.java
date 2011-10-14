@@ -16,7 +16,8 @@
  */
 package robobinding.beans;
 
-import robobinding.value.ValueModel;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * @since 1.0
@@ -24,16 +25,44 @@ import robobinding.value.ValueModel;
  * @author Cheng Wei
  *
  */
-class CustomPropertyAdapter<T> implements PropertyAdapter<T>
+class CustomPropertyAdapter<T> extends AbstractPropertyAdapter<T>
 {
-	private Object bean;
 	private String propertyName;
 	private CustomPropertyDescriptor<T> descriptor;
+	private ExtendedPropertyChangeSupport propertyChangeSupport;
 	public CustomPropertyAdapter(Object bean, String propertyName, CustomPropertyDescriptor<T> descriptor)
 	{
-		this.bean = bean;
+		super(bean);
 		this.propertyName = propertyName;
 		this.descriptor = descriptor;
+		initializePropertyChangeListener();
+	}
+	private void initializePropertyChangeListener()
+	{
+		propertyChangeSupport = new ExtendedPropertyChangeSupport(bean);
+		descriptor.addValueChangeListener(new PropertyChangeListenerImpl());
+	}
+	@Override
+	public T getValue()
+	{
+		return descriptor.getValue();
+	}
+	@Override
+	public void setValue(T newValue)
+	{
+		descriptor.setValue(newValue);
+	}
+	@Override
+	public void addValueChangeListener(PropertyChangeListener listener)
+	{
+		super.addValueChangeListener(listener);
+		propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+	@Override
+	public void removeValueChangeListener(PropertyChangeListener listener)
+	{
+		super.removeValueChangeListener(listener);
+		propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	@Override
 	public Class<?> getPropertyType()
@@ -68,8 +97,16 @@ class CustomPropertyAdapter<T> implements PropertyAdapter<T>
 		return PropertyAccessor.describeProperty(bean.getClass(), propertyName);
 	}
 	@Override
-	public ValueModel<T> getPropertyValueModel()
+	protected String getPropertyName()
 	{
-		return descriptor.getPropertyValueModel();
+		return propertyName;
+	}
+	private class PropertyChangeListenerImpl implements PropertyChangeListener
+	{
+		@Override
+		public void propertyChange(PropertyChangeEvent event)
+		{
+			propertyChangeSupport.firePropertyChange(propertyName, event.getOldValue(), event.getNewValue());
+		}
 	}
 }

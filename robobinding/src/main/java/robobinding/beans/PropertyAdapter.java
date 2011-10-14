@@ -24,9 +24,8 @@ import robobinding.value.ValueModel;
  * @author Cheng Wei
  *
  */
-public interface PropertyAdapter<T>
+public interface PropertyAdapter<T> extends ValueModel<T>
 {
-	ValueModel<T> getPropertyValueModel();
 	Class<?> getPropertyType();
 	void checkReadWriteProperty(boolean isReadWriteProperty);
 }

@@ -16,10 +16,7 @@
 package robobinding.beans;
 
 
-import java.beans.PropertyChangeListener;
 
-import robobinding.presentationmodel.ObservableProperties;
-import robobinding.value.ValueModel;
 
 /**
  * @since 1.0
@@ -27,13 +24,12 @@ import robobinding.value.ValueModel;
  * @author Cheng Wei
  *
  */
-class RegularPropertyAdapter<T> implements PropertyAdapter<T>, ValueModel<T>
+class RegularPropertyAdapter<T> extends AbstractPropertyAdapter<T>
 {
 	private PropertyAccessor<T> propertyAccessor;
-	private final Object bean;
 	public RegularPropertyAdapter(Object bean, String propertyName, boolean isReadWriteProperty)
 	{
-		this.bean = bean;
+		super(bean);
 		initializePropertyAccessor(propertyName, isReadWriteProperty);
 	}
 	private void initializePropertyAccessor(String propertyName, boolean isReadWriteProperty)
@@ -44,11 +40,6 @@ class RegularPropertyAdapter<T> implements PropertyAdapter<T>, ValueModel<T>
 		{
 			propertyAccessor.checkWritable();
 		}
-	}
-	@Override
-	public ValueModel<T> getPropertyValueModel()
-	{
-		return this;
 	}
 	@Override
 	public T getValue()
@@ -73,28 +64,9 @@ class RegularPropertyAdapter<T> implements PropertyAdapter<T>, ValueModel<T>
 		}
 	}
 	@Override
-	public void addValueChangeListener(PropertyChangeListener listener)
+	protected String getPropertyName()
 	{
-		ObservableProperties observableBean = getObservableBean();
-		observableBean.addPropertyChangeListener(propertyAccessor.getPropertyName(), listener);
-	}
-	@Override
-	public void removeValueChangeListener(PropertyChangeListener listener)
-	{
-		if(bean instanceof ObservableProperties)
-		{
-			ObservableProperties observableBean = (ObservableProperties)bean;
-			observableBean.removePropertyChangeListener(propertyAccessor.getPropertyName(), listener);
-		}
-	}
-	private ObservableProperties getObservableBean()
-	{
-		if(bean instanceof ObservableProperties)
-		{
-			ObservableProperties observableBean = (ObservableProperties)bean;
-			return observableBean;
-		}
-		throw new RuntimeException("The property changes of '"+bean.getClass().getName()+"' can not be observed, as it is not a subclass of 'ObservableProperties'");
+		return propertyAccessor.getPropertyName();
 	}
 	@Override
 	public String toString()

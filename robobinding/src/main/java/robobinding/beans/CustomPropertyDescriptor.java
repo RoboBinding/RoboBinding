@@ -16,6 +16,7 @@
  */
 package robobinding.beans;
 
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.ParameterizedType;
 
 import robobinding.utils.Validate;
@@ -49,6 +50,18 @@ public class CustomPropertyDescriptor<T>
 	    propertyType =(Class<T>)genericSuperclass.getActualTypeArguments()[0];
 	}
 	
+	T getValue()
+	{
+		return valueModel.getValue();
+	}
+	void setValue(T newValue)
+	{
+		valueModel.setValue(newValue);
+	}
+    void addValueChangeListener(PropertyChangeListener listener)
+    {
+    	valueModel.addValueChangeListener(listener);
+    }
 	ValueModel<T> getPropertyValueModel()
 	{
 		return valueModel;

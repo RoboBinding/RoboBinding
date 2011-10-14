@@ -52,17 +52,12 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter, D
 	@Override
 	public <T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName)
 	{
-		return getPropertyValueModel(propertyName, false);
+		return getPropertyAdapter(propertyName, false);
 	}
 	
 	public <T> ValueModel<T> getPropertyValueModel(String propertyName)
 	{
-		return getPropertyValueModel(propertyName, true);
-	}
-	private <T> ValueModel<T> getPropertyValueModel(String propertyName, boolean isReadWriteProperty)
-	{
-		PropertyAdapter<T> propertyAdapter = getPropertyAdapter(propertyName, isReadWriteProperty);
-		return propertyAdapter.getPropertyValueModel();
+		return getPropertyAdapter(propertyName, true);
 	}
 	private <T> PropertyAdapter<T> getPropertyAdapter(String propertyName, boolean isReadWriteProperty)
 	{
@@ -104,6 +99,6 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter, D
 	@Override
 	public <T> ValueModel<T> getDependentPropertyValueModel(String dependentPropertyName)
 	{
-		return getPropertyValueModel(dependentPropertyName, false);
+		return getPropertyAdapter(dependentPropertyName, false);
 	}
 }
