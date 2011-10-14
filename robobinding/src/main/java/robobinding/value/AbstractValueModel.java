@@ -1,14 +1,22 @@
 package robobinding.value;
 
+import java.beans.PropertyChangeListener;
 
-public abstract class AbstractValueModel<T> extends AbstractValueModel0<T> implements ValueModel<T>
+import robobinding.beans.ExtendedPropertyChangeSupport;
+
+
+public abstract class AbstractValueModel<T> implements ValueModel<T>
 {
+	private static final String PROPERTY_VALUE = "value";
+	
 	private T value;
+	private ExtendedPropertyChangeSupport propertyChangeSupport;
+	
 	public AbstractValueModel(T value, boolean checkIdentity)
 	{
-		super(checkIdentity);
-		
 		this.value = value;
+		
+		propertyChangeSupport = new ExtendedPropertyChangeSupport(this, checkIdentity);
 	}
 	public AbstractValueModel(T value)
 	{
@@ -19,12 +27,6 @@ public abstract class AbstractValueModel<T> extends AbstractValueModel0<T> imple
 	{
 		return value;
 	}
-	/**
-	 * Sets a new value. Fires a value change event if the old and new value
-	 * differ. The difference is tested with {@code ==} if
-	 * {@code isIdentityCheckEnabled} answers {@code true}. The values are
-	 * compared with {@code #equals} if the identity check is disabled.
-	 */
 	@Override
 	public void setValue(T newValue)
 	{
@@ -33,5 +35,44 @@ public abstract class AbstractValueModel<T> extends AbstractValueModel0<T> imple
 			return;
 		value = newValue;
 		fireValueChange(oldValue, newValue);
+	}
+	private void fireValueChange(Object oldValue, Object newValue)
+	{
+		propertyChangeSupport.firePropertyChange(PROPERTY_VALUE, oldValue, newValue);
+	}
+	
+	@Override
+	public final void addValueChangeListener(PropertyChangeListener listener)
+	{
+		propertyChangeSupport.addPropertyChangeListener(PROPERTY_VALUE, listener);
+	}
+
+	@Override
+	public final void removeValueChangeListener(PropertyChangeListener listener)
+	{
+		propertyChangeSupport.removePropertyChangeListener(PROPERTY_VALUE, listener);
+	}
+	
+	@Override
+	public String toString()
+	{
+		return getClass().getName() + "[" + paramString() + "]";
+	}
+
+	protected String paramString()
+	{
+		return "value=" + valueString();
+	}
+	
+	protected String valueString()
+	{
+		try
+		{
+			Object value = getValue();
+			return value == null ? "null" : value.toString();
+		} catch (Exception e)
+		{
+			return "Can't read";
+		}
 	}
 }

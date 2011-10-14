@@ -37,7 +37,7 @@ public class CursorBackedViewAlbumsActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
-		AbstractViewAlbumsPresentationModel viewAlbumsPresentationModel = new CursorBackedViewAlbumsPresentationModel();
+		AbstractViewAlbumsPresentationModel viewAlbumsPresentationModel = new CursorBackedViewAlbumsPresentationModel(this, new AlbumDao());
 		Binder binder = new Binder();
 		binder.setAndBindContentView(this, R.layout.view_albums_activity, viewAlbumsPresentationModel);
 	}

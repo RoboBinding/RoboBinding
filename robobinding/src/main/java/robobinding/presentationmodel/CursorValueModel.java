@@ -16,6 +16,9 @@
  */
 package robobinding.presentationmodel;
 
+import java.beans.PropertyChangeListener;
+import java.util.List;
+
 
 
 /**
@@ -45,5 +48,29 @@ public class CursorValueModel<T> extends AbstractDataSetValueModel<T>
 	{
 		cursor.moveToPosition(position);
 		return cursor.getCurrentObject();
+	}
+	@Override
+	public void addValueChangeListener(PropertyChangeListener listener)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public List<T> getValue()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void removeValueChangeListener(PropertyChangeListener listener)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setValue(List<T> newValue)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

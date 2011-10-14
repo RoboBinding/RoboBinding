@@ -1,6 +1,6 @@
 /**
- * ObservableBean.java
- * Sep 25, 2011 Copyright Cheng Wei and Robert Taylor
+ * DependentPropertyValueModelProvider.java
+ * 13 Oct 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,17 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.beans;
+package robobinding.presentationmodel;
 
-import java.beans.PropertyChangeListener;
+import robobinding.value.ValueModel;
 
 /**
  * @since 1.0
- * @version $Revision: 1.0 $
  * @author Cheng Wei
+ * @author Robert Taylor
  *
  */
-public interface ObservableBean
+public interface DependentPropertyValueModelProvider
 {
-	void addPropertyChangeListener(PropertyChangeListener listener);
-	void removePropertyChangeListener(PropertyChangeListener listener);
+	<T> ValueModel<T> getDependentPropertyValueModel(String dependentPropertyName);
 }

@@ -16,8 +16,10 @@
  */
 package robobinding.sample.presentationmodel;
 
-import robobinding.beans.PropertyAdapter;
+import robobinding.beans.CustomPropertyDescriptor;
 import robobinding.presentationmodel.CursorValueModel;
+import robobinding.presentationmodel.CustomPropertyProvider;
+import robobinding.presentationmodel.DependentPropertyValueModelProvider;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
 import android.content.Context;
@@ -28,7 +30,7 @@ import android.content.Context;
  * @author Robert Taylor
  *
  */
-public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel
+public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel implements CustomPropertyProvider
 {
 	public CursorBackedViewAlbumsPresentationModel(Context context, AlbumDao albumDao)
 	{
@@ -36,12 +38,13 @@ public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsP
 	}
 	
 	@Override
-	public PropertyAdapter<?> createCustomProperty(String propertyName)
+	public CustomPropertyDescriptor<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider provider)
 	{
 		if(PROPERTY_ALBUMS.equals(propertyName))
 		{
 			AlbumCursor cursor = albumDao.getCursor();
-			return new CursorValueModel<Album>(ViewAlbumPresentationModel.class, cursor);
+			CursorValueModel<Album> valueModel = new CursorValueModel<Album>(ViewAlbumPresentationModel.class, cursor);
+			return CustomPropertyDescriptor.createReadOnlyPropertyDescriptor(valueModel);
 		}
 		return null;
 	}

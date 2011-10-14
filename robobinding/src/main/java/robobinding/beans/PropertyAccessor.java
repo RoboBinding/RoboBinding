@@ -2,13 +2,13 @@ package robobinding.beans;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
-import java.beans.PropertyVetoException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
 import java.text.MessageFormat;
 
 import robobinding.utils.Validate;
 
-class PropertyAccessor<P>
+final class PropertyAccessor<T>
 {
 	private static final String NONE = "None";
 	
@@ -17,73 +17,87 @@ class PropertyAccessor<P>
 	/**
 	 * @throws PropertyNotFoundException when the property is not found.
 	 */
-	public PropertyAccessor(String propertyName, Class<?> beanClass, String readMethodName, String writeMethodName)
+	public PropertyAccessor(String propertyName, Class<?> beanClass)
 	{
 		try
 		{
-			descriptor = new PropertyDescriptor(propertyName, beanClass, readMethodName, writeMethodName);
+			descriptor = new PropertyDescriptor(propertyName, beanClass);
 		} catch (IntrospectionException e)
 		{
 			throw new PropertyNotFoundException(propertyName, beanClass, e);
 		}
 		this.beanClass = beanClass;
+		checkPropertyType();
 	}
-	private String getPropertyName()
+	private void checkPropertyType()
+	{
+    	Class<?> klass = getClass();
+    	ParameterizedType genericSuperclass = (ParameterizedType)klass.getGenericSuperclass();
+	    @SuppressWarnings("unchecked")
+    	Class<T> parameterizedPropertyType =(Class<T>)genericSuperclass.getActualTypeArguments()[0];
+	    
+	    Class<?> actualPropertyType = descriptor.getPropertyType();
+	    if(!parameterizedPropertyType.isAssignableFrom(actualPropertyType))
+	    {
+	    	throw new RuntimeException("Expected property type is '"+parameterizedPropertyType.getName()+"', but actual property type is '"+actualPropertyType+"'");
+	    }
+	}
+	public String getPropertyName()
 	{
 		return descriptor.getName();
 	}
-	public boolean isReadOnly()
+	private boolean isWritable()
 	{
-		return descriptor.getWriteMethod() == null;
+		return descriptor.getWriteMethod() != null;
 	}
-	private String getWriteMethodName()
+	private String safeGetWriteMethodName()
 	{
-		if(isReadOnly())
-		{
-			return NONE;
-		}else
+		if(isWritable())
 		{
 			return descriptor.getWriteMethod().getName();
-		}
-	}
-	public boolean isWriteOnly()
-	{
-		return descriptor.getReadMethod() == null;
-	}
-	private String getReadMethodName()
-	{
-		if(isWriteOnly())
-		{
-			return NONE;
 		}else
 		{
-			return descriptor.getReadMethod().getName();
+			return NONE;
 		}
 	}
-	public String describePropertyReader(Object bean)
+	private boolean isReadable()
 	{
-		String beanType = bean.getClass().getName();
-		String getter = getReadMethodName();
-		return MessageFormat.format("property(name:{0}, getter:{1}, beanType:{2})", 
-				getPropertyName(), getter, beanType);
+		return descriptor.getReadMethod() != null;
 	}
-	public String describePropertyWriter(Object bean, Object propertyValue)
+	private String safeGetReadMethodName()
 	{
-		String beanType = bean.getClass().getName();
-		String setter = getWriteMethodName();
-		return MessageFormat.format("property(name:{0}, value:{1}, setter:{2}, beanType:{3})", 
-				getPropertyName(), propertyValue, setter, beanType);
+		if(isReadable())
+		{
+			return descriptor.getReadMethod().getName();
+		}else
+		{
+			return NONE;
+		}
 	}
 	public String describeProperty(Object bean)
 	{
 		Object value = safeGetValue(bean);
 		String beanType = bean.getClass().getName();
-		String setter = getWriteMethodName();
-		String getter = getReadMethodName();
+		String setter = safeGetWriteMethodName();
+		String getter = safeGetReadMethodName();
 		return MessageFormat.format("property(name:{0}, value:{1}, propertyType:{2}, setter:{3}, getter:{4}, beanType:{5}", 
 				getPropertyName(), value, descriptor.getPropertyType(), setter, getter, beanType);
 	}
-	private P safeGetValue(Object bean)
+	public String describePropertyGetter(Object bean)
+	{
+		String beanType = bean.getClass().getName();
+		String getter = safeGetReadMethodName();
+		return MessageFormat.format("property(name:{0}, getter:{1}, beanType:{2})", 
+				getPropertyName(), getter, beanType);
+	}
+	public String describePropertySetter(Object bean, Object propertyValue)
+	{
+		String beanType = bean.getClass().getName();
+		String setter = safeGetWriteMethodName();
+		return MessageFormat.format("property(name:{0}, value:{1}, setter:{2}, beanType:{3})", 
+				getPropertyName(), propertyValue, setter, beanType);
+	}
+	private T safeGetValue(Object bean)
 	{
 		try
 		{
@@ -100,18 +114,18 @@ class PropertyAccessor<P>
 	 * @throws UnsupportedOperationException if the property is write-only.
 	 * @throws PropertyAccessException if an error occurs when accessing the property.
 	 */
-	public P getValue(Object bean)
+	public T getValue(Object bean)
 	{
 		Validate.notNull(bean, "The bean must not be null.");
 		
-		if (isWriteOnly())
+		if (isReadable())
 		{
 			throw new UnsupportedOperationException("The property '" + getPropertyName() + "' is write-only.");
 		}
 		try
 		{
 			@SuppressWarnings("unchecked")
-			P result = (P)descriptor.getReadMethod().invoke(bean, (Object[])null);
+			T result = (T)descriptor.getReadMethod().invoke(bean, (Object[])null);
 			return result;
 		} catch (InvocationTargetException e)
 		{
@@ -124,13 +138,12 @@ class PropertyAccessor<P>
 
 	/**
 	 * @throws UnsupportedOperationException if the property is write-only.
-	 * @throws PropertyVetoException if the invoked writer throws such an exception
 	 * @throws PropertyAccessException if an error occurs when accessing the property.
 	 */
-	public void setValue(Object bean, P newValue) throws PropertyVetoException
+	public void setValue(Object bean, T newValue)
 	{
 		Validate.notNull(bean, "The bean must not be null.");
-		if (isReadOnly())
+		if(isWritable())
 		{
 			throw new UnsupportedOperationException("The property '" + getPropertyName() + "' is read-only.");
 		}
@@ -139,12 +152,7 @@ class PropertyAccessor<P>
 			descriptor.getWriteMethod().invoke(bean, newValue);
 		} catch (InvocationTargetException e)
 		{
-			Throwable cause = e.getCause();
-			if (cause instanceof PropertyVetoException)
-			{
-				throw (PropertyVetoException) cause;
-			}
-			throw PropertyAccessException.createWriteAccessException(bean, newValue, this, cause);
+			throw PropertyAccessException.createWriteAccessException(bean, newValue, this, e.getCause());
 		} catch (IllegalAccessException e)
 		{
 			throw PropertyAccessException.createWriteAccessException(bean, newValue, this, e);
@@ -153,8 +161,32 @@ class PropertyAccessor<P>
 			throw PropertyAccessException.createWriteAccessException(bean, newValue, this, e);
 		}
 	}
-	public boolean beanClassEquals(Class<?> klass)
+	public void checkReadable()
 	{
-		return beanClass.equals(klass);
+		if(!isReadable())
+		{
+			throw new RuntimeException(toString()+" is not readable");
+		}
+	}
+	public void checkWritable()
+	{
+		if(!isReadable())
+		{
+			throw new RuntimeException(toString()+" is not writable");
+		}
+	}
+	@Override
+	public String toString()
+	{
+		return describeProperty(beanClass, getPropertyName());
+	}
+	static String describeProperty(Class<?> beanClass, String propertyName)
+	{
+		String beanType = beanClass.getName();
+		return MessageFormat.format("property(name:{0}, beanType:{1})", propertyName, beanType);
+	}
+	public Class<?> getPropertyType()
+	{
+		return descriptor.getPropertyType();
 	}
 }

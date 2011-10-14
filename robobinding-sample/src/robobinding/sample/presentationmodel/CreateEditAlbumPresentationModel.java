@@ -16,9 +16,10 @@
  */
 package robobinding.sample.presentationmodel;
 
-import robobinding.beans.PropertyAdapter;
+import robobinding.beans.CustomPropertyDescriptor;
 import robobinding.presentationmodel.AbstractPresentationModel;
 import robobinding.presentationmodel.CustomPropertyProvider;
+import robobinding.presentationmodel.DependentPropertyValueModelProvider;
 import robobinding.sample.R;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
@@ -129,13 +130,15 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel 
 	}
 
 	@Override
-	public PropertyAdapter<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider propertyValueModelAccessor)
+	public CustomPropertyDescriptor<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider propertyValueModelAccessor)
 	{
 		if ("windowTitle".equals(propertyName))
 		{
 			ValueModel<Boolean> dependentValueModel = propertyValueModelAccessor.getDependentPropertyValueModel("classical");
-			return Converters.createBooleanToStringConverter(dependentValueModel, "Edit Classical Album", "Edit Album");
+			ValueModel<String> valueModel = Converters.createBooleanToStringConverter(dependentValueModel, "Edit Classical Album", "Edit Album");
+			return CustomPropertyDescriptor.createReadOnlyPropertyDescriptor(valueModel);
 		}
+		return null;
 	}
 
 	

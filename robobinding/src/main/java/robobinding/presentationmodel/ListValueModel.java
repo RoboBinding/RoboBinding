@@ -28,7 +28,7 @@ import robobinding.value.ValueModel;
  * @author Cheng Wei
  *
  */
-public class ListValueModel<T> extends AbstractDataSetValueModel<T> implements ValueModel<List<T>>
+public class ListValueModel<T> extends AbstractDataSetValueModel<T>
 {
 	private List<T> data;
 	

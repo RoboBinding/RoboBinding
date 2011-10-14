@@ -18,10 +18,12 @@ package robobinding.presentationmodel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 import robobinding.utils.Validate;
+import robobinding.value.ValueModel;
 
 /**
  * @since 1.0
@@ -29,7 +31,7 @@ import robobinding.utils.Validate;
  * @author Cheng Wei
  *
  */
-public abstract class AbstractDataSetValueModel<T>
+public abstract class AbstractDataSetValueModel<T> implements ValueModel<List<T>>
 {
 	private final RowPresentationModelFactory<T> factory;
 

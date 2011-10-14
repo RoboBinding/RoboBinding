@@ -32,6 +32,6 @@ public interface PresentationModelAdapter
 
 	Object getPresentationModel();
 
-	Class<?> getPropertyType(String attributeValue);
+	Class<?> getPropertyType(String propertyName);
 
 }

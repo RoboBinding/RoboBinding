@@ -1,3 +1,18 @@
+/**
+ * Copyright 2011 Cheng Wei, Robert Taylor
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions
+ * and limitations under the License.
+ */
 package robobinding.beans;
 
 import java.beans.PropertyChangeEvent;
@@ -16,56 +31,27 @@ public final class ExtendedPropertyChangeSupport extends PropertyChangeSupport
 {
 	private static final long serialVersionUID = 4908378981887614204L;
 
-	private final Object source;
+	private final Object bean;
 
-	/**
-	 * The default setting for the identity check.
-	 */
 	private final boolean checkIdentityDefault;
 
-	/**
-	 * @param sourceBean The bean to be given as the source for any events.
-	 */
-	public ExtendedPropertyChangeSupport(Object sourceBean)
+	public ExtendedPropertyChangeSupport(Object bean)
 	{
-		this(sourceBean, false);
+		this(bean, false);
 	}
 
-	/**
-	 * @param sourceBean The object provided as the source for any generated events.
-	 * @param checkIdentityDefault true enables the identity check by default.
-	 */
-	public ExtendedPropertyChangeSupport(Object sourceBean, boolean checkIdentityDefault)
+	public ExtendedPropertyChangeSupport(Object bean, boolean checkIdentityDefault)
 	{
-		super(sourceBean);
-		this.source = sourceBean;
+		super(bean);
+		this.bean = bean;
 		this.checkIdentityDefault = checkIdentityDefault;
 	}
-	/**
-	 * Reports a bound property update to any registered listeners. Uses the
-	 * default test ({@code #equals} vs. {@code ==}) to determine whether the
-	 * event's old and new values are different. No event is fired if old and
-	 * new value are the same.
-	 * 
-	 * @param propertyName The programmatic name of the property that was changed.
-	 * 
-	 * @see PropertyChangeSupport#firePropertyChange(String, Object, Object)
-	 */
 	@Override
 	public void firePropertyChange(String propertyName, Object oldValue, Object newValue)
 	{
 		firePropertyChange(propertyName, oldValue, newValue, checkIdentityDefault);
 	}
-	/**
-	 * Reports a bound property update to any registered listeners. No event is
-	 * fired if the old and new value are the same. If checkIdentity is
-	 * {@code true} an event is fired in all other cases. If this parameter is
-	 * {@code false}, an event is fired if old and new values are not equal.
-	 * 
-	 * @param propertyName The programmatic name of the property that was changed.
-	 * @param checkIdentity true to check differences using {@code ==} false to use {@code #equals}.
-	 */
-	public void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue, final boolean checkIdentity)
+	public void firePropertyChange(String propertyName, Object oldValue, Object newValue, boolean checkIdentity)
 	{
 		if(oldValue != null && oldValue == newValue)
 		{
@@ -79,33 +65,14 @@ public final class ExtendedPropertyChangeSupport extends PropertyChangeSupport
 	{
 		if(checkIdentity)
 		{
-			fireUnchecked(new PropertyChangeEvent(source, propertyName, oldValue, newValue));
+			firePropertyChangeWithoutEqualsChecking(new PropertyChangeEvent(bean, propertyName, oldValue, newValue));
 		} else
 		{
 			super.firePropertyChange(propertyName, oldValue, newValue);
 		}
 	}
 
-	/**
-	 * Fires a PropertyChangeEvent to all its listeners without checking via
-	 * equals method if the old value is equal to new value. The instance
-	 * equality check is done by the calling firePropertyChange method (to avoid
-	 * instance creation of the PropertyChangeEvent).
-	 * <p>
-	 * 
-	 * If some listeners have been added with a named property, then
-	 * {@code PropertyChangeSupport#getPropertyChangeListeners()} returns an
-	 * array with a mixture of PropertyChangeListeners and
-	 * {@code PropertyChangeListenerProxy}s. We notify all non-proxies and those
-	 * proxies that have a property name that is equals to the event's property
-	 * name.
-	 * 
-	 * @param event event to fire to the listeners
-	 * 
-	 * @see PropertyChangeListenerProxy
-	 * @see PropertyChangeSupport#getPropertyChangeListeners()
-	 */
-	private void fireUnchecked(PropertyChangeEvent event)
+	private void firePropertyChangeWithoutEqualsChecking(PropertyChangeEvent event)
 	{
 		PropertyChangeListener[] listeners;
 		synchronized (this)

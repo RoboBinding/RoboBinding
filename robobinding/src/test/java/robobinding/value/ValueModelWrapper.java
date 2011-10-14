@@ -13,11 +13,11 @@ import robobinding.utils.Validate;
 public class ValueModelWrapper<T> implements ValueModel<T>
 {
 	private ValueModel<T> forwarding;
-	public ValueModelWrapper(ValueModel<T> forwarding)
+	public ValueModelWrapper(ValueModel<T> source)
 	{
-		Validate.notNull(forwarding);
+		Validate.notNull(source);
 		
-		this.forwarding = forwarding;
+		this.forwarding = source;
 	}
 	@Override
 	public void addValueChangeListener(PropertyChangeListener listener)

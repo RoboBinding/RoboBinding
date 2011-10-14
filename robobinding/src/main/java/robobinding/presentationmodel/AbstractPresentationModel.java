@@ -30,15 +30,15 @@ public abstract class AbstractPresentationModel implements ObservableProperties
 	private ExtendedPropertyChangeSupport propertyChangeSupport = new ExtendedPropertyChangeSupport(this);;
 	
 	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener)
+	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
-		propertyChangeSupport.addPropertyChangeListener(listener);
+		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
 	}
 
 	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener)
+	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
-		propertyChangeSupport.removePropertyChangeListener(listener);
+		propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
 	}
 	
 	protected void firePropertyChange(String propertyName, Object oldValue, Object newValue)

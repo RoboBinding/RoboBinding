@@ -18,17 +18,13 @@ package robobinding.sample.presentationmodel;
 
 import java.util.List;
 
-import robobinding.beans.PropertyAdapter;
+import robobinding.beans.CustomPropertyDescriptor;
 import robobinding.presentationmodel.CustomPropertyProvider;
-import robobinding.presentationmodel.ItemClickEvent;
+import robobinding.presentationmodel.DependentPropertyValueModelProvider;
 import robobinding.presentationmodel.ListValueModel;
-import robobinding.sample.CreateEditAlbumActivity;
-import robobinding.sample.ViewAlbumActivity;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
 import android.content.Context;
-import android.content.Intent;
-import android.view.ViewParent;
 
 import com.google.common.collect.Lists;
 
@@ -46,12 +42,13 @@ public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPre
 	}
 
 	@Override
-	public PropertyAdapter<?> createCustomProperty(String propertyName)
+	public CustomPropertyDescriptor<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider provider)
 	{
 		if(PROPERTY_ALBUMS.equals(propertyName))
 		{
 			List<Album> albums = Lists.newArrayList(albumDao.getAll());
-			return new ListValueModel<Album>(ViewAlbumPresentationModel.class, albums);
+			ListValueModel<Album> valueModel = new ListValueModel<Album>(ViewAlbumPresentationModel.class, albums);
+			return CustomPropertyDescriptor.createReadOnlyPropertyDescriptor(valueModel);
 		}
 		return null;
 	}

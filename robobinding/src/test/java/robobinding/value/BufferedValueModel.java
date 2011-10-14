@@ -43,45 +43,45 @@ import robobinding.utils.Validate;
  * subject value and flush this model's trigger.
  * <p>
  */
-public final class BufferedValueModel<T> extends AbstractValueModel0<T>
+public final class BufferedValueModel<T> //extends AbstractValueModel0<T>
 {
-	public static final String PROPERTY_BUFFERING = "buffering";
+/*	public static final String PROPERTY_BUFFERING = "buffering";
 	public static final String PROPERTY_SOURCE = "source";
 	public static final String PROPERTY_TRIGGER_CHANNEL = "triggerChannel";
 
-	/**
+	*//**
 	 * Holds the source that provides the underlying value of type
 	 * {@code Object}.
-	 */
+	 *//*
 	private ValueModel<T> source;
 
 	private Trigger triggerChannel;
 
-	/**
+	*//**
 	 * Holds the buffered value. This value is ignored if we are not buffering.
-	 */
+	 *//*
 	private T bufferedValue;
 
-	/**
+	*//**
 	 * Indicates whether a value has been assigned since the last trigger
 	 * change.
-	 */
+	 *//*
 	private boolean valueAssigned;
 
-	/**
+	*//**
 	 * Holds a PropertyChangeListener that observes subject value changes.
-	 */
+	 *//*
 	private final ValueChangeHandler valueChangeHandler;
 
-	/**
+	*//**
 	 * Holds a PropertyChangeListener that observes trigger changes.
-	 */
+	 *//*
 	private final TriggerChangeHandler triggerChangeHandler;
 
-	/**
+	*//**
 	 * @param subject the value model to be buffered
 	 * @param triggerChannel the value model that triggers the commit or flush event. Must not be {@code null}
-	 */
+	 *//*
 	public BufferedValueModel(ValueModel<T> subject, Trigger triggerChannel)
 	{
 		super(false);
@@ -93,24 +93,24 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 		setBuffering(false);
 	}
 
-	/**
+	*//**
 	 * Returns the subject, i.e. the underlying ValueModel that provides the
 	 * unbuffered value.
 	 * 
 	 * @return the ValueModel that provides the unbuffered value
-	 */
+	 *//*
 	public ValueModel<T> getSource()
 	{
 		return source;
 	}
 
-	/**
+	*//**
 	 * Sets a new subject ValueModel, i.e. the model that provides the
 	 * unbuffered value. Notifies all listeners that the <i>subject</i> property
 	 * has changed.
 	 * 
 	 * @param newSubject the subject ValueModel to be set
-	 */
+	 *//*
 	public void setSource(ValueModel<T> newSubject)
 	{
 		ValueModel<T> oldSubject = getSource();
@@ -141,21 +141,21 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 		}
 	}
 
-	/**
+	*//**
 	 * Returns the ValueModel that is used to trigger commit and flush events.
 	 * 
 	 * @return the ValueModel that is used to trigger commit and flush events
-	 */
+	 *//*
 	public Trigger getTriggerChannel()
 	{
 		return triggerChannel;
 	}
 
-	/**
+	*//**
 	 * Sets the ValueModel that triggers the commit and flush events.
 	 * 
 	 * @param newTriggerChannel the ValueModel to be set as trigger channel
-	 */
+	 *//*
 	public void setTriggerChannel(Trigger newTriggerChannel)
 	{
 		Validate.notNull(newTriggerChannel, "The trigger channel must not be null.");
@@ -170,12 +170,12 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 		firePropertyChange(PROPERTY_TRIGGER_CHANNEL, oldTriggerChannel, newTriggerChannel);
 	}
 
-	/**
+	*//**
 	 * Returns the subject's value if no value has been set since the last
 	 * commit or flush, and returns the buffered value otherwise.
 	 * 
 	 * @return the buffered value
-	 */
+	 *//*
 	@Override
 	public T getValue()
 	{
@@ -183,7 +183,7 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 		return isBuffering() ? bufferedValue : source.getValue();
 	}
 
-	/**
+	*//**
 	 * Sets a new buffered value and turns this BufferedValueModel into the
 	 * buffering state. The buffered value is not provided to the underlying
 	 * model until the trigger channel indicates a commit. 
@@ -207,7 +207,7 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 	 * indicates whether flushing a buffer will actually change the subject. But
 	 * note that such a state may change with subject value changes, which may
 	 * be hard to understand for a user.
-	 */
+	 *//*
 	@Override
 	public void setValue(T newBufferedValue)
 	{
@@ -223,7 +223,7 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 		fireValueChange(oldValue, newBufferedValue, true);
 	}
 
-	/**
+	*//**
 	 * Tries to lookup the current buffered or subject value and returns this
 	 * value plus a marker that indicates whether the read-access succeeded or
 	 * failed. The latter situation arises in an attempt to read a value from a
@@ -231,7 +231,7 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 	 * this model changes its subject.
 	 * 
 	 * @return the current value plus a boolean that indicates the success or failure
-	 */
+	 *//*
 	private ReadAccessResult readBufferedOrSubjectValue()
 	{
 		try
@@ -244,7 +244,7 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 		}
 	}
 
-	/**
+	*//**
 	 * Removes the PropertyChangeListeners from the subject and trigger channel.
 	 * <p>
 	 * 
@@ -258,7 +258,7 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 	 * trigger channels that are based on {@code WeakReference}s.
 	 * 
 	 * @see java.lang.ref.WeakReference
-	 */
+	 *//*
 	public void release()
 	{
 		ValueModel<T> aSubject = getSource();
@@ -271,12 +271,12 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 		aTriggerChannel.removeValueChangeListener(triggerChangeHandler);
 	}
 
-	/**
+	*//**
 	 * Returns whether this model buffers a value or not, that is, whether a
 	 * value has been assigned since the last commit or flush.
 	 * 
 	 * @return true if a value has been assigned since the last commit or flush
-	 */
+	 *//*
 	public boolean isBuffering()
 	{
 		return valueAssigned;
@@ -289,7 +289,7 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 		firePropertyChange(PROPERTY_BUFFERING, oldValue, newValue);
 	}
 
-	/**
+	*//**
 	 * Sets the buffered value as new subject value - if any value has been set.
 	 * After this commit this BufferedValueModel behaves as if no value has been
 	 * set before. This method is invoked if the trigger has changed to
@@ -301,7 +301,7 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 	 * subject's old value is not this BufferedValueModel's old value; instead
 	 * the old value reported to listeners of this model is the formerly
 	 * buffered value.
-	 */
+	 *//*
 	private void commit()
 	{
 		Validate.notNull(source, "The subject must not be null " + "while committing a value in a BufferedValueModel.");
@@ -314,11 +314,11 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 		}
 	}
 
-	/**
+	*//**
 	 * Flushes the buffered value. This method is invoked if the trigger has
 	 * changed to {@code Boolean.FALSE}. After this flush this
 	 * BufferedValueModel behaves as if no value has been set before.
-	 */
+	 *//*
 	private void flush()
 	{
 		Object oldValue = getValue();
@@ -333,14 +333,14 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 		return "value=" + valueString() + "; buffering" + isBuffering();
 	}
 
-	/**
+	*//**
 	 * Describes the result of a subject value read-access plus a marker that
 	 * indicates if the value could be read or not. The latter is used in
 	 * {@code #setValue} to suppress some unnecessary change notifications in
 	 * case the value could be read successfully.
 	 * 
 	 * @see BufferedValueModel#setValue(Object)
-	 */
+	 *//*
 	private static final class ReadAccessResult
 	{
 
@@ -355,19 +355,19 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 
 	}
 
-	/**
+	*//**
 	 * Listens to changes of the subject.
-	 */
+	 *//*
 	private final class ValueChangeHandler implements PropertyChangeListener
 	{
 
 		private Object oldValue;
 
-		/**
+		*//**
 		 * The subject's value has changed. Notifies this BufferedValueModel's
 		 * listeners if we are not buffering, does nothing otherwise.
 		 * <p>
-		 */
+		 *//*
 		public void propertyChange(PropertyChangeEvent event)
 		{
 			if (!isBuffering())
@@ -377,15 +377,15 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 		}
 	}
 
-	/**
+	*//**
 	 * Listens to changes of the trigger channel.
-	 */
+	 *//*
 	private final class TriggerChangeHandler implements PropertyChangeListener
 	{
 
-		/**
+		*//**
 		 * The trigger has been changed. Commits or flushes the buffered value.
-		 */
+		 *//*
 		public void propertyChange(PropertyChangeEvent event)
 		{
 			if (TriggerState.COMMIT.equals(event.getNewValue()))
@@ -396,6 +396,6 @@ public final class BufferedValueModel<T> extends AbstractValueModel0<T>
 				flush();
 			}
 		}
-	}
+	}*/
 
 }

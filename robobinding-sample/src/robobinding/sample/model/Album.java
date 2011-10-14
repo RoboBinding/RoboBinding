@@ -46,6 +46,11 @@ public class Album
 			this.composer = builder.composer;
 		}
 	}
+	private void validate(Builder builder)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	public long getId()
 	{
 		return id;
