@@ -102,7 +102,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Integer> createDoubleToIntegerConverter(ValueModel<Double> source, int multiplier)
+	public static ValueModel<Integer> createDoubleToIntegerConverter(ValueModel<Double> source, double multiplier)
 	{
 		return new DoubleToIntegerConverter(source, multiplier);
 	}
@@ -141,7 +141,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Integer> createFloatToIntegerConverter(ValueModel<Float> source, int multiplier)
+	public static ValueModel<Integer> createFloatToIntegerConverter(ValueModel<Float> source, float multiplier)
 	{
 		return new FloatToIntegerConverter(source, multiplier);
 	}
@@ -330,9 +330,9 @@ public class Converters
 	private static final class DoubleToIntegerConverter extends AbstractConverter<Double, Integer>
 	{
 
-		private final int multiplier;
+		private final double multiplier;
 
-		public DoubleToIntegerConverter(ValueModel<Double> source, int multiplier)
+		public DoubleToIntegerConverter(ValueModel<Double> source, double multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;
@@ -394,9 +394,9 @@ public class Converters
 	 */
 	private static final class FloatToIntegerConverter extends AbstractConverter<Float, Integer>
 	{
-		private final int multiplier;
+		private final float multiplier;
 
-		public FloatToIntegerConverter(ValueModel<Float> source, int multiplier)
+		public FloatToIntegerConverter(ValueModel<Float> source, float multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;

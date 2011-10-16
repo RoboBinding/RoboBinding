@@ -11,11 +11,8 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	ValueHoldersTest.class,
-	ConvertersTest.class,
-	BufferedValueModelTest.class
+	ValueHoldersTest.class
 })
 public class AllTests
 {
-
 }
