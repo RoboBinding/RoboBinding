@@ -43,11 +43,6 @@ public class IntegerConverterTest extends AbstractConverterTest<Integer, Integer
 		return creatIntegerList(1, 2, null);
 	}
 	@Override
-	protected List<Integer> creatExpectedConvertedValues()
-	{
-		return creatIntegerList(10, 20, null);
-	}
-	@Override
 	protected List<Integer> createConvertedValues()
 	{
 		return creatExpectedConvertedValues();
@@ -56,6 +51,11 @@ public class IntegerConverterTest extends AbstractConverterTest<Integer, Integer
 	protected List<Integer> createExpectedSourceValues()
 	{
 		return createSourceValues();
+	}
+	@Override
+	protected List<Integer> creatExpectedConvertedValues()
+	{
+		return creatIntegerList(10, 20, null);
 	}
 	private List<Integer> creatIntegerList(Integer... values)
 	{

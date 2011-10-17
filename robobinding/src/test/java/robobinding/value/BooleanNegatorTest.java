@@ -42,14 +42,14 @@ public class BooleanNegatorTest extends AbstractConverterTest<Boolean, Boolean>
 		return creatBooleanList(false, true, null);
 	}
 	@Override
-	protected List<Boolean> creatExpectedConvertedValues()
-	{
-		return createConvertedValues();
-	}
-	@Override
 	protected List<Boolean> createConvertedValues()
 	{
 		return creatBooleanList(true, false, null);
+	}
+	@Override
+	protected List<Boolean> creatExpectedConvertedValues()
+	{
+		return createConvertedValues();
 	}
 	@Override
 	protected List<Boolean> createExpectedSourceValues()
