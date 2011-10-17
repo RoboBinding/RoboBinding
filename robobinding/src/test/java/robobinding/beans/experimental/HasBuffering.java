@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.beans;
+package robobinding.beans.experimental;
 
-import robobinding.value.Trigger;
+import robobinding.value.experimental.Trigger;
 
 /**
  * @since 1.0

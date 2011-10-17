@@ -26,10 +26,7 @@ import robobinding.utils.Validate;
  */
 public abstract class AbstractConverter<S, D> implements ValueModel<D>
 {
-	private ValueModel<S> source;
-	/**
-	 * @param source the ValueModel that holds the source value
-	 */
+	protected final ValueModel<S> source;
 	public AbstractConverter(ValueModel<S> source)
 	{
 		Validate.notNull(source);
@@ -37,17 +34,9 @@ public abstract class AbstractConverter<S, D> implements ValueModel<D>
 	}
 	/**
 	 * Converts a value from the source type to the destination type or format used by this converter.
-	 * 
-	 * @param sourceValue the source's value
-	 * @return the converted value in the destination type or format used by this converter
 	 */
 	public abstract D convertFromSource(S sourceValue);
 	public abstract S convertFromDestination(D destinationValue);
-	/**
-	 * Converts the source's value and returns the converted value.
-	 * 
-	 * @return the converted value
-	 */
 	@Override
 	public D getValue()
 	{

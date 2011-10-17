@@ -1,6 +1,8 @@
-package robobinding.value;
+package robobinding.value.experimental;
 
 import java.beans.PropertyChangeListener;
+
+import robobinding.value.AbstractValueModel;
 
 
 /**

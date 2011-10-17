@@ -18,6 +18,7 @@ package robobinding.value;
 import java.text.Format;
 import java.text.ParseException;
 
+import robobinding.utils.NumberUtils;
 import robobinding.utils.Validate;
 /**
  * @since 1.0
@@ -102,7 +103,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Integer> createDoubleToIntegerConverter(ValueModel<Double> source, int multiplier)
+	public static ValueModel<Integer> createDoubleToIntegerConverter(ValueModel<Double> source, double multiplier)
 	{
 		return new DoubleToIntegerConverter(source, multiplier);
 	}
@@ -141,7 +142,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Integer> createFloatToIntegerConverter(ValueModel<Float> source, int multiplier)
+	public static ValueModel<Integer> createFloatToIntegerConverter(ValueModel<Float> source, float multiplier)
 	{
 		return new FloatToIntegerConverter(source, multiplier);
 	}
@@ -212,7 +213,7 @@ public class Converters
 	/**
 	 * @see Converters#createBooleanNegator(ValueModel)
 	 */
-	private static final class BooleanNegator extends AbstractConverter<Boolean, Boolean>
+	private static final class BooleanNegator extends AbstractConverterWithDefaultNullBehavior<Boolean, Boolean>
 	{
 		public BooleanNegator(ValueModel<Boolean> source)
 		{
@@ -230,16 +231,7 @@ public class Converters
 		}
 		private static Boolean negate(Boolean value)
 		{
-			if(Boolean.TRUE.equals(value))
-			{
-				return Boolean.FALSE;
-			}else if (Boolean.FALSE.equals(value))
-			{
-				return Boolean.TRUE;
-			}else
-			{
-				return null;
-			}
+			return Boolean.TRUE.equals(value) ? Boolean.FALSE : Boolean.TRUE;
 		}
 	}
 
@@ -299,7 +291,7 @@ public class Converters
 	/**
 	 * @see Converters#createDoubleConverter(ValueModel, double);
 	 */
-	private static final class DoubleConverter extends AbstractConverter<Double, Double>
+	private static final class DoubleConverter extends AbstractConverterWithDefaultNullBehavior<Double, Double>
 	{
 		private final double multiplier;
 
@@ -313,26 +305,28 @@ public class Converters
 		public Double convertFromSource(Double sourceValue)
 		{
 			double doubleValue = sourceValue.doubleValue();
-			return Double.valueOf(doubleValue * multiplier);
+			double result = NumberUtils.multiply(doubleValue, multiplier);
+			return Double.valueOf(result);
 		}
 
 		@Override
 		public Double convertFromDestination(Double destinationValue)
 		{
 			double doubleValue = destinationValue.doubleValue();
-			return Double.valueOf(doubleValue / multiplier);
+			double quotient = NumberUtils.divide(doubleValue, multiplier);
+			return Double.valueOf(quotient);
 		}
 	}
 
 	/**
 	 * @see Converters#createDoubleToIntegerConverter(ValueModel, int)
 	 */
-	private static final class DoubleToIntegerConverter extends AbstractConverter<Double, Integer>
+	private static final class DoubleToIntegerConverter extends AbstractConverterWithDefaultNullBehavior<Double, Integer>
 	{
 
-		private final int multiplier;
+		private final double multiplier;
 
-		public DoubleToIntegerConverter(ValueModel<Double> source, int multiplier)
+		public DoubleToIntegerConverter(ValueModel<Double> source, double multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;
@@ -341,30 +335,24 @@ public class Converters
 		@Override
 		public Integer convertFromSource(Double sourceValue)
 		{
-			double doubleValue = sourceValue.doubleValue();
-			if (multiplier != 1)
-			{
-				doubleValue *= multiplier;
-			}
-			return Integer.valueOf((int)Math.round(doubleValue));
+			double value = sourceValue.doubleValue();
+			double result = NumberUtils.multiply(value, multiplier);
+			return Integer.valueOf((int)Math.round(result));
 		}
 
 		@Override
 		public Double convertFromDestination(Integer destinationValue)
 		{
 			double doubleValue = destinationValue.doubleValue();
-			if (multiplier != 1)
-			{
-				doubleValue /= multiplier;
-			}
-			return Double.valueOf(doubleValue);
+			double quotient = NumberUtils.divide(doubleValue, multiplier);
+			return Double.valueOf(quotient);
 		}
 	}
 
 	/**
 	 * @see Converters#createFloatConverter(ValueModel, float)
 	 */
-	private static final class FloatConverter extends AbstractConverter<Float, Float>
+	private static final class FloatConverter extends AbstractConverterWithDefaultNullBehavior<Float, Float>
 	{
 		private final float multiplier;
 
@@ -378,25 +366,27 @@ public class Converters
 		public Float convertFromSource(Float sourceValue)
 		{
 			float floatValue = sourceValue.floatValue();
-			return Float.valueOf(floatValue * multiplier);
+			float result = NumberUtils.multiply(floatValue, multiplier);
+			return Float.valueOf(result);
 		}
 
 		@Override
 		public Float convertFromDestination(Float destinationValue)
 		{
 			float floatValue = destinationValue.floatValue();
-			return Float.valueOf(floatValue / multiplier);
+			float quotient = NumberUtils.divide(floatValue, multiplier);
+			return Float.valueOf(quotient);
 		}
 	}
 
 	/**
 	 * @see Converters#createFloatToIntegerConverter(ValueModel, int)
 	 */
-	private static final class FloatToIntegerConverter extends AbstractConverter<Float, Integer>
+	private static final class FloatToIntegerConverter extends AbstractConverterWithDefaultNullBehavior<Float, Integer>
 	{
-		private final int multiplier;
+		private final float multiplier;
 
-		public FloatToIntegerConverter(ValueModel<Float> source, int multiplier)
+		public FloatToIntegerConverter(ValueModel<Float> source, float multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;
@@ -406,29 +396,23 @@ public class Converters
 		public Integer convertFromSource(Float sourceValue)
 		{
 			float floatValue = sourceValue.floatValue();
-			if (multiplier != 1)
-			{
-				floatValue *= multiplier;
-			}
-			return Integer.valueOf(Math.round(floatValue));
+			float result = NumberUtils.multiply(floatValue, multiplier);
+			return Integer.valueOf(Math.round(result));
 		}
 
 		@Override
 		public Float convertFromDestination(Integer destinationValue)
 		{
 			float floatValue = destinationValue.floatValue();
-			if (multiplier != 1)
-			{
-				floatValue /= multiplier;
-			}
-			return Float.valueOf(floatValue);
+			float quotient = NumberUtils.divide(floatValue, multiplier);
+			return Float.valueOf(quotient);
 		}
 	}
 
 	/**
 	 * @see Converters#createIntegerConverter(ValueModel, double)
 	 */
-	private static final class IntegerConverter extends AbstractConverter<Integer, Integer>
+	private static final class IntegerConverter extends AbstractConverterWithDefaultNullBehavior<Integer, Integer>
 	{
 		private final double multiplier;
 
@@ -441,14 +425,16 @@ public class Converters
 		public Integer convertFromSource(Integer sourceValue)
 		{
 			double doubleValue = sourceValue.doubleValue();
-			return Integer.valueOf((int) (doubleValue * multiplier));
+			double result = NumberUtils.multiply(doubleValue, multiplier);
+			return Integer.valueOf((int)Math.round(result));
 		}
 
 		@Override
 		public Integer convertFromDestination(Integer destinationValue)
 		{
 			double doubleValue = destinationValue.doubleValue();
-			return Integer.valueOf((int) (doubleValue / multiplier));
+			double quotient = NumberUtils.divide(doubleValue, multiplier);
+			return Integer.valueOf((int)Math.round(quotient));
 		}
 
 	}
@@ -456,7 +442,7 @@ public class Converters
 	/**
 	 * @see Converters#createLongConverter(ValueModel, double)
 	 */
-	private static final class LongConverter extends AbstractConverter<Long, Long>
+	private static final class LongConverter extends AbstractConverterWithDefaultNullBehavior<Long, Long>
 	{
 		private final double multiplier;
 	
@@ -470,26 +456,28 @@ public class Converters
 		public Long convertFromSource(Long sourceValue)
 		{
 			double doubleValue = sourceValue.doubleValue();
-			return Long.valueOf((long) (doubleValue * multiplier));
+			double result = NumberUtils.multiply(doubleValue, multiplier);
+			return Long.valueOf(Math.round(result));
 		}
 
 		@Override
 		public Long convertFromDestination(Long destinationValue)
 		{
 			double doubleValue = destinationValue.doubleValue();
-			return Long.valueOf((long) (doubleValue / multiplier));
+			double quotient = NumberUtils.divide(doubleValue, multiplier);
+			return Long.valueOf(Math.round(quotient));
 		}
 	}
 
 	/**
 	 * @see Converters#createLongToIntegerConverter(ValueModel, int)
 	 */
-	private static final class LongToIntegerConverter extends AbstractConverter<Long, Integer>
+	private static final class LongToIntegerConverter extends AbstractConverterWithDefaultNullBehavior<Long, Integer>
 	{
 
-		private final int multiplier;
+		private final double multiplier;
 
-		public LongToIntegerConverter(ValueModel<Long> source, int multiplier)
+		public LongToIntegerConverter(ValueModel<Long> source, double multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;
@@ -497,30 +485,24 @@ public class Converters
 		@Override
 		public Integer convertFromSource(Long sourceValue)
 		{
-			int intValue = sourceValue.intValue();
-			if (multiplier != 1)
-			{
-				intValue *= multiplier;
-			}
-			return Integer.valueOf(intValue);
+			double doubleValue = sourceValue.doubleValue();
+			double result = NumberUtils.multiply(doubleValue, multiplier);
+			return Integer.valueOf((int)Math.round(result));
 		}
 
 		@Override
 		public Long convertFromDestination(Integer destinationValue)
 		{
-			long longValue = destinationValue.longValue();
-			if (multiplier != 1)
-			{
-				longValue /= multiplier;
-			}
-			return Long.valueOf(longValue);
+			double doubleValue = destinationValue.doubleValue();
+			double quotient = NumberUtils.divide(doubleValue, multiplier);
+			return Long.valueOf(Math.round(quotient));
 		}
 	}
 
 	/**
 	 * @see Converters#createStringConverter(ValueModel, Format)
 	 */
-	private static final class StringConverter<T extends Object> extends AbstractConverter<T, String>
+	private static final class StringConverter<T extends Object> extends AbstractConverterWithDefaultNullBehavior<T, String>
 	{
 		private final Format format;
 		public StringConverter(ValueModel<T> source, Format format)

@@ -12,10 +12,17 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	ValueHoldersTest.class,
-	ConvertersTest.class,
-	BufferedValueModelTest.class
+	BooleanNegatorTest.class,
+	BooleanToStringConverterTest.class,
+	DoubleConverterTest.class,
+	DoubleToIntegerConverterTest.class,
+	FloatConverterTest.class,
+	FloatToIntegerConverterTest.class,
+	IntegerConverterTest.class,
+	LongConverterTest.class,
+	LongToIntegerConverterTest.class,
+	StringConverterTest.class
 })
 public class AllTests
 {
-
 }

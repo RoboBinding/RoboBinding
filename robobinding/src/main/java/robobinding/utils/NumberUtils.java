@@ -130,4 +130,32 @@ public class NumberUtils
 		}
 		return Integer.valueOf(str);
 	}
+	public static double multiply(double value, double multiplier)
+	{
+		return value * multiplier;
+	}
+	public static int multiply(int value, int multiplier)
+	{
+		return value * multiplier;
+	}
+	public static float multiply(float value, float multiplier)
+	{
+		return value * multiplier;
+	}
+	public static double divide(double dividend, double divisor)
+	{
+		if(divisor == 0)
+		{
+			return Double.MAX_VALUE;
+		}
+		return dividend/divisor;
+	}
+	public static float divide(float dividend, float divisor)
+	{
+		if(divisor == 0)
+		{
+			return Float.MAX_VALUE;
+		}
+		return dividend/divisor;
+	}
 }

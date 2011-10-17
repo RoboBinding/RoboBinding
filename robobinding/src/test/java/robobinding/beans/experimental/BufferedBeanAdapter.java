@@ -1,4 +1,4 @@
-package robobinding.beans;
+package robobinding.beans.experimental;
 
 
 public class BufferedBeanAdapter<B>
