@@ -29,8 +29,9 @@ public class OnClickAttribute extends AbstractCommandViewAttribute
 {
 	private final View view;
 
-	public OnClickAttribute(View view)
+	public OnClickAttribute(View view, String commandName)
 	{
+		super(commandName);
 		this.view = view;
 	}
 

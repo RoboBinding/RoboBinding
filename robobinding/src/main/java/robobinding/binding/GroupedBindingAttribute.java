@@ -15,9 +15,11 @@
  */
 package robobinding.binding;
 
-import robobinding.binding.viewattribute.OnClickAttribute;
-import robobinding.binding.viewattribute.VisibilityAttribute;
-import android.view.View;
+import java.util.List;
+
+import robobinding.beans.PresentationModelAdapter;
+import robobinding.binding.viewattribute.ListViewAttributes;
+import android.content.Context;
 
 /**
  * @since 1.0
@@ -25,20 +27,19 @@ import android.view.View;
  * @author Robert Taylor
  *
  */
-public class ViewAttributeProvider extends AbstractWidgetAttributeProvider<View>
+public class GroupedBindingAttribute extends BindingAttribute
 {
-	@Override
-	protected BindingAttribute getSupportedBindingAttribute(View view, String attributeName, String attributeValue)
+	private final ListViewAttributes listViewAttributes;
+
+	public GroupedBindingAttribute(List<String> groupedAttributeNames, ListViewAttributes listViewAttributes)
 	{
-		if ("visibility".equals(attributeName))
-		{
-			return new PropertyBindingAttribute(attributeName, new VisibilityAttribute(view, attributeValue));
-		}
-		else if ("onClick".equals(attributeName))
-		{
-			return new CommandBindingAttribute(attributeName, new OnClickAttribute(view, attributeValue));
-		}
-		
-		return null;
+		super(groupedAttributeNames.get(0));
+		this.listViewAttributes = listViewAttributes;
+	}
+
+	@Override
+	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	{
+		listViewAttributes.bind(presentationModelAdapter, context);
 	}
 }

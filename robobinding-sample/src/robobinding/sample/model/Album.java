@@ -16,7 +16,6 @@
  */
 package robobinding.sample.model;
 
-import robobinding.sample.model.Album.Builder;
 
 /**
  * @since 1.0

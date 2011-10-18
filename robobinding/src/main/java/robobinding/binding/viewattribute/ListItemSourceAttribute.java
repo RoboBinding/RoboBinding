@@ -17,9 +17,13 @@ package robobinding.binding.viewattribute;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
+import robobinding.presentationmodel.DataSetAdapter;
+import robobinding.presentationmodel.ListValueModel;
 import robobinding.value.ValueModel;
-import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 /**
  * @since 1.0
@@ -27,37 +31,34 @@ import android.view.View;
  * @author Robert Taylor
  *
  */
-public class BooleanVisibilityAttribute extends AbstractPropertyViewAttribute<Boolean>
+public class ListItemSourceAttribute extends AbstractPropertyViewAttribute<ListValueModel>
 {
-	private View view;
 	
-	public BooleanVisibilityAttribute(View view)
+	
+	private ListView listView;
+	
+	public ListItemSourceAttribute(ListView listView)
 	{
-		this.view = view;
+		this.listView = listView;
+	}
+	
+	@Override
+	protected void initializeView(ListValueModel listValueModel)
+	{
+		DataSetAdapter<List<?>> dataSetAdapter = new DataSetAdapter<List<?>>(listValueModel);
+		listView.setAdapter(dataSetAdapter);
 	}
 
 	@Override
-	protected void initializeView(ValueModel<Boolean> valueModel)
+	protected void observeChangesOnTheValueModel(ValueModel valueModel)
 	{
-		view.setVisibility(valueModel.getValue() ? View.VISIBLE : View.GONE);
+		dataSetAdapter.listenTo(valueModel);
 	}
 
 	@Override
-	protected void observeChangesOnTheValueModel(final ValueModel<Boolean> valueModel)
+	protected void observeChangesOnTheView(ValueModel valueModel)
 	{
-		valueModel.addValueChangeListener(new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt)
-			{
-				view.setVisibility(valueModel.getValue() ? View.VISIBLE : View.GONE);
-			}
-		});
+		throw new RuntimeException();
 	}
 
-	@Override
-	protected void observeChangesOnTheView(ValueModel<Boolean> valueModel)
-	{
-		throw new RuntimeException("Visibility only supports one-way binding");
-	}
 }

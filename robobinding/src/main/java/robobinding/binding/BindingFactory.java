@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
 public class BindingFactory implements Factory
 {
 	private final LayoutInflater layoutInflater;
-	private final List<ViewAttributeBinder> viewAttributeBinders = Lists.newArrayList();
+	private final List<WidgetAttributeBinder<? extends View>> viewAttributeBinders = Lists.newArrayList();
 
 	BindingFactory(LayoutInflater layoutInflater)
 	{
@@ -46,7 +46,7 @@ public class BindingFactory implements Factory
 		try
 		{
 			View view = layoutInflater.createView(name, null, attrs);
-			viewAttributeBinders.add(new ViewAttributeBinder(view, attrs));
+			viewAttributeBinders.add(new WidgetAttributeBinder<View>(view, attrs));
 			return view;
 		} 
 		catch (ClassNotFoundException e)
@@ -55,7 +55,7 @@ public class BindingFactory implements Factory
 		}
 	}
 
-	public List<ViewAttributeBinder> getViewAttributeBinders()
+	public List<WidgetAttributeBinder<? extends View>> getViewAttributeBinders()
 	{
 		return viewAttributeBinders;
 	}

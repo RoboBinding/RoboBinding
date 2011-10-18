@@ -102,9 +102,14 @@ public class Validate
 
 	public static void notEmpty(Collection<?> c)
 	{
+		notEmpty(c, "the collection is empty");
+	}
+	
+	public static void notEmpty(Collection<?> c, String message)
+	{
 		if((c==null) || c.isEmpty())
 		{
-			fail("the collection is empty");
+			fail(message);
 		}
 	}
 	public static void size(Collection<?> c, int expectedSize)

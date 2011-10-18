@@ -47,7 +47,7 @@ public class Binder
 		
 		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 		
-		for (ViewAttributeBinder viewAttributeBinder : inflationResult.getViewAttributeBinders())
+		for (WidgetAttributeBinder<?> viewAttributeBinder : inflationResult.getViewAttributeBinders())
 		{
 			viewAttributeBinder.bind(presentationModelAdapter);
 		}

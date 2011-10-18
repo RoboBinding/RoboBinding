@@ -38,9 +38,9 @@ public class AlbumCursor extends AbstractCursor implements TypedCursor<Album>
 	}
 	
 	@Override
-	public Album getCurrentObject()
+	public Album getObjectAtPosition(int position)
 	{
-		return data.get(getPosition());
+		return data.get(position);
 	}
 	
 	@Override

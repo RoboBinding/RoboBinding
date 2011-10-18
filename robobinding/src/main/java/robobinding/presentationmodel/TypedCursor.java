@@ -25,6 +25,5 @@ package robobinding.presentationmodel;
 public interface TypedCursor<T>
 {
 	int getCount();
-	T getCurrentObject();
-	boolean moveToPosition(int position);
+	T getObjectAtPosition(int position);
 }

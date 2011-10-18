@@ -34,20 +34,26 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 	private final static Pattern PROPERTY_NAME_PATTERN = Pattern.compile("\\w+");
 	
 	private PresentationModelAdapter presentationModelAdapter;
-	private String propertyName;
+	private final String attributeValue;
+	private final String propertyName;
 	
-	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, String attributeValue)
+	public AbstractPropertyViewAttribute(String attributeValue)
 	{
 		validate(attributeValue);
-		
-		setPresentationModelAdapter(presentationModelAdapter);
-		setPropertyName(determinePropertyName(attributeValue));
-				
-		performBind(attributeValue);
+		this.attributeValue = attributeValue;
+		this.propertyName = determinePropertyName();
 	}
 	
-	private void performBind(String attributeValue)
+	@Override
+	public void bind(PresentationModelAdapter presentationModelAdapter)
+	{
+		setPresentationModelAdapter(presentationModelAdapter);
+		
+				
+		performBind();
+	}
+	
+	private void performBind()
 	{
 		if (attributeValue.startsWith("$"))
 			performTwoWayBinding();
@@ -55,7 +61,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 			performOneWayBinding();
 	}
 
-	private String determinePropertyName(String attributeValue)
+	private String determinePropertyName()
 	{
 		Matcher matcher = PROPERTY_NAME_PATTERN.matcher(attributeValue);
 		matcher.find();
@@ -80,11 +86,6 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		new TwoWayBinder().performBind();
 	}
 	
-	void setPropertyName(String propertyName)
-	{
-		this.propertyName = propertyName;
-	}
-
 	void setPresentationModelAdapter(PresentationModelAdapter presentationModelAdapter)
 	{
 		this.presentationModelAdapter = presentationModelAdapter;

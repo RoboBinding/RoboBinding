@@ -10,4 +10,5 @@
     <string name="cursor_backed_albums">Cursor-backed albums</string>
     <string name="list_backed_albums">List-backed albums</string>
     <string name="the_choice_is_yours">The choice is yours...</string>
+    <string name="_available_for_purchase_">(available for purchase)</string>
 </resources>

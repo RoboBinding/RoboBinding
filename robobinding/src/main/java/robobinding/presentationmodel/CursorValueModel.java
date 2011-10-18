@@ -17,7 +17,6 @@
 package robobinding.presentationmodel;
 
 import java.beans.PropertyChangeListener;
-import java.util.List;
 
 
 
@@ -27,27 +26,28 @@ import java.util.List;
  * @author Robert Taylor
  *
  */
-public class CursorValueModel<T> extends AbstractDataSetValueModel<T>
+public class CursorValueModel<T> extends AbstractDataSetValueModel<TypedCursor<T>, T>
 {
 	private TypedCursor<T> cursor;
 
-	public CursorValueModel(Class<? extends RowPresentationModel<T>> rowPresentationModelClass, TypedCursor<T> cursor)
+	public CursorValueModel(Class<? extends ItemPresentationModel<T>> rowPresentationModelClass, TypedCursor<T> cursor)
 	{
-		this(new DefaultRowPresentationModelFactory<T>(rowPresentationModelClass), cursor);
+		this(new DefaultItemPresentationModelFactory<T>(rowPresentationModelClass), cursor);
 	}
-	public CursorValueModel(RowPresentationModelFactory<T> factory, TypedCursor<T> cursor)
+	public CursorValueModel(ItemPresentationModelFactory<T> factory, TypedCursor<T> cursor)
 	{
 		super(factory);
 		this.cursor = cursor;
 	}
+	@Override
 	public int size()
 	{
 		return cursor.getCount();
 	}
-	public T getBean(int position)
+	@Override
+	public T getItem(int position)
 	{
-		cursor.moveToPosition(position);
-		return cursor.getCurrentObject();
+		return cursor.getObjectAtPosition(position);
 	}
 	@Override
 	public void addValueChangeListener(PropertyChangeListener listener)
@@ -56,7 +56,7 @@ public class CursorValueModel<T> extends AbstractDataSetValueModel<T>
 		
 	}
 	@Override
-	public List<T> getValue()
+	public TypedCursor<T> getValue()
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -68,7 +68,7 @@ public class CursorValueModel<T> extends AbstractDataSetValueModel<T>
 		
 	}
 	@Override
-	public void setValue(List<T> newValue)
+	public void setValue(TypedCursor<T> newValue)
 	{
 		// TODO Auto-generated method stub
 		

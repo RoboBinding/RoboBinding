@@ -14,7 +14,7 @@ public abstract class AbstractViewAlbumsPresentationModel
 	
 	protected Context context;
 	protected AlbumDao albumDao;
-
+	
 	public AbstractViewAlbumsPresentationModel(Context context, AlbumDao albumDao)
 	{
 		this.context = context;

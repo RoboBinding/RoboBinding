@@ -16,7 +16,6 @@
  */
 package robobinding.sample.presentationmodel;
 
-import robobinding.presentationmodel.RowPresentationModel;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
 
@@ -26,7 +25,7 @@ import robobinding.sample.model.Album;
  * @author Robert Taylor
  *
  */
-public class ViewAlbumPresentationModel implements RowPresentationModel<Album>
+public class ViewAlbumPresentationModel
 {
 	private Album album;
 	
@@ -58,11 +57,5 @@ public class ViewAlbumPresentationModel implements RowPresentationModel<Album>
 	public String getClassicalDescription()
 	{
 		return album.isClassical() ? "Classical" : "Not classical";
-	}
-
-	@Override
-	public void setData(Album bean)
-	{
-		this.album = bean;
 	}
 }

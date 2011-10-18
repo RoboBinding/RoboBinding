@@ -31,8 +31,9 @@ public class OnItemClickAttribute extends AbstractCommandViewAttribute
 {
 	private final AdapterView<?> adapterView;
 
-	public OnItemClickAttribute(AdapterView<?> adapterView)
+	public OnItemClickAttribute(AdapterView<?> adapterView, String commandName)
 	{
+		super(commandName);
 		this.adapterView = adapterView;
 	}
 

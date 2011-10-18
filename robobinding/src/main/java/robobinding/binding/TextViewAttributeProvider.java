@@ -15,9 +15,8 @@
  */
 package robobinding.binding;
 
-import robobinding.binding.viewattribute.OnClickAttribute;
-import robobinding.binding.viewattribute.VisibilityAttribute;
-import android.view.View;
+import robobinding.binding.viewattribute.TextAttribute;
+import android.widget.TextView;
 
 /**
  * @since 1.0
@@ -25,20 +24,17 @@ import android.view.View;
  * @author Robert Taylor
  *
  */
-public class ViewAttributeProvider extends AbstractWidgetAttributeProvider<View>
+public class TextViewAttributeProvider extends AbstractWidgetAttributeProvider<TextView>
 {
 	@Override
-	protected BindingAttribute getSupportedBindingAttribute(View view, String attributeName, String attributeValue)
+	protected BindingAttribute getSupportedBindingAttribute(TextView textView, String attributeName, String attributeValue)
 	{
-		if ("visibility".equals(attributeName))
+		if ("text".equals(attributeName))
 		{
-			return new PropertyBindingAttribute(attributeName, new VisibilityAttribute(view, attributeValue));
-		}
-		else if ("onClick".equals(attributeName))
-		{
-			return new CommandBindingAttribute(attributeName, new OnClickAttribute(view, attributeValue));
+			return new PropertyBindingAttribute(attributeName, new TextAttribute(textView, attributeValue));
 		}
 		
 		return null;
 	}
+
 }

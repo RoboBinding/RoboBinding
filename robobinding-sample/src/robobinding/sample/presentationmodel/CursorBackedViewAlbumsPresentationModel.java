@@ -16,12 +16,10 @@
  */
 package robobinding.sample.presentationmodel;
 
-import robobinding.beans.CustomPropertyDescriptor;
-import robobinding.presentationmodel.CursorValueModel;
-import robobinding.presentationmodel.CustomPropertyProvider;
-import robobinding.presentationmodel.DependentPropertyValueModelProvider;
+import robobinding.presentationmodel.TypedCursor;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
+import robobinding.sample.model.PurchaseService;
 import android.content.Context;
 
 /**
@@ -30,22 +28,24 @@ import android.content.Context;
  * @author Robert Taylor
  *
  */
-public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel implements CustomPropertyProvider
+public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel
 {
+	private PurchaseService purchaseService;
+
 	public CursorBackedViewAlbumsPresentationModel(Context context, AlbumDao albumDao)
 	{
 		super(context, albumDao);
 	}
 	
-	@Override
-	public CustomPropertyDescriptor<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider provider)
+	@ItemPresentationModel(value=PurchaseableAlbumItemPresentationModel.class, factoryMethod="createAlbumPresentationModel")
+	public TypedCursor<Album> getAlbums()
 	{
-		if(PROPERTY_ALBUMS.equals(propertyName))
-		{
-			AlbumCursor cursor = albumDao.getCursor();
-			CursorValueModel<Album> valueModel = new CursorValueModel<Album>(ViewAlbumPresentationModel.class, cursor);
-			return CustomPropertyDescriptor.createReadOnlyPropertyDescriptor(valueModel);
-		}
-		return null;
+		return albumDao.getCursor();
 	}
+
+	public PurchaseableAlbumItemPresentationModel createAlbumPresentatonModel()
+	{
+		return new PurchaseableAlbumItemPresentationModel(purchaseService);
+	}
+	
 }

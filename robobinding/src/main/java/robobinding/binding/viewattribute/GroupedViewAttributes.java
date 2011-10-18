@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding;
+package robobinding.binding.viewattribute;
 
 import robobinding.beans.PresentationModelAdapter;
+import android.content.Context;
 
 /**
  * @since 1.0
@@ -23,9 +24,7 @@ import robobinding.beans.PresentationModelAdapter;
  * @author Robert Taylor
  *
  */
-public interface PropertyViewAttribute
+public interface GroupedViewAttributes
 {
-
-	void bind(PresentationModelAdapter presentationModelAdapter);
-
+	void bind(PresentationModelAdapter presentationModelAdapter, Context context);
 }

@@ -38,7 +38,7 @@ public class BindingInflater
 		BindingFactory bindingFactory = bindingFactoryProvider.getBindingFactory(layoutInflater);
 		
 		View rootView = layoutInflater.inflate(resourceId, null, false);
-		List<ViewAttributeBinder> viewAttributeBinders = bindingFactory.getViewAttributeBinders();
+		List<WidgetAttributeBinder<? extends View>> viewAttributeBinders = bindingFactory.getViewAttributeBinders();
 		
 		return new InflationResult(rootView, viewAttributeBinders);
 	}
@@ -46,9 +46,9 @@ public class BindingInflater
 	static class InflationResult
 	{
 		private View rootView;
-		private List<ViewAttributeBinder> viewAttributeBinders;
+		private List<WidgetAttributeBinder<? extends View>> viewAttributeBinders;
 		
-		public InflationResult(View rootView, List<ViewAttributeBinder> viewAttributeBinders)
+		public InflationResult(View rootView, List<WidgetAttributeBinder<? extends View>> viewAttributeBinders)
 		{
 			this.rootView = rootView;
 			this.viewAttributeBinders = viewAttributeBinders;
@@ -59,7 +59,7 @@ public class BindingInflater
 			return rootView;
 		}
 
-		public List<ViewAttributeBinder> getViewAttributeBinders()
+		public List<WidgetAttributeBinder<? extends View>> getViewAttributeBinders()
 		{
 			return viewAttributeBinders;
 		}

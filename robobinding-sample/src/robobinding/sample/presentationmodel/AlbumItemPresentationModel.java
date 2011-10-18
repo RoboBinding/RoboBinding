@@ -1,6 +1,6 @@
 /**
- * RowPresentationModel.java
- * 11 Oct 2011 Copyright Cheng Wei and Robert Taylor
+ * AlbumItemPresentationModel.java
+ * 17 Oct 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,33 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.presentationmodel;
+package robobinding.sample.presentationmodel;
+
+import robobinding.presentationmodel.ItemPresentationModel;
+import robobinding.sample.model.Album;
 
 /**
  * @since 1.0
- * @author Cheng Wei
  * @author Robert Taylor
  *
  */
-public interface RowPresentationModel<T>
+public class AlbumItemPresentationModel implements ItemPresentationModel<Album>
 {
-	void setData(T bean);
+	protected Album album;
+
+	public String getTitle()
+	{
+		return album.getTitle();
+	}
+	
+	public String getArtist()
+	{
+		return album.getArtist();
+	}
+	
+	@Override
+	public void setData(Album bean)
+	{
+		this.album = bean;
+	}
 }

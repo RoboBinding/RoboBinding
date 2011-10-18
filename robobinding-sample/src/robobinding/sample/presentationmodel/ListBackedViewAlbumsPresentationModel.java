@@ -18,10 +18,6 @@ package robobinding.sample.presentationmodel;
 
 import java.util.List;
 
-import robobinding.beans.CustomPropertyDescriptor;
-import robobinding.presentationmodel.CustomPropertyProvider;
-import robobinding.presentationmodel.DependentPropertyValueModelProvider;
-import robobinding.presentationmodel.ListValueModel;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
 import android.content.Context;
@@ -34,22 +30,16 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  *
  */
-public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel implements CustomPropertyProvider
+public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel
 {
 	public ListBackedViewAlbumsPresentationModel(Context context, AlbumDao albumDao)
 	{
 		super(context, albumDao);
 	}
-
-	@Override
-	public CustomPropertyDescriptor<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider provider)
+	
+	@ItemPresentationModel(value=AlbumItemPresentationModel.class)
+	public List<Album> getAlbums()
 	{
-		if(PROPERTY_ALBUMS.equals(propertyName))
-		{
-			List<Album> albums = Lists.newArrayList(albumDao.getAll());
-			ListValueModel<Album> valueModel = new ListValueModel<Album>(ViewAlbumPresentationModel.class, albums);
-			return CustomPropertyDescriptor.createReadOnlyPropertyDescriptor(valueModel);
-		}
-		return null;
+		return Lists.newArrayList(albumDao.getAll());
 	}
 }

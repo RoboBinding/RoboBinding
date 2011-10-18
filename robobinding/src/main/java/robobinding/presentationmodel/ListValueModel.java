@@ -19,8 +19,6 @@ package robobinding.presentationmodel;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import robobinding.value.ValueModel;
-
 
 /**
  * @since 1.0
@@ -28,15 +26,15 @@ import robobinding.value.ValueModel;
  * @author Cheng Wei
  *
  */
-public class ListValueModel<T> extends AbstractDataSetValueModel<T>
+public class ListValueModel<T> extends AbstractDataSetValueModel<List<T>, T>
 {
 	private List<T> data;
 	
-	public ListValueModel(Class<? extends RowPresentationModel<T>> rowPresentationModelClass, List<T> data)
+	public ListValueModel(Class<? extends ItemPresentationModel<T>> rowPresentationModelClass, List<T> data)
 	{
-		this(new DefaultRowPresentationModelFactory<T>(rowPresentationModelClass), data);
+		this(new DefaultItemPresentationModelFactory<T>(rowPresentationModelClass), data);
 	}
-	public ListValueModel(RowPresentationModelFactory<T> factory, List<T> data)
+	public ListValueModel(ItemPresentationModelFactory<T> factory, List<T> data)
 	{
 		super(factory);
 		this.data = data;
@@ -65,11 +63,13 @@ public class ListValueModel<T> extends AbstractDataSetValueModel<T>
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
 	public int size()
 	{
 		return data.size();
 	}
-	public T getBean(int index)
+	@Override
+	public T getItem(int index)
 	{
 		return data.get(index);
 	}

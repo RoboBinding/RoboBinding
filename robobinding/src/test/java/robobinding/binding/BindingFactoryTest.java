@@ -106,16 +106,16 @@ public class BindingFactoryTest
 	
 	private void assertViewAttributeBindersContainsEntriesFor(View view, AttributeSet attrs)
 	{
-		ViewAttributeBinder viewAttributeBinder = findViewAttributeBinderForView(view);
+		WidgetAttributeBinder viewAttributeBinder = findViewAttributeBinderForView(view);
 		
 		assertNotNull(viewAttributeBinder);
 		
-		assertThat(viewAttributeBinder.getBindingAttributes(), equalTo(new ViewAttributeBinder(view, attrs).getBindingAttributes()));
+		assertThat(viewAttributeBinder.getBindingAttributes(), equalTo(new WidgetAttributeBinder(view, attrs).getBindingAttributes()));
 	}
 
-	private ViewAttributeBinder findViewAttributeBinderForView(View view)
+	private WidgetAttributeBinder findViewAttributeBinderForView(View view)
 	{
-		for (ViewAttributeBinder viewAttributeBinder : bindingFactory.getViewAttributeBinders())
+		for (WidgetAttributeBinder viewAttributeBinder : bindingFactory.getViewAttributeBinders())
 		{
 			if (viewAttributeBinder.getView() == view)
 				return viewAttributeBinder;

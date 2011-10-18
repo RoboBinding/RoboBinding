@@ -18,7 +18,6 @@ package robobinding.presentationmodel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
@@ -31,43 +30,43 @@ import robobinding.value.ValueModel;
  * @author Cheng Wei
  *
  */
-public abstract class AbstractDataSetValueModel<T> implements ValueModel<List<T>>
+public abstract class AbstractDataSetValueModel<DataSetType, ItemType> implements ValueModel<DataSetType>
 {
-	private final RowPresentationModelFactory<T> factory;
+	private final ItemPresentationModelFactory<ItemType> factory;
 
-	protected AbstractDataSetValueModel(RowPresentationModelFactory<T> factory)
+	protected AbstractDataSetValueModel(ItemPresentationModelFactory<ItemType> factory)
 	{
 		Validate.notNull(factory, "Factory must not be null");
 		this.factory = factory;
 	}
-	public final RowPresentationModel<T> newRowPresentationModel()
+	public final ItemPresentationModel<ItemType> newItemPresentationModel()
 	{
-		return factory.newRowPresentationModel();
+		return factory.newItemPresentationModel();
 	}
 	
 	public abstract int size();
-	public abstract T getBean(int position);
+	public abstract ItemType getItem(int position);
 	
-	public void updateRowPresentationModel(RowPresentationModel<T> rowPresentationModel, int position)
+	public void updateItemPresentationModel(ItemPresentationModel<ItemType> itemPresentationModel, int position)
 	{
-		T bean = getBean(position);
-		rowPresentationModel.setData(bean);
+		ItemType item = getItem(position);
+		itemPresentationModel.setData(item);
 	}
-	protected final static class DefaultRowPresentationModelFactory<T> implements RowPresentationModelFactory<T>
+	protected final static class DefaultItemPresentationModelFactory<ItemType> implements ItemPresentationModelFactory<ItemType>
 	{
-		private Constructor<? extends RowPresentationModel<T>> rowPresentationModelConstructor;
-		public DefaultRowPresentationModelFactory(Class<? extends RowPresentationModel<T>> rowPresentationModelClass)
+		private Constructor<? extends ItemPresentationModel<ItemType>> itemPresentationModelConstructor;
+		public DefaultItemPresentationModelFactory(Class<? extends ItemPresentationModel<ItemType>> itemPresentationModelClass)
 		{
-			Validate.notNull(rowPresentationModelClass, "rowPresentationModelClass must not be null");
-			rowPresentationModelConstructor = ConstructorUtils.getAccessibleConstructor(rowPresentationModelClass, new Class<?>[0]);
-			Validate.notNull(rowPresentationModelConstructor, "rowPresentationModelClass does not have a sdefault constructor");
+			Validate.notNull(itemPresentationModelClass, "itemPresentationModelClass must not be null");
+			itemPresentationModelConstructor = ConstructorUtils.getAccessibleConstructor(itemPresentationModelClass, new Class<?>[0]);
+			Validate.notNull(itemPresentationModelConstructor, "itemPresentationModelClass does not have a sdefault constructor");
 		}
 		@Override
-		public RowPresentationModel<T> newRowPresentationModel()
+		public ItemPresentationModel<ItemType> newItemPresentationModel()
 		{
 			try
 			{
-				return rowPresentationModelConstructor.newInstance(new Object[0]);
+				return itemPresentationModelConstructor.newInstance(new Object[0]);
 			} catch (IllegalArgumentException e)
 			{
 				throw new RuntimeException(e);

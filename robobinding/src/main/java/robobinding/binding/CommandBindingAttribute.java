@@ -15,30 +15,30 @@
  */
 package robobinding.binding;
 
-import robobinding.binding.viewattribute.OnClickAttribute;
-import robobinding.binding.viewattribute.VisibilityAttribute;
-import android.view.View;
+import robobinding.beans.PresentationModelAdapter;
+import android.content.Context;
 
 /**
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Cheng Wei
  * @author Robert Taylor
  *
  */
-public class ViewAttributeProvider extends AbstractWidgetAttributeProvider<View>
+public class CommandBindingAttribute extends BindingAttribute
 {
-	@Override
-	protected BindingAttribute getSupportedBindingAttribute(View view, String attributeName, String attributeValue)
+	private final CommandViewAttribute commandViewAttribute;
+
+	public CommandBindingAttribute(String attributeName, CommandViewAttribute commandViewAttribute)
 	{
-		if ("visibility".equals(attributeName))
-		{
-			return new PropertyBindingAttribute(attributeName, new VisibilityAttribute(view, attributeValue));
-		}
-		else if ("onClick".equals(attributeName))
-		{
-			return new CommandBindingAttribute(attributeName, new OnClickAttribute(view, attributeValue));
-		}
-		
-		return null;
+		super(attributeName);
+		this.commandViewAttribute = commandViewAttribute;
 	}
+
+	@Override
+	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	{
+		commandViewAttribute.bind(presentationModelAdapter);
+	}
+
 }

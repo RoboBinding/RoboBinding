@@ -32,11 +32,15 @@ public abstract class AbstractCommandViewAttribute implements CommandViewAttribu
 	private Object presentationModel;
 	private String commandName;
 	
+	public AbstractCommandViewAttribute(String commandName)
+	{
+		this.commandName = commandName;
+	}
+	
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, String commandName)
+	public void bind(PresentationModelAdapter presentationModelAdapter)
 	{
 		this.presentationModel = presentationModelAdapter.getPresentationModel();
-		this.commandName = commandName;
 		
 		Command command = getCommand();
 		bind(command);

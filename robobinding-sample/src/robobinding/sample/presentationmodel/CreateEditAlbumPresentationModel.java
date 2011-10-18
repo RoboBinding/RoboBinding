@@ -24,6 +24,7 @@ import robobinding.sample.R;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
 import robobinding.value.Converters;
+import robobinding.value.ValueHolders;
 import robobinding.value.ValueModel;
 import android.content.Context;
 
@@ -56,14 +57,6 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel 
 	{
 		this.context = context;
 		this.albumDao = albumDao;
-	}
-	
-	public String getWindowTitle()
-	{
-		if (albumBuilder.isNew())
-			return context.getString(R.string.create_album);
-		
-		return context.getString(R.string.edit_album);
 	}
 	
 	public boolean isComposerEnabled()
@@ -134,6 +127,12 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel 
 	{
 		if ("windowTitle".equals(propertyName))
 		{
+			if(albumBuilder.isNew())
+			{
+				ValueModel<String> valueModel = ValueHolders.create(context.getString(R.string.create_album));
+				return CustomPropertyDescriptor.createReadOnlyPropertyDescriptor(valueModel);
+			}
+				
 			ValueModel<Boolean> dependentValueModel = propertyValueModelAccessor.getDependentPropertyValueModel("classical");
 			ValueModel<String> valueModel = Converters.createBooleanToStringConverter(dependentValueModel, "Edit Classical Album", "Edit Album");
 			return CustomPropertyDescriptor.createReadOnlyPropertyDescriptor(valueModel);

@@ -27,5 +27,5 @@ public interface CommandViewAttribute
 {
 	Class<?>[] getPreferredCommandParameterTypes();
 
-	void bind(PresentationModelAdapter presentationModelAdapter, String attributeValue);
+	void bind(PresentationModelAdapter presentationModelAdapter);
 }
