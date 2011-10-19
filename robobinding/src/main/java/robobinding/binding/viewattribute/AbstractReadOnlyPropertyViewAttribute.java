@@ -33,6 +33,6 @@ public abstract class AbstractReadOnlyPropertyViewAttribute<T> extends AbstractP
 	@Override
 	protected void observeChangesOnTheView(ValueModel<T> valueModel)
 	{
-		throw new UnsupportedOperationException(getClass().getName() + " only supports one way binding");
+		throw new UnsupportedOperationException(getClass().getName() + " only supports one-way binding");
 	}
 }

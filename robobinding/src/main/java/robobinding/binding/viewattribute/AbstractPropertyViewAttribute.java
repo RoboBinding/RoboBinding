@@ -73,7 +73,8 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		Matcher matcher = BINDING_ATTRIBUTE_PATTERN.matcher(attributeValue);
 		
 		if (!matcher.matches())
-			throw new RuntimeException("Invalid binding attribute value: " + attributeValue);
+			throw new RuntimeException("Invalid binding property attribute value: '" + attributeValue + "'.\n\nDid you mean '{" + 
+											attributeValue + "}' or '${" + attributeValue + "}'? (one/two-way binding respectively)\n");
 	}
 
 	void performOneWayBinding()

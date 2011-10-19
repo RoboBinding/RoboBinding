@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.beans.PresentationModelAdapter;
+import robobinding.binding.viewattribute.TextAttribute.CharSequenceTextAttribute;
 import robobinding.value.ValueHolders;
 import robobinding.value.ValueModel;
 import android.widget.TextView;
@@ -106,14 +107,14 @@ public class CharSequenceTextAttributeTest
 	private void textAttributeWith1WayBinding()
 	{
 		mockPresentationModelFor1WayBinding();
-		CharSequenceTextAttribute textAttribute = newTextAttribute();
+		CharSequenceTextAttribute textAttribute = newTextAttribute("{" + PROPERTY_NAME + "}");
 		textAttribute.performOneWayBinding();
 	}
 
 	private void textAttributeWith2WayBinding()
 	{
 		mockPresentationModelFor2WayBinding();
-		CharSequenceTextAttribute textAttribute = newTextAttribute();
+		CharSequenceTextAttribute textAttribute = newTextAttribute("${" + PROPERTY_NAME + "}");
 		textAttribute.performTwoWayBinding();
 	}
 	
@@ -129,11 +130,11 @@ public class CharSequenceTextAttributeTest
 		when(presentationModelAdapter.<CharSequence>getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
 	}
 	
-	private CharSequenceTextAttribute newTextAttribute()
+	private CharSequenceTextAttribute newTextAttribute(String bindingProperty)
 	{
-		CharSequenceTextAttribute textAttribute = new CharSequenceTextAttribute(textView);
-		textAttribute.setPresentationModelAdapter(presentationModelAdapter);
-		textAttribute.setPropertyName(PROPERTY_NAME);
-		return textAttribute;
+		TextAttribute textAttribute = new TextAttribute(textView, bindingProperty);
+		CharSequenceTextAttribute charSequenceTextAttribute = textAttribute.new CharSequenceTextAttribute();
+		charSequenceTextAttribute.setPresentationModelAdapter(presentationModelAdapter);
+		return charSequenceTextAttribute;
 	}
 }

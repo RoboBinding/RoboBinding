@@ -34,7 +34,7 @@ import android.widget.TextView;
  */
 public class TextAttribute implements PropertyViewAttribute
 {
-	public final TextView textView;
+	private final TextView textView;
 	private final String attributeValue;
 
 	public TextAttribute(TextView textView, String attributeValue)
@@ -50,17 +50,17 @@ public class TextAttribute implements PropertyViewAttribute
 		
 		if (propertyType.isAssignableFrom(CharSequence.class))
 		{
-			new CharSequenceTextAttribute(attributeValue).bind(presentationModelAdapter, context);
+			new CharSequenceTextAttribute().bind(presentationModelAdapter, context);
 		}
 		else if (propertyType.isAssignableFrom(String.class))
 		{
-			new StringTextAttribute(attributeValue).bind(presentationModelAdapter, context);
+			new StringTextAttribute().bind(presentationModelAdapter, context);
 		}
 	}
 
 	class CharSequenceTextAttribute extends AbstractPropertyViewAttribute<CharSequence>
 	{
-		public CharSequenceTextAttribute(String attributeValue)
+		public CharSequenceTextAttribute()
 		{
 			super(attributeValue);
 		}
@@ -111,7 +111,7 @@ public class TextAttribute implements PropertyViewAttribute
 	
 	class StringTextAttribute extends AbstractPropertyViewAttribute<String>
 	{
-		public StringTextAttribute(String attributeValue)
+		public StringTextAttribute()
 		{
 			super(attributeValue);
 		}

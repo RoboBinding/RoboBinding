@@ -45,6 +45,8 @@ import com.xtremelabs.robolectric.shadows.ShadowListView;
 @RunWith(RobolectricTestRunner.class)
 public class OnItemClickAttributeTest
 {
+	private Context context = new Activity();
+
 	@Test
 	public void whenClickingOnItemInTheList_ShouldInvokeCommand()
 	{
@@ -55,8 +57,8 @@ public class OnItemClickAttributeTest
 		ArrayAdapter<String> mockArrayAdapter = new MockArrayAdapter(new Activity(), R.layout.simple_list_item_1, Lists.newArrayList("0", "1", "2", "3", "4", "5"));
 		adapterView.setAdapter(mockArrayAdapter);
 		
-		OnItemClickAttribute onItemClickAttribute = new OnItemClickAttribute(adapterView);
-		onItemClickAttribute.bind(new PresentationModelAdapterImpl(mockPresentationModel), commandName);
+		OnItemClickAttribute onItemClickAttribute = new OnItemClickAttribute(adapterView, commandName);
+		onItemClickAttribute.bind(new PresentationModelAdapterImpl(mockPresentationModel), context);
 		
 		ShadowListView shadowListView = Robolectric.shadowOf(adapterView);
 		shadowListView.performItemClick(5);

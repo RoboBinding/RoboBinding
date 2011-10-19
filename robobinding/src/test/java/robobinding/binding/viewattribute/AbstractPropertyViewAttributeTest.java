@@ -28,8 +28,9 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 import robobinding.beans.PresentationModelAdapter;
-import robobinding.binding.viewattribute.AbstractPropertyViewAttribute;
 import robobinding.value.ValueModel;
+import android.app.Activity;
+import android.content.Context;
 
 /**
  * @since 1.0
@@ -55,6 +56,7 @@ public class AbstractPropertyViewAttributeTest
 	};
 	
 	private PresentationModelAdapter presentationModelAdapter;
+	private Context context = new Activity();
 	
 	@Before
 	public void setUp()
@@ -66,13 +68,13 @@ public class AbstractPropertyViewAttributeTest
 	@Theory
 	public void whenBindingWithLegalAttributeValues_thenBindCorrectly(LegalPropertyViewAttributeValues attributeValues)
 	{
-		DummyPropertyViewAttribute propertyViewAttribute = new DummyPropertyViewAttribute();
+		DummyPropertyViewAttribute propertyViewAttribute = new DummyPropertyViewAttribute(attributeValues.value);
 		
 		ValueModel<Object> valueModel = mock(ValueModel.class);
 		when(presentationModelAdapter.getReadOnlyPropertyValueModel(attributeValues.expectedPropertyName)).thenReturn(valueModel);
 		when(presentationModelAdapter.getPropertyValueModel(attributeValues.expectedPropertyName)).thenReturn(valueModel);
 		
-		propertyViewAttribute.bind(presentationModelAdapter, attributeValues.value);
+		propertyViewAttribute.bind(presentationModelAdapter, context);
 				
 		assertThat(propertyViewAttribute.valueModelBound, equalTo(valueModel));
 		assertThat(propertyViewAttribute.bindingType, equalTo(attributeValues.expectedBindingType));
@@ -82,8 +84,8 @@ public class AbstractPropertyViewAttributeTest
 	@Test (expected=RuntimeException.class)
 	public void whenBindingWithIllegalAttributeValues_ThenThrowARuntimeException(String illegalAttributeValue)
 	{
-		AbstractPropertyViewAttribute<?> propertyViewAttribute = new DummyPropertyViewAttribute();
-		propertyViewAttribute.bind(presentationModelAdapter, illegalAttributeValue);
+		AbstractPropertyViewAttribute<?> propertyViewAttribute = new DummyPropertyViewAttribute(illegalAttributeValue);
+		propertyViewAttribute.bind(presentationModelAdapter, context);
 	}
 	
 	static class LegalPropertyViewAttributeValues
@@ -102,6 +104,11 @@ public class AbstractPropertyViewAttributeTest
 	@SuppressWarnings("rawtypes")
 	private static class DummyPropertyViewAttribute extends AbstractPropertyViewAttribute
 	{
+		public DummyPropertyViewAttribute(String attributeValue)
+		{
+			super(attributeValue);
+		}
+
 		private BindingType bindingType = BindingType.NO_BINDING;
 		private ValueModel valueModelBound;
 		

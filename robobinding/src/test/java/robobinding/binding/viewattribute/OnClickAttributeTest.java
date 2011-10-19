@@ -17,15 +17,16 @@ package robobinding.binding.viewattribute;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.beans.PresentationModelAdapterImpl;
-import robobinding.binding.viewattribute.OnClickAttribute;
+import android.app.Activity;
+import android.content.Context;
+import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
-
-import android.view.View;
 
 /**
  * @since 1.0
@@ -38,7 +39,9 @@ public class OnClickAttributeTest
 {
 	private MockPresentationModel mockPresentationModel;
 	private View view;
-
+	private Context context = new Activity();
+	
+	@Before
 	public void setUp()
 	{
 		mockPresentationModel = new MockPresentationModel();
@@ -49,8 +52,8 @@ public class OnClickAttributeTest
 	public void whenClickingOnTheView_ShouldInvokeCommandOnThePresentationModel()
 	{
 		String commandName = "someCommand";
-		OnClickAttribute onClickAttribute = new OnClickAttribute(view);
-		onClickAttribute.bind(new PresentationModelAdapterImpl(mockPresentationModel), commandName);
+		OnClickAttribute onClickAttribute = new OnClickAttribute(view, commandName);
+		onClickAttribute.bind(new PresentationModelAdapterImpl(mockPresentationModel), context);
 		
 		view.performClick();
 	

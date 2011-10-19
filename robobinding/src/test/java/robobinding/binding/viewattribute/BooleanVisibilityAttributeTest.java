@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.beans.PresentationModelAdapter;
+import robobinding.binding.viewattribute.VisibilityAttribute.BooleanVisibilityAttribute;
 import robobinding.value.ValueHolders;
 import robobinding.value.ValueModel;
 import android.view.View;
@@ -58,7 +59,7 @@ public class BooleanVisibilityAttributeTest
 	public void whenBinding_ThenViewShouldReflectModel()
 	{
 		mockPresentationModelFor1WayBinding();
-		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute();
+		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute("{" + PROPERTY_NAME + "}");
 		
 		visibilityAttribute.performOneWayBinding();
 				
@@ -69,7 +70,7 @@ public class BooleanVisibilityAttributeTest
 	public void givenBound_WhenBooleanPropertyIsSetToFalse_ThenViewShouldBeGone()
 	{
 		mockPresentationModelFor1WayBinding();
-		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute();
+		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute("{" + PROPERTY_NAME + "}");
 		visibilityAttribute.performOneWayBinding();
 		
 		valueModel.setValue(true);
@@ -82,7 +83,7 @@ public class BooleanVisibilityAttributeTest
 	public void givenBound_WhenBooleanPropertyIsSetToTrue_ThenViewShouldBeVisible()
 	{
 		mockPresentationModelFor1WayBinding();
-		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute();
+		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute("{" + PROPERTY_NAME + "}");
 		visibilityAttribute.performOneWayBinding();
 		
 		valueModel.setValue(false);
@@ -95,7 +96,7 @@ public class BooleanVisibilityAttributeTest
 	public void whenAttempting2WayBinding_ThenThrowARuntimeException()
 	{
 		mockPresentationModelFor2WayBinding();
-		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute();
+		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute("${" + PROPERTY_NAME + "}");
 		visibilityAttribute.performTwoWayBinding();
 	}
 	
@@ -111,12 +112,12 @@ public class BooleanVisibilityAttributeTest
 		when(presentationModelAdapter.<Boolean>getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
 	}
 	
-	private BooleanVisibilityAttribute newBooleanVisibilityAttribute()
+	private BooleanVisibilityAttribute newBooleanVisibilityAttribute(String bindingAttributeValue)
 	{
-		BooleanVisibilityAttribute visibilityAttribute = new BooleanVisibilityAttribute(view);
-		visibilityAttribute.setPresentationModelAdapter(presentationModelAdapter);
-		visibilityAttribute.setPropertyName(PROPERTY_NAME);
-		return visibilityAttribute;
+		VisibilityAttribute visibilityAttribute = new VisibilityAttribute(view, bindingAttributeValue);
+		BooleanVisibilityAttribute booleanVisibilityAttribute = visibilityAttribute.new BooleanVisibilityAttribute();
+		booleanVisibilityAttribute.setPresentationModelAdapter(presentationModelAdapter);
+		return booleanVisibilityAttribute;
 	}
 	
 }

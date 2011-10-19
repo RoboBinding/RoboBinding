@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.beans.PresentationModelAdapter;
+import robobinding.binding.viewattribute.TextAttribute.StringTextAttribute;
 import robobinding.value.ValueHolders;
 import robobinding.value.ValueModel;
 import android.widget.TextView;
@@ -106,14 +107,14 @@ public class StringTextAttributeTest
 	private void stringTextAttributeWith1WayBinding()
 	{
 		mockPresentationModelFor1WayBinding();
-		StringTextAttribute textAttribute = newStringTextAttribute();
+		StringTextAttribute textAttribute = newStringTextAttribute("{" + PROPERTY_NAME + "}");
 		textAttribute.performOneWayBinding();
 	}
 
 	private void stringTextAttributeWith2WayBinding()
 	{
 		mockPresentationModelFor2WayBinding();
-		StringTextAttribute textAttribute = newStringTextAttribute();
+		StringTextAttribute textAttribute = newStringTextAttribute("${" + PROPERTY_NAME + "}");
 		textAttribute.performTwoWayBinding();
 	}
 	
@@ -129,11 +130,11 @@ public class StringTextAttributeTest
 		when(presentationModelAdapter.<String>getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
 	}
 	
-	private StringTextAttribute newStringTextAttribute()
+	private StringTextAttribute newStringTextAttribute(String bindingProperty)
 	{
-		StringTextAttribute textAttribute = new StringTextAttribute(textView);
-		textAttribute.setPresentationModelAdapter(presentationModelAdapter);
-		textAttribute.setPropertyName(PROPERTY_NAME);
-		return textAttribute;
+		TextAttribute textAttribute = new TextAttribute(textView, bindingProperty);
+		StringTextAttribute stringTextAttribute = textAttribute.new StringTextAttribute();
+		stringTextAttribute.setPresentationModelAdapter(presentationModelAdapter);
+		return stringTextAttribute;
 	}
 }

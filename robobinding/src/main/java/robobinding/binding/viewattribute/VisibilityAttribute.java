@@ -48,17 +48,17 @@ public class VisibilityAttribute implements PropertyViewAttribute
 	
 		if (propertyType.isAssignableFrom(Integer.class))
 		{
-			new IntegerVisibilityAttribute(attributeValue).bind(presentationModelAdapter, context);
+			new IntegerVisibilityAttribute().bind(presentationModelAdapter, context);
 		}
 		else if (propertyType.isAssignableFrom(Boolean.class))
 		{
-			new BooleanVisibilityAttribute(attributeValue).bind(presentationModelAdapter, context);
+			new BooleanVisibilityAttribute().bind(presentationModelAdapter, context);
 		}
 	}
 
 	class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Boolean>
 	{
-		public BooleanVisibilityAttribute(String attributeValue)
+		public BooleanVisibilityAttribute()
 		{
 			super(attributeValue);
 		}
@@ -81,12 +81,11 @@ public class VisibilityAttribute implements PropertyViewAttribute
 				}
 			});
 		}
-
 	}
 	
 	class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer>
 	{
-		public IntegerVisibilityAttribute(String attributeValue)
+		public IntegerVisibilityAttribute()
 		{
 			super(attributeValue);
 		}

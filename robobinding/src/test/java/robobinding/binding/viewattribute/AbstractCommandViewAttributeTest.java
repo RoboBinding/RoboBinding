@@ -29,7 +29,8 @@ import org.junit.runner.RunWith;
 
 import robobinding.beans.Command;
 import robobinding.beans.PresentationModelAdapter;
-import robobinding.binding.viewattribute.AbstractCommandViewAttribute;
+import android.app.Activity;
+import android.content.Context;
 
 /**
  * @since 1.0
@@ -76,6 +77,7 @@ public class AbstractCommandViewAttributeTest
 	
 	private DummyCommandViewAttribute commandViewAttribute;
 	private PresentationModelAdapter presentationModelAdapter;
+	private Context context = new Activity();
 	
 	@Before
 	public void setUp()
@@ -87,9 +89,9 @@ public class AbstractCommandViewAttributeTest
 	@Theory
 	public void shouldGetCorrectCommandFromPresentationModel(RequestedToExpectedCommandMapping mapping)
 	{
-		newCommandViewAttributeWith(mapping.preferredParameterTypes);
+		newCommandViewAttributeWith(mapping.attributeValue, mapping.preferredParameterTypes);
 		
-		commandViewAttribute.bind(presentationModelAdapter, mapping.attributeValue);
+		commandViewAttribute.bind(presentationModelAdapter, context);
 		
 		assertThat(commandViewAttribute.commandMethodName(), equalTo(mapping.expectedCommandName));
 		assertThat(commandViewAttribute.commandParameterTypes(), equalTo(mapping.expectedCommandParameterTypes));
@@ -99,8 +101,8 @@ public class AbstractCommandViewAttributeTest
 	@Test (expected=RuntimeException.class)
 	public void whenBindingToAnInvalidCommandName_ShouldThrowARuntimeException(InvalidRequestedCommand requestedCommand)
 	{
-		newCommandViewAttributeWith(requestedCommand.preferredParameterTypes);
-		commandViewAttribute.bind(presentationModelAdapter, requestedCommand.attributeValue);
+		newCommandViewAttributeWith(requestedCommand.attributeValue, requestedCommand.preferredParameterTypes);
+		commandViewAttribute.bind(presentationModelAdapter, context);
 	}
 	
 	private static class DummyCommandViewAttribute extends AbstractCommandViewAttribute
@@ -108,8 +110,9 @@ public class AbstractCommandViewAttributeTest
 		private Command command;
 		private final Class<?>[] preferredCommandParameterTypes;
 		
-		public DummyCommandViewAttribute(Class<?>[] preferredCommandParameterTypes)
+		public DummyCommandViewAttribute(String attributeValue, Class<?>[] preferredCommandParameterTypes)
 		{
+			super(attributeValue);
 			this.preferredCommandParameterTypes = preferredCommandParameterTypes;
 		}
 
@@ -208,8 +211,8 @@ public class AbstractCommandViewAttributeTest
 		return new InvalidRequestedCommand(attributeValue, preferredParameterTypes);
 	}
 	
-	private void newCommandViewAttributeWith(Class<?>[] preferredCommandParameterTypes)
+	private void newCommandViewAttributeWith(String attributeValue, Class<?>[] preferredCommandParameterTypes)
 	{
-		commandViewAttribute = new DummyCommandViewAttribute(preferredCommandParameterTypes);
+		commandViewAttribute = new DummyCommandViewAttribute(attributeValue, preferredCommandParameterTypes);
 	}
 }

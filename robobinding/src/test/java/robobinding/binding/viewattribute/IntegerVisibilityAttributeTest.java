@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.beans.PresentationModelAdapter;
+import robobinding.binding.viewattribute.VisibilityAttribute.IntegerVisibilityAttribute;
 import robobinding.value.ValueHolders;
 import robobinding.value.ValueModel;
 import android.view.View;
@@ -58,8 +59,8 @@ public class IntegerVisibilityAttributeTest
 	public void whenBinding_ThenViewShouldReflectModel()
 	{
 		mockPresentationModelFor1WayBinding();
-		IntegerVisibilityAttribute visibilityAttribute = newIntegerVisibilityAttribute();
-		
+		IntegerVisibilityAttribute visibilityAttribute = newIntegerVisibilityAttribute("{" + PROPERTY_NAME + "}");
+
 		visibilityAttribute.performOneWayBinding();
 				
 		assertThat(view.getVisibility(), equalTo(View.INVISIBLE));
@@ -69,7 +70,8 @@ public class IntegerVisibilityAttributeTest
 	public void givenBound_WhenIntegerPropertyIsSetToViewGone_ThenViewShouldBeGone()
 	{
 		mockPresentationModelFor1WayBinding();
-		IntegerVisibilityAttribute visibilityAttribute = newIntegerVisibilityAttribute();
+		IntegerVisibilityAttribute visibilityAttribute = newIntegerVisibilityAttribute("{" + PROPERTY_NAME + "}");
+		
 		visibilityAttribute.performOneWayBinding();
 		
 		valueModel.setValue(View.GONE);
@@ -81,7 +83,7 @@ public class IntegerVisibilityAttributeTest
 	public void givenBound_WhenIntegerPropertyIsSetToViewInvisible_ThenViewShouldBeInvisible()
 	{
 		mockPresentationModelFor1WayBinding();
-		IntegerVisibilityAttribute visibilityAttribute = newIntegerVisibilityAttribute();
+		IntegerVisibilityAttribute visibilityAttribute = newIntegerVisibilityAttribute("{" + PROPERTY_NAME + "}");
 		visibilityAttribute.performOneWayBinding();
 		
 		valueModel.setValue(View.VISIBLE);
@@ -94,7 +96,7 @@ public class IntegerVisibilityAttributeTest
 	public void givenBound_WhenIntegerPropertyIsSetToViewVisible_ThenViewShouldBeVisible()
 	{
 		mockPresentationModelFor1WayBinding();
-		IntegerVisibilityAttribute visibilityAttribute = newIntegerVisibilityAttribute();
+		IntegerVisibilityAttribute visibilityAttribute = newIntegerVisibilityAttribute("{" + PROPERTY_NAME + "}");
 		visibilityAttribute.performOneWayBinding();
 		
 		valueModel.setValue(View.VISIBLE);
@@ -106,7 +108,7 @@ public class IntegerVisibilityAttributeTest
 	public void whenAttempting2WayBinding_ThenThrowARuntimeException()
 	{
 		mockPresentationModelFor2WayBinding();
-		IntegerVisibilityAttribute visibilityAttribute = newIntegerVisibilityAttribute();
+		IntegerVisibilityAttribute visibilityAttribute = newIntegerVisibilityAttribute("${" + PROPERTY_NAME + "}");
 		visibilityAttribute.performTwoWayBinding();
 	}
 	
@@ -122,12 +124,12 @@ public class IntegerVisibilityAttributeTest
 		when(presentationModelAdapter.<Integer>getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
 	}
 	
-	private IntegerVisibilityAttribute newIntegerVisibilityAttribute()
+	private IntegerVisibilityAttribute newIntegerVisibilityAttribute(String bindingAttributeValue)
 	{
-		IntegerVisibilityAttribute visibilityAttribute = new IntegerVisibilityAttribute(view);
-		visibilityAttribute.setPresentationModelAdapter(presentationModelAdapter);
-		visibilityAttribute.setPropertyName(PROPERTY_NAME);
-		return visibilityAttribute;
+		VisibilityAttribute visibilityAttribute = new VisibilityAttribute(view, bindingAttributeValue);
+		IntegerVisibilityAttribute integerVisibilityAttribute = visibilityAttribute.new IntegerVisibilityAttribute();
+		integerVisibilityAttribute.setPresentationModelAdapter(presentationModelAdapter);
+		return integerVisibilityAttribute;
 	}
 	
 }
