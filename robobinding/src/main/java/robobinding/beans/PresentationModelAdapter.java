@@ -15,6 +15,7 @@
  */
 package robobinding.beans;
 
+import robobinding.presentationmodel.AbstractDataSetValueModel;
 import robobinding.value.ValueModel;
 
 /**
@@ -33,5 +34,9 @@ public interface PresentationModelAdapter
 	Object getPresentationModel();
 
 	Class<?> getPropertyType(String propertyName);
+
+	AbstractDataSetValueModel getDataSetPropertyValueModel(String propertyName);
+
+	Command findCommand(String commandName, Class<?>... preferredCommandParameterTypes);
 
 }

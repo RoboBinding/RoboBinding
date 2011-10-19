@@ -16,7 +16,6 @@
  */
 package robobinding.sample.presentationmodel;
 
-import robobinding.beans.CustomPropertyDescriptor;
 import robobinding.presentationmodel.AbstractPresentationModel;
 import robobinding.presentationmodel.CustomPropertyProvider;
 import robobinding.presentationmodel.DependentPropertyValueModelProvider;
@@ -123,19 +122,20 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel 
 	}
 
 	@Override
-	public CustomPropertyDescriptor<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider propertyValueModelAccessor)
+	@ReadOnlyCustomProperties("windowTitle")
+	public ValueModel<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider dependentPropertyValueModelProvider)
 	{
 		if ("windowTitle".equals(propertyName))
 		{
 			if(albumBuilder.isNew())
 			{
 				ValueModel<String> valueModel = ValueHolders.create(context.getString(R.string.create_album));
-				return CustomPropertyDescriptor.createReadOnlyPropertyDescriptor(valueModel);
+				return valueModel;
 			}
 				
-			ValueModel<Boolean> dependentValueModel = propertyValueModelAccessor.getDependentPropertyValueModel("classical");
+			ValueModel<Boolean> dependentValueModel = dependentPropertyValueModelProvider.getValueModel("classical");
 			ValueModel<String> valueModel = Converters.createBooleanToStringConverter(dependentValueModel, "Edit Classical Album", "Edit Album");
-			return CustomPropertyDescriptor.createReadOnlyPropertyDescriptor(valueModel);
+			return valueModel;
 		}
 		return null;
 	}

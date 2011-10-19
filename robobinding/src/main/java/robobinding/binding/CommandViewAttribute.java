@@ -15,7 +15,6 @@
  */
 package robobinding.binding;
 
-import robobinding.beans.PresentationModelAdapter;
 
 /**
  * @since 1.0
@@ -23,9 +22,7 @@ import robobinding.beans.PresentationModelAdapter;
  * @author Robert Taylor
  *
  */
-public interface CommandViewAttribute
+public interface CommandViewAttribute extends ViewAttribute
 {
 	Class<?>[] getPreferredCommandParameterTypes();
-
-	void bind(PresentationModelAdapter presentationModelAdapter);
 }

@@ -16,7 +16,7 @@
  */
 package robobinding.presentationmodel;
 
-import robobinding.beans.CustomPropertyDescriptor;
+import robobinding.value.ValueModel;
 
 /**
  * @since 1.0
@@ -26,5 +26,5 @@ import robobinding.beans.CustomPropertyDescriptor;
  */
 public interface CustomPropertyProvider
 {
-	CustomPropertyDescriptor<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider propertyValueModelAccessor);
+	ValueModel<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider dependentPropertyValueModelProvider);
 }

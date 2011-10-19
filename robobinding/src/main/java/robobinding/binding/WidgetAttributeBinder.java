@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import robobinding.beans.PresentationModelAdapter;
+import robobinding.binding.widgetattribute.provider.WidgetAttributeProvider;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -72,7 +73,10 @@ class WidgetAttributeBinder<T extends View>
 	private void removeProcessedAttributes(List<BindingAttribute> newBindingAttributes, Map<String, String> pendingBindingAttributes)
 	{
 		for (BindingAttribute bindingAttribute : newBindingAttributes)
-			pendingBindingAttributes.remove(bindingAttribute.getAttributeName());
+		{
+			for (String attributeName : bindingAttribute.getAttributeNames())
+				pendingBindingAttributes.remove(attributeName);
+		}
 	}
 
 	private Map<String, String> loadBindingAttributeMap(AttributeSet attributeSet)

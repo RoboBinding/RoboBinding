@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.beans.PresentationModelAdapterImpl;
+import robobinding.binding.widgetattribute.OnItemClickAttribute;
 import robobinding.presentationmodel.ItemClickEvent;
 import android.R;
 import android.app.Activity;

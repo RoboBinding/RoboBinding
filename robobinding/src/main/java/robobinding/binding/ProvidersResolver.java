@@ -18,6 +18,10 @@ package robobinding.binding;
 import java.util.Map;
 import java.util.Queue;
 
+import robobinding.binding.widgetattribute.provider.TextViewAttributeProvider;
+import robobinding.binding.widgetattribute.provider.ViewAttributeProvider;
+import robobinding.binding.widgetattribute.provider.WidgetAttributeProvider;
+
 import android.view.View;
 import android.widget.TextView;
 

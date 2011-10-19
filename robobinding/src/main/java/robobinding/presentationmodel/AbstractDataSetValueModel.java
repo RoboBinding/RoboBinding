@@ -50,7 +50,7 @@ public abstract class AbstractDataSetValueModel<DataSetType, ItemType> implement
 	public void updateItemPresentationModel(ItemPresentationModel<ItemType> itemPresentationModel, int position)
 	{
 		ItemType item = getItem(position);
-		itemPresentationModel.setData(item);
+		itemPresentationModel.setData(position, item);
 	}
 	protected final static class DefaultItemPresentationModelFactory<ItemType> implements ItemPresentationModelFactory<ItemType>
 	{

@@ -26,5 +26,5 @@ import robobinding.value.ValueModel;
  */
 public interface DependentPropertyValueModelProvider
 {
-	<T> ValueModel<T> getDependentPropertyValueModel(String dependentPropertyName);
+	<T> ValueModel<T> getValueModel(String dependentPropertyName);
 }

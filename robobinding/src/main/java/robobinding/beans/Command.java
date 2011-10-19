@@ -31,9 +31,6 @@ public class Command
 
 	public Command(Object presentationModel, Method method)
 	{
-		if (method == null)
-			throw new RuntimeException();
-
 		this.presentationModel = presentationModel;
 		this.method = method;
 	}

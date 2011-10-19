@@ -39,7 +39,7 @@ public class AlbumItemPresentationModel implements ItemPresentationModel<Album>
 	}
 	
 	@Override
-	public void setData(Album bean)
+	public void setData(int index, Album bean)
 	{
 		this.album = bean;
 	}

@@ -49,7 +49,7 @@ public class Binder
 		
 		for (WidgetAttributeBinder<?> viewAttributeBinder : inflationResult.getViewAttributeBinders())
 		{
-			viewAttributeBinder.bind(presentationModelAdapter);
+			viewAttributeBinder.bind(presentationModelAdapter, activity);
 		}
 	}
 }

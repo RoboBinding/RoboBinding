@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.beans.PresentationModelAdapterImpl;
-import robobinding.binding.viewattribute.OnClickAttribute;
+import robobinding.binding.widgetattribute.OnClickAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 

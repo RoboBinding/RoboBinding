@@ -15,29 +15,43 @@
  */
 package robobinding.binding;
 
+import java.util.List;
+
 import robobinding.beans.PresentationModelAdapter;
+
 import android.content.Context;
+
+import com.google.common.collect.Lists;
 
 /**
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Cheng Wei
  * @author Robert Taylor
  *
  */
-abstract class BindingAttribute
+public class BindingAttribute
 {
-	final String attributeName;
-
-	public BindingAttribute(String attributeName)
+	private final List<String> attributeNames;
+	private final ViewAttribute viewAttribute;
+	
+	public BindingAttribute(List<String> attributeNames, ViewAttribute viewAttribute)
 	{
-		this.attributeName = attributeName;
+		this.attributeNames = attributeNames;
+		this.viewAttribute = viewAttribute;
 	}
-
-	public String getAttributeName()
+	
+	public BindingAttribute(String attributeName, ViewAttribute viewAttribute)
 	{
-		return attributeName;
+		this(Lists.newArrayList(attributeName), viewAttribute);
 	}
-
-	public abstract void bind(PresentationModelAdapter presentationModelAdapter, Context context);
+	
+	public List<String> getAttributeNames()
+	{
+		return attributeNames;
+	}
+	
+	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	{
+		viewAttribute.bind(presentationModelAdapter, context);
+	}
 }
