@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.widgetattribute.provider;
+package robobinding.binding.viewattribute;
 
-import java.util.List;
-import java.util.Map;
-
-import robobinding.binding.BindingAttribute;
-
+import robobinding.beans.Command;
 import android.view.View;
-
+import android.view.View.OnClickListener;
 
 /**
  * @since 1.0
@@ -29,7 +25,31 @@ import android.view.View;
  * @author Robert Taylor
  *
  */
-public interface WidgetAttributeProvider<T extends View>
+public class OnClickAttribute extends AbstractCommandViewAttribute
 {
-	List<BindingAttribute> getSupportedBindingAttributes(T view, Map<String, String> pendingBindingAttributes);
+	private final View view;
+
+	public OnClickAttribute(View view, String commandName)
+	{
+		super(commandName);
+		this.view = view;
+	}
+
+	@Override
+	protected void bind(final Command command)
+	{
+		view.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+				command.invoke();
+			}
+		});
+	}
+	
+	@Override
+	public Class<?>[] getPreferredCommandParameterTypes()
+	{
+		return null;
+	}
 }

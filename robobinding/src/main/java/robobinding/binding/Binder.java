@@ -60,7 +60,7 @@ public class Binder
 		InflationResult inflationResult = bindingLayoutInflater.inflateView(context, layoutId);
 		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 		
-		for (WidgetAttributeBinder<?> viewAttributeBinder : inflationResult.getViewAttributeBinders())
+		for (ViewAttributeBinder<?> viewAttributeBinder : inflationResult.getViewAttributeBinders())
 		{
 			viewAttributeBinder.bind(presentationModelAdapter, context);
 		}

@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 
 import robobinding.beans.Command;
 import robobinding.beans.PresentationModelAdapter;
-import robobinding.binding.widgetattribute.AbstractCommandWidgetAttribute;
+import robobinding.binding.viewattribute.AbstractCommandViewAttribute;
 
 /**
  * @since 1.0
@@ -103,7 +103,7 @@ public class AbstractCommandViewAttributeTest
 		commandViewAttribute.bind(presentationModelAdapter, requestedCommand.attributeValue);
 	}
 	
-	private static class DummyCommandViewAttribute extends AbstractCommandWidgetAttribute
+	private static class DummyCommandViewAttribute extends AbstractCommandViewAttribute
 	{
 		private Command command;
 		private final Class<?>[] preferredCommandParameterTypes;

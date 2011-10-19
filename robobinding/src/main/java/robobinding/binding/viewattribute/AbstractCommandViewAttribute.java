@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.widgetattribute;
+package robobinding.binding.viewattribute;
 
 import robobinding.beans.Command;
 import robobinding.beans.PresentationModelAdapter;
@@ -26,11 +26,11 @@ import android.content.Context;
  * @author Robert Taylor
  *
  */
-public abstract class AbstractCommandWidgetAttribute implements CommandViewAttribute
+public abstract class AbstractCommandViewAttribute implements CommandViewAttribute
 {
 	private String commandName;
 	
-	public AbstractCommandWidgetAttribute(String commandName)
+	public AbstractCommandViewAttribute(String commandName)
 	{
 		this.commandName = commandName;
 	}

@@ -45,7 +45,7 @@ public class MockAttributeSet
 		{
 			String attributeName = "binding_attribute_" + i;
 			when(attributeSet.getAttributeName(i)).thenReturn(attributeName);
-			when(attributeSet.getAttributeValue(WidgetAttributeBinder.ROBOBINDING_NAMESPACE, attributeName)).thenReturn("binding_value_" + i);
+			when(attributeSet.getAttributeValue(ViewAttributeBinder.ROBOBINDING_NAMESPACE, attributeName)).thenReturn("binding_value_" + i);
 		}
 		
 		for (int i = numBindingAttributes; i < attributeCount; i++)

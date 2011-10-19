@@ -91,10 +91,10 @@ public class BindingInflaterTest
 			BindingFactory getBindingFactory(LayoutInflater layoutInflater)
 			{
 				BindingFactory bindingFactory = mock(BindingFactory.class);
-				List<WidgetAttributeBinder> viewsAttributeBinders = Lists.newArrayList();
+				List<ViewAttributeBinder> viewsAttributeBinders = Lists.newArrayList();
 				
 				for (int i = 0; i < boundChildViews; i++)
-					viewsAttributeBinders.add(new WidgetAttributeBinder(new View(context), MockAttributeSet.withNoBindingAttributes()));
+					viewsAttributeBinders.add(new ViewAttributeBinder(new View(context), MockAttributeSet.withNoBindingAttributes()));
 					
 				when(bindingFactory.getViewAttributeBinders()).thenReturn(viewsAttributeBinders);
 				

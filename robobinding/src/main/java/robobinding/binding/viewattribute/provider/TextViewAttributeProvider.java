@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding;
+package robobinding.binding.viewattribute.provider;
 
-import robobinding.beans.PresentationModelAdapter;
-import android.content.Context;
+import robobinding.binding.BindingAttribute;
+import robobinding.binding.viewattribute.TextAttribute;
+import android.widget.TextView;
 
 /**
  * @since 1.0
@@ -24,7 +25,17 @@ import android.content.Context;
  * @author Robert Taylor
  *
  */
-public interface WidgetAttribute
+public class TextViewAttributeProvider extends AbstractBindingAttributeProvider<TextView>
 {
-	void bind(PresentationModelAdapter presentationModelAdapter, Context context);
+	@Override
+	protected BindingAttribute getSupportedBindingAttribute(TextView textView, String attributeName, String attributeValue)
+	{
+		if ("text".equals(attributeName))
+		{
+			return new BindingAttribute(attributeName, new TextAttribute(textView, attributeValue));
+		}
+		
+		return null;
+	}
+
 }

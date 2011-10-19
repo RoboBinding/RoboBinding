@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.widgetattribute;
+package robobinding.binding.viewattribute;
 
 import robobinding.beans.Command;
+import robobinding.presentationmodel.ItemClickEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * @since 1.0
@@ -25,31 +27,33 @@ import android.view.View.OnClickListener;
  * @author Robert Taylor
  *
  */
-public class OnClickAttribute extends AbstractCommandWidgetAttribute
+public class OnItemClickAttribute extends AbstractCommandViewAttribute
 {
-	private final View view;
+	private final AdapterView<?> adapterView;
 
-	public OnClickAttribute(View view, String commandName)
+	public OnItemClickAttribute(AdapterView<?> adapterView, String commandName)
 	{
 		super(commandName);
-		this.view = view;
+		this.adapterView = adapterView;
 	}
 
 	@Override
 	protected void bind(final Command command)
 	{
-		view.setOnClickListener(new OnClickListener() {
+		adapterView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onClick(View v)
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
-				command.invoke();
+				ItemClickEvent itemClickEvent = new ItemClickEvent(parent, view, position, id);
+				command.invoke(itemClickEvent);
 			}
 		});
 	}
-	
+
 	@Override
 	public Class<?>[] getPreferredCommandParameterTypes()
 	{
-		return null;
+		return new Class<?>[]{ItemClickEvent.class};
 	}
+
 }

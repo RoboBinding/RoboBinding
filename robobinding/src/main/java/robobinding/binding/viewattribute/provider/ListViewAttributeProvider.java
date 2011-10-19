@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.widgetattribute.provider;
+package robobinding.binding.viewattribute.provider;
 
 import java.util.List;
 import java.util.Map;
 
 import robobinding.binding.BindingAttribute;
-import robobinding.binding.widgetattribute.AdaptedDataSetAttributes;
+import robobinding.binding.viewattribute.AdaptedDataSetAttributes;
 import android.text.TextUtils;
 import android.widget.ListView;
 
@@ -31,7 +31,7 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  *
  */
-public class ListViewAttributeProvider implements WidgetAttributeProvider<ListView>
+public class ListViewAttributeProvider implements BindingAttributeProvider<ListView>
 {
 	@Override
 	public List<BindingAttribute> getSupportedBindingAttributes(ListView listView, Map<String, String> pendingBindingAttributes)

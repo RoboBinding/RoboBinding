@@ -44,7 +44,7 @@ public class BindingAttributeMapTest
 	@Test
 	public void givenAnAttributeSetWithNoBindingAttributes_WhenInitializing_ThenBindingMapShouldBeEmpty()
 	{
-		WidgetAttributeBinder viewAttributeBinder = initializeViewAttributeBinder(withNoBindingAttributes());
+		ViewAttributeBinder viewAttributeBinder = initializeViewAttributeBinder(withNoBindingAttributes());
 		
 		Map<String, String> bindingMap = viewAttributeBinder.getBindingAttributes();
 		assertTrue(bindingMap.isEmpty());
@@ -56,7 +56,7 @@ public class BindingAttributeMapTest
 		int numberOfBindingAttributes = anyNumber();
 		int numberOfNonBindingAttributes = anyNumber();
 		
-		WidgetAttributeBinder viewAttributeBinder = initializeViewAttributeBinder(withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes));
+		ViewAttributeBinder viewAttributeBinder = initializeViewAttributeBinder(withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes));
 		
 		Map<String, String> bindingMap = viewAttributeBinder.getBindingAttributes();
 		assertThat(bindingMap.size(), equalTo(numberOfBindingAttributes));
@@ -69,16 +69,16 @@ public class BindingAttributeMapTest
 		int numberOfNonBindingAttributes = anyNumber();
 		AttributeSet attributeSetWithAttributes = withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes);
 		
-		WidgetAttributeBinder viewAttributeBinder = initializeViewAttributeBinder(attributeSetWithAttributes);
+		ViewAttributeBinder viewAttributeBinder = initializeViewAttributeBinder(attributeSetWithAttributes);
 		
 		Map<String, String> bindingMap = viewAttributeBinder.getBindingAttributes();
 		for (String attribute : bindingMap.keySet())
-			assertThat(bindingMap.get(attribute), equalTo(attributeSetWithAttributes.getAttributeValue(WidgetAttributeBinder.ROBOBINDING_NAMESPACE, attribute)));
+			assertThat(bindingMap.get(attribute), equalTo(attributeSetWithAttributes.getAttributeValue(ViewAttributeBinder.ROBOBINDING_NAMESPACE, attribute)));
 	}
 	
-	private WidgetAttributeBinder initializeViewAttributeBinder(AttributeSet attrs)
+	private ViewAttributeBinder initializeViewAttributeBinder(AttributeSet attrs)
 	{
-		return new WidgetAttributeBinder(new View(null), attrs);
+		return new ViewAttributeBinder(new View(null), attrs);
 	}
 	
 	private int anyNumber()

@@ -32,15 +32,15 @@ import com.google.common.collect.Lists;
 public class BindingAttribute
 {
 	private final List<String> attributeNames;
-	private final WidgetAttribute viewAttribute;
+	private final ViewAttribute viewAttribute;
 	
-	public BindingAttribute(List<String> attributeNames, WidgetAttribute viewAttribute)
+	public BindingAttribute(List<String> attributeNames, ViewAttribute viewAttribute)
 	{
 		this.attributeNames = attributeNames;
 		this.viewAttribute = viewAttribute;
 	}
 	
-	public BindingAttribute(String attributeName, WidgetAttribute viewAttribute)
+	public BindingAttribute(String attributeName, ViewAttribute viewAttribute)
 	{
 		this(Lists.newArrayList(attributeName), viewAttribute);
 	}

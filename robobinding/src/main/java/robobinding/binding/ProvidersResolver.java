@@ -18,11 +18,12 @@ package robobinding.binding;
 import java.util.Map;
 import java.util.Queue;
 
-import robobinding.binding.widgetattribute.provider.TextViewAttributeProvider;
-import robobinding.binding.widgetattribute.provider.ViewAttributeProvider;
-import robobinding.binding.widgetattribute.provider.WidgetAttributeProvider;
-
+import robobinding.binding.viewattribute.provider.BindingAttributeProvider;
+import robobinding.binding.viewattribute.provider.ListViewAttributeProvider;
+import robobinding.binding.viewattribute.provider.TextViewAttributeProvider;
+import robobinding.binding.viewattribute.provider.ViewAttributeProvider;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.common.collect.Lists;
@@ -37,44 +38,45 @@ import com.google.common.collect.Maps;
  */
 public class ProvidersResolver
 {
-	private Queue<WidgetAttributeProvider<? extends View>> candidateProviders;
-	private Map<Class<?>, WidgetAttributeProvider<? extends View>> widgetAttributeProviderMap;
+	private Queue<BindingAttributeProvider<? extends View>> candidateProviders;
+	private Map<Class<?>, BindingAttributeProvider<? extends View>> viewAttributeProviderMap;
 
 	public ProvidersResolver()
 	{
-		widgetAttributeProviderMap = Maps.newHashMap();
-		widgetAttributeProviderMap.put(View.class, new ViewAttributeProvider());
-		widgetAttributeProviderMap.put(TextView.class, new TextViewAttributeProvider());
+		viewAttributeProviderMap = Maps.newHashMap();
+		viewAttributeProviderMap.put(View.class, new ViewAttributeProvider());
+		viewAttributeProviderMap.put(TextView.class, new TextViewAttributeProvider());
+		viewAttributeProviderMap.put(ListView.class, new ListViewAttributeProvider());
 	}
 	
-	public Queue<WidgetAttributeProvider<? extends View>> getCandidateProviders(View view)
+	public Queue<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)
 	{
 		candidateProviders = Lists.newLinkedList();
 		
-		if (view instanceof WidgetAttributeProvider)
+		if (view instanceof BindingAttributeProvider)
 		{
 			@SuppressWarnings("unchecked")
-			WidgetAttributeProvider<? extends View> customWidgetAttributeProvider = (WidgetAttributeProvider<? extends View>)view;
-			candidateProviders.add(customWidgetAttributeProvider);
+			BindingAttributeProvider<? extends View> customViewAttributeProvider = (BindingAttributeProvider<? extends View>)view;
+			candidateProviders.add(customViewAttributeProvider);
 		}
 				
-		processWidgetHierarchy(view.getClass());
+		processViewHierarchy(view.getClass());
 		return candidateProviders;
 	}
 
-	private void processWidgetHierarchy(Class<?> clazz)
+	private void processViewHierarchy(Class<?> clazz)
 	{
-		WidgetAttributeProvider<? extends View> widgetAttributeProvider = lookupProviderForWidgetType(clazz);
+		BindingAttributeProvider<? extends View> viewAttributeProvider = lookupProviderForViewType(clazz);
 		
-		if (widgetAttributeProvider != null)
-			candidateProviders.add(widgetAttributeProvider);
+		if (viewAttributeProvider != null)
+			candidateProviders.add(viewAttributeProvider);
 		
 		if (clazz != View.class)
-			processWidgetHierarchy(clazz.getSuperclass());
+			processViewHierarchy(clazz.getSuperclass());
 	}
 
-	private WidgetAttributeProvider<? extends View> lookupProviderForWidgetType(Class<?> clazz)
+	private BindingAttributeProvider<? extends View> lookupProviderForViewType(Class<?> clazz)
 	{
-		return widgetAttributeProviderMap .get(clazz);
+		return viewAttributeProviderMap .get(clazz);
 	}
 }

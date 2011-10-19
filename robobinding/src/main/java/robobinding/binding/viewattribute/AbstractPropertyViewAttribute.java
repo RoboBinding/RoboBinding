@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.widgetattribute;
+package robobinding.binding.viewattribute;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,7 +29,7 @@ import android.content.Context;
  * @author Robert Taylor
  *
  */
-public abstract class AbstractPropertyWidgetAttribute<T> implements PropertyViewAttribute
+public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAttribute
 {
 	private final static Pattern BINDING_ATTRIBUTE_PATTERN = Pattern.compile("[$]{0,1}\\{[\\w]+\\}");
 	private final static Pattern PROPERTY_NAME_PATTERN = Pattern.compile("\\w+");
@@ -38,7 +38,7 @@ public abstract class AbstractPropertyWidgetAttribute<T> implements PropertyView
 	private final String attributeValue;
 	private final String propertyName;
 	
-	public AbstractPropertyWidgetAttribute(String attributeValue)
+	public AbstractPropertyViewAttribute(String attributeValue)
 	{
 		validate(attributeValue);
 		this.attributeValue = attributeValue;

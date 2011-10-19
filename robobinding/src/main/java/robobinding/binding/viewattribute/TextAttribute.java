@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.widgetattribute;
+package robobinding.binding.viewattribute;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -58,7 +58,7 @@ public class TextAttribute implements PropertyViewAttribute
 		}
 	}
 
-	class CharSequenceTextAttribute extends AbstractPropertyWidgetAttribute<CharSequence>
+	class CharSequenceTextAttribute extends AbstractPropertyViewAttribute<CharSequence>
 	{
 		public CharSequenceTextAttribute(String attributeValue)
 		{
@@ -109,7 +109,7 @@ public class TextAttribute implements PropertyViewAttribute
 
 	}
 	
-	class StringTextAttribute extends AbstractPropertyWidgetAttribute<String>
+	class StringTextAttribute extends AbstractPropertyViewAttribute<String>
 	{
 		public StringTextAttribute(String attributeValue)
 		{

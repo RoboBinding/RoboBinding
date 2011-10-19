@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.widgetattribute;
+package robobinding.binding.viewattribute;
 
 import robobinding.beans.PresentationModelAdapter;
-import robobinding.binding.WidgetAttribute;
+import robobinding.binding.ViewAttribute;
 import robobinding.presentationmodel.AbstractDataSetValueModel;
 import robobinding.presentationmodel.BoundDataSetAdapter;
 import android.content.Context;
@@ -28,7 +28,7 @@ import android.widget.ListView;
  * @author Robert Taylor
  *
  */
-public class AdaptedDataSetAttributes implements WidgetAttribute
+public class AdaptedDataSetAttributes implements ViewAttribute
 {
 	private final ListView listView;
 	private final String sourceAttributeValue;

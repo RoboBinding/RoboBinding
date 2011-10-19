@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.widgetattribute.provider;
+package robobinding.binding.viewattribute.provider;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +31,7 @@ import android.view.View;
  * @author Robert Taylor
  *
  */
-public abstract class AbstractWidgetAttributeProvider<T extends View> implements WidgetAttributeProvider<T>
+public abstract class AbstractBindingAttributeProvider<T extends View> implements BindingAttributeProvider<T>
 {
 	@Override
 	public List<BindingAttribute> getSupportedBindingAttributes(T view, Map<String, String> pendingBindingAttributes)

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.widgetattribute;
+package robobinding.binding.viewattribute;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -56,7 +56,7 @@ public class VisibilityAttribute implements PropertyViewAttribute
 		}
 	}
 
-	class BooleanVisibilityAttribute extends AbstractPropertyWidgetAttribute<Boolean>
+	class BooleanVisibilityAttribute extends AbstractPropertyViewAttribute<Boolean>
 	{
 		public BooleanVisibilityAttribute(String attributeValue)
 		{
@@ -89,7 +89,7 @@ public class VisibilityAttribute implements PropertyViewAttribute
 		}
 	}
 	
-	class IntegerVisibilityAttribute extends AbstractPropertyWidgetAttribute<Integer>
+	class IntegerVisibilityAttribute extends AbstractPropertyViewAttribute<Integer>
 	{
 		public IntegerVisibilityAttribute(String attributeValue)
 		{

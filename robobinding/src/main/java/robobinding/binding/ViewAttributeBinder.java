@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import robobinding.beans.PresentationModelAdapter;
-import robobinding.binding.widgetattribute.provider.WidgetAttributeProvider;
+import robobinding.binding.viewattribute.provider.BindingAttributeProvider;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -34,17 +34,17 @@ import com.google.common.collect.Maps;
  * @author Robert Taylor
  *
  */
-class WidgetAttributeBinder<T extends View>
+class ViewAttributeBinder<T extends View>
 {
 	static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/robobinding.android";
 
 	private T view;
 	private List<BindingAttribute> bindingAttributes;
-	private Queue<WidgetAttributeProvider<? extends View>> providers;
+	private Queue<BindingAttributeProvider<? extends View>> providers;
 
 	private ProvidersResolver providersResolver;
 	
-	WidgetAttributeBinder(T view, AttributeSet attrs)
+	ViewAttributeBinder(T view, AttributeSet attrs)
 	{
 		this.view = view;
 		initializeProviders();
@@ -57,11 +57,11 @@ class WidgetAttributeBinder<T extends View>
 		
 		bindingAttributes = Lists.newArrayList();
 		
-		for (WidgetAttributeProvider<? extends View> provider : providers)
+		for (BindingAttributeProvider<? extends View> provider : providers)
 		{
 			@SuppressWarnings("unchecked")
-			WidgetAttributeProvider<View> widgetProvider = (WidgetAttributeProvider<View>)provider;
-			List<BindingAttribute> newBindingAttributes = widgetProvider.getSupportedBindingAttributes(view, pendingBindingAttributes);
+			BindingAttributeProvider<View> viewProvider = (BindingAttributeProvider<View>)provider;
+			List<BindingAttribute> newBindingAttributes = viewProvider.getSupportedBindingAttributes(view, pendingBindingAttributes);
 			removeProcessedAttributes(newBindingAttributes, pendingBindingAttributes);
 			bindingAttributes.addAll(newBindingAttributes);
 		}

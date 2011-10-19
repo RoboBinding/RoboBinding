@@ -13,12 +13,15 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.widgetattribute.provider;
+package robobinding.binding.viewattribute.provider;
+
+import java.util.List;
+import java.util.Map;
 
 import robobinding.binding.BindingAttribute;
-import robobinding.binding.widgetattribute.OnClickAttribute;
-import robobinding.binding.widgetattribute.VisibilityAttribute;
+
 import android.view.View;
+
 
 /**
  * @since 1.0
@@ -26,20 +29,7 @@ import android.view.View;
  * @author Robert Taylor
  *
  */
-public class ViewAttributeProvider extends AbstractWidgetAttributeProvider<View>
+public interface BindingAttributeProvider<T extends View>
 {
-	@Override
-	protected BindingAttribute getSupportedBindingAttribute(View view, String attributeName, String attributeValue)
-	{
-		if ("visibility".equals(attributeName))
-		{
-			return new BindingAttribute(attributeName, new VisibilityAttribute(view, attributeValue));
-		}
-		else if ("onClick".equals(attributeName))
-		{
-			return new BindingAttribute(attributeName, new OnClickAttribute(view, attributeValue));
-		}
-		
-		return null;
-	}
+	List<BindingAttribute> getSupportedBindingAttributes(T view, Map<String, String> pendingBindingAttributes);
 }
