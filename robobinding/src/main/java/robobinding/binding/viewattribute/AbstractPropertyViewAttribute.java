@@ -31,7 +31,7 @@ import android.content.Context;
  */
 public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAttribute
 {
-	private final static Pattern BINDING_ATTRIBUTE_PATTERN = Pattern.compile("[$]{0,1}\\{[\\w]+\\}");
+	private final static Pattern BINDING_ATTRIBUTE_PATTERN = Pattern.compile("[$]?\\{[\\w]+\\}");
 	private final static Pattern PROPERTY_NAME_PATTERN = Pattern.compile("\\w+");
 	
 	private PresentationModelAdapter presentationModelAdapter;

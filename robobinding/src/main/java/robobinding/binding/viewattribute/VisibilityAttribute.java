@@ -56,7 +56,7 @@ public class VisibilityAttribute implements PropertyViewAttribute
 		}
 	}
 
-	class BooleanVisibilityAttribute extends AbstractPropertyViewAttribute<Boolean>
+	class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Boolean>
 	{
 		public BooleanVisibilityAttribute(String attributeValue)
 		{
@@ -82,14 +82,9 @@ public class VisibilityAttribute implements PropertyViewAttribute
 			});
 		}
 
-		@Override
-		protected void observeChangesOnTheView(ValueModel<Boolean> valueModel)
-		{
-			throw new RuntimeException("Visibility only supports one-way binding");
-		}
 	}
 	
-	class IntegerVisibilityAttribute extends AbstractPropertyViewAttribute<Integer>
+	class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer>
 	{
 		public IntegerVisibilityAttribute(String attributeValue)
 		{
@@ -113,12 +108,5 @@ public class VisibilityAttribute implements PropertyViewAttribute
 				}
 			});
 		}
-
-		@Override
-		protected void observeChangesOnTheView(ValueModel<Integer> valueModel)
-		{
-			throw new RuntimeException("Visibility only supports one-way binding");
-		}
-
 	}
 }

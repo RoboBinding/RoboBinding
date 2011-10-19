@@ -15,10 +15,10 @@
  */
 package robobinding.binding.viewattribute;
 
+
 import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.ViewAttribute;
-import robobinding.presentationmodel.AbstractDataSetValueModel;
-import robobinding.presentationmodel.BoundDataSetAdapter;
+import robobinding.presentationmodel.DataSetAdapter;
 import android.content.Context;
 import android.widget.ListView;
 
@@ -31,24 +31,25 @@ import android.widget.ListView;
 public class AdaptedDataSetAttributes implements ViewAttribute
 {
 	private final ListView listView;
-	private final String sourceAttributeValue;
-	private final String itemLayoutResourceName;
+	private final ItemLayoutAttribute itemLayoutAttribute;
+	private final SourceAttribute sourceAttribute;
 	
-	public AdaptedDataSetAttributes(ListView listView, String sourceAttributeValue, String itemLayoutAttributeValue)
+	public AdaptedDataSetAttributes(ListView listView, SourceAttribute sourceAttribute, ItemLayoutAttribute itemLayoutAttribute)
 	{
 		this.listView = listView;
-		this.sourceAttributeValue = sourceAttributeValue;
-		itemLayoutResourceName = itemLayoutAttributeValue.substring(1);
+		this.sourceAttribute = sourceAttribute;
+		this.itemLayoutAttribute  = itemLayoutAttribute;
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		int itemLayoutId = context.getResources().getIdentifier(itemLayoutResourceName, "layout", context.getPackageName());
-		AbstractDataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(sourceAttributeValue);
-		BoundDataSetAdapter dataSetAdapter = new BoundDataSetAdapter(dataSetValueModel, itemLayoutId, context);
+		DataSetAdapter<?> dataSetAdapter = new DataSetAdapter(context);
+		sourceAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
+		itemLayoutAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
+		
+		dataSetAdapter.observeChangesOnTheValueModel();
 		listView.setAdapter(dataSetAdapter);
 	}
-
 }

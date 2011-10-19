@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-public class BoundDataSetAdapter<ItemType> extends BaseAdapter
+public class DataSetAdapter<ItemType> extends BaseAdapter
 {
 	private AbstractDataSetValueModel<?, ItemType> dataSetValueModel;
 	private int itemLayoutId;
@@ -17,18 +17,13 @@ public class BoundDataSetAdapter<ItemType> extends BaseAdapter
 	private final Context context;
 	private Binder binder;
 
-	public BoundDataSetAdapter(AbstractDataSetValueModel<?, ItemType> dataSetValueModel, int itemLayoutId, Context context)
+	public DataSetAdapter(Context context)
 	{
-		this.dataSetValueModel = dataSetValueModel;
-		this.itemLayoutId = itemLayoutId;
 		this.context = context;
-		
-		observeChangesOnTheValueModel();
-		
 		binder = new Binder();
 	}
-	
-	private void observeChangesOnTheValueModel()
+
+	public void observeChangesOnTheValueModel()
 	{
 		dataSetValueModel.addValueChangeListener(new PropertyChangeListener() {
 			

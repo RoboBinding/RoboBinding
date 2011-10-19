@@ -20,6 +20,8 @@ import java.util.Map;
 
 import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.AdaptedDataSetAttributes;
+import robobinding.binding.viewattribute.ItemLayoutAttribute;
+import robobinding.binding.viewattribute.SourceAttribute;
 import android.text.TextUtils;
 import android.widget.ListView;
 
@@ -88,7 +90,10 @@ public class ListViewAttributeProvider implements BindingAttributeProvider<ListV
 			if (TextUtils.isEmpty(sourceAttributeValue) || TextUtils.isEmpty(itemLayoutAttributeValue))
 				throw new RuntimeException();
 
-			return new BindingAttribute(Lists.newArrayList("source", "itemLayout"), new AdaptedDataSetAttributes(listView, sourceAttributeValue, itemLayoutAttributeValue));
+			SourceAttribute sourceAttribute = new SourceAttribute(sourceAttributeValue);
+			ItemLayoutAttribute itemLayoutAttribute = new ItemLayoutAttribute(itemLayoutAttributeValue);
+			AdaptedDataSetAttributes adaptedDataSetAttributes = new AdaptedDataSetAttributes(listView, sourceAttribute, itemLayoutAttribute);
+			return new BindingAttribute(Lists.newArrayList("source", "itemLayout"), adaptedDataSetAttributes);
 		}
 		
 		
