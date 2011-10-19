@@ -27,8 +27,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.android.R;
-import robobinding.binding.BindingInflater.BindingFactoryProvider;
-import robobinding.binding.BindingInflater.InflationResult;
+import robobinding.binding.BindingLayoutInflater.BindingFactoryProvider;
+import robobinding.binding.BindingLayoutInflater.InflationResult;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -49,7 +49,7 @@ public class BindingInflaterTest
 {
 	private Context context = new Activity();
 	private LayoutInflater layoutInflater = LayoutInflater.from(context);
-	private BindingInflater binder = new BindingInflater();
+	private BindingLayoutInflater binder = new BindingLayoutInflater();
 	private int activityLayoutId = R.layout.no_bound_views_activity;
 		
 	@Test

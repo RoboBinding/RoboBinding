@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.binding.BindingInflater.InflationResult;
+import robobinding.binding.BindingLayoutInflater.InflationResult;
 import android.app.Activity;
 import android.view.View;
 
@@ -46,7 +46,7 @@ public class BinderTest
 		
 		InflationResult inflationResult = new InflationResult(rootView, null);
 		
-		BindingInflater bindingInflater = mock(BindingInflater.class);
+		BindingLayoutInflater bindingInflater = mock(BindingLayoutInflater.class);
 		when(bindingInflater.inflateView(activity, layoutId)).thenReturn(inflationResult);
 		Binder binder = new Binder(bindingInflater);
 		binder.setAndBindContentView(activity, layoutId, null);

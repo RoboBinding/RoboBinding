@@ -3,25 +3,29 @@ package robobinding.presentationmodel;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import robobinding.binding.Binder;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 
 public class BoundDataSetAdapter<ItemType> extends BaseAdapter
 {
 	private AbstractDataSetValueModel<?, ItemType> dataSetValueModel;
 	private int itemLayoutId;
 	private int dropdownLayoutId;
+	private final Context context;
+	private Binder binder;
 
-	public BoundDataSetAdapter(AbstractDataSetValueModel<?, ItemType> dataSetValueModel, int itemLayoutId)
+	public BoundDataSetAdapter(AbstractDataSetValueModel<?, ItemType> dataSetValueModel, int itemLayoutId, Context context)
 	{
 		this.dataSetValueModel = dataSetValueModel;
 		this.itemLayoutId = itemLayoutId;
+		this.context = context;
 		
 		observeChangesOnTheValueModel();
+		
+		binder = new Binder();
 	}
 	
 	private void observeChangesOnTheValueModel()
@@ -58,7 +62,7 @@ public class BoundDataSetAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public Object getItem(int position)
+	public ItemType getItem(int position)
 	{
 		return dataSetValueModel.getItem(position);
 	}
@@ -88,27 +92,29 @@ public class BoundDataSetAdapter<ItemType> extends BaseAdapter
 		if (convertView == null)
 		{
 			view = newView(position, parent, layoutId);
-		} else
+		} 
+		else
 		{
 			view = convertView;
 		}
 
-		updateRowPresentationModel(view, position);
+		updateItemPresentationModel(view, position);
 
 		return view;
 	}
 
-	private void updateRowPresentationModel(View view, int position)
+	private void updateItemPresentationModel(View view, int position)
 	{
-		ItemPresentationModel<ItemType> itemPresentationModel = binder.getItemPresentationModel(view);
+		@SuppressWarnings("unchecked")
+		ItemPresentationModel<ItemType> itemPresentationModel = (ItemPresentationModel<ItemType>)view.getTag();
 		dataSetValueModel.updateItemPresentationModel(itemPresentationModel, position);
 	}
 
 	private View newView(int position, ViewGroup parent, int layoutId)
 	{
-		ItemPresentationModel<ItemType> rowPresentationModel = null;
-		View view = binder.inflateAndBindView(layoutId, parent, false, rowPresentationModel);
+		ItemPresentationModel<ItemType> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
+		View view = binder.inflateAndBindView(context, layoutId, itemPresentationModel);
+		view.setTag(itemPresentationModel);
 		return view;
 	}
-
 }

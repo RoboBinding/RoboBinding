@@ -22,7 +22,7 @@ package robobinding.binding;
  * @author Robert Taylor
  *
  */
-public interface PropertyViewAttribute extends ViewAttribute
+public interface PropertyViewAttribute extends WidgetAttribute
 {
 
 }

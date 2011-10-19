@@ -17,8 +17,10 @@ package robobinding.binding;
 
 import robobinding.beans.PresentationModelAdapter;
 import robobinding.beans.PresentationModelAdapterImpl;
-import robobinding.binding.BindingInflater.InflationResult;
+import robobinding.binding.BindingLayoutInflater.InflationResult;
 import android.app.Activity;
+import android.content.Context;
+import android.view.View;
 
 /**
  * @since 1.0
@@ -28,28 +30,41 @@ import android.app.Activity;
  */
 public class Binder
 {
-	private final BindingInflater bindingInflater;
+	private final BindingLayoutInflater bindingLayoutInflater;
 	
 	public Binder()
 	{
-		this.bindingInflater = new BindingInflater();
+		this.bindingLayoutInflater = new BindingLayoutInflater();
 	}
 	
-	public Binder(BindingInflater bindingInflater)
+	public Binder(BindingLayoutInflater bindingLayoutInflater)
 	{
-		this.bindingInflater = bindingInflater;
+		this.bindingLayoutInflater = bindingLayoutInflater;
 	}
 
 	public void setAndBindContentView(Activity activity, int layoutId, Object presentationModel)
 	{
-		InflationResult inflationResult = bindingInflater.inflateView(activity, layoutId);
-		activity.setContentView(inflationResult.getRootView());
+		InflationResult inflationResult = inflateAndBind(activity, layoutId, presentationModel);
 		
+		activity.setContentView(inflationResult.getRootView());
+	}
+
+	public View inflateAndBindView(Context context, int layoutId, Object presentationModel)
+	{
+		InflationResult inflationResult = inflateAndBind(context, layoutId, presentationModel);
+		return inflationResult.getRootView();
+	}
+	
+	private InflationResult inflateAndBind(Context context, int layoutId, Object presentationModel)
+	{
+		InflationResult inflationResult = bindingLayoutInflater.inflateView(context, layoutId);
 		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 		
 		for (WidgetAttributeBinder<?> viewAttributeBinder : inflationResult.getViewAttributeBinders())
 		{
-			viewAttributeBinder.bind(presentationModelAdapter, activity);
+			viewAttributeBinder.bind(presentationModelAdapter, context);
 		}
+		
+		return inflationResult;
 	}
 }

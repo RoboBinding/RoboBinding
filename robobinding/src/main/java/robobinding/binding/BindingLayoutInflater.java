@@ -27,7 +27,7 @@ import android.view.View;
  * @author Robert Taylor
  *
  */
-public class BindingInflater
+public class BindingLayoutInflater
 {
 	private LayoutInflaterProvider layoutInflaterProvider = new LayoutInflaterProvider();
 	private BindingFactoryProvider bindingFactoryProvider = new BindingFactoryProvider();

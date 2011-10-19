@@ -16,7 +16,7 @@
 package robobinding.binding.widgetattribute;
 
 import robobinding.beans.PresentationModelAdapter;
-import robobinding.binding.ViewAttribute;
+import robobinding.binding.WidgetAttribute;
 import robobinding.presentationmodel.AbstractDataSetValueModel;
 import robobinding.presentationmodel.BoundDataSetAdapter;
 import android.content.Context;
@@ -28,7 +28,7 @@ import android.widget.ListView;
  * @author Robert Taylor
  *
  */
-public class AdaptedDataSetAttributes implements ViewAttribute
+public class AdaptedDataSetAttributes implements WidgetAttribute
 {
 	private final ListView listView;
 	private final String sourceAttributeValue;
@@ -47,7 +47,7 @@ public class AdaptedDataSetAttributes implements ViewAttribute
 	{
 		int itemLayoutId = context.getResources().getIdentifier(itemLayoutResourceName, "layout", context.getPackageName());
 		AbstractDataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(sourceAttributeValue);
-		BoundDataSetAdapter dataSetAdapter = new BoundDataSetAdapter(dataSetValueModel, itemLayoutId);
+		BoundDataSetAdapter dataSetAdapter = new BoundDataSetAdapter(dataSetValueModel, itemLayoutId, context);
 		listView.setAdapter(dataSetAdapter);
 	}
 

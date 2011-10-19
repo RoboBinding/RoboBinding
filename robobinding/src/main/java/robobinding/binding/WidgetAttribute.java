@@ -24,7 +24,7 @@ import android.content.Context;
  * @author Robert Taylor
  *
  */
-public interface ViewAttribute
+public interface WidgetAttribute
 {
 	void bind(PresentationModelAdapter presentationModelAdapter, Context context);
 }

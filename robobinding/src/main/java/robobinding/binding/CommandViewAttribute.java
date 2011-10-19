@@ -22,7 +22,7 @@ package robobinding.binding;
  * @author Robert Taylor
  *
  */
-public interface CommandViewAttribute extends ViewAttribute
+public interface CommandViewAttribute extends WidgetAttribute
 {
 	Class<?>[] getPreferredCommandParameterTypes();
 }
