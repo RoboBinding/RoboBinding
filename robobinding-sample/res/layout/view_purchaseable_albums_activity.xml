@@ -23,7 +23,7 @@
   		android:layout_above="@id/create_button"
   		android:layout_below="@id/window_title"
   		binding:itemLayout="@layout/purchaseable_album_row"
-  		binding:source="albums"
+  		binding:source="{albums}"
   		binding:onItemClick="viewAlbum" />
     
 </RelativeLayout>

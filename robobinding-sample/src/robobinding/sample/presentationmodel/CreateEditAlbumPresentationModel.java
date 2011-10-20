@@ -33,8 +33,14 @@ import android.content.Context;
  * @author Robert Taylor
  *
  */
-public class CreateEditAlbumPresentationModel extends AbstractPresentationModel implements CustomPropertyProvider
+@PresentationModel
+public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 {
+	private static final String TITLE = "title";
+	private static final String ARTIST = "artist";
+	private static final String COMPOSER = "composer";
+	private static final String CLASSICAL = "classical";
+	
 	private Album.Builder albumBuilder;
 	private AlbumDao albumDao;
 	private Context context;
@@ -58,6 +64,7 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel 
 		this.albumDao = albumDao;
 	}
 	
+	@DependsOn(CLASSICAL)
 	public boolean isComposerEnabled()
 	{
 		return isClassical();
@@ -72,13 +79,14 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel 
 	{
 		return albumBuilder.getTitle();
 	}
-
+	
+	@CustomSetter
 	public void setTitle(String title)
 	{
 		String oldValue = albumBuilder.getTitle();
 		albumBuilder.setTitle(title);
 		
-		firePropertyChange("title", oldValue, title);
+		firePropertyChange(TITLE, oldValue, title);
 	}
 
 	public String getArtist()
@@ -91,7 +99,7 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel 
 		String oldValue = albumBuilder.getArtist();
 		albumBuilder.setArtist(artist);
 		
-		firePropertyChange("artist", oldValue, artist);
+		firePropertyChange(ARTIST, oldValue, artist);
 	}
 
 	public boolean isClassical()
@@ -104,8 +112,7 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel 
 		boolean oldValue = albumBuilder.isClassical();
 		albumBuilder.setClassical(classical);
 		
-		firePropertyChange("classical", oldValue, classical);
-		firePropertyChange("composerEnabled", oldValue, classical);
+		firePropertyChange(CLASSICAL, oldValue, classical);
 	}
 
 	public String getComposer()
@@ -118,27 +125,15 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel 
 		String oldValue = albumBuilder.getComposer();
 		albumBuilder.setComposer(composer);
 		
-		firePropertyChange("composer", oldValue, composer);
+		firePropertyChange(COMPOSER, oldValue, composer);
 	}
 
-	@Override
-	@ReadOnlyCustomProperties("windowTitle")
-	public ValueModel<?> createCustomProperty(String propertyName, DependentPropertyValueModelProvider dependentPropertyValueModelProvider)
+	@DependsOn(CLASSICAL)
+	public String getWindowTitle()
 	{
-		if ("windowTitle".equals(propertyName))
-		{
-			if(albumBuilder.isNew())
-			{
-				ValueModel<String> valueModel = ValueHolders.create(context.getString(R.string.create_album));
-				return valueModel;
-			}
-				
-			ValueModel<Boolean> dependentValueModel = dependentPropertyValueModelProvider.getValueModel("classical");
-			ValueModel<String> valueModel = Converters.createBooleanToStringConverter(dependentValueModel, "Edit Classical Album", "Edit Album");
-			return valueModel;
-		}
-		return null;
+		if(albumBuilder.isNew())
+			return context.getString(R.string.create_album);
+		
+		return isClassical() ? "Edit Classical Album" : "Edit Album";
 	}
-
-	
 }
