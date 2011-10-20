@@ -15,7 +15,6 @@
  */
 package robobinding.beans;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import robobinding.presentationmodel.AbstractDataSetValueModel;
@@ -93,42 +92,22 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter, D
 		return new RegularPropertyAdapter<T>(presentationModel, propertyName, isReadWriteProperty);
 	}
 	
-	public Object getPresentationModel()
-	{
-		return presentationModel;
-	}
-	
 	@Override
 	public <T> ValueModel<T> getValueModel(String dependentPropertyName)
 	{
 		return getPropertyAdapter(dependentPropertyName, false);
 	}
 	@Override
-	public AbstractDataSetValueModel getDataSetPropertyValueModel(String propertyName)
+	public AbstractDataSetValueModel<?, ?> getDataSetPropertyValueModel(String propertyName)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	private Method getPreferredMethod()
+	@Override
+	public Command findCommand(String commandName, Class<?>... preferredCommandParameterTypes)
 	{
-		return findMethodWithMatchingName();
-	}
-
-	private Method getNoArgsMethod()
-	{
-		return findMethodWithMatchingName();
-	}
-	
-	private Method findMethodWithMatchingName(Class<?>... parameterTypes)
-	{
-		try
-		{
-			return presentationModel.getClass().getMethod(commandName, parameterTypes);
-		} 
-		catch (NoSuchMethodException e)
-		{}
-		
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

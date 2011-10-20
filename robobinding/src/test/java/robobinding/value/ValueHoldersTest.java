@@ -14,6 +14,10 @@ import org.junit.Test;
  */
 public final class ValueHoldersTest
 {
+	public void givenValueModelByEquity_whenSetting_then()
+	{
+		
+	}
 	@Test
 	public void testEquityTestingHolderSendsProperEvents()
 	{

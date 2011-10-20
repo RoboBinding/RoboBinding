@@ -37,7 +37,7 @@ public class ValueHolders
 	{
 		return new GenericValueHolder<T>(o);
 	}
-	public static <T> ValueModel<T> create(T o, boolean checkIdentity)
+	static <T> ValueModel<T> create(T o, boolean checkIdentity)
 	{
 		return new GenericValueHolder<T>(o, checkIdentity);
 	}

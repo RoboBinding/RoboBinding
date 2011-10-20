@@ -26,17 +26,13 @@ import robobinding.value.ValueModel;
  */
 public interface PresentationModelAdapter
 {
+	Class<?> getPropertyType(String propertyName);
 
 	<T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName);
 
 	<T> ValueModel<T> getPropertyValueModel(String propertyName);
 
-	Object getPresentationModel();
-
-	Class<?> getPropertyType(String propertyName);
-
-	AbstractDataSetValueModel getDataSetPropertyValueModel(String propertyName);
+	AbstractDataSetValueModel<?, ?> getDataSetPropertyValueModel(String propertyName);
 
 	Command findCommand(String commandName, Class<?>... preferredCommandParameterTypes);
-
 }
