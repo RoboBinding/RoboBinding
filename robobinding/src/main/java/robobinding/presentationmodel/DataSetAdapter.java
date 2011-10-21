@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-public class DataSetAdapter<ItemType> extends BaseAdapter
+public class DataSetAdapter<T> extends BaseAdapter
 {
-	private AbstractDataSetValueModel<?, ItemType> dataSetValueModel;
+	private AbstractDataSetValueModel<T> dataSetValueModel;
 	private int itemLayoutId;
 	private int dropdownLayoutId;
 	private final Context context;
@@ -26,7 +26,6 @@ public class DataSetAdapter<ItemType> extends BaseAdapter
 	public void observeChangesOnTheValueModel()
 	{
 		dataSetValueModel.addValueChangeListener(new PropertyChangeListener() {
-			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt)
 			{
@@ -35,7 +34,7 @@ public class DataSetAdapter<ItemType> extends BaseAdapter
 		});
 	}
 
-	public void setValueModel(AbstractDataSetValueModel<?, ItemType> valueModel)
+	public void setValueModel(AbstractDataSetValueModel<T> valueModel)
 	{
 		this.dataSetValueModel = valueModel;
 	}
@@ -57,7 +56,7 @@ public class DataSetAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public ItemType getItem(int position)
+	public T getItem(int position)
 	{
 		return dataSetValueModel.getItem(position);
 	}
@@ -101,13 +100,13 @@ public class DataSetAdapter<ItemType> extends BaseAdapter
 	private void updateItemPresentationModel(View view, int position)
 	{
 		@SuppressWarnings("unchecked")
-		ItemPresentationModel<ItemType> itemPresentationModel = (ItemPresentationModel<ItemType>)view.getTag();
+		ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>)view.getTag();
 		dataSetValueModel.updateItemPresentationModel(itemPresentationModel, position);
 	}
 
 	private View newView(int position, ViewGroup parent, int layoutId)
 	{
-		ItemPresentationModel<ItemType> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
+		ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
 		View view = binder.inflateAndBindView(context, layoutId, itemPresentationModel);
 		view.setTag(itemPresentationModel);
 		return view;

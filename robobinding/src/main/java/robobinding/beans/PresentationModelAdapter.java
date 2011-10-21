@@ -19,10 +19,10 @@ import robobinding.presentationmodel.AbstractDataSetValueModel;
 import robobinding.value.ValueModel;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public interface PresentationModelAdapter
 {
@@ -32,7 +32,7 @@ public interface PresentationModelAdapter
 
 	<T> ValueModel<T> getPropertyValueModel(String propertyName);
 
-	AbstractDataSetValueModel<?, ?> getDataSetPropertyValueModel(String propertyName);
+	AbstractDataSetValueModel<?> getDataSetPropertyValueModel(String propertyName);
 
 	Command findCommand(String commandName, Class<?>... preferredCommandParameterTypes);
 }

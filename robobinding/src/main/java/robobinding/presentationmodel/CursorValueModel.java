@@ -21,12 +21,12 @@ import java.beans.PropertyChangeListener;
 
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
-public class CursorValueModel<T> extends AbstractDataSetValueModel<TypedCursor<T>, T>
+public class CursorValueModel<T> extends AbstractDataSetValueModel<T>
 {
 	private TypedCursor<T> cursor;
 
@@ -56,7 +56,7 @@ public class CursorValueModel<T> extends AbstractDataSetValueModel<TypedCursor<T
 		
 	}
 	@Override
-	public TypedCursor<T> getValue()
+	public Object getValue()
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -68,7 +68,7 @@ public class CursorValueModel<T> extends AbstractDataSetValueModel<TypedCursor<T
 		
 	}
 	@Override
-	public void setValue(TypedCursor<T> newValue)
+	public void setValue(Object newValue)
 	{
 		// TODO Auto-generated method stub
 		

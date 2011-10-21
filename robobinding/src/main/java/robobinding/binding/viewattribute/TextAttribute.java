@@ -15,9 +15,6 @@
  */
 package robobinding.binding.viewattribute;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.PropertyViewAttribute;
 import robobinding.value.ValueModel;
@@ -27,10 +24,10 @@ import android.text.TextWatcher;
 import android.widget.TextView;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public class TextAttribute implements PropertyViewAttribute
 {
@@ -64,24 +61,11 @@ public class TextAttribute implements PropertyViewAttribute
 		{
 			super(attributeValue);
 		}
-
+		
 		@Override
-		protected void initializeView(ValueModel<CharSequence> valueModel)
+		protected void valueModelUpdated(CharSequence newValue)
 		{
-			textView.setText(valueModel.getValue());
-		}
-
-		@Override
-		protected void observeChangesOnTheValueModel(final ValueModel<CharSequence> valueModel)
-		{
-			valueModel.addValueChangeListener(new PropertyChangeListener() {
-				
-				@Override
-				public void propertyChange(PropertyChangeEvent evt)
-				{
-					textView.setText(valueModel.getValue());
-				}
-			});
+			textView.setText(newValue);
 		}
 
 		@Override
@@ -106,7 +90,6 @@ public class TextAttribute implements PropertyViewAttribute
 				}
 			});
 		}
-
 	}
 	
 	class StringTextAttribute extends AbstractPropertyViewAttribute<String>
@@ -117,23 +100,11 @@ public class TextAttribute implements PropertyViewAttribute
 		}
 
 		@Override
-		protected void initializeView(ValueModel<String> valueModel)
+		protected void valueModelUpdated(String newValue)
 		{
-			textView.setText(valueModel.getValue());
+			textView.setText(newValue);
 		}
-
-		@Override
-		protected void observeChangesOnTheValueModel(final ValueModel<String> valueModel)
-		{
-			valueModel.addValueChangeListener(new PropertyChangeListener() {
-				@Override
-				public void propertyChange(PropertyChangeEvent evt)
-				{
-					textView.setText(valueModel.getValue());
-				}
-			});
-		}
-
+		
 		@Override
 		protected void observeChangesOnTheView(final ValueModel<String> valueModel)
 		{
@@ -155,6 +126,5 @@ public class TextAttribute implements PropertyViewAttribute
 				}
 			});
 		}
-
 	}
 }

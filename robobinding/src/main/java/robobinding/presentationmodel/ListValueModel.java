@@ -26,7 +26,7 @@ import java.util.List;
  * @author Cheng Wei
  *
  */
-public class ListValueModel<T> extends AbstractDataSetValueModel<List<T>, T>
+public class ListValueModel<T> extends AbstractDataSetValueModel<T>
 {
 	private List<T> data;
 	
@@ -40,13 +40,13 @@ public class ListValueModel<T> extends AbstractDataSetValueModel<List<T>, T>
 		this.data = data;
 	}
 	@Override
-	public List<T> getValue()
+	public Object getValue()
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
-	public void setValue(List<T> newValue)
+	public void setValue(Object newValue)
 	{
 		// TODO Auto-generated method stub
 		

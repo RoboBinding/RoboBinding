@@ -15,21 +15,18 @@
  */
 package robobinding.binding.viewattribute;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import robobinding.beans.PresentationModelAdapter;
 import robobinding.presentationmodel.DataSetAdapter;
-import robobinding.value.ValueModel;
 import android.content.Context;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public class ItemLayoutAttribute implements AdapterViewAttribute
 {
@@ -51,12 +48,12 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 	
 	private static class DynamicItemLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer> implements AdapterViewAttribute
 	{
+		private DataSetAdapter<?> dataSetAdapter;
+
 		public DynamicItemLayoutAttribute(String attributeValue)
 		{
 			super(attributeValue);
 		}
-
-		private DataSetAdapter<?> dataSetAdapter;
 		
 		@Override
 		public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
@@ -66,22 +63,9 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		}
 
 		@Override
-		protected void initializeView(ValueModel<Integer> valueModel)
+		protected void valueModelUpdated(Integer newValue)
 		{
-			dataSetAdapter.setItemLayoutId(valueModel.getValue());
-		}
-
-		@Override
-		protected void observeChangesOnTheValueModel(final ValueModel<Integer> valueModel)
-		{
-			valueModel.addValueChangeListener(new PropertyChangeListener() {
-				
-				@Override
-				public void propertyChange(PropertyChangeEvent evt)
-				{
-					dataSetAdapter.setItemLayoutId(valueModel.getValue());
-				}
-			});
+			dataSetAdapter.setItemLayoutId(newValue);
 		}
 	}
 	

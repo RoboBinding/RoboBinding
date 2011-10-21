@@ -46,6 +46,7 @@ public class AdaptedDataSetAttributes implements ViewAttribute
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
 		DataSetAdapter<?> dataSetAdapter = new DataSetAdapter(context);
+		
 		sourceAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
 		itemLayoutAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
 		

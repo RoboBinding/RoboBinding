@@ -21,25 +21,27 @@ import robobinding.presentationmodel.DataSetAdapter;
 import android.content.Context;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public class SourceAttribute implements AdapterViewAttribute
 {
-	private final String sourceAttributeValue;
+	private PropertyAttributeEvaluator attributeEvaluator;
 
 	public SourceAttribute(String sourceAttributeValue)
 	{
-		this.sourceAttributeValue = sourceAttributeValue;
+		attributeEvaluator = new PropertyAttributeEvaluator(sourceAttributeValue);
+		attributeEvaluator.validate();
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
-	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bind(final DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		AbstractDataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(sourceAttributeValue);
+		String propertyName = attributeEvaluator.determinePropertyName();
+		AbstractDataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyName);
 		dataSetAdapter.setValueModel(dataSetValueModel);
 	}
 }

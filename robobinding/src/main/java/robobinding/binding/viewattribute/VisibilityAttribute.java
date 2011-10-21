@@ -15,20 +15,16 @@
  */
 package robobinding.binding.viewattribute;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.PropertyViewAttribute;
-import robobinding.value.ValueModel;
 import android.content.Context;
 import android.view.View;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public class VisibilityAttribute implements PropertyViewAttribute
 {
@@ -64,22 +60,9 @@ public class VisibilityAttribute implements PropertyViewAttribute
 		}
 
 		@Override
-		protected void initializeView(ValueModel<Boolean> valueModel)
+		protected void valueModelUpdated(Boolean newValue)
 		{
-			view.setVisibility(valueModel.getValue() ? View.VISIBLE : View.GONE);
-		}
-
-		@Override
-		protected void observeChangesOnTheValueModel(final ValueModel<Boolean> valueModel)
-		{
-			valueModel.addValueChangeListener(new PropertyChangeListener() {
-				
-				@Override
-				public void propertyChange(PropertyChangeEvent evt)
-				{
-					view.setVisibility(valueModel.getValue() ? View.VISIBLE : View.GONE);
-				}
-			});
+			view.setVisibility(newValue ? View.VISIBLE : View.GONE);
 		}
 	}
 	
@@ -91,21 +74,9 @@ public class VisibilityAttribute implements PropertyViewAttribute
 		}
 
 		@Override
-		protected void initializeView(ValueModel<Integer> valueModel)
+		protected void valueModelUpdated(Integer newValue)
 		{
-			view.setVisibility(valueModel.getValue());
-		}
-
-		@Override
-		protected void observeChangesOnTheValueModel(final ValueModel<Integer> valueModel)
-		{
-			valueModel.addValueChangeListener(new PropertyChangeListener() {
-				@Override
-				public void propertyChange(PropertyChangeEvent evt)
-				{
-					view.setVisibility(valueModel.getValue());
-				}
-			});
+			view.setVisibility(newValue);
 		}
 	}
 }

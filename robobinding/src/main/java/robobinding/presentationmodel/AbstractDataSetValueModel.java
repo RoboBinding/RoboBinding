@@ -25,44 +25,44 @@ import robobinding.utils.Validate;
 import robobinding.value.ValueModel;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
- *
  */
-public abstract class AbstractDataSetValueModel<DataSetType, ItemType> implements ValueModel<DataSetType>
+public abstract class AbstractDataSetValueModel<T> implements ValueModel<Object>
 {
-	private final ItemPresentationModelFactory<ItemType> factory;
+	private final ItemPresentationModelFactory<T> factory;
 
-	protected AbstractDataSetValueModel(ItemPresentationModelFactory<ItemType> factory)
+	protected AbstractDataSetValueModel(ItemPresentationModelFactory<T> factory)
 	{
 		Validate.notNull(factory, "Factory must not be null");
 		this.factory = factory;
 	}
-	public final ItemPresentationModel<ItemType> newItemPresentationModel()
+	public final ItemPresentationModel<T> newItemPresentationModel()
 	{
 		return factory.newItemPresentationModel();
 	}
 	
 	public abstract int size();
-	public abstract ItemType getItem(int position);
+	public abstract T getItem(int position);
 	
-	public void updateItemPresentationModel(ItemPresentationModel<ItemType> itemPresentationModel, int position)
+	public void updateItemPresentationModel(ItemPresentationModel<T> itemPresentationModel, int position)
 	{
-		ItemType item = getItem(position);
+		T item = getItem(position);
 		itemPresentationModel.setData(position, item);
 	}
-	protected final static class DefaultItemPresentationModelFactory<ItemType> implements ItemPresentationModelFactory<ItemType>
+	protected final static class DefaultItemPresentationModelFactory<T> implements ItemPresentationModelFactory<T>
 	{
-		private Constructor<? extends ItemPresentationModel<ItemType>> itemPresentationModelConstructor;
-		public DefaultItemPresentationModelFactory(Class<? extends ItemPresentationModel<ItemType>> itemPresentationModelClass)
+		private Constructor<? extends ItemPresentationModel<T>> itemPresentationModelConstructor;
+		public DefaultItemPresentationModelFactory(Class<? extends ItemPresentationModel<T>> itemPresentationModelClass)
 		{
 			Validate.notNull(itemPresentationModelClass, "itemPresentationModelClass must not be null");
 			itemPresentationModelConstructor = ConstructorUtils.getAccessibleConstructor(itemPresentationModelClass, new Class<?>[0]);
 			Validate.notNull(itemPresentationModelConstructor, "itemPresentationModelClass does not have a sdefault constructor");
 		}
 		@Override
-		public ItemPresentationModel<ItemType> newItemPresentationModel()
+		public ItemPresentationModel<T> newItemPresentationModel()
 		{
 			try
 			{

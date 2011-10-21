@@ -98,7 +98,7 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter, D
 		return getPropertyAdapter(dependentPropertyName, false);
 	}
 	@Override
-	public AbstractDataSetValueModel<?, ?> getDataSetPropertyValueModel(String propertyName)
+	public AbstractDataSetValueModel<?> getDataSetPropertyValueModel(String propertyName)
 	{
 		// TODO Auto-generated method stub
 		return null;

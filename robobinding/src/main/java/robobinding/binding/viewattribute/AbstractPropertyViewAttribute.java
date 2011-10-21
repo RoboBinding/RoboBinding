@@ -15,8 +15,8 @@
  */
 package robobinding.binding.viewattribute;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.PropertyViewAttribute;
@@ -24,57 +24,37 @@ import robobinding.value.ValueModel;
 import android.content.Context;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAttribute
 {
-	private final static Pattern BINDING_ATTRIBUTE_PATTERN = Pattern.compile("[$]?\\{[\\w]+\\}");
-	private final static Pattern PROPERTY_NAME_PATTERN = Pattern.compile("\\w+");
-	
+	private PropertyAttributeEvaluator attributeEvaluator;
 	private PresentationModelAdapter presentationModelAdapter;
-	private final String attributeValue;
 	private final String propertyName;
 	
 	public AbstractPropertyViewAttribute(String attributeValue)
 	{
-		validate(attributeValue);
-		this.attributeValue = attributeValue;
-		this.propertyName = determinePropertyName();
+		attributeEvaluator = new PropertyAttributeEvaluator(attributeValue);
+		attributeEvaluator.validate();
+		propertyName = attributeEvaluator.determinePropertyName();
 	}
 	
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
 		setPresentationModelAdapter(presentationModelAdapter);
-				
 		performBind();
 	}
 	
 	private void performBind()
 	{
-		if (attributeValue.startsWith("$"))
+		if (attributeEvaluator.isTwoWayBinding())
 			performTwoWayBinding();
 		else
 			performOneWayBinding();
-	}
-
-	private String determinePropertyName()
-	{
-		Matcher matcher = PROPERTY_NAME_PATTERN.matcher(attributeValue);
-		matcher.find();
-		return matcher.group();
-	}
-	
-	private void validate(String attributeValue)
-	{
-		Matcher matcher = BINDING_ATTRIBUTE_PATTERN.matcher(attributeValue);
-		
-		if (!matcher.matches())
-			throw new RuntimeException("Invalid binding property attribute value: '" + attributeValue + "'.\n\nDid you mean '{" + 
-											attributeValue + "}' or '${" + attributeValue + "}'? (one/two-way binding respectively)\n");
 	}
 
 	void performOneWayBinding()
@@ -92,16 +72,31 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		this.presentationModelAdapter = presentationModelAdapter;
 	}
 	
-	protected abstract void initializeView(ValueModel<T> valueModel);
-	protected abstract void observeChangesOnTheValueModel(final ValueModel<T> valueModel);
+	protected abstract void valueModelUpdated(T newValue);
 	protected abstract void observeChangesOnTheView(final ValueModel<T> valueModel);
 	
-	abstract class PropertyBinder
+	protected void initializeView(ValueModel<T> valueModel)
 	{
-		public abstract void performBind();
+		valueModelUpdated(valueModel.getValue());
 	}
 	
-	class OneWayBinder extends PropertyBinder
+	protected void observeChangesOnTheValueModel(final ValueModel<T> valueModel)
+	{
+		valueModel.addValueChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt)
+			{
+				valueModelUpdated(valueModel.getValue());
+			}
+		});
+	}
+	
+	interface PropertyBinder
+	{
+		void performBind();
+	}
+	
+	class OneWayBinder implements PropertyBinder
 	{
 		@Override
 		public void performBind()
@@ -112,7 +107,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		}
 	}
 	
-	class TwoWayBinder extends PropertyBinder
+	class TwoWayBinder implements PropertyBinder
 	{
 		@Override
 		public void performBind()
