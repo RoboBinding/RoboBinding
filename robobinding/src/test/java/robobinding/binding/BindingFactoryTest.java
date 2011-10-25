@@ -16,16 +16,19 @@
 package robobinding.binding;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import robobinding.binding.BindingAttributesLoader.ViewBindingAttributes;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -42,47 +45,57 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class BindingFactoryTest
 {
-	private LayoutInflater layoutInflater;
 	private String name = "name";
 	private AttributeSet attrs = MockAttributeSet.withAttributes(2, 2);
 	private String prefix = null;
 	private Context context = null;
 	private View theView = new View(context);
-	private BindingFactory bindingFactory;
+	private ViewBindingAttributes sampleViewBindingAttributes = new ViewBindingAttributes(null);
+	private LayoutInflater layoutInflater;
+	private BindingAttributesLoader bindingAttributesLoader;
+	private BindingViewFactory bindingViewFactory;
 	
 	@Before
 	public void setUp() throws Exception
 	{
 		layoutInflater = mock(LayoutInflater.class);
-		bindingFactory = new BindingFactory(layoutInflater);
+		bindingAttributesLoader = mock(BindingAttributesLoader.class);
+		when(bindingAttributesLoader.load(theView, attrs)).thenReturn(sampleViewBindingAttributes);
+		bindingViewFactory = new BindingViewFactory(layoutInflater, bindingAttributesLoader);
 	}
 	
 	@Test
-	public void whenCreatingABindingFactory_ThenShouldHaveAnEmptyViewBindingsMap()
+	public void whenInitializing_ThenInitialChildViewBindingAttributesShouldBeEmpty()
 	{
-		assertTrue(bindingFactory.getViewAttributeBinders().isEmpty());
+		assertTrue(bindingViewFactory.getChildViewBindingAttributes().isEmpty());
+	}
+	
+	@Test
+	public void whenInitializing_ThenLayoutInflaterFactoryShouldBeSetAsThis()
+	{
+		verify(layoutInflater).setFactory(bindingViewFactory);
 	}
 	
 	@Test
 	public void whenCreatingAView_ThenReturnViewInflatedFromLayoutInflater() throws Exception
 	{
 		when(layoutInflater.createView(name, prefix, attrs)).thenReturn(theView);
-		
-		assertThat(bindingFactory.onCreateView(name, context, attrs), equalTo(theView));
+		assertThat(bindingViewFactory.onCreateView(name, context, attrs), equalTo(theView));
 	}
 	
 	@Test
-	public void whenCreatingAView_ThenCreateNewViewAttributeBinder() throws Exception
+	public void whenCreatingAView_ThenAddNewViewBindingAttributes() throws Exception
 	{
 		when(layoutInflater.createView(name, prefix, attrs)).thenReturn(theView);
-		bindingFactory.onCreateView(name, context, attrs);
+		bindingViewFactory.onCreateView(name, context, attrs);
 		
-		assertTrue(bindingFactory.getViewAttributeBinders().size() == 1);
-		assertNotNull(findViewAttributeBinderForView(theView));
+		List<ViewBindingAttributes> viewHierarchyBindingAttributes = bindingViewFactory.getChildViewBindingAttributes();
+		assertTrue(viewHierarchyBindingAttributes.size() == 1);
+		assertThat(viewHierarchyBindingAttributes.get(0), equalTo(sampleViewBindingAttributes));
 	}
 
 	@Test
-	public void whenCreatingMultipleViews_ThenAddEachOneToTheViewBindingsMap() throws Exception
+	public void whenCreatingMultipleViews_ThenAddNewViewBindingAttributesForEach() throws Exception
 	{
 		View anotherView = new View(context);
 		AttributeSet someOtherAttrs = MockAttributeSet.withAttributes(5, 5);
@@ -90,37 +103,18 @@ public class BindingFactoryTest
 		when(layoutInflater.createView(name, prefix, attrs)).thenReturn(theView);
 		when(layoutInflater.createView(name, prefix, someOtherAttrs)).thenReturn(anotherView);
 		
-		bindingFactory.onCreateView(name, context, attrs);
-		bindingFactory.onCreateView(name, context, someOtherAttrs);
+		bindingViewFactory.onCreateView(name, context, attrs);
+		bindingViewFactory.onCreateView(name, context, someOtherAttrs);
 		
-		assertViewAttributeBindersContainsEntriesFor(theView, attrs);
-		assertViewAttributeBindersContainsEntriesFor(anotherView, someOtherAttrs);
+		assertTrue(bindingViewFactory.getChildViewBindingAttributes().size() == 2);
+		verify(bindingAttributesLoader).load(theView, attrs);
+		verify(bindingAttributesLoader).load(anotherView, someOtherAttrs);
 	}
 
 	@Test (expected=RuntimeException.class)
 	public void whenCreatingAViewThrowsAClassNotFoundException_ThenPropagateAsRuntimeException() throws Exception
 	{
 		when(layoutInflater.createView(name, prefix, attrs)).thenThrow(new ClassNotFoundException());
-		bindingFactory.onCreateView(name, context, attrs);
-	}
-	
-	private void assertViewAttributeBindersContainsEntriesFor(View view, AttributeSet attrs)
-	{
-		ViewAttributeBinder viewAttributeBinder = findViewAttributeBinderForView(view);
-		
-		assertNotNull(viewAttributeBinder);
-		
-		assertThat(viewAttributeBinder.getBindingAttributes(), equalTo(new ViewAttributeBinder(view, attrs).getBindingAttributes()));
-	}
-
-	private ViewAttributeBinder findViewAttributeBinderForView(View view)
-	{
-		for (ViewAttributeBinder viewAttributeBinder : bindingFactory.getViewAttributeBinders())
-		{
-			if (viewAttributeBinder.getView() == view)
-				return viewAttributeBinder;
-		}
-		
-		return null;
+		bindingViewFactory.onCreateView(name, context, attrs);
 	}
 }

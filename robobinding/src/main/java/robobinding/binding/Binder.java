@@ -17,9 +17,10 @@ package robobinding.binding;
 
 import robobinding.beans.PresentationModelAdapter;
 import robobinding.beans.PresentationModelAdapterImpl;
-import robobinding.binding.BindingLayoutInflater.InflationResult;
+import robobinding.binding.BindingViewFactory.InflatedView;
 import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 
 /**
@@ -30,41 +31,47 @@ import android.view.View;
  */
 public class Binder
 {
-	private final BindingLayoutInflater bindingLayoutInflater;
+	private BindingViewFactory bindingViewFactory;
 	
 	public Binder()
 	{
-		this.bindingLayoutInflater = new BindingLayoutInflater();
 	}
 	
-	public Binder(BindingLayoutInflater bindingLayoutInflater)
+	public Binder(BindingViewFactory bindingViewFactory)
 	{
-		this.bindingLayoutInflater = bindingLayoutInflater;
+		this.bindingViewFactory = bindingViewFactory;
 	}
 
 	public void setAndBindContentView(Activity activity, int layoutId, Object presentationModel)
 	{
-		InflationResult inflationResult = inflateAndBind(activity, layoutId, presentationModel);
-		
-		activity.setContentView(inflationResult.getRootView());
+		InflatedView inflatedView = inflateAndBind(activity, layoutId, presentationModel);
+		activity.setContentView(inflatedView.getRootView());
 	}
 
 	public View inflateAndBindView(Context context, int layoutId, Object presentationModel)
 	{
-		InflationResult inflationResult = inflateAndBind(context, layoutId, presentationModel);
-		return inflationResult.getRootView();
+		InflatedView inflatedView = inflateAndBind(context, layoutId, presentationModel);
+		return inflatedView.getRootView();
 	}
 	
-	private InflationResult inflateAndBind(Context context, int layoutId, Object presentationModel)
+	private InflatedView inflateAndBind(Context context, int layoutId, Object presentationModel)
 	{
-		InflationResult inflationResult = bindingLayoutInflater.inflateView(context, layoutId);
 		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 		
-		for (ViewAttributeBinder<?> viewAttributeBinder : inflationResult.getViewAttributeBinders())
-		{
-			viewAttributeBinder.bind(presentationModelAdapter, context);
-		}
+		ensureBindingViewFactory(context);
+		InflatedView inflatedView = bindingViewFactory.inflateView(layoutId, context);
+		inflatedView.bindChildViews(presentationModelAdapter, context);
 		
-		return inflationResult;
+		return inflatedView;
+	}
+	
+	private void ensureBindingViewFactory(Context context)
+	{
+		if (bindingViewFactory == null)
+		{
+			LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
+			BindingAttributesLoader bindingAttributesLoader = new BindingAttributesLoader();
+			bindingViewFactory = new BindingViewFactory(layoutInflater, bindingAttributesLoader);
+		}
 	}
 }

@@ -15,9 +15,9 @@
  */
 package robobinding.binding;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.viewattribute.provider.BindingAttributeProvider;
@@ -26,36 +26,35 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
-class ViewAttributeBinder<T extends View>
+class BindingAttributesLoader
 {
-	static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/robobinding.android";
-
-	private T view;
-	private List<BindingAttribute> bindingAttributes;
-	private Queue<BindingAttributeProvider<? extends View>> providers;
-
-	private ProvidersResolver providersResolver;
+	private final ProvidersResolver providersResolver;
+	private final AttributeSetParser attributeSetParser;
 	
-	ViewAttributeBinder(T view, AttributeSet attrs)
+	BindingAttributesLoader()
 	{
-		this.view = view;
-		initializeProviders();
-		determineBindingAttributes(attrs);
+		providersResolver = new ProvidersResolver();
+		attributeSetParser = new AttributeSetParser();
+	}
+
+	ViewBindingAttributes load(View view, AttributeSet attrs)
+	{
+		List<BindingAttribute> bindingAttributes = determineBindingAttributes(view, attrs);
+		return new ViewBindingAttributes(bindingAttributes);
 	}
 	
-	private void determineBindingAttributes(AttributeSet attrs)
+	private List<BindingAttribute> determineBindingAttributes(View view, AttributeSet attrs)
 	{
-		Map<String, String> pendingBindingAttributes = loadBindingAttributeMap(attrs);
-		
-		bindingAttributes = Lists.newArrayList();
+		List<BindingAttribute> bindingAttributes = Lists.newArrayList();
+		Map<String, String> pendingBindingAttributes = attributeSetParser.loadBindingAttributes(attrs);
+		Collection<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(view);
 		
 		for (BindingAttributeProvider<? extends View> provider : providers)
 		{
@@ -68,8 +67,10 @@ class ViewAttributeBinder<T extends View>
 		
 		if (!pendingBindingAttributes.isEmpty())
 			throw new RuntimeException("Unhandled binding attributes");
+		
+		return bindingAttributes;
 	}
-
+	
 	private void removeProcessedAttributes(List<BindingAttribute> newBindingAttributes, Map<String, String> pendingBindingAttributes)
 	{
 		for (BindingAttribute bindingAttribute : newBindingAttributes)
@@ -78,36 +79,20 @@ class ViewAttributeBinder<T extends View>
 				pendingBindingAttributes.remove(attributeName);
 		}
 	}
-
-	private Map<String, String> loadBindingAttributeMap(AttributeSet attributeSet)
+	
+	static class ViewBindingAttributes
 	{
-		Map<String, String> pendingBindingAttributes = Maps.newHashMap();
+		private final List<BindingAttribute> bindingAttributes;
 		
-		for (int i = 0; i < attributeSet.getAttributeCount(); i++)
+		ViewBindingAttributes(List<BindingAttribute> bindingAttributes)
 		{
-			String attributeName = attributeSet.getAttributeName(i);
-			String attributeValue = attributeSet.getAttributeValue(ROBOBINDING_NAMESPACE, attributeName);
-			
-			if (attributeValue != null)
-				pendingBindingAttributes.put(attributeName, attributeValue);
+			this.bindingAttributes = bindingAttributes;
 		}
 		
-		return pendingBindingAttributes;
-	}
-
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
-	{
-		for (BindingAttribute bindingAttribute : bindingAttributes)
-			bindingAttribute.bind(presentationModelAdapter, context);
-	}
-
-	private void initializeProviders()
-	{
-		providers = providersResolver.getCandidateProviders(view);
-	}
-
-	View getView()
-	{
-		return view;
+		public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+		{
+			for (BindingAttribute bindingAttribute : bindingAttributes)
+				bindingAttribute.bind(presentationModelAdapter, context);
+		}
 	}
 }

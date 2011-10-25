@@ -28,57 +28,52 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 @RunWith(RobolectricTestRunner.class)
-public class BindingAttributeMapTest
+public class AttributeSetParserTest
 {
+	private AttributeSetParser attributeSetParser = new AttributeSetParser();
+
 	@Test
-	public void givenAnAttributeSetWithNoBindingAttributes_WhenInitializing_ThenBindingMapShouldBeEmpty()
+	public void givenAnAttributeSetWithNoBindingAttributes_WhenLoading_ThenBindingMapShouldBeEmpty()
 	{
-		ViewAttributeBinder viewAttributeBinder = initializeViewAttributeBinder(withNoBindingAttributes());
-		
-		Map<String, String> bindingMap = viewAttributeBinder.getBindingAttributes();
+		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(withNoBindingAttributes());
 		assertTrue(bindingMap.isEmpty());
 	}
 	
 	@Test
-	public void givenAnAttributeSetWithXBindingAttributes_WhenInitializing_ThenBindingMapShouldContainXEntries()
+	public void givenAnAttributeSetWithXBindingAttributes_WhenLoading_ThenBindingMapShouldContainXEntries()
 	{
 		int numberOfBindingAttributes = anyNumber();
 		int numberOfNonBindingAttributes = anyNumber();
 		
-		ViewAttributeBinder viewAttributeBinder = initializeViewAttributeBinder(withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes));
-		
-		Map<String, String> bindingMap = viewAttributeBinder.getBindingAttributes();
+		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes));
 		assertThat(bindingMap.size(), equalTo(numberOfBindingAttributes));
 	}
 	
 	@Test
-	public void givenAnAttributeSetWithBindingAttributes_WhenInitializing_ThenBindingMapKeysShouldMapToCorrectValues()
+	public void givenAnAttributeSetWithBindingAttributes_WhenLoading_ThenBindingMapKeysShouldMapToCorrectValues()
 	{
 		int numberOfBindingAttributes = anyNumber();
 		int numberOfNonBindingAttributes = anyNumber();
 		AttributeSet attributeSetWithAttributes = withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes);
 		
-		ViewAttributeBinder viewAttributeBinder = initializeViewAttributeBinder(attributeSetWithAttributes);
-		
-		Map<String, String> bindingMap = viewAttributeBinder.getBindingAttributes();
+		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(attributeSetWithAttributes);
 		for (String attribute : bindingMap.keySet())
-			assertThat(bindingMap.get(attribute), equalTo(attributeSetWithAttributes.getAttributeValue(ViewAttributeBinder.ROBOBINDING_NAMESPACE, attribute)));
+			assertThat(bindingMap.get(attribute), equalTo(attributeSetWithAttributes.getAttributeValue(AttributeSetParser.ROBOBINDING_NAMESPACE, attribute)));
 	}
 	
-	private ViewAttributeBinder initializeViewAttributeBinder(AttributeSet attrs)
+	private Map<String, String> loadBindingMapFromAttributeSet(AttributeSet attrs)
 	{
-		return new ViewAttributeBinder(new View(null), attrs);
+		return attributeSetParser.loadBindingAttributes(attrs);
 	}
 	
 	private int anyNumber()
