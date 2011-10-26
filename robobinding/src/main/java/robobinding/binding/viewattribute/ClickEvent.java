@@ -15,42 +15,25 @@
  */
 package robobinding.binding.viewattribute;
 
-import robobinding.beans.Command;
 import android.view.View;
-import android.view.View.OnClickListener;
 
 /**
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
-public class OnClickAttribute extends AbstractCommandViewAttribute
+public class ClickEvent
 {
-	private final View view;
-
-	public OnClickAttribute(View view, String commandName)
+	private View view;
+	
+	public ClickEvent(View view)
 	{
-		super(commandName);
 		this.view = view;
 	}
 
-	@Override
-	protected void bind(final Command command)
+	public View getView()
 	{
-		view.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-				ClickEvent clickEvent = new ClickEvent(v);
-				command.invoke(clickEvent);
-			}
-		});
-	}
-	
-	@Override
-	public Class<?>[] getPreferredCommandParameterTypes()
-	{
-		return null;
+		return view;
 	}
 }

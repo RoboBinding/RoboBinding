@@ -16,7 +16,6 @@
 package robobinding.binding.viewattribute;
 
 import robobinding.beans.Command;
-import robobinding.presentationmodel.ItemClickEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
