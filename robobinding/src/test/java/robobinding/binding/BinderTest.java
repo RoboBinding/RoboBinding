@@ -19,20 +19,23 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.binding.BindingLayoutInflater.InflationResult;
+import robobinding.binding.BindingAttributesLoader.ViewBindingAttributes;
+import robobinding.binding.BindingViewFactory.InflatedView;
 import android.app.Activity;
 import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 @RunWith(RobolectricTestRunner.class)
 public class BinderTest
@@ -44,12 +47,12 @@ public class BinderTest
 		Activity activity = mock(Activity.class);
 		View rootView = new View(activity);
 		
-		InflationResult inflationResult = new InflationResult(rootView, null);
+		InflatedView inflatedView = new InflatedView(rootView, new ArrayList<ViewBindingAttributes>());
 		
-		BindingLayoutInflater bindingInflater = mock(BindingLayoutInflater.class);
-		when(bindingInflater.inflateView(activity, layoutId)).thenReturn(inflationResult);
-		Binder binder = new Binder(bindingInflater);
-		binder.setAndBindContentView(activity, layoutId, null);
+		BindingViewFactory bindingViewFactory = mock(BindingViewFactory.class);
+		when(bindingViewFactory.inflateView(layoutId, activity)).thenReturn(inflatedView);
+		Binder binder = new Binder(bindingViewFactory);
+		binder.setAndBindContentView(activity, layoutId, new Object());
 		
 		verify(activity).setContentView(rootView);
 	}

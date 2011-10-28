@@ -14,28 +14,27 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.presentationmodel;
+package robobinding.binding.viewattribute;
 
 import android.view.View;
 import android.widget.AdapterView;
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
-public class ItemClickEvent
+public class ItemClickEvent extends ClickEvent
 {
 	private AdapterView<?> parent;
-	private View view;
 	private int position;
 	private long id;
 	
 	public ItemClickEvent(AdapterView<?> parent, View view, int position, long id)
 	{
+		super(view);
 		this.parent = parent;
-		this.view = view;
 		this.position = position;
 		this.id = id;
 	}
@@ -53,10 +52,5 @@ public class ItemClickEvent
 	public AdapterView<?> getParent()
 	{
 		return parent;
-	}
-
-	public View getView()
-	{
-		return view;
 	}
 }

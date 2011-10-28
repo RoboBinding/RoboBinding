@@ -15,21 +15,25 @@
  */
 package robobinding.binding.viewattribute;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.PresentationModelAdapterImpl;
-import robobinding.binding.viewattribute.OnItemClickAttribute;
-import robobinding.presentationmodel.ItemClickEvent;
+import robobinding.beans.PresentationModelAdapter;
 import android.R;
 import android.app.Activity;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.common.collect.Lists;
 import com.xtremelabs.robolectric.Robolectric;
@@ -45,25 +49,51 @@ import com.xtremelabs.robolectric.shadows.ShadowListView;
 @RunWith(RobolectricTestRunner.class)
 public class OnItemClickAttributeTest
 {
+	private ListView adapterView;
 	private Context context = new Activity();
-
-	@Test
-	public void whenClickingOnItemInTheList_ShouldInvokeCommand()
+	private final String commandName = "someCommand";
+	private MockCommand mockCommand;
+	private PresentationModelAdapter mockPresentationModelAdapter;
+	private int positionToClick = 5;
+	
+	@Before
+	public void setUp()
 	{
-		ListView adapterView = new ListView(null);
-		String commandName = "someCommand";
-		MockPresentationModel mockPresentationModel = new MockPresentationModel();
+		adapterView = new ListView(null);
+		mockCommand = new MockCommand();
+		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
+		when(mockPresentationModelAdapter.findCommand(commandName, ItemClickEvent.class)).thenReturn(mockCommand);
 		
 		ArrayAdapter<String> mockArrayAdapter = new MockArrayAdapter(new Activity(), R.layout.simple_list_item_1, Lists.newArrayList("0", "1", "2", "3", "4", "5"));
 		adapterView.setAdapter(mockArrayAdapter);
-		
+	}
+	
+	@Test
+	public void whenClickingOnItemInTheList_ThenInvokeCommand()
+	{
 		OnItemClickAttribute onItemClickAttribute = new OnItemClickAttribute(adapterView, commandName);
-		onItemClickAttribute.bind(new PresentationModelAdapterImpl(mockPresentationModel), context);
+		onItemClickAttribute.bind(mockPresentationModelAdapter, context);
 		
 		ShadowListView shadowListView = Robolectric.shadowOf(adapterView);
-		shadowListView.performItemClick(5);
+		shadowListView.performItemClick(positionToClick);
 		
-		assertTrue(mockPresentationModel.commandInvoked);
+		assertTrue(mockCommand.commandInvoked);
+	}
+	
+	@Test
+	public void whenClickingOnItemInTheList_ThenInvokeCommandWithItemClickEvent()
+	{
+		OnItemClickAttribute onItemClickAttribute = new OnItemClickAttribute(adapterView, commandName);
+		onItemClickAttribute.bind(mockPresentationModelAdapter, context);
+		
+		ShadowListView shadowListView = Robolectric.shadowOf(adapterView);
+		shadowListView.performItemClick(positionToClick);
+		
+		assertThat(mockCommand.argsPassedToInvoke[0], instanceOf(ItemClickEvent.class));
+		ItemClickEvent itemClickEvent = (ItemClickEvent)mockCommand.argsPassedToInvoke[0];
+		assertTrue(itemClickEvent.getParent() == adapterView);
+		assertTrue(itemClickEvent.getPosition() == positionToClick);
+		assertThat(itemClickEvent.getView(), instanceOf(TextView.class));
 	}
 	
 	private static class MockArrayAdapter extends ArrayAdapter<String>
@@ -71,19 +101,6 @@ public class OnItemClickAttributeTest
 		public MockArrayAdapter(Context context, int textViewResourceId, List<String> data)
 		{
 			super(context, textViewResourceId, data);
-		}
-	}
-	
-	private static class MockPresentationModel
-	{
-		private boolean commandInvoked;
-		private ItemClickEvent itemClickEvent;
-		
-		@SuppressWarnings("unused")
-		public void someCommand(ItemClickEvent itemClickEvent)
-		{
-			commandInvoked = true;
-			this.itemClickEvent = itemClickEvent;
 		}
 	}
 }

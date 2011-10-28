@@ -29,7 +29,6 @@ import org.junit.runner.RunWith;
 
 import robobinding.beans.PresentationModelAdapter;
 import robobinding.value.ValueModel;
-import android.app.Activity;
 import android.content.Context;
 
 /**
@@ -56,7 +55,7 @@ public class AbstractPropertyViewAttributeTest
 	};
 	
 	private PresentationModelAdapter presentationModelAdapter;
-	private Context context = new Activity();
+	private Context context = null;
 	
 	@Before
 	public void setUp()
@@ -130,6 +129,11 @@ public class AbstractPropertyViewAttributeTest
 		protected void observeChangesOnTheView(ValueModel valueModel)
 		{
 			bindingType = BindingType.TWO_WAY;
+		}
+
+		@Override
+		protected void valueModelUpdated(Object newValue)
+		{
 		}
 	}
 }

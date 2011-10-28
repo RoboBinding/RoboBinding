@@ -15,13 +15,17 @@
  */
 package robobinding.binding.viewattribute;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.PresentationModelAdapterImpl;
+import robobinding.beans.PresentationModelAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
@@ -37,37 +41,42 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class OnClickAttributeTest
 {
-	private MockPresentationModel mockPresentationModel;
 	private View view;
 	private Context context = new Activity();
+	private MockCommand mockCommand;
+	private PresentationModelAdapter mockPresentationModelAdapter;
+	private final String commandName = "someCommand";
 	
 	@Before
 	public void setUp()
 	{
-		mockPresentationModel = new MockPresentationModel();
 		view = new View(null);
+		mockCommand = new MockCommand();
+		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
+		when(mockPresentationModelAdapter.findCommand(commandName)).thenReturn(mockCommand);
 	}
 	
 	@Test
-	public void whenClickingOnTheView_ShouldInvokeCommandOnThePresentationModel()
+	public void whenClickingOnTheView_ThenInvokeCommand()
 	{
-		String commandName = "someCommand";
 		OnClickAttribute onClickAttribute = new OnClickAttribute(view, commandName);
-		onClickAttribute.bind(new PresentationModelAdapterImpl(mockPresentationModel), context);
+		onClickAttribute.bind(mockPresentationModelAdapter, context);
 		
 		view.performClick();
 	
-		assertTrue(mockPresentationModel.commandInvoked);
+		assertTrue(mockCommand.commandInvoked);
 	}
 	
-	private static class MockPresentationModel
+	@Test
+	public void whenClickingOnTheView_ThenInvokeCommandWithClickEvent()
 	{
-		private boolean commandInvoked;
-
-		@SuppressWarnings("unused")
-		public void someCommand()
-		{
-			commandInvoked = true;
-		}
+		OnClickAttribute onClickAttribute = new OnClickAttribute(view, commandName);
+		onClickAttribute.bind(mockPresentationModelAdapter, context);
+		
+		view.performClick();
+	
+		assertThat(mockCommand.argsPassedToInvoke[0], instanceOf(ClickEvent.class));
+		ClickEvent clickEvent = (ClickEvent)mockCommand.argsPassedToInvoke[0];
+		assertTrue(clickEvent.getView() == view);
 	}
 }

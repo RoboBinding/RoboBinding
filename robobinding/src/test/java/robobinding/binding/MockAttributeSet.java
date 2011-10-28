@@ -20,10 +20,10 @@ import static org.mockito.Mockito.when;
 import android.util.AttributeSet;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public class MockAttributeSet
 {
@@ -45,7 +45,7 @@ public class MockAttributeSet
 		{
 			String attributeName = "binding_attribute_" + i;
 			when(attributeSet.getAttributeName(i)).thenReturn(attributeName);
-			when(attributeSet.getAttributeValue(ViewAttributeBinder.ROBOBINDING_NAMESPACE, attributeName)).thenReturn("binding_value_" + i);
+			when(attributeSet.getAttributeValue(AttributeSetParser.ROBOBINDING_NAMESPACE, attributeName)).thenReturn("binding_value_" + i);
 		}
 		
 		for (int i = numBindingAttributes; i < attributeCount; i++)

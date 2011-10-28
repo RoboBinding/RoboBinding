@@ -1,6 +1,6 @@
 package robobinding.sample.presentationmodel;
 
-import robobinding.presentationmodel.ItemClickEvent;
+import robobinding.binding.viewattribute.ItemClickEvent;
 import robobinding.sample.CreateEditAlbumActivity;
 import robobinding.sample.ViewAlbumActivity;
 import robobinding.sample.dao.AlbumDao;
