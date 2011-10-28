@@ -16,7 +16,7 @@
 package robobinding.binding.viewattribute;
 
 import robobinding.beans.PresentationModelAdapter;
-import robobinding.presentationmodel.AbstractDataSetValueModel;
+import robobinding.presentationmodel.AbstractDataSetProperty;
 import robobinding.presentationmodel.DataSetAdapter;
 import android.content.Context;
 
@@ -39,7 +39,7 @@ public class SourceAttribute implements AdapterViewAttribute
 	@Override
 	public void bind(final DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		AbstractDataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyBinding.propertyName);
+		AbstractDataSetProperty dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyBinding.propertyName);
 		dataSetAdapter.setValueModel(dataSetValueModel);
 	}
 }

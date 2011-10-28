@@ -22,8 +22,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.value.ValueHolders;
 import robobinding.value.ValueModel;
+import robobinding.value.experimental.ValueHolders;
 import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;

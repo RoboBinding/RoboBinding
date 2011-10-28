@@ -1,5 +1,5 @@
 /**
- * RBCursor.java
+ * TypedCursor.java
  * 11 Oct 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,7 @@ package robobinding.presentationmodel;
 
 /**
  * @since 1.0
+ * @version $Revision: 1.0 $
  * @author Cheng Wei
  * @author Robert Taylor
  *

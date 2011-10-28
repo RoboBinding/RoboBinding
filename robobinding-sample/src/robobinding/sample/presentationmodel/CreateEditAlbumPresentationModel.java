@@ -17,14 +17,10 @@
 package robobinding.sample.presentationmodel;
 
 import robobinding.presentationmodel.AbstractPresentationModel;
-import robobinding.presentationmodel.CustomPropertyProvider;
-import robobinding.presentationmodel.DependentPropertyValueModelProvider;
+import robobinding.presentationmodel.DependsOn;
 import robobinding.sample.R;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
-import robobinding.value.Converters;
-import robobinding.value.ValueHolders;
-import robobinding.value.ValueModel;
 import android.content.Context;
 
 /**

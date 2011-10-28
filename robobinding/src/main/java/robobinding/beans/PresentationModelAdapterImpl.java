@@ -15,15 +15,9 @@
  */
 package robobinding.beans;
 
-import java.util.Map;
-
-import robobinding.presentationmodel.AbstractDataSetValueModel;
-import robobinding.presentationmodel.CustomPropertyProvider;
-import robobinding.presentationmodel.DependentPropertyValueModelProvider;
+import robobinding.presentationmodel.AbstractDataSetProperty;
 import robobinding.utils.Validate;
 import robobinding.value.ValueModel;
-
-import com.google.common.collect.Maps;
 
 /**
  * @since 1.0
@@ -31,83 +25,38 @@ import com.google.common.collect.Maps;
  * @author Cheng Wei
  *
  */
-public class PresentationModelAdapterImpl implements PresentationModelAdapter, DependentPropertyValueModelProvider
+public class PresentationModelAdapterImpl implements PresentationModelAdapter
 {
-	private final Object presentationModel;
-
-	private final Map<String, PropertyAdapter<?>> propertyAdapterMappings;
+	private final CachedFunctions functions;
+	private final Properties properties;
 
 	public PresentationModelAdapterImpl(Object presentationModel)
 	{
 		Validate.notNull(presentationModel);
 		
-		this.presentationModel = presentationModel;
-		
-		propertyAdapterMappings = Maps.newHashMap();
+		properties = new CachedProperties(presentationModel);
+		functions = new CachedFunctions(presentationModel);
 	}
 	public Class<?> getPropertyType(String propertyName)
 	{
-		PropertyAdapter<Object> propertyAdapter = getPropertyAdapter(propertyName, false);
-		return propertyAdapter.getPropertyType();
+		return properties.getPropertyType(propertyName);
 	}
-	@Override
-	public <T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName)
-	{
-		return getPropertyAdapter(propertyName, false);
-	}
-	
 	public <T> ValueModel<T> getPropertyValueModel(String propertyName)
 	{
-		return getPropertyAdapter(propertyName, true);
+		return properties.getReadWriteProperty(propertyName);
 	}
-	private <T> PropertyAdapter<T> getPropertyAdapter(String propertyName, boolean isReadWriteProperty)
+	public <T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName)
 	{
-		Validate.notBlank(propertyName, "The property name must not be empty");
-		
-		@SuppressWarnings("unchecked")
-		PropertyAdapter<T> propertyAdapter = (PropertyAdapter<T>)propertyAdapterMappings.get(propertyName);
-		if (propertyAdapter == null)
-		{
-			propertyAdapter = createPropertyAdapter(propertyName, isReadWriteProperty);
-			propertyAdapterMappings.put(propertyName, propertyAdapter);
-		}else
-		{
-			propertyAdapter.checkReadWriteProperty(isReadWriteProperty);
-		}
-		return propertyAdapter;
-	}
-	
-	private <T> PropertyAdapter<T> createPropertyAdapter(String propertyName, boolean isReadWriteProperty)
-	{
-		if(presentationModel instanceof CustomPropertyProvider)
-		{
-			CustomPropertyProvider customPropertyProvider = (CustomPropertyProvider)presentationModel;
-			@SuppressWarnings("unchecked")
-			CustomPropertyDescriptor<T> customPropertyDescriptor = (CustomPropertyDescriptor<T>)customPropertyProvider.createCustomProperty(propertyName, this);
-			if(customPropertyDescriptor != null)
-			{
-				return new CustomPropertyAdapter<T>(presentationModel, propertyName, customPropertyDescriptor);
-			}
-		}
-		return new RegularPropertyAdapter<T>(presentationModel, propertyName, isReadWriteProperty);
-	}
-	
-	@Override
-	public <T> ValueModel<T> getValueModel(String dependentPropertyName)
-	{
-		return getPropertyAdapter(dependentPropertyName, false);
+		return properties.getReadOnlyProperty(propertyName);
 	}
 	@Override
-	public AbstractDataSetValueModel<?> getDataSetPropertyValueModel(String propertyName)
+	public AbstractDataSetProperty<?> getDataSetPropertyValueModel(String propertyName)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return properties.getReadOnlyDataSetProperty(propertyName);
 	}
-	
 	@Override
-	public Command findCommand(String commandName, Class<?>... preferredCommandParameterTypes)
+	public Function findFunction(String functionName, Class<?>... parameterTypes)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return functions.find(functionName, parameterTypes);
 	}
 }

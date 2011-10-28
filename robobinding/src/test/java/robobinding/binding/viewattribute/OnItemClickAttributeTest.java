@@ -52,7 +52,7 @@ public class OnItemClickAttributeTest
 	private ListView adapterView;
 	private Context context = new Activity();
 	private final String commandName = "someCommand";
-	private MockCommand mockCommand;
+	private MockFunction mockFunction;
 	private PresentationModelAdapter mockPresentationModelAdapter;
 	private int positionToClick = 5;
 	
@@ -60,9 +60,9 @@ public class OnItemClickAttributeTest
 	public void setUp()
 	{
 		adapterView = new ListView(null);
-		mockCommand = new MockCommand();
+		mockFunction = new MockFunction();
 		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(mockPresentationModelAdapter.findCommand(commandName, ItemClickEvent.class)).thenReturn(mockCommand);
+		when(mockPresentationModelAdapter.findFunction(commandName, ItemClickEvent.class)).thenReturn(mockFunction);
 		
 		ArrayAdapter<String> mockArrayAdapter = new MockArrayAdapter(new Activity(), R.layout.simple_list_item_1, Lists.newArrayList("0", "1", "2", "3", "4", "5"));
 		adapterView.setAdapter(mockArrayAdapter);
@@ -77,7 +77,7 @@ public class OnItemClickAttributeTest
 		ShadowListView shadowListView = Robolectric.shadowOf(adapterView);
 		shadowListView.performItemClick(positionToClick);
 		
-		assertTrue(mockCommand.commandInvoked);
+		assertTrue(mockFunction.commandInvoked);
 	}
 	
 	@Test
@@ -89,8 +89,8 @@ public class OnItemClickAttributeTest
 		ShadowListView shadowListView = Robolectric.shadowOf(adapterView);
 		shadowListView.performItemClick(positionToClick);
 		
-		assertThat(mockCommand.argsPassedToInvoke[0], instanceOf(ItemClickEvent.class));
-		ItemClickEvent itemClickEvent = (ItemClickEvent)mockCommand.argsPassedToInvoke[0];
+		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(ItemClickEvent.class));
+		ItemClickEvent itemClickEvent = (ItemClickEvent)mockFunction.argsPassedToInvoke[0];
 		assertTrue(itemClickEvent.getParent() == adapterView);
 		assertTrue(itemClickEvent.getPosition() == positionToClick);
 		assertThat(itemClickEvent.getView(), instanceOf(TextView.class));

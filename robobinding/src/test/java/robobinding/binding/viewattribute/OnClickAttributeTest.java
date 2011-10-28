@@ -43,7 +43,7 @@ public class OnClickAttributeTest
 {
 	private View view;
 	private Context context = new Activity();
-	private MockCommand mockCommand;
+	private MockFunction mockFunction;
 	private PresentationModelAdapter mockPresentationModelAdapter;
 	private final String commandName = "someCommand";
 	
@@ -51,9 +51,9 @@ public class OnClickAttributeTest
 	public void setUp()
 	{
 		view = new View(null);
-		mockCommand = new MockCommand();
+		mockFunction = new MockFunction();
 		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(mockPresentationModelAdapter.findCommand(commandName)).thenReturn(mockCommand);
+		when(mockPresentationModelAdapter.findFunction(commandName)).thenReturn(mockFunction);
 	}
 	
 	@Test
@@ -64,7 +64,7 @@ public class OnClickAttributeTest
 		
 		view.performClick();
 	
-		assertTrue(mockCommand.commandInvoked);
+		assertTrue(mockFunction.commandInvoked);
 	}
 	
 	@Test
@@ -75,8 +75,8 @@ public class OnClickAttributeTest
 		
 		view.performClick();
 	
-		assertThat(mockCommand.argsPassedToInvoke[0], instanceOf(ClickEvent.class));
-		ClickEvent clickEvent = (ClickEvent)mockCommand.argsPassedToInvoke[0];
+		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(ClickEvent.class));
+		ClickEvent clickEvent = (ClickEvent)mockFunction.argsPassedToInvoke[0];
 		assertTrue(clickEvent.getView() == view);
 	}
 }

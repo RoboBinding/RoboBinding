@@ -1,9 +1,5 @@
 package robobinding.value.experimental;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import robobinding.utils.Validate;
 
 /**
  * A ValueModel that wraps another ValueModel, the subject, and delays changes

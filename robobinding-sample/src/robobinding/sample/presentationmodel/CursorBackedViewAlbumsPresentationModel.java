@@ -16,6 +16,7 @@
  */
 package robobinding.sample.presentationmodel;
 
+import robobinding.beans.ItemPresentationModel;
 import robobinding.presentationmodel.TypedCursor;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;

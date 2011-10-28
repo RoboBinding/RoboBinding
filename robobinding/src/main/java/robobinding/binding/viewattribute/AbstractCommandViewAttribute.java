@@ -15,7 +15,7 @@
  */
 package robobinding.binding.viewattribute;
 
-import robobinding.beans.Command;
+import robobinding.beans.Function;
 import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.CommandViewAttribute;
 import android.content.Context;
@@ -38,7 +38,7 @@ public abstract class AbstractCommandViewAttribute implements CommandViewAttribu
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		Command command = findPreferredCommand(presentationModelAdapter);
+		Function command = findPreferredCommand(presentationModelAdapter);
 		
 		if(command == null)
 			command = getNoArgsCommand(presentationModelAdapter);
@@ -46,9 +46,9 @@ public abstract class AbstractCommandViewAttribute implements CommandViewAttribu
 		bind(command);
 	}
 
-	private Command getNoArgsCommand(PresentationModelAdapter presentationModelAdapter)
+	private Function getNoArgsCommand(PresentationModelAdapter presentationModelAdapter)
 	{
-		Command noArgsCommand = presentationModelAdapter.findCommand(commandName);
+		Function noArgsCommand = presentationModelAdapter.findFunction(commandName);
 	
 		if (noArgsCommand == null)
 			throw new IllegalArgumentException("Cannot find command: " + commandName);
@@ -56,11 +56,11 @@ public abstract class AbstractCommandViewAttribute implements CommandViewAttribu
 		return noArgsCommand;
 	}
 
-	private Command findPreferredCommand(PresentationModelAdapter presentationModelAdapter)
+	private Function findPreferredCommand(PresentationModelAdapter presentationModelAdapter)
 	{
-		return presentationModelAdapter.findCommand(commandName, getPreferredCommandParameterTypes());
+		return presentationModelAdapter.findFunction(commandName, getPreferredCommandParameterTypes());
 	}
 	
-	protected abstract void bind(Command command);
+	protected abstract void bind(Function command);
 	
 }
