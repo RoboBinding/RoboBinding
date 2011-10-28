@@ -1,4 +1,4 @@
-package robobinding.value;
+package robobinding.value.experimental;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

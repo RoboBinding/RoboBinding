@@ -1,5 +1,5 @@
 /**
- * FloatConverterTest.java
+ * FloatToIntegerConverterTest.java
  * Oct 16, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.value;
+package robobinding.value.experimental;
 
 import java.util.List;
 
-import robobinding.value.experimental.Converters;
-import robobinding.value.experimental.ValueHolders;
+import robobinding.value.ValueModel;
 
 /**
  * @since 1.0
@@ -27,14 +26,13 @@ import robobinding.value.experimental.ValueHolders;
  * @author Cheng Wei
  *
  */
-public class FloatConverterTest extends AbstractConverterTest<Float, Float>
+public class FloatToIntegerConverterTest extends AbstractConverterTest<Float, Integer>
 {
-	private static final float MULTIPLIER = 0.1f;
-	
+	private static final float MULTIPLIER = 100.0f;
 	@Override
-	protected AbstractConverterTester<Float, Float> createTester()
+	protected AbstractConverterTester<Float, Integer> createTester()
 	{
-		return new FloatConverterTester();
+		return new FloatToIntegerConverterTester();
 	}
 	@Override
 	protected List<Float> createEmptySourceValues()
@@ -44,15 +42,15 @@ public class FloatConverterTest extends AbstractConverterTest<Float, Float>
 	@Override
 	protected List<Float> createSourceValues()
 	{
-		return creatFloatList(10.0f, 20.0f, null);
-	}
-	@Override
-	protected List<Float> creatExpectedConvertedValues()
-	{
 		return creatFloatList(1.0f, 2.0f, null);
 	}
 	@Override
-	protected List<Float> createConvertedValues()
+	protected List<Integer> creatExpectedConvertedValues()
+	{
+		return creatIntegerList(100, 200, null);
+	}
+	@Override
+	protected List<Integer> createConvertedValues()
 	{
 		return creatExpectedConvertedValues();
 	}
@@ -65,12 +63,16 @@ public class FloatConverterTest extends AbstractConverterTest<Float, Float>
 	{
 		return AbstractConverterTester.createFloatList(values);
 	}
-	private class FloatConverterTester extends AbstractConverterTester<Float, Float>
+	private List<Integer> creatIntegerList(Integer... values)
+	{
+		return AbstractConverterTester.createIntegerList(values);
+	}
+	private class FloatToIntegerConverterTester extends AbstractConverterTester<Float, Integer>
 	{
 		@Override
-		protected ValueModel<Float> createConverter(ValueModel<Float> source)
+		protected ValueModel<Integer> createConverter(ValueModel<Float> source)
 		{
-			return Converters.createFloatConverter(source, MULTIPLIER);
+			return Converters.createFloatToIntegerConverter(source, MULTIPLIER);
 		}
 		@Override
 		protected ValueModel<Float> createSourceValueModel(Float sourceValue)

@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.value;
+package robobinding.value.experimental;
 
 import java.util.List;
 
-import robobinding.value.experimental.Converters;
-import robobinding.value.experimental.ValueHolders;
+import robobinding.value.ValueModel;
 
 /**
  * @since 1.0

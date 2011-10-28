@@ -1,4 +1,4 @@
-package robobinding.value;
+package robobinding.value.experimental;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import robobinding.value.experimental.ValueHolders;
+import robobinding.value.ValueModel;
 
 /**
  * @since 1.0

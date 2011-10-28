@@ -1,4 +1,4 @@
-package robobinding.beans;
+package robobinding.beans.experimental;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -10,9 +10,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import robobinding.beans.experimental.ExtendedPropertyChangeSupport;
-import robobinding.value.PropertyChangeEventEquals;
-import robobinding.value.PropertyChangeReport;
+import robobinding.value.experimental.PropertyChangeEventEquals;
+import robobinding.value.experimental.PropertyChangeReport;
 
 import com.google.common.collect.Lists;
 

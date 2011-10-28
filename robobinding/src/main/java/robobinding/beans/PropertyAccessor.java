@@ -4,6 +4,7 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
 import robobinding.utils.Validate;
@@ -13,6 +14,7 @@ public final class PropertyAccessor<T>
 	private static final String NONE = "None";
 	
 	private PropertyDescriptor descriptor;
+	private Class<?> beanClass;
 	/**
 	 * @throws PropertyNotFoundException when the property is not found.
 	 */
@@ -25,6 +27,7 @@ public final class PropertyAccessor<T>
 		{
 			throw new PropertyNotFoundException(propertyName, beanClass, e);
 		}
+		this.beanClass = beanClass;
 		//checkPropertyType();
 	}
 	/*
@@ -171,12 +174,29 @@ public final class PropertyAccessor<T>
 	}
 	public boolean hasAnnotation(Class<? extends Annotation> annotationClass)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		Annotation annotation = findAnnotation(annotationClass);
+		return annotation != null;
 	}
 	public <A extends Annotation> A getAnnotation(Class<A> annotationClass)
 	{
-		// TODO Auto-generated method stub
+		A annotation = findAnnotation(annotationClass);
+		Validate.notNull(annotation, toString()+" is not annotated with '"+annotationClass.getName()+"'");
+		return annotation;
+	}
+	private <A extends Annotation> A findAnnotation(Class<A> annotationClass)
+	{
+		if(isReadable())
+		{
+			Method readMethod = descriptor.getReadMethod();
+			return readMethod.getAnnotation(annotationClass);
+		}
 		return null;
+	}
+	@Override
+	public String toString()
+	{
+		String beanClassName = beanClass.getName();
+		return MessageFormat.format("property(name:{0}, propertyType:{1}, beanType:{2})", 
+				getPropertyName(), descriptor.getPropertyType(), beanClassName);
 	}
 }
