@@ -31,15 +31,17 @@ import android.content.Context;
  */
 public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAttribute
 {
-	private PropertyAttributeEvaluator attributeEvaluator;
 	private PresentationModelAdapter presentationModelAdapter;
-	private final String propertyName;
+	private final PropertyBinding propertyBinding;
+	
+	public AbstractPropertyViewAttribute(PropertyBinding propertyBinding)
+	{
+		this.propertyBinding = propertyBinding;
+	}
 	
 	public AbstractPropertyViewAttribute(String attributeValue)
 	{
-		attributeEvaluator = new PropertyAttributeEvaluator(attributeValue);
-		attributeEvaluator.validate();
-		propertyName = attributeEvaluator.determinePropertyName();
+		this.propertyBinding = new PropertyBinding(attributeValue);
 	}
 	
 	@Override
@@ -51,7 +53,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 	
 	private void performBind()
 	{
-		if (attributeEvaluator.isTwoWayBinding())
+		if (propertyBinding.twoWayBinding)
 			performTwoWayBinding();
 		else
 			performOneWayBinding();
@@ -101,7 +103,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		@Override
 		public void performBind()
 		{
-			ValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
+			ValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBinding.propertyName);
 			initializeView(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 		}
@@ -112,7 +114,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		@Override
 		public void performBind()
 		{
-			ValueModel<T> valueModel = presentationModelAdapter.getPropertyValueModel(propertyName);
+			ValueModel<T> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBinding.propertyName);
 			initializeView(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);

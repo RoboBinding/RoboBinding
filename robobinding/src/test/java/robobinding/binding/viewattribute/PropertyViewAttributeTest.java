@@ -38,10 +38,8 @@ import android.content.Context;
  *
  */
 @RunWith(Theories.class)
-public class AbstractPropertyViewAttributeTest
+public class PropertyViewAttributeTest
 {
-	private enum BindingType {NO_BINDING, ONE_WAY, TWO_WAY}
-	
 	@DataPoints
 	public static LegalPropertyViewAttributeValues[] legalPropertyViewAttributeValues = {
 		new LegalPropertyViewAttributeValues("{propertyX}", "propertyX", BindingType.ONE_WAY),

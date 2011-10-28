@@ -18,10 +18,10 @@ package robobinding.binding.viewattribute;
 import robobinding.value.ValueModel;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public abstract class AbstractReadOnlyPropertyViewAttribute<T> extends AbstractPropertyViewAttribute<T>
 {

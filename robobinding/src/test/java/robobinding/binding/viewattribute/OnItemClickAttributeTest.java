@@ -41,10 +41,10 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 import com.xtremelabs.robolectric.shadows.ShadowListView;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 @RunWith(RobolectricTestRunner.class)
 public class OnItemClickAttributeTest

@@ -28,20 +28,18 @@ import android.content.Context;
  */
 public class SourceAttribute implements AdapterViewAttribute
 {
-	private PropertyAttributeEvaluator attributeEvaluator;
+	private PropertyBinding propertyBinding;
 
 	public SourceAttribute(String sourceAttributeValue)
 	{
-		attributeEvaluator = new PropertyAttributeEvaluator(sourceAttributeValue);
-		attributeEvaluator.validate();
+		this.propertyBinding = new PropertyBinding(sourceAttributeValue);
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void bind(final DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		String propertyName = attributeEvaluator.determinePropertyName();
-		AbstractDataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyName);
+		AbstractDataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyBinding.propertyName);
 		dataSetAdapter.setValueModel(dataSetValueModel);
 	}
 }

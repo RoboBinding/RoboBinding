@@ -20,6 +20,9 @@ import robobinding.binding.PropertyViewAttribute;
 import robobinding.value.ValueModel;
 import android.content.Context;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.SpannedString;
 import android.text.TextWatcher;
 import android.widget.TextView;
 
@@ -32,51 +35,75 @@ import android.widget.TextView;
 public class TextAttribute implements PropertyViewAttribute
 {
 	private final TextView textView;
-	private final String attributeValue;
+	private final PropertyBinding propertyBinding;
 
 	public TextAttribute(TextView textView, String attributeValue)
 	{
 		this.textView = textView;
-		this.attributeValue = attributeValue;
+		this.propertyBinding = new PropertyBinding(attributeValue);
 	}
 
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(attributeValue);
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBinding.propertyName);
 		
-		if (propertyType.isAssignableFrom(CharSequence.class))
+		if (SpannedString.class.isAssignableFrom(propertyType))
+		{
+			new SpannedStringTextAttribute().bind(presentationModelAdapter, context);
+		}
+		else if (SpannableString.class.isAssignableFrom(propertyType))
+		{
+			new SpannableStringTextAttribute().bind(presentationModelAdapter, context);
+		}
+		else if (SpannableStringBuilder.class.isAssignableFrom(propertyType))
+		{
+			new SpannableStringBuilderTextAttribute().bind(presentationModelAdapter, context);
+		}
+		else if (CharSequence.class.isAssignableFrom(propertyType))
 		{
 			new CharSequenceTextAttribute().bind(presentationModelAdapter, context);
 		}
-		else if (propertyType.isAssignableFrom(String.class))
+		else if (String.class.isAssignableFrom(propertyType))
 		{
 			new StringTextAttribute().bind(presentationModelAdapter, context);
 		}
 	}
 
-	class CharSequenceTextAttribute extends AbstractPropertyViewAttribute<CharSequence>
+	abstract class AbstractCharSequenceTextAttribute<T extends CharSequence> extends AbstractPropertyViewAttribute<T>
 	{
-		public CharSequenceTextAttribute()
+		private boolean suppressNextViewUpdate = false;
+		
+		public AbstractCharSequenceTextAttribute()
 		{
-			super(attributeValue);
+			super(propertyBinding);
 		}
 		
 		@Override
-		protected void valueModelUpdated(CharSequence newValue)
+		protected void valueModelUpdated(T newValue)
 		{
+			if (suppressNextViewUpdate)
+			{
+				suppressNextViewUpdate = false;
+				return;
+			}
 			textView.setText(newValue);
 		}
 
+		protected void suppressNextViewUpdate()
+		{
+			suppressNextViewUpdate = true;
+		}
+		
 		@Override
-		protected void observeChangesOnTheView(final ValueModel<CharSequence> valueModel)
+		protected void observeChangesOnTheView(final ValueModel<T> valueModel)
 		{
 			textView.addTextChangedListener(new TextWatcher() {
 				
 				@Override
 				public void onTextChanged(CharSequence s, int start, int before, int count)
 				{
-					valueModel.setValue(s);
+					updateValueModel(valueModel, s);
 				}
 				
 				@Override
@@ -89,42 +116,56 @@ public class TextAttribute implements PropertyViewAttribute
 				{
 				}
 			});
+		}
+		
+		protected abstract void updateValueModel(ValueModel<T> valueModel, CharSequence charSequence);
+	}
+	
+	class StringTextAttribute extends AbstractCharSequenceTextAttribute<String>
+	{
+		@Override
+		protected void updateValueModel(ValueModel<String> valueModel, CharSequence charSequence)
+		{
+			valueModel.setValue(charSequence.toString());
+		}
+	}
+
+	class SpannedStringTextAttribute extends AbstractCharSequenceTextAttribute<SpannedString>
+	{
+		@Override
+		protected void updateValueModel(ValueModel<SpannedString> valueModel, CharSequence charSequence)
+		{
+			suppressNextViewUpdate();
+			valueModel.setValue(new SpannedString(charSequence));
+		}
+	}
+
+	public class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
+	{
+		@Override
+		protected void updateValueModel(ValueModel<CharSequence> valueModel, CharSequence charSequence)
+		{
+			valueModel.setValue(charSequence);
 		}
 	}
 	
-	class StringTextAttribute extends AbstractPropertyViewAttribute<String>
+	public class SpannableStringBuilderTextAttribute extends AbstractCharSequenceTextAttribute<SpannableStringBuilder>
 	{
-		public StringTextAttribute()
-		{
-			super(attributeValue);
-		}
-
 		@Override
-		protected void valueModelUpdated(String newValue)
+		protected void updateValueModel(ValueModel<SpannableStringBuilder> valueModel, CharSequence charSequence)
 		{
-			textView.setText(newValue);
+			suppressNextViewUpdate();
+			valueModel.setValue(new SpannableStringBuilder(charSequence));
 		}
-		
+	}
+	
+	public class SpannableStringTextAttribute extends AbstractCharSequenceTextAttribute<SpannableString>
+	{
 		@Override
-		protected void observeChangesOnTheView(final ValueModel<String> valueModel)
+		protected void updateValueModel(ValueModel<SpannableString> valueModel, CharSequence charSequence)
 		{
-			textView.addTextChangedListener(new TextWatcher() {
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count)
-				{
-					valueModel.setValue(s.toString());
-				}
-				
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after)
-				{
-				}
-				
-				@Override
-				public void afterTextChanged(Editable s)
-				{
-				}
-			});
+			suppressNextViewUpdate();
+			valueModel.setValue(new SpannableString(charSequence));
 		}
 	}
 }

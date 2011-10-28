@@ -38,7 +38,7 @@ import android.content.Context;
  */
 @RunWith(Theories.class)
 @Ignore
-public class AbstractCommandViewAttributeTest
+public class CommandViewAttributeTest
 {
 	@SuppressWarnings("unused")
 	private static class DummyPresentationModel

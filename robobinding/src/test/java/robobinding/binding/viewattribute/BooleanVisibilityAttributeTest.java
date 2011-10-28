@@ -17,15 +17,11 @@ package robobinding.binding.viewattribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.PresentationModelAdapter;
-import robobinding.binding.viewattribute.VisibilityAttribute.BooleanVisibilityAttribute;
 import robobinding.value.ValueHolders;
 import robobinding.value.ValueModel;
 import android.view.View;
@@ -33,48 +29,38 @@ import android.view.View;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 @RunWith(RobolectricTestRunner.class)
-public class BooleanVisibilityAttributeTest
+public class BooleanVisibilityAttributeTest extends AbstractPropertyAttributeTest<Boolean>
 {
 	private static final boolean INITIAL_VALUE = false;
-	private static final String PROPERTY_NAME = "property_name";
 	
 	private View view;
-	private PresentationModelAdapter presentationModelAdapter;
-	private ValueModel<Boolean> valueModel;
 	
 	@Before
 	public void setUp()
 	{
 		view = new View(null);
-		valueModel = ValueHolders.createBoolean(INITIAL_VALUE);
 	}
 	
 	@Test
 	public void whenBinding_ThenViewShouldReflectModel()
 	{
-		mockPresentationModelFor1WayBinding();
-		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute("{" + PROPERTY_NAME + "}");
-		
-		visibilityAttribute.performOneWayBinding();
-				
+		createAttributeWith1WayBinding();
 		assertThat(view.getVisibility(), equalTo(View.GONE));
 	}
 	
 	@Test
 	public void givenBound_WhenBooleanPropertyIsSetToFalse_ThenViewShouldBeGone()
 	{
-		mockPresentationModelFor1WayBinding();
-		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute("{" + PROPERTY_NAME + "}");
-		visibilityAttribute.performOneWayBinding();
+		createAttributeWith1WayBinding();
 		
-		valueModel.setValue(true);
-		valueModel.setValue(false);
+		updateValueModel(true);
+		updateValueModel(false);
 		
 		assertThat(view.getVisibility(), equalTo(View.GONE));
 	}
@@ -82,12 +68,10 @@ public class BooleanVisibilityAttributeTest
 	@Test
 	public void givenBound_WhenBooleanPropertyIsSetToTrue_ThenViewShouldBeVisible()
 	{
-		mockPresentationModelFor1WayBinding();
-		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute("{" + PROPERTY_NAME + "}");
-		visibilityAttribute.performOneWayBinding();
+		createAttributeWith1WayBinding();
 		
-		valueModel.setValue(false);
-		valueModel.setValue(true);
+		updateValueModel(false);
+		updateValueModel(true);
 		
 		assertThat(view.getVisibility(), equalTo(View.VISIBLE));
 	}
@@ -95,29 +79,20 @@ public class BooleanVisibilityAttributeTest
 	@Test(expected=RuntimeException.class)
 	public void whenAttempting2WayBinding_ThenThrowARuntimeException()
 	{
-		mockPresentationModelFor2WayBinding();
-		BooleanVisibilityAttribute visibilityAttribute = newBooleanVisibilityAttribute("${" + PROPERTY_NAME + "}");
-		visibilityAttribute.performTwoWayBinding();
+		createAttributeWith2WayBinding();
 	}
 	
-	private void mockPresentationModelFor1WayBinding()
-	{
-		presentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(presentationModelAdapter.<Boolean>getReadOnlyPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
-	}
-	
-	private void mockPresentationModelFor2WayBinding()
-	{
-		presentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(presentationModelAdapter.<Boolean>getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
-	}
-	
-	private BooleanVisibilityAttribute newBooleanVisibilityAttribute(String bindingAttributeValue)
+	@Override
+	protected AbstractPropertyViewAttribute<Boolean> newAttributeInstance(String bindingAttributeValue)
 	{
 		VisibilityAttribute visibilityAttribute = new VisibilityAttribute(view, bindingAttributeValue);
-		BooleanVisibilityAttribute booleanVisibilityAttribute = visibilityAttribute.new BooleanVisibilityAttribute();
-		booleanVisibilityAttribute.setPresentationModelAdapter(presentationModelAdapter);
-		return booleanVisibilityAttribute;
+		return visibilityAttribute.new BooleanVisibilityAttribute();
+	}
+
+	@Override
+	protected ValueModel<Boolean> initialValueModelInstance()
+	{
+		return ValueHolders.createBoolean(INITIAL_VALUE);
 	}
 	
 }

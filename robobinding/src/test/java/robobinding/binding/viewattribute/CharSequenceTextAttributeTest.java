@@ -17,17 +17,11 @@ package robobinding.binding.viewattribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.PresentationModelAdapter;
-import robobinding.binding.viewattribute.TextAttribute.CharSequenceTextAttribute;
 import robobinding.value.ValueHolders;
 import robobinding.value.ValueModel;
 import android.widget.TextView;
@@ -41,27 +35,23 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  *
  */
 @RunWith(RobolectricTestRunner.class)
-public class CharSequenceTextAttributeTest
+public class CharSequenceTextAttributeTest extends AbstractPropertyAttributeTest<CharSequence>
 {
 	private static final CharSequence INITIAL_VALUE = "initial value";
 	private static final CharSequence NEW_VALUE = "new value";
-	private static final String PROPERTY_NAME = "some_property";
 	
 	private TextView textView;
-	private PresentationModelAdapter presentationModelAdapter;
-	private ValueModel<CharSequence> valueModel;
 	
 	@Before
 	public void setUp()
 	{
 		textView = new TextView(null);
-		valueModel = ValueHolders.create(INITIAL_VALUE);
 	}
 	
 	@Test
 	public void whenBindingTextAttributeWith1WayOr2WayBinding_ThenTextViewShouldReflectValueModel()
 	{
-		textAttributeWithEither1WayOr2WayBinding();
+		createAttributeWithEither1WayOr2WayBinding();
 		
 		assertThat(textView.getText(), equalTo(INITIAL_VALUE));
 	}
@@ -69,7 +59,7 @@ public class CharSequenceTextAttributeTest
 	@Test
 	public void givenTextViewBoundWithEither1WayOr2WayBinding_WhenUpdatingValueModelText_ThenTextViewShouldBeUpdated()
 	{
-		textAttributeWithEither1WayOr2WayBinding();
+		createAttributeWithEither1WayOr2WayBinding();
 		
 		valueModel.setValue(NEW_VALUE);
 		
@@ -79,7 +69,7 @@ public class CharSequenceTextAttributeTest
 	@Test
 	public void givenTextViewBoundWith1WayBinding_WhenUpdatingTextPropertyOnTheTextView_ThenValueModelShouldNotBeUpdated()
 	{
-		textAttributeWith1WayBinding();
+		createAttributeWith1WayBinding();
 		
 		textView.setText(NEW_VALUE);
 		
@@ -89,52 +79,23 @@ public class CharSequenceTextAttributeTest
 	@Test
 	public void givenTextViewBoundWith2WayBinding_WhenUpdatingTextPropertyOnTheTextView_ThenValueModelShouldBeUpdated()
 	{
-		textAttributeWith2WayBinding();
+		createAttributeWith2WayBinding();
 		
 		textView.setText(NEW_VALUE);
 		
 		assertThat(valueModel.getValue(), equalTo(NEW_VALUE));
 	}
 
-	private void textAttributeWithEither1WayOr2WayBinding()
+	@Override
+	protected AbstractPropertyViewAttribute<CharSequence> newAttributeInstance(String bindingAttributeValue)
 	{
-		if (new Random().nextInt(2) == 0)
-			textAttributeWith1WayBinding();
-		else
-			textAttributeWith2WayBinding();
-	}
-	
-	private void textAttributeWith1WayBinding()
-	{
-		mockPresentationModelFor1WayBinding();
-		CharSequenceTextAttribute textAttribute = newTextAttribute("{" + PROPERTY_NAME + "}");
-		textAttribute.performOneWayBinding();
+		TextAttribute textAttribute = new TextAttribute(textView, bindingAttributeValue);
+		return textAttribute.new CharSequenceTextAttribute();
 	}
 
-	private void textAttributeWith2WayBinding()
+	@Override
+	protected ValueModel<CharSequence> initialValueModelInstance()
 	{
-		mockPresentationModelFor2WayBinding();
-		CharSequenceTextAttribute textAttribute = newTextAttribute("${" + PROPERTY_NAME + "}");
-		textAttribute.performTwoWayBinding();
-	}
-	
-	private void mockPresentationModelFor1WayBinding()
-	{
-		presentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(presentationModelAdapter.<CharSequence>getReadOnlyPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
-	}
-	
-	private void mockPresentationModelFor2WayBinding()
-	{
-		presentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(presentationModelAdapter.<CharSequence>getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
-	}
-	
-	private CharSequenceTextAttribute newTextAttribute(String bindingProperty)
-	{
-		TextAttribute textAttribute = new TextAttribute(textView, bindingProperty);
-		CharSequenceTextAttribute charSequenceTextAttribute = textAttribute.new CharSequenceTextAttribute();
-		charSequenceTextAttribute.setPresentationModelAdapter(presentationModelAdapter);
-		return charSequenceTextAttribute;
+		return ValueHolders.create(INITIAL_VALUE);
 	}
 }
