@@ -1,5 +1,5 @@
 /**
- * TypedCursor.java
+ * CursorDataSetProperty.java
  * 11 Oct 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +16,38 @@
  */
 package robobinding.presentationmodel;
 
+import robobinding.beans.PropertyAccessor;
+
+
+
 /**
+ * 
  * @since 1.0
- * @version $Revision: 1.0 $
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
-public interface TypedCursor<T>
+public class CursorDataSetProperty<T> extends AbstractDataSetProperty<T>
 {
-	int getCount();
-	T getObjectAtPosition(int position);
+	public CursorDataSetProperty(Object bean, PropertyAccessor<Object> propertyAccessor)
+	{
+		super(bean, propertyAccessor);
+	}
+	@Override
+	public int size()
+	{
+		TypedCursor<T> cursor = getCursor();
+		return cursor.getCount();
+	}
+	@Override
+	public T getItem(int position)
+	{
+		TypedCursor<T> cursor = getCursor();
+		return cursor.getObjectAtPosition(position);
+	}
+	private TypedCursor<T> getCursor()
+	{
+		@SuppressWarnings("unchecked")
+		TypedCursor<T> cursor = (TypedCursor<T>)getValue();
+		return cursor;
+	}
 }

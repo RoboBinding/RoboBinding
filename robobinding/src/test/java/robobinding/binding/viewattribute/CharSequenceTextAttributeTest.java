@@ -28,8 +28,8 @@ import org.junit.runner.RunWith;
 
 import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.viewattribute.TextAttribute.CharSequenceTextAttribute;
-import robobinding.value.ValueHolders;
 import robobinding.value.ValueModel;
+import robobinding.value.experimental.ValueHolders;
 import android.widget.TextView;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;

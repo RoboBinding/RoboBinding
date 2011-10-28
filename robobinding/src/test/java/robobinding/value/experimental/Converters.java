@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.value;
+package robobinding.value.experimental;
 
 import java.text.Format;
 import java.text.ParseException;
 
 import robobinding.utils.NumberUtils;
 import robobinding.utils.Validate;
+import robobinding.value.ValueModel;
 /**
  * @since 1.0
  * @version $Revision: 1.0 $

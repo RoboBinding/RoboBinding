@@ -1,4 +1,6 @@
-package robobinding.value;
+package robobinding.value.experimental;
+
+import robobinding.value.ValueModel;
 
 /**
  * @since 1.0
@@ -37,7 +39,7 @@ public class ValueHolders
 	{
 		return new GenericValueHolder<T>(o);
 	}
-	static <T> ValueModel<T> create(T o, boolean checkIdentity)
+	public static <T> ValueModel<T> create(T o, boolean checkIdentity)
 	{
 		return new GenericValueHolder<T>(o, checkIdentity);
 	}

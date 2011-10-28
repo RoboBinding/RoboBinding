@@ -15,25 +15,32 @@
  */
 package robobinding.beans;
 
-import robobinding.presentationmodel.AbstractDataSetProperty;
-import robobinding.value.ValueModel;
+import java.text.MessageFormat;
+
+
+
 
 /**
- * 
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
  * @author Cheng Wei
+ *
  */
-public interface PresentationModelAdapter
+class SimpleProperty<T> extends AbstractProperty<T>
 {
-	Class<?> getPropertyType(String propertyName);
+	public SimpleProperty(Object bean, PropertyAccessor<T> propertyAccessor)
+	{
+		super(bean, propertyAccessor);
+	}
+	@Override
+	public String toString()
+	{
+		Object value = propertyAccessor.safeGetValue(bean);
+		String beanType = bean.getClass().getName();
+		String setter = propertyAccessor.safeGetWriteMethodName();
+		String getter = propertyAccessor.safeGetReadMethodName();
+		return MessageFormat.format("property(name:{0}, value:{1}, propertyType:{2}, setter:{3}, getter:{4}, beanType:{5})", 
+				propertyAccessor.getPropertyName(), value, propertyAccessor.getPropertyType(), setter, getter, beanType);
 
-	<T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName);
-
-	<T> ValueModel<T> getPropertyValueModel(String propertyName);
-
-	AbstractDataSetProperty<?> getDataSetPropertyValueModel(String propertyName);
-
-	Function findFunction(String functionName, Class<?>... parameterTypes);
+	}
 }

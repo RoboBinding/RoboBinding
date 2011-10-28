@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.value;
+package robobinding.value.experimental;
 
 import java.beans.PropertyChangeListener;
 
 import robobinding.utils.Validate;
+import robobinding.value.ValueModel;
 
 /**
  * Converts value from type {@code S} to type {@code D}. 

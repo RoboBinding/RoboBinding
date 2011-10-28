@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import robobinding.beans.experimental.ExtendedPropertyChangeSupport;
 import robobinding.value.PropertyChangeEventEquals;
 import robobinding.value.PropertyChangeReport;
 

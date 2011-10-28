@@ -1,6 +1,6 @@
 /**
- * TypedCursor.java
- * 11 Oct 2011 Copyright Cheng Wei and Robert Taylor
+ * ListDataSetProperty.java
+ * Sep 27, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,39 @@
  */
 package robobinding.presentationmodel;
 
+import java.util.List;
+
+import robobinding.beans.PropertyAccessor;
+
+
 /**
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Cheng Wei
  * @author Robert Taylor
+ * @author Cheng Wei
  *
  */
-public interface TypedCursor<T>
+public class ListDataSetProperty<T> extends AbstractDataSetProperty<T>
 {
-	int getCount();
-	T getObjectAtPosition(int position);
+	public ListDataSetProperty(Object bean, PropertyAccessor<Object> propertyAccessor)
+	{
+		super(bean, propertyAccessor);
+	}
+	@Override
+	public int size()
+	{
+		return getData().size();
+	}
+	@Override
+	public T getItem(int index)
+	{
+		List<T> data = getData();
+		return data.get(index);
+	}
+	private List<T> getData()
+	{
+		@SuppressWarnings("unchecked")
+		List<T> data = (List<T>)getValue();
+		return data;
+	}
 }

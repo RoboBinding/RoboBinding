@@ -17,17 +17,16 @@
 package robobinding.presentationmodel;
 
 import java.beans.PropertyChangeListener;
-
-import robobinding.beans.ExtendedPropertyChangeSupport;
+import java.beans.PropertyChangeSupport;
 
 /**
  * @since 1.0
  * @author Robert Taylor
- *
+ * @author Cheng Wei
  */
 public abstract class AbstractPresentationModel implements ObservableProperties
 {
-	private ExtendedPropertyChangeSupport propertyChangeSupport = new ExtendedPropertyChangeSupport(this);;
+	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);;
 	
 	@Override
 	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)

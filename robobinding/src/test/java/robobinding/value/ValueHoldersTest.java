@@ -6,6 +6,8 @@ import java.beans.PropertyChangeListener;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import robobinding.value.experimental.ValueHolders;
+
 /**
  * @since 1.0
  * @version $Revision: 1.0 $

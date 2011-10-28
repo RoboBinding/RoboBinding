@@ -1,8 +1,9 @@
-package robobinding.value;
+package robobinding.value.experimental;
 
 import java.beans.PropertyChangeListener;
 
-import robobinding.beans.ExtendedPropertyChangeSupport;
+import robobinding.beans.experimental.ExtendedPropertyChangeSupport;
+import robobinding.value.ValueModel;
 
 
 public abstract class AbstractValueModel<T> implements ValueModel<T>

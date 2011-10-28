@@ -2,18 +2,17 @@ package robobinding.beans;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
 import java.text.MessageFormat;
 
 import robobinding.utils.Validate;
 
-final class PropertyAccessor<T>
+public final class PropertyAccessor<T>
 {
 	private static final String NONE = "None";
 	
 	private PropertyDescriptor descriptor;
-	private Class<?> beanClass;
 	/**
 	 * @throws PropertyNotFoundException when the property is not found.
 	 */
@@ -26,9 +25,9 @@ final class PropertyAccessor<T>
 		{
 			throw new PropertyNotFoundException(propertyName, beanClass, e);
 		}
-		this.beanClass = beanClass;
-		checkPropertyType();
+		//checkPropertyType();
 	}
+	/*
 	private void checkPropertyType()
 	{
     	Class<?> klass = getClass();
@@ -41,7 +40,7 @@ final class PropertyAccessor<T>
 	    {
 	    	throw new RuntimeException("Expected property type is '"+parameterizedPropertyType.getName()+"', but actual property type is '"+actualPropertyType+"'");
 	    }
-	}
+	}*/
 	public String getPropertyName()
 	{
 		return descriptor.getName();
@@ -50,7 +49,7 @@ final class PropertyAccessor<T>
 	{
 		return descriptor.getWriteMethod() != null;
 	}
-	private String safeGetWriteMethodName()
+	public String safeGetWriteMethodName()
 	{
 		if(isWritable())
 		{
@@ -64,7 +63,7 @@ final class PropertyAccessor<T>
 	{
 		return descriptor.getReadMethod() != null;
 	}
-	private String safeGetReadMethodName()
+	public String safeGetReadMethodName()
 	{
 		if(isReadable())
 		{
@@ -73,15 +72,6 @@ final class PropertyAccessor<T>
 		{
 			return NONE;
 		}
-	}
-	public String describeProperty(Object bean)
-	{
-		Object value = safeGetValue(bean);
-		String beanType = bean.getClass().getName();
-		String setter = safeGetWriteMethodName();
-		String getter = safeGetReadMethodName();
-		return MessageFormat.format("property(name:{0}, value:{1}, propertyType:{2}, setter:{3}, getter:{4}, beanType:{5}", 
-				getPropertyName(), value, descriptor.getPropertyType(), setter, getter, beanType);
 	}
 	public String describePropertyGetter(Object bean)
 	{
@@ -97,7 +87,7 @@ final class PropertyAccessor<T>
 		return MessageFormat.format("property(name:{0}, value:{1}, setter:{2}, beanType:{3})", 
 				getPropertyName(), propertyValue, setter, beanType);
 	}
-	private T safeGetValue(Object bean)
+	public T safeGetValue(Object bean)
 	{
 		try
 		{
@@ -175,18 +165,18 @@ final class PropertyAccessor<T>
 			throw new RuntimeException(toString()+" is not writable");
 		}
 	}
-	@Override
-	public String toString()
-	{
-		return describeProperty(beanClass, getPropertyName());
-	}
-	static String describeProperty(Class<?> beanClass, String propertyName)
-	{
-		String beanType = beanClass.getName();
-		return MessageFormat.format("property(name:{0}, beanType:{1})", propertyName, beanType);
-	}
 	public Class<?> getPropertyType()
 	{
 		return descriptor.getPropertyType();
+	}
+	public boolean hasAnnotation(Class<? extends Annotation> annotationClass)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public <A extends Annotation> A getAnnotation(Class<A> annotationClass)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

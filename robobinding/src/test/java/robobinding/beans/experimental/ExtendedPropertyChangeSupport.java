@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.beans;
+package robobinding.beans.experimental;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

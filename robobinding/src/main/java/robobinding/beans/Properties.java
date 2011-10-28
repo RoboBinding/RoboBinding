@@ -1,6 +1,6 @@
 /**
- * PropertyAdapter.java
- * Oct 14, 2011 Copyright Cheng Wei and Robert Taylor
+ * Properties.java
+ * Oct 26, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,18 @@
  */
 package robobinding.beans;
 
-import robobinding.value.ValueModel;
+import robobinding.presentationmodel.AbstractDataSetProperty;
 
 /**
- * @since 1.0
- * @version $Revision:  $
- * @author Cheng Wei
  *
+ * @since 1.0
+ * @version $Revision: 1.0 $
+ * @author Cheng Wei
  */
-public interface PropertyAdapter<T> extends ValueModel<T>
+interface Properties
 {
-	Class<?> getPropertyType();
-	void checkReadWriteProperty(boolean isReadWriteProperty);
+	Class<?> getPropertyType(String propertyName);
+	<T> AbstractProperty<T> getReadWriteProperty(String propertyName);
+	<T> AbstractProperty<T> getReadOnlyProperty(String propertyName);
+	<T> AbstractDataSetProperty<T> getReadOnlyDataSetProperty(String propertyName);
 }
