@@ -15,6 +15,11 @@
  */
 package robobinding.property;
 
+import java.util.List;
+
+import robobinding.ItemPresentationModel;
+import robobinding.itempresentationmodel.TypedCursor;
+
 
 /**
  * @since 1.0
@@ -29,6 +34,11 @@ public class Bean
 	public static final String ANNOTATED_PROPERTY = "annotatedProperty";
 	public static final String NOT_ANNOTATED_PROPERTY = "notAnnotatedProperty";
 	public static final String PROPERTY = "property";
+	public static final String READ_WRITE_PROPERTY = "readWriteProperty";
+	public static final String LIST_DATA_SET_PROPERTY = "listDataSetProperty";
+	public static final String CURSOR_DATA_SET_PROPERTY = "cursorDataSetProperty";
+	public static final String UNSUPPORTED_DATA_SET_PROPERTY = "UnsupportedDataSetProperty";
+	public static final String DATA_SET_PROPERTY_WITHOUT_ITEM_PRESENTATION_MODEL_ANNOTATION = "DataSetPropertyWithoutItemPresentationModelAnnotation";
 	
 	public boolean writeOnlyPropertyValue = true;
 	public boolean getReadOnlyProperty()
@@ -51,5 +61,31 @@ public class Bean
 	public boolean getProperty()
 	{
 		return true;
+	}
+	public boolean getReadWriteProperty()
+	{
+		return true;
+	}
+	public void setReadWriteProperty(boolean b)
+	{
+	}
+	@ItemPresentationModel(ItemPresentationModelImpl.class)
+	public List<Object> getListDataSetProperty()
+	{
+		return null;
+	}
+	@ItemPresentationModel(ItemPresentationModelImpl.class)
+	public TypedCursor<Object> getCursorDataSetProperty()
+	{
+		return null;
+	}
+	@ItemPresentationModel(ItemPresentationModelImpl.class)
+	public Object[] getUnsupportedDataSetProperty()
+	{
+		return null;
+	}
+	public List<Object> getDataSetPropertyWithoutItemPresentationModelAnnotation()
+	{
+		return null;
 	}
 }

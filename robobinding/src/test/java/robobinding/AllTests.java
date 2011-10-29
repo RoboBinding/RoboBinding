@@ -1,6 +1,6 @@
 /**
- * ItemPresentationModel.java
- * 11 Oct 2011 Copyright Cheng Wei and Robert Taylor
+ * CachedPropertiesTest.java
+ * Oct 29, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,24 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.itempresentationmodel;
+package robobinding;
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+import robobinding.function.CachedFunctionsTest;
 
 /**
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
- * @author Robert Taylor
  *
  */
-public interface ItemPresentationModel<T>
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+	robobinding.property.AllTests.class,
+	CachedFunctionsTest.class
+})
+public class AllTests
 {
-	void setData(int index, T bean);
 }

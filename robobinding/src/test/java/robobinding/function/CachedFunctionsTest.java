@@ -69,16 +69,14 @@ public class CachedFunctionsTest
 		Assert.assertNull(function);
 	}
 	@Test
-	public void whenFindExistingFunction_thenFunctionCached()
+	public void givenFindExistingFunctionOnce_whenFindAgain_thenReturnSameInstance()
 	{
-		cachedFunctions.find(FunctionsBean.FUNCTION2, new Class<?>[0]);
+		Function function = cachedFunctions.find(FunctionsBean.FUNCTION2, new Class<?>[0]);
 		
-		assertFunctionCached(FunctionsBean.FUNCTION2, new Class<?>[0]);
-	}
-	private void assertFunctionCached(String functionName, Class<?>... parameterTypes)
-	{
-		Function functionCached = findCachedFunction(functionName, parameterTypes);
-		Assert.assertNotNull(functionCached);
+		Function cachedFunction = cachedFunctions.find(FunctionsBean.FUNCTION2, new Class<?>[0]);
+		
+		Assert.assertNotNull(function);
+		Assert.assertTrue(function == cachedFunction);
 	}
 	private Function findCachedFunction(String functionName, Class<?>... parameterTypes)
 	{
