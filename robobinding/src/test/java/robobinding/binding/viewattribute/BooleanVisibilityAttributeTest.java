@@ -24,9 +24,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.viewattribute.VisibilityAttribute.BooleanVisibilityAttribute;
-import robobinding.value.ValueModel;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.PropertyValueModel;
 import robobinding.value.experimental.ValueHolders;
 import android.view.View;
 
@@ -46,7 +46,7 @@ public class BooleanVisibilityAttributeTest
 	
 	private View view;
 	private PresentationModelAdapter presentationModelAdapter;
-	private ValueModel<Boolean> valueModel;
+	private PropertyValueModel<Boolean> valueModel;
 	
 	@Before
 	public void setUp()

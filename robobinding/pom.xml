@@ -16,6 +16,12 @@
     		<version>1.0-RC5-SNAPSHOT</version>
    		 	<scope>test</scope>
 		</dependency>
+		<dependency>
+		    <groupId>commons-beanutils</groupId>
+		    <artifactId>commons-beanutils</artifactId>
+		    <version>1.8.3</version>
+		    <scope>test</scope>
+		</dependency>
 		
 		<dependency>
 		    <groupId>junit</groupId>
@@ -41,6 +47,7 @@
     		<groupId>org.easymock</groupId>
     		<artifactId>easymock</artifactId>
     		<version>3.0</version>
+    		<scope>test</scope>
 		</dependency>        
         <dependency>
             <groupId>com.google.android</groupId>

@@ -17,18 +17,18 @@ package robobinding.value.experimental;
 
 import java.beans.PropertyChangeListener;
 
+import robobinding.property.PropertyValueModel;
 import robobinding.utils.Validate;
-import robobinding.value.ValueModel;
 
 /**
  * Converts value from type {@code S} to type {@code D}. 
  * {@code S} - source type. 
  * {@code D} - destination type.
  */
-public abstract class AbstractConverter<S, D> implements ValueModel<D>
+public abstract class AbstractConverter<S, D> implements PropertyValueModel<D>
 {
-	protected final ValueModel<S> source;
-	public AbstractConverter(ValueModel<S> source)
+	protected final PropertyValueModel<S> source;
+	public AbstractConverter(PropertyValueModel<S> source)
 	{
 		Validate.notNull(source);
 		this.source = source;

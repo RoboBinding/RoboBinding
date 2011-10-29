@@ -17,7 +17,7 @@ package robobinding.binding;
 
 import java.util.List;
 
-import robobinding.beans.PresentationModelAdapter;
+import robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.content.Context;
 

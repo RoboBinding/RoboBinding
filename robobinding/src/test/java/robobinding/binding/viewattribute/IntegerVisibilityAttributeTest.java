@@ -24,9 +24,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.viewattribute.VisibilityAttribute.IntegerVisibilityAttribute;
-import robobinding.value.ValueModel;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.PropertyValueModel;
 import robobinding.value.experimental.ValueHolders;
 import android.view.View;
 
@@ -46,7 +46,7 @@ public class IntegerVisibilityAttributeTest
 	
 	private View view;
 	private PresentationModelAdapter presentationModelAdapter;
-	private ValueModel<Integer> valueModel;
+	private PropertyValueModel<Integer> valueModel;
 	
 	@Before
 	public void setUp()

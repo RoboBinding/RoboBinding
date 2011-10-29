@@ -18,7 +18,7 @@ package robobinding.value.experimental;
 
 import java.util.List;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 
 /**
  * @since 1.0
@@ -66,12 +66,12 @@ public class BooleanNegatorTest extends AbstractConverterTest<Boolean, Boolean>
 	private static class BooleanNegatorConverterTester extends AbstractConverterTester<Boolean, Boolean>
 	{
 		@Override
-		protected ValueModel<Boolean> createConverter(ValueModel<Boolean> source)
+		protected PropertyValueModel<Boolean> createConverter(PropertyValueModel<Boolean> source)
 		{
 			return Converters.createBooleanNegator(source);
 		}
 		@Override
-		protected ValueModel<Boolean> createSourceValueModel(Boolean sourceValue)
+		protected PropertyValueModel<Boolean> createSourceValueModel(Boolean sourceValue)
 		{
 			return ValueHolders.create(sourceValue);
 		}

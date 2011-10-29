@@ -23,7 +23,7 @@ import java.util.Locale;
 
 import org.junit.Before;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 
 /**
  * @since 1.0
@@ -83,12 +83,12 @@ public class StringConverterTest extends AbstractConverterTest<Long, String>
 	private class StringConverterTester extends AbstractConverterTester<Long, String>
 	{
 		@Override
-		protected ValueModel<String> createConverter(ValueModel<Long> source)
+		protected PropertyValueModel<String> createConverter(PropertyValueModel<Long> source)
 		{
 			return Converters.createStringConverter(source, format);
 		}
 		@Override
-		protected ValueModel<Long> createSourceValueModel(Long sourceValue)
+		protected PropertyValueModel<Long> createSourceValueModel(Long sourceValue)
 		{
 			return ValueHolders.create(sourceValue);
 		}

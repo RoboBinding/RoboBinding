@@ -19,8 +19,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.viewattribute.provider.BindingAttributeProvider;
+import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;

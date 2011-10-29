@@ -25,8 +25,8 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.Function;
-import robobinding.beans.PresentationModelAdapter;
+import robobinding.function.Function;
+import robobinding.presentationmodel.PresentationModelAdapter;
 import android.app.Activity;
 import android.content.Context;
 

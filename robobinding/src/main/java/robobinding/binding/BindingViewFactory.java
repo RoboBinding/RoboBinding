@@ -17,8 +17,8 @@ package robobinding.binding;
 
 import java.util.List;
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.BindingAttributesLoader.ViewBindingAttributes;
+import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;

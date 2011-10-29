@@ -3,10 +3,10 @@ package robobinding.value.experimental;
 import java.beans.PropertyChangeListener;
 
 import robobinding.beans.experimental.ExtendedPropertyChangeSupport;
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 
 
-public abstract class AbstractValueModel<T> implements ValueModel<T>
+public abstract class AbstractValueModel<T> implements PropertyValueModel<T>
 {
 	private static final String PROPERTY_VALUE = "value";
 	

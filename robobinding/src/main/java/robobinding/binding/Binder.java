@@ -15,9 +15,9 @@
  */
 package robobinding.binding;
 
-import robobinding.beans.PresentationModelAdapter;
-import robobinding.beans.PresentationModelAdapterImpl;
 import robobinding.binding.BindingViewFactory.InflatedView;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.presentationmodel.PresentationModelAdapterImpl;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;

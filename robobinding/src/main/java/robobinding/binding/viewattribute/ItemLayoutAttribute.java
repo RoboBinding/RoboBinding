@@ -18,8 +18,8 @@ package robobinding.binding.viewattribute;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.presentationmodel.DataSetAdapter;
+import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
 
 /**

@@ -26,9 +26,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.viewattribute.TextAttribute.StringTextAttribute;
-import robobinding.value.ValueModel;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.PropertyValueModel;
 import robobinding.value.experimental.ValueHolders;
 import android.widget.TextView;
 
@@ -49,7 +49,7 @@ public class StringTextAttributeTest
 	
 	private TextView textView;
 	private PresentationModelAdapter presentationModelAdapter;
-	private ValueModel<String> valueModel;
+	private PropertyValueModel<String> valueModel;
 	
 	@Before
 	public void setUp()

@@ -1,6 +1,6 @@
 package robobinding.binding.viewattribute;
 
-import robobinding.beans.Command;
+import robobinding.property.Command;
 
 class MockCommand extends Command
 {

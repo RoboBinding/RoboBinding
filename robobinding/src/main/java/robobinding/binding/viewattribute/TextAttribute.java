@@ -15,9 +15,9 @@
  */
 package robobinding.binding.viewattribute;
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.PropertyViewAttribute;
-import robobinding.value.ValueModel;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.PropertyValueModel;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -69,7 +69,7 @@ public class TextAttribute implements PropertyViewAttribute
 		}
 
 		@Override
-		protected void observeChangesOnTheView(final ValueModel<CharSequence> valueModel)
+		protected void observeChangesOnTheView(final PropertyValueModel<CharSequence> valueModel)
 		{
 			textView.addTextChangedListener(new TextWatcher() {
 				
@@ -106,7 +106,7 @@ public class TextAttribute implements PropertyViewAttribute
 		}
 		
 		@Override
-		protected void observeChangesOnTheView(final ValueModel<String> valueModel)
+		protected void observeChangesOnTheView(final PropertyValueModel<String> valueModel)
 		{
 			textView.addTextChangedListener(new TextWatcher() {
 				@Override

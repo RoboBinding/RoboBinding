@@ -15,9 +15,9 @@
  */
 package robobinding.binding.viewattribute;
 
-import robobinding.beans.Function;
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.CommandViewAttribute;
+import robobinding.function.Function;
+import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
 
 /**

@@ -26,9 +26,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.viewattribute.TextAttribute.CharSequenceTextAttribute;
-import robobinding.value.ValueModel;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.PropertyValueModel;
 import robobinding.value.experimental.ValueHolders;
 import android.widget.TextView;
 
@@ -49,7 +49,7 @@ public class CharSequenceTextAttributeTest
 	
 	private TextView textView;
 	private PresentationModelAdapter presentationModelAdapter;
-	private ValueModel<CharSequence> valueModel;
+	private PropertyValueModel<CharSequence> valueModel;
 	
 	@Before
 	public void setUp()

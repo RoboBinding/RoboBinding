@@ -15,9 +15,9 @@
  */
 package robobinding.binding.viewattribute;
 
-import robobinding.beans.PresentationModelAdapter;
-import robobinding.presentationmodel.AbstractDataSetProperty;
 import robobinding.presentationmodel.DataSetAdapter;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.AbstractDataSetProperty;
 import android.content.Context;
 
 /**

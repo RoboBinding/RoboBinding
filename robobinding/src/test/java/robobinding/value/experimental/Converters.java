@@ -18,9 +18,9 @@ package robobinding.value.experimental;
 import java.text.Format;
 import java.text.ParseException;
 
+import robobinding.property.PropertyValueModel;
 import robobinding.utils.NumberUtils;
 import robobinding.utils.Validate;
-import robobinding.value.ValueModel;
 /**
  * @since 1.0
  * @version $Revision: 1.0 $
@@ -35,7 +35,7 @@ public class Converters
 	/**
 	 * Creates and returns a ValueModel that negates Booleans and leaves null unchanged.
 	 */
-	public static ValueModel<Boolean> createBooleanNegator(ValueModel<Boolean> source)
+	public static PropertyValueModel<Boolean> createBooleanNegator(PropertyValueModel<Boolean> source)
 	{
 		return new BooleanNegator(source);
 	}
@@ -48,7 +48,7 @@ public class Converters
 	 * 
 	 * @throws IllegalArgumentException if the trueText equals the falseText.
 	 */
-	public static ValueModel<String> createBooleanToStringConverter(ValueModel<Boolean> source, String trueText, String falseText)
+	public static PropertyValueModel<String> createBooleanToStringConverter(PropertyValueModel<Boolean> source, String trueText, String falseText)
 	{
 		return createBooleanToStringConverter(source, trueText, falseText, "");
 	}
@@ -61,7 +61,7 @@ public class Converters
 	 * 
 	 * @throws IllegalArgumentException if the trueText equals the falseText
 	 */
-	public static ValueModel<String> createBooleanToStringConverter(ValueModel<Boolean> source, String trueText, String falseText, String nullText)
+	public static PropertyValueModel<String> createBooleanToStringConverter(PropertyValueModel<Boolean> source, String trueText, String falseText, String nullText)
 	{
 		return new BooleanToStringConverter(source, trueText, falseText, nullText);
 	}
@@ -76,7 +76,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Double> createDoubleConverter(ValueModel<Double> source, double multiplier)
+	public static PropertyValueModel<Double> createDoubleConverter(PropertyValueModel<Double> source, double multiplier)
 	{
 		return new DoubleConverter(source, multiplier);
 	}
@@ -87,7 +87,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Integer> createDoubleToIntegerConverter(ValueModel<Double> source)
+	public static PropertyValueModel<Integer> createDoubleToIntegerConverter(PropertyValueModel<Double> source)
 	{
 		return createDoubleToIntegerConverter(source, 1);
 	}
@@ -104,7 +104,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Integer> createDoubleToIntegerConverter(ValueModel<Double> source, double multiplier)
+	public static PropertyValueModel<Integer> createDoubleToIntegerConverter(PropertyValueModel<Double> source, double multiplier)
 	{
 		return new DoubleToIntegerConverter(source, multiplier);
 	}
@@ -119,7 +119,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Float> createFloatConverter(ValueModel<Float> source, float multiplier)
+	public static PropertyValueModel<Float> createFloatConverter(PropertyValueModel<Float> source, float multiplier)
 	{
 		return new FloatConverter(source, multiplier);
 	}
@@ -130,7 +130,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Integer> createFloatToIntegerConverter(ValueModel<Float> source)
+	public static PropertyValueModel<Integer> createFloatToIntegerConverter(PropertyValueModel<Float> source)
 	{
 		return createFloatToIntegerConverter(source, 1);
 	}
@@ -143,7 +143,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Integer> createFloatToIntegerConverter(ValueModel<Float> source, float multiplier)
+	public static PropertyValueModel<Integer> createFloatToIntegerConverter(PropertyValueModel<Float> source, float multiplier)
 	{
 		return new FloatToIntegerConverter(source, multiplier);
 	}
@@ -158,7 +158,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Integer> createIntegerConverter(ValueModel<Integer> source, double multiplier)
+	public static PropertyValueModel<Integer> createIntegerConverter(PropertyValueModel<Integer> source, double multiplier)
 	{
 		return new IntegerConverter(source, multiplier);
 	}
@@ -173,7 +173,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Long> createLongConverter(ValueModel<Long> source, double multiplier)
+	public static PropertyValueModel<Long> createLongConverter(PropertyValueModel<Long> source, double multiplier)
 	{
 		return new LongConverter(source, multiplier);
 	}
@@ -184,7 +184,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Integer> createLongToIntegerConverter(ValueModel<Long> source)
+	public static PropertyValueModel<Integer> createLongToIntegerConverter(PropertyValueModel<Long> source)
 	{
 		return createLongToIntegerConverter(source, 1);
 	}
@@ -195,7 +195,7 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static ValueModel<Integer> createLongToIntegerConverter(ValueModel<Long> source, int multiplier)
+	public static PropertyValueModel<Integer> createLongToIntegerConverter(PropertyValueModel<Long> source, int multiplier)
 	{
 		return new LongToIntegerConverter(source, multiplier);
 	}
@@ -206,17 +206,17 @@ public class Converters
 	 * <p>
 	 * 
 	 */
-	public static <T extends Object> ValueModel<String> createStringConverter(ValueModel<T> source, Format format)
+	public static <T extends Object> PropertyValueModel<String> createStringConverter(PropertyValueModel<T> source, Format format)
 	{
 		return new StringConverter<T>(source, format);
 	}
 
 	/**
-	 * @see Converters#createBooleanNegator(ValueModel)
+	 * @see Converters#createBooleanNegator(PropertyValueModel)
 	 */
 	private static final class BooleanNegator extends AbstractConverterWithDefaultNullBehavior<Boolean, Boolean>
 	{
-		public BooleanNegator(ValueModel<Boolean> source)
+		public BooleanNegator(PropertyValueModel<Boolean> source)
 		{
 			super(source);
 		}
@@ -237,7 +237,7 @@ public class Converters
 	}
 
 	/**
-	 * @see Converters#createBooleanToStringConverter(ValueModel, String, String, String)
+	 * @see Converters#createBooleanToStringConverter(PropertyValueModel, String, String, String)
 	 */
 	private static final class BooleanToStringConverter extends AbstractConverter<Boolean, String>
 	{
@@ -245,7 +245,7 @@ public class Converters
 		private final String falseText;
 		private final String nullText;
 
-		public BooleanToStringConverter(ValueModel<Boolean> source, String trueText, String falseText, String nullText)
+		public BooleanToStringConverter(PropertyValueModel<Boolean> source, String trueText, String falseText, String nullText)
 		{
 			super(source);
 			Validate.notNull(trueText, "The trueText must not be null.");
@@ -296,7 +296,7 @@ public class Converters
 	{
 		private final double multiplier;
 
-		public DoubleConverter(ValueModel<Double> source, double multiplier)
+		public DoubleConverter(PropertyValueModel<Double> source, double multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;
@@ -320,14 +320,14 @@ public class Converters
 	}
 
 	/**
-	 * @see Converters#createDoubleToIntegerConverter(ValueModel, int)
+	 * @see Converters#createDoubleToIntegerConverter(PropertyValueModel, int)
 	 */
 	private static final class DoubleToIntegerConverter extends AbstractConverterWithDefaultNullBehavior<Double, Integer>
 	{
 
 		private final double multiplier;
 
-		public DoubleToIntegerConverter(ValueModel<Double> source, double multiplier)
+		public DoubleToIntegerConverter(PropertyValueModel<Double> source, double multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;
@@ -351,13 +351,13 @@ public class Converters
 	}
 
 	/**
-	 * @see Converters#createFloatConverter(ValueModel, float)
+	 * @see Converters#createFloatConverter(PropertyValueModel, float)
 	 */
 	private static final class FloatConverter extends AbstractConverterWithDefaultNullBehavior<Float, Float>
 	{
 		private final float multiplier;
 
-		public FloatConverter(ValueModel<Float> source, float multiplier)
+		public FloatConverter(PropertyValueModel<Float> source, float multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;
@@ -381,13 +381,13 @@ public class Converters
 	}
 
 	/**
-	 * @see Converters#createFloatToIntegerConverter(ValueModel, int)
+	 * @see Converters#createFloatToIntegerConverter(PropertyValueModel, int)
 	 */
 	private static final class FloatToIntegerConverter extends AbstractConverterWithDefaultNullBehavior<Float, Integer>
 	{
 		private final float multiplier;
 
-		public FloatToIntegerConverter(ValueModel<Float> source, float multiplier)
+		public FloatToIntegerConverter(PropertyValueModel<Float> source, float multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;
@@ -411,13 +411,13 @@ public class Converters
 	}
 
 	/**
-	 * @see Converters#createIntegerConverter(ValueModel, double)
+	 * @see Converters#createIntegerConverter(PropertyValueModel, double)
 	 */
 	private static final class IntegerConverter extends AbstractConverterWithDefaultNullBehavior<Integer, Integer>
 	{
 		private final double multiplier;
 
-		public IntegerConverter(ValueModel<Integer> source, double multiplier)
+		public IntegerConverter(PropertyValueModel<Integer> source, double multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;
@@ -441,13 +441,13 @@ public class Converters
 	}
 
 	/**
-	 * @see Converters#createLongConverter(ValueModel, double)
+	 * @see Converters#createLongConverter(PropertyValueModel, double)
 	 */
 	private static final class LongConverter extends AbstractConverterWithDefaultNullBehavior<Long, Long>
 	{
 		private final double multiplier;
 	
-		public LongConverter(ValueModel<Long> source, double multiplier)
+		public LongConverter(PropertyValueModel<Long> source, double multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;
@@ -471,14 +471,14 @@ public class Converters
 	}
 
 	/**
-	 * @see Converters#createLongToIntegerConverter(ValueModel, int)
+	 * @see Converters#createLongToIntegerConverter(PropertyValueModel, int)
 	 */
 	private static final class LongToIntegerConverter extends AbstractConverterWithDefaultNullBehavior<Long, Integer>
 	{
 
 		private final double multiplier;
 
-		public LongToIntegerConverter(ValueModel<Long> source, double multiplier)
+		public LongToIntegerConverter(PropertyValueModel<Long> source, double multiplier)
 		{
 			super(source);
 			this.multiplier = multiplier;
@@ -501,12 +501,12 @@ public class Converters
 	}
 
 	/**
-	 * @see Converters#createStringConverter(ValueModel, Format)
+	 * @see Converters#createStringConverter(PropertyValueModel, Format)
 	 */
 	private static final class StringConverter<T extends Object> extends AbstractConverterWithDefaultNullBehavior<T, String>
 	{
 		private final Format format;
-		public StringConverter(ValueModel<T> source, Format format)
+		public StringConverter(PropertyValueModel<T> source, Format format)
 		{
 			super(source);
 			
