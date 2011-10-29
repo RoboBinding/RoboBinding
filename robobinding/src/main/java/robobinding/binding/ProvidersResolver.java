@@ -19,10 +19,12 @@ import java.util.Map;
 import java.util.Queue;
 
 import robobinding.binding.viewattribute.provider.BindingAttributeProvider;
+import robobinding.binding.viewattribute.provider.CheckBoxAttributeProvider;
 import robobinding.binding.viewattribute.provider.ListViewAttributeProvider;
 import robobinding.binding.viewattribute.provider.TextViewAttributeProvider;
 import robobinding.binding.viewattribute.provider.ViewAttributeProvider;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,6 +49,7 @@ public class ProvidersResolver
 		viewAttributeProviderMap.put(View.class, new ViewAttributeProvider());
 		viewAttributeProviderMap.put(TextView.class, new TextViewAttributeProvider());
 		viewAttributeProviderMap.put(ListView.class, new ListViewAttributeProvider());
+		viewAttributeProviderMap.put(CheckBox.class, new CheckBoxAttributeProvider());
 	}
 	
 	public Queue<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)

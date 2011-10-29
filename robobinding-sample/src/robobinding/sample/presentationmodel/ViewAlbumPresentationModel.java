@@ -20,10 +20,10 @@ import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public class ViewAlbumPresentationModel
 {

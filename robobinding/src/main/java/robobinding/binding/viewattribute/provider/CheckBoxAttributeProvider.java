@@ -16,24 +16,22 @@
 package robobinding.binding.viewattribute.provider;
 
 import robobinding.binding.BindingAttribute;
-import robobinding.binding.viewattribute.TextAttribute;
-import android.widget.TextView;
+import robobinding.binding.viewattribute.CheckedAttribute;
+import android.widget.CheckBox;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextViewAttributeProvider extends AbstractBindingAttributeProvider<TextView>
+public class CheckBoxAttributeProvider extends AbstractBindingAttributeProvider<CheckBox>
 {
 	@Override
-	protected BindingAttribute getSupportedBindingAttribute(TextView textView, String attributeName, String attributeValue)
+	protected BindingAttribute getSupportedBindingAttribute(CheckBox checkBox, String attributeName, String attributeValue)
 	{
-		if ("text".equals(attributeName))
-		{
-			return new BindingAttribute(attributeName, new TextAttribute(textView, attributeValue));
-		}
+		if ("checked".equals(attributeName))
+			return new BindingAttribute(attributeName, new CheckedAttribute(checkBox, attributeValue));
 		
 		return null;
 	}

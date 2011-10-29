@@ -24,10 +24,10 @@ import android.content.Context;
 import com.google.common.collect.Lists;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public class BindingAttribute
 {
@@ -48,6 +48,11 @@ public class BindingAttribute
 	public List<String> getAttributeNames()
 	{
 		return attributeNames;
+	}
+	
+	public ViewAttribute getViewAttribute()
+	{
+		return viewAttribute;
 	}
 	
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)

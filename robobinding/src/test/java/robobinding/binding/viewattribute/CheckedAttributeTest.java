@@ -24,78 +24,78 @@ import org.junit.runner.RunWith;
 
 import robobinding.value.ValueModel;
 import robobinding.value.experimental.ValueHolders;
-import android.widget.TextView;
+import android.widget.CheckBox;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 @RunWith(RobolectricTestRunner.class)
-public class CharSequenceTextAttributeTest extends AbstractPropertyAttributeTest<CharSequence>
+public class CheckedAttributeTest extends AbstractPropertyAttributeTest<Boolean>
 {
-	private static final CharSequence INITIAL_VALUE = "initial value";
-	private static final CharSequence NEW_VALUE = "new value";
+	private static final boolean INITIAL_VALUE = true;
+	private static final boolean NEW_VALUE = false;
 	
-	private TextView textView;
+	private CheckBox checkBox;
 	
 	@Before
 	public void setUp()
 	{
-		textView = new TextView(null);
+		checkBox = new CheckBox(null);
 	}
 	
 	@Test
-	public void whenBindingTextAttributeWith1WayOr2WayBinding_ThenTextViewShouldReflectValueModel()
+	public void whenBindingCheckedAttributeWith1WayOr2WayBinding_ThenCheckBoxShouldReflectValueModel()
 	{
 		createAttributeWithEither1WayOr2WayBinding();
 		
-		assertThat(textView.getText(), equalTo(INITIAL_VALUE));
+		assertThat(checkBox.isChecked(), equalTo(INITIAL_VALUE));
 	}
 
 	@Test
-	public void givenTextViewBoundWithEither1WayOr2WayBinding_WhenUpdatingValueModelText_ThenTextViewShouldBeUpdated()
+	public void givenCheckBoxBoundWithEither1WayOr2WayBinding_WhenUpdatingValueModelCheckedState_ThenCheckBoxShouldBeUpdated()
 	{
 		createAttributeWithEither1WayOr2WayBinding();
 		
 		updateValueModel(NEW_VALUE);
 		
-		assertThat(textView.getText(), equalTo(NEW_VALUE));
+		assertThat(checkBox.isChecked(), equalTo(NEW_VALUE));
 	}
 	
 	@Test
-	public void givenTextViewBoundWith1WayBinding_WhenUpdatingTextPropertyOnTheTextView_ThenValueModelShouldNotBeUpdated()
+	public void givenCheckBoxBoundWith1WayBinding_WhenUpdatingCheckedPropertyOnTheCheckBox_ThenValueModelShouldNotBeUpdated()
 	{
 		createAttributeWith1WayBinding();
 		
-		textView.setText(NEW_VALUE);
+		checkBox.setChecked(NEW_VALUE);
 		
 		assertThat(valueModel.getValue(), equalTo(INITIAL_VALUE));
 	}
 	
 	@Test
-	public void givenTextViewBoundWith2WayBinding_WhenUpdatingTextPropertyOnTheTextView_ThenValueModelShouldBeUpdated()
+	public void givenCheckBoxBoundWith2WayBinding_WhenUpdatingCheckedPropertyOnTheCheckBox_ThenValueModelShouldBeUpdated()
 	{
 		createAttributeWith2WayBinding();
 		
-		textView.setText(NEW_VALUE);
+		checkBox.setChecked(NEW_VALUE);
 		
 		assertThat(valueModel.getValue(), equalTo(NEW_VALUE));
 	}
-
+	
 	@Override
-	protected AbstractPropertyViewAttribute<CharSequence> newAttributeInstance(String bindingAttributeValue)
+	protected AbstractPropertyViewAttribute<Boolean> newAttributeInstance(String bindingAttributeValue)
 	{
-		TextAttribute textAttribute = new TextAttribute(textView, bindingAttributeValue);
-		return textAttribute.new CharSequenceTextAttribute();
+		return new CheckedAttribute(checkBox, bindingAttributeValue);
 	}
 
 	@Override
-	protected ValueModel<CharSequence> initialValueModelInstance()
+	protected ValueModel<Boolean> initialValueModelInstance()
 	{
-		return ValueHolders.create(INITIAL_VALUE);
+		return ValueHolders.createBoolean(INITIAL_VALUE);
 	}
+
 }

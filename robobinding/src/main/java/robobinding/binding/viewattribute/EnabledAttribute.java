@@ -13,29 +13,30 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.viewattribute.provider;
+package robobinding.binding.viewattribute;
 
-import robobinding.binding.BindingAttribute;
-import robobinding.binding.viewattribute.TextAttribute;
-import android.widget.TextView;
+import android.view.View;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextViewAttributeProvider extends AbstractBindingAttributeProvider<TextView>
+public class EnabledAttribute extends AbstractReadOnlyPropertyViewAttribute<Boolean>
 {
-	@Override
-	protected BindingAttribute getSupportedBindingAttribute(TextView textView, String attributeName, String attributeValue)
+	private final View view;
+
+	public EnabledAttribute(View view, String attributeValue)
 	{
-		if ("text".equals(attributeName))
-		{
-			return new BindingAttribute(attributeName, new TextAttribute(textView, attributeValue));
-		}
-		
-		return null;
+		super(attributeValue);
+		this.view = view;
+	}
+
+	@Override
+	protected void valueModelUpdated(Boolean newValue)
+	{
+		view.setEnabled(newValue);
 	}
 
 }

@@ -16,6 +16,7 @@
 package robobinding.binding.viewattribute.provider;
 
 import robobinding.binding.BindingAttribute;
+import robobinding.binding.viewattribute.EnabledAttribute;
 import robobinding.binding.viewattribute.OnClickAttribute;
 import robobinding.binding.viewattribute.VisibilityAttribute;
 import android.view.View;
@@ -34,6 +35,10 @@ public class ViewAttributeProvider extends AbstractBindingAttributeProvider<View
 		if ("visibility".equals(attributeName))
 		{
 			return new BindingAttribute(attributeName, new VisibilityAttribute(view, attributeValue));
+		}
+		else if ("enabled".equals(attributeName))
+		{
+			return new BindingAttribute(attributeName, new EnabledAttribute(view, attributeValue));
 		}
 		else if ("onClick".equals(attributeName))
 		{
