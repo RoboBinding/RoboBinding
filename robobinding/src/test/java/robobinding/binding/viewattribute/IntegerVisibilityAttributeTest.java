@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 import robobinding.value.experimental.ValueHolders;
 import android.view.View;
 
@@ -100,7 +100,7 @@ public class IntegerVisibilityAttributeTest extends AbstractPropertyAttributeTes
 	}
 
 	@Override
-	protected ValueModel<Integer> initialValueModelInstance()
+	protected PropertyValueModel<Integer> initialValueModelInstance()
 	{
 		return ValueHolders.createInteger(INITIAL_VALUE);
 	}

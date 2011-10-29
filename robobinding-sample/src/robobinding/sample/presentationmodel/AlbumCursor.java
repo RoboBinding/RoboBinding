@@ -18,7 +18,7 @@ package robobinding.sample.presentationmodel;
 
 import java.util.List;
 
-import robobinding.presentationmodel.TypedCursor;
+import robobinding.itempresentationmodel.TypedCursor;
 import robobinding.sample.model.Album;
 import android.database.AbstractCursor;
 

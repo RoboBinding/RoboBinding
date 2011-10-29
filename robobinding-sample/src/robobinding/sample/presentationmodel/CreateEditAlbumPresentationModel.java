@@ -16,8 +16,8 @@
  */
 package robobinding.sample.presentationmodel;
 
+import robobinding.DependsOn;
 import robobinding.presentationmodel.AbstractPresentationModel;
-import robobinding.presentationmodel.DependsOn;
 import robobinding.sample.R;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;

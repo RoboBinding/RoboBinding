@@ -15,6 +15,7 @@
  */
 package robobinding.beans.experimental;
 
+import org.junit.Ignore;
 import org.junit.experimental.theories.Theories;
 import org.junit.runner.RunWith;
 
@@ -25,6 +26,7 @@ import org.junit.runner.RunWith;
  *
  */
 @RunWith(Theories.class)
+@Ignore
 public class AbstractCommandViewAttributeTest
 {
 	//TODO Handle arg subclasses

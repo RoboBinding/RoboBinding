@@ -15,7 +15,7 @@
  */
 package robobinding.binding.viewattribute;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -43,7 +43,7 @@ public class CheckedAttribute extends AbstractPropertyViewAttribute<Boolean>
 	}
 
 	@Override
-	protected void observeChangesOnTheView(final ValueModel<Boolean> valueModel)
+	protected void observeChangesOnTheView(final PropertyValueModel<Boolean> valueModel)
 	{
 		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override

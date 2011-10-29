@@ -27,8 +27,8 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.PresentationModelAdapter;
-import robobinding.value.ValueModel;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.PropertyValueModel;
 import android.content.Context;
 
 /**
@@ -67,7 +67,7 @@ public class PropertyViewAttributeTest
 	{
 		DummyPropertyViewAttribute propertyViewAttribute = new DummyPropertyViewAttribute(attributeValues.value);
 		
-		ValueModel<Object> valueModel = mock(ValueModel.class);
+		PropertyValueModel<Object> valueModel = mock(PropertyValueModel.class);
 		when(presentationModelAdapter.getReadOnlyPropertyValueModel(attributeValues.expectedPropertyName)).thenReturn(valueModel);
 		when(presentationModelAdapter.getPropertyValueModel(attributeValues.expectedPropertyName)).thenReturn(valueModel);
 		
@@ -107,15 +107,15 @@ public class PropertyViewAttributeTest
 		}
 
 		private BindingType bindingType = BindingType.NO_BINDING;
-		private ValueModel valueModelBound;
+		private PropertyValueModel valueModelBound;
 		
 		@Override
-		protected void initializeView(ValueModel valueModel)
+		protected void initializeView(PropertyValueModel valueModel)
 		{
 		}
 
 		@Override
-		protected void observeChangesOnTheValueModel(ValueModel valueModel)
+		protected void observeChangesOnTheValueModel(PropertyValueModel valueModel)
 		{
 			if (bindingType != BindingType.TWO_WAY)
 				bindingType = BindingType.ONE_WAY;
@@ -124,7 +124,7 @@ public class PropertyViewAttributeTest
 		}
 
 		@Override
-		protected void observeChangesOnTheView(ValueModel valueModel)
+		protected void observeChangesOnTheView(PropertyValueModel valueModel)
 		{
 			bindingType = BindingType.TWO_WAY;
 		}

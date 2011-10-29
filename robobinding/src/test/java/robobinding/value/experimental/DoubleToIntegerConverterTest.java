@@ -18,7 +18,7 @@ package robobinding.value.experimental;
 
 import java.util.List;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 
 /**
  * @since 1.0
@@ -71,12 +71,12 @@ public class DoubleToIntegerConverterTest extends AbstractConverterTest<Double, 
 	private class DoubleToIntegerConverterTester extends AbstractConverterTester<Double, Integer>
 	{
 		@Override
-		protected ValueModel<Integer> createConverter(ValueModel<Double> source)
+		protected PropertyValueModel<Integer> createConverter(PropertyValueModel<Double> source)
 		{
 			return Converters.createDoubleToIntegerConverter(source, MULTIPLIER);
 		}
 		@Override
-		protected ValueModel<Double> createSourceValueModel(Double sourceValue)
+		protected PropertyValueModel<Double> createSourceValueModel(Double sourceValue)
 		{
 			return ValueHolders.create(sourceValue);
 		}

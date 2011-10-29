@@ -15,7 +15,7 @@
  */
 package robobinding.binding.viewattribute;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 
 /**
  * 
@@ -31,7 +31,7 @@ public abstract class AbstractReadOnlyPropertyViewAttribute<T> extends AbstractP
 	}
 
 	@Override
-	protected void observeChangesOnTheView(ValueModel<T> valueModel)
+	protected void observeChangesOnTheView(PropertyValueModel<T> valueModel)
 	{
 		throw new UnsupportedOperationException(getClass().getName() + " only supports one-way binding");
 	}

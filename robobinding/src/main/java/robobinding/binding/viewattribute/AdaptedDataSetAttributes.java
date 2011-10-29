@@ -16,9 +16,9 @@
 package robobinding.binding.viewattribute;
 
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.ViewAttribute;
 import robobinding.presentationmodel.DataSetAdapter;
+import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
 import android.widget.ListView;
 

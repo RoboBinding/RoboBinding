@@ -18,7 +18,7 @@ package robobinding.value.experimental;
 
 import java.util.List;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 
 import com.google.common.collect.Lists;
 
@@ -74,12 +74,12 @@ public class BooleanToStringConverterTest extends AbstractConverterTest<Boolean,
 	private static class BooleanToStringConverterTester extends AbstractConverterTester<Boolean, String>
 	{
 		@Override
-		protected ValueModel<String> createConverter(ValueModel<Boolean> source)
+		protected PropertyValueModel<String> createConverter(PropertyValueModel<Boolean> source)
 		{
 			return Converters.createBooleanToStringConverter(source, TRUE_TEXT, FALSE_TEXT, NULL_TEXT);
 		}
 		@Override
-		protected ValueModel<Boolean> createSourceValueModel(Boolean sourceValue)
+		protected PropertyValueModel<Boolean> createSourceValueModel(Boolean sourceValue)
 		{
 			return ValueHolders.create(sourceValue);
 		}

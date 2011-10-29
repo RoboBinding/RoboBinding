@@ -20,6 +20,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import robobinding.binding.Binder;
+import robobinding.itempresentationmodel.ItemPresentationModel;
+import robobinding.property.AbstractDataSetProperty;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

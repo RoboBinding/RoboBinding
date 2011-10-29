@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 import robobinding.value.experimental.ValueHolders;
 import android.widget.TextView;
 
@@ -94,7 +94,7 @@ public class StringTextAttributeTest extends AbstractPropertyAttributeTest<Strin
 	}
 
 	@Override
-	protected ValueModel<String> initialValueModelInstance()
+	protected PropertyValueModel<String> initialValueModelInstance()
 	{
 		return ValueHolders.create(INITIAL_VALUE);
 	}

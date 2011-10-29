@@ -20,8 +20,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.Random;
 
-import robobinding.beans.PresentationModelAdapter;
-import robobinding.value.ValueModel;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.PropertyValueModel;
 
 /**
  *
@@ -33,7 +33,7 @@ public abstract class AbstractPropertyAttributeTest<T>
 {
 	protected static final String PROPERTY_NAME = "property_name";
 	
-	protected ValueModel<T> valueModel;
+	protected PropertyValueModel<T> valueModel;
 	protected PresentationModelAdapter presentationModelAdapter;
 	
 	protected void createAttributeWithEither1WayOr2WayBinding()
@@ -96,5 +96,5 @@ public abstract class AbstractPropertyAttributeTest<T>
 	
 	protected abstract AbstractPropertyViewAttribute<T> newAttributeInstance(String bindingAttributeValue);
 
-	protected abstract ValueModel<T> initialValueModelInstance();
+	protected abstract PropertyValueModel<T> initialValueModelInstance();
 }

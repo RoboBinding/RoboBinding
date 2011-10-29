@@ -15,8 +15,8 @@
  */
 package robobinding.binding.viewattribute;
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.PropertyViewAttribute;
+import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
 import android.view.View;
 

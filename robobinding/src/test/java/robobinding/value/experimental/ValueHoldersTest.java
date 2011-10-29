@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 
 /**
  * @since 1.0
@@ -23,7 +23,7 @@ public final class ValueHoldersTest
 	@Test
 	public void testEquityTestingHolderSendsProperEvents()
 	{
-		ValueModel<Object> holder = ValueHolders.create();
+		PropertyValueModel<Object> holder = ValueHolders.create();
 
 		Object obj1 = new Integer(1);
 		Object obj2a = new Integer(2);
@@ -39,7 +39,7 @@ public final class ValueHoldersTest
 	@Test
 	public void testIdentityTestingHolderSendsProperEvents()
 	{
-		ValueModel<Object> holder = ValueHolders.create(null, true);
+		PropertyValueModel<Object> holder = ValueHolders.create(null, true);
 
 		Object obj1 = new Integer(1);
 		Object obj2a = new Integer(2);
@@ -51,7 +51,7 @@ public final class ValueHoldersTest
 		testValueChangeSendsProperEvent(holder, obj2a, obj2b, true); // !=
 		testValueChangeSendsProperEvent(holder, null, null, false);
 	}
-	private <T> void testValueChangeSendsProperEvent(ValueModel<T> valueModel, T oldValue, T newValue, boolean eventExpected)
+	private <T> void testValueChangeSendsProperEvent(PropertyValueModel<T> valueModel, T oldValue, T newValue, boolean eventExpected)
 	{
 		valueModel.setValue(oldValue);
 		

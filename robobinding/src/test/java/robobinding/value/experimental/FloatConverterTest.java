@@ -18,7 +18,7 @@ package robobinding.value.experimental;
 
 import java.util.List;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 
 /**
  * @since 1.0
@@ -67,12 +67,12 @@ public class FloatConverterTest extends AbstractConverterTest<Float, Float>
 	private class FloatConverterTester extends AbstractConverterTester<Float, Float>
 	{
 		@Override
-		protected ValueModel<Float> createConverter(ValueModel<Float> source)
+		protected PropertyValueModel<Float> createConverter(PropertyValueModel<Float> source)
 		{
 			return Converters.createFloatConverter(source, MULTIPLIER);
 		}
 		@Override
-		protected ValueModel<Float> createSourceValueModel(Float sourceValue)
+		protected PropertyValueModel<Float> createSourceValueModel(Float sourceValue)
 		{
 			return ValueHolders.create(sourceValue);
 		}

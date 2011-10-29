@@ -16,7 +16,7 @@
  */
 package robobinding.value.experimental;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 
 /**
  * @since 1.0
@@ -27,7 +27,7 @@ import robobinding.value.ValueModel;
  */
 public abstract class AbstractConverterWithDefaultNullBehavior<S, D> extends AbstractConverter<S, D>
 {
-	public AbstractConverterWithDefaultNullBehavior(ValueModel<S> source)
+	public AbstractConverterWithDefaultNullBehavior(PropertyValueModel<S> source)
 	{
 		super(source);
 	}

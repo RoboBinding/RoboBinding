@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 import robobinding.value.experimental.ValueHolders;
 import android.widget.CheckBox;
 
@@ -93,7 +93,7 @@ public class CheckedAttributeTest extends AbstractPropertyAttributeTest<Boolean>
 	}
 
 	@Override
-	protected ValueModel<Boolean> initialValueModelInstance()
+	protected PropertyValueModel<Boolean> initialValueModelInstance()
 	{
 		return ValueHolders.createBoolean(INITIAL_VALUE);
 	}

@@ -18,9 +18,9 @@ package robobinding.binding.viewattribute;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.PropertyViewAttribute;
-import robobinding.value.ValueModel;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.PropertyValueModel;
 import android.content.Context;
 
 /**
@@ -75,14 +75,14 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 	}
 	
 	protected abstract void valueModelUpdated(T newValue);
-	protected abstract void observeChangesOnTheView(final ValueModel<T> valueModel);
+	protected abstract void observeChangesOnTheView(final PropertyValueModel<T> valueModel);
 	
-	protected void initializeView(ValueModel<T> valueModel)
+	protected void initializeView(PropertyValueModel<T> valueModel)
 	{
 		valueModelUpdated(valueModel.getValue());
 	}
 	
-	protected void observeChangesOnTheValueModel(final ValueModel<T> valueModel)
+	protected void observeChangesOnTheValueModel(final PropertyValueModel<T> valueModel)
 	{
 		valueModel.addValueChangeListener(new PropertyChangeListener() {
 			@Override
@@ -103,7 +103,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		@Override
 		public void performBind()
 		{
-			ValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBinding.propertyName);
+			PropertyValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBinding.propertyName);
 			initializeView(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 		}
@@ -114,7 +114,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		@Override
 		public void performBind()
 		{
-			ValueModel<T> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBinding.propertyName);
+			PropertyValueModel<T> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBinding.propertyName);
 			initializeView(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);

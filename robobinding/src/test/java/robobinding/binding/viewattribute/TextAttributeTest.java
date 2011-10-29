@@ -26,8 +26,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.PresentationModelAdapter;
-import robobinding.value.ValueModel;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.PropertyValueModel;
 import robobinding.value.experimental.ValueHolders;
 import android.app.Activity;
 import android.text.SpannableString;
@@ -51,7 +51,7 @@ public class TextAttributeTest
 	private static final String PROPERTY_NAME = "some_property";
 	
 	private TextView textView;
-	private ValueModel valueModel;
+	private PropertyValueModel valueModel;
 	private PresentationModelAdapter presentationModelAdapter;
 	private PropertySample propertySample;
 	
@@ -178,7 +178,7 @@ public class TextAttributeTest
 		when(presentationModelAdapter.getPropertyType(PROPERTY_NAME)).thenReturn(propertySample.clazz);
 	}
 	
-	private ValueModel valueModelFor(Object value)
+	private PropertyValueModel valueModelFor(Object value)
 	{
 		if (value instanceof Integer)
 		{

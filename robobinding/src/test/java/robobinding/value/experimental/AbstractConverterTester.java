@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.junit.Assert;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 
 import com.google.common.collect.Lists;
 
@@ -32,8 +32,8 @@ import com.google.common.collect.Lists;
  */
 public abstract class AbstractConverterTester<S, D>
 {
-	private List<ValueModel<S>> sources;
-	private List<ValueModel<D>> converters;
+	private List<PropertyValueModel<S>> sources;
+	private List<PropertyValueModel<D>> converters;
 	public void givenSourceValues(List<S> sourceValues)
 	{
 		sources = Lists.newArrayList();
@@ -42,7 +42,7 @@ public abstract class AbstractConverterTester<S, D>
 			sources.add(createSourceValueModel(sourceValue));
 		}
 	}
-	protected abstract ValueModel<S> createSourceValueModel(S sourceValue);
+	protected abstract PropertyValueModel<S> createSourceValueModel(S sourceValue);
 	public void whenSettingSourceValues(List<S> values)
 	{
 		setValues(sources, values);
@@ -51,13 +51,13 @@ public abstract class AbstractConverterTester<S, D>
 	{
 		setValues(converters, values);
 	}
-	private static <T> void setValues(List<ValueModel<T>> valueModels, List<T> values)
+	private static <T> void setValues(List<PropertyValueModel<T>> valueModels, List<T> values)
 	{
 		Assert.assertEquals(valueModels.size(), values.size());
 		for(int i=0; i<valueModels.size(); i++)
 		{
 			T value = values.get(i);
-			ValueModel<T> valueModel = valueModels.get(i);
+			PropertyValueModel<T> valueModel = valueModels.get(i);
 			valueModel.setValue(value);
 		}
 	}
@@ -68,12 +68,12 @@ public abstract class AbstractConverterTester<S, D>
 	public void applyConverters()
 	{
 		converters = Lists.newArrayList();
-		for(ValueModel<S> source : sources)
+		for(PropertyValueModel<S> source : sources)
 		{
 			converters.add(createConverter(source));
 		}
 	}
-	protected abstract ValueModel<D> createConverter(ValueModel<S> source);
+	protected abstract PropertyValueModel<D> createConverter(PropertyValueModel<S> source);
 	public void assertExpectedConvertedValues(List<D> convertedValues)
 	{
 		assertValues(converters, convertedValues);
@@ -83,12 +83,12 @@ public abstract class AbstractConverterTester<S, D>
 	{
 		assertValues(sources, sourceValues);
 	}
-	private static <T> void assertValues(List<ValueModel<T>> valueModels, List<T> expectedValues)
+	private static <T> void assertValues(List<PropertyValueModel<T>> valueModels, List<T> expectedValues)
 	{
 		Assert.assertEquals(valueModels.size(), expectedValues.size());
 		for(int i=0; i<valueModels.size(); i++)
 		{
-			ValueModel<T> valueModel = valueModels.get(i);
+			PropertyValueModel<T> valueModel = valueModels.get(i);
 			T expectedValue = expectedValues.get(i);
 			Assert.assertEquals(expectedValue, valueModel.getValue());
 		}

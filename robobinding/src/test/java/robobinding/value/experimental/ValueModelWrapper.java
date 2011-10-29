@@ -2,8 +2,8 @@ package robobinding.value.experimental;
 
 import java.beans.PropertyChangeListener;
 
+import robobinding.property.PropertyValueModel;
 import robobinding.utils.Validate;
-import robobinding.value.ValueModel;
 
 /**
  * @since 1.0
@@ -11,10 +11,10 @@ import robobinding.value.ValueModel;
  * @author Cheng Wei
  *
  */
-public class ValueModelWrapper<T> implements ValueModel<T>
+public class ValueModelWrapper<T> implements PropertyValueModel<T>
 {
-	private ValueModel<T> forwarding;
-	public ValueModelWrapper(ValueModel<T> source)
+	private PropertyValueModel<T> forwarding;
+	public ValueModelWrapper(PropertyValueModel<T> source)
 	{
 		Validate.notNull(source);
 		
@@ -40,7 +40,7 @@ public class ValueModelWrapper<T> implements ValueModel<T>
 	{
 		forwarding.setValue(newValue);
 	}
-	protected ValueModel<T> getForwarding()
+	protected PropertyValueModel<T> getForwarding()
 	{
 		return forwarding;
 	}

@@ -18,7 +18,7 @@ package robobinding.sample.presentationmodel;
 
 import java.util.List;
 
-import robobinding.beans.ItemPresentationModel;
+import robobinding.ItemPresentationModel;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
 import android.content.Context;

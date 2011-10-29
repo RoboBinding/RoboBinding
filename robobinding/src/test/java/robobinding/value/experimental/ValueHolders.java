@@ -1,6 +1,6 @@
 package robobinding.value.experimental;
 
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 
 /**
  * @since 1.0
@@ -11,35 +11,35 @@ import robobinding.value.ValueModel;
 public class ValueHolders
 {
 	private ValueHolders(){}
-	public static ValueModel<Boolean> createBoolean(boolean b)
+	public static PropertyValueModel<Boolean> createBoolean(boolean b)
 	{
 		return new BooleanValueHolder(b);
 	}
-	public static ValueModel<Double> createDouble(double d)
+	public static PropertyValueModel<Double> createDouble(double d)
 	{
 		return new DoubleValueHolder(d);
 	}
-	public static ValueModel<Float> createFloat(float f)
+	public static PropertyValueModel<Float> createFloat(float f)
 	{
 		return new FloatValueHolder(f);
 	}
-	public static ValueModel<Integer> createInteger(int i)
+	public static PropertyValueModel<Integer> createInteger(int i)
 	{
 		return new IntegerValueHolder(i);
 	}
-	public static ValueModel<Long> createLong(long l)
+	public static PropertyValueModel<Long> createLong(long l)
 	{
 		return new LongValueHolder(l);
 	}
-	public static <T> ValueModel<T> create()
+	public static <T> PropertyValueModel<T> create()
 	{
 		return new GenericValueHolder<T>(null);
 	}
-	public static <T> ValueModel<T> create(T o)
+	public static <T> PropertyValueModel<T> create(T o)
 	{
 		return new GenericValueHolder<T>(o);
 	}
-	public static <T> ValueModel<T> create(T o, boolean checkIdentity)
+	public static <T> PropertyValueModel<T> create(T o, boolean checkIdentity)
 	{
 		return new GenericValueHolder<T>(o, checkIdentity);
 	}

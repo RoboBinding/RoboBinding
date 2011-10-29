@@ -1,6 +1,6 @@
 package robobinding.binding.viewattribute;
 
-import robobinding.beans.Function;
+import robobinding.function.Function;
 
 class MockFunction implements Function
 {

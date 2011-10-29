@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.beans.PresentationModelAdapter;
+import robobinding.presentationmodel.PresentationModelAdapter;
 import android.R;
 import android.app.Activity;
 import android.content.Context;

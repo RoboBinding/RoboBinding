@@ -15,9 +15,9 @@
  */
 package robobinding.binding.viewattribute;
 
-import robobinding.beans.PresentationModelAdapter;
 import robobinding.binding.PropertyViewAttribute;
-import robobinding.value.ValueModel;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.PropertyValueModel;
 import android.content.Context;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -95,8 +95,7 @@ public class TextAttribute implements PropertyViewAttribute
 			suppressNextViewUpdate = true;
 		}
 		
-		@Override
-		protected void observeChangesOnTheView(final ValueModel<T> valueModel)
+		protected void observeChangesOnTheView(final PropertyValueModel<T> valueModel)
 		{
 			textView.addTextChangedListener(new TextWatcher() {
 				
@@ -118,13 +117,13 @@ public class TextAttribute implements PropertyViewAttribute
 			});
 		}
 		
-		protected abstract void updateValueModel(ValueModel<T> valueModel, CharSequence charSequence);
+		protected abstract void updateValueModel(PropertyValueModel<T> valueModel, CharSequence charSequence);
 	}
 	
 	class StringTextAttribute extends AbstractCharSequenceTextAttribute<String>
 	{
 		@Override
-		protected void updateValueModel(ValueModel<String> valueModel, CharSequence charSequence)
+		protected void updateValueModel(PropertyValueModel<String> valueModel, CharSequence charSequence)
 		{
 			valueModel.setValue(charSequence.toString());
 		}
@@ -133,7 +132,7 @@ public class TextAttribute implements PropertyViewAttribute
 	class SpannedStringTextAttribute extends AbstractCharSequenceTextAttribute<SpannedString>
 	{
 		@Override
-		protected void updateValueModel(ValueModel<SpannedString> valueModel, CharSequence charSequence)
+		protected void updateValueModel(PropertyValueModel<SpannedString> valueModel, CharSequence charSequence)
 		{
 			suppressNextViewUpdate();
 			valueModel.setValue(new SpannedString(charSequence));
@@ -143,7 +142,7 @@ public class TextAttribute implements PropertyViewAttribute
 	public class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
 	{
 		@Override
-		protected void updateValueModel(ValueModel<CharSequence> valueModel, CharSequence charSequence)
+		protected void updateValueModel(PropertyValueModel<CharSequence> valueModel, CharSequence charSequence)
 		{
 			valueModel.setValue(charSequence);
 		}
@@ -152,7 +151,7 @@ public class TextAttribute implements PropertyViewAttribute
 	public class SpannableStringBuilderTextAttribute extends AbstractCharSequenceTextAttribute<SpannableStringBuilder>
 	{
 		@Override
-		protected void updateValueModel(ValueModel<SpannableStringBuilder> valueModel, CharSequence charSequence)
+		protected void updateValueModel(PropertyValueModel<SpannableStringBuilder> valueModel, CharSequence charSequence)
 		{
 			suppressNextViewUpdate();
 			valueModel.setValue(new SpannableStringBuilder(charSequence));
@@ -162,7 +161,7 @@ public class TextAttribute implements PropertyViewAttribute
 	public class SpannableStringTextAttribute extends AbstractCharSequenceTextAttribute<SpannableString>
 	{
 		@Override
-		protected void updateValueModel(ValueModel<SpannableString> valueModel, CharSequence charSequence)
+		protected void updateValueModel(PropertyValueModel<SpannableString> valueModel, CharSequence charSequence)
 		{
 			suppressNextViewUpdate();
 			valueModel.setValue(new SpannableString(charSequence));

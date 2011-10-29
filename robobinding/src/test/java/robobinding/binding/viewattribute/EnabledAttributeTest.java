@@ -22,11 +22,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-
-import robobinding.value.ValueModel;
+import robobinding.property.PropertyValueModel;
 import robobinding.value.experimental.ValueHolders;
 import android.view.View;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -89,7 +89,7 @@ public class EnabledAttributeTest extends AbstractPropertyAttributeTest<Boolean>
 	}
 
 	@Override
-	protected ValueModel<Boolean> initialValueModelInstance()
+	protected PropertyValueModel<Boolean> initialValueModelInstance()
 	{
 		return ValueHolders.createBoolean(INITIAL_VALUE);
 	}
