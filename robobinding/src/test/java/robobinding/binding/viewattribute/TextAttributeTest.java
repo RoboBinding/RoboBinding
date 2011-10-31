@@ -28,7 +28,6 @@ import org.junit.runner.RunWith;
 
 import robobinding.presentationmodel.PresentationModelAdapter;
 import robobinding.property.PropertyValueModel;
-import robobinding.value.experimental.ValueHolders;
 import android.app.Activity;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;

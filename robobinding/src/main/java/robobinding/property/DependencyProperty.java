@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Set;
 
 import robobinding.DependsOn;
+import robobinding.internal.com_google_common.collect.Lists;
+import robobinding.internal.com_google_common.collect.Sets;
+import robobinding.internal.org_apache_commons_lang3.StringUtils;
 import robobinding.presentationmodel.ObservableProperties;
-import robobinding.utils.StringUtils;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 /**
  *

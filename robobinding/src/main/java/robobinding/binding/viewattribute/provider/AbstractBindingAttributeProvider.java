@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import robobinding.binding.BindingAttribute;
+import robobinding.internal.com_google_common.collect.Lists;
 
-import com.google.common.collect.Lists;
 
 import android.view.View;
 

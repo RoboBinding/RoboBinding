@@ -22,10 +22,10 @@ import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.AdaptedDataSetAttributes;
 import robobinding.binding.viewattribute.ItemLayoutAttribute;
 import robobinding.binding.viewattribute.SourceAttribute;
+import robobinding.internal.com_google_common.collect.Lists;
 import android.text.TextUtils;
 import android.widget.ListView;
 
-import com.google.common.collect.Lists;
 
 /**
  * @since 1.0

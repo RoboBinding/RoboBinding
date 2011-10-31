@@ -19,11 +19,11 @@ package robobinding.property;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.commons.lang3.reflect.ConstructorUtils;
 
+import robobinding.internal.org_apache_commons_lang3.Validate;
+import robobinding.internal.org_apache_commons_lang3.reflect.ConstructorUtils;
 import robobinding.itempresentationmodel.ItemPresentationModel;
 import robobinding.itempresentationmodel.ItemPresentationModelFactory;
-import robobinding.utils.Validate;
 
 /**
  * 

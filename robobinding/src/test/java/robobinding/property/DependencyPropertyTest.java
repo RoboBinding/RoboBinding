@@ -25,11 +25,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.property.AbstractProperty;
 import robobinding.property.DependencyProperty;
 import robobinding.property.PropertyAccessor;
 
-import com.google.common.collect.Lists;
 
 /**
  *

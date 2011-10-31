@@ -25,9 +25,9 @@ import java.util.Map;
 
 import robobinding.DependsOn;
 import robobinding.ItemPresentationModel;
+import robobinding.internal.com_google_common.collect.Maps;
 import robobinding.itempresentationmodel.TypedCursor;
 
-import com.google.common.collect.Maps;
 
 /**
  *

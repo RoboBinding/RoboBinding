@@ -22,8 +22,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
-import robobinding.utils.StringUtils;
-import robobinding.utils.Validate;
+import robobinding.internal.org_apache_commons_lang3.StringUtils;
+import robobinding.internal.org_apache_commons_lang3.Validate;
 
 /**
 *

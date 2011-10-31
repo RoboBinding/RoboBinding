@@ -17,11 +17,11 @@ package robobinding.presentationmodel;
 
 import robobinding.function.CachedFunctions;
 import robobinding.function.Function;
+import robobinding.internal.org_apache_commons_lang3.Validate;
 import robobinding.property.AbstractDataSetProperty;
 import robobinding.property.CachedProperties;
 import robobinding.property.Properties;
 import robobinding.property.PropertyValueModel;
-import robobinding.utils.Validate;
 
 /**
  * @since 1.0

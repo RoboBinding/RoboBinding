@@ -19,8 +19,8 @@ package robobinding.property;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.commons.lang3.reflect.MethodUtils;
 
+import robobinding.internal.org_apache_commons_lang3.reflect.MethodUtils;
 import robobinding.itempresentationmodel.ItemPresentationModel;
 import robobinding.itempresentationmodel.ItemPresentationModelFactory;
 

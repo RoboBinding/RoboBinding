@@ -18,9 +18,9 @@ package robobinding.property;
 
 
 
+import robobinding.internal.org_apache_commons_lang3.StringUtils;
 import robobinding.itempresentationmodel.ItemPresentationModel;
 import robobinding.itempresentationmodel.ItemPresentationModelFactory;
-import robobinding.utils.StringUtils;
 
 /**
  * 
