@@ -43,7 +43,7 @@ public class DefaultConstructorImplTest
 		
 		Assert.assertNotNull(itemPresentationModel);
 	}
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected=NullPointerException.class)
 	public void whenCreateFactoryUsingItemPresentationModelWithoutDefaultConstructor_thenThrowException()
 	{
 		new DefaultConstructorImpl<Object>(ItemPresentationModelWithoutDefaultConstructor.class);

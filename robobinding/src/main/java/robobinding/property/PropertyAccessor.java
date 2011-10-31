@@ -16,12 +16,12 @@
  */
 package robobinding.property;
 
-import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
+import robobinding.internal.java_beans.PropertyDescriptor;
 import robobinding.internal.org_apache_commons_lang3.StringUtils;
 import robobinding.internal.org_apache_commons_lang3.Validate;
 

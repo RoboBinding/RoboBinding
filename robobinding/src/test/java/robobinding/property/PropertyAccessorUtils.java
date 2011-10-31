@@ -16,12 +16,10 @@
  */
 package robobinding.property;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-
-import org.apache.commons.beanutils.PropertyUtils;
-
-import robobinding.property.PropertyAccessor;
+import robobinding.internal.java_beans.BeanInfo;
+import robobinding.internal.java_beans.IntrospectionException;
+import robobinding.internal.java_beans.Introspector;
+import robobinding.internal.java_beans.PropertyDescriptor;
 
 /**
  *
@@ -43,14 +41,16 @@ public class PropertyAccessorUtils
 	{
 		try
 		{
-			return PropertyUtils.getPropertyDescriptor(bean, propertyName);
-		} catch (IllegalAccessException e)
-		{
-			throw new RuntimeException(e);
-		} catch (InvocationTargetException e)
-		{
-			throw new RuntimeException(e);
-		} catch (NoSuchMethodException e)
+			BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
+			for(PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors())
+			{
+				if(propertyDescriptor.getName().equals(propertyName))
+				{
+					return propertyDescriptor;
+				}
+			}
+			return null;
+		} catch (IntrospectionException e)
 		{
 			throw new RuntimeException(e);
 		}

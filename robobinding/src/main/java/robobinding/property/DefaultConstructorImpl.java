@@ -38,7 +38,8 @@ final class DefaultConstructorImpl<T> implements ItemPresentationModelFactory<T>
 	public DefaultConstructorImpl(Class<? extends ItemPresentationModel<T>> itemPresentationModelClass)
 	{
 		itemPresentationModelConstructor = ConstructorUtils.getAccessibleConstructor(itemPresentationModelClass, new Class<?>[0]);
-		Validate.notNull(itemPresentationModelConstructor, "itemPresentationModelClass does not have a default constructor");
+		String className = itemPresentationModelClass.getName();
+		Validate.notNull(itemPresentationModelConstructor, "itemPresentationModelClass '"+className+"' does not have a default constructor");
 	}
 	@Override
 	public ItemPresentationModel<T> newItemPresentationModel()
