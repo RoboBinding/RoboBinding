@@ -15,15 +15,10 @@
  */
 package robobinding.binding.viewattribute.provider;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.CheckedAttribute;
 import android.widget.CheckBox;
 
@@ -36,36 +31,23 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class CheckBoxAttributeProviderTest
+public class CheckBoxAttributeProviderTest extends AbstractAttributeProviderTest<CheckBox>
 {
-	private static final String ATTRIBUTE_VALUE = "{attributeValue}";
-	private CheckBoxAttributeProvider checkBoxAttributeProvider;
-	private CheckBox checkBox;
+	@Override
+	protected AbstractBindingAttributeProvider<CheckBox> getBindingAttributeProvider()
+	{
+		return new CheckBoxAttributeProvider();
+	}
 
-	@Before
-	public void setUp()
+	@Override
+	protected CheckBox getView()
 	{
-		checkBoxAttributeProvider = new CheckBoxAttributeProvider();
-		checkBox = new CheckBox(null);
+		return new CheckBox(null);
 	}
-	
-	@Test
-	public void givenTheAttributeNameChecked_ThenReturnABindingAttributeWithCheckedAttribute()
+
+	@Override
+	protected void populateAttributeClassMappings(List<AttributeClassMapping> attributeClassMappings)
 	{
-		String attributeName = "checked";
-		
-		BindingAttribute bindingAttribute = checkBoxAttributeProvider.getSupportedBindingAttribute(checkBox, attributeName, ATTRIBUTE_VALUE);
-		
-		assertThat(bindingAttribute.getViewAttribute(), instanceOf(CheckedAttribute.class));
-	}
-	
-	@Test
-	public void givenAnyOtherAttributeName_ThenReturnNull()
-	{
-		String attributeName = "something_else";
-		
-		BindingAttribute bindingAttribute = checkBoxAttributeProvider.getSupportedBindingAttribute(checkBox, attributeName, ATTRIBUTE_VALUE);
-		
-		assertNull(bindingAttribute);
+		attributeClassMappings.add(new AttributeClassMapping("checked", CheckedAttribute.class));
 	}
 }

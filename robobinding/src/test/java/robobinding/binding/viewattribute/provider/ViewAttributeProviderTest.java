@@ -15,15 +15,10 @@
  */
 package robobinding.binding.viewattribute.provider;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.EnabledAttribute;
 import robobinding.binding.viewattribute.OnClickAttribute;
 import robobinding.binding.viewattribute.VisibilityAttribute;
@@ -38,56 +33,25 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class ViewAttributeProviderTest
+public class ViewAttributeProviderTest extends AbstractAttributeProviderTest<View>
 {
-	private static final String ATTRIBUTE_VALUE = "{attributeValue}";
-	private ViewAttributeProvider viewAttributeProvider;
-	private View view;
+	@Override
+	protected AbstractBindingAttributeProvider<View> getBindingAttributeProvider()
+	{
+		return new ViewAttributeProvider();
+	}
 
-	@Before
-	public void setUp()
+	@Override
+	protected View getView()
 	{
-		viewAttributeProvider = new ViewAttributeProvider();
-		view = new View(null);
+		return new View(null);
 	}
-	
-	@Test
-	public void givenTheAttributeNameVisibility_ThenReturnABindingAttributeWithVisibilityAttribute()
+
+	@Override
+	protected void populateAttributeClassMappings(List<AttributeClassMapping> attributeClassMappings)
 	{
-		String attributeName = "visibility";
-		
-		BindingAttribute bindingAttribute = viewAttributeProvider.getSupportedBindingAttribute(view, attributeName, ATTRIBUTE_VALUE);
-		
-		assertThat(bindingAttribute.getViewAttribute(), instanceOf(VisibilityAttribute.class));
-	}
-	
-	@Test
-	public void givenTheAttributeNameEnabled_ThenReturnABindingAttributeWithEnabledAttribute()
-	{
-		String attributeName = "enabled";
-		
-		BindingAttribute bindingAttribute = viewAttributeProvider.getSupportedBindingAttribute(view, attributeName, ATTRIBUTE_VALUE);
-		
-		assertThat(bindingAttribute.getViewAttribute(), instanceOf(EnabledAttribute.class));
-	}
-	
-	@Test
-	public void givenTheAttributeNameOnClick_ThenReturnABindingAttributeWithOnClickAttribute()
-	{
-		String attributeName = "onClick";
-		
-		BindingAttribute bindingAttribute = viewAttributeProvider.getSupportedBindingAttribute(view, attributeName, ATTRIBUTE_VALUE);
-		
-		assertThat(bindingAttribute.getViewAttribute(), instanceOf(OnClickAttribute.class));
-	}
-	
-	@Test
-	public void givenAnyOtherAttributeName_ThenReturnNull()
-	{
-		String attributeName = "something_else";
-		
-		BindingAttribute bindingAttribute = viewAttributeProvider.getSupportedBindingAttribute(view, attributeName, ATTRIBUTE_VALUE);
-		
-		assertNull(bindingAttribute);
+		attributeClassMappings.add(new AttributeClassMapping("visibility", VisibilityAttribute.class));
+		attributeClassMappings.add(new AttributeClassMapping("enabled", EnabledAttribute.class));
+		attributeClassMappings.add(new AttributeClassMapping("onClick", OnClickAttribute.class));
 	}
 }
