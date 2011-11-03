@@ -19,11 +19,11 @@ package robobinding.property;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.commons.lang3.reflect.ConstructorUtils;
 
+import robobinding.internal.org_apache_commons_lang3.Validate;
+import robobinding.internal.org_apache_commons_lang3.reflect.ConstructorUtils;
 import robobinding.itempresentationmodel.ItemPresentationModel;
 import robobinding.itempresentationmodel.ItemPresentationModelFactory;
-import robobinding.utils.Validate;
 
 /**
  * 
@@ -38,7 +38,8 @@ final class DefaultConstructorImpl<T> implements ItemPresentationModelFactory<T>
 	public DefaultConstructorImpl(Class<? extends ItemPresentationModel<T>> itemPresentationModelClass)
 	{
 		itemPresentationModelConstructor = ConstructorUtils.getAccessibleConstructor(itemPresentationModelClass, new Class<?>[0]);
-		Validate.notNull(itemPresentationModelConstructor, "itemPresentationModelClass does not have a default constructor");
+		String className = itemPresentationModelClass.getName();
+		Validate.notNull(itemPresentationModelConstructor, "itemPresentationModelClass '"+className+"' does not have a default constructor");
 	}
 	@Override
 	public ItemPresentationModel<T> newItemPresentationModel()

@@ -24,12 +24,10 @@ import java.util.Set;
 
 import org.junit.Before;
 
+import robobinding.internal.com_google_common.collect.Lists;
+import robobinding.internal.com_google_common.collect.Sets;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import robobinding.property.PropertyValueModel;
-import robobinding.value.experimental.ValueHolders;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 /**
  *

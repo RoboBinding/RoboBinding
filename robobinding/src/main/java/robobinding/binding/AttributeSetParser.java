@@ -17,9 +17,10 @@ package robobinding.binding;
 
 import java.util.Map;
 
+import robobinding.internal.com_google_common.collect.Maps;
+
 import android.util.AttributeSet;
 
-import com.google.common.collect.Maps;
 
 /**
  * @since 1.0

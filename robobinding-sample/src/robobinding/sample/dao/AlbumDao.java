@@ -21,11 +21,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import robobinding.internal.com_google_common.collect.Lists;
+import robobinding.internal.com_google_common.collect.Sets;
 import robobinding.sample.model.Album;
 import robobinding.sample.presentationmodel.AlbumCursor;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 /**
  * @since 1.0

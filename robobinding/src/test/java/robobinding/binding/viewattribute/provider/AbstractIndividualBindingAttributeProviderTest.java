@@ -27,9 +27,9 @@ import org.junit.runner.RunWith;
 
 import robobinding.binding.BindingAttribute;
 import robobinding.binding.ViewAttribute;
+import robobinding.internal.com_google_common.collect.Lists;
 import android.view.View;
 
-import com.google.common.collect.Lists;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**

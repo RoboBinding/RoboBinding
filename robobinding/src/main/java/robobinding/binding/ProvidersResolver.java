@@ -23,13 +23,13 @@ import robobinding.binding.viewattribute.provider.CheckBoxAttributeProvider;
 import robobinding.binding.viewattribute.provider.ListViewAttributeProvider;
 import robobinding.binding.viewattribute.provider.TextViewAttributeProvider;
 import robobinding.binding.viewattribute.provider.ViewAttributeProvider;
+import robobinding.internal.com_google_common.collect.Lists;
+import robobinding.internal.com_google_common.collect.Maps;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * @since 1.0

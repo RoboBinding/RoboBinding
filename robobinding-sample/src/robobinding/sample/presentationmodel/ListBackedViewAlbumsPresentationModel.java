@@ -19,11 +19,11 @@ package robobinding.sample.presentationmodel;
 import java.util.List;
 
 import robobinding.ItemPresentationModel;
+import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
 import android.content.Context;
 
-import com.google.common.collect.Lists;
 
 /**
  * @since 1.0

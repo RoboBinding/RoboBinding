@@ -16,18 +16,18 @@
  */
 package robobinding.property;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.util.List;
 import java.util.Map;
 
 import robobinding.DependsOn;
 import robobinding.ItemPresentationModel;
+import robobinding.internal.com_google_common.collect.Maps;
+import robobinding.internal.java_beans.BeanInfo;
+import robobinding.internal.java_beans.IntrospectionException;
+import robobinding.internal.java_beans.Introspector;
+import robobinding.internal.java_beans.PropertyDescriptor;
 import robobinding.itempresentationmodel.TypedCursor;
 
-import com.google.common.collect.Maps;
 
 /**
  *

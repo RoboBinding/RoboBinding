@@ -22,9 +22,8 @@ import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.PropertyBinding;
 import robobinding.binding.viewattribute.TextAttribute;
 import robobinding.binding.viewattribute.ValueCommitMode;
+import robobinding.internal.com_google_common.collect.Lists;
 import android.widget.TextView;
-
-import com.google.common.collect.Lists;
 
 /**
  * 

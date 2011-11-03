@@ -17,11 +17,11 @@ package robobinding.binding;
 
 import java.util.List;
 
+import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.content.Context;
 
-import com.google.common.collect.Lists;
 
 /**
  * 

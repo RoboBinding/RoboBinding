@@ -20,9 +20,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import robobinding.DependsOn;
+import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.presentationmodel.ObservableProperties;
 
-import com.google.common.collect.Lists;
 
 /**
  * @since 1.0

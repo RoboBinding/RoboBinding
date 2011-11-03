@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 import robobinding.binding.viewattribute.provider.BindingAttributeProvider;
+import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.google.common.collect.Lists;
 
 /**
  * 
