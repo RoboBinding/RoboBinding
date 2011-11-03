@@ -15,87 +15,36 @@
  */
 package robobinding.binding.viewattribute;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import robobinding.property.PropertyValueModel;
-import robobinding.value.experimental.ValueHolders;
-import android.widget.TextView;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 @RunWith(RobolectricTestRunner.class)
-public class StringTextAttributeTest extends AbstractPropertyAttributeTest<String>
+public class StringTextAttributeTest extends AbstractTextAttributeTest<String>
 {
-	private static final String INITIAL_VALUE = "initial value";
-	private static final String NEW_VALUE = "new value";
-	
-	private TextView textView;
-	
-	@Before
-	public void setUp()
-	{
-		textView = new TextView(null);
-	}
-	
-	@Test
-	public void whenBindingTextAttributeWith1WayOr2WayBinding_ThenTextViewShouldReflectValueModel()
-	{
-		createAttributeWithEither1WayOr2WayBinding();
-		
-		assertThat(textView.getText().toString(), equalTo(INITIAL_VALUE));
-	}
-
-	@Test
-	public void givenTextViewBoundWithEither1WayOr2WayBinding_WhenUpdatingValueModelText_ThenTextViewShouldBeUpdated()
-	{
-		createAttributeWithEither1WayOr2WayBinding();
-		
-		updateValueModel(NEW_VALUE);
-		
-		assertThat(textView.getText().toString(), equalTo(NEW_VALUE));
-	}
-	
-	@Test
-	public void givenTextViewBoundWith1WayBinding_WhenUpdatingTextPropertyOnTheTextView_ThenValueModelShouldNotBeUpdated()
-	{
-		createAttributeWith1WayBinding();
-		
-		textView.setText(NEW_VALUE);
-		
-		assertThat(valueModel.getValue(), equalTo(INITIAL_VALUE));
-	}
-	
-	@Test
-	public void givenTextViewBoundWith2WayBinding_WhenUpdatingTextPropertyOnTheTextView_ThenValueModelShouldBeUpdated()
-	{
-		createAttributeWith2WayBinding();
-		
-		textView.setText(NEW_VALUE);
-		
-		assertThat(valueModel.getValue(), equalTo(NEW_VALUE));
-	}
-
 	@Override
 	protected AbstractPropertyViewAttribute<String> newAttributeInstance(String bindingAttributeValue)
 	{
-		TextAttribute textAttribute = new TextAttribute(textView, bindingAttributeValue);
+		TextAttribute textAttribute = newTextAttribute(bindingAttributeValue);
 		return textAttribute.new StringTextAttribute();
 	}
 
 	@Override
-	protected PropertyValueModel<String> initialValueModelInstance()
+	protected void updateViewState(String newValue)
 	{
-		return ValueHolders.create(INITIAL_VALUE);
+		textView.setText(newValue);
 	}
+
+	@Override
+	protected String getViewState()
+	{
+		return textView.getText().toString();
+	}
+
 }

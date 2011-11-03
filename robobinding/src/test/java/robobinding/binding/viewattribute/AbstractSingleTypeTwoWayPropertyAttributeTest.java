@@ -15,35 +15,28 @@
  */
 package robobinding.binding.viewattribute;
 
-import org.junit.runner.RunWith;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
-@RunWith(RobolectricTestRunner.class)
-public class CharSequenceTextAttributeTest extends AbstractTextAttributeTest<CharSequence>
+public abstract class AbstractSingleTypeTwoWayPropertyAttributeTest<T> extends AbstractTypeMappedTwoWayPropertyAttributeTest<T, T>
 {
 	@Override
-	protected void updateViewState(CharSequence newValue)
+	protected AbstractBindingExpectations<T, T> populateBindingExpectations()
 	{
-		textView.setText(newValue);		
+		BindingSamples<T> bindingExpectations = new BindingSamples<T>();
+		
+		populateBindingExpectations(bindingExpectations);
+
+		return bindingExpectations;
 	}
 
+	protected abstract void populateBindingExpectations(BindingSamples<T> bindingSamples);
+	
 	@Override
-	protected CharSequence getViewState()
-	{
-		return textView.getText();
-	}
-
-	@Override
-	protected AbstractPropertyViewAttribute<CharSequence> newAttributeInstance(String bindingAttributeValue)
-	{
-		TextAttribute textAttribute = newTextAttribute(bindingAttributeValue);
-		return textAttribute.new CharSequenceTextAttribute();
-	}
+	protected void populateBindingExpectations(TypeMappedBindingSamples<T, T> bindingSamples)
+	{}
 }

@@ -23,12 +23,14 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import robobinding.binding.BindingAttribute;
 import robobinding.binding.ViewAttribute;
 import android.view.View;
 
 import com.google.common.collect.Lists;
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -36,26 +38,27 @@ import com.google.common.collect.Lists;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractAttributeProviderTest<T extends View>
+@RunWith(RobolectricTestRunner.class)
+public abstract class AbstractIndividualBindingAttributeProviderTest<T extends View>
 {
 	private static final String ATTRIBUTE_VALUE = "{attributeValue}";
-	private AbstractBindingAttributeProvider<T> bindingAttributeProvider;
+	private AbstractIndividualBindingAttributeProvider<T> bindingAttributeProvider;
 	private T view;
 	
 	@Before
 	public void setUp()
 	{
 		bindingAttributeProvider = getBindingAttributeProvider();
-		view = getView();
+		view = createNewViewInstance();
 	}
 
 	@Test
 	public void givenEachAttributeName_ThenReturnABindingAttributeContainingExpectedViewAttribute()
 	{
-		List<AttributeClassMapping> attributeClassMappings = Lists.newArrayList();
+		AttributeClassMappings attributeClassMappings = new AttributeClassMappings();
 		populateAttributeClassMappings(attributeClassMappings);
 		
-		for (AttributeClassMapping attributeClassMapping : attributeClassMappings)
+		for (AttributeClassMapping attributeClassMapping : attributeClassMappings.mappingsList)
 		{
 			BindingAttribute bindingAttribute = bindingAttributeProvider.getSupportedBindingAttribute(view, attributeClassMapping.attributeName, ATTRIBUTE_VALUE);
 			
@@ -73,15 +76,25 @@ public abstract class AbstractAttributeProviderTest<T extends View>
 		assertNull(bindingAttribute);
 	}
 	
-	protected abstract AbstractBindingAttributeProvider<T> getBindingAttributeProvider();
-	protected abstract T getView();
-	protected abstract void populateAttributeClassMappings(List<AttributeClassMapping> attributeClassMappings);
+	protected abstract AbstractIndividualBindingAttributeProvider<T> getBindingAttributeProvider();
+	protected abstract T createNewViewInstance();
+	protected abstract void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings);
 	
-	public static class AttributeClassMapping
+	static class AttributeClassMappings
+	{
+		private List<AttributeClassMapping> mappingsList = Lists.newArrayList();
+		
+		void add(String attributeName, Class<? extends ViewAttribute> expectedBindingAttributeClass)
+		{
+			mappingsList.add(new AttributeClassMapping(attributeName, expectedBindingAttributeClass));
+		}
+	}
+	
+	private static class AttributeClassMapping
 	{
 		private String attributeName;
 		private Class<? extends ViewAttribute> expectedBindingAttributeClass;
-		protected AttributeClassMapping(String attributeName, Class<? extends ViewAttribute> expectedBindingAttributeClass)
+		private AttributeClassMapping(String attributeName, Class<? extends ViewAttribute> expectedBindingAttributeClass)
 		{
 			this.attributeName = attributeName;
 			this.expectedBindingAttributeClass = expectedBindingAttributeClass;

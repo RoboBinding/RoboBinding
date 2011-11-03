@@ -15,15 +15,9 @@
  */
 package robobinding.binding.viewattribute;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.property.PropertyValueModel;
-import robobinding.value.experimental.ValueHolders;
 import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -35,10 +29,8 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class EnabledAttributeTest extends AbstractPropertyAttributeTest<Boolean>
+public class EnabledAttributeTest extends AbstractSingleTypeOneWayPropertyAttributeTest<Boolean>
 {
-	private static final boolean INITIAL_VALUE = false;
-	
 	private View view;
 	
 	@Before
@@ -47,41 +39,12 @@ public class EnabledAttributeTest extends AbstractPropertyAttributeTest<Boolean>
 		view = new View(null);
 	}
 	
-	@Test
-	public void whenBinding_ThenViewShouldReflectModel()
+	@Override
+	protected Boolean getViewState()
 	{
-		createAttributeWith1WayBinding();
-		assertThat(view.isEnabled(), equalTo(INITIAL_VALUE));
+		return view.isEnabled();
 	}
-	
-	@Test
-	public void givenBound_WhenBooleanPropertyIsSetToFalse_ThenViewShouldDisabled()
-	{
-		createAttributeWith1WayBinding();
-		
-		updateValueModel(true);
-		updateValueModel(false);
-		
-		assertThat(view.isEnabled(), equalTo(false));
-	}
-	
-	@Test
-	public void givenBound_WhenBooleanPropertyIsSetToTrue_ThenViewShouldBeEnabled()
-	{
-		createAttributeWith1WayBinding();
-		
-		updateValueModel(false);
-		updateValueModel(true);
-		
-		assertThat(view.isEnabled(), equalTo(true));
-	}
-	
-	@Test(expected=RuntimeException.class)
-	public void whenAttempting2WayBinding_ThenThrowARuntimeException()
-	{
-		createAttributeWith2WayBinding();
-	}
-	
+
 	@Override
 	protected AbstractPropertyViewAttribute<Boolean> newAttributeInstance(String bindingAttributeValue)
 	{
@@ -89,8 +52,11 @@ public class EnabledAttributeTest extends AbstractPropertyAttributeTest<Boolean>
 	}
 
 	@Override
-	protected PropertyValueModel<Boolean> initialValueModelInstance()
+	protected void populateBindingExpectations(BindingSamples<Boolean> bindingSamples)
 	{
-		return ValueHolders.createBoolean(INITIAL_VALUE);
+		bindingSamples.add(false, true);
 	}
+
+	
+
 }

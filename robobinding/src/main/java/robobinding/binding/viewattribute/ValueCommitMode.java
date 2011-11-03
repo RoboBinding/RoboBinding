@@ -15,35 +15,14 @@
  */
 package robobinding.binding.viewattribute;
 
-import org.junit.runner.RunWith;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-
 /**
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
-@RunWith(RobolectricTestRunner.class)
-public class CharSequenceTextAttributeTest extends AbstractTextAttributeTest<CharSequence>
+public enum ValueCommitMode
 {
-	@Override
-	protected void updateViewState(CharSequence newValue)
-	{
-		textView.setText(newValue);		
-	}
+	ON_FOCUS_LOST, ON_CHANGE
 
-	@Override
-	protected CharSequence getViewState()
-	{
-		return textView.getText();
-	}
-
-	@Override
-	protected AbstractPropertyViewAttribute<CharSequence> newAttributeInstance(String bindingAttributeValue)
-	{
-		TextAttribute textAttribute = newTextAttribute(bindingAttributeValue);
-		return textAttribute.new CharSequenceTextAttribute();
-	}
 }

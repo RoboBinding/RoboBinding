@@ -24,6 +24,8 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.SpannedString;
 import android.text.TextWatcher;
+import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.widget.TextView;
 
 /**
@@ -35,12 +37,14 @@ import android.widget.TextView;
 public class TextAttribute implements PropertyViewAttribute
 {
 	private final TextView textView;
+	private final ValueCommitMode valueCommitMode;
 	private final PropertyBinding propertyBinding;
 
-	public TextAttribute(TextView textView, String attributeValue)
+	public TextAttribute(TextView textView, PropertyBinding propertyBinding, ValueCommitMode valueCommitMode)
 	{
 		this.textView = textView;
-		this.propertyBinding = new PropertyBinding(attributeValue);
+		this.valueCommitMode = valueCommitMode;
+		this.propertyBinding = propertyBinding;
 	}
 
 	@Override
@@ -70,6 +74,11 @@ public class TextAttribute implements PropertyViewAttribute
 		}
 	}
 
+	public ValueCommitMode getValueCommitMode()
+	{
+		return valueCommitMode;
+	}
+	
 	abstract class AbstractCharSequenceTextAttribute<T extends CharSequence> extends AbstractPropertyViewAttribute<T>
 	{
 		private boolean suppressNextViewUpdate = false;
@@ -97,24 +106,39 @@ public class TextAttribute implements PropertyViewAttribute
 		
 		protected void observeChangesOnTheView(final PropertyValueModel<T> valueModel)
 		{
-			textView.addTextChangedListener(new TextWatcher() {
-				
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count)
-				{
-					updateValueModel(valueModel, s);
-				}
-				
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after)
-				{
-				}
-				
-				@Override
-				public void afterTextChanged(Editable s)
-				{
-				}
-			});
+			if (valueCommitMode == ValueCommitMode.ON_CHANGE)
+			{
+				textView.addTextChangedListener(new TextWatcher() {
+					
+					@Override
+					public void onTextChanged(CharSequence s, int start, int before, int count)
+					{
+						updateValueModel(valueModel, s);
+					}
+					
+					@Override
+					public void beforeTextChanged(CharSequence s, int start, int count, int after)
+					{
+					}
+					
+					@Override
+					public void afterTextChanged(Editable s)
+					{
+					}
+				});
+			}
+			else
+			{
+				textView.setOnFocusChangeListener(new OnFocusChangeListener() {
+					
+					@Override
+					public void onFocusChange(View v, boolean hasFocus)
+					{
+						if (!hasFocus)
+							updateValueModel(valueModel, textView.getText());
+					}
+				});
+			}
 		}
 		
 		protected abstract void updateValueModel(PropertyValueModel<T> valueModel, CharSequence charSequence);
@@ -167,4 +191,5 @@ public class TextAttribute implements PropertyViewAttribute
 			valueModel.setValue(new SpannableString(charSequence));
 		}
 	}
+
 }

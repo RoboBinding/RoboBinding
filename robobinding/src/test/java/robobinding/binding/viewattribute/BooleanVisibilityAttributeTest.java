@@ -15,15 +15,9 @@
  */
 package robobinding.binding.viewattribute;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.property.PropertyValueModel;
-import robobinding.value.experimental.ValueHolders;
 import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -35,51 +29,14 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class BooleanVisibilityAttributeTest extends AbstractPropertyAttributeTest<Boolean>
+public class BooleanVisibilityAttributeTest extends AbstractTypeMappedOneWayPropertyAttributeTest<Boolean, Integer>
 {
-	private static final boolean INITIAL_VALUE = false;
-	
 	private View view;
 	
 	@Before
 	public void setUp()
 	{
 		view = new View(null);
-	}
-	
-	@Test
-	public void whenBinding_ThenViewShouldReflectModel()
-	{
-		createAttributeWith1WayBinding();
-		assertThat(view.getVisibility(), equalTo(View.GONE));
-	}
-	
-	@Test
-	public void givenBound_WhenBooleanPropertyIsSetToFalse_ThenViewShouldBeGone()
-	{
-		createAttributeWith1WayBinding();
-		
-		updateValueModel(true);
-		updateValueModel(false);
-		
-		assertThat(view.getVisibility(), equalTo(View.GONE));
-	}
-	
-	@Test
-	public void givenBound_WhenBooleanPropertyIsSetToTrue_ThenViewShouldBeVisible()
-	{
-		createAttributeWith1WayBinding();
-		
-		updateValueModel(false);
-		updateValueModel(true);
-		
-		assertThat(view.getVisibility(), equalTo(View.VISIBLE));
-	}
-	
-	@Test(expected=RuntimeException.class)
-	public void whenAttempting2WayBinding_ThenThrowARuntimeException()
-	{
-		createAttributeWith2WayBinding();
 	}
 	
 	@Override
@@ -90,9 +47,15 @@ public class BooleanVisibilityAttributeTest extends AbstractPropertyAttributeTes
 	}
 
 	@Override
-	protected PropertyValueModel<Boolean> initialValueModelInstance()
+	protected Integer getViewState()
 	{
-		return ValueHolders.createBoolean(INITIAL_VALUE);
+		return view.getVisibility();
 	}
-	
+
+	@Override
+	protected void populateBindingExpectations(TypeMappedBindingSamples<Boolean, Integer> bindingExpectations)
+	{
+		bindingExpectations.addMapping(false, View.GONE);
+		bindingExpectations.addMapping(true, View.VISIBLE);
+	}
 }

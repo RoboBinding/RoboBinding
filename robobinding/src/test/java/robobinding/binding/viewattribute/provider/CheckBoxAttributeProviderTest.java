@@ -15,14 +15,8 @@
  */
 package robobinding.binding.viewattribute.provider;
 
-import java.util.List;
-
-import org.junit.runner.RunWith;
-
 import robobinding.binding.viewattribute.CheckedAttribute;
 import android.widget.CheckBox;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -30,24 +24,23 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-public class CheckBoxAttributeProviderTest extends AbstractAttributeProviderTest<CheckBox>
+public class CheckBoxAttributeProviderTest extends AbstractIndividualBindingAttributeProviderTest<CheckBox>
 {
 	@Override
-	protected AbstractBindingAttributeProvider<CheckBox> getBindingAttributeProvider()
+	protected AbstractIndividualBindingAttributeProvider<CheckBox> getBindingAttributeProvider()
 	{
 		return new CheckBoxAttributeProvider();
 	}
 
 	@Override
-	protected CheckBox getView()
+	protected CheckBox createNewViewInstance()
 	{
 		return new CheckBox(null);
 	}
 
 	@Override
-	protected void populateAttributeClassMappings(List<AttributeClassMapping> attributeClassMappings)
+	protected void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings)
 	{
-		attributeClassMappings.add(new AttributeClassMapping("checked", CheckedAttribute.class));
+		attributeClassMappings.add("checked", CheckedAttribute.class);
 	}
 }

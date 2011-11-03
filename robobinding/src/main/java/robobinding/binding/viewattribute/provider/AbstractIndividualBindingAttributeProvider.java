@@ -31,7 +31,7 @@ import android.view.View;
  * @author Robert Taylor
  *
  */
-public abstract class AbstractBindingAttributeProvider<T extends View> implements BindingAttributeProvider<T>
+public abstract class AbstractIndividualBindingAttributeProvider<T extends View> implements BindingAttributeProvider<T>
 {
 	@Override
 	public List<BindingAttribute> getSupportedBindingAttributes(T view, Map<String, String> pendingBindingAttributes)

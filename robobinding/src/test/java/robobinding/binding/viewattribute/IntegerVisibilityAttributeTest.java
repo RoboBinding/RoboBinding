@@ -15,81 +15,28 @@
  */
 package robobinding.binding.viewattribute;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.property.PropertyValueModel;
-import robobinding.value.experimental.ValueHolders;
 import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 @RunWith(RobolectricTestRunner.class)
-public class IntegerVisibilityAttributeTest extends AbstractPropertyAttributeTest<Integer>
+public class IntegerVisibilityAttributeTest extends AbstractSingleTypeOneWayPropertyAttributeTest<Integer>
 {
-	private static final int INITIAL_VALUE = View.INVISIBLE;
-	
 	private View view;
 	
 	@Before
 	public void setUp()
 	{
 		view = new View(null);
-	}
-	
-	@Test
-	public void whenBinding_ThenViewShouldReflectModel()
-	{
-		createAttributeWith1WayBinding();
-				
-		assertThat(view.getVisibility(), equalTo(View.INVISIBLE));
-	}
-	
-	@Test
-	public void givenBound_WhenIntegerPropertyIsSetToViewGone_ThenViewShouldBeGone()
-	{
-		createAttributeWith1WayBinding();
-		
-		updateValueModel(View.GONE);
-		
-		assertThat(view.getVisibility(), equalTo(View.GONE));
-	}
-	
-	@Test
-	public void givenBound_WhenIntegerPropertyIsSetToViewInvisible_ThenViewShouldBeInvisible()
-	{
-		createAttributeWith1WayBinding();
-		
-		updateValueModel(View.VISIBLE);
-		updateValueModel(View.INVISIBLE);
-		
-		assertThat(view.getVisibility(), equalTo(View.INVISIBLE));
-	}
-	
-	@Test
-	public void givenBound_WhenIntegerPropertyIsSetToViewVisible_ThenViewShouldBeVisible()
-	{
-		createAttributeWith1WayBinding();
-		
-		updateValueModel(View.VISIBLE);
-		
-		assertThat(view.getVisibility(), equalTo(View.VISIBLE));
-	}
-	
-	@Test(expected=RuntimeException.class)
-	public void whenAttempting2WayBinding_ThenThrowARuntimeException()
-	{
-		createAttributeWith2WayBinding();
 	}
 	
 	@Override
@@ -100,9 +47,15 @@ public class IntegerVisibilityAttributeTest extends AbstractPropertyAttributeTes
 	}
 
 	@Override
-	protected PropertyValueModel<Integer> initialValueModelInstance()
+	protected Integer getViewState()
 	{
-		return ValueHolders.createInteger(INITIAL_VALUE);
+		return view.getVisibility();
 	}
-	
+
+	@Override
+	protected void populateBindingExpectations(BindingSamples<Integer> bindingSamples)
+	{
+		bindingSamples.add(View.GONE, View.INVISIBLE, View.VISIBLE);
+	}
+
 }

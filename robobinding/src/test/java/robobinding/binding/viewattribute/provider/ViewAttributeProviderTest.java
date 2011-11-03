@@ -15,16 +15,10 @@
  */
 package robobinding.binding.viewattribute.provider;
 
-import java.util.List;
-
-import org.junit.runner.RunWith;
-
 import robobinding.binding.viewattribute.EnabledAttribute;
 import robobinding.binding.viewattribute.OnClickAttribute;
 import robobinding.binding.viewattribute.VisibilityAttribute;
 import android.view.View;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -32,26 +26,25 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-public class ViewAttributeProviderTest extends AbstractAttributeProviderTest<View>
+public class ViewAttributeProviderTest extends AbstractIndividualBindingAttributeProviderTest<View>
 {
 	@Override
-	protected AbstractBindingAttributeProvider<View> getBindingAttributeProvider()
+	protected AbstractIndividualBindingAttributeProvider<View> getBindingAttributeProvider()
 	{
 		return new ViewAttributeProvider();
 	}
 
 	@Override
-	protected View getView()
+	protected View createNewViewInstance()
 	{
 		return new View(null);
 	}
 
 	@Override
-	protected void populateAttributeClassMappings(List<AttributeClassMapping> attributeClassMappings)
+	protected void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings)
 	{
-		attributeClassMappings.add(new AttributeClassMapping("visibility", VisibilityAttribute.class));
-		attributeClassMappings.add(new AttributeClassMapping("enabled", EnabledAttribute.class));
-		attributeClassMappings.add(new AttributeClassMapping("onClick", OnClickAttribute.class));
+		attributeClassMappings.add("visibility", VisibilityAttribute.class);
+		attributeClassMappings.add("enabled", EnabledAttribute.class);
+		attributeClassMappings.add("onClick", OnClickAttribute.class);
 	}
 }

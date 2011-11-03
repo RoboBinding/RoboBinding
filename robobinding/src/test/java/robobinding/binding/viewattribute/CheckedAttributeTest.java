@@ -15,15 +15,9 @@
  */
 package robobinding.binding.viewattribute;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.property.PropertyValueModel;
-import robobinding.value.experimental.ValueHolders;
 import android.widget.CheckBox;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -35,11 +29,8 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class CheckedAttributeTest extends AbstractPropertyAttributeTest<Boolean>
+public class CheckedAttributeTest extends AbstractSingleTypeTwoWayPropertyAttributeTest<Boolean>
 {
-	private static final boolean INITIAL_VALUE = true;
-	private static final boolean NEW_VALUE = false;
-	
 	private CheckBox checkBox;
 	
 	@Before
@@ -48,42 +39,16 @@ public class CheckedAttributeTest extends AbstractPropertyAttributeTest<Boolean>
 		checkBox = new CheckBox(null);
 	}
 	
-	@Test
-	public void whenBindingCheckedAttributeWith1WayOr2WayBinding_ThenCheckBoxShouldReflectValueModel()
+	@Override
+	protected void updateViewState(Boolean newValue)
 	{
-		createAttributeWithEither1WayOr2WayBinding();
-		
-		assertThat(checkBox.isChecked(), equalTo(INITIAL_VALUE));
-	}
-
-	@Test
-	public void givenCheckBoxBoundWithEither1WayOr2WayBinding_WhenUpdatingValueModelCheckedState_ThenCheckBoxShouldBeUpdated()
-	{
-		createAttributeWithEither1WayOr2WayBinding();
-		
-		updateValueModel(NEW_VALUE);
-		
-		assertThat(checkBox.isChecked(), equalTo(NEW_VALUE));
+		checkBox.setChecked(newValue);
 	}
 	
-	@Test
-	public void givenCheckBoxBoundWith1WayBinding_WhenUpdatingCheckedPropertyOnTheCheckBox_ThenValueModelShouldNotBeUpdated()
+	@Override
+	protected Boolean getViewState()
 	{
-		createAttributeWith1WayBinding();
-		
-		checkBox.setChecked(NEW_VALUE);
-		
-		assertThat(valueModel.getValue(), equalTo(INITIAL_VALUE));
-	}
-	
-	@Test
-	public void givenCheckBoxBoundWith2WayBinding_WhenUpdatingCheckedPropertyOnTheCheckBox_ThenValueModelShouldBeUpdated()
-	{
-		createAttributeWith2WayBinding();
-		
-		checkBox.setChecked(NEW_VALUE);
-		
-		assertThat(valueModel.getValue(), equalTo(NEW_VALUE));
+		return checkBox.isChecked();
 	}
 	
 	@Override
@@ -93,9 +58,9 @@ public class CheckedAttributeTest extends AbstractPropertyAttributeTest<Boolean>
 	}
 
 	@Override
-	protected PropertyValueModel<Boolean> initialValueModelInstance()
+	protected void populateBindingExpectations(BindingSamples<Boolean> bindingExpectations)
 	{
-		return ValueHolders.createBoolean(INITIAL_VALUE);
+		bindingExpectations.add(true, false);
 	}
 
 }
