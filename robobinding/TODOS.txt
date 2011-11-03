@@ -1,0 +1,9 @@
+Higher level tests required for the inflation-related classes
+
+How to handle hierarchies of events?
+
+propertyAttributeSampleValues - can have the same method signatures as the existing class
+
+new SampleValuesBuilder(Object... values)
+
+or do we need to create an Abstract...

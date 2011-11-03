@@ -11,4 +11,9 @@
     <string name="list_backed_albums">List-backed albums</string>
     <string name="the_choice_is_yours">The choice is yours...</string>
     <string name="_available_for_purchase_">(available for purchase)</string>
+    <string name="save">Save</string>
+    <string name="composer">Composer</string>
+    <string name="classical">Classical</string>
+    <string name="artist">Artist</string>
+    <string name="title">Title</string>
 </resources>

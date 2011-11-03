@@ -10,20 +10,40 @@
 	    android:layout_height="wrap_content" 
 	    binding:text="{windowTitle}" />
 	
+	<TextView 
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="@string/title" />
+	
 	<EditText
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
 	    binding:text="${title}" />
+	
+	<TextView 
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="@string/artist" />
 	
 	<EditText
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
 	    binding:text="${artist}" />
 	
+	<TextView 
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="@string/classical" />
+	    
 	<CheckBox
 		android:layout_width="wrap_content" 
 	    android:layout_height="wrap_content"
 	    binding:checked="${classical}" />
+	
+	<TextView 
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="@string/composer" />
 	
 	<EditText
 	    android:layout_width="fill_parent" 
@@ -34,6 +54,7 @@
 	<Button
 		android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content"
+	    android:text="@string/save"
 	    binding:onClick="save" />
 	    
 </LinearLayout>
