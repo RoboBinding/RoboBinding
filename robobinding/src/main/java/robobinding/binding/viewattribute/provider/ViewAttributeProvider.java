@@ -27,7 +27,7 @@ import android.view.View;
  * @author Robert Taylor
  *
  */
-public class ViewAttributeProvider extends AbstractBindingAttributeProvider<View>
+public class ViewAttributeProvider extends AbstractIndividualBindingAttributeProvider<View>
 {
 	@Override
 	protected BindingAttribute getSupportedBindingAttribute(View view, String attributeName, String attributeValue)

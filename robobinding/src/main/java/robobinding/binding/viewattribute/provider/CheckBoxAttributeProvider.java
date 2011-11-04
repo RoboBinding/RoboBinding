@@ -25,7 +25,7 @@ import android.widget.CheckBox;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckBoxAttributeProvider extends AbstractBindingAttributeProvider<CheckBox>
+public class CheckBoxAttributeProvider extends AbstractIndividualBindingAttributeProvider<CheckBox>
 {
 	@Override
 	protected BindingAttribute getSupportedBindingAttribute(CheckBox checkBox, String attributeName, String attributeValue)

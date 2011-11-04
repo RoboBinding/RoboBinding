@@ -17,8 +17,6 @@
 
 package robobinding.internal.java_beans;
 
-import static java.beans.Introspector.decapitalize;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -642,7 +640,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
             return;
         }
 
-        propertyName = decapitalize(methodName.substring(prefixLength));
+        propertyName = Introspector.decapitalize(methodName.substring(prefixLength));
 
         // validate property name
         if (!isValidProperty(propertyName)) {
@@ -707,7 +705,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
             return;
         }
 
-        propertyName = decapitalize(methodName.substring(PREFIX_SET.length()));
+        propertyName = Introspector.decapitalize(methodName.substring(PREFIX_SET.length()));
 
         // validate property name
         if (!isValidProperty(propertyName)) {

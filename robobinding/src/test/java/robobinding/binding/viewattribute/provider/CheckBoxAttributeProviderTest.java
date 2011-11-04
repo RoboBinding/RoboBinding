@@ -15,19 +15,8 @@
  */
 package robobinding.binding.viewattribute.provider;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.CheckedAttribute;
 import android.widget.CheckBox;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -35,37 +24,23 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-public class CheckBoxAttributeProviderTest
+public class CheckBoxAttributeProviderTest extends AbstractIndividualBindingAttributeProviderTest<CheckBox>
 {
-	private static final String ATTRIBUTE_VALUE = "{attributeValue}";
-	private CheckBoxAttributeProvider checkBoxAttributeProvider;
-	private CheckBox checkBox;
+	@Override
+	protected AbstractIndividualBindingAttributeProvider<CheckBox> getBindingAttributeProvider()
+	{
+		return new CheckBoxAttributeProvider();
+	}
 
-	@Before
-	public void setUp()
+	@Override
+	protected CheckBox createNewViewInstance()
 	{
-		checkBoxAttributeProvider = new CheckBoxAttributeProvider();
-		checkBox = new CheckBox(null);
+		return new CheckBox(null);
 	}
-	
-	@Test
-	public void givenTheAttributeNameChecked_ThenReturnABindingAttributeWithCheckedAttribute()
+
+	@Override
+	protected void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings)
 	{
-		String attributeName = "checked";
-		
-		BindingAttribute bindingAttribute = checkBoxAttributeProvider.getSupportedBindingAttribute(checkBox, attributeName, ATTRIBUTE_VALUE);
-		
-		assertThat(bindingAttribute.getViewAttribute(), instanceOf(CheckedAttribute.class));
-	}
-	
-	@Test
-	public void givenAnyOtherAttributeName_ThenReturnNull()
-	{
-		String attributeName = "something_else";
-		
-		BindingAttribute bindingAttribute = checkBoxAttributeProvider.getSupportedBindingAttribute(checkBox, attributeName, ATTRIBUTE_VALUE);
-		
-		assertNull(bindingAttribute);
+		attributeClassMappings.add("checked", CheckedAttribute.class);
 	}
 }
