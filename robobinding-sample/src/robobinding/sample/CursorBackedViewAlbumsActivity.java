@@ -17,10 +17,10 @@
 package robobinding.sample;
 
 import robobinding.binding.Binder;
-import robobinding.sample.R;
 import robobinding.sample.dao.AlbumDao;
-import robobinding.sample.presentationmodel.CursorBackedViewAlbumsPresentationModel;
+import robobinding.sample.model.PurchaseService;
 import robobinding.sample.presentationmodel.AbstractViewAlbumsPresentationModel;
+import robobinding.sample.presentationmodel.CursorBackedViewAlbumsPresentationModel;
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -37,7 +37,7 @@ public class CursorBackedViewAlbumsActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
-		AbstractViewAlbumsPresentationModel viewAlbumsPresentationModel = new CursorBackedViewAlbumsPresentationModel(this, new AlbumDao());
+		AbstractViewAlbumsPresentationModel viewAlbumsPresentationModel = new CursorBackedViewAlbumsPresentationModel(this, new AlbumDao(), new PurchaseService());
 		Binder binder = new Binder();
 		binder.setAndBindContentView(this, R.layout.view_purchaseable_albums_activity, viewAlbumsPresentationModel);
 	}

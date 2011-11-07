@@ -66,8 +66,7 @@ class BindingAttributesLoader
 		}
 		
 		if (!pendingBindingAttributes.isEmpty())
-			//TODO show which binding attributes are unhandled
-			throw new RuntimeException("Unhandled binding attributes");
+			throw new RuntimeException("Unhandled binding attributes: " + getUnhandledAttributesString(pendingBindingAttributes));
 		
 		return bindingAttributes;
 	}
@@ -79,6 +78,16 @@ class BindingAttributesLoader
 			for (String attributeName : bindingAttribute.getAttributeNames())
 				pendingBindingAttributes.remove(attributeName);
 		}
+	}
+	
+	private String getUnhandledAttributesString(Map<String, String> pendingBindingAttributes)
+	{
+		String unhandledAttributes = "";
+		
+		for (String attributeKey : pendingBindingAttributes.keySet())
+			unhandledAttributes += attributeKey + ": " + pendingBindingAttributes.get(attributeKey) + "; ";
+				
+		return unhandledAttributes;
 	}
 	
 	static class ViewBindingAttributes

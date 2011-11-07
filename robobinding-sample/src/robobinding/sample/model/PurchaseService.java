@@ -18,10 +18,10 @@ package robobinding.sample.model;
 
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public class PurchaseService
 {
