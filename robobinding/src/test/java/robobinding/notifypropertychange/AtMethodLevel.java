@@ -1,5 +1,5 @@
 /**
- * NotifyPropertyChange.java
+ * AtMethodLevel.java
  * Nov 2, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,23 +14,41 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding;
+package robobinding.notifypropertychange;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import robobinding.NotifyPropertyChange;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
  * @author Cheng Wei
  */
-@Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.METHOD, ElementType.TYPE})
-public @interface NotifyPropertyChange
+public class AtMethodLevel
 {
-
+	private boolean property1;
+	private boolean property2;
+	public AtMethodLevel(boolean property1, boolean property2)
+	{
+		this.property1 = property1;
+		this.property2 = property2;
+	}
+	public boolean getProperty1()
+	{
+		return property1;
+	}
+	@NotifyPropertyChange
+	public void setProperty1(boolean b)
+	{
+		property1 = b;
+	}
+	
+	public boolean getProperty2()
+	{
+		return property2;
+	}
+	public void setProperty2(boolean b)
+	{
+		property2 = b;
+	}
 }
