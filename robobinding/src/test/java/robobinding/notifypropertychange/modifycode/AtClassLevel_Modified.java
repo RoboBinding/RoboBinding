@@ -1,6 +1,6 @@
 /**
- * AtMethodLevel_Gen.java
- * Nov 2, 2011 Copyright Cheng Wei and Robert Taylor
+ * AtClassLevel_Modified.java
+ * Nov 4, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.notifypropertychange;
+package robobinding.notifypropertychange.modifycode;
 
 import java.beans.PropertyChangeSupport;
 
@@ -26,37 +26,52 @@ import robobinding.NotifyPropertyChange;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class AtMethodLevel_Gen
+@NotifyPropertyChange
+public class AtClassLevel_Modified
 {
 	private boolean property1;
-	private boolean property2;
+	private String property2;
 	
 	private PropertyChangeSupport propertyChangeSupport;
-	public AtMethodLevel_Gen(boolean property1, boolean property2)
+	public AtClassLevel_Modified()
 	{
-		this.property1 = property1;
-		this.property2 = property2;
-		
 		propertyChangeSupport = new PropertyChangeSupport(this);
 	}
 	public boolean getProperty1()
 	{
 		return property1;
 	}
-	@NotifyPropertyChange
 	public void setProperty1(boolean b)
 	{
 		boolean oldValue = getProperty1();
-		property1 = b;
+		this.property1 = b;
 		propertyChangeSupport.firePropertyChange("property1", oldValue, b);
 	}
-	
-	public boolean getProperty2()
+	public String getProperty2()
 	{
 		return property2;
 	}
-	public void setProperty2(boolean b)
+	public void setProperty2(String str)
 	{
-		property2 = b;
+		String oldValue = getProperty2();
+		this.property2 = str;
+		propertyChangeSupport.firePropertyChange("property2", oldValue, str);
+	}
+	
+	public void setPropertyWithoutGetter(boolean b)
+	{
+		
+	}
+	
+	public boolean getPropertyWithoutParameter()
+	{
+		return false;
+	}
+	public void setPropertyWithoutParameter()
+	{
+	}
+	
+	public void setMalformedProperty(boolean b1, boolean b2)
+	{
 	}
 }

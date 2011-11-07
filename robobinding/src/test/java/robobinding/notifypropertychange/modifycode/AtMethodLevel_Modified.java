@@ -1,5 +1,5 @@
 /**
- * AtClassLevel.java
+ * AtMethodLevel_Modified.java
  * Nov 2, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.notifypropertychange;
+package robobinding.notifypropertychange.modifycode;
+
+import java.beans.PropertyChangeSupport;
 
 import robobinding.NotifyPropertyChange;
 
@@ -24,41 +26,37 @@ import robobinding.NotifyPropertyChange;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@NotifyPropertyChange
-public class AtClassLevel
+public class AtMethodLevel_Modified
 {
 	private boolean property1;
-	private String property2;
+	private boolean property2;
+	
+	private PropertyChangeSupport propertyChangeSupport;
+	public AtMethodLevel_Modified(boolean property1, boolean property2)
+	{
+		this.property1 = property1;
+		this.property2 = property2;
+		
+		propertyChangeSupport = new PropertyChangeSupport(this);
+	}
 	public boolean getProperty1()
 	{
 		return property1;
 	}
+	@NotifyPropertyChange
 	public void setProperty1(boolean b)
 	{
-		this.property1 = b;
+		boolean oldValue = getProperty1();
+		property1 = b;
+		propertyChangeSupport.firePropertyChange("property1", oldValue, b);
 	}
-	public String getProperty2()
+	
+	public boolean getProperty2()
 	{
 		return property2;
 	}
-	public void setProperty2(String str)
+	public void setProperty2(boolean b)
 	{
-		this.property2 = str;
-	}
-	
-	public void setPropertyWithoutGetter(boolean b)
-	{
-		
-	}
-	public boolean getPropertyWithoutParameter()
-	{
-		return false;
-	}
-	public void setPropertyWithoutParameter()
-	{
-	}
-	
-	public void setMalformedProperty(boolean b1, boolean b2)
-	{
+		property2 = b;
 	}
 }

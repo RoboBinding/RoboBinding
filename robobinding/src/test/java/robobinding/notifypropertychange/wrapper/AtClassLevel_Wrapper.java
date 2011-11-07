@@ -1,6 +1,6 @@
 /**
- * AtClassLevel_Gen.java
- * Nov 4, 2011 Copyright Cheng Wei and Robert Taylor
+ * AtClassLevel_Wrapper.java
+ * Nov 7, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.notifypropertychange;
+package robobinding.notifypropertychange.wrapper;
 
 import java.beans.PropertyChangeSupport;
 
 import robobinding.NotifyPropertyChange;
+import robobinding.notifypropertychange.AtClassLevel;
 
 /**
  *
@@ -27,46 +28,54 @@ import robobinding.NotifyPropertyChange;
  * @author Cheng Wei
  */
 @NotifyPropertyChange
-public class AtClassLevel_Gen
+public class AtClassLevel_Wrapper
 {
-	private boolean property1;
-	private String property2;
+	private AtClassLevel atClassLevel;
 	
 	private PropertyChangeSupport propertyChangeSupport;
-	public AtClassLevel_Gen()
+	public AtClassLevel_Wrapper(AtClassLevel atClassLevel)
 	{
+		this.atClassLevel = atClassLevel;
+		
 		propertyChangeSupport = new PropertyChangeSupport(this);
 	}
 	public boolean getProperty1()
 	{
-		return property1;
+		return atClassLevel.getProperty1();
 	}
 	public void setProperty1(boolean b)
 	{
 		boolean oldValue = getProperty1();
-		this.property1 = b;
+		atClassLevel.setProperty1(b);
 		propertyChangeSupport.firePropertyChange("property1", oldValue, b);
 	}
 	public String getProperty2()
 	{
-		return property2;
+		return atClassLevel.getProperty2();
 	}
 	public void setProperty2(String str)
 	{
 		String oldValue = getProperty2();
-		this.property2 = str;
+		atClassLevel.setProperty2(str);
 		propertyChangeSupport.firePropertyChange("property2", oldValue, str);
 	}
 	
-	public void setPropertyWithGetter(boolean b)
+	public void setPropertyWithoutGetter(boolean b)
 	{
-		
+		atClassLevel.setPropertyWithoutGetter(b);
+	}
+	
+	public boolean getPropertyWithoutParameter()
+	{
+		return atClassLevel.getPropertyWithoutParameter();
 	}
 	public void setPropertyWithoutParameter()
 	{
+		atClassLevel.setPropertyWithoutParameter();
 	}
 	
 	public void setMalformedProperty(boolean b1, boolean b2)
 	{
+		atClassLevel.setMalformedProperty(b1, b2);
 	}
 }

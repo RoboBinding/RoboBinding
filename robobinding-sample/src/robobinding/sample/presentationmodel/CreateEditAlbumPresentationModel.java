@@ -16,6 +16,7 @@
  */
 package robobinding.sample.presentationmodel;
 
+import robobinding.CustomSetter;
 import robobinding.DependsOn;
 import robobinding.presentationmodel.AbstractPresentationModel;
 import robobinding.sample.R;
