@@ -51,7 +51,9 @@ public class BindingViewFactory implements Factory
 	{
 		try
 		{
-			View view = layoutInflater.createView(name, null, attrs);
+			String viewFullName = getViewFullname(name);
+			
+			View view = layoutInflater.createView(viewFullName, null, attrs);
 			ViewBindingAttributes viewBindingAttributes = bindingAttributesLoader.load(view, attrs);
 			childViewBindingAttributes.add(viewBindingAttributes);
 			return view;
@@ -60,6 +62,19 @@ public class BindingViewFactory implements Factory
 		{
 			throw new RuntimeException(e);
 		}
+	}
+
+	private String getViewFullname(String name)
+	{
+		StringBuilder nameBuilder = new StringBuilder();
+		
+		if ("View".equals(name) || "ViewGroup".equals(name))
+			nameBuilder.append("android.view.");
+		else
+			nameBuilder.append("android.widget.");
+		
+		nameBuilder.append(name);
+		return nameBuilder.toString();
 	}
 
 	InflatedView inflateView(int resourceId, Context context)

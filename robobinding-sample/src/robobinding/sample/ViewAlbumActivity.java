@@ -16,15 +16,34 @@
  */
 package robobinding.sample;
 
+import robobinding.binding.Binder;
+import robobinding.sample.dao.AlbumDao;
+import robobinding.sample.presentationmodel.ViewAlbumPresentationModel;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+
 /**
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
  *
  */
-public class ViewAlbumActivity
+public class ViewAlbumActivity extends Activity
 {
-
 	public static final String ALBUM_ID = "album_id";
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		
+		Intent intent = getIntent();
+		long albumId = intent.getLongExtra(ALBUM_ID, 0);
+		
+		Binder binder = new Binder();
+		binder.setAndBindContentView(this, R.layout.view_album_activity, new ViewAlbumPresentationModel(new AlbumDao(), albumId));
+	}
 
+	
 }

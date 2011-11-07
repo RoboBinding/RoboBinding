@@ -25,6 +25,11 @@ import robobinding.property.PropertyValueModel;
  */
 public abstract class AbstractReadOnlyPropertyViewAttribute<T> extends AbstractPropertyViewAttribute<T>
 {
+	public AbstractReadOnlyPropertyViewAttribute(PropertyBinding propertyBinding)
+	{
+		super(propertyBinding);
+	}
+	
 	public AbstractReadOnlyPropertyViewAttribute(String attributeValue)
 	{
 		super(attributeValue);

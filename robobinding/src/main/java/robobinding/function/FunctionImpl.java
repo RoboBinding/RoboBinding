@@ -48,6 +48,7 @@ class FunctionImpl implements Function
 			throw new RuntimeException(e);
 		} catch (InvocationTargetException e)
 		{
+			//TODO provide a more helpful error message that exposes the underlying cause
 			throw new RuntimeException(e);
 		}
 	}

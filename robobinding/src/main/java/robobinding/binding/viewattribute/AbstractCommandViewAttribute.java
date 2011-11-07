@@ -38,12 +38,16 @@ public abstract class AbstractCommandViewAttribute implements CommandViewAttribu
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		Function command = findPreferredCommand(presentationModelAdapter);
+		Function function = presentationModelAdapter.findFunction(commandName, getPreferredCommandParameterType());
+		boolean supportsPreferredParameterType = true;
 		
-		if(command == null)
-			command = getNoArgsCommand(presentationModelAdapter);
+		if (function == null)
+		{
+			function = getNoArgsCommand(presentationModelAdapter);
+			supportsPreferredParameterType = false;
+		}
 			
-		bind(command);
+		bind(new Command(function, supportsPreferredParameterType));
 	}
 
 	private Function getNoArgsCommand(PresentationModelAdapter presentationModelAdapter)
@@ -56,11 +60,7 @@ public abstract class AbstractCommandViewAttribute implements CommandViewAttribu
 		return noArgsCommand;
 	}
 
-	private Function findPreferredCommand(PresentationModelAdapter presentationModelAdapter)
-	{
-		return presentationModelAdapter.findFunction(commandName, getPreferredCommandParameterTypes());
-	}
-	
-	protected abstract void bind(Function command);
-	
+	protected abstract void bind(Command command);
+	protected abstract Class<?> getPreferredCommandParameterType();
+
 }

@@ -17,6 +17,7 @@
 package robobinding.sample.presentationmodel;
 
 import robobinding.itempresentationmodel.ItemPresentationModel;
+import robobinding.presentationmodel.AbstractPresentationModel;
 import robobinding.sample.model.Album;
 
 /**
@@ -24,7 +25,7 @@ import robobinding.sample.model.Album;
  * @author Robert Taylor
  *
  */
-public class AlbumItemPresentationModel implements ItemPresentationModel<Album>
+public class AlbumItemPresentationModel extends AbstractPresentationModel implements ItemPresentationModel<Album>
 {
 	protected Album album;
 
@@ -36,6 +37,11 @@ public class AlbumItemPresentationModel implements ItemPresentationModel<Album>
 	public String getArtist()
 	{
 		return album.getArtist();
+	}
+	
+	public boolean isAvailableForPurchase()
+	{
+		return false;
 	}
 	
 	@Override

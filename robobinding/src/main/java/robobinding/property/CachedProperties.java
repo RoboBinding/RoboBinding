@@ -41,7 +41,7 @@ public class CachedProperties implements Properties
 	@Override
 	public Class<?> getPropertyType(String propertyName)
 	{
-		AbstractProperty<?> property = getReadWriteProperty(propertyName);
+		AbstractProperty<?> property = getReadOnlyProperty(propertyName);
 		return property.getPropertyType();
 	}
 

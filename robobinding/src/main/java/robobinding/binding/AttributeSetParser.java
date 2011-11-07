@@ -23,10 +23,10 @@ import android.util.AttributeSet;
 
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 class AttributeSetParser
 {

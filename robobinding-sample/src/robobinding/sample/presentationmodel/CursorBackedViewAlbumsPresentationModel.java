@@ -44,7 +44,7 @@ public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsP
 		return albumDao.getCursor();
 	}
 
-	public PurchaseableAlbumItemPresentationModel createAlbumPresentatonModel()
+	public PurchaseableAlbumItemPresentationModel createAlbumPresentationModel()
 	{
 		return new PurchaseableAlbumItemPresentationModel(purchaseService);
 	}

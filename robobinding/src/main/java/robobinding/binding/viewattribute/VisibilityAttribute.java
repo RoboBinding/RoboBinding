@@ -29,34 +29,42 @@ import android.view.View;
 public class VisibilityAttribute implements PropertyViewAttribute
 {
 	private View view;
-	private final String attributeValue;
+	private final PropertyBinding propertyBinding;
 
 	public VisibilityAttribute(View view, String attributeValue)
 	{
 		this.view = view;
-		this.attributeValue = attributeValue;
+		this.propertyBinding = new PropertyBinding(attributeValue);
 	}
 
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(attributeValue);
-	
-		if (propertyType.isAssignableFrom(Integer.class))
-		{
-			new IntegerVisibilityAttribute().bind(presentationModelAdapter, context);
-		}
-		else if (propertyType.isAssignableFrom(Boolean.class))
-		{
-			new BooleanVisibilityAttribute().bind(presentationModelAdapter, context);
-		}
+		PropertyViewAttribute propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
+		propertyViewAttribute.bind(presentationModelAdapter, context);
 	}
 
+	PropertyViewAttribute lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
+	{
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBinding.propertyName);
+		
+		if (propertyType.isAssignableFrom(int.class) || propertyType.isAssignableFrom(Integer.class))
+		{
+			return new IntegerVisibilityAttribute();
+		}
+		else if (propertyType.isAssignableFrom(boolean.class) || propertyType.isAssignableFrom(Boolean.class))
+		{
+			return new BooleanVisibilityAttribute();
+		}
+		
+		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
+	}
+	
 	class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Boolean>
 	{
 		public BooleanVisibilityAttribute()
 		{
-			super(attributeValue);
+			super(propertyBinding);
 		}
 
 		@Override
@@ -70,7 +78,7 @@ public class VisibilityAttribute implements PropertyViewAttribute
 	{
 		public IntegerVisibilityAttribute()
 		{
-			super(attributeValue);
+			super(propertyBinding);
 		}
 
 		@Override

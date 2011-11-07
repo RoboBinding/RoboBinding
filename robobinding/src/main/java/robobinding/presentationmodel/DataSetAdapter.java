@@ -131,6 +131,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private View newView(int position, ViewGroup parent, int layoutId)
 	{
 		ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
+		itemPresentationModel.setData(position, dataSetValueModel.getItem(position));
 		View view = binder.inflateAndBindView(context, layoutId, itemPresentationModel);
 		view.setTag(itemPresentationModel);
 		return view;

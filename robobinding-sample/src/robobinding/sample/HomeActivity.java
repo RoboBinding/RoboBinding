@@ -22,10 +22,10 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public class HomeActivity extends Activity
 {
@@ -34,7 +34,7 @@ public class HomeActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		Binder binder = new Binder();
-		binder.setAndBindContentView(this, R.layout.home_activity, new HomePresentationModel());
+		binder.setAndBindContentView(this, R.layout.home_activity, new HomePresentationModel(this));
 	}
 }
 

@@ -1,6 +1,7 @@
 package robobinding.sample.presentationmodel;
 
 import robobinding.binding.viewattribute.ItemClickEvent;
+import robobinding.presentationmodel.AbstractPresentationModel;
 import robobinding.sample.CreateEditAlbumActivity;
 import robobinding.sample.ViewAlbumActivity;
 import robobinding.sample.dao.AlbumDao;
@@ -8,7 +9,7 @@ import robobinding.sample.model.Album;
 import android.content.Context;
 import android.content.Intent;
 
-public abstract class AbstractViewAlbumsPresentationModel
+public abstract class AbstractViewAlbumsPresentationModel extends AbstractPresentationModel
 {
 	protected static final String PROPERTY_ALBUMS = "albums";
 	

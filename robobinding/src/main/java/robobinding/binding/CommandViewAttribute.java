@@ -24,5 +24,4 @@ package robobinding.binding;
  */
 public interface CommandViewAttribute extends ViewAttribute
 {
-	Class<?>[] getPreferredCommandParameterTypes();
 }

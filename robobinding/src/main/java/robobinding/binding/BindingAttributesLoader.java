@@ -66,6 +66,7 @@ class BindingAttributesLoader
 		}
 		
 		if (!pendingBindingAttributes.isEmpty())
+			//TODO show which binding attributes are unhandled
 			throw new RuntimeException("Unhandled binding attributes");
 		
 		return bindingAttributes;

@@ -16,6 +16,7 @@
  */
 package robobinding.sample.presentationmodel;
 
+import robobinding.presentationmodel.AbstractPresentationModel;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
 
@@ -25,7 +26,7 @@ import robobinding.sample.model.Album;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class ViewAlbumPresentationModel
+public class ViewAlbumPresentationModel extends AbstractPresentationModel
 {
 	private Album album;
 	

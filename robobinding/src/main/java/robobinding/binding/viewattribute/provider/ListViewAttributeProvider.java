@@ -21,6 +21,7 @@ import java.util.Map;
 import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.AdaptedDataSetAttributes;
 import robobinding.binding.viewattribute.ItemLayoutAttribute;
+import robobinding.binding.viewattribute.OnItemClickAttribute;
 import robobinding.binding.viewattribute.SourceAttribute;
 import robobinding.internal.com_google_common.collect.Lists;
 import android.text.TextUtils;
@@ -52,7 +53,11 @@ public class ListViewAttributeProvider implements BindingAttributeProvider<ListV
 			else if ("itemLayout".equals(attributeName))
 			{
 				listViewAttributesBuilder.setItemLayoutAttributeValue(attributeValue);
-			} 
+			}
+			else if ("onItemClick".equals(attributeName))
+			{
+				bindingAttributes.add(new BindingAttribute(attributeName, new OnItemClickAttribute(listView, attributeValue)));
+			}
 		}
 		
 		if (listViewAttributesBuilder.hasAttributes())

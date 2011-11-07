@@ -31,6 +31,11 @@ public class HomePresentationModel
 {
 	private Context context;
 
+	public HomePresentationModel(Context context)
+	{
+		this.context = context;
+	}
+
 	public void cursorBackedAlbums()
 	{
 		context.startActivity(new Intent(context, CursorBackedViewAlbumsActivity.class));
