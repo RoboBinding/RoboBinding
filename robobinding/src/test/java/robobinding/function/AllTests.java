@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.property;
+package robobinding.function;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -27,13 +27,8 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	AbstractPropertyTest.class,
-	CachedPropertiesTest.class,
-	DefaultConstructorImplTest.class,
-	DependencyPropertyTest.class,
-	FactoryMethodImplTest.class,
-	PropertyAccessorTest.class,
-	PropertyCreatorTest.class
+	CachedFunctionsTest.class,
+	FunctionImplTest.class
 })
 public class AllTests
 {

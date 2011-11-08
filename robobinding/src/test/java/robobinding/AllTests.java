@@ -19,8 +19,6 @@ package robobinding;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import robobinding.function.CachedFunctionsTest;
-
 /**
  * @since 1.0
  * @version $Revision: 1.0 $
@@ -30,7 +28,7 @@ import robobinding.function.CachedFunctionsTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	robobinding.property.AllTests.class,
-	CachedFunctionsTest.class
+	robobinding.function.AllTests.class
 })
 public class AllTests
 {
