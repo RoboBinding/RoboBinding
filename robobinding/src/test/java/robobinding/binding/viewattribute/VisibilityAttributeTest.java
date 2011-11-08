@@ -20,6 +20,8 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Random;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,16 +50,10 @@ public class VisibilityAttributeTest
 		 presentationModelAdapter = mock(PresentationModelAdapter.class);
 	}
 	
-	//TODO Refactor these tests
-	
 	@Test
 	public void whenBindingWithAnIntegerProperty_ThenInitializeIntegerVisibilityAttribute()
 	{
-		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class) Integer.class);
-		
-		assertThat(visibilityAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerVisibilityAttribute.class));
-		
-		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class) int.class);
+		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn(eitherPrimitiveOrWrappedIntegerClass());
 		
 		assertThat(visibilityAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerVisibilityAttribute.class));
 	}
@@ -65,13 +61,24 @@ public class VisibilityAttributeTest
 	@Test
 	public void whenBindingWithABooleanProperty_ThenInitializeBooleanVisibilityAttribute()
 	{
-		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class) Boolean.class);
-		
-		assertThat(visibilityAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(BooleanVisibilityAttribute.class));
-		
-		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class) boolean.class);
+		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn(eitherPrimitiveOrWrappedBooleanClass());
 		
 		assertThat(visibilityAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(BooleanVisibilityAttribute.class));
 	}
 	
+	private Class eitherPrimitiveOrWrappedIntegerClass()
+	{
+		if (new Random().nextInt(2) == 0)
+			return int.class;
+		
+		return Integer.class;
+	}
+	
+	private Class eitherPrimitiveOrWrappedBooleanClass()
+	{
+		if (new Random().nextInt(2) == 0)
+			return boolean.class;
+		
+		return Boolean.class;
+	}
 }

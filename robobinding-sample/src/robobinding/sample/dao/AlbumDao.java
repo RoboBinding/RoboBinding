@@ -32,16 +32,19 @@ import robobinding.sample.presentationmodel.AlbumCursor;
  */
 public class AlbumDao
 {
-	private List<Album> albums;
+	private static List<Album> albums;
 
 	public AlbumDao()
 	{
-		albums = Lists.newArrayList();
-		
-		save(createNonClassical("Roy Harper", "HQ"));
-		save(createNonClassical("The Rough Dancer and Cyclical Night", "Astor Piazzola"));
-		save(createNonClassical("The Black Light", "Calexico"));
-		save(createClassical("Symphony No.5", "CBSO", "Sibelius"));
+		if (albums == null)
+		{
+			albums = Lists.newArrayList();
+			
+			save(createNonClassical("Roy Harper", "HQ"));
+			save(createNonClassical("The Rough Dancer and Cyclical Night", "Astor Piazzola"));
+			save(createNonClassical("The Black Light", "Calexico"));
+			save(createClassical("Symphony No.5", "CBSO", "Sibelius"));
+		}
 	}
 	
 	private Album createClassical(String title, String artist, String composer)

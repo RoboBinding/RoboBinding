@@ -17,8 +17,11 @@
 package robobinding.sample.presentationmodel;
 
 import robobinding.presentationmodel.AbstractPresentationModel;
+import robobinding.sample.CreateEditAlbumActivity;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
+import android.content.Context;
+import android.content.Intent;
 
 /**
  * 
@@ -28,10 +31,12 @@ import robobinding.sample.model.Album;
  */
 public class ViewAlbumPresentationModel extends AbstractPresentationModel
 {
-	private Album album;
+	private final Album album;
+	private final Context context;
 	
-	public ViewAlbumPresentationModel(AlbumDao albumDao, long albumId)
+	public ViewAlbumPresentationModel(Context context, AlbumDao albumDao, long albumId)
 	{
+		this.context = context;
 		this.album = albumDao.get(albumId);
 	}
 
@@ -58,5 +63,12 @@ public class ViewAlbumPresentationModel extends AbstractPresentationModel
 	public String getClassicalDescription()
 	{
 		return album.isClassical() ? "Classical" : "Not classical";
+	}
+	
+	public void editAlbum()
+	{
+		Intent intent = new Intent(context, CreateEditAlbumActivity.class);
+		intent.putExtra(CreateEditAlbumActivity.ALBUM_ID, album.getId());
+		context.startActivity(intent);
 	}
 }

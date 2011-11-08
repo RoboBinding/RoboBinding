@@ -20,9 +20,6 @@ import robobinding.presentationmodel.PresentationModelAdapter;
 import robobinding.property.PropertyValueModel;
 import android.content.Context;
 import android.text.Editable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.SpannedString;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
@@ -50,30 +47,26 @@ public class TextAttribute implements PropertyViewAttribute
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
+		PropertyViewAttribute propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
+		propertyViewAttribute.bind(presentationModelAdapter, context);
+	}
+
+	PropertyViewAttribute lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
+	{
 		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBinding.propertyName);
 		
-		if (SpannedString.class.isAssignableFrom(propertyType))
+		if (String.class.isAssignableFrom(propertyType))
 		{
-			new SpannedStringTextAttribute().bind(presentationModelAdapter, context);
-		}
-		else if (SpannableString.class.isAssignableFrom(propertyType))
-		{
-			new SpannableStringTextAttribute().bind(presentationModelAdapter, context);
-		}
-		else if (SpannableStringBuilder.class.isAssignableFrom(propertyType))
-		{
-			new SpannableStringBuilderTextAttribute().bind(presentationModelAdapter, context);
+			return new StringTextAttribute();
 		}
 		else if (CharSequence.class.isAssignableFrom(propertyType))
 		{
-			new CharSequenceTextAttribute().bind(presentationModelAdapter, context);
+			return new CharSequenceTextAttribute();
 		}
-		else if (String.class.isAssignableFrom(propertyType))
-		{
-			new StringTextAttribute().bind(presentationModelAdapter, context);
-		}
+		
+		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
 	}
-
+	
 	public ValueCommitMode getValueCommitMode()
 	{
 		return valueCommitMode;
@@ -153,16 +146,6 @@ public class TextAttribute implements PropertyViewAttribute
 		}
 	}
 
-	class SpannedStringTextAttribute extends AbstractCharSequenceTextAttribute<SpannedString>
-	{
-		@Override
-		protected void updateValueModel(PropertyValueModel<SpannedString> valueModel, CharSequence charSequence)
-		{
-			suppressNextViewUpdate();
-			valueModel.setValue(new SpannedString(charSequence));
-		}
-	}
-
 	public class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
 	{
 		@Override
@@ -171,25 +154,4 @@ public class TextAttribute implements PropertyViewAttribute
 			valueModel.setValue(charSequence);
 		}
 	}
-	
-	public class SpannableStringBuilderTextAttribute extends AbstractCharSequenceTextAttribute<SpannableStringBuilder>
-	{
-		@Override
-		protected void updateValueModel(PropertyValueModel<SpannableStringBuilder> valueModel, CharSequence charSequence)
-		{
-			suppressNextViewUpdate();
-			valueModel.setValue(new SpannableStringBuilder(charSequence));
-		}
-	}
-	
-	public class SpannableStringTextAttribute extends AbstractCharSequenceTextAttribute<SpannableString>
-	{
-		@Override
-		protected void updateValueModel(PropertyValueModel<SpannableString> valueModel, CharSequence charSequence)
-		{
-			suppressNextViewUpdate();
-			valueModel.setValue(new SpannableString(charSequence));
-		}
-	}
-
 }

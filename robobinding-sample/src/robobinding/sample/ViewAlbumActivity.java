@@ -42,7 +42,7 @@ public class ViewAlbumActivity extends Activity
 		long albumId = intent.getLongExtra(ALBUM_ID, 0);
 		
 		Binder binder = new Binder();
-		binder.setAndBindContentView(this, R.layout.view_album_activity, new ViewAlbumPresentationModel(new AlbumDao(), albumId));
+		binder.setAndBindContentView(this, R.layout.view_album_activity, new ViewAlbumPresentationModel(this, new AlbumDao(), albumId));
 	}
 
 	

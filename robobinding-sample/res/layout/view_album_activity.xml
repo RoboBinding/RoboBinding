@@ -1,60 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:binding="http://robobinding.org/robobinding.android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-	
-	<TextView 
-		android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:text="@string/view_album"
-	    style="@style/ScreenTitle" />
-	
-	<TextView
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:text="@string/title"
-	    style="@style/Heading" />
-	
-	<TextView
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    binding:text="{title}" />
-	
-	<TextView
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:text="@string/artist"
-	    style="@style/Heading" />
-	
-	<TextView
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    binding:text="{artist}" />
-	
-	<TextView
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:text="@string/classical"
-	    style="@style/Heading" />
-	
-	<TextView
-		android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content"
-	    binding:text="{classicalDescription}" />
-	
-	<TextView
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:text="@string/composer"
-	    style="@style/Heading"
-	    binding:visibility="{composerEnabled}" />
-	
-	<TextView
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    binding:text="{composer}"
-	    binding:visibility="{composerEnabled}" />
+	android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+	<Button android:id="@+id/edit_button"
+	    	android:layout_width="fill_parent"
+	  		android:layout_height="wrap_content"
+	  		android:layout_alignParentBottom="true"
+	  		android:text="@string/edit"
+	  		binding:onClick="editAlbum" />
+
+	<ScrollView 
+		android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_above="@id/edit_button">
 	    
-</LinearLayout>
+		<LinearLayout 
+		    android:orientation="vertical"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content" >
+			
+			<TextView 
+				android:layout_width="fill_parent" 
+			    android:layout_height="wrap_content" 
+			    android:text="@string/view_album"
+			    style="@style/ScreenTitle" />
+			
+			<TextView
+			    android:layout_width="fill_parent" 
+			    android:layout_height="wrap_content" 
+			    android:text="@string/title"
+			    style="@style/Heading" />
+			
+			<TextView
+			    android:layout_width="fill_parent" 
+			    android:layout_height="wrap_content" 
+			    binding:text="{title}" />
+			
+			<TextView
+			    android:layout_width="fill_parent" 
+			    android:layout_height="wrap_content" 
+			    android:text="@string/artist"
+			    style="@style/Heading" />
+			
+			<TextView
+			    android:layout_width="fill_parent" 
+			    android:layout_height="wrap_content" 
+			    binding:text="{artist}" />
+			
+			<TextView
+			    android:layout_width="fill_parent" 
+			    android:layout_height="wrap_content" 
+			    android:text="@string/classical"
+			    style="@style/Heading" />
+			
+			<TextView
+				android:layout_width="wrap_content" 
+			    android:layout_height="wrap_content"
+			    binding:text="{classicalDescription}" />
+			
+			<TextView
+			    android:layout_width="fill_parent" 
+			    android:layout_height="wrap_content" 
+			    android:text="@string/composer"
+			    style="@style/Heading"
+			    binding:visibility="{composerEnabled}" />
+			
+			<TextView
+			    android:layout_width="fill_parent" 
+			    android:layout_height="wrap_content" 
+			    binding:text="{composer}"
+			    binding:visibility="{composerEnabled}" />
+			    
+		</LinearLayout>
+	</ScrollView>
+</RelativeLayout>

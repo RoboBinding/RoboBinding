@@ -16,20 +16,36 @@
  */
 package robobinding.sample;
 
+import robobinding.binding.Binder;
+import robobinding.sample.dao.AlbumDao;
+import robobinding.sample.presentationmodel.CreateEditAlbumPresentationModel;
 import android.app.Activity;
 import android.os.Bundle;
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public class CreateEditAlbumActivity extends Activity {
-    /** Called when the activity is first created. */
-    @Override
+
+	public static final String ALBUM_ID = "album_id";
+
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_edit_album_activity);
+        
+        AlbumDao albumDao = new AlbumDao();
+        CreateEditAlbumPresentationModel createEditAlbumPresentationModel;
+        long albumId = getIntent().getLongExtra(ALBUM_ID, -1);
+        
+        if (albumId >= 0)
+			createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumDao, albumId);
+		else
+        	createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumDao);
+        
+        Binder binder = new Binder();
+		binder.setAndBindContentView(this, R.layout.create_edit_album_activity, createEditAlbumPresentationModel);
     }
 }
