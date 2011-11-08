@@ -18,6 +18,7 @@ package robobinding.notifypropertychange.modifycode;
 
 import java.beans.PropertyChangeSupport;
 
+import robobinding.CustomSetter;
 import robobinding.NotifyPropertyChange;
 
 /**
@@ -31,31 +32,46 @@ public class AtClassLevel_Modified
 {
 	private boolean property1;
 	private String property2;
+	private boolean customProperty;
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	public AtClassLevel_Modified()
 	{
 		propertyChangeSupport = new PropertyChangeSupport(this);
 	}
+	
 	public boolean getProperty1()
 	{
 		return property1;
 	}
-	public void setProperty1(boolean b)
+	public void setProperty1(boolean newValue)
 	{
 		boolean oldValue = getProperty1();
-		this.property1 = b;
-		propertyChangeSupport.firePropertyChange("property1", oldValue, b);
+		this.property1 = newValue;
+		propertyChangeSupport.firePropertyChange("property1", oldValue, newValue);
 	}
+	
 	public String getProperty2()
 	{
 		return property2;
 	}
-	public void setProperty2(String str)
+	public void setProperty2(String newValue)
 	{
 		String oldValue = getProperty2();
-		this.property2 = str;
-		propertyChangeSupport.firePropertyChange("property2", oldValue, str);
+		this.property2 = newValue;
+		propertyChangeSupport.firePropertyChange("property2", oldValue, newValue);
+	}
+	
+	public boolean getCustomProperty()
+	{
+		return customProperty;
+	}
+	@CustomSetter
+	public void setCustomProperty(boolean newValue)
+	{
+		boolean oldValue = getCustomProperty();
+		customProperty = newValue;
+		propertyChangeSupport.firePropertyChange("customProperty", oldValue, newValue);
 	}
 	
 	public void setPropertyWithoutGetter(boolean b)

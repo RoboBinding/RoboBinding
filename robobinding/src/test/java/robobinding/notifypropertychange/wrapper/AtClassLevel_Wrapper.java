@@ -18,6 +18,7 @@ package robobinding.notifypropertychange.wrapper;
 
 import java.beans.PropertyChangeSupport;
 
+import robobinding.CustomSetter;
 import robobinding.NotifyPropertyChange;
 import robobinding.notifypropertychange.AtClassLevel;
 
@@ -39,25 +40,37 @@ public class AtClassLevel_Wrapper
 		
 		propertyChangeSupport = new PropertyChangeSupport(this);
 	}
+	
 	public boolean getProperty1()
 	{
 		return atClassLevel.getProperty1();
 	}
-	public void setProperty1(boolean b)
+	public void setProperty1(boolean newValue)
 	{
 		boolean oldValue = getProperty1();
-		atClassLevel.setProperty1(b);
-		propertyChangeSupport.firePropertyChange("property1", oldValue, b);
+		atClassLevel.setProperty1(newValue);
+		propertyChangeSupport.firePropertyChange("property1", oldValue, newValue);
 	}
+	
 	public String getProperty2()
 	{
 		return atClassLevel.getProperty2();
 	}
-	public void setProperty2(String str)
+	public void setProperty2(String newValue)
 	{
 		String oldValue = getProperty2();
-		atClassLevel.setProperty2(str);
-		propertyChangeSupport.firePropertyChange("property2", oldValue, str);
+		atClassLevel.setProperty2(newValue);
+		propertyChangeSupport.firePropertyChange("property2", oldValue, newValue);
+	}
+	
+	public boolean getCustomProperty()
+	{
+		return atClassLevel.getCustomProperty();
+	}
+	@CustomSetter
+	public void setCustomProperty(boolean newValue)
+	{
+		atClassLevel.setCustomProperty(newValue);
 	}
 	
 	public void setPropertyWithoutGetter(boolean b)
