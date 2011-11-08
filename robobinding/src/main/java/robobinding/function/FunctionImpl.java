@@ -18,6 +18,11 @@ package robobinding.function;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
+import java.util.List;
+
+import robobinding.internal.com_google_common.collect.Lists;
+import robobinding.internal.org_apache_commons_lang3.StringUtils;
 
 /**
 *
@@ -48,8 +53,26 @@ class FunctionImpl implements Function
 			throw new RuntimeException(e);
 		} catch (InvocationTargetException e)
 		{
-			//TODO provide a more helpful error message that exposes the underlying cause
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error occur when invoking method '"+describeMethod()+"', please check the original error stack below", e.getCause());
 		}
+	}
+	private String describeMethod()
+	{
+		List<String> parameterTypesInString = getParameterTypesInString();
+		
+		return MessageFormat.format("{0}.{1}({2})", 
+				method.getDeclaringClass().getName(),
+				method.getName(),
+				StringUtils.join(parameterTypesInString, ", "));		
+	}
+	private List<String> getParameterTypesInString()
+	{
+		Class<?>[] parameterTypes = method.getParameterTypes();
+		List<String> parameterTypesInString = Lists.newArrayList();
+		for(Class<?> parameterType : parameterTypes)
+		{
+			parameterTypesInString.add(parameterType.getName());
+		}
+		return parameterTypesInString;
 	}
 }
