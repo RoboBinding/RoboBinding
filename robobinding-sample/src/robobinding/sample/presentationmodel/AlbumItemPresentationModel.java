@@ -39,11 +39,6 @@ public class AlbumItemPresentationModel extends AbstractPresentationModel implem
 		return album.getArtist();
 	}
 	
-	public boolean isAvailableForPurchase()
-	{
-		return false;
-	}
-	
 	@Override
 	public void setData(int index, Album bean)
 	{

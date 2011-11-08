@@ -29,7 +29,7 @@ public abstract class AbstractViewAlbumsPresentationModel extends AbstractPresen
 
 	public void viewAlbum(ItemClickEvent event)
 	{
-		Album album = albumDao.get(event.getId());
+		Album album = albumDao.getAll().get(event.getPosition());
 		
 		Intent intent = new Intent(context, ViewAlbumActivity.class);
 		intent.putExtra(ViewAlbumActivity.ALBUM_ID, album.getId());

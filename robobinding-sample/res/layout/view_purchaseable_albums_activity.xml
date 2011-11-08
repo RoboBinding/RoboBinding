@@ -8,7 +8,8 @@
     <TextView android:id="@+id/window_title"
 		android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
-	    android:text="@string/view_albums" />
+	    android:text="@string/view_albums"
+	    style="@style/ScreenTitle" />
     
     <Button android:id="@+id/create_button"
     	android:layout_width="fill_parent"

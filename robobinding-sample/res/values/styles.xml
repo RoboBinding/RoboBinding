@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="ScreenTitle">
+		<item name="android:textStyle">bold|italic</item>
+	</style>
+	<style name="Heading">
+		<item name="android:textStyle">bold</item>
+	</style>
+</resources>

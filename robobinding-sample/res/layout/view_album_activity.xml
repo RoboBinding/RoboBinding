@@ -8,12 +8,14 @@
 	<TextView 
 		android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
-	    android:text="@string/view_album" />
+	    android:text="@string/view_album"
+	    style="@style/ScreenTitle" />
 	
 	<TextView
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
-	    android:text="@string/title" />
+	    android:text="@string/title"
+	    style="@style/Heading" />
 	
 	<TextView
 	    android:layout_width="fill_parent" 
@@ -23,7 +25,8 @@
 	<TextView
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
-	    android:text="@string/artist" />
+	    android:text="@string/artist"
+	    style="@style/Heading" />
 	
 	<TextView
 	    android:layout_width="fill_parent" 
@@ -33,7 +36,8 @@
 	<TextView
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
-	    android:text="@string/classical" />
+	    android:text="@string/classical"
+	    style="@style/Heading" />
 	
 	<TextView
 		android:layout_width="wrap_content" 
@@ -44,6 +48,7 @@
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
 	    android:text="@string/composer"
+	    style="@style/Heading"
 	    binding:visibility="{composerEnabled}" />
 	
 	<TextView

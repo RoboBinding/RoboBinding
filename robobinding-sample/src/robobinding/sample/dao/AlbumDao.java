@@ -16,13 +16,10 @@
  */
 package robobinding.sample.dao;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import robobinding.internal.com_google_common.collect.Lists;
-import robobinding.internal.com_google_common.collect.Sets;
 import robobinding.sample.model.Album;
 import robobinding.sample.presentationmodel.AlbumCursor;
 
@@ -35,11 +32,11 @@ import robobinding.sample.presentationmodel.AlbumCursor;
  */
 public class AlbumDao
 {
-	private Set<Album> albums;
+	private List<Album> albums;
 
 	public AlbumDao()
 	{
-		albums = Sets.newLinkedHashSet();
+		albums = Lists.newArrayList();
 		
 		save(createNonClassical("Roy Harper", "HQ"));
 		save(createNonClassical("The Rough Dancer and Cyclical Night", "Astor Piazzola"));
@@ -91,9 +88,9 @@ public class AlbumDao
 		return albums.size() + 1;
 	}
 	
-	public Collection<Album> getAll()
+	public List<Album> getAll()
 	{
-		return Collections.unmodifiableCollection(albums);
+		return Collections.unmodifiableList(albums);
 	}
 
 	public AlbumCursor getCursor()

@@ -9,7 +9,8 @@
     <TextView
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:text="@string/welcome" />
+    	android:text="@string/welcome"
+    	style="@style/ScreenTitle" />
     
     <Button
     	android:layout_width="fill_parent"
