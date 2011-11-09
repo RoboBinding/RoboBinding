@@ -49,7 +49,7 @@ public class TextAttributeTest
 	}
 	
 	@Test
-	public void whenBindingWithAnCharProperty_ThenInitializeCharSequenceTextAttribute()
+	public void whenBindingWithACharSequenceProperty_ThenInitializeCharSequenceTextAttribute()
 	{
 		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)CharSequence.class);
 		
