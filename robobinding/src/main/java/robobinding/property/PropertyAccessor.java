@@ -31,7 +31,7 @@ import robobinding.internal.org_apache_commons_lang3.Validate;
 * @version $Revision: 1.0 $
 * @author Cheng Wei
 */
-final class PropertyAccessor<T>
+public final class PropertyAccessor<T>
 {
 	private PropertyDescriptor descriptor;
 	private Class<?> beanClass;
