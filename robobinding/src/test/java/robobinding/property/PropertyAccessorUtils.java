@@ -34,14 +34,18 @@ public class PropertyAccessorUtils
 	}
 	public static <T> PropertyAccessor<T> createPropertyAccessor(Object bean, String propertyName)
 	{
-		PropertyDescriptor propertyDescriptor = PropertyAccessorUtils.getPropertyDescriptor(bean, propertyName);
-		return new PropertyAccessor<T>(propertyDescriptor, bean.getClass());
+		return createPropertyAccessor(bean.getClass(), propertyName);
 	}
-	private static PropertyDescriptor getPropertyDescriptor(Object bean, String propertyName)
+	public static <T> PropertyAccessor<T> createPropertyAccessor(Class<?> beanClass, String propertyName)
+	{
+		PropertyDescriptor propertyDescriptor = PropertyAccessorUtils.getPropertyDescriptor(beanClass, propertyName);
+		return new PropertyAccessor<T>(propertyDescriptor, beanClass);
+	}
+	private static PropertyDescriptor getPropertyDescriptor(Class<?> beanClass, String propertyName)
 	{
 		try
 		{
-			BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
+			BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
 			for(PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors())
 			{
 				if(propertyDescriptor.getName().equals(propertyName))

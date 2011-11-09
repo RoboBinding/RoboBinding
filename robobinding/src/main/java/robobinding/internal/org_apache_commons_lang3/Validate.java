@@ -16,6 +16,8 @@
  */
 package robobinding.internal.org_apache_commons_lang3;
 
+import java.util.Collection;
+
 
 /**
  * <p>This class assists in validating arguments. The validation methods are
@@ -82,4 +84,51 @@ public class Validate {
         }
         return object;
     }
-}
+    /**
+     * <p>Validate that the argument condition is {@code true}; otherwise
+     * throwing an exception with the specified message. This method is useful when
+     * validating according to an arbitrary boolean expression, such as validating a
+     * primitive number or using your own custom validation expression.</p>
+     *
+     * <pre>
+     * Validate.isTrue(i >= min && i <= max, "The value must be between %d and %d", min, max);
+     * Validate.isTrue(myObject.isOk(), "The object is not okay");</pre>
+     *
+     * @param expression  the boolean expression to check
+     * @param message  the {@link String#format(String, Object...)} exception message if invalid, not null
+     * @param values  the optional values for the formatted exception message, null array not recommended
+     * @throws IllegalArgumentException if expression is {@code false}
+     * @see #isTrue(boolean)
+     * @see #isTrue(boolean, String, long)
+     * @see #isTrue(boolean, String, double)
+     */
+    public static void isTrue(boolean expression, String message, Object... values) {
+        if (expression == false) {
+            throw new IllegalArgumentException(String.format(message, values));
+        }
+    }
+    /**
+     * <p>Validate that the specified argument collection is neither {@code null}
+     * nor a size of zero (no elements); otherwise throwing an exception
+     * with the specified message.
+     *
+     * <pre>Validate.notEmpty(myCollection, "The collection must not be empty");</pre>
+     *
+     * @param <T> the collection type
+     * @param collection  the collection to check, validated not null by this method
+     * @param message  the {@link String#format(String, Object...)} exception message if invalid, not null
+     * @param values  the optional values for the formatted exception message, null array not recommended
+     * @return the validated collection (never {@code null} method for chaining)
+     * @throws NullPointerException if the collection is {@code null}
+     * @throws IllegalArgumentException if the collection is empty
+     * @see #notEmpty(Object[])
+     */
+    public static <T extends Collection<?>> T notEmpty(T collection, String message, Object... values) {
+        if (collection == null) {
+            throw new NullPointerException(String.format(message, values));
+        }
+        if (collection.size() == 0) {
+            throw new IllegalArgumentException(String.format(message, values));
+        }
+        return collection;
+    }}

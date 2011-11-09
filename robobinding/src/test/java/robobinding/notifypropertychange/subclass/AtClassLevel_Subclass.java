@@ -1,5 +1,5 @@
 /**
- * AtClassLevel_Modified.java
+ * AtClassLevel_Subclass.java
  * Nov 4, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.notifypropertychange.modifycode;
+package robobinding.notifypropertychange.subclass;
 
 import java.beans.PropertyChangeSupport;
 
-import robobinding.CustomSetter;
 import robobinding.NotifyPropertyChange;
+import robobinding.notifypropertychange.AtClassLevel;
 
 /**
  *
@@ -28,71 +28,28 @@ import robobinding.NotifyPropertyChange;
  * @author Cheng Wei
  */
 @NotifyPropertyChange
-public class AtClassLevel_Modified
+public class AtClassLevel_Subclass extends AtClassLevel
 {
-	private boolean property1;
-	private String property2;
-	private boolean customProperty;
-	
-	private PropertyChangeSupport propertyChangeSupport;
-	public AtClassLevel_Modified()
+	PropertyChangeSupport propertyChangeSupport;
+	public AtClassLevel_Subclass()
 	{
+		super();
 		propertyChangeSupport = new PropertyChangeSupport(this);
 	}
 	
-	public boolean getProperty1()
-	{
-		return property1;
-	}
+	@Override
 	public void setProperty1(boolean newValue)
 	{
 		boolean oldValue = getProperty1();
-		this.property1 = newValue;
+		super.setProperty1(newValue);
 		propertyChangeSupport.firePropertyChange("property1", oldValue, newValue);
 	}
 	
-	public String getProperty2()
-	{
-		return property2;
-	}
+	@Override
 	public void setProperty2(String newValue)
 	{
 		String oldValue = getProperty2();
-		this.property2 = newValue;
+		super.setProperty2(newValue);
 		propertyChangeSupport.firePropertyChange("property2", oldValue, newValue);
-	}
-	
-	public void property2SetterInvoker()
-	{
-		setProperty2("something new");
-	}
-	
-	public boolean getCustomProperty()
-	{
-		return customProperty;
-	}
-	@CustomSetter
-	public void setCustomProperty(boolean newValue)
-	{
-		boolean oldValue = getCustomProperty();
-		customProperty = newValue;
-		propertyChangeSupport.firePropertyChange("customProperty", oldValue, newValue);
-	}
-	
-	public void setPropertyWithoutGetter(boolean b)
-	{
-		
-	}
-	
-	public boolean getPropertyWithoutParameter()
-	{
-		return false;
-	}
-	public void setPropertyWithoutParameter()
-	{
-	}
-	
-	public void setMalformedProperty(boolean b1, boolean b2)
-	{
 	}
 }
