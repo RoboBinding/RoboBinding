@@ -24,7 +24,7 @@ public abstract class AbstractViewAlbumsPresentationModel extends AbstractPresen
 
 	public void createAlbum()
 	{
-		activity.startActivity(new Intent(activity, CreateEditAlbumActivity.class));
+		activity.startActivityForResult(new Intent(activity, CreateEditAlbumActivity.class), 0);
 	}
 
 	public void viewAlbum(ItemClickEvent event)
