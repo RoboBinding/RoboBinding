@@ -20,13 +20,14 @@ import robobinding.binding.Binder;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.presentationmodel.ListBackedViewAlbumsPresentationModel;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei, 
  * @author Robert Taylor
- *
  */
 public class ListBackedViewAlbumsActivity extends Activity
 {
@@ -35,6 +36,19 @@ public class ListBackedViewAlbumsActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
+		initViewAndBind();
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		initViewAndBind();
+	}
+
+	protected void initViewAndBind()
+	{
 		ListBackedViewAlbumsPresentationModel viewAlbumsPresentationModel = new ListBackedViewAlbumsPresentationModel(this, new AlbumDao());
 		Binder binder = new Binder();
 		binder.setAndBindContentView(this, R.layout.view_albums_activity, viewAlbumsPresentationModel);

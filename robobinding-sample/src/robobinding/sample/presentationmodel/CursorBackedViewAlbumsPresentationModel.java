@@ -21,7 +21,7 @@ import robobinding.itempresentationmodel.TypedCursor;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
 import robobinding.sample.model.PurchaseService;
-import android.content.Context;
+import android.app.Activity;
 
 /**
  * @since 1.0
@@ -33,21 +33,21 @@ public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsP
 {
 	private PurchaseService purchaseService;
 
-	public CursorBackedViewAlbumsPresentationModel(Context context, AlbumDao albumDao, PurchaseService purchaseService)
+	public CursorBackedViewAlbumsPresentationModel(Activity activity, AlbumDao albumDao, PurchaseService purchaseService)
 	{
-		super(context, albumDao);
+		super(activity, albumDao);
 		this.purchaseService = purchaseService;
 	}
 	
-	@ItemPresentationModel(value=PurchaseableAlbumItemPresentationModel.class, factoryMethod="createAlbumPresentationModel")
+	@ItemPresentationModel(value=PurchasableAlbumItemPresentationModel.class, factoryMethod="createAlbumPresentationModel")
 	public TypedCursor<Album> getAlbums()
 	{
 		return albumDao.getCursor();
 	}
 
-	public PurchaseableAlbumItemPresentationModel createAlbumPresentationModel()
+	public PurchasableAlbumItemPresentationModel createAlbumPresentationModel()
 	{
-		return new PurchaseableAlbumItemPresentationModel(purchaseService);
+		return new PurchasableAlbumItemPresentationModel(purchaseService);
 	}
 	
 }

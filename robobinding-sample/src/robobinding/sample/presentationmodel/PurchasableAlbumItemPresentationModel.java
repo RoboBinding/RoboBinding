@@ -19,15 +19,15 @@ package robobinding.sample.presentationmodel;
 import robobinding.sample.model.PurchaseService;
 
 /**
+ * 
  * @since 1.0
  * @author Robert Taylor
- *
  */
-public class PurchaseableAlbumItemPresentationModel extends AlbumItemPresentationModel
+public class PurchasableAlbumItemPresentationModel extends AlbumItemPresentationModel
 {
 	private final PurchaseService purchaseService;
 
-	public PurchaseableAlbumItemPresentationModel(PurchaseService purchaseService)
+	public PurchasableAlbumItemPresentationModel(PurchaseService purchaseService)
 	{
 		this.purchaseService = purchaseService;
 	}

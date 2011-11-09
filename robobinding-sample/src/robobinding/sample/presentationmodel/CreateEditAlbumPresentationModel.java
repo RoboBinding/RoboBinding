@@ -22,7 +22,7 @@ import robobinding.presentationmodel.AbstractPresentationModel;
 import robobinding.sample.R;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
-import android.content.Context;
+import android.app.Activity;
 
 /**
  * @since 1.0
@@ -40,24 +40,24 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	
 	private Album.Builder albumBuilder;
 	private AlbumDao albumDao;
-	private Context context;
+	private Activity activity;
 	
-	public CreateEditAlbumPresentationModel(Context context, AlbumDao albumDao, long albumId)
+	public CreateEditAlbumPresentationModel(Activity activity, AlbumDao albumDao, long albumId)
 	{
-		initialize(context, albumDao);
+		initialize(activity, albumDao);
 		Album album = albumDao.get(albumId);
 		albumBuilder = album.createBuilder();
 	}
 	
-	public CreateEditAlbumPresentationModel(Context context, AlbumDao albumDao)
+	public CreateEditAlbumPresentationModel(Activity activity, AlbumDao albumDao)
 	{
-		initialize(context, albumDao);
+		initialize(activity, albumDao);
 		albumBuilder = new Album.Builder();
 	}
 	
-	private void initialize(Context context, AlbumDao albumDao)
+	private void initialize(Activity activity, AlbumDao albumDao)
 	{
-		this.context = context;
+		this.activity = activity;
 		this.albumDao = albumDao;
 	}
 	
@@ -70,6 +70,8 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	public void save()
 	{
 		albumDao.save(albumBuilder.create());
+		activity.setResult(1);
+		activity.finish();
 	}
 	
 	public String getTitle()
@@ -129,7 +131,7 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	public String getWindowTitle()
 	{
 		if(albumBuilder.isNew())
-			return context.getString(R.string.create_album);
+			return activity.getString(R.string.create_album);
 		
 		return isClassical() ? "Edit Classical Album" : "Edit Album";
 	}

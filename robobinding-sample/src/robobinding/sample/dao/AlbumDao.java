@@ -25,10 +25,10 @@ import robobinding.sample.presentationmodel.AlbumCursor;
 
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public class AlbumDao
 {
@@ -40,9 +40,10 @@ public class AlbumDao
 		{
 			albums = Lists.newArrayList();
 			
-			save(createNonClassical("Roy Harper", "HQ"));
+			save(createNonClassical("HQ", "Roy Harper"));
 			save(createNonClassical("The Rough Dancer and Cyclical Night", "Astor Piazzola"));
 			save(createNonClassical("The Black Light", "Calexico"));
+			save(createNonClassical("Stormcock", "Roy Harper"));
 			save(createClassical("Symphony No.5", "CBSO", "Sibelius"));
 		}
 	}
@@ -81,9 +82,14 @@ public class AlbumDao
 	public void save(Album album)
 	{
 		if (album.isNew())
+		{	
 			album.setId(nextId());
+			albums.add(album);
+		}
 		
-		albums.add(album);
+		int index = albums.indexOf(album);
+		albums.remove(index);
+		albums.add(index, album);
 	}
 
 	private long nextId()
@@ -98,8 +104,7 @@ public class AlbumDao
 
 	public AlbumCursor getCursor()
 	{
-		List<Album> albumsList = Lists.newArrayList(albums);
-		return new AlbumCursor(albumsList);
+		return new AlbumCursor(getAll());
 	}
 
 }

@@ -24,14 +24,16 @@ import android.content.Intent;
 import android.os.Bundle;
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public class ViewAlbumActivity extends Activity
 {
 	public static final String ALBUM_ID = "album_id";
+	
+	private long albumId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -39,11 +41,23 @@ public class ViewAlbumActivity extends Activity
 		super.onCreate(savedInstanceState);
 		
 		Intent intent = getIntent();
-		long albumId = intent.getLongExtra(ALBUM_ID, 0);
+		albumId = intent.getLongExtra(ALBUM_ID, 0);
 		
+		initViewAndBind();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		super.onActivityResult(requestCode, resultCode, data);
+		setResult(resultCode);
+		
+		initViewAndBind();
+	}
+	
+	protected void initViewAndBind()
+	{
 		Binder binder = new Binder();
 		binder.setAndBindContentView(this, R.layout.view_album_activity, new ViewAlbumPresentationModel(this, new AlbumDao(), albumId));
 	}
-
-	
 }

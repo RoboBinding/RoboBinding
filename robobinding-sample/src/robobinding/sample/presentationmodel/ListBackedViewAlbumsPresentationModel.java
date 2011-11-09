@@ -22,20 +22,20 @@ import robobinding.ItemPresentationModel;
 import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
-import android.content.Context;
+import android.app.Activity;
 
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel
 {
-	public ListBackedViewAlbumsPresentationModel(Context context, AlbumDao albumDao)
+	public ListBackedViewAlbumsPresentationModel(Activity activity, AlbumDao albumDao)
 	{
-		super(context, albumDao);
+		super(activity, albumDao);
 	}
 	
 	@ItemPresentationModel(value=AlbumItemPresentationModel.class)
@@ -43,4 +43,5 @@ public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPre
 	{
 		return Lists.newArrayList(albumDao.getAll());
 	}
+	
 }
