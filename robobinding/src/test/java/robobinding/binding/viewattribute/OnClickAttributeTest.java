@@ -53,7 +53,7 @@ public class OnClickAttributeTest
 		view = new View(null);
 		mockFunction = new MockFunction();
 		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(mockPresentationModelAdapter.findFunction(commandName)).thenReturn(mockFunction);
+		when(mockPresentationModelAdapter.findFunction(commandName, ClickEvent.class)).thenReturn(mockFunction);
 	}
 	
 	@Test

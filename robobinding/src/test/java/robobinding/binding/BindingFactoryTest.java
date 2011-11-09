@@ -45,7 +45,13 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class BindingFactoryTest
 {
-	private String name = "name";
+	private String viewName = "View";
+	private String fullyQualifiedViewName = "android.view.View";
+	private String widgetName = "TextView";
+	private String fullyQualifiedWidgetName = "android.widget.TextView";
+	private String customName = "robobinding.widget.CustomView";
+	private String fullyQualifiedCustomName = "robobinding.widget.CustomView";
+	
 	private AttributeSet attrs = MockAttributeSet.withAttributes(2, 2);
 	private String prefix = null;
 	private Context context = null;
@@ -77,17 +83,31 @@ public class BindingFactoryTest
 	}
 	
 	@Test
-	public void whenCreatingAView_ThenReturnViewInflatedFromLayoutInflater() throws Exception
+	public void whenCreatingAViewInTheViewPackage_ThenReturnViewInflatedFromLayoutInflater() throws Exception
 	{
-		when(layoutInflater.createView(name, prefix, attrs)).thenReturn(theView);
-		assertThat(bindingViewFactory.onCreateView(name, context, attrs), equalTo(theView));
+		when(layoutInflater.createView(fullyQualifiedViewName, prefix, attrs)).thenReturn(theView);
+		assertThat(bindingViewFactory.onCreateView(viewName, context, attrs), equalTo(theView));
+	}
+	
+	@Test
+	public void whenCreatingAViewInTheWidgetPackage_ThenReturnViewInflatedFromLayoutInflater() throws Exception
+	{
+		when(layoutInflater.createView(fullyQualifiedWidgetName, prefix, attrs)).thenReturn(theView);
+		assertThat(bindingViewFactory.onCreateView(widgetName, context, attrs), equalTo(theView));
+	}
+	
+	@Test
+	public void whenCreatingACustomWidget_ThenReturnViewInflatedFromLayoutInflater() throws Exception
+	{
+		when(layoutInflater.createView(fullyQualifiedCustomName, prefix, attrs)).thenReturn(theView);
+		assertThat(bindingViewFactory.onCreateView(customName, context, attrs), equalTo(theView));
 	}
 	
 	@Test
 	public void whenCreatingAView_ThenAddNewViewBindingAttributes() throws Exception
 	{
-		when(layoutInflater.createView(name, prefix, attrs)).thenReturn(theView);
-		bindingViewFactory.onCreateView(name, context, attrs);
+		when(layoutInflater.createView(fullyQualifiedViewName, prefix, attrs)).thenReturn(theView);
+		bindingViewFactory.onCreateView(viewName, context, attrs);
 		
 		List<ViewBindingAttributes> viewHierarchyBindingAttributes = bindingViewFactory.getChildViewBindingAttributes();
 		assertTrue(viewHierarchyBindingAttributes.size() == 1);
@@ -100,11 +120,11 @@ public class BindingFactoryTest
 		View anotherView = new View(context);
 		AttributeSet someOtherAttrs = MockAttributeSet.withAttributes(5, 5);
 		
-		when(layoutInflater.createView(name, prefix, attrs)).thenReturn(theView);
-		when(layoutInflater.createView(name, prefix, someOtherAttrs)).thenReturn(anotherView);
+		when(layoutInflater.createView(fullyQualifiedViewName, prefix, attrs)).thenReturn(theView);
+		when(layoutInflater.createView(fullyQualifiedViewName, prefix, someOtherAttrs)).thenReturn(anotherView);
 		
-		bindingViewFactory.onCreateView(name, context, attrs);
-		bindingViewFactory.onCreateView(name, context, someOtherAttrs);
+		bindingViewFactory.onCreateView(viewName, context, attrs);
+		bindingViewFactory.onCreateView(viewName, context, someOtherAttrs);
 		
 		assertTrue(bindingViewFactory.getChildViewBindingAttributes().size() == 2);
 		verify(bindingAttributesLoader).load(theView, attrs);
@@ -114,7 +134,7 @@ public class BindingFactoryTest
 	@Test (expected=RuntimeException.class)
 	public void whenCreatingAViewThrowsAClassNotFoundException_ThenPropagateAsRuntimeException() throws Exception
 	{
-		when(layoutInflater.createView(name, prefix, attrs)).thenThrow(new ClassNotFoundException());
-		bindingViewFactory.onCreateView(name, context, attrs);
+		when(layoutInflater.createView(fullyQualifiedViewName, prefix, attrs)).thenThrow(new ClassNotFoundException());
+		bindingViewFactory.onCreateView(viewName, context, attrs);
 	}
 }

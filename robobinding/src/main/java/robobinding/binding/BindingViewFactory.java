@@ -70,11 +70,15 @@ public class BindingViewFactory implements Factory
 		
 		if ("View".equals(name) || "ViewGroup".equals(name))
 			nameBuilder.append("android.view.");
-		else
+		else if (!viewNameIsFullyQualified(name))
 			nameBuilder.append("android.widget.");
 		
 		nameBuilder.append(name);
 		return nameBuilder.toString();
+	}
+
+	private boolean viewNameIsFullyQualified(String name) {
+		return name.contains(".");
 	}
 
 	InflatedView inflateView(int resourceId, Context context)

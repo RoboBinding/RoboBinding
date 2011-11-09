@@ -21,7 +21,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.xtremelabs.robolectric.Robolectric;
@@ -83,17 +82,4 @@ public abstract class AbstractTextAttributeTest<T extends CharSequence> extends 
 		assertThat(valueModel.getValue().toString(), equalTo(newText));
 	}
 	
-	@Test
-	public void givenALateValueCommitAttribute_WhenEditActionIsFinished_ThenCommitToValueModel()
-	{
-		lateValueCommitMode = true;
-		createAttributeWith2WayBinding();
-		String newText = "some new text";
-		
-		textView.setText(newText);
-		ShadowTextView shadowTextView = Robolectric.shadowOf(textView);
-		shadowTextView.triggerEditorAction(EditorInfo.IME_ACTION_DONE);
-		
-		assertThat(valueModel.getValue().toString(), equalTo(newText));
-	}
 }
