@@ -1,5 +1,5 @@
 /**
- * AtMethodLevel.java
+ * AtMethodLevel_Subclass.java
  * Nov 2, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.notifypropertychange;
+package robobinding.notifypropertychange.subclass;
+
+import java.beans.PropertyChangeSupport;
 
 import robobinding.NotifyPropertyChange;
+import robobinding.notifypropertychange.AtMethodLevel;
 
 /**
  *
@@ -24,31 +27,21 @@ import robobinding.NotifyPropertyChange;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class AtMethodLevel
+public class AtMethodLevel_Subclass extends AtMethodLevel
 {
-	private boolean property1;
-	private boolean property2;
-	public AtMethodLevel(boolean property1, boolean property2)
+	private PropertyChangeSupport propertyChangeSupport;
+	public AtMethodLevel_Subclass(boolean property1, boolean property2)
 	{
-		this.property1 = property1;
-		this.property2 = property2;
+		super(property1, property2);
+		
+		propertyChangeSupport = new PropertyChangeSupport(this);
 	}
-	public boolean getProperty1()
-	{
-		return property1;
-	}
+	@Override
 	@NotifyPropertyChange
 	public void setProperty1(boolean newValue)
 	{
-		property1 = newValue;
-	}
-	
-	public boolean getProperty2()
-	{
-		return property2;
-	}
-	public void setProperty2(boolean newValue)
-	{
-		property2 = newValue;
+		boolean oldValue = getProperty1();
+		super.setProperty1(newValue);
+		propertyChangeSupport.firePropertyChange("property1", oldValue, newValue);
 	}
 }
