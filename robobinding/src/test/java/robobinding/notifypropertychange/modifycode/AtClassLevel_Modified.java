@@ -62,6 +62,11 @@ public class AtClassLevel_Modified
 		propertyChangeSupport.firePropertyChange("property2", oldValue, newValue);
 	}
 	
+	public void property2SetterInvoker()
+	{
+		setProperty2("something new");
+	}
+	
 	public boolean getCustomProperty()
 	{
 		return customProperty;

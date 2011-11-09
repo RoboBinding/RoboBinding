@@ -63,6 +63,12 @@ public class AtClassLevel_Wrapper
 		propertyChangeSupport.firePropertyChange("property2", oldValue, newValue);
 	}
 	
+	public void property2SetterInvoker()
+	{
+		//property2 property change notification can not be achieved.
+		atClassLevel.property2SetterInvoker();
+	}
+	
 	public boolean getCustomProperty()
 	{
 		return atClassLevel.getCustomProperty();

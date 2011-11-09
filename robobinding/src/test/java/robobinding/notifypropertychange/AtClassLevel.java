@@ -57,6 +57,12 @@ public class AtClassLevel
 		this.property2 = newValue;
 	}
 	
+	public void property2SetterInvoker()
+	{
+		//expect property2 property change notification to be sent?
+		setProperty2("something new");
+	}
+	
 	public boolean getCustomProperty()
 	{
 		return customProperty;
