@@ -23,10 +23,10 @@ import robobinding.sample.model.Album;
 import android.database.AbstractCursor;
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public class AlbumCursor extends AbstractCursor implements TypedCursor<Album>
 {
