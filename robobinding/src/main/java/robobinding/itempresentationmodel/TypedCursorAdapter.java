@@ -32,11 +32,16 @@ public class TypedCursorAdapter<T> extends CursorWrapper implements TypedCursor<
 	private Cursor cursor;
 	public TypedCursorAdapter(Cursor cursor, RowMapper<T> rowMapper)
 	{
-		super(cursor);
+		super(validateCursorAndReturnIt(cursor));
 		
-		Validate.notNull(rowMapper, "rowMapper can not be null");
+		Validate.notNull(rowMapper, "rowMapper cannot be null");
 		this.rowMapper = rowMapper;
 		this.cursor = cursor;
+	}
+	private static Cursor validateCursorAndReturnIt(Cursor cursor)
+	{
+		Validate.notNull(cursor, "cursor cannot be null");
+		return cursor;
 	}
 	@Override
 	public T getObjectAtPosition(int position)
