@@ -19,6 +19,8 @@ package robobinding;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import robobinding.itempresentationmodel.BeanCursorTest;
+
 /**
  * @since 1.0
  * @version $Revision: 1.0 $
@@ -28,7 +30,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	robobinding.property.AllTests.class,
-	robobinding.function.AllTests.class
+	robobinding.function.AllTests.class,
+	BeanCursorTest.class
 })
 public class AllTests
 {

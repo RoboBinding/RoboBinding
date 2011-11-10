@@ -19,9 +19,11 @@ package robobinding.itempresentationmodel;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.internal.com_google_common.collect.Maps;
+import robobinding.internal.com_google_common.collect.Sets;
 import robobinding.internal.java_beans.BeanInfo;
 import robobinding.internal.java_beans.IntrospectionException;
 import robobinding.internal.java_beans.Introspector;
@@ -38,6 +40,8 @@ import android.database.AbstractCursor;
  */
 public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 {
+	private static Set<String> excludedPropertyNames = Sets.newHashSet("class");
+	
 	private List<T> beans;
 	private Map<String, PropertyAccessor<?>> propertyNameToAccessors;
 	public BeanCursor(Collection<T> beans, Class<T> beanClass)
@@ -56,6 +60,10 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 			propertyNameToAccessors = Maps.newHashMap();
 			for(PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors())
 			{
+				if(excludedPropertyNames.contains(propertyDescriptor.getName()))
+				{
+					continue;
+				}
 				PropertyAccessor<?> propertyAccessor = new PropertyAccessor<T>(propertyDescriptor, beanClass);
 				propertyNameToAccessors.put(propertyDescriptor.getName(), propertyAccessor);
 			}
@@ -69,22 +77,17 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 	{
 		return beans.size();
 	}
-
+	private transient volatile String[] propertyNamesCache;
 	@Override
 	public String[] getColumnNames()
 	{
-		return getPropertyNames().toArray(new String[0]);
-	}
-	private transient volatile List<String> propertyNamesCache;
-	private List<String> getPropertyNames()
-	{
 		if(propertyNamesCache == null)
 		{
-			propertyNamesCache = Lists.newArrayList(propertyNameToAccessors.keySet());
+			Set<String> propertyNames = propertyNameToAccessors.keySet();
+			propertyNamesCache = propertyNames.toArray(new String[0]);
 		}
 		return propertyNamesCache;
 	}
-
 	@Override
 	public String getString(int column)
 	{
@@ -141,8 +144,7 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 	}
 	private String mapColumnToPropertyName(int column)
 	{
-		List<String> propertyNames = getPropertyNames();
-		return propertyNames.get(column);
+		return getColumnName(column);
 	}
 	private int getNumColumns()
 	{
