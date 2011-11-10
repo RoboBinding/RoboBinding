@@ -16,16 +16,18 @@
  */
 package robobinding.itempresentationmodel;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import robobinding.internal.com_google_common.collect.Lists;
+import robobinding.internal.com_google_common.collect.Maps;
 import robobinding.internal.java_beans.BeanInfo;
 import robobinding.internal.java_beans.IntrospectionException;
 import robobinding.internal.java_beans.Introspector;
 import robobinding.internal.java_beans.PropertyDescriptor;
 import robobinding.internal.org_apache_commons_lang3.Validate;
 import robobinding.property.PropertyAccessor;
-import robobinding.property.PropertyAccessorUtils;
 import android.database.AbstractCursor;
 
 /**
@@ -37,24 +39,25 @@ import android.database.AbstractCursor;
 public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 {
 	private List<T> beans;
-	private List<String> propertyNames;
-	public BeanCursor(List<T> beans, Class<T> beanType)
+	private Map<String, PropertyAccessor<?>> propertyNameToAccessors;
+	public BeanCursor(Collection<T> beans, Class<T> beanClass)
 	{
-		Validate.notEmpty(beans, "");
-		Validate.notNull(beanType);
+		Validate.notNull(beans, "beans can not be null");
+		Validate.notNull(beanClass, "beanClass can not be null");
 		
-		this.beans = beans;
-		initializePropertyNames(beanType);
+		this.beans = Lists.newArrayList(beans);
+		initializeProperties(beanClass);
 	}
-	private void initializePropertyNames(Class<T> beanType)
+	private void initializeProperties(Class<T> beanClass)
 	{
 		try
 		{
-			BeanInfo beanInfo = Introspector.getBeanInfo(beanType);
-			propertyNames = Lists.newArrayList();
+			BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
+			propertyNameToAccessors = Maps.newHashMap();
 			for(PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors())
 			{
-				propertyNames.add(propertyDescriptor.getName());
+				PropertyAccessor<?> propertyAccessor = new PropertyAccessor<T>(propertyDescriptor, beanClass);
+				propertyNameToAccessors.put(propertyDescriptor.getName(), propertyAccessor);
 			}
 		} catch (IntrospectionException e)
 		{
@@ -70,7 +73,16 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 	@Override
 	public String[] getColumnNames()
 	{
-		return propertyNames.toArray(new String[0]);
+		return getPropertyNames().toArray(new String[0]);
+	}
+	private transient volatile List<String> propertyNamesCache;
+	private List<String> getPropertyNames()
+	{
+		if(propertyNamesCache == null)
+		{
+			propertyNamesCache = Lists.newArrayList(propertyNameToAccessors.keySet());
+		}
+		return propertyNamesCache;
 	}
 
 	@Override
@@ -117,10 +129,24 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 	}
 	private Object getColumnValue(int column)
 	{
-		Validate.isTrue(column < propertyNames.size(), "");
-		String propertyName = propertyNames.get(column);
-		PropertyAccessor<T> propertyAccesor = PropertyAccessorUtils.createPropertyAccessor(getBean(), propertyName);
+		Validate.isTrue(column < getNumColumns(), "column '"+column+"' is out of bound");
+		PropertyAccessor<?> propertyAccesor = mapColumnToPropertyAccessor(column);
 		return propertyAccesor.getValue(getBean());
+	}
+	private PropertyAccessor<?> mapColumnToPropertyAccessor(int column)
+	{
+		String propertyName = mapColumnToPropertyName(column);
+		PropertyAccessor<?> propertyAccesor = propertyNameToAccessors.get(propertyName);
+		return propertyAccesor;
+	}
+	private String mapColumnToPropertyName(int column)
+	{
+		List<String> propertyNames = getPropertyNames();
+		return propertyNames.get(column);
+	}
+	private int getNumColumns()
+	{
+		return propertyNameToAccessors.size();
 	}
 	private Object getBean()
 	{
