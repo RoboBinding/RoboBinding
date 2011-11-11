@@ -90,10 +90,10 @@ public class TextViewAttributeProvider implements BindingAttributeProvider<TextV
 			
 			ValueCommitMode valueCommitMode = null;
 			
-			if (!valueCommitModeSpecified() || "onFocusLost".equals(valueCommitModeAttributeValue))
-				valueCommitMode = ValueCommitMode.ON_FOCUS_LOST;
-			else if ("onChange".equals(valueCommitModeAttributeValue))
+			if (!valueCommitModeSpecified() || "onChange".equals(valueCommitModeAttributeValue))
 				valueCommitMode = ValueCommitMode.ON_CHANGE;
+			else if ("onFocusLost".equals(valueCommitModeAttributeValue))
+				valueCommitMode = ValueCommitMode.ON_FOCUS_LOST;
 			
 			return new BindingAttribute(Lists.newArrayList("text", "valueCommitMode"), new TextAttribute(textView, propertyBinding, valueCommitMode));
 		}

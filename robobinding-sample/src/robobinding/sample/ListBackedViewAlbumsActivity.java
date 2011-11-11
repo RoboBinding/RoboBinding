@@ -20,7 +20,6 @@ import robobinding.binding.Binder;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.presentationmodel.ListBackedViewAlbumsPresentationModel;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
 /**
@@ -35,15 +34,13 @@ public class ListBackedViewAlbumsActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
 		initViewAndBind();
 	}
 	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	protected void onResume()
 	{
-		super.onActivityResult(requestCode, resultCode, data);
-		
+		super.onResume();
 		initViewAndBind();
 	}
 

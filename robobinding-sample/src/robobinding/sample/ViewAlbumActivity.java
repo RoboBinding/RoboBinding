@@ -47,11 +47,9 @@ public class ViewAlbumActivity extends Activity
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	protected void onResume()
 	{
-		super.onActivityResult(requestCode, resultCode, data);
-		setResult(resultCode);
-		
+		super.onResume();
 		initViewAndBind();
 	}
 	

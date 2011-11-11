@@ -20,7 +20,7 @@ import robobinding.presentationmodel.AbstractPresentationModel;
 import robobinding.sample.CreateEditAlbumActivity;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 /**
@@ -32,11 +32,11 @@ import android.content.Intent;
 public class ViewAlbumPresentationModel extends AbstractPresentationModel
 {
 	private final Album album;
-	private final Activity activity;
+	private final Context context;
 	
-	public ViewAlbumPresentationModel(Activity activity, AlbumDao albumDao, long albumId)
+	public ViewAlbumPresentationModel(Context context, AlbumDao albumDao, long albumId)
 	{
-		this.activity = activity;
+		this.context = context;
 		this.album = albumDao.get(albumId);
 	}
 
@@ -67,8 +67,8 @@ public class ViewAlbumPresentationModel extends AbstractPresentationModel
 	
 	public void editAlbum()
 	{
-		Intent intent = new Intent(activity, CreateEditAlbumActivity.class);
+		Intent intent = new Intent(context, CreateEditAlbumActivity.class);
 		intent.putExtra(CreateEditAlbumActivity.ALBUM_ID, album.getId());
-		activity.startActivityForResult(intent, 0);
+		context.startActivity(intent);
 	}
 }

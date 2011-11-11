@@ -6,33 +6,33 @@ import robobinding.sample.CreateEditAlbumActivity;
 import robobinding.sample.ViewAlbumActivity;
 import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 public abstract class AbstractViewAlbumsPresentationModel extends AbstractPresentationModel
 {
 	protected static final String PROPERTY_ALBUMS = "albums";
 
-	protected Activity activity;
+	protected Context context;
 	protected AlbumDao albumDao;
 
-	public AbstractViewAlbumsPresentationModel(Activity activity, AlbumDao albumDao)
+	public AbstractViewAlbumsPresentationModel(Context context, AlbumDao albumDao)
 	{
-		this.activity = activity;
+		this.context = context;
 		this.albumDao = albumDao;
 	}
 
 	public void createAlbum()
 	{
-		activity.startActivityForResult(new Intent(activity, CreateEditAlbumActivity.class), 0);
+		context.startActivity(new Intent(context, CreateEditAlbumActivity.class));
 	}
 
 	public void viewAlbum(ItemClickEvent event)
 	{
 		Album album = albumDao.getAll().get(event.getPosition());
 
-		Intent intent = new Intent(activity, ViewAlbumActivity.class);
+		Intent intent = new Intent(context, ViewAlbumActivity.class);
 		intent.putExtra(ViewAlbumActivity.ALBUM_ID, album.getId());
-		activity.startActivityForResult(intent, 0);
+		context.startActivity(intent);
 	}
 }

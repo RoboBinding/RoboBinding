@@ -70,7 +70,6 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	public void save()
 	{
 		albumDao.save(albumBuilder.create());
-		activity.setResult(1);
 		activity.finish();
 	}
 	

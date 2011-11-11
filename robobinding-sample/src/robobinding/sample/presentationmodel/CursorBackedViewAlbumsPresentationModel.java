@@ -24,10 +24,10 @@ import robobinding.sample.model.PurchaseService;
 import android.app.Activity;
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel
 {

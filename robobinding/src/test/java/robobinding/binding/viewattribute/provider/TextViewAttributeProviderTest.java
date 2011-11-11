@@ -59,14 +59,14 @@ public class TextViewAttributeProviderTest
 	}
 	
 	@Test
-	public void givenATextAttribute_WhenCreatingATextAttributeInstance_ThenDefaultValueCommitModeShouldBeOnFocusLost()
+	public void givenATextAttribute_WhenCreatingATextAttributeInstance_ThenDefaultValueCommitModeShouldBeOnChange()
 	{
 		pendingBindingAttributes.put("text", TWO_WAY_BINDING_ATTRIBUTE);
 		
 		BindingAttribute bindingAttribute = textViewAttributeProvider.getSupportedBindingAttributes(textView, pendingBindingAttributes).get(0);
 		
 		TextAttribute textAttribute = (TextAttribute)bindingAttribute.getViewAttribute();
-		assertThat(textAttribute.getValueCommitMode(), equalTo(ValueCommitMode.ON_FOCUS_LOST));
+		assertThat(textAttribute.getValueCommitMode(), equalTo(ValueCommitMode.ON_CHANGE));
 	}
 	
 	@Test
