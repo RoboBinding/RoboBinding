@@ -106,6 +106,7 @@ public class TextAttribute implements PropertyViewAttribute
 					@Override
 					public void onTextChanged(CharSequence s, int start, int before, int count)
 					{
+						suppressNextViewUpdate();
 						updateValueModel(valueModel, s);
 					}
 					
@@ -146,7 +147,7 @@ public class TextAttribute implements PropertyViewAttribute
 		}
 	}
 
-	public class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
+	class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
 	{
 		@Override
 		protected void updateValueModel(PropertyValueModel<CharSequence> valueModel, CharSequence charSequence)

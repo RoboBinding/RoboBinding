@@ -21,6 +21,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.TextView;
 
 import com.xtremelabs.robolectric.Robolectric;
@@ -82,4 +84,37 @@ public abstract class AbstractTextAttributeTest<T extends CharSequence> extends 
 		assertThat(valueModel.getValue().toString(), equalTo(newText));
 	}
 	
+	@Test
+	public void whenUpdatingTheTextView_ThenSuppressNextViewUpdateWhenValueModelIsUpdated()
+	{
+		createAttributeWith2WayBinding();
+		TextWatcherSpy textWatcher = new TextWatcherSpy();
+		textView.addTextChangedListener(textWatcher);
+		
+		textView.setText("some new text");
+		
+		assertThat(textWatcher.updateNotificationCount, equalTo(1));
+	}
+	
+	public class TextWatcherSpy implements TextWatcher
+	{
+		private int updateNotificationCount;
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after)
+		{
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count)
+		{
+			updateNotificationCount++;
+		}
+
+		@Override
+		public void afterTextChanged(Editable s)
+		{
+		}
+
+	}
+
 }
