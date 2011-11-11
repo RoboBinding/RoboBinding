@@ -30,24 +30,23 @@ import android.os.Bundle;
  */
 public class ListBackedViewAlbumsActivity extends Activity
 {
+	private ListBackedViewAlbumsPresentationModel viewAlbumsPresentationModel;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		initViewAndBind();
+		
+		viewAlbumsPresentationModel = new ListBackedViewAlbumsPresentationModel(this, new AlbumDao());
+		Binder binder = new Binder();
+		binder.setAndBindContentView(this, R.layout.view_albums_activity, viewAlbumsPresentationModel);
 	}
 	
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		initViewAndBind();
+		viewAlbumsPresentationModel.refresh();
 	}
 
-	protected void initViewAndBind()
-	{
-		ListBackedViewAlbumsPresentationModel viewAlbumsPresentationModel = new ListBackedViewAlbumsPresentationModel(this, new AlbumDao());
-		Binder binder = new Binder();
-		binder.setAndBindContentView(this, R.layout.view_albums_activity, viewAlbumsPresentationModel);
-	}
 }

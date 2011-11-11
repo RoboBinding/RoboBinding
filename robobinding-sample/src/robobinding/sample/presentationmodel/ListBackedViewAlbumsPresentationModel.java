@@ -16,6 +16,7 @@
  */
 package robobinding.sample.presentationmodel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import robobinding.ItemPresentationModel;
@@ -43,5 +44,9 @@ public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPre
 	{
 		return Lists.newArrayList(albumDao.getAll());
 	}
-	
+
+	public void refresh()
+	{
+		firePropertyChange("albums", new ArrayList<Album>(), getAlbums());
+	}
 }

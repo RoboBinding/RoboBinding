@@ -40,7 +40,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private int dropdownLayoutId;
 	private final Context context;
 	private Binder binder;
-
+	
 	public DataSetAdapter(Context context)
 	{
 		this.context = context;

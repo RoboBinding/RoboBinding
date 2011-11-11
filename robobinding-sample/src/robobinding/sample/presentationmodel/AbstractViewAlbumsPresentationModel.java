@@ -35,4 +35,5 @@ public abstract class AbstractViewAlbumsPresentationModel extends AbstractPresen
 		intent.putExtra(ViewAlbumActivity.ALBUM_ID, album.getId());
 		context.startActivity(intent);
 	}
+	
 }

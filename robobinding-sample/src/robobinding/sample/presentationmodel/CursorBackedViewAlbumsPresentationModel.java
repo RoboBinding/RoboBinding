@@ -49,5 +49,10 @@ public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsP
 	{
 		return new PurchasableAlbumItemPresentationModel(purchaseService);
 	}
+
+	public void refresh()
+	{
+		firePropertyChange("albums", getAlbums(), getAlbums());
+	}
 	
 }

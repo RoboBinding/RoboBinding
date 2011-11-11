@@ -31,12 +31,16 @@ import android.content.Intent;
  */
 public class ViewAlbumPresentationModel extends AbstractPresentationModel
 {
-	private final Album album;
 	private final Context context;
+	private final AlbumDao albumDao;
+	private final long albumId;
+	private Album album;
 	
 	public ViewAlbumPresentationModel(Context context, AlbumDao albumDao, long albumId)
 	{
 		this.context = context;
+		this.albumDao = albumDao;
+		this.albumId = albumId;
 		this.album = albumDao.get(albumId);
 	}
 
@@ -70,5 +74,20 @@ public class ViewAlbumPresentationModel extends AbstractPresentationModel
 		Intent intent = new Intent(context, CreateEditAlbumActivity.class);
 		intent.putExtra(CreateEditAlbumActivity.ALBUM_ID, album.getId());
 		context.startActivity(intent);
+	}
+
+	public void refresh()
+	{
+		String oldTitle = getTitle();
+		String oldArtist = getArtist();
+		String oldComposer = getComposer();
+		String oldClassicalDescription = getClassicalDescription();
+		
+		this.album = albumDao.get(albumId);
+		
+		firePropertyChange("title", oldTitle, getTitle());
+		firePropertyChange("artist", oldArtist, getArtist());
+		firePropertyChange("composer", oldComposer, getComposer());
+		firePropertyChange("classicalDescription", oldClassicalDescription, getClassicalDescription());
 	}
 }

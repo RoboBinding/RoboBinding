@@ -34,6 +34,8 @@ public class ViewAlbumActivity extends Activity
 	public static final String ALBUM_ID = "album_id";
 	
 	private long albumId;
+	private ViewAlbumPresentationModel viewAlbumPresentationModel;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -43,19 +45,15 @@ public class ViewAlbumActivity extends Activity
 		Intent intent = getIntent();
 		albumId = intent.getLongExtra(ALBUM_ID, 0);
 		
-		initViewAndBind();
+		Binder binder = new Binder();
+		viewAlbumPresentationModel = new ViewAlbumPresentationModel(this, new AlbumDao(), albumId);
+		binder.setAndBindContentView(this, R.layout.view_album_activity, viewAlbumPresentationModel);
 	}
 
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		initViewAndBind();
-	}
-	
-	protected void initViewAndBind()
-	{
-		Binder binder = new Binder();
-		binder.setAndBindContentView(this, R.layout.view_album_activity, new ViewAlbumPresentationModel(this, new AlbumDao(), albumId));
+		viewAlbumPresentationModel.refresh();
 	}
 }
