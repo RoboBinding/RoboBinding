@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.dao;
+package robobinding.sample.store;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,11 +30,11 @@ import robobinding.sample.presentationmodel.AlbumCursor;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class AlbumDao
+public class AlbumStore
 {
 	private static List<Album> albums;
 
-	public AlbumDao()
+	public AlbumStore()
 	{
 		if (albums == null)
 		{

@@ -18,9 +18,10 @@ package robobinding.sample.presentationmodel;
 
 import robobinding.ItemPresentationModel;
 import robobinding.itempresentationmodel.TypedCursor;
-import robobinding.sample.dao.AlbumDao;
+import robobinding.presentationmodel.PresentationModelRefresh;
 import robobinding.sample.model.Album;
 import robobinding.sample.model.PurchaseService;
+import robobinding.sample.store.AlbumStore;
 import android.app.Activity;
 
 /**
@@ -33,16 +34,16 @@ public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsP
 {
 	private PurchaseService purchaseService;
 
-	public CursorBackedViewAlbumsPresentationModel(Activity activity, AlbumDao albumDao, PurchaseService purchaseService)
+	public CursorBackedViewAlbumsPresentationModel(Activity activity, AlbumStore albumStore, PurchaseService purchaseService)
 	{
-		super(activity, albumDao);
+		super(activity, albumStore);
 		this.purchaseService = purchaseService;
 	}
 	
 	@ItemPresentationModel(value=PurchasableAlbumItemPresentationModel.class, factoryMethod="createAlbumPresentationModel")
 	public TypedCursor<Album> getAlbums()
 	{
-		return albumDao.getCursor();
+		return albumStore.getCursor();
 	}
 
 	public PurchasableAlbumItemPresentationModel createAlbumPresentationModel()
@@ -50,9 +51,10 @@ public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsP
 		return new PurchasableAlbumItemPresentationModel(purchaseService);
 	}
 
+	@PresentationModelRefresh
 	public void refresh()
 	{
-		firePropertyChange("albums", getAlbums(), getAlbums());
+		presentationModelChangeSupport.fireChangeAll();
 	}
 	
 }

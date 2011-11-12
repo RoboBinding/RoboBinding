@@ -22,10 +22,10 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public class HomePresentationModel
 {

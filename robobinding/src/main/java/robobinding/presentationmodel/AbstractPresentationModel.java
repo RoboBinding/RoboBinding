@@ -17,7 +17,6 @@
 package robobinding.presentationmodel;
 
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 /**
  * @since 1.0
@@ -26,34 +25,17 @@ import java.beans.PropertyChangeSupport;
  */
 public abstract class AbstractPresentationModel implements ObservableProperties
 {
-	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);;
+	protected PresentationModelChangeSupport presentationModelChangeSupport;
 	
 	@Override
 	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
-		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+		presentationModelChangeSupport.addPropertyChangeListener(propertyName, listener);
 	}
 
 	@Override
 	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
-		propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+		presentationModelChangeSupport.removePropertyChangeListener(propertyName, listener);
 	}
-	
-	protected void firePropertyChange(String propertyName, Object oldValue, Object newValue)
-	{
-		propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
-	}
-
-	protected void firePropertyChange(String propertyName, boolean oldValue, boolean newValue)
-	{
-		propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
-	}
-
-	protected void firePropertyChange(String propertyName, int oldValue, int newValue)
-	{
-		propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
-	}
-	
-	
 }

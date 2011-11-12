@@ -17,8 +17,8 @@
 package robobinding.sample;
 
 import robobinding.binding.Binder;
-import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.presentationmodel.CreateEditAlbumPresentationModel;
+import robobinding.sample.store.AlbumStore;
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -36,14 +36,14 @@ public class CreateEditAlbumActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        AlbumDao albumDao = new AlbumDao();
+        AlbumStore albumStore = new AlbumStore();
         CreateEditAlbumPresentationModel createEditAlbumPresentationModel;
         long albumId = getIntent().getLongExtra(ALBUM_ID, -1);
         
         if (albumId >= 0)
-			createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumDao, albumId);
+			createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumStore, albumId);
 		else
-        	createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumDao);
+        	createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumStore);
         
         Binder binder = new Binder();
 		binder.setAndBindContentView(this, R.layout.create_edit_album_activity, createEditAlbumPresentationModel);

@@ -16,14 +16,17 @@
  */
 package robobinding.itempresentationmodel;
 
+import robobinding.presentationmodel.PresentationModelRefresh;
+
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public interface ItemPresentationModel<T>
 {
+	@PresentationModelRefresh
 	void setData(int index, T bean);
 }

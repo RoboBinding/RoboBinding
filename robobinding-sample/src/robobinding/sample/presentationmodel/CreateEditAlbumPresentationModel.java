@@ -18,19 +18,20 @@ package robobinding.sample.presentationmodel;
 
 import robobinding.CustomSetter;
 import robobinding.DependsOn;
+import robobinding.NotifyPropertyChange;
 import robobinding.presentationmodel.AbstractPresentationModel;
 import robobinding.sample.R;
-import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
+import robobinding.sample.store.AlbumStore;
 import android.app.Activity;
 
 /**
+ * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
-@PresentationModel
+@NotifyPropertyChange
 public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 {
 	private static final String TITLE = "title";
@@ -39,26 +40,26 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	private static final String CLASSICAL = "classical";
 	
 	private Album.Builder albumBuilder;
-	private AlbumDao albumDao;
+	private AlbumStore albumStore;
 	private Activity activity;
 	
-	public CreateEditAlbumPresentationModel(Activity activity, AlbumDao albumDao, long albumId)
+	public CreateEditAlbumPresentationModel(Activity activity, AlbumStore albumStore, long albumId)
 	{
-		initialize(activity, albumDao);
-		Album album = albumDao.get(albumId);
+		initialize(activity, albumStore);
+		Album album = albumStore.get(albumId);
 		albumBuilder = album.createBuilder();
 	}
 	
-	public CreateEditAlbumPresentationModel(Activity activity, AlbumDao albumDao)
+	public CreateEditAlbumPresentationModel(Activity activity, AlbumStore albumDao)
 	{
 		initialize(activity, albumDao);
 		albumBuilder = new Album.Builder();
 	}
 	
-	private void initialize(Activity activity, AlbumDao albumDao)
+	private void initialize(Activity activity, AlbumStore albumDao)
 	{
 		this.activity = activity;
-		this.albumDao = albumDao;
+		this.albumStore = albumDao;
 	}
 	
 	@DependsOn(CLASSICAL)
@@ -69,7 +70,7 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	
 	public void save()
 	{
-		albumDao.save(albumBuilder.create());
+		albumStore.save(albumBuilder.create());
 		activity.finish();
 	}
 	
@@ -81,10 +82,9 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	@CustomSetter
 	public void setTitle(String title)
 	{
-		String oldValue = albumBuilder.getTitle();
 		albumBuilder.setTitle(title);
 		
-		firePropertyChange(TITLE, oldValue, title);
+		presentationModelChangeSupport.firePropertyChange(TITLE, title);
 	}
 
 	public String getArtist()
@@ -94,10 +94,9 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 
 	public void setArtist(String artist)
 	{
-		String oldValue = albumBuilder.getArtist();
 		albumBuilder.setArtist(artist);
 		
-		firePropertyChange(ARTIST, oldValue, artist);
+		presentationModelChangeSupport.firePropertyChange(ARTIST, artist);
 	}
 
 	public boolean isClassical()
@@ -107,10 +106,9 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 
 	public void setClassical(boolean classical)
 	{
-		boolean oldValue = albumBuilder.isClassical();
 		albumBuilder.setClassical(classical);
 		
-		firePropertyChange(CLASSICAL, oldValue, classical);
+		presentationModelChangeSupport.firePropertyChange(CLASSICAL, classical);
 	}
 
 	public String getComposer()
@@ -120,10 +118,9 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 
 	public void setComposer(String composer)
 	{
-		String oldValue = albumBuilder.getComposer();
 		albumBuilder.setComposer(composer);
 		
-		firePropertyChange(COMPOSER, oldValue, composer);
+		presentationModelChangeSupport.firePropertyChange(COMPOSER, composer);
 	}
 
 	@DependsOn(CLASSICAL)

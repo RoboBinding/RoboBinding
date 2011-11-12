@@ -17,9 +17,10 @@
 package robobinding.sample.presentationmodel;
 
 import robobinding.presentationmodel.AbstractPresentationModel;
+import robobinding.presentationmodel.PresentationModelRefresh;
 import robobinding.sample.CreateEditAlbumActivity;
-import robobinding.sample.dao.AlbumDao;
 import robobinding.sample.model.Album;
+import robobinding.sample.store.AlbumStore;
 import android.content.Context;
 import android.content.Intent;
 
@@ -32,16 +33,15 @@ import android.content.Intent;
 public class ViewAlbumPresentationModel extends AbstractPresentationModel
 {
 	private final Context context;
-	private final AlbumDao albumDao;
+	private final AlbumStore albumStore;
 	private final long albumId;
 	private Album album;
 	
-	public ViewAlbumPresentationModel(Context context, AlbumDao albumDao, long albumId)
+	public ViewAlbumPresentationModel(Context context, AlbumStore albumStore, long albumId)
 	{
 		this.context = context;
-		this.albumDao = albumDao;
+		this.albumStore = albumStore;
 		this.albumId = albumId;
-		this.album = albumDao.get(albumId);
 	}
 
 	public String getTitle()
@@ -76,18 +76,11 @@ public class ViewAlbumPresentationModel extends AbstractPresentationModel
 		context.startActivity(intent);
 	}
 
+	@PresentationModelRefresh
 	public void refresh()
 	{
-		String oldTitle = getTitle();
-		String oldArtist = getArtist();
-		String oldComposer = getComposer();
-		String oldClassicalDescription = getClassicalDescription();
-		
-		this.album = albumDao.get(albumId);
-		
-		firePropertyChange("title", oldTitle, getTitle());
-		firePropertyChange("artist", oldArtist, getArtist());
-		firePropertyChange("composer", oldComposer, getComposer());
-		firePropertyChange("classicalDescription", oldClassicalDescription, getClassicalDescription());
+		this.album = albumStore.get(albumId);
+		presentationModelChangeSupport.fireChangeAll();
 	}
+
 }

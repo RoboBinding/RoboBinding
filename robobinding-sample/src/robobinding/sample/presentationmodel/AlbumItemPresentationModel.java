@@ -42,18 +42,7 @@ public class AlbumItemPresentationModel extends AbstractPresentationModel implem
 	@Override
 	public void setData(int index, Album bean)
 	{
-		if (album == null)
-		{
-			album = bean;
-			return;
-		}
-		
-		String oldTitle = getTitle();
-		String oldArtist = getArtist();
-		
 		this.album = bean;
-		
-		firePropertyChange("title", oldTitle, getTitle());
-		firePropertyChange("artist", oldArtist, getArtist());
+		presentationModelChangeSupport.fireChangeAll();
 	}
 }

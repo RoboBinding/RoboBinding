@@ -36,5 +36,4 @@ public class PurchasableAlbumItemPresentationModel extends AlbumItemPresentation
 	{
 		return purchaseService.isAvailableForPurchase(album);
 	}
-	
 }

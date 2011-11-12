@@ -16,13 +16,13 @@
  */
 package robobinding.sample.presentationmodel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import robobinding.ItemPresentationModel;
 import robobinding.internal.com_google_common.collect.Lists;
-import robobinding.sample.dao.AlbumDao;
+import robobinding.presentationmodel.PresentationModelRefresh;
 import robobinding.sample.model.Album;
+import robobinding.sample.store.AlbumStore;
 import android.app.Activity;
 
 
@@ -34,19 +34,20 @@ import android.app.Activity;
  */
 public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel
 {
-	public ListBackedViewAlbumsPresentationModel(Activity activity, AlbumDao albumDao)
+	public ListBackedViewAlbumsPresentationModel(Activity activity, AlbumStore albumStore)
 	{
-		super(activity, albumDao);
+		super(activity, albumStore);
 	}
 	
 	@ItemPresentationModel(value=AlbumItemPresentationModel.class)
 	public List<Album> getAlbums()
 	{
-		return Lists.newArrayList(albumDao.getAll());
+		return Lists.newArrayList(albumStore.getAll());
 	}
 
+	@PresentationModelRefresh
 	public void refresh()
 	{
-		firePropertyChange("albums", new ArrayList<Album>(), getAlbums());
+		presentationModelChangeSupport.fireChangeAll();
 	}
 }
