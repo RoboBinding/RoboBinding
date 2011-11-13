@@ -15,8 +15,6 @@
  */
 package robobinding.property;
 
-import java.beans.PropertyChangeListener;
-
 /**
  * @since 1.0
  * @version $Revision: 1.0 $
@@ -27,6 +25,6 @@ public interface PropertyValueModel<T>
 {
     T getValue();
     void setValue(T newValue);
-    void addValueChangeListener(PropertyChangeListener listener);
-    void removeValueChangeListener(PropertyChangeListener listener);
+    void addPropertyChangeListener(PropertyChangeListener listener);
+    void removePropertyChangeListener(PropertyChangeListener listener);
 }

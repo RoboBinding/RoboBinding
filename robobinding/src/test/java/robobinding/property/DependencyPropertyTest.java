@@ -16,7 +16,6 @@
  */
 package robobinding.property;
 
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyDescriptor;
 import java.util.List;
 
@@ -66,7 +65,7 @@ public class DependencyPropertyTest
 	{
 		AbstractProperty<Boolean> property = createDependencyProperty(ObservableBean.PROPERTY_WITH_VALID_DEPENDENT_PROPERTIES);
 		
-		property.addValueChangeListener(listener);
+		property.addPropertyChangeListener(listener);
 		
 		assertHasListenersToProperties(ObservableBean.ANNOTATED_PROPERTY, ObservableBean.PROPERTY);
 	}
@@ -82,7 +81,7 @@ public class DependencyPropertyTest
 	{
 		AbstractProperty<Boolean> property = createDependencyProperty(ObservableBean.PROPERTY_WITH_DUPLICATED_DEPENDENT_PROPERTIES);
 		
-		property.addValueChangeListener(listener);
+		property.addPropertyChangeListener(listener);
 		
 		assertListenerRegisteredNumTimes(ObservableBean.PROPERTY, 1);
 	}
@@ -96,7 +95,7 @@ public class DependencyPropertyTest
 		AbstractProperty<Boolean> property = createDependencyProperty(ObservableBean.PROPERTY_WITH_VALID_DEPENDENT_PROPERTIES);
 		addListenerToProperties(ObservableBean.ANNOTATED_PROPERTY, ObservableBean.PROPERTY);
 		
-		property.removeValueChangeListener(listener);
+		property.removePropertyChangeListener(listener);
 		
 		assertHasNoListenersToProperties(ObservableBean.ANNOTATED_PROPERTY, ObservableBean.PROPERTY);
 	}
@@ -116,7 +115,7 @@ public class DependencyPropertyTest
 	}
 	private DependencyProperty<Boolean> createDependencyProperty(String propertyName)
 	{
-		PropertyAccessor<Boolean> propertyAccessor = PropertyAccessorUtils.createPropertyAccessor(observableBean, propertyName);
+		PropertyAccessor<Boolean> propertyAccessor = PropertyAccessorUtils.createPropertyAccessor(observableBean.getClass(), propertyName);
 		DependencyProperty<Boolean> dependencyProperty = new DependencyProperty<Boolean>(
 				observableBean, 
 				propertyAccessor, 

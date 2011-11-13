@@ -16,9 +16,6 @@
  */
 package robobinding.property;
 
-import java.beans.PropertyChangeListener;
-
-import robobinding.presentationmodel.ObservableProperties;
 
 /**
  *
@@ -46,14 +43,14 @@ public abstract class AbstractProperty<T> implements PropertyValueModel<T>
 		propertyAccessor.setValue(bean, newValue);
 	}
 	@Override
-	public void addValueChangeListener(PropertyChangeListener listener)
+	public void addPropertyChangeListener(PropertyChangeListener listener)
 	{
 		ObservableProperties observableBean = getObservableBean();
 		observableBean.addPropertyChangeListener(propertyAccessor.getPropertyName(), listener);
 	}
 
 	@Override
-	public void removeValueChangeListener(PropertyChangeListener listener)
+	public void removePropertyChangeListener(PropertyChangeListener listener)
 	{
 		if(isObservableBean())
 		{

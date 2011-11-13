@@ -49,9 +49,9 @@ public class DataSetAdapter<T> extends BaseAdapter
 
 	public void observeChangesOnTheValueModel()
 	{
-		dataSetValueModel.addValueChangeListener(new PropertyChangeListener() {
+		dataSetValueModel.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
-			public void propertyChange(PropertyChangeEvent evt)
+			public void propertyChanged(PropertyChangeEvent evt)
 			{
 				notifyDataSetChanged();
 			}

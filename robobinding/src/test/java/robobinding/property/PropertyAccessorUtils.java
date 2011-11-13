@@ -16,9 +16,8 @@
  */
 package robobinding.property;
 
-import robobinding.internal.java_beans.BeanInfo;
-import robobinding.internal.java_beans.IntrospectionException;
-import robobinding.internal.java_beans.Introspector;
+import java.util.List;
+
 import robobinding.internal.java_beans.PropertyDescriptor;
 
 /**
@@ -32,10 +31,6 @@ public class PropertyAccessorUtils
 	private PropertyAccessorUtils()
 	{
 	}
-	public static <T> PropertyAccessor<T> createPropertyAccessor(Object bean, String propertyName)
-	{
-		return createPropertyAccessor(bean.getClass(), propertyName);
-	}
 	public static <T> PropertyAccessor<T> createPropertyAccessor(Class<?> beanClass, String propertyName)
 	{
 		PropertyDescriptor propertyDescriptor = PropertyAccessorUtils.getPropertyDescriptor(beanClass, propertyName);
@@ -43,20 +38,14 @@ public class PropertyAccessorUtils
 	}
 	private static PropertyDescriptor getPropertyDescriptor(Class<?> beanClass, String propertyName)
 	{
-		try
+		List<PropertyDescriptor> propertyDescriptors = PropertyUtils.getPropertyDescriptors(beanClass);
+		for(PropertyDescriptor propertyDescriptor : propertyDescriptors)
 		{
-			BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
-			for(PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors())
+			if(propertyDescriptor.getName().equals(propertyName))
 			{
-				if(propertyDescriptor.getName().equals(propertyName))
-				{
-					return propertyDescriptor;
-				}
+				return propertyDescriptor;
 			}
-			return null;
-		} catch (IntrospectionException e)
-		{
-			throw new RuntimeException(e);
 		}
+		return null;
 	}
 }

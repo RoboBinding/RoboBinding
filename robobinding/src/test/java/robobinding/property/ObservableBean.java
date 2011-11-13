@@ -15,13 +15,7 @@
  */
 package robobinding.property;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.util.List;
-
 import robobinding.DependsOn;
-import robobinding.internal.com_google_common.collect.Lists;
-import robobinding.presentationmodel.ObservableProperties;
 
 
 /**
@@ -74,12 +68,12 @@ public class ObservableBean extends Bean implements ObservableProperties
 	}
 	public boolean hasPropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
-		List<PropertyChangeListener> propertyListeners = Lists.newArrayList(propertyChangeSupport.getPropertyChangeListeners(propertyName));
-		return propertyListeners.contains(listener);
+		PropertyChangeListeners propertyChangeListeners = propertyChangeSupport.getPropertyChangeListeners(propertyName);
+		return propertyChangeListeners.contains(listener);
 	}
 	public boolean isPropertyChangeListenerRegisteredNumTimes(String propertyName, PropertyChangeListener listener, int expectedNumTimes)
 	{
-		List<PropertyChangeListener> propertyChangeListeners = Lists.newArrayList(propertyChangeSupport.getPropertyChangeListeners(propertyName));
+		PropertyChangeListeners propertyChangeListeners = propertyChangeSupport.getPropertyChangeListeners(propertyName);
 		
 		int actualNumTimes = 0;
 		for(PropertyChangeListener propertyChangeListener : propertyChangeListeners)

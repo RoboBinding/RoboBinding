@@ -16,7 +16,6 @@
  */
 package robobinding.property;
 
-import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -25,7 +24,6 @@ import robobinding.DependsOn;
 import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.internal.com_google_common.collect.Sets;
 import robobinding.internal.org_apache_commons_lang3.StringUtils;
-import robobinding.presentationmodel.ObservableProperties;
 
 
 /**
@@ -70,15 +68,15 @@ class DependencyProperty<T> extends AbstractProperty<T>
 		}
 	}
 	@Override
-	public void addValueChangeListener(PropertyChangeListener listener)
+	public void addPropertyChangeListener(PropertyChangeListener listener)
 	{
-		super.addValueChangeListener(listener);
+		super.addPropertyChangeListener(listener);
 		addListenerToDependentProperties(listener);
 	}
 	@Override
-	public void removeValueChangeListener(PropertyChangeListener listener)
+	public void removePropertyChangeListener(PropertyChangeListener listener)
 	{
-		super.removeValueChangeListener(listener);
+		super.removePropertyChangeListener(listener);
 		removeListenerOffDependentProperties(listener);
 	}
 	private void addListenerToDependentProperties(PropertyChangeListener listener)

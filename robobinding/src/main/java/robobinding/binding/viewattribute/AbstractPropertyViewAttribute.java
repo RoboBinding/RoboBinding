@@ -84,7 +84,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 	
 	protected void observeChangesOnTheValueModel(final PropertyValueModel<T> valueModel)
 	{
-		valueModel.addValueChangeListener(new PropertyChangeListener() {
+		valueModel.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt)
 			{

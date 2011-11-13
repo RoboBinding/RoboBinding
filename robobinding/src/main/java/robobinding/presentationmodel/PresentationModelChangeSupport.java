@@ -16,7 +16,8 @@
  */
 package robobinding.presentationmodel;
 
-import java.beans.PropertyChangeListener;
+import robobinding.property.PropertyChangeListener;
+import robobinding.property.PropertyChangeSupport;
 
 /**
  *
@@ -26,64 +27,28 @@ import java.beans.PropertyChangeListener;
  */
 public class PresentationModelChangeSupport
 {
-
+	private PropertyChangeSupport propertyChangeSupport;
+	public PresentationModelChangeSupport(Object presentationModel)
+	{
+		propertyChangeSupport = new PropertyChangeSupport(presentationModel);
+	}
 	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
-		// TODO Auto-generated method stub
-		
+		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
 	}
 
 	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
-		// TODO Auto-generated method stub
-		
+		propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+	}
+
+	public void firePropertyChange(String propertyName, Object newValue)
+	{
+		propertyChangeSupport.firePropertyChange(propertyName);
 	}
 
 	public void fireChangeAll()
 	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void firePropertyChange(String propertyName, String newValue)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void firePropertyChange(String propertyName, boolean newValue)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void firePropertyChange(String propertyName, int newValue)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void firePropertyChange(String propertyName, double newValue)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void firePropertyChange(String propertyName, long newValue)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void firePropertyChange(String propertyName, short newValue)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void firePropertyChange(String propertyName, float newValue)
-	{
-		// TODO Auto-generated method stub
-		
+		propertyChangeSupport.fireChangeAll();
 	}
 }

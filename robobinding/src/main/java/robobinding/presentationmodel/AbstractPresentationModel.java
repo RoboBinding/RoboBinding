@@ -16,7 +16,8 @@
  */
 package robobinding.presentationmodel;
 
-import java.beans.PropertyChangeListener;
+import robobinding.property.ObservableProperties;
+import robobinding.property.PropertyChangeListener;
 
 /**
  * @since 1.0

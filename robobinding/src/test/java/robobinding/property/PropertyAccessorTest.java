@@ -149,6 +149,6 @@ public class PropertyAccessorTest
 	}
 	private PropertyAccessor<Boolean> createPropertyAccessor(String propertyName)
 	{
-		return PropertyAccessorUtils.createPropertyAccessor(bean, propertyName);
+		return PropertyAccessorUtils.createPropertyAccessor(bean.getClass(), propertyName);
 	}
 }

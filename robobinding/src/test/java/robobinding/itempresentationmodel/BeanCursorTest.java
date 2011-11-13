@@ -23,11 +23,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import robobinding.internal.com_google_common.collect.Lists;
+
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
-
-import robobinding.internal.com_google_common.collect.Lists;
-import robobinding.internal.com_google_common.collect.Sets;
 
 /**
  *
@@ -51,13 +50,6 @@ public class BeanCursorTest
 		
 		beanCursor = new BeanCursor<BeanCursorTest.Bean>(beans, Bean.class);
 		beanCursor.getColumnNames();
-	}
-	@Test
-	public void whenGetColumnNames_thenExpected2ColumnNamesReturned()
-	{
-		String[] columnNames = beanCursor.getColumnNames();
-		
-		Assert.assertEquals(Sets.newHashSet(Bean.PROPERTY1, Bean.PROPERTY2), Sets.newHashSet(columnNames));
 	}
 	@Test
 	public void whenGetProperty1WithCorrectStringType_thenReturnExpectedResult()

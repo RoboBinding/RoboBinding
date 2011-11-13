@@ -16,8 +16,6 @@
  */
 package robobinding.property;
 
-import java.beans.PropertyChangeListener;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +45,7 @@ public class AbstractPropertyTest
 		ObservableBean observableBean = new ObservableBean();
 		AbstractProperty<Boolean> property = createProperty(observableBean);
 		
-		property.addValueChangeListener(listener);
+		property.addPropertyChangeListener(listener);
 		
 		assertHasListener(observableBean);
 	}
@@ -61,7 +59,7 @@ public class AbstractPropertyTest
 		Bean bean = new Bean();
 		AbstractProperty<Boolean> property = createProperty(bean);
 		
-		property.addValueChangeListener(listener);
+		property.addPropertyChangeListener(listener);
 	}
 	@Test
 	public void testGivenObservableBeanAndAnExistingValueChangeListener_whenRemoveListener_thenListenerRemoved()
@@ -70,7 +68,7 @@ public class AbstractPropertyTest
 		addListener(observableBean);
 		AbstractProperty<Boolean> property = createProperty(observableBean);
 		
-		property.removeValueChangeListener(listener);
+		property.removePropertyChangeListener(listener);
 		
 		assertHasNoListener(observableBean);
 	}
@@ -88,7 +86,7 @@ public class AbstractPropertyTest
 		ObservableBean observableBean = new ObservableBean();
 		AbstractProperty<Boolean> property = createProperty(observableBean);
 		
-		property.removeValueChangeListener(listener);
+		property.removePropertyChangeListener(listener);
 	}
 	@Test
 	public void testGivenNotObservableBean_whenRemoveValueChangeListener_thenOperationIgnored()
@@ -96,11 +94,11 @@ public class AbstractPropertyTest
 		Bean bean = new Bean();
 		AbstractProperty<Boolean> property = createProperty(bean);
 		
-		property.removeValueChangeListener(listener);
+		property.removePropertyChangeListener(listener);
 	}
 	private AbstractProperty<Boolean> createProperty(Object bean)
 	{
-		PropertyAccessor<Boolean> propertyAccessor = PropertyAccessorUtils.createPropertyAccessor(bean, "property");
+		PropertyAccessor<Boolean> propertyAccessor = PropertyAccessorUtils.createPropertyAccessor(bean.getClass(), "property");
 		return new PropertyImpl<Boolean>(bean, propertyAccessor);
 	}
 	public static class PropertyImpl<T> extends AbstractProperty<T>

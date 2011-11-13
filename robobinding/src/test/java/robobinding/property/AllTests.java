@@ -33,7 +33,9 @@ import org.junit.runners.Suite;
 	DependencyPropertyTest.class,
 	FactoryMethodImplTest.class,
 	PropertyAccessorTest.class,
-	PropertyCreatorTest.class
+	PropertyCreatorTest.class,
+	PropertyUtilsTest.class,
+	PropertyChangeSupportTest.class
 })
 public class AllTests
 {

@@ -22,9 +22,6 @@ import java.util.Map;
 import robobinding.DependsOn;
 import robobinding.ItemPresentationModel;
 import robobinding.internal.com_google_common.collect.Maps;
-import robobinding.internal.java_beans.BeanInfo;
-import robobinding.internal.java_beans.IntrospectionException;
-import robobinding.internal.java_beans.Introspector;
 import robobinding.internal.java_beans.PropertyDescriptor;
 import robobinding.itempresentationmodel.TypedCursor;
 
@@ -47,16 +44,11 @@ class PropertyCreator
 	private void initializeAvailablePropertyNames()
 	{
 		availableProperties = Maps.newHashMap();
-		try
+
+		List<PropertyDescriptor> propertyDescriptors = PropertyUtils.getPropertyDescriptors(bean.getClass());
+		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) 
 		{
-			BeanInfo info = Introspector.getBeanInfo(bean.getClass());
-			for (PropertyDescriptor propertyDescriptor : info.getPropertyDescriptors()) 
-			{
-				availableProperties.put(propertyDescriptor.getName(), propertyDescriptor);
-			}
-		} catch (IntrospectionException e)
-		{
-			throw new RuntimeException(e);
+			availableProperties.put(propertyDescriptor.getName(), propertyDescriptor);
 		}
 	}
 	public <T> AbstractProperty<T> createProperty(String propertyName)

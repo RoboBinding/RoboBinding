@@ -43,13 +43,13 @@ public abstract class AbstractValueModel<T> implements PropertyValueModel<T>
 	}
 	
 	@Override
-	public final void addValueChangeListener(PropertyChangeListener listener)
+	public final void addPropertyChangeListener(PropertyChangeListener listener)
 	{
 		propertyChangeSupport.addPropertyChangeListener(PROPERTY_VALUE, listener);
 	}
 
 	@Override
-	public final void removeValueChangeListener(PropertyChangeListener listener)
+	public final void removePropertyChangeListener(PropertyChangeListener listener)
 	{
 		propertyChangeSupport.removePropertyChangeListener(PROPERTY_VALUE, listener);
 	}

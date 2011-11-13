@@ -23,13 +23,10 @@ import java.util.Set;
 
 import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.internal.com_google_common.collect.Maps;
-import robobinding.internal.com_google_common.collect.Sets;
-import robobinding.internal.java_beans.BeanInfo;
-import robobinding.internal.java_beans.IntrospectionException;
-import robobinding.internal.java_beans.Introspector;
 import robobinding.internal.java_beans.PropertyDescriptor;
 import robobinding.internal.org_apache_commons_lang3.Validate;
 import robobinding.property.PropertyAccessor;
+import robobinding.property.PropertyUtils;
 import android.database.AbstractCursor;
 
 /**
@@ -40,7 +37,6 @@ import android.database.AbstractCursor;
  */
 public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 {
-	private static Set<String> excludedPropertyNames = Sets.newHashSet("class");
 	
 	private List<T> beans;
 	private Map<String, PropertyAccessor<?>> propertyNameToAccessors;
@@ -54,22 +50,12 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 	}
 	private void initializeProperties(Class<T> beanClass)
 	{
-		try
+		List<PropertyDescriptor> propertyDescriptors = PropertyUtils.getPropertyDescriptors(beanClass);
+		propertyNameToAccessors = Maps.newHashMap();
+		for(PropertyDescriptor propertyDescriptor : propertyDescriptors)
 		{
-			BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
-			propertyNameToAccessors = Maps.newHashMap();
-			for(PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors())
-			{
-				if(excludedPropertyNames.contains(propertyDescriptor.getName()))
-				{
-					continue;
-				}
-				PropertyAccessor<?> propertyAccessor = new PropertyAccessor<T>(propertyDescriptor, beanClass);
-				propertyNameToAccessors.put(propertyDescriptor.getName(), propertyAccessor);
-			}
-		} catch (IntrospectionException e)
-		{
-			throw new RuntimeException(e);
+			PropertyAccessor<?> propertyAccessor = new PropertyAccessor<T>(propertyDescriptor, beanClass);
+			propertyNameToAccessors.put(propertyDescriptor.getName(), propertyAccessor);
 		}
 	}
 	@Override
