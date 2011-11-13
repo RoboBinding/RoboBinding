@@ -15,11 +15,9 @@
  */
 package robobinding.binding.viewattribute;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import robobinding.binding.PropertyViewAttribute;
 import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.property.PropertyChangeListener;
 import robobinding.property.PropertyValueModel;
 import android.content.Context;
 
@@ -79,14 +77,14 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 	
 	protected void initializeView(PropertyValueModel<T> valueModel)
 	{
-		valueModelUpdated(valueModel.getValue());
+		//valueModelUpdated(valueModel.getValue());
 	}
 	
 	protected void observeChangesOnTheValueModel(final PropertyValueModel<T> valueModel)
 	{
 		valueModel.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
-			public void propertyChange(PropertyChangeEvent evt)
+			public void propertyChanged()
 			{
 				valueModelUpdated(valueModel.getValue());
 			}

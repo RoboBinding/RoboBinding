@@ -43,6 +43,7 @@ public class AlbumItemPresentationModel extends AbstractPresentationModel implem
 	public void setData(int index, Album bean)
 	{
 		this.album = bean;
+		
 		presentationModelChangeSupport.fireChangeAll();
 	}
 }

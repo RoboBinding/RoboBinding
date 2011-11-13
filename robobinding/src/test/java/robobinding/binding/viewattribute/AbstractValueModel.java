@@ -1,8 +1,8 @@
 package robobinding.binding.viewattribute;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
+import robobinding.property.PropertyChangeListener;
+import robobinding.property.PropertyChangeSupport;
 import robobinding.property.PropertyValueModel;
 
 
@@ -39,7 +39,7 @@ public abstract class AbstractValueModel<T> implements PropertyValueModel<T>
 	}
 	private void fireValueChange(Object oldValue, Object newValue)
 	{
-		propertyChangeSupport.firePropertyChange(PROPERTY_VALUE, oldValue, newValue);
+		propertyChangeSupport.firePropertyChange(PROPERTY_VALUE);
 	}
 	
 	@Override

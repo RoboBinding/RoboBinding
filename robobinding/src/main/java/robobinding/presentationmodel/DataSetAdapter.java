@@ -16,12 +16,10 @@
  */
 package robobinding.presentationmodel;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import robobinding.binding.Binder;
 import robobinding.itempresentationmodel.ItemPresentationModel;
 import robobinding.property.AbstractDataSetProperty;
+import robobinding.property.PropertyChangeListener;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +49,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 	{
 		dataSetValueModel.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
-			public void propertyChanged(PropertyChangeEvent evt)
+			public void propertyChanged()
 			{
 				notifyDataSetChanged();
 			}

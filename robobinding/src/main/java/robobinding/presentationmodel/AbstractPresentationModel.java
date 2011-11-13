@@ -26,7 +26,7 @@ import robobinding.property.PropertyChangeListener;
  */
 public abstract class AbstractPresentationModel implements ObservableProperties
 {
-	protected PresentationModelChangeSupport presentationModelChangeSupport;
+	protected PresentationModelChangeSupport presentationModelChangeSupport = new PresentationModelChangeSupport(this);
 	
 	@Override
 	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)

@@ -47,5 +47,7 @@ public class CreateEditAlbumActivity extends Activity {
         
         Binder binder = new Binder();
 		binder.setAndBindContentView(this, R.layout.create_edit_album_activity, createEditAlbumPresentationModel);
+		
+		createEditAlbumPresentationModel.refresh();
     }
 }
