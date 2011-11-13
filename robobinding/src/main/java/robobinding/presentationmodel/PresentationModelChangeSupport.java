@@ -42,7 +42,7 @@ public class PresentationModelChangeSupport
 		propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
 	}
 
-	public void firePropertyChange(String propertyName, Object newValue)
+	public void firePropertyChange(String propertyName)
 	{
 		propertyChangeSupport.firePropertyChange(propertyName);
 	}

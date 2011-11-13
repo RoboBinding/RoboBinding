@@ -16,11 +16,10 @@
  */
 package robobinding.notifypropertychange.wrapper;
 
-import java.beans.PropertyChangeSupport;
-
 import robobinding.CustomSetter;
 import robobinding.NotifyPropertyChange;
 import robobinding.notifypropertychange.AtClassLevel;
+import robobinding.presentationmodel.PresentationModelChangeSupport;
 
 /**
  *
@@ -33,12 +32,12 @@ public class AtClassLevel_Wrapper
 {
 	private AtClassLevel atClassLevel;
 	
-	private PropertyChangeSupport propertyChangeSupport;
+	private PresentationModelChangeSupport presentationModelChangeSupport;
 	public AtClassLevel_Wrapper(AtClassLevel atClassLevel)
 	{
 		this.atClassLevel = atClassLevel;
 		
-		propertyChangeSupport = new PropertyChangeSupport(this);
+		presentationModelChangeSupport = new PresentationModelChangeSupport(this);
 	}
 	
 	public boolean getProperty1()
@@ -47,9 +46,8 @@ public class AtClassLevel_Wrapper
 	}
 	public void setProperty1(boolean newValue)
 	{
-		boolean oldValue = getProperty1();
 		atClassLevel.setProperty1(newValue);
-		propertyChangeSupport.firePropertyChange("property1", oldValue, newValue);
+		presentationModelChangeSupport.firePropertyChange("property1");
 	}
 	
 	public String getProperty2()
@@ -58,9 +56,8 @@ public class AtClassLevel_Wrapper
 	}
 	public void setProperty2(String newValue)
 	{
-		String oldValue = getProperty2();
 		atClassLevel.setProperty2(newValue);
-		propertyChangeSupport.firePropertyChange("property2", oldValue, newValue);
+		presentationModelChangeSupport.firePropertyChange("property2");
 	}
 	
 	public void property2SetterInvoker()

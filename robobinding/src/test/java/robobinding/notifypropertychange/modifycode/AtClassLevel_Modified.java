@@ -16,10 +16,9 @@
  */
 package robobinding.notifypropertychange.modifycode;
 
-import java.beans.PropertyChangeSupport;
-
 import robobinding.CustomSetter;
 import robobinding.NotifyPropertyChange;
+import robobinding.presentationmodel.PresentationModelChangeSupport;
 
 /**
  *
@@ -34,10 +33,10 @@ public class AtClassLevel_Modified
 	private String property2;
 	private boolean customProperty;
 	
-	private PropertyChangeSupport propertyChangeSupport;
+	private PresentationModelChangeSupport presentationModelChangeSupport;
 	public AtClassLevel_Modified()
 	{
-		propertyChangeSupport = new PropertyChangeSupport(this);
+		presentationModelChangeSupport = new PresentationModelChangeSupport(this);
 	}
 	
 	public boolean getProperty1()
@@ -46,9 +45,8 @@ public class AtClassLevel_Modified
 	}
 	public void setProperty1(boolean newValue)
 	{
-		boolean oldValue = getProperty1();
 		this.property1 = newValue;
-		propertyChangeSupport.firePropertyChange("property1", oldValue, newValue);
+		presentationModelChangeSupport.firePropertyChange("property1");
 	}
 	
 	public String getProperty2()
@@ -57,9 +55,8 @@ public class AtClassLevel_Modified
 	}
 	public void setProperty2(String newValue)
 	{
-		String oldValue = getProperty2();
 		this.property2 = newValue;
-		propertyChangeSupport.firePropertyChange("property2", oldValue, newValue);
+		presentationModelChangeSupport.firePropertyChange("property2");
 	}
 	
 	public void property2SetterInvoker()
@@ -74,9 +71,8 @@ public class AtClassLevel_Modified
 	@CustomSetter
 	public void setCustomProperty(boolean newValue)
 	{
-		boolean oldValue = getCustomProperty();
 		customProperty = newValue;
-		propertyChangeSupport.firePropertyChange("customProperty", oldValue, newValue);
+		presentationModelChangeSupport.firePropertyChange("customProperty");
 	}
 	
 	public void setPropertyWithoutGetter(boolean b)

@@ -16,10 +16,9 @@
  */
 package robobinding.notifypropertychange;
 
-import java.beans.PropertyChangeSupport;
-
 import robobinding.CustomSetter;
 import robobinding.NotifyPropertyChange;
+import robobinding.presentationmodel.PresentationModelChangeSupport;
 
 /**
  *
@@ -34,10 +33,10 @@ public class AtClassLevel
 	private String property2;
 	private boolean customProperty;
 	
-	private PropertyChangeSupport propertyChangeSupport;
+	private PresentationModelChangeSupport presentationModelChangeSupport;
 	public AtClassLevel()
 	{
-		propertyChangeSupport = new PropertyChangeSupport(this);
+		presentationModelChangeSupport = new PresentationModelChangeSupport(this);
 	}
 	public boolean getProperty1()
 	{
@@ -70,9 +69,8 @@ public class AtClassLevel
 	@CustomSetter
 	public void setCustomProperty(boolean newValue)
 	{
-		boolean oldValue = getCustomProperty();
 		customProperty = newValue;
-		propertyChangeSupport.firePropertyChange("customProperty", oldValue, newValue);
+		presentationModelChangeSupport.firePropertyChange("customProperty");
 	}
 	
 	public void setPropertyWithoutGetter(boolean b)

@@ -16,10 +16,9 @@
  */
 package robobinding.notifypropertychange.subclass;
 
-import java.beans.PropertyChangeSupport;
-
 import robobinding.NotifyPropertyChange;
 import robobinding.notifypropertychange.AtMethodLevel;
+import robobinding.presentationmodel.PresentationModelChangeSupport;
 
 /**
  *
@@ -29,19 +28,18 @@ import robobinding.notifypropertychange.AtMethodLevel;
  */
 public class AtMethodLevel_Subclass extends AtMethodLevel
 {
-	private PropertyChangeSupport propertyChangeSupport;
+	private PresentationModelChangeSupport presentationModelChangeSupport;
 	public AtMethodLevel_Subclass(boolean property1, boolean property2)
 	{
 		super(property1, property2);
 		
-		propertyChangeSupport = new PropertyChangeSupport(this);
+		presentationModelChangeSupport = new PresentationModelChangeSupport(this);
 	}
 	@Override
 	@NotifyPropertyChange
 	public void setProperty1(boolean newValue)
 	{
-		boolean oldValue = getProperty1();
 		super.setProperty1(newValue);
-		propertyChangeSupport.firePropertyChange("property1", oldValue, newValue);
+		presentationModelChangeSupport.firePropertyChange("property1");
 	}
 }

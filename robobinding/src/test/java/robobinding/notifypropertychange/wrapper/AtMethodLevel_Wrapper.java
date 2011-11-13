@@ -16,10 +16,9 @@
  */
 package robobinding.notifypropertychange.wrapper;
 
-import java.beans.PropertyChangeSupport;
-
 import robobinding.NotifyPropertyChange;
 import robobinding.notifypropertychange.AtMethodLevel;
+import robobinding.presentationmodel.PresentationModelChangeSupport;
 
 /**
  *
@@ -31,23 +30,22 @@ public class AtMethodLevel_Wrapper
 {
 	private AtMethodLevel atMethodLevel;
 	
-	private PropertyChangeSupport propertyChangeSupport;
+	private PresentationModelChangeSupport presentationModelChangeSupport;
 	public AtMethodLevel_Wrapper(AtMethodLevel atMethodLevel)
 	{
 		this.atMethodLevel = atMethodLevel;
 		
-		propertyChangeSupport = new PropertyChangeSupport(this);
+		presentationModelChangeSupport = new PresentationModelChangeSupport(this);
 	}
 	public boolean getProperty1()
 	{
 		return atMethodLevel.getProperty1();
 	}
 	@NotifyPropertyChange
-	public void setProperty1(boolean b)
+	public void setProperty1(boolean newValue)
 	{
-		boolean oldValue = getProperty1();
-		atMethodLevel.setProperty1(b);
-		propertyChangeSupport.firePropertyChange("property1", oldValue, b);
+		atMethodLevel.setProperty1(newValue);
+		presentationModelChangeSupport.firePropertyChange("property1");
 	}
 	
 	public boolean getProperty2()

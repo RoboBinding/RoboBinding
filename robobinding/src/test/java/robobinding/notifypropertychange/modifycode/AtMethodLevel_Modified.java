@@ -16,9 +16,8 @@
  */
 package robobinding.notifypropertychange.modifycode;
 
-import java.beans.PropertyChangeSupport;
-
 import robobinding.NotifyPropertyChange;
+import robobinding.presentationmodel.PresentationModelChangeSupport;
 
 /**
  *
@@ -31,24 +30,23 @@ public class AtMethodLevel_Modified
 	private boolean property1;
 	private boolean property2;
 	
-	private PropertyChangeSupport propertyChangeSupport;
+	private PresentationModelChangeSupport presentationModelChangeSupport;
 	public AtMethodLevel_Modified(boolean property1, boolean property2)
 	{
 		this.property1 = property1;
 		this.property2 = property2;
 		
-		propertyChangeSupport = new PropertyChangeSupport(this);
+		presentationModelChangeSupport = new PresentationModelChangeSupport(this);
 	}
 	public boolean getProperty1()
 	{
 		return property1;
 	}
 	@NotifyPropertyChange
-	public void setProperty1(boolean b)
+	public void setProperty1(boolean newValue)
 	{
-		boolean oldValue = getProperty1();
-		property1 = b;
-		propertyChangeSupport.firePropertyChange("property1", oldValue, b);
+		property1 = newValue;
+		presentationModelChangeSupport.firePropertyChange("property1");
 	}
 	
 	public boolean getProperty2()

@@ -16,11 +16,10 @@
  */
 package robobinding.notifypropertychange.subclass;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import org.easymock.EasyMock;
 import org.junit.Test;
+
+import robobinding.property.PropertyChangeListener;
 
 /**
  *
@@ -35,9 +34,9 @@ public class AtClassLevel_SubclassTest
 	{
 		AtClassLevel_Subclass atClassLevel_Subclass = new AtClassLevel_Subclass();
 		PropertyChangeListener mockPropertyChangeListener = EasyMock.createMock(PropertyChangeListener.class);
-		mockPropertyChangeListener.propertyChange((PropertyChangeEvent)EasyMock.anyObject());
+		mockPropertyChangeListener.propertyChanged();
 		EasyMock.replay(mockPropertyChangeListener);
-		atClassLevel_Subclass.propertyChangeSupport.addPropertyChangeListener("property2", mockPropertyChangeListener);
+		atClassLevel_Subclass.presentationModelChangeSupport.addPropertyChangeListener("property2", mockPropertyChangeListener);
 		 
 		atClassLevel_Subclass.property2SetterInvoker();
 		
