@@ -37,13 +37,8 @@ public class CreateEditAlbumActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         AlbumStore albumStore = new AlbumStore();
-        CreateEditAlbumPresentationModel createEditAlbumPresentationModel;
         long albumId = getIntent().getLongExtra(ALBUM_ID, -1);
-        
-        if (albumId >= 0)
-			createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumStore, albumId);
-		else
-        	createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumStore);
+        CreateEditAlbumPresentationModel createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumStore, albumId);
         
         Binder binder = new Binder();
 		binder.setAndBindContentView(this, R.layout.create_edit_album_activity, createEditAlbumPresentationModel);

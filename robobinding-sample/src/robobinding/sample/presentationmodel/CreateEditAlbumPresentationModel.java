@@ -47,20 +47,25 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	public CreateEditAlbumPresentationModel(Activity activity, AlbumStore albumStore, long albumId)
 	{
 		initialize(activity, albumStore);
-		Album album = albumStore.get(albumId);
-		albumBuilder = album.createBuilder();
-	}
-	
-	public CreateEditAlbumPresentationModel(Activity activity, AlbumStore albumStore)
-	{
-		initialize(activity, albumStore);
-		albumBuilder = new Album.Builder();
+		
+		if (albumIsNew(albumId))
+			albumBuilder = new Album.Builder();
+		else
+		{
+			Album album = albumStore.get(albumId);
+			albumBuilder = album.createBuilder();
+		}
 	}
 	
 	private void initialize(Activity activity, AlbumStore albumStore)
 	{
 		this.activity = activity;
 		this.albumStore = albumStore;
+	}
+
+	private boolean albumIsNew(long albumId)
+	{
+		return albumId == -1;
 	}
 	
 	@DependsOn(CLASSICAL)
