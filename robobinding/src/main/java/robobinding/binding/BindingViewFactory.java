@@ -35,23 +35,24 @@ import android.view.View;
  */
 public class BindingViewFactory implements Factory
 {
-	private LayoutInflater layoutInflater;
-	private List<ViewBindingAttributes> childViewBindingAttributes;
+	private final LayoutInflater layoutInflater;
 	private final BindingAttributesLoader bindingAttributesLoader;
+	
+	private List<ViewBindingAttributes> childViewBindingAttributes = Lists.newArrayList();
+	private ViewNameResolver viewNameResolver = new ViewNameResolver();
 	
 	BindingViewFactory(LayoutInflater layoutInflater, BindingAttributesLoader bindingAttributesLoader)
 	{
 		this.bindingAttributesLoader = bindingAttributesLoader;
 		this.layoutInflater = layoutInflater;
 		layoutInflater.setFactory(this);
-		childViewBindingAttributes = Lists.newArrayList();
 	}
 
 	public View onCreateView(String name, Context context, AttributeSet attrs)
 	{
 		try
 		{
-			String viewFullName = getViewFullname(name);
+			String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
 			
 			View view = layoutInflater.createView(viewFullName, null, attrs);
 			ViewBindingAttributes viewBindingAttributes = bindingAttributesLoader.load(view, attrs);
@@ -62,23 +63,6 @@ public class BindingViewFactory implements Factory
 		{
 			throw new RuntimeException(e);
 		}
-	}
-
-	private String getViewFullname(String name)
-	{
-		StringBuilder nameBuilder = new StringBuilder();
-		
-		if ("View".equals(name) || "ViewGroup".equals(name))
-			nameBuilder.append("android.view.");
-		else if (!viewNameIsFullyQualified(name))
-			nameBuilder.append("android.widget.");
-		
-		nameBuilder.append(name);
-		return nameBuilder.toString();
-	}
-
-	private boolean viewNameIsFullyQualified(String name) {
-		return name.contains(".");
 	}
 
 	InflatedView inflateView(int resourceId, Context context)
@@ -114,6 +98,26 @@ public class BindingViewFactory implements Factory
 		{
 			for (ViewBindingAttributes viewAttributeBinder : childViewBindingAttributes)
 				viewAttributeBinder.bind(presentationModelAdapter, context);
+		}
+	}
+	
+	static class ViewNameResolver
+	{
+		public String getViewNameFromLayoutTag(String tagName)
+		{
+			StringBuilder nameBuilder = new StringBuilder();
+			
+			if ("View".equals(tagName) || "ViewGroup".equals(tagName))
+				nameBuilder.append("android.view.");
+			else if (!viewNameIsFullyQualified(tagName))
+				nameBuilder.append("android.widget.");
+			
+			nameBuilder.append(tagName);
+			return nameBuilder.toString();
+		}
+
+		private boolean viewNameIsFullyQualified(String name) {
+			return name.contains(".");
 		}
 	}
 }

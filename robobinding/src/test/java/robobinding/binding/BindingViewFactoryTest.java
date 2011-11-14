@@ -37,20 +37,16 @@ import android.view.View;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 @RunWith(RobolectricTestRunner.class)
-public class BindingFactoryTest
+public class BindingViewFactoryTest
 {
 	private String viewName = "View";
 	private String fullyQualifiedViewName = "android.view.View";
-	private String widgetName = "TextView";
-	private String fullyQualifiedWidgetName = "android.widget.TextView";
-	private String customName = "robobinding.widget.CustomView";
-	private String fullyQualifiedCustomName = "robobinding.widget.CustomView";
 	
 	private AttributeSet attrs = MockAttributeSet.withAttributes(2, 2);
 	private String prefix = null;
@@ -83,24 +79,10 @@ public class BindingFactoryTest
 	}
 	
 	@Test
-	public void whenCreatingAViewInTheViewPackage_ThenReturnViewInflatedFromLayoutInflater() throws Exception
+	public void whenCreatingAView_ThenReturnViewInflatedFromLayoutInflater() throws Exception
 	{
 		when(layoutInflater.createView(fullyQualifiedViewName, prefix, attrs)).thenReturn(theView);
 		assertThat(bindingViewFactory.onCreateView(viewName, context, attrs), equalTo(theView));
-	}
-	
-	@Test
-	public void whenCreatingAViewInTheWidgetPackage_ThenReturnViewInflatedFromLayoutInflater() throws Exception
-	{
-		when(layoutInflater.createView(fullyQualifiedWidgetName, prefix, attrs)).thenReturn(theView);
-		assertThat(bindingViewFactory.onCreateView(widgetName, context, attrs), equalTo(theView));
-	}
-	
-	@Test
-	public void whenCreatingACustomWidget_ThenReturnViewInflatedFromLayoutInflater() throws Exception
-	{
-		when(layoutInflater.createView(fullyQualifiedCustomName, prefix, attrs)).thenReturn(theView);
-		assertThat(bindingViewFactory.onCreateView(customName, context, attrs), equalTo(theView));
 	}
 	
 	@Test
