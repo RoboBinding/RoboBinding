@@ -37,9 +37,11 @@ class BindingAttributesLoader
 {
 	private final ProvidersResolver providersResolver;
 	private final AttributeSetParser attributeSetParser;
+	private final boolean preInitializeViews;
 	
-	BindingAttributesLoader()
+	BindingAttributesLoader(boolean preInitializeViews)
 	{
+		this.preInitializeViews = preInitializeViews;
 		providersResolver = new ProvidersResolver();
 		attributeSetParser = new AttributeSetParser();
 	}
@@ -60,7 +62,7 @@ class BindingAttributesLoader
 		{
 			@SuppressWarnings("unchecked")
 			BindingAttributeProvider<View> viewProvider = (BindingAttributeProvider<View>)provider;
-			List<BindingAttribute> newBindingAttributes = viewProvider.getSupportedBindingAttributes(view, pendingBindingAttributes);
+			List<BindingAttribute> newBindingAttributes = viewProvider.createSupportedBindingAttributes(view, pendingBindingAttributes, preInitializeViews);
 			removeProcessedAttributes(newBindingAttributes, pendingBindingAttributes);
 			bindingAttributes.addAll(newBindingAttributes);
 		}

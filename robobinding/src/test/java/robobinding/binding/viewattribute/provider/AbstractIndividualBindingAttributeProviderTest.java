@@ -60,7 +60,7 @@ public abstract class AbstractIndividualBindingAttributeProviderTest<T extends V
 		
 		for (AttributeClassMapping attributeClassMapping : attributeClassMappings.mappingsList)
 		{
-			BindingAttribute bindingAttribute = bindingAttributeProvider.getSupportedBindingAttribute(view, attributeClassMapping.attributeName, ATTRIBUTE_VALUE);
+			BindingAttribute bindingAttribute = bindingAttributeProvider.createBindingAttribute(view, attributeClassMapping.attributeName, ATTRIBUTE_VALUE, true);
 			
 			assertThat(bindingAttribute.getViewAttribute(), instanceOf(attributeClassMapping.expectedBindingAttributeClass));
 		}
@@ -71,7 +71,7 @@ public abstract class AbstractIndividualBindingAttributeProviderTest<T extends V
 	{
 		String attributeName = "something_else";
 		
-		BindingAttribute bindingAttribute = bindingAttributeProvider.getSupportedBindingAttribute(view, attributeName, ATTRIBUTE_VALUE);
+		BindingAttribute bindingAttribute = bindingAttributeProvider.createBindingAttribute(view, attributeName, ATTRIBUTE_VALUE, true);
 		
 		assertNull(bindingAttribute);
 	}

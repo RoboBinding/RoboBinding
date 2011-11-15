@@ -63,7 +63,7 @@ public class TextViewAttributeProviderTest
 	{
 		pendingBindingAttributes.put("text", TWO_WAY_BINDING_ATTRIBUTE);
 		
-		BindingAttribute bindingAttribute = textViewAttributeProvider.getSupportedBindingAttributes(textView, pendingBindingAttributes).get(0);
+		BindingAttribute bindingAttribute = textViewAttributeProvider.createSupportedBindingAttributes(textView, pendingBindingAttributes, true).get(0);
 		
 		TextAttribute textAttribute = (TextAttribute)bindingAttribute.getViewAttribute();
 		assertThat(textAttribute.getValueCommitMode(), equalTo(ValueCommitMode.ON_CHANGE));
@@ -75,7 +75,7 @@ public class TextViewAttributeProviderTest
 		pendingBindingAttributes.put("text", TWO_WAY_BINDING_ATTRIBUTE);
 		pendingBindingAttributes.put("valueCommitMode", "onChange");
 		
-		BindingAttribute bindingAttribute = textViewAttributeProvider.getSupportedBindingAttributes(textView, pendingBindingAttributes).get(0);
+		BindingAttribute bindingAttribute = textViewAttributeProvider.createSupportedBindingAttributes(textView, pendingBindingAttributes, true).get(0);
 		
 		TextAttribute textAttribute = (TextAttribute)bindingAttribute.getViewAttribute();
 		assertThat(textAttribute.getValueCommitMode(), equalTo(ValueCommitMode.ON_CHANGE));
@@ -87,7 +87,7 @@ public class TextViewAttributeProviderTest
 		pendingBindingAttributes.put("text", ONE_WAY_BINDING_ATTRIBUTE);
 		pendingBindingAttributes.put("valueCommitMode", "onChange");
 		
-		textViewAttributeProvider.getSupportedBindingAttributes(textView, pendingBindingAttributes).get(0);
+		textViewAttributeProvider.createSupportedBindingAttributes(textView, pendingBindingAttributes, true).get(0);
 	}
 	
 	@Test (expected=RuntimeException.class)
@@ -95,7 +95,7 @@ public class TextViewAttributeProviderTest
 	{
 		pendingBindingAttributes.put("valueCommitMode", "onChange");
 		
-		textViewAttributeProvider.getSupportedBindingAttributes(textView, pendingBindingAttributes).get(0);
+		textViewAttributeProvider.createSupportedBindingAttributes(textView, pendingBindingAttributes, true).get(0);
 	}
 	
 	@Test
@@ -103,7 +103,7 @@ public class TextViewAttributeProviderTest
 	{
 		pendingBindingAttributes.put("something_else", ONE_WAY_BINDING_ATTRIBUTE);
 		
-		List<BindingAttribute> bindingAttributes = textViewAttributeProvider.getSupportedBindingAttributes(textView, pendingBindingAttributes);
+		List<BindingAttribute> bindingAttributes = textViewAttributeProvider.createSupportedBindingAttributes(textView, pendingBindingAttributes, true);
 		
 		assertThat(bindingAttributes.size(), equalTo(0));
 	}

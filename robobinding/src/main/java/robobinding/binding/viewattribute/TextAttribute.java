@@ -35,13 +35,13 @@ public class TextAttribute implements PropertyViewAttribute
 {
 	private final TextView textView;
 	private final ValueCommitMode valueCommitMode;
-	private final PropertyBinding propertyBinding;
+	private final PropertyBindingDetails propertyBindingDetails;
 
-	public TextAttribute(TextView textView, PropertyBinding propertyBinding, ValueCommitMode valueCommitMode)
+	public TextAttribute(TextView textView, PropertyBindingDetails propertyBindingDetails, ValueCommitMode valueCommitMode)
 	{
 		this.textView = textView;
 		this.valueCommitMode = valueCommitMode;
-		this.propertyBinding = propertyBinding;
+		this.propertyBindingDetails = propertyBindingDetails;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class TextAttribute implements PropertyViewAttribute
 
 	PropertyViewAttribute lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
 	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBinding.propertyName);
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
 		
 		if (String.class.isAssignableFrom(propertyType))
 		{
@@ -78,7 +78,7 @@ public class TextAttribute implements PropertyViewAttribute
 		
 		public AbstractCharSequenceTextAttribute()
 		{
-			super(propertyBinding);
+			super(propertyBindingDetails);
 		}
 		
 		@Override

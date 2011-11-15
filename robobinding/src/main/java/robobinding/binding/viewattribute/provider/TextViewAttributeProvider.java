@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import robobinding.binding.BindingAttribute;
-import robobinding.binding.viewattribute.PropertyBinding;
+import robobinding.binding.viewattribute.PropertyBindingDetails;
 import robobinding.binding.viewattribute.TextAttribute;
 import robobinding.binding.viewattribute.ValueCommitMode;
 import robobinding.internal.com_google_common.collect.Lists;
@@ -34,10 +34,10 @@ import android.widget.TextView;
 public class TextViewAttributeProvider implements BindingAttributeProvider<TextView>
 {
 	@Override
-	public List<BindingAttribute> getSupportedBindingAttributes(TextView textView, Map<String, String> pendingBindingAttributes)
+	public List<BindingAttribute> createSupportedBindingAttributes(TextView textView, Map<String, String> pendingBindingAttributes, boolean preInitializeView)
 	{
 		List<BindingAttribute> bindingAttributes = Lists.newArrayList();
-		TextAttributeBuilder textAttributeBuilder = new TextAttributeBuilder();
+		TextAttributeBuilder textAttributeBuilder = new TextAttributeBuilder(preInitializeView);
 		
 		for (String attributeName : pendingBindingAttributes.keySet())
 		{
@@ -63,7 +63,12 @@ public class TextViewAttributeProvider implements BindingAttributeProvider<TextV
 	{
 		private String textAttributeValue;
 		private String valueCommitModeAttributeValue;
+		private final boolean preInitializeView;
 		
+		public TextAttributeBuilder(boolean preInitializeView)
+		{
+			this.preInitializeView = preInitializeView;
+		}
 		void setTextAttributeValue(String textAttributeValue)
 		{
 			this.textAttributeValue = textAttributeValue;
@@ -83,9 +88,9 @@ public class TextViewAttributeProvider implements BindingAttributeProvider<TextV
 		
 		BindingAttribute createBindingAttribute(TextView textView)
 		{
-			PropertyBinding propertyBinding = new PropertyBinding(textAttributeValue);
+			PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(textAttributeValue, preInitializeView);
 			
-			if (!propertyBinding.twoWayBinding && valueCommitModeSpecified())
+			if (!propertyBindingDetails.twoWayBinding && valueCommitModeSpecified())
 				throw new RuntimeException("The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
 			
 			ValueCommitMode valueCommitMode = null;
@@ -95,7 +100,7 @@ public class TextViewAttributeProvider implements BindingAttributeProvider<TextV
 			else if ("onFocusLost".equals(valueCommitModeAttributeValue))
 				valueCommitMode = ValueCommitMode.ON_FOCUS_LOST;
 			
-			return new BindingAttribute(Lists.newArrayList("text", "valueCommitMode"), new TextAttribute(textView, propertyBinding, valueCommitMode));
+			return new BindingAttribute(Lists.newArrayList("text", "valueCommitMode"), new TextAttribute(textView, propertyBindingDetails, valueCommitMode));
 		}
 	}
 }

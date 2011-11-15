@@ -30,9 +30,9 @@ public class CheckedAttribute extends AbstractPropertyViewAttribute<Boolean>
 {
 	private final CheckBox checkBox;
 
-	public CheckedAttribute(CheckBox checkBox, String attributeValue)
+	public CheckedAttribute(CheckBox checkBox, String attributeValue, boolean preInitializeView)
 	{
-		super(attributeValue);
+		super(attributeValue, preInitializeView);
 		this.checkBox = checkBox;
 	}
 

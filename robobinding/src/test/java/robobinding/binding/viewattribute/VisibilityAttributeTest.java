@@ -46,7 +46,7 @@ public class VisibilityAttributeTest
 	@Before
 	public void setUp()
 	{
-		 visibilityAttribute = new VisibilityAttribute(view, "{property_name}");
+		 visibilityAttribute = new VisibilityAttribute(view, "{property_name}", true);
 		 presentationModelAdapter = mock(PresentationModelAdapter.class);
 	}
 	

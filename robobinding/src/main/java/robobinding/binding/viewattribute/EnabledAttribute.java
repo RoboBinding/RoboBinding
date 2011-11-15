@@ -27,9 +27,9 @@ public class EnabledAttribute extends AbstractReadOnlyPropertyViewAttribute<Bool
 {
 	private final View view;
 
-	public EnabledAttribute(View view, String attributeValue)
+	public EnabledAttribute(View view, String attributeValue, boolean preInitializeView)
 	{
-		super(attributeValue);
+		super(attributeValue, preInitializeView);
 		this.view = view;
 	}
 

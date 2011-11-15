@@ -48,7 +48,7 @@ public class EnabledAttributeTest extends AbstractSingleTypeOneWayPropertyAttrib
 	@Override
 	protected AbstractPropertyViewAttribute<Boolean> newAttributeInstance(String bindingAttributeValue)
 	{
-		return new EnabledAttribute(view, bindingAttributeValue);
+		return new EnabledAttribute(view, bindingAttributeValue, true);
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public class TextAttributeTest
 	@Before
 	public void setUp()
 	{
-		 textAttribute = new TextAttribute(textView, new PropertyBinding("{property_name}"), ValueCommitMode.ON_FOCUS_LOST);
+		 textAttribute = new TextAttribute(textView, PropertyBindingDetails.createFrom("{property_name}", true), ValueCommitMode.ON_FOCUS_LOST);
 		 presentationModelAdapter = mock(PresentationModelAdapter.class);
 	}
 	

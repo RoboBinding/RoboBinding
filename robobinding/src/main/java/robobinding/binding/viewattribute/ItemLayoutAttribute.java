@@ -15,9 +15,6 @@
  */
 package robobinding.binding.viewattribute;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import robobinding.presentationmodel.DataSetAdapter;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
@@ -32,12 +29,14 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 {
 	private final AdapterViewAttribute itemLayoutAttribute;
 	
-	public ItemLayoutAttribute(String itemLayoutAttributeValue)
+	public ItemLayoutAttribute(String itemLayoutAttributeValue, boolean preInitializeView)
 	{
-		if (itemLayoutAttributeValue.startsWith("@"))
-			itemLayoutAttribute = new StaticItemLayoutAttribute(itemLayoutAttributeValue);
+		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(itemLayoutAttributeValue, preInitializeView);
+		
+		if (bindingDetailsBuilder.bindsToStaticResource())
+			itemLayoutAttribute = new StaticItemLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
 		else
-			itemLayoutAttribute = new DynamicItemLayoutAttribute(itemLayoutAttributeValue);
+			itemLayoutAttribute = new DynamicItemLayoutAttribute(bindingDetailsBuilder.createPropertyBindingDetails());
 	}
 
 	@Override
@@ -50,9 +49,9 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 	{
 		private DataSetAdapter<?> dataSetAdapter;
 
-		public DynamicItemLayoutAttribute(String attributeValue)
+		public DynamicItemLayoutAttribute(PropertyBindingDetails propertyBindingDetails)
 		{
-			super(attributeValue);
+			super(propertyBindingDetails);
 		}
 		
 		@Override
@@ -71,31 +70,17 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 	
 	private static class StaticItemLayoutAttribute implements AdapterViewAttribute
 	{
-		private static final Pattern RESOURCE_NAME_PATTERN = Pattern.compile("^@((\\w+)/\\w+$)");
+		private final ResourceBindingDetails resourceBindingDetails;
 
-		private String resourceName;
-		private String resourceType;
-		
-		public StaticItemLayoutAttribute(String itemLayoutAttributeValue)
+		public StaticItemLayoutAttribute(ResourceBindingDetails resourceBindingDetails)
 		{
-			determineResourceNameAndType(itemLayoutAttributeValue);
-		}
-
-		private void determineResourceNameAndType(String itemLayoutAttributeValue)
-		{
-			Matcher matcher = RESOURCE_NAME_PATTERN.matcher(itemLayoutAttributeValue);
-			matcher.find();
-			if (!matcher.matches() || matcher.groupCount() != 2)
-				throw new RuntimeException("Invalid itemLayout resource syntax: " + itemLayoutAttributeValue);
-			
-			resourceName = matcher.group(1);
-			resourceType = matcher.group(2);
+			this.resourceBindingDetails = resourceBindingDetails;
 		}
 
 		@Override
 		public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 		{
-			int itemLayoutId = context.getResources().getIdentifier(resourceName, resourceType, context.getPackageName());
+			int itemLayoutId = context.getResources().getIdentifier(resourceBindingDetails.resourceName, resourceBindingDetails.resourceType, context.getPackageName());
 			dataSetAdapter.setItemLayoutId(itemLayoutId);
 		}
 	}

@@ -55,7 +55,7 @@ public abstract class AbstractTextAttributeTest<T extends CharSequence> extends 
 	
 	protected TextAttribute newTextAttribute(String bindingAttributeValue)
 	{
-		return new TextAttribute(textView, new PropertyBinding(bindingAttributeValue), lateValueCommitMode ? ValueCommitMode.ON_FOCUS_LOST : ValueCommitMode.ON_CHANGE);
+		return new TextAttribute(textView, PropertyBindingDetails.createFrom(bindingAttributeValue, true), lateValueCommitMode ? ValueCommitMode.ON_FOCUS_LOST : ValueCommitMode.ON_CHANGE);
 	}
 	
 	@Test

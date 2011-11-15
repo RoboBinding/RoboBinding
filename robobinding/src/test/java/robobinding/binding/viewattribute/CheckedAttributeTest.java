@@ -54,7 +54,7 @@ public class CheckedAttributeTest extends AbstractSingleTypeTwoWayPropertyAttrib
 	@Override
 	protected AbstractPropertyViewAttribute<Boolean> newAttributeInstance(String bindingAttributeValue)
 	{
-		return new CheckedAttribute(checkBox, bindingAttributeValue);
+		return new CheckedAttribute(checkBox, bindingAttributeValue, true);
 	}
 
 	@Override

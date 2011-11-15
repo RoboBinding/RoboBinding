@@ -37,9 +37,9 @@ import android.widget.ListView;
 public class ListViewAttributeProvider implements BindingAttributeProvider<ListView>
 {
 	@Override
-	public List<BindingAttribute> getSupportedBindingAttributes(ListView listView, Map<String, String> pendingBindingAttributes)
+	public List<BindingAttribute> createSupportedBindingAttributes(ListView listView, Map<String, String> pendingBindingAttributes, boolean autoInitializeView)
 	{
-		ListViewAttributesBuilder listViewAttributesBuilder = new ListViewAttributesBuilder();
+		ListViewAttributesBuilder listViewAttributesBuilder = new ListViewAttributesBuilder(autoInitializeView);
 		List<BindingAttribute> bindingAttributes = Lists.newArrayList();
 		
 		for (String attributeName : pendingBindingAttributes.keySet())
@@ -68,11 +68,16 @@ public class ListViewAttributeProvider implements BindingAttributeProvider<ListV
 	
 	public class ListViewAttributesBuilder
 	{
+		private final boolean preInitializeView;
 		private String sourceAttributeValue;
 		private String itemLayoutAttributeValue;
-
 		private boolean hasAttributes = false;
 		
+		public ListViewAttributesBuilder(boolean preInitializeView)
+		{
+			this.preInitializeView = preInitializeView;
+		}
+
 		public void setSourceAttributeValue(String attributeValue)
 		{
 			this.sourceAttributeValue = attributeValue;
@@ -95,12 +100,10 @@ public class ListViewAttributeProvider implements BindingAttributeProvider<ListV
 			if (TextUtils.isEmpty(sourceAttributeValue) || TextUtils.isEmpty(itemLayoutAttributeValue))
 				throw new RuntimeException();
 
-			SourceAttribute sourceAttribute = new SourceAttribute(sourceAttributeValue);
-			ItemLayoutAttribute itemLayoutAttribute = new ItemLayoutAttribute(itemLayoutAttributeValue);
+			SourceAttribute sourceAttribute = new SourceAttribute(sourceAttributeValue, preInitializeView);
+			ItemLayoutAttribute itemLayoutAttribute = new ItemLayoutAttribute(itemLayoutAttributeValue, preInitializeView);
 			AdaptedDataSetAttributes adaptedDataSetAttributes = new AdaptedDataSetAttributes(listView, sourceAttribute, itemLayoutAttribute);
 			return new BindingAttribute(Lists.newArrayList("source", "itemLayout"), adaptedDataSetAttributes);
 		}
-		
-		
 	}
 }

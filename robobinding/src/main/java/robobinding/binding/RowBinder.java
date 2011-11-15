@@ -13,31 +13,38 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.binding.viewattribute;
+package robobinding.binding;
 
-import robobinding.property.PropertyValueModel;
+import robobinding.binding.BindingViewFactory.InflatedView;
+import android.content.Context;
+import android.view.View;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractReadOnlyPropertyViewAttribute<T> extends AbstractPropertyViewAttribute<T>
+public class RowBinder extends AbstractBinder
 {
-	public AbstractReadOnlyPropertyViewAttribute(PropertyBindingDetails propertyBindingDetails)
+	private final Context context;
+	private final BindingViewFactory bindingViewFactory;
+	private int layoutId;
+
+	public RowBinder(Context context)
 	{
-		super(propertyBindingDetails);
+		this.context = context;
+		bindingViewFactory = createBindingViewFactory(context, false);
+	}
+	
+	public View inflateAndBindTo(Object presentationModel)
+	{
+		InflatedView inflatedView = inflateAndBind(context, layoutId, presentationModel, bindingViewFactory);
+		return inflatedView.getRootView();
 	}
 
-	public AbstractReadOnlyPropertyViewAttribute(String attributeValue, boolean preInitializeView)
+	public void setLayoutId(int layoutId)
 	{
-		super(attributeValue, preInitializeView);
-	}
-
-	@Override
-	protected void observeChangesOnTheView(PropertyValueModel<T> valueModel)
-	{
-		throw new UnsupportedOperationException(getClass().getName() + " only supports one-way binding");
+		this.layoutId = layoutId;
 	}
 }

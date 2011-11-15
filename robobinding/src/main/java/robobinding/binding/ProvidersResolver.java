@@ -32,16 +32,15 @@ import android.widget.TextView;
 
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public class ProvidersResolver
 {
-	private Queue<BindingAttributeProvider<? extends View>> candidateProviders;
-	private Map<Class<?>, BindingAttributeProvider<? extends View>> viewAttributeProviderMap;
+	private final Map<Class<?>, BindingAttributeProvider<? extends View>> viewAttributeProviderMap;
 
 	public ProvidersResolver()
 	{
@@ -54,7 +53,7 @@ public class ProvidersResolver
 	
 	public Queue<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)
 	{
-		candidateProviders = Lists.newLinkedList();
+		Queue<BindingAttributeProvider<? extends View>> candidateProviders = Lists.newLinkedList();
 		
 		if (view instanceof BindingAttributeProvider)
 		{
@@ -63,11 +62,11 @@ public class ProvidersResolver
 			candidateProviders.add(customViewAttributeProvider);
 		}
 				
-		processViewHierarchy(view.getClass());
+		processViewHierarchy(view.getClass(), candidateProviders);
 		return candidateProviders;
 	}
 
-	private void processViewHierarchy(Class<?> clazz)
+	private void processViewHierarchy(Class<?> clazz, Queue<BindingAttributeProvider<? extends View>> candidateProviders)
 	{
 		BindingAttributeProvider<? extends View> viewAttributeProvider = lookupProviderForViewType(clazz);
 		
@@ -75,11 +74,11 @@ public class ProvidersResolver
 			candidateProviders.add(viewAttributeProvider);
 		
 		if (clazz != View.class)
-			processViewHierarchy(clazz.getSuperclass());
+			processViewHierarchy(clazz.getSuperclass(), candidateProviders);
 	}
 
 	private BindingAttributeProvider<? extends View> lookupProviderForViewType(Class<?> clazz)
 	{
-		return viewAttributeProviderMap .get(clazz);
+		return viewAttributeProviderMap.get(clazz);
 	}
 }

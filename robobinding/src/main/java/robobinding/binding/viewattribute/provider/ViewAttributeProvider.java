@@ -30,15 +30,15 @@ import android.view.View;
 public class ViewAttributeProvider extends AbstractIndividualBindingAttributeProvider<View>
 {
 	@Override
-	protected BindingAttribute getSupportedBindingAttribute(View view, String attributeName, String attributeValue)
+	protected BindingAttribute createBindingAttribute(View view, String attributeName, String attributeValue, boolean preInitializeView)
 	{
 		if ("visibility".equals(attributeName))
 		{
-			return new BindingAttribute(attributeName, new VisibilityAttribute(view, attributeValue));
+			return new BindingAttribute(attributeName, new VisibilityAttribute(view, attributeValue, preInitializeView));
 		}
 		else if ("enabled".equals(attributeName))
 		{
-			return new BindingAttribute(attributeName, new EnabledAttribute(view, attributeValue));
+			return new BindingAttribute(attributeName, new EnabledAttribute(view, attributeValue, preInitializeView));
 		}
 		else if ("onClick".equals(attributeName))
 		{

@@ -28,10 +28,12 @@ import android.widget.CheckBox;
 public class CheckBoxAttributeProvider extends AbstractIndividualBindingAttributeProvider<CheckBox>
 {
 	@Override
-	protected BindingAttribute getSupportedBindingAttribute(CheckBox checkBox, String attributeName, String attributeValue)
+	protected BindingAttribute createBindingAttribute(CheckBox checkBox, String attributeName, String attributeValue, boolean autoInitializeView)
 	{
 		if ("checked".equals(attributeName))
-			return new BindingAttribute(attributeName, new CheckedAttribute(checkBox, attributeValue));
+		{
+			return new BindingAttribute(attributeName, new CheckedAttribute(checkBox, attributeValue, autoInitializeView));
+		}
 		
 		return null;
 	}

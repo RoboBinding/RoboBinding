@@ -42,7 +42,7 @@ public class IntegerVisibilityAttributeTest extends AbstractSingleTypeOneWayProp
 	@Override
 	protected AbstractPropertyViewAttribute<Integer> newAttributeInstance(String bindingAttributeValue)
 	{
-		VisibilityAttribute visibilityAttribute = new VisibilityAttribute(view, bindingAttributeValue);
+		VisibilityAttribute visibilityAttribute = new VisibilityAttribute(view, bindingAttributeValue, true);
 		return visibilityAttribute.new IntegerVisibilityAttribute();
 	}
 

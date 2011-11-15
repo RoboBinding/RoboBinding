@@ -30,28 +30,30 @@ import android.content.Context;
 public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAttribute
 {
 	private PresentationModelAdapter presentationModelAdapter;
-	private final PropertyBinding propertyBinding;
+	private final PropertyBindingDetails propertyBindingDetails;
 	
-	public AbstractPropertyViewAttribute(PropertyBinding propertyBinding)
+	public AbstractPropertyViewAttribute(PropertyBindingDetails propertyBindingDetails)
 	{
-		this.propertyBinding = propertyBinding;
+		this.propertyBindingDetails = propertyBindingDetails;
 	}
 	
-	public AbstractPropertyViewAttribute(String attributeValue)
-	{
-		this.propertyBinding = new PropertyBinding(attributeValue);
-	}
 	
+	public AbstractPropertyViewAttribute(String attributeValue, boolean preInitializeView)
+	{
+		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(attributeValue, preInitializeView);
+		propertyBindingDetails = bindingDetailsBuilder.createPropertyBindingDetails();
+	}
+
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
 		setPresentationModelAdapter(presentationModelAdapter);
 		performBind();
 	}
-	
+
 	private void performBind()
 	{
-		if (propertyBinding.twoWayBinding)
+		if (propertyBindingDetails.twoWayBinding)
 			performTwoWayBinding();
 		else
 			performOneWayBinding();
@@ -77,7 +79,8 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 	
 	protected void initializeView(PropertyValueModel<T> valueModel)
 	{
-		//valueModelUpdated(valueModel.getValue());
+		if (propertyBindingDetails.preInitializeView)
+			valueModelUpdated(valueModel.getValue());
 	}
 	
 	protected void observeChangesOnTheValueModel(final PropertyValueModel<T> valueModel)
@@ -101,7 +104,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		@Override
 		public void performBind()
 		{
-			PropertyValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBinding.propertyName);
+			PropertyValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
 			initializeView(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 		}
@@ -112,7 +115,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		@Override
 		public void performBind()
 		{
-			PropertyValueModel<T> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBinding.propertyName);
+			PropertyValueModel<T> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
 			initializeView(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);

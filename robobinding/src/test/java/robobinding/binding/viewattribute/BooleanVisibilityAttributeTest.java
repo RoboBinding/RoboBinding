@@ -42,7 +42,7 @@ public class BooleanVisibilityAttributeTest extends AbstractTypeMappedOneWayProp
 	@Override
 	protected AbstractPropertyViewAttribute<Boolean> newAttributeInstance(String bindingAttributeValue)
 	{
-		VisibilityAttribute visibilityAttribute = new VisibilityAttribute(view, bindingAttributeValue);
+		VisibilityAttribute visibilityAttribute = new VisibilityAttribute(view, bindingAttributeValue, true);
 		return visibilityAttribute.new BooleanVisibilityAttribute();
 	}
 

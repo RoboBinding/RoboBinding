@@ -16,7 +16,7 @@
  */
 package robobinding.presentationmodel;
 
-import robobinding.binding.Binder;
+import robobinding.binding.RowBinder;
 import robobinding.itempresentationmodel.ItemPresentationModel;
 import robobinding.property.AbstractDataSetProperty;
 import robobinding.property.PropertyChangeListener;
@@ -36,13 +36,11 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private AbstractDataSetProperty<T> dataSetValueModel;
 	private int itemLayoutId;
 	private int dropdownLayoutId;
-	private final Context context;
-	private Binder binder;
+	private final RowBinder rowBinder;
 	
 	public DataSetAdapter(Context context)
 	{
-		this.context = context;
-		binder = new Binder();
+		rowBinder = new RowBinder(context);
 	}
 
 	public void observeChangesOnTheValueModel()
@@ -64,6 +62,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 	public void setItemLayoutId(int itemLayoutId)
 	{
 		this.itemLayoutId = itemLayoutId;
+		rowBinder.setLayoutId(itemLayoutId);
 	}
 	
 	public void setDropdownLayoutId(int dropdownLayoutId)
@@ -129,7 +128,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private View newView(int position, ViewGroup parent, int layoutId)
 	{
 		ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
-		View view = binder.inflateAndBindView(context, layoutId, itemPresentationModel);
+		View view = rowBinder.inflateAndBindTo(itemPresentationModel);
 		view.setTag(itemPresentationModel);
 		return view;
 	}

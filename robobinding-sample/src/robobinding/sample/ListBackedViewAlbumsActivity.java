@@ -16,7 +16,7 @@
  */
 package robobinding.sample;
 
-import robobinding.binding.Binder;
+import robobinding.binding.ActivityBinder;
 import robobinding.sample.presentationmodel.ListBackedViewAlbumsPresentationModel;
 import robobinding.sample.store.AlbumStore;
 import android.app.Activity;
@@ -37,9 +37,9 @@ public class ListBackedViewAlbumsActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
+		ActivityBinder binder = new ActivityBinder(this, R.layout.view_albums_activity);
 		viewAlbumsPresentationModel = new ListBackedViewAlbumsPresentationModel(this, new AlbumStore());
-		Binder binder = new Binder();
-		binder.setAndBindContentView(this, R.layout.view_albums_activity, viewAlbumsPresentationModel);
+		binder.bindTo(viewAlbumsPresentationModel);
 	}
 	
 	@Override

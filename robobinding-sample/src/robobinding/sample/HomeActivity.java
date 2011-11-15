@@ -16,7 +16,7 @@
  */
 package robobinding.sample;
 
-import robobinding.binding.Binder;
+import robobinding.binding.ActivityBinder;
 import robobinding.sample.presentationmodel.HomePresentationModel;
 import android.app.Activity;
 import android.os.Bundle;
@@ -33,8 +33,9 @@ public class HomeActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		Binder binder = new Binder();
-		binder.setAndBindContentView(this, R.layout.home_activity, new HomePresentationModel(this));
+		
+		ActivityBinder binder = new ActivityBinder(this, R.layout.home_activity);
+		binder.bindTo(new HomePresentationModel(this));
 	}
 }
 

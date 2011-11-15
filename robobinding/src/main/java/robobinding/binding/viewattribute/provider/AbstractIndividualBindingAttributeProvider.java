@@ -20,21 +20,19 @@ import java.util.Map;
 
 import robobinding.binding.BindingAttribute;
 import robobinding.internal.com_google_common.collect.Lists;
-
-
 import android.view.View;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  * @author Robert Taylor
- *
  */
 public abstract class AbstractIndividualBindingAttributeProvider<T extends View> implements BindingAttributeProvider<T>
 {
 	@Override
-	public List<BindingAttribute> getSupportedBindingAttributes(T view, Map<String, String> pendingBindingAttributes)
+	public List<BindingAttribute> createSupportedBindingAttributes(T view, Map<String, String> pendingBindingAttributes, boolean autoInitializeView)
 	{
 		List<BindingAttribute> bindingAttributes = Lists.newArrayList();
 		
@@ -42,7 +40,7 @@ public abstract class AbstractIndividualBindingAttributeProvider<T extends View>
 		{
 			String attributeValue = pendingBindingAttributes.get(attributeName);
 			
-			BindingAttribute bindingAttribute = getSupportedBindingAttribute(view, attributeName, attributeValue);
+			BindingAttribute bindingAttribute = createBindingAttribute(view, attributeName, attributeValue, autoInitializeView);
 		
 			if (bindingAttribute != null)
 				bindingAttributes.add(bindingAttribute);
@@ -51,6 +49,5 @@ public abstract class AbstractIndividualBindingAttributeProvider<T extends View>
 		return bindingAttributes;
 	}
 
-	protected abstract BindingAttribute getSupportedBindingAttribute(T view, String attributeName, String attributeValue);
-	
+	protected abstract BindingAttribute createBindingAttribute(T view, String attributeName, String attributeValue, boolean preInitializeView);
 }

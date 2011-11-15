@@ -15,6 +15,7 @@
  */
 package robobinding.binding;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -51,9 +52,9 @@ public class BinderTest
 		
 		BindingViewFactory bindingViewFactory = mock(BindingViewFactory.class);
 		when(bindingViewFactory.inflateView(layoutId, activity)).thenReturn(inflatedView);
-		Binder binder = new Binder(bindingViewFactory);
-		binder.setAndBindContentView(activity, layoutId, new Object());
-		
+//		AbstractBinder binder = new ActivityBinder(bindingViewFactory);
+//		binder.setAndBindContentView(activity, layoutId, new Object());
+		fail(); //<- need Activity and RowBinder tests
 		verify(activity).setContentView(rootView);
 	}
 }

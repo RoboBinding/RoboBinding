@@ -103,7 +103,7 @@ public class PropertyViewAttributeTest
 	{
 		public DummyPropertyViewAttribute(String attributeValue)
 		{
-			super(attributeValue);
+			super(attributeValue, true);
 		}
 
 		private BindingType bindingType = BindingType.NO_BINDING;

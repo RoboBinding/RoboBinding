@@ -15,29 +15,28 @@
  */
 package robobinding.binding.viewattribute;
 
-import robobinding.property.PropertyValueModel;
-
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractReadOnlyPropertyViewAttribute<T> extends AbstractPropertyViewAttribute<T>
+public class PropertyBindingDetails
 {
-	public AbstractReadOnlyPropertyViewAttribute(PropertyBindingDetails propertyBindingDetails)
+	public final String propertyName;
+	public final boolean twoWayBinding;
+	public final boolean preInitializeView;
+	
+	public PropertyBindingDetails(String propertyName, boolean twoWayBinding, boolean preInitializeView)
 	{
-		super(propertyBindingDetails);
+		this.propertyName = propertyName;
+		this.twoWayBinding = twoWayBinding;
+		this.preInitializeView = preInitializeView;
 	}
 
-	public AbstractReadOnlyPropertyViewAttribute(String attributeValue, boolean preInitializeView)
+	public static PropertyBindingDetails createFrom(String attributeValue, boolean preInitializeView)
 	{
-		super(attributeValue, preInitializeView);
-	}
-
-	@Override
-	protected void observeChangesOnTheView(PropertyValueModel<T> valueModel)
-	{
-		throw new UnsupportedOperationException(getClass().getName() + " only supports one-way binding");
+		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(attributeValue, preInitializeView);
+		return bindingDetailsBuilder.createPropertyBindingDetails();
 	}
 }

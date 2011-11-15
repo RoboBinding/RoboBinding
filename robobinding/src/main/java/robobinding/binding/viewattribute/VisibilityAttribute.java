@@ -28,13 +28,13 @@ import android.view.View;
  */
 public class VisibilityAttribute implements PropertyViewAttribute
 {
-	private View view;
-	private final PropertyBinding propertyBinding;
+	private final View view;
+	private final PropertyBindingDetails propertyBindingDetails;
 
-	public VisibilityAttribute(View view, String attributeValue)
+	public VisibilityAttribute(View view, String attributeValue, boolean preInitializeView)
 	{
 		this.view = view;
-		this.propertyBinding = new PropertyBinding(attributeValue);
+		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue, preInitializeView);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class VisibilityAttribute implements PropertyViewAttribute
 
 	PropertyViewAttribute lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
 	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBinding.propertyName);
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
 		
 		if (propertyType.isAssignableFrom(int.class) || propertyType.isAssignableFrom(Integer.class))
 		{
@@ -64,7 +64,7 @@ public class VisibilityAttribute implements PropertyViewAttribute
 	{
 		public BooleanVisibilityAttribute()
 		{
-			super(propertyBinding);
+			super(propertyBindingDetails);
 		}
 
 		@Override
@@ -78,7 +78,7 @@ public class VisibilityAttribute implements PropertyViewAttribute
 	{
 		public IntegerVisibilityAttribute()
 		{
-			super(propertyBinding);
+			super(propertyBindingDetails);
 		}
 
 		@Override
