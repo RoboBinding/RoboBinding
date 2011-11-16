@@ -64,7 +64,7 @@ public class TextAttribute implements PropertyViewAttribute
 			return new CharSequenceTextAttribute();
 		}
 		
-		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
+		throw new RuntimeException("Could not find a suitable text attribute class for property type: " + propertyType);
 	}
 	
 	public ValueCommitMode getValueCommitMode()
