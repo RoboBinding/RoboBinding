@@ -24,7 +24,6 @@ import robobinding.binding.viewattribute.ItemLayoutAttribute;
 import robobinding.binding.viewattribute.OnItemClickAttribute;
 import robobinding.binding.viewattribute.SourceAttribute;
 import robobinding.internal.com_google_common.collect.Lists;
-import android.text.TextUtils;
 import android.widget.ListView;
 
 
@@ -34,7 +33,7 @@ import android.widget.ListView;
  * @author Robert Taylor
  *
  */
-public class ListViewAttributeProvider implements BindingAttributeProvider<ListView>
+public class AdapterViewAttributeProvider implements BindingAttributeProvider<ListView>
 {
 	@Override
 	public List<BindingAttribute> createSupportedBindingAttributes(ListView listView, Map<String, String> pendingBindingAttributes, boolean autoInitializeView)
@@ -97,7 +96,7 @@ public class ListViewAttributeProvider implements BindingAttributeProvider<ListV
 
 		public BindingAttribute build(ListView listView)
 		{
-			if (TextUtils.isEmpty(sourceAttributeValue) || TextUtils.isEmpty(itemLayoutAttributeValue))
+			if (sourceAttributeValue == null || itemLayoutAttributeValue == null)
 				throw new RuntimeException();
 
 			SourceAttribute sourceAttribute = new SourceAttribute(sourceAttributeValue, preInitializeView);

@@ -18,16 +18,16 @@ package robobinding.binding;
 import java.util.Map;
 import java.util.Queue;
 
+import robobinding.binding.viewattribute.provider.AdapterViewAttributeProvider;
 import robobinding.binding.viewattribute.provider.BindingAttributeProvider;
 import robobinding.binding.viewattribute.provider.CheckBoxAttributeProvider;
-import robobinding.binding.viewattribute.provider.ListViewAttributeProvider;
 import robobinding.binding.viewattribute.provider.TextViewAttributeProvider;
 import robobinding.binding.viewattribute.provider.ViewAttributeProvider;
 import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.internal.com_google_common.collect.Maps;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -47,7 +47,7 @@ public class ProvidersResolver
 		viewAttributeProviderMap = Maps.newHashMap();
 		viewAttributeProviderMap.put(View.class, new ViewAttributeProvider());
 		viewAttributeProviderMap.put(TextView.class, new TextViewAttributeProvider());
-		viewAttributeProviderMap.put(ListView.class, new ListViewAttributeProvider());
+		viewAttributeProviderMap.put(AdapterView.class, new AdapterViewAttributeProvider());
 		viewAttributeProviderMap.put(CheckBox.class, new CheckBoxAttributeProvider());
 	}
 	
