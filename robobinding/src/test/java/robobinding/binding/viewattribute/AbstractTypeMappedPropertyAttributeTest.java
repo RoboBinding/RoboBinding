@@ -215,11 +215,11 @@ public abstract class AbstractTypeMappedPropertyAttributeTest<IT, VST>
 		IT initialValue = getInitialBindingExpectation().inputValue;
 		
 		if (initialValue instanceof Boolean)
-			return (PropertyValueModel<IT>)ValueHolders.createBoolean((Boolean)initialValue);
+			return (PropertyValueModel<IT>)ValueModelUtils.createBoolean((Boolean)initialValue);
 		else if (initialValue instanceof Integer)
-			return (PropertyValueModel<IT>)ValueHolders.createInteger((Integer)initialValue);
+			return (PropertyValueModel<IT>)ValueModelUtils.createInteger((Integer)initialValue);
 		else
-			return (PropertyValueModel<IT>)ValueHolders.create(initialValue);
+			return (PropertyValueModel<IT>)ValueModelUtils.create(initialValue);
 		
 	}
 }

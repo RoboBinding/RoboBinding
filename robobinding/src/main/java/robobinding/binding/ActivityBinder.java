@@ -43,7 +43,13 @@ public class ActivityBinder extends AbstractBinder
 	public void bindTo(Object presentationModel, boolean preInitializeViews)
 	{
 		BindingViewFactory bindingViewFactory = createBindingViewFactory(activity, preInitializeViews);
+		bindTo(presentationModel, bindingViewFactory);
+	}
+
+	void bindTo(Object presentationModel, BindingViewFactory bindingViewFactory)
+	{
 		InflatedView inflatedView = inflateAndBind(activity, layoutId, presentationModel, bindingViewFactory);
 		activity.setContentView(inflatedView.getRootView());
 	}
+	
 }

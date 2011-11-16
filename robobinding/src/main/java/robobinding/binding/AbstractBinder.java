@@ -22,10 +22,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public abstract class AbstractBinder
 {

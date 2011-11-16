@@ -22,10 +22,10 @@ import org.junit.runners.Suite;
 import robobinding.itempresentationmodel.BeanCursorTest;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
- *
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({

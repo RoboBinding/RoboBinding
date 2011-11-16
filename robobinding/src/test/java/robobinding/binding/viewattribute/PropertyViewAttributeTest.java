@@ -42,9 +42,11 @@ public class PropertyViewAttributeTest
 {
 	@DataPoints
 	public static LegalPropertyViewAttributeValues[] legalPropertyViewAttributeValues = {
-		new LegalPropertyViewAttributeValues("{propertyX}", "propertyX", BindingType.ONE_WAY),
-		new LegalPropertyViewAttributeValues("{propertyY}", "propertyY", BindingType.ONE_WAY),
-		new LegalPropertyViewAttributeValues("${propertyZ}", "propertyZ", BindingType.TWO_WAY)
+		new LegalPropertyViewAttributeValues("{propertyX}", "propertyX", BindingType.ONE_WAY, true),
+		new LegalPropertyViewAttributeValues("{propertyY}", "propertyY", BindingType.ONE_WAY, true),
+		new LegalPropertyViewAttributeValues("{propertyY}", "propertyY", BindingType.ONE_WAY, false),
+		new LegalPropertyViewAttributeValues("${propertyZ}", "propertyZ", BindingType.TWO_WAY, true),
+		new LegalPropertyViewAttributeValues("${propertyZ}", "propertyZ", BindingType.TWO_WAY, false)
 	};
 	
 	@DataPoints
@@ -65,7 +67,7 @@ public class PropertyViewAttributeTest
 	@Theory
 	public void whenBindingWithLegalAttributeValues_thenBindCorrectly(LegalPropertyViewAttributeValues attributeValues)
 	{
-		DummyPropertyViewAttribute propertyViewAttribute = new DummyPropertyViewAttribute(attributeValues.value);
+		DummyPropertyViewAttribute propertyViewAttribute = new DummyPropertyViewAttribute(attributeValues.value, attributeValues.preInitializeView);
 		
 		PropertyValueModel<Object> valueModel = mock(PropertyValueModel.class);
 		when(presentationModelAdapter.getReadOnlyPropertyValueModel(attributeValues.expectedPropertyName)).thenReturn(valueModel);
@@ -75,45 +77,45 @@ public class PropertyViewAttributeTest
 				
 		assertThat(propertyViewAttribute.valueModelBound, equalTo(valueModel));
 		assertThat(propertyViewAttribute.bindingType, equalTo(attributeValues.expectedBindingType));
+		assertThat(propertyViewAttribute.viewInitialized, equalTo(attributeValues.preInitializeView));
 	}
 	
 	@Theory
 	@Test (expected=RuntimeException.class)
 	public void whenBindingWithIllegalAttributeValues_ThenThrowARuntimeException(String illegalAttributeValue)
 	{
-		AbstractPropertyViewAttribute<?> propertyViewAttribute = new DummyPropertyViewAttribute(illegalAttributeValue);
+		AbstractPropertyViewAttribute<?> propertyViewAttribute = new DummyPropertyViewAttribute(illegalAttributeValue, false);
 		propertyViewAttribute.bind(presentationModelAdapter, context);
 	}
 	
 	static class LegalPropertyViewAttributeValues
 	{
-		String value;
-		String expectedPropertyName;
-		BindingType expectedBindingType;
-		public LegalPropertyViewAttributeValues(String value, String expectedPropertyName, BindingType expectedBindingType)
+		final String value;
+		final String expectedPropertyName;
+		final BindingType expectedBindingType;
+		final boolean preInitializeView;
+		
+		public LegalPropertyViewAttributeValues(String value, String expectedPropertyName, BindingType expectedBindingType, boolean preInitializeView)
 		{
 			this.value = value;
 			this.expectedPropertyName = expectedPropertyName;
 			this.expectedBindingType = expectedBindingType;
+			this.preInitializeView = preInitializeView;
 		}
 	}
 	
 	@SuppressWarnings("rawtypes")
 	private static class DummyPropertyViewAttribute extends AbstractPropertyViewAttribute
 	{
-		public DummyPropertyViewAttribute(String attributeValue)
-		{
-			super(attributeValue, true);
-		}
-
 		private BindingType bindingType = BindingType.NO_BINDING;
 		private PropertyValueModel valueModelBound;
+		private boolean viewInitialized;
 		
-		@Override
-		protected void initializeView(PropertyValueModel valueModel)
+		public DummyPropertyViewAttribute(String attributeValue, boolean preInitializeView)
 		{
+			super(attributeValue, preInitializeView);
 		}
-
+		
 		@Override
 		protected void observeChangesOnTheValueModel(PropertyValueModel valueModel)
 		{
@@ -132,6 +134,7 @@ public class PropertyViewAttributeTest
 		@Override
 		protected void valueModelUpdated(Object newValue)
 		{
+			viewInitialized = true;
 		}
 	}
 }

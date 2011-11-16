@@ -37,17 +37,15 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		this.propertyBindingDetails = propertyBindingDetails;
 	}
 	
-	
 	public AbstractPropertyViewAttribute(String attributeValue, boolean preInitializeView)
 	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(attributeValue, preInitializeView);
-		propertyBindingDetails = bindingDetailsBuilder.createPropertyBindingDetails();
+		propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue, preInitializeView);
 	}
 
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		setPresentationModelAdapter(presentationModelAdapter);
+		this.presentationModelAdapter = presentationModelAdapter;
 		performBind();
 	}
 

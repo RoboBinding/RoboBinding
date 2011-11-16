@@ -1,5 +1,7 @@
 package robobinding.binding.viewattribute;
 
+import robobinding.property.PropertyChangeListener;
+import robobinding.property.PropertyChangeSupport;
 import robobinding.property.PropertyValueModel;
 
 /**
@@ -8,9 +10,9 @@ import robobinding.property.PropertyValueModel;
  * @author Cheng Wei
  *
  */
-public class ValueHolders
+public class ValueModelUtils
 {
-	private ValueHolders(){}
+	private ValueModelUtils(){}
 	public static PropertyValueModel<Boolean> createBoolean(boolean b)
 	{
 		return new BooleanValueHolder(b);
@@ -87,6 +89,78 @@ public class ValueHolders
 		public GenericValueHolder(T o)
 		{
 			super(o);
+		}
+	}
+	
+	private abstract static class AbstractValueModel<T> implements PropertyValueModel<T>
+	{
+		private static final String PROPERTY_VALUE = "value";
+		
+		private T value;
+		private PropertyChangeSupport propertyChangeSupport;
+		
+		public AbstractValueModel(T value, boolean checkIdentity)
+		{
+			this.value = value;
+			
+			propertyChangeSupport = new PropertyChangeSupport(this);
+		}
+		public AbstractValueModel(T value)
+		{
+			this(value, false);
+		}
+		@Override
+		public T getValue()
+		{
+			return value;
+		}
+		@Override
+		public void setValue(T newValue)
+		{
+			T oldValue = getValue();
+			if (oldValue == newValue)
+				return;
+			value = newValue;
+			fireValueChange(oldValue, newValue);
+		}
+		private void fireValueChange(Object oldValue, Object newValue)
+		{
+			propertyChangeSupport.firePropertyChange(PROPERTY_VALUE);
+		}
+		
+		@Override
+		public final void addPropertyChangeListener(PropertyChangeListener listener)
+		{
+			propertyChangeSupport.addPropertyChangeListener(PROPERTY_VALUE, listener);
+		}
+
+		@Override
+		public final void removePropertyChangeListener(PropertyChangeListener listener)
+		{
+			propertyChangeSupport.removePropertyChangeListener(PROPERTY_VALUE, listener);
+		}
+		
+		@Override
+		public String toString()
+		{
+			return getClass().getName() + "[" + paramString() + "]";
+		}
+
+		protected String paramString()
+		{
+			return "value=" + valueString();
+		}
+		
+		protected String valueString()
+		{
+			try
+			{
+				Object value = getValue();
+				return value == null ? "null" : value.toString();
+			} catch (Exception e)
+			{
+				return "Can't read";
+			}
 		}
 	}
 }

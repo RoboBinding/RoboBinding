@@ -15,7 +15,6 @@
  */
 package robobinding.binding;
 
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,22 +38,23 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class BinderTest
+public class ActivityBinderTest
 {	
+	private Object presentationModel = new Object();
+	private int layoutId = 0;
+	private Activity activity = mock(Activity.class);
+	
 	@Test
-	public void whenSettingAndBindingToContentView_ThenSetContentViewReturnedFromBindingInflater()
+	public void whenBindingToPresentationModel_ThenSetContentViewReturnedFromBindingInflater()
 	{
-		int layoutId = 0;
-		Activity activity = mock(Activity.class);
 		View rootView = new View(activity);
-		
 		InflatedView inflatedView = new InflatedView(rootView, new ArrayList<ViewBindingAttributes>());
-		
 		BindingViewFactory bindingViewFactory = mock(BindingViewFactory.class);
 		when(bindingViewFactory.inflateView(layoutId, activity)).thenReturn(inflatedView);
-//		AbstractBinder binder = new ActivityBinder(bindingViewFactory);
-//		binder.setAndBindContentView(activity, layoutId, new Object());
-		fail(); //<- need Activity and RowBinder tests
+		
+		ActivityBinder activityBinder = new ActivityBinder(activity, layoutId);
+		activityBinder.bindTo(presentationModel, bindingViewFactory);
+		
 		verify(activity).setContentView(rootView);
 	}
 }
