@@ -1,4 +1,4 @@
-package robobinding.binding.viewattribute;
+package robobinding.property;
 
 import robobinding.property.PropertyChangeListener;
 import robobinding.property.PropertyChangeSupport;
@@ -91,6 +91,10 @@ public class ValueModelUtils
 			super(o);
 		}
 	}
+	public static AbstractDataSetProperty<Object> createDataSetValueModel(Object presentationModel, String propertyName)
+	{
+		return new PropertyCreator(presentationModel).createDataSetProperty(propertyName);
+	}
 	
 	private abstract static class AbstractValueModel<T> implements PropertyValueModel<T>
 	{
@@ -163,4 +167,6 @@ public class ValueModelUtils
 			}
 		}
 	}
+
+	
 }

@@ -28,6 +28,7 @@ import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.internal.com_google_common.collect.Sets;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import robobinding.property.PropertyValueModel;
+import robobinding.property.ValueModelUtils;
 
 /**
  *

@@ -27,9 +27,12 @@ import android.view.View;
  */
 public class RowBinder extends AbstractBinder
 {
+	public enum ViewType {ITEM_LAYOUT, DROPDOWN_LAYOUT}
+	
 	private final Context context;
 	private final BindingViewFactory bindingViewFactory;
-	private int layoutId;
+	private int itemLayoutId;
+	private int dropdownLayoutId;
 
 	public RowBinder(Context context)
 	{
@@ -37,14 +40,20 @@ public class RowBinder extends AbstractBinder
 		bindingViewFactory = createBindingViewFactory(context, false);
 	}
 	
-	public View inflateAndBindTo(Object presentationModel)
+	public View inflateAndBindTo(ViewType viewType, Object presentationModel)
 	{
+		int layoutId = viewType == ViewType.ITEM_LAYOUT ? itemLayoutId : dropdownLayoutId;
 		InflatedView inflatedView = inflateAndBind(context, layoutId, presentationModel, bindingViewFactory);
 		return inflatedView.getRootView();
 	}
 
-	public void setLayoutId(int layoutId)
+	public void setItemLayoutId(int itemLayoutId)
 	{
-		this.layoutId = layoutId;
+		this.itemLayoutId = itemLayoutId;
+	}
+
+	public void setDropdownLayoutId(int dropdownLayoutId)
+	{
+		this.dropdownLayoutId = dropdownLayoutId;
 	}
 }

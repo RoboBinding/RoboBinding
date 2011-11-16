@@ -77,11 +77,11 @@ class PropertyCreator
 				return new CursorDataSetProperty<T>(bean, propertyAccessor);
 			}else
 			{
-				throw new RuntimeException("The property '"+describeProperty(propertyName)+"' has an Unsupported dataset type '"+propertyAccessor.getPropertyType()+"'");
+				throw new RuntimeException("The property '"+describeProperty(propertyName)+"' has an unsupported dataset type '"+propertyAccessor.getPropertyType()+"'");
 			}
 		}else
 		{
-			throw new RuntimeException("The property '"+describeProperty(propertyName)+"' that provides dataset is missing annotation @ItemPresentation configured");
+			throw new RuntimeException("The property '"+describeProperty(propertyName)+"' that provides the dataset is missing the @ItemPresentationModel annotation");
 		}
 	}
 	private <T> PropertyAccessor<T> getPropertyAccessor(String propertyName)

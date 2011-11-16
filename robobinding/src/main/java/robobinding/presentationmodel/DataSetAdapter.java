@@ -17,6 +17,7 @@
 package robobinding.presentationmodel;
 
 import robobinding.binding.RowBinder;
+import robobinding.binding.RowBinder.ViewType;
 import robobinding.itempresentationmodel.ItemPresentationModel;
 import robobinding.property.AbstractDataSetProperty;
 import robobinding.property.PropertyChangeListener;
@@ -34,8 +35,6 @@ import android.widget.BaseAdapter;
 public class DataSetAdapter<T> extends BaseAdapter
 {
 	private AbstractDataSetProperty<T> dataSetValueModel;
-	private int itemLayoutId;
-	private int dropdownLayoutId;
 	private final RowBinder rowBinder;
 	
 	public DataSetAdapter(Context context)
@@ -61,13 +60,12 @@ public class DataSetAdapter<T> extends BaseAdapter
 	
 	public void setItemLayoutId(int itemLayoutId)
 	{
-		this.itemLayoutId = itemLayoutId;
-		rowBinder.setLayoutId(itemLayoutId);
+		rowBinder.setItemLayoutId(itemLayoutId);
 	}
 	
 	public void setDropdownLayoutId(int dropdownLayoutId)
 	{
-		this.dropdownLayoutId = dropdownLayoutId;
+		rowBinder.setDropdownLayoutId(dropdownLayoutId);
 	}
 	
 	@Override
@@ -91,22 +89,22 @@ public class DataSetAdapter<T> extends BaseAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		return createViewFromResource(position, convertView, parent, itemLayoutId);
+		return createViewFromResource(position, convertView, parent, ViewType.ITEM_LAYOUT);
 	}
 
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent)
 	{
-		return createViewFromResource(position, convertView, parent, dropdownLayoutId);
+		return createViewFromResource(position, convertView, parent, ViewType.DROPDOWN_LAYOUT);
 	}
 
-	private View createViewFromResource(int position, View convertView, ViewGroup parent, int layoutId)
+	private View createViewFromResource(int position, View convertView, ViewGroup parent, ViewType viewType)
 	{
 		View view;
 
 		if (convertView == null)
 		{
-			view = newView(position, parent, layoutId);
+			view = newView(position, parent, viewType);
 		} 
 		else
 		{
@@ -118,18 +116,18 @@ public class DataSetAdapter<T> extends BaseAdapter
 		return view;
 	}
 
+	private View newView(int position, ViewGroup parent, ViewType viewType)
+	{
+		ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
+		View view = rowBinder.inflateAndBindTo(viewType, itemPresentationModel);
+		view.setTag(itemPresentationModel);
+		return view;
+	}
+	
 	private void updateItemPresentationModel(View view, int position)
 	{
 		@SuppressWarnings("unchecked")
 		ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>)view.getTag();
 		dataSetValueModel.updateItemPresentationModel(itemPresentationModel, position);
-	}
-
-	private View newView(int position, ViewGroup parent, int layoutId)
-	{
-		ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
-		View view = rowBinder.inflateAndBindTo(itemPresentationModel);
-		view.setTag(itemPresentationModel);
-		return view;
 	}
 }
