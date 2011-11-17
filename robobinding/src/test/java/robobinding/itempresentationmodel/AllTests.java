@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding;
+package robobinding.itempresentationmodel;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+
+import robobinding.itempresentationmodel.BeanCursorTest;
 
 /**
  * 
@@ -27,9 +29,8 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	robobinding.property.AllTests.class,
-	robobinding.function.AllTests.class,
-	robobinding.itempresentationmodel.AllTests.class
+	BeanCursorTest.class,
+	TypedCursorAdapterTest.class
 })
 public class AllTests
 {

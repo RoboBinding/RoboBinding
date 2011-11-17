@@ -16,18 +16,11 @@
  */
 package robobinding.property;
 
-import java.beans.PropertyDescriptor;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import robobinding.internal.com_google_common.collect.Lists;
-import robobinding.property.AbstractProperty;
-import robobinding.property.DependencyProperty;
-import robobinding.property.PropertyAccessor;
 
 
 /**
@@ -124,14 +117,6 @@ public class DependencyPropertyTest
 	}
 	private List<String> getAvailablePropertyNames()
 	{
-		List<String> availablePropertyNames = Lists.newArrayList();
-		
-		PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(observableBean);
-		for(PropertyDescriptor propertyDescriptor : propertyDescriptors)
-		{
-			availablePropertyNames.add(propertyDescriptor.getName());
-		}
-		
-		return availablePropertyNames;
+		return PropertyUtils.getPropertyNames(ObservableBean.class);
 	}
 }
