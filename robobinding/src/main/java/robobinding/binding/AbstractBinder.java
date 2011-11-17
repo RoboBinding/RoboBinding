@@ -42,7 +42,7 @@ public abstract class AbstractBinder
 	protected BindingViewFactory createBindingViewFactory(Context context, boolean preInitializeViews)
 	{
 		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
-		BindingAttributesLoader bindingAttributesLoader = new BindingAttributesLoader(preInitializeViews);
+		BindingAttributesLoader bindingAttributesLoader = new BindingAttributesLoader(new ProvidersResolver(), new AttributeSetParser(), preInitializeViews);
 		return new BindingViewFactory(layoutInflater, bindingAttributesLoader);
 	}
 }

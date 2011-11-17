@@ -43,14 +43,14 @@ public class AttributeSetParserTest
 	private AttributeSetParser attributeSetParser = new AttributeSetParser();
 
 	@Test
-	public void givenAnAttributeSetWithNoBindingAttributes_WhenLoading_ThenBindingMapShouldBeEmpty()
+	public void givenAttributeSetWithNoBindingAttributes_WhenLoading_ThenBindingMapShouldBeEmpty()
 	{
 		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(withNoBindingAttributes());
 		assertTrue(bindingMap.isEmpty());
 	}
 	
 	@Test
-	public void givenAnAttributeSetWithXBindingAttributes_WhenLoading_ThenBindingMapShouldContainXEntries()
+	public void givenAttributeSetWithXBindingAttributes_WhenLoading_ThenBindingMapShouldContainXEntries()
 	{
 		int numberOfBindingAttributes = anyNumber();
 		int numberOfNonBindingAttributes = anyNumber();
@@ -60,7 +60,7 @@ public class AttributeSetParserTest
 	}
 	
 	@Test
-	public void givenAnAttributeSetWithBindingAttributes_WhenLoading_ThenBindingMapKeysShouldMapToCorrectValues()
+	public void givenAttributeSetWithBindingAttributes_WhenLoading_ThenBindingMapKeysShouldMapToCorrectValues()
 	{
 		int numberOfBindingAttributes = anyNumber();
 		int numberOfNonBindingAttributes = anyNumber();
