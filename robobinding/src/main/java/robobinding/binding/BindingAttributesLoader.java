@@ -42,8 +42,8 @@ class BindingAttributesLoader
 	BindingAttributesLoader(boolean preInitializeViews)
 	{
 		this.preInitializeViews = preInitializeViews;
-		providersResolver = new ProvidersResolver();
-		attributeSetParser = new AttributeSetParser();
+		this.providersResolver = new ProvidersResolver();
+		this.attributeSetParser = new AttributeSetParser();
 	}
 
 	ViewBindingAttributes load(View view, AttributeSet attrs)
@@ -68,7 +68,7 @@ class BindingAttributesLoader
 		}
 		
 		if (!pendingBindingAttributes.isEmpty())
-			throw new RuntimeException("Unhandled binding attributes: " + getUnhandledAttributesString(pendingBindingAttributes));
+			throw new RuntimeException("Unhandled binding attributes: " + describeUnhandledAttributes(pendingBindingAttributes));
 		
 		return bindingAttributes;
 	}
@@ -82,7 +82,7 @@ class BindingAttributesLoader
 		}
 	}
 	
-	private String getUnhandledAttributesString(Map<String, String> pendingBindingAttributes)
+	private String describeUnhandledAttributes(Map<String, String> pendingBindingAttributes)
 	{
 		String unhandledAttributes = "";
 		

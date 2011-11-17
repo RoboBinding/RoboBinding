@@ -39,10 +39,10 @@ public abstract class AbstractBinder
 		return inflatedView;
 	}
 	
-	protected BindingViewFactory createBindingViewFactory(Context context, boolean autoInitializeViews)
+	protected BindingViewFactory createBindingViewFactory(Context context, boolean preInitializeViews)
 	{
 		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
-		BindingAttributesLoader bindingAttributesLoader = new BindingAttributesLoader(autoInitializeViews);
+		BindingAttributesLoader bindingAttributesLoader = new BindingAttributesLoader(preInitializeViews);
 		return new BindingViewFactory(layoutInflater, bindingAttributesLoader);
 	}
 }
