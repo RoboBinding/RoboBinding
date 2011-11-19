@@ -45,7 +45,12 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		itemLayoutAttribute.bind(dataSetAdapter, presentationModelAdapter, context);			
 	}
 	
-	private static class DynamicItemLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer> implements AdapterViewAttribute
+	protected void updateLayoutId(DataSetAdapter<?> dataSetAdapter, int layoutId)
+	{
+		dataSetAdapter.setItemLayoutId(layoutId);
+	}
+	
+	private class DynamicItemLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer> implements AdapterViewAttribute
 	{
 		private DataSetAdapter<?> dataSetAdapter;
 
@@ -64,11 +69,11 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		@Override
 		protected void valueModelUpdated(Integer newValue)
 		{
-			dataSetAdapter.setItemLayoutId(newValue);
+			updateLayoutId(dataSetAdapter, newValue);
 		}
 	}
 	
-	private static class StaticItemLayoutAttribute implements AdapterViewAttribute
+	private class StaticItemLayoutAttribute implements AdapterViewAttribute
 	{
 		private final ResourceBindingDetails resourceBindingDetails;
 
@@ -80,8 +85,8 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		@Override
 		public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 		{
-			int itemLayoutId = context.getResources().getIdentifier(resourceBindingDetails.resourceName, resourceBindingDetails.resourceType, context.getPackageName());
-			dataSetAdapter.setItemLayoutId(itemLayoutId);
+			int itemLayoutId = resourceBindingDetails.getResourceId(context);
+			updateLayoutId(dataSetAdapter, itemLayoutId);
 		}
 	}
 }

@@ -27,15 +27,17 @@ import java.util.regex.Pattern;
 public class BindingDetailsBuilder
 {
 	private final static Pattern DYNAMIC_ATTRIBUTE_PATTERN = Pattern.compile("[$]?\\{[\\w]+\\}");
-	private final static Pattern RESOURCE_ATTRIBUTE_PATTERN = Pattern.compile("^@((\\w+)/\\w+$)");
+	private final static Pattern RESOURCE_ATTRIBUTE_PATTERN = Pattern.compile("^@([\\w\\.]+:)?(\\w+)/(\\w+)$");
 	private final static Pattern PROPERTY_NAME_PATTERN = Pattern.compile("\\w+");
 	
 	private final String attributeValue;
+	
 	private String propertyName;
 	private boolean twoWayBinding;
 	private boolean preInitializeView;
 	private String resourceName;
 	private String resourceType;
+	private String resourcePackage;
 	
 	public BindingDetailsBuilder(String attributeValue, boolean preInitializeView)
 	{
@@ -97,11 +99,16 @@ public class BindingDetailsBuilder
 	private void determineResourceNameAndType(Matcher matcher)
 	{
 		matcher.find();
-		if (!matcher.matches() || matcher.groupCount() != 2)
+		if (!matcher.matches() || matcher.groupCount() < 2 || matcher.groupCount() > 3)
 			throw new RuntimeException("Invalid resource syntax: " + attributeValue);
 		
-		resourceName = matcher.group(1);
+		resourcePackage = matcher.group(1);
+		
+		if (resourcePackage != null && resourcePackage.length() > 0)
+			resourcePackage = resourcePackage.substring(0, resourcePackage.length() - 1);
+		
 		resourceType = matcher.group(2);
+		resourceName = matcher.group(3);
 	}
 	
 	public void determineBindingType()
@@ -112,5 +119,30 @@ public class BindingDetailsBuilder
 	public boolean bindsToStaticResource()
 	{
 		return resourceName != null;
+	}
+
+	String getPropertyName()
+	{
+		return propertyName;
+	}
+
+	boolean isTwoWayBinding()
+	{
+		return twoWayBinding;
+	}
+
+	String getResourceName()
+	{
+		return resourceName;
+	}
+
+	String getResourceType()
+	{
+		return resourceType;
+	}
+
+	String getResourcePackage()
+	{
+		return resourcePackage;
 	}
 }

@@ -15,20 +15,36 @@
  */
 package robobinding.binding.viewattribute;
 
+import android.content.Context;
+
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ResourceBindingDetails
+class ResourceBindingDetails
 {
-	public final String resourceName;
-	public final String resourceType;
+	private final String resourceName;
+	private final String resourceType;
+	private final String resourcePackage;
 	
+	public ResourceBindingDetails(String resourceName, String resourceType, String resourcePackage)
+	{
+		this.resourceName = resourceName;
+		this.resourceType = resourceType;
+		this.resourcePackage = resourcePackage;
+	}
+
 	public ResourceBindingDetails(String resourceName, String resourceType)
 	{
 		this.resourceName = resourceName;
 		this.resourceType = resourceType;
+		this.resourcePackage = null;
+	}
+
+	public int getResourceId(Context context)
+	{
+		return context.getResources().getIdentifier(resourceName, resourceType, resourcePackage == null ? context.getPackageName() : resourcePackage);
 	}
 }

@@ -23,6 +23,12 @@
     	android:layout_height="wrap_content"
     	android:text="@string/list_backed_albums"
     	binding:onClick="listBackedAlbums" />
+    	
+    <Button
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:text="@string/spinner_albums"
+    	binding:onClick="listBackedSpinnerAlbums" />
     
     <TextView
     	android:layout_width="fill_parent"

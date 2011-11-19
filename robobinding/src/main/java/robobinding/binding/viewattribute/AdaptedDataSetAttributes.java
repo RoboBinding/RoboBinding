@@ -20,7 +20,7 @@ import robobinding.binding.ViewAttribute;
 import robobinding.presentationmodel.DataSetAdapter;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
-import android.widget.ListView;
+import android.widget.AdapterView;
 
 /**
  * @since 1.0
@@ -28,20 +28,23 @@ import android.widget.ListView;
  * @author Robert Taylor
  *
  */
+@SuppressWarnings("rawtypes")
 public class AdaptedDataSetAttributes implements ViewAttribute
 {
-	private final ListView listView;
+	private final AdapterView adapterView;
+	private final DropdownLayoutAttribute dropdownLayoutAttribute;
 	private final ItemLayoutAttribute itemLayoutAttribute;
 	private final SourceAttribute sourceAttribute;
 	
-	public AdaptedDataSetAttributes(ListView listView, SourceAttribute sourceAttribute, ItemLayoutAttribute itemLayoutAttribute)
+	public AdaptedDataSetAttributes(AdapterView adapterView, SourceAttribute sourceAttribute, ItemLayoutAttribute itemLayoutAttribute, DropdownLayoutAttribute dropdownLayoutAttribute)
 	{
-		this.listView = listView;
+		this.adapterView = adapterView;
 		this.sourceAttribute = sourceAttribute;
 		this.itemLayoutAttribute  = itemLayoutAttribute;
+		this.dropdownLayoutAttribute = dropdownLayoutAttribute;
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
@@ -50,7 +53,15 @@ public class AdaptedDataSetAttributes implements ViewAttribute
 		sourceAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
 		itemLayoutAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
 		
+		if (hasDropdownLayoutAttribute())
+			dropdownLayoutAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
+		
 		dataSetAdapter.observeChangesOnTheValueModel();
-		listView.setAdapter(dataSetAdapter);
+		adapterView.setAdapter(dataSetAdapter);
+	}
+
+	public boolean hasDropdownLayoutAttribute()
+	{
+		return dropdownLayoutAttribute != null;
 	}
 }

@@ -19,7 +19,10 @@
         <activity android:name=".ViewAlbumActivity"
                   android:label="@string/app_name">
         </activity>
-		<activity android:name=".ListBackedViewAlbumsActivity"
+		<activity android:name=".ListViewAlbumsActivity"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".SpinnerViewAlbumsActivity"
                   android:label="@string/app_name">
         </activity>
         <activity android:name=".CursorBackedViewAlbumsActivity"

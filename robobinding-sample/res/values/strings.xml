@@ -17,4 +17,5 @@
     <string name="artist">Artist</string>
     <string name="title">Title</string>
     <string name="edit">Edit</string>
+    <string name="spinner_albums">Spinner albums</string>
 </resources>

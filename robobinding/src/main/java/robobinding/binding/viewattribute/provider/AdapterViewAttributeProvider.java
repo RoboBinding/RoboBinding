@@ -20,11 +20,12 @@ import java.util.Map;
 
 import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.AdaptedDataSetAttributes;
+import robobinding.binding.viewattribute.DropdownLayoutAttribute;
 import robobinding.binding.viewattribute.ItemLayoutAttribute;
 import robobinding.binding.viewattribute.OnItemClickAttribute;
 import robobinding.binding.viewattribute.SourceAttribute;
 import robobinding.internal.com_google_common.collect.Lists;
-import android.widget.ListView;
+import android.widget.AdapterView;
 
 
 /**
@@ -33,12 +34,12 @@ import android.widget.ListView;
  * @author Robert Taylor
  *
  */
-public class AdapterViewAttributeProvider implements BindingAttributeProvider<ListView>
+public class AdapterViewAttributeProvider implements BindingAttributeProvider<AdapterView>
 {
 	@Override
-	public List<BindingAttribute> createSupportedBindingAttributes(ListView listView, Map<String, String> pendingBindingAttributes, boolean autoInitializeView)
+	public List<BindingAttribute> createSupportedBindingAttributes(AdapterView adapterView, Map<String, String> pendingBindingAttributes, boolean autoInitializeView)
 	{
-		ListViewAttributesBuilder listViewAttributesBuilder = new ListViewAttributesBuilder(autoInitializeView);
+		AdapterViewAttributesBuilder listViewAttributesBuilder = new AdapterViewAttributesBuilder(autoInitializeView);
 		List<BindingAttribute> bindingAttributes = Lists.newArrayList();
 		
 		for (String attributeName : pendingBindingAttributes.keySet())
@@ -53,26 +54,31 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Li
 			{
 				listViewAttributesBuilder.setItemLayoutAttributeValue(attributeValue);
 			}
+			else if ("dropdownLayout".equals(attributeName))
+			{
+				listViewAttributesBuilder.setDropdownLayoutAttributeValue(attributeValue);
+			}
 			else if ("onItemClick".equals(attributeName))
 			{
-				bindingAttributes.add(new BindingAttribute(attributeName, new OnItemClickAttribute(listView, attributeValue)));
+				bindingAttributes.add(new BindingAttribute(attributeName, new OnItemClickAttribute(adapterView, attributeValue)));
 			}
 		}
 		
 		if (listViewAttributesBuilder.hasAttributes())
-			bindingAttributes.add(listViewAttributesBuilder.build(listView));
+			bindingAttributes.add(listViewAttributesBuilder.build(adapterView));
 		
 		return bindingAttributes;
 	}
 	
-	public class ListViewAttributesBuilder
+	public class AdapterViewAttributesBuilder
 	{
 		private final boolean preInitializeView;
 		private String sourceAttributeValue;
 		private String itemLayoutAttributeValue;
+		private String dropdownLayoutAttributeValue;
 		private boolean hasAttributes = false;
 		
-		public ListViewAttributesBuilder(boolean preInitializeView)
+		public AdapterViewAttributesBuilder(boolean preInitializeView)
 		{
 			this.preInitializeView = preInitializeView;
 		}
@@ -94,15 +100,27 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Li
 			hasAttributes = true;
 		}
 
-		public BindingAttribute build(ListView listView)
+		public void setDropdownLayoutAttributeValue(String attributeValue)
+		{
+			this.dropdownLayoutAttributeValue = attributeValue;
+			hasAttributes = true;
+		}
+		
+		public BindingAttribute build(AdapterView adapterView)
 		{
 			if (sourceAttributeValue == null || itemLayoutAttributeValue == null)
 				throw new RuntimeException();
 
 			SourceAttribute sourceAttribute = new SourceAttribute(sourceAttributeValue, preInitializeView);
 			ItemLayoutAttribute itemLayoutAttribute = new ItemLayoutAttribute(itemLayoutAttributeValue, preInitializeView);
-			AdaptedDataSetAttributes adaptedDataSetAttributes = new AdaptedDataSetAttributes(listView, sourceAttribute, itemLayoutAttribute);
-			return new BindingAttribute(Lists.newArrayList("source", "itemLayout"), adaptedDataSetAttributes);
+			
+			DropdownLayoutAttribute dropdownLayoutAttribute = null;
+			
+			if (dropdownLayoutAttributeValue != null)
+				dropdownLayoutAttribute = new DropdownLayoutAttribute(dropdownLayoutAttributeValue, preInitializeView);
+			
+			AdaptedDataSetAttributes adaptedDataSetAttributes = new AdaptedDataSetAttributes(adapterView, sourceAttribute, itemLayoutAttribute, dropdownLayoutAttribute);
+			return new BindingAttribute(Lists.newArrayList("source", "itemLayout", "dropdownLayout"), adaptedDataSetAttributes);
 		}
 	}
 }

@@ -17,6 +17,7 @@ package robobinding.binding.viewattribute.provider;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
@@ -37,14 +38,14 @@ import android.widget.ListView;
  */
 public class AdapterViewAttributeProviderTest
 {
-	private AdapterViewAttributeProvider listViewAttributeProvider = new AdapterViewAttributeProvider();
+	private AdapterViewAttributeProvider adapterViewAttributeProvider = new AdapterViewAttributeProvider();
 	private ListView listView = null;
 	private Map<String, String> pendingBindingAttributes;
 	
 	@Before
 	public void setUp()
 	{
-		listViewAttributeProvider = new AdapterViewAttributeProvider();
+		adapterViewAttributeProvider = new AdapterViewAttributeProvider();
 		pendingBindingAttributes = Maps.newHashMap();
 	}
 	
@@ -53,20 +54,34 @@ public class AdapterViewAttributeProviderTest
 	{
 		pendingBindingAttributes.put("onItemClick", "commandName");
 		
-		BindingAttribute bindingAttribute = listViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
 	
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(OnItemClickAttribute.class));
 	}
 	
 	@Test
-	public void givenBothSourceAndItemLayout_ThenCreateACompoundAttribute()
+	public void givenSourceAndItemLayout_ThenCreateACompoundAttribute()
 	{
 		pendingBindingAttributes.put("source", "{sourceProperty}");
 		pendingBindingAttributes.put("itemLayout", "@layout/itemLayout");
 		
-		BindingAttribute bindingAttribute = listViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
 	
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(AdaptedDataSetAttributes.class));
+	}
+	
+	@Test
+	public void givenSourceItemLayoutAndDropdownLayout_ThenCreateACompoundAttribute()
+	{
+		pendingBindingAttributes.put("source", "{sourceProperty}");
+		pendingBindingAttributes.put("itemLayout", "@layout/itemLayout");
+		pendingBindingAttributes.put("dropdownLayout", "@layout/itemLayout");
+		
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
+	
+		assertThat(bindingAttribute.getViewAttribute(), instanceOf(AdaptedDataSetAttributes.class));
+		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes)bindingAttribute.getViewAttribute();
+		assertTrue(adaptedDataSetAttributes.hasDropdownLayoutAttribute());
 	}
 	
 	@Test (expected=RuntimeException.class)
@@ -74,7 +89,7 @@ public class AdapterViewAttributeProviderTest
 	{
 		pendingBindingAttributes.put("source", "{sourceProperty}");
 		
-		listViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false);
+		adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false);
 	}
 	
 	@Test (expected=RuntimeException.class)
@@ -82,6 +97,6 @@ public class AdapterViewAttributeProviderTest
 	{
 		pendingBindingAttributes.put("itemLayout", "@layout/itemLayout");
 		
-		listViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false);
+		adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false);
 	}
 }

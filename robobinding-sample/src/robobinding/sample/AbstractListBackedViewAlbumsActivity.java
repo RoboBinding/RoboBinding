@@ -28,7 +28,7 @@ import android.os.Bundle;
  * @author Cheng Wei, 
  * @author Robert Taylor
  */
-public class ListBackedViewAlbumsActivity extends Activity
+public abstract class AbstractListBackedViewAlbumsActivity extends Activity
 {
 	private ListBackedViewAlbumsPresentationModel viewAlbumsPresentationModel;
 
@@ -37,11 +37,13 @@ public class ListBackedViewAlbumsActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
-		ActivityBinder binder = new ActivityBinder(this, R.layout.view_albums_activity);
+		ActivityBinder binder = new ActivityBinder(this, getLayoutId());
 		viewAlbumsPresentationModel = new ListBackedViewAlbumsPresentationModel(this, new AlbumStore());
 		binder.bindTo(viewAlbumsPresentationModel);
 	}
 	
+	protected abstract int getLayoutId();
+
 	@Override
 	protected void onResume()
 	{

@@ -17,7 +17,8 @@
 package robobinding.sample.presentationmodel;
 
 import robobinding.sample.CursorBackedViewAlbumsActivity;
-import robobinding.sample.ListBackedViewAlbumsActivity;
+import robobinding.sample.ListViewAlbumsActivity;
+import robobinding.sample.SpinnerViewAlbumsActivity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -43,6 +44,11 @@ public class HomePresentationModel
 	
 	public void listBackedAlbums()
 	{
-		context.startActivity(new Intent(context, ListBackedViewAlbumsActivity.class));
+		context.startActivity(new Intent(context, ListViewAlbumsActivity.class));
+	}
+	
+	public void listBackedSpinnerAlbums()
+	{
+		context.startActivity(new Intent(context, SpinnerViewAlbumsActivity.class));
 	}
 }
