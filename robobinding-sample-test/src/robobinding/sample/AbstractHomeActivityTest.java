@@ -15,6 +15,7 @@
  */
 package robobinding.sample;
 
+import robobinding.sample.store.AlbumStore;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -38,24 +39,24 @@ public abstract class AbstractHomeActivityTest extends ActivityInstrumentationTe
 	{
 		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
+		AlbumStore.reset();
 	}
 
-	public void testCreatingAndEditingAnAlbum()
+	protected void createAnAlbumTests()
 	{
 		clickOnButtonWithLabel(homeButtonStringResId());
 		
 		clickOnButtonWithLabel(R.string.create);
 		
-		solo.enterText(0, "Album name");
-		solo.enterText(1, "Artist name");
-		solo.clickOnCheckBox(0);
-		solo.enterText(2, "Composer name");
+		createNewAlbum();
 		
 		clickOnButtonWithLabel(R.string.save);
 		
-		assertTrue(solo.searchText("Album name"));
-		assertTrue(solo.searchText("Artist name"));
-		
+		assertNewAlbumIsVisible();
+	}
+
+	protected void editAnAlbumTests()
+	{
 		solo.clickOnText("Album name");
 		
 		assertTrue(solo.searchText("Classical"));
@@ -83,12 +84,26 @@ public abstract class AbstractHomeActivityTest extends ActivityInstrumentationTe
 		assertTrue(solo.searchText("New album name"));
 	}
 
-	void clickOnButtonWithLabel(String label)
+	protected void assertNewAlbumIsVisible()
+	{
+		assertTrue(solo.searchText("Album name"));
+		assertTrue(solo.searchText("Artist name"));
+	}
+
+	private void createNewAlbum()
+	{
+		solo.enterText(0, "Album name");
+		solo.enterText(1, "Artist name");
+		solo.clickOnCheckBox(0);
+		solo.enterText(2, "Composer name");
+	}
+
+	protected void clickOnButtonWithLabel(String label)
 	{
 		solo.clickOnButton(label);
 	}
 
-	void clickOnButtonWithLabel(int resId)
+	protected void clickOnButtonWithLabel(int resId)
 	{
 		clickOnButtonWithLabel(getString(resId));
 	}

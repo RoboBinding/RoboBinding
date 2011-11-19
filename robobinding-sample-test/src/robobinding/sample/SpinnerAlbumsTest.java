@@ -15,39 +15,32 @@
  */
 package robobinding.sample;
 
-import robobinding.sample.model.PurchaseService;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CursorBackedAlbumsTest extends AbstractListViewTest
+public class SpinnerAlbumsTest extends AbstractHomeActivityTest
 {
 	@Override
 	protected int homeButtonStringResId()
 	{
-		return R.string.cursor_backed_albums;
+		return R.string.spinner_albums;
 	}
 
-	
-	public void testAlbumRowItemPresentationModel()
+	public void testCreatingAnAlbum()
 	{
-		clickOnButtonWithLabel(homeButtonStringResId());
+		createAnAlbumTests();
+	}
+	
+	@Override
+	protected void assertNewAlbumIsVisible()
+	{
+		//solo.clickOnView(solo.getCurrentSpinners().get(0));
+		solo.clickOnText("HQ");
 		
-		TextView availableForPurchaseArtist = solo.getText(PurchaseService.PURCHASABLE_ARTIST);
-		
-		if (availableForPurchaseArtist == null)
-			return;
-		
-		ViewGroup purchasableRow = (ViewGroup)availableForPurchaseArtist.getParent().getParent();
-		
-		View purchasableLabel = purchasableRow.findViewById(R.id.available_for_purchase);
-		
-		assertTrue(purchasableLabel.getVisibility() == View.VISIBLE);
+		assertTrue(solo.searchText("Album name"));
+		assertTrue(solo.searchText("Artist name"));
 	}
 }

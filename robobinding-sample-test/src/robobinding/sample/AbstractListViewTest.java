@@ -15,19 +15,19 @@
  */
 package robobinding.sample;
 
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ListBackedAlbumsTest extends AbstractListViewTest
+public abstract class AbstractListViewTest extends AbstractHomeActivityTest
 {
-	@Override
-	protected int homeButtonStringResId()
+	public void testCreatingAndEditingAnAlbum()
 	{
-		return R.string.list_backed_albums;
+		createAnAlbumTests();
+		
+		editAnAlbumTests();
 	}
 
 }

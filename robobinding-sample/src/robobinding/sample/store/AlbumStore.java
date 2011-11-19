@@ -38,30 +38,24 @@ public class AlbumStore
 	{
 		if (albums == null)
 		{
-			albums = Lists.newArrayList();
-			
-			save(createNonClassical("HQ", "Roy Harper"));
-			save(createNonClassical("The Rough Dancer and Cyclical Night", "Astor Piazzola"));
-			save(createNonClassical("The Black Light", "Calexico"));
-			save(createNonClassical("Stormcock", "Roy Harper"));
-			save(createClassical("Symphony No.5", "CBSO", "Sibelius"));
+			reset();
 		}
 	}
 	
-	private Album createClassical(String title, String artist, String composer)
+	private static Album createClassical(String title, String artist, String composer)
 	{
 		Album.Builder builder = initializeBuilder(title, artist);
 		builder.setClassical(true).setComposer(composer);
 		return builder.create();
 	}
 
-	private Album createNonClassical(String title, String artist)
+	private static Album createNonClassical(String title, String artist)
 	{
 		Album.Builder builder = initializeBuilder(title, artist);
 		return builder.create();
 	}
 
-	private Album.Builder initializeBuilder(String title, String artist)
+	private static Album.Builder initializeBuilder(String title, String artist)
 	{
 		Album.Builder builder = new Album.Builder();
 		builder.setTitle(title).setArtist(artist);
@@ -79,7 +73,7 @@ public class AlbumStore
 		throw new IllegalArgumentException("No such album for id: " + albumId);
 	}
 
-	public void save(Album album)
+	public static void save(Album album)
 	{
 		if (album.isNew())
 		{	
@@ -92,7 +86,7 @@ public class AlbumStore
 		albums.add(index, album);
 	}
 
-	private long nextId()
+	private static long nextId()
 	{
 		return albums.size() + 1;
 	}
@@ -105,6 +99,17 @@ public class AlbumStore
 	public AlbumCursor getCursor()
 	{
 		return new AlbumCursor(getAll());
+	}
+
+	public static void reset()
+	{
+		albums = Lists.newArrayList();
+		
+		save(createNonClassical("HQ", "Roy Harper"));
+		save(createNonClassical("The Rough Dancer and Cyclical Night", "Astor Piazzola"));
+		save(createNonClassical("The Black Light", "Calexico"));
+		save(createNonClassical("Stormcock", "Roy Harper"));
+		save(createClassical("Symphony No.5", "CBSO", "Sibelius"));
 	}
 
 }
