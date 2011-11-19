@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import static robobinding.binding.viewattribute.BindingType.ONE_WAY;
 import static robobinding.binding.viewattribute.BindingType.TWO_WAY;
 
+import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -74,6 +75,13 @@ public class BindingDetailsBuilderTest
 		assertThat(bindingDetailsBuilder.getResourceName(), equalTo(legalAttributeValues.expectedName));
 		assertThat(bindingDetailsBuilder.getResourceType(), equalTo(legalAttributeValues.expectedType));
 		assertThat(bindingDetailsBuilder.getResourcePackage(), equalTo(legalAttributeValues.expectedPackage));
+	}
+	
+	@Theory
+	@Test (expected=RuntimeException.class)
+	public void whenBindingWithIllegalAttributeValues_ThenThrowARuntimeException(String illegalAttributeValue)
+	{
+		new BindingDetailsBuilder(illegalAttributeValue, false);
 	}
 	
 	static class LegalPropertyAttributeValues
