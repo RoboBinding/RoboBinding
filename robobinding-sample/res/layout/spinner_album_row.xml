@@ -8,6 +8,6 @@
     	android:layout_width="wrap_content"
   		android:layout_height="wrap_content"
   		binding:text="{title}"
-  		style="@style/Heading" />
+  		style="?android:attr/spinnerItemStyle" />
 	    
 </LinearLayout>

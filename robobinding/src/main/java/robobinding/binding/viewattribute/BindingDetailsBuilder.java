@@ -59,7 +59,7 @@ public class BindingDetailsBuilder
 		if (resourceName == null || resourceType == null)
 			throw new RuntimeException("Attribute value: " + attributeValue + " is not valid resource attribute syntax.");
 		
-		return new ResourceBindingDetails(resourceName, resourceType);
+		return new ResourceBindingDetails(resourceName, resourceType, resourcePackage);
 	}
 	
 	private void deriveProperties()

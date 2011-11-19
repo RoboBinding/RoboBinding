@@ -22,8 +22,8 @@
     	android:layout_width="fill_parent"
   		android:layout_height="wrap_content"
   		android:layout_below="@id/window_title"
-  		binding:itemLayout="@android:layout/simple_spinner_item"
-  		binding:dropdownLayout="@layout/album_row"
+  		binding:itemLayout="@layout/spinner_album_row"
+  		binding:dropdownLayout="@layout/spinner_album_dropdown_row"
   		binding:source="{albums}" />
     
 </RelativeLayout>
