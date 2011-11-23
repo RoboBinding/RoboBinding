@@ -16,7 +16,6 @@
  */
 package robobinding.sample.presentationmodel;
 
-import robobinding.CustomSetter;
 import robobinding.DependsOn;
 import robobinding.NotifyPropertyChange;
 import robobinding.sample.R;
@@ -81,7 +80,6 @@ public class CreateEditAlbumPresentationModel
 		return albumBuilder.getTitle();
 	}
 	
-	@CustomSetter
 	public void setTitle(String title)
 	{
 		albumBuilder.setTitle(title);

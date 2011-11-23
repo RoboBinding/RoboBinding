@@ -16,6 +16,7 @@
  */
 package robobinding.presentationmodel;
 
+import robobinding.CustomSetter;
 import robobinding.NotifyPropertyChange;
 import robobinding.internal.java_beans.Introspector;
 import robobinding.itempresentationmodel.ItemPresentationModel;
@@ -71,7 +72,7 @@ public aspect PresentationModelAspect
 
 	pointcut beanCreation(ObservablePropertiesMixin presentationModel) : initialization(ObservablePropertiesMixin+.new(..)) && this(presentationModel);
 
-	pointcut beanPropertyChange(ObservablePropertiesMixin presentationModel) : execution (void ObservablePropertiesMixin+.set*(*)) && this(presentationModel) && !within(ItemPresentationModel+);
+	pointcut beanPropertyChange(ObservablePropertiesMixin presentationModel) : execution (!@CustomSetter * ObservablePropertiesMixin+.set*(*)) && this(presentationModel) && !within(ItemPresentationModel+);
 
 	pointcut itemPresentationModelUpdate(ObservablePropertiesMixin presentationModel) : execution (void ItemPresentationModel+.setData(..)) && this(presentationModel) && within(ItemPresentationModel+);
 	
