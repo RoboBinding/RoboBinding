@@ -19,8 +19,6 @@ package robobinding.sample.presentationmodel;
 import robobinding.CustomSetter;
 import robobinding.DependsOn;
 import robobinding.NotifyPropertyChange;
-import robobinding.presentationmodel.AbstractPresentationModel;
-import robobinding.presentationmodel.PresentationModelRefresh;
 import robobinding.sample.R;
 import robobinding.sample.model.Album;
 import robobinding.sample.store.AlbumStore;
@@ -33,11 +31,8 @@ import android.app.Activity;
  * @author Robert Taylor
  */
 @NotifyPropertyChange
-public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
+public class CreateEditAlbumPresentationModel
 {
-	private static final String TITLE = "title";
-	private static final String ARTIST = "artist";
-	private static final String COMPOSER = "composer";
 	private static final String CLASSICAL = "classical";
 	
 	private Album.Builder albumBuilder;
@@ -74,6 +69,7 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 		return isClassical();
 	}
 	
+	@SuppressWarnings("static-access")
 	public void save()
 	{
 		albumStore.save(albumBuilder.create());
@@ -89,8 +85,6 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	public void setTitle(String title)
 	{
 		albumBuilder.setTitle(title);
-		
-		presentationModelChangeSupport.firePropertyChange(TITLE);
 	}
 
 	public String getArtist()
@@ -101,8 +95,6 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	public void setArtist(String artist)
 	{
 		albumBuilder.setArtist(artist);
-		
-		presentationModelChangeSupport.firePropertyChange(ARTIST);
 	}
 
 	public boolean isClassical()
@@ -113,8 +105,6 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	public void setClassical(boolean classical)
 	{
 		albumBuilder.setClassical(classical);
-		
-		presentationModelChangeSupport.firePropertyChange(CLASSICAL);
 	}
 
 	public String getComposer()
@@ -125,8 +115,6 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 	public void setComposer(String composer)
 	{
 		albumBuilder.setComposer(composer);
-		
-		presentationModelChangeSupport.firePropertyChange(COMPOSER);
 	}
 
 	@DependsOn(CLASSICAL)
@@ -136,11 +124,5 @@ public class CreateEditAlbumPresentationModel extends AbstractPresentationModel
 			return activity.getString(R.string.create_album);
 		
 		return isClassical() ? "Edit Classical Album" : "Edit Album";
-	}
-	
-	@PresentationModelRefresh
-	public void refresh()
-	{
-		presentationModelChangeSupport.fireChangeAll();
 	}
 }

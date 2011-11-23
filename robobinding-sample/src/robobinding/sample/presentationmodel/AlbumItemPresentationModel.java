@@ -16,8 +16,8 @@
  */
 package robobinding.sample.presentationmodel;
 
+import robobinding.NotifyPropertyChange;
 import robobinding.itempresentationmodel.ItemPresentationModel;
-import robobinding.presentationmodel.AbstractPresentationModel;
 import robobinding.sample.model.Album;
 
 /**
@@ -25,7 +25,8 @@ import robobinding.sample.model.Album;
  * @since 1.0
  * @author Robert Taylor
  */
-public class AlbumItemPresentationModel extends AbstractPresentationModel implements ItemPresentationModel<Album>
+@NotifyPropertyChange
+public class AlbumItemPresentationModel implements ItemPresentationModel<Album>
 {
 	protected Album album;
 
@@ -43,7 +44,5 @@ public class AlbumItemPresentationModel extends AbstractPresentationModel implem
 	public void setData(int index, Album bean)
 	{
 		this.album = bean;
-		
-		presentationModelChangeSupport.fireChangeAll();
 	}
 }

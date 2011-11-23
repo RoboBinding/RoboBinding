@@ -34,10 +34,10 @@ import android.widget.AdapterView;
  * @author Robert Taylor
  *
  */
-public class AdapterViewAttributeProvider implements BindingAttributeProvider<AdapterView>
+public class AdapterViewAttributeProvider implements BindingAttributeProvider<AdapterView<?>>
 {
 	@Override
-	public List<BindingAttribute> createSupportedBindingAttributes(AdapterView adapterView, Map<String, String> pendingBindingAttributes, boolean autoInitializeView)
+	public List<BindingAttribute> createSupportedBindingAttributes(AdapterView<?> adapterView, Map<String, String> pendingBindingAttributes, boolean autoInitializeView)
 	{
 		AdapterViewAttributesBuilder listViewAttributesBuilder = new AdapterViewAttributesBuilder(autoInitializeView);
 		List<BindingAttribute> bindingAttributes = Lists.newArrayList();
@@ -106,7 +106,7 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 			hasAttributes = true;
 		}
 		
-		public BindingAttribute build(AdapterView adapterView)
+		public BindingAttribute build(AdapterView<?> adapterView)
 		{
 			if (sourceAttributeValue == null || itemLayoutAttributeValue == null)
 				throw new RuntimeException();

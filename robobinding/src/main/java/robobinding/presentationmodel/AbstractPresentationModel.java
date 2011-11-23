@@ -39,4 +39,5 @@ public abstract class AbstractPresentationModel implements ObservableProperties
 	{
 		presentationModelChangeSupport.removePropertyChangeListener(propertyName, listener);
 	}
+
 }

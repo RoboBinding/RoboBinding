@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  * @author Robert Taylor
  */
 @Target(ElementType.METHOD)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 public @interface PresentationModelRefresh
 {
 

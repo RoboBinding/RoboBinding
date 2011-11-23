@@ -47,7 +47,7 @@ public class CursorBackedViewAlbumsActivity extends Activity
 	protected void onResume()
 	{
 		super.onResume();
-		viewAlbumsPresentationModel.refresh();
+		viewAlbumsPresentationModel.fireChangeAll();
 	}
 	
 }

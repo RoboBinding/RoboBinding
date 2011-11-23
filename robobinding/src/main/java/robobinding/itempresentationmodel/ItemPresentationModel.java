@@ -16,7 +16,6 @@
  */
 package robobinding.itempresentationmodel;
 
-import robobinding.presentationmodel.PresentationModelRefresh;
 
 /**
  * 
@@ -27,6 +26,5 @@ import robobinding.presentationmodel.PresentationModelRefresh;
  */
 public interface ItemPresentationModel<T>
 {
-	@PresentationModelRefresh
 	void setData(int index, T bean);
 }

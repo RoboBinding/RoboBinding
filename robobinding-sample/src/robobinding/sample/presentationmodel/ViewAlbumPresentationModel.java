@@ -16,7 +16,7 @@
  */
 package robobinding.sample.presentationmodel;
 
-import robobinding.presentationmodel.AbstractPresentationModel;
+import robobinding.NotifyPropertyChange;
 import robobinding.presentationmodel.PresentationModelRefresh;
 import robobinding.sample.CreateEditAlbumActivity;
 import robobinding.sample.model.Album;
@@ -30,7 +30,8 @@ import android.content.Intent;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class ViewAlbumPresentationModel extends AbstractPresentationModel
+@NotifyPropertyChange
+public class ViewAlbumPresentationModel
 {
 	private final Context context;
 	private final AlbumStore albumStore;
@@ -80,7 +81,5 @@ public class ViewAlbumPresentationModel extends AbstractPresentationModel
 	public void refresh()
 	{
 		this.album = albumStore.get(albumId);
-		presentationModelChangeSupport.fireChangeAll();
 	}
-
 }

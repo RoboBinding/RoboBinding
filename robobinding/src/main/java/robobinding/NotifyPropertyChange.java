@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 @Target({ElementType.METHOD, ElementType.TYPE})
 public @interface NotifyPropertyChange
 {
