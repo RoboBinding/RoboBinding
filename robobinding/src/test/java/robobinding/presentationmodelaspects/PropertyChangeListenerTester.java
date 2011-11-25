@@ -1,22 +1,23 @@
 /**
- * AtMethodLevel.java
- * Nov 2, 2011 Copyright Cheng Wei and Robert Taylor
- * 
+ * Copyright 2011 Cheng Wei, Robert Taylor
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.notifypropertychange;
+package robobinding.presentationmodelaspects;
 
-import robobinding.NotifyPropertyChange;
+import org.junit.Assert;
+
+import robobinding.property.PropertyChangeListener;
 
 /**
  *
@@ -24,31 +25,20 @@ import robobinding.NotifyPropertyChange;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class AtMethodLevel
+public class PropertyChangeListenerTester implements PropertyChangeListener
 {
-	private boolean property1;
-	private boolean property2;
-	public AtMethodLevel(boolean property1, boolean property2)
+	private int timesOfPropertyChanged = 0;
+	@Override
+	public void propertyChanged()
 	{
-		this.property1 = property1;
-		this.property2 = property2;
+		timesOfPropertyChanged++;
 	}
-	public boolean getProperty1()
+	public void assertPropertyChangedOnce()
 	{
-		return property1;
+		assertTimesOfPropertyChanged(1);
 	}
-	@NotifyPropertyChange
-	public void setProperty1(boolean newValue)
+	public void assertTimesOfPropertyChanged(int expectedTimes)
 	{
-		property1 = newValue;
-	}
-	
-	public boolean getProperty2()
-	{
-		return property2;
-	}
-	public void setProperty2(boolean newValue)
-	{
-		property2 = newValue;
+		Assert.assertEquals(expectedTimes, timesOfPropertyChanged);
 	}
 }

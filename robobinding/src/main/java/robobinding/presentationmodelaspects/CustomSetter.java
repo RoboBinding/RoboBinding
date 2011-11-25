@@ -1,6 +1,6 @@
 /**
- * AllTests.java
- * Oct 29, 2011 Copyright Cheng Wei and Robert Taylor
+ * CustomSetter.java
+ * 20 Oct 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,22 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding;
+package robobinding.presentationmodelaspects;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 
  * @since 1.0
- * @version $Revision: 1.0 $
  * @author Cheng Wei
+ * @author Robert Taylor
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-	robobinding.property.AllTests.class,
-	robobinding.function.AllTests.class,
-	robobinding.itempresentationmodel.AllTests.class,
-	robobinding.itempresentationmodelaspects.ItemPresentationModelAspectTest.class,
-	robobinding.presentationmodelaspects.PresentationModelAspectTest.class
-})
-public class AllTests
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.CLASS)
+public @interface CustomSetter
 {
+
 }
