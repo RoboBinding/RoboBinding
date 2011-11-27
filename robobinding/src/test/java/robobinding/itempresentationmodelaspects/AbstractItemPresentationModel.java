@@ -28,7 +28,7 @@ public abstract class AbstractItemPresentationModel implements ItemPresentationM
 {
 	Bean bean;
 	public static final String PROPERTY = "property";
-	public void setData(int index, Bean bean)
+	public void updateData(int index, Bean bean)
 	{
 		this.bean = bean;
 	}

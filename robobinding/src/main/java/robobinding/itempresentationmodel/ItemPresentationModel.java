@@ -26,5 +26,5 @@ package robobinding.itempresentationmodel;
  */
 public interface ItemPresentationModel<T>
 {
-	void setData(int index, T bean);
+	void updateData(int index, T bean);
 }

@@ -51,7 +51,7 @@ public class DefaultConstructorImplTest
 	public static class ItemPresentationModelWithDefaultConstructor implements ItemPresentationModel<Object>
 	{
 		@Override
-		public void setData(int index, Object bean)
+		public void updateData(int index, Object bean)
 		{
 		}
 	}
@@ -61,7 +61,7 @@ public class DefaultConstructorImplTest
 		{
 		}
 		@Override
-		public void setData(int index, Object bean)
+		public void updateData(int index, Object bean)
 		{
 		}
 	}

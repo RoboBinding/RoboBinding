@@ -112,4 +112,9 @@ public class AlbumStore
 		save(createClassical("Symphony No.5", "CBSO", "Sibelius"));
 	}
 
+	public Album getByIndex(int position)
+	{
+		return albums.get(position);
+	}
+
 }

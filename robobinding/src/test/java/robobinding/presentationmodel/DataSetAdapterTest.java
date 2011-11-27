@@ -126,7 +126,7 @@ public class DataSetAdapterTest
 		public ItemPresentationModelDummy(){}
 		
 		@Override
-		public void setData(int index, Object bean)
+		public void updateData(int index, Object bean)
 		{
 		}
 	}
