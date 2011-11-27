@@ -81,5 +81,5 @@
             </plugin>
         </plugins>
     </build>
-    <description>A MVVM library for the Android platform</description>
+    <description>A Presentation Model framework for the Android platform.</description>
 </project>
