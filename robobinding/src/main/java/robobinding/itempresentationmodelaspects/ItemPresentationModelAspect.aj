@@ -31,7 +31,7 @@ public aspect ItemPresentationModelAspect
 {
 	declare parents: ItemPresentationModel+ implements ObservablePresentationModelMixin;
 
-	pointcut setData(ObservablePresentationModel itemPresentationModel) : execution (public void ItemPresentationModel+.setData(..)) && this(itemPresentationModel);
+	pointcut setData(ObservablePresentationModel itemPresentationModel) : execution (public void ItemPresentationModel+.updateData(..)) && this(itemPresentationModel);
 	
 	@AdviceName("fireItemPresentationModelChange")
 	after(ObservablePresentationModel itemPresentationModel) : setData(itemPresentationModel)

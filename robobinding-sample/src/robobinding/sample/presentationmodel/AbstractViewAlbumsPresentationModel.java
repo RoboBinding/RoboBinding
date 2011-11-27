@@ -28,7 +28,7 @@ public abstract class AbstractViewAlbumsPresentationModel
 
 	public void viewAlbum(ItemClickEvent event)
 	{
-		Album album = albumStore.getAll().get(event.getPosition());
+		Album album = albumStore.getByIndex(event.getPosition());
 
 		Intent intent = new Intent(context, ViewAlbumActivity.class);
 		intent.putExtra(ViewAlbumActivity.ALBUM_ID, album.getId());

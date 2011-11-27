@@ -60,6 +60,6 @@ public class ItemPresentationModelAspectTest
 	}
 	private void setDataOn(ItemPresentationModel<Bean> itemPresentationModel)
 	{
-		itemPresentationModel.setData(0, new Bean());
+		itemPresentationModel.updateData(0, new Bean());
 	}
 }

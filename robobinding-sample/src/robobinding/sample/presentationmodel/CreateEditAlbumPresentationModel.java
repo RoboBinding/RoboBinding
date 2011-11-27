@@ -59,7 +59,7 @@ public class CreateEditAlbumPresentationModel
 
 	private boolean albumIsNew(long albumId)
 	{
-		return albumId == -1;
+		return albumId == Album.NO_ID;
 	}
 	
 	@DependsOn(CLASSICAL)

@@ -70,6 +70,6 @@ public abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object
 	public void updateItemPresentationModel(ItemPresentationModel<T> itemPresentationModel, int position)
 	{
 		T item = getItem(position);
-		itemPresentationModel.setData(position, item);
+		itemPresentationModel.updateData(position, item);
 	}
 }
