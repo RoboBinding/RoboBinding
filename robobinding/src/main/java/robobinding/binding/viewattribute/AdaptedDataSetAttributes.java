@@ -23,25 +23,29 @@ import android.content.Context;
 import android.widget.AdapterView;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 @SuppressWarnings("rawtypes")
 public class AdaptedDataSetAttributes implements ViewAttribute
 {
 	private final AdapterView adapterView;
-	private final DropdownLayoutAttribute dropdownLayoutAttribute;
-	private final ItemLayoutAttribute itemLayoutAttribute;
 	private final SourceAttribute sourceAttribute;
+	private final ItemLayoutAttribute itemLayoutAttribute;
+	private final ItemMappingAttribute itemMappingAttribute;
+	private final DropdownLayoutAttribute dropdownLayoutAttribute;
+	private final DropdownMappingAttribute dropdownMappingAttribute;
 	
-	public AdaptedDataSetAttributes(AdapterView adapterView, SourceAttribute sourceAttribute, ItemLayoutAttribute itemLayoutAttribute, DropdownLayoutAttribute dropdownLayoutAttribute)
+	public AdaptedDataSetAttributes(AdapterView adapterView, SourceAttribute sourceAttribute, ItemLayoutAttribute itemLayoutAttribute, ItemMappingAttribute itemMappingAttribute, DropdownLayoutAttribute dropdownLayoutAttribute, DropdownMappingAttribute dropdownMappingAttribute)
 	{
 		this.adapterView = adapterView;
 		this.sourceAttribute = sourceAttribute;
 		this.itemLayoutAttribute  = itemLayoutAttribute;
+		this.itemMappingAttribute = itemMappingAttribute;
 		this.dropdownLayoutAttribute = dropdownLayoutAttribute;
+		this.dropdownMappingAttribute = dropdownMappingAttribute;
 	}
 
 	@SuppressWarnings("unchecked")

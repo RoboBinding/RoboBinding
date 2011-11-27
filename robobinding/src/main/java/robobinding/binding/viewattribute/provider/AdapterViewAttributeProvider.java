@@ -19,9 +19,13 @@ import java.util.List;
 import java.util.Map;
 
 import robobinding.binding.BindingAttribute;
+import robobinding.binding.BindingAttributesReader;
+import robobinding.binding.ProvidersResolver;
 import robobinding.binding.viewattribute.AdaptedDataSetAttributes;
 import robobinding.binding.viewattribute.DropdownLayoutAttribute;
+import robobinding.binding.viewattribute.DropdownMappingAttribute;
 import robobinding.binding.viewattribute.ItemLayoutAttribute;
+import robobinding.binding.viewattribute.ItemMappingAttribute;
 import robobinding.binding.viewattribute.OnItemClickAttribute;
 import robobinding.binding.viewattribute.SourceAttribute;
 import robobinding.internal.com_google_common.collect.Lists;
@@ -75,7 +79,9 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 		private final boolean preInitializeView;
 		private String sourceAttributeValue;
 		private String itemLayoutAttributeValue;
+		private String itemMappingAttributeValue;
 		private String dropdownLayoutAttributeValue;
+		private String dropdownMappingAttributeValue;
 		private boolean hasAttributes = false;
 		
 		public AdapterViewAttributesBuilder(boolean preInitializeView)
@@ -99,10 +105,22 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 			this.itemLayoutAttributeValue = attributeValue;
 			hasAttributes = true;
 		}
+		
+		void setItemMappingAttributeValue(String itemMappingAttributeValue)
+		{
+			this.itemMappingAttributeValue = itemMappingAttributeValue;
+			hasAttributes = true;
+		}
 
 		public void setDropdownLayoutAttributeValue(String attributeValue)
 		{
 			this.dropdownLayoutAttributeValue = attributeValue;
+			hasAttributes = true;
+		}
+		
+		void setDropdownMappingAttributeValue(String dropdownMappingAttributeValue)
+		{
+			this.dropdownMappingAttributeValue = dropdownMappingAttributeValue;
 			hasAttributes = true;
 		}
 		
@@ -115,12 +133,21 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 			ItemLayoutAttribute itemLayoutAttribute = new ItemLayoutAttribute(itemLayoutAttributeValue, preInitializeView);
 			
 			DropdownLayoutAttribute dropdownLayoutAttribute = null;
+			ItemMappingAttribute itemMappingAttribute = null;
+			DropdownMappingAttribute dropdownMappingAttribute = null;
 			
 			if (dropdownLayoutAttributeValue != null)
 				dropdownLayoutAttribute = new DropdownLayoutAttribute(dropdownLayoutAttributeValue, preInitializeView);
 			
+			if (itemMappingAttributeValue != null)
+				itemMappingAttribute = new ItemMappingAttribute(itemMappingAttributeValue, preInitializeView);
+			
+			if (dropdownMappingAttributeValue != null)
+				dropdownMappingAttribute = new DropdownMappingAttribute(dropdownMappingAttributeValue, preInitializeView);
+			
 			AdaptedDataSetAttributes adaptedDataSetAttributes = new AdaptedDataSetAttributes(adapterView, sourceAttribute, itemLayoutAttribute, dropdownLayoutAttribute);
 			return new BindingAttribute(Lists.newArrayList("source", "itemLayout", "dropdownLayout"), adaptedDataSetAttributes);
 		}
+
 	}
 }

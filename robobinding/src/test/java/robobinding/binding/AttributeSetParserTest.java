@@ -73,7 +73,7 @@ public class AttributeSetParserTest
 	
 	private Map<String, String> loadBindingMapFromAttributeSet(AttributeSet attrs)
 	{
-		return attributeSetParser.loadBindingAttributes(attrs);
+		return attributeSetParser.parse(attrs);
 	}
 	
 	private int anyNumber()

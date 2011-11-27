@@ -18,6 +18,7 @@ package robobinding.presentationmodel;
 
 import robobinding.binding.RowBinder;
 import robobinding.binding.RowBinder.ViewType;
+import robobinding.binding.viewattribute.ItemMappingAttribute;
 import robobinding.itempresentationmodel.ItemPresentationModel;
 import robobinding.property.AbstractDataSetProperty;
 import robobinding.property.PropertyChangeListener;
@@ -129,5 +130,11 @@ public class DataSetAdapter<T> extends BaseAdapter
 		@SuppressWarnings("unchecked")
 		ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>)view.getTag();
 		dataSetValueModel.updateItemPresentationModel(itemPresentationModel, position);
+	}
+
+	public void setItemMappingAttribute(ItemMappingAttribute itemMappingAttribute)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

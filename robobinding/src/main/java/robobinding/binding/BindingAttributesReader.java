@@ -33,29 +33,32 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-class BindingAttributesLoader
+public class BindingAttributesReader
 {
 	private final ProvidersResolver providersResolver;
-	private final AttributeSetParser attributeSetParser;
 	private final boolean preInitializeViews;
 	
-	BindingAttributesLoader(ProvidersResolver providersResolver, AttributeSetParser attributeSetParser, boolean preInitializeViews)
+	public BindingAttributesReader(ProvidersResolver providersResolver, boolean preInitializeViews)
 	{
 		this.providersResolver = providersResolver;
-		this.attributeSetParser = attributeSetParser;
 		this.preInitializeViews = preInitializeViews;
 	}
 
-	ViewBindingAttributes load(View view, AttributeSet attrs)
+	public ViewBindingAttributes read(View view, AttributeSet attrs, AttributeSetParser attributeSetParser)
 	{
-		List<BindingAttribute> bindingAttributes = determineBindingAttributes(view, attrs);
+		Map<String, String> pendingBindingAttributes = attributeSetParser.parse(attrs);
+		return read(view, pendingBindingAttributes);
+	}
+	
+	public ViewBindingAttributes read(View view, Map<String, String> pendingBindingAttributes)
+	{
+		List<BindingAttribute> bindingAttributes = determineBindingAttributes(view, pendingBindingAttributes);
 		return new ViewBindingAttributes(bindingAttributes);
 	}
 	
-	private List<BindingAttribute> determineBindingAttributes(View view, AttributeSet attrs)
+	private List<BindingAttribute> determineBindingAttributes(View view, Map<String, String> pendingBindingAttributes)
 	{
 		List<BindingAttribute> bindingAttributes = Lists.newArrayList();
-		Map<String, String> pendingBindingAttributes = attributeSetParser.loadBindingAttributes(attrs);
 		Collection<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(view);
 		
 		for (BindingAttributeProvider<? extends View> provider : providers)
@@ -92,11 +95,11 @@ class BindingAttributesLoader
 		return unhandledAttributes;
 	}
 	
-	static class ViewBindingAttributes
+	public static class ViewBindingAttributes
 	{
-		final List<BindingAttribute> bindingAttributes;
+		private final List<BindingAttribute> bindingAttributes;
 		
-		ViewBindingAttributes(List<BindingAttribute> bindingAttributes)
+		private ViewBindingAttributes(List<BindingAttribute> bindingAttributes)
 		{
 			this.bindingAttributes = bindingAttributes;
 		}

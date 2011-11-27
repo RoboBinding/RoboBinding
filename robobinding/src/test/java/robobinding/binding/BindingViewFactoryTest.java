@@ -28,7 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.binding.BindingAttributesLoader.ViewBindingAttributes;
+import robobinding.binding.BindingAttributesReader.ViewBindingAttributes;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -54,15 +54,15 @@ public class BindingViewFactoryTest
 	private View theView = new View(context);
 	private ViewBindingAttributes sampleViewBindingAttributes = new ViewBindingAttributes(null);
 	private LayoutInflater layoutInflater;
-	private BindingAttributesLoader bindingAttributesLoader;
+	private BindingAttributesReader bindingAttributesLoader;
 	private BindingViewFactory bindingViewFactory;
 	
 	@Before
 	public void setUp() throws Exception
 	{
 		layoutInflater = mock(LayoutInflater.class);
-		bindingAttributesLoader = mock(BindingAttributesLoader.class);
-		when(bindingAttributesLoader.load(theView, attrs)).thenReturn(sampleViewBindingAttributes);
+		bindingAttributesLoader = mock(BindingAttributesReader.class);
+		when(bindingAttributesLoader.read(theView, attrs)).thenReturn(sampleViewBindingAttributes);
 		bindingViewFactory = new BindingViewFactory(layoutInflater, bindingAttributesLoader);
 	}
 	
@@ -109,8 +109,8 @@ public class BindingViewFactoryTest
 		bindingViewFactory.onCreateView(viewName, context, someOtherAttrs);
 		
 		assertTrue(bindingViewFactory.getChildViewBindingAttributes().size() == 2);
-		verify(bindingAttributesLoader).load(theView, attrs);
-		verify(bindingAttributesLoader).load(anotherView, someOtherAttrs);
+		verify(bindingAttributesLoader).read(theView, attrs);
+		verify(bindingAttributesLoader).read(anotherView, someOtherAttrs);
 	}
 
 	@Test (expected=RuntimeException.class)

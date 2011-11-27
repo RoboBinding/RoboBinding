@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.binding.BindingAttributesLoader.ViewBindingAttributes;
+import robobinding.binding.BindingAttributesReader.ViewBindingAttributes;
 import robobinding.binding.BindingViewFactory.InflatedView;
 import android.app.Activity;
 import android.view.View;
