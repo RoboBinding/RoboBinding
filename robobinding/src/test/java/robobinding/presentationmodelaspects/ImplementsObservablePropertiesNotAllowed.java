@@ -13,40 +13,29 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.itempresentationmodelaspects;
+package robobinding.presentationmodelaspects;
 
-import robobinding.presentationmodel.PresentationModelChangeSupport;
-import robobinding.presentationmodelaspects.ObservablePresentationModel;
+/*import robobinding.property.ObservableProperties;
 import robobinding.property.PropertyChangeListener;
 
-/**
+*//**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
- */
-public class ImplementsObservablePresentationModel extends AbstractItemPresentationModel implements ObservablePresentationModel
+ *//*
+public class ImplementsObservablePropertiesNotAllowed implements ObservableProperties
 {
-	private PresentationModelChangeSupport presentationModelChangeSupport;
-	public ImplementsObservablePresentationModel()
-	{
-		presentationModelChangeSupport = new PresentationModelChangeSupport(this);
-	}
 	@Override
 	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
-		presentationModelChangeSupport.addPropertyChangeListener(propertyName, listener);
+		// TODO Auto-generated method stub
+		
 	}
-
 	@Override
 	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
-		presentationModelChangeSupport.removePropertyChangeListener(propertyName, listener);
+		// TODO Auto-generated method stub
+		
 	}
-
-	@Override
-	public PresentationModelChangeSupport getPresentationModelChangeSupport()
-	{
-		return presentationModelChangeSupport;
-	}
-}
+}*/

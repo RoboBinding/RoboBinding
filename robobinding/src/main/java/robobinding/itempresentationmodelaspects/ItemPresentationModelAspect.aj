@@ -18,9 +18,7 @@ package robobinding.itempresentationmodelaspects;
 import org.aspectj.lang.annotation.AdviceName;
 
 import robobinding.itempresentationmodel.ItemPresentationModel;
-import robobinding.presentationmodel.PresentationModelChangeSupport;
-import robobinding.presentationmodelaspects.ObservablePresentationModel;
-import robobinding.presentationmodelaspects.ObservablePresentationModelMixin;
+import robobinding.presentationmodelaspects.PresentationModelMixin;
 /**
  * 
  * @since 1.0
@@ -29,15 +27,14 @@ import robobinding.presentationmodelaspects.ObservablePresentationModelMixin;
  */
 public aspect ItemPresentationModelAspect
 {
-	declare parents: ItemPresentationModel+ implements ObservablePresentationModelMixin;
+	declare parents: ItemPresentationModel+ implements PresentationModelMixin;
 
-	pointcut setData(ObservablePresentationModel itemPresentationModel) : execution (public void ItemPresentationModel+.updateData(..)) && this(itemPresentationModel);
+	pointcut updateData(PresentationModelMixin itemPresentationModel) : execution (public void ItemPresentationModel+.updateData(..)) && this(itemPresentationModel);
 	
-	@AdviceName("fireItemPresentationModelChange")
-	after(ObservablePresentationModel itemPresentationModel) : setData(itemPresentationModel)
+	@AdviceName("fireItemPresentationModelRefresh")
+	after(PresentationModelMixin itemPresentationModel) : updateData(itemPresentationModel)
 	{
-		PresentationModelChangeSupport presentationModelChangeSupport = itemPresentationModel.getPresentationModelChangeSupport();
-		presentationModelChangeSupport.fireChangeAll();
+		itemPresentationModel.refreshPresentationModel();
 	}
 
 }

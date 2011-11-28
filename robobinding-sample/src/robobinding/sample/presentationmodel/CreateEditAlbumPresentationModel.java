@@ -17,7 +17,7 @@
 package robobinding.sample.presentationmodel;
 
 import robobinding.DependsOn;
-import robobinding.NotifyPropertyChange;
+import robobinding.presentationmodelaspects.PresentationModel;
 import robobinding.sample.R;
 import robobinding.sample.model.Album;
 import robobinding.sample.store.AlbumStore;
@@ -29,7 +29,7 @@ import android.app.Activity;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-@NotifyPropertyChange
+@PresentationModel
 public class CreateEditAlbumPresentationModel
 {
 	private static final String CLASSICAL = "classical";

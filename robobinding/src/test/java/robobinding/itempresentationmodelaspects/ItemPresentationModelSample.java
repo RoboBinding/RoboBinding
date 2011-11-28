@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.presentationmodelaspects;
+package robobinding.itempresentationmodelaspects;
+
+import robobinding.itempresentationmodel.ItemPresentationModel;
+
 
 /**
  *
@@ -21,8 +24,17 @@ package robobinding.presentationmodelaspects;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@NotifyPropertyChange
-public class NotImplementsObservablePresentationModel extends AbstractPresentationModel
+public class ItemPresentationModelSample implements ItemPresentationModel<Object>
 {
+	Object bean;
+	public static final String PROPERTY = "property";
+	public void updateData(int index, Object bean)
+	{
+		this.bean = bean;
+	}
+	public boolean getProperty()
+	{
+		return true;
+	}
 
 }

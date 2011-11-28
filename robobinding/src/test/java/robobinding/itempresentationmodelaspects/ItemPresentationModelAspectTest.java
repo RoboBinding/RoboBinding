@@ -16,13 +16,10 @@
 package robobinding.itempresentationmodelaspects;
 
 import org.junit.Before;
-import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import robobinding.itempresentationmodel.ItemPresentationModel;
-import robobinding.presentationmodelaspects.ObservablePresentationModel;
 import robobinding.presentationmodelaspects.PropertyChangeListenerTester;
 
 /**
@@ -34,32 +31,29 @@ import robobinding.presentationmodelaspects.PropertyChangeListenerTester;
 @RunWith(Theories.class)
 public class ItemPresentationModelAspectTest
 {
-	@DataPoints
-	public static AbstractItemPresentationModel[] differentItemPresentationModels = {
-		new NotImplementsObservablePresentationModel(),
-		new ImplementsObservablePresentationModel()}; 
-	
 	private PropertyChangeListenerTester propertyChangeListenerTester;
+	private ItemPresentationModelSample itemPresentationModel;
 	@Before
 	public void setUp()
 	{
 		propertyChangeListenerTester = new PropertyChangeListenerTester();
+		itemPresentationModel = new ItemPresentationModelSample();
 	}
 	@Theory
-	public void givenObservePropertyChangeOnItemPresentationModel_whenSetData_thenListenerGetNotified(AbstractItemPresentationModel itemPresentationModel)
+	public void givenObservePropertyChangeOnItemPresentationModel_whenSetData_thenListenerGetNotified()
 	{
-		observePropertyChange((ObservablePresentationModel)itemPresentationModel);
+		observePropertyChange();
 		
-		setDataOn(itemPresentationModel);
+		updateData();
 		
 		propertyChangeListenerTester.assertPropertyChangedOnce();
 	}
-	private void observePropertyChange(ObservablePresentationModel observablePresentationModel)
+	private void observePropertyChange()
 	{
-		observablePresentationModel.addPropertyChangeListener(AbstractItemPresentationModel.PROPERTY, propertyChangeListenerTester);
+		itemPresentationModel.addPropertyChangeListener(ItemPresentationModelSample.PROPERTY, propertyChangeListenerTester);
 	}
-	private void setDataOn(ItemPresentationModel<Bean> itemPresentationModel)
+	private void updateData()
 	{
-		itemPresentationModel.updateData(0, new Bean());
+		itemPresentationModel.updateData(0, new Object());
 	}
 }

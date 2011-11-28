@@ -15,17 +15,16 @@
  */
 package robobinding.presentationmodelaspects;
 
-/**
+/*import robobinding.property.PropertyChangeSupport;
+
+*//**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
- */
-public class AbstractPresentationModel
+ *//*
+public class FieldDeclarationOfPropertyChangeSupportNotAllowed
 {
-	public static final String PROPERTY = "property";
-	public boolean getProperty()
-	{
-		return true;
-	}
+	PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 }
+*/

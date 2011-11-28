@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.itempresentationmodelaspects;
+package robobinding.presentationmodelaspects;
+
 
 /**
  *
@@ -21,7 +22,30 @@ package robobinding.itempresentationmodelaspects;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class Bean
+@PresentationModel
+public class PresentationModelSample
 {
-
+	public static final String PROPERTY = "property";
+	public static final String CUSTOM_PROPERTY = "customProperty";
+	public static final String PROPERTY_WITH_RETURN_VALUE = "propertyWithReturnValue";
+	public static final String PROPERTY_WITH_MULTIPLE_PARAMETERS = "propertyWithMultipleParameters";
+	
+	public void setProperty(boolean b)
+	{
+	}
+	
+	@CustomSetter
+	public void setCustomProperty(boolean b)
+	{
+	}
+	
+	public boolean setPropertyWithReturnValue(boolean b)
+	{
+		return true;
+	}
+	
+	public void setPropertyWithMultipleParameters(boolean p1, String p2)
+	{
+		
+	}
 }

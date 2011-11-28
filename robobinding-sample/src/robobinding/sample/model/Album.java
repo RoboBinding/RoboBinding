@@ -25,7 +25,7 @@ package robobinding.sample.model;
  */
 public class Album
 {
-	private static final int NO_ID = -1;
+	public static final int NO_ID = -1;
 	
 	private long id;
 	private String title;

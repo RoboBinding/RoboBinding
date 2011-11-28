@@ -37,6 +37,4 @@ public final class Collections2 {
     return (Collection<T>) iterable;
   }
 
-  // TODO(user): Maybe move the mathematical methods to a separate
-  // package-permission class.
 }

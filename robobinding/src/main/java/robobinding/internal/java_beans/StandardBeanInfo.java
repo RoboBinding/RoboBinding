@@ -154,7 +154,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
      */
     private PropertyDescriptor[] mergeProps(PropertyDescriptor[] superDescs,
             int superDefaultIndex) throws IntrospectionException {
-        // FIXME:change to OO way as EventSetD and MethodD
+        // change to OO way as EventSetD and MethodD
         HashMap<String, PropertyDescriptor> subMap = internalAsMap(properties);
         String defaultPropertyName = null;
         if (defaultPropertyIndex >= 0
@@ -405,7 +405,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
 
     private static void mergeAttributes(PropertyDescriptor subDesc,
             PropertyDescriptor superDesc) {
-        // FIXME: this is just temp workaround, need more elegant solution to
+        // this is just temp workaround, need more elegant solution to
         // handle this
         subDesc.hidden |= superDesc.hidden;
         subDesc.expert |= superDesc.expert;
@@ -584,7 +584,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
                             null, null, indexedGet, indexedSet);
                 }
             }
-            // RI set propretyDescriptor as bound. FIXME
+            // RI set propretyDescriptor as bound.
             // propertyDesc.setBound(true);
             if (canAddPropertyChangeListener && canRemovePropertyChangeListener) {
                 propertyDesc.setBound(true);
@@ -1101,7 +1101,6 @@ class StandardBeanInfo extends SimpleBeanInfo {
 
     }
 
-    // TODO
     void init() {
         if (this.properties == null) {
             this.properties = new PropertyDescriptor[0];

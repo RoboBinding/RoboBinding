@@ -15,16 +15,13 @@
  */
 package robobinding.presentationmodelaspects;
 
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import robobinding.internal.org_apache_commons_lang3.reflect.MethodUtils;
-import robobinding.presentationmodel.PresentationModelChangeSupport;
+import robobinding.property.ObservableProperties;
 
 /**
  *
@@ -43,31 +40,6 @@ public class PresentationModelAspectTest
 	}
 	
 	@DataPoints
-	public static AbstractPresentationModel[] differentPresentationModels = {
-		new NotImplementsObservablePresentationModel(),
-		new ImplementsObservablePresentationModel()};
-	@Theory
-	public void givenObservePropertyChangeOnPresentationModel_whenFirePropertyChange_thenListenerGetNotified(AbstractPresentationModel presentationModel)
-	{
-		observePropertyChange((ObservablePresentationModel)presentationModel);
-		
-		firePropertyChangeOn((ObservablePresentationModel)presentationModel);
-		
-		propertyChangeListenerTester.assertPropertyChangedOnce();
-	}
-	
-	private void observePropertyChange(ObservablePresentationModel presentationModel)
-	{
-		presentationModel.addPropertyChangeListener(AbstractPresentationModel.PROPERTY, propertyChangeListenerTester);
-	}
-	
-	private void firePropertyChangeOn(ObservablePresentationModel observablePresentationModel)
-	{
-		PresentationModelChangeSupport presentationModelChangeSupport = observablePresentationModel.getPresentationModelChangeSupport();
-		presentationModelChangeSupport.firePropertyChange(AbstractPresentationModel.PROPERTY);
-	}
-	
-	@DataPoints
 	public static SetterAndPropertyChangeExpectation[] setterAndPropertyChangeExpectations = {
 		SetterAndPropertyChangeExpectation.PROPERTY,
 		SetterAndPropertyChangeExpectation.CUSTOM_PROPERTY,
@@ -76,7 +48,7 @@ public class PresentationModelAspectTest
 	@Theory
 	public void givenObservePropertyChangeOnPresentationModel_whenSetProperty_thenMatchesPropertyChangeExpectation(SetterAndPropertyChangeExpectation setterAndPropertyChangeExpectation)
 	{
-		PresentationModel presentationModel = new PresentationModel();
+		PresentationModelSample presentationModel = new PresentationModelSample();
 		observePropertyChange(presentationModel);
 		
 		setterAndPropertyChangeExpectation.setProperty(presentationModel);
@@ -84,25 +56,18 @@ public class PresentationModelAspectTest
 		setterAndPropertyChangeExpectation.assertExpectation(propertyChangeListenerTester);
 	}
 	
-	@DataPoints
-	public static PresentationModelRefreshMethod[] presentationModelRefreshMethods = {
-		new PresentationModelRefreshMethod.CustomPresentationModelRefreshMethod(),
-		new PresentationModelRefreshMethod.DefaultPresentationModelRefreshMethod()};
 	@Theory
-	public void whenInvokePresentationModelRefreshMethod_thenListenerGetNotified(PresentationModelRefreshMethod presentationModelRefreshMethod)
+	public void whenInvokeDefaultRefreshMethod_thenListenerGetNotified()
 	{
-		PresentationModelWithRefreshMethod presentationModelWithRefreshMethod = new PresentationModelWithRefreshMethod();
-		presentationModelRefreshMethod.setPresentationModelWithRefreshMethod(presentationModelWithRefreshMethod);
-		observePropertyChange(presentationModelWithRefreshMethod);
+		PresentationModelSample presentationModelSample = new PresentationModelSample();
+		observePropertyChange(presentationModelSample);
 		
-		presentationModelRefreshMethod.invoke();
+		presentationModelSample.refreshPresentationModel();
 		
 		propertyChangeListenerTester.assertPropertyChangedOnce();
 	}
-	
-	@Test
-	public void shouldContainDefaultPresentationModelRefreshMethod()
+	private void observePropertyChange(ObservableProperties presentationModel)
 	{
-		Assert.assertNotNull(MethodUtils.getAccessibleMethod(PresentationModelWithRefreshMethod.class, "refresh", new Class<?>[0]));
+		presentationModel.addPropertyChangeListener(PresentationModelSample.PROPERTY, propertyChangeListenerTester);
 	}
 }
