@@ -15,12 +15,18 @@
  */
 package robobinding.itempresentationmodelaspects;
 
+import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
+import robobinding.itempresentationmodel.ItemPresentationModel;
+import robobinding.presentationmodelaspects.PresentationModelMixin;
 import robobinding.presentationmodelaspects.PropertyChangeListenerTester;
+import robobinding.property.ObservableProperties;
 
 /**
  *
@@ -32,28 +38,39 @@ import robobinding.presentationmodelaspects.PropertyChangeListenerTester;
 public class ItemPresentationModelAspectTest
 {
 	private PropertyChangeListenerTester propertyChangeListenerTester;
-	private ItemPresentationModelSample itemPresentationModel;
 	@Before
 	public void setUp()
 	{
 		propertyChangeListenerTester = new PropertyChangeListenerTester();
-		itemPresentationModel = new ItemPresentationModelSample();
 	}
 	@Theory
 	public void givenObservePropertyChangeOnItemPresentationModel_whenSetData_thenListenerGetNotified()
 	{
-		observePropertyChange();
+		ItemPresentationModel_AutoCodeGeneration itemPresentationModel = new ItemPresentationModel_AutoCodeGeneration();
+		observePropertyChange(itemPresentationModel);
 		
-		updateData();
+		updateData(itemPresentationModel);
 		
 		propertyChangeListenerTester.assertPropertyChangedOnce();
 	}
-	private void observePropertyChange()
+	private void observePropertyChange(ObservableProperties itemPresentationModel)
 	{
-		itemPresentationModel.addPropertyChangeListener(ItemPresentationModelSample.PROPERTY, propertyChangeListenerTester);
+		itemPresentationModel.addPropertyChangeListener(ItemPresentationModel_AutoCodeGeneration.PROPERTY, propertyChangeListenerTester);
 	}
-	private void updateData()
+	private void updateData(ItemPresentationModel<Object> itemPresentationModel)
 	{
 		itemPresentationModel.updateData(0, new Object());
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@DataPoints
+	public static ItemPresentationModel[] manualPresentationModelImplementations = {
+		new ItemPresentationModel_ManualImplementation1(),
+		new ItemPresentationModel_ManualImplementation2()};
+	@Theory
+	public void whenImplementsPrensentationModelManually_thenNoAutoCodeGenerationTriggered(
+			@SuppressWarnings("rawtypes") ItemPresentationModel manualItemPresentationModelImplementation)
+	{
+		Assert.assertThat(manualItemPresentationModelImplementation, CoreMatchers.not(CoreMatchers.instanceOf(PresentationModelMixin.class)));
 	}
 }

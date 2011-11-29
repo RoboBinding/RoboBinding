@@ -36,7 +36,7 @@ import robobinding.internal.org_apache_commons_lang3.Validate;
 public class PropertyUtils
 {
 	private static Set<String> EXCLUDED_PROPERTY_NAMES = Sets.newHashSet("class");
-	
+	//TODO:seems it accept setters with two parameters.
 	public static List<PropertyDescriptor> getPropertyDescriptors(Class<?> beanClass)
 	{
 		Validate.notNull(beanClass, "beanClass cannot be null");

@@ -1,7 +1,7 @@
 package robobinding.property;
 
-import robobinding.property.PropertyChangeListener;
-import robobinding.property.PropertyChangeSupport;
+import robobinding.property.PresentationModelPropertyChangeListener;
+import robobinding.property.PresentationModelPropertyChangeSupport;
 import robobinding.property.PropertyValueModel;
 
 /**
@@ -101,13 +101,13 @@ public class ValueModelUtils
 		private static final String PROPERTY_VALUE = "value";
 		
 		private T value;
-		private PropertyChangeSupport propertyChangeSupport;
+		private PresentationModelPropertyChangeSupport propertyChangeSupport;
 		
 		public AbstractValueModel(T value, boolean checkIdentity)
 		{
 			this.value = value;
 			
-			propertyChangeSupport = new PropertyChangeSupport(this);
+			propertyChangeSupport = new PresentationModelPropertyChangeSupport(this);
 		}
 		public AbstractValueModel(T value)
 		{
@@ -133,13 +133,13 @@ public class ValueModelUtils
 		}
 		
 		@Override
-		public final void addPropertyChangeListener(PropertyChangeListener listener)
+		public final void addPropertyChangeListener(PresentationModelPropertyChangeListener listener)
 		{
 			propertyChangeSupport.addPropertyChangeListener(PROPERTY_VALUE, listener);
 		}
 
 		@Override
-		public final void removePropertyChangeListener(PropertyChangeListener listener)
+		public final void removePropertyChangeListener(PresentationModelPropertyChangeListener listener)
 		{
 			propertyChangeSupport.removePropertyChangeListener(PROPERTY_VALUE, listener);
 		}

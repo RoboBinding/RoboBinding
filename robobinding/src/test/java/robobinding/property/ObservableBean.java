@@ -31,10 +31,10 @@ public class ObservableBean extends Bean implements ObservableProperties
 	public static final String PROPERTY_WITH_SOME_NONEXISTING_DEPENDENT_PROPERTIES = "propertyWithSomeNonExistingDependentProperties";
 	public static final String PROPERTY_DEPENDING_ON_SELF = "propertyDependingOnSelf";
 	
-	private PropertyChangeSupport propertyChangeSupport;
+	private PresentationModelPropertyChangeSupport propertyChangeSupport;
 	public ObservableBean()
 	{
-		propertyChangeSupport = new PropertyChangeSupport(this);
+		propertyChangeSupport = new PresentationModelPropertyChangeSupport(this);
 	}
 	@DependsOn({ANNOTATED_PROPERTY,PROPERTY})
 	public boolean getPropertyWithValidDependentProperties()
@@ -57,26 +57,26 @@ public class ObservableBean extends Bean implements ObservableProperties
 		return true;
 	}
 	@Override
-	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
 		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
 	}
 	@Override
-	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
 		propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
 	}
-	public boolean hasPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	public boolean hasPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
-		PropertyChangeListeners propertyChangeListeners = propertyChangeSupport.getPropertyChangeListeners(propertyName);
+		PresentationModelPropertyChangeListeners propertyChangeListeners = propertyChangeSupport.getPropertyChangeListeners(propertyName);
 		return propertyChangeListeners.contains(listener);
 	}
-	public boolean isPropertyChangeListenerRegisteredNumTimes(String propertyName, PropertyChangeListener listener, int expectedNumTimes)
+	public boolean isPropertyChangeListenerRegisteredNumTimes(String propertyName, PresentationModelPropertyChangeListener listener, int expectedNumTimes)
 	{
-		PropertyChangeListeners propertyChangeListeners = propertyChangeSupport.getPropertyChangeListeners(propertyName);
+		PresentationModelPropertyChangeListeners propertyChangeListeners = propertyChangeSupport.getPropertyChangeListeners(propertyName);
 		
 		int actualNumTimes = 0;
-		for(PropertyChangeListener propertyChangeListener : propertyChangeListeners)
+		for(PresentationModelPropertyChangeListener propertyChangeListener : propertyChangeListeners)
 		{
 			if(propertyChangeListener == listener)
 			{

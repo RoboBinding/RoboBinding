@@ -19,8 +19,9 @@ package robobinding.presentationmodelaspects;
 import org.aspectj.lang.annotation.AdviceName;
 
 import robobinding.internal.java_beans.Introspector;
+import robobinding.presentationmodel.PresentationModelChangeSupport;
 import robobinding.property.ObservableProperties;
-import robobinding.property.PropertyChangeSupport;
+import robobinding.property.PresentationModelPropertyChangeSupport;
 
 /**
  * 
@@ -31,19 +32,20 @@ import robobinding.property.PropertyChangeSupport;
  */
 privileged public aspect PresentationModelAspect
 {
-	declare parents: @PresentationModel * implements PresentationModelMixin;
+	declare parents: @PresentationModel !(ObservableProperties+) implements PresentationModelMixin;
 
+	pointcut fieldDeclarationOfPresentationModelPropertyChangeSupport() : set(PresentationModelPropertyChangeSupport *.*);
 	
-	pointcut fieldDeclarationOfPropertyChangeSupport() : set(PropertyChangeSupport *.*) && !within(PresentationModelMixin);
+	declare error : fieldDeclarationOfPresentationModelPropertyChangeSupport() && !within(PresentationModelChangeSupport) && !within(robobinding.property.*)
+		: "PresentationModelPropertyChangeSupport is intented to be used internally by framework only. " +
+				"Please use robobinding.presentationmodel.PresentationModelChangeSupport instead.";
 	
-	declare error : fieldDeclarationOfPropertyChangeSupport()  && !within(robobinding.property.*)
-		: "PresentationModelChangeSupport is not intented to be used by public";
 	
+	pointcut subclassOfObservablePropertiesWithPresentationModelAnnotation() : staticinitialization((@PresentationModel ObservableProperties+) && !(PresentationModelMixin+));
 	
-	pointcut subclassOfObservableProperties() : staticinitialization(ObservableProperties+ && !(PresentationModelMixin+));
-	
-	declare error: subclassOfObservableProperties() && !within(robobinding.property.*)
-		: "ObservableProperties is not intented to be used by public";
+	declare error: subclassOfObservablePropertiesWithPresentationModelAnnotation()
+		: "You can either implement ObservableProperties manually or annotate your presentation model with @PresentationModel " +
+				"to let weaver generate code for you. Doing both may led to unexpected change event behaviour";
 	
 	
 	pointcut nonCustomSetter(PresentationModelMixin presentationModel) : execution (!@CustomSetter public void PresentationModelMixin+.set*(*)) && this(presentationModel);

@@ -32,12 +32,12 @@ import org.junit.Test;
 public class DependencyPropertyTest
 {
 	private ObservableBean observableBean;
-	private PropertyChangeListener listener;
+	private PresentationModelPropertyChangeListener listener;
 	@Before
 	public void setUp()
 	{
 		observableBean = new ObservableBean();
-		listener = new PropertyChangeListenerImpl();
+		listener = new PresentationModelPropertyChangeListenerImpl();
 	}
 	@Test
 	public void whenCreatePropertyWithValidDependentProperties_thenSuccessful()

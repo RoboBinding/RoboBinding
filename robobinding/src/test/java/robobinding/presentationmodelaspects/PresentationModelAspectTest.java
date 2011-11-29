@@ -15,7 +15,10 @@
  */
 package robobinding.presentationmodelaspects;
 
+import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -48,7 +51,7 @@ public class PresentationModelAspectTest
 	@Theory
 	public void givenObservePropertyChangeOnPresentationModel_whenSetProperty_thenMatchesPropertyChangeExpectation(SetterAndPropertyChangeExpectation setterAndPropertyChangeExpectation)
 	{
-		PresentationModelSample presentationModel = new PresentationModelSample();
+		PresentationModel_AutoCodeGeneration presentationModel = new PresentationModel_AutoCodeGeneration();
 		observePropertyChange(presentationModel);
 		
 		setterAndPropertyChangeExpectation.setProperty(presentationModel);
@@ -56,10 +59,10 @@ public class PresentationModelAspectTest
 		setterAndPropertyChangeExpectation.assertExpectation(propertyChangeListenerTester);
 	}
 	
-	@Theory
+	@Test
 	public void whenInvokeDefaultRefreshMethod_thenListenerGetNotified()
 	{
-		PresentationModelSample presentationModelSample = new PresentationModelSample();
+		PresentationModel_AutoCodeGeneration presentationModelSample = new PresentationModel_AutoCodeGeneration();
 		observePropertyChange(presentationModelSample);
 		
 		presentationModelSample.refreshPresentationModel();
@@ -68,6 +71,16 @@ public class PresentationModelAspectTest
 	}
 	private void observePropertyChange(ObservableProperties presentationModel)
 	{
-		presentationModel.addPropertyChangeListener(PresentationModelSample.PROPERTY, propertyChangeListenerTester);
+		presentationModel.addPropertyChangeListener(PresentationModel_AutoCodeGeneration.PROPERTY, propertyChangeListenerTester);
+	}
+	
+	@DataPoints
+	public static ObservableProperties[] manualPresentationModelImplementations = {
+		new PresentationModel_ManualImplementation1(),
+		new PresentationModel_ManualImplementation2()};
+	@Theory
+	public void whenImplementsPrensentationModelManually_thenNoAutoCodeGenerationTriggered(ObservableProperties manualPresentationModelImplementation)
+	{
+		Assert.assertThat(manualPresentationModelImplementation, CoreMatchers.not(CoreMatchers.instanceOf(PresentationModelMixin.class)));
 	}
 }

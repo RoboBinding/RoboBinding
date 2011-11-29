@@ -35,7 +35,7 @@ import org.junit.runners.Suite;
 	PropertyAccessorTest.class,
 	PropertyCreatorTest.class,
 	PropertyUtilsTest.class,
-	PropertyChangeSupportTest.class
+	PresentationModelPropertyChangeSupportTest.class
 })
 public class AllTests
 {

@@ -17,9 +17,9 @@ package robobinding.presentationmodelaspects;
 
 import org.aspectj.lang.annotation.AdviceName;
 
+import robobinding.presentationmodel.PresentationModelChangeSupport;
 import robobinding.property.ObservableProperties;
-import robobinding.property.PropertyChangeListener;
-import robobinding.property.PropertyChangeSupport;
+import robobinding.property.PresentationModelPropertyChangeListener;
 
 /**
  *
@@ -32,36 +32,35 @@ public interface PresentationModelMixin extends ObservableProperties
 {
 	static aspect Impl
 	{
-		private PropertyChangeSupport PresentationModelMixin.propertyChangeSupport;
+		private PresentationModelChangeSupport PresentationModelMixin.presentationModelChangeSupport;
 		
-		public void PresentationModelMixin.addPropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener)
+		public void PresentationModelMixin.addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener propertyChangeListener)
 		{
-			propertyChangeSupport.addPropertyChangeListener(propertyName, propertyChangeListener);
+			presentationModelChangeSupport.addPropertyChangeListener(propertyName, propertyChangeListener);
 		}
 
-		public void PresentationModelMixin.removePropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener)
+		public void PresentationModelMixin.removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener propertyChangeListener)
 		{
-			propertyChangeSupport.removePropertyChangeListener(propertyName, propertyChangeListener);
+			presentationModelChangeSupport.removePropertyChangeListener(propertyName, propertyChangeListener);
 		}
 		
-		//TODO: any potential method name conflicts with users'? may choose more specific name like refreshPresentationModel?
 		public void PresentationModelMixin.refreshPresentationModel()
 		{
-			propertyChangeSupport.fireChangeAll();
+			presentationModelChangeSupport.refreshPresentationModel();
 		}
 		
 		private void PresentationModelMixin.firePropertyChange(String propertyName)
 		{
-			propertyChangeSupport.firePropertyChange(propertyName);
+			presentationModelChangeSupport.firePropertyChange(propertyName);
 		}
 
 		pointcut presentationModelCreation(PresentationModelMixin presentationModel) : initialization(
-				PresentationModelMixin+.new(..)) && this(presentationModel);
+				PresentationModelMixin+.new(..)) && this(presentationModel) && within(PresentationModelMixin+);
 		
 		@AdviceName("initializePresentationModelChangeSupport")
 		after(PresentationModelMixin presentationModel) returning : presentationModelCreation(presentationModel) 
 		{
-			presentationModel.propertyChangeSupport = new PropertyChangeSupport(presentationModel);
+			presentationModel.presentationModelChangeSupport = new PresentationModelChangeSupport(presentationModel);
 		}
 	}
 

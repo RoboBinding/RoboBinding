@@ -20,7 +20,7 @@ import robobinding.binding.RowBinder;
 import robobinding.binding.RowBinder.ViewType;
 import robobinding.itempresentationmodel.ItemPresentationModel;
 import robobinding.property.AbstractDataSetProperty;
-import robobinding.property.PropertyChangeListener;
+import robobinding.property.PresentationModelPropertyChangeListener;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +44,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 
 	public void observeChangesOnTheValueModel()
 	{
-		dataSetValueModel.addPropertyChangeListener(new PropertyChangeListener() {
+		dataSetValueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener() {
 			@Override
 			public void propertyChanged()
 			{

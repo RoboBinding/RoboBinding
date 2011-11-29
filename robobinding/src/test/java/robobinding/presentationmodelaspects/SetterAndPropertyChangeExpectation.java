@@ -24,7 +24,7 @@ package robobinding.presentationmodelaspects;
  */
 public abstract class SetterAndPropertyChangeExpectation
 {
-	public abstract void setProperty(PresentationModelSample presentationModel);
+	public abstract void setProperty(PresentationModel_AutoCodeGeneration presentationModel);
 
 	public void assertExpectation(PropertyChangeListenerTester propertyChangeListenerTester)
 	{
@@ -38,7 +38,7 @@ public abstract class SetterAndPropertyChangeExpectation
 	public static SetterAndPropertyChangeExpectation PROPERTY = new SetterAndPropertyChangeExpectation() {
 		
 		@Override
-		public void setProperty(PresentationModelSample presentationModel)
+		public void setProperty(PresentationModel_AutoCodeGeneration presentationModel)
 		{
 			presentationModel.setProperty(true);
 		}
@@ -52,7 +52,7 @@ public abstract class SetterAndPropertyChangeExpectation
 	public static SetterAndPropertyChangeExpectation CUSTOM_PROPERTY = new SetterAndPropertyChangeExpectation() {
 		
 		@Override
-		public void setProperty(PresentationModelSample presentationModel)
+		public void setProperty(PresentationModel_AutoCodeGeneration presentationModel)
 		{
 			presentationModel.setCustomProperty(true);
 		}
@@ -61,7 +61,7 @@ public abstract class SetterAndPropertyChangeExpectation
 	public static SetterAndPropertyChangeExpectation PROPERTY_WITH_RETURN_VALUE = new SetterAndPropertyChangeExpectation() {
 		
 		@Override
-		public void setProperty(PresentationModelSample presentationModel)
+		public void setProperty(PresentationModel_AutoCodeGeneration presentationModel)
 		{
 			presentationModel.setPropertyWithReturnValue(true);
 		}
@@ -70,7 +70,7 @@ public abstract class SetterAndPropertyChangeExpectation
 	public static SetterAndPropertyChangeExpectation PROPERTY_WITH_MULTIPLE_PARAMETERS = new SetterAndPropertyChangeExpectation() {
 		
 		@Override
-		public void setProperty(PresentationModelSample presentationModel)
+		public void setProperty(PresentationModel_AutoCodeGeneration presentationModel)
 		{
 			presentationModel.setPropertyWithMultipleParameters(true, "");
 			

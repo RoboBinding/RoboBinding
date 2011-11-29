@@ -15,27 +15,31 @@
  */
 package robobinding.presentationmodelaspects;
 
-/*import robobinding.property.ObservableProperties;
-import robobinding.property.PropertyChangeListener;
 
-*//**
+
+
+/**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
- *//*
-public class ImplementsObservablePropertiesNotAllowed implements ObservableProperties
+ */
+public class SubclassOfObservablePropertiesWithPresentationModelAnnotationNotAllowed
 {
-	@Override
-	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+/*	@PresentationModel
+	public static class ImplementsObservableProperties implements robobinding.property.ObservableProperties
 	{
-		// TODO Auto-generated method stub
-		
+		@Override
+		public void addPropertyChangeListener(String propertyName, robobinding.property.PresentationModelPropertyChangeListener listener)
+		{
+		}
+		@Override
+		public void removePropertyChangeListener(String propertyName, robobinding.property.PresentationModelPropertyChangeListener listener)
+		{
+		}
 	}
-	@Override
-	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
-	{
-		// TODO Auto-generated method stub
-		
+	@PresentationModel
+	public static class ExtendsObservablePropertiesImplementation extends robobinding.presentationmodel.AbstractPresentationModel
+	{	
 	}
-}*/
+*/}

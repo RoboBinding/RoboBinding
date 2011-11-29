@@ -15,9 +15,6 @@
  */
 package robobinding.presentationmodelaspects;
 
-import org.junit.Assert;
-
-import robobinding.property.PresentationModelPropertyChangeListener;
 
 /**
  *
@@ -25,20 +22,30 @@ import robobinding.property.PresentationModelPropertyChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PropertyChangeListenerTester implements PresentationModelPropertyChangeListener
+@PresentationModel
+public class PresentationModel_AutoCodeGeneration
 {
-	private int timesOfPropertyChanged = 0;
-	@Override
-	public void propertyChanged()
+	public static final String PROPERTY = "property";
+	public static final String CUSTOM_PROPERTY = "customProperty";
+	public static final String PROPERTY_WITH_RETURN_VALUE = "propertyWithReturnValue";
+	public static final String PROPERTY_WITH_MULTIPLE_PARAMETERS = "propertyWithMultipleParameters";
+	
+	public void setProperty(boolean b)
 	{
-		timesOfPropertyChanged++;
 	}
-	public void assertPropertyChangedOnce()
+	
+	@CustomSetter
+	public void setCustomProperty(boolean b)
 	{
-		assertTimesOfPropertyChanged(1);
 	}
-	public void assertTimesOfPropertyChanged(int expectedTimes)
+	
+	public boolean setPropertyWithReturnValue(boolean b)
 	{
-		Assert.assertEquals(expectedTimes, timesOfPropertyChanged);
+		return true;
+	}
+	
+	public void setPropertyWithMultipleParameters(boolean p1, String p2)
+	{
+		
 	}
 }

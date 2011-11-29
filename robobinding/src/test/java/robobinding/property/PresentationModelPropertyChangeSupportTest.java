@@ -26,15 +26,15 @@ import org.junit.Test;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PropertyChangeSupportTest
+public class PresentationModelPropertyChangeSupportTest
 {
 	private Bean bean;
-	private PropertyChangeSupport propertyChangeSupport;
+	private PresentationModelPropertyChangeSupport propertyChangeSupport;
 	@Before
 	public void setUp()
 	{
 		bean = new Bean();
-		propertyChangeSupport = new PropertyChangeSupport(bean);
+		propertyChangeSupport = new PresentationModelPropertyChangeSupport(bean);
 	}
 	@Test(expected=IllegalArgumentException.class)
 	public void whenAddListenerToNonExistingProperty_thenThrowException()
@@ -44,16 +44,16 @@ public class PropertyChangeSupportTest
 	@Test
 	public void givenListenerOnProperty1_whenRemoveIt_thenShouldNotReceiveNotification()
 	{
-		PropertyChangeListener mockListener = createListenerOnProperty(Bean.PROPERTY1);
+		PresentationModelPropertyChangeListener mockListener = createListenerOnProperty(Bean.PROPERTY1);
 		
 		propertyChangeSupport.removePropertyChangeListener(Bean.PROPERTY1, mockListener);
 		
 		propertyChangeSupport.firePropertyChange(Bean.PROPERTY1);
 		EasyMock.verify(mockListener);
 	}
-	private PropertyChangeListener createListenerOnProperty(String propertyName)
+	private PresentationModelPropertyChangeListener createListenerOnProperty(String propertyName)
 	{
-		PropertyChangeListener mockListener = EasyMock.createMock(PropertyChangeListener.class);
+		PresentationModelPropertyChangeListener mockListener = EasyMock.createMock(PresentationModelPropertyChangeListener.class);
 		EasyMock.replay(mockListener);
 		propertyChangeSupport.addPropertyChangeListener(propertyName, mockListener);
 		return mockListener;
@@ -61,7 +61,7 @@ public class PropertyChangeSupportTest
 	@Test
 	public void givenListenerOnProperty1_whenFirePropertyChange_thenShouldReceiveNotification()
 	{
-		PropertyChangeListener mockListener = createShouldBeNotifiedListenerOnProperty(Bean.PROPERTY1);
+		PresentationModelPropertyChangeListener mockListener = createShouldBeNotifiedListenerOnProperty(Bean.PROPERTY1);
 		
 		propertyChangeSupport.firePropertyChange(Bean.PROPERTY1);
 		
@@ -70,16 +70,16 @@ public class PropertyChangeSupportTest
 	@Test
 	public void givenListenersOnProperty1AndProperty2_whenFireChangeAll_thenShouldAllReceiveNotifications()
 	{
-		PropertyChangeListener listenerOnProperty1 = createShouldBeNotifiedListenerOnProperty(Bean.PROPERTY1);
-		PropertyChangeListener listenerOnProperty2 = createShouldBeNotifiedListenerOnProperty(Bean.PROPERTY2);
+		PresentationModelPropertyChangeListener listenerOnProperty1 = createShouldBeNotifiedListenerOnProperty(Bean.PROPERTY1);
+		PresentationModelPropertyChangeListener listenerOnProperty2 = createShouldBeNotifiedListenerOnProperty(Bean.PROPERTY2);
 		
 		propertyChangeSupport.fireChangeAll();
 		
 		EasyMock.verify(listenerOnProperty1, listenerOnProperty2);
 	}
-	private PropertyChangeListener createShouldBeNotifiedListenerOnProperty(String propertyName)
+	private PresentationModelPropertyChangeListener createShouldBeNotifiedListenerOnProperty(String propertyName)
 	{
-		PropertyChangeListener mockPropertyChangeListener = EasyMock.createMock(PropertyChangeListener.class);
+		PresentationModelPropertyChangeListener mockPropertyChangeListener = EasyMock.createMock(PresentationModelPropertyChangeListener.class);
 		mockPropertyChangeListener.propertyChanged();
 		EasyMock.replay(mockPropertyChangeListener);
 		

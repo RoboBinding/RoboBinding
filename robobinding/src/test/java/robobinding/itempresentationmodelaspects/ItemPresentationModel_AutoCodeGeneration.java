@@ -15,28 +15,26 @@
  */
 package robobinding.itempresentationmodelaspects;
 
-import org.aspectj.lang.annotation.AdviceName;
-
 import robobinding.itempresentationmodel.ItemPresentationModel;
-import robobinding.presentationmodelaspects.PresentationModelMixin;
-import robobinding.property.ObservableProperties;
+
+
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
  * @author Cheng Wei
  */
-public aspect ItemPresentationModelAspect
+public class ItemPresentationModel_AutoCodeGeneration implements ItemPresentationModel<Object>
 {
-	declare parents: !(ObservableProperties+) && ItemPresentationModel+ && !ItemPresentationModel implements PresentationModelMixin;
-
-	pointcut updateData(PresentationModelMixin itemPresentationModel) : execution (* ItemPresentationModel+.updateData(int,*)) && this(itemPresentationModel) && within(PresentationModelMixin+);
-	
-	@AdviceName("fireItemPresentationModelRefresh")
-	after(PresentationModelMixin itemPresentationModel) : updateData(itemPresentationModel)
+	Object bean;
+	public static final String PROPERTY = "property";
+	public void updateData(int index, Object bean)
 	{
-		itemPresentationModel.refreshPresentationModel();
+		this.bean = bean;
+	}
+	public boolean getProperty()
+	{
+		return true;
 	}
 
 }

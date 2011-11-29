@@ -43,14 +43,14 @@ public abstract class AbstractProperty<T> implements PropertyValueModel<T>
 		propertyAccessor.setValue(bean, newValue);
 	}
 	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener)
+	public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener)
 	{
 		ObservableProperties observableBean = getObservableBean();
 		observableBean.addPropertyChangeListener(propertyAccessor.getPropertyName(), listener);
 	}
 
 	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener)
+	public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener)
 	{
 		if(isObservableBean())
 		{
