@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.binding.BindingAttributesLoader.ViewBindingAttributes;
+import robobinding.binding.BindingAttributesProcessor.ViewBindingAttributes;
 import robobinding.internal.com_google_common.collect.Maps;
 import android.util.AttributeSet;
 import android.view.View;
@@ -41,7 +41,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class BindingAttributesLoaderTest
+public class BindingAttributesProcessorTest
 {
 	private static final View VIEW = new View(null);
 	private AttributeSetParser attributeSetParser;
@@ -55,10 +55,10 @@ public class BindingAttributesLoaderTest
 	@Test
 	public void givenOneBindingAttribute_WhenLoading_ThenReturnOneBindingAttributeInstance()
 	{
-		when(attributeSetParser.loadBindingAttributes(any(AttributeSet.class))).thenReturn(singleBindingAttribute());
+		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(singleBindingAttribute());
 	
-		BindingAttributesLoader bindingAttributesLoader = newBindingAttributesLoader();
-		ViewBindingAttributes viewBindingAttributes = bindingAttributesLoader.load(VIEW, mock(AttributeSet.class));
+		BindingAttributesProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
+		ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
 		
 		assertThat(viewBindingAttributes.bindingAttributes.size(), equalTo(1));
 	}
@@ -68,10 +68,10 @@ public class BindingAttributesLoaderTest
 	{
 		Map<String, String> multipleBindingAttributes = multipleBindingAttributes();
 		int attributesCount = multipleBindingAttributes.size();
-		when(attributeSetParser.loadBindingAttributes(any(AttributeSet.class))).thenReturn(multipleBindingAttributes);
+		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(multipleBindingAttributes);
 	
-		BindingAttributesLoader bindingAttributesLoader = newBindingAttributesLoader();
-		ViewBindingAttributes viewBindingAttributes = bindingAttributesLoader.load(VIEW, mock(AttributeSet.class));
+		BindingAttributesProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
+		ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
 		
 		assertThat(viewBindingAttributes.bindingAttributes.size(), equalTo(attributesCount));
 	}
@@ -79,10 +79,10 @@ public class BindingAttributesLoaderTest
 	@Test (expected=RuntimeException.class)
 	public void givenAnyUnsupportedBindingAttributes_WhenLoading_ThenThrowRuntimeException()
 	{
-		when(attributeSetParser.loadBindingAttributes(any(AttributeSet.class))).thenReturn(unsupportedBindingAttributes());
+		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(unsupportedBindingAttributes());
 		
-		BindingAttributesLoader bindingAttributesLoader = newBindingAttributesLoader();
-		bindingAttributesLoader.load(VIEW, mock(AttributeSet.class));
+		BindingAttributesProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
+		bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
 	}
 
 	private Map<String, String> singleBindingAttribute()
@@ -108,9 +108,9 @@ public class BindingAttributesLoaderTest
 		return unsupportedBindingAttributes;
 	}
 
-	private BindingAttributesLoader newBindingAttributesLoader()
+	private BindingAttributesProcessor newBindingAttributesProcessor()
 	{
-		return new BindingAttributesLoader(new ProvidersResolver(), attributeSetParser, false);
+		return new BindingAttributesProcessor(new ProvidersResolver(), attributeSetParser, false);
 	}
 	
 }

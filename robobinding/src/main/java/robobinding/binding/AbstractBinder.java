@@ -17,7 +17,6 @@ package robobinding.binding;
 
 import robobinding.binding.BindingViewFactory.InflatedView;
 import robobinding.presentationmodel.PresentationModelAdapter;
-import robobinding.presentationmodel.PresentationModelAdapterImpl;
 import android.content.Context;
 import android.view.LayoutInflater;
 
@@ -29,9 +28,25 @@ import android.view.LayoutInflater;
  */
 public abstract class AbstractBinder
 {
-	protected InflatedView inflateAndBind(Context context, int layoutId, Object presentationModel, BindingViewFactory bindingViewFactory)
+	protected final Context context;
+	protected final BindingAttributesProcessor bindingAttributesProcessor;
+	
+	private BindingViewFactory bindingViewFactory;
+	
+	public AbstractBinder(Context context)
 	{
-		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
+		this(context, false);
+	}
+	
+	public AbstractBinder(Context context, boolean preInitializeViews)
+	{
+		this.context = context;
+		bindingAttributesProcessor = new BindingAttributesProcessor(new ProvidersResolver(), new AttributeSetParser(), preInitializeViews);
+	}
+
+	protected InflatedView inflateAndBind(int layoutId, PresentationModelAdapter presentationModelAdapter)
+	{
+		ensureBindingFactoryInitialized();
 		
 		InflatedView inflatedView = bindingViewFactory.inflateView(layoutId, context);
 		inflatedView.bindChildViews(presentationModelAdapter, context);
@@ -39,10 +54,18 @@ public abstract class AbstractBinder
 		return inflatedView;
 	}
 	
-	protected BindingViewFactory createBindingViewFactory(Context context, boolean preInitializeViews)
+	private void ensureBindingFactoryInitialized()
 	{
-		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
-		BindingAttributesLoader bindingAttributesLoader = new BindingAttributesLoader(new ProvidersResolver(), new AttributeSetParser(), preInitializeViews);
-		return new BindingViewFactory(layoutInflater, bindingAttributesLoader);
+		if (bindingViewFactory == null)
+		{
+			LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
+			bindingViewFactory = new BindingViewFactory(layoutInflater, bindingAttributesProcessor);
+		}
 	}
+	
+	void setBindingViewFactory(BindingViewFactory bindingViewFactory)
+	{
+		this.bindingViewFactory = bindingViewFactory;
+	}
+	
 }

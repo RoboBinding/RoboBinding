@@ -24,6 +24,7 @@
   		android:layout_above="@id/create_button"
   		android:layout_below="@id/window_title"
   		binding:itemLayout="@layout/album_row"
+  		binding:itemMapping="[@id/text1|text:{title}]"
   		binding:source="{albums}"
   		binding:onItemClick="viewAlbum" />
     

@@ -16,32 +16,44 @@
 package robobinding.binding.viewattribute;
 
 
+import java.util.Collections;
+import java.util.List;
+
 import robobinding.binding.ViewAttribute;
+import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.presentationmodel.DataSetAdapter;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
 import android.widget.AdapterView;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 @SuppressWarnings("rawtypes")
 public class AdaptedDataSetAttributes implements ViewAttribute
 {
 	private final AdapterView adapterView;
-	private final DropdownLayoutAttribute dropdownLayoutAttribute;
-	private final ItemLayoutAttribute itemLayoutAttribute;
-	private final SourceAttribute sourceAttribute;
+	private final List<AdapterViewAttribute> adapterViewAttributes;
 	
-	public AdaptedDataSetAttributes(AdapterView adapterView, SourceAttribute sourceAttribute, ItemLayoutAttribute itemLayoutAttribute, DropdownLayoutAttribute dropdownLayoutAttribute)
+	public AdaptedDataSetAttributes(AdapterView adapterView, SourceAttribute sourceAttribute, ItemLayoutAttribute itemLayoutAttribute, ItemMappingAttribute itemMappingAttribute, DropdownLayoutAttribute dropdownLayoutAttribute, DropdownMappingAttribute dropdownMappingAttribute)
 	{
 		this.adapterView = adapterView;
-		this.sourceAttribute = sourceAttribute;
-		this.itemLayoutAttribute  = itemLayoutAttribute;
-		this.dropdownLayoutAttribute = dropdownLayoutAttribute;
+		
+		adapterViewAttributes = Lists.newArrayList();
+		addAdapterViewAttribute(sourceAttribute);
+		addAdapterViewAttribute(itemLayoutAttribute);
+		addAdapterViewAttribute(itemMappingAttribute);
+		addAdapterViewAttribute(dropdownLayoutAttribute);
+		addAdapterViewAttribute(dropdownMappingAttribute);
+	}
+
+	private void addAdapterViewAttribute(AdapterViewAttribute adapterViewAttribute)
+	{
+		if (adapterViewAttribute != null)
+			adapterViewAttributes.add(adapterViewAttribute);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -50,18 +62,15 @@ public class AdaptedDataSetAttributes implements ViewAttribute
 	{
 		DataSetAdapter<?> dataSetAdapter = new DataSetAdapter(context);
 		
-		sourceAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
-		itemLayoutAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
-		
-		if (hasDropdownLayoutAttribute())
-			dropdownLayoutAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
+		for (AdapterViewAttribute adapterViewAttribute : adapterViewAttributes)
+			adapterViewAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
 		
 		dataSetAdapter.observeChangesOnTheValueModel();
 		adapterView.setAdapter(dataSetAdapter);
 	}
-
-	public boolean hasDropdownLayoutAttribute()
+	
+	public List<AdapterViewAttribute> getAdapterViewAttributes()
 	{
-		return dropdownLayoutAttribute != null;
+		return Collections.unmodifiableList(adapterViewAttributes);
 	}
 }

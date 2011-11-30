@@ -21,10 +21,13 @@ import java.util.Map;
 import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.AdaptedDataSetAttributes;
 import robobinding.binding.viewattribute.DropdownLayoutAttribute;
+import robobinding.binding.viewattribute.DropdownMappingAttribute;
 import robobinding.binding.viewattribute.ItemLayoutAttribute;
+import robobinding.binding.viewattribute.ItemMappingAttribute;
 import robobinding.binding.viewattribute.OnItemClickAttribute;
 import robobinding.binding.viewattribute.SourceAttribute;
 import robobinding.internal.com_google_common.collect.Lists;
+import android.widget.AbsSpinner;
 import android.widget.AdapterView;
 
 
@@ -75,7 +78,9 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 		private final boolean preInitializeView;
 		private String sourceAttributeValue;
 		private String itemLayoutAttributeValue;
+		private String itemMappingAttributeValue;
 		private String dropdownLayoutAttributeValue;
+		private String dropdownMappingAttributeValue;
 		private boolean hasAttributes = false;
 		
 		public AdapterViewAttributesBuilder(boolean preInitializeView)
@@ -99,6 +104,12 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 			this.itemLayoutAttributeValue = attributeValue;
 			hasAttributes = true;
 		}
+		
+		void setItemMappingAttributeValue(String itemMappingAttributeValue)
+		{
+			this.itemMappingAttributeValue = itemMappingAttributeValue;
+			hasAttributes = true;
+		}
 
 		public void setDropdownLayoutAttributeValue(String attributeValue)
 		{
@@ -106,21 +117,39 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 			hasAttributes = true;
 		}
 		
+		void setDropdownMappingAttributeValue(String dropdownMappingAttributeValue)
+		{
+			this.dropdownMappingAttributeValue = dropdownMappingAttributeValue;
+			hasAttributes = true;
+		}
+		
 		public BindingAttribute build(AdapterView<?> adapterView)
 		{
 			if (sourceAttributeValue == null || itemLayoutAttributeValue == null)
-				throw new RuntimeException();
+				throw new RuntimeException("When binding to an AdapterView, both source and itemLayout attributes must be provided.");
 
+			if (adapterView instanceof AbsSpinner && dropdownLayoutAttributeValue == null)
+				throw new RuntimeException("When binding to an AbsSpinner, dropdownLayout attribute must be provided.");
+			
 			SourceAttribute sourceAttribute = new SourceAttribute(sourceAttributeValue, preInitializeView);
 			ItemLayoutAttribute itemLayoutAttribute = new ItemLayoutAttribute(itemLayoutAttributeValue, preInitializeView);
 			
 			DropdownLayoutAttribute dropdownLayoutAttribute = null;
+			ItemMappingAttribute itemMappingAttribute = null;
+			DropdownMappingAttribute dropdownMappingAttribute = null;
 			
 			if (dropdownLayoutAttributeValue != null)
 				dropdownLayoutAttribute = new DropdownLayoutAttribute(dropdownLayoutAttributeValue, preInitializeView);
 			
-			AdaptedDataSetAttributes adaptedDataSetAttributes = new AdaptedDataSetAttributes(adapterView, sourceAttribute, itemLayoutAttribute, dropdownLayoutAttribute);
+			if (itemMappingAttributeValue != null)
+				itemMappingAttribute = new ItemMappingAttribute(itemMappingAttributeValue, preInitializeView);
+			
+			if (dropdownMappingAttributeValue != null)
+				dropdownMappingAttribute = new DropdownMappingAttribute(dropdownMappingAttributeValue, preInitializeView);
+			
+			AdaptedDataSetAttributes adaptedDataSetAttributes = new AdaptedDataSetAttributes(adapterView, sourceAttribute, itemLayoutAttribute, itemMappingAttribute, dropdownLayoutAttribute, dropdownMappingAttribute);
 			return new BindingAttribute(Lists.newArrayList("source", "itemLayout", "dropdownLayout"), adaptedDataSetAttributes);
 		}
+
 	}
 }

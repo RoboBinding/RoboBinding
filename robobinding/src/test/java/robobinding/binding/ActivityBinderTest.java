@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import robobinding.binding.BindingAttributesLoader.ViewBindingAttributes;
+import robobinding.binding.BindingAttributesProcessor.ViewBindingAttributes;
 import robobinding.binding.BindingViewFactory.InflatedView;
 import android.app.Activity;
 import android.view.View;
@@ -53,7 +53,8 @@ public class ActivityBinderTest
 		when(bindingViewFactory.inflateView(layoutId, activity)).thenReturn(inflatedView);
 		
 		ActivityBinder activityBinder = new ActivityBinder(activity, layoutId);
-		activityBinder.bindTo(presentationModel, bindingViewFactory);
+		activityBinder.setBindingViewFactory(bindingViewFactory);
+		activityBinder.bindTo(presentationModel);
 		
 		verify(activity).setContentView(rootView);
 	}

@@ -16,6 +16,10 @@
 package robobinding.binding;
 
 import robobinding.binding.BindingViewFactory.InflatedView;
+import robobinding.binding.viewattribute.DropdownMappingAttribute;
+import robobinding.binding.viewattribute.ItemMappingAttribute;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.presentationmodel.PresentationModelAdapterImpl;
 import android.content.Context;
 import android.view.View;
 
@@ -27,26 +31,42 @@ import android.view.View;
  */
 public class RowBinder extends AbstractBinder
 {
-	public enum ViewType {ITEM_LAYOUT, DROPDOWN_LAYOUT}
-	
-	private final Context context;
-	private final BindingViewFactory bindingViewFactory;
 	private int itemLayoutId;
+	private ItemMappingAttribute itemMappingAttribute;
 	private int dropdownLayoutId;
+	private DropdownMappingAttribute dropdownMappingAttribute;
 
 	public RowBinder(Context context)
 	{
-		this.context = context;
-		bindingViewFactory = createBindingViewFactory(context, false);
+		super(context);
 	}
 	
-	public View inflateAndBindTo(ViewType viewType, Object presentationModel)
+	public View inflateItemAndBindTo(Object presentationModel)
 	{
-		int layoutId = viewType == ViewType.ITEM_LAYOUT ? itemLayoutId : dropdownLayoutId;
-		InflatedView inflatedView = inflateAndBind(context, layoutId, presentationModel, bindingViewFactory);
+		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
+		InflatedView inflatedView = inflateAndBind(itemLayoutId, presentationModelAdapter);
+		
+		if (itemMappingAttribute != null)
+		{
+			itemMappingAttribute.bindToPredefined(bindingAttributesProcessor, inflatedView.getRootView(), presentationModelAdapter, context);
+		}
+		
 		return inflatedView.getRootView();
 	}
 
+	public View inflateDropdownAndBindTo(Object presentationModel)
+	{
+		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
+		InflatedView inflatedView = inflateAndBind(dropdownLayoutId, presentationModelAdapter);
+		
+		if (dropdownMappingAttribute != null)
+		{
+			dropdownMappingAttribute.bindToPredefined(bindingAttributesProcessor, inflatedView.getRootView(), presentationModelAdapter, context);
+		}
+		
+		return inflatedView.getRootView();
+	}
+	
 	public void setItemLayoutId(int itemLayoutId)
 	{
 		this.itemLayoutId = itemLayoutId;
@@ -55,5 +75,15 @@ public class RowBinder extends AbstractBinder
 	public void setDropdownLayoutId(int dropdownLayoutId)
 	{
 		this.dropdownLayoutId = dropdownLayoutId;
+	}
+
+	public void setItemMappingAttribute(ItemMappingAttribute itemMappingAttribute)
+	{
+		this.itemMappingAttribute = itemMappingAttribute;
+	}
+
+	public void setDropdownMappingAttribute(DropdownMappingAttribute dropdownMappingAttribute)
+	{
+		this.dropdownMappingAttribute = dropdownMappingAttribute;
 	}
 }

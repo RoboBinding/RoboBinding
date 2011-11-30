@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Random;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import android.content.Context;
@@ -41,7 +42,7 @@ public class ResourceBindingDetailsTest
 	private Context context;
 	private Resources resources;
 	
-	
+	@Before
 	public void setUp()
 	{
 		context = mock(Context.class);

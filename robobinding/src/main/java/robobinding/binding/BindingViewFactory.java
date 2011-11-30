@@ -17,7 +17,7 @@ package robobinding.binding;
 
 import java.util.List;
 
-import robobinding.binding.BindingAttributesLoader.ViewBindingAttributes;
+import robobinding.binding.BindingAttributesProcessor.ViewBindingAttributes;
 import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
@@ -36,15 +36,16 @@ import android.view.View;
 public class BindingViewFactory implements Factory
 {
 	private final LayoutInflater layoutInflater;
-	private final BindingAttributesLoader bindingAttributesLoader;
+	private final BindingAttributesProcessor bindingAttributesProcessor;
+	private final ViewNameResolver viewNameResolver;
 	
 	private List<ViewBindingAttributes> childViewBindingAttributes = Lists.newArrayList();
-	private ViewNameResolver viewNameResolver = new ViewNameResolver();
 	
-	BindingViewFactory(LayoutInflater layoutInflater, BindingAttributesLoader bindingAttributesLoader)
+	BindingViewFactory(LayoutInflater layoutInflater, BindingAttributesProcessor bindingAttributesProcessor)
 	{
-		this.bindingAttributesLoader = bindingAttributesLoader;
 		this.layoutInflater = layoutInflater;
+		this.bindingAttributesProcessor = bindingAttributesProcessor;
+		this.viewNameResolver = new ViewNameResolver();
 		layoutInflater.setFactory(this);
 	}
 
@@ -55,7 +56,7 @@ public class BindingViewFactory implements Factory
 			String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
 			
 			View view = layoutInflater.createView(viewFullName, null, attrs);
-			ViewBindingAttributes viewBindingAttributes = bindingAttributesLoader.load(view, attrs);
+			ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.read(view, attrs);
 			childViewBindingAttributes.add(viewBindingAttributes);
 			return view;
 		} 
@@ -64,11 +65,10 @@ public class BindingViewFactory implements Factory
 			throw new RuntimeException(e);
 		}
 	}
-
+ 
 	InflatedView inflateView(int resourceId, Context context)
 	{
 		childViewBindingAttributes = Lists.newArrayList();
-		
 		View rootView = layoutInflater.inflate(resourceId, null, false);
 		return new InflatedView(rootView, childViewBindingAttributes);
 	}

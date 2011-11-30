@@ -17,7 +17,8 @@
 package robobinding.presentationmodel;
 
 import robobinding.binding.RowBinder;
-import robobinding.binding.RowBinder.ViewType;
+import robobinding.binding.viewattribute.DropdownMappingAttribute;
+import robobinding.binding.viewattribute.ItemMappingAttribute;
 import robobinding.itempresentationmodel.ItemPresentationModel;
 import robobinding.property.AbstractDataSetProperty;
 import robobinding.property.PresentationModelPropertyChangeListener;
@@ -34,6 +35,8 @@ import android.widget.BaseAdapter;
  */
 public class DataSetAdapter<T> extends BaseAdapter
 {
+	private enum ViewType {ITEM_LAYOUT, DROPDOWN_LAYOUT}
+	
 	private AbstractDataSetProperty<T> dataSetValueModel;
 	private final RowBinder rowBinder;
 	
@@ -119,7 +122,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private View newView(int position, ViewGroup parent, ViewType viewType)
 	{
 		ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
-		View view = rowBinder.inflateAndBindTo(viewType, itemPresentationModel);
+		View view = viewType == ViewType.ITEM_LAYOUT ? rowBinder.inflateItemAndBindTo(itemPresentationModel) : rowBinder.inflateDropdownAndBindTo(itemPresentationModel);
 		view.setTag(itemPresentationModel);
 		return view;
 	}
@@ -129,5 +132,15 @@ public class DataSetAdapter<T> extends BaseAdapter
 		@SuppressWarnings("unchecked")
 		ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>)view.getTag();
 		dataSetValueModel.updateItemPresentationModel(itemPresentationModel, position);
+	}
+
+	public void setItemMappingAttribute(ItemMappingAttribute itemMappingAttribute)
+	{
+		rowBinder.setItemMappingAttribute(itemMappingAttribute);
+	}
+
+	public void setDropdownMappingAttribute(DropdownMappingAttribute dropdownMappingAttribute)
+	{
+		rowBinder.setDropdownMappingAttribute(dropdownMappingAttribute);
 	}
 }

@@ -32,7 +32,7 @@ class AttributeSetParser
 {
 	static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/robobinding.android";
 
-	Map<String, String> loadBindingAttributes(AttributeSet attributeSet)
+	Map<String, String> parse(AttributeSet attributeSet)
 	{
 		Map<String, String> bindingAttributes = Maps.newHashMap();
 		
