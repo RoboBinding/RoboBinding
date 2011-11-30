@@ -39,8 +39,8 @@ public class CreateEditAlbumActivity extends Activity {
         AlbumStore albumStore = new AlbumStore();
         long albumId = getIntent().getLongExtra(ALBUM_ID, -1);
         
-        ActivityBinder binder = new ActivityBinder(this, R.layout.create_edit_album_activity);
+        ActivityBinder binder = new ActivityBinder(this, R.layout.create_edit_album_activity, true);
         CreateEditAlbumPresentationModel createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumStore, albumId);
-		binder.bindTo(createEditAlbumPresentationModel, true);
+		binder.bindTo(createEditAlbumPresentationModel);
     }
 }

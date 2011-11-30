@@ -43,7 +43,7 @@ public class ActivityBinder extends AbstractBinder
 		this(activity, layoutId, false);
 	}
 	
-	void bindTo(Object presentationModel)
+	public void bindTo(Object presentationModel)
 	{
 		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 		InflatedView inflatedView = inflateAndBind(layoutId, presentationModelAdapter);
