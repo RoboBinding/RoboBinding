@@ -18,6 +18,7 @@ package robobinding.presentationmodel;
 
 import robobinding.binding.RowBinder;
 import robobinding.binding.RowBinder.ViewType;
+import robobinding.binding.viewattribute.DropdownMappingAttribute;
 import robobinding.binding.viewattribute.ItemMappingAttribute;
 import robobinding.itempresentationmodel.ItemPresentationModel;
 import robobinding.property.AbstractDataSetProperty;
@@ -133,6 +134,12 @@ public class DataSetAdapter<T> extends BaseAdapter
 	}
 
 	public void setItemMappingAttribute(ItemMappingAttribute itemMappingAttribute)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setDropdownMappingAttribute(DropdownMappingAttribute dropdownMappingAttribute)
 	{
 		// TODO Auto-generated method stub
 		

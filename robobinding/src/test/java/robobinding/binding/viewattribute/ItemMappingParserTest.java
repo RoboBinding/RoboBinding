@@ -15,20 +15,22 @@
  */
 package robobinding.binding.viewattribute;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import java.util.List;
-import java.util.Map;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 import robobinding.binding.viewattribute.ItemMappingAttribute.ItemMappingParser;
-import robobinding.binding.viewattribute.ItemMappingAttribute.ViewMapping;
-import robobinding.internal.com_google_common.collect.Lists;
-import robobinding.internal.com_google_common.collect.Maps;
+import robobinding.binding.viewattribute.ItemMappingAttribute.ViewMappings;
+import android.content.Context;
+import android.content.res.Resources;
 
 /**
  *
@@ -44,22 +46,49 @@ public class ItemMappingParserTest
 	@DataPoints
 	public static MappingExpectation[] mappingExpections = {
 			attribute("[text1.text:{title}]")
-				.shouldMapTo(viewMapping(TEXT_1_ID, "text", "{title}")),
+				.shouldMapTo(viewMapping("text1", TEXT_1_ID, "text", "{title}")),
 			attribute("[text2.text:{artist}]")
-				.shouldMapTo(viewMapping(TEXT_2_ID, "text", "{artist}")),
-			attribute("[text1.text:{title}], text2.text:{artist}]")
-				.shouldMapTo(viewMapping(TEXT_1_ID, "text", "{title}"), viewMapping(TEXT_2_ID, "text", "{artist}")),
+				.shouldMapTo(viewMapping("text2", TEXT_2_ID, "text", "{artist}")),
+			attribute("[text1.text:{title},text2.text:{artist}]")
+				.shouldMapTo(viewMapping("text1", TEXT_1_ID, "text", "{title}"), viewMapping("text2", TEXT_2_ID, "text", "{artist}")),
 			attribute("[text1.visibility:{titleVisible},text2.enabled:{artistEnabled}]")
-				.shouldMapTo(viewMapping(TEXT_1_ID, "visibility", "{titleVisible}"), viewMapping(TEXT_2_ID, "enabled", "{artistEnabled}"))};
+				.shouldMapTo(viewMapping("text1", TEXT_1_ID, "visibility", "{titleVisible}"), viewMapping("text2", TEXT_2_ID, "enabled", "{artistEnabled}"))};
 
+	@DataPoints
+	public static String[] illegalAttributeValues = {
+		"[text1.text: {title}", "text:{title}", "[text1.text:title]", "[text1.text:{title}, text2.text:{artist}]", "[text1.text:{title}],text2.text:{artist}]",
+		"[text1.text:{title},text2..text:{artist}]"
+	};
+	
+	private Context mockContext;
+	private Resources mockResources;
+	
+	@Before
+	public void setUp()
+	{
+		mockResources = mock(Resources.class);
+		mockContext = mock(Context.class);
+		when(mockContext.getResources()).thenReturn(mockResources);
+	}
+	
 	@Theory
 	public void shouldParseLegalAttributeValuesCorrectly(MappingExpectation mappingExpectation)
 	{
-		ItemMappingParser itemMappingParser = new ItemMappingParser();
-		List<ViewMapping> viewMappings = itemMappingParser.parse(mappingExpectation.attributeValue);
+		for (ViewMappingData viewMappingData : mappingExpectation.viewMappingData)
+			when(mockResources.getIdentifier(viewMappingData.viewName, "id", null)).thenReturn(viewMappingData.viewId);
 		
-		for (ViewMapping viewMapping : mappingExpectation.viewMappings)
-			assertTrue(viewMappings.contains(viewMapping));
+		ItemMappingParser itemMappingParser = new ItemMappingParser();
+		ViewMappings viewMappings = itemMappingParser.parse(mappingExpectation.attributeValue, mockContext);
+		
+		assertThat(viewMappings, equalTo(mappingExpectation.expectedViewMappings));
+	}
+	
+	@Theory
+	@Test (expected=RuntimeException.class)
+	public void whenParsingAnIllegalAttributeValue_ThenThrowRuntimeException(String illegalAttributeValue)
+	{
+		ItemMappingParser itemMappingParser = new ItemMappingParser();
+		itemMappingParser.parse(illegalAttributeValue, mockContext);
 	}
 	
 	private static Attribute attribute(String attributeValue)
@@ -67,47 +96,25 @@ public class ItemMappingParserTest
 		return new Attribute(attributeValue);
 	}
 	
-	private static ViewMappingData viewMapping(int id, String attributeName, String attributeValue)
+	private static ViewMappingData viewMapping(String viewName, int viewId, String attributeName, String attributeValue)
 	{
-		return new ViewMappingData(id, attributeName, attributeValue);
+		return new ViewMappingData(viewName, viewId, attributeName, attributeValue);
 	}
 	
 	private static class MappingExpectation
 	{
 		private final String attributeValue;
-		private final List<ViewMapping> viewMappings;
+		private final ViewMappings expectedViewMappings;
+		private final ViewMappingData[] viewMappingData;
 		
 		public MappingExpectation(String attributeValue, ViewMappingData[] viewMappings)
 		{
 			this.attributeValue = attributeValue;
-			this.viewMappings = Lists.newArrayList();
+			viewMappingData = viewMappings;
+			this.expectedViewMappings = new ViewMappings();
 			
 			for (ViewMappingData viewMappingData : viewMappings)
-			{
-				ViewMapping viewMapping = null;
-				
-				for (ViewMapping existingViewMapping : this.viewMappings)
-				{
-					if (existingViewMapping.viewId == viewMappingData.id)
-					{
-						viewMapping = existingViewMapping;
-						break;
-					}
-				}
-				
-				if (viewMapping == null)
-				{
-					Map<String, String> attributes = Maps.newHashMap();
-					attributes.put(viewMappingData.attributeName, viewMappingData.attributeValue);
-					viewMapping = new ViewMapping(viewMappingData.id, attributes);
-					this.viewMappings.add(viewMapping);
-				}
-				else
-				{
-					Map<String, String> attributes = viewMapping.bindingAttributes;
-					attributes.put(viewMappingData.attributeName, viewMappingData.attributeValue);
-				}
-			}
+				expectedViewMappings.add(viewMappingData.viewId, viewMappingData.attributeName, viewMappingData.attributeValue);
 		}
 	}
 	
@@ -128,13 +135,15 @@ public class ItemMappingParserTest
 	
 	private static class ViewMappingData
 	{
-		private final int id;
+		private final String viewName;
+		private final int viewId;
 		private final String attributeName;
 		private final String attributeValue;
 
-		public ViewMappingData(int id, String attributeName, String attributeValue)
+		public ViewMappingData(String viewName, int viewId, String attributeName, String attributeValue)
 		{
-			this.id = id;
+			this.viewName = viewName;
+			this.viewId = viewId;
 			this.attributeName = attributeName;
 			this.attributeValue = attributeValue;
 		}

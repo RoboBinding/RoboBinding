@@ -15,6 +15,10 @@
  */
 package robobinding.binding.viewattribute;
 
+import robobinding.presentationmodel.DataSetAdapter;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import android.content.Context;
+
 /**
  *
  * @since 1.0
@@ -23,10 +27,14 @@ package robobinding.binding.viewattribute;
  */
 public class DropdownMappingAttribute extends ItemMappingAttribute
 {
-
 	public DropdownMappingAttribute(String dropdownMappingAttributeValue, boolean preInitializeView)
 	{
 		super(dropdownMappingAttributeValue, preInitializeView);
 	}
 
+	@Override
+	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+	{
+		dataSetAdapter.setDropdownMappingAttribute(this);
+	}
 }

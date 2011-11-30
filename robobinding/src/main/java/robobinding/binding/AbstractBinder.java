@@ -17,7 +17,6 @@ package robobinding.binding;
 
 import robobinding.binding.BindingViewFactory.InflatedView;
 import robobinding.presentationmodel.PresentationModelAdapter;
-import robobinding.presentationmodel.PresentationModelAdapterImpl;
 import android.content.Context;
 import android.view.LayoutInflater;
 
@@ -29,20 +28,29 @@ import android.view.LayoutInflater;
  */
 public abstract class AbstractBinder
 {
-	protected InflatedView inflateAndBind(Context context, int layoutId, Object presentationModel, BindingViewFactory bindingViewFactory)
+	protected final BindingAttributesReader bindingAttributesReader;
+	protected final BindingViewFactory bindingViewFactory;
+	protected final Context context;
+	
+	public AbstractBinder(Context context)
 	{
-		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
-		
+		this(context, false);
+	}
+	
+	public AbstractBinder(Context context, boolean preInitializeViews)
+	{
+		this.context = context;
+		bindingAttributesReader = new BindingAttributesReader(new ProvidersResolver(), new AttributeSetParser(), preInitializeViews);
+		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
+		bindingViewFactory = new BindingViewFactory(layoutInflater, bindingAttributesReader);
+	}
+	
+	protected InflatedView inflateAndBind(int layoutId, PresentationModelAdapter presentationModelAdapter)
+	{
 		InflatedView inflatedView = bindingViewFactory.inflateView(layoutId, context);
 		inflatedView.bindChildViews(presentationModelAdapter, context);
 		
 		return inflatedView;
 	}
 	
-	protected BindingViewFactory createBindingViewFactory(Context context, boolean preInitializeViews)
-	{
-		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
-		BindingAttributesReader bindingAttributesLoader = new BindingAttributesReader(new ProvidersResolver(), preInitializeViews);
-		return new BindingViewFactory(layoutInflater, bindingAttributesLoader, new AttributeSetParser());
-	}
 }

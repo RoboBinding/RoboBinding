@@ -26,6 +26,8 @@ import org.junit.Test;
 
 import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.AdaptedDataSetAttributes;
+import robobinding.binding.viewattribute.AdapterViewAttribute;
+import robobinding.binding.viewattribute.DropdownLayoutAttribute;
 import robobinding.binding.viewattribute.OnItemClickAttribute;
 import robobinding.internal.com_google_common.collect.Maps;
 import android.widget.ListView;
@@ -81,9 +83,20 @@ public class AdapterViewAttributeProviderTest
 	
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(AdaptedDataSetAttributes.class));
 		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes)bindingAttribute.getViewAttribute();
-		assertTrue(adaptedDataSetAttributes.hasDropdownLayoutAttribute());
+		assertTrue(adaptedDataSetAttributesContains(DropdownLayoutAttribute.class, adaptedDataSetAttributes));
 	}
 	
+	private boolean adaptedDataSetAttributesContains(Class<? extends AdapterViewAttribute> clazz, AdaptedDataSetAttributes adaptedDataSetAttributes)
+	{
+		for (AdapterViewAttribute adapterViewAttribute : adaptedDataSetAttributes.getAdapterViewAttributes())
+		{
+			if (clazz.isAssignableFrom(adapterViewAttribute.getClass()))
+				return true;
+		}
+		
+		return false;
+	}
+
 	@Test (expected=RuntimeException.class)
 	public void givenOnlySource_ThenThrowRuntimeException()
 	{

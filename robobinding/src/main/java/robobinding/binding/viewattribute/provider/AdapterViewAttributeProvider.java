@@ -145,7 +145,7 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 			if (dropdownMappingAttributeValue != null)
 				dropdownMappingAttribute = new DropdownMappingAttribute(dropdownMappingAttributeValue, preInitializeView);
 			
-			AdaptedDataSetAttributes adaptedDataSetAttributes = new AdaptedDataSetAttributes(adapterView, sourceAttribute, itemLayoutAttribute, dropdownLayoutAttribute);
+			AdaptedDataSetAttributes adaptedDataSetAttributes = new AdaptedDataSetAttributes(adapterView, sourceAttribute, itemLayoutAttribute, itemMappingAttribute, dropdownLayoutAttribute, dropdownMappingAttribute);
 			return new BindingAttribute(Lists.newArrayList("source", "itemLayout", "dropdownLayout"), adaptedDataSetAttributes);
 		}
 

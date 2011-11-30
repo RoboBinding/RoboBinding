@@ -15,14 +15,13 @@
  */
 package robobinding.binding.viewattribute;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import robobinding.binding.BindingAttributesReader;
 import robobinding.binding.BindingAttributesReader.ViewBindingAttributes;
-import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.internal.com_google_common.collect.Maps;
 import robobinding.presentationmodel.DataSetAdapter;
 import robobinding.presentationmodel.PresentationModelAdapter;
@@ -37,40 +36,15 @@ import android.view.View;
  */
 public class ItemMappingAttribute implements AdapterViewAttribute
 {
-	private static final String ITEM_MAPPING_PATTERN = "(\\w+).(\\w+):($?{\\w+})";
-	private static final String ITEM_MAPPING_ATTRIBUTE_PATTERN = "@\\[" + ITEM_MAPPING_PATTERN + "(," + ITEM_MAPPING_PATTERN + ")*\\]$";
+	private static final String ITEM_MAPPING_PATTERN = "(\\w+)\\.(\\w+):($?\\{\\w+\\})";
+	private static final Pattern ITEM_MAPPING_COMPILED_PATTERN = Pattern.compile(ITEM_MAPPING_PATTERN);
+	private static final Pattern ITEM_MAPPING_ATTRIBUTE_COMPILED_PATTERN = Pattern.compile("^\\[" + ITEM_MAPPING_PATTERN + "(?:," + ITEM_MAPPING_PATTERN + ")*\\]$");
 	
-	static class ItemMappingParser
-	{
-
-		public List<ViewMapping> parse(String attribute, Context context)
-		{
-			Pattern itemMappingPattern = Pattern.compile(ITEM_MAPPING_PATTERN);
-			Matcher matcher = itemMappingPattern.matcher(attribute);
-			List<ViewMapping> viewMappings = Lists.newArrayList();
-
-			while (matcher.find())
-			{
-				Map<String, String> attribute = Maps.newHashMap();
-				
-				String viewIdString = matcher.group(1);
-				int viewId = context.getResources().getIdentifier(viewIdString, "id", null);
-				String attributeName = matcher.group(2);
-				String attributeValue = matcher.group(3);
-			}
-			
-			attribute.put("text", "{title}");
-			viewMappings.add(new ViewMapping(10, attribute));
-			return viewMappings;
-		}
-
-	}
-
-	private List<ViewMapping> viewMappings;
+	private final String itemMappingAttributeValue;
 	
 	public ItemMappingAttribute(String itemMappingAttributeValue, boolean preInitializeView)
 	{
-		viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue);
+		this.itemMappingAttributeValue = itemMappingAttributeValue;
 	}
 
 	@Override
@@ -79,29 +53,111 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 		dataSetAdapter.setItemMappingAttribute(this);
 	}
 
-	public void bind(View view, PresentationModelAdapter presentationModelAdapter, Context context)
+	public void lateBindTo(BindingAttributesReader bindingAttributesReader, View view, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		for (ViewMapping viewMapping : viewMappings)
+		ViewMappings viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, context);
+		
+		for (ViewMapping viewMapping : viewMappings.getViewMappingsCollection())
 		{
-			viewMapping.bind(view, presentationModelAdapter, context);
+			viewMapping.bind(bindingAttributesReader, view, presentationModelAdapter, context);
+		}
+	}
+	
+	static class ItemMappingParser
+	{
+		public ViewMappings parse(String attribute, Context context)
+		{
+			if (!ITEM_MAPPING_ATTRIBUTE_COMPILED_PATTERN.matcher(attribute).matches())
+				throw new RuntimeException("ItemMapping attribute value: " + attribute + " contains invalid syntax.");
+			
+			Matcher matcher = ITEM_MAPPING_COMPILED_PATTERN.matcher(attribute);
+			ViewMappings viewMappings = new ViewMappings();
+
+			while (matcher.find())
+			{
+				String viewIdString = matcher.group(1);
+				String attributeName = matcher.group(2);
+				String attributeValue = matcher.group(3);
+				
+				int viewId = context.getResources().getIdentifier(viewIdString, "id", null);
+				viewMappings.add(viewId, attributeName, attributeValue);
+			}
+			
+			return viewMappings;
+		}
+	}
+	
+	static class ViewMappings
+	{
+		private Map<Integer, ViewMapping> viewMappings = Maps.newHashMap();
+		
+		void add(int viewId, String attributeName, String attributeValue)
+		{
+			ViewMapping existingViewMapping = viewMappings.get(viewId);
+			
+			if (existingViewMapping != null)
+			{
+				existingViewMapping.add(attributeName, attributeValue);
+			}
+			else
+			{
+				viewMappings.put(viewId, new ViewMapping(viewId, attributeName, attributeValue));
+			}
+		}
+		
+		Collection<ViewMapping> getViewMappingsCollection()
+		{
+			return viewMappings.values();
+		}
+
+		@Override
+		public int hashCode()
+		{
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((viewMappings == null) ? 0 : viewMappings.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ViewMappings other = (ViewMappings) obj;
+			if (viewMappings == null)
+			{
+				if (other.viewMappings != null)
+					return false;
+			} else if (!viewMappings.equals(other.viewMappings))
+				return false;
+			return true;
 		}
 	}
 	
 	static class ViewMapping
 	{
 		int viewId;
-		Map<String,String> bindingAttributes;
+		Map<String,String> bindingAttributes = Maps.newHashMap();
 		
-		public ViewMapping(int viewId, Map<String, String> bindingAttributes)
+		public ViewMapping(int viewId, String attributeName, String attributeValue)
 		{
 			this.viewId = viewId;
-			this.bindingAttributes = bindingAttributes;
+			this.add(attributeName, attributeValue);
 		}
 
-		public void bind(View view, PresentationModelAdapter presentationModelAdapter, Context context)
+		public void add(String attributeName, String attributeValue)
+		{
+			this.bindingAttributes.put(attributeName, attributeValue);
+		}
+
+		public void bind(BindingAttributesReader bindingAttributesReader, View view, PresentationModelAdapter presentationModelAdapter, Context context)
 		{
 			View viewToBind = view.findViewById(viewId);
-			BindingAttributesReader bindingAttributesReader = new BindingAttributesReader(null, false);
 			ViewBindingAttributes viewBindingAttributes = bindingAttributesReader.read(viewToBind, bindingAttributes);
 			viewBindingAttributes.bind(presentationModelAdapter, context);
 		}

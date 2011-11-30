@@ -16,6 +16,8 @@
 package robobinding.binding;
 
 import robobinding.binding.BindingViewFactory.InflatedView;
+import robobinding.presentationmodel.PresentationModelAdapter;
+import robobinding.presentationmodel.PresentationModelAdapterImpl;
 import android.app.Activity;
 
 /**
@@ -29,26 +31,22 @@ public class ActivityBinder extends AbstractBinder
 	private final Activity activity;
 	private final int layoutId;
 	
-	public ActivityBinder(Activity activity, int layoutId)
+	public ActivityBinder(Activity activity, int layoutId, boolean preInitializeViews)
 	{
+		super(activity, preInitializeViews);
 		this.activity = activity;
 		this.layoutId = layoutId;
 	}
 
-	public void bindTo(Object presentationModel)
+	public ActivityBinder(Activity activity, int layoutId)
 	{
-		bindTo(presentationModel, false);
+		this(activity, layoutId, false);
 	}
-
-	public void bindTo(Object presentationModel, boolean preInitializeViews)
+	
+	void bindTo(Object presentationModel)
 	{
-		BindingViewFactory bindingViewFactory = createBindingViewFactory(activity, preInitializeViews);
-		bindTo(presentationModel, bindingViewFactory);
-	}
-
-	void bindTo(Object presentationModel, BindingViewFactory bindingViewFactory)
-	{
-		InflatedView inflatedView = inflateAndBind(activity, layoutId, presentationModel, bindingViewFactory);
+		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
+		InflatedView inflatedView = inflateAndBind(layoutId, presentationModelAdapter);
 		activity.setContentView(inflatedView.getRootView());
 	}
 	

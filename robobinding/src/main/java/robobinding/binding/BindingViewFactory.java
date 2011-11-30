@@ -16,6 +16,7 @@
 package robobinding.binding;
 
 import java.util.List;
+import java.util.Map;
 
 import robobinding.binding.BindingAttributesReader.ViewBindingAttributes;
 import robobinding.internal.com_google_common.collect.Lists;
@@ -36,17 +37,16 @@ import android.view.View;
 public class BindingViewFactory implements Factory
 {
 	private final LayoutInflater layoutInflater;
-	private final BindingAttributesReader bindingAttributesLoader;
-	private final AttributeSetParser attributeSetParser;
+	private final BindingAttributesReader bindingAttributesReader;
+	private final ViewNameResolver viewNameResolver;
 	
 	private List<ViewBindingAttributes> childViewBindingAttributes = Lists.newArrayList();
-	private ViewNameResolver viewNameResolver = new ViewNameResolver();
 	
-	BindingViewFactory(LayoutInflater layoutInflater, BindingAttributesReader bindingAttributesLoader, AttributeSetParser attributeSetParser)
+	BindingViewFactory(LayoutInflater layoutInflater, BindingAttributesReader bindingAttributesReader)
 	{
-		this.bindingAttributesLoader = bindingAttributesLoader;
 		this.layoutInflater = layoutInflater;
-		this.attributeSetParser = attributeSetParser;
+		this.bindingAttributesReader = bindingAttributesReader;
+		this.viewNameResolver = new ViewNameResolver();
 		layoutInflater.setFactory(this);
 	}
 
@@ -57,7 +57,7 @@ public class BindingViewFactory implements Factory
 			String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
 			
 			View view = layoutInflater.createView(viewFullName, null, attrs);
-			ViewBindingAttributes viewBindingAttributes = bindingAttributesLoader.read(view, attrs, attributeSetParser);
+			ViewBindingAttributes viewBindingAttributes = bindingAttributesReader.read(view, attrs);
 			childViewBindingAttributes.add(viewBindingAttributes);
 			return view;
 		} 
@@ -66,11 +66,10 @@ public class BindingViewFactory implements Factory
 			throw new RuntimeException(e);
 		}
 	}
-
+ 
 	InflatedView inflateView(int resourceId, Context context)
 	{
 		childViewBindingAttributes = Lists.newArrayList();
-		
 		View rootView = layoutInflater.inflate(resourceId, null, false);
 		return new InflatedView(rootView, childViewBindingAttributes);
 	}
