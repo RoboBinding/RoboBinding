@@ -20,7 +20,6 @@ import robobinding.binding.viewattribute.ItemMappingAttribute;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import robobinding.presentationmodel.PresentationModelAdapterImpl;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 
 /**
@@ -47,27 +46,11 @@ public class RowBinder extends AbstractBinder
 		int layoutId = viewType == ViewType.ITEM_LAYOUT ? itemLayoutId : dropdownLayoutId;
 		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 		
-		if (itemMappingAttribute != null)
-		{
-			//Calling this every time is going to be expensive. We're already doing this
-			//Can we support ViewHolders?
-			
-			//Insider the RowBinder I want a bindingattributeprocessor
-			//This contains the LayoutInflater and the BindingAttributesReader.
-			//BindingViewFactory will get one of these
-			//Then from here I call lateBindTo(BindingAttributesProcessor, presentationModel, context)
-			
-			//I need a way to reuse binding attributes. Otherwise everytime we look up the providers, and create a new set of attributes for each view as it is reused
-			
-			BindingAttributesReader bindingAttributesReader = new BindingAttributesReader(new ProvidersResolver(), new AttributeSetParser(), false);
-			itemMappingAttribute.lateBindTo(bindingAttributesReader, inflatedView, presentationModelAdapter, context);
-		}
-		
-		InflatedView inflatedView = inflateAndBind(context, layoutId, presentationModelAdapter, bindingViewFactory);
+		InflatedView inflatedView = inflateAndBind(layoutId, presentationModelAdapter);
 		
 		if (itemMappingAttribute != null)
 		{
-			itemMappingAttribute.lateBindTo(bindingViewFactory, inflatedView.getRootView(), presentationModelAdapter, context);
+			itemMappingAttribute.bindToPredefined(bindingAttributesProcessor, inflatedView.getRootView(), presentationModelAdapter, context);
 		}
 		
 		return inflatedView.getRootView();

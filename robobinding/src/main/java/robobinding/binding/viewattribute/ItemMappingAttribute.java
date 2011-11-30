@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import robobinding.binding.BindingAttributesReader;
-import robobinding.binding.BindingAttributesReader.ViewBindingAttributes;
+import robobinding.binding.BindingAttributesProcessor;
+import robobinding.binding.BindingAttributesProcessor.ViewBindingAttributes;
 import robobinding.internal.com_google_common.collect.Maps;
 import robobinding.presentationmodel.DataSetAdapter;
 import robobinding.presentationmodel.PresentationModelAdapter;
@@ -41,6 +41,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	private static final Pattern ITEM_MAPPING_ATTRIBUTE_COMPILED_PATTERN = Pattern.compile("^\\[" + ITEM_MAPPING_PATTERN + "(?:," + ITEM_MAPPING_PATTERN + ")*\\]$");
 	
 	private final String itemMappingAttributeValue;
+	private ViewMappings viewMappings;
 	
 	public ItemMappingAttribute(String itemMappingAttributeValue, boolean preInitializeView)
 	{
@@ -51,15 +52,14 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
 		dataSetAdapter.setItemMappingAttribute(this);
+		viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, context);
 	}
 
-	public void lateBindTo(BindingAttributesReader bindingAttributesReader, View view, PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bindToPredefined(BindingAttributesProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		ViewMappings viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, context);
-		
 		for (ViewMapping viewMapping : viewMappings.getViewMappingsCollection())
 		{
-			viewMapping.bind(bindingAttributesReader, view, presentationModelAdapter, context);
+			viewMapping.bind(bindingAttributesProcessor, view, presentationModelAdapter, context);
 		}
 	}
 	
@@ -155,10 +155,10 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 			this.bindingAttributes.put(attributeName, attributeValue);
 		}
 
-		public void bind(BindingAttributesReader bindingAttributesReader, View view, PresentationModelAdapter presentationModelAdapter, Context context)
+		public void bind(BindingAttributesProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
 		{
 			View viewToBind = view.findViewById(viewId);
-			ViewBindingAttributes viewBindingAttributes = bindingAttributesReader.read(viewToBind, bindingAttributes);
+			ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.process(viewToBind, bindingAttributes);
 			viewBindingAttributes.bind(presentationModelAdapter, context);
 		}
 

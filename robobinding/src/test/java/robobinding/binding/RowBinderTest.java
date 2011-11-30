@@ -54,15 +54,16 @@ public class RowBinderTest
 		RowBinder rowBinder = new RowBinder(context);
 		LayoutInflater mockLayoutInflater = mock(LayoutInflater.class);
 		when(mockLayoutInflater.inflate(VIEW_ID, null)).thenReturn(view);
-		rowBinder.setLayoutInflater(mockLayoutInflater);
-		
+		when(mockLayoutInflater.inflate(VIEW_ID, null, false)).thenReturn(view);
+		BindingViewFactory bindingViewFactory = new BindingViewFactory(mockLayoutInflater, rowBinder.bindingAttributesProcessor);
+		rowBinder.setBindingViewFactory(bindingViewFactory);
 		rowBinder.setItemLayoutId(VIEW_ID);
-		ItemMappingAttribute itemMappingAttribute = mock(ItemMappingAttribute.class);//new ItemMappingAttribute("[viewId.enabled:{property}]", false);
+		ItemMappingAttribute itemMappingAttribute = mock(ItemMappingAttribute.class);
 		rowBinder.setItemMappingAttribute(itemMappingAttribute);
-		
 		Object presentationModel = new Object();
+		
 		rowBinder.inflateAndBindTo(ViewType.ITEM_LAYOUT, presentationModel);
 		
-		verify(itemMappingAttribute).lateBindTo(null, eq(view), any(PresentationModelAdapter.class), eq(context));
+		verify(itemMappingAttribute).bindToPredefined(eq(rowBinder.bindingAttributesProcessor), eq(view), any(PresentationModelAdapter.class), eq(context));
 	}
 }

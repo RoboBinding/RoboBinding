@@ -33,13 +33,13 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class BindingAttributesReader
+public class BindingAttributesProcessor
 {
 	private final ProvidersResolver providersResolver;
 	private final AttributeSetParser attributeSetParser;
 	private final boolean preInitializeViews;
 	
-	public BindingAttributesReader(ProvidersResolver providersResolver, AttributeSetParser attributeSetParser, boolean preInitializeViews)
+	public BindingAttributesProcessor(ProvidersResolver providersResolver, AttributeSetParser attributeSetParser, boolean preInitializeViews)
 	{
 		this.providersResolver = providersResolver;
 		this.attributeSetParser = attributeSetParser;
@@ -49,10 +49,10 @@ public class BindingAttributesReader
 	public ViewBindingAttributes read(View view, AttributeSet attrs)
 	{
 		Map<String, String> pendingBindingAttributes = attributeSetParser.parse(attrs);
-		return read(view, pendingBindingAttributes);
+		return process(view, pendingBindingAttributes);
 	}
 	
-	public ViewBindingAttributes read(View view, Map<String, String> pendingBindingAttributes)
+	public ViewBindingAttributes process(View view, Map<String, String> pendingBindingAttributes)
 	{
 		List<BindingAttribute> bindingAttributes = determineBindingAttributes(view, pendingBindingAttributes);
 		return new ViewBindingAttributes(bindingAttributes);

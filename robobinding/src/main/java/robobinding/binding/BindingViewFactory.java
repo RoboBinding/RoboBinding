@@ -16,9 +16,8 @@
 package robobinding.binding;
 
 import java.util.List;
-import java.util.Map;
 
-import robobinding.binding.BindingAttributesReader.ViewBindingAttributes;
+import robobinding.binding.BindingAttributesProcessor.ViewBindingAttributes;
 import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
@@ -37,15 +36,15 @@ import android.view.View;
 public class BindingViewFactory implements Factory
 {
 	private final LayoutInflater layoutInflater;
-	private final BindingAttributesReader bindingAttributesReader;
+	private final BindingAttributesProcessor bindingAttributesProcessor;
 	private final ViewNameResolver viewNameResolver;
 	
 	private List<ViewBindingAttributes> childViewBindingAttributes = Lists.newArrayList();
 	
-	BindingViewFactory(LayoutInflater layoutInflater, BindingAttributesReader bindingAttributesReader)
+	BindingViewFactory(LayoutInflater layoutInflater, BindingAttributesProcessor bindingAttributesProcessor)
 	{
 		this.layoutInflater = layoutInflater;
-		this.bindingAttributesReader = bindingAttributesReader;
+		this.bindingAttributesProcessor = bindingAttributesProcessor;
 		this.viewNameResolver = new ViewNameResolver();
 		layoutInflater.setFactory(this);
 	}
@@ -57,7 +56,7 @@ public class BindingViewFactory implements Factory
 			String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
 			
 			View view = layoutInflater.createView(viewFullName, null, attrs);
-			ViewBindingAttributes viewBindingAttributes = bindingAttributesReader.read(view, attrs);
+			ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.read(view, attrs);
 			childViewBindingAttributes.add(viewBindingAttributes);
 			return view;
 		} 

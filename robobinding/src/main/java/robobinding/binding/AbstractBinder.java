@@ -28,9 +28,10 @@ import android.view.LayoutInflater;
  */
 public abstract class AbstractBinder
 {
-	protected final BindingAttributesReader bindingAttributesReader;
-	protected final BindingViewFactory bindingViewFactory;
 	protected final Context context;
+	protected final BindingAttributesProcessor bindingAttributesProcessor;
+	
+	private BindingViewFactory bindingViewFactory;
 	
 	public AbstractBinder(Context context)
 	{
@@ -40,17 +41,31 @@ public abstract class AbstractBinder
 	public AbstractBinder(Context context, boolean preInitializeViews)
 	{
 		this.context = context;
-		bindingAttributesReader = new BindingAttributesReader(new ProvidersResolver(), new AttributeSetParser(), preInitializeViews);
-		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
-		bindingViewFactory = new BindingViewFactory(layoutInflater, bindingAttributesReader);
+		bindingAttributesProcessor = new BindingAttributesProcessor(new ProvidersResolver(), new AttributeSetParser(), preInitializeViews);
 	}
-	
+
 	protected InflatedView inflateAndBind(int layoutId, PresentationModelAdapter presentationModelAdapter)
 	{
+		ensureBindingFactoryInitialized();
+		
 		InflatedView inflatedView = bindingViewFactory.inflateView(layoutId, context);
 		inflatedView.bindChildViews(presentationModelAdapter, context);
 		
 		return inflatedView;
+	}
+	
+	private void ensureBindingFactoryInitialized()
+	{
+		if (bindingViewFactory == null)
+		{
+			LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
+			bindingViewFactory = new BindingViewFactory(layoutInflater, bindingAttributesProcessor);
+		}
+	}
+	
+	void setBindingViewFactory(BindingViewFactory bindingViewFactory)
+	{
+		this.bindingViewFactory = bindingViewFactory;
 	}
 	
 }

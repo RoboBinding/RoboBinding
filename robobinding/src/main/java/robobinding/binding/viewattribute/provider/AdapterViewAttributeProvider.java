@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import robobinding.binding.BindingAttribute;
-import robobinding.binding.BindingAttributesReader;
+import robobinding.binding.BindingAttributesProcessor;
 import robobinding.binding.ProvidersResolver;
 import robobinding.binding.viewattribute.AdaptedDataSetAttributes;
 import robobinding.binding.viewattribute.DropdownLayoutAttribute;
