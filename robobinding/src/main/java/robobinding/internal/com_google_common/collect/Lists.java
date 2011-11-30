@@ -137,7 +137,6 @@ public final class Lists {
   static int computeArrayListCapacity(int arraySize) {
 	    checkArgument(arraySize >= 0);
 
-	    // TODO(kevinb): Figure out the right behavior, and document it
 	    return Ints.saturatedCast(5L + arraySize + (arraySize / 10));
 	  }
 }

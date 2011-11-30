@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.itempresentationmodelaspects;
-
-import robobinding.itempresentationmodel.ItemPresentationModel;
-
+package robobinding.presentationmodelaspects;
 
 /**
  *
@@ -24,17 +21,8 @@ import robobinding.itempresentationmodel.ItemPresentationModel;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractItemPresentationModel implements ItemPresentationModel<Bean>
+public class FieldDeclarationOfPropertyChangeSupportNotAllowed
 {
-	Bean bean;
-	public static final String PROPERTY = "property";
-	public void updateData(int index, Bean bean)
-	{
-		this.bean = bean;
-	}
-	public boolean getProperty()
-	{
-		return true;
-	}
-
+/*	robobinding.property.PresentationModelPropertyChangeSupport presentationModelPropertyChangeSupport = 
+			new robobinding.property.PresentationModelPropertyChangeSupport(this);*/
 }

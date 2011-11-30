@@ -48,7 +48,7 @@ public abstract class AbstractListBackedViewAlbumsActivity extends Activity
 	protected void onResume()
 	{
 		super.onResume();
-		viewAlbumsPresentationModel.refresh();
+		viewAlbumsPresentationModel.refreshPresentationModel();
 	}
 
 }

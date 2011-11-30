@@ -68,18 +68,18 @@ class DependencyProperty<T> extends AbstractProperty<T>
 		}
 	}
 	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener)
+	public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener)
 	{
 		super.addPropertyChangeListener(listener);
 		addListenerToDependentProperties(listener);
 	}
 	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener)
+	public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener)
 	{
 		super.removePropertyChangeListener(listener);
 		removeListenerOffDependentProperties(listener);
 	}
-	private void addListenerToDependentProperties(PropertyChangeListener listener)
+	private void addListenerToDependentProperties(PresentationModelPropertyChangeListener listener)
 	{
 		ObservableProperties observableBean = getObservableBean();
 		for(String dependentProperty : dependentProperties)
@@ -87,7 +87,7 @@ class DependencyProperty<T> extends AbstractProperty<T>
 			observableBean.addPropertyChangeListener(dependentProperty, listener);
 		}
 	}
-	private void removeListenerOffDependentProperties(PropertyChangeListener listener)
+	private void removeListenerOffDependentProperties(PresentationModelPropertyChangeListener listener)
 	{
 		if(isObservableBean())
 		{

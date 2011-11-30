@@ -17,8 +17,8 @@
 package robobinding.sample.presentationmodel;
 
 import robobinding.ItemPresentationModel;
-import robobinding.NotifyPropertyChange;
 import robobinding.itempresentationmodel.TypedCursor;
+import robobinding.presentationmodelaspects.PresentationModel;
 import robobinding.sample.model.Album;
 import robobinding.sample.model.PurchaseService;
 import robobinding.sample.store.AlbumStore;
@@ -30,7 +30,7 @@ import android.app.Activity;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-@NotifyPropertyChange
+@PresentationModel
 public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel
 {
 	private PurchaseService purchaseService;

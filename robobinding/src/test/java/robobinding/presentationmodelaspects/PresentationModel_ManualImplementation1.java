@@ -15,17 +15,23 @@
  */
 package robobinding.presentationmodelaspects;
 
+import robobinding.property.ObservableProperties;
+import robobinding.property.PresentationModelPropertyChangeListener;
+
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class AbstractPresentationModel
+public class PresentationModel_ManualImplementation1 implements ObservableProperties
 {
-	public static final String PROPERTY = "property";
-	public boolean getProperty()
+	@Override
+	public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
-		return true;
+	}
+	@Override
+	public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
+	{
 	}
 }

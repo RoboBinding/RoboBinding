@@ -1,6 +1,6 @@
 /**
- * NotifyPropertyChange.java
- * Nov 2, 2011 Copyright Cheng Wei and Robert Taylor
+ * PropertyChangeListener.java
+ * Nov 13, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,15 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.presentationmodelaspects;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package robobinding.property;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
  * @author Cheng Wei
  */
-@Retention(RetentionPolicy.CLASS)
-@Target({ElementType.METHOD, ElementType.TYPE})
-public @interface NotifyPropertyChange
+public interface PresentationModelPropertyChangeListener
 {
-
+    void propertyChanged();
 }

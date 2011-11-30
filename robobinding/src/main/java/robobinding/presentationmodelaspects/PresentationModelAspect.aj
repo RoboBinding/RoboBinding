@@ -20,34 +20,41 @@ import org.aspectj.lang.annotation.AdviceName;
 
 import robobinding.internal.java_beans.Introspector;
 import robobinding.presentationmodel.PresentationModelChangeSupport;
+import robobinding.property.ObservableProperties;
+import robobinding.property.PresentationModelPropertyChangeSupport;
 
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
-public aspect PresentationModelAspect
+privileged public aspect PresentationModelAspect
 {
-	declare parents: @NotifyPropertyChange !ObservablePresentationModel implements ObservablePresentationModelMixin;
+	declare parents: @PresentationModel !(ObservableProperties+) implements PresentationModelMixin;
 
-	pointcut nonCustomSetter(ObservablePresentationModel presentationModel) : execution (!@CustomSetter public void ObservablePresentationModel+.set*(*)) && this(presentationModel);
+	pointcut fieldDeclarationOfPresentationModelPropertyChangeSupport() : set(PresentationModelPropertyChangeSupport *.*);
 	
-	pointcut methodWithPresentationModelRefresh(ObservablePresentationModel presentationModel) : execution (@PresentationModelRefresh public * ObservablePresentationModel+.*(..)) && this(presentationModel);
+	declare error : fieldDeclarationOfPresentationModelPropertyChangeSupport() && !within(PresentationModelChangeSupport) && !within(robobinding.property.*)
+		: "PresentationModelPropertyChangeSupport is intented to be used internally by framework only. " +
+				"Please use robobinding.presentationmodel.PresentationModelChangeSupport instead.";
+	
+	
+	pointcut subclassOfObservablePropertiesWithPresentationModelAnnotation() : staticinitialization((@PresentationModel ObservableProperties+) && !(PresentationModelMixin+));
+	
+	declare error: subclassOfObservablePropertiesWithPresentationModelAnnotation()
+		: "You can either implement ObservableProperties manually or annotate your presentation model with @PresentationModel " +
+				"to let weaver generate code for you. Doing both may led to unexpected change event behaviour";
+	
+	
+	pointcut nonCustomSetter(PresentationModelMixin presentationModel) : execution (!@CustomSetter public void PresentationModelMixin+.set*(*)) && this(presentationModel);
 	
 	@AdviceName("firePropertyChange")
-	after (ObservablePresentationModel presentationModel) : nonCustomSetter(presentationModel) 
+	after (PresentationModelMixin presentationModel) : nonCustomSetter(presentationModel) 
 	{
 		String methodName = thisJoinPointStaticPart.getSignature().getName();
 		String propertyName = Introspector.decapitalize(methodName.substring(3));
-		PresentationModelChangeSupport presentationModelChangeSupport = presentationModel.getPresentationModelChangeSupport();
-		presentationModelChangeSupport.firePropertyChange(propertyName);
-	}
-	
-	@AdviceName("firePresentationModelChange")
-	after(ObservablePresentationModel presentationModel) : methodWithPresentationModelRefresh(presentationModel)
-	{
-		PresentationModelChangeSupport presentationModelChangeSupport = presentationModel.getPresentationModelChangeSupport();
-		presentationModelChangeSupport.fireChangeAll();
+		presentationModel.firePropertyChange(propertyName);
 	}
 }

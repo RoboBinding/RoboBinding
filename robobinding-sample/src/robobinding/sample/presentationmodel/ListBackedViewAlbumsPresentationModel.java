@@ -19,9 +19,8 @@ package robobinding.sample.presentationmodel;
 import java.util.List;
 
 import robobinding.ItemPresentationModel;
-import robobinding.NotifyPropertyChange;
 import robobinding.internal.com_google_common.collect.Lists;
-import robobinding.presentationmodel.PresentationModelRefresh;
+import robobinding.presentationmodelaspects.PresentationModel;
 import robobinding.sample.model.Album;
 import robobinding.sample.store.AlbumStore;
 import android.app.Activity;
@@ -33,7 +32,7 @@ import android.app.Activity;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-@NotifyPropertyChange
+@PresentationModel
 public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel
 {
 	public ListBackedViewAlbumsPresentationModel(Activity activity, AlbumStore albumStore)
@@ -47,8 +46,4 @@ public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPre
 		return Lists.newArrayList(albumStore.getAll());
 	}
 
-	@PresentationModelRefresh
-	public void refresh()
-	{
-	}
 }

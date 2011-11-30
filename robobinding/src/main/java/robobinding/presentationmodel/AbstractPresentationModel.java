@@ -16,8 +16,9 @@
  */
 package robobinding.presentationmodel;
 
+
 import robobinding.property.ObservableProperties;
-import robobinding.property.PropertyChangeListener;
+import robobinding.property.PresentationModelPropertyChangeListener;
 
 /**
  * @since 1.0
@@ -26,18 +27,20 @@ import robobinding.property.PropertyChangeListener;
  */
 public abstract class AbstractPresentationModel implements ObservableProperties
 {
-	protected PresentationModelChangeSupport presentationModelChangeSupport = new PresentationModelChangeSupport(this);
-	
+	protected PresentationModelChangeSupport presentationModelChangeSupport;
+	public AbstractPresentationModel()
+	{
+		presentationModelChangeSupport = new PresentationModelChangeSupport(this);
+	}
 	@Override
-	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
 		presentationModelChangeSupport.addPropertyChangeListener(propertyName, listener);
 	}
 
 	@Override
-	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
 		presentationModelChangeSupport.removePropertyChangeListener(propertyName, listener);
 	}
-
 }

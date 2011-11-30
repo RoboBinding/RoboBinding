@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.itempresentationmodelaspects;
+package robobinding.presentationmodelaspects;
 
-
+import robobinding.presentationmodel.AbstractPresentationModel;
 
 /**
  *
@@ -23,6 +23,7 @@ package robobinding.itempresentationmodelaspects;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class NotImplementsObservablePresentationModel extends AbstractItemPresentationModel
+public class PresentationModel_ManualImplementation2 extends AbstractPresentationModel
 {
+
 }

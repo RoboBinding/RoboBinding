@@ -15,6 +15,8 @@
  */
 package robobinding.itempresentationmodelaspects;
 
+import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -22,8 +24,9 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 import robobinding.itempresentationmodel.ItemPresentationModel;
-import robobinding.presentationmodelaspects.ObservablePresentationModel;
+import robobinding.presentationmodelaspects.PresentationModelMixin;
 import robobinding.presentationmodelaspects.PropertyChangeListenerTester;
+import robobinding.property.ObservableProperties;
 
 /**
  *
@@ -34,11 +37,6 @@ import robobinding.presentationmodelaspects.PropertyChangeListenerTester;
 @RunWith(Theories.class)
 public class ItemPresentationModelAspectTest
 {
-	@DataPoints
-	public static AbstractItemPresentationModel[] differentItemPresentationModels = {
-		new NotImplementsObservablePresentationModel(),
-		new ImplementsObservablePresentationModel()}; 
-	
 	private PropertyChangeListenerTester propertyChangeListenerTester;
 	@Before
 	public void setUp()
@@ -46,20 +44,33 @@ public class ItemPresentationModelAspectTest
 		propertyChangeListenerTester = new PropertyChangeListenerTester();
 	}
 	@Theory
-	public void givenObservePropertyChangeOnItemPresentationModel_whenSetData_thenListenerGetNotified(AbstractItemPresentationModel itemPresentationModel)
+	public void givenObservePropertyChangeOnItemPresentationModel_whenSetData_thenListenerGetNotified()
 	{
-		observePropertyChange((ObservablePresentationModel)itemPresentationModel);
+		ItemPresentationModel_AutoCodeGeneration itemPresentationModel = new ItemPresentationModel_AutoCodeGeneration();
+		observePropertyChange(itemPresentationModel);
 		
-		setDataOn(itemPresentationModel);
+		updateData(itemPresentationModel);
 		
 		propertyChangeListenerTester.assertPropertyChangedOnce();
 	}
-	private void observePropertyChange(ObservablePresentationModel observablePresentationModel)
+	private void observePropertyChange(ObservableProperties itemPresentationModel)
 	{
-		observablePresentationModel.addPropertyChangeListener(AbstractItemPresentationModel.PROPERTY, propertyChangeListenerTester);
+		itemPresentationModel.addPropertyChangeListener(ItemPresentationModel_AutoCodeGeneration.PROPERTY, propertyChangeListenerTester);
 	}
-	private void setDataOn(ItemPresentationModel<Bean> itemPresentationModel)
+	private void updateData(ItemPresentationModel<Object> itemPresentationModel)
 	{
-		itemPresentationModel.updateData(0, new Bean());
+		itemPresentationModel.updateData(0, new Object());
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@DataPoints
+	public static ItemPresentationModel[] manualPresentationModelImplementations = {
+		new ItemPresentationModel_ManualImplementation1(),
+		new ItemPresentationModel_ManualImplementation2()};
+	@Theory
+	public void whenImplementsPrensentationModelManually_thenNoAutoCodeGenerationTriggered(
+			@SuppressWarnings("rawtypes") ItemPresentationModel manualItemPresentationModelImplementation)
+	{
+		Assert.assertThat(manualItemPresentationModelImplementation, CoreMatchers.not(CoreMatchers.instanceOf(PresentationModelMixin.class)));
 	}
 }

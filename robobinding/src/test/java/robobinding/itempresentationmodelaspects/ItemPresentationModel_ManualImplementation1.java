@@ -15,13 +15,28 @@
  */
 package robobinding.itempresentationmodelaspects;
 
+import robobinding.itempresentationmodel.ItemPresentationModel;
+import robobinding.property.ObservableProperties;
+import robobinding.property.PresentationModelPropertyChangeListener;
+
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class Bean
+public class ItemPresentationModel_ManualImplementation1 implements ItemPresentationModel<Object>, ObservableProperties
 {
-
+	@Override
+	public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
+	{
+	}
+	@Override
+	public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
+	{
+	}
+	@Override
+	public void updateData(int index, Object bean)
+	{
+	}
 }

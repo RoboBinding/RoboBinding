@@ -29,12 +29,12 @@ import robobinding.internal.org_apache_commons_lang3.Validate;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PropertyChangeSupport
+public class PresentationModelPropertyChangeSupport
 {
 	private Object bean;
 	private Set<String> availablePropertyNames;
-	private Map<String, PropertyChangeListeners> propertyToItsChangeListeners;
-	public PropertyChangeSupport(Object bean)
+	private Map<String, PresentationModelPropertyChangeListeners> propertyToItsChangeListeners;
+	public PresentationModelPropertyChangeSupport(Object bean)
 	{
 		Validate.notNull(bean);
 		
@@ -50,40 +50,40 @@ public class PropertyChangeSupport
 				PropertyUtils.getPropertyNames(bean.getClass()));
 	}
 
-	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
 		validatePropertyName(propertyName);
 		if(!propertyToItsChangeListeners.containsKey(propertyName))
 		{
-			propertyToItsChangeListeners.put(propertyName, new PropertyChangeListeners());
+			propertyToItsChangeListeners.put(propertyName, new PresentationModelPropertyChangeListeners());
 		}
 		
-		PropertyChangeListeners listeners = propertyToItsChangeListeners.get(propertyName);
+		PresentationModelPropertyChangeListeners listeners = propertyToItsChangeListeners.get(propertyName);
 		listeners.add(listener);
 	}
 
-	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
 		if(propertyToItsChangeListeners.containsKey(propertyName))
 		{
-			PropertyChangeListeners listeners = propertyToItsChangeListeners.get(propertyName);
+			PresentationModelPropertyChangeListeners listeners = propertyToItsChangeListeners.get(propertyName);
 			listeners.remove(listener);
 		}
 	}
 
-	PropertyChangeListeners getPropertyChangeListeners(String propertyName)
+	PresentationModelPropertyChangeListeners getPropertyChangeListeners(String propertyName)
 	{
 		if(propertyToItsChangeListeners.containsKey(propertyName))
 		{
 			return propertyToItsChangeListeners.get(propertyName);
 		}
-		return PropertyChangeListeners.empty();
+		return PresentationModelPropertyChangeListeners.empty();
 	}
 
 	public void firePropertyChange(String propertyName)
 	{
 		validatePropertyName(propertyName);
-		PropertyChangeListeners propertyChangeListeners = propertyToItsChangeListeners.get(propertyName);
+		PresentationModelPropertyChangeListeners propertyChangeListeners = propertyToItsChangeListeners.get(propertyName);
 		if(propertyChangeListeners != null)
 		{
 			propertyChangeListeners.firePropertyChange();
@@ -103,7 +103,7 @@ public class PropertyChangeSupport
 	
 	public void fireChangeAll()
 	{
-		for(PropertyChangeListeners propertyChangeListeners : propertyToItsChangeListeners.values())
+		for(PresentationModelPropertyChangeListeners propertyChangeListeners : propertyToItsChangeListeners.values())
 		{
 			propertyChangeListeners.firePropertyChange();
 		}

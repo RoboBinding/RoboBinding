@@ -1,6 +1,6 @@
 /**
- * PropertyChangeListener.java
- * Nov 13, 2011 Copyright Cheng Wei and Robert Taylor
+ * PropertyChangeListenerImpl.java
+ * Oct 29, 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,15 @@
 package robobinding.property;
 
 /**
- *
- * @since 1.0
- * @version $Revision: 1.0 $
- * @author Cheng Wei
- */
-public interface PropertyChangeListener
+*
+* @since 1.0
+* @version $Revision: 1.0 $
+* @author Cheng Wei
+*/
+public class PresentationModelPropertyChangeListenerImpl implements PresentationModelPropertyChangeListener
 {
-    void propertyChanged();
+	@Override
+	public void propertyChanged()
+	{
+	}
 }

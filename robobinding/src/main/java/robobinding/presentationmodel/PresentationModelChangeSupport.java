@@ -16,28 +16,29 @@
  */
 package robobinding.presentationmodel;
 
-import robobinding.property.PropertyChangeListener;
-import robobinding.property.PropertyChangeSupport;
+import robobinding.property.PresentationModelPropertyChangeListener;
+import robobinding.property.PresentationModelPropertyChangeSupport;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
 public class PresentationModelChangeSupport
 {
-	private PropertyChangeSupport propertyChangeSupport;
+	private PresentationModelPropertyChangeSupport propertyChangeSupport;
 	public PresentationModelChangeSupport(Object presentationModel)
 	{
-		propertyChangeSupport = new PropertyChangeSupport(presentationModel);
+		propertyChangeSupport = new PresentationModelPropertyChangeSupport(presentationModel);
 	}
-	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
 		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
 	}
 
-	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
 		propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
 	}
@@ -47,7 +48,7 @@ public class PresentationModelChangeSupport
 		propertyChangeSupport.firePropertyChange(propertyName);
 	}
 
-	public void fireChangeAll()
+	public void refreshPresentationModel()
 	{
 		propertyChangeSupport.fireChangeAll();
 	}

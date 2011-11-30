@@ -26,6 +26,6 @@ package robobinding.property;
  */
 public interface ObservableProperties
 {
-	void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
-	void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
+	void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener);
+	void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener);
 }

@@ -28,40 +28,40 @@ import robobinding.internal.org_apache_commons_lang3.Validate;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PropertyChangeListeners implements Iterable<PropertyChangeListener>
+public class PresentationModelPropertyChangeListeners implements Iterable<PresentationModelPropertyChangeListener>
 {
-	private List<PropertyChangeListener> listeners;
-	public PropertyChangeListeners()
+	private List<PresentationModelPropertyChangeListener> listeners;
+	public PresentationModelPropertyChangeListeners()
 	{
 		this.listeners = Lists.newArrayList();
 	}
-	public void add(PropertyChangeListener propertyChangeListener)
+	public void add(PresentationModelPropertyChangeListener propertyChangeListener)
 	{
 		Validate.notNull(propertyChangeListener, "propertyChangeListener cannot be null");
 		listeners.add(propertyChangeListener);
 	}
-	public boolean remove(PropertyChangeListener listener)
+	public boolean remove(PresentationModelPropertyChangeListener listener)
 	{
 		return listeners.remove(listener);
 	}
-	public boolean contains(PropertyChangeListener listener)
+	public boolean contains(PresentationModelPropertyChangeListener listener)
 	{
 		return listeners.contains(listener);
 	}
 	public void firePropertyChange()
 	{
-		for(PropertyChangeListener listener : listeners)
+		for(PresentationModelPropertyChangeListener listener : listeners)
 		{
 			listener.propertyChanged();
 		}
 	}
 	@Override
-	public Iterator<PropertyChangeListener> iterator()
+	public Iterator<PresentationModelPropertyChangeListener> iterator()
 	{
 		return listeners.iterator();
 	}
-	private static PropertyChangeListeners EMPTY = new PropertyChangeListeners();
-	public static PropertyChangeListeners empty()
+	private static PresentationModelPropertyChangeListeners EMPTY = new PresentationModelPropertyChangeListeners();
+	public static PresentationModelPropertyChangeListeners empty()
 	{
 		return EMPTY;
 	}

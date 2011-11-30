@@ -25,6 +25,6 @@ public interface PropertyValueModel<T>
 {
     T getValue();
     void setValue(T newValue);
-    void addPropertyChangeListener(PropertyChangeListener listener);
-    void removePropertyChangeListener(PropertyChangeListener listener);
+    void addPropertyChangeListener(PresentationModelPropertyChangeListener listener);
+    void removePropertyChangeListener(PresentationModelPropertyChangeListener listener);
 }

@@ -33,11 +33,11 @@ import robobinding.property.PropertyAccessor;
  */
 public class AbstractPropertyTest
 {
-	private PropertyChangeListener listener;
+	private PresentationModelPropertyChangeListener listener;
 	@Before
 	public void setUp()
 	{
-		listener = new PropertyChangeListenerImpl();
+		listener = new PresentationModelPropertyChangeListenerImpl();
 	}
 	@Test
 	public void testGivenObservableBean_whenAddValueChangeListener_thenListenerAdded()

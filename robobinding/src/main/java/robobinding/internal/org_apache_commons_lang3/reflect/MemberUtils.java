@@ -31,7 +31,6 @@ import robobinding.internal.org_apache_commons_lang3.ClassUtils;
  * @version $Id$
  */
 abstract class MemberUtils {
-    // TODO extract an interface to implement compareParameterSets(...)?
 
     private static final int ACCESS_TEST = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
 
@@ -40,7 +39,6 @@ abstract class MemberUtils {
             Character.TYPE, Integer.TYPE, Long.TYPE, Float.TYPE, Double.TYPE };
 
     /**
-     * XXX Default access superclass workaround
      *
      * When a public class has a default access superclass with public members,
      * these members are accessible. Calling them from compiled code works fine.

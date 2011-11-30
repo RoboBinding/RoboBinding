@@ -18,40 +18,47 @@ package robobinding.presentationmodelaspects;
 import org.aspectj.lang.annotation.AdviceName;
 
 import robobinding.presentationmodel.PresentationModelChangeSupport;
-import robobinding.property.PropertyChangeListener;
+import robobinding.property.ObservableProperties;
+import robobinding.property.PresentationModelPropertyChangeListener;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Robort Taylor
  * @author Cheng Wei
  */
-public interface ObservablePresentationModelMixin extends ObservablePresentationModel
+public interface PresentationModelMixin extends ObservableProperties
 {
 	static aspect Impl
 	{
-		private PresentationModelChangeSupport ObservablePresentationModelMixin.presentationModelChangeSupport;
+		private PresentationModelChangeSupport PresentationModelMixin.presentationModelChangeSupport;
 		
-		public void ObservablePresentationModelMixin.addPropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener)
+		public void PresentationModelMixin.addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener propertyChangeListener)
 		{
 			presentationModelChangeSupport.addPropertyChangeListener(propertyName, propertyChangeListener);
 		}
 
-		public void ObservablePresentationModelMixin.removePropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener)
+		public void PresentationModelMixin.removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener propertyChangeListener)
 		{
 			presentationModelChangeSupport.removePropertyChangeListener(propertyName, propertyChangeListener);
 		}
 		
-		public PresentationModelChangeSupport ObservablePresentationModelMixin.getPresentationModelChangeSupport()
+		public void PresentationModelMixin.refreshPresentationModel()
 		{
-			return presentationModelChangeSupport;
+			presentationModelChangeSupport.refreshPresentationModel();
 		}
 		
-		pointcut presentationModelCreation(ObservablePresentationModelMixin presentationModel) : initialization(
-				ObservablePresentationModelMixin+.new(..)) && this(presentationModel);
+		private void PresentationModelMixin.firePropertyChange(String propertyName)
+		{
+			presentationModelChangeSupport.firePropertyChange(propertyName);
+		}
+
+		pointcut presentationModelCreation(PresentationModelMixin presentationModel) : initialization(
+				PresentationModelMixin+.new(..)) && this(presentationModel) && within(PresentationModelMixin+);
 		
 		@AdviceName("initializePresentationModelChangeSupport")
-		after(ObservablePresentationModelMixin presentationModel) returning : presentationModelCreation(presentationModel) 
+		after(PresentationModelMixin presentationModel) returning : presentationModelCreation(presentationModel) 
 		{
 			presentationModel.presentationModelChangeSupport = new PresentationModelChangeSupport(presentationModel);
 		}
