@@ -51,16 +51,26 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	@Override
 	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		dataSetAdapter.setItemMappingAttribute(this);
 		viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, context);
+		updateDataSetAdapter(dataSetAdapter);
+	}
+
+	protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter)
+	{
+		dataSetAdapter.setItemMappingAttribute(this);
 	}
 
 	public void bindToPredefined(BindingAttributesProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		for (ViewMapping viewMapping : viewMappings.getViewMappingsCollection())
+		for (ViewMapping viewMapping : getViewMappingsCollection())
 		{
 			viewMapping.bind(bindingAttributesProcessor, view, presentationModelAdapter, context);
 		}
+	}
+	
+	Collection<ViewMapping> getViewMappingsCollection()
+	{
+		return viewMappings.viewMappingsMap.values();
 	}
 	
 	static class ItemMappingParser
@@ -89,11 +99,11 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	
 	static class ViewMappings
 	{
-		private Map<Integer, ViewMapping> viewMappings = Maps.newHashMap();
+		private Map<Integer, ViewMapping> viewMappingsMap = Maps.newHashMap();
 		
 		void add(int viewId, String attributeName, String attributeValue)
 		{
-			ViewMapping existingViewMapping = viewMappings.get(viewId);
+			ViewMapping existingViewMapping = viewMappingsMap.get(viewId);
 			
 			if (existingViewMapping != null)
 			{
@@ -101,21 +111,16 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 			}
 			else
 			{
-				viewMappings.put(viewId, new ViewMapping(viewId, attributeName, attributeValue));
+				viewMappingsMap.put(viewId, new ViewMapping(viewId, attributeName, attributeValue));
 			}
 		}
 		
-		Collection<ViewMapping> getViewMappingsCollection()
-		{
-			return viewMappings.values();
-		}
-
 		@Override
 		public int hashCode()
 		{
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((viewMappings == null) ? 0 : viewMappings.hashCode());
+			result = prime * result + ((viewMappingsMap == null) ? 0 : viewMappingsMap.hashCode());
 			return result;
 		}
 
@@ -129,11 +134,11 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 			if (getClass() != obj.getClass())
 				return false;
 			ViewMappings other = (ViewMappings) obj;
-			if (viewMappings == null)
+			if (viewMappingsMap == null)
 			{
-				if (other.viewMappings != null)
+				if (other.viewMappingsMap != null)
 					return false;
-			} else if (!viewMappings.equals(other.viewMappings))
+			} else if (!viewMappingsMap.equals(other.viewMappingsMap))
 				return false;
 			return true;
 		}

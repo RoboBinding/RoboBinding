@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.AdaptedDataSetAttributes;
@@ -30,62 +31,83 @@ import robobinding.binding.viewattribute.AdapterViewAttribute;
 import robobinding.binding.viewattribute.DropdownLayoutAttribute;
 import robobinding.binding.viewattribute.OnItemClickAttribute;
 import robobinding.internal.com_google_common.collect.Maps;
+import android.app.Activity;
+import android.content.Context;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
+@RunWith(RobolectricTestRunner.class)
 public class AdapterViewAttributeProviderTest
 {
+	private final Context context = new Activity();
+	private final ListView listView = new ListView(context);
+	private final Spinner spinner = new Spinner(context);
+	private final Attribute source = new Attribute("source", "{sourceProperty}");
+	private final Attribute itemLayout = new Attribute("itemLayout", "@layout/itemLayout");
+	private final Attribute dropdownLayout = new Attribute("dropdownLayout", "@layout/dropdownLayout");
+
+	private AttributesAndViewCombination[] illegalAttributeCombinations = { 
+			new AttributesAndViewCombination(listView, source),
+			new AttributesAndViewCombination(listView, itemLayout), 
+			new AttributesAndViewCombination(spinner, dropdownLayout),
+			new AttributesAndViewCombination(spinner, source, itemLayout), 
+			new AttributesAndViewCombination(spinner, source, dropdownLayout),
+			new AttributesAndViewCombination(spinner, itemLayout, dropdownLayout)};
+
 	private AdapterViewAttributeProvider adapterViewAttributeProvider = new AdapterViewAttributeProvider();
-	private ListView listView = null;
 	private Map<String, String> pendingBindingAttributes;
-	
+
 	@Before
 	public void setUp()
 	{
 		adapterViewAttributeProvider = new AdapterViewAttributeProvider();
 		pendingBindingAttributes = Maps.newHashMap();
 	}
-	
+
 	@Test
 	public void givenOnItemClick_ThenCreateAnOnItemClickAttribute()
 	{
 		pendingBindingAttributes.put("onItemClick", "commandName");
-		
+
 		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
-	
+
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(OnItemClickAttribute.class));
 	}
-	
+
 	@Test
 	public void givenSourceAndItemLayout_ThenCreateACompoundAttribute()
 	{
 		pendingBindingAttributes.put("source", "{sourceProperty}");
 		pendingBindingAttributes.put("itemLayout", "@layout/itemLayout");
-		
+
 		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
-	
+
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(AdaptedDataSetAttributes.class));
 	}
-	
+
 	@Test
 	public void givenSourceItemLayoutAndDropdownLayout_ThenCreateACompoundAttribute()
 	{
 		pendingBindingAttributes.put("source", "{sourceProperty}");
 		pendingBindingAttributes.put("itemLayout", "@layout/itemLayout");
 		pendingBindingAttributes.put("dropdownLayout", "@layout/itemLayout");
-		
+
 		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
-	
+
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(AdaptedDataSetAttributes.class));
-		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes)bindingAttribute.getViewAttribute();
+		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes) bindingAttribute.getViewAttribute();
 		assertTrue(adaptedDataSetAttributesContains(DropdownLayoutAttribute.class, adaptedDataSetAttributes));
 	}
-	
+
 	private boolean adaptedDataSetAttributesContains(Class<? extends AdapterViewAttribute> clazz, AdaptedDataSetAttributes adaptedDataSetAttributes)
 	{
 		for (AdapterViewAttribute adapterViewAttribute : adaptedDataSetAttributes.getAdapterViewAttributes())
@@ -93,23 +115,71 @@ public class AdapterViewAttributeProviderTest
 			if (clazz.isAssignableFrom(adapterViewAttribute.getClass()))
 				return true;
 		}
-		
+
 		return false;
 	}
 
-	@Test (expected=RuntimeException.class)
-	public void givenOnlySource_ThenThrowRuntimeException()
+	@Test
+	public void givenAnIllegalAttributeCombination_ThenThrowRuntimeException()
 	{
-		pendingBindingAttributes.put("source", "{sourceProperty}");
-		
-		adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false);
+		for (AttributesAndViewCombination illegalAttributeCombination : illegalAttributeCombinations)
+		{
+			boolean runtimeExceptionThrown = false;
+			setUp();
+			
+			for (Attribute attribute : illegalAttributeCombination.attributes)
+			{
+				pendingBindingAttributes.put(attribute.name, attribute.value);
+			}
+
+			try
+			{
+				adapterViewAttributeProvider.createSupportedBindingAttributes(illegalAttributeCombination.view, pendingBindingAttributes, false);
+			} catch (RuntimeException e)
+			{
+				runtimeExceptionThrown = true;
+			}
+
+			assertTrue(illegalAttributeCombination + " did not throw RuntimeException as expected", runtimeExceptionThrown);
+		}
 	}
-	
-	@Test (expected=RuntimeException.class)
-	public void givenOnlyItemLayout_ThenThrowRuntimeException()
+
+	private static class Attribute
 	{
-		pendingBindingAttributes.put("itemLayout", "@layout/itemLayout");
+		private String name;
+		private String value;
+
+		public Attribute(String name, String value)
+		{
+			this.name = name;
+			this.value = value;
+		}
 		
-		adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false);
+		public String toString()
+		{
+			return name + ":" + value;
+		}
+	}
+
+	private static class AttributesAndViewCombination
+	{
+		private AdapterView<?> view;
+		private Attribute[] attributes;
+
+		public AttributesAndViewCombination(AdapterView<?> view, Attribute... attributes)
+		{
+			this.view = view;
+			this.attributes = attributes;
+		}
+		
+		public String toString()
+		{
+			String str = view.getClass().getName() + " with attributes: ";
+		
+			for (Attribute attribute : attributes)
+				str += attribute.toString() + " ";
+			
+			return str;
+		}
 	}
 }

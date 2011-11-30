@@ -21,19 +21,20 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-
 import robobinding.android.R;
-import robobinding.binding.RowBinder.ViewType;
+import robobinding.binding.viewattribute.DropdownMappingAttribute;
 import robobinding.binding.viewattribute.ItemMappingAttribute;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -45,25 +46,51 @@ import android.view.View;
 public class RowBinderTest
 {
 	private final static int VIEW_ID = R.layout.sample_item_layout;
-
+	private Object presentationModel = new Object();
+	private Context context = new Activity();
+	
+	private View view;
+	private RowBinder rowBinder;
+	
+	@Before
+	public void setUp()
+	{
+		view = new View(context);
+		rowBinder = mockRowBinderInflatingSimpleView(view);
+	}
+	
 	@Test
 	public void givenAnItemMappingAttribute_ThenBindToItWhenInflatingView()
 	{
-		Context context = new Activity();
-		View view = new View(context);
+		ItemMappingAttribute itemMappingAttribute = mock(ItemMappingAttribute.class);
+		rowBinder.setItemMappingAttribute(itemMappingAttribute);
+		rowBinder.setItemLayoutId(VIEW_ID);
+		
+		rowBinder.inflateItemAndBindTo(presentationModel);
+		
+		verify(itemMappingAttribute).bindToPredefined(eq(rowBinder.bindingAttributesProcessor), eq(view), any(PresentationModelAdapter.class), eq(context));
+	}
+	
+	@Test
+	public void givenADropdownMappingAttribute_ThenBindToItWhenInflatingView()
+	{
+		DropdownMappingAttribute dropdownMappingAttribute = mock(DropdownMappingAttribute.class);
+		rowBinder.setDropdownMappingAttribute(dropdownMappingAttribute);
+		rowBinder.setDropdownLayoutId(VIEW_ID);
+		
+		rowBinder.inflateDropdownAndBindTo(presentationModel);
+		
+		verify(dropdownMappingAttribute).bindToPredefined(eq(rowBinder.bindingAttributesProcessor), eq(view), any(PresentationModelAdapter.class), eq(context));
+	}
+	
+	private RowBinder mockRowBinderInflatingSimpleView(View view)
+	{
 		RowBinder rowBinder = new RowBinder(context);
 		LayoutInflater mockLayoutInflater = mock(LayoutInflater.class);
 		when(mockLayoutInflater.inflate(VIEW_ID, null)).thenReturn(view);
 		when(mockLayoutInflater.inflate(VIEW_ID, null, false)).thenReturn(view);
 		BindingViewFactory bindingViewFactory = new BindingViewFactory(mockLayoutInflater, rowBinder.bindingAttributesProcessor);
 		rowBinder.setBindingViewFactory(bindingViewFactory);
-		rowBinder.setItemLayoutId(VIEW_ID);
-		ItemMappingAttribute itemMappingAttribute = mock(ItemMappingAttribute.class);
-		rowBinder.setItemMappingAttribute(itemMappingAttribute);
-		Object presentationModel = new Object();
-		
-		rowBinder.inflateAndBindTo(ViewType.ITEM_LAYOUT, presentationModel);
-		
-		verify(itemMappingAttribute).bindToPredefined(eq(rowBinder.bindingAttributesProcessor), eq(view), any(PresentationModelAdapter.class), eq(context));
+		return rowBinder;
 	}
 }

@@ -16,8 +16,6 @@
 package robobinding.binding.viewattribute;
 
 import robobinding.presentationmodel.DataSetAdapter;
-import robobinding.presentationmodel.PresentationModelAdapter;
-import android.content.Context;
 
 /**
  *
@@ -33,7 +31,7 @@ public class DropdownMappingAttribute extends ItemMappingAttribute
 	}
 
 	@Override
-	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+	protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter)
 	{
 		dataSetAdapter.setDropdownMappingAttribute(this);
 	}
