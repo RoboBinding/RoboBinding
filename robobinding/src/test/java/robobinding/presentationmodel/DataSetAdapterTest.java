@@ -111,7 +111,7 @@ public class DataSetAdapterTest
 	{
 		void update()
 		{
-			presentationModelChangeSupport.refreshPresentationModel();
+			presentationModelChangeSupport.fireChangeAll();
 		}
 		
 		@ItemPresentationModel(value = ItemPresentationModelDummy.class)

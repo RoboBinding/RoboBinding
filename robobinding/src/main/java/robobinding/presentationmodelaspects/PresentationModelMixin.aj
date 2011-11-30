@@ -46,7 +46,7 @@ public interface PresentationModelMixin extends ObservableProperties
 		
 		public void PresentationModelMixin.refreshPresentationModel()
 		{
-			presentationModelChangeSupport.refreshPresentationModel();
+			presentationModelChangeSupport.fireChangeAll();
 		}
 		
 		private void PresentationModelMixin.firePropertyChange(String propertyName)

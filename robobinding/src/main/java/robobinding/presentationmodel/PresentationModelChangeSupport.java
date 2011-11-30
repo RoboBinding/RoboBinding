@@ -48,7 +48,7 @@ public class PresentationModelChangeSupport
 		propertyChangeSupport.firePropertyChange(propertyName);
 	}
 
-	public void refreshPresentationModel()
+	public void fireChangeAll()
 	{
 		propertyChangeSupport.fireChangeAll();
 	}

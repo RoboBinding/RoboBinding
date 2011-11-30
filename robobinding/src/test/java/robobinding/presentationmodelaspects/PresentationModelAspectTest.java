@@ -62,10 +62,10 @@ public class PresentationModelAspectTest
 	@Test
 	public void whenInvokeDefaultRefreshMethod_thenListenerGetNotified()
 	{
-		PresentationModel_AutoCodeGeneration presentationModelSample = new PresentationModel_AutoCodeGeneration();
-		observePropertyChange(presentationModelSample);
+		PresentationModel_AutoCodeGeneration presentationModel = new PresentationModel_AutoCodeGeneration();
+		observePropertyChange(presentationModel);
 		
-		presentationModelSample.refreshPresentationModel();
+		presentationModel.refreshPresentationModel();
 		
 		propertyChangeListenerTester.assertPropertyChangedOnce();
 	}
