@@ -110,6 +110,10 @@ public class AlbumStore
 		save(createNonClassical("The Black Light", "Calexico"));
 		save(createNonClassical("Stormcock", "Roy Harper"));
 		save(createClassical("Symphony No.5", "CBSO", "Sibelius"));
+		save(createNonClassical("Greatest Hits", "Queen"));
+		save(createClassical("Symphony No.5", "Beethoven", "Beethoven"));
+		save(createNonClassical("Dire Straits", "Dire Straits"));
+		save(createNonClassical("Like a Virgin", "Madonna"));
 	}
 
 	public Album getByIndex(int position)

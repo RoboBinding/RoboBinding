@@ -15,31 +15,19 @@
  */
 package robobinding.sample;
 
+
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SpinnerAlbumsTest extends AbstractHomeActivityTest
+public class ListViewPredefinedViewsAlbumsTest extends AbstractListViewTest
 {
 	@Override
 	protected int homeButtonStringResId()
 	{
-		return R.string.spinner_albums;
+		return R.string.listview_albums_with_predefined_views;
 	}
 
-	public void testCreatingAnAlbum()
-	{
-		createAnAlbumTests();
-	}
-	
-	@Override
-	protected void assertNewAlbumIsVisible()
-	{
-		solo.clickOnText("HQ");
-		
-		assertTrue(solo.searchText("Album name"));
-		assertTrue(solo.searchText("Artist name"));
-	}
 }
