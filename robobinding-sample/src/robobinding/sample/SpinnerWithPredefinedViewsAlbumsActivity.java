@@ -1,6 +1,6 @@
 /**
- * SpinnerViewAlbumsActivity.java
- * 18 Nov 2011 Copyright Cheng Wei and Robert Taylor
+ * SpinnerWithPredefinedViewsAlbumsActivity.java
+ * 30 Nov 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,18 @@
  */
 package robobinding.sample;
 
+
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SpinnerViewAlbumsActivity extends AbstractListBackedViewAlbumsActivity
+public class SpinnerWithPredefinedViewsAlbumsActivity extends AbstractListBackedViewAlbumsActivity
 {
 	@Override
 	protected int getLayoutId()
 	{
-		return R.layout.view_albums_spinner_activity;
+		return R.layout.view_albums_spinner_with_predefined_views_activity;
 	}
-
 }

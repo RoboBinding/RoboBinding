@@ -7,8 +7,8 @@
     <string name="create_album">Create Album</string>
     <string name="edit_album">Edit Album</string>
     <string name="welcome">Welcome</string>
-    <string name="cursor_backed_albums">Cursor-backed albums</string>
-    <string name="list_backed_albums">List-backed albums</string>
+    <string name="cursor_backed_albums">Albums ListView (cursor-backed)</string>
+    <string name="list_backed_albums">Albums ListView (list-backed)</string>
     <string name="the_choice_is_yours">The choice is yours...</string>
     <string name="_available_for_purchase_">(available for purchase)</string>
     <string name="save">Save</string>
@@ -17,5 +17,7 @@
     <string name="artist">Artist</string>
     <string name="title">Title</string>
     <string name="edit">Edit</string>
-    <string name="spinner_albums">Spinner albums</string>
+    <string name="listview_albums_with_predefined_views">Albums ListView with predefined views</string>
+    <string name="spinner_albums">Albums Spinner</string>
+    <string name="spinner_albums_with_predefined_views">Albums Spinner with predefined views</string>
 </resources>

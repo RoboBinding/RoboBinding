@@ -70,6 +70,9 @@ public class BindingAttributesProcessor
 			List<BindingAttribute> newBindingAttributes = viewProvider.createSupportedBindingAttributes(view, pendingBindingAttributes, preInitializeViews);
 			removeProcessedAttributes(newBindingAttributes, pendingBindingAttributes);
 			bindingAttributes.addAll(newBindingAttributes);
+			
+			if (pendingBindingAttributes.isEmpty())
+				break;
 		}
 		
 		if (!pendingBindingAttributes.isEmpty())

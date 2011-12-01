@@ -1,5 +1,5 @@
 /**
- * ListViewAlbumsActivity.java
+ * SpinnerViewAlbumsActivity.java
  * 18 Nov 2011 Copyright Cheng Wei and Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,12 +22,12 @@ package robobinding.sample;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ListViewAlbumsActivity extends AbstractListBackedViewAlbumsActivity
+public class SpinnerAlbumsActivity extends AbstractListBackedViewAlbumsActivity
 {
 	@Override
 	protected int getLayoutId()
 	{
-		return R.layout.view_albums_listview_activity;
+		return R.layout.view_albums_spinner_activity;
 	}
 
 }

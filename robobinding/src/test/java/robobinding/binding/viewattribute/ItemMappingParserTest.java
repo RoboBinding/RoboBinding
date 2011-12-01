@@ -75,7 +75,7 @@ public class ItemMappingParserTest
 	public void shouldParseLegalAttributeValuesCorrectly(MappingExpectation mappingExpectation)
 	{
 		for (ViewMappingData viewMappingData : mappingExpectation.viewMappingData)
-			when(mockResources.getIdentifier(viewMappingData.viewName, "id", null)).thenReturn(viewMappingData.viewId);
+			when(mockResources.getIdentifier(viewMappingData.viewName, "id", "android")).thenReturn(viewMappingData.viewId);
 		
 		ItemMappingParser itemMappingParser = new ItemMappingParser();
 		ViewMappings viewMappings = itemMappingParser.parse(mappingExpectation.attributeValue, mockContext);
@@ -85,10 +85,19 @@ public class ItemMappingParserTest
 	
 	@Theory
 	@Test (expected=RuntimeException.class)
-	public void whenParsingAnIllegalAttributeValue_ThenThrowRuntimeException(String illegalAttributeValue)
+	public void whenParsingAnIllegalAttributeValue_ThenReject(String illegalAttributeValue)
 	{
 		ItemMappingParser itemMappingParser = new ItemMappingParser();
 		itemMappingParser.parse(illegalAttributeValue, mockContext);
+	}
+	
+	@Test (expected=RuntimeException.class)
+	public void givenALegalAttributeValue_WhenViewCantBeFound_ThenThrowException()
+	{
+		when(mockResources.getIdentifier("text1", "id", "android")).thenReturn(0);
+		
+		ItemMappingParser itemMappingParser = new ItemMappingParser();
+		itemMappingParser.parse("[text1.text:{title}]", mockContext);
 	}
 	
 	private static Attribute attribute(String attributeValue)

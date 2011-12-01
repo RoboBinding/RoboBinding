@@ -29,6 +29,8 @@ import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.AdaptedDataSetAttributes;
 import robobinding.binding.viewattribute.AdapterViewAttribute;
 import robobinding.binding.viewattribute.DropdownLayoutAttribute;
+import robobinding.binding.viewattribute.DropdownMappingAttribute;
+import robobinding.binding.viewattribute.ItemMappingAttribute;
 import robobinding.binding.viewattribute.OnItemClickAttribute;
 import robobinding.internal.com_google_common.collect.Maps;
 import android.app.Activity;
@@ -53,8 +55,11 @@ public class AdapterViewAttributeProviderTest
 	private final Spinner spinner = new Spinner(context);
 	private final Attribute source = new Attribute("source", "{sourceProperty}");
 	private final Attribute itemLayout = new Attribute("itemLayout", "@layout/itemLayout");
+	private final Attribute itemMapping = new Attribute("itemMapping", "[text1.title:{title}]");
 	private final Attribute dropdownLayout = new Attribute("dropdownLayout", "@layout/dropdownLayout");
-
+	private final Attribute dropdownMapping = new Attribute("dropdownMapping", "[text1.title:{artist}]");
+	private final Attribute onItemClick = new Attribute("onItemClick","commandName");
+	
 	private AttributesAndViewCombination[] illegalAttributeCombinations = { 
 			new AttributesAndViewCombination(listView, source),
 			new AttributesAndViewCombination(listView, itemLayout), 
@@ -76,7 +81,7 @@ public class AdapterViewAttributeProviderTest
 	@Test
 	public void givenOnItemClick_ThenCreateAnOnItemClickAttribute()
 	{
-		pendingBindingAttributes.put("onItemClick", "commandName");
+		givenAttributes(onItemClick);
 
 		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
 
@@ -86,8 +91,7 @@ public class AdapterViewAttributeProviderTest
 	@Test
 	public void givenSourceAndItemLayout_ThenCreateACompoundAttribute()
 	{
-		pendingBindingAttributes.put("source", "{sourceProperty}");
-		pendingBindingAttributes.put("itemLayout", "@layout/itemLayout");
+		givenAttributes(source, itemLayout);
 
 		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
 
@@ -97,9 +101,7 @@ public class AdapterViewAttributeProviderTest
 	@Test
 	public void givenSourceItemLayoutAndDropdownLayout_ThenCreateACompoundAttribute()
 	{
-		pendingBindingAttributes.put("source", "{sourceProperty}");
-		pendingBindingAttributes.put("itemLayout", "@layout/itemLayout");
-		pendingBindingAttributes.put("dropdownLayout", "@layout/itemLayout");
+		givenAttributes(source, itemLayout, dropdownLayout);
 
 		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
 
@@ -108,6 +110,42 @@ public class AdapterViewAttributeProviderTest
 		assertTrue(adaptedDataSetAttributesContains(DropdownLayoutAttribute.class, adaptedDataSetAttributes));
 	}
 
+	@Test
+	public void givenAnItemMappingAttribute_ThenCompoundAttributeShouldContainAnItemMappingAttribute()
+	{
+		givenAttributes(source, itemLayout, itemMapping);
+		
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
+
+		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes) bindingAttribute.getViewAttribute();
+		assertTrue(adaptedDataSetAttributesContains(ItemMappingAttribute.class, adaptedDataSetAttributes));
+	}
+	
+	@Test
+	public void givenAnDropdownMappingAttribute_ThenCompoundAttributeShouldContainADropdownMappingAttribute()
+	{
+		givenAttributes(source, itemLayout, dropdownLayout, dropdownMapping);
+		
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(spinner, pendingBindingAttributes, false).get(0);
+
+		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes) bindingAttribute.getViewAttribute();
+		assertTrue(adaptedDataSetAttributesContains(DropdownMappingAttribute.class, adaptedDataSetAttributes));
+	}
+	
+	@Test
+	public void givenDataSetAttributes_ThenBindingAttributeShouldContainAllRelevantAttributeNames()
+	{
+		givenAttributes(source, itemLayout, itemMapping, dropdownLayout, dropdownMapping);
+		
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(spinner, pendingBindingAttributes, false).get(0);
+
+		assertTrue(bindingAttribute.getAttributeNames().contains("source"));
+		assertTrue(bindingAttribute.getAttributeNames().contains("itemLayout"));
+		assertTrue(bindingAttribute.getAttributeNames().contains("itemMapping"));
+		assertTrue(bindingAttribute.getAttributeNames().contains("dropdownLayout"));
+		assertTrue(bindingAttribute.getAttributeNames().contains("dropdownMapping"));
+	}
+	
 	private boolean adaptedDataSetAttributesContains(Class<? extends AdapterViewAttribute> clazz, AdaptedDataSetAttributes adaptedDataSetAttributes)
 	{
 		for (AdapterViewAttribute adapterViewAttribute : adaptedDataSetAttributes.getAdapterViewAttributes())
@@ -119,8 +157,14 @@ public class AdapterViewAttributeProviderTest
 		return false;
 	}
 
+	private void givenAttributes(Attribute... attributes)
+	{
+		for (Attribute attribute : attributes)
+			pendingBindingAttributes.put(attribute.name, attribute.value);
+	}
+	
 	@Test
-	public void givenAnIllegalAttributeCombination_ThenThrowRuntimeException()
+	public void givenAnIllegalAttributeCombination_ThenReject()
 	{
 		for (AttributesAndViewCombination illegalAttributeCombination : illegalAttributeCombinations)
 		{

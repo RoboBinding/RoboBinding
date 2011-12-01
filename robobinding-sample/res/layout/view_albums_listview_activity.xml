@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:binding="http://robobinding.org/robobinding.android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent" >
+    
+    <TextView android:id="@+id/window_title"
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="@string/view_albums"
+	    style="@style/ScreenTitle" />
+    
+    <Button android:id="@+id/create_button"
+    	android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		android:layout_alignParentBottom="true"
+  		android:text="@string/create"
+  		binding:onClick="createAlbum" />
+    
+    <ListView 
+    	android:layout_width="fill_parent"
+  		android:layout_height="fill_parent"
+  		android:layout_above="@id/create_button"
+  		android:layout_below="@id/window_title"
+  		binding:source="{albums}"
+  		binding:itemLayout="@layout/album_row"
+  		binding:onItemClick="viewAlbum" />
+    
+</RelativeLayout>

@@ -89,7 +89,11 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 				String attributeName = matcher.group(2);
 				String attributeValue = matcher.group(3);
 				
-				int viewId = context.getResources().getIdentifier(viewIdString, "id", null);
+				int viewId = context.getResources().getIdentifier(viewIdString, "id", "android");
+				
+				if (viewId == 0)
+					throw new RuntimeException("View with id name: " + viewIdString + " in package: android could not be found");
+				
 				viewMappings.add(viewId, attributeName, attributeValue);
 			}
 			
@@ -163,7 +167,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 		public void bind(BindingAttributesProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
 		{
 			View viewToBind = view.findViewById(viewId);
-			ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.process(viewToBind, bindingAttributes);
+			ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.process(viewToBind, Maps.newHashMap(bindingAttributes));
 			viewBindingAttributes.bind(presentationModelAdapter, context);
 		}
 

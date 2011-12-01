@@ -16,19 +16,31 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:text="@string/cursor_backed_albums"
-    	binding:onClick="cursorBackedAlbums" />
+    	binding:onClick="cursorBackedAlbumsListView" />
     	
     <Button
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:text="@string/list_backed_albums"
-    	binding:onClick="listBackedAlbums" />
+    	binding:onClick="listBackedAlbumsListView" />
     	
     <Button
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
+    	android:text="@string/listview_albums_with_predefined_views"
+    	binding:onClick="listBackedAlbumsListViewWithPredefinedViews" />
+    
+    <Button
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
     	android:text="@string/spinner_albums"
-    	binding:onClick="listBackedSpinnerAlbums" />
+    	binding:onClick="listBackedAlbumsSpinner" />
+    
+    <Button
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:text="@string/spinner_albums_with_predefined_views"
+    	binding:onClick="listBackedAlbumsSpinnerWithPredefinedViews" />
     
     <TextView
     	android:layout_width="fill_parent"

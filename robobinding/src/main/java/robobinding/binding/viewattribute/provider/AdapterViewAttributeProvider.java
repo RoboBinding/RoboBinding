@@ -42,7 +42,7 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 	@Override
 	public List<BindingAttribute> createSupportedBindingAttributes(AdapterView<?> adapterView, Map<String, String> pendingBindingAttributes, boolean autoInitializeView)
 	{
-		AdapterViewAttributesBuilder listViewAttributesBuilder = new AdapterViewAttributesBuilder(autoInitializeView);
+		AdapterViewAttributesBuilder adapterViewAttributesBuilder = new AdapterViewAttributesBuilder(autoInitializeView);
 		List<BindingAttribute> bindingAttributes = Lists.newArrayList();
 		
 		for (String attributeName : pendingBindingAttributes.keySet())
@@ -51,15 +51,23 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 			
 			if ("source".equals(attributeName))
 			{
-				listViewAttributesBuilder.setSourceAttributeValue(attributeValue);
+				adapterViewAttributesBuilder.setSourceAttributeValue(attributeValue);
 			}
 			else if ("itemLayout".equals(attributeName))
 			{
-				listViewAttributesBuilder.setItemLayoutAttributeValue(attributeValue);
+				adapterViewAttributesBuilder.setItemLayoutAttributeValue(attributeValue);
+			}
+			else if ("itemMapping".equals(attributeName))
+			{
+				adapterViewAttributesBuilder.setItemMappingAttributeValue(attributeValue);
 			}
 			else if ("dropdownLayout".equals(attributeName))
 			{
-				listViewAttributesBuilder.setDropdownLayoutAttributeValue(attributeValue);
+				adapterViewAttributesBuilder.setDropdownLayoutAttributeValue(attributeValue);
+			}
+			else if ("dropdownMapping".equals(attributeName))
+			{
+				adapterViewAttributesBuilder.setDropdownMappingAttributeValue(attributeValue);
 			}
 			else if ("onItemClick".equals(attributeName))
 			{
@@ -67,8 +75,8 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 			}
 		}
 		
-		if (listViewAttributesBuilder.hasAttributes())
-			bindingAttributes.add(listViewAttributesBuilder.build(adapterView));
+		if (adapterViewAttributesBuilder.hasAttributes())
+			bindingAttributes.add(adapterViewAttributesBuilder.build(adapterView));
 		
 		return bindingAttributes;
 	}
@@ -148,7 +156,7 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 				dropdownMappingAttribute = new DropdownMappingAttribute(dropdownMappingAttributeValue, preInitializeView);
 			
 			AdaptedDataSetAttributes adaptedDataSetAttributes = new AdaptedDataSetAttributes(adapterView, sourceAttribute, itemLayoutAttribute, itemMappingAttribute, dropdownLayoutAttribute, dropdownMappingAttribute);
-			return new BindingAttribute(Lists.newArrayList("source", "itemLayout", "dropdownLayout"), adaptedDataSetAttributes);
+			return new BindingAttribute(Lists.newArrayList("source", "itemLayout", "itemMapping", "dropdownLayout", "dropdownMapping"), adaptedDataSetAttributes);
 		}
 
 	}

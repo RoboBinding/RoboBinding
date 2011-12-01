@@ -18,7 +18,9 @@ package robobinding.sample.presentationmodel;
 
 import robobinding.sample.CursorBackedViewAlbumsActivity;
 import robobinding.sample.ListViewAlbumsActivity;
-import robobinding.sample.SpinnerViewAlbumsActivity;
+import robobinding.sample.ListViewWithPredefinedViewsAlbumsActivity;
+import robobinding.sample.SpinnerAlbumsActivity;
+import robobinding.sample.SpinnerWithPredefinedViewsAlbumsActivity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -37,18 +39,28 @@ public class HomePresentationModel
 		this.context = context;
 	}
 
-	public void cursorBackedAlbums()
+	public void cursorBackedAlbumsListView()
 	{
 		context.startActivity(new Intent(context, CursorBackedViewAlbumsActivity.class));
 	}
 	
-	public void listBackedAlbums()
+	public void listBackedAlbumsListView()
 	{
 		context.startActivity(new Intent(context, ListViewAlbumsActivity.class));
 	}
 	
-	public void listBackedSpinnerAlbums()
+	public void listBackedAlbumsListViewWithPredefinedViews()
 	{
-		context.startActivity(new Intent(context, SpinnerViewAlbumsActivity.class));
+		context.startActivity(new Intent(context, ListViewWithPredefinedViewsAlbumsActivity.class));
+	}
+	
+	public void listBackedAlbumsSpinner()
+	{
+		context.startActivity(new Intent(context, SpinnerAlbumsActivity.class));
+	}
+	
+	public void listBackedAlbumsSpinnerWithPredefinedViews()
+	{
+		context.startActivity(new Intent(context, SpinnerWithPredefinedViewsAlbumsActivity.class));
 	}
 }
