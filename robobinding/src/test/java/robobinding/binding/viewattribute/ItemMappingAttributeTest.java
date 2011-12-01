@@ -43,6 +43,7 @@ public class ItemMappingAttributeTest
 	public void setUp()
 	{
 		Resources mockResources = mock(Resources.class);
+		when(mockResources.getIdentifier("text1", "id", "android")).thenReturn(1);
 		mockContext = mock(Context.class);
 		when(mockContext.getResources()).thenReturn(mockResources);
 		dataSetAdapter = mock(DataSetAdapter.class);

@@ -13,7 +13,7 @@
 		<dependency>
     		<groupId>com.pivotallabs</groupId>
     		<artifactId>robolectric</artifactId>
-    		<version>1.0-RC5-SNAPSHOT</version>
+    		<version>1.0</version>
    		 	<scope>test</scope>
 		</dependency>
 	
