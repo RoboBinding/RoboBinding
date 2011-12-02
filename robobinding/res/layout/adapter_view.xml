@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <!-- 
+    	AdapterView attributes demonstrated with its subclass ListView.
+     -->
+	<ListView
+	    android:id="@+id/supportedAttributesOfAdapterView">
+	    <!-- 
+	    binding:onItemClick="onItemClick()"
+	    binding:onItemLongClicked="onItemLongClick()"
+	    binding:onItemSelected="onItemSelected()"
+	    binding:selectedItemPosition="integer"
+	    binding:selectedItem="Object(readonly)"
+	    binding:selectedItemId="long(readonly)"
+	    binding:source="List/TypedCursor"
+	    binding:itemLayout="item layout resource id"
+	     -->
+	</ListView>
+	<ListView
+	    android:id="@+id/allAttributesOfAdapterView">
+	    <!-- 
+	    Same as supportedAttributesOfAdapterView
+	    -->
+	</ListView>
+</LinearLayout>

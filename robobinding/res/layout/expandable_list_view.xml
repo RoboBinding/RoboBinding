@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<ExpandableListView 
+	    android:id="@+id/supportedAttributesOfExpandableListView">
+	    <!-- 
+	    Child layout and binding require investigation.
+	    
+	    binding:onChildClick="onChildClick()"
+ 		binding:onGroupClick="onGroupClick()"
+ 		binding:onGroupCollapse="onGroupCollapse()"
+ 		binding:onGroupExpand="onGroupExpand()"
+	     -->
+	</ExpandableListView>
+	<ExpandableListView 
+	    android:id="@+id/allAttributesOfExpandableListView"
+	    android:childDivider="@android:color/background_dark"
+	    android:childIndicator="@android:drawable/alert_dark_frame"
+	    android:childIndicatorLeft="14.5sp"
+	    android:childIndicatorRight="14.5sp"
+	    android:groupIndicator="@android:drawable/alert_dark_frame"
+	    android:indicatorLeft="14.5sp"
+	    android:indicatorRight="14.5sp">
+	</ExpandableListView>
+</LinearLayout>

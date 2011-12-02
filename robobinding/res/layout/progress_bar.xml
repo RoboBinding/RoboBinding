@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<ProgressBar 
+	    android:id="@+id/supportedAttributesOfProgressBar"
+	    android:progress="100"
+	    android:secondaryProgress="100">
+	</ProgressBar>
+	<ProgressBar 
+	    android:id="@+id/allAttributesOfProgressBar"
+	    android:indeterminate="true"
+	    android:indeterminateBehavior="repeat"
+	    android:indeterminateDrawable="@android:drawable/btn_minus"
+	    android:indeterminateDuration="100"
+	    android:indeterminateOnly="true"
+	    android:max="100"
+	    android:maxHeight="14.5sp"
+	    android:maxWidth="14.5sp"
+	    android:minHeight="14.5sp"
+	    android:minWidth="14.5sp"
+	    android:progress="100"
+	    android:progressDrawable="@android:drawable/btn_minus"
+	    android:secondaryProgress="100">
+	    <!-- 
+	    android:interpolator="?"
+	     -->
+	</ProgressBar>
+
+</LinearLayout>

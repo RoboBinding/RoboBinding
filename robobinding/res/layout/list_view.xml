@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<ListView 
+	    android:id="@+id/supportedAttributesOfListView">
+	    <!-- 
+	    binding:header="header presentation model"
+	    binding:headerLayout="layout resource id"
+	    binding:footer="footer presentation model"
+	    binding:footer="layout resource id"
+	     -->
+	</ListView>
+	<ListView 
+	    android:id="@+id/allAttributesOfListView"
+	    android:divider="@android:color/background_dark"
+	    android:dividerHeight="14.5sp"
+	    android:entries="@android:array/phoneTypes"
+	    android:footerDividersEnabled="true"
+	    android:headerDividersEnabled="true">
+	</ListView>
+</LinearLayout>

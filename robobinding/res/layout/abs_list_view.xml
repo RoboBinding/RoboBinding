@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<!-- AbsListView attributes demonstrated with ListView -->
+    <ListView 
+        android:id="@+id/supportedAttributesOfAbsListView">
+        <!-- 
+        binding:checkedItemCount="integer(readonly)"
+        binding:checkedItemIds="long[](readonly)"
+        binding:checkedItemPosition="integer(readonly)"
+        binding:checkedItemPositions="SparseBooleanArray(readonly)"
+         -->
+    </ListView>
+    <ListView 
+        android:id="@+id/allAttributesOfAbsListView"
+        android:cacheColorHint="@android:color/background_dark"
+        android:choiceMode="multipleChoice"
+        android:drawSelectorOnTop="true"
+        android:fastScrollEnabled="true"
+        android:listSelector="@android:color/background_dark"
+        android:scrollingCache="true"
+        android:smoothScrollbar="true"
+        android:stackFromBottom="true"
+        android:textFilterEnabled="true"
+        android:transcriptMode="disabled">
+        <!-- 
+        binding:filterText="String"
+        -->
+    </ListView>
+</LinearLayout>
