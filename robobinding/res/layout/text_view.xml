@@ -4,7 +4,7 @@
     android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView 
         android:id="@+id/supportedAttributesOfTextView"
-        android:text="aaa"
+        android:text="String(to support 'int, double, long, float' where they are easy)"
         android:textColor="@android:color/background_light">
         <!-- 
         binding:onTextChange="onTextChange()"
