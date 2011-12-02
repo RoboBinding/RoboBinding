@@ -85,7 +85,7 @@ public abstract class AbstractTextAttributeTest<T extends CharSequence> extends 
 	}
 	
 	@Test
-	public void whenUpdatingTheTextView_ThenSuppressNextViewUpdateWhenValueModelIsUpdated()
+	public void whenUpdatingTheTextView_ThenUpdateNotificationCountShouldBe1()
 	{
 		createAttributeWith2WayBinding();
 		TextWatcherSpy textWatcher = new TextWatcherSpy();

@@ -8,12 +8,26 @@
     <packaging>jar</packaging>
     <name>RoboBinding</name>
 
+	<repositories>
+		<repository>
+			<!-- This repository is required until Robolectric 1.1 is published on Central -->
+			<id>oss-sonatype-snapshots</id>
+			<url>http://oss.sonatype.org/content/repositories/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
     <dependencies>
 	    <!-- Testing dependencies -->
 		<dependency>
     		<groupId>com.pivotallabs</groupId>
     		<artifactId>robolectric</artifactId>
-    		<version>1.0</version>
+    		<version>1.1-SNAPSHOT</version>
    		 	<scope>test</scope>
 		</dependency>
 	
