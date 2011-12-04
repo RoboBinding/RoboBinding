@@ -18,7 +18,6 @@ package robobinding.sample;
 
 import robobinding.binding.ActivityBinder;
 import robobinding.sample.presentationmodel.CreateEditAlbumPresentationModel;
-import robobinding.sample.store.AlbumStore;
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -36,11 +35,10 @@ public class CreateEditAlbumActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        AlbumStore albumStore = new AlbumStore();
         long albumId = getIntent().getLongExtra(ALBUM_ID, -1);
         
         ActivityBinder binder = new ActivityBinder(this, R.layout.create_edit_album_activity, true);
-        CreateEditAlbumPresentationModel createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumStore, albumId);
+        CreateEditAlbumPresentationModel createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumId);
 		binder.bindTo(createEditAlbumPresentationModel);
     }
 }

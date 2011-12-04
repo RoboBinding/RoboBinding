@@ -35,16 +35,16 @@ public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsP
 {
 	private PurchaseService purchaseService;
 
-	public CursorBackedViewAlbumsPresentationModel(Activity activity, AlbumStore albumStore, PurchaseService purchaseService)
+	public CursorBackedViewAlbumsPresentationModel(Activity activity, PurchaseService purchaseService)
 	{
-		super(activity, albumStore);
+		super(activity);
 		this.purchaseService = purchaseService;
 	}
 	
 	@ItemPresentationModel(value=PurchasableAlbumItemPresentationModel.class, factoryMethod="createAlbumPresentationModel")
 	public TypedCursor<Album> getAlbums()
 	{
-		return albumStore.getCursor();
+		return AlbumStore.getCursor();
 	}
 
 	public PurchasableAlbumItemPresentationModel createAlbumPresentationModel()

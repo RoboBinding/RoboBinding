@@ -33,14 +33,12 @@ import android.content.Intent;
 public class ViewAlbumPresentationModel
 {
 	private final Context context;
-	private final AlbumStore albumStore;
 	private final long albumId;
 	private Album album;
 	
-	public ViewAlbumPresentationModel(Context context, AlbumStore albumStore, long albumId)
+	public ViewAlbumPresentationModel(Context context, long albumId)
 	{
 		this.context = context;
-		this.albumStore = albumStore;
 		this.albumId = albumId;
 	}
 
@@ -78,7 +76,7 @@ public class ViewAlbumPresentationModel
 
 	public void refresh()
 	{
-		this.album = albumStore.get(albumId);
+		this.album = AlbumStore.get(albumId);
 		refreshPresentationModel();
 	}
 }

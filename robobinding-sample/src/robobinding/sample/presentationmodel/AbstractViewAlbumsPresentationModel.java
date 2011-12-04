@@ -13,12 +13,10 @@ public abstract class AbstractViewAlbumsPresentationModel
 	protected static final String PROPERTY_ALBUMS = "albums";
 
 	protected Context context;
-	protected AlbumStore albumStore;
 
-	public AbstractViewAlbumsPresentationModel(Context context, AlbumStore albumStore)
+	public AbstractViewAlbumsPresentationModel(Context context)
 	{
 		this.context = context;
-		this.albumStore = albumStore;
 	}
 
 	public void createAlbum()
@@ -28,7 +26,7 @@ public abstract class AbstractViewAlbumsPresentationModel
 
 	public void viewAlbum(ItemClickEvent event)
 	{
-		Album album = albumStore.getByIndex(event.getPosition());
+		Album album = AlbumStore.getByIndex(event.getPosition());
 
 		Intent intent = new Intent(context, ViewAlbumActivity.class);
 		intent.putExtra(ViewAlbumActivity.ALBUM_ID, album.getId());

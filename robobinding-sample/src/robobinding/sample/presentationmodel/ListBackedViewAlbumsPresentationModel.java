@@ -35,15 +35,15 @@ import android.app.Activity;
 @PresentationModel
 public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel
 {
-	public ListBackedViewAlbumsPresentationModel(Activity activity, AlbumStore albumStore)
+	public ListBackedViewAlbumsPresentationModel(Activity activity)
 	{
-		super(activity, albumStore);
+		super(activity);
 	}
 	
 	@ItemPresentationModel(value=AlbumItemPresentationModel.class)
 	public List<Album> getAlbums()
 	{
-		return Lists.newArrayList(albumStore.getAll());
+		return Lists.newArrayList(AlbumStore.getAll());
 	}
 
 }

@@ -97,5 +97,4 @@ public class AlbumCursor extends AbstractCursor implements TypedCursor<Album>
 		throw new UnsupportedOperationException();
 	}
 
-	
 }

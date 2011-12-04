@@ -35,26 +35,19 @@ public class CreateEditAlbumPresentationModel
 	private static final String CLASSICAL = "classical";
 	
 	private Album.Builder albumBuilder;
-	private AlbumStore albumStore;
 	private Activity activity;
 	
-	public CreateEditAlbumPresentationModel(Activity activity, AlbumStore albumStore, long albumId)
+	public CreateEditAlbumPresentationModel(Activity activity, long albumId)
 	{
-		initialize(activity, albumStore);
+		this.activity = activity;
 		
 		if (albumIsNew(albumId))
 			albumBuilder = new Album.Builder();
 		else
 		{
-			Album album = albumStore.get(albumId);
+			Album album = AlbumStore.get(albumId);
 			albumBuilder = album.createBuilder();
 		}
-	}
-	
-	private void initialize(Activity activity, AlbumStore albumStore)
-	{
-		this.activity = activity;
-		this.albumStore = albumStore;
 	}
 
 	private boolean albumIsNew(long albumId)
@@ -68,10 +61,9 @@ public class CreateEditAlbumPresentationModel
 		return isClassical();
 	}
 	
-	@SuppressWarnings("static-access")
 	public void save()
 	{
-		albumStore.save(albumBuilder.create());
+		AlbumStore.save(albumBuilder.create());
 		activity.finish();
 	}
 	

@@ -34,12 +34,9 @@ public class AlbumStore
 {
 	private static List<Album> albums;
 
-	public AlbumStore()
+	static
 	{
-		if (albums == null)
-		{
-			reset();
-		}
+		resetData();
 	}
 	
 	private static Album createClassical(String title, String artist, String composer)
@@ -62,7 +59,7 @@ public class AlbumStore
 		return builder;
 	}
 
-	public Album get(long albumId)
+	public static Album get(long albumId)
 	{
 		for (Album album : albums)
 		{
@@ -91,17 +88,17 @@ public class AlbumStore
 		return albums.size() + 1;
 	}
 	
-	public List<Album> getAll()
+	public static List<Album> getAll()
 	{
 		return Collections.unmodifiableList(albums);
 	}
 
-	public AlbumCursor getCursor()
+	public static AlbumCursor getCursor()
 	{
 		return new AlbumCursor(getAll());
 	}
 
-	public static void reset()
+	public static void resetData()
 	{
 		albums = Lists.newArrayList();
 		
@@ -116,7 +113,7 @@ public class AlbumStore
 		save(createNonClassical("Like a Virgin", "Madonna"));
 	}
 
-	public Album getByIndex(int position)
+	public static Album getByIndex(int position)
 	{
 		return albums.get(position);
 	}

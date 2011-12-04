@@ -18,14 +18,13 @@ package robobinding.sample;
 
 import robobinding.binding.ActivityBinder;
 import robobinding.sample.presentationmodel.ListBackedViewAlbumsPresentationModel;
-import robobinding.sample.store.AlbumStore;
 import android.app.Activity;
 import android.os.Bundle;
 
 /**
  * 
  * @since 1.0
- * @author Cheng Wei, 
+ * @author Cheng Wei
  * @author Robert Taylor
  */
 public abstract class AbstractListBackedViewAlbumsActivity extends Activity
@@ -38,7 +37,7 @@ public abstract class AbstractListBackedViewAlbumsActivity extends Activity
 		super.onCreate(savedInstanceState);
 		
 		ActivityBinder binder = new ActivityBinder(this, getLayoutId());
-		viewAlbumsPresentationModel = new ListBackedViewAlbumsPresentationModel(this, new AlbumStore());
+		viewAlbumsPresentationModel = new ListBackedViewAlbumsPresentationModel(this);
 		binder.bindTo(viewAlbumsPresentationModel);
 	}
 	
