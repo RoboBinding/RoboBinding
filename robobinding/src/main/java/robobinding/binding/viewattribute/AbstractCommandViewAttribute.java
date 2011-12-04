@@ -29,39 +29,55 @@ import android.content.Context;
 public abstract class AbstractCommandViewAttribute implements CommandViewAttribute
 {
 	private String commandName;
-	
+
 	public AbstractCommandViewAttribute(String commandName)
 	{
 		this.commandName = commandName;
 	}
-	
+
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
 		Function function = presentationModelAdapter.findFunction(commandName, getPreferredCommandParameterType());
 		boolean supportsPreferredParameterType = true;
-		
+
 		if (function == null)
 		{
 			function = getNoArgsCommand(presentationModelAdapter);
 			supportsPreferredParameterType = false;
 		}
-			
+
 		bind(new Command(function, supportsPreferredParameterType));
 	}
 
 	private Function getNoArgsCommand(PresentationModelAdapter presentationModelAdapter)
 	{
 		Function noArgsCommand = presentationModelAdapter.findFunction(commandName);
-	
+
 		if (noArgsCommand == null)
-			throw new IllegalArgumentException("Cannot find ");//TODO + presentationModelAdapter.getClass().getName() + "." + commandName + "() or " 
-						//+ presentationModelAdapter.getClass().getName() + "." + commandName + "(" + getPreferredCommandParameterType().getName() + ")");
-	
+		{
+			throw new IllegalArgumentException("Could not find method " + commandName + "() or " + commandName + "(" + getAcceptedParameterTypesDescription()
+					+ ") in class " + presentationModelAdapter.getClass().getName());
+		}
+
 		return noArgsCommand;
 	}
 
+	private String getAcceptedParameterTypesDescription()
+	{
+		Class<?> clazz = getPreferredCommandParameterType();
+		StringBuilder descriptionBuilder = new StringBuilder(clazz.getSimpleName());
+
+		while (clazz.getSuperclass() != Object.class)
+		{
+			clazz = clazz.getSuperclass();
+			descriptionBuilder.append('/').append(clazz.getSimpleName());
+		}
+		return descriptionBuilder.toString();
+	}
+
 	protected abstract void bind(Command command);
+
 	protected abstract Class<?> getPreferredCommandParameterType();
 
 }

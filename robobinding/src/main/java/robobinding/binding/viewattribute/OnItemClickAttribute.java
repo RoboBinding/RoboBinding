@@ -46,7 +46,6 @@ public class OnItemClickAttribute extends AbstractCommandViewAttribute
 				command.invoke(itemClickEvent);
 			}
 		});
-		
 	}
 
 	@Override
