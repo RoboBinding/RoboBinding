@@ -15,6 +15,7 @@
  */
 package robobinding.binding.viewattribute.provider;
 
+import robobinding.binding.viewattribute.BackgroundColorAttribute;
 import robobinding.binding.viewattribute.EnabledAttribute;
 import robobinding.binding.viewattribute.OnClickAttribute;
 import robobinding.binding.viewattribute.OnLongClickAttribute;
@@ -48,5 +49,6 @@ public class ViewAttributeProviderTest extends AbstractIndividualBindingAttribut
 		attributeClassMappings.add("enabled", EnabledAttribute.class);
 		attributeClassMappings.add("onClick", OnClickAttribute.class);
 		attributeClassMappings.add("onLongClick", OnLongClickAttribute.class);
+		attributeClassMappings.add("backgroundColor", BackgroundColorAttribute.class);
 	}
 }

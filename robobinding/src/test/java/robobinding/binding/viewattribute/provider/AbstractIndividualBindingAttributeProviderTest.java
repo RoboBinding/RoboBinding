@@ -18,6 +18,7 @@ package robobinding.binding.viewattribute.provider;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
@@ -62,6 +63,7 @@ public abstract class AbstractIndividualBindingAttributeProviderTest<T extends V
 		{
 			BindingAttribute bindingAttribute = bindingAttributeProvider.createBindingAttribute(view, attributeClassMapping.attributeName, ATTRIBUTE_VALUE, true);
 			
+			assertNotNull("Attribute support not implemented for " + attributeClassMapping.attributeName, bindingAttribute);
 			assertThat(bindingAttribute.getViewAttribute(), instanceOf(attributeClassMapping.expectedBindingAttributeClass));
 		}
 	}

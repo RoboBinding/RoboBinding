@@ -73,8 +73,8 @@ public class OnLongClickAttributeTest
 	@Test
 	public void whenLongClickingOnTheView_ThenInvokeCommandWithClickEvent()
 	{
-		OnClickAttribute onClickAttribute = new OnClickAttribute(view, commandName);
-		onClickAttribute.bind(mockPresentationModelAdapter, context);
+		OnLongClickAttribute onLongClickAttribute = new OnLongClickAttribute(view, commandName);
+		onLongClickAttribute.bind(mockPresentationModelAdapter, context);
 		
 		ShadowView shadowView = Robolectric.shadowOf(view);
 		shadowView.performLongClick();
