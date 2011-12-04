@@ -18,14 +18,15 @@ package robobinding.binding.viewattribute.provider;
 import robobinding.binding.BindingAttribute;
 import robobinding.binding.viewattribute.EnabledAttribute;
 import robobinding.binding.viewattribute.OnClickAttribute;
+import robobinding.binding.viewattribute.OnLongClickAttribute;
 import robobinding.binding.viewattribute.VisibilityAttribute;
 import android.view.View;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public class ViewAttributeProvider extends AbstractIndividualBindingAttributeProvider<View>
 {
@@ -43,6 +44,10 @@ public class ViewAttributeProvider extends AbstractIndividualBindingAttributePro
 		else if ("onClick".equals(attributeName))
 		{
 			return new BindingAttribute(attributeName, new OnClickAttribute(view, attributeValue));
+		}
+		else if ("onLongClick".equals(attributeName))
+		{
+			return new BindingAttribute(attributeName, new OnLongClickAttribute(view, attributeValue));
 		}
 		
 		return null;

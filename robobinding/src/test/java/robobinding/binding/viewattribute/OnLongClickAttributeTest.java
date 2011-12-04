@@ -30,16 +30,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
+import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnClickAttributeTest
+public class OnLongClickAttributeTest
 {
 	private View view;
 	private Context context = new Activity();
@@ -57,23 +59,25 @@ public class OnClickAttributeTest
 	}
 	
 	@Test
-	public void whenClickingOnTheView_ThenInvokeCommand()
+	public void whenLongClickingOnView_ThenInvokeCommand()
 	{
-		OnClickAttribute onClickAttribute = new OnClickAttribute(view, commandName);
-		onClickAttribute.bind(mockPresentationModelAdapter, context);
+		OnLongClickAttribute onLongClickAttribute = new OnLongClickAttribute(view, commandName);
+		onLongClickAttribute.bind(mockPresentationModelAdapter, context);
 		
-		view.performClick();
-	
+		ShadowView shadowView = Robolectric.shadowOf(view);
+		shadowView.performLongClick();
+		
 		assertTrue(mockFunction.commandInvoked);
 	}
 	
 	@Test
-	public void whenClickingOnTheView_ThenInvokeCommandWithClickEvent()
+	public void whenLongClickingOnTheView_ThenInvokeCommandWithClickEvent()
 	{
 		OnClickAttribute onClickAttribute = new OnClickAttribute(view, commandName);
 		onClickAttribute.bind(mockPresentationModelAdapter, context);
 		
-		view.performClick();
+		ShadowView shadowView = Robolectric.shadowOf(view);
+		shadowView.performLongClick();
 	
 		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(ClickEvent.class));
 		ClickEvent clickEvent = (ClickEvent)mockFunction.argsPassedToInvoke[0];

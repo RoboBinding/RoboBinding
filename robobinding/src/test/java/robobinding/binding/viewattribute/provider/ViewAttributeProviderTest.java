@@ -17,6 +17,7 @@ package robobinding.binding.viewattribute.provider;
 
 import robobinding.binding.viewattribute.EnabledAttribute;
 import robobinding.binding.viewattribute.OnClickAttribute;
+import robobinding.binding.viewattribute.OnLongClickAttribute;
 import robobinding.binding.viewattribute.VisibilityAttribute;
 import android.view.View;
 
@@ -46,5 +47,6 @@ public class ViewAttributeProviderTest extends AbstractIndividualBindingAttribut
 		attributeClassMappings.add("visibility", VisibilityAttribute.class);
 		attributeClassMappings.add("enabled", EnabledAttribute.class);
 		attributeClassMappings.add("onClick", OnClickAttribute.class);
+		attributeClassMappings.add("onLongClick", OnLongClickAttribute.class);
 	}
 }

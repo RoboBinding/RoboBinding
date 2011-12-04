@@ -21,10 +21,10 @@ import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public abstract class AbstractCommandViewAttribute implements CommandViewAttribute
 {
@@ -55,7 +55,8 @@ public abstract class AbstractCommandViewAttribute implements CommandViewAttribu
 		Function noArgsCommand = presentationModelAdapter.findFunction(commandName);
 	
 		if (noArgsCommand == null)
-			throw new IllegalArgumentException("Cannot find command: " + commandName);
+			throw new IllegalArgumentException("Cannot find ");//TODO + presentationModelAdapter.getClass().getName() + "." + commandName + "() or " 
+						//+ presentationModelAdapter.getClass().getName() + "." + commandName + "(" + getPreferredCommandParameterType().getName() + ")");
 	
 		return noArgsCommand;
 	}

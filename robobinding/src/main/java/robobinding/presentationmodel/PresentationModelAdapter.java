@@ -37,4 +37,6 @@ public interface PresentationModelAdapter
 	AbstractDataSetProperty<?> getDataSetPropertyValueModel(String propertyName);
 
 	Function findFunction(String functionName, Class<?>... parameterTypes);
+	
+	Class<?> getPresentationModelClass();
 }

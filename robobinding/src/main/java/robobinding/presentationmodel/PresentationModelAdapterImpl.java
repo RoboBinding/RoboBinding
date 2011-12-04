@@ -33,13 +33,15 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter
 {
 	private final CachedFunctions functions;
 	private final Properties properties;
-
+	private final Class<?> presentationModelClass;
+	
 	public PresentationModelAdapterImpl(Object presentationModel)
 	{
 		Validate.notNull(presentationModel);
 		
 		properties = new CachedProperties(presentationModel);
 		functions = new CachedFunctions(presentationModel);
+		presentationModelClass = presentationModel.getClass();
 	}
 	public Class<?> getPropertyType(String propertyName)
 	{
@@ -62,5 +64,10 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter
 	public Function findFunction(String functionName, Class<?>... parameterTypes)
 	{
 		return functions.find(functionName, parameterTypes);
+	}
+	@Override
+	public Class<?> getPresentationModelClass()
+	{
+		return presentationModelClass;
 	}
 }
