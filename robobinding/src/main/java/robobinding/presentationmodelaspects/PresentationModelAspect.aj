@@ -1,6 +1,5 @@
 /**
- * ViewAlbumPresentationModelAspect.aj
- * 22 Nov 2011 Copyright Cheng Wei and Robert Taylor
+ * Copyright 2011 Cheng Wei, Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
