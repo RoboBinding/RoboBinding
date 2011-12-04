@@ -1,6 +1,5 @@
 /**
- * FunctionImpl.java
- * Oct 26, 2011 Copyright Cheng Wei and Robert Taylor
+ * Copyright 2011 Cheng Wei, Robert Taylor
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +52,7 @@ class FunctionImpl implements Function
 			throw new RuntimeException(e);
 		} catch (InvocationTargetException e)
 		{
-			throw new RuntimeException("Error occur when invoking method '"+describeMethod()+"', please check the original error stack below", e.getCause());
+			throw new RuntimeException("Error occurred when invoking method '"+describeMethod()+"', please check the original error stack below", e.getCause());
 		}
 	}
 	private String describeMethod()

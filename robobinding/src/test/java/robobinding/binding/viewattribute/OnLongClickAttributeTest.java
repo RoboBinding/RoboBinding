@@ -30,9 +30,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
-import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
-import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
  *
@@ -64,8 +62,7 @@ public class OnLongClickAttributeTest
 		OnLongClickAttribute onLongClickAttribute = new OnLongClickAttribute(view, commandName);
 		onLongClickAttribute.bind(mockPresentationModelAdapter, context);
 		
-		ShadowView shadowView = Robolectric.shadowOf(view);
-		shadowView.performLongClick();
+		view.performLongClick();
 		
 		assertTrue(mockFunction.commandInvoked);
 	}
@@ -76,9 +73,8 @@ public class OnLongClickAttributeTest
 		OnLongClickAttribute onLongClickAttribute = new OnLongClickAttribute(view, commandName);
 		onLongClickAttribute.bind(mockPresentationModelAdapter, context);
 		
-		ShadowView shadowView = Robolectric.shadowOf(view);
-		shadowView.performLongClick();
-	
+		view.performLongClick();
+		
 		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(ClickEvent.class));
 		ClickEvent clickEvent = (ClickEvent)mockFunction.argsPassedToInvoke[0];
 		assertTrue(clickEvent.getView() == view);
