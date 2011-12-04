@@ -16,6 +16,7 @@
 package robobinding.binding.viewattribute.provider;
 
 import robobinding.binding.BindingAttribute;
+import robobinding.binding.viewattribute.BackgroundColorAttribute;
 import robobinding.binding.viewattribute.EnabledAttribute;
 import robobinding.binding.viewattribute.OnClickAttribute;
 import robobinding.binding.viewattribute.VisibilityAttribute;
@@ -43,6 +44,10 @@ public class ViewAttributeProvider extends AbstractIndividualBindingAttributePro
 		else if ("onClick".equals(attributeName))
 		{
 			return new BindingAttribute(attributeName, new OnClickAttribute(view, attributeValue));
+		}
+		else if("backgroundColor".equals(attributeName))
+		{
+			return new BindingAttribute(attributeName, new BackgroundColorAttribute(view, attributeValue, preInitializeView));
 		}
 		
 		return null;
