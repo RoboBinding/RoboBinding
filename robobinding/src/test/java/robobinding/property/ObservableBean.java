@@ -27,6 +27,7 @@ import robobinding.DependsOn;
 public class ObservableBean extends Bean implements ObservableProperties
 {
 	public static final String PROPERTY_WITH_VALID_DEPENDENT_PROPERTIES = "propertyWithValidDependentProperties";
+	public static final String DEPENDENT_PROPERTY = "dependentProperty";
 	public static final String PROPERTY_WITH_DUPLICATED_DEPENDENT_PROPERTIES = "propertyWithDuplicatedDependentProperties";
 	public static final String PROPERTY_WITH_SOME_NONEXISTING_DEPENDENT_PROPERTIES = "propertyWithSomeNonExistingDependentProperties";
 	public static final String PROPERTY_DEPENDING_ON_SELF = "propertyDependingOnSelf";
@@ -36,12 +37,16 @@ public class ObservableBean extends Bean implements ObservableProperties
 	{
 		propertyChangeSupport = new PresentationModelPropertyChangeSupport(this);
 	}
-	@DependsOn({ANNOTATED_PROPERTY,PROPERTY})
+	@DependsOn({DEPENDENT_PROPERTY,PROPERTY})
 	public boolean getPropertyWithValidDependentProperties()
 	{
 		return true;
 	}
-	@DependsOn({PROPERTY,PROPERTY})
+	public boolean getDependentProperty()
+	{
+		return true;
+	}
+	@DependsOn({DEPENDENT_PROPERTY,DEPENDENT_PROPERTY})
 	public boolean getPropertyWithDuplicatedDependentProperties()
 	{
 		return true;

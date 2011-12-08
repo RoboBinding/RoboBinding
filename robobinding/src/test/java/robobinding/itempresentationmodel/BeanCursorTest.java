@@ -49,7 +49,6 @@ public class BeanCursorTest
 		beans.add(new Bean("bean2 prop1"));
 		
 		beanCursor = new BeanCursor<BeanCursorTest.Bean>(beans, Bean.class);
-		beanCursor.getColumnNames();
 	}
 	@Test
 	public void whenGetProperty1WithCorrectStringType_thenReturnExpectedResult()

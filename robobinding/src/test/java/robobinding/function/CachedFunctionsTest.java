@@ -16,15 +16,13 @@
  */
 package robobinding.function;
 
-import java.util.Map;
+import java.lang.reflect.Method;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import robobinding.function.CachedFunctions;
-import robobinding.function.Function;
-import robobinding.function.CachedFunctions.FunctionDescriptor;
+import robobinding.internal.org_apache_commons_lang3.reflect.MethodUtils;
 
 /**
  *
@@ -44,15 +42,20 @@ public class CachedFunctionsTest
 	@Test
 	public void whenFindExistingFunctionWithMatchedParameterTypes_thenReturnCorrectFunction()
 	{
-		Function function = cachedFunctions.find(FunctionsBean.FUNCTION1, new Class<?>[]{Boolean.class});
+		Function function = cachedFunctions.find(FunctionsBean.FUNCTION1, new Class<?>[]{boolean.class});
 		
-		assertCorrectFunction(function, FunctionsBean.FUNCTION1, new Class<?>[]{Boolean.class});
+		assertCorrectFunction(function, FunctionsBean.FUNCTION1, new Class<?>[]{boolean.class});
 	}
 	private void assertCorrectFunction(Function actualFunction, String expectedFunctionName, Class<?>[] expectedParameterTypes)
 	{
 		Assert.assertNotNull(actualFunction);
-		Function expectedFunction = findCachedFunction(expectedFunctionName, expectedParameterTypes);
-		Assert.assertTrue(expectedFunction == actualFunction);
+		
+		FunctionImpl actualFunctionImpl = (FunctionImpl)actualFunction;
+		Method expectedMethod = MethodUtils.getAccessibleMethod(
+				FunctionsBean.class, 
+				expectedFunctionName, 
+				expectedParameterTypes);
+		Assert.assertEquals(expectedMethod, actualFunctionImpl.method);
 	}
 	@Test
 	public void whenFindExistingFunctioWithUnmatchedParameterTypes_thenReturnNull()
@@ -77,13 +80,6 @@ public class CachedFunctionsTest
 		
 		Assert.assertNotNull(function);
 		Assert.assertTrue(function == cachedFunction);
-	}
-	private Function findCachedFunction(String functionName, Class<?>... parameterTypes)
-	{
-		CachedFunctions.FunctionDescriptor functionDescriptor = new CachedFunctions.FunctionDescriptor(functionName, parameterTypes);
-		Map<FunctionDescriptor, Function> functionCache = cachedFunctions.functionCache;
-		Function expectedFunction = functionCache.get(functionDescriptor);
-		return expectedFunction;
 	}
 	public static class FunctionsBean
 	{

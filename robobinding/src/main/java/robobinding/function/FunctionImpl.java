@@ -31,8 +31,8 @@ import robobinding.internal.org_apache_commons_lang3.StringUtils;
 */
 class FunctionImpl implements Function
 {
-	private final Object object;
-	private final Method method;
+	private Object object;
+	Method method;
 	public FunctionImpl(Object object, Method method)
 	{
 		this.object = object;

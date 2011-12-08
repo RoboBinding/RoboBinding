@@ -15,7 +15,9 @@
  */
 package robobinding.presentationmodelaspects;
 
-import org.hamcrest.CoreMatchers;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.not;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -81,6 +83,6 @@ public class PresentationModelAspectTest
 	@Theory
 	public void whenImplementsPrensentationModelManually_thenNoAutoCodeGenerationTriggered(ObservableProperties manualPresentationModelImplementation)
 	{
-		Assert.assertThat(manualPresentationModelImplementation, CoreMatchers.not(CoreMatchers.instanceOf(PresentationModelMixin.class)));
+		Assert.assertThat(manualPresentationModelImplementation, not(instanceOf(PresentationModelMixin.class)));
 	}
 }

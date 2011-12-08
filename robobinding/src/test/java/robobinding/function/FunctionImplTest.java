@@ -45,15 +45,20 @@ public class FunctionImplTest
 		} catch (RuntimeException e)
 		{
 			Throwable cause = e.getCause();
-			Assert.assertTrue(cause instanceof RuntimeException);
-			Assert.assertEquals("i don't want to be called", cause.getMessage());
+			Assert.assertEquals(bean.exception, cause);
 		}
 	}
 	public static class FunctionBean
 	{
+		private RuntimeException exception;
+		public FunctionBean()
+		{
+			exception = new RuntimeException("i don't want to be called");
+		}
+		
 		public void f1()
 		{
-			throw new RuntimeException("i don't want to be called");
+			throw exception;
 		}
 	}
 }

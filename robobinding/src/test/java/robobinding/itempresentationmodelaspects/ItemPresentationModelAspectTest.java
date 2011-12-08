@@ -18,6 +18,7 @@ package robobinding.itempresentationmodelaspects;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -43,7 +44,7 @@ public class ItemPresentationModelAspectTest
 	{
 		propertyChangeListenerTester = new PropertyChangeListenerTester();
 	}
-	@Theory
+	@Test
 	public void givenObservePropertyChangeOnItemPresentationModel_whenSetData_thenListenerGetNotified()
 	{
 		ItemPresentationModel_AutoCodeGeneration itemPresentationModel = new ItemPresentationModel_AutoCodeGeneration();

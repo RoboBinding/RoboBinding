@@ -40,7 +40,7 @@ public class AbstractPropertyTest
 		listener = new PresentationModelPropertyChangeListenerImpl();
 	}
 	@Test
-	public void testGivenObservableBean_whenAddValueChangeListener_thenListenerAdded()
+	public void testGivenObservableBean_whenAddPropertyChangeListener_thenListenerAdded()
 	{
 		ObservableBean observableBean = new ObservableBean();
 		AbstractProperty<Boolean> property = createProperty(observableBean);
@@ -54,7 +54,7 @@ public class AbstractPropertyTest
 		Assert.assertTrue(observableBean.hasPropertyChangeListener(Bean.PROPERTY, listener));
 	}
 	@Test(expected=RuntimeException.class)
-	public void testGivenNotObservableBean_whenAddValueChangeListener_thenThrowException()
+	public void testGivenNonObservableBean_whenAddPropertyChangeListener_thenThrowException()
 	{
 		Bean bean = new Bean();
 		AbstractProperty<Boolean> property = createProperty(bean);
@@ -62,7 +62,7 @@ public class AbstractPropertyTest
 		property.addPropertyChangeListener(listener);
 	}
 	@Test
-	public void testGivenObservableBeanAndAnExistingValueChangeListener_whenRemoveListener_thenListenerRemoved()
+	public void testPropertyChangeListenerOnProperty_whenRemoveIt_thenListenerRemoved()
 	{
 		ObservableBean observableBean = new ObservableBean();
 		addListener(observableBean);
@@ -81,7 +81,7 @@ public class AbstractPropertyTest
 		observableBean.addPropertyChangeListener(Bean.PROPERTY, listener);
 	}
 	@Test
-	public void testGivenObservableBean_whenRemoveNonExistingValueChangeListener_thenOperationIgnored()
+	public void testGivenObservableBean_whenRemoveNonExistingPropertyChangeListener_thenOperationIgnored()
 	{
 		ObservableBean observableBean = new ObservableBean();
 		AbstractProperty<Boolean> property = createProperty(observableBean);
@@ -89,7 +89,7 @@ public class AbstractPropertyTest
 		property.removePropertyChangeListener(listener);
 	}
 	@Test
-	public void testGivenNotObservableBean_whenRemoveValueChangeListener_thenOperationIgnored()
+	public void testGivenNonObservableBean_whenRemovePropertyChangeListener_thenOperationIgnored()
 	{
 		Bean bean = new Bean();
 		AbstractProperty<Boolean> property = createProperty(bean);
