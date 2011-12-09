@@ -27,7 +27,8 @@ public abstract class AbstractViewAlbumsPresentationModel
 {
 	protected static final String PROPERTY_ALBUMS = "albums";
 
-	protected Context context;
+	protected final Context context;
+	private Album selectedAlbum;
 
 	public AbstractViewAlbumsPresentationModel(Context context)
 	{
@@ -39,13 +40,21 @@ public abstract class AbstractViewAlbumsPresentationModel
 		context.startActivity(new Intent(context, CreateEditAlbumActivity.class));
 	}
 
-	public void viewAlbum(ItemClickEvent event)
+	public void selectAlbum(int position)
 	{
-		Album album = AlbumStore.getByIndex(event.getPosition());
-
-		Intent intent = new Intent(context, ViewAlbumActivity.class);
-		intent.putExtra(ViewAlbumActivity.ALBUM_ID, album.getId());
-		context.startActivity(intent);
+		selectedAlbum = AlbumStore.getByIndex(position);
 	}
 	
+	public void viewAlbum(ItemClickEvent event)
+	{
+		selectAlbum(event.getPosition());
+		viewAlbum();
+	}
+	
+	public void viewAlbum()
+	{
+		Intent intent = new Intent(context, ViewAlbumActivity.class);
+		intent.putExtra(ViewAlbumActivity.ALBUM_ID, selectedAlbum.getId());
+		context.startActivity(intent);
+	}
 }

@@ -15,13 +15,14 @@
  */
 package robobinding.sample;
 
+
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SpinnerAlbumsTest extends AbstractHomeActivityTest
+public class SpinnerAlbumsTest extends AbstractWorkflowTest
 {
 	@Override
 	protected int homeButtonStringResId()
@@ -29,9 +30,11 @@ public class SpinnerAlbumsTest extends AbstractHomeActivityTest
 		return R.string.spinner_albums;
 	}
 
-	public void testCreatingAnAlbum()
+	public void testCreatingAndDeletingAnAlbum()
 	{
 		createAnAlbumTests();
+		
+		//deleteAlbumTests();
 	}
 	
 	@Override
@@ -41,5 +44,25 @@ public class SpinnerAlbumsTest extends AbstractHomeActivityTest
 		
 		assertTrue(solo.searchText("Album name"));
 		assertTrue(solo.searchText("Artist name"));
+	}
+
+	@Override
+	protected void selectFirstAlbum()
+	{
+		clickOnAlbumSpinner();
+
+		clickFirstItemInDropdownList();
+		
+		clickOnButtonWithLabel(R.string.view);
+	}
+
+	private void clickOnAlbumSpinner()
+	{
+		solo.getCurrentSpinners().get(0).performClick();
+	}
+	
+	private void clickFirstItemInDropdownList()
+	{
+		solo.clickInList(0);
 	}
 }

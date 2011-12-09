@@ -15,19 +15,33 @@
  */
 package robobinding.sample;
 
+
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractListViewTest extends AbstractHomeActivityTest
+public abstract class AbstractListViewTest extends AbstractWorkflowTest
 {
-	public void testCreatingAndEditingAnAlbum()
+	public void testCreatingEditingAndDeletingAnAlbum()
 	{
 		createAnAlbumTests();
 		
 		editAnAlbumTests();
+		
+		deleteAlbumTests();
 	}
 
+	@Override
+	protected void selectFirstAlbum()
+	{
+		scrollToTopOfList();
+		solo.clickInList(0);
+	}
+
+	private void scrollToTopOfList()
+	{
+		while (solo.scrollUpList(0)){}
+	}
 }

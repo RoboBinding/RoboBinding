@@ -5,15 +5,32 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
+    <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        binding:text="{albumTitle}" />
+        android:orientation="vertical"
+        android:padding="20dp" >
     
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        binding:text="{albumArtist}" />
+	    <TextView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        binding:text="{albumTitle}" />
+	    
+	    <TextView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        binding:text="{albumArtist}" />
+	    
+	    <TextView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        style="@style/Heading"
+	        android:text="@string/are_you_sure_" />
+	    
+    </LinearLayout>
     
     <LinearLayout 
         android:layout_width="fill_parent"
@@ -32,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/no"
-            binding:onClick="cancelDialog" />
+            binding:onClick="dismissDialog" />
             
     </LinearLayout>
     

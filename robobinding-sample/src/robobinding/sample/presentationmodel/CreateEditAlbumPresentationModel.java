@@ -15,7 +15,7 @@
  */
 package robobinding.sample.presentationmodel;
 
-import robobinding.DependsOn;
+import robobinding.DependsOnStateOf;
 import robobinding.presentationmodelaspects.PresentationModel;
 import robobinding.sample.R;
 import robobinding.sample.model.Album;
@@ -54,7 +54,7 @@ public class CreateEditAlbumPresentationModel
 		return albumId == Album.NO_ID;
 	}
 	
-	@DependsOn(CLASSICAL)
+	@DependsOnStateOf(CLASSICAL)
 	public boolean isComposerEnabled()
 	{
 		return isClassical();
@@ -106,7 +106,7 @@ public class CreateEditAlbumPresentationModel
 		albumBuilder.setComposer(composer);
 	}
 
-	@DependsOn(CLASSICAL)
+	@DependsOnStateOf(CLASSICAL)
 	public String getWindowTitle()
 	{
 		if(albumBuilder.isNew())

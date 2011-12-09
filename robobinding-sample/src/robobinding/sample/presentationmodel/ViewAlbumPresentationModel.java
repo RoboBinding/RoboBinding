@@ -22,7 +22,7 @@ import robobinding.sample.model.Album;
 import robobinding.sample.store.AlbumStore;
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 
 /**
@@ -79,9 +79,9 @@ public class ViewAlbumPresentationModel
 	public void deleteAlbum()
 	{
 		DeleteAlbumDialog deleteAlbumDialog = new DeleteAlbumDialog(activity, album);
-		deleteAlbumDialog.setOnDismissListener(new OnDismissListener(){
+		deleteAlbumDialog.setOnCancelListener(new OnCancelListener() {
 			@Override
-			public void onDismiss(DialogInterface dialog)
+			public void onCancel(DialogInterface dialog)
 			{
 				activity.finish();
 			}

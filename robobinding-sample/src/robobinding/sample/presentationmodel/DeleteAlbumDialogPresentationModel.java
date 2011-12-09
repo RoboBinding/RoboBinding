@@ -15,6 +15,7 @@
  */
 package robobinding.sample.presentationmodel;
 
+import robobinding.presentationmodel.DialogPresentationModel;
 import robobinding.presentationmodelaspects.PresentationModel;
 import robobinding.sample.R;
 import robobinding.sample.model.Album;
@@ -28,7 +29,7 @@ import android.app.Dialog;
  * @author Robert Taylor
  */
 @PresentationModel
-public class DeleteAlbumDialogPresentationModel
+public class DeleteAlbumDialogPresentationModel implements DialogPresentationModel
 {
 	private final Dialog dialog;
 	private final Album album;
@@ -36,19 +37,18 @@ public class DeleteAlbumDialogPresentationModel
 	public DeleteAlbumDialogPresentationModel(Dialog dialog, Album album)
 	{
 		this.dialog = dialog;
-		this.dialog.setTitle("Title goes here");
 		this.album = album;
 	}
 	
 	public void deleteAlbum()
 	{
 		AlbumStore.delete(album);
-		dialog.dismiss();
+		dialog.cancel();
 	}
 	
-	public void cancelDialog()
+	public void dismissDialog()
 	{
-		dialog.cancel();
+		dialog.dismiss();
 	}
 	
 	public String getAlbumTitle()

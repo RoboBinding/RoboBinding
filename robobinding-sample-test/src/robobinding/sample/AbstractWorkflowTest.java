@@ -15,10 +15,13 @@
  */
 package robobinding.sample;
 
-import robobinding.sample.store.AlbumStore;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
+
+import robobinding.sample.model.Album;
+import robobinding.sample.store.AlbumStore;
+
 
 /**
  *
@@ -26,20 +29,13 @@ import com.jayway.android.robotium.solo.Solo;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractHomeActivityTest extends ActivityInstrumentationTestCase2<HomeActivity>
+public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCase2<HomeActivity>
 {
 	protected Solo solo;
 
-	public AbstractHomeActivityTest()
+	public AbstractWorkflowTest()
 	{
 		super("robobinding.sample", HomeActivity.class);
-	}
-
-	protected void setUp() throws Exception
-	{
-		super.setUp();
-		solo = new Solo(getInstrumentation(), getActivity());
-		AlbumStore.resetData();
 	}
 
 	protected void createAnAlbumTests()
@@ -84,6 +80,22 @@ public abstract class AbstractHomeActivityTest extends ActivityInstrumentationTe
 		assertTrue(solo.searchText("New album name"));
 	}
 
+	protected void deleteAlbumTests()
+	{
+		Album firstAlbum = AlbumStore.getAll().get(0);
+		selectFirstAlbum();
+		
+		clickOnButtonWithLabel(R.string.delete);
+		
+		assertThatDeleteDialogTitleIsVisible();
+		
+		clickOnButtonWithLabel(R.string.yes);
+		
+		solo.waitForDialogToClose(500);
+		
+		assertAlbumHasBeenDeleted(firstAlbum);
+	}
+	
 	protected void assertNewAlbumIsVisible()
 	{
 		assertTrue(solo.searchText("Album name"));
@@ -98,6 +110,27 @@ public abstract class AbstractHomeActivityTest extends ActivityInstrumentationTe
 		solo.enterText(2, "Composer name");
 	}
 
+	protected abstract int homeButtonStringResId();
+	
+	protected abstract void selectFirstAlbum();
+	
+	private void assertThatDeleteDialogTitleIsVisible()
+	{
+		assertTrue(solo.searchText(getActivity().getString(R.string.delete_album)));
+	}
+	
+	private void assertAlbumHasBeenDeleted(Album firstAlbum)
+	{
+		assertFalse(solo.searchText(firstAlbum.getTitle()));
+	}
+
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		solo = new Solo(getInstrumentation(), getActivity());
+		AlbumStore.resetData();
+	}
+	
 	protected void clickOnButtonWithLabel(String label)
 	{
 		solo.clickOnButton(label);
@@ -108,7 +141,7 @@ public abstract class AbstractHomeActivityTest extends ActivityInstrumentationTe
 		clickOnButtonWithLabel(getString(resId));
 	}
 	
-	private String getString(int resId)
+	protected String getString(int resId)
 	{
 		return getActivity().getString(resId);
 	}
@@ -118,7 +151,4 @@ public abstract class AbstractHomeActivityTest extends ActivityInstrumentationTe
 		super.tearDown();
 		solo.finishOpenedActivities();
 	}
-
-	protected abstract int homeButtonStringResId();
-
 }

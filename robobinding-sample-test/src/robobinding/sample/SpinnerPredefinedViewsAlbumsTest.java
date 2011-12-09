@@ -21,7 +21,7 @@ package robobinding.sample;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SpinnerPredefinedViewsAlbumsTest extends AbstractHomeActivityTest
+public class SpinnerPredefinedViewsAlbumsTest extends SpinnerAlbumsTest
 {
 	@Override
 	protected int homeButtonStringResId()
@@ -29,11 +29,6 @@ public class SpinnerPredefinedViewsAlbumsTest extends AbstractHomeActivityTest
 		return R.string.spinner_albums_with_predefined_views;
 	}
 
-	public void testCreatingAnAlbum()
-	{
-		createAnAlbumTests();
-	}
-	
 	@Override
 	protected void assertNewAlbumIsVisible()
 	{

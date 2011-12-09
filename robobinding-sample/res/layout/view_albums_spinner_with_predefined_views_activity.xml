@@ -18,6 +18,13 @@
   		android:text="@string/create"
   		binding:onClick="createAlbum" />
     
+    <Button
+    	android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		android:layout_above="@id/create_button"
+  		android:text="@string/view"
+  		binding:onClick="viewAlbum" />
+    
     <Spinner 
     	android:layout_width="fill_parent"
   		android:layout_height="wrap_content"
