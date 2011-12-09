@@ -24,10 +24,10 @@ import android.widget.CheckBox;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckBoxAttributeProviderTest extends AbstractIndividualBindingAttributeProviderTest<CheckBox>
+public class CheckBoxAttributeProviderTest extends AbstractBindingAttributeProviderTest<CheckBox>
 {
 	@Override
-	protected AbstractIndividualBindingAttributeProvider<CheckBox> getBindingAttributeProvider()
+	protected BindingAttributeProvider<CheckBox> getBindingAttributeProvider()
 	{
 		return new CheckBoxAttributeProvider();
 	}

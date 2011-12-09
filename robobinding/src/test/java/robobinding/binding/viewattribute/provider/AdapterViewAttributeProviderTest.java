@@ -19,8 +19,6 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +30,6 @@ import robobinding.binding.viewattribute.DropdownLayoutAttribute;
 import robobinding.binding.viewattribute.DropdownMappingAttribute;
 import robobinding.binding.viewattribute.ItemMappingAttribute;
 import robobinding.binding.viewattribute.OnItemClickAttribute;
-import robobinding.internal.com_google_common.collect.Maps;
 import android.app.Activity;
 import android.content.Context;
 import android.widget.AdapterView;
@@ -48,7 +45,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class AdapterViewAttributeProviderTest
+public class AdapterViewAttributeProviderTest extends AbstractCompoundBindingAttributeTest<AdapterView<?>>
 {
 	private final Context context = new Activity();
 	private final ListView listView = new ListView(context);
@@ -69,13 +66,11 @@ public class AdapterViewAttributeProviderTest
 			new AttributesAndViewCombination(spinner, itemLayout, dropdownLayout)};
 
 	private AdapterViewAttributeProvider adapterViewAttributeProvider = new AdapterViewAttributeProvider();
-	private Map<String, String> pendingBindingAttributes;
-
+	
 	@Before
 	public void setUp()
 	{
 		adapterViewAttributeProvider = new AdapterViewAttributeProvider();
-		pendingBindingAttributes = Maps.newHashMap();
 	}
 
 	@Test
@@ -83,8 +78,8 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(onItemClick);
 
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
-
+		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
+		
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(OnItemClickAttribute.class));
 	}
 
@@ -93,7 +88,7 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(source, itemLayout);
 
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
+		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
 
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(AdaptedDataSetAttributes.class));
 	}
@@ -103,7 +98,7 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(source, itemLayout, dropdownLayout);
 
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
+		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
 
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(AdaptedDataSetAttributes.class));
 		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes) bindingAttribute.getViewAttribute();
@@ -115,8 +110,8 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(source, itemLayout, itemMapping);
 		
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
-
+		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
+		
 		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes) bindingAttribute.getViewAttribute();
 		assertTrue(adaptedDataSetAttributesContains(ItemMappingAttribute.class, adaptedDataSetAttributes));
 	}
@@ -126,8 +121,8 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(source, itemLayout, dropdownLayout, dropdownMapping);
 		
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(spinner, pendingBindingAttributes, false).get(0);
-
+		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
+		
 		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes) bindingAttribute.getViewAttribute();
 		assertTrue(adaptedDataSetAttributesContains(DropdownMappingAttribute.class, adaptedDataSetAttributes));
 	}
@@ -137,8 +132,8 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(source, itemLayout, itemMapping, dropdownLayout, dropdownMapping);
 		
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(spinner, pendingBindingAttributes, false).get(0);
-
+		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
+		
 		assertTrue(bindingAttribute.getAttributeNames().contains("source"));
 		assertTrue(bindingAttribute.getAttributeNames().contains("itemLayout"));
 		assertTrue(bindingAttribute.getAttributeNames().contains("itemMapping"));
@@ -157,12 +152,6 @@ public class AdapterViewAttributeProviderTest
 		return false;
 	}
 
-	private void givenAttributes(Attribute... attributes)
-	{
-		for (Attribute attribute : attributes)
-			pendingBindingAttributes.put(attribute.name, attribute.value);
-	}
-	
 	@Test
 	public void givenAnIllegalAttributeCombination_ThenReject()
 	{
@@ -171,37 +160,17 @@ public class AdapterViewAttributeProviderTest
 			boolean runtimeExceptionThrown = false;
 			setUp();
 			
-			for (Attribute attribute : illegalAttributeCombination.attributes)
-			{
-				pendingBindingAttributes.put(attribute.name, attribute.value);
-			}
+			givenAttributes(illegalAttributeCombination.attributes);
 
 			try
 			{
-				adapterViewAttributeProvider.createSupportedBindingAttributes(illegalAttributeCombination.view, pendingBindingAttributes, false);
+				resolveSupportedBindingAttributes(illegalAttributeCombination.view);
 			} catch (RuntimeException e)
 			{
 				runtimeExceptionThrown = true;
 			}
 
 			assertTrue(illegalAttributeCombination + " did not throw RuntimeException as expected", runtimeExceptionThrown);
-		}
-	}
-
-	private static class Attribute
-	{
-		private String name;
-		private String value;
-
-		public Attribute(String name, String value)
-		{
-			this.name = name;
-			this.value = value;
-		}
-		
-		public String toString()
-		{
-			return name + ":" + value;
 		}
 	}
 
@@ -225,5 +194,17 @@ public class AdapterViewAttributeProviderTest
 			
 			return str;
 		}
+	}
+
+	@Override
+	protected AdapterView<?> getView()
+	{
+		return listView;
+	}
+
+	@Override
+	protected BindingAttributeProvider<AdapterView<?>> getAttributeProvider()
+	{
+		return adapterViewAttributeProvider;
 	}
 }

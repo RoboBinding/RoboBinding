@@ -13,7 +13,7 @@
        	binding:onLongClick="onLongClick()"
        	binding:onGainFocus="onGainFocus()"
        	binding:onLostFocus="onLostFocus()"
-       	binding:selected="boolean" - ?
+       	binding:selected="boolean"
        	binding:backgroundColor="integer" - combine with background?
        	 -->
     </View>

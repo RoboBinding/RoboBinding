@@ -18,9 +18,7 @@ package robobinding.binding.viewattribute.provider;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,30 +38,32 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class TextViewAttributeProviderTest
+public class TextViewAttributeProviderTest extends AbstractCompoundBindingAttributeTest<TextView>
 {
 	private static final String ONE_WAY_BINDING_ATTRIBUTE = "{attributeValue}";
 	private static final String TWO_WAY_BINDING_ATTRIBUTE = "${attributeValue}";
 	
+	private final Attribute textWithOneWayBinding = new Attribute("text", ONE_WAY_BINDING_ATTRIBUTE);
+	private final Attribute textWithTwoWayBinding = new Attribute("text", TWO_WAY_BINDING_ATTRIBUTE);
+	private final Attribute valueCommitOnChange = new Attribute("valueCommitMode", "onChange");
+	private final Attribute unrecognizedAttribute = new Attribute("something_else", ONE_WAY_BINDING_ATTRIBUTE);
+	
 	private TextView textView;
 	private TextViewAttributeProvider textViewAttributeProvider;
-	private Map<String, String> pendingBindingAttributes;
-	
 	
 	@Before
 	public void setUp()
 	{
 		textView = new TextView(null);
 		textViewAttributeProvider = new TextViewAttributeProvider();
-		pendingBindingAttributes = new HashMap<String, String>();
 	}
 	
 	@Test
 	public void givenATextAttribute_WhenCreatingATextAttributeInstance_ThenDefaultValueCommitModeShouldBeOnChange()
 	{
-		pendingBindingAttributes.put("text", TWO_WAY_BINDING_ATTRIBUTE);
+		givenAttributes(textWithTwoWayBinding);
 		
-		BindingAttribute bindingAttribute = textViewAttributeProvider.createSupportedBindingAttributes(textView, pendingBindingAttributes, true).get(0);
+		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
 		
 		TextAttribute textAttribute = (TextAttribute)bindingAttribute.getViewAttribute();
 		assertThat(textAttribute.getValueCommitMode(), equalTo(ValueCommitMode.ON_CHANGE));
@@ -72,10 +72,9 @@ public class TextViewAttributeProviderTest
 	@Test
 	public void givenBothTextAndValueCommitModeAttributes_WhenCreatingATextAttributeInstance_ThenValueCommitModeShouldBeCorrect()
 	{
-		pendingBindingAttributes.put("text", TWO_WAY_BINDING_ATTRIBUTE);
-		pendingBindingAttributes.put("valueCommitMode", "onChange");
+		givenAttributes(textWithTwoWayBinding, valueCommitOnChange);
 		
-		BindingAttribute bindingAttribute = textViewAttributeProvider.createSupportedBindingAttributes(textView, pendingBindingAttributes, true).get(0);
+		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
 		
 		TextAttribute textAttribute = (TextAttribute)bindingAttribute.getViewAttribute();
 		assertThat(textAttribute.getValueCommitMode(), equalTo(ValueCommitMode.ON_CHANGE));
@@ -84,27 +83,38 @@ public class TextViewAttributeProviderTest
 	@Test (expected=RuntimeException.class)
 	public void givenATextAttributeWithOnly1WayBinding_WhenAValueCommitModeAttributeIsPresent_ThenThrowRuntimeException()
 	{
-		pendingBindingAttributes.put("text", ONE_WAY_BINDING_ATTRIBUTE);
-		pendingBindingAttributes.put("valueCommitMode", "onChange");
+		givenAttributes(textWithOneWayBinding, valueCommitOnChange);
 		
-		textViewAttributeProvider.createSupportedBindingAttributes(textView, pendingBindingAttributes, true).get(0);
+		resolveSupportedBindingAttributes();
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void givenNoTextAttribute_WhenAValueCommitModeAttributeIsPresent_ThenThrowRuntimeException()
 	{
-		pendingBindingAttributes.put("valueCommitMode", "onChange");
+		givenAttributes(valueCommitOnChange);
 		
-		textViewAttributeProvider.createSupportedBindingAttributes(textView, pendingBindingAttributes, true).get(0);
+		resolveSupportedBindingAttributes();
 	}
 	
 	@Test
 	public void givenAnyOtherAttributeName_ThenReturnNothing()
 	{
-		pendingBindingAttributes.put("something_else", ONE_WAY_BINDING_ATTRIBUTE);
+		givenAttributes(unrecognizedAttribute);
 		
-		List<BindingAttribute> bindingAttributes = textViewAttributeProvider.createSupportedBindingAttributes(textView, pendingBindingAttributes, true);
+		List<BindingAttribute> bindingAttributes = getResolvedBindingAttributes();
 		
 		assertThat(bindingAttributes.size(), equalTo(0));
+	}
+
+	@Override
+	protected TextView getView()
+	{
+		return textView;
+	}
+
+	@Override
+	protected BindingAttributeProvider<TextView> getAttributeProvider()
+	{
+		return textViewAttributeProvider;
 	}
 }

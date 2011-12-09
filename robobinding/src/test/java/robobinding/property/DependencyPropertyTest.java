@@ -54,13 +54,13 @@ public class DependencyPropertyTest
 	{
 		createDependencyProperty(ObservableBean.PROPERTY_WITH_SOME_NONEXISTING_DEPENDENT_PROPERTIES);
 	}
-	public void givenDependentProperties_whenAddValueChangeListener_thenListenerAddedToDependentProperties()
+	public void givenDependencyProperty_whenAddPropertyChangeListener_thenListenerAddedToDependentPropertyAlso()
 	{
-		AbstractProperty<Boolean> property = createDependencyProperty(ObservableBean.PROPERTY_WITH_VALID_DEPENDENT_PROPERTIES);
+		AbstractProperty<Boolean> dependencyProperty = createDependencyProperty(ObservableBean.PROPERTY_WITH_VALID_DEPENDENT_PROPERTIES);
 		
-		property.addPropertyChangeListener(listener);
+		dependencyProperty.addPropertyChangeListener(listener);
 		
-		assertHasListenersToProperties(ObservableBean.ANNOTATED_PROPERTY, ObservableBean.PROPERTY);
+		assertHasListenersToProperties(ObservableBean.DEPENDENT_PROPERTY, ObservableBean.PROPERTY);
 	}
 	private void assertHasListenersToProperties(String... propertyNames)
 	{
@@ -70,27 +70,14 @@ public class DependencyPropertyTest
 		}
 	}
 	@Test
-	public void givenDuplicatedDependentProperties_whenAddValueChangeListener__thenNoDuplicatedListenerAddedToDependentProperties()
-	{
-		AbstractProperty<Boolean> property = createDependencyProperty(ObservableBean.PROPERTY_WITH_DUPLICATED_DEPENDENT_PROPERTIES);
-		
-		property.addPropertyChangeListener(listener);
-		
-		assertListenerRegisteredNumTimes(ObservableBean.PROPERTY, 1);
-	}
-	private void assertListenerRegisteredNumTimes(String propertyName, int numTimes)
-	{
-		observableBean.isPropertyChangeListenerRegisteredNumTimes(propertyName, listener, numTimes);
-	}
-	@Test
-	public void givenPropertyAndExistingValueChangeListenerToDependentProperties_whenRemoveListener_thenListenerRemoveOffDependentProperties()
+	public void givenPropertyAndPropertyChangeListenerToItsDependentProperty_whenRemoveListener_thenListenerToItsDependentPropertyRemovedAlso()
 	{
 		AbstractProperty<Boolean> property = createDependencyProperty(ObservableBean.PROPERTY_WITH_VALID_DEPENDENT_PROPERTIES);
-		addListenerToProperties(ObservableBean.ANNOTATED_PROPERTY, ObservableBean.PROPERTY);
+		property.addPropertyChangeListener(listener);
 		
 		property.removePropertyChangeListener(listener);
 		
-		assertHasNoListenersToProperties(ObservableBean.ANNOTATED_PROPERTY, ObservableBean.PROPERTY);
+		assertHasNoListenersToProperties(ObservableBean.DEPENDENT_PROPERTY, ObservableBean.PROPERTY);
 	}
 	private void assertHasNoListenersToProperties(String... propertyNames)
 	{
@@ -99,12 +86,18 @@ public class DependencyPropertyTest
 			Assert.assertFalse(observableBean.hasPropertyChangeListener(propertyName, listener));
 		}
 	}
-	private void addListenerToProperties(String... propertyNames)
+	@Test
+	public void givenPropertyWithDuplicatedDependentProperties_whenAddPropertyChangeListener_thenListenerAddedToDependentPropertyOnceOnly()
 	{
-		for(String propertyName : propertyNames)
-		{
-			observableBean.addPropertyChangeListener(propertyName, listener);
-		}
+		AbstractProperty<Boolean> dependencyProperty = createDependencyProperty(ObservableBean.PROPERTY_WITH_DUPLICATED_DEPENDENT_PROPERTIES);
+		
+		dependencyProperty.addPropertyChangeListener(listener);
+		
+		assertListenerRegisteredNumTimes(ObservableBean.DEPENDENT_PROPERTY, 1);
+	}
+	private void assertListenerRegisteredNumTimes(String propertyName, int numTimes)
+	{
+		observableBean.isPropertyChangeListenerRegisteredNumTimes(propertyName, listener, numTimes);
 	}
 	private DependencyProperty<Boolean> createDependencyProperty(String propertyName)
 	{

@@ -110,7 +110,7 @@ public class BindingAttributesProcessorTest
 
 	private BindingAttributesProcessor newBindingAttributesProcessor()
 	{
-		return new BindingAttributesProcessor(new ProvidersResolver(), attributeSetParser, false);
+		return new BindingAttributesProcessor(attributeSetParser, false);
 	}
 	
 }

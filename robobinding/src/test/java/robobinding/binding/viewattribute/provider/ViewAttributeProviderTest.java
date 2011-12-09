@@ -28,10 +28,10 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ViewAttributeProviderTest extends AbstractIndividualBindingAttributeProviderTest<View>
+public class ViewAttributeProviderTest extends AbstractBindingAttributeProviderTest<View>
 {
 	@Override
-	protected AbstractIndividualBindingAttributeProvider<View> getBindingAttributeProvider()
+	protected BindingAttributeProvider<View> getBindingAttributeProvider()
 	{
 		return new ViewAttributeProvider();
 	}

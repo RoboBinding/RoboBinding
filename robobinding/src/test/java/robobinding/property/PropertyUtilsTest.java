@@ -42,14 +42,12 @@ public class PropertyUtilsTest
 	{
 		public static final String PROPERTY1 = "property1";
 		public static final String PROPERTY2 = "property2";
-		private String property1;
-		public Bean(String property1)
+		public Bean()
 		{
-			this.property1 = property1;
 		}
 		public String getProperty1()
 		{
-			return property1;
+			return "property1";
 		}
 		public int getProperty2()
 		{
@@ -59,4 +57,9 @@ public class PropertyUtilsTest
 		{
 			return 0.0;
 		}
-	}}
+		public boolean getNonPropertyWithParameter(String p1)
+		{
+			return true;
+		}
+	}
+}

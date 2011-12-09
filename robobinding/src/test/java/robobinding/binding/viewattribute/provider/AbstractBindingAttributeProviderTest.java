@@ -16,19 +16,22 @@
 package robobinding.binding.viewattribute.provider;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.binding.BindingAttribute;
+import robobinding.binding.BindingAttributeResolver;
 import robobinding.binding.ViewAttribute;
 import robobinding.internal.com_google_common.collect.Lists;
+import robobinding.internal.com_google_common.collect.Maps;
 import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -40,10 +43,10 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public abstract class AbstractIndividualBindingAttributeProviderTest<T extends View>
+public abstract class AbstractBindingAttributeProviderTest<T extends View>
 {
 	private static final String ATTRIBUTE_VALUE = "{attributeValue}";
-	private AbstractIndividualBindingAttributeProvider<T> bindingAttributeProvider;
+	private BindingAttributeProvider<T> bindingAttributeProvider;
 	private T view;
 	
 	@Before
@@ -61,24 +64,44 @@ public abstract class AbstractIndividualBindingAttributeProviderTest<T extends V
 		
 		for (AttributeClassMapping attributeClassMapping : attributeClassMappings.mappingsList)
 		{
-			BindingAttribute bindingAttribute = bindingAttributeProvider.createBindingAttribute(view, attributeClassMapping.attributeName, ATTRIBUTE_VALUE, true);
+			BindingAttribute bindingAttribute = getResolvedBindingAttribute(attributeClassMapping.attributeName);
 			
 			assertNotNull("Attribute support not implemented for " + attributeClassMapping.attributeName, bindingAttribute);
 			assertThat(bindingAttribute.getViewAttribute(), instanceOf(attributeClassMapping.expectedBindingAttributeClass));
 		}
 	}
-	
+
 	@Test
 	public void givenAnyOtherAttributeName_ThenReturnNull()
 	{
 		String attributeName = "something_else";
 		
-		BindingAttribute bindingAttribute = bindingAttributeProvider.createBindingAttribute(view, attributeName, ATTRIBUTE_VALUE, true);
+		List<BindingAttribute> bindingAttributes = getResolvedBindingAttributes(attributeName);
 		
-		assertNull(bindingAttribute);
+		assertTrue(bindingAttributes.size() == 0);
+	}
+
+	private List<BindingAttribute> getResolvedBindingAttributes(String attributeName)
+	{
+		BindingAttributeResolver bindingAttributeResolver = initialiseBindingAttributeResolverFromAttributeName(attributeName);
+		bindingAttributeProvider.resolveSupportedBindingAttributes(view, bindingAttributeResolver, true);
+		return bindingAttributeResolver.getResolvedBindingAttributes();
 	}
 	
-	protected abstract AbstractIndividualBindingAttributeProvider<T> getBindingAttributeProvider();
+	private BindingAttribute getResolvedBindingAttribute(String attributeName)
+	{
+		return getResolvedBindingAttributes(attributeName).get(0);
+	}
+	
+	private BindingAttributeResolver initialiseBindingAttributeResolverFromAttributeName(String attributeName)
+	{
+		Map<String, String> pendingBindingAttributes = Maps.newHashMap();
+		pendingBindingAttributes.put(attributeName, ATTRIBUTE_VALUE);
+		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(pendingBindingAttributes);
+		return bindingAttributeResolver;
+	}
+	
+	protected abstract BindingAttributeProvider<T> getBindingAttributeProvider();
 	protected abstract T createNewViewInstance();
 	protected abstract void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings);
 	

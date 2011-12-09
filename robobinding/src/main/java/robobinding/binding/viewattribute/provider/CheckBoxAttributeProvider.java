@@ -15,7 +15,7 @@
  */
 package robobinding.binding.viewattribute.provider;
 
-import robobinding.binding.BindingAttribute;
+import robobinding.binding.BindingAttributeResolver;
 import robobinding.binding.viewattribute.CheckedAttribute;
 import android.widget.CheckBox;
 
@@ -25,17 +25,16 @@ import android.widget.CheckBox;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckBoxAttributeProvider extends AbstractIndividualBindingAttributeProvider<CheckBox>
+public class CheckBoxAttributeProvider implements BindingAttributeProvider<CheckBox>
 {
+	private static final String CHECKED = "checked";
 	@Override
-	protected BindingAttribute createBindingAttribute(CheckBox checkBox, String attributeName, String attributeValue, boolean autoInitializeView)
+	public void resolveSupportedBindingAttributes(CheckBox checkBox, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
 	{
-		if ("checked".equals(attributeName))
+		if (bindingAttributeResolver.hasAttribute("checked"))
 		{
-			return new BindingAttribute(attributeName, new CheckedAttribute(checkBox, attributeValue, autoInitializeView));
+			String attributeValue = bindingAttributeResolver.findAttributeValue(CHECKED);
+			bindingAttributeResolver.resolveAttribute(CHECKED, new CheckedAttribute(checkBox, attributeValue, preInitializeView));
 		}
-		
-		return null;
 	}
-
 }
