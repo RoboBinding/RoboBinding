@@ -22,6 +22,7 @@ import robobinding.binding.viewattribute.DropdownMappingAttribute;
 import robobinding.binding.viewattribute.ItemLayoutAttribute;
 import robobinding.binding.viewattribute.ItemMappingAttribute;
 import robobinding.binding.viewattribute.OnItemClickAttribute;
+import robobinding.binding.viewattribute.OnItemSelectedAttribute;
 import robobinding.binding.viewattribute.SourceAttribute;
 import android.widget.AbsSpinner;
 import android.widget.AdapterView;
@@ -43,6 +44,8 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 	private static final String[] ADAPTER_ATTRIBUTE_NAMES = {SOURCE, ITEM_LAYOUT, ITEM_MAPPING, DROPDOWN_LAYOUT, DROPDOWN_MAPPING};
 	
 	private static final String ON_ITEM_CLICK = "onItemClick";
+	private static final String ON_ITEM_SELECTED = "onItemSelected";
+	
 	@Override
 	public void resolveSupportedBindingAttributes(AdapterView<?> adapterView, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
 	{
@@ -60,6 +63,11 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_ITEM_CLICK);
 			bindingAttributeResolver.resolveAttribute(ON_ITEM_CLICK, new OnItemClickAttribute(adapterView, attributeValue));
+		}
+		if(bindingAttributeResolver.hasAttribute(ON_ITEM_SELECTED))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_ITEM_SELECTED);
+			bindingAttributeResolver.resolveAttribute(ON_ITEM_SELECTED, new OnItemSelectedAttribute(adapterView, attributeValue));
 		}
 	}
 	

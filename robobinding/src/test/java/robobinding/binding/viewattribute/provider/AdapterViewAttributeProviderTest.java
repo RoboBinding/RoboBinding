@@ -30,6 +30,7 @@ import robobinding.binding.viewattribute.DropdownLayoutAttribute;
 import robobinding.binding.viewattribute.DropdownMappingAttribute;
 import robobinding.binding.viewattribute.ItemMappingAttribute;
 import robobinding.binding.viewattribute.OnItemClickAttribute;
+import robobinding.binding.viewattribute.OnItemSelectedAttribute;
 import android.app.Activity;
 import android.content.Context;
 import android.widget.AdapterView;
@@ -56,6 +57,7 @@ public class AdapterViewAttributeProviderTest extends AbstractCompoundBindingAtt
 	private final Attribute dropdownLayout = new Attribute("dropdownLayout", "@layout/dropdownLayout");
 	private final Attribute dropdownMapping = new Attribute("dropdownMapping", "[text1.title:{artist}]");
 	private final Attribute onItemClick = new Attribute("onItemClick","commandName");
+	private final Attribute onItemSelected = new Attribute("onItemSelected","commandName");
 	
 	private AttributesAndViewCombination[] illegalAttributeCombinations = { 
 			new AttributesAndViewCombination(listView, source),
@@ -83,6 +85,16 @@ public class AdapterViewAttributeProviderTest extends AbstractCompoundBindingAtt
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(OnItemClickAttribute.class));
 	}
 
+	@Test
+	public void givenOnItemSelected_ThenCreateAnOnItemSelectedAttribute()
+	{
+		givenAttributes(onItemSelected);
+
+		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
+		
+		assertThat(bindingAttribute.getViewAttribute(), instanceOf(OnItemSelectedAttribute.class));
+	}
+	
 	@Test
 	public void givenSourceAndItemLayout_ThenCreateACompoundAttribute()
 	{
