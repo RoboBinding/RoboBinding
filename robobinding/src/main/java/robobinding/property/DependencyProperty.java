@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import robobinding.DependsOn;
+import robobinding.DependsOnStateOf;
 import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.internal.com_google_common.collect.Sets;
 import robobinding.internal.org_apache_commons_lang3.StringUtils;
@@ -42,7 +42,7 @@ class DependencyProperty<T> extends AbstractProperty<T>
 	}
 	private void initializeDependentProperties()
 	{
-		DependsOn dependsOn = propertyAccessor.getAnnotation(DependsOn.class);
+		DependsOnStateOf dependsOn = propertyAccessor.getAnnotation(DependsOnStateOf.class);
 		dependentProperties = Sets.newHashSet(dependsOn.value());
 	}
 	private void validateDependentProperties(Collection<String> availablePropertyNames)

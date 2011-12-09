@@ -15,7 +15,7 @@
  */
 package robobinding.property;
 
-import robobinding.DependsOn;
+import robobinding.DependsOnStateOf;
 
 
 /**
@@ -36,22 +36,22 @@ public class ObservableBean extends Bean implements ObservableProperties
 	{
 		propertyChangeSupport = new PresentationModelPropertyChangeSupport(this);
 	}
-	@DependsOn({ANNOTATED_PROPERTY,PROPERTY})
+	@DependsOnStateOf({ANNOTATED_PROPERTY,PROPERTY})
 	public boolean getPropertyWithValidDependentProperties()
 	{
 		return true;
 	}
-	@DependsOn({PROPERTY,PROPERTY})
+	@DependsOnStateOf({PROPERTY,PROPERTY})
 	public boolean getPropertyWithDuplicatedDependentProperties()
 	{
 		return true;
 	}
-	@DependsOn({PROPERTY,"nonExistingProperty1"})
+	@DependsOnStateOf({PROPERTY,"nonExistingProperty1"})
 	public boolean getPropertyWithSomeNonExistingDependentProperties()
 	{
 		return true;
 	}
-	@DependsOn(PROPERTY_DEPENDING_ON_SELF)
+	@DependsOnStateOf(PROPERTY_DEPENDING_ON_SELF)
 	public boolean getPropertyDependingOnSelf()
 	{
 		return true;

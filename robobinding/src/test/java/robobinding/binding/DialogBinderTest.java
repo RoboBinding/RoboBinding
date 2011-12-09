@@ -15,18 +15,20 @@
  */
 package robobinding.binding;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import robobinding.binding.BindingAttributesProcessor.ViewBindingAttributes;
 import robobinding.binding.BindingViewFactory.InflatedView;
+import robobinding.presentationmodel.DialogPresentationModel;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -41,15 +43,14 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-@Ignore
 public class DialogBinderTest
 {	
-	private Object presentationModel = new Object();
 	private int layoutId = 0;
 	private Dialog dialog = mock(Dialog.class);
 	private BindingViewFactory bindingViewFactory;
 	private View inflatedRootView;
 
+	@Before
 	public void setUp()
 	{
 		Context dialogContext = new Activity();
@@ -63,31 +64,54 @@ public class DialogBinderTest
 	@Test
 	public void whenBindingToPresentationModel_ThenSetContentViewReturnedFromBindingInflater()
 	{
-		DialogBinder dialogBinder = new DialogBinder(dialog, layoutId);
-		dialogBinder.setBindingViewFactory(bindingViewFactory);
-		dialogBinder.bindTo(presentationModel);
+		Object presentationModel = new Object();
+		
+		initializeDialogBinderAndBindTo(presentationModel);
 		
 		verify(dialog).setContentView(inflatedRootView);
 	}
 	
 	@Test
-	public void givenAPresentationModelWithTitleProperty_WhenBinding_ThenTitleOfInflatedDialogShouldEqualProperty()
+	public void givenADialogPresentationModel_WhenBinding_ThenTitleOfInflatedDialogShouldEqualTitleProperty()
 	{
-		MockPresentationModelWithDialogTitle presentationModelWithDialogTitle = new MockPresentationModelWithDialogTitle();
+		MockDialogPresentationModelWithTitle dialogPresentationModelWithTitle = new MockDialogPresentationModelWithTitle();
 		
-		DialogBinder dialogBinder = new DialogBinder(dialog, layoutId);
-		dialogBinder.setBindingViewFactory(bindingViewFactory);
-		dialogBinder.bindTo(presentationModelWithDialogTitle);
+		initializeDialogBinderAndBindTo(dialogPresentationModelWithTitle);
 	
-		verify(dialog).setTitle(presentationModelWithDialogTitle.getTitle());
+		verify(dialog).setTitle(dialogPresentationModelWithTitle.getTitle());
+	}
+
+	@Test
+	public void givenADialogPresentationModelWithANullTitleProperty_WhenBinding_ThenTitleOfInflatedDialogShouldBeGone()
+	{
+		MockDialogPresentationModelWithNullTitle dialogPresentationModelWithNullTitle = new MockDialogPresentationModelWithNullTitle();
+		
+		initializeDialogBinderAndBindTo(dialogPresentationModelWithNullTitle);
+		
+		fail();
+		//verify(dialog).getWindow();
 	}
 	
+	private void initializeDialogBinderAndBindTo(Object presentationModel)
+	{
+		DialogBinder dialogBinder = new DialogBinder(dialog, layoutId);
+		dialogBinder.setBindingViewFactory(bindingViewFactory);
+		dialogBinder.bindTo(presentationModel);
+	}
 	
-	public static class MockPresentationModelWithDialogTitle
+	public static class MockDialogPresentationModelWithTitle implements DialogPresentationModel
 	{
 		public String getTitle()
 		{
 			return "dialogTitle";
+		}
+	}
+	
+	public static class MockDialogPresentationModelWithNullTitle implements DialogPresentationModel
+	{
+		public String getTitle()
+		{
+			return null;
 		}
 	}
 }

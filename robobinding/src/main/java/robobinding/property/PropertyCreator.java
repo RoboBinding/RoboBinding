@@ -18,7 +18,7 @@ package robobinding.property;
 import java.util.List;
 import java.util.Map;
 
-import robobinding.DependsOn;
+import robobinding.DependsOnStateOf;
 import robobinding.ItemPresentationModel;
 import robobinding.internal.com_google_common.collect.Maps;
 import robobinding.internal.java_beans.PropertyDescriptor;
@@ -54,7 +54,7 @@ class PropertyCreator
 	{
 		PropertyAccessor<T> propertyAccessor = getPropertyAccessor(propertyName);
 		AbstractProperty<T> property = null;
-		if(propertyAccessor.hasAnnotation(DependsOn.class))
+		if(propertyAccessor.hasAnnotation(DependsOnStateOf.class))
 		{
 			property = new DependencyProperty<T>(bean, propertyAccessor, availableProperties.keySet());
 		}else

@@ -16,9 +16,9 @@
 package robobinding.binding;
 
 import robobinding.binding.BindingViewFactory.InflatedView;
+import robobinding.presentationmodel.DialogPresentationModel;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import robobinding.presentationmodel.PresentationModelAdapterImpl;
-import robobinding.property.PropertyValueModel;
 import android.app.Dialog;
 
 /**
@@ -43,13 +43,9 @@ public class DialogBinder extends AbstractBinder
 	{
 		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 		
-		try
-		{
-			PropertyValueModel<String> titleValueModel = presentationModelAdapter.getReadOnlyPropertyValueModel("title");
-			if (titleValueModel != null)
-				dialog.setTitle(titleValueModel.getValue());
-		} catch (RuntimeException e) {}
-		
+		if (presentationModel instanceof DialogPresentationModel)
+			dialog.setTitle(((DialogPresentationModel)presentationModel).getTitle());
+
 		InflatedView inflatedView = inflateAndBind(layoutId, presentationModelAdapter);
 		dialog.setContentView(inflatedView.getRootView());
 	}
