@@ -117,4 +117,9 @@ public class AlbumStore
 		return albums.get(position);
 	}
 
+	public static void delete(Album album)
+	{
+		albums.remove(album);
+	}
+
 }

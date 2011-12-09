@@ -4,10 +4,17 @@
 	android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-	<Button android:id="@+id/edit_button"
+    <Button android:id="@+id/delete_button"
 	    	android:layout_width="fill_parent"
 	  		android:layout_height="wrap_content"
 	  		android:layout_alignParentBottom="true"
+	  		android:text="@string/delete"
+	  		binding:onClick="deleteAlbum" />
+    
+	<Button android:id="@+id/edit_button"
+	    	android:layout_width="fill_parent"
+	  		android:layout_height="wrap_content"
+	  		android:layout_above="@id/delete_button"
 	  		android:text="@string/edit"
 	  		binding:onClick="editAlbum" />
 

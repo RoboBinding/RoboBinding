@@ -17,9 +17,12 @@ package robobinding.sample.presentationmodel;
 
 import robobinding.presentationmodelaspects.PresentationModel;
 import robobinding.sample.CreateEditAlbumActivity;
+import robobinding.sample.DeleteAlbumDialog;
 import robobinding.sample.model.Album;
 import robobinding.sample.store.AlbumStore;
-import android.content.Context;
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 
 /**
@@ -31,13 +34,13 @@ import android.content.Intent;
 @PresentationModel
 public class ViewAlbumPresentationModel
 {
-	private final Context context;
+	private final Activity activity;
 	private final long albumId;
 	private Album album;
 	
-	public ViewAlbumPresentationModel(Context context, long albumId)
+	public ViewAlbumPresentationModel(Activity activity, long albumId)
 	{
-		this.context = context;
+		this.activity = activity;
 		this.albumId = albumId;
 	}
 
@@ -68,11 +71,24 @@ public class ViewAlbumPresentationModel
 	
 	public void editAlbum()
 	{
-		Intent intent = new Intent(context, CreateEditAlbumActivity.class);
+		Intent intent = new Intent(activity, CreateEditAlbumActivity.class);
 		intent.putExtra(CreateEditAlbumActivity.ALBUM_ID, album.getId());
-		context.startActivity(intent);
+		activity.startActivity(intent);
 	}
 
+	public void deleteAlbum()
+	{
+		DeleteAlbumDialog deleteAlbumDialog = new DeleteAlbumDialog(activity, album);
+		deleteAlbumDialog.setOnDismissListener(new OnDismissListener(){
+			@Override
+			public void onDismiss(DialogInterface dialog)
+			{
+				activity.finish();
+			}
+		});
+		deleteAlbumDialog.show();
+	}
+	
 	public void refresh()
 	{
 		this.album = AlbumStore.get(albumId);

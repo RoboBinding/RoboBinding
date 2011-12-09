@@ -39,7 +39,7 @@ public abstract class AbstractHomeActivityTest extends ActivityInstrumentationTe
 	{
 		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
-		AlbumStore.reset();
+		AlbumStore.resetData();
 	}
 
 	protected void createAnAlbumTests()

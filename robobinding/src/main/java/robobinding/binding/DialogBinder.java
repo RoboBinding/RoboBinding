@@ -18,7 +18,8 @@ package robobinding.binding;
 import robobinding.binding.BindingViewFactory.InflatedView;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import robobinding.presentationmodel.PresentationModelAdapterImpl;
-import android.app.Activity;
+import robobinding.property.PropertyValueModel;
+import android.app.Dialog;
 
 /**
  *
@@ -26,28 +27,30 @@ import android.app.Activity;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ActivityBinder extends AbstractBinder
+public class DialogBinder extends AbstractBinder
 {
-	private final Activity activity;
+	private final Dialog dialog;
 	private final int layoutId;
-	
-	public ActivityBinder(Activity activity, int layoutId, boolean preInitializeViews)
-	{
-		super(activity, preInitializeViews);
-		this.activity = activity;
-		this.layoutId = layoutId;
-	}
 
-	public ActivityBinder(Activity activity, int layoutId)
+	public DialogBinder(Dialog dialog, int layoutId)
 	{
-		this(activity, layoutId, false);
+		super(dialog.getContext(), true);
+		this.dialog = dialog;
+		this.layoutId = layoutId;
 	}
 
 	public void bindTo(Object presentationModel)
 	{
 		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
+		
+		try
+		{
+			PropertyValueModel<String> titleValueModel = presentationModelAdapter.getReadOnlyPropertyValueModel("title");
+			if (titleValueModel != null)
+				dialog.setTitle(titleValueModel.getValue());
+		} catch (RuntimeException e) {}
+		
 		InflatedView inflatedView = inflateAndBind(layoutId, presentationModelAdapter);
-		activity.setContentView(inflatedView.getRootView());
+		dialog.setContentView(inflatedView.getRootView());
 	}
-	
 }

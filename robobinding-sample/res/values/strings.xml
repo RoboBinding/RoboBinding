@@ -20,4 +20,8 @@
     <string name="listview_albums_with_predefined_views">Albums ListView with predefined views</string>
     <string name="spinner_albums">Albums Spinner</string>
     <string name="spinner_albums_with_predefined_views">Albums Spinner with predefined views</string>
+    <string name="delete_album">Delete Album</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete">Delete</string>
 </resources>
