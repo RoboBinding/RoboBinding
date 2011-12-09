@@ -20,6 +20,7 @@ import robobinding.presentationmodel.DialogPresentationModel;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import robobinding.presentationmodel.PresentationModelAdapterImpl;
 import android.app.Dialog;
+import android.view.Window;
 
 /**
  *
@@ -44,7 +45,14 @@ public class DialogBinder extends AbstractBinder
 		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 		
 		if (presentationModel instanceof DialogPresentationModel)
-			dialog.setTitle(((DialogPresentationModel)presentationModel).getTitle());
+		{
+			DialogPresentationModel dialogPresentationModel = (DialogPresentationModel)presentationModel;
+			
+			if (dialogPresentationModel.getTitle() == null)
+				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			else
+				dialog.setTitle(dialogPresentationModel.getTitle());
+		}
 
 		InflatedView inflatedView = inflateAndBind(layoutId, presentationModelAdapter);
 		dialog.setContentView(inflatedView.getRootView());

@@ -15,7 +15,6 @@
  */
 package robobinding.binding;
 
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,6 +32,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
+import android.view.Window;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -88,8 +88,7 @@ public class DialogBinderTest
 		
 		initializeDialogBinderAndBindTo(dialogPresentationModelWithNullTitle);
 		
-		fail();
-		//verify(dialog).getWindow();
+		verify(dialog).requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 	
 	private void initializeDialogBinderAndBindTo(Object presentationModel)
