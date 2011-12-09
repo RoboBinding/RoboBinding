@@ -15,11 +15,7 @@
  */
 package robobinding.binding.viewattribute.provider;
 
-import java.util.List;
-import java.util.Map;
-
-import robobinding.binding.BindingAttribute;
-
+import robobinding.binding.BindingAttributeResolver;
 import android.view.View;
 
 
@@ -31,5 +27,8 @@ import android.view.View;
  */
 public interface BindingAttributeProvider<T extends View>
 {
-	List<BindingAttribute> createSupportedBindingAttributes(T view, Map<String, String> pendingBindingAttributes, boolean preInitializeViews);
+	/**
+	 * TODO:further refactoring to consider {@link BindingDetailsBuilder}
+	 */
+	void resolveSupportedBindingAttributes(T view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews);
 }

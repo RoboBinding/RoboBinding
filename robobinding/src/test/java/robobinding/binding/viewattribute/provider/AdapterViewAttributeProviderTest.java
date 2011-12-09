@@ -83,7 +83,7 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(onItemClick);
 
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.resolveSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
 
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(OnItemClickAttribute.class));
 	}
@@ -93,7 +93,7 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(source, itemLayout);
 
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.resolveSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
 
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(AdaptedDataSetAttributes.class));
 	}
@@ -103,7 +103,7 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(source, itemLayout, dropdownLayout);
 
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.resolveSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
 
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(AdaptedDataSetAttributes.class));
 		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes) bindingAttribute.getViewAttribute();
@@ -115,7 +115,7 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(source, itemLayout, itemMapping);
 		
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.resolveSupportedBindingAttributes(listView, pendingBindingAttributes, false).get(0);
 
 		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes) bindingAttribute.getViewAttribute();
 		assertTrue(adaptedDataSetAttributesContains(ItemMappingAttribute.class, adaptedDataSetAttributes));
@@ -126,7 +126,7 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(source, itemLayout, dropdownLayout, dropdownMapping);
 		
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(spinner, pendingBindingAttributes, false).get(0);
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.resolveSupportedBindingAttributes(spinner, pendingBindingAttributes, false).get(0);
 
 		AdaptedDataSetAttributes adaptedDataSetAttributes = (AdaptedDataSetAttributes) bindingAttribute.getViewAttribute();
 		assertTrue(adaptedDataSetAttributesContains(DropdownMappingAttribute.class, adaptedDataSetAttributes));
@@ -137,7 +137,7 @@ public class AdapterViewAttributeProviderTest
 	{
 		givenAttributes(source, itemLayout, itemMapping, dropdownLayout, dropdownMapping);
 		
-		BindingAttribute bindingAttribute = adapterViewAttributeProvider.createSupportedBindingAttributes(spinner, pendingBindingAttributes, false).get(0);
+		BindingAttribute bindingAttribute = adapterViewAttributeProvider.resolveSupportedBindingAttributes(spinner, pendingBindingAttributes, false).get(0);
 
 		assertTrue(bindingAttribute.getAttributeNames().contains("source"));
 		assertTrue(bindingAttribute.getAttributeNames().contains("itemLayout"));
@@ -178,7 +178,7 @@ public class AdapterViewAttributeProviderTest
 
 			try
 			{
-				adapterViewAttributeProvider.createSupportedBindingAttributes(illegalAttributeCombination.view, pendingBindingAttributes, false);
+				adapterViewAttributeProvider.resolveSupportedBindingAttributes(illegalAttributeCombination.view, pendingBindingAttributes, false);
 			} catch (RuntimeException e)
 			{
 				runtimeExceptionThrown = true;

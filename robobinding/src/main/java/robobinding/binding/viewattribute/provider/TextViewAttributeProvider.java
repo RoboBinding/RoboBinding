@@ -15,14 +15,10 @@
  */
 package robobinding.binding.viewattribute.provider;
 
-import java.util.List;
-import java.util.Map;
-
-import robobinding.binding.BindingAttribute;
+import robobinding.binding.BindingAttributeResolver;
 import robobinding.binding.viewattribute.PropertyBindingDetails;
 import robobinding.binding.viewattribute.TextAttribute;
 import robobinding.binding.viewattribute.ValueCommitMode;
-import robobinding.internal.com_google_common.collect.Lists;
 import android.widget.TextView;
 
 /**
@@ -33,30 +29,19 @@ import android.widget.TextView;
  */
 public class TextViewAttributeProvider implements BindingAttributeProvider<TextView>
 {
+	private static final String TEXT = "text";
+	private static final String VALUE_COMMIT_MODE = "valueCommitMode";
+	private static final String[] TEXT_ATTRIBUTE_NAMES = {TEXT, VALUE_COMMIT_MODE};
 	@Override
-	public List<BindingAttribute> createSupportedBindingAttributes(TextView textView, Map<String, String> pendingBindingAttributes, boolean preInitializeView)
+	public void resolveSupportedBindingAttributes(TextView textView, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
 	{
-		List<BindingAttribute> bindingAttributes = Lists.newArrayList();
-		TextAttributeBuilder textAttributeBuilder = new TextAttributeBuilder(preInitializeView);
-		
-		for (String attributeName : pendingBindingAttributes.keySet())
+		if(bindingAttributeResolver.hasOneOfAttributes(TEXT_ATTRIBUTE_NAMES))
 		{
-			String attributeValue = pendingBindingAttributes.get(attributeName);
-			
-			if ("text".equals(attributeName))
-			{
-				textAttributeBuilder.setTextAttributeValue(attributeValue);
-			}
-			else if ("valueCommitMode".equals(attributeName))
-			{
-				textAttributeBuilder.setValueCommitModeAttributeValue(attributeValue);
-			}
+			TextAttributeBuilder textAttributeBuilder = new TextAttributeBuilder(preInitializeView);
+			textAttributeBuilder.setTextAttributeValue(bindingAttributeResolver.findAttributeValue(TEXT));
+			textAttributeBuilder.setValueCommitModeAttributeValue(bindingAttributeResolver.findAttributeValue(VALUE_COMMIT_MODE));
+			bindingAttributeResolver.resolveAttributes(TEXT_ATTRIBUTE_NAMES, textAttributeBuilder.create(textView));
 		}
-		
-		if (textAttributeBuilder.hasValues())
-			bindingAttributes.add(textAttributeBuilder.createBindingAttribute(textView));
-		
-		return bindingAttributes;
 	}
 
 	static class TextAttributeBuilder
@@ -77,16 +62,12 @@ public class TextViewAttributeProvider implements BindingAttributeProvider<TextV
 		{
 			this.valueCommitModeAttributeValue = valueCommitModeAttributeValue;
 		}
-		boolean hasValues()
-		{
-			return textAttributeValue != null || valueCommitModeSpecified();
-		}
 		protected boolean valueCommitModeSpecified()
 		{
 			return valueCommitModeAttributeValue != null;
 		}
 		
-		BindingAttribute createBindingAttribute(TextView textView)
+		TextAttribute create(TextView textView)
 		{
 			PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(textAttributeValue, preInitializeView);
 			
@@ -100,7 +81,7 @@ public class TextViewAttributeProvider implements BindingAttributeProvider<TextV
 			else if ("onFocusLost".equals(valueCommitModeAttributeValue))
 				valueCommitMode = ValueCommitMode.ON_FOCUS_LOST;
 			
-			return new BindingAttribute(Lists.newArrayList("text", "valueCommitMode"), new TextAttribute(textView, propertyBindingDetails, valueCommitMode));
+			return new TextAttribute(textView, propertyBindingDetails, valueCommitMode);
 		}
 	}
 }

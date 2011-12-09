@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import robobinding.binding.viewattribute.provider.BindingAttributeProvider;
-import robobinding.internal.com_google_common.collect.Lists;
 import robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -39,11 +38,11 @@ public class BindingAttributesProcessor
 	private final AttributeSetParser attributeSetParser;
 	private final boolean preInitializeViews;
 	
-	public BindingAttributesProcessor(ProvidersResolver providersResolver, AttributeSetParser attributeSetParser, boolean preInitializeViews)
+	public BindingAttributesProcessor(boolean preInitializeViews)
 	{
-		this.providersResolver = providersResolver;
-		this.attributeSetParser = attributeSetParser;
 		this.preInitializeViews = preInitializeViews;
+		this.providersResolver = new ProvidersResolver();
+		this.attributeSetParser = new AttributeSetParser();
 	}
 
 	public ViewBindingAttributes read(View view, AttributeSet attrs)
@@ -60,44 +59,23 @@ public class BindingAttributesProcessor
 	
 	private List<BindingAttribute> determineBindingAttributes(View view, Map<String, String> pendingBindingAttributes)
 	{
-		List<BindingAttribute> bindingAttributes = Lists.newArrayList();
+		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(pendingBindingAttributes);
 		Collection<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(view);
 		
 		for (BindingAttributeProvider<? extends View> provider : providers)
 		{
 			@SuppressWarnings("unchecked")
 			BindingAttributeProvider<View> viewProvider = (BindingAttributeProvider<View>)provider;
-			List<BindingAttribute> newBindingAttributes = viewProvider.createSupportedBindingAttributes(view, pendingBindingAttributes, preInitializeViews);
-			removeProcessedAttributes(newBindingAttributes, pendingBindingAttributes);
-			bindingAttributes.addAll(newBindingAttributes);
+			viewProvider.resolveSupportedBindingAttributes(view, bindingAttributeResolver, preInitializeViews);
 			
-			if (pendingBindingAttributes.isEmpty())
+			if (bindingAttributeResolver.isDone())
 				break;
 		}
 		
-		if (!pendingBindingAttributes.isEmpty())
-			throw new RuntimeException("Unhandled binding attribute(s): " + describeUnhandledAttributes(pendingBindingAttributes));
+		if (bindingAttributeResolver.hasUnresolvedAttributes())
+			throw new RuntimeException("Unhandled binding attribute(s): " + bindingAttributeResolver.describeUnresolvedAttributes());
 		
-		return bindingAttributes;
-	}
-	
-	private void removeProcessedAttributes(List<BindingAttribute> newBindingAttributes, Map<String, String> pendingBindingAttributes)
-	{
-		for (BindingAttribute bindingAttribute : newBindingAttributes)
-		{
-			for (String attributeName : bindingAttribute.getAttributeNames())
-				pendingBindingAttributes.remove(attributeName);
-		}
-	}
-	
-	private String describeUnhandledAttributes(Map<String, String> pendingBindingAttributes)
-	{
-		String unhandledAttributes = "";
-		
-		for (String attributeKey : pendingBindingAttributes.keySet())
-			unhandledAttributes += attributeKey + ": " + pendingBindingAttributes.get(attributeKey) + "; ";
-				
-		return unhandledAttributes;
+		return bindingAttributeResolver.getResolvedBindingAttributes();
 	}
 	
 	public static class ViewBindingAttributes

@@ -41,7 +41,7 @@ public abstract class AbstractBinder
 	public AbstractBinder(Context context, boolean preInitializeViews)
 	{
 		this.context = context;
-		bindingAttributesProcessor = new BindingAttributesProcessor(new ProvidersResolver(), new AttributeSetParser(), preInitializeViews);
+		bindingAttributesProcessor = new BindingAttributesProcessor(preInitializeViews);
 	}
 
 	protected InflatedView inflateAndBind(int layoutId, PresentationModelAdapter presentationModelAdapter)

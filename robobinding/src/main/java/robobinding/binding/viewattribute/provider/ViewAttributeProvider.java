@@ -15,7 +15,7 @@
  */
 package robobinding.binding.viewattribute.provider;
 
-import robobinding.binding.BindingAttribute;
+import robobinding.binding.BindingAttributeResolver;
 import robobinding.binding.viewattribute.BackgroundColorAttribute;
 import robobinding.binding.viewattribute.EnabledAttribute;
 import robobinding.binding.viewattribute.OnClickAttribute;
@@ -29,32 +29,40 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ViewAttributeProvider extends AbstractIndividualBindingAttributeProvider<View>
+public class ViewAttributeProvider implements BindingAttributeProvider<View>
 {
+	private static final String VISIBILITY = "visibility";
+	private static final String ENABLED = "enabled";
+	private static final String ON_CLICK = "onClick";
+	private static final String ON_LONG_CLICK = "onLongClick";
+	private static final String BACK_GROUND_COLOR = "backgroundColor";
 	@Override
-	protected BindingAttribute createBindingAttribute(View view, String attributeName, String attributeValue, boolean preInitializeView)
+	public void resolveSupportedBindingAttributes(View view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
 	{
-		if ("visibility".equals(attributeName))
+		if (bindingAttributeResolver.hasAttribute(VISIBILITY))
 		{
-			return new BindingAttribute(attributeName, new VisibilityAttribute(view, attributeValue, preInitializeView));
+			String attributeValue = bindingAttributeResolver.findAttributeValue(VISIBILITY);
+			bindingAttributeResolver.resolveAttribute(VISIBILITY, new VisibilityAttribute(view, attributeValue, preInitializeView));
 		}
-		else if ("enabled".equals(attributeName))
+		if (bindingAttributeResolver.hasAttribute(ENABLED))
 		{
-			return new BindingAttribute(attributeName, new EnabledAttribute(view, attributeValue, preInitializeView));
+			String attributeValue = bindingAttributeResolver.findAttributeValue(ENABLED);
+			bindingAttributeResolver.resolveAttribute(ENABLED, new EnabledAttribute(view, attributeValue, preInitializeView));
 		}
-		else if ("onClick".equals(attributeName))
+		if (bindingAttributeResolver.hasAttribute(ON_CLICK))
 		{
-			return new BindingAttribute(attributeName, new OnClickAttribute(view, attributeValue));
+			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_CLICK);
+			bindingAttributeResolver.resolveAttribute(ON_CLICK, new OnClickAttribute(view, attributeValue));
 		}
-		else if ("onLongClick".equals(attributeName))
+		if (bindingAttributeResolver.hasAttribute(ON_LONG_CLICK))
 		{
-			return new BindingAttribute(attributeName, new OnLongClickAttribute(view, attributeValue));
+			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_LONG_CLICK);
+			bindingAttributeResolver.resolveAttribute(ON_LONG_CLICK, new OnLongClickAttribute(view, attributeValue));
 		}
-		else if("backgroundColor".equals(attributeName))
+		if(bindingAttributeResolver.hasAttribute(BACK_GROUND_COLOR))
 		{
-			return new BindingAttribute(attributeName, new BackgroundColorAttribute(view, attributeValue, preInitializeView));
+			String attributeValue = bindingAttributeResolver.findAttributeValue(BACK_GROUND_COLOR);
+			bindingAttributeResolver.resolveAttribute(BACK_GROUND_COLOR, new BackgroundColorAttribute(view, attributeValue, preInitializeView));
 		}
-		
-		return null;
 	}
 }
