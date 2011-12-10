@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>robobinding</groupId>
-    <artifactId>robobinding</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>RoboBinding</name>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.robobinding</groupId>
+	<artifactId>robobinding</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>RoboBinding</name>
+	<description>A Presentation Model framework for the Android platform.</description>
+	<url>http://robobinding.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+	</properties>
 
 	<repositories>
 		<repository>
-			<!-- This repository is required until Robolectric 1.1 is published on Central -->
+			<!-- This repository is required until Robolectric 1.1 is published on 
+				Central -->
 			<id>oss-sonatype-snapshots</id>
 			<url>http://oss.sonatype.org/content/repositories/snapshots/</url>
 			<releases>
@@ -22,78 +31,133 @@
 		</repository>
 	</repositories>
 
-    <dependencies>
-	    <!-- Testing dependencies -->
+	<dependencies>
 		<dependency>
-    		<groupId>com.pivotallabs</groupId>
-    		<artifactId>robolectric</artifactId>
-    		<version>1.1-SNAPSHOT</version>
-   		 	<scope>test</scope>
+			<groupId>com.pivotallabs</groupId>
+			<artifactId>robolectric</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
-	
+
 		<dependency>
-		    <groupId>junit</groupId>
-		    <artifactId>junit</artifactId>
-		    <version>4.8.2</version>
-		    <scope>test</scope>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.hamcrest</groupId>
-		    <artifactId>hamcrest-core</artifactId>
-		    <version>1.2</version>
-		    <scope>test</scope>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>1.2</version>
+			<scope>test</scope>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>org.mockito</groupId>
-  			<artifactId>mockito-core</artifactId>  
-  			<version>1.8.5</version> 
-	  		<scope>test</scope>
-	  	</dependency>
-        <dependency>
-    		<groupId>org.easymock</groupId>
-    		<artifactId>easymock</artifactId>
-    		<version>3.0</version>
-    		<scope>test</scope>
-		</dependency>        
-        <dependency>
-            <groupId>com.google.android</groupId>
-            <artifactId>android</artifactId>
-            <version>2.1.2</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
+			<artifactId>mockito-core</artifactId>
+			<version>1.8.5</version>
+			<scope>test</scope>
+		</dependency>
 
-    <build>
-        <plugins>
-<!--             <plugin> -->
-<!--                 <groupId>com.jayway.maven.plugins.android.generation2</groupId> -->
-<!--                 <artifactId>maven-android-plugin</artifactId> -->
-<!--                 <version>3.0.0-alpha-3</version> -->
-<!--                 <configuration> -->
-<!--                     <androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile> -->
-<!--                     <assetsDirectory>${project.basedir}/assets</assetsDirectory> -->
-<!--                     <resourceDirectory>${project.basedir}/res</resourceDirectory> -->
-<!--                     <nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory> -->
-<!--                     <sdk> -->
-<!--                         <platform>7</platform> -->
-<!--                     </sdk> -->
-<!--                     <deleteConflictingFiles>true</deleteConflictingFiles> -->
-<!--                     <undeployBeforeDeploy>true</undeployBeforeDeploy> -->
-<!--                 </configuration> -->
-<!--                 <extensions>true</extensions> -->
-<!--             </plugin> -->
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.0</version>
+			<scope>test</scope>
+		</dependency>
 
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    <description>A Presentation Model framework for the Android platform.</description>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.11</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<version>2.1.2</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<id>add-generated-R-file-to-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/gen</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>compile</goal>
+							<goal>test-compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<developers>
+        <developer>
+            <id>cheng</id>
+            <name>Cheng Wei</name>
+            <timezone>CST</timezone>
+        </developer>
+        <developer>
+            <id>robert</id>
+            <name>Robert Taylor</name>
+            <timezone>GMT/BST</timezone>
+        </developer>
+    </developers>
+
+	<licenses>
+		<license>
+			<name>Apache License Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<comments>
+				Copyright 2011 Cheng Wei, Robert Taylor
+				
+				Licensed under the Apache License, Version 2.0 (the "License");
+				you may not use this file except in compliance with the License.
+				You may obtain a copy of the License at
+				
+					http://www.apache.org/licenses/LICENSE-2.0
+				
+				Unless required by applicable law or agreed to in writing, software
+				distributed under the License is distributed on an "AS IS" BASIS,
+				WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+				See the License for the specific language governing permissions
+				and limitations under the License.
+			  </comments>
+		</license>
+	</licenses>
+
 </project>
