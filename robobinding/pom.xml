@@ -10,6 +10,12 @@
 	<description>A Presentation Model framework for the Android platform.</description>
 	<url>http://robobinding.org</url>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
@@ -125,18 +131,24 @@
 		</plugins>
 	</build>
 
+	<scm>
+		<connection>scm:git:git@github.com:roberttaylor426/RoboBinding.git</connection>
+		<developerConnection>scm:git:git@github.com:roberttaylor426/RoboBinding.git</developerConnection>
+		<url>https://github.com/roberttaylor426/RoboBinding</url>
+	</scm>
+
 	<developers>
-        <developer>
-            <id>cheng</id>
-            <name>Cheng Wei</name>
-            <timezone>CST</timezone>
-        </developer>
-        <developer>
-            <id>robert</id>
-            <name>Robert Taylor</name>
-            <timezone>GMT/BST</timezone>
-        </developer>
-    </developers>
+		<developer>
+			<id>cheng</id>
+			<name>Cheng Wei</name>
+			<timezone>CST</timezone>
+		</developer>
+		<developer>
+			<id>robert</id>
+			<name>Robert Taylor</name>
+			<timezone>GMT/BST</timezone>
+		</developer>
+	</developers>
 
 	<licenses>
 		<license>
