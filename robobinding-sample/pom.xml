@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>org.robobinding</groupId>
 			<artifactId>robobinding</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.8.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -135,4 +135,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<description>A sample project to demonstrate the features of the RoboBinding framework.</description>
 </project>

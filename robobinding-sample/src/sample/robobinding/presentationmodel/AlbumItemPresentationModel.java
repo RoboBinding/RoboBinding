@@ -15,7 +15,8 @@
  */
 package sample.robobinding.presentationmodel;
 
-import robobinding.itempresentationmodel.ItemPresentationModel;
+import org.robobinding.itempresentationmodel.ItemPresentationModel;
+
 import sample.robobinding.model.Album;
 
 /**

@@ -18,7 +18,8 @@ package sample.robobinding.store;
 import java.util.Collections;
 import java.util.List;
 
-import robobinding.internal.com_google_common.collect.Lists;
+import org.robobinding.internal.com_google_common.collect.Lists;
+
 import sample.robobinding.model.Album;
 import sample.robobinding.presentationmodel.AlbumCursor;
 

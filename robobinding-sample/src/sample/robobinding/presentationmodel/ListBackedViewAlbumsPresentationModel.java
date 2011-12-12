@@ -17,9 +17,10 @@ package sample.robobinding.presentationmodel;
 
 import java.util.List;
 
-import robobinding.ItemPresentationModel;
-import robobinding.internal.com_google_common.collect.Lists;
-import robobinding.presentationmodelaspects.PresentationModel;
+import org.robobinding.ItemPresentationModel;
+import org.robobinding.internal.com_google_common.collect.Lists;
+import org.robobinding.presentationmodelaspects.PresentationModel;
+
 import sample.robobinding.model.Album;
 import sample.robobinding.store.AlbumStore;
 import android.app.Activity;

@@ -15,7 +15,8 @@
  */
 package sample.robobinding;
 
-import robobinding.binding.DialogBinder;
+import org.robobinding.binding.DialogBinder;
+
 import sample.robobinding.model.Album;
 import sample.robobinding.presentationmodel.DeleteAlbumDialogPresentationModel;
 import android.app.Dialog;

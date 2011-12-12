@@ -15,7 +15,8 @@
  */
 package sample.robobinding;
 
-import robobinding.binding.ActivityBinder;
+import org.robobinding.binding.ActivityBinder;
+
 import sample.robobinding.model.PurchaseService;
 import sample.robobinding.presentationmodel.CursorBackedViewAlbumsPresentationModel;
 import android.app.Activity;

@@ -15,8 +15,9 @@
  */
 package sample.robobinding.presentationmodel;
 
-import robobinding.DependsOnStateOf;
-import robobinding.presentationmodelaspects.PresentationModel;
+import org.robobinding.DependsOnStateOf;
+import org.robobinding.presentationmodelaspects.PresentationModel;
+
 import sample.robobinding.R;
 import sample.robobinding.model.Album;
 import sample.robobinding.store.AlbumStore;

@@ -15,7 +15,8 @@
  */
 package sample.robobinding;
 
-import robobinding.binding.ActivityBinder;
+import org.robobinding.binding.ActivityBinder;
+
 import sample.robobinding.presentationmodel.CreateEditAlbumPresentationModel;
 import android.app.Activity;
 import android.os.Bundle;
