@@ -33,6 +33,7 @@
   		binding:itemMapping="[text1.text:{title}]"
   		binding:dropdownLayout="@android:layout/simple_spinner_dropdown_item"
   		binding:dropdownMapping="[text1.text:{title}]"
-  		binding:source="{albums}" />
+  		binding:source="{albums}"
+  		binding:onItemSelected="albumSelected" />
     
 </RelativeLayout>
