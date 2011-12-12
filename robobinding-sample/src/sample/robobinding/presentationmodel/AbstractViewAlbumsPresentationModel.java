@@ -26,8 +26,6 @@ import android.content.Intent;
 
 public abstract class AbstractViewAlbumsPresentationModel
 {
-	protected static final String PROPERTY_ALBUMS = "albums";
-
 	protected final Context context;
 	private Album selectedAlbum;
 
@@ -49,6 +47,12 @@ public abstract class AbstractViewAlbumsPresentationModel
 	public void albumSelected(ItemClickEvent event)
 	{
 		selectAlbum(event.getPosition());
+	}
+	
+	public void viewAlbum(ItemClickEvent event)
+	{
+		selectAlbum(event.getPosition());
+		viewAlbum();
 	}
 	
 	public void viewAlbum()

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample;
+package sample.robobinding;
 
 import sample.robobinding.R;
 
@@ -43,10 +43,12 @@ public class SpinnerAlbumsTest extends AbstractWorkflowTest
 	@Override
 	protected void assertNewAlbumIsVisible()
 	{
-		solo.clickOnText("HQ");
+		clickOnAlbumSpinner();
 		
 		assertTrue(solo.searchText("Album name"));
 		assertTrue(solo.searchText("Artist name"));
+		
+		solo.goBack();
 	}
 
 	@Override
@@ -59,9 +61,9 @@ public class SpinnerAlbumsTest extends AbstractWorkflowTest
 		clickOnButtonWithLabel(R.string.view);
 	}
 
-	private void clickOnAlbumSpinner()
+	protected void clickOnAlbumSpinner()
 	{
-		solo.getCurrentSpinners().get(0).performClick();
+		solo.clickOnText("HQ");
 	}
 	
 	private void clickFirstItemInDropdownList()

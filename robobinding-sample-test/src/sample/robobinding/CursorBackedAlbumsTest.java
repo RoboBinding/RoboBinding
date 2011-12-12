@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample;
+package sample.robobinding;
 
 import sample.robobinding.R;
-
-
-
+import sample.robobinding.model.PurchaseService;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  *
@@ -26,12 +27,28 @@ import sample.robobinding.R;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ListBackedAlbumsTest extends AbstractListViewTest
+public class CursorBackedAlbumsTest extends AbstractListViewTest
 {
 	@Override
 	protected int homeButtonStringResId()
 	{
-		return R.string.list_backed_albums;
+		return R.string.cursor_backed_albums;
 	}
 
+	
+	public void testAlbumRowItemPresentationModel()
+	{
+		clickOnButtonWithLabel(homeButtonStringResId());
+		
+		TextView availableForPurchaseArtist = solo.getText(PurchaseService.PURCHASABLE_ARTIST);
+		
+		if (availableForPurchaseArtist == null)
+			return;
+		
+		ViewGroup purchasableRow = (ViewGroup)availableForPurchaseArtist.getParent().getParent();
+		
+		View purchasableLabel = purchasableRow.findViewById(R.id.available_for_purchase);
+		
+		assertTrue(purchasableLabel.getVisibility() == View.VISIBLE);
+	}
 }

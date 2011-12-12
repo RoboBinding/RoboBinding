@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample;
+package sample.robobinding;
 
 import sample.robobinding.R;
-
 
 
 /**
@@ -25,12 +24,21 @@ import sample.robobinding.R;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ListViewPredefinedViewsAlbumsTest extends AbstractListViewTest
+public class SpinnerPredefinedViewsAlbumsTest extends SpinnerAlbumsTest
 {
 	@Override
 	protected int homeButtonStringResId()
 	{
-		return R.string.listview_albums_with_predefined_views;
+		return R.string.spinner_albums_with_predefined_views;
 	}
 
+	@Override
+	protected void assertNewAlbumIsVisible()
+	{
+		clickOnAlbumSpinner();
+		
+		assertTrue(solo.searchText("Album name"));
+		
+		solo.goBack();
+	}
 }

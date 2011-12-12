@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample;
+package sample.robobinding;
 
 import sample.robobinding.HomeActivity;
 import sample.robobinding.R;
