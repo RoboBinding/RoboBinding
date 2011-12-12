@@ -1,5 +1,6 @@
 /.settings
 /bin
 /gen
+/target
 .classpath
 .project

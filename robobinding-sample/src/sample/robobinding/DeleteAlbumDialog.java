@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample;
+package sample.robobinding;
 
 import robobinding.binding.DialogBinder;
-import robobinding.sample.model.Album;
-import robobinding.sample.presentationmodel.DeleteAlbumDialogPresentationModel;
+import sample.robobinding.model.Album;
+import sample.robobinding.presentationmodel.DeleteAlbumDialogPresentationModel;
 import android.app.Dialog;
 import android.content.Context;
 

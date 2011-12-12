@@ -8,6 +8,12 @@
 	<packaging>apk</packaging>
 	<name>RoboBinding Sample</name>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+	</properties>
+
 	<repositories>
 		<repository>
 			<id>oss-sonatype-snapshots</id>
@@ -20,12 +26,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.6</maven.compiler.source>
-		<maven.compiler.target>1.6</maven.compiler.target>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -55,16 +55,6 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
 				<version>1.4</version>
-				<configuration>
-					<aspectLibraries>
-						<aspectLibrary>
-							<groupId>org.robobinding</groupId>
-							<artifactId>robobinding</artifactId>
-						</aspectLibrary>
-						<source>${maven.compiler.source}</source>
-						<target>${maven.compiler.target}</target>
-					</aspectLibraries>
-				</configuration>
 				<executions>
 					<execution>
 						<phase>process-sources</phase>
@@ -73,6 +63,16 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<aspectLibraries>
+						<aspectLibrary>
+							<groupId>org.robobinding</groupId>
+							<artifactId>robobinding</artifactId>
+						</aspectLibrary>
+					</aspectLibraries>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
 			</plugin>
 
 			<plugin>
@@ -91,12 +91,13 @@
 				<version>3.0.0</version>
 				<configuration>
 					<sdk>
-						<platform>4</platform>
+						<platform>8</platform>
 					</sdk>
 				</configuration>
 				<extensions>true</extensions>
 			</plugin>
 		</plugins>
+		
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 

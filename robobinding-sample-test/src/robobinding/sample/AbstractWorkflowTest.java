@@ -15,12 +15,13 @@
  */
 package robobinding.sample;
 
+import sample.robobinding.HomeActivity;
+import sample.robobinding.R;
+import sample.robobinding.model.Album;
+import sample.robobinding.store.AlbumStore;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
-
-import robobinding.sample.model.Album;
-import robobinding.sample.store.AlbumStore;
 
 
 /**
@@ -35,7 +36,7 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 
 	public AbstractWorkflowTest()
 	{
-		super("robobinding.sample", HomeActivity.class);
+		super("sample.robobinding", HomeActivity.class);
 	}
 
 	protected void createAnAlbumTests()

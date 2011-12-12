@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.presentationmodel;
+package sample.robobinding.presentationmodel;
 
 import robobinding.presentationmodelaspects.PresentationModel;
-import robobinding.sample.CreateEditAlbumActivity;
-import robobinding.sample.DeleteAlbumDialog;
-import robobinding.sample.model.Album;
-import robobinding.sample.store.AlbumStore;
+import sample.robobinding.CreateEditAlbumActivity;
+import sample.robobinding.DeleteAlbumDialog;
+import sample.robobinding.model.Album;
+import sample.robobinding.store.AlbumStore;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;

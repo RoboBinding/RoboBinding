@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample;
+package sample.robobinding;
 
 
 /**
@@ -22,11 +22,12 @@ package robobinding.sample;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ListViewWithPredefinedViewsAlbumsActivity extends AbstractListBackedViewAlbumsActivity
+public class ListViewAlbumsActivity extends AbstractListBackedViewAlbumsActivity
 {
 	@Override
 	protected int getLayoutId()
 	{
-		return R.layout.view_albums_listview_with_predefined_views_activity;
+		return R.layout.view_albums_listview_activity;
 	}
+
 }

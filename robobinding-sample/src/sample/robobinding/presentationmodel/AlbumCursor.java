@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.presentationmodel;
+package sample.robobinding.presentationmodel;
 
 import java.util.List;
 
 import robobinding.itempresentationmodel.TypedCursor;
-import robobinding.sample.model.Album;
+import sample.robobinding.model.Album;
 import android.database.AbstractCursor;
 
 /**

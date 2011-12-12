@@ -13,25 +13,33 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.model;
+package sample.robobinding.presentationmodel;
 
+import robobinding.itempresentationmodel.ItemPresentationModel;
+import sample.robobinding.model.Album;
 
 /**
  * 
  * @since 1.0
- * @author Cheng Wei
  * @author Robert Taylor
  */
-public class PurchaseService
+public class AlbumItemPresentationModel implements ItemPresentationModel<Album>
 {
-	public static final String PURCHASABLE_ARTIST = "Roy Harper";
+	protected Album album;
 
-	public boolean isAvailableForPurchase(Album album)
+	public String getTitle()
 	{
-		if (PURCHASABLE_ARTIST.equals(album.getArtist()))
-			return true;
-		
-		return false;
+		return album.getTitle();
 	}
-
+	
+	public String getArtist()
+	{
+		return album.getArtist();
+	}
+	
+	@Override
+	public void updateData(int index, Album bean)
+	{
+		this.album = bean;
+	}
 }

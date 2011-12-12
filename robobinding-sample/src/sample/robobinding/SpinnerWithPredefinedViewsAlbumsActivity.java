@@ -13,33 +13,21 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.presentationmodel;
+package sample.robobinding;
 
-import robobinding.itempresentationmodel.ItemPresentationModel;
-import robobinding.sample.model.Album;
+
 
 /**
- * 
+ *
  * @since 1.0
+ * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AlbumItemPresentationModel implements ItemPresentationModel<Album>
+public class SpinnerWithPredefinedViewsAlbumsActivity extends AbstractListBackedViewAlbumsActivity
 {
-	protected Album album;
-
-	public String getTitle()
-	{
-		return album.getTitle();
-	}
-	
-	public String getArtist()
-	{
-		return album.getArtist();
-	}
-	
 	@Override
-	public void updateData(int index, Album bean)
+	protected int getLayoutId()
 	{
-		this.album = bean;
+		return R.layout.view_albums_spinner_with_predefined_views_activity;
 	}
 }

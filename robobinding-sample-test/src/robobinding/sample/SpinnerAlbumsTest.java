@@ -15,6 +15,8 @@
  */
 package robobinding.sample;
 
+import sample.robobinding_sample.R;
+
 
 /**
  *

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.presentationmodel;
+package sample.robobinding.presentationmodel;
 
-import robobinding.sample.CursorBackedViewAlbumsActivity;
-import robobinding.sample.ListViewAlbumsActivity;
-import robobinding.sample.ListViewWithPredefinedViewsAlbumsActivity;
-import robobinding.sample.SpinnerAlbumsActivity;
-import robobinding.sample.SpinnerWithPredefinedViewsAlbumsActivity;
+import sample.robobinding.CursorBackedViewAlbumsActivity;
+import sample.robobinding.ListViewAlbumsActivity;
+import sample.robobinding.ListViewWithPredefinedViewsAlbumsActivity;
+import sample.robobinding.SpinnerAlbumsActivity;
+import sample.robobinding.SpinnerWithPredefinedViewsAlbumsActivity;
 import android.content.Context;
 import android.content.Intent;
 

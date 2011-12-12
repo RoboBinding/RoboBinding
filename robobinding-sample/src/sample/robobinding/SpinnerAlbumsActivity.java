@@ -13,28 +13,21 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample;
+package sample.robobinding;
 
-import robobinding.binding.ActivityBinder;
-import robobinding.sample.presentationmodel.HomePresentationModel;
-import android.app.Activity;
-import android.os.Bundle;
 
 /**
- * 
+ *
  * @since 1.0
- * @author Cheng Wei
+ * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class HomeActivity extends Activity
+public class SpinnerAlbumsActivity extends AbstractListBackedViewAlbumsActivity
 {
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	protected int getLayoutId()
 	{
-		super.onCreate(savedInstanceState);
-		
-		ActivityBinder binder = new ActivityBinder(this, R.layout.home_activity);
-		binder.bindTo(new HomePresentationModel(this));
+		return R.layout.view_albums_spinner_activity;
 	}
-}
 
+}

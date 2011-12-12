@@ -13,20 +13,25 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample;
+package sample.robobinding.model;
+
 
 /**
- *
+ * 
  * @since 1.0
- * @version $Revision: 1.0 $
+ * @author Cheng Wei
  * @author Robert Taylor
  */
-public class SpinnerAlbumsActivity extends AbstractListBackedViewAlbumsActivity
+public class PurchaseService
 {
-	@Override
-	protected int getLayoutId()
+	public static final String PURCHASABLE_ARTIST = "Roy Harper";
+
+	public boolean isAvailableForPurchase(Album album)
 	{
-		return R.layout.view_albums_spinner_activity;
+		if (PURCHASABLE_ARTIST.equals(album.getArtist()))
+			return true;
+		
+		return false;
 	}
 
 }

@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.presentationmodel;
-
-import java.util.List;
+package sample.robobinding.presentationmodel;
 
 import robobinding.ItemPresentationModel;
-import robobinding.internal.com_google_common.collect.Lists;
+import robobinding.itempresentationmodel.TypedCursor;
 import robobinding.presentationmodelaspects.PresentationModel;
-import robobinding.sample.model.Album;
-import robobinding.sample.store.AlbumStore;
+import sample.robobinding.model.Album;
+import sample.robobinding.model.PurchaseService;
+import sample.robobinding.store.AlbumStore;
 import android.app.Activity;
-
 
 /**
  * 
@@ -32,17 +30,25 @@ import android.app.Activity;
  * @author Robert Taylor
  */
 @PresentationModel
-public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel
+public class CursorBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPresentationModel
 {
-	public ListBackedViewAlbumsPresentationModel(Activity activity)
+	private PurchaseService purchaseService;
+
+	public CursorBackedViewAlbumsPresentationModel(Activity activity, PurchaseService purchaseService)
 	{
 		super(activity);
+		this.purchaseService = purchaseService;
 	}
 	
-	@ItemPresentationModel(value=AlbumItemPresentationModel.class)
-	public List<Album> getAlbums()
+	@ItemPresentationModel(value=PurchasableAlbumItemPresentationModel.class, factoryMethod="createAlbumPresentationModel")
+	public TypedCursor<Album> getAlbums()
 	{
-		return Lists.newArrayList(AlbumStore.getAll());
+		return AlbumStore.getCursor();
+	}
+
+	public PurchasableAlbumItemPresentationModel createAlbumPresentationModel()
+	{
+		return new PurchasableAlbumItemPresentationModel(purchaseService);
 	}
 
 }

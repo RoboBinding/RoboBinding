@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.presentationmodel;
+package sample.robobinding.presentationmodel;
 
 import robobinding.binding.viewattribute.ItemClickEvent;
-import robobinding.sample.CreateEditAlbumActivity;
-import robobinding.sample.ViewAlbumActivity;
-import robobinding.sample.model.Album;
-import robobinding.sample.store.AlbumStore;
+import sample.robobinding.CreateEditAlbumActivity;
+import sample.robobinding.ViewAlbumActivity;
+import sample.robobinding.model.Album;
+import sample.robobinding.store.AlbumStore;
 import android.content.Context;
 import android.content.Intent;
 
@@ -40,12 +40,12 @@ public abstract class AbstractViewAlbumsPresentationModel
 		context.startActivity(new Intent(context, CreateEditAlbumActivity.class));
 	}
 
-	public void selectAlbum(int position)
+	private void selectAlbum(int position)
 	{
 		selectedAlbum = AlbumStore.getByIndex(position);
 	}
 	
-	public void viewAlbum(ItemClickEvent event)
+	public void albumSelected(ItemClickEvent event)
 	{
 		selectAlbum(event.getPosition());
 		viewAlbum();

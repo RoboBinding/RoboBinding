@@ -13,20 +13,26 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample;
+package sample.robobinding.presentationmodel;
 
+import sample.robobinding.model.PurchaseService;
 
 /**
- *
+ * 
  * @since 1.0
- * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SpinnerWithPredefinedViewsAlbumsActivity extends AbstractListBackedViewAlbumsActivity
+public class PurchasableAlbumItemPresentationModel extends AlbumItemPresentationModel
 {
-	@Override
-	protected int getLayoutId()
+	private final PurchaseService purchaseService;
+
+	public PurchasableAlbumItemPresentationModel(PurchaseService purchaseService)
 	{
-		return R.layout.view_albums_spinner_with_predefined_views_activity;
+		this.purchaseService = purchaseService;
+	}
+
+	public boolean isAvailableForPurchase()
+	{
+		return purchaseService.isAvailableForPurchase(album);
 	}
 }

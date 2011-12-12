@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample;
+package sample.robobinding;
 
 import robobinding.binding.ActivityBinder;
-import robobinding.sample.presentationmodel.CreateEditAlbumPresentationModel;
+import sample.robobinding.presentationmodel.ListBackedViewAlbumsPresentationModel;
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -26,18 +26,27 @@ import android.os.Bundle;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class CreateEditAlbumActivity extends Activity {
-
-	public static final String ALBUM_ID = "album_id";
+public abstract class AbstractListBackedViewAlbumsActivity extends Activity
+{
+	private ListBackedViewAlbumsPresentationModel viewAlbumsPresentationModel;
 
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-        long albumId = getIntent().getLongExtra(ALBUM_ID, -1);
-        
-        ActivityBinder binder = new ActivityBinder(this, R.layout.create_edit_album_activity, true);
-        CreateEditAlbumPresentationModel createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumId);
-		binder.bindTo(createEditAlbumPresentationModel);
-    }
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		
+		ActivityBinder binder = new ActivityBinder(this, getLayoutId());
+		viewAlbumsPresentationModel = new ListBackedViewAlbumsPresentationModel(this);
+		binder.bindTo(viewAlbumsPresentationModel);
+	}
+	
+	protected abstract int getLayoutId();
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		viewAlbumsPresentationModel.refreshPresentationModel();
+	}
+
 }

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package robobinding.sample.presentationmodel;
+package sample.robobinding.presentationmodel;
 
 import robobinding.presentationmodel.DialogPresentationModel;
 import robobinding.presentationmodelaspects.PresentationModel;
-import robobinding.sample.R;
-import robobinding.sample.model.Album;
-import robobinding.sample.store.AlbumStore;
+import sample.robobinding.R;
+import sample.robobinding.model.Album;
+import sample.robobinding.store.AlbumStore;
 import android.app.Dialog;
 
 /**
