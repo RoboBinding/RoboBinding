@@ -16,25 +16,35 @@
 package robobinding.binding.viewattribute;
 
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewEvent
+public class OnFocusChangeListeners extends AbstractListeners<OnFocusChangeListener> implements OnFocusChangeListener
 {
-	private View view;
-	
-	protected ViewEvent(View view)
+	@Override
+	public void onFocusChange(View view, boolean hasFocus)
 	{
-		this.view = view;
+		for (OnFocusChangeListener listener : listeners)
+		{
+			listener.onFocusChange(view, hasFocus);
+		}
 	}
 
-	public View getView()
+	public static OnFocusChangeListeners convert(OnFocusChangeListener listener)
 	{
-		return view;
+		if (listener instanceof OnFocusChangeListeners)
+		{
+			return (OnFocusChangeListeners) listener;
+		} else
+		{
+			OnFocusChangeListeners listeners = new OnFocusChangeListeners();
+			listeners.addListener(listener);
+			return listeners;
+		}
 	}
-
 }

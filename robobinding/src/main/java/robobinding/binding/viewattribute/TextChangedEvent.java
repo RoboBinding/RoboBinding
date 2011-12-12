@@ -15,7 +15,7 @@
  */
 package robobinding.binding.viewattribute;
 
-import android.view.View;
+import android.widget.TextView;
 
 /**
  *
@@ -23,18 +23,28 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewEvent
+public class TextChangedEvent extends AbstractTextViewEvent
 {
-	private View view;
-	
-	protected ViewEvent(View view)
+	private int start;
+	private int before;
+	private int count;
+	public TextChangedEvent(TextView textView, int start, int before, int count)
 	{
-		this.view = view;
+		super(textView);
+		this.start = start;
+		this.before = before;
+		this.count = count;
 	}
-
-	public View getView()
+	public int getStart()
 	{
-		return view;
+		return start;
 	}
-
+	public int getBefore()
+	{
+		return before;
+	}
+	public int getCount()
+	{
+		return count;
+	}
 }

@@ -23,18 +23,16 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewEvent
+public class FocusChangeEvent extends ViewEvent
 {
-	private View view;
-	
-	protected ViewEvent(View view)
+	private boolean hasFocus;
+	FocusChangeEvent(View view, boolean hasFocus)
 	{
-		this.view = view;
+		super(view);
+		this.hasFocus = hasFocus;
 	}
-
-	public View getView()
+	public boolean isHasFocus()
 	{
-		return view;
+		return hasFocus;
 	}
-
 }

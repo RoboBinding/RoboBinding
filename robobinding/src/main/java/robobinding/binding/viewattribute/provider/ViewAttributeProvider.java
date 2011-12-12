@@ -19,6 +19,7 @@ import robobinding.binding.BindingAttributeResolver;
 import robobinding.binding.viewattribute.BackgroundColorAttribute;
 import robobinding.binding.viewattribute.EnabledAttribute;
 import robobinding.binding.viewattribute.OnClickAttribute;
+import robobinding.binding.viewattribute.OnFocusChangeAttribute;
 import robobinding.binding.viewattribute.OnLongClickAttribute;
 import robobinding.binding.viewattribute.VisibilityAttribute;
 import android.view.View;
@@ -35,7 +36,10 @@ public class ViewAttributeProvider implements BindingAttributeProvider<View>
 	private static final String ENABLED = "enabled";
 	private static final String ON_CLICK = "onClick";
 	private static final String ON_LONG_CLICK = "onLongClick";
-	private static final String BACK_GROUND_COLOR = "backgroundColor";
+	private static final String BACKGROUND_COLOR = "backgroundColor";
+	private static final String ON_FOCUS_CHANGE = "onFocusChange";
+	private static final String ON_FOCUS = "onFocus";
+	private static final String ON_FOCUS_LOST = "onFocusLost";
 	@Override
 	public void resolveSupportedBindingAttributes(View view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
 	{
@@ -49,6 +53,11 @@ public class ViewAttributeProvider implements BindingAttributeProvider<View>
 			String attributeValue = bindingAttributeResolver.findAttributeValue(ENABLED);
 			bindingAttributeResolver.resolveAttribute(ENABLED, new EnabledAttribute(view, attributeValue, preInitializeView));
 		}
+		if (bindingAttributeResolver.hasAttribute(BACKGROUND_COLOR))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(BACKGROUND_COLOR);
+			bindingAttributeResolver.resolveAttribute(BACKGROUND_COLOR, new BackgroundColorAttribute(view, attributeValue, preInitializeView));
+		}
 		if (bindingAttributeResolver.hasAttribute(ON_CLICK))
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_CLICK);
@@ -59,10 +68,19 @@ public class ViewAttributeProvider implements BindingAttributeProvider<View>
 			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_LONG_CLICK);
 			bindingAttributeResolver.resolveAttribute(ON_LONG_CLICK, new OnLongClickAttribute(view, attributeValue));
 		}
-		if(bindingAttributeResolver.hasAttribute(BACK_GROUND_COLOR))
+		if (bindingAttributeResolver.hasAttribute(ON_FOCUS_CHANGE))
 		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(BACK_GROUND_COLOR);
-			bindingAttributeResolver.resolveAttribute(BACK_GROUND_COLOR, new BackgroundColorAttribute(view, attributeValue, preInitializeView));
+			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_FOCUS_CHANGE);
+			bindingAttributeResolver.resolveAttribute(ON_FOCUS_CHANGE, OnFocusChangeAttribute.createOnFocusChange(view, attributeValue));
+		}
+		if (bindingAttributeResolver.hasAttribute(ON_FOCUS))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_FOCUS);
+			bindingAttributeResolver.resolveAttribute(ON_FOCUS, OnFocusChangeAttribute.createOnFocus(view, attributeValue));
+		}if (bindingAttributeResolver.hasAttribute(ON_FOCUS_LOST))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_FOCUS_LOST);
+			bindingAttributeResolver.resolveAttribute(ON_FOCUS_LOST, OnFocusChangeAttribute.createOnFocusLost(view, attributeValue));
 		}
 	}
 }

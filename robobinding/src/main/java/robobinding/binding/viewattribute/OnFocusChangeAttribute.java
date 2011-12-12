@@ -27,25 +27,26 @@ import android.view.View.OnFocusChangeListener;
 public class OnFocusChangeAttribute extends AbstractCommandViewAttribute
 {
 	final View view;
+	final FocusChangeType focusChangeType;
 
-	public OnFocusChangeAttribute(View view, String commandName)
+	private OnFocusChangeAttribute(View view, String commandName, FocusChangeType focusChangeType)
 	{
 		super(commandName);
 		this.view = view;
+		this.focusChangeType = focusChangeType;
 	}
-
+	
 	@Override
 	protected void bind(final Command command)
 	{
-		view.setOnFocusChangeListener(new OnFocusChangeListener() {
+		ViewListenerUtils.addOnFocusChangeListener(view, new OnFocusChangeListener() {
 			
 			@Override
 			public void onFocusChange(View view, boolean hasFocus)
 			{
-				if(hasFocus)
+				if(focusChangeType.firesNewEvent(hasFocus))
 				{
-					ViewEvent viewEvent = new ViewEvent(view);
-					command.invoke(viewEvent);
+					command.invoke(focusChangeType.createEvent(view, hasFocus));
 				}
 			}
 		});
@@ -54,6 +55,82 @@ public class OnFocusChangeAttribute extends AbstractCommandViewAttribute
 	@Override
 	protected Class<?> getPreferredCommandParameterType()
 	{
-		return ViewEvent.class;
+		return focusChangeType.getEventType();
+	}
+	
+	public static OnFocusChangeAttribute createOnFocusChange(View view, String commandName)
+	{
+		return new OnFocusChangeAttribute(view, commandName, FocusChangeType.ON_FOCUS_CHANGE);
+	}
+	public static OnFocusChangeAttribute createOnFocus(View view, String commandName)
+	{
+		return new OnFocusChangeAttribute(view, commandName, FocusChangeType.ON_FOCUS);
+	}
+	public static OnFocusChangeAttribute createOnFocusLost(View view, String commandName)
+	{
+		return new OnFocusChangeAttribute(view, commandName, FocusChangeType.ON_FOCUS_LOST);
+	}
+	private enum FocusChangeType
+	{
+		ON_FOCUS_CHANGE {
+			@Override
+			public Class<?> getEventType()
+			{
+				return FocusChangeEvent.class;
+			}
+
+			@Override
+			public boolean firesNewEvent(boolean hasFocus)
+			{
+				return true;
+			}
+
+			@Override
+			public ViewEvent createEvent(View view, boolean hasFocus)
+			{
+				return new FocusChangeEvent(view, hasFocus);
+			}
+		},
+		ON_FOCUS {
+			@Override
+			public Class<?> getEventType()
+			{
+				return ViewEvent.class;
+			}
+
+			@Override
+			public boolean firesNewEvent(boolean hasFocus)
+			{
+				return hasFocus;
+			}
+
+			@Override
+			public ViewEvent createEvent(View view, boolean hasFocus)
+			{
+				return new ViewEvent(view);
+			}
+		},
+		ON_FOCUS_LOST {
+			@Override
+			public Class<?> getEventType()
+			{
+				return ViewEvent.class;
+			}
+
+			@Override
+			public boolean firesNewEvent(boolean hasFocus)
+			{
+				return !hasFocus;
+			}
+
+			@Override
+			public ViewEvent createEvent(View view, boolean hasFocus)
+			{
+				return new ViewEvent(view);
+			}
+		};
+		public abstract Class<?> getEventType();
+		public abstract boolean firesNewEvent(boolean hasFocus);
+		public abstract ViewEvent createEvent(View view, boolean hasFocus);
 	}
 }

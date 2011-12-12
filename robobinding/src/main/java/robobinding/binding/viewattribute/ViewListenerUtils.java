@@ -16,6 +16,7 @@
 package robobinding.binding.viewattribute;
 
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 
 /**
  *
@@ -23,18 +24,23 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewEvent
+public class ViewListenerUtils
 {
-	private View view;
-	
-	protected ViewEvent(View view)
+	public static void addOnFocusChangeListener(View view, OnFocusChangeListener listener)
 	{
-		this.view = view;
+		OnFocusChangeListener existingListener = view.getOnFocusChangeListener();
+		if(existingListener == null)
+		{
+			view.setOnFocusChangeListener(listener);
+		}else
+		{
+			OnFocusChangeListeners listeners = OnFocusChangeListeners.convert(existingListener);
+			listeners.addListener(listener);
+			view.setOnFocusChangeListener(listeners);
+		}
 	}
 
-	public View getView()
+	private ViewListenerUtils()
 	{
-		return view;
 	}
-
 }

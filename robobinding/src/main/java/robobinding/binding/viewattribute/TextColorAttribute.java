@@ -15,7 +15,7 @@
  */
 package robobinding.binding.viewattribute;
 
-import android.view.View;
+import android.widget.TextView;
 
 /**
  *
@@ -23,18 +23,19 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewEvent
+public class TextColorAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer>
 {
-	private View view;
-	
-	protected ViewEvent(View view)
+	private TextView textView;
+	public TextColorAttribute(TextView textView, String attributeValue, boolean preInitializeView)
 	{
-		this.view = view;
+		super(attributeValue, preInitializeView);
+		this.textView = textView;
 	}
 
-	public View getView()
+	@Override
+	protected void valueModelUpdated(Integer newColor)
 	{
-		return view;
+		textView.setTextColor(newColor);
 	}
 
 }

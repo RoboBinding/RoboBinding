@@ -15,7 +15,7 @@
  */
 package robobinding.binding.viewattribute;
 
-import android.view.View;
+import android.widget.TextView;
 
 /**
  *
@@ -23,18 +23,15 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewEvent
+public abstract class AbstractTextViewEvent
 {
-	private View view;
-	
-	protected ViewEvent(View view)
+	private TextView textView;
+	protected AbstractTextViewEvent(TextView textView)
 	{
-		this.view = view;
+		this.textView = textView;
 	}
-
-	public View getView()
+	public TextView getTextView()
 	{
-		return view;
+		return textView;
 	}
-
 }

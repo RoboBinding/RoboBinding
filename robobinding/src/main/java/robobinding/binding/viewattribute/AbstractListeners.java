@@ -15,7 +15,9 @@
  */
 package robobinding.binding.viewattribute;
 
-import android.view.View;
+import java.util.List;
+
+import robobinding.internal.com_google_common.collect.Lists;
 
 /**
  *
@@ -23,18 +25,15 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewEvent
+public class AbstractListeners<T>
 {
-	private View view;
-	
-	protected ViewEvent(View view)
+	protected final List<T> listeners;
+	public AbstractListeners()
 	{
-		this.view = view;
+		listeners = Lists.newArrayList();
 	}
-
-	public View getView()
+	public void addListener(T listener)
 	{
-		return view;
+		listeners.add(listener);
 	}
-
 }

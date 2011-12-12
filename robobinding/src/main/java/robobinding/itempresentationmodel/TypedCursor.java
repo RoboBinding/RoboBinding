@@ -15,6 +15,8 @@
  */
 package robobinding.itempresentationmodel;
 
+import android.database.Cursor;
+
 /**
  * @since 1.0
  * @version $Revision: 1.0 $
@@ -22,8 +24,8 @@ package robobinding.itempresentationmodel;
  * @author Robert Taylor
  *
  */
-public interface TypedCursor<T>
+public interface TypedCursor<T> extends Cursor
 {
-	int getCount();
+	//int getCount();
 	T getObjectAtPosition(int position);
 }
