@@ -13,16 +13,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="sample.robobinding.CreateEditAlbumActivityeEditAlbumActivity"
+        <activity android:name="sample.robobinding.CreateEditAlbumActivity"
+                  android:label="@string/app_name">
+	</activity>
+	<activity android:name="sample.robobinding.CursorBackedViewAlbumsActivity"
                   android:label="@string/app_name">
         </activity>
         <activity android:name="sample.robobinding.ViewAlbumActivity"
                   android:label="@string/app_name">
         </activity>
-		<activity android:name="sample.robobinding.ListViewAlbumsActivity"
+	<activity android:name="sample.robobinding.ListViewAlbumsActivity"
                   android:label="@string/app_name">
         </activity>
-        <activity android:name="sample.robobinding.SpinnerAlbumsActivitynnerAlbumsActivity"
+	<activity android:name="sample.robobinding.ListViewWithPredefinedViewsAlbumsActivity"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name="sample.robobinding.SpinnerAlbumsActivity"
+		  android:label="@string/app_name">
+	</activity>
+	<activity android:name="sample.robobinding.SpinnerAlbumsActivitynnerAlbumsActivity"
                   android:label="@string/app_name">
         </activity>
     </application>

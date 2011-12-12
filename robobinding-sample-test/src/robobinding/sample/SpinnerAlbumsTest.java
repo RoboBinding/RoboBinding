@@ -15,7 +15,8 @@
  */
 package robobinding.sample;
 
-import sample.robobinding_sample.R;
+import sample.robobinding.R;
+
 
 
 /**
@@ -36,7 +37,7 @@ public class SpinnerAlbumsTest extends AbstractWorkflowTest
 	{
 		createAnAlbumTests();
 		
-		//deleteAlbumTests();
+		deleteAlbumTests();
 	}
 	
 	@Override

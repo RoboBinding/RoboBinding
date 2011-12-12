@@ -15,8 +15,8 @@
  */
 package robobinding.sample;
 
+import sample.robobinding.R;
 import sample.robobinding.model.PurchaseService;
-import sample.robobinding_sample.R;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;

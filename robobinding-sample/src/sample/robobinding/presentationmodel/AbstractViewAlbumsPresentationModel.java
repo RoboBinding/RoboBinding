@@ -49,7 +49,6 @@ public abstract class AbstractViewAlbumsPresentationModel
 	public void albumSelected(ItemClickEvent event)
 	{
 		selectAlbum(event.getPosition());
-		viewAlbum();
 	}
 	
 	public void viewAlbum()
