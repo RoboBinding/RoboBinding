@@ -6,20 +6,20 @@
     <uses-sdk android:minSdkVersion="8" />
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name="robobinding_sample.HomeActivity"
+        <activity android:name="sample.robobinding.HomeActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="robobinding_sample.CreateEditAlbumActivityeEditAlbumActivity"
+        <activity android:name="sample.robobinding.CreateEditAlbumActivityeEditAlbumActivity"
                   android:label="@string/app_name">
         </activity>
-        <activity android:name="robobinding_sample.ViewAlbumActivity"
+        <activity android:name="sample.robobinding.ViewAlbumActivity"
                   android:label="@string/app_name">
         </activity>
-		<activity android:name="robobinding_sample.ListViewAlbumsActivity"
+		<activity android:name="sample.robobinding.ListViewAlbumsActivity"
                   android:label="@string/app_name">
         </activity>
         <activity android:name="sample.robobinding.SpinnerAlbumsActivitynnerAlbumsActivity"
