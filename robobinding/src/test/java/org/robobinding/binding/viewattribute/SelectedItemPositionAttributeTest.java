@@ -15,7 +15,7 @@
  */
 package org.robobinding.binding.viewattribute;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
@@ -54,12 +54,12 @@ public class SelectedItemPositionAttributeTest extends AbstractSingleTypeTwoWayP
 	//TODO Enable this test when the appropriate support has been added to Robolectric
 	public void whenAllItemsAreRemovedFromAdapter_ThenSelectedItemPositionShouldEqualInvalidPosition()
 	{
-		createAttributeWithEither1WayOr2WayBinding();
+		createAttributeWith2WayBinding();
 		
 		arrayAdapter.clear();
 		arrayAdapter.notifyDataSetChanged();
 		
-		assertThat(valueModel.getValue(), equalTo(AdapterView.INVALID_POSITION));
+		assertThat(valueModel.getValue(), is(AdapterView.INVALID_POSITION));
 	}
 	
 	@Override

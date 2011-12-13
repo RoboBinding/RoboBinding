@@ -15,8 +15,8 @@
  */
 package org.robobinding.binding.viewattribute;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -93,7 +93,7 @@ public class OnItemSelectedAttributeTest
 		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(ItemClickEvent.class));
 		ItemClickEvent itemClickEvent = (ItemClickEvent)mockFunction.argsPassedToInvoke[0];
 		assertTrue(itemClickEvent.getParent() == adapterView);
-		assertThat(itemClickEvent.getPosition(), equalTo(POSITION_TO_SELECT));
+		assertThat(itemClickEvent.getPosition(), is(POSITION_TO_SELECT));
 		assertThat(itemClickEvent.getView(), instanceOf(TextView.class));
 	}
 	
@@ -109,7 +109,7 @@ public class OnItemSelectedAttributeTest
 		arrayAdapter.notifyDataSetChanged();
 		
 		ItemClickEvent itemClickEvent = (ItemClickEvent)mockFunction.argsPassedToInvoke[0];
-		assertThat(itemClickEvent.getPosition(), equalTo(AdapterView.INVALID_POSITION));
+		assertThat(itemClickEvent.getPosition(), is(AdapterView.INVALID_POSITION));
 	}
 
 	private static class MockArrayAdapter extends ArrayAdapter<String>
