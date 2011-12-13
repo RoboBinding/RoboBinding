@@ -15,7 +15,7 @@
  */
 package sample.robobinding;
 
-import org.robobinding.binding.DialogBinder;
+import org.robobinding.binding.Binder;
 
 import sample.robobinding.model.Album;
 import sample.robobinding.presentationmodel.DeleteAlbumDialogPresentationModel;
@@ -36,7 +36,6 @@ public class DeleteAlbumDialog extends Dialog
 		setCancelable(true);
 		
 		DeleteAlbumDialogPresentationModel deleteAlbumDialogPresentationModel = new DeleteAlbumDialogPresentationModel(this, album);
-		DialogBinder dialogBinder = new DialogBinder(this, R.layout.delete_album_dialog);
-		dialogBinder.bindTo(deleteAlbumDialogPresentationModel);
+		Binder.bind(this, R.layout.delete_album_dialog, deleteAlbumDialogPresentationModel);
 	}
 }

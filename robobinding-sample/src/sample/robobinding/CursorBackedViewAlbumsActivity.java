@@ -15,7 +15,7 @@
  */
 package sample.robobinding;
 
-import org.robobinding.binding.ActivityBinder;
+import org.robobinding.binding.Binder;
 
 import sample.robobinding.model.PurchaseService;
 import sample.robobinding.presentationmodel.CursorBackedViewAlbumsPresentationModel;
@@ -37,9 +37,8 @@ public class CursorBackedViewAlbumsActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
-		ActivityBinder binder = new ActivityBinder(this, R.layout.view_purchasable_albums_activity);
 		viewAlbumsPresentationModel = new CursorBackedViewAlbumsPresentationModel(this, new PurchaseService());
-		binder.bindTo(viewAlbumsPresentationModel);
+		Binder.bindWithoutPreInitializingViews(this, R.layout.view_purchasable_albums_activity, viewAlbumsPresentationModel);
 	}
 	
 	@Override

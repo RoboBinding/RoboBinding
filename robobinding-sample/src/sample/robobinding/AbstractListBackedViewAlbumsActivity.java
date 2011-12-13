@@ -15,7 +15,7 @@
  */
 package sample.robobinding;
 
-import org.robobinding.binding.ActivityBinder;
+import org.robobinding.binding.Binder;
 
 import sample.robobinding.presentationmodel.ListBackedViewAlbumsPresentationModel;
 import android.app.Activity;
@@ -36,9 +36,8 @@ public abstract class AbstractListBackedViewAlbumsActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
-		ActivityBinder binder = new ActivityBinder(this, getLayoutId());
 		viewAlbumsPresentationModel = new ListBackedViewAlbumsPresentationModel(this);
-		binder.bindTo(viewAlbumsPresentationModel);
+		Binder.bindWithoutPreInitializingViews(this, getLayoutId(), viewAlbumsPresentationModel);
 	}
 	
 	protected abstract int getLayoutId();

@@ -15,7 +15,7 @@
  */
 package sample.robobinding;
 
-import org.robobinding.binding.ActivityBinder;
+import org.robobinding.binding.Binder;
 
 import sample.robobinding.presentationmodel.CreateEditAlbumPresentationModel;
 import android.app.Activity;
@@ -37,8 +37,7 @@ public class CreateEditAlbumActivity extends Activity {
         
         long albumId = getIntent().getLongExtra(ALBUM_ID, -1);
         
-        ActivityBinder binder = new ActivityBinder(this, R.layout.create_edit_album_activity, true);
         CreateEditAlbumPresentationModel createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumId);
-		binder.bindTo(createEditAlbumPresentationModel);
+        Binder.bind(this, R.layout.create_edit_album_activity, createEditAlbumPresentationModel);
     }
 }

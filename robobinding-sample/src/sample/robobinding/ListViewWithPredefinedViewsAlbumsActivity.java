@@ -16,7 +16,6 @@
 package sample.robobinding;
 
 
-
 /**
  *
  * @since 1.0
