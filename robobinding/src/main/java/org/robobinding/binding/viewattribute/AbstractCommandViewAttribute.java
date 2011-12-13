@@ -58,7 +58,7 @@ public abstract class AbstractCommandViewAttribute implements CommandViewAttribu
 		if (noArgsCommand == null)
 		{
 			throw new IllegalArgumentException("Could not find method " + commandName + "() or " + commandName + "(" + getAcceptedParameterTypesDescription()
-					+ ") in class " + presentationModelAdapter.getClass().getName());
+					+ ") in class " + presentationModelAdapter.getPresentationModelClass().getName());
 		}
 
 		return noArgsCommand;
