@@ -38,7 +38,7 @@ public class OnItemSelectedAttribute extends AbstractCommandViewAttribute
 	@Override
 	protected void bind(final Command command)
 	{
-		adapterView.setOnItemSelectedListener(new OnItemSelectedListener() {
+		ViewListenerUtils.addOnItemSelectedListener(adapterView, new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 			{
@@ -49,6 +49,8 @@ public class OnItemSelectedAttribute extends AbstractCommandViewAttribute
 			@Override
 			public void onNothingSelected(AdapterView<?> parent)
 			{
+				ItemClickEvent itemClickEvent = new ItemClickEvent(parent, null, AdapterView.INVALID_POSITION, 0);
+				command.invoke(itemClickEvent);
 			}
 		});
 	}

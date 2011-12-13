@@ -19,7 +19,6 @@ import org.robobinding.binding.viewattribute.ItemClickEvent;
 
 import sample.robobinding.CreateEditAlbumActivity;
 import sample.robobinding.ViewAlbumActivity;
-import sample.robobinding.model.Album;
 import sample.robobinding.store.AlbumStore;
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +26,7 @@ import android.content.Intent;
 public abstract class AbstractViewAlbumsPresentationModel
 {
 	protected final Context context;
-	private Album selectedAlbum;
+	private int selectedAlbumIndex;
 
 	public AbstractViewAlbumsPresentationModel(Context context)
 	{
@@ -41,7 +40,7 @@ public abstract class AbstractViewAlbumsPresentationModel
 
 	private void selectAlbum(int position)
 	{
-		selectedAlbum = AlbumStore.getByIndex(position);
+		selectedAlbumIndex = position;
 	}
 	
 	public void albumSelected(ItemClickEvent event)
@@ -55,10 +54,15 @@ public abstract class AbstractViewAlbumsPresentationModel
 		viewAlbum();
 	}
 	
+	public boolean isViewAlbumButtonEnabled()
+	{
+	    return selectedAlbumIndex >= 0;
+	}
+	
 	public void viewAlbum()
 	{
 		Intent intent = new Intent(context, ViewAlbumActivity.class);
-		intent.putExtra(ViewAlbumActivity.ALBUM_ID, selectedAlbum.getId());
+		intent.putExtra(ViewAlbumActivity.ALBUM_ID, AlbumStore.getByIndex(selectedAlbumIndex).getId());
 		context.startActivity(intent);
 	}
 }

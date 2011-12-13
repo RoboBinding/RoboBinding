@@ -46,7 +46,7 @@ public class SelectedItemPositionAttribute extends AbstractPropertyViewAttribute
 	@Override
 	protected void observeChangesOnTheView(final PropertyValueModel<Integer> valueModel)
 	{
-		adapterView.setOnItemSelectedListener(new OnItemSelectedListener() {
+		ViewListenerUtils.addOnItemSelectedListener(adapterView, new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 			{
@@ -56,9 +56,8 @@ public class SelectedItemPositionAttribute extends AbstractPropertyViewAttribute
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0)
 			{
+				valueModel.setValue(AdapterView.INVALID_POSITION);
 			}
 		});
-
 	}
-
 }

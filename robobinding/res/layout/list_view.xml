@@ -9,7 +9,7 @@
 	    binding:header="header presentation model"
 	    binding:headerLayout="layout resource id"
 	    binding:footer="footer presentation model"
-	    binding:footer="layout resource id"
+	    binding:footerLayout="layout resource id"
 	     -->
 	</ListView>
 	<ListView 

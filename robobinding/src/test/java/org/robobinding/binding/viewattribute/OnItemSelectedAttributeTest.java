@@ -15,6 +15,7 @@
  */
 package org.robobinding.binding.viewattribute;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -24,16 +25,16 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binding.viewattribute.ItemClickEvent;
-import org.robobinding.binding.viewattribute.OnItemSelectedAttribute;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.R;
 import android.app.Activity;
 import android.content.Context;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -56,6 +57,7 @@ public class OnItemSelectedAttributeTest
 	private MockFunction mockFunction;
 	private PresentationModelAdapter mockPresentationModelAdapter;
 	private final String commandName = "someCommand";
+	private ArrayAdapter<String> arrayAdapter;
 	
 	@Before
 	public void setUp()
@@ -65,8 +67,8 @@ public class OnItemSelectedAttributeTest
 		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
 		when(mockPresentationModelAdapter.findFunction(commandName, ItemClickEvent.class)).thenReturn(mockFunction);
 		
-		ArrayAdapter<String> mockArrayAdapter = new MockArrayAdapter(new Activity(), R.layout.simple_list_item_1, Lists.newArrayList("0", "1", "2", "3", "4", "5"));
-		adapterView.setAdapter(mockArrayAdapter);
+		arrayAdapter = new MockArrayAdapter(new Activity(), R.layout.simple_list_item_1, Lists.newArrayList("0", "1", "2", "3", "4", "5"));
+		adapterView.setAdapter(arrayAdapter);
 	}
 	
 	@Test
@@ -91,8 +93,23 @@ public class OnItemSelectedAttributeTest
 		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(ItemClickEvent.class));
 		ItemClickEvent itemClickEvent = (ItemClickEvent)mockFunction.argsPassedToInvoke[0];
 		assertTrue(itemClickEvent.getParent() == adapterView);
-		assertTrue(itemClickEvent.getPosition() == POSITION_TO_SELECT);
+		assertThat(itemClickEvent.getPosition(), equalTo(POSITION_TO_SELECT));
 		assertThat(itemClickEvent.getView(), instanceOf(TextView.class));
+	}
+	
+	@Test
+	@Ignore
+	//TODO Enable this test when the appropriate support has been added to Robolectric
+	public void whenAllItemsAreRemovedFromAdapter_ThenInvokeCommandPassingClickEventWithPositionAsInvalidPosition()
+	{
+		OnItemSelectedAttribute onItemSelectedAttribute = new OnItemSelectedAttribute(adapterView, commandName);
+		onItemSelectedAttribute.bind(mockPresentationModelAdapter, context);
+		
+		arrayAdapter.clear();
+		arrayAdapter.notifyDataSetChanged();
+		
+		ItemClickEvent itemClickEvent = (ItemClickEvent)mockFunction.argsPassedToInvoke[0];
+		assertThat(itemClickEvent.getPosition(), equalTo(AdapterView.INVALID_POSITION));
 	}
 
 	private static class MockArrayAdapter extends ArrayAdapter<String>

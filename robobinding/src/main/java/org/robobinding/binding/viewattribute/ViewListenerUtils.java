@@ -17,6 +17,8 @@ package org.robobinding.binding.viewattribute;
 
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 /**
  *
@@ -40,6 +42,20 @@ public class ViewListenerUtils
 		}
 	}
 
+	public static void addOnItemSelectedListener(AdapterView<?> view, OnItemSelectedListener listener)
+	{
+		OnItemSelectedListener existingListener = view.getOnItemSelectedListener();
+		if (existingListener == null)
+		{
+			view.setOnItemSelectedListener(listener);
+		}else
+		{
+			OnItemSelectedListeners listeners = OnItemSelectedListeners.convert(existingListener);
+			listeners.addListener(listener);
+			view.setOnItemSelectedListener(listeners);
+		}
+	}
+	
 	private ViewListenerUtils()
 	{
 	}

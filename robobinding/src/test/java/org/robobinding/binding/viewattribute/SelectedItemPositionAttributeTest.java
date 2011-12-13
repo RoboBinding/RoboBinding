@@ -15,10 +15,16 @@
  */
 package org.robobinding.binding.viewattribute;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -33,12 +39,27 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public class SelectedItemPositionAttributeTest extends AbstractSingleTypeTwoWayPropertyAttributeTest<Integer>
 {
 	private ListView adapterView;
+	private ArrayAdapter<String> arrayAdapter;
 	
 	@Before
 	public void setUp()
 	{
 		adapterView = new ListView(null);
-		adapterView.setAdapter(new MockArrayAdapter());
+		arrayAdapter = new MockArrayAdapter();
+		adapterView.setAdapter(arrayAdapter);
+	}
+	
+	@Test
+	@Ignore
+	//TODO Enable this test when the appropriate support has been added to Robolectric
+	public void whenAllItemsAreRemovedFromAdapter_ThenSelectedItemPositionShouldEqualInvalidPosition()
+	{
+		createAttributeWithEither1WayOr2WayBinding();
+		
+		arrayAdapter.clear();
+		arrayAdapter.notifyDataSetChanged();
+		
+		assertThat(valueModel.getValue(), equalTo(AdapterView.INVALID_POSITION));
 	}
 	
 	@Override
@@ -64,5 +85,4 @@ public class SelectedItemPositionAttributeTest extends AbstractSingleTypeTwoWayP
 	{
 		return new SelectedItemPositionAttribute(adapterView, bindingAttributeValue, true);
 	}
-	
 }

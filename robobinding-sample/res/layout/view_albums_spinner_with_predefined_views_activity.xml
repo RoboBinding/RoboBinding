@@ -23,7 +23,8 @@
   		android:layout_height="wrap_content"
   		android:layout_above="@id/create_button"
   		android:text="@string/view"
-  		binding:onClick="viewAlbum" />
+  		binding:onClick="viewAlbum"
+  		binding:enabled="{viewAlbumButtonEnabled}" />
     
     <Spinner 
     	android:layout_width="fill_parent"
