@@ -17,6 +17,7 @@ package sample.robobinding.presentationmodel;
 
 import java.util.List;
 
+import org.robobinding.DependsOnStateOf;
 import org.robobinding.ItemPresentationModel;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodelaspects.PresentationModel;
@@ -45,5 +46,10 @@ public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPre
 	{
 		return Lists.newArrayList(AlbumStore.getAll());
 	}
-
+	
+	@DependsOnStateOf("selectedAlbumPosition")
+	public boolean isViewAlbumFieldsEnabled()
+	{
+	    return selectedAlbumPosition >= 0;
+	}
 }

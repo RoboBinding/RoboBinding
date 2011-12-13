@@ -57,7 +57,7 @@ class DependencyProperty<T> extends AbstractProperty<T>
 		{
 			List<String> nonExistingDependentProperties = Lists.newArrayList(dependentProperties);
 			nonExistingDependentProperties.removeAll(availablePropertyNames);
-			throw new RuntimeException(toString()+" depends on following non-existing properties '"+StringUtils.join(nonExistingDependentProperties, ",")+"'");
+			throw new RuntimeException(toString()+" depends on the following non-existent properties '"+StringUtils.join(nonExistingDependentProperties, ",")+"'");
 		}
 	}
 	private void validateNotDependsOnSelf()

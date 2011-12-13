@@ -24,7 +24,7 @@
   		android:layout_above="@id/create_button"
   		android:text="@string/view"
   		binding:onClick="viewAlbum"
-  		binding:enabled="{viewAlbumButtonEnabled}" />
+  		binding:enabled="{viewAlbumFieldsEnabled}" />
     
     <Spinner 
     	android:layout_width="fill_parent"
@@ -35,6 +35,7 @@
   		binding:dropdownLayout="@android:layout/simple_spinner_dropdown_item"
   		binding:dropdownMapping="[text1.text:{title}]"
   		binding:source="{albums}"
-  		binding:onItemSelected="albumSelected" />
+  		binding:onItemSelected="albumSelected"
+  		binding:enabled="{viewAlbumFieldsEnabled}" />
     
 </RelativeLayout>
