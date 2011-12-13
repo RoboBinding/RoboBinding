@@ -30,9 +30,7 @@ import org.robobinding.binding.viewattribute.DropdownMappingAttribute;
 import org.robobinding.binding.viewattribute.ItemMappingAttribute;
 import org.robobinding.binding.viewattribute.OnItemClickAttribute;
 import org.robobinding.binding.viewattribute.OnItemSelectedAttribute;
-import org.robobinding.binding.viewattribute.provider.AdapterViewAttributeProvider;
-import org.robobinding.binding.viewattribute.provider.BindingAttributeProvider;
-
+import org.robobinding.binding.viewattribute.SelectedItemPositionAttribute;
 
 import android.app.Activity;
 import android.content.Context;
@@ -61,6 +59,7 @@ public class AdapterViewAttributeProviderTest extends AbstractCompoundBindingAtt
 	private final Attribute dropdownMapping = new Attribute("dropdownMapping", "[text1.title:{artist}]");
 	private final Attribute onItemClick = new Attribute("onItemClick","commandName");
 	private final Attribute onItemSelected = new Attribute("onItemSelected","commandName");
+	private final Attribute selectedItemPosition = new Attribute("selectedItemPosition","{selectedItemPositionProperty}");
 	
 	private AttributesAndViewCombination[] illegalAttributeCombinations = { 
 			new AttributesAndViewCombination(listView, source),
@@ -96,6 +95,16 @@ public class AdapterViewAttributeProviderTest extends AbstractCompoundBindingAtt
 		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
 		
 		assertThat(bindingAttribute.getViewAttribute(), instanceOf(OnItemSelectedAttribute.class));
+	}
+	
+	@Test
+	public void givenSelectedItemPosition_ThenCreateAnSelectedItemPositionAttribute()
+	{
+		givenAttributes(selectedItemPosition);
+
+		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
+		
+		assertThat(bindingAttribute.getViewAttribute(), instanceOf(SelectedItemPositionAttribute.class));
 	}
 	
 	@Test

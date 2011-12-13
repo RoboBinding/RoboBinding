@@ -21,20 +21,13 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binding.viewattribute.ItemClickEvent;
-import org.robobinding.binding.viewattribute.OnItemClickAttribute;
-import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
-import android.R;
 import android.app.Activity;
 import android.content.Context;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -66,8 +59,7 @@ public class OnItemClickAttributeTest
 		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
 		when(mockPresentationModelAdapter.findFunction(commandName, ItemClickEvent.class)).thenReturn(mockFunction);
 		
-		ArrayAdapter<String> mockArrayAdapter = new MockArrayAdapter(new Activity(), R.layout.simple_list_item_1, Lists.newArrayList("0", "1", "2", "3", "4", "5"));
-		adapterView.setAdapter(mockArrayAdapter);
+		adapterView.setAdapter(new MockArrayAdapter());
 	}
 	
 	@Test
@@ -98,11 +90,4 @@ public class OnItemClickAttributeTest
 		assertThat(itemClickEvent.getView(), instanceOf(TextView.class));
 	}
 	
-	private static class MockArrayAdapter extends ArrayAdapter<String>
-	{
-		public MockArrayAdapter(Context context, int textViewResourceId, List<String> data)
-		{
-			super(context, textViewResourceId, data);
-		}
-	}
 }

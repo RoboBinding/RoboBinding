@@ -23,6 +23,7 @@ import org.robobinding.binding.viewattribute.ItemLayoutAttribute;
 import org.robobinding.binding.viewattribute.ItemMappingAttribute;
 import org.robobinding.binding.viewattribute.OnItemClickAttribute;
 import org.robobinding.binding.viewattribute.OnItemSelectedAttribute;
+import org.robobinding.binding.viewattribute.SelectedItemPositionAttribute;
 import org.robobinding.binding.viewattribute.SourceAttribute;
 
 import android.widget.AbsSpinner;
@@ -46,6 +47,7 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 	
 	private static final String ON_ITEM_CLICK = "onItemClick";
 	private static final String ON_ITEM_SELECTED = "onItemSelected";
+	private static final String SELECTED_ITEM_POSITION = "selectedItemPosition";
 	
 	@Override
 	public void resolveSupportedBindingAttributes(AdapterView<?> adapterView, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
@@ -69,6 +71,11 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_ITEM_SELECTED);
 			bindingAttributeResolver.resolveAttribute(ON_ITEM_SELECTED, new OnItemSelectedAttribute(adapterView, attributeValue));
+		}
+		if(bindingAttributeResolver.hasAttribute(SELECTED_ITEM_POSITION))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(SELECTED_ITEM_POSITION);
+			bindingAttributeResolver.resolveAttribute(SELECTED_ITEM_POSITION, new SelectedItemPositionAttribute(adapterView, attributeValue, preInitializeView));
 		}
 	}
 	
