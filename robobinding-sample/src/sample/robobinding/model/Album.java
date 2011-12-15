@@ -15,7 +15,6 @@
  */
 package sample.robobinding.model;
 
-
 /**
  * @since 1.0
  * @author Cheng Wei
