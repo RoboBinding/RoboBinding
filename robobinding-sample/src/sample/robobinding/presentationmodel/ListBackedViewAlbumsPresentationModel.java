@@ -41,7 +41,7 @@ public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPre
 		super(activity);
 	}
 	
-	@ItemPresentationModel(value=AlbumItemPresentationModel.class)
+	@ItemPresentationModel(AlbumItemPresentationModel.class)
 	public List<Album> getAlbums()
 	{
 		return Lists.newArrayList(AlbumStore.getAll());
