@@ -23,7 +23,6 @@ import org.robobinding.internal.com_google_common.collect.Lists;
 import sample.robobinding.model.Album;
 import sample.robobinding.presentationmodel.AlbumCursor;
 
-
 /**
  * 
  * @since 1.0
