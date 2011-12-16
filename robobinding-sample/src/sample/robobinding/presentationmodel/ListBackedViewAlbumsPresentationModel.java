@@ -26,7 +26,6 @@ import sample.robobinding.model.Album;
 import sample.robobinding.store.AlbumStore;
 import android.app.Activity;
 
-
 /**
  * 
  * @since 1.0
