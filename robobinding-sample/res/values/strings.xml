@@ -26,4 +26,5 @@
     <string name="delete">Delete</string>
     <string name="view">View</string>
     <string name="are_you_sure_">Are you sure?</string>
+    <string name="genre">Genre</string>
 </resources>
