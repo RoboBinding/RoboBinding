@@ -23,6 +23,7 @@ import org.robobinding.binding.viewattribute.provider.BindingAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.CheckBoxAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.ImageViewAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.ProgressBarAttributeProvider;
+import org.robobinding.binding.viewattribute.provider.SeekBarAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.TextViewAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.ViewAttributeProvider;
 import org.robobinding.internal.com_google_common.collect.Lists;
@@ -33,8 +34,8 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
-
 
 /**
  * 
@@ -56,6 +57,7 @@ public class ProvidersResolver
 		viewAttributeProviderMap.put(CheckBox.class, new CheckBoxAttributeProvider());
 		viewAttributeProviderMap.put(ImageView.class, new ImageViewAttributeProvider());
 		viewAttributeProviderMap.put(ProgressBar.class, new ProgressBarAttributeProvider());
+		viewAttributeProviderMap.put(SeekBar.class, new SeekBarAttributeProvider());
 	}
 	
 	public Queue<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)
