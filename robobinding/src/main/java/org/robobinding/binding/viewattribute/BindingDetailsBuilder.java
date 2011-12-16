@@ -85,8 +85,22 @@ public class BindingDetailsBuilder
 		}
 		
 		if (!propertiesDetermined)
-			throw new RuntimeException("Invalid binding property attribute value: '" + attributeValue + "'.\n\nDid you mean '{" + 
-					attributeValue + "}' or '${" + attributeValue + "}'? (one/two-way binding)\n");
+			throw new RuntimeException(getErrorDescriptionForAttributeValue());
+	}
+
+	private String getErrorDescriptionForAttributeValue()
+	{
+		String errorMessage = "Invalid binding syntax: '" + attributeValue + "'.";
+			
+		Matcher propertyBindingAttempted = Pattern.compile("\\{.+|.+\\}").matcher(attributeValue);
+		Matcher resourceBindingAttempted = Pattern.compile(".*@.*").matcher(attributeValue);
+		
+		if (!propertyBindingAttempted.matches())
+			errorMessage += "\n\nDid you mean '{" + attributeValue + "}' or '${" + attributeValue + "}'? (one/two-way binding)\n";
+		else if (resourceBindingAttempted.matches())
+			errorMessage += "\n\nDid you mean to omit the curly braces? (Curly braces are for binding to a property on the presentation model, not static resources)";
+		
+		return errorMessage;
 	}
 	
 	private void determinePropertyName()
