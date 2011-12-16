@@ -204,6 +204,11 @@
 		<url>https://github.com/roberttaylor426/RoboBinding</url>
 	</scm>
 
+	<ciManagement>
+        <system>Jenkins</system>
+        <url>https://robobinding.ci.cloudbees.com/</url>
+    </ciManagement>
+
 	<developers>
 		<developer>
 			<id>cheng</id>
