@@ -15,7 +15,6 @@
  */
 package org.robobinding.binding.customwidget;
 
-import java.util.Collection;
 import java.util.Map;
 
 import org.robobinding.binding.ViewAttribute;
@@ -28,7 +27,7 @@ import org.robobinding.binding.ViewAttribute;
  */
 public interface BindableViewWithGroupedAttributes
 {
-	Collection<GroupedAttributeSpec> getSupportedGroupedAttributes();
+	GroupedAttribute[] getSupportedGroupedAttributes();
 
-	ViewAttribute resolveGroupedAttribute(Map<String, Attribute> attributes);
+	ViewAttribute createGroupedAttribute(Map<String, Attribute> attributes);
 }

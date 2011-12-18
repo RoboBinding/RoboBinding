@@ -15,8 +15,6 @@
  */
 package org.robobinding.binding.customwidget;
 
-import java.util.Collection;
-
 import org.robobinding.binding.ViewAttribute;
 
 /**
@@ -27,7 +25,7 @@ import org.robobinding.binding.ViewAttribute;
  */
 public interface BindableView
 {
-	Collection<String> getSupportedAttributes();
+	String[] getSupportedAttributes();
 
-	ViewAttribute resolveAttribute(Attribute attribute);
+	ViewAttribute createViewAttribute(Attribute attribute);
 }

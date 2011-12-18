@@ -28,12 +28,12 @@ import org.robobinding.internal.org_apache_commons_lang3.Validate;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class GroupedAttributeSpec
+public class GroupedAttribute
 {
 	private String groupAttributeName;
 	private List<String> compulsoryAttributes;
 	private List<String> optionalAttributes;
-	public GroupedAttributeSpec(Builder builder)
+	public GroupedAttribute(Builder builder)
 	{
 		validate(builder);
 		
@@ -84,9 +84,9 @@ public class GroupedAttributeSpec
 			this.optionalAttributes = Lists.newArrayList(optionalAttributes);
 			return this;
 		}
-		public GroupedAttributeSpec create()
+		public GroupedAttribute create()
 		{
-			return new GroupedAttributeSpec(this);
+			return new GroupedAttribute(this);
 		}
 	}
 }
