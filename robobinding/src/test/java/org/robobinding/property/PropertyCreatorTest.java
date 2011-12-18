@@ -19,8 +19,6 @@ package org.robobinding.property;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.property.AbstractDataSetProperty;
-import org.robobinding.property.PropertyCreator;
 
 /**
  *
@@ -44,14 +42,14 @@ public class PropertyCreatorTest
 	@Test
 	public void whenCreateListDataSetProperty_thenReturnInstance()
 	{
-		AbstractDataSetProperty<Object> listDataSetProperty = propertyCreator.createDataSetProperty(Bean.LIST_DATA_SET_PROPERTY);
+		DataSetProperty<Object> listDataSetProperty = propertyCreator.createDataSetProperty(Bean.LIST_DATA_SET_PROPERTY);
 		
 		Assert.assertNotNull(listDataSetProperty);
 	}
 	@Test
 	public void whenCreateCursorDataSetProperty_thenReturnInstance()
 	{
-		AbstractDataSetProperty<Object> cursorDataSetProperty = propertyCreator.createDataSetProperty(Bean.CURSOR_DATA_SET_PROPERTY);
+		DataSetProperty<Object> cursorDataSetProperty = propertyCreator.createDataSetProperty(Bean.CURSOR_DATA_SET_PROPERTY);
 		
 		Assert.assertNotNull(cursorDataSetProperty);
 	}

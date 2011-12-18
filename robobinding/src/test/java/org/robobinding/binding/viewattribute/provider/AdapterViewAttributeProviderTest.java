@@ -31,6 +31,8 @@ import org.robobinding.binding.viewattribute.ItemMappingAttribute;
 import org.robobinding.binding.viewattribute.OnItemClickAttribute;
 import org.robobinding.binding.viewattribute.OnItemSelectedAttribute;
 import org.robobinding.binding.viewattribute.SelectedItemPositionAttribute;
+import org.robobinding.binding.viewattribute.provider.AdapterViewAttributeProvider;
+import org.robobinding.binding.viewattribute.provider.BindingAttributeProvider;
 
 import android.app.Activity;
 import android.content.Context;

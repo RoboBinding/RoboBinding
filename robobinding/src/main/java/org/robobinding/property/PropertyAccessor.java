@@ -90,7 +90,7 @@ public final class PropertyAccessor<T>
 	}
 	private RuntimeException createReadAccessException(Throwable cause)
 	{
-		return new RuntimeException("error when reading the '"+toString()+"'", cause);
+		return new RuntimeException("error when reading property '"+propertyDescription()+"'", cause);
 	}
 	public void setValue(Object bean, T newValue)
 	{
@@ -112,20 +112,20 @@ public final class PropertyAccessor<T>
 	}
 	private RuntimeException createWriteAccessException(T newValue, Throwable cause)
 	{
-		return new RuntimeException("error when writing the '"+toString()+"' with newValue '"+newValue+"'", cause);
+		return new RuntimeException("error when writing property '"+propertyDescription()+"' with newValue '"+newValue+"'", cause);
 	}
 	public void checkReadable()
 	{
 		if(!isReadable())
 		{
-			throw new RuntimeException("The "+toString()+" is not readable");
+			throw new RuntimeException("The "+propertyDescription()+" is not readable");
 		}
 	}
 	public void checkWritable()
 	{
 		if(!isWritable())
 		{
-			throw new RuntimeException("The "+toString()+" is not writable");
+			throw new RuntimeException("The "+propertyDescription()+" is not writable");
 		}
 	}
 	public Class<?> getPropertyType()
@@ -140,7 +140,7 @@ public final class PropertyAccessor<T>
 	public <A extends Annotation> A getAnnotation(Class<A> annotationClass)
 	{
 		A annotation = findAnnotation(annotationClass);
-		Validate.notNull(annotation, toString()+" is not annotated with '"+annotationClass.getName()+"'");
+		Validate.notNull(annotation, propertyDescription()+" is not annotated with '"+annotationClass.getName()+"'");
 		return annotation;
 	}
 	private <A extends Annotation> A findAnnotation(Class<A> annotationClass)
@@ -168,5 +168,10 @@ public final class PropertyAccessor<T>
 		}
 		propertyDescription += ")";
 		return propertyDescription;
+	}
+	public String propertyDescription()
+	{
+		String beanClassName = beanClass.getName();
+		return MessageFormat.format("{0}.{1}", beanClassName, getPropertyName());
 	}
 }

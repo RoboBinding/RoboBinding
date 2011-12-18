@@ -43,14 +43,14 @@ public class AbstractPropertyTest
 	@Test
 	public void testGivenObservableBean_whenAddPropertyChangeListener_thenListenerAdded()
 	{
-		ObservableBean observableBean = new ObservableBean();
+		ObservableTestBean observableBean = new ObservableTestBean();
 		AbstractProperty<Boolean> property = createProperty(observableBean);
 		
 		property.addPropertyChangeListener(listener);
 		
 		assertHasListener(observableBean);
 	}
-	private void assertHasListener(ObservableBean observableBean)
+	private void assertHasListener(ObservableTestBean observableBean)
 	{
 		Assert.assertTrue(observableBean.hasPropertyChangeListener(Bean.PROPERTY, listener));
 	}
@@ -65,7 +65,7 @@ public class AbstractPropertyTest
 	@Test
 	public void testPropertyChangeListenerOnProperty_whenRemoveIt_thenListenerRemoved()
 	{
-		ObservableBean observableBean = new ObservableBean();
+		ObservableTestBean observableBean = new ObservableTestBean();
 		addListener(observableBean);
 		AbstractProperty<Boolean> property = createProperty(observableBean);
 		
@@ -73,18 +73,18 @@ public class AbstractPropertyTest
 		
 		assertHasNoListener(observableBean);
 	}
-	private void assertHasNoListener(ObservableBean observableBean)
+	private void assertHasNoListener(ObservableTestBean observableBean)
 	{
 		Assert.assertFalse(observableBean.hasPropertyChangeListener(Bean.PROPERTY, listener));
 	}
-	private void addListener(ObservableBean observableBean)
+	private void addListener(ObservableTestBean observableBean)
 	{
 		observableBean.addPropertyChangeListener(Bean.PROPERTY, listener);
 	}
 	@Test
 	public void testGivenObservableBean_whenRemoveNonExistingPropertyChangeListener_thenOperationIgnored()
 	{
-		ObservableBean observableBean = new ObservableBean();
+		ObservableTestBean observableBean = new ObservableTestBean();
 		AbstractProperty<Boolean> property = createProperty(observableBean);
 		
 		property.removePropertyChangeListener(listener);
@@ -106,7 +106,7 @@ public class AbstractPropertyTest
 	{
 		public PropertyImpl(Object bean, PropertyAccessor<T> propertyAccessor)
 		{
-			super(bean, propertyAccessor);
+			super(new ObservableBean(bean), propertyAccessor);
 		}
 	}
 }

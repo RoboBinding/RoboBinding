@@ -18,8 +18,8 @@ package org.robobinding.presentationmodel;
 import org.robobinding.function.CachedFunctions;
 import org.robobinding.function.Function;
 import org.robobinding.internal.org_apache_commons_lang3.Validate;
-import org.robobinding.property.AbstractDataSetProperty;
 import org.robobinding.property.CachedProperties;
+import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.Properties;
 import org.robobinding.property.PropertyValueModel;
 
@@ -57,7 +57,7 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter
 		return properties.getReadOnlyProperty(propertyName);
 	}
 	@Override
-	public AbstractDataSetProperty<?> getDataSetPropertyValueModel(String propertyName)
+	public DataSetProperty<?> getDataSetPropertyValueModel(String propertyName)
 	{
 		return properties.getReadOnlyDataSetProperty(propertyName);
 	}

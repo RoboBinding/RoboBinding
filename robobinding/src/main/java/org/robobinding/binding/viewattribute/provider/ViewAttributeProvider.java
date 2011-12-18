@@ -16,6 +16,7 @@
 package org.robobinding.binding.viewattribute.provider;
 
 import org.robobinding.binding.BindingAttributeResolver;
+import org.robobinding.binding.viewattribute.BackgroundAttribute;
 import org.robobinding.binding.viewattribute.BackgroundColorAttribute;
 import org.robobinding.binding.viewattribute.EnabledAttribute;
 import org.robobinding.binding.viewattribute.OnClickAttribute;
@@ -38,6 +39,7 @@ public class ViewAttributeProvider implements BindingAttributeProvider<View>
 	private static final String ON_CLICK = "onClick";
 	private static final String ON_LONG_CLICK = "onLongClick";
 	private static final String BACKGROUND_COLOR = "backgroundColor";
+	private static final String BACKGROUND = "background";
 	private static final String ON_FOCUS_CHANGE = "onFocusChange";
 	private static final String ON_FOCUS = "onFocus";
 	private static final String ON_FOCUS_LOST = "onFocusLost";
@@ -53,6 +55,11 @@ public class ViewAttributeProvider implements BindingAttributeProvider<View>
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(ENABLED);
 			bindingAttributeResolver.resolveAttribute(ENABLED, new EnabledAttribute(view, attributeValue, preInitializeView));
+		}
+		if(bindingAttributeResolver.hasAttribute(BACKGROUND))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(BACKGROUND);
+			bindingAttributeResolver.resolveAttribute(BACKGROUND, new BackgroundAttribute(view, attributeValue, preInitializeView));
 		}
 		if (bindingAttributeResolver.hasAttribute(BACKGROUND_COLOR))
 		{

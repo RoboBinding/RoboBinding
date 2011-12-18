@@ -23,7 +23,7 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-class ResourceBindingDetails
+public class ResourceBindingDetails
 {
 	private final String resourceName;
 	private final String resourceType;

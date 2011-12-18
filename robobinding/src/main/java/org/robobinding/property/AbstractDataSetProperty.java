@@ -29,20 +29,21 @@ import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object>
+abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> implements DataSetProperty<T>
 {
 	private ItemPresentationModelFactory<T> factory;
+	private ObservableBean observableBean;
 
-	protected AbstractDataSetProperty(Object bean, PropertyAccessor<Object> propertyAccessor)
+	protected AbstractDataSetProperty(ObservableBean observableBean, PropertyAccessor<Object> propertyAccessor)
 	{
-		super(bean, propertyAccessor);
+		super(observableBean, propertyAccessor);
 		
 		initializeFactory();
 	}
 	
 	private void initializeFactory()
 	{
-		org.robobinding.ItemPresentationModel annotation = propertyAccessor.getAnnotation(org.robobinding.ItemPresentationModel.class);
+		org.robobinding.ItemPresentationModel annotation = getPropertyAccessor().getAnnotation(org.robobinding.ItemPresentationModel.class);
 		@SuppressWarnings("unchecked")
 		Class<? extends ItemPresentationModel<T>> itemPresentationModelClass = (Class<? extends ItemPresentationModel<T>>)annotation.value();
 		String factoryMethod = annotation.factoryMethod();
@@ -51,7 +52,7 @@ public abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object
 			factory = new DefaultConstructorImpl<T>(itemPresentationModelClass);
 		}else
 		{
-			factory = new FactoryMethodImpl<T>(bean, itemPresentationModelClass, factoryMethod);
+			factory = new FactoryMethodImpl<T>(observableBean, itemPresentationModelClass, factoryMethod);
 		}
 	}
 
@@ -60,8 +61,6 @@ public abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object
 	{
 		throw new UnsupportedOperationException();
 	}
-	public abstract int size();
-	public abstract T getItem(int position);
 	
 	public ItemPresentationModel<T> newItemPresentationModel()
 	{

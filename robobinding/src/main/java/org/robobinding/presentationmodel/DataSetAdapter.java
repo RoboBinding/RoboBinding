@@ -19,7 +19,7 @@ import org.robobinding.binding.RowBinder;
 import org.robobinding.binding.viewattribute.DropdownMappingAttribute;
 import org.robobinding.binding.viewattribute.ItemMappingAttribute;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
-import org.robobinding.property.AbstractDataSetProperty;
+import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 
 import android.content.Context;
@@ -37,7 +37,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 {
 	private enum ViewType {ITEM_LAYOUT, DROPDOWN_LAYOUT}
 	
-	private AbstractDataSetProperty<T> dataSetValueModel;
+	private DataSetProperty<T> dataSetValueModel;
 	private final RowBinder rowBinder;
 	
 	public DataSetAdapter(Context context)
@@ -56,7 +56,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 		});
 	}
 
-	public void setValueModel(AbstractDataSetProperty<T> valueModel)
+	public void setValueModel(DataSetProperty<T> valueModel)
 	{
 		this.dataSetValueModel = valueModel;
 	}

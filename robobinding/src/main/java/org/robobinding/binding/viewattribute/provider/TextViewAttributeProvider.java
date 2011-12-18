@@ -16,8 +16,10 @@
 package org.robobinding.binding.viewattribute.provider;
 
 import org.robobinding.binding.BindingAttributeResolver;
+import org.robobinding.binding.ViewAttribute;
 import org.robobinding.binding.viewattribute.PropertyBindingDetails;
 import org.robobinding.binding.viewattribute.TextAttribute;
+import org.robobinding.binding.viewattribute.TextColorAttribute;
 import org.robobinding.binding.viewattribute.ValueCommitMode;
 
 import android.widget.TextView;
@@ -33,6 +35,7 @@ public class TextViewAttributeProvider implements BindingAttributeProvider<TextV
 	private static final String TEXT = "text";
 	private static final String VALUE_COMMIT_MODE = "valueCommitMode";
 	private static final String[] TEXT_ATTRIBUTE_NAMES = {TEXT, VALUE_COMMIT_MODE};
+	private static final String TEXT_COLOR = "textColor";
 	@Override
 	public void resolveSupportedBindingAttributes(TextView textView, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
 	{
@@ -42,6 +45,11 @@ public class TextViewAttributeProvider implements BindingAttributeProvider<TextV
 			textAttributeBuilder.setTextAttributeValue(bindingAttributeResolver.findAttributeValue(TEXT));
 			textAttributeBuilder.setValueCommitModeAttributeValue(bindingAttributeResolver.findAttributeValue(VALUE_COMMIT_MODE));
 			bindingAttributeResolver.resolveAttributes(TEXT_ATTRIBUTE_NAMES, textAttributeBuilder.create(textView));
+		}
+		if(bindingAttributeResolver.hasAttribute(TEXT_COLOR))
+		{
+			ViewAttribute viewAttribute = new TextColorAttribute(textView, bindingAttributeResolver.findAttributeValue(TEXT_COLOR), preInitializeView);
+			bindingAttributeResolver.resolveAttribute(TEXT_COLOR, viewAttribute);
 		}
 	}
 

@@ -24,6 +24,7 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.view.LayoutInflater.Factory;
 import android.view.View;
 
@@ -74,12 +75,19 @@ public class BindingViewFactory implements Factory
 		return new InflatedView(rootView, childViewBindingAttributes);
 	}
 	
+	InflatedView inflateViewAndAttachToRoot(int resourceId, ViewGroup viewGroup)
+	{
+		childViewBindingAttributes = Lists.newArrayList();
+		View rootView = layoutInflater.inflate(resourceId, viewGroup, true);
+		return new InflatedView(rootView, childViewBindingAttributes);
+	}
+	
 	List<ViewBindingAttributes> getChildViewBindingAttributes()
 	{
 		return childViewBindingAttributes;
 	}
 	
-	static class InflatedView
+	public static class InflatedView
 	{
 		private View rootView;
 		private List<ViewBindingAttributes> childViewBindingAttributes;
@@ -90,7 +98,7 @@ public class BindingViewFactory implements Factory
 			this.childViewBindingAttributes = childViewBindingAttributes;
 		}
 
-		View getRootView()
+		public View getRootView()
 		{
 			return rootView;
 		}

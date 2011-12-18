@@ -15,12 +15,10 @@
  */
 package org.robobinding.binding.viewattribute.provider;
 
+import org.robobinding.binding.BindingAttributeResolver;
 import org.robobinding.binding.viewattribute.CheckedAttribute;
-import org.robobinding.binding.viewattribute.provider.BindingAttributeProvider;
-import org.robobinding.binding.viewattribute.provider.CheckBoxAttributeProvider;
 
-
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 /**
  *
@@ -28,23 +26,16 @@ import android.widget.CheckBox;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckBoxAttributeProviderTest extends AbstractBindingAttributeProviderTest<CheckBox>
+public class CompoundButtonAttributeProvider implements BindingAttributeProvider<CompoundButton>
 {
+	private static final String CHECKED = "checked";
 	@Override
-	protected BindingAttributeProvider<CheckBox> getBindingAttributeProvider()
+	public void resolveSupportedBindingAttributes(CompoundButton compoundButton, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
 	{
-		return new CheckBoxAttributeProvider();
-	}
-
-	@Override
-	protected CheckBox createNewViewInstance()
-	{
-		return new CheckBox(null);
-	}
-
-	@Override
-	protected void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings)
-	{
-		attributeClassMappings.add("checked", CheckedAttribute.class);
+		if (bindingAttributeResolver.hasAttribute("checked"))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(CHECKED);
+			bindingAttributeResolver.resolveAttribute(CHECKED, new CheckedAttribute(compoundButton, attributeValue, preInitializeView));
+		}
 	}
 }

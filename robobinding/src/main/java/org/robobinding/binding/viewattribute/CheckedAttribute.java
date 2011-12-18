@@ -17,7 +17,6 @@ package org.robobinding.binding.viewattribute;
 
 import org.robobinding.property.PropertyValueModel;
 
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
@@ -29,28 +28,34 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  */
 public class CheckedAttribute extends AbstractPropertyViewAttribute<Boolean>
 {
-	private final CheckBox checkBox;
+	private final CompoundButton compoundButton;
+	private boolean updatedProgrammatically;
 
-	public CheckedAttribute(CheckBox checkBox, String attributeValue, boolean preInitializeView)
+	public CheckedAttribute(CompoundButton compoundButton, String attributeValue, boolean preInitializeView)
 	{
 		super(attributeValue, preInitializeView);
-		this.checkBox = checkBox;
+		this.compoundButton = compoundButton;
 	}
 
 	@Override
 	protected void valueModelUpdated(Boolean newValue)
 	{
-		checkBox.setChecked(newValue);
+		updatedProgrammatically = true;
+		compoundButton.setChecked(newValue);
+		updatedProgrammatically = false;
 	}
 
 	@Override
 	protected void observeChangesOnTheView(final PropertyValueModel<Boolean> valueModel)
 	{
-		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		compoundButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
-				valueModel.setValue(isChecked);
+				if(!updatedProgrammatically)
+				{
+					valueModel.setValue(isChecked);
+				}
 			}
 		});
 	}

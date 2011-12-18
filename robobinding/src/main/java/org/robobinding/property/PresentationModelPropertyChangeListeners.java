@@ -28,7 +28,7 @@ import org.robobinding.internal.org_apache_commons_lang3.Validate;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PresentationModelPropertyChangeListeners implements Iterable<PresentationModelPropertyChangeListener>
+class PresentationModelPropertyChangeListeners implements Iterable<PresentationModelPropertyChangeListener>
 {
 	private List<PresentationModelPropertyChangeListener> listeners;
 	public PresentationModelPropertyChangeListeners()

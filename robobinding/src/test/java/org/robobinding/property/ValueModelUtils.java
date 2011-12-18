@@ -1,10 +1,5 @@
 package org.robobinding.property;
 
-import org.robobinding.property.AbstractDataSetProperty;
-import org.robobinding.property.PresentationModelPropertyChangeListener;
-import org.robobinding.property.PresentationModelPropertyChangeSupport;
-import org.robobinding.property.PropertyCreator;
-import org.robobinding.property.PropertyValueModel;
 
 /**
  * @since 1.0
@@ -93,7 +88,7 @@ public class ValueModelUtils
 			super(o);
 		}
 	}
-	public static AbstractDataSetProperty<Object> createDataSetValueModel(Object presentationModel, String propertyName)
+	public static DataSetProperty<Object> createDataSetValueModel(Object presentationModel, String propertyName)
 	{
 		return new PropertyCreator(presentationModel).createDataSetProperty(propertyName);
 	}

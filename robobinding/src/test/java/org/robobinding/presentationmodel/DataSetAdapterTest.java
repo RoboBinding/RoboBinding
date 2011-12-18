@@ -28,9 +28,7 @@ import org.junit.runner.RunWith;
 import org.robobinding.ItemPresentationModel;
 import org.robobinding.R;
 import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.presentationmodel.AbstractPresentationModel;
-import org.robobinding.presentationmodel.DataSetAdapter;
-import org.robobinding.property.AbstractDataSetProperty;
+import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.ValueModelUtils;
 
 import android.app.Activity;
@@ -57,7 +55,7 @@ public class DataSetAdapterTest
 	{
 		dataSetAdapterSpy = new DataSetAdapterSpy(context);
 		mockPresentationModel = new MockPresentationModel();
-		AbstractDataSetProperty<Object> dataSetProperty = ValueModelUtils.createDataSetValueModel(mockPresentationModel, "list");
+		DataSetProperty<Object> dataSetProperty = ValueModelUtils.createDataSetValueModel(mockPresentationModel, "list");
 		dataSetAdapterSpy.setValueModel(dataSetProperty);
 	}
 	

@@ -28,7 +28,7 @@ import org.robobinding.property.PresentationModelPropertyChangeSupport;
  * @author Cheng Wei
  *
  */
-public class ObservableBean extends Bean implements ObservableProperties
+public class ObservableTestBean extends Bean implements ObservableProperties
 {
 	public static final String PROPERTY_WITH_VALID_DEPENDENT_PROPERTIES = "propertyWithValidDependentProperties";
 	public static final String DEPENDENT_PROPERTY = "dependentProperty";
@@ -37,7 +37,7 @@ public class ObservableBean extends Bean implements ObservableProperties
 	public static final String PROPERTY_DEPENDING_ON_SELF = "propertyDependingOnSelf";
 	
 	private PresentationModelPropertyChangeSupport propertyChangeSupport;
-	public ObservableBean()
+	public ObservableTestBean()
 	{
 		propertyChangeSupport = new PresentationModelPropertyChangeSupport(this);
 	}

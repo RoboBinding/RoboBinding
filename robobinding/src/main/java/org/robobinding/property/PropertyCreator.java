@@ -34,56 +34,82 @@ import org.robobinding.itempresentationmodel.TypedCursor;
  */
 class PropertyCreator
 {
-	private final Object bean;
+	private final ObservableBean observableBean;
 	private Map<String, PropertyDescriptor> availableProperties;
 	public PropertyCreator(Object bean)
 	{
-		this.bean = bean;
+		this.observableBean = new ObservableBean(bean);
 		initializeAvailablePropertyNames();
 	}
 	private void initializeAvailablePropertyNames()
 	{
 		availableProperties = Maps.newHashMap();
 
-		List<PropertyDescriptor> propertyDescriptors = PropertyUtils.getPropertyDescriptors(bean.getClass());
+		List<PropertyDescriptor> propertyDescriptors = PropertyUtils.getPropertyDescriptors(observableBean.getBeanClass());
 		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) 
 		{
 			availableProperties.put(propertyDescriptor.getName(), propertyDescriptor);
 		}
 	}
-	public <T> AbstractProperty<T> createProperty(String propertyName)
+	public <T> Property<T> createProperty(String propertyName)
 	{
 		PropertyAccessor<T> propertyAccessor = getPropertyAccessor(propertyName);
-		AbstractProperty<T> property = null;
+		Property<T> property = new SimpleProperty<T>(observableBean, propertyAccessor);
+		
+		return convertAsDependencyPropertyIfNeccessary(property);
+	}
+	
+	private <T> Property<T> convertAsDependencyPropertyIfNeccessary(Property<T> property)
+	{
+		PropertyAccessor<T> propertyAccessor = property.getPropertyAccessor();
 		if(propertyAccessor.hasAnnotation(DependsOnStateOf.class))
 		{
-			property = new DependencyProperty<T>(bean, propertyAccessor, availableProperties.keySet());
-		}else
-		{
-			property = new SimpleProperty<T>(bean, propertyAccessor);
+			Dependency dependency = createDependency(propertyAccessor);
+			return new DependencyProperty<T>(property, dependency);
 		}
 		return property;
 	}
-	public <T> AbstractDataSetProperty<T> createDataSetProperty(String propertyName)
+	
+	private Dependency createDependency(PropertyAccessor<?> propertyAccessor)
+	{
+		return new Dependency(observableBean, propertyAccessor, availableProperties.keySet());
+	}
+	
+	public <T> DataSetProperty<T> createDataSetProperty(String propertyName)
 	{
 		PropertyAccessor<Object> propertyAccessor = getPropertyAccessor(propertyName);
 		if(propertyAccessor.hasAnnotation(ItemPresentationModel.class))
 		{
+			DataSetProperty<T> dataSetProperty = null;
 			if(List.class.isAssignableFrom(propertyAccessor.getPropertyType()))
 			{
-				return new ListDataSetProperty<T>(bean, propertyAccessor);
+				dataSetProperty = new ListDataSetProperty<T>(observableBean, propertyAccessor);
 			}else if(TypedCursor.class.isAssignableFrom(propertyAccessor.getPropertyType()))
 			{
-				return new CursorDataSetProperty<T>(bean, propertyAccessor);
+				dataSetProperty = new CursorDataSetProperty<T>(observableBean, propertyAccessor);
 			}else
 			{
 				throw new RuntimeException("The property '"+describeProperty(propertyName)+"' has an unsupported dataset type '"+propertyAccessor.getPropertyType()+"'");
 			}
+			
+			return convertAsDataSetDependencyPropertyIfNeccessary(dataSetProperty);
 		}else
 		{
 			throw new RuntimeException("The property '"+describeProperty(propertyName)+"' that provides the dataset is missing the @ItemPresentationModel annotation");
 		}
 	}
+	
+	private <T> DataSetProperty<T> convertAsDataSetDependencyPropertyIfNeccessary(DataSetProperty<T> dataSetProperty)
+	{
+		PropertyAccessor<Object> propertyAccessor = dataSetProperty.getPropertyAccessor();
+		if(propertyAccessor.hasAnnotation(DependsOnStateOf.class))
+		{
+			Dependency dependency = createDependency(propertyAccessor);
+			return new DataSetDependencyProperty<T>(dataSetProperty, dependency);
+		}
+		return dataSetProperty;
+	}
+	
 	private <T> PropertyAccessor<T> getPropertyAccessor(String propertyName)
 	{
 		PropertyDescriptor propertyDescriptor = availableProperties.get(propertyName);
@@ -91,11 +117,11 @@ class PropertyCreator
 		{
 			throw new RuntimeException("The property '"+describeProperty(propertyName)+"' does not exist");
 		}
-		return new PropertyAccessor<T>(propertyDescriptor, bean.getClass());
+		return new PropertyAccessor<T>(propertyDescriptor, observableBean.getBeanClass());
 	}
 	private String describeProperty(String propertyName)
 	{
-		String beanClassName = bean.getClass().getName();
+		String beanClassName = observableBean.getBeanClassName();
 		return beanClassName+"."+propertyName;
 	}
 }

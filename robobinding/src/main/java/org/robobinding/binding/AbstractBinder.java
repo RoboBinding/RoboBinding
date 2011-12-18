@@ -20,6 +20,7 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 /**
  * 
@@ -50,6 +51,16 @@ public abstract class AbstractBinder
 		ensureBindingFactoryInitialized();
 		
 		InflatedView inflatedView = bindingViewFactory.inflateView(layoutId, context);
+		inflatedView.bindChildViews(presentationModelAdapter, context);
+		
+		return inflatedView;
+	}
+	
+	protected InflatedView inflateAndBind_attachToRoot(int layoutId, PresentationModelAdapter presentationModelAdapter, ViewGroup viewGroup)
+	{
+		ensureBindingFactoryInitialized();
+		
+		InflatedView inflatedView = bindingViewFactory.inflateViewAndAttachToRoot(layoutId, viewGroup);
 		inflatedView.bindChildViews(presentationModelAdapter, context);
 		
 		return inflatedView;

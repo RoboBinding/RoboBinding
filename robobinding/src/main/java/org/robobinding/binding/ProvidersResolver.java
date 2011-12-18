@@ -18,9 +18,10 @@ package org.robobinding.binding;
 import java.util.Map;
 import java.util.Queue;
 
+import org.robobinding.binding.customwidget.CustomWidgetUtils;
 import org.robobinding.binding.viewattribute.provider.AdapterViewAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.BindingAttributeProvider;
-import org.robobinding.binding.viewattribute.provider.CheckBoxAttributeProvider;
+import org.robobinding.binding.viewattribute.provider.CompoundButtonAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.TextViewAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.ViewAttributeProvider;
 import org.robobinding.internal.com_google_common.collect.Lists;
@@ -28,7 +29,7 @@ import org.robobinding.internal.com_google_common.collect.Maps;
 
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 
@@ -49,18 +50,16 @@ public class ProvidersResolver
 		viewAttributeProviderMap.put(View.class, new ViewAttributeProvider());
 		viewAttributeProviderMap.put(TextView.class, new TextViewAttributeProvider());
 		viewAttributeProviderMap.put(AdapterView.class, new AdapterViewAttributeProvider());
-		viewAttributeProviderMap.put(CheckBox.class, new CheckBoxAttributeProvider());
+		viewAttributeProviderMap.put(CompoundButton.class, new CompoundButtonAttributeProvider());
 	}
 	
 	public Queue<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)
 	{
 		Queue<BindingAttributeProvider<? extends View>> candidateProviders = Lists.newLinkedList();
 		
-		if (view instanceof BindingAttributeProvider)
+		if (CustomWidgetUtils.isCustomWidget(view))
 		{
-			@SuppressWarnings("unchecked")
-			BindingAttributeProvider<? extends View> customViewAttributeProvider = (BindingAttributeProvider<? extends View>)view;
-			candidateProviders.add(customViewAttributeProvider);
+			candidateProviders.add(CustomWidgetUtils.getBindingAttributeProvider(view));
 		}
 				
 		processViewHierarchy(view.getClass(), candidateProviders);

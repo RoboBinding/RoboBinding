@@ -19,8 +19,6 @@ package org.robobinding.property;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.property.AbstractProperty;
-import org.robobinding.property.CachedProperties;
 
 /**
  *
@@ -39,18 +37,18 @@ public class CachedPropertiesTest
 	@Test
 	public void givenGetReadOnlyPropertyOnce_whenGetReadOnlyPropertyAgain_thenReturnSameInstance()
 	{
-		AbstractProperty<Boolean> property = cachedProperties.getReadOnlyProperty(Bean.READ_ONLY_PROPERTY);
+		Property<Boolean> property = cachedProperties.getReadOnlyProperty(Bean.READ_ONLY_PROPERTY);
 		
-		AbstractProperty<Boolean> cachedProperty = cachedProperties.getReadOnlyProperty(Bean.READ_ONLY_PROPERTY);
+		Property<Boolean> cachedProperty = cachedProperties.getReadOnlyProperty(Bean.READ_ONLY_PROPERTY);
 		
 		Assert.assertTrue(property == cachedProperty);
 	}
 	@Test
 	public void givenAccessReadWritePropertyUsingGetReadOnlyPropertyAtFirst_whenAccessUsingGetReadWritePropertyLater_thenReturnSameInstance()
 	{
-		AbstractProperty<Boolean> propertyUsingGetReadOnlyProperty = cachedProperties.getReadOnlyProperty(Bean.READ_WRITE_PROPERTY);
+		Property<Boolean> propertyUsingGetReadOnlyProperty = cachedProperties.getReadOnlyProperty(Bean.READ_WRITE_PROPERTY);
 		
-		AbstractProperty<Boolean> propertyUsingGetReadWriteProperty = cachedProperties.getReadWriteProperty(Bean.READ_WRITE_PROPERTY);
+		Property<Boolean> propertyUsingGetReadWriteProperty = cachedProperties.getReadWriteProperty(Bean.READ_WRITE_PROPERTY);
 		
 		Assert.assertTrue(propertyUsingGetReadOnlyProperty == propertyUsingGetReadWriteProperty);
 	}

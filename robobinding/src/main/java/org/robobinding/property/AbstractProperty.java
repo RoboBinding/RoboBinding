@@ -15,72 +15,70 @@
  */
 package org.robobinding.property;
 
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractProperty<T> implements PropertyValueModel<T>
+abstract class AbstractProperty<T> implements Property<T>
 {
-	protected final Object bean;
-	protected final PropertyAccessor<T> propertyAccessor;
-	protected AbstractProperty(Object bean, PropertyAccessor<T> propertyAccessor)
+	protected final ObservableBean observableBean;
+	private final PropertyAccessor<T> propertyAccessor;
+
+	protected AbstractProperty(ObservableBean observableBean, PropertyAccessor<T> propertyAccessor)
 	{
-		this.bean = bean;
+		this.observableBean = observableBean;
 		this.propertyAccessor = propertyAccessor;
 	}
+
 	@Override
 	public T getValue()
 	{
-		return propertyAccessor.getValue(bean);
+		return propertyAccessor.getValue(observableBean);
 	}
+
 	@Override
 	public void setValue(T newValue)
 	{
-		propertyAccessor.setValue(bean, newValue);
+		propertyAccessor.setValue(observableBean, newValue);
 	}
+
 	@Override
 	public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener)
 	{
-		ObservableProperties observableBean = getObservableBean();
 		observableBean.addPropertyChangeListener(propertyAccessor.getPropertyName(), listener);
 	}
 
 	@Override
 	public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener)
 	{
-		if(isObservableBean())
+		if (observableBean.isObservable())
 		{
-			ObservableProperties observableBean = getObservableBean();
 			observableBean.removePropertyChangeListener(propertyAccessor.getPropertyName(), listener);
 		}
 	}
-	protected boolean isObservableBean()
-	{
-		return bean instanceof ObservableProperties;
-	}
-	protected ObservableProperties getObservableBean()
-	{
-		if(bean instanceof ObservableProperties)
-		{
-			return (ObservableProperties)bean;
-		}
-		throw new RuntimeException("The property changes of '"+bean.getClass().getName()+"' can not be observed, as it is not a subclass of 'ObservableProperties'");
-	}
+
 	public Class<?> getPropertyType()
 	{
 		return propertyAccessor.getPropertyType();
 	}
+
 	public void checkReadWriteProperty(boolean isReadWriteProperty)
 	{
 		propertyAccessor.checkReadable();
-		if(isReadWriteProperty)
+		if (isReadWriteProperty)
 		{
 			propertyAccessor.checkWritable();
 		}
 	}
+
+	@Override
+	public PropertyAccessor<T> getPropertyAccessor()
+	{
+		return propertyAccessor;
+	}
+	
 	@Override
 	public String toString()
 	{

@@ -33,10 +33,10 @@ public class BackgroundAttribute implements PropertyViewAttribute
 	private final View view;
 	private final PropertyBindingDetails propertyBindingDetails;
 
-	public BackgroundAttribute(View view, PropertyBindingDetails propertyBindingDetails)
+	public BackgroundAttribute(View view, String attributeValue, boolean preInitializeView)
 	{
 		this.view = view;
-		this.propertyBindingDetails = propertyBindingDetails;
+		propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue, preInitializeView);
 	}
 
 	@Override

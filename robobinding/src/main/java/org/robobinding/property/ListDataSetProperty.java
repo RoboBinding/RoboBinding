@@ -26,15 +26,19 @@ import java.util.List;
  * @author Cheng Wei
  *
  */
-public class ListDataSetProperty<T> extends AbstractDataSetProperty<T>
+class ListDataSetProperty<T> extends AbstractDataSetProperty<T>
 {
-	public ListDataSetProperty(Object bean, PropertyAccessor<Object> propertyAccessor)
+	public ListDataSetProperty(ObservableBean observableBean, PropertyAccessor<Object> propertyAccessor)
 	{
-		super(bean, propertyAccessor);
+		super(observableBean, propertyAccessor);
 	}
 	@Override
 	public int size()
 	{
+		if(getData() == null)
+		{
+			return 0;
+		}
 		return getData().size();
 	}
 	@Override

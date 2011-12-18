@@ -31,7 +31,7 @@ import org.robobinding.internal.com_google_common.collect.Maps;
 public class CachedProperties implements Properties
 {
 	private PropertyCreator propertyCreator;
-	private Map<String, AbstractProperty<?>> propertyCache;
+	private Map<String, Property<?>> propertyCache;
 	public CachedProperties(Object bean)
 	{
 		propertyCreator = new PropertyCreator(bean);
@@ -41,26 +41,26 @@ public class CachedProperties implements Properties
 	@Override
 	public Class<?> getPropertyType(String propertyName)
 	{
-		AbstractProperty<?> property = getReadOnlyProperty(propertyName);
+		Property<?> property = getReadOnlyProperty(propertyName);
 		return property.getPropertyType();
 	}
 
 	@Override
-	public <T> AbstractProperty<T> getReadWriteProperty(String propertyName)
+	public <T> Property<T> getReadWriteProperty(String propertyName)
 	{
 		return getProperty(propertyName, true);
 	}
 
 	@Override
-	public <T> AbstractProperty<T> getReadOnlyProperty(String propertyName)
+	public <T> Property<T> getReadOnlyProperty(String propertyName)
 	{
 		return getProperty(propertyName, false);
 	}
 
-	private <T> AbstractProperty<T> getProperty(String propertyName, boolean isReadWriteProperty)
+	private <T> Property<T> getProperty(String propertyName, boolean isReadWriteProperty)
 	{
 		@SuppressWarnings("unchecked")
-		AbstractProperty<T> property = (AbstractProperty<T>)propertyCache.get(propertyName);
+		Property<T> property = (Property<T>)propertyCache.get(propertyName);
 		if(property == null)
 		{
 			property = propertyCreator.createProperty(propertyName);
@@ -71,10 +71,10 @@ public class CachedProperties implements Properties
 	}
 
 	@Override
-	public <T> AbstractDataSetProperty<T> getReadOnlyDataSetProperty(String propertyName)
+	public <T> DataSetProperty<T> getReadOnlyDataSetProperty(String propertyName)
 	{
 		@SuppressWarnings("unchecked")
-		AbstractDataSetProperty<T> property = (AbstractDataSetProperty<T>)propertyCache.get(propertyName);
+		DataSetProperty<T> property = (DataSetProperty<T>)propertyCache.get(propertyName);
 		if(property == null)
 		{
 			property = propertyCreator.createDataSetProperty(propertyName);

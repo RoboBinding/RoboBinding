@@ -25,16 +25,20 @@ import org.robobinding.itempresentationmodel.TypedCursor;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class CursorDataSetProperty<T> extends AbstractDataSetProperty<T>
+class CursorDataSetProperty<T> extends AbstractDataSetProperty<T>
 {
-	public CursorDataSetProperty(Object bean, PropertyAccessor<Object> propertyAccessor)
+	public CursorDataSetProperty(ObservableBean observableBean, PropertyAccessor<Object> propertyAccessor)
 	{
-		super(bean, propertyAccessor);
+		super(observableBean, propertyAccessor);
 	}
 	@Override
 	public int size()
 	{
 		TypedCursor<T> cursor = getCursor();
+		if(cursor == null)
+		{
+			return 0;
+		}
 		return cursor.getCount();
 	}
 	@Override
