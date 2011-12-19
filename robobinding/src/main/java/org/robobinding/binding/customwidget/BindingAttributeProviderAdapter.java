@@ -48,12 +48,12 @@ class BindingAttributeProviderAdapter implements BindingAttributeProvider<View>
 		if(customWidget instanceof BindableView)
 		{
 			BindableView bindableView = (BindableView)customWidget;
-			Collection<String> supportedAttributes = bindableView.getSupportedAttributes();
+			String[] supportedAttributes = bindableView.getSupportedAttributes();
 			for(String supportedAttribute : supportedAttributes)
 			{
 				if(bindingAttributeResolver.hasAttribute(supportedAttribute))
 				{
-					ViewAttribute viewAttribute = bindableView.resolveAttribute(
+					ViewAttribute viewAttribute = bindableView.createViewAttribute(
 							new Attribute(supportedAttribute, bindingAttributeResolver.findAttributeValue(supportedAttribute)));
 					bindingAttributeResolver.resolveAttribute(supportedAttribute, viewAttribute);
 				}
@@ -62,8 +62,8 @@ class BindingAttributeProviderAdapter implements BindingAttributeProvider<View>
 		if(customWidget instanceof BindableViewWithGroupedAttributes)
 		{
 			BindableViewWithGroupedAttributes bindableViewWithGroupedAttributes = (BindableViewWithGroupedAttributes)customWidget;
-			Collection<GroupedAttributeSpec> groupedAttributeSpecs = bindableViewWithGroupedAttributes.getSupportedGroupedAttributes();
-			for(GroupedAttributeSpec groupedAttributeSpec : groupedAttributeSpecs)
+			GroupedAttribute[] groupedAttributeSpecs = bindableViewWithGroupedAttributes.getSupportedGroupedAttributes();
+			for(GroupedAttribute groupedAttributeSpec : groupedAttributeSpecs)
 			{
 				List<String> attributes = Lists.newArrayList(groupedAttributeSpec.getCompulsoryAttributes());
 				attributes.addAll(groupedAttributeSpec.getOptionalAttributes());
@@ -103,7 +103,7 @@ class BindingAttributeProviderAdapter implements BindingAttributeProvider<View>
 					}
 				}
 				
-				ViewAttribute viewAttribute = bindableViewWithGroupedAttributes.resolveGroupedAttribute(groupedAttributes);
+				ViewAttribute viewAttribute = bindableViewWithGroupedAttributes.createGroupedAttribute(groupedAttributes);
 				bindingAttributeResolver.resolveAttributes(groupedAttributes.keySet().toArray(new String[0]), viewAttribute);
 			}
 		}
