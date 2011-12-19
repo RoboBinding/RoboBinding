@@ -41,7 +41,7 @@ abstract class AbstractProperty<T> implements Property<T>
 	@Override
 	public void setValue(T newValue)
 	{
-		propertyAccessor.setValue(observableBean, newValue);
+		propertyAccessor.setValue(observableBean.getBean(), newValue);
 	}
 
 	@Override
