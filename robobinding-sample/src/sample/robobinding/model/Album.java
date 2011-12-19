@@ -180,6 +180,10 @@ public class Album
 		{
 			return id == NO_ID;
 		}
+		public Genre getGenre()
+		{
+			return genre;
+		}
 		public void setGenre(Genre genre) 
 		{
 			this.genre = genre;
@@ -187,7 +191,7 @@ public class Album
 		public Album create()
 		{
 			return new Album(this);
-		}		
+		}
 	}
 
 }

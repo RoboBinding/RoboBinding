@@ -16,10 +16,12 @@
 package sample.robobinding.presentationmodel;
 
 import org.robobinding.DependsOnStateOf;
+import org.robobinding.binding.viewattribute.SeekBarEvent;
 import org.robobinding.presentationmodelaspects.PresentationModel;
 
 import sample.robobinding.R;
 import sample.robobinding.model.Album;
+import sample.robobinding.model.Genre;
 import sample.robobinding.store.AlbumStore;
 import android.app.Activity;
 
@@ -107,6 +109,38 @@ public class CreateEditAlbumPresentationModel
 		albumBuilder.setComposer(composer);
 	}
 
+	public void setGenre(Genre genre)
+	{
+		albumBuilder.setGenre(genre);
+	}
+	
+	public void setGenreIndex(int genreIndex)
+	{
+		
+	}
+	
+	public int getGenreIndex()
+	{
+		return 0;
+	}
+	
+	@DependsOnStateOf("genre")
+	public int getGenreIcon()
+	{
+		return R.drawable.icon;
+	}
+	
+	@DependsOnStateOf("genre")
+	public String getGenreLabel()
+	{
+		return albumBuilder.getGenre().getLabel();
+	}
+	
+	public void genreSelected(SeekBarEvent event)
+	{
+		setGenre(Genre.values()[event.getProgress()]);
+	}
+	
 	@DependsOnStateOf(CLASSICAL)
 	public String getWindowTitle()
 	{
