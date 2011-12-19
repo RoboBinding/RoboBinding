@@ -22,6 +22,9 @@ import org.robobinding.binding.customwidget.CustomWidgetUtils;
 import org.robobinding.binding.viewattribute.provider.AdapterViewAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.BindingAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.CompoundButtonAttributeProvider;
+import org.robobinding.binding.viewattribute.provider.ImageViewAttributeProvider;
+import org.robobinding.binding.viewattribute.provider.ProgressBarAttributeProvider;
+import org.robobinding.binding.viewattribute.provider.SeekBarAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.TextViewAttributeProvider;
 import org.robobinding.binding.viewattribute.provider.ViewAttributeProvider;
 import org.robobinding.internal.com_google_common.collect.Lists;
@@ -30,8 +33,10 @@ import org.robobinding.internal.com_google_common.collect.Maps;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
-
 
 /**
  * 
@@ -51,6 +56,9 @@ public class ProvidersResolver
 		viewAttributeProviderMap.put(TextView.class, new TextViewAttributeProvider());
 		viewAttributeProviderMap.put(AdapterView.class, new AdapterViewAttributeProvider());
 		viewAttributeProviderMap.put(CompoundButton.class, new CompoundButtonAttributeProvider());
+		viewAttributeProviderMap.put(ImageView.class, new ImageViewAttributeProvider());
+		viewAttributeProviderMap.put(ProgressBar.class, new ProgressBarAttributeProvider());
+		viewAttributeProviderMap.put(SeekBar.class, new SeekBarAttributeProvider());
 	}
 	
 	public Queue<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)

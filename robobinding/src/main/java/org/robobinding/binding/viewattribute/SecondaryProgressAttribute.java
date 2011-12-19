@@ -13,18 +13,30 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.property;
+package org.robobinding.binding.viewattribute;
+
+import android.widget.ProgressBar;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Cheng Wei
+ * @author Robert Taylor
  */
-class SimpleProperty<T> extends AbstractProperty<T>
+public class SecondaryProgressAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer>
 {
-	public SimpleProperty(ObservableBean observableBean, PropertyAccessor<T> propertyAccessor)
+	private final ProgressBar progressBar;
+
+	public SecondaryProgressAttribute(ProgressBar progressBar, String attributeValue, boolean preInitializeView)
 	{
-		super(observableBean, propertyAccessor);
+		super(attributeValue, preInitializeView);
+		this.progressBar = progressBar;
 	}
+
+	@Override
+	protected void valueModelUpdated(Integer secondaryProgress)
+	{
+		progressBar.setSecondaryProgress(secondaryProgress);
+	}
+
 }

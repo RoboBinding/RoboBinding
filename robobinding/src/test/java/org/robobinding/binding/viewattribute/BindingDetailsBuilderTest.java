@@ -22,12 +22,10 @@ import static org.junit.Assert.assertTrue;
 import static org.robobinding.binding.viewattribute.BindingType.ONE_WAY;
 import static org.robobinding.binding.viewattribute.BindingType.TWO_WAY;
 
-import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.binding.viewattribute.BindingDetailsBuilder;
 
 /**
  *
@@ -53,9 +51,16 @@ public class BindingDetailsBuilderTest
 	};
 	
 	@DataPoints
-	public static String[] illegalAttributeValues = {
-		"{propertyX", "propertyX", "propertyX}", "$${propertyX}", "!{propertyX}"
+	public static IllegalBindingAttributeValue[] illegalAttributeValues = {
+		new IllegalBindingAttributeValue("{propertyX", ErrorMessage.SIMPLE_ERROR_MESSAGE),
+		new IllegalBindingAttributeValue("propertyX", ErrorMessage.SUGGEST_CURLY_BRACES_ERROR_MESSAGE),
+		new IllegalBindingAttributeValue("propertyX}", ErrorMessage.SIMPLE_ERROR_MESSAGE),
+		new IllegalBindingAttributeValue("$${propertyX}", ErrorMessage.SIMPLE_ERROR_MESSAGE),
+		new IllegalBindingAttributeValue("!{propertyX}", ErrorMessage.SIMPLE_ERROR_MESSAGE),
+		new IllegalBindingAttributeValue("{@layout/layoutX}", ErrorMessage.SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES)
 	};
+	
+	public enum ErrorMessage {SIMPLE_ERROR_MESSAGE, SUGGEST_CURLY_BRACES_ERROR_MESSAGE, SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES}
 	
 	@Theory
 	public void givenLegalPropertyAttributeValues(LegalPropertyAttributeValues legalAttributeValues)
@@ -79,10 +84,20 @@ public class BindingDetailsBuilderTest
 	}
 	
 	@Theory
-	@Test (expected=RuntimeException.class)
-	public void whenBindingWithIllegalAttributeValues_ThenThrowARuntimeException(String illegalAttributeValue)
+	public void whenBindingWithIllegalAttributeValues_ThenThrowARuntimeException(IllegalBindingAttributeValue illegalBindingAttributeValue)
 	{
-		new BindingDetailsBuilder(illegalAttributeValue, false);
+		boolean exceptionThrown = false;
+		
+		try
+		{
+			new BindingDetailsBuilder(illegalBindingAttributeValue.value, false);
+		} catch (RuntimeException e)
+		{
+			assertThat(e.getMessage(), equalTo(illegalBindingAttributeValue.getExpectedErrorMessage()));
+			exceptionThrown = true;
+		}
+		
+		assertTrue(exceptionThrown);
 	}
 	
 	static class LegalPropertyAttributeValues
@@ -114,5 +129,32 @@ public class BindingDetailsBuilderTest
 			this.expectedPackage = expectedPackage;
 		}
 
+	}
+	
+	static class IllegalBindingAttributeValue
+	{
+		final String value;
+		final ErrorMessage expectedErrorMessage;
+		
+		public IllegalBindingAttributeValue(String value, ErrorMessage expectedErrorMessage)
+		{
+			this.value = value;
+			this.expectedErrorMessage = expectedErrorMessage;
+		}
+
+		public String getExpectedErrorMessage()
+		{
+			switch (expectedErrorMessage)
+			{
+			case SIMPLE_ERROR_MESSAGE:
+				return "Invalid binding syntax: '" + value + "'.";
+			case SUGGEST_CURLY_BRACES_ERROR_MESSAGE:
+				return "Invalid binding syntax: '" + value + "'.\n\nDid you mean '{" + value + "}' or '${" + value + "}'? (one/two-way binding)\n";
+			case SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES:
+				return "Invalid binding syntax: '" + value + "'.\n\nDid you mean to omit the curly braces? (Curly braces are for binding to a property on the presentation model, not static resources)";
+			}
+			
+			return "";
+		}
 	}
 }

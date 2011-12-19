@@ -26,7 +26,6 @@ import sample.robobinding.model.Album;
 import sample.robobinding.store.AlbumStore;
 import android.app.Activity;
 
-
 /**
  * 
  * @since 1.0
@@ -41,7 +40,7 @@ public class ListBackedViewAlbumsPresentationModel extends AbstractViewAlbumsPre
 		super(activity);
 	}
 	
-	@ItemPresentationModel(value=AlbumItemPresentationModel.class)
+	@ItemPresentationModel(AlbumItemPresentationModel.class)
 	public List<Album> getAlbums()
 	{
 		return Lists.newArrayList(AlbumStore.getAll());

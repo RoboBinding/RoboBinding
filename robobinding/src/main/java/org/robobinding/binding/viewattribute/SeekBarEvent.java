@@ -13,18 +13,41 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.property;
+package org.robobinding.binding.viewattribute;
+
+import android.widget.SeekBar;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Cheng Wei
+ * @author Robert Taylor
  */
-class SimpleProperty<T> extends AbstractProperty<T>
+public class SeekBarEvent
 {
-	public SimpleProperty(ObservableBean observableBean, PropertyAccessor<T> propertyAccessor)
+	private final SeekBar seekBar;
+	private final int progress;
+	private final boolean fromUser;
+
+	public SeekBarEvent(SeekBar seekBar, int progress, boolean fromUser)
 	{
-		super(observableBean, propertyAccessor);
+		this.seekBar = seekBar;
+		this.progress = progress;
+		this.fromUser = fromUser;
+	}
+
+	public SeekBar getSeekBar()
+	{
+		return seekBar;
+	}
+
+	public int getProgress()
+	{
+		return progress;
+	}
+
+	public boolean isFromUser()
+	{
+		return fromUser;
 	}
 }
