@@ -32,12 +32,13 @@ import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
 abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> implements DataSetProperty<T>
 {
 	private ItemPresentationModelFactory<T> factory;
-	private ObservableBean observableBean;
+	private Object bean;
 
 	protected AbstractDataSetProperty(ObservableBean observableBean, PropertyAccessor<Object> propertyAccessor)
 	{
 		super(observableBean, propertyAccessor);
 		
+		this.bean = observableBean.getBean();
 		initializeFactory();
 	}
 	
@@ -52,7 +53,7 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 			factory = new DefaultConstructorImpl<T>(itemPresentationModelClass);
 		}else
 		{
-			factory = new FactoryMethodImpl<T>(observableBean, itemPresentationModelClass, factoryMethod);
+			factory = new FactoryMethodImpl<T>(bean, itemPresentationModelClass, factoryMethod);
 		}
 	}
 

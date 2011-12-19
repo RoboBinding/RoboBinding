@@ -23,7 +23,7 @@ package org.robobinding.property;
  */
 abstract class AbstractProperty<T> implements Property<T>
 {
-	protected final ObservableBean observableBean;
+	private final ObservableBean observableBean;
 	private final PropertyAccessor<T> propertyAccessor;
 
 	protected AbstractProperty(ObservableBean observableBean, PropertyAccessor<T> propertyAccessor)
