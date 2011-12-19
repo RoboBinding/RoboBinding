@@ -16,6 +16,7 @@
 package org.robobinding.binding.viewattribute.provider;
 
 import org.robobinding.binding.BindingAttributeResolver;
+import org.robobinding.binding.viewattribute.MaxAttribute;
 import org.robobinding.binding.viewattribute.ProgressAttribute;
 import org.robobinding.binding.viewattribute.SecondaryProgressAttribute;
 
@@ -31,6 +32,7 @@ public class ProgressBarAttributeProvider implements BindingAttributeProvider<Pr
 {
 	private static final String PROGRESS = "progress";
 	private static final String SECONDARY_PROGRESS = "secondaryProgress";
+	private static final String MAX = "max";
 
 	@Override
 	public void resolveSupportedBindingAttributes(ProgressBar progressBar, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
@@ -44,6 +46,11 @@ public class ProgressBarAttributeProvider implements BindingAttributeProvider<Pr
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(SECONDARY_PROGRESS);
 			bindingAttributeResolver.resolveAttribute(SECONDARY_PROGRESS, new SecondaryProgressAttribute(progressBar, attributeValue, preInitializeViews));
+		}
+		if (bindingAttributeResolver.hasAttribute(MAX))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(MAX);
+			bindingAttributeResolver.resolveAttribute(MAX, new MaxAttribute(progressBar, attributeValue, preInitializeViews));
 		}
 	}
 

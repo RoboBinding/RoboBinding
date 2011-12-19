@@ -15,6 +15,7 @@
  */
 package org.robobinding.binding.viewattribute.provider;
 
+import org.robobinding.binding.viewattribute.MaxAttribute;
 import org.robobinding.binding.viewattribute.ProgressAttribute;
 import org.robobinding.binding.viewattribute.SecondaryProgressAttribute;
 
@@ -44,7 +45,8 @@ public class ProgressBarAttributeProviderTest extends AbstractBindingAttributePr
 	protected void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings)
 	{
 		attributeClassMappings.add("progress", ProgressAttribute.class);
-		attributeClassMappings.add("secondaryProgress", SecondaryProgressAttribute.class);		
+		attributeClassMappings.add("secondaryProgress", SecondaryProgressAttribute.class);
+		attributeClassMappings.add("max", MaxAttribute.class);		
 	}
 	
 }

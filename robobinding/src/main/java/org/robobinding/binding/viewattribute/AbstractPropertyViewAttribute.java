@@ -82,12 +82,23 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 			valueModelUpdated(valueModel.getValue());
 	}
 	
-	protected void observeChangesOnTheValueModel(final PropertyValueModel<T> valueModel)
+	private boolean ignoreNextValueModelUpdate;
+	
+	void observeChangesOnTheValueModel(final PropertyValueModel<T> valueModel)
 	{
 		valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener() {
 			@Override
 			public void propertyChanged()
 			{
+				if (ignoreNextValueModelUpdate)
+				{
+					ignoreNextValueModelUpdate = false;
+					return;
+				}
+				
+				if (propertyBindingDetails.twoWayBinding)
+					ignoreNextValueModelUpdate = true;
+				
 				valueModelUpdated(valueModel.getValue());
 			}
 		});
@@ -115,9 +126,47 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		public void performBind()
 		{
 			PropertyValueModel<T> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
+			valueModel = new PropertyValueModelWrapper(valueModel);
 			initializeView(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);
 		}
+	}
+	
+	class PropertyValueModelWrapper implements PropertyValueModel<T>
+	{
+		private PropertyValueModel<T> propertyValueModel;
+
+		public PropertyValueModelWrapper(PropertyValueModel<T> propertyValueModel)
+		{
+			this.propertyValueModel = propertyValueModel;
+		}
+
+		@Override
+		public T getValue()
+		{
+			return propertyValueModel.getValue();
+		}
+
+		@Override
+		public void setValue(T newValue)
+		{
+			ignoreNextValueModelUpdate = true;
+			propertyValueModel.setValue(newValue);
+			
+		}
+
+		@Override
+		public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener)
+		{
+			propertyValueModel.addPropertyChangeListener(listener);
+		}
+
+		@Override
+		public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener)
+		{
+			propertyValueModel.removePropertyChangeListener(listener);
+		}
+	
 	}
 }

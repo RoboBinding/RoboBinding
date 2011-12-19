@@ -19,6 +19,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Map;
@@ -91,6 +92,9 @@ public abstract class AbstractBindingAttributeProviderTest<T extends View>
 	
 	private BindingAttribute getResolvedBindingAttribute(String attributeName)
 	{
+		if (getResolvedBindingAttributes(attributeName).isEmpty())
+			fail("No binding attributes provided for: " + attributeName);
+			
 		return getResolvedBindingAttributes(attributeName).get(0);
 	}
 	

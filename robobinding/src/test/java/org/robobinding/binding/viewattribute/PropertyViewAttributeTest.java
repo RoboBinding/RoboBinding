@@ -119,7 +119,7 @@ public class PropertyViewAttributeTest
 		}
 		
 		@Override
-		protected void observeChangesOnTheValueModel(PropertyValueModel valueModel)
+		void observeChangesOnTheValueModel(PropertyValueModel valueModel)
 		{
 			if (bindingType != BindingType.TWO_WAY)
 				bindingType = BindingType.ONE_WAY;

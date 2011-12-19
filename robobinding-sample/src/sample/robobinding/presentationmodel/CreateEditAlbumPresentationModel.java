@@ -114,6 +114,11 @@ public class CreateEditAlbumPresentationModel
 		albumBuilder.setGenre(genre);
 	}
 	
+	public int getSliderMax()
+	{
+		return Genre.values().length;
+	}
+	
 	public int getGenreIndex()
 	{
 		return Genre.indexOf(albumBuilder.getGenre());
