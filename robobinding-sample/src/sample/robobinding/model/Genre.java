@@ -46,4 +46,15 @@ public enum Genre
 	{
 		return iconResId;
 	}
+
+    public static int indexOf(Genre genre) {
+        
+        for (int i = 0; i < values().length; i++)
+        {
+            if (values()[i] == genre)
+                return i;
+        }
+        
+        return -1;
+    }
 }

@@ -114,14 +114,9 @@ public class CreateEditAlbumPresentationModel
 		albumBuilder.setGenre(genre);
 	}
 	
-	public void setGenreIndex(int genreIndex)
-	{
-		
-	}
-	
 	public int getGenreIndex()
 	{
-		return 0;
+		return Genre.indexOf(albumBuilder.getGenre());
 	}
 	
 	@DependsOnStateOf("genre")

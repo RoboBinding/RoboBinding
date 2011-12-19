@@ -79,7 +79,7 @@ public class Album
 		builder.setClassical(classical);
 		builder.setComposer(composer);
 		builder.setId(id);
-		builder.setGenre(Genre.UNSPECIFIED);
+		builder.setGenre(genre);
 		return builder;
 	}
 	
@@ -130,7 +130,7 @@ public class Album
 		private String artist;
 		private boolean classical;
 		private String composer;
-		private Genre genre;
+		private Genre genre = Genre.UNSPECIFIED;
 		public long getId()
 		{
 			return id;
