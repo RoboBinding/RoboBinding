@@ -35,7 +35,7 @@ abstract class AbstractProperty<T> implements Property<T>
 	@Override
 	public T getValue()
 	{
-		return propertyAccessor.getValue(observableBean);
+		return propertyAccessor.getValue(observableBean.getBean());
 	}
 
 	@Override

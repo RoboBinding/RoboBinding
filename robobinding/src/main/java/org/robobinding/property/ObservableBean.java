@@ -37,6 +37,11 @@ class ObservableBean implements ObservableProperties
 		return bean instanceof ObservableProperties;
 	}
 
+	public Object getBean()
+	{
+		return bean;
+	}
+	
 	public Class<?> getBeanClass()
 	{
 		return bean.getClass();
@@ -60,7 +65,7 @@ class ObservableBean implements ObservableProperties
 		checkObservable(propertyName);
 		asObservableBean().removePropertyChangeListener(propertyName, listener);
 	}
-
+	
 	private ObservableProperties asObservableBean()
 	{
 		return (ObservableProperties) bean;
