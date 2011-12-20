@@ -47,7 +47,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractBindingAttributeProviderTest<T extends View>
 {
-	private static final String ATTRIBUTE_VALUE = "{attributeValue}";
+	static final String ATTRIBUTE_VALUE = "{attributeValue}";
 	private BindingAttributeProvider<T> bindingAttributeProvider;
 	private T view;
 	
@@ -98,7 +98,7 @@ public abstract class AbstractBindingAttributeProviderTest<T extends View>
 		return getResolvedBindingAttributes(attributeName).get(0);
 	}
 	
-	private BindingAttributeResolver initialiseBindingAttributeResolverFromAttributeName(String attributeName)
+	protected BindingAttributeResolver initialiseBindingAttributeResolverFromAttributeName(String attributeName)
 	{
 		Map<String, String> pendingBindingAttributes = Maps.newHashMap();
 		pendingBindingAttributes.put(attributeName, ATTRIBUTE_VALUE);

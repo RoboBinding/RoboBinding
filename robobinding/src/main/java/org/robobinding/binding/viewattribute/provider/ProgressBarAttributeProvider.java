@@ -21,6 +21,7 @@ import org.robobinding.binding.viewattribute.ProgressAttribute;
 import org.robobinding.binding.viewattribute.SecondaryProgressAttribute;
 
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 
 /**
  *
@@ -37,7 +38,7 @@ public class ProgressBarAttributeProvider implements BindingAttributeProvider<Pr
 	@Override
 	public void resolveSupportedBindingAttributes(ProgressBar progressBar, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
 	{
-		if (bindingAttributeResolver.hasAttribute(PROGRESS))
+		if (bindingAttributeResolver.hasAttribute(PROGRESS) && !(progressBar instanceof SeekBar))
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(PROGRESS);
 			bindingAttributeResolver.resolveAttribute(PROGRESS, new ProgressAttribute(progressBar, attributeValue, preInitializeViews));

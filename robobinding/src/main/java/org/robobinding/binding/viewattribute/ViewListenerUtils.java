@@ -28,6 +28,10 @@ import android.widget.AdapterView.OnItemSelectedListener;
  */
 public class ViewListenerUtils
 {
+	private ViewListenerUtils()
+	{
+	}
+	
 	public static void addOnFocusChangeListener(View view, OnFocusChangeListener listener)
 	{
 		OnFocusChangeListener existingListener = view.getOnFocusChangeListener();
@@ -54,9 +58,5 @@ public class ViewListenerUtils
 			listeners.addListener(listener);
 			view.setOnItemSelectedListener(listeners);
 		}
-	}
-	
-	private ViewListenerUtils()
-	{
 	}
 }

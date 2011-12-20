@@ -17,6 +17,7 @@ package org.robobinding.binding.viewattribute.provider;
 
 import org.junit.runner.RunWith;
 import org.robobinding.binding.viewattribute.OnSeekBarChangeAttribute;
+import org.robobinding.binding.viewattribute.TwoWayProgressAttribute;
 
 import android.widget.SeekBar;
 
@@ -47,5 +48,6 @@ public class SeekBarAttributeProviderTest extends AbstractBindingAttributeProvid
 	protected void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings)
 	{
 		attributeClassMappings.add("onSeekBarChange", OnSeekBarChangeAttribute.class);
+		attributeClassMappings.add("progress", TwoWayProgressAttribute.class);
 	}
 }

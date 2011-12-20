@@ -15,11 +15,17 @@
  */
 package org.robobinding.binding.viewattribute.provider;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+import org.robobinding.binding.BindingAttributeResolver;
 import org.robobinding.binding.viewattribute.MaxAttribute;
 import org.robobinding.binding.viewattribute.ProgressAttribute;
 import org.robobinding.binding.viewattribute.SecondaryProgressAttribute;
 
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 
 /**
  *
@@ -49,4 +55,15 @@ public class ProgressBarAttributeProviderTest extends AbstractBindingAttributePr
 		attributeClassMappings.add("max", MaxAttribute.class);		
 	}
 	
+	@Test
+	public void givenAProgressAttribute_WhenResolvingBindingAttributesForASeekBar_ThenDoNotCreateABindingAttribute()
+	{
+		SeekBar seekBar = new SeekBar(null);
+		ProgressBarAttributeProvider progressBarAttributeProvider = new ProgressBarAttributeProvider();
+		BindingAttributeResolver bindingAttributeResolver = initialiseBindingAttributeResolverFromAttributeName("progress");
+		
+		progressBarAttributeProvider.resolveSupportedBindingAttributes(seekBar, bindingAttributeResolver, true);
+		
+		assertThat(bindingAttributeResolver.getResolvedBindingAttributes().size(), is(0));	
+	}
 }
