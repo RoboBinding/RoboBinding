@@ -84,7 +84,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 	
 	private boolean ignoreNextValueModelUpdate;
 	
-	void observeChangesOnTheValueModel(final PropertyValueModel<T> valueModel)
+	private void observeChangesOnTheValueModel(final PropertyValueModel<T> valueModel)
 	{
 		valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener() {
 			@Override
@@ -114,9 +114,15 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		@Override
 		public void performBind()
 		{
-			PropertyValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
+			final PropertyValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
 			initializeView(valueModel);
-			observeChangesOnTheValueModel(valueModel);
+			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener(){
+				@Override
+				public void propertyChanged()
+				{
+					valueModelUpdated(valueModel.getValue());
+				}
+			});
 		}
 	}
 	
@@ -153,7 +159,6 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		{
 			ignoreNextValueModelUpdate = true;
 			propertyValueModel.setValue(newValue);
-			
 		}
 
 		@Override
