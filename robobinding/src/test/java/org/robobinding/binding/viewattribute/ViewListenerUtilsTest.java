@@ -21,10 +21,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 
+import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
@@ -66,6 +68,34 @@ public class ViewListenerUtilsTest
 		@Override
 		public void onNothingSelected(AdapterView<?> parent)
 		{
+		}
+	}
+	@Test
+	public void shouldSupportMultipleOnFocusChangeListeners()
+	{
+		Robolectric.bindShadowClass(ShadowView.class);
+		
+		View view = new View(null);
+		MockOnFocusChangeListener listener1 = new MockOnFocusChangeListener();
+		MockOnFocusChangeListener listener2 = new MockOnFocusChangeListener();
+		
+		ViewListenerUtils.addOnFocusChangeListener(view, listener1);
+		ViewListenerUtils.addOnFocusChangeListener(view, listener2);
+		
+		ShadowView shadowView = (ShadowView)Robolectric.shadowOf_(view);
+		shadowView.setViewFocus(true);
+		
+		assertTrue(listener1.focusChangeEventFired);
+		assertTrue(listener2.focusChangeEventFired);
+	}
+	
+	private static class MockOnFocusChangeListener implements OnFocusChangeListener 
+	{
+		private boolean focusChangeEventFired;
+		@Override
+		public void onFocusChange(View v, boolean hasFocus)
+		{
+			focusChangeEventFired = true;
 		}
 	}
 }

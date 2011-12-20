@@ -14,7 +14,7 @@
        	binding:onGainFocus="onGainFocus()"
        	binding:onLostFocus="onLostFocus()"
        	binding:selected="boolean"
-       	binding:backgroundColor="integer" - combine with background?
+       	binding:backgroundColor="integer"
        	 -->
     </View>
 

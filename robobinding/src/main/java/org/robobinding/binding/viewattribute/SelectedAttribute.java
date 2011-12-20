@@ -36,7 +36,10 @@ public class SelectedAttribute extends AbstractReadOnlyPropertyViewAttribute<Boo
 	@Override
 	protected void valueModelUpdated(Boolean newValue)
 	{
-		view.setSelected(newValue);
+		if(newValue != null)
+		{
+			view.setSelected(newValue);
+		}
 	}
 
 }

@@ -19,9 +19,6 @@ package org.robobinding.property;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.property.AbstractProperty;
-import org.robobinding.property.PresentationModelPropertyChangeListener;
-import org.robobinding.property.PropertyAccessor;
 
 
 
