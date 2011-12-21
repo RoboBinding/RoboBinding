@@ -44,7 +44,6 @@ public class IntegerImageSourceAttributeTest extends AbstractTypeMappedOneWayPro
 	{
 		imageView = new ImageView(context);
 	}
-	
 
 	@Override
 	protected AbstractPropertyViewAttribute<Integer> newAttributeInstance(String bindingAttributeValue)
@@ -53,13 +52,11 @@ public class IntegerImageSourceAttributeTest extends AbstractTypeMappedOneWayPro
 		return imageSourceAttribute.new IntegerImageSourceAttribute();
 	}
 
-
 	@Override
 	protected Drawable getViewState()
 	{
 		return imageView.getDrawable();
 	}
-
 
 	@Override
 	protected void populateBindingExpectations(TypeMappedBindingSamples<Integer, Drawable> bindingSamples)

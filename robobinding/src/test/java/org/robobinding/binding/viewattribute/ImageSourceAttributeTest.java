@@ -52,13 +52,20 @@ public class ImageSourceAttributeTest
 	}
 	
 	@Test
+	public void whenBindingWithAnIntPrimitiveProperty_ThenInitializeIntegerImageSourceAttribute()
+	{
+		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)int.class);
+		
+		assertThat(imageSourceAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerImageSourceAttribute.class));
+	}
+	
+	@Test
 	public void whenBindingWithAnIntegerProperty_ThenInitializeIntegerImageSourceAttribute()
 	{
 		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)Integer.class);
 		
 		assertThat(imageSourceAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerImageSourceAttribute.class));
 	}
-	
 	
 	@Test
 	public void whenBindingWithADrawableProperty_ThenInitializeDrawableImageSourceAttribute()

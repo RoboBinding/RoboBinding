@@ -75,8 +75,6 @@ public class TextAttribute implements PropertyViewAttribute
 	
 	abstract class AbstractCharSequenceTextAttribute<T extends CharSequence> extends AbstractPropertyViewAttribute<T>
 	{
-		private boolean suppressNextViewUpdate = false;
-		
 		public AbstractCharSequenceTextAttribute()
 		{
 			super(propertyBindingDetails);
@@ -85,19 +83,9 @@ public class TextAttribute implements PropertyViewAttribute
 		@Override
 		protected void valueModelUpdated(T newValue)
 		{
-			if (suppressNextViewUpdate)
-			{
-				suppressNextViewUpdate = false;
-				return;
-			}
 			textView.setText(newValue);
 		}
 
-		protected void suppressNextViewUpdate()
-		{
-			suppressNextViewUpdate = true;
-		}
-		
 		protected void observeChangesOnTheView(final PropertyValueModel<T> valueModel)
 		{
 			if (valueCommitMode == ValueCommitMode.ON_CHANGE)
@@ -107,7 +95,6 @@ public class TextAttribute implements PropertyViewAttribute
 					@Override
 					public void onTextChanged(CharSequence s, int start, int before, int count)
 					{
-						suppressNextViewUpdate();
 						updateValueModel(valueModel, s);
 					}
 					

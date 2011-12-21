@@ -15,6 +15,7 @@
  */
 package sample.robobinding.model;
 
+
 /**
  * @since 1.0
  * @author Cheng Wei
@@ -30,6 +31,7 @@ public class Album
 	private String artist;
 	private boolean classical;
 	private String composer;
+	private Genre genre;
 	
 	private Album(Builder builder)
 	{
@@ -42,6 +44,7 @@ public class Album
 		{
 			this.composer = builder.composer;
 		}
+		this.genre = builder.genre;
 	}
 	private void validate(Builder builder)
 	{
@@ -60,6 +63,14 @@ public class Album
 	{
 		return id == NO_ID;
 	}
+	public Genre getGenre()
+	{
+		return genre;
+	}
+	public void setGenre(Genre genre)
+	{
+		this.genre = genre;
+	}
 	public Builder createBuilder()
 	{
 		Builder builder = new Builder();
@@ -68,6 +79,7 @@ public class Album
 		builder.setClassical(classical);
 		builder.setComposer(composer);
 		builder.setId(id);
+		builder.setGenre(genre);
 		return builder;
 	}
 	
@@ -118,6 +130,7 @@ public class Album
 		private String artist;
 		private boolean classical;
 		private String composer;
+		private Genre genre = Genre.UNSPECIFIED;
 		public long getId()
 		{
 			return id;
@@ -167,10 +180,18 @@ public class Album
 		{
 			return id == NO_ID;
 		}
+		public Genre getGenre()
+		{
+			return genre;
+		}
+		public void setGenre(Genre genre) 
+		{
+			this.genre = genre;
+		}
 		public Album create()
 		{
 			return new Album(this);
-		}		
+		}
 	}
 
 }

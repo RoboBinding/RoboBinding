@@ -20,9 +20,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.binding.viewattribute.PropertyBindingDetails;
-import org.robobinding.binding.viewattribute.TextAttribute;
-import org.robobinding.binding.viewattribute.ValueCommitMode;
 
 import android.text.Editable;
 import android.text.TextWatcher;

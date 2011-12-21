@@ -118,13 +118,10 @@ public class ValueModelUtils
 		@Override
 		public void setValue(T newValue)
 		{
-			T oldValue = getValue();
-			if (oldValue == newValue)
-				return;
 			value = newValue;
-			fireValueChange(oldValue, newValue);
+			fireValueChange();
 		}
-		private void fireValueChange(Object oldValue, Object newValue)
+		private void fireValueChange()
 		{
 			propertyChangeSupport.firePropertyChange(PROPERTY_VALUE);
 		}

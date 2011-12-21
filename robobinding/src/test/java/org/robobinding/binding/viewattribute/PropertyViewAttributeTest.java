@@ -15,7 +15,7 @@
  */
 package org.robobinding.binding.viewattribute;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -24,10 +24,9 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.binding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.binding.viewattribute.PropertyBindingDetails;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModelUtils;
 
 import android.content.Context;
 
@@ -37,7 +36,6 @@ import android.content.Context;
  * @author Robert Taylor
  *
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class PropertyViewAttributeTest
 {
 	private static final String PROPERTY_NAME = "property_name";
@@ -45,11 +43,12 @@ public class PropertyViewAttributeTest
 	private static final boolean TWO_WAY_BINDING = true;
 	private static final boolean PRE_INITIALIZE_VIEW = true;
 	private static final boolean DONT_PRE_INITIALIZE_VIEW = false;
+	private static final int A_NEW_VALUE = 5;
 	
 	private PresentationModelAdapter presentationModelAdapter;
 	private Context context;
-	private PropertyValueModel valueModel = mock(PropertyValueModel.class);
-	private DummyPropertyViewAttribute propertyViewAttributeValue;
+	private PropertyValueModel<Integer> valueModel = ValueModelUtils.createInteger(-1);
+	private PropertyViewAttributeSpy propertyViewAttributeSpy;
 	
 	@Before
 	public void setUp()
@@ -58,84 +57,102 @@ public class PropertyViewAttributeTest
 	}
 	
 	@Test
-	public void given1WayBinding_ThenBindToReadOnlyPropertyFromPresentationModelAdapter()
+	public void givenABoundPropertyViewAttribute_WhenValueModelIsUpdated_ThenNewValueShouldBePassedToThePropertyViewAttribute()
 	{
-		initializePropertyViewAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
-		when(presentationModelAdapter.getReadOnlyPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
+		initializeAndBindPropertyViewAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
-		propertyViewAttributeValue.bind(presentationModelAdapter, context);
+		valueModel.setValue(A_NEW_VALUE);
 		
-		assertThat(propertyViewAttributeValue.valueModelBound, equalTo(valueModel));
+		assertThat(propertyViewAttributeSpy.updatedValue, is(A_NEW_VALUE));
 	}
 	
 	@Test
-	public void given2WayBinding_ThenBindToReadWritePropertyFromPresentationModelAdapter()
+	public void givenAPropertyViewAttributeWithTwoWayBinding_WhenTheViewIsUpdated_ThenValueModelShouldBeUpdated()
 	{
-		initializePropertyViewAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
-		when(presentationModelAdapter.getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
+		initializeAndBindPropertyViewAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
-		propertyViewAttributeValue.bind(presentationModelAdapter, context);
-		
-		assertThat(propertyViewAttributeValue.valueModelBound, equalTo(valueModel));
+		propertyViewAttributeSpy.simulateViewUpdate(A_NEW_VALUE);
+	
+		assertThat(valueModel.getValue(), is(A_NEW_VALUE));
 	}
 	
 	@Test
-	public void givenNoPreInitializeViewFlag_ThenInitializeTheViewToReflectTheValueModel()
+	public void givenAPropertyViewAttributeWithTwoWayBinding_WhenTheViewIsUpdated_ThenViewShouldNotReceiveAFurtherUpdate()
 	{
-		initializePropertyViewAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
-		when(presentationModelAdapter.getReadOnlyPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
+		initializeAndBindPropertyViewAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
-		propertyViewAttributeValue.bind(presentationModelAdapter, context);
-		
-		assertFalse(propertyViewAttributeValue.viewInitialized);
+		propertyViewAttributeSpy.simulateViewUpdate(A_NEW_VALUE);
+	
+		assertThat(propertyViewAttributeSpy.viewUpdateNotificationCount, is(0));
 	}
 	
 	@Test
-	public void givenPreInitializeViewFlag_ThenInitializeTheViewToReflectTheValueModel()
+	public void givenAPropertyViewAttributeWithTwoWayBinding_WhenValueModelIsUpdated_ThenViewShouldReceiveOnlyASingleUpdate()
 	{
-		initializePropertyViewAttribute(ONE_WAY_BINDING, PRE_INITIALIZE_VIEW);
-		when(presentationModelAdapter.getReadOnlyPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
+		initializeAndBindPropertyViewAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
-		propertyViewAttributeValue.bind(presentationModelAdapter, context);
-		
-		assertTrue(propertyViewAttributeValue.viewInitialized);
+		valueModel.setValue(A_NEW_VALUE);
+	
+		assertThat(propertyViewAttributeSpy.viewUpdateNotificationCount, is(1));
 	}
 	
-	private void initializePropertyViewAttribute(boolean binding, boolean preInitializeView)
+	@Test
+	public void givenPreInitializeViewFlag_ThenPreInitializeTheViewToReflectTheValueModel()
 	{
-		PropertyBindingDetails propertyBindingDetails = new PropertyBindingDetails(PROPERTY_NAME, binding, preInitializeView);
-		propertyViewAttributeValue = new DummyPropertyViewAttribute(propertyBindingDetails);
+		initializeAndBindPropertyViewAttribute(ONE_WAY_BINDING, PRE_INITIALIZE_VIEW);
+		
+		assertTrue(propertyViewAttributeSpy.viewInitialized);
 	}
 	
-	private static class DummyPropertyViewAttribute extends AbstractPropertyViewAttribute
+	@Test
+	public void givenNoPreInitializeViewFlag_ThenDontPreInitializeTheView()
 	{
-		private BindingType bindingType = BindingType.NO_BINDING;
-		private PropertyValueModel valueModelBound;
-		private boolean viewInitialized;
+		initializeAndBindPropertyViewAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
-		public DummyPropertyViewAttribute(PropertyBindingDetails propertyBindingDetails)
+		assertFalse(propertyViewAttributeSpy.viewInitialized);
+	}
+	
+	private void initializeAndBindPropertyViewAttribute(boolean twoWayBinding, boolean preInitializeView)
+	{
+		PropertyBindingDetails propertyBindingDetails = new PropertyBindingDetails(PROPERTY_NAME, twoWayBinding, preInitializeView);
+		
+		if (twoWayBinding)
+			when(presentationModelAdapter.<Integer>getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
+		else
+			when(presentationModelAdapter.<Integer>getReadOnlyPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
+		
+		propertyViewAttributeSpy = new PropertyViewAttributeSpy(propertyBindingDetails);
+		propertyViewAttributeSpy.bind(presentationModelAdapter, context);
+	}
+	
+	private static class PropertyViewAttributeSpy extends AbstractPropertyViewAttribute<Integer>
+	{
+		int viewUpdateNotificationCount;
+		int updatedValue;
+		boolean viewInitialized;
+		private PropertyValueModel<Integer> valueModelUpdatedByView;
+		
+		public PropertyViewAttributeSpy(PropertyBindingDetails propertyBindingDetails)
 		{
 			super(propertyBindingDetails);
 		}
 		
-		@Override
-		protected void observeChangesOnTheValueModel(PropertyValueModel valueModel)
+		public void simulateViewUpdate(int newValue)
 		{
-			if (bindingType != BindingType.TWO_WAY)
-				bindingType = BindingType.ONE_WAY;
-		
-			valueModelBound = valueModel;
+			valueModelUpdatedByView.setValue(newValue);
 		}
 
 		@Override
-		protected void observeChangesOnTheView(PropertyValueModel valueModel)
+		protected void observeChangesOnTheView(PropertyValueModel<Integer> valueModel)
 		{
-			bindingType = BindingType.TWO_WAY;
+			valueModelUpdatedByView = valueModel;
 		}
 
 		@Override
-		protected void valueModelUpdated(Object newValue)
+		protected void valueModelUpdated(Integer newValue)
 		{
+			this.updatedValue = newValue;
+			viewUpdateNotificationCount++;
 			viewInitialized = true;
 		}
 	}

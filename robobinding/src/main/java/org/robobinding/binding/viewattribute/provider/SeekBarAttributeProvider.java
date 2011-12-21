@@ -17,6 +17,8 @@ package org.robobinding.binding.viewattribute.provider;
 
 import org.robobinding.binding.BindingAttributeResolver;
 import org.robobinding.binding.viewattribute.OnSeekBarChangeAttribute;
+import org.robobinding.binding.viewattribute.OnSeekBarChangeListeners;
+import org.robobinding.binding.viewattribute.TwoWayProgressAttribute;
 
 import android.widget.SeekBar;
 
@@ -29,14 +31,23 @@ import android.widget.SeekBar;
 public class SeekBarAttributeProvider implements BindingAttributeProvider<SeekBar>
 {
 	private static final String ON_SEEK_BAR_CHANGE = "onSeekBarChange";
+	private static final String PROGRESS = "progress";
 
 	@Override
 	public void resolveSupportedBindingAttributes(SeekBar seekBar, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
 	{
+		OnSeekBarChangeListeners onSeekBarChangeListeners = new OnSeekBarChangeListeners();
+		seekBar.setOnSeekBarChangeListener(onSeekBarChangeListeners);
+		
 		if (bindingAttributeResolver.hasAttribute(ON_SEEK_BAR_CHANGE))
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_SEEK_BAR_CHANGE);
-			bindingAttributeResolver.resolveAttribute(ON_SEEK_BAR_CHANGE, new OnSeekBarChangeAttribute(seekBar, attributeValue));
+			bindingAttributeResolver.resolveAttribute(ON_SEEK_BAR_CHANGE, new OnSeekBarChangeAttribute(attributeValue, onSeekBarChangeListeners));
+		}
+		if (bindingAttributeResolver.hasAttribute(PROGRESS))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(PROGRESS);
+			bindingAttributeResolver.resolveAttribute(PROGRESS, new TwoWayProgressAttribute(seekBar, attributeValue, preInitializeViews, onSeekBarChangeListeners));
 		}
 	}
 

@@ -62,6 +62,39 @@
 	    binding:text="${composer}"
 	    binding:enabled="{composerEnabled}" />
 	
+	<TextView 
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="@string/genre"
+	    style="@style/Heading" />
+	
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal" >
+	    
+	    <TextView 
+			android:layout_width="0dp" 
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    binding:text="{genreLabel}" />
+	    
+	    <ImageView 
+			android:layout_width="0dp" 
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1" 
+		    android:contentDescription="@string/genre_icon"
+		    binding:src="{genreIcon}" />
+	    
+	</LinearLayout>
+	
+	<SeekBar 
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    binding:max="{sliderMax}"
+	    binding:progress="{genreIndex}"
+	    binding:onSeekBarChange="genreSelected" />
+	    
 	<Button
 		android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content"

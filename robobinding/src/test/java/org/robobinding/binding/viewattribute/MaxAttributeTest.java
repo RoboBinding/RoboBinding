@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binding.viewattribute.provider;
+package org.robobinding.binding.viewattribute;
 
+import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.binding.viewattribute.OnSeekBarChangeAttribute;
-import org.robobinding.binding.viewattribute.TwoWayProgressAttribute;
 
-import android.widget.SeekBar;
+import android.app.Activity;
+import android.widget.ProgressBar;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
+
 
 /**
  *
@@ -30,24 +31,32 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class SeekBarAttributeProviderTest extends AbstractBindingAttributeProviderTest<SeekBar>
+public class MaxAttributeTest extends AbstractSingleTypeOneWayPropertyAttributeTest<Integer>
 {
-	@Override
-	protected BindingAttributeProvider<SeekBar> getBindingAttributeProvider()
+	private ProgressBar progressBar;
+
+	@Before
+	public void setUp()
 	{
-		return new SeekBarAttributeProvider();
+		progressBar = new ProgressBar(new Activity());
+	}
+	
+	@Override
+	protected void populateBindingExpectations(BindingSamples<Integer> bindingSamples)
+	{
+		bindingSamples.add(2,5,10);
 	}
 
 	@Override
-	protected SeekBar createNewViewInstance()
+	protected Integer getViewState()
 	{
-		return new SeekBar(null);
+		return progressBar.getMax();
 	}
 
 	@Override
-	protected void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings)
+	protected AbstractPropertyViewAttribute<Integer> newAttributeInstance(String bindingAttributeValue)
 	{
-		attributeClassMappings.add("onSeekBarChange", OnSeekBarChangeAttribute.class);
-		attributeClassMappings.add("progress", TwoWayProgressAttribute.class);
+		return new MaxAttribute(progressBar, bindingAttributeValue, true);
 	}
+
 }
