@@ -15,9 +15,8 @@
  */
 package sample.robobinding;
 
-import sample.robobinding.HomeActivity;
-import sample.robobinding.R;
 import sample.robobinding.model.Album;
+import sample.robobinding.model.Genre;
 import sample.robobinding.store.AlbumStore;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -32,6 +31,8 @@ import com.jayway.android.robotium.solo.Solo;
  */
 public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCase2<HomeActivity>
 {
+	private static final int GENRE_INDEX = 2;
+	
 	protected Solo solo;
 
 	public AbstractWorkflowTest()
@@ -58,11 +59,13 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 		
 		assertTrue(solo.searchText("Classical"));
 		assertTrue(solo.searchText("Composer name"));
+		assertGenreIsVisible();
 		
 		clickOnButtonWithLabel(R.string.edit);
 		
 		assertTrue(solo.isCheckBoxChecked(0));
 		assertTrue(solo.searchEditText("Composer name"));
+		assertGenreIsSelected();
 		
 		solo.clearEditText(0);
 		solo.enterText(0, "New album name");
@@ -109,8 +112,45 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 		solo.enterText(1, "Artist name");
 		solo.clickOnCheckBox(0);
 		solo.enterText(2, "Composer name");
+		selectAGenre();
+//		/assertGenreIconIsVisible();
 	}
 
+	private void selectAGenre()
+	{
+		solo.setProgressBar(0, GENRE_INDEX);
+	}
+
+	private void assertGenreIsVisible()
+	{
+		assertTrue(solo.searchText(getGenreAtIndex(GENRE_INDEX).getLabel()));
+	}
+	
+	private void assertGenreIsSelected()
+	{
+		assertTrue(solo.getCurrentProgressBars().get(0).getProgress() == GENRE_INDEX);
+	}
+	
+//	private void assertGenreIconIsVisible()
+//	{
+//		boolean genreIconVisible = false;
+//		Bitmap genreIcon = BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(), getGenreAtIndex(GENRE_INDEX).getIconResId());
+//		for (ImageView imageView : solo.getCurrentImageViews())
+//		{
+//			if (imageView.getDrawable().hashCode() == genreIcon.hashCode())
+//			{
+//				genreIconVisible = true;
+//				break;
+//			}
+//		}
+//		assertTrue(genreIconVisible);
+//	}
+	
+	private Genre getGenreAtIndex(int index)
+	{
+		return Genre.values()[index];
+	}
+	
 	protected abstract int homeButtonStringResId();
 	
 	protected abstract void selectFirstAlbum();
