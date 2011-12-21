@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:binding="http://robobinding.org/robobinding.android"
+	xmlns:bind="http://robobinding.org/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
@@ -8,7 +8,7 @@
 	<TextView 
 		android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
-	    binding:text="{windowTitle}"
+	    bind:text="{windowTitle}"
 	    style="@style/ScreenTitle" />
 	
 	<TextView 
@@ -22,7 +22,7 @@
 	    android:layout_height="wrap_content" 
 	    android:inputType="text"
 	    android:imeOptions="actionNext"
-	    binding:text="${title}" />
+	    bind:text="${title}" />
 	
 	<TextView 
 		android:layout_width="fill_parent" 
@@ -35,7 +35,7 @@
 	    android:layout_height="wrap_content" 
 	    android:inputType="text"
 	    android:imeOptions="actionNext"
-	    binding:text="${artist}" />
+	    bind:text="${artist}" />
 	
 	<TextView 
 		android:layout_width="fill_parent" 
@@ -46,7 +46,7 @@
 	<CheckBox
 		android:layout_width="wrap_content" 
 	    android:layout_height="wrap_content"
-	    binding:checked="${classical}" />
+	    bind:checked="${classical}" />
 	
 	<TextView 
 		android:layout_width="fill_parent" 
@@ -59,8 +59,8 @@
 	    android:layout_height="wrap_content" 
 	    android:inputType="text"
 	    android:imeOptions="actionNext"
-	    binding:text="${composer}"
-	    binding:enabled="{composerEnabled}" />
+	    bind:text="${composer}"
+	    bind:enabled="{composerEnabled}" />
 	
 	<TextView 
 		android:layout_width="fill_parent" 
@@ -77,28 +77,27 @@
 			android:layout_width="0dp" 
 		    android:layout_height="wrap_content"
 		    android:layout_weight="1"
-		    binding:text="{genreLabel}" />
+		    bind:text="{genreLabel}" />
 	    
 	    <ImageView 
 			android:layout_width="0dp" 
 		    android:layout_height="wrap_content"
 		    android:layout_weight="1" 
 		    android:contentDescription="@string/genre_icon"
-		    binding:src="{genreIcon}" />
+		    bind:src="{genreIcon}" />
 	    
 	</LinearLayout>
 	
 	<SeekBar 
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content"
-	    binding:max="{sliderMax}"
-	    binding:progress="{genreIndex}"
-	    binding:onSeekBarChange="genreSelected" />
+	    bind:max="{sliderMax}"
+	    bind:progress="${genreIndex}" />
 	    
 	<Button
 		android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content"
 	    android:text="@string/save"
-	    binding:onClick="save" />
+	    bind:onClick="save" />
 	    
 </LinearLayout>

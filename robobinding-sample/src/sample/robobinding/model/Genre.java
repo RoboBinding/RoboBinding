@@ -15,6 +15,8 @@
  */
 package sample.robobinding.model;
 
+import sample.robobinding.R;
+
 /**
  *
  * @since 1.0
@@ -23,10 +25,10 @@ package sample.robobinding.model;
  */
 public enum Genre
 {
-	UNSPECIFIED("Unspecified", 0), 
-	ROCK("Rock", 1), 
-	CLASSICAL("Classical", 2), 
-	POP ("Pop", 3);
+	UNSPECIFIED("Unspecified", R.drawable.question_mark), 
+	ROCK("Rock", R.drawable.rock), 
+	CLASSICAL("Classical", R.drawable.classical), 
+	POP ("Pop", R.drawable.pop);
 	
 	private final String label;
 	private final int iconResId;

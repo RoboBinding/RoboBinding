@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:binding="http://robobinding.org/robobinding.android"
+  xmlns:bind="http://robobinding.org/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent" >
     
@@ -16,15 +16,15 @@
   		android:layout_height="wrap_content"
   		android:layout_alignParentBottom="true"
   		android:text="@string/create"
-  		binding:onClick="createAlbum" />
+  		bind:onClick="createAlbum" />
     
     <ListView 
     	android:layout_width="fill_parent"
   		android:layout_height="fill_parent"
   		android:layout_above="@id/create_button"
   		android:layout_below="@id/window_title"
-  		binding:itemLayout="@layout/purchasable_album_row"
-  		binding:source="{albums}"
-  		binding:onItemClick="viewAlbum" />
+  		bind:itemLayout="@layout/purchasable_album_row"
+  		bind:source="{albums}"
+  		bind:onItemClick="viewAlbum" />
     
 </RelativeLayout>

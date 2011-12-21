@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 	<!-- CompoundButton(subclasses:CheckBox,RadioButton,Switch,ToggleButton)
-	binding:checked="boolean"
-	binding:onCheckedChange="onCheckedChange()"
+	bind:checked="boolean"
+	bind:onCheckedChange="onCheckedChange()"
 	 -->
 </LinearLayout>

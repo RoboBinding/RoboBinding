@@ -16,7 +16,6 @@
 package sample.robobinding.presentationmodel;
 
 import org.robobinding.DependsOnStateOf;
-import org.robobinding.binding.viewattribute.SeekBarEvent;
 import org.robobinding.presentationmodelaspects.PresentationModel;
 
 import sample.robobinding.R;
@@ -124,21 +123,21 @@ public class CreateEditAlbumPresentationModel
 		return Genre.indexOf(albumBuilder.getGenre());
 	}
 	
+	public void setGenreIndex(int index)
+	{
+		setGenre(Genre.values()[index]);
+	}
+	
 	@DependsOnStateOf("genre")
 	public int getGenreIcon()
 	{
-		return R.drawable.icon;
+		return albumBuilder.getGenre().getIconResId();
 	}
 	
 	@DependsOnStateOf("genre")
 	public String getGenreLabel()
 	{
 		return albumBuilder.getGenre().getLabel();
-	}
-	
-	public void genreSelected(SeekBarEvent event)
-	{
-		setGenre(Genre.values()[event.getProgress()]);
 	}
 	
 	@DependsOnStateOf(CLASSICAL)

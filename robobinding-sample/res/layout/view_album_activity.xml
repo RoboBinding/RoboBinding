@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:binding="http://robobinding.org/robobinding.android"
+    xmlns:bind="http://robobinding.org/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        binding:onClick="deleteAlbum"
+        bind:onClick="deleteAlbum"
         android:text="@string/delete" />
 
     <Button
@@ -17,7 +17,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/delete_button"
-        binding:onClick="editAlbum"
+        bind:onClick="editAlbum"
         android:text="@string/edit" />
 
     <ScrollView
@@ -45,7 +45,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                binding:text="{title}" />
+                bind:text="{title}" />
 
             <TextView
                 style="@style/Heading"
@@ -56,7 +56,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                binding:text="{artist}" />
+                bind:text="{artist}" />
 
             <TextView
                 style="@style/Heading"
@@ -67,40 +67,40 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                binding:text="{classicalDescription}" />
+                bind:text="{classicalDescription}" />
 
             <TextView
                 style="@style/Heading"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/composer"
-                binding:visibility="{composerEnabled}" />
+                bind:visibility="{composerEnabled}" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                binding:text="{composer}"
-                binding:visibility="{composerEnabled}" />
+                bind:text="{composer}"
+                bind:visibility="{composerEnabled}" />
 
             <TextView
                 style="@style/Heading"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/genre"
-                binding:visibility="{genreSpecified}" />
+                bind:visibility="{genreSpecified}" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                binding:text="{genreLabel}"
-                binding:visibility="{genreSpecified}" />
+                bind:text="{genreLabel}"
+                bind:visibility="{genreSpecified}" />
 
             <ImageView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/genre_icon"
-                binding:src="{genreIcon}"
-                binding:visibility="{genreSpecified}" />
+                bind:src="{genreIcon}"
+                bind:visibility="{genreSpecified}" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

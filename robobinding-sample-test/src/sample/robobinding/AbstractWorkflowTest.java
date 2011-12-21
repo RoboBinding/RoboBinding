@@ -15,6 +15,8 @@
  */
 package sample.robobinding;
 
+import java.util.Random;
+
 import sample.robobinding.model.Album;
 import sample.robobinding.model.Genre;
 import sample.robobinding.store.AlbumStore;
@@ -31,7 +33,7 @@ import com.jayway.android.robotium.solo.Solo;
  */
 public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCase2<HomeActivity>
 {
-	private static final int GENRE_INDEX = 2;
+	private final int genreIndex = randomGenreIndex();
 	
 	protected Solo solo;
 
@@ -113,47 +115,32 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 		solo.clickOnCheckBox(0);
 		solo.enterText(2, "Composer name");
 		selectAGenre();
-//		/assertGenreIconIsVisible();
 	}
 
 	private void selectAGenre()
 	{
-		solo.setProgressBar(0, GENRE_INDEX);
+		solo.setProgressBar(0, genreIndex);
 	}
 
 	private void assertGenreIsVisible()
 	{
-		assertTrue(solo.searchText(getGenreAtIndex(GENRE_INDEX).getLabel()));
+		assertTrue(solo.searchText(getGenreAtIndex(genreIndex).getLabel()));
 	}
 	
 	private void assertGenreIsSelected()
 	{
-		assertTrue(solo.getCurrentProgressBars().get(0).getProgress() == GENRE_INDEX);
+		assertTrue(solo.getCurrentProgressBars().get(0).getProgress() == genreIndex);
 	}
-	
-//	private void assertGenreIconIsVisible()
-//	{
-//		boolean genreIconVisible = false;
-//		Bitmap genreIcon = BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(), getGenreAtIndex(GENRE_INDEX).getIconResId());
-//		for (ImageView imageView : solo.getCurrentImageViews())
-//		{
-//			if (imageView.getDrawable().hashCode() == genreIcon.hashCode())
-//			{
-//				genreIconVisible = true;
-//				break;
-//			}
-//		}
-//		assertTrue(genreIconVisible);
-//	}
 	
 	private Genre getGenreAtIndex(int index)
 	{
 		return Genre.values()[index];
 	}
 	
-	protected abstract int homeButtonStringResId();
-	
-	protected abstract void selectFirstAlbum();
+	private int randomGenreIndex() 
+	{
+		return new Random().nextInt(Genre.values().length - 1) + 1;
+	}
 	
 	private void assertThatDeleteDialogTitleIsVisible()
 	{
@@ -192,4 +179,8 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 		super.tearDown();
 		solo.finishOpenedActivities();
 	}
+	
+	protected abstract int homeButtonStringResId();
+	
+	protected abstract void selectFirstAlbum();
 }

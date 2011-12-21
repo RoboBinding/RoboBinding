@@ -7,7 +7,7 @@
 	<Spinner 
 	    android:id="@+id/supportedAttributesOfAbsSpinner">
 	    <!-- 
-	    binding:dropdownLayout="layout resource id"
+	    bind:dropdownLayout="layout resource id"
 	     -->
 	</Spinner>
 	<Spinner 

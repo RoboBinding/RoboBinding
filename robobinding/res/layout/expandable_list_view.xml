@@ -8,10 +8,10 @@
 	    <!-- 
 	    Child layout and binding require investigation.
 	    
-	    binding:onChildClick="onChildClick()"
- 		binding:onGroupClick="onGroupClick()"
- 		binding:onGroupCollapse="onGroupCollapse()"
- 		binding:onGroupExpand="onGroupExpand()"
+	    bind:onChildClick="onChildClick()"
+ 		bind:onGroupClick="onGroupClick()"
+ 		bind:onGroupCollapse="onGroupCollapse()"
+ 		bind:onGroupExpand="onGroupExpand()"
 	     -->
 	</ExpandableListView>
 	<ExpandableListView 
