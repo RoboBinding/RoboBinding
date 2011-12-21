@@ -28,7 +28,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class SelectedAttributeTest extends AbstractViewAttributeTest
+public class SelectedAttributeTest extends AbstractViewPropertyAttributeTest
 {
 	@Test
 	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()

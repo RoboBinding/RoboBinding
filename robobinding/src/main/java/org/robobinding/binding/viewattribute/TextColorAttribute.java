@@ -35,7 +35,10 @@ public class TextColorAttribute extends AbstractReadOnlyPropertyViewAttribute<In
 	@Override
 	protected void valueModelUpdated(Integer newColor)
 	{
-		textView.setTextColor(newColor);
+		if(newColor != null)
+		{
+			textView.setTextColor(newColor);
+		}
 	}
 
 }

@@ -23,15 +23,9 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.robobinding.binding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.view.View;
-
-import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
  *
@@ -41,21 +35,13 @@ import com.xtremelabs.robolectric.shadows.ShadowView;
  */
 public class ViewCommandAttributeTester
 {
-	public View view;
 	public final String commandName = "someCommand";
-	public ShadowView shadowView;
-	
-	private Context context;
+
 	private MockFunction mockFunction;
 	private PresentationModelAdapter mockPresentationModelAdapter;
 	
 	public ViewCommandAttributeTester()
 	{
-		context = new Activity();
-		view = new View(context);
-		
-		shadowView = Robolectric.shadowOf(view);
-		
 		mockFunction = new MockFunction();
 		
 		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
@@ -64,7 +50,7 @@ public class ViewCommandAttributeTester
 	
 	public void bindAttribute(AbstractCommandViewAttribute attribute)
 	{
-		attribute.bind(mockPresentationModelAdapter, context);
+		attribute.bind(mockPresentationModelAdapter, new Activity());
 	}
 	
 	public void assertEventReceived(Class<?> eventClass)

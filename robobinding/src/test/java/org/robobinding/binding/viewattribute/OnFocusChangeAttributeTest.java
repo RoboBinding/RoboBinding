@@ -15,14 +15,10 @@
  */
 package org.robobinding.binding.viewattribute;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binding.viewattribute.OnFocusChangeAttribute;
-import org.robobinding.binding.viewattribute.ViewEvent;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
-import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
  * 
@@ -31,24 +27,12 @@ import com.xtremelabs.robolectric.shadows.ShadowView;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnFocusChangeAttributeTest
+public class OnFocusChangeAttributeTest extends AbstractViewCommandAttributeTest
 {
-	private ViewCommandAttributeTester commandAttributeTester;
-	private ShadowView shadowView;
-
-	@Before
-	public void setUp()
-	{
-		commandAttributeTester = new ViewCommandAttributeTester();
-		shadowView = commandAttributeTester.shadowView;
-	}
-
 	@Test
 	public void givenBoundOnFocusAttribute_whenApplyFocus_thenEventReceived()
 	{
-		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocus(
-				commandAttributeTester.view, 
-				commandAttributeTester.commandName);
+		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocus(view, commandName);
 		commandAttributeTester.bindAttribute(attribute);
 
 		setViewFocus();
@@ -59,9 +43,7 @@ public class OnFocusChangeAttributeTest
 	@Test
 	public void givenBoundOnFocusLostAttribute_whenClearFocus_thenEventReceived()
 	{
-		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocusLost(
-				commandAttributeTester.view, 
-				commandAttributeTester.commandName);
+		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocusLost(view, commandName);
 		commandAttributeTester.bindAttribute(attribute);
 
 		clearViewFocus();
@@ -72,9 +54,7 @@ public class OnFocusChangeAttributeTest
 	@Test
 	public void givenBoundOnFocusChangeAttribute_whenApplyFocus_thenEventReceived()
 	{
-		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocusChange(
-				commandAttributeTester.view, 
-				commandAttributeTester.commandName);
+		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocusChange(view, commandName);
 		commandAttributeTester.bindAttribute(attribute);
 
 		setViewFocus();
@@ -85,9 +65,7 @@ public class OnFocusChangeAttributeTest
 	@Test
 	public void givenBoundOnFocusChangeAttribute_whenClearFocus_thenEventReceived()
 	{
-		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocusChange(
-				commandAttributeTester.view, 
-				commandAttributeTester.commandName);
+		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocusChange(view, commandName);
 		commandAttributeTester.bindAttribute(attribute);
 
 		clearViewFocus();

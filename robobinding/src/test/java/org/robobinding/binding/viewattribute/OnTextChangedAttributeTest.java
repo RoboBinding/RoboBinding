@@ -15,13 +15,11 @@
  */
 package org.robobinding.binding.viewattribute;
 
-import org.junit.Assert;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
-
-import android.graphics.Color;
 
 /**
  *
@@ -30,22 +28,26 @@ import android.graphics.Color;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class BackgroundColorTest extends AbstractViewPropertyAttributeTest
+public class OnTextChangedAttributeTest extends AbstractTextViewCommandAttributeTest
 {
 	@Test
-	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void givenBoundAttribute_whenChangeText_thenEventReceived()
 	{
-		int color = Color.RED;
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();
+		OnTextChangedAttribute attribute = new OnTextChangedAttribute(textView, commandName);
+		commandAttributeTester.bindAttribute(attribute);
 
-		mockPresentationModelAdapter.updatePropertyValue(color);
+		changeText();
 
-		Assert.assertEquals(color, shadowView.getBackgroundColor());
+		assertEventReceived();
 	}
-	private MockPresentationModelAdapterForProperty<Integer> createBoundAttribute()
+
+	private void changeText()
 	{
-		BackgroundColorAttribute backgroundColorAttribute = new BackgroundColorAttribute(view, MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = bindToProperty(backgroundColorAttribute, Integer.class);
-		return mockPresentationModelAdapter;
+		shadowTextView.setText(RandomStringUtils.random(5));
+	}
+
+	private void assertEventReceived()
+	{
+		commandAttributeTester.assertEventReceived(TextChangedEvent.class);
 	}
 }

@@ -30,7 +30,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class BackgroundAttributeTest extends AbstractViewAttributeTest
+public class BackgroundAttributeTest extends AbstractViewPropertyAttributeTest
 {
 	@Test
 	public void givenResourceIdBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()

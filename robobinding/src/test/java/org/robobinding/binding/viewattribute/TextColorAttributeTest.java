@@ -30,22 +30,22 @@ import android.graphics.Color;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class BackgroundColorTest extends AbstractViewPropertyAttributeTest
+public class TextColorAttributeTest extends AbstractTextViewPropertyAttributeTest
 {
 	@Test
 	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		int color = Color.RED;
+		Integer color = Color.RED;
 		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();
 
 		mockPresentationModelAdapter.updatePropertyValue(color);
 
-		Assert.assertEquals(color, shadowView.getBackgroundColor());
+		Assert.assertEquals(color, shadowTextView.getTextColorHexValue());
 	}
 	private MockPresentationModelAdapterForProperty<Integer> createBoundAttribute()
 	{
-		BackgroundColorAttribute backgroundColorAttribute = new BackgroundColorAttribute(view, MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = bindToProperty(backgroundColorAttribute, Integer.class);
+		TextColorAttribute textColorAttribute = new TextColorAttribute(textView, MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
+		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = bindToProperty(textColorAttribute, Integer.class);
 		return mockPresentationModelAdapter;
 	}
 }
