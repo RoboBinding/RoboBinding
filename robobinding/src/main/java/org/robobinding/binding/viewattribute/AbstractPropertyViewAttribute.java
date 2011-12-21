@@ -130,9 +130,6 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 						return;
 					}
 					
-					if (propertyBindingDetails.twoWayBinding)
-						ignoreNextValueModelUpdate = true;
-					
 					valueModelUpdated(valueModel.getValue());
 				}
 			});

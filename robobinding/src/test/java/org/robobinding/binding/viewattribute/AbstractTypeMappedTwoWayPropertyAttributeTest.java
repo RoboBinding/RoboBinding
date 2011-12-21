@@ -41,8 +41,7 @@ public abstract class AbstractTypeMappedTwoWayPropertyAttributeTest<IT, VST> ext
 	@Test
 	public void givenViewBoundWithEither1WayOr2WayBinding_WhenUpdatingValueModel_ThenViewShouldBeUpdated()
 	{
-		createAttributeWith2WayBinding();
-		//createAttributeWithEither1WayOr2WayBinding();
+		createAttributeWithEither1WayOr2WayBinding();
 		
 		for (BindingExpectation<IT, VST> bindingExpectation : bindingExpectations)
 		{
