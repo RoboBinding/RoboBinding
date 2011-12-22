@@ -19,13 +19,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.MockArrayAdapter;
 
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ListView;
 
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -39,39 +35,6 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class ViewListenerUtilsTest
 {
-	@Test
-	public void shouldSupportMultipleOnItemSelectedListenersInAdapterViews()
-	{
-		ListView adapterView = new ListView(null);
-		adapterView.setAdapter(new MockArrayAdapter());
-		MockOnItemSelectedListener listener1 = new MockOnItemSelectedListener();
-		MockOnItemSelectedListener listener2 = new MockOnItemSelectedListener();
-		
-		ViewListenerUtils.addOnItemSelectedListener(adapterView, listener1);
-		ViewListenerUtils.addOnItemSelectedListener(adapterView, listener2);
-		
-		adapterView.setSelection(5);
-		
-		assertTrue(listener1.itemSelectionEventFired);
-		assertTrue(listener2.itemSelectionEventFired);
-	}
-	
-	private static class MockOnItemSelectedListener implements OnItemSelectedListener 
-	{
-		private boolean itemSelectionEventFired;
-
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-		{
-			itemSelectionEventFired = true;
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> parent)
-		{
-		}
-	}
-
 	@Test
 	public void shouldSupportMultipleOnFocusChangeListeners()
 	{

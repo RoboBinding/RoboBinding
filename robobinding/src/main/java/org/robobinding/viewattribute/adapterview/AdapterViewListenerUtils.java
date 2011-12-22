@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.view;
+package org.robobinding.viewattribute.adapterview;
 
-import android.view.View;
-import android.view.View.OnFocusChangeListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 /**
  *
@@ -24,23 +24,23 @@ import android.view.View.OnFocusChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewListenerUtils
+public class AdapterViewListenerUtils
 {
-	private ViewListenerUtils()
+	private AdapterViewListenerUtils()
 	{
 	}
 	
-	public static void addOnFocusChangeListener(View view, OnFocusChangeListener listener)
+	public static void addOnItemSelectedListener(AdapterView<?> view, OnItemSelectedListener listener)
 	{
-		OnFocusChangeListener existingListener = view.getOnFocusChangeListener();
-		if(existingListener == null)
+		OnItemSelectedListener existingListener = view.getOnItemSelectedListener();
+		if (existingListener == null)
 		{
-			view.setOnFocusChangeListener(listener);
+			view.setOnItemSelectedListener(listener);
 		}else
 		{
-			OnFocusChangeListeners listeners = OnFocusChangeListeners.convert(existingListener);
+			OnItemSelectedListeners listeners = OnItemSelectedListeners.convert(existingListener);
 			listeners.addListener(listener);
-			view.setOnFocusChangeListener(listeners);
+			view.setOnItemSelectedListener(listeners);
 		}
 	}
 }

@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.Command;
-import org.robobinding.viewattribute.view.ViewListenerUtils;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,7 +41,7 @@ public class OnItemSelectedAttribute extends AbstractCommandViewAttribute
 	@Override
 	protected void bind(final Command command)
 	{
-		ViewListenerUtils.addOnItemSelectedListener(adapterView, new OnItemSelectedListener() {
+		AdapterViewListenerUtils.addOnItemSelectedListener(adapterView, new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 			{
