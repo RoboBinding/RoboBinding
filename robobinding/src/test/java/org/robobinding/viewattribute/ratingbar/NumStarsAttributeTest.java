@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.progressbar;
+package org.robobinding.viewattribute.ratingbar;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -22,10 +22,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.app.Activity;
-import android.widget.ProgressBar;
+import android.widget.RatingBar;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
-
 
 /**
  *
@@ -34,19 +33,18 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class MaxAttributeTest
+public class NumStarsAttributeTest
 {
-	private static final int NEW_MAX_VALUE = 50;
-	
+	private static final int NEW_NUM_STARS = 10;
+
 	@Test
-	public void whenUpdatingValueModel_ThenSetMaxOnProgressBar()
+	public void whenUpdatingValueModel_ThenSetNumStarsOnRatingBar()
 	{
-		ProgressBar progressBar = new ProgressBar(new Activity());
-		MaxAttribute maxAttribute = new MaxAttribute(progressBar, "{propertyName}", true);
+		RatingBar ratingBar = new RatingBar(new Activity());
+		NumStarsAttribute numStarsAttribute = new NumStarsAttribute(ratingBar, "{propertyName}", true);
 		
-		maxAttribute.valueModelUpdated(NEW_MAX_VALUE);
+		numStarsAttribute.valueModelUpdated(NEW_NUM_STARS);
 		
-		assertThat(progressBar.getMax(), is(NEW_MAX_VALUE));
+		assertThat(ratingBar.getNumStars(), is(NEW_NUM_STARS));
 	}
-	
 }

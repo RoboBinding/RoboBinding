@@ -43,7 +43,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class SeekBarAttributeTest
+public class OnSeekBarChangeAttributeTest
 {
 	private SeekBar seekBar;
 	private Context context = new Activity();

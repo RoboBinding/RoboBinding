@@ -36,6 +36,11 @@ public class ProgressBarAttributeProvider implements BindingAttributeProvider<Pr
 	@Override
 	public void resolveSupportedBindingAttributes(ProgressBar progressBar, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
 	{
+		if (bindingAttributeResolver.hasAttribute(MAX))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(MAX);
+			bindingAttributeResolver.resolveAttribute(MAX, new MaxAttribute(progressBar, attributeValue, preInitializeViews));
+		}
 		if (bindingAttributeResolver.hasAttribute(PROGRESS) && !(progressBar instanceof SeekBar))
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(PROGRESS);
@@ -45,11 +50,6 @@ public class ProgressBarAttributeProvider implements BindingAttributeProvider<Pr
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(SECONDARY_PROGRESS);
 			bindingAttributeResolver.resolveAttribute(SECONDARY_PROGRESS, new SecondaryProgressAttribute(progressBar, attributeValue, preInitializeViews));
-		}
-		if (bindingAttributeResolver.hasAttribute(MAX))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(MAX);
-			bindingAttributeResolver.resolveAttribute(MAX, new MaxAttribute(progressBar, attributeValue, preInitializeViews));
 		}
 	}
 

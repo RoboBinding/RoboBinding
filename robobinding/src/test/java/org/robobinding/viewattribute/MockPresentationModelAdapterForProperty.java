@@ -13,18 +13,34 @@ public class MockPresentationModelAdapterForProperty<T> implements PresentationM
 {
 	private static final String PROPERTY_NAME = "propertyName";
 	public static final String ONE_WAY_BINDING_PROPERTY_NAME = "{"+PROPERTY_NAME+"}";
+	public static final String TWO_WAY_BINDING_PROPERTY_NAME = "$" + ONE_WAY_BINDING_PROPERTY_NAME;
 	
 	private Class<?> propertyType;
 	private PropertyValueModel<T> propertyValueModel;
+	
+	@SuppressWarnings("unchecked")
 	private MockPresentationModelAdapterForProperty(Class<T> propertyType)
 	{
 		this.propertyType = propertyType;
-		propertyValueModel = ValueModelUtils.create();
+		
+		if (PrimitiveTypeUtils.floatIsAssignableFrom(propertyType))
+			propertyValueModel = (PropertyValueModel<T>)ValueModelUtils.createFloat(0f);
+		else if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
+			propertyValueModel = (PropertyValueModel<T>)ValueModelUtils.createInteger(0);
+		else if (PrimitiveTypeUtils.booleanIsAssignableFrom(propertyType))
+			propertyValueModel = (PropertyValueModel<T>)ValueModelUtils.createBoolean(false);
+		else
+			propertyValueModel = ValueModelUtils.create();
 	}
 	
 	public void updatePropertyValue(T newValue)
 	{
 		propertyValueModel.setValue(newValue);
+	}
+	
+	public T getPropertyValue()
+	{
+		return propertyValueModel.getValue();
 	}
 	
 	@Override
@@ -74,10 +90,10 @@ public class MockPresentationModelAdapterForProperty<T> implements PresentationM
 	}
 	
 	
-	public static <T> MockPresentationModelAdapterForProperty<T> bindToProperty(ViewAttribute backgroundAttribute, Class<T> propertyType)
+	public static <T> MockPresentationModelAdapterForProperty<T> bindToProperty(ViewAttribute viewAttribute, Class<T> propertyType)
 	{
 		MockPresentationModelAdapterForProperty<T> mockPresentationModelAdapter = new MockPresentationModelAdapterForProperty<T>(propertyType);
-		backgroundAttribute.bind(mockPresentationModelAdapter, new Activity());
+		viewAttribute.bind(mockPresentationModelAdapter, new Activity());
 		return mockPresentationModelAdapter;
 	}
 }

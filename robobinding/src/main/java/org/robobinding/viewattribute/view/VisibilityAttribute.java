@@ -18,6 +18,7 @@ package org.robobinding.viewattribute.view;
 import org.robobinding.binder.PropertyViewAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
+import org.robobinding.viewattribute.PrimitiveTypeUtils;
 import org.robobinding.viewattribute.PropertyBindingDetails;
 
 import android.content.Context;
@@ -51,11 +52,11 @@ public class VisibilityAttribute implements PropertyViewAttribute
 	{
 		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
 		
-		if (propertyType.isAssignableFrom(int.class) || propertyType.isAssignableFrom(Integer.class))
+		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
 			return new IntegerVisibilityAttribute();
 		}
-		else if (propertyType.isAssignableFrom(boolean.class) || propertyType.isAssignableFrom(Boolean.class))
+		else if (PrimitiveTypeUtils.booleanIsAssignableFrom(propertyType))
 		{
 			return new BooleanVisibilityAttribute();
 		}
