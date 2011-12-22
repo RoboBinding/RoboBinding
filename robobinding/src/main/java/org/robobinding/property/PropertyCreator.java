@@ -84,6 +84,9 @@ class PropertyCreator
 			if(List.class.isAssignableFrom(propertyAccessor.getPropertyType()))
 			{
 				dataSetProperty = new ListDataSetProperty<T>(observableBean, propertyAccessor);
+			}else if(propertyAccessor.getPropertyType().isArray())
+			{
+				dataSetProperty = new ArrayDataSetProperty<T>(observableBean, propertyAccessor);
 			}else if(TypedCursor.class.isAssignableFrom(propertyAccessor.getPropertyType()))
 			{
 				dataSetProperty = new CursorDataSetProperty<T>(observableBean, propertyAccessor);

@@ -47,6 +47,13 @@ public class PropertyCreatorTest
 		Assert.assertNotNull(listDataSetProperty);
 	}
 	@Test
+	public void whenCreateArrayDataSetProperty_thenReturnInstance()
+	{
+		DataSetProperty<Object> arrayDataSetProperty = propertyCreator.createDataSetProperty(Bean.ARRAY_DATA_SET_PROPERTY);
+		
+		Assert.assertNotNull(arrayDataSetProperty);
+	}
+	@Test
 	public void whenCreateCursorDataSetProperty_thenReturnInstance()
 	{
 		DataSetProperty<Object> cursorDataSetProperty = propertyCreator.createDataSetProperty(Bean.CURSOR_DATA_SET_PROPERTY);
