@@ -111,8 +111,8 @@
             <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:isIndicator="true"
+                style="?android:attr/ratingBarStyleSmall" 
                 bind:numStars="{numStars}"
                 bind:rating="{rating}" />
         </LinearLayout>

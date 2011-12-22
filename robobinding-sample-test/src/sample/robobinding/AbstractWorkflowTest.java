@@ -21,6 +21,7 @@ import sample.robobinding.model.Album;
 import sample.robobinding.model.Genre;
 import sample.robobinding.store.AlbumStore;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.RatingBar;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -34,6 +35,7 @@ import com.jayway.android.robotium.solo.Solo;
 public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCase2<HomeActivity>
 {
 	private final int genreIndex = randomGenreIndex();
+	private final int ratingIndex = randomRatingIndex();
 	
 	protected Solo solo;
 
@@ -68,13 +70,14 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 		assertTrue(solo.isCheckBoxChecked(0));
 		assertTrue(solo.searchEditText("Composer name"));
 		assertGenreIsSelected();
+		assertRatingIsSet();
 		
 		solo.clearEditText(0);
 		solo.enterText(0, "New album name");
 		
-		assertTrue(solo.searchText("Edit Classical Album"));
+		assertTitleReads("Edit Classical Album");
 		solo.clickOnCheckBox(0);
-		assertTrue(solo.searchText("Edit Album"));
+		assertTitleReads("Edit Album");
 		
 		clickOnButtonWithLabel(R.string.save);
 		
@@ -84,6 +87,12 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 		solo.goBack();
 		
 		assertTrue(solo.searchText("New album name"));
+	}
+
+	private void assertTitleReads(String title)
+	{
+		while(solo.scrollUp()){}
+		assertTrue(solo.searchText(title));
 	}
 
 	protected void deleteAlbumTests()
@@ -115,6 +124,7 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 		solo.clickOnCheckBox(0);
 		solo.enterText(2, "Composer name");
 		selectAGenre();
+		setARating();
 	}
 
 	private void selectAGenre()
@@ -140,6 +150,27 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 	private int randomGenreIndex() 
 	{
 		return new Random().nextInt(Genre.values().length - 1) + 1;
+	}
+	
+	private void setARating()
+	{
+		getRatingBar().setRating(ratingIndex);
+	}
+	
+	private void assertRatingIsSet()
+	{
+		assertTrue(getRatingBar().getRating() == ratingIndex);
+	}
+	
+	private RatingBar getRatingBar()
+	{
+		while (solo.scrollDown()){}
+		return (RatingBar)solo.getCurrentProgressBars().get(solo.getCurrentProgressBars().size() - 1);
+	}
+	
+	private int randomRatingIndex() 
+	{
+		return new Random().nextInt(Album.MAX_RATING);
 	}
 	
 	private void assertThatDeleteDialogTitleIsVisible()
