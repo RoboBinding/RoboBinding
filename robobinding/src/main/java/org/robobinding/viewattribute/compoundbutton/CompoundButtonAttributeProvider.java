@@ -29,6 +29,7 @@ import android.widget.CompoundButton;
 public class CompoundButtonAttributeProvider implements BindingAttributeProvider<CompoundButton>
 {
 	private static final String CHECKED = "checked";
+	private static final String ON_CHECKED_CHANGE = "onCheckedChange";
 	@Override
 	public void resolveSupportedBindingAttributes(CompoundButton compoundButton, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
 	{
@@ -36,6 +37,11 @@ public class CompoundButtonAttributeProvider implements BindingAttributeProvider
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(CHECKED);
 			bindingAttributeResolver.resolveAttribute(CHECKED, new CheckedAttribute(compoundButton, attributeValue, preInitializeView));
+		}
+		if (bindingAttributeResolver.hasAttribute(ON_CHECKED_CHANGE))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_CHECKED_CHANGE);
+			bindingAttributeResolver.resolveAttribute(ON_CHECKED_CHANGE, new OnCheckedChangeAttribute(compoundButton, attributeValue));
 		}
 	}
 }

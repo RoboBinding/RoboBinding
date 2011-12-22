@@ -45,5 +45,6 @@ public class CompoundButtonAttributeProviderTest extends AbstractBindingAttribut
 	protected void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings)
 	{
 		attributeClassMappings.add("checked", CheckedAttribute.class);
+		attributeClassMappings.add("onCheckedChange", OnCheckedChangeAttribute.class);
 	}
 }

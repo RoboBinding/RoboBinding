@@ -27,14 +27,12 @@ import android.widget.TextView;
  */
 public abstract class AbstractTextViewEvent extends ViewEvent
 {
-	private TextView textView;
 	protected AbstractTextViewEvent(TextView textView)
 	{
 		super(textView);
-		this.textView = textView;
 	}
 	public TextView getTextView()
 	{
-		return textView;
+		return (TextView)getView();
 	}
 }
