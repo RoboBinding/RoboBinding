@@ -15,7 +15,9 @@
  */
 package org.robobinding.binding.viewattribute.provider;
 
-import org.robobinding.binding.viewattribute.ImageSourceAttribute;
+import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.imageview.ImageSourceAttribute;
+import org.robobinding.viewattribute.imageview.ImageViewAttributeProvider;
 
 import android.widget.ImageView;
 

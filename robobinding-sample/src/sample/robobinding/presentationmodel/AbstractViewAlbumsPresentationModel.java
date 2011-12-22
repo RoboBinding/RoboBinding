@@ -15,8 +15,8 @@
  */
 package sample.robobinding.presentationmodel;
 
-import org.robobinding.binding.viewattribute.ItemClickEvent;
 import org.robobinding.presentationmodelaspects.PresentationModel;
+import org.robobinding.viewattribute.adapterview.ItemClickEvent;
 
 import sample.robobinding.CreateEditAlbumActivity;
 import sample.robobinding.ViewAlbumActivity;

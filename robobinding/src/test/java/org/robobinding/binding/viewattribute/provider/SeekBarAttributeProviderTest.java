@@ -16,7 +16,9 @@
 package org.robobinding.binding.viewattribute.provider;
 
 import org.junit.runner.RunWith;
-import org.robobinding.binding.viewattribute.OnSeekBarChangeAttribute;
+import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.seekbar.OnSeekBarChangeAttribute;
+import org.robobinding.viewattribute.seekbar.SeekBarAttributeProvider;
 
 import android.widget.SeekBar;
 

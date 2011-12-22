@@ -26,12 +26,12 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binding.BindingAttribute;
-import org.robobinding.binding.BindingAttributeResolver;
-import org.robobinding.binding.ViewAttribute;
-import org.robobinding.binding.viewattribute.provider.BindingAttributeProvider;
+import org.robobinding.binder.BindingAttribute;
+import org.robobinding.binder.BindingAttributeResolver;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.internal.com_google_common.collect.Maps;
+import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttribute;
 
 import android.view.View;
 

@@ -18,10 +18,10 @@ package org.robobinding.binding.viewattribute.provider;
 import java.util.List;
 import java.util.Map;
 
-import org.robobinding.binding.BindingAttribute;
-import org.robobinding.binding.BindingAttributeResolver;
-import org.robobinding.binding.viewattribute.provider.BindingAttributeProvider;
+import org.robobinding.binder.BindingAttribute;
+import org.robobinding.binder.BindingAttributeResolver;
 import org.robobinding.internal.com_google_common.collect.Maps;
+import org.robobinding.viewattribute.BindingAttributeProvider;
 
 import android.view.View;
 

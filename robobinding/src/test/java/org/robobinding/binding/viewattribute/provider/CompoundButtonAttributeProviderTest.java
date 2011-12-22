@@ -15,9 +15,9 @@
  */
 package org.robobinding.binding.viewattribute.provider;
 
-import org.robobinding.binding.viewattribute.CheckedAttribute;
-import org.robobinding.binding.viewattribute.provider.BindingAttributeProvider;
-import org.robobinding.binding.viewattribute.provider.CompoundButtonAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.compoundbutton.CheckedAttribute;
+import org.robobinding.viewattribute.compoundbutton.CompoundButtonAttributeProvider;
 
 import android.widget.CheckBox;
 import android.widget.CompoundButton;

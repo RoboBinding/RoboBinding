@@ -23,11 +23,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binding.BindingAttribute;
-import org.robobinding.binding.viewattribute.TextAttribute;
-import org.robobinding.binding.viewattribute.ValueCommitMode;
-import org.robobinding.binding.viewattribute.provider.BindingAttributeProvider;
-import org.robobinding.binding.viewattribute.provider.TextViewAttributeProvider;
+import org.robobinding.binder.BindingAttribute;
+import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.textview.TextAttribute;
+import org.robobinding.viewattribute.textview.TextViewAttributeProvider;
+import org.robobinding.viewattribute.textview.ValueCommitMode;
 
 
 import android.widget.TextView;

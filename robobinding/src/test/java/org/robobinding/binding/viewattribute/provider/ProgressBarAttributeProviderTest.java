@@ -15,8 +15,10 @@
  */
 package org.robobinding.binding.viewattribute.provider;
 
-import org.robobinding.binding.viewattribute.ProgressAttribute;
-import org.robobinding.binding.viewattribute.SecondaryProgressAttribute;
+import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.progressbar.ProgressAttribute;
+import org.robobinding.viewattribute.progressbar.ProgressBarAttributeProvider;
+import org.robobinding.viewattribute.progressbar.SecondaryProgressAttribute;
 
 import android.widget.ProgressBar;
 
