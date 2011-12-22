@@ -1,103 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:bind="http://robobinding.org/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-	
-	<TextView 
-		android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    bind:text="{windowTitle}"
-	    style="@style/ScreenTitle" />
-	
-	<TextView 
-		android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:text="@string/title"
-	    style="@style/Heading" />
-	
-	<EditText
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:inputType="text"
-	    android:imeOptions="actionNext"
-	    bind:text="${title}" />
-	
-	<TextView 
-		android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:text="@string/artist"
-	    style="@style/Heading" />
-	
-	<EditText
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:inputType="text"
-	    android:imeOptions="actionNext"
-	    bind:text="${artist}" />
-	
-	<TextView 
-		android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:text="@string/classical"
-	    style="@style/Heading" />
-	    
-	<CheckBox
-		android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content"
-	    bind:checked="${classical}" />
-	
-	<TextView 
-		android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:text="@string/composer"
-	    style="@style/Heading" />
-	
-	<EditText
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:inputType="text"
-	    android:imeOptions="actionNext"
-	    bind:text="${composer}"
-	    bind:enabled="{composerEnabled}" />
-	
-	<TextView 
-		android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:text="@string/genre"
-	    style="@style/Heading" />
-	
-	<LinearLayout 
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" >
-	    
-	    <TextView 
-			android:layout_width="0dp" 
-		    android:layout_height="wrap_content"
-		    android:layout_weight="1"
-		    bind:text="{genreLabel}" />
-	    
-	    <ImageView 
-			android:layout_width="0dp" 
-		    android:layout_height="wrap_content"
-		    android:layout_weight="1" 
-		    android:contentDescription="@string/genre_icon"
-		    bind:src="{genreIcon}" />
-	    
-	</LinearLayout>
-	
-	<SeekBar 
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content"
-	    bind:max="{sliderMax}"
-	    bind:progress="${genreIndex}" />
-	    
-	<Button
-		android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content"
-	    android:text="@string/save"
-	    bind:onClick="save" />
-	    
-</LinearLayout>
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/save"
+        bind:onClick="save" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/save_button" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/ScreenTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                bind:text="{windowTitle}" />
+
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                bind:text="${title}" />
+
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/artist" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                bind:text="${artist}" />
+
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/classical" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bind:checked="${classical}" />
+
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/composer" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                bind:enabled="{composerEnabled}"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                bind:text="${composer}" />
+
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/genre" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    bind:text="{genreLabel}" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/genre_icon"
+                    bind:src="{genreIcon}" />
+            </LinearLayout>
+
+            <SeekBar
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                bind:max="{sliderMax}"
+                bind:progress="${genreIndex}" />
+
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rating" />
+            
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                bind:numStars="{numStars}"
+                bind:rating="${rating}" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

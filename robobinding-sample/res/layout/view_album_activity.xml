@@ -101,6 +101,20 @@
                 android:contentDescription="@string/genre_icon"
                 bind:src="{genreIcon}"
                 bind:visibility="{genreSpecified}" />
+            
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rating" />
+            
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:isIndicator="true"
+                bind:numStars="{numStars}"
+                bind:rating="{rating}" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

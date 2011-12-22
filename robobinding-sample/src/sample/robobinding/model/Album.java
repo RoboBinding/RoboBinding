@@ -25,6 +25,7 @@ package sample.robobinding.model;
 public class Album
 {
 	public static final int NO_ID = -1;
+	public static final int MAX_RATING = 5;
 	
 	private long id;
 	private String title;
@@ -32,6 +33,7 @@ public class Album
 	private boolean classical;
 	private String composer;
 	private Genre genre;
+	private int rating;
 	
 	private Album(Builder builder)
 	{
@@ -45,6 +47,7 @@ public class Album
 			this.composer = builder.composer;
 		}
 		this.genre = builder.genre;
+		this.rating = builder.rating;
 	}
 	private void validate(Builder builder)
 	{
@@ -71,6 +74,15 @@ public class Album
 	{
 		this.genre = genre;
 	}
+	public int getRating()
+	{
+		return rating;
+	}
+	public void setRating(int rating)
+	{
+		this.rating = rating;
+	}
+	
 	public Builder createBuilder()
 	{
 		Builder builder = new Builder();
@@ -80,6 +92,7 @@ public class Album
 		builder.setComposer(composer);
 		builder.setId(id);
 		builder.setGenre(genre);
+		builder.setRating(rating);
 		return builder;
 	}
 	
@@ -131,6 +144,8 @@ public class Album
 		private boolean classical;
 		private String composer;
 		private Genre genre = Genre.UNSPECIFIED;
+		private int rating;
+		
 		public long getId()
 		{
 			return id;
@@ -191,6 +206,14 @@ public class Album
 		public Album create()
 		{
 			return new Album(this);
+		}
+		public int getRating()
+		{
+			return rating;
+		}
+		public void setRating(int rating)
+		{
+			this.rating = rating;
 		}
 	}
 

@@ -106,6 +106,16 @@ public class ViewAlbumPresentationModel
 		deleteAlbumDialog.show();
 	}
 	
+	public int getNumStars()
+	{
+		return Album.MAX_RATING;
+	}
+	
+	public int getRating()
+	{
+		return album.getRating();
+	}
+	
 	public void refresh()
 	{
 		this.album = AlbumStore.get(albumId);

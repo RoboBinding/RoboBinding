@@ -140,6 +140,21 @@ public class CreateEditAlbumPresentationModel
 		return albumBuilder.getGenre().getLabel();
 	}
 	
+	public int getNumStars()
+	{
+		return Album.MAX_RATING;
+	}
+	
+	public int getRating()
+	{
+		return albumBuilder.getRating();
+	}
+	
+	public void setRating(int rating)
+	{
+		albumBuilder.setRating(rating);
+	}
+	
 	@DependsOnStateOf(CLASSICAL)
 	public String getWindowTitle()
 	{

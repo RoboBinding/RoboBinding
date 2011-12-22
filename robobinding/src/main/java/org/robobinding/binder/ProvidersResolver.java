@@ -26,6 +26,7 @@ import org.robobinding.viewattribute.adapterview.AdapterViewAttributeProvider;
 import org.robobinding.viewattribute.compoundbutton.CompoundButtonAttributeProvider;
 import org.robobinding.viewattribute.imageview.ImageViewAttributeProvider;
 import org.robobinding.viewattribute.progressbar.ProgressBarAttributeProvider;
+import org.robobinding.viewattribute.ratingbar.RatingBarAttributeProvider;
 import org.robobinding.viewattribute.seekbar.SeekBarAttributeProvider;
 import org.robobinding.viewattribute.textview.TextViewAttributeProvider;
 import org.robobinding.viewattribute.view.ViewAttributeProvider;
@@ -35,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -59,6 +61,7 @@ public class ProvidersResolver
 		viewAttributeProviderMap.put(ImageView.class, new ImageViewAttributeProvider());
 		viewAttributeProviderMap.put(ProgressBar.class, new ProgressBarAttributeProvider());
 		viewAttributeProviderMap.put(SeekBar.class, new SeekBarAttributeProvider());
+		viewAttributeProviderMap.put(RatingBar.class, new RatingBarAttributeProvider());
 	}
 	
 	public Queue<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)
