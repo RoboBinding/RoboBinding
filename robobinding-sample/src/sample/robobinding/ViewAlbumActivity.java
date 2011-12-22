@@ -15,7 +15,7 @@
  */
 package sample.robobinding;
 
-import org.robobinding.binding.Binder;
+import org.robobinding.binder.Binder;
 
 import sample.robobinding.presentationmodel.ViewAlbumPresentationModel;
 import android.app.Activity;

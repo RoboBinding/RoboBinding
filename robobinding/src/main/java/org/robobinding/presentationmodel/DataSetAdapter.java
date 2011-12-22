@@ -15,12 +15,12 @@
  */
 package org.robobinding.presentationmodel;
 
-import org.robobinding.binding.RowBinder;
-import org.robobinding.binding.viewattribute.DropdownMappingAttribute;
-import org.robobinding.binding.viewattribute.ItemMappingAttribute;
+import org.robobinding.binder.RowBinder;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
+import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
+import org.robobinding.viewattribute.adapterview.ItemMappingAttribute;
 
 import android.content.Context;
 import android.view.View;
