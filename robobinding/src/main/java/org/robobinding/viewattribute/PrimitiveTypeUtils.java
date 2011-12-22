@@ -27,4 +27,7 @@ public class PrimitiveTypeUtils
 	{
 		return Integer.class.isAssignableFrom(type) || int.class.isAssignableFrom(type);
 	}
+	private PrimitiveTypeUtils()
+	{
+	}
 }
