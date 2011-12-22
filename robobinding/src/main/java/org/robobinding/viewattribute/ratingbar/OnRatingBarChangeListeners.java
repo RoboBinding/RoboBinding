@@ -15,8 +15,7 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.Command;
+import org.robobinding.viewattribute.AbstractListeners;
 
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
@@ -27,33 +26,25 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnRatingBarChangeAttribute extends AbstractCommandViewAttribute
+public class OnRatingBarChangeListeners extends AbstractListeners<OnRatingBarChangeListener> implements OnRatingBarChangeListener
 {
-	private final RatingBar ratingBar;
-
-	public OnRatingBarChangeAttribute(RatingBar ratingBar, String commandName)
-	{
-		super(commandName);
-		this.ratingBar = ratingBar;
-	}
-
 	@Override
-	protected void bind(final Command command)
+	public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)
 	{
-		RatingBarListenerUtils.addOnRatingBarChangeListener(ratingBar, new OnRatingBarChangeListener(){
-			@Override
-			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)
-			{
-				RatingBarEvent ratingBarEvent = new RatingBarEvent(ratingBar, rating, fromUser);
-				command.invoke(ratingBarEvent);
-			}
-		});
+		for (OnRatingBarChangeListener onRatingBarChangeListener : listeners)
+			onRatingBarChangeListener.onRatingChanged(ratingBar, rating, fromUser);
 	}
 
-	@Override
-	protected Class<?> getPreferredCommandParameterType()
+	public static OnRatingBarChangeListeners convert(OnRatingBarChangeListener existingListener)
 	{
-		return RatingBarEvent.class;
+		if (existingListener instanceof OnRatingBarChangeListeners)
+		{
+			return (OnRatingBarChangeListeners)existingListener;
+		} else
+		{
+			OnRatingBarChangeListeners listeners = new OnRatingBarChangeListeners();
+			listeners.addListener(existingListener);
+			return listeners;
+		}
 	}
-
 }

@@ -16,39 +16,31 @@
 package org.robobinding.viewattribute.ratingbar;
 
 import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
+ * @author Cheng Wei
  */
-public class RatingBarEvent
+public class RatingBarListenerUtils
 {
-	private RatingBar ratingBar;
-	private float rating;
-	private boolean fromUser;
+	private RatingBarListenerUtils()
+	{
+	}
 	
-	public RatingBarEvent(RatingBar ratingBar, float rating, boolean fromUser)
+	public static void addOnRatingBarChangeListener(RatingBar ratingBar, OnRatingBarChangeListener listener)
 	{
-		this.ratingBar = ratingBar;
-		this.rating = rating;
-		this.fromUser = fromUser;
+		OnRatingBarChangeListener existingListener = ratingBar.getOnRatingBarChangeListener();
+		if(existingListener == null)
+		{
+			ratingBar.setOnRatingBarChangeListener(listener);
+		}else
+		{
+			OnRatingBarChangeListeners listeners = OnRatingBarChangeListeners.convert(existingListener);
+			listeners.addListener(listener);
+			ratingBar.setOnRatingBarChangeListener(listeners);
+		}
 	}
-
-	public RatingBar getRatingBar()
-	{
-		return ratingBar;
-	}
-
-	public float getRating()
-	{
-		return rating;
-	}
-
-	public boolean isFromUser()
-	{
-		return fromUser;
-	}
-
 }

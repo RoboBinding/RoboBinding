@@ -16,6 +16,8 @@
 package org.robobinding.viewattribute.ratingbar;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -27,7 +29,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.MockFunction;
-import org.robobinding.viewattribute.seekbar.SeekBarEvent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -42,7 +43,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-@Ignore
+@Ignore //Waiting for Robolectric to get updated
 public class OnRatingBarChangeAttributeTest
 {
 	private RatingBar ratingBar;
@@ -66,7 +67,7 @@ public class OnRatingBarChangeAttributeTest
 		OnRatingBarChangeAttribute onClickAttribute = new OnRatingBarChangeAttribute(ratingBar, commandName);
 		onClickAttribute.bind(mockPresentationModelAdapter, context);
 		
-		ratingBar.setProgress(75);
+		ratingBar.setRating(2f);
 	
 		assertTrue(mockFunction.commandInvoked);
 	}
@@ -77,12 +78,12 @@ public class OnRatingBarChangeAttributeTest
 		OnRatingBarChangeAttribute onClickAttribute = new OnRatingBarChangeAttribute(ratingBar, commandName);
 		onClickAttribute.bind(mockPresentationModelAdapter, context);
 		
-		ratingBar.setProgress(75);
+		ratingBar.setRating(2f);
 
-		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(SeekBarEvent.class));
+		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(RatingBarEvent.class));
 		RatingBarEvent ratingBarEvent = (RatingBarEvent)mockFunction.argsPassedToInvoke[0];
-//		assertTrue(ratingBarEvent.getSeekBar() == ratingBar);
-//		assertThat(ratingBarEvent.getProgress(), is(75));
-//		assertTrue(ratingBarEvent.isFromUser());
+		assertThat(ratingBarEvent.getRatingBar(), sameInstance(ratingBar));
+		assertThat(ratingBarEvent.getRating(), is(2f));
+		assertTrue(ratingBarEvent.isFromUser());
 	}
 }

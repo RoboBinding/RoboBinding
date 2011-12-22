@@ -77,7 +77,7 @@ public class RatingAttribute implements ViewAttribute
 		@Override
 		protected void observeChangesOnTheView(final PropertyValueModel<Float> valueModel)
 		{
-			ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+			RatingBarListenerUtils.addOnRatingBarChangeListener(ratingBar, new OnRatingBarChangeListener() {
 
 				@Override
 				public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)
