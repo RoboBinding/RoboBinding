@@ -38,7 +38,7 @@ public class BackgroundAttributeTest extends AbstractViewPropertyAttributeTest
 	public void givenResourceIdBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
 		int resourceId = 1;
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute(Integer.class);
+		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute(int.class);
 
 		mockPresentationModelAdapter.updatePropertyValue(resourceId);
 

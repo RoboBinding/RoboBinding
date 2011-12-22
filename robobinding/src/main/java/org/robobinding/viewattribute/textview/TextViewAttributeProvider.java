@@ -34,6 +34,7 @@ public class TextViewAttributeProvider implements BindingAttributeProvider<TextV
 	private static final String VALUE_COMMIT_MODE = "valueCommitMode";
 	private static final String[] TEXT_ATTRIBUTE_NAMES = {TEXT, VALUE_COMMIT_MODE};
 	private static final String TEXT_COLOR = "textColor";
+	private static final String ON_TEXT_CHANGED = "onTextChanged";
 	@Override
 	public void resolveSupportedBindingAttributes(TextView textView, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
 	{
@@ -48,6 +49,11 @@ public class TextViewAttributeProvider implements BindingAttributeProvider<TextV
 		{
 			ViewAttribute viewAttribute = new TextColorAttribute(textView, bindingAttributeResolver.findAttributeValue(TEXT_COLOR), preInitializeView);
 			bindingAttributeResolver.resolveAttribute(TEXT_COLOR, viewAttribute);
+		}
+		if(bindingAttributeResolver.hasAttribute(ON_TEXT_CHANGED))
+		{
+			ViewAttribute viewAttribute = new OnTextChangedAttribute(textView, bindingAttributeResolver.findAttributeValue(ON_TEXT_CHANGED));
+			bindingAttributeResolver.resolveAttribute(ON_TEXT_CHANGED, viewAttribute);
 		}
 	}
 
