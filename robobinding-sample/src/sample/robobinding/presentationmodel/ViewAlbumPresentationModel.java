@@ -20,6 +20,7 @@ import org.robobinding.presentationmodelaspects.PresentationModel;
 import sample.robobinding.CreateEditAlbumActivity;
 import sample.robobinding.DeleteAlbumDialog;
 import sample.robobinding.model.Album;
+import sample.robobinding.model.Genre;
 import sample.robobinding.store.AlbumStore;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -68,6 +69,21 @@ public class ViewAlbumPresentationModel
 	public String getClassicalDescription()
 	{
 		return album.isClassical() ? "Classical" : "Not classical";
+	}
+	
+	public boolean isGenreSpecified()
+	{
+		return album.getGenre() != Genre.UNSPECIFIED;
+	}
+	
+	public String getGenreLabel()
+	{
+		return album.getGenre().getLabel();
+	}
+	
+	public int getGenreIcon()
+	{
+		return album.getGenre().getIconResId();
 	}
 	
 	public void editAlbum()

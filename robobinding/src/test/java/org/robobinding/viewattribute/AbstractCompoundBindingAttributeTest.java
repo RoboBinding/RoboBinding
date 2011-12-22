@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binding.viewattribute.provider;
+package org.robobinding.viewattribute;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,6 @@ import java.util.Map;
 import org.robobinding.binder.BindingAttribute;
 import org.robobinding.binder.BindingAttributeResolver;
 import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.viewattribute.BindingAttributeProvider;
 
 import android.view.View;
 

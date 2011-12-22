@@ -53,7 +53,7 @@ public class ImageSourceAttribute implements PropertyViewAttribute
 	{
 		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
 		
-		if (Integer.class.isAssignableFrom(propertyType))
+		if (int.class.isAssignableFrom(propertyType) || Integer.class.isAssignableFrom(propertyType))
 		{
 			return new IntegerImageSourceAttribute();
 		}
@@ -66,7 +66,7 @@ public class ImageSourceAttribute implements PropertyViewAttribute
 			return new BitmapImageSourceAttribute();
 		}
 		
-		throw new RuntimeException("Could not find a suitable text attribute class for property type: " + propertyType);
+		throw new RuntimeException("Could not find a suitable image attribute class for property type: " + propertyType);
 	}
 
 	

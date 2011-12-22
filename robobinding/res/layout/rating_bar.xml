@@ -7,7 +7,7 @@
 	    android:id="@+id/supportedAttributesOfRatingBar"
 	    android:rating="1.2">
 	    <!-- 
-	    binding:OnRatingBarChange="onRatingBarChange()"
+	    bind:OnRatingBarChange="onRatingBarChange()"
 	     -->
 	</RatingBar>
 	<RatingBar 

@@ -50,11 +50,14 @@ public class SeekBarAttributeTest
 	private MockFunction mockFunction;
 	private PresentationModelAdapter mockPresentationModelAdapter;
 	private final String commandName = "someCommand";
+	private OnSeekBarChangeListeners onSeekBarChangeListeners;
 	
 	@Before
 	public void setUp()
 	{
 		seekBar = new SeekBar(null);
+		onSeekBarChangeListeners = new OnSeekBarChangeListeners();
+		seekBar.setOnSeekBarChangeListener(onSeekBarChangeListeners);
 		mockFunction = new MockFunction();
 		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
 		when(mockPresentationModelAdapter.findFunction(commandName, SeekBarEvent.class)).thenReturn(mockFunction);
@@ -63,7 +66,7 @@ public class SeekBarAttributeTest
 	@Test
 	public void whenSeekBarChanges_ThenInvokeCommand()
 	{
-		OnSeekBarChangeAttribute onClickAttribute = new OnSeekBarChangeAttribute(seekBar, commandName);
+		OnSeekBarChangeAttribute onClickAttribute = new OnSeekBarChangeAttribute(commandName, onSeekBarChangeListeners);
 		onClickAttribute.bind(mockPresentationModelAdapter, context);
 		
 		seekBar.setProgress(75);
@@ -74,7 +77,7 @@ public class SeekBarAttributeTest
 	@Test
 	public void whenSeekBarChanges_ThenInvokeCommandWithSeekBarEvent()
 	{
-		OnSeekBarChangeAttribute onClickAttribute = new OnSeekBarChangeAttribute(seekBar, commandName);
+		OnSeekBarChangeAttribute onClickAttribute = new OnSeekBarChangeAttribute(commandName, onSeekBarChangeListeners);
 		onClickAttribute.bind(mockPresentationModelAdapter, context);
 		
 		seekBar.setProgress(75);

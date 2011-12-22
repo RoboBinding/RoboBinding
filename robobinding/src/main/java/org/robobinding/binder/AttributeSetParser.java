@@ -31,7 +31,7 @@ import android.util.AttributeSet;
  */
 class AttributeSetParser
 {
-	static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/robobinding.android";
+	static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/android";
 
 	Map<String, String> parse(AttributeSet attributeSet)
 	{

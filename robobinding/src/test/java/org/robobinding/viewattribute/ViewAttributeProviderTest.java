@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binding.viewattribute.provider;
+package org.robobinding.viewattribute;
 
-import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.view.BackgroundColorAttribute;
 import org.robobinding.viewattribute.view.EnabledAttribute;
 import org.robobinding.viewattribute.view.OnClickAttribute;
@@ -23,7 +22,6 @@ import org.robobinding.viewattribute.view.OnFocusChangeAttribute;
 import org.robobinding.viewattribute.view.OnLongClickAttribute;
 import org.robobinding.viewattribute.view.ViewAttributeProvider;
 import org.robobinding.viewattribute.view.VisibilityAttribute;
-
 
 import android.view.View;
 

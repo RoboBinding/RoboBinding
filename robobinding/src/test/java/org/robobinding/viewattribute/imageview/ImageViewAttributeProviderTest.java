@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binding.viewattribute.provider;
+package org.robobinding.viewattribute.imageview;
 
+import org.robobinding.viewattribute.AbstractBindingAttributeProviderTest;
 import org.robobinding.viewattribute.BindingAttributeProvider;
-import org.robobinding.viewattribute.progressbar.ProgressAttribute;
-import org.robobinding.viewattribute.progressbar.ProgressBarAttributeProvider;
-import org.robobinding.viewattribute.progressbar.SecondaryProgressAttribute;
+import org.robobinding.viewattribute.imageview.ImageSourceAttribute;
+import org.robobinding.viewattribute.imageview.ImageViewAttributeProvider;
 
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 
 /**
  *
@@ -28,25 +28,24 @@ import android.widget.ProgressBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ProgressBarAttributeProviderTest extends AbstractBindingAttributeProviderTest<ProgressBar>
+public class ImageViewAttributeProviderTest extends AbstractBindingAttributeProviderTest<ImageView>
 {
 	@Override
-	protected BindingAttributeProvider<ProgressBar> getBindingAttributeProvider()
+	protected BindingAttributeProvider<ImageView> getBindingAttributeProvider()
 	{
-		return new ProgressBarAttributeProvider();
+		return new ImageViewAttributeProvider();
 	}
 
 	@Override
-	protected ProgressBar createNewViewInstance()
+	protected ImageView createNewViewInstance()
 	{
-		return new ProgressBar(null);
+		return new ImageView(null);
 	}
 
 	@Override
 	protected void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings)
 	{
-		attributeClassMappings.add("progress", ProgressAttribute.class);
-		attributeClassMappings.add("secondaryProgress", SecondaryProgressAttribute.class);		
+		attributeClassMappings.add("src", ImageSourceAttribute.class);
 	}
-	
+
 }

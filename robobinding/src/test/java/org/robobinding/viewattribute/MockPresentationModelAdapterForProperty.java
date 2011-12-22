@@ -6,7 +6,6 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.PropertyValueModel;
 import org.robobinding.property.ValueModelUtils;
-import org.robobinding.viewattribute.ViewAttribute;
 
 import android.app.Activity;
 

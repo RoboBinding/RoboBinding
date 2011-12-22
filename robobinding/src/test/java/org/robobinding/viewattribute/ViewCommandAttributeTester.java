@@ -24,7 +24,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 
 import android.app.Activity;
 

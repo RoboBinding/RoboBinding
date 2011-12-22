@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:binding="http://robobinding.org/robobinding.android"
+  xmlns:bind="http://robobinding.org/android"
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
@@ -16,31 +16,31 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:text="@string/cursor_backed_albums"
-    	binding:onClick="cursorBackedAlbumsListView" />
+    	bind:onClick="cursorBackedAlbumsListView" />
     	
     <Button
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:text="@string/list_backed_albums"
-    	binding:onClick="listBackedAlbumsListView" />
+    	bind:onClick="listBackedAlbumsListView" />
     	
     <Button
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:text="@string/listview_albums_with_predefined_views"
-    	binding:onClick="listBackedAlbumsListViewWithPredefinedViews" />
+    	bind:onClick="listBackedAlbumsListViewWithPredefinedViews" />
     
     <Button
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:text="@string/spinner_albums"
-    	binding:onClick="listBackedAlbumsSpinner" />
+    	bind:onClick="listBackedAlbumsSpinner" />
     
     <Button
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:text="@string/spinner_albums_with_predefined_views"
-    	binding:onClick="listBackedAlbumsSpinnerWithPredefinedViews" />
+    	bind:onClick="listBackedAlbumsSpinnerWithPredefinedViews" />
     
     <TextView
     	android:layout_width="fill_parent"

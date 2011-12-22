@@ -71,6 +71,7 @@ public class ViewListenerUtilsTest
 		{
 		}
 	}
+
 	@Test
 	public void shouldSupportMultipleOnFocusChangeListeners()
 	{

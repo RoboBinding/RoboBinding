@@ -82,42 +82,88 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 			valueModelUpdated(valueModel.getValue());
 	}
 	
-	protected void observeChangesOnTheValueModel(final PropertyValueModel<T> valueModel)
-	{
-		valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener() {
-			@Override
-			public void propertyChanged()
-			{
-				valueModelUpdated(valueModel.getValue());
-			}
-		});
-	}
-	
 	interface PropertyBinder
 	{
 		void performBind();
 	}
 	
-	class OneWayBinder implements PropertyBinder
+	private class OneWayBinder implements PropertyBinder
 	{
 		@Override
 		public void performBind()
 		{
-			PropertyValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
+			final PropertyValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
 			initializeView(valueModel);
-			observeChangesOnTheValueModel(valueModel);
+			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener(){
+				@Override
+				public void propertyChanged()
+				{
+					valueModelUpdated(valueModel.getValue());
+				}
+			});
 		}
 	}
 	
-	class TwoWayBinder implements PropertyBinder
+	private class TwoWayBinder implements PropertyBinder
 	{
+		private boolean updatedProgrammatically;
+		
 		@Override
 		public void performBind()
 		{
 			PropertyValueModel<T> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
+			valueModel = new PropertyValueModelWrapper(valueModel);
 			initializeView(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);
+		}
+		
+		private void observeChangesOnTheValueModel(final PropertyValueModel<T> valueModel)
+		{
+			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener() {
+				@Override
+				public void propertyChanged()
+				{
+					if (!updatedProgrammatically)
+						valueModelUpdated(valueModel.getValue());
+				}
+			});
+		}
+		
+		private class PropertyValueModelWrapper implements PropertyValueModel<T>
+		{
+			private PropertyValueModel<T> propertyValueModel;
+
+			public PropertyValueModelWrapper(PropertyValueModel<T> propertyValueModel)
+			{
+				this.propertyValueModel = propertyValueModel;
+			}
+
+			@Override
+			public T getValue()
+			{
+				return propertyValueModel.getValue();
+			}
+
+			@Override
+			public void setValue(T newValue)
+			{
+				updatedProgrammatically = true;
+				propertyValueModel.setValue(newValue);
+				updatedProgrammatically = false;
+			}
+
+			@Override
+			public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener)
+			{
+				propertyValueModel.addPropertyChangeListener(listener);
+			}
+
+			@Override
+			public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener)
+			{
+				propertyValueModel.removePropertyChangeListener(listener);
+			}
 		}
 	}
 }

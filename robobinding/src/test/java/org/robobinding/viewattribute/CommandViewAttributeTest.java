@@ -24,8 +24,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.Command;
 import org.robobinding.viewattribute.adapterview.ItemClickEvent;
 
 import android.content.Context;

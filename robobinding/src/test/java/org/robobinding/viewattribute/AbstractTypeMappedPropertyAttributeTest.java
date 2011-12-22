@@ -28,7 +28,6 @@ import org.robobinding.internal.com_google_common.collect.Sets;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PropertyValueModel;
 import org.robobinding.property.ValueModelUtils;
-import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 
 
 /**

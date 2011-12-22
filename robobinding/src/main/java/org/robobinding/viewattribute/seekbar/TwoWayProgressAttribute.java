@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.seekbar;
 
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.Command;
+import org.robobinding.property.PropertyValueModel;
+import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -27,20 +27,34 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute
+public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<Integer>
 {
+	private final SeekBar seekBar;
 	private final OnSeekBarChangeListeners onSeekBarChangeListeners;
 
-	public OnSeekBarChangeAttribute(String commandName, OnSeekBarChangeListeners onSeekBarChangeListeners)
+	public TwoWayProgressAttribute(SeekBar seekBar, String attributeValue, boolean preInitializeView, OnSeekBarChangeListeners onSeekBarChangeListeners)
 	{
-		super(commandName);
+		super(attributeValue, preInitializeView);
+		this.seekBar = seekBar;
 		this.onSeekBarChangeListeners = onSeekBarChangeListeners;
 	}
 
 	@Override
-	protected void bind(final Command command)
+	protected void valueModelUpdated(Integer progress)
+	{
+		seekBar.setProgress(progress);
+	}
+
+	@Override
+	protected void observeChangesOnTheView(final PropertyValueModel<Integer> valueModel)
 	{
 		onSeekBarChangeListeners.addListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+			{
+				valueModel.setValue(progress);
+			}
 			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar)
@@ -51,21 +65,8 @@ public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute
 			public void onStartTrackingTouch(SeekBar seekBar)
 			{
 			}
-			
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-			{
-				SeekBarEvent seekBarEvent = new SeekBarEvent(seekBar, progress, fromUser);
-				command.invoke(seekBarEvent);
-			}
 		});
 
-	}
-
-	@Override
-	protected Class<?> getPreferredCommandParameterType()
-	{
-		return SeekBarEvent.class;
 	}
 
 }

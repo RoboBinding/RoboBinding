@@ -15,9 +15,10 @@
  */
 package sample.robobinding;
 
-import sample.robobinding.HomeActivity;
-import sample.robobinding.R;
+import java.util.Random;
+
 import sample.robobinding.model.Album;
+import sample.robobinding.model.Genre;
 import sample.robobinding.store.AlbumStore;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -32,6 +33,8 @@ import com.jayway.android.robotium.solo.Solo;
  */
 public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCase2<HomeActivity>
 {
+	private final int genreIndex = randomGenreIndex();
+	
 	protected Solo solo;
 
 	public AbstractWorkflowTest()
@@ -58,11 +61,13 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 		
 		assertTrue(solo.searchText("Classical"));
 		assertTrue(solo.searchText("Composer name"));
+		assertGenreIsVisible();
 		
 		clickOnButtonWithLabel(R.string.edit);
 		
 		assertTrue(solo.isCheckBoxChecked(0));
 		assertTrue(solo.searchEditText("Composer name"));
+		assertGenreIsSelected();
 		
 		solo.clearEditText(0);
 		solo.enterText(0, "New album name");
@@ -109,11 +114,33 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 		solo.enterText(1, "Artist name");
 		solo.clickOnCheckBox(0);
 		solo.enterText(2, "Composer name");
+		selectAGenre();
 	}
 
-	protected abstract int homeButtonStringResId();
+	private void selectAGenre()
+	{
+		solo.setProgressBar(0, genreIndex);
+	}
+
+	private void assertGenreIsVisible()
+	{
+		assertTrue(solo.searchText(getGenreAtIndex(genreIndex).getLabel()));
+	}
 	
-	protected abstract void selectFirstAlbum();
+	private void assertGenreIsSelected()
+	{
+		assertTrue(solo.getCurrentProgressBars().get(0).getProgress() == genreIndex);
+	}
+	
+	private Genre getGenreAtIndex(int index)
+	{
+		return Genre.values()[index];
+	}
+	
+	private int randomGenreIndex() 
+	{
+		return new Random().nextInt(Genre.values().length - 1) + 1;
+	}
 	
 	private void assertThatDeleteDialogTitleIsVisible()
 	{
@@ -152,4 +179,8 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 		super.tearDown();
 		solo.finishOpenedActivities();
 	}
+	
+	protected abstract int homeButtonStringResId();
+	
+	protected abstract void selectFirstAlbum();
 }

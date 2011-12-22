@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binding.viewattribute.provider;
+package org.robobinding.viewattribute.compoundbutton;
 
+import org.robobinding.viewattribute.AbstractBindingAttributeProviderTest;
 import org.robobinding.viewattribute.BindingAttributeProvider;
-import org.robobinding.viewattribute.imageview.ImageSourceAttribute;
-import org.robobinding.viewattribute.imageview.ImageViewAttributeProvider;
 
-import android.widget.ImageView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 /**
  *
@@ -27,24 +27,23 @@ import android.widget.ImageView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ImageViewAttributeProviderTest extends AbstractBindingAttributeProviderTest<ImageView>
+public class CompoundButtonAttributeProviderTest extends AbstractBindingAttributeProviderTest<CompoundButton>
 {
 	@Override
-	protected BindingAttributeProvider<ImageView> getBindingAttributeProvider()
+	protected BindingAttributeProvider<CompoundButton> getBindingAttributeProvider()
 	{
-		return new ImageViewAttributeProvider();
+		return new CompoundButtonAttributeProvider();
 	}
 
 	@Override
-	protected ImageView createNewViewInstance()
+	protected CompoundButton createNewViewInstance()
 	{
-		return new ImageView(null);
+		return new CheckBox(null);
 	}
 
 	@Override
 	protected void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings)
 	{
-		attributeClassMappings.add("src", ImageSourceAttribute.class);
+		attributeClassMappings.add("checked", CheckedAttribute.class);
 	}
-
 }

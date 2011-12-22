@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binding.viewattribute.provider;
+package org.robobinding.viewattribute.seekbar;
 
+import org.junit.runner.RunWith;
+import org.robobinding.viewattribute.AbstractBindingAttributeProviderTest;
 import org.robobinding.viewattribute.BindingAttributeProvider;
-import org.robobinding.viewattribute.compoundbutton.CheckedAttribute;
-import org.robobinding.viewattribute.compoundbutton.CompoundButtonAttributeProvider;
 
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.SeekBar;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -28,23 +29,25 @@ import android.widget.CompoundButton;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CompoundButtonAttributeProviderTest extends AbstractBindingAttributeProviderTest<CompoundButton>
+@RunWith(RobolectricTestRunner.class)
+public class SeekBarAttributeProviderTest extends AbstractBindingAttributeProviderTest<SeekBar>
 {
 	@Override
-	protected BindingAttributeProvider<CompoundButton> getBindingAttributeProvider()
+	protected BindingAttributeProvider<SeekBar> getBindingAttributeProvider()
 	{
-		return new CompoundButtonAttributeProvider();
+		return new SeekBarAttributeProvider();
 	}
 
 	@Override
-	protected CompoundButton createNewViewInstance()
+	protected SeekBar createNewViewInstance()
 	{
-		return new CheckBox(null);
+		return new SeekBar(null);
 	}
 
 	@Override
 	protected void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings)
 	{
-		attributeClassMappings.add("checked", CheckedAttribute.class);
+		attributeClassMappings.add("onSeekBarChange", OnSeekBarChangeAttribute.class);
+		attributeClassMappings.add("progress", TwoWayProgressAttribute.class);
 	}
 }

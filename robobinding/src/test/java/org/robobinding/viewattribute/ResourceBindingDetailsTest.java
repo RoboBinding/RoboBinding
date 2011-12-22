@@ -24,7 +24,6 @@ import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.ResourceBindingDetails;
 
 import android.content.Context;
 import android.content.res.Resources;

@@ -6,7 +6,7 @@
 	<SeekBar 
 	    android:id="@+id/supportedAttributesOfSeekBar">
 		<!-- 
-		binding:OnSeekBarChange="onSeekBarChange()"
+		bind:OnSeekBarChange="onSeekBarChange()"
 		 -->
 	</SeekBar>
 	<SeekBar 

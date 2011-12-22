@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binding.viewattribute.provider;
+package org.robobinding.viewattribute.textview;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.binder.BindingAttribute;
+import org.robobinding.viewattribute.AbstractCompoundBindingAttributeTest;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.textview.TextAttribute;
 import org.robobinding.viewattribute.textview.TextViewAttributeProvider;

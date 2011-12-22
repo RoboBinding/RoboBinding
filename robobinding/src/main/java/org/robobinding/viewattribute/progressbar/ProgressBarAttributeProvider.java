@@ -19,6 +19,7 @@ import org.robobinding.binder.BindingAttributeResolver;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 
 /**
  *
@@ -30,11 +31,12 @@ public class ProgressBarAttributeProvider implements BindingAttributeProvider<Pr
 {
 	private static final String PROGRESS = "progress";
 	private static final String SECONDARY_PROGRESS = "secondaryProgress";
+	private static final String MAX = "max";
 
 	@Override
 	public void resolveSupportedBindingAttributes(ProgressBar progressBar, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
 	{
-		if (bindingAttributeResolver.hasAttribute(PROGRESS))
+		if (bindingAttributeResolver.hasAttribute(PROGRESS) && !(progressBar instanceof SeekBar))
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(PROGRESS);
 			bindingAttributeResolver.resolveAttribute(PROGRESS, new ProgressAttribute(progressBar, attributeValue, preInitializeViews));
@@ -43,6 +45,11 @@ public class ProgressBarAttributeProvider implements BindingAttributeProvider<Pr
 		{
 			String attributeValue = bindingAttributeResolver.findAttributeValue(SECONDARY_PROGRESS);
 			bindingAttributeResolver.resolveAttribute(SECONDARY_PROGRESS, new SecondaryProgressAttribute(progressBar, attributeValue, preInitializeViews));
+		}
+		if (bindingAttributeResolver.hasAttribute(MAX))
+		{
+			String attributeValue = bindingAttributeResolver.findAttributeValue(MAX);
+			bindingAttributeResolver.resolveAttribute(MAX, new MaxAttribute(progressBar, attributeValue, preInitializeViews));
 		}
 	}
 

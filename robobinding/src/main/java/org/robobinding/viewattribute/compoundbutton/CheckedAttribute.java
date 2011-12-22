@@ -22,7 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -30,7 +30,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 public class CheckedAttribute extends AbstractPropertyViewAttribute<Boolean>
 {
 	private final CompoundButton compoundButton;
-	private boolean updatedProgrammatically;
 
 	public CheckedAttribute(CompoundButton compoundButton, String attributeValue, boolean preInitializeView)
 	{
@@ -41,9 +40,7 @@ public class CheckedAttribute extends AbstractPropertyViewAttribute<Boolean>
 	@Override
 	protected void valueModelUpdated(Boolean newValue)
 	{
-		updatedProgrammatically = true;
 		compoundButton.setChecked(newValue);
-		updatedProgrammatically = false;
 	}
 
 	@Override
@@ -53,10 +50,7 @@ public class CheckedAttribute extends AbstractPropertyViewAttribute<Boolean>
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
-				if(!updatedProgrammatically)
-				{
-					valueModel.setValue(isChecked);
-				}
+				valueModel.setValue(isChecked);
 			}
 		});
 	}

@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binding.viewattribute.provider;
+package org.robobinding.viewattribute;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Map;
@@ -30,8 +31,6 @@ import org.robobinding.binder.BindingAttribute;
 import org.robobinding.binder.BindingAttributeResolver;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.viewattribute.BindingAttributeProvider;
-import org.robobinding.viewattribute.ViewAttribute;
 
 import android.view.View;
 
@@ -46,7 +45,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractBindingAttributeProviderTest<T extends View>
 {
-	private static final String ATTRIBUTE_VALUE = "{attributeValue}";
+	static final String ATTRIBUTE_VALUE = "{attributeValue}";
 	private BindingAttributeProvider<T> bindingAttributeProvider;
 	private T view;
 	
@@ -91,10 +90,13 @@ public abstract class AbstractBindingAttributeProviderTest<T extends View>
 	
 	private BindingAttribute getResolvedBindingAttribute(String attributeName)
 	{
+		if (getResolvedBindingAttributes(attributeName).isEmpty())
+			fail("No binding attributes provided for: " + attributeName);
+			
 		return getResolvedBindingAttributes(attributeName).get(0);
 	}
 	
-	private BindingAttributeResolver initialiseBindingAttributeResolverFromAttributeName(String attributeName)
+	protected BindingAttributeResolver initialiseBindingAttributeResolverFromAttributeName(String attributeName)
 	{
 		Map<String, String> pendingBindingAttributes = Maps.newHashMap();
 		pendingBindingAttributes.put(attributeName, ATTRIBUTE_VALUE);
@@ -106,11 +108,11 @@ public abstract class AbstractBindingAttributeProviderTest<T extends View>
 	protected abstract T createNewViewInstance();
 	protected abstract void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings);
 	
-	static class AttributeClassMappings
+	protected static class AttributeClassMappings
 	{
 		private List<AttributeClassMapping> mappingsList = Lists.newArrayList();
 		
-		void add(String attributeName, Class<? extends ViewAttribute> expectedBindingAttributeClass)
+		public void add(String attributeName, Class<? extends ViewAttribute> expectedBindingAttributeClass)
 		{
 			mappingsList.add(new AttributeClassMapping(attributeName, expectedBindingAttributeClass));
 		}
