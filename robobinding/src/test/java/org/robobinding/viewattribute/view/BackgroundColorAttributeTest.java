@@ -31,10 +31,10 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class BackgroundColorTest extends AbstractViewPropertyAttributeTest
+public class BackgroundColorAttributeTest extends AbstractViewPropertyAttributeTest
 {
 	@Test
-	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void givenBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		int color = Color.RED;
 		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();

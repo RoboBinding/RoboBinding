@@ -32,7 +32,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public class SelectedAttributeTest extends AbstractViewPropertyAttributeTest
 {
 	@Test
-	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void givenBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		Boolean selected = Boolean.TRUE;
 		MockPresentationModelAdapterForProperty<Boolean> mockPresentationModelAdapter = createBoundAttribute();

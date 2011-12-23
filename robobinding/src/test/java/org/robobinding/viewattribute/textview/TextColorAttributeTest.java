@@ -35,7 +35,7 @@ import android.graphics.Color;
 public class TextColorAttributeTest extends AbstractTextViewPropertyAttributeTest
 {
 	@Test
-	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void givenBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		Integer color = Color.RED;
 		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();

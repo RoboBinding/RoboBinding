@@ -77,10 +77,7 @@ public class BackgroundAttribute implements PropertyViewAttribute
 		@Override
 		protected void valueModelUpdated(Integer newResourceId)
 		{
-			if(newResourceId != null)
-			{
-				view.setBackgroundResource(newResourceId);
-			}
+			view.setBackgroundResource(newResourceId);
 		}
 	}
 

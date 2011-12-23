@@ -35,7 +35,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public class BackgroundAttributeTest extends AbstractViewPropertyAttributeTest
 {
 	@Test
-	public void givenResourceIdBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void givenResourceIdBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		int resourceId = 1;
 		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute(int.class);
@@ -46,7 +46,7 @@ public class BackgroundAttributeTest extends AbstractViewPropertyAttributeTest
 	}
 
 	@Test
-	public void givenDrawableBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void givenDrawableBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		Drawable drawable = Drawables.get()[0];
 

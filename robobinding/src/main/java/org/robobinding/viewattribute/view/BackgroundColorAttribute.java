@@ -37,9 +37,6 @@ public class BackgroundColorAttribute extends AbstractReadOnlyPropertyViewAttrib
 	@Override
 	protected void valueModelUpdated(Integer newColor)
 	{
-		if(newColor != null)
-		{
-			view.setBackgroundColor(newColor);
-		}
+		view.setBackgroundColor(newColor);
 	}
 }
