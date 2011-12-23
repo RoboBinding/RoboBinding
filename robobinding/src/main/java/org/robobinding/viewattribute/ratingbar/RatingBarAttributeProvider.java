@@ -15,8 +15,12 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
+import java.util.List;
+
 import org.robobinding.binder.BindingAttributeResolver;
+import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttribute;
 
 import android.widget.RatingBar;
 
@@ -31,7 +35,40 @@ public class RatingBarAttributeProvider implements BindingAttributeProvider<Rati
 	private static final String ON_RATING_BAR_CHANGE = "onRatingBarChange";
 	private static final String NUM_STARS = "numStars";
 	private static final String RATING = "rating";
-
+	
+	private static class ViewAttributeMappings
+	{
+		private List<ViewAttributeMapping> viewAttributeMappings = Lists.newArrayList();
+		public void add(ViewAttributeMapping... mappings)
+		{
+			for (ViewAttributeMapping mapping : mappings)
+				viewAttributeMappings.add(mapping);
+		}
+	}
+	
+	private static class ViewAttributeMapping
+	{
+		private String attributeName;
+		private ViewAttribute viewAttribute;
+		public ViewAttributeMapping(String attributeName, ViewAttribute viewAttribute)
+		{
+			this.attributeName = attributeName;
+			this.viewAttribute = viewAttribute;
+		}
+	}
+	
+	private ViewAttributeMapping newMapping(String attributeName, ViewAttribute viewAttribute)
+	{
+		return new ViewAttributeMapping(attributeName, viewAttribute);
+	}
+	
+	public void populateViewAttributeMappings(ViewAttributeMappings mappings)
+	{
+		mappings.add(newMapping(RATING, new RatingBarAttribute()), 
+				newMapping(NUM_STARS, new NumStarsAttribute()), 
+				newMapping(ON_RATING_BAR_CHANGE, new OnRatingBarChangeAttribute()));
+	}
+	
 	@Override
 	public void resolveSupportedBindingAttributes(RatingBar ratingBar, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
 	{
