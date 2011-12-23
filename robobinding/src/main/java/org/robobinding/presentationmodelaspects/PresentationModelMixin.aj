@@ -58,9 +58,12 @@ public interface PresentationModelMixin extends ObservableProperties
 				PresentationModelMixin+.new(..)) && this(presentationModel) && within(PresentationModelMixin+);
 		
 		@AdviceName("initializePresentationModelChangeSupport")
-		after(PresentationModelMixin presentationModel) returning : presentationModelCreation(presentationModel) 
+		before(PresentationModelMixin presentationModel) : presentationModelCreation(presentationModel) 
 		{
-			presentationModel.presentationModelChangeSupport = new PresentationModelChangeSupport(presentationModel);
+			if(presentationModel.presentationModelChangeSupport == null)
+			{
+				presentationModel.presentationModelChangeSupport = new PresentationModelChangeSupport(presentationModel);
+			}
 		}
 	}
 
