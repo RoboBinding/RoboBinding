@@ -61,23 +61,18 @@ public class RatingAttribute implements ViewAttribute
 		viewAttribute.bind(presentationModelAdapter, context);
 	}
 
-	private class FloatRatingAttribute extends AbstractPropertyViewAttribute<Float>
+	public class FloatRatingAttribute extends AbstractPropertyViewAttribute<Float, RatingBar>
 	{
-		public FloatRatingAttribute()
-		{
-			super(propertyBindingDetails);
-		}
-
 		@Override
 		protected void valueModelUpdated(Float newRating)
 		{
-			ratingBar.setRating(newRating);
+			view.setRating(newRating);
 		}
 
 		@Override
 		protected void observeChangesOnTheView(final PropertyValueModel<Float> valueModel)
 		{
-			RatingBarListenerUtils.addOnRatingBarChangeListener(ratingBar, new OnRatingBarChangeListener() {
+			RatingBarListenerUtils.addOnRatingBarChangeListener(view, new OnRatingBarChangeListener() {
 
 				@Override
 				public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)
@@ -88,23 +83,18 @@ public class RatingAttribute implements ViewAttribute
 		}
 	}
 
-	public class IntegerRatingAttribute extends AbstractPropertyViewAttribute<Integer>
+	public class IntegerRatingAttribute extends AbstractPropertyViewAttribute<Integer, RatingBar>
 	{
-		public IntegerRatingAttribute()
-		{
-			super(propertyBindingDetails);
-		}
-
 		@Override
 		protected void valueModelUpdated(Integer newRating)
 		{
-			ratingBar.setRating((float)newRating);
+			view.setRating((float)newRating);
 		}
 
 		@Override
 		protected void observeChangesOnTheView(final PropertyValueModel<Integer> valueModel)
 		{
-			ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+			view.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 
 				@Override
 				public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)

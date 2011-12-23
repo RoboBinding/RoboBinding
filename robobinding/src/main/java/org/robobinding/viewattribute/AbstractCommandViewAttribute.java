@@ -19,6 +19,7 @@ import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.content.Context;
+import android.view.View;
 
 /**
  * 
@@ -26,15 +27,21 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractCommandViewAttribute implements CommandViewAttribute
+public abstract class AbstractCommandViewAttribute<T extends View> implements CommandViewAttribute<T>
 {
 	private String commandName;
+	protected T view;
 
-	public AbstractCommandViewAttribute(String commandName)
+	public void setView(T view)
+	{
+		this.view = view;
+	}
+	
+	public void setAttributeValue(String commandName)
 	{
 		this.commandName = commandName;
 	}
-
+	
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{

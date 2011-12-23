@@ -15,10 +15,10 @@
  */
 package org.robobinding.viewattribute.imageview;
 
-import org.robobinding.binder.PropertyViewAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PropertyBindingDetails;
+import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.content.Context;
 import android.graphics.Bitmap;

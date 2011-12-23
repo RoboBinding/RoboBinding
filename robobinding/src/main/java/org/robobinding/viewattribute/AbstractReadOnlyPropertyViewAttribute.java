@@ -17,26 +17,18 @@ package org.robobinding.viewattribute;
 
 import org.robobinding.property.PropertyValueModel;
 
+import android.view.View;
+
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractReadOnlyPropertyViewAttribute<T> extends AbstractPropertyViewAttribute<T>
+public abstract class AbstractReadOnlyPropertyViewAttribute<S, T extends View> extends AbstractPropertyViewAttribute<S, T>
 {
-	public AbstractReadOnlyPropertyViewAttribute(PropertyBindingDetails propertyBindingDetails)
-	{
-		super(propertyBindingDetails);
-	}
-
-	public AbstractReadOnlyPropertyViewAttribute(String attributeValue, boolean preInitializeView)
-	{
-		super(attributeValue, preInitializeView);
-	}
-
 	@Override
-	protected void observeChangesOnTheView(PropertyValueModel<T> valueModel)
+	protected void observeChangesOnTheView(PropertyValueModel<S> valueModel)
 	{
 		throw new UnsupportedOperationException(getClass().getName() + " only supports one-way binding");
 	}

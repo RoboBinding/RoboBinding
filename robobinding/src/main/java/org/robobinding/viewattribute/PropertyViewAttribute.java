@@ -13,23 +13,22 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.ratingbar;
+package org.robobinding.viewattribute;
 
-import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 
-import android.widget.RatingBar;
+import android.view.View;
+
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class NumStarsAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, RatingBar>
+public interface PropertyViewAttribute<S, T extends View> extends ViewAttribute
 {
-	@Override
-	protected void valueModelUpdated(Integer numStars)
-	{
-		view.setNumStars(numStars);
-	}
+	void setView(T view);
+	void setPropertyName(String propertyName);
+	void setPreInitializeViews(boolean preInitializeViews);
+	Class<S> getPropertyType();
 }

@@ -15,11 +15,11 @@
  */
 package org.robobinding.viewattribute.textview;
 
-import org.robobinding.binder.PropertyViewAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PropertyValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PropertyBindingDetails;
+import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.content.Context;
 import android.text.Editable;

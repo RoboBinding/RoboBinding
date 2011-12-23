@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
+import android.view.View;
+
 
 /**
  * 
@@ -22,6 +24,8 @@ package org.robobinding.viewattribute;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface CommandViewAttribute extends ViewAttribute
-{
+public interface CommandViewAttribute<T extends View> extends ViewAttribute
+{	
+	void setView(T view);
+	void setCommandName(String commandName);
 }

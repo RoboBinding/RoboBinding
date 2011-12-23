@@ -15,12 +15,12 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.binder.PropertyViewAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 import org.robobinding.property.PropertyValueModel;
 
 import android.content.Context;
+import android.view.View;
 
 /**
  * 
@@ -28,21 +28,38 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAttribute
+public abstract class AbstractPropertyViewAttribute<S, T extends View> extends TypeReference<S> implements PropertyViewAttribute<S, T>
 {
 	private PresentationModelAdapter presentationModelAdapter;
-	private final PropertyBindingDetails propertyBindingDetails;
+	private PropertyBindingDetails propertyBindingDetails;
+	protected T view;
+	private String propertyName;
 	
-	public AbstractPropertyViewAttribute(PropertyBindingDetails propertyBindingDetails)
+	@Override
+	public void setView(T view)
 	{
-		this.propertyBindingDetails = propertyBindingDetails;
+		this.view = view;
 	}
 	
-	public AbstractPropertyViewAttribute(String attributeValue, boolean preInitializeView)
+	@Override
+	public void setPropertyName(String propertyName)
 	{
-		propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue, preInitializeView);
+		this.propertyName = propertyName;
 	}
-
+	
+	@Override
+	public void setPreInitializeViews(boolean preInitializeViews)
+	{
+		propertyBindingDetails = PropertyBindingDetails.createFrom(propertyName, preInitializeViews);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Class<S> getPropertyType()
+	{
+		return (Class<S>)getType().getClass();
+	}
+	
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
@@ -73,10 +90,10 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		this.presentationModelAdapter = presentationModelAdapter;
 	}
 	
-	protected abstract void valueModelUpdated(T newValue);
-	protected abstract void observeChangesOnTheView(final PropertyValueModel<T> valueModel);
+	protected abstract void valueModelUpdated(S newValue);
+	protected abstract void observeChangesOnTheView(final PropertyValueModel<S> valueModel);
 	
-	protected void initializeView(PropertyValueModel<T> valueModel)
+	protected void initializeView(PropertyValueModel<S> valueModel)
 	{
 		if (propertyBindingDetails.preInitializeView)
 			valueModelUpdated(valueModel.getValue());
@@ -92,7 +109,7 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		@Override
 		public void performBind()
 		{
-			final PropertyValueModel<T> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
+			final PropertyValueModel<S> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
 			initializeView(valueModel);
 			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener(){
 				@Override
@@ -111,14 +128,14 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 		@Override
 		public void performBind()
 		{
-			PropertyValueModel<T> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
+			PropertyValueModel<S> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
 			valueModel = new PropertyValueModelWrapper(valueModel);
 			initializeView(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);
 		}
 		
-		private void observeChangesOnTheValueModel(final PropertyValueModel<T> valueModel)
+		private void observeChangesOnTheValueModel(final PropertyValueModel<S> valueModel)
 		{
 			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener() {
 				@Override
@@ -130,23 +147,23 @@ public abstract class AbstractPropertyViewAttribute<T> implements PropertyViewAt
 			});
 		}
 		
-		private class PropertyValueModelWrapper implements PropertyValueModel<T>
+		private class PropertyValueModelWrapper implements PropertyValueModel<S>
 		{
-			private PropertyValueModel<T> propertyValueModel;
+			private PropertyValueModel<S> propertyValueModel;
 
-			public PropertyValueModelWrapper(PropertyValueModel<T> propertyValueModel)
+			public PropertyValueModelWrapper(PropertyValueModel<S> propertyValueModel)
 			{
 				this.propertyValueModel = propertyValueModel;
 			}
 
 			@Override
-			public T getValue()
+			public S getValue()
 			{
 				return propertyValueModel.getValue();
 			}
 
 			@Override
-			public void setValue(T newValue)
+			public void setValue(S newValue)
 			{
 				updatedProgrammatically = true;
 				propertyValueModel.setValue(newValue);

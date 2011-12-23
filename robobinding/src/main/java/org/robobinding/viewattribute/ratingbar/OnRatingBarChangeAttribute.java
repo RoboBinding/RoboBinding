@@ -27,20 +27,12 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnRatingBarChangeAttribute extends AbstractCommandViewAttribute
+public class OnRatingBarChangeAttribute extends AbstractCommandViewAttribute<RatingBar>
 {
-	private final RatingBar ratingBar;
-
-	public OnRatingBarChangeAttribute(RatingBar ratingBar, String commandName)
-	{
-		super(commandName);
-		this.ratingBar = ratingBar;
-	}
-
 	@Override
 	protected void bind(final Command command)
 	{
-		RatingBarListenerUtils.addOnRatingBarChangeListener(ratingBar, new OnRatingBarChangeListener(){
+		RatingBarListenerUtils.addOnRatingBarChangeListener(view, new OnRatingBarChangeListener(){
 			@Override
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)
 			{
@@ -55,5 +47,4 @@ public class OnRatingBarChangeAttribute extends AbstractCommandViewAttribute
 	{
 		return RatingBarEvent.class;
 	}
-
 }
