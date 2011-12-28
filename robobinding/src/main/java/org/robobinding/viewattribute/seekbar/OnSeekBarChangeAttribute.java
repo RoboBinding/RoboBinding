@@ -27,13 +27,12 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute
+public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute<SeekBar>
 {
 	private final OnSeekBarChangeListeners onSeekBarChangeListeners;
 
-	public OnSeekBarChangeAttribute(String commandName, OnSeekBarChangeListeners onSeekBarChangeListeners)
+	public OnSeekBarChangeAttribute(OnSeekBarChangeListeners onSeekBarChangeListeners)
 	{
-		super(commandName);
 		this.onSeekBarChangeListeners = onSeekBarChangeListeners;
 	}
 
@@ -41,6 +40,13 @@ public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute
 	protected void bind(final Command command)
 	{
 		onSeekBarChangeListeners.addListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+			{
+				SeekBarEvent seekBarEvent = new SeekBarEvent(seekBar, progress, fromUser);
+				command.invoke(seekBarEvent);
+			}
 			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar)
@@ -52,12 +58,6 @@ public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute
 			{
 			}
 			
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-			{
-				SeekBarEvent seekBarEvent = new SeekBarEvent(seekBar, progress, fromUser);
-				command.invoke(seekBarEvent);
-			}
 		});
 
 	}

@@ -16,8 +16,10 @@
 package org.robobinding.viewattribute;
 
 import java.util.List;
+import java.util.Map;
 
 import org.robobinding.binder.BindingAttributeResolver;
+import org.robobinding.customwidget.Attribute;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
@@ -30,7 +32,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractAttributeProvider<T extends View> implements BindingAttributeProvider<T>
+public abstract class AbstractAttributeProvider<T extends View> implements BindingAttributeProvider<T>, GroupedAttributeProvider<T>
 {
 	@Override
 	public void resolveSupportedBindingAttributes(T view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
@@ -44,7 +46,7 @@ public abstract class AbstractAttributeProvider<T extends View> implements Bindi
 	{
 		private List<ViewAttributeMapping<T>> viewAttributeMappings = Lists.newArrayList();
 		
-		public void add(ViewAttributeMapping<T> mapping)
+		private void add(ViewAttributeMapping<T> mapping)
 		{
 			viewAttributeMappings.add(mapping);
 		}
@@ -58,15 +60,46 @@ public abstract class AbstractAttributeProvider<T extends View> implements Bindi
 			add(new PropertyViewAttributeMapping<T>(attributeName, viewAttributeClass));
 		}
 		
-		public void addTypePropertyMapping(String attributeName, Class<?> propertyTypeClass, Class<? extends PropertyViewAttribute<?, T>> viewAttributeClass)
+		public void addTypePropertyMapping(String attributeName, TypeMap... typeMap)
 		{
-			add(new PropertyViewAttributeMapping<T>(attributeName, viewAttributeClass));
+			//add(new PropertyViewAttributeMapping<T>(attributeName, viewAttributeClass));
 		}
 		
 		public void addCommandMapping(String attributeName, Class<? extends CommandViewAttribute<T>> viewAttributeClasses)
 		{
 			add(new CommandViewAttributeMapping<T>(attributeName, viewAttributeClasses));
 		}
+	}
+	
+	@Override
+	public ViewAttribute createGroupedAttribute(Map<String, Attribute> attributes, Class<GroupedViewAttribute<T>> attributeClass)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	protected PropertyViewAttribute<?, ?> withCompulsoryAttribute(String attributeName, Class<PropertyViewAttribute<?, ?>> propertyViewAttributeClass)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public static class TypeMap<S, T extends View>
+	{
+		private final Class<S> propertyTypeClass;
+		private final Class<? extends PropertyViewAttribute<S, T>> propertyAttributeClass;
+
+		public TypeMap(Class<S> propertyTypeClass, Class<? extends PropertyViewAttribute<S, T>> propertyAttributeClass)
+		{
+			this.propertyTypeClass = propertyTypeClass;
+			this.propertyAttributeClass = propertyAttributeClass;
+		}
+		
+	}
+	
+	protected <S> TypeMap typeMap(Class<S> propertyTypeClass, Class<? extends PropertyViewAttribute<S, T>> propertyAttributeClass)
+	{
+		return new TypeMap<S, T>(propertyTypeClass, propertyAttributeClass);
 	}
 	
 	public abstract static class ViewAttributeMapping<T extends View>

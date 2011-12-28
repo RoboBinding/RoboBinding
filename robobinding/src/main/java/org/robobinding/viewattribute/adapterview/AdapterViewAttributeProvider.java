@@ -71,6 +71,13 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 		}
 	}
 	
+	private void doSomething()
+	{
+		mappings.addGroupedAttribute(withCompulsoryAttribute("source", SourceAttribute.class), 
+				withCompulsoryAttribute("itemLayout", ItemLayoutAttribute.class),
+				withOptionalAttribute("itemMapping"), ItemMappingAttribute.class);
+	}
+	
 	public class AdapterViewAttributesBuilder
 	{
 		private final boolean preInitializeView;

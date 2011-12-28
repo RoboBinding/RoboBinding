@@ -15,8 +15,20 @@
  */
 package org.robobinding.viewattribute.seekbar;
 
-import org.robobinding.binder.BindingAttributeResolver;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import java.util.Map;
+
+import org.robobinding.customwidget.Attribute;
+import org.robobinding.customwidget.BindableViewWithGroupedAttributes;
+import org.robobinding.customwidget.GroupedAttribute;
+import org.robobinding.viewattribute.AbstractAttributeProvider;
+import org.robobinding.viewattribute.GroupedAttributeProvider;
+import org.robobinding.viewattribute.GroupedViewAttribute;
+import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.adapterview.AdaptedDataSetAttributes;
+import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute;
+import org.robobinding.viewattribute.adapterview.ItemMappingAttribute;
+import org.robobinding.viewattribute.adapterview.SourceAttribute;
 
 import android.widget.SeekBar;
 
@@ -26,27 +38,44 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SeekBarAttributeProvider implements BindingAttributeProvider<SeekBar>
+public class SeekBarAttributeProvider extends AbstractAttributeProvider<SeekBar>
 {
-	private static final String ON_SEEK_BAR_CHANGE = "onSeekBarChange";
-	private static final String PROGRESS = "progress";
 
 	@Override
-	public void resolveSupportedBindingAttributes(SeekBar seekBar, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
+	protected void populateViewAttributeMappings(ViewAttributeMappings<SeekBar> mappings)
 	{
-		OnSeekBarChangeListeners onSeekBarChangeListeners = new OnSeekBarChangeListeners();
-		seekBar.setOnSeekBarChangeListener(onSeekBarChangeListeners);
+		//Manage the listeners with a GroupdAttribute?
 		
-		if (bindingAttributeResolver.hasAttribute(ON_SEEK_BAR_CHANGE))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_SEEK_BAR_CHANGE);
-			bindingAttributeResolver.resolveAttribute(ON_SEEK_BAR_CHANGE, new OnSeekBarChangeAttribute(attributeValue, onSeekBarChangeListeners));
-		}
-		if (bindingAttributeResolver.hasAttribute(PROGRESS))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(PROGRESS);
-			bindingAttributeResolver.resolveAttribute(PROGRESS, new TwoWayProgressAttribute(seekBar, attributeValue, preInitializeViews, onSeekBarChangeListeners));
-		}
+		mappings.addPropertyMapping("progress", TwoWayProgressAttribute.class);
+		mappings.addCommandMapping("onSeekBarChange", OnSeekBarChangeAttribute.class);
+		
+		mappings.addGroupedMappings(group(AdaptedDataSetAttributes.class, compulsoryAttribute("source", SourceAttribute.class), 
+				compulsoryAttribute("itemLayout", ItemLayoutAttribute.class),
+				optionalAttribute("itemMapping"), ItemMappingAttribute.class));
 	}
 
+	
+//	private static final String ON_SEEK_BAR_CHANGE = "onSeekBarChange";
+//	private static final String PROGRESS = "progress";
+//
+//	@Override
+//	public void resolveSupportedBindingAttributes(SeekBar seekBar, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
+//	{
+//		OnSeekBarChangeListeners onSeekBarChangeListeners = new OnSeekBarChangeListeners();
+//		seekBar.setOnSeekBarChangeListener(onSeekBarChangeListeners);
+//		
+//		if (bindingAttributeResolver.hasAttribute(ON_SEEK_BAR_CHANGE))
+//		{
+//			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_SEEK_BAR_CHANGE);
+//			bindingAttributeResolver.resolveAttribute(ON_SEEK_BAR_CHANGE, new OnSeekBarChangeAttribute(attributeValue, onSeekBarChangeListeners));
+//		}
+//		if (bindingAttributeResolver.hasAttribute(PROGRESS))
+//		{
+//			String attributeValue = bindingAttributeResolver.findAttributeValue(PROGRESS);
+//			bindingAttributeResolver.resolveAttribute(PROGRESS, new TwoWayProgressAttribute(seekBar, attributeValue, preInitializeViews, onSeekBarChangeListeners));
+//		}
+//	}
+
+	
+	
 }

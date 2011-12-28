@@ -22,7 +22,7 @@ import java.util.List;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.GroupedViewAttribute;
 
 import android.content.Context;
 import android.widget.AdapterView;
@@ -34,7 +34,7 @@ import android.widget.AdapterView;
  * @author Robert Taylor
  */
 @SuppressWarnings("rawtypes")
-public class AdaptedDataSetAttributes implements ViewAttribute
+public class AdaptedDataSetAttributes implements GroupedViewAttribute<AdapterView>
 {
 	private final AdapterView adapterView;
 	private final List<AdapterViewAttribute> adapterViewAttributes;

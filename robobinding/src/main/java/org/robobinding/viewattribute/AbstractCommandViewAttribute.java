@@ -37,7 +37,7 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Co
 		this.view = view;
 	}
 	
-	public void setAttributeValue(String commandName)
+	public void setCommandName(String commandName)
 	{
 		this.commandName = commandName;
 	}
