@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.viewattribute.ChildViewAttribute;
 
 import android.content.Context;
 
@@ -26,7 +27,7 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface AdapterViewAttribute
+public interface AdapterViewAttribute extends ChildViewAttribute
 {
 	void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context);
 }

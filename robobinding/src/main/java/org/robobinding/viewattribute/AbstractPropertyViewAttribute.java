@@ -28,7 +28,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractPropertyViewAttribute<S, T extends View> extends TypeReference<S> implements PropertyViewAttribute<S, T>
+public abstract class AbstractPropertyViewAttribute<S, T extends View> implements PropertyViewAttribute<S, T>
 {
 	private PresentationModelAdapter presentationModelAdapter;
 	private PropertyBindingDetails propertyBindingDetails;
@@ -51,13 +51,6 @@ public abstract class AbstractPropertyViewAttribute<S, T extends View> extends T
 	public void setPreInitializeViews(boolean preInitializeViews)
 	{
 		propertyBindingDetails = PropertyBindingDetails.createFrom(propertyName, preInitializeViews);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public Class<S> getPropertyType()
-	{
-		return (Class<S>)getType().getClass();
 	}
 	
 	@Override

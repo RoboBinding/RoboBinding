@@ -41,14 +41,15 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	private static final Pattern ITEM_MAPPING_COMPILED_PATTERN = Pattern.compile(ITEM_MAPPING_PATTERN);
 	private static final Pattern ITEM_MAPPING_ATTRIBUTE_COMPILED_PATTERN = Pattern.compile("^\\[" + ITEM_MAPPING_PATTERN + "(?:," + ITEM_MAPPING_PATTERN + ")*\\]$");
 	
-	private final String itemMappingAttributeValue;
+	private String itemMappingAttributeValue;
 	private ViewMappings viewMappings;
-	
-	public ItemMappingAttribute(String itemMappingAttributeValue, boolean preInitializeView)
-	{
-		this.itemMappingAttributeValue = itemMappingAttributeValue;
-	}
 
+	@Override
+	public void setPropertyName(String propertyValue)
+	{
+		this.itemMappingAttributeValue = propertyValue;
+	}
+	
 	@Override
 	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
@@ -203,4 +204,5 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 			return true;
 		}
 	}
+
 }

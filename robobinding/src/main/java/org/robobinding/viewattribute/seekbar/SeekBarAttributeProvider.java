@@ -15,20 +15,7 @@
  */
 package org.robobinding.viewattribute.seekbar;
 
-import java.util.Map;
-
-import org.robobinding.customwidget.Attribute;
-import org.robobinding.customwidget.BindableViewWithGroupedAttributes;
-import org.robobinding.customwidget.GroupedAttribute;
-import org.robobinding.viewattribute.AbstractAttributeProvider;
-import org.robobinding.viewattribute.GroupedAttributeProvider;
-import org.robobinding.viewattribute.GroupedViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewAttribute;
-import org.robobinding.viewattribute.adapterview.AdaptedDataSetAttributes;
-import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute;
-import org.robobinding.viewattribute.adapterview.ItemMappingAttribute;
-import org.robobinding.viewattribute.adapterview.SourceAttribute;
+import org.robobinding.viewattribute.AbstractBindingAttributeProvider;
 
 import android.widget.SeekBar;
 
@@ -38,7 +25,7 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SeekBarAttributeProvider extends AbstractAttributeProvider<SeekBar>
+public class SeekBarAttributeProvider extends AbstractBindingAttributeProvider<SeekBar>
 {
 
 	@Override
@@ -49,9 +36,6 @@ public class SeekBarAttributeProvider extends AbstractAttributeProvider<SeekBar>
 		mappings.addPropertyMapping("progress", TwoWayProgressAttribute.class);
 		mappings.addCommandMapping("onSeekBarChange", OnSeekBarChangeAttribute.class);
 		
-		mappings.addGroupedMappings(group(AdaptedDataSetAttributes.class, compulsoryAttribute("source", SourceAttribute.class), 
-				compulsoryAttribute("itemLayout", ItemLayoutAttribute.class),
-				optionalAttribute("itemMapping"), ItemMappingAttribute.class));
 	}
 
 	

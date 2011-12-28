@@ -25,20 +25,12 @@ import android.widget.ProgressBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class MaxAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer>
+public class MaxAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, ProgressBar>
 {
-	private final ProgressBar progressBar;
-
-	public MaxAttribute(ProgressBar progressBar, String attributeValue, boolean preInitializeView)
-	{
-		super(attributeValue, preInitializeView);
-		this.progressBar = progressBar;
-	}
-
 	@Override
 	protected void valueModelUpdated(Integer maxValue)
 	{
-		progressBar.setMax(maxValue);
+		view.setMax(maxValue);
 	}
 
 }

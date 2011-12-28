@@ -28,20 +28,12 @@ import android.widget.AdapterView.OnItemSelectedListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnItemSelectedAttribute extends AbstractCommandViewAttribute
+public class OnItemSelectedAttribute extends AbstractCommandViewAttribute<AdapterView<?>>
 {
-	private final AdapterView<?> adapterView;
-
-	public OnItemSelectedAttribute(AdapterView<?> adapterView, String commandName)
-	{
-		super(commandName);
-		this.adapterView = adapterView;
-	}
-
 	@Override
 	protected void bind(final Command command)
 	{
-		AdapterViewListenerUtils.addOnItemSelectedListener(adapterView, new OnItemSelectedListener() {
+		AdapterViewListenerUtils.addOnItemSelectedListener(view, new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 			{
@@ -63,5 +55,4 @@ public class OnItemSelectedAttribute extends AbstractCommandViewAttribute
 	{
 		return ItemClickEvent.class;
 	}
-
 }

@@ -30,5 +30,4 @@ public interface PropertyViewAttribute<S, T extends View> extends ViewAttribute
 	void setView(T view);
 	void setPropertyName(String propertyName);
 	void setPreInitializeViews(boolean preInitializeViews);
-	Class<S> getPropertyType();
 }

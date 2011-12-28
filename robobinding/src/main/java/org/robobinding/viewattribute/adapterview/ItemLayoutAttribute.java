@@ -23,6 +23,7 @@ import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.ResourceBindingDetails;
 
 import android.content.Context;
+import android.widget.AdapterView;
 
 /**
  * 
@@ -32,18 +33,8 @@ import android.content.Context;
  */
 public class ItemLayoutAttribute implements AdapterViewAttribute
 {
-	private final AdapterViewAttribute itemLayoutAttribute;
+	private AdapterViewAttribute itemLayoutAttribute;
 	
-	public ItemLayoutAttribute(String itemLayoutAttributeValue, boolean preInitializeView)
-	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(itemLayoutAttributeValue, preInitializeView);
-		
-		if (bindingDetailsBuilder.bindsToStaticResource())
-			itemLayoutAttribute = new StaticItemLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
-		else
-			itemLayoutAttribute = new DynamicItemLayoutAttribute(bindingDetailsBuilder.createPropertyBindingDetails());
-	}
-
 	@Override
 	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
@@ -55,13 +46,13 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		dataSetAdapter.setItemLayoutId(layoutId);
 	}
 	
-	private class DynamicItemLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer> implements AdapterViewAttribute
+	private class DynamicItemLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, AdapterView<?>> implements AdapterViewAttribute
 	{
 		private DataSetAdapter<?> dataSetAdapter;
 
 		public DynamicItemLayoutAttribute(PropertyBindingDetails propertyBindingDetails)
 		{
-			super(propertyBindingDetails);
+			setPropertyName(propertyBindingDetails.propertyName);
 		}
 		
 		@Override
@@ -93,5 +84,22 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 			int itemLayoutId = resourceBindingDetails.getResourceId(context);
 			updateLayoutId(dataSetAdapter, itemLayoutId);
 		}
+
+		@Override
+		public void setPropertyName(String propertyValue)
+		{
+		}
+	}
+
+	@Override
+	public void setPropertyName(String propertyValue)
+	{
+		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(propertyValue, true);
+		
+		if (bindingDetailsBuilder.bindsToStaticResource())
+			itemLayoutAttribute = new StaticItemLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
+		else
+			itemLayoutAttribute = new DynamicItemLayoutAttribute(bindingDetailsBuilder.createPropertyBindingDetails());
+		
 	}
 }

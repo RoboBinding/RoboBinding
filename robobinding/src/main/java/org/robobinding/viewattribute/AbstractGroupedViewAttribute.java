@@ -17,6 +17,8 @@ package org.robobinding.viewattribute;
 
 import java.util.List;
 
+import org.robobinding.internal.com_google_common.collect.Lists;
+
 import android.view.View;
 
 /**
@@ -25,9 +27,31 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface GroupedViewAttribute<S, T extends View> extends ViewAttribute
+public abstract class AbstractGroupedViewAttribute<S, T extends View> implements GroupedViewAttribute<S, T>
 {
-	void setView(T view);
-	void setPreInitializeViews(boolean preInitializeViews);
-	void setChildAttributes(List<S> childAttributes);
+	protected T view;
+	protected List<S> childViewAttributes;
+	protected boolean preInitializeViews;
+	
+	@Override
+	public void setView(T view)
+	{
+		this.view = view;
+	}
+	@Override
+	public void setPreInitializeViews(boolean preInitializeViews)
+	{
+		this.preInitializeViews = preInitializeViews;
+	}
+	@Override
+	public void setChildAttributes(List<S> childViewAttributes)
+	{
+		this.childViewAttributes = Lists.newArrayList();
+		
+		for (S childViewAttribute : childViewAttributes)
+		{
+			if (childViewAttribute != null)
+				this.childViewAttributes.add(childViewAttribute);
+		}
+	}
 }

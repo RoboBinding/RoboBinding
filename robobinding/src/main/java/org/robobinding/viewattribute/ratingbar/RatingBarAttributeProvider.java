@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
-import org.robobinding.viewattribute.AbstractAttributeProvider;
+import org.robobinding.viewattribute.AbstractBindingAttributeProvider;
 import org.robobinding.viewattribute.ratingbar.RatingAttribute.FloatRatingAttribute;
 import org.robobinding.viewattribute.ratingbar.RatingAttribute.IntegerRatingAttribute;
 
@@ -27,13 +27,15 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class RatingBarAttributeProvider extends AbstractAttributeProvider<RatingBar>
+public class RatingBarAttributeProvider extends AbstractBindingAttributeProvider<RatingBar>
 {
 	@Override
 	protected void populateViewAttributeMappings(ViewAttributeMappings<RatingBar> mappings)
 	{
-		mappings.addTypePropertyMapping("rating", typeMap(Integer.class, IntegerRatingAttribute.class),
-				typeMap(Float.class, FloatRatingAttribute.class));
+		TypeMap<Integer, RatingBar> integerRating = mappings.createTypeMap(Integer.class, IntegerRatingAttribute.class);
+		TypeMap<Float, RatingBar> floatRating = mappings.createTypeMap(Float.class, FloatRatingAttribute.class);
+		
+		mappings.addTypeDependentPropertyMappings("rating", integerRating, floatRating);
 		
 		mappings.addPropertyMapping("numStars", NumStarsAttribute.class);
 		

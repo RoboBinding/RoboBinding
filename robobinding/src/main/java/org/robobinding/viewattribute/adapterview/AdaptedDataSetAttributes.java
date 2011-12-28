@@ -19,10 +19,9 @@ package org.robobinding.viewattribute.adapterview;
 import java.util.Collections;
 import java.util.List;
 
-import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.GroupedViewAttribute;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 
 import android.content.Context;
 import android.widget.AdapterView;
@@ -33,45 +32,23 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@SuppressWarnings("rawtypes")
-public class AdaptedDataSetAttributes implements GroupedViewAttribute<AdapterView>
+public class AdaptedDataSetAttributes extends AbstractGroupedViewAttribute<AdapterViewAttribute, AdapterView<?>>
 {
-	private final AdapterView adapterView;
-	private final List<AdapterViewAttribute> adapterViewAttributes;
-	
-	public AdaptedDataSetAttributes(AdapterView adapterView, SourceAttribute sourceAttribute, ItemLayoutAttribute itemLayoutAttribute, ItemMappingAttribute itemMappingAttribute, DropdownLayoutAttribute dropdownLayoutAttribute, DropdownMappingAttribute dropdownMappingAttribute)
-	{
-		this.adapterView = adapterView;
-		
-		adapterViewAttributes = Lists.newArrayList();
-		addAdapterViewAttribute(sourceAttribute);
-		addAdapterViewAttribute(itemLayoutAttribute);
-		addAdapterViewAttribute(itemMappingAttribute);
-		addAdapterViewAttribute(dropdownLayoutAttribute);
-		addAdapterViewAttribute(dropdownMappingAttribute);
-	}
-
-	private void addAdapterViewAttribute(AdapterViewAttribute adapterViewAttribute)
-	{
-		if (adapterViewAttribute != null)
-			adapterViewAttributes.add(adapterViewAttribute);
-	}
-
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		DataSetAdapter<?> dataSetAdapter = new DataSetAdapter(context);
+		DataSetAdapter dataSetAdapter = new DataSetAdapter(context);
 		
-		for (AdapterViewAttribute adapterViewAttribute : adapterViewAttributes)
+		for (AdapterViewAttribute adapterViewAttribute : childViewAttributes)
 			adapterViewAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
 		
 		dataSetAdapter.observeChangesOnTheValueModel();
-		adapterView.setAdapter(dataSetAdapter);
+		((AdapterView)view).setAdapter(dataSetAdapter);
 	}
 	
 	public List<AdapterViewAttribute> getAdapterViewAttributes()
 	{
-		return Collections.unmodifiableList(adapterViewAttributes);
+		return Collections.unmodifiableList(childViewAttributes);
 	}
 }

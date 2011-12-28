@@ -25,11 +25,6 @@ import org.robobinding.presentationmodel.DataSetAdapter;
  */
 public class DropdownMappingAttribute extends ItemMappingAttribute
 {
-	public DropdownMappingAttribute(String dropdownMappingAttributeValue, boolean preInitializeView)
-	{
-		super(dropdownMappingAttributeValue, preInitializeView);
-	}
-
 	@Override
 	protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter)
 	{

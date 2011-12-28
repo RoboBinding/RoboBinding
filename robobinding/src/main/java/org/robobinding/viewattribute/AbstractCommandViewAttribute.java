@@ -29,8 +29,8 @@ import android.view.View;
  */
 public abstract class AbstractCommandViewAttribute<T extends View> implements CommandViewAttribute<T>
 {
-	private String commandName;
 	protected T view;
+	private String commandName;
 
 	public void setView(T view)
 	{

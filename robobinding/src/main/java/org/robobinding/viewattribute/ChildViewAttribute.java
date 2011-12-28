@@ -15,30 +15,13 @@
  */
 package org.robobinding.viewattribute;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-abstract class TypeReference<T>
+public interface ChildViewAttribute
 {
-	private final Type type;
-    private volatile Constructor<?> constructor;
-
-    protected TypeReference() {
-        Type superclass = getClass().getGenericSuperclass();
-        if (superclass instanceof Class) {
-            throw new RuntimeException("Missing type parameter.");
-        }
-        this.type = ((ParameterizedType) superclass).getActualTypeArguments()[0];
-    }
-
-    public Type getType() {
-        return this.type;
-    }
+	void setPropertyName(String propertyValue);
 }
