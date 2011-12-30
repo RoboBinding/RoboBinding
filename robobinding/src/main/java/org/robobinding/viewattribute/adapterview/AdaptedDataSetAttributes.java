@@ -32,7 +32,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdaptedDataSetAttributes extends AbstractGroupedViewAttribute<AdapterViewAttribute, AdapterView<?>>
+public class AdaptedDataSetAttributes extends AbstractGroupedViewAttribute<AdapterView<?>>
 {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override

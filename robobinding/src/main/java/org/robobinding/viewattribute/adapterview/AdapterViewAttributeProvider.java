@@ -15,81 +15,29 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binder.BindingAttributeResolver;
 import org.robobinding.viewattribute.AbstractBindingAttributeProvider;
-import org.robobinding.viewattribute.AbstractBindingAttributeProvider.GroupChildMapping;
-import org.robobinding.viewattribute.AbstractBindingAttributeProvider.ViewAttributeMappings;
-import org.robobinding.viewattribute.BindingAttributeProvider;
 
-import android.widget.AbsSpinner;
 import android.widget.AdapterView;
 
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
 public class AdapterViewAttributeProvider extends AbstractBindingAttributeProvider<AdapterView<?>>
 {
-	private static final String SOURCE = "source";
-	private static final String ITEM_LAYOUT = "itemLayout";
-	private static final String ITEM_MAPPING = "itemMapping";
-	private static final String DROPDOWN_LAYOUT = "dropdownLayout";
-	private static final String DROPDOWN_MAPPING = "dropdownMapping";
-	private static final String[] ADAPTER_ATTRIBUTE_NAMES = {SOURCE, ITEM_LAYOUT, ITEM_MAPPING, DROPDOWN_LAYOUT, DROPDOWN_MAPPING};
-	
-	private static final String ON_ITEM_CLICK = "onItemClick";
-	private static final String ON_ITEM_SELECTED = "onItemSelected";
-	private static final String SELECTED_ITEM_POSITION = "selectedItemPosition";
-	
-//	@Override
-//	public void resolveSupportedBindingAttributes(AdapterView<?> adapterView, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
-//	{
-//		if(bindingAttributeResolver.hasOneOfAttributes(ADAPTER_ATTRIBUTE_NAMES))
-//		{
-//			AdapterViewAttributesBuilder adapterViewAttributesBuilder = new AdapterViewAttributesBuilder(preInitializeView);
-//			adapterViewAttributesBuilder.setSourceAttributeValue(bindingAttributeResolver.findAttributeValue(SOURCE));
-//			adapterViewAttributesBuilder.setItemLayoutAttributeValue(bindingAttributeResolver.findAttributeValue(ITEM_LAYOUT));
-//			adapterViewAttributesBuilder.setItemMappingAttributeValue(bindingAttributeResolver.findAttributeValue(ITEM_MAPPING));
-//			adapterViewAttributesBuilder.setDropdownLayoutAttributeValue(bindingAttributeResolver.findAttributeValue(DROPDOWN_LAYOUT));
-//			adapterViewAttributesBuilder.setDropdownMappingAttributeValue(bindingAttributeResolver.findAttributeValue(DROPDOWN_MAPPING));
-//			bindingAttributeResolver.resolveAttributes(ADAPTER_ATTRIBUTE_NAMES, adapterViewAttributesBuilder.build(adapterView));
-//		}
-//		if(bindingAttributeResolver.hasAttribute(ON_ITEM_CLICK))
-//		{
-//			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_ITEM_CLICK);
-//			bindingAttributeResolver.resolveAttribute(ON_ITEM_CLICK, new OnItemClickAttribute(adapterView, attributeValue));
-//		}
-//		if(bindingAttributeResolver.hasAttribute(ON_ITEM_SELECTED))
-//		{
-//			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_ITEM_SELECTED);
-//			bindingAttributeResolver.resolveAttribute(ON_ITEM_SELECTED, new OnItemSelectedAttribute(adapterView, attributeValue));
-//		}
-//		if(bindingAttributeResolver.hasAttribute(SELECTED_ITEM_POSITION))
-//		{
-//			String attributeValue = bindingAttributeResolver.findAttributeValue(SELECTED_ITEM_POSITION);
-//			bindingAttributeResolver.resolveAttribute(SELECTED_ITEM_POSITION, new SelectedItemPositionAttribute(adapterView, attributeValue, preInitializeView));
-//		}
-//	}
-	
 	protected void populateViewAttributeMappings(ViewAttributeMappings<AdapterView<?>> mappings)
 	{
-		GroupChildMapping source = mappings.createGroupChildMapping("source", SourceAttribute.class);
-		GroupChildMapping itemLayout = mappings.createGroupChildMapping("itemLayout", ItemLayoutAttribute.class);
-		GroupChildMapping itemMapping = mappings.createGroupChildMapping("itemMapping", ItemMappingAttribute.class);
-		GroupChildMapping dropdownLayout = mappings.createGroupChildMapping("dropdownLayout", DropdownLayoutAttribute.class);
-		
-		mappings.addGroupedMapping(AdaptedDataSetAttributes.class, 
-				source, itemLayout, itemMapping, dropdownLayout);
+		mappings.addGroupedMapping(AdaptedDataSetAttributes.class, "source", "itemLayout", "itemMapping", "dropdownLayout", "dropdownMapping");
 		
 		mappings.addCommandMapping("onItemClick", OnItemClickAttribute.class);
 		mappings.addCommandMapping("onItemSelected", OnItemSelectedAttribute.class);
 		
 		mappings.addPropertyMapping("selectedItemPosition", SelectedItemPositionAttribute.class);
 	}
-	
+
 //	public class AdapterViewAttributesBuilder
 //	{
 //		private final boolean preInitializeView;

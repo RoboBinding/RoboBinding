@@ -71,12 +71,7 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 	
 	private class StaticItemLayoutAttribute implements AdapterViewAttribute
 	{
-		private final ResourceBindingDetails resourceBindingDetails;
-
-		public StaticItemLayoutAttribute(ResourceBindingDetails resourceBindingDetails)
-		{
-			this.resourceBindingDetails = resourceBindingDetails;
-		}
+		private ResourceBindingDetails resourceBindingDetails;
 
 		@Override
 		public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
@@ -88,6 +83,8 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		@Override
 		public void setPropertyName(String propertyValue)
 		{
+			BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(propertyValue, true);
+			resourceBindingDetails = bindingDetailsBuilder.createResourceBindingDetails();
 		}
 	}
 

@@ -18,8 +18,10 @@ package org.robobinding.viewattribute;
 import java.util.List;
 
 import org.robobinding.binder.BindingAttributeResolver;
+import org.robobinding.customwidget.Attribute;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.viewattribute.adapterview.AdaptedDataSetAttributes;
 
 import android.content.Context;
 import android.view.View;
@@ -30,7 +32,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractBindingAttributeProvider<T extends View> implements BindingAttributeProvider<T>, GroupedAttributeProvider<T>
+public abstract class AbstractBindingAttributeProvider<T extends View> implements BindingAttributeProvider<T>
 {
 	@Override
 	public void resolveSupportedBindingAttributes(T view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
@@ -75,14 +77,42 @@ public abstract class AbstractBindingAttributeProvider<T extends View> implement
 			add(new CommandViewAttributeMapping<T>(attributeName, viewAttributeClasses));
 		}
 		
-		public void addGroupedMapping(Class<? extends GroupedViewAttribute<? extends ChildViewAttribute, T>> class1, GroupChildMapping... groupChildMappings)
+		public void addGroupedMapping(Class<? extends GroupedViewAttribute<T>> class1, String... attributes)
 		{
-			add(new GroupedViewAttributeMapping<T>(class1, groupChildMappings));
+			add(new GroupedViewAttributeMapping(class1, attributes));		
 		}
+	}
+	
+	public static class GroupedViewAttributeMapping<T extends View> extends AbstractViewAttributeMapping<T>
+	{
+		private final Class<? extends GroupedViewAttribute<T>> attributeClass;
+		private final String[] attributeNames;
 		
-		public GroupChildMapping createGroupChildMapping(String string, Class<? extends ChildViewAttribute> class1)
+		public GroupedViewAttributeMapping(Class<? extends GroupedViewAttribute<T>> attributeClass, String[] attributeNames)
 		{
-			return new GroupChildMapping(string, class1);
+			this.attributeClass = attributeClass;
+			this.attributeNames = attributeNames;
+		}
+
+		@Override
+		public void initializeAndResolveAttribute(T view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
+		{
+			if (bindingAttributeResolver.hasOneOfAttributes(attributeNames))
+			{
+				GroupedViewAttribute<T> groupedViewAttribute = createNewInstance(attributeClass);
+				List<Attribute> attributes = Lists.newArrayList();
+				
+				for (String name : attributeNames)
+				{
+					Attribute attribute = new Attribute(name, bindingAttributeResolver.findAttributeValue(name));
+					attributes.add(attribute);
+				}
+				
+				groupedViewAttribute.setChildAttributes(attributes);
+				
+				bindingAttributeResolver.resolveAttributes(attributeNames, viewAttribute);
+				//Supply it to the GroupedAttribute. GroupedAttribute can inspect it and reject/accept as he sees fit
+			}
 		}
 	}
 	
@@ -230,42 +260,6 @@ public abstract class AbstractBindingAttributeProvider<T extends View> implement
 
 	}
 
-	
-	public static class GroupedViewAttributeMapping<T extends View> extends AbstractViewAttributeMapping<T>
-	{
-		private Class<? extends GroupedViewAttribute<? extends ChildViewAttribute, T>> viewAttributeClass;
-		private final GroupChildMapping[] groupChildMappings;
-
-		public GroupedViewAttributeMapping(Class<? extends GroupedViewAttribute<? extends ChildViewAttribute, T>> viewAttributeClass, GroupChildMapping... groupChildMappings)
-		{
-			this.viewAttributeClass = viewAttributeClass;
-			this.groupChildMappings = groupChildMappings;
-		}
-		
-		@Override
-		public void initializeAndResolveAttribute(T view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
-		{
-			@SuppressWarnings("unchecked")
-			GroupedViewAttribute<ChildViewAttribute, T> groupedViewAttribute = (GroupedViewAttribute<ChildViewAttribute, T>) createNewInstance(viewAttributeClass);
-			List<ChildViewAttribute> childAttributes = Lists.newArrayList();
-			
-			for (GroupChildMapping groupChildMapping : groupChildMappings)
-			{
-				if (bindingAttributeResolver.hasAttribute(groupChildMapping.attributeName))
-				{
-					ChildViewAttribute childViewAttribute = createNewInstance(groupChildMapping.attributeClass);
-					String attributeValue = bindingAttributeResolver.findAttributeValue(groupChildMapping.attributeName);
-					childViewAttribute.setPropertyName(attributeValue);
-					childAttributes.add(childViewAttribute);
-				}				
-			}
-			
-			groupedViewAttribute.setView(view);
-			groupedViewAttribute.setChildAttributes(childAttributes);
-			groupedViewAttribute.setPreInitializeViews(preInitializeViews);
-		}
-	}
-	
 	public static class GroupChildMapping
 	{
 		public String attributeName;
