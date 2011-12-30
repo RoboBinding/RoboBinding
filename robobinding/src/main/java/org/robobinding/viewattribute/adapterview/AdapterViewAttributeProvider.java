@@ -32,7 +32,7 @@ public class AdapterViewAttributeProvider implements BindingAttributeProvider<Ad
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<AdapterView<?>> mappings)
 	{
-		mappings.mapGroup(AdaptedDataSetAttributes.class, AdaptedDataSetAttributes.SOURCE, 
+		mappings.mapPropertyGroup(AdaptedDataSetAttributes.class, AdaptedDataSetAttributes.SOURCE, 
 				AdaptedDataSetAttributes.ITEM_LAYOUT, AdaptedDataSetAttributes.ITEM_MAPPING, 
 				AdaptedDataSetAttributes.DROPDOWN_LAYOUT, AdaptedDataSetAttributes.DROPDOWN_MAPPING);
 		

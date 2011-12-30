@@ -17,8 +17,8 @@ package org.robobinding.viewattribute.textview;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PropertyValueModel;
-import org.robobinding.viewattribute.AbstractDelegatePropertyViewAttribute;
-import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractGroupedPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.PropertyViewAttribute;
@@ -36,7 +36,7 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
+public class TextAttributeGroup extends AbstractGroupedPropertyViewAttribute<TextView>
 {
 	public static final String TEXT = "text";
 	public static final String VALUE_COMMIT_MODE = "valueCommitMode";
@@ -90,7 +90,7 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 		return valueCommitMode;
 	}
 	
-	private static class TextAttribute extends AbstractDelegatePropertyViewAttribute<TextView>
+	private static class TextAttribute extends AbstractMultiTypePropertyViewAttribute<TextView>
 	{
 		private final ValueCommitMode valueCommitMode;
 

@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.imageview;
 
-import org.robobinding.viewattribute.AbstractDelegatePropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
 import org.robobinding.viewattribute.PropertyViewAttribute;
@@ -30,7 +30,7 @@ import android.widget.ImageView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ImageSourceAttribute extends AbstractDelegatePropertyViewAttribute<ImageView>
+public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute<ImageView>
 {
 	@Override
 	protected PropertyViewAttribute<ImageView> lookupPropertyViewAttribute(Class<?> propertyType)

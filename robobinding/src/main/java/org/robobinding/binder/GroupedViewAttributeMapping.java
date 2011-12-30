@@ -18,7 +18,7 @@ package org.robobinding.binder;
 import java.util.Map;
 
 import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.viewattribute.GroupedViewAttribute;
+import org.robobinding.viewattribute.GroupedPropertyViewAttribute;
 
 import android.view.View;
 
@@ -30,10 +30,10 @@ import android.view.View;
  */
 class GroupedViewAttributeMapping<T extends View> extends AbstractViewAttributeMapping<T>
 {
-	private final Class<? extends GroupedViewAttribute<T>> attributeClass;
+	private final Class<? extends GroupedPropertyViewAttribute<T>> attributeClass;
 	private final String[] attributeNames;
 	
-	public GroupedViewAttributeMapping(Class<? extends GroupedViewAttribute<T>> attributeClass, String[] attributeNames)
+	public GroupedViewAttributeMapping(Class<? extends GroupedPropertyViewAttribute<T>> attributeClass, String[] attributeNames)
 	{
 		this.attributeClass = attributeClass;
 		this.attributeNames = attributeNames;
@@ -44,7 +44,7 @@ class GroupedViewAttributeMapping<T extends View> extends AbstractViewAttributeM
 	{
 		if (bindingAttributeResolver.hasOneOfAttributes(attributeNames))
 		{
-			GroupedViewAttribute<T> groupedViewAttribute = createNewInstance(attributeClass);
+			GroupedPropertyViewAttribute<T> groupedViewAttribute = createNewInstance(attributeClass);
 			Map<String, String> attributes = Maps.newHashMap();
 			
 			for (String name : attributeNames)

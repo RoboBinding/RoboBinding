@@ -26,7 +26,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractDelegatePropertyViewAttribute<T extends View> implements PropertyViewAttribute<T>
+public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> implements PropertyViewAttribute<T>
 {
 	private T view;
 	private PropertyBindingDetails propertyBindingDetails;

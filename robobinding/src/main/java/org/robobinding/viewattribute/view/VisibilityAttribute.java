@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.view;
 
-import org.robobinding.viewattribute.AbstractDelegatePropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
 import org.robobinding.viewattribute.PropertyViewAttribute;
@@ -28,7 +28,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class VisibilityAttribute extends AbstractDelegatePropertyViewAttribute<View>
+public class VisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View>
 {
 	@Override
 	protected PropertyViewAttribute<View> lookupPropertyViewAttribute(Class<?> propertyType)

@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.viewattribute.CommandViewAttribute;
-import org.robobinding.viewattribute.GroupedViewAttribute;
+import org.robobinding.viewattribute.GroupedPropertyViewAttribute;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.view.View;
@@ -44,7 +44,7 @@ public class ViewAttributeMappings<T extends View>
 	{
 		add(new CommandViewAttributeMapping<T>(attributeName, viewAttributeClasses));
 	}
-	public void mapGroup(Class<? extends GroupedViewAttribute<T>> groupedViewAttributeClass, String... attributes)
+	public void mapPropertyGroup(Class<? extends GroupedPropertyViewAttribute<T>> groupedViewAttributeClass, String... attributes)
 	{
 		add(new GroupedViewAttributeMapping<T>(groupedViewAttributeClass, attributes));		
 	}

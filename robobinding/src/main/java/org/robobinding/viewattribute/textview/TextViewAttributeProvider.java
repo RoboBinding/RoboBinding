@@ -31,7 +31,7 @@ public class TextViewAttributeProvider implements BindingAttributeProvider<TextV
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<TextView> mappings)
 	{
-		mappings.mapGroup(TextAttributeGroup.class, TextAttributeGroup.TEXT, TextAttributeGroup.VALUE_COMMIT_MODE);
+		mappings.mapPropertyGroup(TextAttributeGroup.class, TextAttributeGroup.TEXT, TextAttributeGroup.VALUE_COMMIT_MODE);
 		
 		mappings.mapProperty(TextColorAttribute.class, "textColor");
 		

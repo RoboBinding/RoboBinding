@@ -22,7 +22,7 @@ import java.util.List;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.AbstractGroupedPropertyViewAttribute;
 
 import android.content.Context;
 import android.widget.AbsSpinner;
@@ -34,7 +34,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdaptedDataSetAttributes extends AbstractGroupedViewAttribute<AdapterView<?>>
+public class AdaptedDataSetAttributes extends AbstractGroupedPropertyViewAttribute<AdapterView<?>>
 {
 	public static final String SOURCE = "source";
 	public static final String ITEM_LAYOUT = "itemLayout";
@@ -43,6 +43,25 @@ public class AdaptedDataSetAttributes extends AbstractGroupedViewAttribute<Adapt
 	public static final String DROPDOWN_MAPPING = "dropdownMapping";
 	
 	private List<AdapterViewAttribute> childViewAttributes;
+	
+	@Override
+	protected void initializeChildViewAttributes()
+	{
+		validateAttributes();
+		
+		childViewAttributes = Lists.newArrayList();
+		childViewAttributes.add(new SourceAttribute(attributeValueFor(SOURCE)));
+		childViewAttributes.add(new ItemLayoutAttribute(attributeValueFor(ITEM_LAYOUT)));
+		
+		if (hasAttribute(DROPDOWN_LAYOUT))
+			childViewAttributes.add(new DropdownLayoutAttribute(attributeValueFor(DROPDOWN_LAYOUT)));
+		
+		if (hasAttribute(ITEM_MAPPING))
+			childViewAttributes.add(new ItemMappingAttribute(attributeValueFor(ITEM_MAPPING)));
+		
+		if (hasAttribute(DROPDOWN_MAPPING))
+			childViewAttributes.add(new DropdownMappingAttribute(attributeValueFor(DROPDOWN_MAPPING)));
+	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
@@ -56,33 +75,17 @@ public class AdaptedDataSetAttributes extends AbstractGroupedViewAttribute<Adapt
 		dataSetAdapter.observeChangesOnTheValueModel();
 		((AdapterView)view).setAdapter(dataSetAdapter);
 	}
-	
-	List<AdapterViewAttribute> getAdapterViewAttributes()
-	{
-		return Collections.unmodifiableList(childViewAttributes);
-	}
 
-	@Override
-	protected void initializeChildViewAttributes()
+	private void validateAttributes()
 	{
 		assertAttributesArePresent(SOURCE, ITEM_LAYOUT);
 		
 		if (view instanceof AbsSpinner)
 			assertAttributesArePresent(DROPDOWN_LAYOUT);
-		
-		childViewAttributes = Lists.newArrayList();
-		
-		childViewAttributes.add(new SourceAttribute(childAttributes.get(SOURCE)));
-		childViewAttributes.add(new ItemLayoutAttribute(childAttributes.get(ITEM_LAYOUT)));
-		
-		if (childAttributes.containsKey(DROPDOWN_LAYOUT))
-			childViewAttributes.add(new DropdownLayoutAttribute(childAttributes.get(DROPDOWN_LAYOUT)));
-		
-		if (childAttributes.containsKey(ITEM_MAPPING))
-			childViewAttributes.add(new ItemMappingAttribute(childAttributes.get(ITEM_MAPPING)));
-		
-		if (childAttributes.containsKey(DROPDOWN_MAPPING))
-			childViewAttributes.add(new DropdownMappingAttribute(childAttributes.get(DROPDOWN_MAPPING)));
-		
+	}
+	
+	List<AdapterViewAttribute> getAdapterViewAttributes()
+	{
+		return Collections.unmodifiableList(childViewAttributes);
 	}
 }

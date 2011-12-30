@@ -16,7 +16,7 @@
 package org.robobinding.viewattribute.ratingbar;
 
 import org.robobinding.property.PropertyValueModel;
-import org.robobinding.viewattribute.AbstractDelegatePropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
 import org.robobinding.viewattribute.PropertyViewAttribute;
@@ -30,7 +30,7 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class RatingAttribute extends AbstractDelegatePropertyViewAttribute<RatingBar>
+public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<RatingBar>
 {
 	@Override
 	protected PropertyViewAttribute<RatingBar> lookupPropertyViewAttribute(Class<?> propertyType)

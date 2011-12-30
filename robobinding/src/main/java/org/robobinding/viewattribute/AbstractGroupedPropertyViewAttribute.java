@@ -30,7 +30,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractGroupedViewAttribute<T extends View> implements GroupedViewAttribute<T>
+public abstract class AbstractGroupedPropertyViewAttribute<T extends View> implements GroupedPropertyViewAttribute<T>
 {
 	protected T view;
 	protected boolean preInitializeViews;
@@ -66,5 +66,13 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Gr
 		if (!missingAttributes.isEmpty())
 			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
 					getClass().getName(), view.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
+	}
+	protected String attributeValueFor(String attributeName)
+	{
+		return childAttributes.get(attributeName);
+	}
+	protected boolean hasAttribute(String attributeName)
+	{
+		return childAttributes.containsKey(attributeName);
 	}
 }

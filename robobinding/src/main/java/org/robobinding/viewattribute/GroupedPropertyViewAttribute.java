@@ -25,7 +25,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface GroupedViewAttribute<T extends View> extends ViewAttribute
+public interface GroupedPropertyViewAttribute<T extends View> extends ViewAttribute
 {
 	void setView(T view);
 	void setPreInitializeViews(boolean preInitializeViews);
