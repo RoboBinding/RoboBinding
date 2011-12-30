@@ -15,11 +15,10 @@
  */
 package org.robobinding.viewattribute.progressbar;
 
-import org.robobinding.binder.BindingAttributeResolver;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.binder.ViewAttributeMappings;
+import org.robobinding.customwidget.BindingAttributeProvider;
 
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 
 /**
  *
@@ -29,28 +28,12 @@ import android.widget.SeekBar;
  */
 public class ProgressBarAttributeProvider implements BindingAttributeProvider<ProgressBar>
 {
-	private static final String PROGRESS = "progress";
-	private static final String SECONDARY_PROGRESS = "secondaryProgress";
-	private static final String MAX = "max";
-
 	@Override
-	public void resolveSupportedBindingAttributes(ProgressBar progressBar, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
+	public void populateViewAttributeMappings(ViewAttributeMappings<ProgressBar> mappings)
 	{
-		if (bindingAttributeResolver.hasAttribute(MAX))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(MAX);
-			bindingAttributeResolver.resolveAttribute(MAX, new MaxAttribute(progressBar, attributeValue, preInitializeViews));
-		}
-		if (bindingAttributeResolver.hasAttribute(PROGRESS) && !(progressBar instanceof SeekBar))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(PROGRESS);
-			bindingAttributeResolver.resolveAttribute(PROGRESS, new ProgressAttribute(progressBar, attributeValue, preInitializeViews));
-		}
-		if (bindingAttributeResolver.hasAttribute(SECONDARY_PROGRESS))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(SECONDARY_PROGRESS);
-			bindingAttributeResolver.resolveAttribute(SECONDARY_PROGRESS, new SecondaryProgressAttribute(progressBar, attributeValue, preInitializeViews));
-		}
+		mappings.mapProperty(MaxAttribute.class, "max");
+		mappings.mapProperty(ProgressAttribute.class, "progress");
+		mappings.mapProperty(SecondaryProgressAttribute.class, "secondaryProgress");
 	}
 
 }

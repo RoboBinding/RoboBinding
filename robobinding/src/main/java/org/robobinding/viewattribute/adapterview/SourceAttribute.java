@@ -29,7 +29,12 @@ import android.content.Context;
  */
 public class SourceAttribute implements AdapterViewAttribute
 {
-	private String propertyName;
+	private final String propertyName;
+
+	public SourceAttribute(String propertyName)
+	{
+		this.propertyName = propertyName;
+	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
@@ -37,11 +42,5 @@ public class SourceAttribute implements AdapterViewAttribute
 	{
 		DataSetProperty dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyName);
 		dataSetAdapter.setValueModel(dataSetValueModel);
-	}
-
-	@Override
-	public void setPropertyName(String propertyName)
-	{
-		this.propertyName = propertyName;
 	}
 }

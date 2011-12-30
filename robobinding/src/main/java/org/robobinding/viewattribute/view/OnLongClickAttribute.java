@@ -27,16 +27,8 @@ import android.view.View.OnLongClickListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnLongClickAttribute extends AbstractCommandViewAttribute
+public class OnLongClickAttribute extends AbstractCommandViewAttribute<View>
 {
-	private final View view;
-
-	public OnLongClickAttribute(View view, String commandName)
-	{
-		super(commandName);
-		this.view = view;
-	}
-
 	@Override
 	protected void bind(final Command command)
 	{

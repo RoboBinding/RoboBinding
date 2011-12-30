@@ -17,7 +17,7 @@ package org.robobinding.viewattribute.textview;
 
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.textview.TextAttribute;
+import org.robobinding.viewattribute.textview.TextAttributeGroup;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -45,7 +45,7 @@ public class CharSequenceTextAttributeTest extends AbstractTextAttributeTest<Cha
 	@Override
 	protected AbstractPropertyViewAttribute<CharSequence> newAttributeInstance(String bindingAttributeValue)
 	{
-		TextAttribute textAttribute = newTextAttribute(bindingAttributeValue);
+		TextAttributeGroup textAttribute = newTextAttribute(bindingAttributeValue);
 		return textAttribute.new CharSequenceTextAttribute();
 	}
 }

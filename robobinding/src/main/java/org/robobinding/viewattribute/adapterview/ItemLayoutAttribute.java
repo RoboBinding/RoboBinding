@@ -35,6 +35,16 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 {
 	private AdapterViewAttribute itemLayoutAttribute;
 	
+	public ItemLayoutAttribute(String attributeValue)
+	{
+		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(attributeValue);
+		
+		if (bindingDetailsBuilder.bindsToStaticResource())
+			itemLayoutAttribute = new StaticItemLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
+		else
+			itemLayoutAttribute = new DynamicItemLayoutAttribute(bindingDetailsBuilder.createPropertyBindingDetails());
+	}
+
 	@Override
 	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
@@ -52,7 +62,7 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 
 		public DynamicItemLayoutAttribute(PropertyBindingDetails propertyBindingDetails)
 		{
-			setPropertyName(propertyBindingDetails.propertyName);
+			setPropertyBindingDetails(propertyBindingDetails);
 		}
 		
 		@Override
@@ -73,30 +83,17 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 	{
 		private ResourceBindingDetails resourceBindingDetails;
 
+		public StaticItemLayoutAttribute(ResourceBindingDetails resourceBindingDetails)
+		{
+			this.resourceBindingDetails = resourceBindingDetails;
+		}
+
 		@Override
 		public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 		{
 			int itemLayoutId = resourceBindingDetails.getResourceId(context);
 			updateLayoutId(dataSetAdapter, itemLayoutId);
 		}
-
-		@Override
-		public void setPropertyName(String propertyValue)
-		{
-			BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(propertyValue, true);
-			resourceBindingDetails = bindingDetailsBuilder.createResourceBindingDetails();
-		}
 	}
 
-	@Override
-	public void setPropertyName(String propertyValue)
-	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(propertyValue, true);
-		
-		if (bindingDetailsBuilder.bindsToStaticResource())
-			itemLayoutAttribute = new StaticItemLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
-		else
-			itemLayoutAttribute = new DynamicItemLayoutAttribute(bindingDetailsBuilder.createPropertyBindingDetails());
-		
-	}
 }

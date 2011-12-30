@@ -44,12 +44,11 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	private String itemMappingAttributeValue;
 	private ViewMappings viewMappings;
 
-	@Override
-	public void setPropertyName(String propertyValue)
+	public ItemMappingAttribute(String attributeValue)
 	{
-		this.itemMappingAttributeValue = propertyValue;
+		this.itemMappingAttributeValue = attributeValue;
 	}
-	
+
 	@Override
 	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 	{

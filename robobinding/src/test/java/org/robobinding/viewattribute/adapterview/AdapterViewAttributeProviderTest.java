@@ -23,17 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.binder.BindingAttribute;
+import org.robobinding.customwidget.BindingAttributeProvider;
 import org.robobinding.viewattribute.AbstractCompoundBindingAttributeTest;
-import org.robobinding.viewattribute.BindingAttributeProvider;
-import org.robobinding.viewattribute.adapterview.AdaptedDataSetAttributes;
-import org.robobinding.viewattribute.adapterview.AdapterViewAttribute;
-import org.robobinding.viewattribute.adapterview.AdapterViewAttributeProvider;
-import org.robobinding.viewattribute.adapterview.DropdownLayoutAttribute;
-import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
-import org.robobinding.viewattribute.adapterview.ItemMappingAttribute;
-import org.robobinding.viewattribute.adapterview.OnItemClickAttribute;
-import org.robobinding.viewattribute.adapterview.OnItemSelectedAttribute;
-import org.robobinding.viewattribute.adapterview.SelectedItemPositionAttribute;
 
 import android.app.Activity;
 import android.content.Context;

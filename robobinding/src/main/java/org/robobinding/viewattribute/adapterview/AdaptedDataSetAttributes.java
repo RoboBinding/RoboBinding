@@ -19,11 +19,13 @@ package org.robobinding.viewattribute.adapterview;
 import java.util.Collections;
 import java.util.List;
 
+import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 
 import android.content.Context;
+import android.widget.AbsSpinner;
 import android.widget.AdapterView;
 
 /**
@@ -34,6 +36,14 @@ import android.widget.AdapterView;
  */
 public class AdaptedDataSetAttributes extends AbstractGroupedViewAttribute<AdapterView<?>>
 {
+	public static final String SOURCE = "source";
+	public static final String ITEM_LAYOUT = "itemLayout";
+	public static final String DROPDOWN_LAYOUT = "dropdownLayout";
+	public static final String ITEM_MAPPING = "itemMapping";
+	public static final String DROPDOWN_MAPPING = "dropdownMapping";
+	
+	private List<AdapterViewAttribute> childViewAttributes;
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
@@ -47,8 +57,32 @@ public class AdaptedDataSetAttributes extends AbstractGroupedViewAttribute<Adapt
 		((AdapterView)view).setAdapter(dataSetAdapter);
 	}
 	
-	public List<AdapterViewAttribute> getAdapterViewAttributes()
+	List<AdapterViewAttribute> getAdapterViewAttributes()
 	{
 		return Collections.unmodifiableList(childViewAttributes);
+	}
+
+	@Override
+	protected void initializeChildViewAttributes()
+	{
+		assertAttributesArePresent(SOURCE, ITEM_LAYOUT);
+		
+		if (view instanceof AbsSpinner)
+			assertAttributesArePresent(DROPDOWN_LAYOUT);
+		
+		childViewAttributes = Lists.newArrayList();
+		
+		childViewAttributes.add(new SourceAttribute(childAttributes.get(SOURCE)));
+		childViewAttributes.add(new ItemLayoutAttribute(childAttributes.get(ITEM_LAYOUT)));
+		
+		if (childAttributes.containsKey(DROPDOWN_LAYOUT))
+			childViewAttributes.add(new DropdownLayoutAttribute(childAttributes.get(DROPDOWN_LAYOUT)));
+		
+		if (childAttributes.containsKey(ITEM_MAPPING))
+			childViewAttributes.add(new ItemMappingAttribute(childAttributes.get(ITEM_MAPPING)));
+		
+		if (childAttributes.containsKey(DROPDOWN_MAPPING))
+			childViewAttributes.add(new DropdownMappingAttribute(childAttributes.get(DROPDOWN_MAPPING)));
+		
 	}
 }

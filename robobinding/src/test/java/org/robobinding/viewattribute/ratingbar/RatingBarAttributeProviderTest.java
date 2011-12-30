@@ -16,7 +16,7 @@
 package org.robobinding.viewattribute.ratingbar;
 
 import org.robobinding.viewattribute.AbstractBindingAttributeProviderTest;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.BindableView;
 
 import android.widget.RatingBar;
 
@@ -30,7 +30,7 @@ public class RatingBarAttributeProviderTest extends AbstractBindingAttributeProv
 {
 
 	@Override
-	protected BindingAttributeProvider<RatingBar> getBindingAttributeProvider()
+	protected BindableView<RatingBar> getBindingAttributeProvider()
 	{
 		return new RatingBarAttributeProvider();
 	}

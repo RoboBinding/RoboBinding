@@ -19,8 +19,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.robobinding.customwidget.BindingAttributeProvider;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.BindingAttributeProvider;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -65,9 +65,11 @@ public class BindingAttributesProcessor
 		
 		for (BindingAttributeProvider<? extends View> provider : providers)
 		{
+			ViewAttributeMappings<View> mappings = new ViewAttributeMappings<View>();
 			@SuppressWarnings("unchecked")
 			BindingAttributeProvider<View> viewProvider = (BindingAttributeProvider<View>)provider;
-			viewProvider.resolveSupportedBindingAttributes(view, bindingAttributeResolver, preInitializeViews);
+			viewProvider.populateViewAttributeMappings(mappings);
+			mappings.resolveAttributes(view, bindingAttributeResolver, preInitializeViews);
 			
 			if (bindingAttributeResolver.isDone())
 				break;

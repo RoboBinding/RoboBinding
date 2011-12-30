@@ -15,9 +15,8 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
-import org.robobinding.viewattribute.AbstractBindingAttributeProvider;
-import org.robobinding.viewattribute.ratingbar.RatingAttribute.FloatRatingAttribute;
-import org.robobinding.viewattribute.ratingbar.RatingAttribute.IntegerRatingAttribute;
+import org.robobinding.binder.ViewAttributeMappings;
+import org.robobinding.customwidget.BindingAttributeProvider;
 
 import android.widget.RatingBar;
 
@@ -27,18 +26,14 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class RatingBarAttributeProvider extends AbstractBindingAttributeProvider<RatingBar>
+public class RatingBarAttributeProvider implements BindingAttributeProvider<RatingBar>
 {
 	@Override
-	protected void populateViewAttributeMappings(ViewAttributeMappings<RatingBar> mappings)
+	public void populateViewAttributeMappings(ViewAttributeMappings<RatingBar> mappings)
 	{
-		TypeMap<Integer, RatingBar> integerRating = mappings.createTypeMap(Integer.class, IntegerRatingAttribute.class);
-		TypeMap<Float, RatingBar> floatRating = mappings.createTypeMap(Float.class, FloatRatingAttribute.class);
+		mappings.mapProperty(RatingAttribute.class, "rating");
+		mappings.mapProperty(NumStarsAttribute.class, "numStars");
 		
-		mappings.addTypeDependentPropertyMappings("rating", integerRating, floatRating);
-		
-		mappings.addPropertyMapping("numStars", NumStarsAttribute.class);
-		
-		mappings.addCommandMapping("onRatingBarChange", OnRatingBarChangeAttribute.class);
+		mappings.mapCommand(OnRatingBarChangeAttribute.class, "onRatingBarChange");
 	}
 }

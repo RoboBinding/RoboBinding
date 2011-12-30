@@ -17,7 +17,7 @@ package org.robobinding.viewattribute.textview;
 
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.textview.TextAttribute;
+import org.robobinding.viewattribute.textview.TextAttributeGroup;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -33,7 +33,7 @@ public class StringTextAttributeTest extends AbstractTextAttributeTest<String>
 	@Override
 	protected AbstractPropertyViewAttribute<String> newAttributeInstance(String bindingAttributeValue)
 	{
-		TextAttribute textAttribute = newTextAttribute(bindingAttributeValue);
+		TextAttributeGroup textAttribute = newTextAttribute(bindingAttributeValue);
 		return textAttribute.new StringTextAttribute();
 	}
 

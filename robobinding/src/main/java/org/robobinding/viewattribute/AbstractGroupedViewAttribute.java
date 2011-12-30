@@ -15,6 +15,13 @@
  */
 package org.robobinding.viewattribute;
 
+import java.text.MessageFormat;
+import java.util.List;
+import java.util.Map;
+
+import org.robobinding.internal.com_google_common.collect.Lists;
+import org.robobinding.internal.org_apache_commons_lang3.StringUtils;
+
 import android.view.View;
 
 /**
@@ -26,8 +33,8 @@ import android.view.View;
 public abstract class AbstractGroupedViewAttribute<T extends View> implements GroupedViewAttribute<T>
 {
 	protected T view;
-	//protected List<S> childViewAttributes;
 	protected boolean preInitializeViews;
+	protected Map<String, String> childAttributes;
 	
 	@Override
 	public void setView(T view)
@@ -39,15 +46,25 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Gr
 	{
 		this.preInitializeViews = preInitializeViews;
 	}
-//	@Override
-//	public void setChildAttributes(List<S> childViewAttributes)
-//	{
-//		this.childViewAttributes = Lists.newArrayList();
-//		
-//		for (S childViewAttribute : childViewAttributes)
-//		{
-//			if (childViewAttribute != null)
-//				this.childViewAttributes.add(childViewAttribute);
-//		}
-//	}
+	@Override
+	public void setChildAttributes(Map<String, String> childAttributes)
+	{
+		this.childAttributes = childAttributes;
+		initializeChildViewAttributes();
+	}
+	protected abstract void initializeChildViewAttributes();
+	protected void assertAttributesArePresent(String... attributeNames)
+	{
+		List<String> missingAttributes = Lists.newArrayList();
+		
+		for (String attributeName : attributeNames)
+		{
+			if (!childAttributes.containsKey(attributeName))
+				missingAttributes.add(attributeName);
+		}
+		
+		if (!missingAttributes.isEmpty())
+			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
+					getClass().getName(), view.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
+	}
 }

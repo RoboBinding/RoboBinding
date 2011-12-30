@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.imageview;
 
-import org.robobinding.binder.BindingAttributeResolver;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.binder.ViewAttributeMappings;
+import org.robobinding.customwidget.BindingAttributeProvider;
 
 import android.widget.ImageView;
 
@@ -28,16 +28,10 @@ import android.widget.ImageView;
  */
 public class ImageViewAttributeProvider implements BindingAttributeProvider<ImageView>
 {
-	private static final String SRC = "src";
-
 	@Override
-	public void resolveSupportedBindingAttributes(ImageView view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
+	public void populateViewAttributeMappings(ViewAttributeMappings<ImageView> mappings)
 	{
-		if (bindingAttributeResolver.hasAttribute(SRC))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(SRC);
-			bindingAttributeResolver.resolveAttribute(SRC, new ImageSourceAttribute(view, attributeValue, preInitializeViews));
-		}
+		mappings.mapProperty(ImageSourceAttribute.class, "src");
 	}
 
 }

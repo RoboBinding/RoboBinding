@@ -16,7 +16,7 @@
 package org.robobinding.viewattribute.compoundbutton;
 
 import org.robobinding.viewattribute.AbstractBindingAttributeProviderTest;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.BindableView;
 
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -30,7 +30,7 @@ import android.widget.CompoundButton;
 public class CompoundButtonAttributeProviderTest extends AbstractBindingAttributeProviderTest<CompoundButton>
 {
 	@Override
-	protected BindingAttributeProvider<CompoundButton> getBindingAttributeProvider()
+	protected BindableView<CompoundButton> getBindingAttributeProvider()
 	{
 		return new CompoundButtonAttributeProvider();
 	}

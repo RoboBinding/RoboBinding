@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.seekbar;
+package org.robobinding.viewattribute.view;
 
-import org.robobinding.binder.ViewAttributeMappings;
-import org.robobinding.customwidget.BindingAttributeProvider;
-
-import android.widget.SeekBar;
+import android.view.View;
 
 /**
  *
@@ -26,16 +23,23 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SeekBarAttributeProvider implements BindingAttributeProvider<SeekBar>
+public class OnFocusLostAttribute extends AbstractFocusChangeAttribute
 {
 	@Override
-	public void populateViewAttributeMappings(ViewAttributeMappings<SeekBar> mappings)
+	public Class<?> getEventType()
 	{
-		//Manage the listeners with a GroupdAttribute?
-		
-		mappings.mapProperty(TwoWayProgressAttribute.class, "progress");
-		mappings.mapCommand(OnSeekBarChangeAttribute.class, "onSeekBarChange");
-		
+		return ViewEvent.class;
 	}
-	
+
+	@Override
+	public boolean firesNewEvent(boolean hasFocus)
+	{
+		return !hasFocus;
+	}
+
+	@Override
+	public ViewEvent createEvent(View view, boolean hasFocus)
+	{
+		return new ViewEvent(view);
+	}
 }

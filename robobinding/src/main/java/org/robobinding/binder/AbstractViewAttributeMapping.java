@@ -13,23 +13,35 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.binder;
 
-import org.robobinding.binder.BindingAttributeResolver;
 
 import android.view.View;
 
-
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface BindingAttributeProvider<T extends View>
+abstract class AbstractViewAttributeMapping<T extends View>
 {
-	/**
-	 * TODO:further refactoring to consider {@link BindingDetailsBuilder}
-	 */
-	void resolveSupportedBindingAttributes(T view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews);
+	public abstract void initializeAndResolveAttribute(T view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews);
+	
+	protected <S> S createNewInstance(Class<S> clazz)
+	{
+		try
+		{
+			S newInstance = clazz.newInstance();
+			return newInstance;
+		} 
+		catch (InstantiationException e)
+		{
+			throw new RuntimeException("Attribute class: " + clazz.getName() + " does not have an empty default constructor");
+		} 
+		catch (IllegalAccessException e)
+		{
+			throw new RuntimeException("Attribute class: " + clazz.getName() + " is not public");
+		}
+	}
 }

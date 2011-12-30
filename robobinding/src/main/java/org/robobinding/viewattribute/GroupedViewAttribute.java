@@ -15,9 +15,7 @@
  */
 package org.robobinding.viewattribute;
 
-import java.util.List;
-
-import org.robobinding.customwidget.Attribute;
+import java.util.Map;
 
 import android.view.View;
 
@@ -31,6 +29,5 @@ public interface GroupedViewAttribute<T extends View> extends ViewAttribute
 {
 	void setView(T view);
 	void setPreInitializeViews(boolean preInitializeViews);
-	//void setChildAttributes(List<S> childAttributes);
-	void setChildAttributes(List<Attribute> attributes);
+	void setChildAttributes(Map<String, String> childAttributes);
 }

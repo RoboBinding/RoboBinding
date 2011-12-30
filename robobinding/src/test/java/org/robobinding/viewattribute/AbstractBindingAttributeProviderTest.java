@@ -46,7 +46,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public abstract class AbstractBindingAttributeProviderTest<T extends View>
 {
 	static final String ATTRIBUTE_VALUE = "{attributeValue}";
-	private BindingAttributeProvider<T> bindingAttributeProvider;
+	private BindableView<T> bindingAttributeProvider;
 	private T view;
 	
 	@Before
@@ -104,7 +104,7 @@ public abstract class AbstractBindingAttributeProviderTest<T extends View>
 		return bindingAttributeResolver;
 	}
 	
-	protected abstract BindingAttributeProvider<T> getBindingAttributeProvider();
+	protected abstract BindableView<T> getBindingAttributeProvider();
 	protected abstract T createNewViewInstance();
 	protected abstract void populateAttributeClassMappings(AttributeClassMappings attributeClassMappings);
 	

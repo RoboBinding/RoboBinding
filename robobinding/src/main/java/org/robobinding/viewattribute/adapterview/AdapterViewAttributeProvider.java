@@ -15,7 +15,8 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.viewattribute.AbstractBindingAttributeProvider;
+import org.robobinding.binder.ViewAttributeMappings;
+import org.robobinding.customwidget.BindingAttributeProvider;
 
 import android.widget.AdapterView;
 
@@ -26,83 +27,18 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdapterViewAttributeProvider extends AbstractBindingAttributeProvider<AdapterView<?>>
+public class AdapterViewAttributeProvider implements BindingAttributeProvider<AdapterView<?>>
 {
-	protected void populateViewAttributeMappings(ViewAttributeMappings<AdapterView<?>> mappings)
+	@Override
+	public void populateViewAttributeMappings(ViewAttributeMappings<AdapterView<?>> mappings)
 	{
-		mappings.addGroupedMapping(AdaptedDataSetAttributes.class, "source", "itemLayout", "itemMapping", "dropdownLayout", "dropdownMapping");
+		mappings.mapGroup(AdaptedDataSetAttributes.class, AdaptedDataSetAttributes.SOURCE, 
+				AdaptedDataSetAttributes.ITEM_LAYOUT, AdaptedDataSetAttributes.ITEM_MAPPING, 
+				AdaptedDataSetAttributes.DROPDOWN_LAYOUT, AdaptedDataSetAttributes.DROPDOWN_MAPPING);
 		
-		mappings.addCommandMapping("onItemClick", OnItemClickAttribute.class);
-		mappings.addCommandMapping("onItemSelected", OnItemSelectedAttribute.class);
+		mappings.mapCommand(OnItemClickAttribute.class, "onItemClick");
+		mappings.mapCommand(OnItemSelectedAttribute.class, "onItemSelected");
 		
-		mappings.addPropertyMapping("selectedItemPosition", SelectedItemPositionAttribute.class);
+		mappings.mapProperty(SelectedItemPositionAttribute.class, "selectedItemPosition");
 	}
-
-//	public class AdapterViewAttributesBuilder
-//	{
-//		private final boolean preInitializeView;
-//		private String sourceAttributeValue;
-//		private String itemLayoutAttributeValue;
-//		private String itemMappingAttributeValue;
-//		private String dropdownLayoutAttributeValue;
-//		private String dropdownMappingAttributeValue;
-//		
-//		public AdapterViewAttributesBuilder(boolean preInitializeView)
-//		{
-//			this.preInitializeView = preInitializeView;
-//		}
-//
-//		public void setSourceAttributeValue(String attributeValue)
-//		{
-//			this.sourceAttributeValue = attributeValue;
-//		}
-//
-//		public void setItemLayoutAttributeValue(String attributeValue)
-//		{
-//			this.itemLayoutAttributeValue = attributeValue;
-//		}
-//		
-//		void setItemMappingAttributeValue(String itemMappingAttributeValue)
-//		{
-//			this.itemMappingAttributeValue = itemMappingAttributeValue;
-//		}
-//
-//		public void setDropdownLayoutAttributeValue(String attributeValue)
-//		{
-//			this.dropdownLayoutAttributeValue = attributeValue;
-//		}
-//		
-//		void setDropdownMappingAttributeValue(String dropdownMappingAttributeValue)
-//		{
-//			this.dropdownMappingAttributeValue = dropdownMappingAttributeValue;
-//		}
-//		
-//		public AdaptedDataSetAttributes build(AdapterView<?> adapterView)
-//		{
-//			if (sourceAttributeValue == null || itemLayoutAttributeValue == null)
-//				throw new RuntimeException("When binding to an AdapterView, both source and itemLayout attributes must be provided.");
-//
-//			if (adapterView instanceof AbsSpinner && dropdownLayoutAttributeValue == null)
-//				throw new RuntimeException("When binding to an AbsSpinner, dropdownLayout attribute must be provided.");
-//			
-//			SourceAttribute sourceAttribute = new SourceAttribute(sourceAttributeValue, preInitializeView);
-//			ItemLayoutAttribute itemLayoutAttribute = new ItemLayoutAttribute(itemLayoutAttributeValue, preInitializeView);
-//			
-//			DropdownLayoutAttribute dropdownLayoutAttribute = null;
-//			ItemMappingAttribute itemMappingAttribute = null;
-//			DropdownMappingAttribute dropdownMappingAttribute = null;
-//			
-//			if (dropdownLayoutAttributeValue != null)
-//				dropdownLayoutAttribute = new DropdownLayoutAttribute(dropdownLayoutAttributeValue, preInitializeView);
-//			
-//			if (itemMappingAttributeValue != null)
-//				itemMappingAttribute = new ItemMappingAttribute(itemMappingAttributeValue, preInitializeView);
-//			
-//			if (dropdownMappingAttributeValue != null)
-//				dropdownMappingAttribute = new DropdownMappingAttribute(dropdownMappingAttributeValue, preInitializeView);
-//			
-//			return new AdaptedDataSetAttributes(adapterView, sourceAttribute, itemLayoutAttribute, itemMappingAttribute, dropdownLayoutAttribute, dropdownMappingAttribute);
-//		}
-//
-//	}
 }

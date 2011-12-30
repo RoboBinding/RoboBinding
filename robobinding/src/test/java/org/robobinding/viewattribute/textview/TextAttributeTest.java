@@ -24,10 +24,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.PropertyBindingDetails;
-import org.robobinding.viewattribute.textview.TextAttribute;
+import org.robobinding.viewattribute.textview.TextAttributeGroup;
 import org.robobinding.viewattribute.textview.ValueCommitMode;
-import org.robobinding.viewattribute.textview.TextAttribute.CharSequenceTextAttribute;
-import org.robobinding.viewattribute.textview.TextAttribute.StringTextAttribute;
+import org.robobinding.viewattribute.textview.TextAttributeGroup.CharSequenceTextAttribute;
+import org.robobinding.viewattribute.textview.TextAttributeGroup.StringTextAttribute;
 
 import android.widget.TextView;
 
@@ -41,13 +41,13 @@ import android.widget.TextView;
 public class TextAttributeTest
 {
 	private TextView textView;
-	private TextAttribute textAttribute;
+	private TextAttributeGroup textAttribute;
 	private PresentationModelAdapter presentationModelAdapter;
 
 	@Before
 	public void setUp()
 	{
-		 textAttribute = new TextAttribute(textView, PropertyBindingDetails.createFrom("{property_name}", true), ValueCommitMode.ON_FOCUS_LOST);
+		 textAttribute = new TextAttributeGroup(textView, PropertyBindingDetails.createFrom("{property_name}", true), ValueCommitMode.ON_FOCUS_LOST);
 		 presentationModelAdapter = mock(PresentationModelAdapter.class);
 	}
 	

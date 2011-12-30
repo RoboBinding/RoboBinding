@@ -34,7 +34,7 @@ import android.view.View;
 public class ViewAttributeProviderTest extends AbstractBindingAttributeProviderTest<View>
 {
 	@Override
-	protected BindingAttributeProvider<View> getBindingAttributeProvider()
+	protected BindableView<View> getBindingAttributeProvider()
 	{
 		return new ViewAttributeProvider();
 	}

@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.view;
+
+import android.view.View;
 
 /**
  *
@@ -21,7 +23,23 @@ package org.robobinding.viewattribute;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface ChildViewAttribute
+public class OnFocusAttribute extends AbstractFocusChangeAttribute
 {
-	void setPropertyName(String propertyValue);
+	@Override
+	public Class<?> getEventType()
+	{
+		return ViewEvent.class;
+	}
+
+	@Override
+	public boolean firesNewEvent(boolean hasFocus)
+	{
+		return hasFocus;
+	}
+
+	@Override
+	public ViewEvent createEvent(View view, boolean hasFocus)
+	{
+		return new ViewEvent(view);
+	}
 }

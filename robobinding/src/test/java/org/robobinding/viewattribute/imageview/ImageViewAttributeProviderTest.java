@@ -16,7 +16,7 @@
 package org.robobinding.viewattribute.imageview;
 
 import org.robobinding.viewattribute.AbstractBindingAttributeProviderTest;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.BindableView;
 import org.robobinding.viewattribute.imageview.ImageSourceAttribute;
 import org.robobinding.viewattribute.imageview.ImageViewAttributeProvider;
 
@@ -31,7 +31,7 @@ import android.widget.ImageView;
 public class ImageViewAttributeProviderTest extends AbstractBindingAttributeProviderTest<ImageView>
 {
 	@Override
-	protected BindingAttributeProvider<ImageView> getBindingAttributeProvider()
+	protected BindableView<ImageView> getBindingAttributeProvider()
 	{
 		return new ImageViewAttributeProvider();
 	}

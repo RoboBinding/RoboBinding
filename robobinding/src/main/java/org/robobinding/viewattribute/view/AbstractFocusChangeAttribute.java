@@ -13,52 +13,47 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.textview;
+package org.robobinding.viewattribute.view;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.Command;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.TextView;
+import android.view.View;
+import android.view.View.OnFocusChangeListener;
 
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Cheng Wei
+ * @author Robert Taylor
  */
-public class OnTextChangedAttribute extends AbstractCommandViewAttribute<TextView>
+public abstract class AbstractFocusChangeAttribute extends AbstractCommandViewAttribute<View>
 {
+
 	@Override
 	protected void bind(final Command command)
 	{
-		view.addTextChangedListener(new TextWatcher() {
+		ViewListenerUtils.addOnFocusChangeListener(view, new OnFocusChangeListener() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count)
+			public void onFocusChange(View view, boolean hasFocus)
 			{
-				TextChangedEvent event = new TextChangedEvent(view, start, before, count);
-				command.invoke(event);
-
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{
-			}
-
-			@Override
-			public void afterTextChanged(Editable s)
-			{
+				if (firesNewEvent(hasFocus))
+				{
+					command.invoke(createEvent(view, hasFocus));
+				}
 			}
 		});
+
 	}
 
 	@Override
 	protected Class<?> getPreferredCommandParameterType()
 	{
-		return TextChangedEvent.class;
+		return getEventType();
 	}
 
+	protected abstract Class<?> getEventType();
+	protected abstract boolean firesNewEvent(boolean hasFocus);
+	protected abstract ViewEvent createEvent(View view, boolean hasFocus);
 }

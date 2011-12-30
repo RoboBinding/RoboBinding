@@ -28,12 +28,12 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractPropertyViewAttribute<S, T extends View> implements PropertyViewAttribute<S, T>
+public abstract class AbstractPropertyViewAttribute<S, T extends View> implements PropertyViewAttribute<T>
 {
 	private PresentationModelAdapter presentationModelAdapter;
 	private PropertyBindingDetails propertyBindingDetails;
+	private boolean preInitializeViews;
 	protected T view;
-	private String propertyName;
 	
 	@Override
 	public void setView(T view)
@@ -42,15 +42,15 @@ public abstract class AbstractPropertyViewAttribute<S, T extends View> implement
 	}
 	
 	@Override
-	public void setPropertyName(String propertyName)
+	public void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
 	{
-		this.propertyName = propertyName;
+		this.propertyBindingDetails = propertyBindingDetails;
 	}
 	
 	@Override
 	public void setPreInitializeViews(boolean preInitializeViews)
 	{
-		propertyBindingDetails = PropertyBindingDetails.createFrom(propertyName, preInitializeViews);
+		this.preInitializeViews = preInitializeViews;
 	}
 	
 	@Override
@@ -63,19 +63,9 @@ public abstract class AbstractPropertyViewAttribute<S, T extends View> implement
 	private void performBind()
 	{
 		if (propertyBindingDetails.twoWayBinding)
-			performTwoWayBinding();
+			new TwoWayBinder().performBind();
 		else
-			performOneWayBinding();
-	}
-
-	void performOneWayBinding()
-	{
-		new OneWayBinder().performBind();
-	}
-	
-	void performTwoWayBinding()
-	{
-		new TwoWayBinder().performBind();
+			new OneWayBinder().performBind();
 	}
 	
 	void setPresentationModelAdapter(PresentationModelAdapter presentationModelAdapter)
@@ -88,7 +78,7 @@ public abstract class AbstractPropertyViewAttribute<S, T extends View> implement
 	
 	protected void initializeView(PropertyValueModel<S> valueModel)
 	{
-		if (propertyBindingDetails.preInitializeView)
+		if (preInitializeViews)
 			valueModelUpdated(valueModel.getValue());
 	}
 	

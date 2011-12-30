@@ -25,9 +25,9 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface PropertyViewAttribute<S, T extends View> extends ViewAttribute
+public interface PropertyViewAttribute<T extends View> extends ViewAttribute
 {
 	void setView(T view);
-	void setPropertyName(String propertyName);
 	void setPreInitializeViews(boolean preInitializeViews);
+	void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails);
 }

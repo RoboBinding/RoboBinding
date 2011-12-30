@@ -41,7 +41,8 @@ public class NumStarsAttributeTest
 	public void whenUpdatingValueModel_ThenSetNumStarsOnRatingBar()
 	{
 		RatingBar ratingBar = new RatingBar(new Activity());
-		NumStarsAttribute numStarsAttribute = new NumStarsAttribute(ratingBar, "{propertyName}", true);
+		NumStarsAttribute numStarsAttribute = new NumStarsAttribute();
+		numStarsAttribute.setView(ratingBar);
 		
 		numStarsAttribute.valueModelUpdated(NEW_NUM_STARS);
 		

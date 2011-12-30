@@ -13,29 +13,19 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.seekbar;
+package org.robobinding.customwidget;
 
 import org.robobinding.binder.ViewAttributeMappings;
-import org.robobinding.customwidget.BindingAttributeProvider;
 
-import android.widget.SeekBar;
+import android.view.View;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
+ * @author Cheng Wei
  */
-public class SeekBarAttributeProvider implements BindingAttributeProvider<SeekBar>
+public interface BindingAttributeProvider<T extends View>
 {
-	@Override
-	public void populateViewAttributeMappings(ViewAttributeMappings<SeekBar> mappings)
-	{
-		//Manage the listeners with a GroupdAttribute?
-		
-		mappings.mapProperty(TwoWayProgressAttribute.class, "progress");
-		mappings.mapCommand(OnSeekBarChangeAttribute.class, "onSeekBarChange");
-		
-	}
-	
+	void populateViewAttributeMappings(ViewAttributeMappings<T> mappings);
 }

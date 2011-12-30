@@ -15,13 +15,11 @@
  */
 package org.robobinding.viewattribute.view;
 
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.viewattribute.AbstractDelegatePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -31,48 +29,24 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BackgroundAttribute implements PropertyViewAttribute
+public class BackgroundAttribute extends AbstractDelegatePropertyViewAttribute<View>
 {
-	private final View view;
-	private final PropertyBindingDetails propertyBindingDetails;
-
-	public BackgroundAttribute(View view, String attributeValue, boolean preInitializeView)
-	{
-		this.view = view;
-		propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue, preInitializeView);
-	}
-
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	protected PropertyViewAttribute<View> lookupPropertyViewAttribute(Class<?> propertyType)
 	{
-		PropertyViewAttribute propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
-		propertyViewAttribute.bind(presentationModelAdapter, context);
-	}
-
-	PropertyViewAttribute lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
-	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
-
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
 			return new ResourceBackgroundAttribute();
-		} else if (Drawable.class.isAssignableFrom(propertyType))
+		} 
+		else if (Drawable.class.isAssignableFrom(propertyType))
 		{
 			return new DrawableBackgroundAttribute();
 		}
 
 		throw new RuntimeException("Could not find a suitable background attribute class for property type: " + propertyType);
 	}
-
-	private abstract class AbstractBackgroundAttribute<T> extends AbstractReadOnlyPropertyViewAttribute<T>
-	{
-		public AbstractBackgroundAttribute()
-		{
-			super(propertyBindingDetails);
-		}
-	}
-
-	private class ResourceBackgroundAttribute extends AbstractBackgroundAttribute<Integer>
+	
+	private static class ResourceBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, View>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newResourceId)
@@ -84,7 +58,7 @@ public class BackgroundAttribute implements PropertyViewAttribute
 		}
 	}
 
-	private class DrawableBackgroundAttribute extends AbstractBackgroundAttribute<Drawable>
+	private static class DrawableBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<Drawable, View>
 	{
 		@Override
 		protected void valueModelUpdated(Drawable newDrawable)
@@ -92,4 +66,5 @@ public class BackgroundAttribute implements PropertyViewAttribute
 			view.setBackgroundDrawable(newDrawable);
 		}
 	}
+	
 }

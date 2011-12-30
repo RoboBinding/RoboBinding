@@ -25,8 +25,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.binder.BindingAttribute;
 import org.robobinding.viewattribute.AbstractCompoundBindingAttributeTest;
-import org.robobinding.viewattribute.BindingAttributeProvider;
-import org.robobinding.viewattribute.textview.TextAttribute;
+import org.robobinding.viewattribute.BindableView;
+import org.robobinding.viewattribute.textview.TextAttributeGroup;
 import org.robobinding.viewattribute.textview.TextViewAttributeProvider;
 import org.robobinding.viewattribute.textview.ValueCommitMode;
 
@@ -69,7 +69,7 @@ public class TextViewAttributeProviderTest extends AbstractCompoundBindingAttrib
 		
 		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
 		
-		TextAttribute textAttribute = (TextAttribute)bindingAttribute.getViewAttribute();
+		TextAttributeGroup textAttribute = (TextAttributeGroup)bindingAttribute.getViewAttribute();
 		assertThat(textAttribute.getValueCommitMode(), equalTo(ValueCommitMode.ON_CHANGE));
 	}
 	
@@ -80,7 +80,7 @@ public class TextViewAttributeProviderTest extends AbstractCompoundBindingAttrib
 		
 		BindingAttribute bindingAttribute = getResolvedBindingAttribute();
 		
-		TextAttribute textAttribute = (TextAttribute)bindingAttribute.getViewAttribute();
+		TextAttributeGroup textAttribute = (TextAttributeGroup)bindingAttribute.getViewAttribute();
 		assertThat(textAttribute.getValueCommitMode(), equalTo(ValueCommitMode.ON_CHANGE));
 	}
 	
@@ -117,7 +117,7 @@ public class TextViewAttributeProviderTest extends AbstractCompoundBindingAttrib
 	}
 
 	@Override
-	protected BindingAttributeProvider<TextView> getAttributeProvider()
+	protected BindableView<TextView> getAttributeProvider()
 	{
 		return textViewAttributeProvider;
 	}

@@ -21,7 +21,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.robobinding.binder.BindingAttributeResolver;
 import org.robobinding.viewattribute.AbstractBindingAttributeProviderTest;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.BindableView;
 
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -35,7 +35,7 @@ import android.widget.SeekBar;
 public class ProgressBarAttributeProviderTest extends AbstractBindingAttributeProviderTest<ProgressBar>
 {
 	@Override
-	protected BindingAttributeProvider<ProgressBar> getBindingAttributeProvider()
+	protected BindableView<ProgressBar> getBindingAttributeProvider()
 	{
 		return new ProgressBarAttributeProvider();
 	}

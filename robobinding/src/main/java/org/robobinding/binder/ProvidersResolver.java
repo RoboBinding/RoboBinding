@@ -18,10 +18,9 @@ package org.robobinding.binder;
 import java.util.Map;
 import java.util.Queue;
 
-import org.robobinding.customwidget.CustomWidgetUtils;
+import org.robobinding.customwidget.BindingAttributeProvider;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.adapterview.AdapterViewAttributeProvider;
 import org.robobinding.viewattribute.compoundbutton.CompoundButtonAttributeProvider;
 import org.robobinding.viewattribute.imageview.ImageViewAttributeProvider;
@@ -68,9 +67,9 @@ public class ProvidersResolver
 	{
 		Queue<BindingAttributeProvider<? extends View>> candidateProviders = Lists.newLinkedList();
 		
-		if (CustomWidgetUtils.isCustomWidget(view))
+		if (view instanceof BindingAttributeProvider)
 		{
-			candidateProviders.add(CustomWidgetUtils.getBindingAttributeProvider(view));
+			candidateProviders.add((BindingAttributeProvider<?>)view);
 		}
 				
 		processViewHierarchy(view.getClass(), candidateProviders);

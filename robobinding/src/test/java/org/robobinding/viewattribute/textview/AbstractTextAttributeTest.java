@@ -55,9 +55,9 @@ public abstract class AbstractTextAttributeTest<T extends CharSequence> extends 
 		bindingSamples.add((T)"initial value", (T)"new value");
 	}
 	
-	protected TextAttribute newTextAttribute(String bindingAttributeValue)
+	protected TextAttributeGroup newTextAttribute(String bindingAttributeValue)
 	{
-		return new TextAttribute(textView, PropertyBindingDetails.createFrom(bindingAttributeValue, true), lateValueCommitMode ? ValueCommitMode.ON_FOCUS_LOST : ValueCommitMode.ON_CHANGE);
+		return new TextAttributeGroup(textView, PropertyBindingDetails.createFrom(bindingAttributeValue, true), lateValueCommitMode ? ValueCommitMode.ON_FOCUS_LOST : ValueCommitMode.ON_CHANGE);
 	}
 	
 	@Test

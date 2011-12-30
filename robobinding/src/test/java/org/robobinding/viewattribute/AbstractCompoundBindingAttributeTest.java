@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.robobinding.binder.BindingAttribute;
 import org.robobinding.binder.BindingAttributeResolver;
+import org.robobinding.customwidget.BindingAttributeProvider;
 import org.robobinding.internal.com_google_common.collect.Maps;
 
 import android.view.View;

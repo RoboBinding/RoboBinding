@@ -15,13 +15,11 @@
  */
 package org.robobinding.viewattribute.view;
 
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.viewattribute.AbstractDelegatePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 
-import android.content.Context;
 import android.view.View;
 
 /**
@@ -30,28 +28,11 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class VisibilityAttribute implements PropertyViewAttribute
+public class VisibilityAttribute extends AbstractDelegatePropertyViewAttribute<View>
 {
-	private final View view;
-	private final PropertyBindingDetails propertyBindingDetails;
-
-	public VisibilityAttribute(View view, String attributeValue, boolean preInitializeView)
-	{
-		this.view = view;
-		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue, preInitializeView);
-	}
-
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	protected PropertyViewAttribute<View> lookupPropertyViewAttribute(Class<?> propertyType)
 	{
-		PropertyViewAttribute propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
-		propertyViewAttribute.bind(presentationModelAdapter, context);
-	}
-
-	PropertyViewAttribute lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
-	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
-		
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
 			return new IntegerVisibilityAttribute();
@@ -64,13 +45,8 @@ public class VisibilityAttribute implements PropertyViewAttribute
 		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
 	}
 	
-	class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Boolean>
+	private static class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Boolean, View>
 	{
-		public BooleanVisibilityAttribute()
-		{
-			super(propertyBindingDetails);
-		}
-
 		@Override
 		protected void valueModelUpdated(Boolean newValue)
 		{
@@ -78,17 +54,13 @@ public class VisibilityAttribute implements PropertyViewAttribute
 		}
 	}
 	
-	class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer>
+	private static class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, View>
 	{
-		public IntegerVisibilityAttribute()
-		{
-			super(propertyBindingDetails);
-		}
-
 		@Override
 		protected void valueModelUpdated(Integer newValue)
 		{
 			view.setVisibility(newValue);
 		}
 	}
+	
 }

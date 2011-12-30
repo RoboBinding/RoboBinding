@@ -42,7 +42,8 @@ public class MaxAttributeTest
 	public void whenUpdatingValueModel_ThenSetMaxOnProgressBar()
 	{
 		ProgressBar progressBar = new ProgressBar(new Activity());
-		MaxAttribute maxAttribute = new MaxAttribute(progressBar, "{propertyName}", true);
+		MaxAttribute maxAttribute = new MaxAttribute();
+		maxAttribute.setView(progressBar);
 		
 		maxAttribute.valueModelUpdated(NEW_MAX_VALUE);
 		

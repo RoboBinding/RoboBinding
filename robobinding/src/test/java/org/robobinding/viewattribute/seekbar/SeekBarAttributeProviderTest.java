@@ -17,7 +17,7 @@ package org.robobinding.viewattribute.seekbar;
 
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractBindingAttributeProviderTest;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.BindableView;
 
 import android.widget.SeekBar;
 
@@ -33,7 +33,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public class SeekBarAttributeProviderTest extends AbstractBindingAttributeProviderTest<SeekBar>
 {
 	@Override
-	protected BindingAttributeProvider<SeekBar> getBindingAttributeProvider()
+	protected BindableView<SeekBar> getBindingAttributeProvider()
 	{
 		return new SeekBarAttributeProvider();
 	}
