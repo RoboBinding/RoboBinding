@@ -17,8 +17,8 @@ package org.robobinding.viewattribute.textview;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PropertyValueModel;
-import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedPropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.PropertyViewAttribute;
@@ -100,7 +100,7 @@ public class TextAttributeGroup extends AbstractGroupedPropertyViewAttribute<Tex
 		}
 
 		@Override
-		protected PropertyViewAttribute<TextView> lookupPropertyViewAttribute(Class<?> propertyType)
+		protected PropertyViewAttribute<TextView> createPropertyViewAttribute(Class<?> propertyType)
 		{
 			if (String.class.isAssignableFrom(propertyType))
 			{
@@ -115,7 +115,7 @@ public class TextAttributeGroup extends AbstractGroupedPropertyViewAttribute<Tex
 		}
 	}
 	
-	private abstract static class AbstractCharSequenceTextAttribute<T extends CharSequence> extends AbstractPropertyViewAttribute<T, TextView>
+	private abstract static class AbstractCharSequenceTextAttribute<PropertyType extends CharSequence> extends AbstractPropertyViewAttribute<TextView, PropertyType>
 	{
 		private final ValueCommitMode valueCommitMode;
 
@@ -125,12 +125,12 @@ public class TextAttributeGroup extends AbstractGroupedPropertyViewAttribute<Tex
 		}
 
 		@Override
-		protected void valueModelUpdated(T newValue)
+		protected void valueModelUpdated(PropertyType newValue)
 		{
 			view.setText(newValue);
 		}
 
-		protected void observeChangesOnTheView(final PropertyValueModel<T> valueModel)
+		protected void observeChangesOnTheView(final PropertyValueModel<PropertyType> valueModel)
 		{
 			if (valueCommitMode == ValueCommitMode.ON_CHANGE)
 			{
@@ -167,7 +167,7 @@ public class TextAttributeGroup extends AbstractGroupedPropertyViewAttribute<Tex
 			}
 		}
 		
-		protected abstract void updateValueModel(PropertyValueModel<T> valueModel, CharSequence charSequence);
+		protected abstract void updateValueModel(PropertyValueModel<PropertyType> valueModel, CharSequence charSequence);
 	}
 	
 	private static class StringTextAttribute extends AbstractCharSequenceTextAttribute<String>

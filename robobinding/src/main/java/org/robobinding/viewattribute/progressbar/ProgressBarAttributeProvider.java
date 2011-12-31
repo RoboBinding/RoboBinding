@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.progressbar;
 
-import org.robobinding.binder.ViewAttributeMappings;
-import org.robobinding.customwidget.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.widget.ProgressBar;
 
@@ -26,7 +26,7 @@ import android.widget.ProgressBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ProgressBarAttributeProvider implements BindingAttributeProvider<ProgressBar>
+public class ProgressBarAttributeProvider implements WidgetViewAttributeProvider<ProgressBar>
 {
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<ProgressBar> mappings)

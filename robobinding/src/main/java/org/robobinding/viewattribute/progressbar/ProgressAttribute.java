@@ -26,7 +26,7 @@ import android.widget.ProgressBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ProgressAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, ProgressBar>
+public class ProgressAttribute extends AbstractReadOnlyPropertyViewAttribute<ProgressBar, Integer>
 {
 	@Override
 	protected void valueModelUpdated(Integer progress)

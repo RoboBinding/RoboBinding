@@ -15,31 +15,16 @@
  */
 package org.robobinding.customwidget;
 
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
+
+import android.view.View;
+
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class Attribute
+public interface BindableView<T extends View> extends WidgetViewAttributeProvider<T>
 {
-	private String name;
-	private String value;
-	public Attribute(String name, String value)
-	{
-		this.name = name;
-		this.value = value;
-	}
-	public String getName()
-	{
-		return name;
-	}
-	public String getValue()
-	{
-		return value;
-	}
-	public boolean nameEquals(String attributeName)
-	{
-		return name.equals(attributeName);
-	}
 }

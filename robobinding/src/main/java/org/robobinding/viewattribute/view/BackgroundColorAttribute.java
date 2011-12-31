@@ -25,7 +25,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BackgroundColorAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, View>
+public class BackgroundColorAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 {
 	@Override
 	protected void valueModelUpdated(Integer newColor)

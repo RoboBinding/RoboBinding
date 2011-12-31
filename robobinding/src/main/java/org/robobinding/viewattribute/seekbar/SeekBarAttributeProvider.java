@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.seekbar;
 
-import org.robobinding.binder.ViewAttributeMappings;
-import org.robobinding.customwidget.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.widget.SeekBar;
 
@@ -26,7 +26,7 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SeekBarAttributeProvider implements BindingAttributeProvider<SeekBar>
+public class SeekBarAttributeProvider implements WidgetViewAttributeProvider<SeekBar>
 {
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<SeekBar> mappings)

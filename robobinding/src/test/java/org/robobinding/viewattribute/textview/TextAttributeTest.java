@@ -56,7 +56,7 @@ public class TextAttributeTest
 	{
 		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)CharSequence.class);
 		
-		assertThat(textAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(CharSequenceTextAttribute.class));
+		assertThat(textAttribute.createPropertyViewAttribute(presentationModelAdapter), instanceOf(CharSequenceTextAttribute.class));
 	}
 	
 	@Test
@@ -64,7 +64,7 @@ public class TextAttributeTest
 	{
 		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)String.class);
 		
-		assertThat(textAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(StringTextAttribute.class));
+		assertThat(textAttribute.createPropertyViewAttribute(presentationModelAdapter), instanceOf(StringTextAttribute.class));
 	}
 	
 }

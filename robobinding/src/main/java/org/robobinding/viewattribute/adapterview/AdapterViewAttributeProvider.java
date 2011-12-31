@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binder.ViewAttributeMappings;
-import org.robobinding.customwidget.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.widget.AdapterView;
 
@@ -27,7 +27,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdapterViewAttributeProvider implements BindingAttributeProvider<AdapterView<?>>
+public class AdapterViewAttributeProvider implements WidgetViewAttributeProvider<AdapterView<?>>
 {
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<AdapterView<?>> mappings)

@@ -33,7 +33,7 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<RatingBar>
 {
 	@Override
-	protected PropertyViewAttribute<RatingBar> lookupPropertyViewAttribute(Class<?> propertyType)
+	protected PropertyViewAttribute<RatingBar> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.floatIsAssignableFrom(propertyType))
 		{
@@ -47,7 +47,7 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 			throw new RuntimeException("Could not find a suitable rating attribute class for property type: " + propertyType);
 	}
 	
-	private static class FloatRatingAttribute extends AbstractPropertyViewAttribute<Float, RatingBar>
+	private static class FloatRatingAttribute extends AbstractPropertyViewAttribute<RatingBar, Float>
 	{
 		@Override
 		protected void valueModelUpdated(Float newRating)
@@ -69,7 +69,7 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 		}
 	}
 
-	private static class IntegerRatingAttribute extends AbstractPropertyViewAttribute<Integer, RatingBar>
+	private static class IntegerRatingAttribute extends AbstractPropertyViewAttribute<RatingBar, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newRating)

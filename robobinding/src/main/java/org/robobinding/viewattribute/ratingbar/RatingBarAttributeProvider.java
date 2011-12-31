@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
-import org.robobinding.binder.ViewAttributeMappings;
-import org.robobinding.customwidget.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.widget.RatingBar;
 
@@ -26,7 +26,7 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class RatingBarAttributeProvider implements BindingAttributeProvider<RatingBar>
+public class RatingBarAttributeProvider implements WidgetViewAttributeProvider<RatingBar>
 {
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<RatingBar> mappings)

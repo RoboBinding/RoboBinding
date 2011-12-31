@@ -31,7 +31,7 @@ import android.view.View;
 public class VisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View>
 {
 	@Override
-	protected PropertyViewAttribute<View> lookupPropertyViewAttribute(Class<?> propertyType)
+	protected PropertyViewAttribute<View> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
@@ -45,7 +45,7 @@ public class VisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<
 		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
 	}
 	
-	private static class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Boolean, View>
+	private static class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 	{
 		@Override
 		protected void valueModelUpdated(Boolean newValue)
@@ -54,7 +54,7 @@ public class VisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<
 		}
 	}
 	
-	private static class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, View>
+	private static class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newValue)

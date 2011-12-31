@@ -32,7 +32,7 @@ import android.view.View;
 public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<View>
 {
 	@Override
-	protected PropertyViewAttribute<View> lookupPropertyViewAttribute(Class<?> propertyType)
+	protected PropertyViewAttribute<View> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
@@ -46,7 +46,7 @@ public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<
 		throw new RuntimeException("Could not find a suitable background attribute class for property type: " + propertyType);
 	}
 	
-	private static class ResourceBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, View>
+	private static class ResourceBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newResourceId)
@@ -58,7 +58,7 @@ public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<
 		}
 	}
 
-	private static class DrawableBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<Drawable, View>
+	private static class DrawableBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Drawable>
 	{
 		@Override
 		protected void valueModelUpdated(Drawable newDrawable)

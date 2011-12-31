@@ -57,7 +57,7 @@ public class ImageSourceAttributeTest
 	{
 		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)int.class);
 		
-		assertThat(imageSourceAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerImageSourceAttribute.class));
+		assertThat(imageSourceAttribute.createPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerImageSourceAttribute.class));
 	}
 	
 	@Test
@@ -65,7 +65,7 @@ public class ImageSourceAttributeTest
 	{
 		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)Integer.class);
 		
-		assertThat(imageSourceAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerImageSourceAttribute.class));
+		assertThat(imageSourceAttribute.createPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerImageSourceAttribute.class));
 	}
 	
 	@Test
@@ -73,7 +73,7 @@ public class ImageSourceAttributeTest
 	{
 		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)Drawable.class);
 		
-		assertThat(imageSourceAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(DrawableImageSourceAttribute.class));
+		assertThat(imageSourceAttribute.createPropertyViewAttribute(presentationModelAdapter), instanceOf(DrawableImageSourceAttribute.class));
 	}
 	
 	@Test
@@ -81,6 +81,6 @@ public class ImageSourceAttributeTest
 	{
 		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)Bitmap.class);
 		
-		assertThat(imageSourceAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(BitmapImageSourceAttribute.class));
+		assertThat(imageSourceAttribute.createPropertyViewAttribute(presentationModelAdapter), instanceOf(BitmapImageSourceAttribute.class));
 	}
 }

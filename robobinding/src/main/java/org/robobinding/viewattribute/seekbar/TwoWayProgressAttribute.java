@@ -27,7 +27,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<Integer, SeekBar>
+public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekBar, Integer>
 {
 	private final OnSeekBarChangeListeners onSeekBarChangeListeners;
 

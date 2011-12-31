@@ -25,7 +25,7 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class TextColorAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, TextView>
+public class TextColorAttribute extends AbstractReadOnlyPropertyViewAttribute<TextView, Integer>
 {
 	@Override
 	protected void valueModelUpdated(Integer newColor)

@@ -23,8 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.binder.BindingAttribute;
-import org.robobinding.customwidget.BindingAttributeProvider;
 import org.robobinding.viewattribute.AbstractCompoundBindingAttributeTest;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.app.Activity;
 import android.content.Context;
@@ -221,7 +221,7 @@ public class AdapterViewAttributeProviderTest extends AbstractCompoundBindingAtt
 	}
 
 	@Override
-	protected BindingAttributeProvider<AdapterView<?>> getAttributeProvider()
+	protected WidgetViewAttributeProvider<AdapterView<?>> getAttributeProvider()
 	{
 		return adapterViewAttributeProvider;
 	}

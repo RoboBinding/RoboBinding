@@ -28,7 +28,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SelectedItemPositionAttribute extends AbstractPropertyViewAttribute<Integer, AdapterView<?>>
+public class SelectedItemPositionAttribute extends AbstractPropertyViewAttribute<AdapterView<?>, Integer>
 {
 	@Override
 	protected void valueModelUpdated(Integer newPosition)

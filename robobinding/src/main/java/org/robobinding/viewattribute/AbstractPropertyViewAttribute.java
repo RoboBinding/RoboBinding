@@ -28,15 +28,15 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractPropertyViewAttribute<S, T extends View> implements PropertyViewAttribute<T>
+public abstract class AbstractPropertyViewAttribute<ViewType extends View, PropertyType> implements PropertyViewAttribute<ViewType>
 {
 	private PresentationModelAdapter presentationModelAdapter;
 	private PropertyBindingDetails propertyBindingDetails;
 	private boolean preInitializeViews;
-	protected T view;
+	protected ViewType view;
 	
 	@Override
-	public void setView(T view)
+	public void setView(ViewType view)
 	{
 		this.view = view;
 	}
@@ -48,7 +48,7 @@ public abstract class AbstractPropertyViewAttribute<S, T extends View> implement
 	}
 	
 	@Override
-	public void setPreInitializeViews(boolean preInitializeViews)
+	public void setPreInitializeView(boolean preInitializeViews)
 	{
 		this.preInitializeViews = preInitializeViews;
 	}
@@ -73,10 +73,10 @@ public abstract class AbstractPropertyViewAttribute<S, T extends View> implement
 		this.presentationModelAdapter = presentationModelAdapter;
 	}
 	
-	protected abstract void valueModelUpdated(S newValue);
-	protected abstract void observeChangesOnTheView(final PropertyValueModel<S> valueModel);
+	protected abstract void valueModelUpdated(PropertyType newValue);
+	protected abstract void observeChangesOnTheView(final PropertyValueModel<PropertyType> valueModel);
 	
-	protected void initializeView(PropertyValueModel<S> valueModel)
+	protected void initializeView(PropertyValueModel<PropertyType> valueModel)
 	{
 		if (preInitializeViews)
 			valueModelUpdated(valueModel.getValue());
@@ -92,7 +92,7 @@ public abstract class AbstractPropertyViewAttribute<S, T extends View> implement
 		@Override
 		public void performBind()
 		{
-			final PropertyValueModel<S> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
+			final PropertyValueModel<PropertyType> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
 			initializeView(valueModel);
 			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener(){
 				@Override
@@ -111,14 +111,14 @@ public abstract class AbstractPropertyViewAttribute<S, T extends View> implement
 		@Override
 		public void performBind()
 		{
-			PropertyValueModel<S> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
+			PropertyValueModel<PropertyType> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
 			valueModel = new PropertyValueModelWrapper(valueModel);
 			initializeView(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);
 		}
 		
-		private void observeChangesOnTheValueModel(final PropertyValueModel<S> valueModel)
+		private void observeChangesOnTheValueModel(final PropertyValueModel<PropertyType> valueModel)
 		{
 			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener() {
 				@Override
@@ -130,23 +130,23 @@ public abstract class AbstractPropertyViewAttribute<S, T extends View> implement
 			});
 		}
 		
-		private class PropertyValueModelWrapper implements PropertyValueModel<S>
+		private class PropertyValueModelWrapper implements PropertyValueModel<PropertyType>
 		{
-			private PropertyValueModel<S> propertyValueModel;
+			private PropertyValueModel<PropertyType> propertyValueModel;
 
-			public PropertyValueModelWrapper(PropertyValueModel<S> propertyValueModel)
+			public PropertyValueModelWrapper(PropertyValueModel<PropertyType> propertyValueModel)
 			{
 				this.propertyValueModel = propertyValueModel;
 			}
 
 			@Override
-			public S getValue()
+			public PropertyType getValue()
 			{
 				return propertyValueModel.getValue();
 			}
 
 			@Override
-			public void setValue(S newValue)
+			public void setValue(PropertyType newValue)
 			{
 				updatedProgrammatically = true;
 				propertyValueModel.setValue(newValue);

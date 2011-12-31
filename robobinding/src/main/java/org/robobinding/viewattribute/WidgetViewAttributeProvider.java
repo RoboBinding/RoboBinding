@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
-
+package org.robobinding.viewattribute;
 
 import android.view.View;
 
@@ -22,26 +21,9 @@ import android.view.View;
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
+ * @author Cheng Wei
  */
-abstract class AbstractViewAttributeMapping<T extends View>
+public interface WidgetViewAttributeProvider<T extends View>
 {
-	public abstract void initializeAndResolveAttribute(T view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews);
-	
-	protected <S> S createNewInstance(Class<S> clazz)
-	{
-		try
-		{
-			S newInstance = clazz.newInstance();
-			return newInstance;
-		} 
-		catch (InstantiationException e)
-		{
-			throw new RuntimeException("Attribute class: " + clazz.getName() + " does not have an empty default constructor");
-		} 
-		catch (IllegalAccessException e)
-		{
-			throw new RuntimeException("Attribute class: " + clazz.getName() + " is not public");
-		}
-	}
+	void populateViewAttributeMappings(ViewAttributeMappings<T> mappings);
 }

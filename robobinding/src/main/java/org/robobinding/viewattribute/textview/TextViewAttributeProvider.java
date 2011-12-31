@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.textview;
 
-import org.robobinding.binder.ViewAttributeMappings;
-import org.robobinding.customwidget.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.widget.TextView;
 
@@ -26,7 +26,7 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextViewAttributeProvider implements BindingAttributeProvider<TextView>
+public class TextViewAttributeProvider implements WidgetViewAttributeProvider<TextView>
 {
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<TextView> mappings)

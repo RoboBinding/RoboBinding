@@ -33,34 +33,41 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	private boolean preInitializeViews;
 
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
-	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
-		PropertyViewAttribute<T> propertyViewAttribute = lookupPropertyViewAttribute(propertyType);
-		propertyViewAttribute.setView(view);
-		propertyViewAttribute.setPropertyBindingDetails(propertyBindingDetails);
-		propertyViewAttribute.setPreInitializeViews(preInitializeViews);
-		propertyViewAttribute.bind(presentationModelAdapter, context);
-	}
-
-	protected abstract PropertyViewAttribute<T> lookupPropertyViewAttribute(Class<?> propertyType);
-
-	@Override
 	public void setView(T view)
 	{
 		this.view = view;
 	}
-
 	@Override
 	public void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
 	{
 		this.propertyBindingDetails = propertyBindingDetails;
 	}
-	
 	@Override
-	public void setPreInitializeViews(boolean preInitializeViews)
+	public void setPreInitializeView(boolean preInitializeViews)
 	{
 		this.preInitializeViews = preInitializeViews;
 	}
+	
+	@Override
+	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	{
+		PropertyViewAttribute<T> propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
+		propertyViewAttribute.setView(view);
+		propertyViewAttribute.setPropertyBindingDetails(propertyBindingDetails);
+		propertyViewAttribute.setPreInitializeView(preInitializeViews);
+		propertyViewAttribute.bind(presentationModelAdapter, context);
+	}
 
+	protected abstract PropertyViewAttribute<T> createPropertyViewAttribute(Class<?> propertyType);
+
+	private PropertyViewAttribute<T> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
+	{
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
+		PropertyViewAttribute<T> propertyViewAttribute = createPropertyViewAttribute(propertyType);
+		
+		if (propertyViewAttribute == null)
+			throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);
+		
+		return propertyViewAttribute;
+	}
 }

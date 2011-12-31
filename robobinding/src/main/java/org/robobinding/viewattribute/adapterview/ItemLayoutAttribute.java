@@ -56,7 +56,7 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		dataSetAdapter.setItemLayoutId(layoutId);
 	}
 	
-	private class DynamicItemLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, AdapterView<?>> implements AdapterViewAttribute
+	private class DynamicItemLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer> implements AdapterViewAttribute
 	{
 		private DataSetAdapter<?> dataSetAdapter;
 

@@ -25,7 +25,7 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class NumStarsAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, RatingBar>
+public class NumStarsAttribute extends AbstractReadOnlyPropertyViewAttribute<RatingBar, Integer>
 {
 	@Override
 	protected void valueModelUpdated(Integer numStars)

@@ -25,7 +25,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractReadOnlyPropertyViewAttribute<S, T extends View> extends AbstractPropertyViewAttribute<S, T>
+public abstract class AbstractReadOnlyPropertyViewAttribute<T extends View, S> extends AbstractPropertyViewAttribute<T, S>
 {
 	@Override
 	protected void observeChangesOnTheView(PropertyValueModel<S> valueModel)

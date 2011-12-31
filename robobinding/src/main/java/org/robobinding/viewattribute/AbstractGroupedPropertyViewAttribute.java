@@ -30,47 +30,56 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractGroupedPropertyViewAttribute<T extends View> implements GroupedPropertyViewAttribute<T>
+public abstract class AbstractGroupedPropertyViewAttribute<T extends View> implements ViewAttribute
 {
 	protected T view;
 	protected boolean preInitializeViews;
 	protected Map<String, String> childAttributes;
 	
-	@Override
 	public void setView(T view)
 	{
 		this.view = view;
 	}
-	@Override
 	public void setPreInitializeViews(boolean preInitializeViews)
 	{
 		this.preInitializeViews = preInitializeViews;
 	}
-	@Override
 	public void setChildAttributes(Map<String, String> childAttributes)
 	{
 		this.childAttributes = childAttributes;
 		initializeChildViewAttributes();
 	}
+	
 	protected abstract void initializeChildViewAttributes();
+	
 	protected void assertAttributesArePresent(String... attributeNames)
 	{
-		List<String> missingAttributes = Lists.newArrayList();
-		
 		for (String attributeName : attributeNames)
 		{
-			if (!childAttributes.containsKey(attributeName))
-				missingAttributes.add(attributeName);
+			if (!hasAttribute(attributeName))
+				throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
+						getClass().getName(), view.getClass().getName(), StringUtils.join(findMissingAttributes(attributeNames), ", ")));
 		}
-		
-		if (!missingAttributes.isEmpty())
-			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
-					getClass().getName(), view.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
 	}
+	
+	private List<String> findMissingAttributes(String... attributes)
+	{
+		List<String> missingAttributes = Lists.newArrayList();
+		for (String attributeName : attributes)
+		{
+			if (!hasAttribute(attributeName))
+			{
+				missingAttributes.add(attributeName);
+			}
+		}
+		return missingAttributes;
+	}
+	
 	protected String attributeValueFor(String attributeName)
 	{
 		return childAttributes.get(attributeName);
 	}
+	
 	protected boolean hasAttribute(String attributeName)
 	{
 		return childAttributes.containsKey(attributeName);

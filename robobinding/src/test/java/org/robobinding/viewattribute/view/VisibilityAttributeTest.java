@@ -55,7 +55,7 @@ public class VisibilityAttributeTest
 	{
 		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn(eitherPrimitiveOrWrappedIntegerClass());
 		
-		assertThat(visibilityAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerVisibilityAttribute.class));
+		assertThat(visibilityAttribute.createPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerVisibilityAttribute.class));
 	}
 	
 	@Test
@@ -63,7 +63,7 @@ public class VisibilityAttributeTest
 	{
 		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn(eitherPrimitiveOrWrappedBooleanClass());
 		
-		assertThat(visibilityAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(BooleanVisibilityAttribute.class));
+		assertThat(visibilityAttribute.createPropertyViewAttribute(presentationModelAdapter), instanceOf(BooleanVisibilityAttribute.class));
 	}
 	
 	private Class eitherPrimitiveOrWrappedIntegerClass()

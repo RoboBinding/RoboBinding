@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.compoundbutton;
 
-import org.robobinding.binder.ViewAttributeMappings;
-import org.robobinding.customwidget.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.widget.CompoundButton;
 
@@ -26,7 +26,7 @@ import android.widget.CompoundButton;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CompoundButtonAttributeProvider implements BindingAttributeProvider<CompoundButton>
+public class CompoundButtonAttributeProvider implements WidgetViewAttributeProvider<CompoundButton>
 {
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<CompoundButton> mappings)

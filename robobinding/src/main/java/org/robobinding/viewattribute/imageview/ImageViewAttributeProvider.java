@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.imageview;
 
-import org.robobinding.binder.ViewAttributeMappings;
-import org.robobinding.customwidget.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.widget.ImageView;
 
@@ -26,7 +26,7 @@ import android.widget.ImageView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ImageViewAttributeProvider implements BindingAttributeProvider<ImageView>
+public class ImageViewAttributeProvider implements WidgetViewAttributeProvider<ImageView>
 {
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<ImageView> mappings)

@@ -33,7 +33,7 @@ import android.widget.ImageView;
 public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute<ImageView>
 {
 	@Override
-	protected PropertyViewAttribute<ImageView> lookupPropertyViewAttribute(Class<?> propertyType)
+	protected PropertyViewAttribute<ImageView> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
@@ -48,11 +48,11 @@ public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute
 			return new BitmapImageSourceAttribute();
 		}
 		
-		throw new RuntimeException("Could not find a suitable image attribute class for property type: " + propertyType);
+		return null;
 	}
 
 	
-	class IntegerImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer, ImageView>
+	class IntegerImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer resourceId)
@@ -61,7 +61,7 @@ public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute
 		}
 	}
 	
-	class DrawableImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<Drawable, ImageView>
+	class DrawableImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Drawable>
 	{
 		@Override
 		protected void valueModelUpdated(Drawable drawable)
@@ -70,7 +70,7 @@ public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute
 		}
 	}
 	
-	class BitmapImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<Bitmap, ImageView>
+	class BitmapImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Bitmap>
 	{
 		@Override
 		protected void valueModelUpdated(Bitmap bitmap)

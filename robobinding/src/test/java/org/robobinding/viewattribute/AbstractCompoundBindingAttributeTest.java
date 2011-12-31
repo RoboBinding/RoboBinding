@@ -20,7 +20,6 @@ import java.util.Map;
 
 import org.robobinding.binder.BindingAttribute;
 import org.robobinding.binder.BindingAttributeResolver;
-import org.robobinding.customwidget.BindingAttributeProvider;
 import org.robobinding.internal.com_google_common.collect.Maps;
 
 import android.view.View;
@@ -36,7 +35,7 @@ public abstract class AbstractCompoundBindingAttributeTest<T extends View>
 	private BindingAttributeResolver bindingAttributeResolver;
 	
 	protected abstract T getView();
-	protected abstract BindingAttributeProvider<T> getAttributeProvider();
+	protected abstract WidgetViewAttributeProvider<T> getAttributeProvider();
 	
 	protected void givenAttributes(Attribute... attributes)
 	{

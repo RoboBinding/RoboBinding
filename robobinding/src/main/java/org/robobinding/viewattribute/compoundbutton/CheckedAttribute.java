@@ -27,7 +27,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedAttribute extends AbstractPropertyViewAttribute<Boolean, CompoundButton>
+public class CheckedAttribute extends AbstractPropertyViewAttribute<CompoundButton, Boolean>
 {
 	@Override
 	protected void valueModelUpdated(Boolean newValue)

@@ -25,7 +25,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SelectedAttribute extends AbstractReadOnlyPropertyViewAttribute<Boolean, View>
+public class SelectedAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 {
 	@Override
 	protected void valueModelUpdated(Boolean newValue)
