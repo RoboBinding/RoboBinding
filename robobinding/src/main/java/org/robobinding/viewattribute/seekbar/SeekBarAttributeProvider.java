@@ -31,11 +31,7 @@ public class SeekBarAttributeProvider implements WidgetViewAttributeProvider<See
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<SeekBar> mappings)
 	{
-		//Manage the listeners with a GroupdAttribute?
-		
-		mappings.mapProperty(TwoWayProgressAttribute.class, "progress");
-		mappings.mapCommand(OnSeekBarChangeAttribute.class, "onSeekBarChange");
-		
+		mappings.mapPropertyGroup(OnSeekBarChangeAttributes.class, OnSeekBarChangeAttributes.PROGRESS, OnSeekBarChangeAttributes.ON_SEEK_BAR_CHANGE);
 	}
 	
 }
