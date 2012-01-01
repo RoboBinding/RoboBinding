@@ -20,8 +20,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robobinding.viewattribute.ratingbar.AbstractAttributeTest;
 
-import android.app.Activity;
 import android.widget.ProgressBar;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -34,20 +34,18 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class MaxAttributeTest
+public class MaxAttributeTest extends AbstractAttributeTest<ProgressBar, MaxAttribute>
 {
 	private static final int NEW_MAX_VALUE = 50;
 	
 	@Test
 	public void whenUpdatingValueModel_ThenSetMaxOnProgressBar()
 	{
-		ProgressBar progressBar = new ProgressBar(new Activity());
-		MaxAttribute maxAttribute = new MaxAttribute();
-		maxAttribute.setView(progressBar);
+		initializeViewAndAttribute(ProgressBar.class, MaxAttribute.class);
 		
-		maxAttribute.valueModelUpdated(NEW_MAX_VALUE);
+		attribute.valueModelUpdated(NEW_MAX_VALUE);
 		
-		assertThat(progressBar.getMax(), is(NEW_MAX_VALUE));
+		assertThat(view.getMax(), is(NEW_MAX_VALUE));
 	}
 	
 }

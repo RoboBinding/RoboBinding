@@ -31,7 +31,7 @@ public class TextViewAttributeProvider implements WidgetViewAttributeProvider<Te
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<TextView> mappings)
 	{
-		mappings.mapPropertyGroup(TextAttributeGroup.class, TextAttributeGroup.TEXT, TextAttributeGroup.VALUE_COMMIT_MODE);
+		mappings.mapGroup(TextAttributeGroup.class, TextAttributeGroup.TEXT, TextAttributeGroup.VALUE_COMMIT_MODE);
 		
 		mappings.mapProperty(TextColorAttribute.class, "textColor");
 		

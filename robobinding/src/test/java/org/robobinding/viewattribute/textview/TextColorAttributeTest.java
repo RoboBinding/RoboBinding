@@ -18,7 +18,7 @@ package org.robobinding.viewattribute.textview;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.MockPresentationModelAdapterForProperty;
+import org.robobinding.viewattribute.MockPresentationModelForProperty;
 import org.robobinding.viewattribute.textview.TextColorAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -38,16 +38,16 @@ public class TextColorAttributeTest extends AbstractTextViewPropertyAttributeTes
 	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
 		Integer color = Color.RED;
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();
+		MockPresentationModelForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();
 
 		mockPresentationModelAdapter.updatePropertyValue(color);
 
 		Assert.assertEquals(color, shadowTextView.getTextColorHexValue());
 	}
-	private MockPresentationModelAdapterForProperty<Integer> createBoundAttribute()
+	private MockPresentationModelForProperty<Integer> createBoundAttribute()
 	{
-		TextColorAttribute textColorAttribute = new TextColorAttribute(textView, MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = bindToProperty(textColorAttribute, Integer.class);
+		TextColorAttribute textColorAttribute = new TextColorAttribute(textView, MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
+		MockPresentationModelForProperty<Integer> mockPresentationModelAdapter = bindToProperty(textColorAttribute, Integer.class);
 		return mockPresentationModelAdapter;
 	}
 }

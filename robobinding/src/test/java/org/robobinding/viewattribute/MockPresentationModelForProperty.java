@@ -9,7 +9,7 @@ import org.robobinding.property.ValueModelUtils;
 
 import android.app.Activity;
 
-public class MockPresentationModelAdapterForProperty<T> implements PresentationModelAdapter
+public class MockPresentationModelForProperty<T> implements PresentationModelAdapter
 {
 	private static final String PROPERTY_NAME = "propertyName";
 	public static final String ONE_WAY_BINDING_PROPERTY_NAME = "{"+PROPERTY_NAME+"}";
@@ -19,7 +19,7 @@ public class MockPresentationModelAdapterForProperty<T> implements PresentationM
 	private PropertyValueModel<T> propertyValueModel;
 	
 	@SuppressWarnings("unchecked")
-	private MockPresentationModelAdapterForProperty(Class<T> propertyType)
+	private MockPresentationModelForProperty(Class<T> propertyType)
 	{
 		this.propertyType = propertyType;
 		
@@ -90,9 +90,9 @@ public class MockPresentationModelAdapterForProperty<T> implements PresentationM
 	}
 	
 	
-	public static <T> MockPresentationModelAdapterForProperty<T> bindToProperty(ViewAttribute viewAttribute, Class<T> propertyType)
+	public static <T> MockPresentationModelForProperty<T> bindToProperty(ViewAttribute viewAttribute, Class<T> propertyType)
 	{
-		MockPresentationModelAdapterForProperty<T> mockPresentationModelAdapter = new MockPresentationModelAdapterForProperty<T>(propertyType);
+		MockPresentationModelForProperty<T> mockPresentationModelAdapter = new MockPresentationModelForProperty<T>(propertyType);
 		viewAttribute.bind(mockPresentationModelAdapter, new Activity());
 		return mockPresentationModelAdapter;
 	}

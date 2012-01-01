@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.AbstractGroupedPropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 
 import android.content.Context;
@@ -31,7 +31,7 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnSeekBarChangeAttributes extends AbstractGroupedPropertyViewAttribute<SeekBar>
+public class OnSeekBarChangeAttributes extends AbstractGroupedViewAttribute<SeekBar>
 {
 	public static final String ON_SEEK_BAR_CHANGE = "onSeekBarChange";
 	public static final String PROGRESS = "progress";
@@ -52,9 +52,9 @@ public class OnSeekBarChangeAttributes extends AbstractGroupedPropertyViewAttrib
 		
 		OnSeekBarChangeListeners onSeekBarChangeListeners = new OnSeekBarChangeListeners();
 		
-		if (groupedPropertyAttribute.hasAttribute(PROGRESS))
+		if (groupedAttributeDetails.hasAttribute(PROGRESS))
 			viewAttributes.add(new TwoWayProgressAttribute(onSeekBarChangeListeners));
-		if (groupedPropertyAttribute.hasAttribute(ON_SEEK_BAR_CHANGE))
+		if (groupedAttributeDetails.hasAttribute(ON_SEEK_BAR_CHANGE))
 			viewAttributes.add(new OnSeekBarChangeAttribute(onSeekBarChangeListeners));
 		
 	}

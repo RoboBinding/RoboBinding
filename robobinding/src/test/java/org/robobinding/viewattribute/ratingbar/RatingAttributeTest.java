@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.MockPresentationModelAdapterForProperty;
+import org.robobinding.viewattribute.MockPresentationModelForProperty;
 import org.robobinding.viewattribute.PropertyBindingDetails;
 
 import android.app.Activity;
@@ -54,12 +54,10 @@ public class RatingAttributeTest
 	@Test
 	public void givenValueModelIsTypeFloat_WhenUpdatingPresentationModel_ThenSetRatingOnRatingBar()
 	{
-		RatingAttribute ratingAttribute = new RatingAttribute();
-		ratingAttribute.setView(ratingBar);
-		ratingAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true));
-		MockPresentationModelAdapterForProperty<Float> presentationModelAdapter = MockPresentationModelAdapterForProperty.bindToProperty(ratingAttribute, float.class);
+		RatingAttribute ratingAttribute = initializeNewRatingAttribute(MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME);
+		MockPresentationModelForProperty<Float> presentationModel = MockPresentationModelForProperty.bindToProperty(ratingAttribute, float.class);
 		
-		presentationModelAdapter.updatePropertyValue(NEW_RATING_AS_FLOAT);
+		presentationModel.updatePropertyValue(NEW_RATING_AS_FLOAT);
 		
 		assertThat(ratingBar.getRating(), is(NEW_RATING_AS_FLOAT));
 	}
@@ -68,25 +66,21 @@ public class RatingAttributeTest
 	@Ignore //Waiting for Robolectric update
 	public void givenValueModelIsTypeFloat_WhenUpdatingView_ThenSetValueOnPresentationModel()
 	{
-		RatingAttribute ratingAttribute = new RatingAttribute();
-		ratingAttribute.setView(ratingBar);
-		ratingAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(MockPresentationModelAdapterForProperty.TWO_WAY_BINDING_PROPERTY_NAME, true));
-		MockPresentationModelAdapterForProperty<Float> presentationModelAdapter = MockPresentationModelAdapterForProperty.bindToProperty(ratingAttribute, float.class);
+		RatingAttribute ratingAttribute = initializeNewRatingAttribute(MockPresentationModelForProperty.TWO_WAY_BINDING_PROPERTY_NAME);
+		MockPresentationModelForProperty<Float> presentationModel = MockPresentationModelForProperty.bindToProperty(ratingAttribute, float.class);
 		
 		ratingBar.setRating(NEW_RATING_AS_FLOAT);
 		
-		assertThat(presentationModelAdapter.getPropertyValue(), is(NEW_RATING_AS_FLOAT));
+		assertThat(presentationModel.getPropertyValue(), is(NEW_RATING_AS_FLOAT));
 	}
 	
 	@Test
 	public void givenValueModelIsTypeInteger_WhenUpdatingPresentationModel_ThenSetRatingOnRatingBar()
 	{
-		RatingAttribute ratingAttribute = new RatingAttribute();
-		ratingAttribute.setView(ratingBar);
-		ratingAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true));
-		MockPresentationModelAdapterForProperty<Integer> presentationModelAdapter = MockPresentationModelAdapterForProperty.bindToProperty(ratingAttribute, int.class);
+		RatingAttribute ratingAttribute = initializeNewRatingAttribute(MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME);
+		MockPresentationModelForProperty<Integer> presentationModel = MockPresentationModelForProperty.bindToProperty(ratingAttribute, int.class);
 		
-		presentationModelAdapter.updatePropertyValue(NEW_RATING_AS_INT);
+		presentationModel.updatePropertyValue(NEW_RATING_AS_INT);
 		
 		assertThat(ratingBar.getRating(), is(NEW_RATING_AS_FLOAT));
 	}
@@ -95,13 +89,19 @@ public class RatingAttributeTest
 	@Ignore //Waiting for Robolectric update
 	public void givenValueModelIsTypeInteger_WhenUpdatingView_ThenSetValueOnPresentationModel()
 	{
-		RatingAttribute ratingAttribute = new RatingAttribute();
-		ratingAttribute.setView(ratingBar);
-		ratingAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(MockPresentationModelAdapterForProperty.TWO_WAY_BINDING_PROPERTY_NAME, true));
-		MockPresentationModelAdapterForProperty<Integer> presentationModelAdapter = MockPresentationModelAdapterForProperty.bindToProperty(ratingAttribute, int.class);
+		RatingAttribute ratingAttribute = initializeNewRatingAttribute(MockPresentationModelForProperty.TWO_WAY_BINDING_PROPERTY_NAME);
+		MockPresentationModelForProperty<Integer> presentationModel = MockPresentationModelForProperty.bindToProperty(ratingAttribute, int.class);
 		
 		ratingBar.setRating(NEW_RATING_AS_FLOAT);
 		
-		assertThat(presentationModelAdapter.getPropertyValue(), is(NEW_RATING_AS_INT));
+		assertThat(presentationModel.getPropertyValue(), is(NEW_RATING_AS_INT));
+	}
+	
+	private RatingAttribute initializeNewRatingAttribute(String attributeValue)
+	{
+		RatingAttribute ratingAttribute = new RatingAttribute();
+		ratingAttribute.setView(ratingBar);
+		ratingAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(attributeValue));
+		return ratingAttribute;
 	}
 }

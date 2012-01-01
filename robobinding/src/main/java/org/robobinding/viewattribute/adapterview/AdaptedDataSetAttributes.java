@@ -22,7 +22,7 @@ import java.util.List;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.AbstractGroupedPropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 
 import android.content.Context;
 import android.widget.AbsSpinner;
@@ -34,7 +34,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdaptedDataSetAttributes extends AbstractGroupedPropertyViewAttribute<AdapterView<?>>
+public class AdaptedDataSetAttributes extends AbstractGroupedViewAttribute<AdapterView<?>>
 {
 	public static final String SOURCE = "source";
 	public static final String ITEM_LAYOUT = "itemLayout";
@@ -50,17 +50,17 @@ public class AdaptedDataSetAttributes extends AbstractGroupedPropertyViewAttribu
 		validateAttributes();
 		
 		childViewAttributes = Lists.newArrayList();
-		childViewAttributes.add(new SourceAttribute(groupedPropertyAttribute.attributeValueFor(SOURCE)));
-		childViewAttributes.add(new ItemLayoutAttribute(groupedPropertyAttribute.attributeValueFor(ITEM_LAYOUT)));
+		childViewAttributes.add(new SourceAttribute(groupedAttributeDetails.attributeValueFor(SOURCE)));
+		childViewAttributes.add(new ItemLayoutAttribute(groupedAttributeDetails.attributeValueFor(ITEM_LAYOUT)));
 		
-		if (groupedPropertyAttribute.hasAttribute(DROPDOWN_LAYOUT))
-			childViewAttributes.add(new DropdownLayoutAttribute(groupedPropertyAttribute.attributeValueFor(DROPDOWN_LAYOUT)));
+		if (groupedAttributeDetails.hasAttribute(DROPDOWN_LAYOUT))
+			childViewAttributes.add(new DropdownLayoutAttribute(groupedAttributeDetails.attributeValueFor(DROPDOWN_LAYOUT)));
 		
-		if (groupedPropertyAttribute.hasAttribute(ITEM_MAPPING))
-			childViewAttributes.add(new ItemMappingAttribute(groupedPropertyAttribute.attributeValueFor(ITEM_MAPPING)));
+		if (groupedAttributeDetails.hasAttribute(ITEM_MAPPING))
+			childViewAttributes.add(new ItemMappingAttribute(groupedAttributeDetails.attributeValueFor(ITEM_MAPPING)));
 		
-		if (groupedPropertyAttribute.hasAttribute(DROPDOWN_MAPPING))
-			childViewAttributes.add(new DropdownMappingAttribute(groupedPropertyAttribute.attributeValueFor(DROPDOWN_MAPPING)));
+		if (groupedAttributeDetails.hasAttribute(DROPDOWN_MAPPING))
+			childViewAttributes.add(new DropdownMappingAttribute(groupedAttributeDetails.attributeValueFor(DROPDOWN_MAPPING)));
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

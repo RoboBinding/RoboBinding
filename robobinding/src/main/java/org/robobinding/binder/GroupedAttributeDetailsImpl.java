@@ -33,7 +33,8 @@ import org.robobinding.viewattribute.GroupedAttributeDetails;
 public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 {
 	private String[] supportedAttributes;
-	private Map<String, String> presentAttributeMappings; 
+	private Map<String, String> presentAttributeMappings;
+
 	public GroupedAttributeDetailsImpl(String[] attributes)
 	{
 		this.supportedAttributes = attributes;
@@ -44,9 +45,9 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 		return supportedAttributes;
 	}
 
-	public void addPresentAttribute(String attribute, String attributeValue)
+	public void addPresentAttribute(String attributeName, String attributeValue)
 	{
-		presentAttributeMappings.put(attribute, attributeValue);
+		presentAttributeMappings.put(attributeName, attributeValue);
 	}
 
 	public Collection<String> getPresentAttributes()
@@ -68,29 +69,29 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	}
 	
 	@Override
-	public Collection<String> findAbsentAttributes(String... attributes)
+	public Collection<String> findAbsentAttributes(String... attributeNames)
 	{
 		List<String> absentAttributes = Lists.newArrayList();
-		for (String attribute : attributes)
+		for (String attributeName : attributeNames)
 		{
-			if(!presentAttributeMappings.containsKey(attribute))
+			if(!presentAttributeMappings.containsKey(attributeName))
 			{
-				absentAttributes.add(attribute);
+				absentAttributes.add(attributeName);
 			}
 		}
 		return absentAttributes;
 	}
 	
 	@Override
-	public String attributeValueFor(String attribute)
+	public String attributeValueFor(String attributeName)
 	{
-		return presentAttributeMappings.get(attribute);
+		return presentAttributeMappings.get(attributeName);
 	}
 	
 	@Override
-	public boolean hasAttribute(String attribute)
+	public boolean hasAttribute(String attributeName)
 	{
-		return presentAttributeMappings.containsKey(attribute);
+		return presentAttributeMappings.containsKey(attributeName);
 	}
 	
 	@Override

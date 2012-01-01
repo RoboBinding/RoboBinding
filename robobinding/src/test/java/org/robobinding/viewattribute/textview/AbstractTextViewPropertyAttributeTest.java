@@ -16,7 +16,7 @@
 package org.robobinding.viewattribute.textview;
 
 import org.junit.Before;
-import org.robobinding.viewattribute.MockPresentationModelAdapterForProperty;
+import org.robobinding.viewattribute.MockPresentationModelForProperty;
 import org.robobinding.viewattribute.ViewAttribute;
 
 import android.app.Activity;
@@ -42,8 +42,8 @@ public abstract class AbstractTextViewPropertyAttributeTest
 		shadowTextView = Robolectric.shadowOf(textView);
 	}
 	
-	protected <T> MockPresentationModelAdapterForProperty<T> bindToProperty(ViewAttribute backgroundAttribute, Class<T> propertyType)
+	protected <T> MockPresentationModelForProperty<T> bindToProperty(ViewAttribute backgroundAttribute, Class<T> propertyType)
 	{
-		return MockPresentationModelAdapterForProperty.bindToProperty(backgroundAttribute, propertyType);
+		return MockPresentationModelForProperty.bindToProperty(backgroundAttribute, propertyType);
 	}
 }

@@ -21,7 +21,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.app.Activity;
 import android.widget.RatingBar;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -33,19 +32,17 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class NumStarsAttributeTest
+public class NumStarsAttributeTest extends AbstractAttributeTest<RatingBar, NumStarsAttribute>
 {
 	private static final int NEW_NUM_STARS = 10;
 
 	@Test
 	public void whenUpdatingValueModel_ThenSetNumStarsOnRatingBar()
 	{
-		RatingBar ratingBar = new RatingBar(new Activity());
-		NumStarsAttribute numStarsAttribute = new NumStarsAttribute();
-		numStarsAttribute.setView(ratingBar);
+		initializeViewAndAttribute(RatingBar.class, NumStarsAttribute.class);
 		
-		numStarsAttribute.valueModelUpdated(NEW_NUM_STARS);
-		
-		assertThat(ratingBar.getNumStars(), is(NEW_NUM_STARS));
+		attribute.valueModelUpdated(NEW_NUM_STARS);
+
+		assertThat(view.getNumStars(), is(NEW_NUM_STARS));
 	}
 }

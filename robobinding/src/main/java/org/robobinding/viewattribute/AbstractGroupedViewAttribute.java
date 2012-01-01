@@ -28,11 +28,11 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractGroupedPropertyViewAttribute<T extends View> implements ViewAttribute
+public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute
 {
 	protected T view;
 	protected boolean preInitializeViews;
-	protected GroupedAttributeDetails groupedPropertyAttribute;
+	protected GroupedAttributeDetails groupedAttributeDetails;
 	
 	public void setView(T view)
 	{
@@ -42,9 +42,9 @@ public abstract class AbstractGroupedPropertyViewAttribute<T extends View> imple
 	{
 		this.preInitializeViews = preInitializeViews;
 	}
-	public void setGroupedPropertyAttribute(GroupedAttributeDetails groupedPropertyAttribute)
+	public void setGroupedAttributeDetails(GroupedAttributeDetails groupedAttributeDetails)
 	{
-		this.groupedPropertyAttribute = groupedPropertyAttribute;
+		this.groupedAttributeDetails = groupedAttributeDetails;
 		initializeChildViewAttributes();
 	}
 	
@@ -52,9 +52,9 @@ public abstract class AbstractGroupedPropertyViewAttribute<T extends View> imple
 	
 	protected void assertAttributesArePresent(String... attributes)
 	{
-		if(groupedPropertyAttribute.hasAbsentAttributes(attributes))
+		if(groupedAttributeDetails.hasAbsentAttributes(attributes))
 		{
-			Collection<String> missingAttributes = groupedPropertyAttribute.findAbsentAttributes(attributes);
+			Collection<String> missingAttributes = groupedAttributeDetails.findAbsentAttributes(attributes);
 			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
 					getClass().getName(), view.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
 		}

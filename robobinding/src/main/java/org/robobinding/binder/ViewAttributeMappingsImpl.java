@@ -21,7 +21,7 @@ import java.util.Map;
 import org.apache.commons.lang3.Validate;
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.AbstractGroupedPropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.ViewAttributeMappings;
@@ -39,13 +39,13 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 {
 	private Map<String, Class<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
 	private Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
-	private Map<GroupedAttributeDetailsImpl, Class<? extends AbstractGroupedPropertyViewAttribute<? extends View>>> groupedPropertyViewAttributeMappings;
+	private Map<GroupedAttributeDetailsImpl, Class<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
 
 	public ViewAttributeMappingsImpl()
 	{
 		propertyViewAttributeMappings = Maps.newHashMap();
 		commandViewAttributeMappings = Maps.newHashMap();
-		groupedPropertyViewAttributeMappings = Maps.newHashMap();
+		groupedViewAttributeMappings = Maps.newHashMap();
 	}
 
 	@Override
@@ -65,12 +65,12 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 	}
 
 	@Override
-	public void mapPropertyGroup(Class<? extends AbstractGroupedPropertyViewAttribute<T>> groupedPropertyViewAttribute,	String... attributeNames)
+	public void mapGroup(Class<? extends AbstractGroupedViewAttribute<T>> groupedViewAttribute,	String... attributeNames)
 	{
 		Validate.notNull(attributeNames, "attribute names must not be null");
-		Validate.notNull(groupedPropertyViewAttribute, "groupedPropertyViewAttribute must not be null");
+		Validate.notNull(groupedViewAttribute, "groupedPropertyViewAttribute must not be null");
 		GroupedAttributeDetailsImpl groupedPropertyAttribute = new GroupedAttributeDetailsImpl(attributeNames);
-		groupedPropertyViewAttributeMappings.put(groupedPropertyAttribute, groupedPropertyViewAttribute);
+		groupedViewAttributeMappings.put(groupedPropertyAttribute, groupedViewAttribute);
 	}
 
 	public Collection<String> getPropertyAttributes()
@@ -101,14 +101,14 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 
 	public Collection<GroupedAttributeDetailsImpl> getGroupedPropertyAttributes()
 	{
-		return groupedPropertyViewAttributeMappings.keySet();
+		return groupedViewAttributeMappings.keySet();
 	}
 
-	public AbstractGroupedPropertyViewAttribute<View> createGroupedPropertyViewAttribute(GroupedAttributeDetailsImpl groupedPropertyAttribute)
+	public AbstractGroupedViewAttribute<View> createGroupedViewAttribute(GroupedAttributeDetailsImpl groupedAttributeDetails)
 	{
-		Class<? extends AbstractGroupedPropertyViewAttribute<? extends View>> groupedPropertyViewAttributeClass = groupedPropertyViewAttributeMappings.get(groupedPropertyAttribute);
+		Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass = groupedViewAttributeMappings.get(groupedAttributeDetails);
 		@SuppressWarnings("unchecked")
-		AbstractGroupedPropertyViewAttribute<View> groupedPropertyViewAttribute = (AbstractGroupedPropertyViewAttribute<View>)newViewAttribute(groupedPropertyViewAttributeClass);
+		AbstractGroupedViewAttribute<View> groupedPropertyViewAttribute = (AbstractGroupedViewAttribute<View>)newViewAttribute(groupedViewAttributeClass);
 		return groupedPropertyViewAttribute;
 	}
 	

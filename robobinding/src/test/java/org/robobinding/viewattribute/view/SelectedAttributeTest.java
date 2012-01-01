@@ -18,7 +18,7 @@ package org.robobinding.viewattribute.view;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.MockPresentationModelAdapterForProperty;
+import org.robobinding.viewattribute.MockPresentationModelForProperty;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -35,16 +35,16 @@ public class SelectedAttributeTest extends AbstractViewPropertyAttributeTest
 	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
 		Boolean selected = Boolean.TRUE;
-		MockPresentationModelAdapterForProperty<Boolean> mockPresentationModelAdapter = createBoundAttribute();
+		MockPresentationModelForProperty<Boolean> mockPresentationModelAdapter = createBoundAttribute();
 
 		mockPresentationModelAdapter.updatePropertyValue(selected);
 
 		Assert.assertEquals(selected, shadowView.isSelected());
 	}
-	private MockPresentationModelAdapterForProperty<Boolean> createBoundAttribute()
+	private MockPresentationModelForProperty<Boolean> createBoundAttribute()
 	{
-		SelectedAttribute selectedAttribute = new SelectedAttribute(view, MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
-		MockPresentationModelAdapterForProperty<Boolean> mockPresentationModelAdapter = bindToProperty(selectedAttribute, Boolean.class);
+		SelectedAttribute selectedAttribute = new SelectedAttribute(view, MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
+		MockPresentationModelForProperty<Boolean> mockPresentationModelAdapter = bindToProperty(selectedAttribute, Boolean.class);
 		return mockPresentationModelAdapter;
 	}
 }

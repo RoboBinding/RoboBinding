@@ -32,7 +32,7 @@ public class AdapterViewAttributeProvider implements WidgetViewAttributeProvider
 	@Override
 	public void populateViewAttributeMappings(ViewAttributeMappings<AdapterView<?>> mappings)
 	{
-		mappings.mapPropertyGroup(AdaptedDataSetAttributes.class, AdaptedDataSetAttributes.SOURCE, 
+		mappings.mapGroup(AdaptedDataSetAttributes.class, AdaptedDataSetAttributes.SOURCE, 
 				AdaptedDataSetAttributes.ITEM_LAYOUT, AdaptedDataSetAttributes.ITEM_MAPPING, 
 				AdaptedDataSetAttributes.DROPDOWN_LAYOUT, AdaptedDataSetAttributes.DROPDOWN_MAPPING);
 		

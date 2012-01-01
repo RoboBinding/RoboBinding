@@ -17,7 +17,7 @@ package org.robobinding.viewattribute.textview;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PropertyValueModel;
-import org.robobinding.viewattribute.AbstractGroupedPropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PropertyBindingDetails;
@@ -36,7 +36,7 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextAttributeGroup extends AbstractGroupedPropertyViewAttribute<TextView>
+public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 {
 	public static final String TEXT = "text";
 	public static final String VALUE_COMMIT_MODE = "valueCommitMode";
@@ -49,7 +49,7 @@ public class TextAttributeGroup extends AbstractGroupedPropertyViewAttribute<Tex
 	protected void initializeChildViewAttributes()
 	{
 		assertAttributesArePresent(TEXT);
-		propertyBindingDetails = PropertyBindingDetails.createFrom(groupedPropertyAttribute.attributeValueFor(TEXT));
+		propertyBindingDetails = PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(TEXT));
 		
 		determineValueCommitMode();
 		
@@ -71,12 +71,12 @@ public class TextAttributeGroup extends AbstractGroupedPropertyViewAttribute<Tex
 	
 	private String valueCommitModeAttributeValue()
 	{
-		return groupedPropertyAttribute.attributeValueFor(VALUE_COMMIT_MODE);
+		return groupedAttributeDetails.attributeValueFor(VALUE_COMMIT_MODE);
 	}
 	
 	private boolean valueCommitModeSpecified()
 	{
-		return groupedPropertyAttribute.hasAttribute(VALUE_COMMIT_MODE);
+		return groupedAttributeDetails.hasAttribute(VALUE_COMMIT_MODE);
 	}
 
 	@Override

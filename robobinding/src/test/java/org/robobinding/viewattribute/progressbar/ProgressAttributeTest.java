@@ -15,12 +15,13 @@
  */
 package org.robobinding.viewattribute.progressbar;
 
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.AbstractSingleTypeOneWayPropertyAttributeTest;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
-import android.app.Activity;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robobinding.viewattribute.ratingbar.AbstractAttributeTest;
+
 import android.widget.ProgressBar;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -32,32 +33,17 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class ProgressAttributeTest extends AbstractSingleTypeOneWayPropertyAttributeTest<Integer>
+public class ProgressAttributeTest extends AbstractAttributeTest<ProgressBar, ProgressAttribute>
 {
-	private ProgressBar progressBar;
+	private final static int NEW_PROGRESS = 73;
 
-	@Before
-	public void setUp()
+	@Test
+	public void whenUpdatingValueModel_ThenSetProgressOnProgressBar()
 	{
-		progressBar = new ProgressBar(new Activity());
-	}
-	
-	@Override
-	protected void populateBindingExpectations(BindingSamples<Integer> bindingSamples)
-	{
-		bindingSamples.add(50, 75);
-	}
+		initializeViewAndAttribute(ProgressBar.class, ProgressAttribute.class);
+		
+		attribute.valueModelUpdated(NEW_PROGRESS);
 
-	@Override
-	protected Integer getViewState()
-	{
-		return progressBar.getProgress();
+		assertThat(view.getProgress(), is(NEW_PROGRESS));
 	}
-
-	@Override
-	protected AbstractPropertyViewAttribute<Integer> newAttributeInstance(String bindingAttributeValue)
-	{
-		return new ProgressAttribute(progressBar, bindingAttributeValue, true);
-	}
-
 }

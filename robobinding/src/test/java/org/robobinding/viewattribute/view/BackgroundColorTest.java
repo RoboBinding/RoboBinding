@@ -18,7 +18,7 @@ package org.robobinding.viewattribute.view;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.MockPresentationModelAdapterForProperty;
+import org.robobinding.viewattribute.MockPresentationModelForProperty;
 
 import android.graphics.Color;
 
@@ -37,16 +37,16 @@ public class BackgroundColorTest extends AbstractViewPropertyAttributeTest
 	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
 		int color = Color.RED;
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();
+		MockPresentationModelForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();
 
 		mockPresentationModelAdapter.updatePropertyValue(color);
 
 		Assert.assertEquals(color, shadowView.getBackgroundColor());
 	}
-	private MockPresentationModelAdapterForProperty<Integer> createBoundAttribute()
+	private MockPresentationModelForProperty<Integer> createBoundAttribute()
 	{
-		BackgroundColorAttribute backgroundColorAttribute = new BackgroundColorAttribute(view, MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = bindToProperty(backgroundColorAttribute, Integer.class);
+		BackgroundColorAttribute backgroundColorAttribute = new BackgroundColorAttribute(view, MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
+		MockPresentationModelForProperty<Integer> mockPresentationModelAdapter = bindToProperty(backgroundColorAttribute, Integer.class);
 		return mockPresentationModelAdapter;
 	}
 }

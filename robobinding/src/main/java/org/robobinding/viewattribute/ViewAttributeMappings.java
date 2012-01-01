@@ -30,5 +30,5 @@ public interface ViewAttributeMappings<T extends View>
 	
 	void mapCommand(Class<? extends AbstractCommandViewAttribute<T>> commandViewAttributeClass, String attributeName);
 	
-	void mapPropertyGroup(Class<? extends AbstractGroupedPropertyViewAttribute<T>> groupedPropertyViewAttribute, String... attributeNames);
+	void mapGroup(Class<? extends AbstractGroupedViewAttribute<T>> groupedPropertyViewAttribute, String... attributeNames);
 }

@@ -19,7 +19,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.Drawables;
-import org.robobinding.viewattribute.MockPresentationModelAdapterForProperty;
+import org.robobinding.viewattribute.MockPresentationModelForProperty;
 
 import android.graphics.drawable.Drawable;
 
@@ -38,7 +38,7 @@ public class BackgroundAttributeTest extends AbstractViewPropertyAttributeTest
 	public void givenResourceIdBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
 		int resourceId = 1;
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute(int.class);
+		MockPresentationModelForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute(int.class);
 
 		mockPresentationModelAdapter.updatePropertyValue(resourceId);
 
@@ -50,7 +50,7 @@ public class BackgroundAttributeTest extends AbstractViewPropertyAttributeTest
 	{
 		Drawable drawable = Drawables.get()[0];
 
-		MockPresentationModelAdapterForProperty<Drawable> mockPresentationModelAdapter = createBoundAttribute(Drawable.class);
+		MockPresentationModelForProperty<Drawable> mockPresentationModelAdapter = createBoundAttribute(Drawable.class);
 
 		mockPresentationModelAdapter.updatePropertyValue(drawable);
 
@@ -63,10 +63,10 @@ public class BackgroundAttributeTest extends AbstractViewPropertyAttributeTest
 		createBoundAttribute(Long.class);
 	}
 
-	private <T> MockPresentationModelAdapterForProperty<T> createBoundAttribute(Class<T> propertyType)
+	private <T> MockPresentationModelForProperty<T> createBoundAttribute(Class<T> propertyType)
 	{
-		BackgroundAttribute backgroundAttribute = new BackgroundAttribute(view, MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
-		MockPresentationModelAdapterForProperty<T> mockPresentationModelAdapter = bindToProperty(backgroundAttribute, propertyType);
+		BackgroundAttribute backgroundAttribute = new BackgroundAttribute(view, MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
+		MockPresentationModelForProperty<T> mockPresentationModelAdapter = bindToProperty(backgroundAttribute, propertyType);
 		return mockPresentationModelAdapter;
 	}
 }
