@@ -16,10 +16,8 @@
 package org.robobinding.viewattribute;
 
 import java.text.MessageFormat;
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 
-import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.internal.org_apache_commons_lang3.StringUtils;
 
 import android.view.View;
@@ -34,7 +32,7 @@ public abstract class AbstractGroupedPropertyViewAttribute<T extends View> imple
 {
 	protected T view;
 	protected boolean preInitializeViews;
-	protected Map<String, String> childAttributes;
+	protected GroupedPropertyAttribute groupedPropertyAttribute;
 	
 	public void setView(T view)
 	{
@@ -44,44 +42,21 @@ public abstract class AbstractGroupedPropertyViewAttribute<T extends View> imple
 	{
 		this.preInitializeViews = preInitializeViews;
 	}
-	public void setChildAttributes(Map<String, String> childAttributes)
+	public void setGroupedPropertyAttribute(GroupedPropertyAttribute groupedPropertyAttribute)
 	{
-		this.childAttributes = childAttributes;
+		this.groupedPropertyAttribute = groupedPropertyAttribute;
 		initializeChildViewAttributes();
 	}
 	
 	protected abstract void initializeChildViewAttributes();
 	
-	protected void assertAttributesArePresent(String... attributeNames)
+	protected void assertAttributesArePresent(String... attributes)
 	{
-		for (String attributeName : attributeNames)
+		Collection<String> missingAttributes = groupedPropertyAttribute.findAbsentAttributes(attributes);
+		if(!missingAttributes.isEmpty())
 		{
-			if (!hasAttribute(attributeName))
-				throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
-						getClass().getName(), view.getClass().getName(), StringUtils.join(findMissingAttributes(attributeNames), ", ")));
+			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
+					getClass().getName(), view.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
 		}
-	}
-	
-	private List<String> findMissingAttributes(String... attributes)
-	{
-		List<String> missingAttributes = Lists.newArrayList();
-		for (String attributeName : attributes)
-		{
-			if (!hasAttribute(attributeName))
-			{
-				missingAttributes.add(attributeName);
-			}
-		}
-		return missingAttributes;
-	}
-	
-	protected String attributeValueFor(String attributeName)
-	{
-		return childAttributes.get(attributeName);
-	}
-	
-	protected boolean hasAttribute(String attributeName)
-	{
-		return childAttributes.containsKey(attributeName);
 	}
 }

@@ -52,9 +52,9 @@ public class OnSeekBarChangeAttributes extends AbstractGroupedPropertyViewAttrib
 		
 		OnSeekBarChangeListeners onSeekBarChangeListeners = new OnSeekBarChangeListeners();
 		
-		if (hasAttribute(PROGRESS))
+		if (groupedPropertyAttribute.hasAttribute(PROGRESS))
 			viewAttributes.add(new TwoWayProgressAttribute(onSeekBarChangeListeners));
-		if (hasAttribute(ON_SEEK_BAR_CHANGE))
+		if (groupedPropertyAttribute.hasAttribute(ON_SEEK_BAR_CHANGE))
 			viewAttributes.add(new OnSeekBarChangeAttribute(onSeekBarChangeListeners));
 		
 	}

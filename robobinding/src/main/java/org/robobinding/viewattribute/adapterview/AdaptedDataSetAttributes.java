@@ -50,17 +50,17 @@ public class AdaptedDataSetAttributes extends AbstractGroupedPropertyViewAttribu
 		validateAttributes();
 		
 		childViewAttributes = Lists.newArrayList();
-		childViewAttributes.add(new SourceAttribute(attributeValueFor(SOURCE)));
-		childViewAttributes.add(new ItemLayoutAttribute(attributeValueFor(ITEM_LAYOUT)));
+		childViewAttributes.add(new SourceAttribute(groupedPropertyAttribute.attributeValueFor(SOURCE)));
+		childViewAttributes.add(new ItemLayoutAttribute(groupedPropertyAttribute.attributeValueFor(ITEM_LAYOUT)));
 		
-		if (hasAttribute(DROPDOWN_LAYOUT))
-			childViewAttributes.add(new DropdownLayoutAttribute(attributeValueFor(DROPDOWN_LAYOUT)));
+		if (groupedPropertyAttribute.hasAttribute(DROPDOWN_LAYOUT))
+			childViewAttributes.add(new DropdownLayoutAttribute(groupedPropertyAttribute.attributeValueFor(DROPDOWN_LAYOUT)));
 		
-		if (hasAttribute(ITEM_MAPPING))
-			childViewAttributes.add(new ItemMappingAttribute(attributeValueFor(ITEM_MAPPING)));
+		if (groupedPropertyAttribute.hasAttribute(ITEM_MAPPING))
+			childViewAttributes.add(new ItemMappingAttribute(groupedPropertyAttribute.attributeValueFor(ITEM_MAPPING)));
 		
-		if (hasAttribute(DROPDOWN_MAPPING))
-			childViewAttributes.add(new DropdownMappingAttribute(attributeValueFor(DROPDOWN_MAPPING)));
+		if (groupedPropertyAttribute.hasAttribute(DROPDOWN_MAPPING))
+			childViewAttributes.add(new DropdownMappingAttribute(groupedPropertyAttribute.attributeValueFor(DROPDOWN_MAPPING)));
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

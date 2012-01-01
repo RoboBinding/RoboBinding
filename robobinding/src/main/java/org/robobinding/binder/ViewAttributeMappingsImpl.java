@@ -39,7 +39,7 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 {
 	private Map<String, Class<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
 	private Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
-	private Map<String[], Class<? extends AbstractGroupedPropertyViewAttribute<? extends View>>> groupedPropertyViewAttributeMappings;
+	private Map<GroupedPropertyAttributeImpl, Class<? extends AbstractGroupedPropertyViewAttribute<? extends View>>> groupedPropertyViewAttributeMappings;
 
 	public ViewAttributeMappingsImpl()
 	{
@@ -69,7 +69,8 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 	{
 		Validate.notNull(attributeNames, "attribute names must not be null");
 		Validate.notNull(groupedPropertyViewAttribute, "groupedPropertyViewAttribute must not be null");
-		groupedPropertyViewAttributeMappings.put(attributeNames, groupedPropertyViewAttribute);
+		GroupedPropertyAttributeImpl groupedPropertyAttribute = new GroupedPropertyAttributeImpl(attributeNames);
+		groupedPropertyViewAttributeMappings.put(groupedPropertyAttribute, groupedPropertyViewAttribute);
 	}
 
 	public Collection<String> getPropertyAttributes()
@@ -98,14 +99,14 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 		return commandViewAttribute;
 	}
 
-	public Collection<String[]> getGroupedPropertyAttributes()
+	public Collection<GroupedPropertyAttributeImpl> getGroupedPropertyAttributes()
 	{
 		return groupedPropertyViewAttributeMappings.keySet();
 	}
 
-	public AbstractGroupedPropertyViewAttribute<View> createGroupedPropertyViewAttribute(String[] attributeNames)
+	public AbstractGroupedPropertyViewAttribute<View> createGroupedPropertyViewAttribute(GroupedPropertyAttributeImpl groupedPropertyAttribute)
 	{
-		Class<? extends AbstractGroupedPropertyViewAttribute<? extends View>> groupedPropertyViewAttributeClass = groupedPropertyViewAttributeMappings.get(attributeNames);
+		Class<? extends AbstractGroupedPropertyViewAttribute<? extends View>> groupedPropertyViewAttributeClass = groupedPropertyViewAttributeMappings.get(groupedPropertyAttribute);
 		@SuppressWarnings("unchecked")
 		AbstractGroupedPropertyViewAttribute<View> groupedPropertyViewAttribute = (AbstractGroupedPropertyViewAttribute<View>)newViewAttribute(groupedPropertyViewAttributeClass);
 		return groupedPropertyViewAttribute;

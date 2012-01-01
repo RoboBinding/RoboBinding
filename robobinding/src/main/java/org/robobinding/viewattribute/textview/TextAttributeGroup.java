@@ -49,7 +49,7 @@ public class TextAttributeGroup extends AbstractGroupedPropertyViewAttribute<Tex
 	protected void initializeChildViewAttributes()
 	{
 		assertAttributesArePresent(TEXT);
-		propertyBindingDetails = PropertyBindingDetails.createFrom(childAttributes.get(TEXT));
+		propertyBindingDetails = PropertyBindingDetails.createFrom(groupedPropertyAttribute.attributeValueFor(TEXT));
 		
 		determineValueCommitMode();
 		
@@ -71,12 +71,12 @@ public class TextAttributeGroup extends AbstractGroupedPropertyViewAttribute<Tex
 	
 	private String valueCommitModeAttributeValue()
 	{
-		return childAttributes.get(VALUE_COMMIT_MODE);
+		return groupedPropertyAttribute.attributeValueFor(VALUE_COMMIT_MODE);
 	}
 	
 	private boolean valueCommitModeSpecified()
 	{
-		return childAttributes.containsKey(VALUE_COMMIT_MODE);
+		return groupedPropertyAttribute.hasAttribute(VALUE_COMMIT_MODE);
 	}
 
 	@Override

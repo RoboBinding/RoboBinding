@@ -15,12 +15,12 @@
  */
 package org.robobinding.binder;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedPropertyViewAttribute;
 import org.robobinding.viewattribute.PropertyBindingDetails;
@@ -96,13 +96,13 @@ public class ViewAttributeResolver
 		resolveViewAttribute(Lists.newArrayList(attribute), viewAttribute);
 	}
 
-	private void resolveViewAttribute(List<String> attributes, ViewAttribute viewAttribute)
+	private void resolveViewAttribute(Collection<String> attributes, ViewAttribute viewAttribute)
 	{
 		removeResolvedAttributes(attributes);
 		resolvedViewAttributes.add(viewAttribute);
 	}
 
-	private void removeResolvedAttributes(List<String> attributes)
+	private void removeResolvedAttributes(Collection<String> attributes)
 	{
 		for (String attribute : attributes)
 		{
@@ -132,24 +132,32 @@ public class ViewAttributeResolver
 
 	private void resolveGroupedPropertyViewAttributes(ViewAttributeMappingsImpl<View> viewAttributeMappings)
 	{
-		for (String[] groupAttributeNames : viewAttributeMappings.getGroupedPropertyAttributes())
+		for (GroupedPropertyAttributeImpl groupedPropertyAttribute : viewAttributeMappings.getGroupedPropertyAttributes())
 		{
-			if (hasOneOfAttributes(groupAttributeNames))
+			if (hasOneOfAttributes(groupedPropertyAttribute.getAttributes()))
 			{
-				AbstractGroupedPropertyViewAttribute<View> groupedViewAttribute = viewAttributeMappings.createGroupedPropertyViewAttribute(groupAttributeNames);
-				Map<String, String> attributes = Maps.newHashMap();
-				
-				for (String name : groupAttributeNames)
+				AbstractGroupedPropertyViewAttribute<View> groupedPropertyViewAttribute = viewAttributeMappings.createGroupedPropertyViewAttribute(groupedPropertyAttribute);
+				for (String attribute : groupedPropertyAttribute.getAttributes())
 				{
-					if (hasAttribute(name))
+					if (hasAttribute(attribute))
 					{
-						attributes.put(name, getAttributeValue(name));
+						groupedPropertyAttribute.addPresentAttribute(attribute, getAttributeValue(attribute));
 					}
 				}
 				
-				groupedViewAttribute.setChildAttributes(attributes);
+				resolveAndInitializeGroupedPropertyViewAttribute(groupedPropertyAttribute, groupedPropertyViewAttribute);
 			}
 		}
+	}
+
+	private void resolveAndInitializeGroupedPropertyViewAttribute(GroupedPropertyAttributeImpl groupedPropertyAttribute,
+			AbstractGroupedPropertyViewAttribute<View> groupedPropertyViewAttribute)
+	{
+		resolveViewAttribute(groupedPropertyAttribute.getPresentAttributes(), groupedPropertyViewAttribute);
+		
+		groupedPropertyViewAttribute.setView(view);
+		groupedPropertyViewAttribute.setPreInitializeViews(preInitializeView);
+		groupedPropertyViewAttribute.setGroupedPropertyAttribute(groupedPropertyAttribute);
 	}
 
 	private boolean hasOneOfAttributes(String[] attributes)
