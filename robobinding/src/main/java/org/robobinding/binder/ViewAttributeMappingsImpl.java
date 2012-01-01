@@ -39,7 +39,7 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 {
 	private Map<String, Class<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
 	private Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
-	private Map<GroupedPropertyAttributeImpl, Class<? extends AbstractGroupedPropertyViewAttribute<? extends View>>> groupedPropertyViewAttributeMappings;
+	private Map<GroupedAttributeDetailsImpl, Class<? extends AbstractGroupedPropertyViewAttribute<? extends View>>> groupedPropertyViewAttributeMappings;
 
 	public ViewAttributeMappingsImpl()
 	{
@@ -69,7 +69,7 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 	{
 		Validate.notNull(attributeNames, "attribute names must not be null");
 		Validate.notNull(groupedPropertyViewAttribute, "groupedPropertyViewAttribute must not be null");
-		GroupedPropertyAttributeImpl groupedPropertyAttribute = new GroupedPropertyAttributeImpl(attributeNames);
+		GroupedAttributeDetailsImpl groupedPropertyAttribute = new GroupedAttributeDetailsImpl(attributeNames);
 		groupedPropertyViewAttributeMappings.put(groupedPropertyAttribute, groupedPropertyViewAttribute);
 	}
 
@@ -99,12 +99,12 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 		return commandViewAttribute;
 	}
 
-	public Collection<GroupedPropertyAttributeImpl> getGroupedPropertyAttributes()
+	public Collection<GroupedAttributeDetailsImpl> getGroupedPropertyAttributes()
 	{
 		return groupedPropertyViewAttributeMappings.keySet();
 	}
 
-	public AbstractGroupedPropertyViewAttribute<View> createGroupedPropertyViewAttribute(GroupedPropertyAttributeImpl groupedPropertyAttribute)
+	public AbstractGroupedPropertyViewAttribute<View> createGroupedPropertyViewAttribute(GroupedAttributeDetailsImpl groupedPropertyAttribute)
 	{
 		Class<? extends AbstractGroupedPropertyViewAttribute<? extends View>> groupedPropertyViewAttributeClass = groupedPropertyViewAttributeMappings.get(groupedPropertyAttribute);
 		@SuppressWarnings("unchecked")

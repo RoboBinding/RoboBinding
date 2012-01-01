@@ -32,7 +32,7 @@ public abstract class AbstractGroupedPropertyViewAttribute<T extends View> imple
 {
 	protected T view;
 	protected boolean preInitializeViews;
-	protected GroupedPropertyAttribute groupedPropertyAttribute;
+	protected GroupedAttributeDetails groupedPropertyAttribute;
 	
 	public void setView(T view)
 	{
@@ -42,7 +42,7 @@ public abstract class AbstractGroupedPropertyViewAttribute<T extends View> imple
 	{
 		this.preInitializeViews = preInitializeViews;
 	}
-	public void setGroupedPropertyAttribute(GroupedPropertyAttribute groupedPropertyAttribute)
+	public void setGroupedPropertyAttribute(GroupedAttributeDetails groupedPropertyAttribute)
 	{
 		this.groupedPropertyAttribute = groupedPropertyAttribute;
 		initializeChildViewAttributes();
@@ -52,9 +52,9 @@ public abstract class AbstractGroupedPropertyViewAttribute<T extends View> imple
 	
 	protected void assertAttributesArePresent(String... attributes)
 	{
-		Collection<String> missingAttributes = groupedPropertyAttribute.findAbsentAttributes(attributes);
-		if(!missingAttributes.isEmpty())
+		if(groupedPropertyAttribute.hasAbsentAttributes(attributes))
 		{
+			Collection<String> missingAttributes = groupedPropertyAttribute.findAbsentAttributes(attributes);
 			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
 					getClass().getName(), view.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
 		}

@@ -132,12 +132,12 @@ public class ViewAttributeResolver
 
 	private void resolveGroupedPropertyViewAttributes(ViewAttributeMappingsImpl<View> viewAttributeMappings)
 	{
-		for (GroupedPropertyAttributeImpl groupedPropertyAttribute : viewAttributeMappings.getGroupedPropertyAttributes())
+		for (GroupedAttributeDetailsImpl groupedPropertyAttribute : viewAttributeMappings.getGroupedPropertyAttributes())
 		{
-			if (hasOneOfAttributes(groupedPropertyAttribute.getAttributes()))
+			if (hasOneOfAttributes(groupedPropertyAttribute.getSupportedAttributes()))
 			{
 				AbstractGroupedPropertyViewAttribute<View> groupedPropertyViewAttribute = viewAttributeMappings.createGroupedPropertyViewAttribute(groupedPropertyAttribute);
-				for (String attribute : groupedPropertyAttribute.getAttributes())
+				for (String attribute : groupedPropertyAttribute.getSupportedAttributes())
 				{
 					if (hasAttribute(attribute))
 					{
@@ -150,7 +150,7 @@ public class ViewAttributeResolver
 		}
 	}
 
-	private void resolveAndInitializeGroupedPropertyViewAttribute(GroupedPropertyAttributeImpl groupedPropertyAttribute,
+	private void resolveAndInitializeGroupedPropertyViewAttribute(GroupedAttributeDetailsImpl groupedPropertyAttribute,
 			AbstractGroupedPropertyViewAttribute<View> groupedPropertyViewAttribute)
 	{
 		resolveViewAttribute(groupedPropertyAttribute.getPresentAttributes(), groupedPropertyViewAttribute);
