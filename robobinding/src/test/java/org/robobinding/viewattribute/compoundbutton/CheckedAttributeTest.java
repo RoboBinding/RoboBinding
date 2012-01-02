@@ -15,14 +15,15 @@
  */
 package org.robobinding.viewattribute.compoundbutton;
 
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.AbstractSingleTypeTwoWayPropertyAttributeTest;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModelUtils;
+import org.robobinding.viewattribute.AbstractAttributeTest;
 
 import android.widget.CheckBox;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -30,39 +31,28 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-public class CheckedAttributeTest extends AbstractSingleTypeTwoWayPropertyAttributeTest<Boolean>
+public class CheckedAttributeTest extends AbstractAttributeTest<CheckBox, CheckedAttribute>
 {
-	private CheckBox checkBox;
-	
-	@Before
-	public void setUp()
+	@Test
+	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		checkBox = new CheckBox(null);
+		boolean checked = trueOrFalse();
+		
+		attribute.valueModelUpdated(checked);
+		
+		assertThat(view.isChecked(), equalTo(checked));
 	}
 	
-	@Override
-	protected void updateViewState(Boolean newValue)
+	@Test
+	public void whenViewIsChecked_ThenUpdateValueModel()
 	{
-		checkBox.setChecked(newValue);
+		boolean initialValueModelValue = trueOrFalse();
+		PropertyValueModel<Boolean> valueModel = ValueModelUtils.createBoolean(initialValueModelValue);
+	
+		attribute.observeChangesOnTheView(valueModel);
+		view.setChecked(!initialValueModelValue);
+		
+		assertThat(valueModel.getValue(), equalTo(!initialValueModelValue));
 	}
 	
-	@Override
-	protected Boolean getViewState()
-	{
-		return checkBox.isChecked();
-	}
-	
-	@Override
-	protected AbstractPropertyViewAttribute<Boolean> newAttributeInstance(String bindingAttributeValue)
-	{
-		return new CheckedAttribute(checkBox, bindingAttributeValue, true);
-	}
-
-	@Override
-	protected void populateBindingExpectations(BindingSamples<Boolean> bindingExpectations)
-	{
-		bindingExpectations.add(true, false);
-	}
-
 }

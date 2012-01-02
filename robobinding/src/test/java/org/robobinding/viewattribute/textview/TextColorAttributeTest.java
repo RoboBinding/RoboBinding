@@ -15,15 +15,17 @@
  */
 package org.robobinding.viewattribute.textview;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.MockPresentationModelForProperty;
-import org.robobinding.viewattribute.textview.TextColorAttribute;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import org.junit.Test;
+import org.robobinding.viewattribute.AbstractAttributeTest;
 
 import android.graphics.Color;
+import android.widget.TextView;
+
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.shadows.ShadowTextView;
 
 /**
  *
@@ -31,23 +33,16 @@ import android.graphics.Color;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(RobolectricTestRunner.class)
-public class TextColorAttributeTest extends AbstractTextViewPropertyAttributeTest
+public class TextColorAttributeTest extends AbstractAttributeTest<TextView, TextColorAttribute>
 {
 	@Test
-	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		Integer color = Color.RED;
-		MockPresentationModelForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();
+		int newColor = Color.RED;
 
-		mockPresentationModelAdapter.updatePropertyValue(color);
+		attribute.valueModelUpdated(newColor);
 
-		Assert.assertEquals(color, shadowTextView.getTextColorHexValue());
-	}
-	private MockPresentationModelForProperty<Integer> createBoundAttribute()
-	{
-		TextColorAttribute textColorAttribute = new TextColorAttribute(textView, MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
-		MockPresentationModelForProperty<Integer> mockPresentationModelAdapter = bindToProperty(textColorAttribute, Integer.class);
-		return mockPresentationModelAdapter;
+		ShadowTextView shadowView = Robolectric.shadowOf(view);
+		assertThat(shadowView.getTextColorHexValue(), equalTo(newColor));
 	}
 }

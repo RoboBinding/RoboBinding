@@ -19,12 +19,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.ratingbar.AbstractAttributeTest;
+import org.robobinding.viewattribute.AbstractAttributeTest;
 
 import android.widget.ProgressBar;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -32,18 +29,15 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
 public class ProgressAttributeTest extends AbstractAttributeTest<ProgressBar, ProgressAttribute>
 {
-	private final static int NEW_PROGRESS = 73;
-
 	@Test
 	public void whenUpdatingValueModel_ThenSetProgressOnProgressBar()
 	{
-		initializeViewAndAttribute(ProgressBar.class, ProgressAttribute.class);
+		int newProgress = anyInteger();
 		
-		attribute.valueModelUpdated(NEW_PROGRESS);
+		attribute.valueModelUpdated(newProgress);
 
-		assertThat(view.getProgress(), is(NEW_PROGRESS));
+		assertThat(view.getProgress(), is(newProgress));
 	}
 }

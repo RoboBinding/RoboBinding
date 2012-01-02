@@ -32,7 +32,7 @@ public class DropdownMappingAttributeTest extends ItemMappingAttributeTest
 	@Test
 	public void whenBinding_ThenUpdateDataSetAdapter()
 	{
-		DropdownMappingAttribute dropdownMappingAttribute = new DropdownMappingAttribute(MAPPING_ATTRIBUTE_VALUE, false);
+		DropdownMappingAttribute dropdownMappingAttribute = new DropdownMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		
 		dropdownMappingAttribute.bind(dataSetAdapter, null, mockContext);
 		
@@ -42,7 +42,7 @@ public class DropdownMappingAttributeTest extends ItemMappingAttributeTest
 	@Test
 	public void whenBinding_ThenInitializeViewMappings()
 	{
-		DropdownMappingAttribute dropdownMappingAttribute = new DropdownMappingAttribute(MAPPING_ATTRIBUTE_VALUE, false);
+		DropdownMappingAttribute dropdownMappingAttribute = new DropdownMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		
 		dropdownMappingAttribute.bind(dataSetAdapter, null, mockContext);
 		

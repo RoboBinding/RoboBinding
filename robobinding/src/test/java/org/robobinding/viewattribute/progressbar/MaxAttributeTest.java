@@ -19,12 +19,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.ratingbar.AbstractAttributeTest;
+import org.robobinding.viewattribute.AbstractAttributeTest;
 
 import android.widget.ProgressBar;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 
 /**
@@ -33,19 +30,16 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
 public class MaxAttributeTest extends AbstractAttributeTest<ProgressBar, MaxAttribute>
 {
-	private static final int NEW_MAX_VALUE = 50;
-	
 	@Test
 	public void whenUpdatingValueModel_ThenSetMaxOnProgressBar()
 	{
-		initializeViewAndAttribute(ProgressBar.class, MaxAttribute.class);
+		int newMaxValue = anyInteger();
 		
-		attribute.valueModelUpdated(NEW_MAX_VALUE);
+		attribute.valueModelUpdated(newMaxValue);
 		
-		assertThat(view.getMax(), is(NEW_MAX_VALUE));
+		assertThat(view.getMax(), is(newMaxValue));
 	}
-	
+
 }

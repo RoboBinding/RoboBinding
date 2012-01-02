@@ -25,6 +25,7 @@ import android.view.View.OnFocusChangeListener;
 
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
  *

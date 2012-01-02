@@ -20,6 +20,8 @@ import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -36,8 +38,12 @@ public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
-			return new ResourceBackgroundAttribute();
+			return new ResourceIdBackgroundAttribute();
 		} 
+		else if (Bitmap.class.isAssignableFrom(propertyType))
+		{
+			return new BitmapBackgroundAttribute();
+		}
 		else if (Drawable.class.isAssignableFrom(propertyType))
 		{
 			return new DrawableBackgroundAttribute();
@@ -46,18 +52,24 @@ public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<
 		throw new RuntimeException("Could not find a suitable background attribute class for property type: " + propertyType);
 	}
 	
-	private static class ResourceBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
+	private static class ResourceIdBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newResourceId)
 		{
-			if(newResourceId != null)
-			{
-				view.setBackgroundResource(newResourceId);
-			}
+			view.setBackgroundResource(newResourceId);
 		}
 	}
 
+	private static class BitmapBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Bitmap>
+	{
+		@Override
+		protected void valueModelUpdated(Bitmap newBitmap)
+		{
+			view.setBackgroundDrawable(new BitmapDrawable(newBitmap));
+		}
+	}
+	
 	private static class DrawableBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Drawable>
 	{
 		@Override

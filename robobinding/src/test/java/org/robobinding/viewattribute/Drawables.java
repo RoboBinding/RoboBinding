@@ -17,7 +17,6 @@ package org.robobinding.viewattribute;
 
 import android.R;
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -31,14 +30,24 @@ import android.graphics.drawable.Drawable;
  */
 public class Drawables
 {
-	public static Drawable[] get()
+	private static DrawableData[] drawableData = {new DrawableData(R.drawable.bottom_bar), new DrawableData(R.drawable.title_bar)};
+	
+	public static DrawableData get(int index)
 	{
-		Context context = new Activity();
-		Bitmap bottomBarBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bottom_bar);
-		Bitmap titleBarBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.title_bar);
+		return drawableData[index];
+	}
+	
+	public static class DrawableData
+	{
+		public final int resourceId;
+		public final Bitmap bitmap;
+		public final Drawable drawable;
 		
-		Drawable bottomBarDrawable = new BitmapDrawable(bottomBarBitmap);
-		Drawable titleBarDrawable = new BitmapDrawable(titleBarBitmap);
-		return new Drawable[]{bottomBarDrawable, titleBarDrawable};
+		public DrawableData(int resourceId)
+		{
+			this.resourceId = resourceId;
+			this.bitmap = BitmapFactory.decodeResource(new Activity().getResources(), this.resourceId);
+			this.drawable = new BitmapDrawable(bitmap);
+		}
 	}
 }

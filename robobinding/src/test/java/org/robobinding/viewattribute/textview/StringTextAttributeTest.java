@@ -28,7 +28,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class StringTextAttributeTest extends AbstractTextAttributeTest<String>
+public class StringTextAttributeTest extends TextAttributeGroupTest<String>
 {
 	@Override
 	protected AbstractPropertyViewAttribute<String> newAttributeInstance(String bindingAttributeValue)

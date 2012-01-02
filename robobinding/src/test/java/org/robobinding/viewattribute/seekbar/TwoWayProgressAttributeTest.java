@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.seekbar;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
@@ -23,6 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.property.PropertyValueModel;
 import org.robobinding.property.ValueModelUtils;
+import org.robobinding.viewattribute.AbstractAttributeTest;
 import org.robobinding.viewattribute.seekbar.OnSeekBarChangeListeners;
 import org.robobinding.viewattribute.seekbar.TwoWayProgressAttribute;
 
@@ -37,36 +39,33 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-public class TwoWayProgressAttributeTest
+public class TwoWayProgressAttributeTest extends AbstractAttributeTest<SeekBar, TwoWayProgressAttribute>
 {
-	private static final int NEW_PROGRESS_VALUE = 50;
 	private SeekBar seekBar;
-	private TwoWayProgressAttribute twoWayProgressAttribute;
 
 	@Before
 	public void setUp()
 	{
-		seekBar = new SeekBar(new Activity());
 		OnSeekBarChangeListeners onSeekBarChangeListeners = new OnSeekBarChangeListeners();
-		seekBar.setOnSeekBarChangeListener(onSeekBarChangeListeners);
-		
-		twoWayProgressAttribute = new TwoWayProgressAttribute(seekBar, "{propertyName}", true, onSeekBarChangeListeners);
+		view.setOnSeekBarChangeListener(onSeekBarChangeListeners);
 	}
 	
 	@Test
 	public void whenUpdatingValueModel_ThenSetProgressOnSeekBar()
 	{
-		twoWayProgressAttribute.valueModelUpdated(NEW_PROGRESS_VALUE);
+		int NEW_PROGRESS_VALUE = anyInteger();
 		
-		assertThat(seekBar.getProgress(), equalTo(NEW_PROGRESS_VALUE));
+		attribute.valueModelUpdated(NEW_PROGRESS_VALUE);
+		
+		assertThat(seekBar.getProgress(), is(NEW_PROGRESS_VALUE));
 	}
 	
 	@Test
-	public void givenSeekBarChangesAreBeingObserved_WhenUpdatingTheSeekBar_ThenUpdateValueModel()
+	public void whenUpdatingTheSeekBar_ThenUpdateValueModel()
 	{
-		PropertyValueModel<Integer> valueModel = ValueModelUtils.createInteger(10);
-		twoWayProgressAttribute.observeChangesOnTheView(valueModel);
+		int NEW_PROGRESS_VALUE = anyInteger();
+		
+		attribute.observeChangesOnTheView(valueModel);
 		
 		seekBar.setProgress(NEW_PROGRESS_VALUE);
 		

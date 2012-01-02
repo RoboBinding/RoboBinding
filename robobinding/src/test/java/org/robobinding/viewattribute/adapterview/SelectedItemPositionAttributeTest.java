@@ -18,19 +18,18 @@ package org.robobinding.viewattribute.adapterview;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.Random;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.AbstractSingleTypeTwoWayPropertyAttributeTest;
+import org.robobinding.viewattribute.AbstractAttributeTest;
 import org.robobinding.viewattribute.MockArrayAdapter;
+import org.robobinding.viewattribute.MockPresentationModelForProperty;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -38,18 +37,35 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-public class SelectedItemPositionAttributeTest extends AbstractSingleTypeTwoWayPropertyAttributeTest<Integer>
+public class SelectedItemPositionAttributeTest extends AbstractAttributeTest<ListView, SelectedItemPositionAttribute>
 {
-	private ListView adapterView;
 	private ArrayAdapter<String> arrayAdapter;
+	private MockPresentationModelForProperty<Integer> presentationModel;
 	
 	@Before
 	public void setUp()
 	{
-		adapterView = new ListView(null);
+		presentationModel = initializeForTwoWayBinding(Integer.class);
 		arrayAdapter = new MockArrayAdapter();
-		adapterView.setAdapter(arrayAdapter);
+		view.setAdapter(arrayAdapter);
+	}
+	
+	@Test
+	public void whenUpdatingValueModel_ThenSelectedItemShouldBeUpdated()
+	{
+		int index = anyIndex();
+		presentationModel.updatePropertyValue(index);
+		
+		assertThat(view.getSelectedItemPosition(), is(index));
+	}
+	
+	@Test
+	public void whenUpdatingSelectedItem_ThenPresentationModelShouldBeUpdated()
+	{
+		int index = anyIndex();
+		view.setSelection(index);
+		
+		assertThat(presentationModel.getPropertyValue(), is(index));
 	}
 	
 	@Test
@@ -57,35 +73,14 @@ public class SelectedItemPositionAttributeTest extends AbstractSingleTypeTwoWayP
 	//TODO Enable this test when the appropriate support has been added to Robolectric
 	public void whenAllItemsAreRemovedFromAdapter_ThenSelectedItemPositionShouldEqualInvalidPosition()
 	{
-		createAttributeWith2WayBinding();
-		
 		arrayAdapter.clear();
 		arrayAdapter.notifyDataSetChanged();
 		
-		assertThat(valueModel.getValue(), is(AdapterView.INVALID_POSITION));
+		assertThat(presentationModel.getPropertyValue(), is(AdapterView.INVALID_POSITION));
 	}
 	
-	@Override
-	protected void populateBindingExpectations(BindingSamples<Integer> bindingSamples)
+	private Integer anyIndex()
 	{
-		bindingSamples.add(1,0,5);		
-	}
-
-	@Override
-	protected void updateViewState(Integer newValue)
-	{
-		adapterView.setSelection(newValue);
-	}
-
-	@Override
-	protected Integer getViewState()
-	{
-		return adapterView.getSelectedItemPosition();
-	}
-
-	@Override
-	protected AbstractPropertyViewAttribute<Integer> newAttributeInstance(String bindingAttributeValue)
-	{
-		return new SelectedItemPositionAttribute(adapterView, bindingAttributeValue, true);
+		return new Random().nextInt(arrayAdapter.getCount());
 	}
 }

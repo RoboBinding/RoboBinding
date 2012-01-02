@@ -15,14 +15,17 @@
  */
 package org.robobinding.viewattribute.view;
 
-import org.junit.Assert;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.MockPresentationModelForProperty;
+import org.robobinding.viewattribute.AbstractAttributeTest;
 
 import android.graphics.Color;
+import android.view.View;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
  *
@@ -30,23 +33,17 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(RobolectricTestRunner.class)
-public class BackgroundColorTest extends AbstractViewPropertyAttributeTest
+public class BackgroundColorTest extends AbstractAttributeTest<View, BackgroundColorAttribute>
 {
 	@Test
-	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		int color = Color.RED;
-		MockPresentationModelForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();
+		int newColor = Color.RED;
 
-		mockPresentationModelAdapter.updatePropertyValue(color);
+		attribute.valueModelUpdated(newColor);
 
-		Assert.assertEquals(color, shadowView.getBackgroundColor());
+		ShadowView shadowView = (ShadowView)Robolectric.shadowOf(view);
+		assertThat(shadowView.getBackgroundColor(), equalTo(newColor));
 	}
-	private MockPresentationModelForProperty<Integer> createBoundAttribute()
-	{
-		BackgroundColorAttribute backgroundColorAttribute = new BackgroundColorAttribute(view, MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
-		MockPresentationModelForProperty<Integer> mockPresentationModelAdapter = bindToProperty(backgroundColorAttribute, Integer.class);
-		return mockPresentationModelAdapter;
-	}
+	
 }

@@ -28,7 +28,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  *
  */
 @RunWith(RobolectricTestRunner.class)
-public class CharSequenceTextAttributeTest extends AbstractTextAttributeTest<CharSequence>
+public class CharSequenceTextAttributeTest extends TextAttributeGroupTest<CharSequence>
 {
 	@Override
 	protected void updateViewState(CharSequence newValue)

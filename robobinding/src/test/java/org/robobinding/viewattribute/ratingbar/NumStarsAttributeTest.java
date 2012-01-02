@@ -19,11 +19,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.robobinding.viewattribute.AbstractAttributeTest;
 
 import android.widget.RatingBar;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -31,18 +29,15 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
 public class NumStarsAttributeTest extends AbstractAttributeTest<RatingBar, NumStarsAttribute>
 {
-	private static final int NEW_NUM_STARS = 10;
-
 	@Test
 	public void whenUpdatingValueModel_ThenSetNumStarsOnRatingBar()
 	{
-		initializeViewAndAttribute(RatingBar.class, NumStarsAttribute.class);
+		int newNumStars = 10;
 		
-		attribute.valueModelUpdated(NEW_NUM_STARS);
+		attribute.valueModelUpdated(newNumStars);
 
-		assertThat(view.getNumStars(), is(NEW_NUM_STARS));
+		assertThat(view.getNumStars(), is(newNumStars));
 	}
 }
