@@ -20,7 +20,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.view.View;
@@ -34,7 +34,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class SelectedAttributeTest extends AbstractAttributeTest<View, SelectedAttribute>
+public class SelectedAttributeTest extends AbstractPropertyViewAttributeTest<View, SelectedAttribute>
 {
 	@Test
 	public void whenValueModelUpdated_ThenViewShouldReflectChanges()

@@ -19,9 +19,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.ReadOnlyPropertyViewAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
-import android.graphics.Color;
 import android.widget.TextView;
 
 import com.xtremelabs.robolectric.Robolectric;
@@ -33,12 +33,12 @@ import com.xtremelabs.robolectric.shadows.ShadowTextView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class TextColorAttributeTest extends AbstractAttributeTest<TextView, TextColorAttribute>
+public class TextColorAttributeTest extends ReadOnlyPropertyViewAttributeTest<TextView, TextColorAttribute>
 {
 	@Test
 	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		int newColor = Color.RED;
+		int newColor = RandomValues.nextColor();
 
 		attribute.valueModelUpdated(newColor);
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.view;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+package org.robobinding.viewattribute;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.ReadOnlyPropertyViewAttributeTest;
-import org.robobinding.viewattribute.RandomValues;
 
 import android.view.View;
 
@@ -30,16 +25,11 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class EnabledAttributeTest extends ReadOnlyPropertyViewAttributeTest<View, EnabledAttribute>
+public abstract class ReadOnlyPropertyViewAttributeTest<S extends View, T extends PropertyViewAttribute<? super S>> extends AbstractPropertyViewAttributeTest<S, T>
 {
-	@Test
-	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
+	@Test (expected=RuntimeException.class)
+	public void whenAttemptingTwoWayBinding_ThenReject()
 	{
-		boolean enabled = RandomValues.trueOrFalse();
-		
-		attribute.valueModelUpdated(enabled);
-		
-		assertThat(view.isEnabled(), equalTo(enabled));
+		initializeForTwoWayBinding(Class.class);
 	}
-
 }

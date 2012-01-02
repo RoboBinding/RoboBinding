@@ -23,7 +23,7 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.MockArrayAdapter;
 import org.robobinding.viewattribute.MockPresentationModelForProperty;
 
@@ -37,7 +37,7 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SelectedItemPositionAttributeTest extends AbstractAttributeTest<ListView, SelectedItemPositionAttribute>
+public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttributeTest<ListView, SelectedItemPositionAttribute>
 {
 	private ArrayAdapter<String> arrayAdapter;
 	private MockPresentationModelForProperty<Integer> presentationModel;

@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.DrawableData;
 import org.robobinding.viewattribute.MockPresentationModelForProperty;
 import org.robobinding.viewattribute.RandomValues;
@@ -34,7 +34,7 @@ import android.widget.ImageView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ImageSourceAttributeTest extends AbstractAttributeTest<ImageView, ImageSourceAttribute>
+public class ImageSourceAttributeTest extends AbstractPropertyViewAttributeTest<ImageView, ImageSourceAttribute>
 {
 	private DrawableData drawableData = DrawableData.get(0);
 	

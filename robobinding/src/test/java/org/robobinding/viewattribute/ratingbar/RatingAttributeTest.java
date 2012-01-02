@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.MockPresentationModelForProperty;
 
 import android.widget.RatingBar;
@@ -36,7 +36,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class RatingAttributeTest extends AbstractAttributeTest<RatingBar, RatingAttribute>
+public class RatingAttributeTest extends AbstractPropertyViewAttributeTest<RatingBar, RatingAttribute>
 {
 	private static final float NEW_RATING_AS_FLOAT = 2.0f;
 	private static final int NEW_RATING_AS_INT = 2;

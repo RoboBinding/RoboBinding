@@ -20,7 +20,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.AbstractSingleTypeTwoWayPropertyAttributeTest;
 import org.robobinding.viewattribute.PropertyBindingDetails;
 
@@ -37,7 +37,7 @@ import com.xtremelabs.robolectric.shadows.ShadowTextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextAttributeGroupTest<T extends CharSequence> extends AbstractAttributeTest<TextView, TextAttributeGroup>
+public class TextAttributeGroupTest<T extends CharSequence> extends AbstractPropertyViewAttributeTest<TextView, TextAttributeGroup>
 {
 	protected TextView textView;
 	protected boolean lateValueCommitMode;

@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.MockPresentationModelForProperty;
 import org.robobinding.viewattribute.RandomValues;
 
@@ -31,7 +31,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class VisibilityAttributeTest extends AbstractAttributeTest<View, VisibilityAttribute>
+public class VisibilityAttributeTest extends AbstractPropertyViewAttributeTest<View, VisibilityAttribute>
 {
 	@Test
 	public void givenValueModelIsIntegerType_WhenUpdatingPresentationModel_ThenViewShouldReflectViewModel()

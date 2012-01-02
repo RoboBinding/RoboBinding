@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.ProgressBar;
@@ -30,7 +30,7 @@ import android.widget.ProgressBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ProgressAttributeTest extends AbstractAttributeTest<ProgressBar, ProgressAttribute>
+public class ProgressAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, ProgressAttribute>
 {
 	@Test
 	public void whenUpdatingValueModel_ThenSetProgressOnProgressBar()

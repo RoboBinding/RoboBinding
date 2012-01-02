@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 
 import android.widget.RatingBar;
 
@@ -29,7 +29,7 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class NumStarsAttributeTest extends AbstractAttributeTest<RatingBar, NumStarsAttribute>
+public class NumStarsAttributeTest extends AbstractPropertyViewAttributeTest<RatingBar, NumStarsAttribute>
 {
 	@Test
 	public void whenUpdatingValueModel_ThenSetNumStarsOnRatingBar()

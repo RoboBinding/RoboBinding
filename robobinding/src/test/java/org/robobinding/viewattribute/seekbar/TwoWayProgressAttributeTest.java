@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.PropertyValueModel;
-import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.SeekBar;
@@ -33,7 +33,7 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TwoWayProgressAttributeTest extends AbstractAttributeTest<SeekBar, TwoWayProgressAttribute>
+public class TwoWayProgressAttributeTest extends AbstractPropertyViewAttributeTest<SeekBar, TwoWayProgressAttribute>
 {
 	private SeekBar seekBar;
 
