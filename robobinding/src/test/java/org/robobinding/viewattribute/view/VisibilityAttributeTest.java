@@ -18,11 +18,10 @@ package org.robobinding.viewattribute.view;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.Random;
-
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractAttributeTest;
 import org.robobinding.viewattribute.MockPresentationModelForProperty;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.view.View;
 
@@ -37,8 +36,8 @@ public class VisibilityAttributeTest extends AbstractAttributeTest<View, Visibil
 	@Test
 	public void givenValueModelIsIntegerType_WhenUpdatingPresentationModel_ThenViewShouldReflectViewModel()
 	{
-		int visibility = anyVisibility();
-		MockPresentationModelForProperty<Integer> presentationModel = initializeForOneWayBinding(primitiveOrBoxedIntegerClass());
+		int visibility = RandomValues.anyVisibility();
+		MockPresentationModelForProperty<Integer> presentationModel = initializeForOneWayBinding(RandomValues.primitiveOrBoxedIntegerClass());
 		
 		presentationModel.updatePropertyValue(visibility);
 		
@@ -48,26 +47,12 @@ public class VisibilityAttributeTest extends AbstractAttributeTest<View, Visibil
 	@Test
 	public void whenBindingWithABooleanProperty_ThenInitializeBooleanVisibilityAttribute()
 	{
-		boolean visible = trueOrFalse();
-		MockPresentationModelForProperty<Boolean> presentationModel = initializeForOneWayBinding(primitiveOrBoxedBooleanClass());
+		boolean visible = RandomValues.trueOrFalse();
+		MockPresentationModelForProperty<Boolean> presentationModel = initializeForOneWayBinding(RandomValues.primitiveOrBoxedBooleanClass());
 		
 		presentationModel.updatePropertyValue(visible);
 		
 		assertThat(view.getVisibility(), is(visible ? View.VISIBLE : View.GONE));
 	}
 	
-	private int anyVisibility()
-	{
-		int random = new Random().nextInt(3);
-		
-		switch (random)
-		{
-		case 0:
-			return View.GONE;
-		case 1:
-			return View.INVISIBLE;
-		default:
-			return View.VISIBLE;
-		}
-	}
 }

@@ -20,8 +20,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.robobinding.property.PropertyValueModel;
-import org.robobinding.property.ValueModelUtils;
 import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.CheckBox;
 
@@ -36,7 +36,7 @@ public class CheckedAttributeTest extends AbstractAttributeTest<CheckBox, Checke
 	@Test
 	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		boolean checked = trueOrFalse();
+		boolean checked = RandomValues.trueOrFalse();
 		
 		attribute.valueModelUpdated(checked);
 		
@@ -46,13 +46,12 @@ public class CheckedAttributeTest extends AbstractAttributeTest<CheckBox, Checke
 	@Test
 	public void whenViewIsChecked_ThenUpdateValueModel()
 	{
-		boolean initialValueModelValue = trueOrFalse();
-		PropertyValueModel<Boolean> valueModel = ValueModelUtils.createBoolean(initialValueModelValue);
-	
-		attribute.observeChangesOnTheView(valueModel);
-		view.setChecked(!initialValueModelValue);
+		boolean initialValue = RandomValues.trueOrFalse();
+		PropertyValueModel<Boolean> valueModel = initializeForTwoWayBinding(initialValue);
 		
-		assertThat(valueModel.getValue(), equalTo(!initialValueModelValue));
+		view.setChecked(!initialValue);
+		
+		assertThat(valueModel.getValue(), equalTo(!initialValue));
 	}
 	
 }

@@ -20,8 +20,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
-import android.graphics.Color;
 import android.view.View;
 
 import com.xtremelabs.robolectric.Robolectric;
@@ -38,11 +38,11 @@ public class BackgroundColorTest extends AbstractAttributeTest<View, BackgroundC
 	@Test
 	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		int newColor = Color.RED;
+		int newColor = RandomValues.nextColor();
 
 		attribute.valueModelUpdated(newColor);
 
-		ShadowView shadowView = (ShadowView)Robolectric.shadowOf(view);
+		ShadowView shadowView = Robolectric.shadowOf(view);
 		assertThat(shadowView.getBackgroundColor(), equalTo(newColor));
 	}
 	

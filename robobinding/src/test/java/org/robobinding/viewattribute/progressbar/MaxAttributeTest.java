@@ -20,6 +20,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.ProgressBar;
 
@@ -35,7 +36,7 @@ public class MaxAttributeTest extends AbstractAttributeTest<ProgressBar, MaxAttr
 	@Test
 	public void whenUpdatingValueModel_ThenSetMaxOnProgressBar()
 	{
-		int newMaxValue = anyInteger();
+		int newMaxValue = RandomValues.anyInteger();
 		
 		attribute.valueModelUpdated(newMaxValue);
 		

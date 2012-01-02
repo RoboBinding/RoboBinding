@@ -21,17 +21,11 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.robobinding.property.PropertyValueModel;
-import org.robobinding.property.ValueModelUtils;
 import org.robobinding.viewattribute.AbstractAttributeTest;
-import org.robobinding.viewattribute.seekbar.OnSeekBarChangeListeners;
-import org.robobinding.viewattribute.seekbar.TwoWayProgressAttribute;
+import org.robobinding.viewattribute.RandomValues;
 
-import android.app.Activity;
 import android.widget.SeekBar;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -53,22 +47,22 @@ public class TwoWayProgressAttributeTest extends AbstractAttributeTest<SeekBar, 
 	@Test
 	public void whenUpdatingValueModel_ThenSetProgressOnSeekBar()
 	{
-		int NEW_PROGRESS_VALUE = anyInteger();
+		int newProgressValue = RandomValues.anyInteger();
 		
-		attribute.valueModelUpdated(NEW_PROGRESS_VALUE);
+		attribute.valueModelUpdated(newProgressValue);
 		
-		assertThat(seekBar.getProgress(), is(NEW_PROGRESS_VALUE));
+		assertThat(seekBar.getProgress(), is(newProgressValue));
 	}
 	
 	@Test
 	public void whenUpdatingTheSeekBar_ThenUpdateValueModel()
 	{
-		int NEW_PROGRESS_VALUE = anyInteger();
+		int initialProgressValue = RandomValues.anyInteger();
+		PropertyValueModel<Integer> valueModel = initializeForTwoWayBinding(initialProgressValue);
 		
-		attribute.observeChangesOnTheView(valueModel);
+		int newProgressValue = RandomValues.anyInteger();
+		seekBar.setProgress(newProgressValue);
 		
-		seekBar.setProgress(NEW_PROGRESS_VALUE);
-		
-		assertThat(valueModel.getValue(), equalTo(NEW_PROGRESS_VALUE));
+		assertThat(valueModel.getValue(), equalTo(newProgressValue));
 	}	
 }

@@ -20,9 +20,9 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractAttributeTest;
-import org.robobinding.viewattribute.Drawables;
-import org.robobinding.viewattribute.Drawables.DrawableData;
+import org.robobinding.viewattribute.DrawableData;
 import org.robobinding.viewattribute.MockPresentationModelForProperty;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -36,12 +36,12 @@ import android.view.View;
  */
 public class BackgroundAttributeTest extends AbstractAttributeTest<View, BackgroundAttribute>
 {
-	private DrawableData drawableData = Drawables.get(0);
+	private DrawableData drawableData = DrawableData.get(0);
 	
 	@Test
 	public void givenResourceIdBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		MockPresentationModelForProperty<Integer> presentationModel = initializeForOneWayBinding(primitiveOrBoxedIntegerClass());
+		MockPresentationModelForProperty<Integer> presentationModel = initializeForOneWayBinding(RandomValues.primitiveOrBoxedIntegerClass());
 
 		presentationModel.updatePropertyValue(drawableData.resourceId);
 

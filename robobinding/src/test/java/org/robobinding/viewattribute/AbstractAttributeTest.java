@@ -15,10 +15,9 @@
  */
 package org.robobinding.viewattribute;
 
-import java.util.Random;
-
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.robobinding.property.PropertyValueModel;
 
 import android.app.Activity;
 import android.content.Context;
@@ -64,6 +63,14 @@ public class AbstractAttributeTest<S extends View, T extends PropertyViewAttribu
 		}
 	}
 	
+	protected <C> PropertyValueModel<C> initializeForTwoWayBinding(C initialValue)
+	{
+		@SuppressWarnings("unchecked")
+		MockPresentationModelForProperty<C> presentationModel = initializeForTwoWayBinding((Class<C>)initialValue.getClass());
+		presentationModel.updatePropertyValue(initialValue);
+		return presentationModel.getPropertyValueModel();
+	}
+	
 	protected <C> MockPresentationModelForProperty<C> initializeForOneWayBinding(Class<C> propertyClass)
 	{
 		attribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME));
@@ -74,31 +81,5 @@ public class AbstractAttributeTest<S extends View, T extends PropertyViewAttribu
 	{
 		attribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(MockPresentationModelForProperty.TWO_WAY_BINDING_PROPERTY_NAME));
 		return MockPresentationModelForProperty.bindToProperty(attribute, propertyClass);
-	}
-	
-	protected boolean trueOrFalse()
-	{
-		return new Random().nextBoolean();
-	}
-	
-	protected int anyInteger()
-	{
-		return new Random().nextInt(100);
-	}
-	
-	protected Class<Integer> primitiveOrBoxedIntegerClass()
-	{
-		if (new Random().nextInt(2) == 0)
-			return int.class;
-		
-		return Integer.class;
-	}
-	
-	protected Class<Boolean> primitiveOrBoxedBooleanClass()
-	{
-		if (new Random().nextInt(2) == 0)
-			return boolean.class;
-		
-		return Boolean.class;
 	}
 }

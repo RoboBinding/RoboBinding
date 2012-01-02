@@ -66,6 +66,11 @@ public class MockPresentationModelForProperty<T> implements PresentationModelAda
 		return propertyValueModel;
 	}
 
+	public PropertyValueModel<T> getPropertyValueModel()
+	{
+		return propertyValueModel;
+	}
+	
 	private void checkPropertyName(String propertyName)
 	{
 		Validate.isTrue(PROPERTY_NAME.equals(propertyName), "invalid property name");

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.view.View;
 
@@ -38,7 +39,7 @@ public class SelectedAttributeTest extends AbstractAttributeTest<View, SelectedA
 	@Test
 	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		boolean selected = trueOrFalse();
+		boolean selected = RandomValues.trueOrFalse();
 		
 		attribute.valueModelUpdated(selected);
 		

@@ -20,6 +20,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.ProgressBar;
 
@@ -34,7 +35,7 @@ public class ProgressAttributeTest extends AbstractAttributeTest<ProgressBar, Pr
 	@Test
 	public void whenUpdatingValueModel_ThenSetProgressOnProgressBar()
 	{
-		int newProgress = anyInteger();
+		int newProgress = RandomValues.anyInteger();
 		
 		attribute.valueModelUpdated(newProgress);
 

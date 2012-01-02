@@ -28,26 +28,28 @@ import android.graphics.drawable.Drawable;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class Drawables
+public class DrawableData
 {
 	private static DrawableData[] drawableData = {new DrawableData(R.drawable.bottom_bar), new DrawableData(R.drawable.title_bar)};
+	
+	public final int resourceId;
+	public final Bitmap bitmap;
+	public final Drawable drawable;
+	
+	public DrawableData(int resourceId)
+	{
+		this.resourceId = resourceId;
+		this.bitmap = BitmapFactory.decodeResource(new Activity().getResources(), this.resourceId);
+		this.drawable = new BitmapDrawable(bitmap);
+	}
 	
 	public static DrawableData get(int index)
 	{
 		return drawableData[index];
 	}
 	
-	public static class DrawableData
+	public static int numDrawableData()
 	{
-		public final int resourceId;
-		public final Bitmap bitmap;
-		public final Drawable drawable;
-		
-		public DrawableData(int resourceId)
-		{
-			this.resourceId = resourceId;
-			this.bitmap = BitmapFactory.decodeResource(new Activity().getResources(), this.resourceId);
-			this.drawable = new BitmapDrawable(bitmap);
-		}
+		return drawableData.length;
 	}
 }
