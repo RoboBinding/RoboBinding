@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.seekbar;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -62,7 +63,7 @@ public class OnSeekBarChangeAttributeTest extends AbstractCommandViewAttributeTe
 	{
 		assertEventReceived(CheckedChangeEvent.class);
 		SeekBarEvent seekBarEvent = getEventReceived();
-		assertTrue(seekBarEvent.getSeekBar() == view);
+		assertThat(seekBarEvent.getSeekBar(), sameInstance(view));
 		assertThat(seekBarEvent.getProgress(), is(newProgressValue));
 		assertTrue(seekBarEvent.isFromUser());
 	}

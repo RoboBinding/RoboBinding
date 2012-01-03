@@ -55,6 +55,11 @@ public class RandomValues
 	{
 		return random.nextInt(100);
 	}
+
+	public static float anyFloat()
+	{
+		return random.nextFloat()*anyInteger();
+	}
 	
 	public static int anyVisibility()
 	{
@@ -91,4 +96,5 @@ public class RandomValues
 	{
 		return random.nextInt(arrayAdapter.getCount());
 	}
+
 }

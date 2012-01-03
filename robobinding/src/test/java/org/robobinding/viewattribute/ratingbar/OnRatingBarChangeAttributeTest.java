@@ -15,26 +15,19 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.hamcrest.Matchers.closeTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.MockFunction;
+import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
-import android.app.Activity;
-import android.content.Context;
 import android.widget.RatingBar;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -42,48 +35,38 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
 @Ignore //Waiting for Robolectric to get updated
-public class OnRatingBarChangeAttributeTest
+public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttributeTest<RatingBar, OnRatingBarChangeAttribute>
 {
-	private RatingBar ratingBar;
-	private Context context = new Activity();
-	private MockFunction mockFunction;
-	private PresentationModelAdapter mockPresentationModelAdapter;
-	private final String commandName = "someCommand";
-	
+	private float newRatingValue;
+
 	@Before
 	public void setUp()
 	{
-		ratingBar = new RatingBar(null);
-		mockFunction = new MockFunction();
-		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(mockPresentationModelAdapter.findFunction(commandName, RatingBarEvent.class)).thenReturn(mockFunction);
+		newRatingValue = RandomValues.anyFloat();
 	}
 	
 	@Test
-	public void whenRatingBarChanges_ThenInvokeCommand()
+	public void givenBoundAttribute_whenChangeChecked_thenEventReceived()
 	{
-		OnRatingBarChangeAttribute onClickAttribute = new OnRatingBarChangeAttribute(ratingBar, commandName);
-		onClickAttribute.bind(mockPresentationModelAdapter, context);
-		
-		ratingBar.setRating(2f);
-	
-		assertTrue(mockFunction.commandInvoked);
-	}
-	
-	@Test
-	public void whenRatingBarChanges_ThenInvokeCommandWithSeekBarEvent()
-	{
-		OnRatingBarChangeAttribute onClickAttribute = new OnRatingBarChangeAttribute(ratingBar, commandName);
-		onClickAttribute.bind(mockPresentationModelAdapter, context);
-		
-		ratingBar.setRating(2f);
+		bindAttribute();
 
-		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(RatingBarEvent.class));
-		RatingBarEvent ratingBarEvent = (RatingBarEvent)mockFunction.argsPassedToInvoke[0];
-		assertThat(ratingBarEvent.getRatingBar(), sameInstance(ratingBar));
-		assertThat(ratingBarEvent.getRating(), is(2f));
+		updateRating();
+
+		assertEventReceived();
+	}
+
+	private void updateRating()
+	{
+		view.setRating(newRatingValue);
+	}
+
+	private void assertEventReceived()
+	{
+		assertEventReceived(RatingBarEvent.class);
+		RatingBarEvent ratingBarEvent = getEventReceived();
+		assertThat(ratingBarEvent.getRatingBar(), sameInstance(view));
+		assertThat((double)ratingBarEvent.getRating(), is(closeTo(newRatingValue, 0.1f)));
 		assertTrue(ratingBarEvent.isFromUser());
 	}
 }
