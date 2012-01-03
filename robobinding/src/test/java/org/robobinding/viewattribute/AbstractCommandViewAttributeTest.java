@@ -49,7 +49,7 @@ public class AbstractCommandViewAttributeTest<ViewType extends View, CommandView
 	private PresentationModelAdapter mockPresentationModelAdapter;
 	
 	protected ViewType view;
-	private CommandViewAttributeType commandViewAttribute;
+	protected CommandViewAttributeType attribute;
 	
 	@Before
 	public void initializeViewAndAttribute()
@@ -68,20 +68,20 @@ public class AbstractCommandViewAttributeTest<ViewType extends View, CommandView
 		ParameterizedType superclass = (ParameterizedType)getClass().getGenericSuperclass();
 		
         view = ParameterizedTypeUtils.createTypeArgument(superclass, 0);
-        commandViewAttribute = ParameterizedTypeUtils.createTypeArgument(superclass, 1);
+        attribute = ParameterizedTypeUtils.createTypeArgument(superclass, 1);
 	}
 
 	private void initializeAttribute()
 	{
 		createViewAndAttribute();
 		
-		commandViewAttribute.setView(view);
-		commandViewAttribute.setCommandName(commandName);
+		attribute.setView(view);
+		attribute.setCommandName(commandName);
 	}
 	
 	protected void bindAttribute()
 	{
-		commandViewAttribute.bind(mockPresentationModelAdapter, new Activity());
+		attribute.bind(mockPresentationModelAdapter, new Activity());
 	}
 	
 	protected void assertEventReceived(Class<?> eventClass)

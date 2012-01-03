@@ -53,9 +53,10 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 		
 		determineValueCommitMode();
 		
-		textAttribute = new TextAttribute(valueCommitMode);
+		textAttribute = new TextAttribute();
 		textAttribute.setView(view);
 		textAttribute.setPropertyBindingDetails(propertyBindingDetails);
+		textAttribute.setValueCommitMode(valueCommitMode);
 	}
 
 	private void determineValueCommitMode()
@@ -90,111 +91,4 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 		return valueCommitMode;
 	}
 	
-	private static class TextAttribute extends AbstractMultiTypePropertyViewAttribute<TextView>
-	{
-		private final ValueCommitMode valueCommitMode;
-
-		public TextAttribute(ValueCommitMode valueCommitMode)
-		{
-			this.valueCommitMode = valueCommitMode;
-		}
-
-		@Override
-		protected PropertyViewAttribute<TextView> createPropertyViewAttribute(Class<?> propertyType)
-		{
-			if (String.class.isAssignableFrom(propertyType))
-			{
-				return new StringTextAttribute(valueCommitMode);
-			}
-			else if (CharSequence.class.isAssignableFrom(propertyType))
-			{
-				return new CharSequenceTextAttribute(valueCommitMode);
-			}
-			
-			throw new RuntimeException("Could not find a suitable text attribute class for property type: " + propertyType);
-		}
-	}
-	
-	private abstract static class AbstractCharSequenceTextAttribute<PropertyType extends CharSequence> extends AbstractPropertyViewAttribute<TextView, PropertyType>
-	{
-		private final ValueCommitMode valueCommitMode;
-
-		public AbstractCharSequenceTextAttribute(ValueCommitMode valueCommitMode)
-		{
-			this.valueCommitMode = valueCommitMode;
-		}
-
-		@Override
-		protected void valueModelUpdated(PropertyType newValue)
-		{
-			view.setText(newValue);
-		}
-
-		protected void observeChangesOnTheView(final PropertyValueModel<PropertyType> valueModel)
-		{
-			if (valueCommitMode == ValueCommitMode.ON_CHANGE)
-			{
-				view.addTextChangedListener(new TextWatcher() {
-					
-					@Override
-					public void onTextChanged(CharSequence s, int start, int before, int count)
-					{
-						updateValueModel(valueModel, s);
-					}
-					
-					@Override
-					public void beforeTextChanged(CharSequence s, int start, int count, int after)
-					{
-					}
-					
-					@Override
-					public void afterTextChanged(Editable s)
-					{
-					}
-				});
-			}
-			else
-			{
-				view.setOnFocusChangeListener(new OnFocusChangeListener() {
-					
-					@Override
-					public void onFocusChange(View v, boolean hasFocus)
-					{
-						if (!hasFocus)
-							updateValueModel(valueModel, view.getText());
-					}
-				});
-			}
-		}
-		
-		protected abstract void updateValueModel(PropertyValueModel<PropertyType> valueModel, CharSequence charSequence);
-	}
-	
-	private static class StringTextAttribute extends AbstractCharSequenceTextAttribute<String>
-	{
-		public StringTextAttribute(ValueCommitMode valueCommitMode)
-		{
-			super(valueCommitMode);
-		}
-
-		@Override
-		protected void updateValueModel(PropertyValueModel<String> valueModel, CharSequence charSequence)
-		{
-			valueModel.setValue(charSequence.toString());
-		}
-	}
-
-	private static class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
-	{
-		public CharSequenceTextAttribute(ValueCommitMode valueCommitMode)
-		{
-			super(valueCommitMode);
-		}
-
-		@Override
-		protected void updateValueModel(PropertyValueModel<CharSequence> valueModel, CharSequence charSequence)
-		{
-			valueModel.setValue(charSequence);
-		}
-	}
 }

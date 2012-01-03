@@ -29,12 +29,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  */
 public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute<SeekBar>
 {
-	private final OnSeekBarChangeListeners onSeekBarChangeListeners;
-
-	public OnSeekBarChangeAttribute(OnSeekBarChangeListeners onSeekBarChangeListeners)
-	{
-		this.onSeekBarChangeListeners = onSeekBarChangeListeners;
-	}
+	private OnSeekBarChangeListeners onSeekBarChangeListeners;
 
 	@Override
 	protected void bind(final Command command)
@@ -60,12 +55,18 @@ public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute<SeekB
 			
 		});
 
+		view.setOnSeekBarChangeListener(onSeekBarChangeListeners);
 	}
 
 	@Override
 	protected Class<?> getPreferredCommandParameterType()
 	{
 		return SeekBarEvent.class;
+	}
+
+	void setOnSeekBarChangeListeners(OnSeekBarChangeListeners onSeekBarChangeListeners)
+	{
+		this.onSeekBarChangeListeners = onSeekBarChangeListeners;
 	}
 
 }

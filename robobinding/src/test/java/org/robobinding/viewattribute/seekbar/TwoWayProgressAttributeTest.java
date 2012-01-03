@@ -35,13 +35,10 @@ import android.widget.SeekBar;
  */
 public class TwoWayProgressAttributeTest extends AbstractPropertyViewAttributeTest<SeekBar, TwoWayProgressAttribute>
 {
-	private SeekBar seekBar;
-
 	@Before
 	public void setUp()
 	{
-		OnSeekBarChangeListeners onSeekBarChangeListeners = new OnSeekBarChangeListeners();
-		view.setOnSeekBarChangeListener(onSeekBarChangeListeners);
+		attribute.setOnSeekBarChangeListeners(new OnSeekBarChangeListeners());
 	}
 	
 	@Test
@@ -51,7 +48,7 @@ public class TwoWayProgressAttributeTest extends AbstractPropertyViewAttributeTe
 		
 		attribute.valueModelUpdated(newProgressValue);
 		
-		assertThat(seekBar.getProgress(), is(newProgressValue));
+		assertThat(view.getProgress(), is(newProgressValue));
 	}
 	
 	@Test
@@ -61,7 +58,7 @@ public class TwoWayProgressAttributeTest extends AbstractPropertyViewAttributeTe
 		PropertyValueModel<Integer> valueModel = initializeForTwoWayBinding(initialProgressValue);
 		
 		int newProgressValue = RandomValues.anyInteger();
-		seekBar.setProgress(newProgressValue);
+		view.setProgress(newProgressValue);
 		
 		assertThat(valueModel.getValue(), equalTo(newProgressValue));
 	}	
