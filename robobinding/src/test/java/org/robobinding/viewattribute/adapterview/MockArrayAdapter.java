@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.internal.com_google_common.collect.Lists;
 

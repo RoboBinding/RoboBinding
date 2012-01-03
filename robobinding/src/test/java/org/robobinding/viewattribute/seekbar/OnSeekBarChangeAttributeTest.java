@@ -15,26 +15,17 @@
  */
 package org.robobinding.viewattribute.seekbar;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.MockFunction;
-import org.robobinding.viewattribute.seekbar.OnSeekBarChangeAttribute;
-import org.robobinding.viewattribute.seekbar.SeekBarEvent;
+import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.compoundbutton.CheckedChangeEvent;
 
-import android.app.Activity;
-import android.content.Context;
 import android.widget.SeekBar;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  * 
@@ -42,50 +33,37 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-public class OnSeekBarChangeAttributeTest
+public class OnSeekBarChangeAttributeTest extends AbstractCommandViewAttributeTest<SeekBar, OnSeekBarChangeAttribute>
 {
-	private SeekBar seekBar;
-	private Context context = new Activity();
-	private MockFunction mockFunction;
-	private PresentationModelAdapter mockPresentationModelAdapter;
-	private final String commandName = "someCommand";
-	private OnSeekBarChangeListeners onSeekBarChangeListeners;
-	
+	private int newProgressValue;
+
 	@Before
 	public void setUp()
 	{
-		seekBar = new SeekBar(null);
-		onSeekBarChangeListeners = new OnSeekBarChangeListeners();
-		seekBar.setOnSeekBarChangeListener(onSeekBarChangeListeners);
-		mockFunction = new MockFunction();
-		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(mockPresentationModelAdapter.findFunction(commandName, SeekBarEvent.class)).thenReturn(mockFunction);
+		newProgressValue = RandomValues.anyInteger();
 	}
 	
 	@Test
-	public void whenSeekBarChanges_ThenInvokeCommand()
+	public void givenBoundAttribute_whenUpdatingProgress_thenEventReceived()
 	{
-		OnSeekBarChangeAttribute onClickAttribute = new OnSeekBarChangeAttribute(commandName, onSeekBarChangeListeners);
-		onClickAttribute.bind(mockPresentationModelAdapter, context);
-		
-		seekBar.setProgress(75);
-	
-		assertTrue(mockFunction.commandInvoked);
-	}
-	
-	@Test
-	public void whenSeekBarChanges_ThenInvokeCommandWithSeekBarEvent()
-	{
-		OnSeekBarChangeAttribute onClickAttribute = new OnSeekBarChangeAttribute(commandName, onSeekBarChangeListeners);
-		onClickAttribute.bind(mockPresentationModelAdapter, context);
-		
-		seekBar.setProgress(75);
+		bindAttribute();
 
-		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(SeekBarEvent.class));
-		SeekBarEvent seekBarEvent = (SeekBarEvent)mockFunction.argsPassedToInvoke[0];
-		assertTrue(seekBarEvent.getSeekBar() == seekBar);
-		assertThat(seekBarEvent.getProgress(), is(75));
+		updateProgressOnSeekBar();
+
+		assertEventReceived();
+	}
+
+	private void updateProgressOnSeekBar()
+	{
+		view.setProgress(newProgressValue);
+	}
+
+	private void assertEventReceived()
+	{
+		assertEventReceived(CheckedChangeEvent.class);
+		SeekBarEvent seekBarEvent = getEventReceived();
+		assertTrue(seekBarEvent.getSeekBar() == view);
+		assertThat(seekBarEvent.getProgress(), is(newProgressValue));
 		assertTrue(seekBarEvent.isFromUser());
 	}
 }

@@ -52,7 +52,7 @@ public class AbstractCommandViewAttributeTest<ViewType extends View, CommandView
 	private CommandViewAttributeType commandViewAttribute;
 	
 	@Before
-	public void setUp()
+	public void initializeViewAndAttribute()
 	{
 		mockFunction = new MockFunction();
 		
@@ -88,5 +88,11 @@ public class AbstractCommandViewAttributeTest<ViewType extends View, CommandView
 	{
 		assertTrue(mockFunction.commandInvoked);
 		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(eventClass));
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected <T> T getEventReceived()
+	{
+		return (T)mockFunction.argsPassedToInvoke[0];
 	}
 }

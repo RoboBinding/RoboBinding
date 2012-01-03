@@ -15,23 +15,12 @@
  */
 package org.robobinding.viewattribute.view;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.MockFunction;
+import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 
-import android.app.Activity;
-import android.content.Context;
 import android.view.View;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  * 
@@ -39,45 +28,27 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-public class OnClickAttributeTest
+public class OnClickAttributeTest extends AbstractCommandViewAttributeTest<View, OnClickAttribute>
 {
-	private View view;
-	private Context context = new Activity();
-	private MockFunction mockFunction;
-	private PresentationModelAdapter mockPresentationModelAdapter;
-	private final String commandName = "someCommand";
-	
-	@Before
-	public void setUp()
-	{
-		view = new View(null);
-		mockFunction = new MockFunction();
-		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(mockPresentationModelAdapter.findFunction(commandName, ClickEvent.class)).thenReturn(mockFunction);
-	}
-	
 	@Test
-	public void whenClickingOnTheView_ThenInvokeCommand()
+	public void givenBoundAttribute_whenClickingOnView_thenEventReceived()
 	{
-		OnClickAttribute onClickAttribute = new OnClickAttribute(view, commandName);
-		onClickAttribute.bind(mockPresentationModelAdapter, context);
-		
-		view.performClick();
-	
-		assertTrue(mockFunction.commandInvoked);
+		bindAttribute();
+
+		clickOnView();
+
+		assertEventReceived();
 	}
-	
-	@Test
-	public void whenClickingOnTheView_ThenInvokeCommandWithClickEvent()
+
+	private void clickOnView()
 	{
-		OnClickAttribute onClickAttribute = new OnClickAttribute(view, commandName);
-		onClickAttribute.bind(mockPresentationModelAdapter, context);
-		
 		view.performClick();
-	
-		assertThat(mockFunction.argsPassedToInvoke[0], instanceOf(ClickEvent.class));
-		ClickEvent clickEvent = (ClickEvent)mockFunction.argsPassedToInvoke[0];
+	}
+
+	private void assertEventReceived()
+	{
+		assertEventReceived(ClickEvent.class);
+		ClickEvent clickEvent = getEventReceived();
 		assertTrue(clickEvent.getView() == view);
 	}
 }

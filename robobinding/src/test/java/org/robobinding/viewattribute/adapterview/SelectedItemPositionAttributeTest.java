@@ -18,14 +18,12 @@ package org.robobinding.viewattribute.adapterview;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.Random;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.MockArrayAdapter;
 import org.robobinding.viewattribute.MockPresentationModelForProperty;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -53,7 +51,7 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 	@Test
 	public void whenUpdatingValueModel_ThenSelectedItemShouldBeUpdated()
 	{
-		int index = anyIndex();
+		int index = RandomValues.anyIndex(arrayAdapter);
 		presentationModel.updatePropertyValue(index);
 		
 		assertThat(view.getSelectedItemPosition(), is(index));
@@ -62,7 +60,7 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 	@Test
 	public void whenUpdatingSelectedItem_ThenPresentationModelShouldBeUpdated()
 	{
-		int index = anyIndex();
+		int index = RandomValues.anyIndex(arrayAdapter);
 		view.setSelection(index);
 		
 		assertThat(presentationModel.getPropertyValue(), is(index));
@@ -77,10 +75,5 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 		arrayAdapter.notifyDataSetChanged();
 		
 		assertThat(presentationModel.getPropertyValue(), is(AdapterView.INVALID_POSITION));
-	}
-	
-	private Integer anyIndex()
-	{
-		return new Random().nextInt(arrayAdapter.getCount());
 	}
 }
