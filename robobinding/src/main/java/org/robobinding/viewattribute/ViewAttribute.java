@@ -18,7 +18,6 @@ package org.robobinding.viewattribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.content.Context;
-import android.view.View;
 
 /**
  * 

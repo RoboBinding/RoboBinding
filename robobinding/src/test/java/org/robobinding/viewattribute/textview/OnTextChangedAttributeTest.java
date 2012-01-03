@@ -18,10 +18,13 @@ package org.robobinding.viewattribute.textview;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.textview.OnTextChangedAttribute;
-import org.robobinding.viewattribute.textview.TextChangedEvent;
+import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 
+import android.widget.TextView;
+
+import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.xtremelabs.robolectric.shadows.ShadowTextView;
 
 /**
  *
@@ -30,13 +33,12 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnTextChangedAttributeTest extends AbstractTextViewCommandAttributeTest
+public class OnTextChangedAttributeTest extends AbstractCommandViewAttributeTest<TextView, OnTextChangedAttribute>
 {
 	@Test
 	public void givenBoundAttribute_whenChangeText_thenEventReceived()
 	{
-		OnTextChangedAttribute attribute = new OnTextChangedAttribute(textView, commandName);
-		commandAttributeTester.bindAttribute(attribute);
+		bindAttribute();
 
 		changeText();
 
@@ -45,11 +47,12 @@ public class OnTextChangedAttributeTest extends AbstractTextViewCommandAttribute
 
 	private void changeText()
 	{
+		ShadowTextView shadowTextView = Robolectric.shadowOf(view);
 		shadowTextView.setText(RandomStringUtils.random(5));
 	}
 
 	private void assertEventReceived()
 	{
-		commandAttributeTester.assertEventReceived(TextChangedEvent.class);
+		assertEventReceived(TextChangedEvent.class);
 	}
 }

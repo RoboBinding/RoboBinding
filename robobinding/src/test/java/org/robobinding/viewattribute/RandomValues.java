@@ -34,13 +34,13 @@ public class RandomValues
 	{
 	}
 	
-	public static DrawableData nextDrawableData()
+	public static DrawableData anyDrawableData()
 	{
 		int index = random.nextInt(DrawableData.numDrawableData());
 		return DrawableData.get(index);
 	}
 
-	public static int nextColor()
+	public static int anyColor()
 	{
 		return random.nextBoolean()?Color.RED:Color.BLACK;
 	}

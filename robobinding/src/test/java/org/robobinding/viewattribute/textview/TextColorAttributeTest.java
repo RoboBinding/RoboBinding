@@ -38,7 +38,7 @@ public class TextColorAttributeTest extends ReadOnlyPropertyViewAttributeTest<Te
 	@Test
 	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		int newColor = RandomValues.nextColor();
+		int newColor = RandomValues.anyColor();
 
 		attribute.valueModelUpdated(newColor);
 

@@ -17,8 +17,14 @@ package org.robobinding.viewattribute.view;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
+import android.view.View;
+
+import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
  * 
@@ -27,64 +33,26 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnFocusChangeAttributeTest extends AbstractViewCommandAttributeTest
+public class OnFocusChangeAttributeTest extends AbstractCommandViewAttributeTest<View, OnFocusChangeAttribute>
 {
 	@Test
-	public void givenBoundOnFocusAttribute_whenApplyFocus_thenEventReceived()
+	public void givenBoundAttribute_whenChangeFocus_thenEventReceived()
 	{
-		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocus(view, commandName);
-		commandAttributeTester.bindAttribute(attribute);
+		bindAttribute();
 
-		setViewFocus();
+		changeViewFocus();
 
 		assertEventReceived();
 	}
 
-	@Test
-	public void givenBoundOnFocusLostAttribute_whenClearFocus_thenEventReceived()
+	private void changeViewFocus()
 	{
-		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocusLost(view, commandName);
-		commandAttributeTester.bindAttribute(attribute);
-
-		clearViewFocus();
-
-		assertEventReceived();
-	}
-
-	@Test
-	public void givenBoundOnFocusChangeAttribute_whenApplyFocus_thenEventReceived()
-	{
-		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocusChange(view, commandName);
-		commandAttributeTester.bindAttribute(attribute);
-
-		setViewFocus();
-
-		assertEventReceived();
-	}
-
-	@Test
-	public void givenBoundOnFocusChangeAttribute_whenClearFocus_thenEventReceived()
-	{
-		OnFocusChangeAttribute attribute = OnFocusChangeAttribute.createOnFocusChange(view, commandName);
-		commandAttributeTester.bindAttribute(attribute);
-
-		clearViewFocus();
-
-		assertEventReceived();
-	}
-
-	private void setViewFocus()
-	{
-		shadowView.setViewFocus(true);
-	}
-
-	private void clearViewFocus()
-	{
-		shadowView.setViewFocus(false);
+		ShadowView shadowView = Robolectric.shadowOf(view);
+		shadowView.setViewFocus(RandomValues.trueOrFalse());
 	}
 
 	private void assertEventReceived()
 	{
-		commandAttributeTester.assertEventReceived(ViewEvent.class);
+		assertEventReceived(ViewEvent.class);
 	}
 }
