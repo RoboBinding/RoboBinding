@@ -19,8 +19,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.viewattribute.ReadOnlyPropertyViewAttributeTest;
 
 import android.view.View;
 
@@ -33,7 +33,7 @@ import com.xtremelabs.robolectric.shadows.ShadowView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BackgroundColorTest extends ReadOnlyPropertyViewAttributeTest<View, BackgroundColorAttribute>
+public class BackgroundColorTest extends AbstractPropertyViewAttributeTest<View, BackgroundColorAttribute>
 {
 	@Test
 	public void whenValueModelUpdated_ThenViewShouldReflectChanges()

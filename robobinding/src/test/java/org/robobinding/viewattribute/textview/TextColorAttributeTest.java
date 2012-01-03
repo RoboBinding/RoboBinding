@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.ReadOnlyPropertyViewAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.TextView;
@@ -33,7 +33,7 @@ import com.xtremelabs.robolectric.shadows.ShadowTextView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class TextColorAttributeTest extends ReadOnlyPropertyViewAttributeTest<TextView, TextColorAttribute>
+public class TextColorAttributeTest extends AbstractPropertyViewAttributeTest<TextView, TextColorAttribute>
 {
 	@Test
 	public void whenValueModelUpdated_ThenViewShouldReflectChanges()

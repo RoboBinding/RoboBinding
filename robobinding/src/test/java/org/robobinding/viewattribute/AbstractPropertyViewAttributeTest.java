@@ -32,10 +32,10 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class AbstractPropertyViewAttributeTest<S extends View, T extends PropertyViewAttribute<? super S>> extends ViewAndAttributeReference<S, T>
+public class AbstractPropertyViewAttributeTest<ViewType extends View, PropertyType extends PropertyViewAttribute<? super ViewType>> extends ViewAndAttributeReference<ViewType, PropertyType>
 {
-	protected S view;
-	protected T attribute;
+	protected ViewType view;
+	protected PropertyType attribute;
 	protected Context context;
 	
 	@Before

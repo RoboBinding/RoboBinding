@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.ReadOnlyPropertyViewAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.view.View;
@@ -30,7 +30,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class EnabledAttributeTest extends ReadOnlyPropertyViewAttributeTest<View, EnabledAttribute>
+public class EnabledAttributeTest extends AbstractPropertyViewAttributeTest<View, EnabledAttribute>
 {
 	@Test
 	public void whenValueModelUpdated_ThenViewShouldReflectChanges()

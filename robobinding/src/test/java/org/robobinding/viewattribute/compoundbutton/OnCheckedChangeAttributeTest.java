@@ -16,12 +16,9 @@
 package org.robobinding.viewattribute.compoundbutton;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 
 import android.widget.CheckBox;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -29,7 +26,6 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(RobolectricTestRunner.class)
 public class OnCheckedChangeAttributeTest extends AbstractCommandViewAttributeTest<CheckBox, OnCheckedChangeAttribute>
 {
 	@Test
@@ -37,12 +33,12 @@ public class OnCheckedChangeAttributeTest extends AbstractCommandViewAttributeTe
 	{
 		bindAttribute();
 
-		changeChecked();
+		changeCheckedState();
 
 		assertEventReceived();
 	}
 
-	private void changeChecked()
+	private void changeCheckedState()
 	{
 		view.setChecked(!view.isChecked());
 	}

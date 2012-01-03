@@ -26,7 +26,10 @@ import static org.mockito.Mockito.when;
 import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
+import org.junit.runner.RunWith;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 import android.app.Activity;
 import android.view.View;
@@ -37,6 +40,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
+@RunWith(RobolectricTestRunner.class)
 public class AbstractCommandViewAttributeTest<ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<? super ViewType>>
 {
 	private final String commandName = "someCommand";
