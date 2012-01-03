@@ -28,24 +28,32 @@ import java.lang.reflect.Type;
  */
 public class ParameterizedTypeUtils
 {
+	public static <T> T createTypeArgument(ParameterizedType type, int i)
+	{
+		return createTypeArgument(type, i, null, null);
+	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T createTypeArgument(ParameterizedType type, int i)
+	public static <T> T createTypeArgument(ParameterizedType type, int i, Class<?> clazz, Object constructorArg)
 	{
 		try
 		{
 			Type argumentType = type.getActualTypeArguments()[i];
 			Class<?> rawType = (argumentType instanceof Class<?>) ? 
 				(Class<?>)argumentType : (Class<?>)((ParameterizedType)argumentType).getRawType();
-			Constructor<?> constructor = rawType.getDeclaredConstructor();
+			Constructor<?> constructor = clazz == null ? rawType.getDeclaredConstructor() : rawType.getDeclaredConstructor(clazz);
 			makeAccessible(constructor);
+			
+			if (constructorArg != null)
+				return (T)constructor.newInstance(constructorArg);
+			
 			return (T)constructor.newInstance();
 		} catch (Exception e)
 		{
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	private static void makeAccessible(Constructor<?> ctor)
 	{
 		if ((!Modifier.isPublic(ctor.getModifiers()) || !Modifier.isPublic(ctor.getDeclaringClass().getModifiers()))

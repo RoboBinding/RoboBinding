@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
+import java.lang.reflect.ParameterizedType;
+
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robobinding.property.PropertyValueModel;
@@ -32,7 +34,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class AbstractPropertyViewAttributeTest<ViewType extends View, PropertyType extends PropertyViewAttribute<? super ViewType>> extends ViewAndAttributeReference<ViewType, PropertyType>
+public class AbstractPropertyViewAttributeTest<ViewType extends View, PropertyType extends PropertyViewAttribute<? super ViewType>>
 {
 	protected ViewType view;
 	protected PropertyType attribute;
@@ -42,10 +44,11 @@ public class AbstractPropertyViewAttributeTest<ViewType extends View, PropertyTy
 	public void initializeViewAndAttribute()
 	{
 		context = new Activity();
+		ParameterizedType superclass = (ParameterizedType)getClass().getGenericSuperclass();
 		
 		try
 		{
-			view = newViewInstance();
+			view = ParameterizedTypeUtils.createTypeArgument(superclass, 0, Context.class, new Activity());
 		} 
 		catch (Exception e)
 		{
@@ -54,7 +57,7 @@ public class AbstractPropertyViewAttributeTest<ViewType extends View, PropertyTy
 		
 		try
 		{
-			attribute = newAttributeInstance();
+			attribute = ParameterizedTypeUtils.createTypeArgument(superclass, 1);
 			attribute.setView(view);
 		}
 		catch (Exception e)
