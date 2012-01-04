@@ -16,18 +16,10 @@
 package org.robobinding.viewattribute.textview;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.property.PropertyValueModel;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
-import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PropertyBindingDetails;
-import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.widget.TextView;
 
 /**

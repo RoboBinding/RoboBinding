@@ -27,6 +27,7 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.adapterview.ItemClickEvent;
 
 import android.content.Context;
+import android.view.View;
 
 /**
  * 
@@ -48,7 +49,8 @@ public class CommandViewAttributeTest
 	@Before
 	public void setUp()
 	{
-		commandViewAttribute = new DummyCommandViewAttribute(FUNCTION_NAME);
+		commandViewAttribute = new DummyCommandViewAttribute();
+		commandViewAttribute.setCommandName(FUNCTION_NAME);
 		presentationModelAdapter = mock(PresentationModelAdapter.class);
 	}
 	
@@ -80,15 +82,10 @@ public class CommandViewAttributeTest
 		//assertThat(commandViewAttribute.paramBuilderBound, equalTo(preferredParamsBuilder));
 	}
 	
-	public class DummyCommandViewAttribute extends AbstractCommandViewAttribute
+	public class DummyCommandViewAttribute extends AbstractCommandViewAttribute<View>
 	{
 		Function functionBound;
 		
-		public DummyCommandViewAttribute(String commandName)
-		{
-			super(commandName);
-		}
-
 		@Override
 		protected void bind(Command parameterObject)
 		{

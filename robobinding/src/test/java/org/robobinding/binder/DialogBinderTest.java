@@ -24,9 +24,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingViewFactory;
-import org.robobinding.binder.DialogBinder;
-import org.robobinding.binder.BindingAttributesProcessor.ViewBindingAttributes;
+import org.robobinding.binder.BindingAttributesProcessor.ViewAttributes;
 import org.robobinding.binder.BindingViewFactory.InflatedView;
 import org.robobinding.presentationmodel.DialogPresentationModel;
 
@@ -58,7 +56,7 @@ public class DialogBinderTest
 		Context dialogContext = new Activity();
 		when(dialog.getContext()).thenReturn(dialogContext);
 		inflatedRootView = new View(dialogContext);
-		InflatedView inflatedView = new InflatedView(inflatedRootView, new ArrayList<ViewBindingAttributes>());
+		InflatedView inflatedView = new InflatedView(inflatedRootView, new ArrayList<ViewAttributes>());
 		bindingViewFactory = mock(BindingViewFactory.class);
 		when(bindingViewFactory.inflateView(layoutId, dialogContext)).thenReturn(inflatedView);
 	}

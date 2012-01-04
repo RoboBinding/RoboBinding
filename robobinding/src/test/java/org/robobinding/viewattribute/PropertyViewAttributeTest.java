@@ -29,6 +29,7 @@ import org.robobinding.property.PropertyValueModel;
 import org.robobinding.property.ValueModelUtils;
 
 import android.content.Context;
+import android.view.View;
 
 /**
  * 
@@ -114,28 +115,25 @@ public class PropertyViewAttributeTest
 	
 	private void initializeAndBindPropertyViewAttribute(boolean twoWayBinding, boolean preInitializeView)
 	{
-		PropertyBindingDetails propertyBindingDetails = new PropertyBindingDetails(PROPERTY_NAME, twoWayBinding, preInitializeView);
+		PropertyBindingDetails propertyBindingDetails = new PropertyBindingDetails(PROPERTY_NAME, twoWayBinding);
 		
 		if (twoWayBinding)
 			when(presentationModelAdapter.<Integer>getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
 		else
 			when(presentationModelAdapter.<Integer>getReadOnlyPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
 		
-		propertyViewAttributeSpy = new PropertyViewAttributeSpy(propertyBindingDetails);
+		propertyViewAttributeSpy = new PropertyViewAttributeSpy();
+		propertyViewAttributeSpy.setPropertyBindingDetails(propertyBindingDetails);
+		propertyViewAttributeSpy.setPreInitializeView(preInitializeView);
 		propertyViewAttributeSpy.bind(presentationModelAdapter, context);
 	}
 	
-	private static class PropertyViewAttributeSpy extends AbstractPropertyViewAttribute<Integer>
+	private static class PropertyViewAttributeSpy extends AbstractPropertyViewAttribute<View, Integer>
 	{
 		int viewUpdateNotificationCount;
 		int updatedValue;
 		boolean viewInitialized;
 		private PropertyValueModel<Integer> valueModelUpdatedByView;
-		
-		public PropertyViewAttributeSpy(PropertyBindingDetails propertyBindingDetails)
-		{
-			super(propertyBindingDetails);
-		}
 		
 		public void simulateViewUpdate(int newValue)
 		{

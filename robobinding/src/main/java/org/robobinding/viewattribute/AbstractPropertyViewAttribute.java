@@ -48,9 +48,9 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	}
 	
 	@Override
-	public void setPreInitializeView(boolean preInitializeViews)
+	public void setPreInitializeView(boolean preInitializeView)
 	{
-		this.preInitializeViews = preInitializeViews;
+		this.preInitializeViews = preInitializeView;
 	}
 	
 	@Override
