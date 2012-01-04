@@ -15,25 +15,13 @@
  */
 package org.robobinding.viewattribute.view;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
-
-import java.util.Map;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttributeTest;
 import org.robobinding.viewattribute.view.BackgroundAttribute.BitmapBackgroundAttribute;
 import org.robobinding.viewattribute.view.BackgroundAttribute.DrawableBackgroundAttribute;
 import org.robobinding.viewattribute.view.BackgroundAttribute.ResourceIdBackgroundAttribute;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.view.View;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  * 
@@ -41,32 +29,14 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(RobolectricTestRunner.class)
-public class BackgroundAttributeTest
+public class BackgroundAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<BackgroundAttribute>
 {
-	private BackgroundAttribute backgroundAttribute;
-	private Map<Class<?>, Class<? extends PropertyViewAttribute<View>>> propertyTypeToViewAttributeMappings;
-	@Before
-	public void setUp()
+	@Override
+	protected void populateTypeMappingExpectations(TypeMappingExpectations mappingExpectations)
 	{
-		backgroundAttribute = new BackgroundAttribute();
-		
-		propertyTypeToViewAttributeMappings = Maps.newHashMap();
-		propertyTypeToViewAttributeMappings.put(int.class, ResourceIdBackgroundAttribute.class);
-		propertyTypeToViewAttributeMappings.put(Integer.class, ResourceIdBackgroundAttribute.class);
-		propertyTypeToViewAttributeMappings.put(Bitmap.class, BitmapBackgroundAttribute.class);
-		propertyTypeToViewAttributeMappings.put(Drawable.class, DrawableBackgroundAttribute.class);
+		mappingExpectations.add(int.class, ResourceIdBackgroundAttribute.class);
+		mappingExpectations.add(Integer.class, ResourceIdBackgroundAttribute.class);
+		mappingExpectations.add(Bitmap.class, BitmapBackgroundAttribute.class);
+		mappingExpectations.add(Drawable.class, DrawableBackgroundAttribute.class);
 	}
-	
-	@Test
-	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
-	{
-		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
-		{
-			PropertyViewAttribute<View> propertyViewAttribute = backgroundAttribute.createPropertyViewAttribute(propertyType);
-			
-			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
-		}
-	}
-	
 }
