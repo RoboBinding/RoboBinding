@@ -34,7 +34,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class AbstractPropertyViewAttributeTest<ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>>
+public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>>
 {
 	protected ViewType view;
 	protected PropertyViewAttributeType attribute;
