@@ -46,12 +46,12 @@ public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<Chec
 	@Test
 	public void whenViewIsChecked_ThenUpdateValueModel()
 	{
-		boolean initialValue = RandomValues.trueOrFalse();
-		PropertyValueModel<Boolean> valueModel = initializeForTwoWayBinding(initialValue);
+		//boolean initialValue = RandomValues.trueOrFalse();
+		PropertyValueModel<Boolean> valueModel = twoWayBindToProperty(Boolean.class);
 		
-		view.setChecked(!initialValue);
+		view.setChecked(RandomValues.trueOrFalse());
 		
-		assertThat(valueModel.getValue(), equalTo(!initialValue));
+		assertThat(valueModel.getValue(), equalTo(view.isChecked()));
 	}
 	
 }

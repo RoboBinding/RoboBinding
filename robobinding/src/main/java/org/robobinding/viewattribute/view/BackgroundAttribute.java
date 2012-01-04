@@ -52,7 +52,7 @@ public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<
 		throw new RuntimeException("Could not find a suitable background attribute class for property type: " + propertyType);
 	}
 	
-	private static class ResourceIdBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
+	static class ResourceIdBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newResourceId)
@@ -61,7 +61,7 @@ public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<
 		}
 	}
 
-	private static class BitmapBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Bitmap>
+	static class BitmapBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Bitmap>
 	{
 		@Override
 		protected void valueModelUpdated(Bitmap newBitmap)
@@ -70,7 +70,7 @@ public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<
 		}
 	}
 	
-	private static class DrawableBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Drawable>
+	static class DrawableBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Drawable>
 	{
 		@Override
 		protected void valueModelUpdated(Drawable newDrawable)

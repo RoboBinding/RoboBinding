@@ -85,4 +85,11 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 		attribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(MockPresentationModelForProperty.TWO_WAY_BINDING_PROPERTY_NAME));
 		return MockPresentationModelForProperty.bindToProperty(attribute, propertyClass);
 	}
+	
+	protected <C> PropertyValueModel<C> twoWayBindToProperty(Class<C> propertyClass)
+	{
+		attribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(MockPresentationModelForProperty.TWO_WAY_BINDING_PROPERTY_NAME));
+		MockPresentationModelForProperty<C> mockPresentationModelForProperty = MockPresentationModelForProperty.bindToProperty(attribute, propertyClass);
+		return mockPresentationModelForProperty.getPropertyValueModel();
+	}
 }
