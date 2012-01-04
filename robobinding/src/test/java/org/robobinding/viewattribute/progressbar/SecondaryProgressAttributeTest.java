@@ -15,16 +15,14 @@
  */
 package org.robobinding.viewattribute.progressbar;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.AbstractSingleTypeOneWayPropertyAttributeTest;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
-import android.app.Activity;
+import org.junit.Test;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
+
 import android.widget.ProgressBar;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -32,35 +30,16 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-@Ignore
-//Un-ignore this when Robolectric supports secondary progress in ShadowProgressBar
-public class SecondaryProgressAttributeTest extends AbstractSingleTypeOneWayPropertyAttributeTest<Integer>
+public class SecondaryProgressAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, SecondaryProgressAttribute>
 {
-	private ProgressBar progressBar;
-	
-	@Before
-	public void setUp()
+	@Test
+	public void whenUpdatingValueModel_ThenSetSecondaryProgressOnProgressBar()
 	{
-		progressBar = new ProgressBar(new Activity());
-	}
-	
-	@Override
-	protected void populateBindingExpectations(BindingSamples<Integer> bindingSamples)
-	{
-		bindingSamples.add(25, 30);
-	}
+		int newProgress = RandomValues.anyInteger();
+		
+		attribute.valueModelUpdated(newProgress);
 
-	@Override
-	protected Integer getViewState()
-	{
-		return progressBar.getSecondaryProgress();
-	}
-
-	@Override
-	protected AbstractPropertyViewAttribute<Integer> newAttributeInstance(String bindingAttributeValue)
-	{
-		return new SecondaryProgressAttribute(progressBar, bindingAttributeValue, true);
+		assertThat(view.getSecondaryProgress(), is(newProgress));
 	}
 
 }

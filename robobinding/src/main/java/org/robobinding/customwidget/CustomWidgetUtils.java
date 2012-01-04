@@ -15,12 +15,12 @@
  */
 package org.robobinding.customwidget;
 
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.binder.WidgetViewAttributeProviderAdapter;
 
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -29,13 +29,14 @@ public class CustomWidgetUtils
 {
 	public static boolean isCustomWidget(View view)
 	{
-		return (view instanceof BindableView)
-				|| (view instanceof BindableViewWithGroupedAttributes);
+		return view instanceof BindableView;
 	}
-	public static BindingAttributeProvider<View> getBindingAttributeProvider(View view)
+
+	public static <T extends View> WidgetViewAttributeProviderAdapter<T> adapt(BindableView<T> bindableView)
 	{
-		return new BindingAttributeProviderAdapter(view);
+		return new WidgetViewAttributeProviderAdapter<T>(bindableView);
 	}
+
 	private CustomWidgetUtils()
 	{
 	}

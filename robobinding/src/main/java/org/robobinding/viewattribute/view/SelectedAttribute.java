@@ -25,20 +25,11 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SelectedAttribute extends AbstractReadOnlyPropertyViewAttribute<Boolean>
+public class SelectedAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 {
-	private final View view;
-
-	public SelectedAttribute(View view, String attributeValue, boolean preInitializeView)
-	{
-		super(attributeValue, preInitializeView);
-		this.view = view;
-	}
-
 	@Override
 	protected void valueModelUpdated(Boolean newValue)
 	{
 		view.setSelected(newValue);
 	}
-
 }

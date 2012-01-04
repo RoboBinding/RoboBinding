@@ -25,9 +25,9 @@ import org.robobinding.presentationmodel.DataSetAdapter;
  */
 public class DropdownLayoutAttribute extends ItemLayoutAttribute
 {
-	public DropdownLayoutAttribute(String itemLayoutAttributeValue, boolean preInitializeView)
+	public DropdownLayoutAttribute(String attributeValue)
 	{
-		super(itemLayoutAttributeValue, preInitializeView);
+		super(attributeValue);
 	}
 
 	@Override

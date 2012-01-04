@@ -25,16 +25,8 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class EnabledAttribute extends AbstractReadOnlyPropertyViewAttribute<Boolean>
+public class EnabledAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 {
-	private final View view;
-
-	public EnabledAttribute(View view, String attributeValue, boolean preInitializeView)
-	{
-		super(attributeValue, preInitializeView);
-		this.view = view;
-	}
-
 	@Override
 	protected void valueModelUpdated(Boolean newValue)
 	{

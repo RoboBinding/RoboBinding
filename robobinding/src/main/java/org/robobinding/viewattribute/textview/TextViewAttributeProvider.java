@@ -15,10 +15,8 @@
  */
 package org.robobinding.viewattribute.textview;
 
-import org.robobinding.binder.BindingAttributeResolver;
-import org.robobinding.viewattribute.BindingAttributeProvider;
-import org.robobinding.viewattribute.PropertyBindingDetails;
-import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.widget.TextView;
 
@@ -28,73 +26,15 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextViewAttributeProvider implements BindingAttributeProvider<TextView>
+public class TextViewAttributeProvider implements WidgetViewAttributeProvider<TextView>
 {
-	private static final String TEXT = "text";
-	private static final String VALUE_COMMIT_MODE = "valueCommitMode";
-	private static final String[] TEXT_ATTRIBUTE_NAMES = {TEXT, VALUE_COMMIT_MODE};
-	private static final String TEXT_COLOR = "textColor";
-	private static final String ON_TEXT_CHANGED = "onTextChanged";
 	@Override
-	public void resolveSupportedBindingAttributes(TextView textView, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
+	public void populateViewAttributeMappings(ViewAttributeMappings<TextView> mappings)
 	{
-		if(bindingAttributeResolver.hasOneOfAttributes(TEXT_ATTRIBUTE_NAMES))
-		{
-			TextAttributeBuilder textAttributeBuilder = new TextAttributeBuilder(preInitializeView);
-			textAttributeBuilder.setTextAttributeValue(bindingAttributeResolver.findAttributeValue(TEXT));
-			textAttributeBuilder.setValueCommitModeAttributeValue(bindingAttributeResolver.findAttributeValue(VALUE_COMMIT_MODE));
-			bindingAttributeResolver.resolveAttributes(TEXT_ATTRIBUTE_NAMES, textAttributeBuilder.create(textView));
-		}
-		if(bindingAttributeResolver.hasAttribute(TEXT_COLOR))
-		{
-			ViewAttribute viewAttribute = new TextColorAttribute(textView, bindingAttributeResolver.findAttributeValue(TEXT_COLOR), preInitializeView);
-			bindingAttributeResolver.resolveAttribute(TEXT_COLOR, viewAttribute);
-		}
-		if(bindingAttributeResolver.hasAttribute(ON_TEXT_CHANGED))
-		{
-			ViewAttribute viewAttribute = new OnTextChangedAttribute(textView, bindingAttributeResolver.findAttributeValue(ON_TEXT_CHANGED));
-			bindingAttributeResolver.resolveAttribute(ON_TEXT_CHANGED, viewAttribute);
-		}
-	}
-
-	static class TextAttributeBuilder
-	{
-		private String textAttributeValue;
-		private String valueCommitModeAttributeValue;
-		private final boolean preInitializeView;
+		mappings.mapGroup(TextAttributeGroup.class, TextAttributeGroup.TEXT, TextAttributeGroup.VALUE_COMMIT_MODE);
 		
-		public TextAttributeBuilder(boolean preInitializeView)
-		{
-			this.preInitializeView = preInitializeView;
-		}
-		void setTextAttributeValue(String textAttributeValue)
-		{
-			this.textAttributeValue = textAttributeValue;
-		}
-		void setValueCommitModeAttributeValue(String valueCommitModeAttributeValue)
-		{
-			this.valueCommitModeAttributeValue = valueCommitModeAttributeValue;
-		}
-		protected boolean valueCommitModeSpecified()
-		{
-			return valueCommitModeAttributeValue != null;
-		}
+		mappings.mapProperty(TextColorAttribute.class, "textColor");
 		
-		TextAttribute create(TextView textView)
-		{
-			PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(textAttributeValue, preInitializeView);
-			
-			if (!propertyBindingDetails.twoWayBinding && valueCommitModeSpecified())
-				throw new RuntimeException("The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
-			
-			ValueCommitMode valueCommitMode = null;
-			
-			if (!valueCommitModeSpecified() || "onChange".equals(valueCommitModeAttributeValue))
-				valueCommitMode = ValueCommitMode.ON_CHANGE;
-			else if ("onFocusLost".equals(valueCommitModeAttributeValue))
-				valueCommitMode = ValueCommitMode.ON_FOCUS_LOST;
-			
-			return new TextAttribute(textView, propertyBindingDetails, valueCommitMode);
-		}
+		mappings.mapCommand(OnTextChangedAttribute.class, "onTextChanged");
 	}
 }

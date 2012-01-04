@@ -19,12 +19,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
-import android.app.Activity;
 import android.widget.ProgressBar;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 
 /**
@@ -33,20 +31,16 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-public class MaxAttributeTest
+public class MaxAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, MaxAttribute>
 {
-	private static final int NEW_MAX_VALUE = 50;
-	
 	@Test
 	public void whenUpdatingValueModel_ThenSetMaxOnProgressBar()
 	{
-		ProgressBar progressBar = new ProgressBar(new Activity());
-		MaxAttribute maxAttribute = new MaxAttribute(progressBar, "{propertyName}", true);
+		int newMaxValue = RandomValues.anyInteger();
 		
-		maxAttribute.valueModelUpdated(NEW_MAX_VALUE);
+		attribute.valueModelUpdated(newMaxValue);
 		
-		assertThat(progressBar.getMax(), is(NEW_MAX_VALUE));
+		assertThat(view.getMax(), is(newMaxValue));
 	}
-	
+
 }

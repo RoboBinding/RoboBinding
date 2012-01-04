@@ -15,13 +15,23 @@
  */
 package org.robobinding.viewattribute.view;
 
-import org.junit.Assert;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertThat;
+
+import java.util.Map;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.Drawables;
-import org.robobinding.viewattribute.MockPresentationModelAdapterForProperty;
+import org.robobinding.internal.com_google_common.collect.Maps;
+import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.view.BackgroundAttribute.BitmapBackgroundAttribute;
+import org.robobinding.viewattribute.view.BackgroundAttribute.DrawableBackgroundAttribute;
+import org.robobinding.viewattribute.view.BackgroundAttribute.ResourceIdBackgroundAttribute;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -32,41 +42,31 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class BackgroundAttributeTest extends AbstractViewPropertyAttributeTest
+public class BackgroundAttributeTest
 {
-	@Test
-	public void givenResourceIdBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
+	private BackgroundAttribute backgroundAttribute;
+	private Map<Class<?>, Class<? extends PropertyViewAttribute<View>>> propertyTypeToViewAttributeMappings;
+	@Before
+	public void setUp()
 	{
-		int resourceId = 1;
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute(int.class);
-
-		mockPresentationModelAdapter.updatePropertyValue(resourceId);
-
-		Assert.assertEquals(resourceId, shadowView.getBackgroundResourceId());
-	}
-
-	@Test
-	public void givenDrawableBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		Drawable drawable = Drawables.get()[0];
-
-		MockPresentationModelAdapterForProperty<Drawable> mockPresentationModelAdapter = createBoundAttribute(Drawable.class);
-
-		mockPresentationModelAdapter.updatePropertyValue(drawable);
-
-		Assert.assertEquals(drawable, shadowView.getBackground());
+		backgroundAttribute = new BackgroundAttribute();
+		
+		propertyTypeToViewAttributeMappings = Maps.newHashMap();
+		propertyTypeToViewAttributeMappings.put(int.class, ResourceIdBackgroundAttribute.class);
+		propertyTypeToViewAttributeMappings.put(Integer.class, ResourceIdBackgroundAttribute.class);
+		propertyTypeToViewAttributeMappings.put(Bitmap.class, BitmapBackgroundAttribute.class);
+		propertyTypeToViewAttributeMappings.put(Drawable.class, DrawableBackgroundAttribute.class);
 	}
 	
-	@Test(expected=RuntimeException.class)
-	public void whenBindToUnsupportedType_thenThrowException()
+	@Test
+	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
 	{
-		createBoundAttribute(Long.class);
+		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
+		{
+			PropertyViewAttribute<View> propertyViewAttribute = backgroundAttribute.createPropertyViewAttribute(propertyType);
+			
+			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
+		}
 	}
-
-	private <T> MockPresentationModelAdapterForProperty<T> createBoundAttribute(Class<T> propertyType)
-	{
-		BackgroundAttribute backgroundAttribute = new BackgroundAttribute(view, MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
-		MockPresentationModelAdapterForProperty<T> mockPresentationModelAdapter = bindToProperty(backgroundAttribute, propertyType);
-		return mockPresentationModelAdapter;
-	}
+	
 }

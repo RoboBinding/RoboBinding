@@ -27,22 +27,14 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<Integer>
+public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekBar, Integer>
 {
-	private final SeekBar seekBar;
-	private final OnSeekBarChangeListeners onSeekBarChangeListeners;
-
-	public TwoWayProgressAttribute(SeekBar seekBar, String attributeValue, boolean preInitializeView, OnSeekBarChangeListeners onSeekBarChangeListeners)
-	{
-		super(attributeValue, preInitializeView);
-		this.seekBar = seekBar;
-		this.onSeekBarChangeListeners = onSeekBarChangeListeners;
-	}
+	private OnSeekBarChangeListeners onSeekBarChangeListeners;
 
 	@Override
 	protected void valueModelUpdated(Integer progress)
 	{
-		seekBar.setProgress(progress);
+		view.setProgress(progress);
 	}
 
 	@Override
@@ -66,7 +58,12 @@ public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<Integ
 			{
 			}
 		});
-
+		
+		view.setOnSeekBarChangeListener(onSeekBarChangeListeners);
 	}
 
+	void setOnSeekBarChangeListeners(OnSeekBarChangeListeners onSeekBarChangeListeners)
+	{
+		this.onSeekBarChangeListeners = onSeekBarChangeListeners;
+	}
 }

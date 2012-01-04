@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.robobinding.binder.BindingAttributesProcessor;
-import org.robobinding.binder.BindingAttributesProcessor.ViewBindingAttributes;
+import org.robobinding.binder.BindingAttributesProcessor.ViewAttributes;
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
@@ -44,7 +44,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	private final String itemMappingAttributeValue;
 	private ViewMappings viewMappings;
 	
-	public ItemMappingAttribute(String itemMappingAttributeValue, boolean preInitializeView)
+	public ItemMappingAttribute(String itemMappingAttributeValue)
 	{
 		this.itemMappingAttributeValue = itemMappingAttributeValue;
 	}
@@ -168,7 +168,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 		public void bind(BindingAttributesProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
 		{
 			View viewToBind = view.findViewById(viewId);
-			ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.process(viewToBind, Maps.newHashMap(bindingAttributes));
+			ViewAttributes viewBindingAttributes = bindingAttributesProcessor.process(viewToBind, Maps.newHashMap(bindingAttributes));
 			viewBindingAttributes.bind(presentationModelAdapter, context);
 		}
 

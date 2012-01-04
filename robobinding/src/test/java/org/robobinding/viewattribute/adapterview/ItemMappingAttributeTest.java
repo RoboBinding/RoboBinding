@@ -53,7 +53,7 @@ public class ItemMappingAttributeTest
 	@Test
 	public void whenBinding_ThenUpdateDataSetAdapter()
 	{
-		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(MAPPING_ATTRIBUTE_VALUE, false);
+		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		
 		itemMappingAttribute.bind(dataSetAdapter, null, mockContext);
 		
@@ -63,7 +63,7 @@ public class ItemMappingAttributeTest
 	@Test
 	public void whenBinding_ThenInitializeViewMappings()
 	{
-		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(MAPPING_ATTRIBUTE_VALUE, false);
+		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		
 		itemMappingAttribute.bind(dataSetAdapter, null, mockContext);
 		

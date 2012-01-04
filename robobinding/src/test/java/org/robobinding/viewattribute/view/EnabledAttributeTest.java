@@ -15,14 +15,14 @@
  */
 package org.robobinding.viewattribute.view;
 
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.AbstractSingleTypeOneWayPropertyAttributeTest;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.view.View;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -30,35 +30,16 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-public class EnabledAttributeTest extends AbstractSingleTypeOneWayPropertyAttributeTest<Boolean>
+public class EnabledAttributeTest extends AbstractPropertyViewAttributeTest<View, EnabledAttribute>
 {
-	private View view;
-	
-	@Before
-	public void setUp()
+	@Test
+	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		view = new View(null);
+		boolean enabled = RandomValues.trueOrFalse();
+		
+		attribute.valueModelUpdated(enabled);
+		
+		assertThat(view.isEnabled(), equalTo(enabled));
 	}
-	
-	@Override
-	protected Boolean getViewState()
-	{
-		return view.isEnabled();
-	}
-
-	@Override
-	protected AbstractPropertyViewAttribute<Boolean> newAttributeInstance(String bindingAttributeValue)
-	{
-		return new EnabledAttribute(view, bindingAttributeValue, true);
-	}
-
-	@Override
-	protected void populateBindingExpectations(BindingSamples<Boolean> bindingSamples)
-	{
-		bindingSamples.add(false, true);
-	}
-
-	
 
 }

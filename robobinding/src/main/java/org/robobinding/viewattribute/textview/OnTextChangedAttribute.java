@@ -28,25 +28,17 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnTextChangedAttribute extends AbstractCommandViewAttribute
+public class OnTextChangedAttribute extends AbstractCommandViewAttribute<TextView>
 {
-	private TextView textView;
-
-	public OnTextChangedAttribute(TextView textView, String commandName)
-	{
-		super(commandName);
-		this.textView = textView;
-	}
-
 	@Override
 	protected void bind(final Command command)
 	{
-		textView.addTextChangedListener(new TextWatcher() {
+		view.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count)
 			{
-				TextChangedEvent event = new TextChangedEvent(textView, start, before, count);
+				TextChangedEvent event = new TextChangedEvent(view, start, before, count);
 				command.invoke(event);
 
 			}

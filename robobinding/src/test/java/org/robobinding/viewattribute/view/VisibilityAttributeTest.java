@@ -15,18 +15,13 @@
  */
 package org.robobinding.viewattribute.view;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import java.util.Random;
-
-import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.view.VisibilityAttribute.BooleanVisibilityAttribute;
-import org.robobinding.viewattribute.view.VisibilityAttribute.IntegerVisibilityAttribute;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
+import org.robobinding.viewattribute.MockPresentationModelForProperty;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.view.View;
 
@@ -36,49 +31,28 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
-public class VisibilityAttributeTest
+public class VisibilityAttributeTest extends AbstractPropertyViewAttributeTest<View, VisibilityAttribute>
 {
-	private View view;
-	private VisibilityAttribute visibilityAttribute;
-	private PresentationModelAdapter presentationModelAdapter;
-	
-	@Before
-	public void setUp()
-	{
-		 visibilityAttribute = new VisibilityAttribute(view, "{property_name}", true);
-		 presentationModelAdapter = mock(PresentationModelAdapter.class);
-	}
-	
 	@Test
-	public void whenBindingWithAnIntegerProperty_ThenInitializeIntegerVisibilityAttribute()
+	public void givenValueModelIsIntegerType_WhenUpdatingPresentationModel_ThenViewShouldReflectViewModel()
 	{
-		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn(eitherPrimitiveOrWrappedIntegerClass());
+		int visibility = RandomValues.anyVisibility();
+		MockPresentationModelForProperty<Integer> presentationModel = initializeForOneWayBinding(RandomValues.primitiveOrBoxedIntegerClass());
 		
-		assertThat(visibilityAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerVisibilityAttribute.class));
+		presentationModel.updatePropertyValue(visibility);
+		
+		assertThat(view.getVisibility(), is(visibility));
 	}
 	
 	@Test
 	public void whenBindingWithABooleanProperty_ThenInitializeBooleanVisibilityAttribute()
 	{
-		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn(eitherPrimitiveOrWrappedBooleanClass());
+		boolean visible = RandomValues.trueOrFalse();
+		MockPresentationModelForProperty<Boolean> presentationModel = initializeForOneWayBinding(RandomValues.primitiveOrBoxedBooleanClass());
 		
-		assertThat(visibilityAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(BooleanVisibilityAttribute.class));
+		presentationModel.updatePropertyValue(visible);
+		
+		assertThat(view.getVisibility(), is(visible ? View.VISIBLE : View.GONE));
 	}
 	
-	private Class eitherPrimitiveOrWrappedIntegerClass()
-	{
-		if (new Random().nextInt(2) == 0)
-			return int.class;
-		
-		return Integer.class;
-	}
-	
-	private Class eitherPrimitiveOrWrappedBooleanClass()
-	{
-		if (new Random().nextInt(2) == 0)
-			return boolean.class;
-		
-		return Boolean.class;
-	}
 }

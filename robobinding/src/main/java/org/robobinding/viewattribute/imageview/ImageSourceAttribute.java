@@ -15,12 +15,11 @@
  */
 package org.robobinding.viewattribute.imageview;
 
-import org.robobinding.binder.PropertyViewAttribute;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.PropertyBindingDetails;
+import org.robobinding.viewattribute.PrimitiveTypeUtils;
+import org.robobinding.viewattribute.PropertyViewAttribute;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
@@ -31,29 +30,12 @@ import android.widget.ImageView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ImageSourceAttribute implements PropertyViewAttribute
+public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute<ImageView>
 {
-	private final ImageView imageView;
-	private PropertyBindingDetails propertyBindingDetails;
-
-	public ImageSourceAttribute(ImageView imageView, String attributeValue, boolean preInitializeView)
-	{
-		this.imageView = imageView;
-		propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue, preInitializeView);
-	}
-
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	protected PropertyViewAttribute<ImageView> createPropertyViewAttribute(Class<?> propertyType)
 	{
-		PropertyViewAttribute propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
-		propertyViewAttribute.bind(presentationModelAdapter, context);
-	}
-	
-	PropertyViewAttribute lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
-	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
-		
-		if (int.class.isAssignableFrom(propertyType) || Integer.class.isAssignableFrom(propertyType))
+		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
 			return new IntegerImageSourceAttribute();
 		}
@@ -66,49 +48,34 @@ public class ImageSourceAttribute implements PropertyViewAttribute
 			return new BitmapImageSourceAttribute();
 		}
 		
-		throw new RuntimeException("Could not find a suitable image attribute class for property type: " + propertyType);
+		return null;
 	}
 
 	
-	class IntegerImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer>
+	class IntegerImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Integer>
 	{
-		public IntegerImageSourceAttribute()
-		{
-			super(propertyBindingDetails);
-		}
-
 		@Override
 		protected void valueModelUpdated(Integer resourceId)
 		{
-			imageView.setImageResource(resourceId);
+			view.setImageResource(resourceId);
 		}
 	}
 	
-	class DrawableImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<Drawable>
+	class DrawableImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Drawable>
 	{
-		public DrawableImageSourceAttribute()
-		{
-			super(propertyBindingDetails);
-		}
-
 		@Override
 		protected void valueModelUpdated(Drawable drawable)
 		{
-			imageView.setImageDrawable(drawable);
+			view.setImageDrawable(drawable);
 		}
 	}
 	
-	class BitmapImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<Bitmap>
+	class BitmapImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Bitmap>
 	{
-		public BitmapImageSourceAttribute()
-		{
-			super(propertyBindingDetails);
-		}
-
 		@Override
 		protected void valueModelUpdated(Bitmap bitmap)
 		{
-			imageView.setImageBitmap(bitmap);
+			view.setImageBitmap(bitmap);
 		}
 	}
 

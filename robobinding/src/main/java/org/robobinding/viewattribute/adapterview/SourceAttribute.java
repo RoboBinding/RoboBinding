@@ -18,7 +18,6 @@ package org.robobinding.viewattribute.adapterview;
 import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetProperty;
-import org.robobinding.viewattribute.PropertyBindingDetails;
 
 import android.content.Context;
 
@@ -30,18 +29,18 @@ import android.content.Context;
  */
 public class SourceAttribute implements AdapterViewAttribute
 {
-	private PropertyBindingDetails propertyBindingDetails;
+	private final String propertyName;
 
-	public SourceAttribute(String attributeValue, boolean preInitializeView)
+	public SourceAttribute(String propertyName)
 	{
-		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue, preInitializeView);
+		this.propertyName = propertyName;
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void bind(final DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		DataSetProperty dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyBindingDetails.propertyName);
+		DataSetProperty dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyName);
 		dataSetAdapter.setValueModel(dataSetValueModel);
 	}
 }

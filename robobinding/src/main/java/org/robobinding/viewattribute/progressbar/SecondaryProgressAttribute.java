@@ -25,20 +25,12 @@ import android.widget.ProgressBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SecondaryProgressAttribute extends AbstractReadOnlyPropertyViewAttribute<Integer>
+public class SecondaryProgressAttribute extends AbstractReadOnlyPropertyViewAttribute<ProgressBar, Integer>
 {
-	private final ProgressBar progressBar;
-
-	public SecondaryProgressAttribute(ProgressBar progressBar, String attributeValue, boolean preInitializeView)
-	{
-		super(attributeValue, preInitializeView);
-		this.progressBar = progressBar;
-	}
-
 	@Override
 	protected void valueModelUpdated(Integer secondaryProgress)
 	{
-		progressBar.setSecondaryProgress(secondaryProgress);
+		view.setSecondaryProgress(secondaryProgress);
 	}
 
 }

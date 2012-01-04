@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttribute;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -46,52 +46,52 @@ public class BindingAttributesProcessor
 		this.attributeSetParser = attributeSetParser;
 	}
 
-	public ViewBindingAttributes read(View view, AttributeSet attrs)
+	public ViewAttributes read(View view, AttributeSet attrs)
 	{
 		Map<String, String> pendingBindingAttributes = attributeSetParser.parse(attrs);
 		return process(view, pendingBindingAttributes);
 	}
 	
-	public ViewBindingAttributes process(View view, Map<String, String> pendingBindingAttributes)
+	public ViewAttributes process(View view, Map<String, String> pendingBindingAttributes)
 	{
-		List<BindingAttribute> bindingAttributes = determineBindingAttributes(view, pendingBindingAttributes);
-		return new ViewBindingAttributes(bindingAttributes);
+		List<ViewAttribute> viewAttributes = determineViewAttributes(view, pendingBindingAttributes);
+		return new ViewAttributes(viewAttributes);
 	}
 	
-	private List<BindingAttribute> determineBindingAttributes(View view, Map<String, String> pendingBindingAttributes)
+	private List<ViewAttribute> determineViewAttributes(View view, Map<String, String> pendingBindingAttributes)
 	{
-		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(pendingBindingAttributes);
-		Collection<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(view);
+		ViewAttributeResolver viewAttributeResolver = new ViewAttributeResolver(view, preInitializeViews, pendingBindingAttributes);
+		Collection<WidgetViewAttributeProviderAdapter<? extends View>> providers = providersResolver.getCandidateProviders(view);
 		
-		for (BindingAttributeProvider<? extends View> provider : providers)
+		for (WidgetViewAttributeProviderAdapter<? extends View> provider : providers)
 		{
 			@SuppressWarnings("unchecked")
-			BindingAttributeProvider<View> viewProvider = (BindingAttributeProvider<View>)provider;
-			viewProvider.resolveSupportedBindingAttributes(view, bindingAttributeResolver, preInitializeViews);
+			WidgetViewAttributeProviderAdapter<View> viewProvider = (WidgetViewAttributeProviderAdapter<View>)provider;
+			viewAttributeResolver.resolve(viewProvider);
 			
-			if (bindingAttributeResolver.isDone())
+			if (viewAttributeResolver.isDone())
 				break;
 		}
 		
-		if (bindingAttributeResolver.hasUnresolvedAttributes())
-			throw new RuntimeException("Unhandled binding attribute(s): " + bindingAttributeResolver.describeUnresolvedAttributes());
+		if (viewAttributeResolver.hasUnresolvedAttributes())
+			throw new RuntimeException("Unhandled binding attribute(s): " + viewAttributeResolver.describeUnresolvedAttributes());
 		
-		return bindingAttributeResolver.getResolvedBindingAttributes();
+		return viewAttributeResolver.getResolvedViewAttributes();
 	}
 	
-	public static class ViewBindingAttributes
+	public static class ViewAttributes
 	{
-		final List<BindingAttribute> bindingAttributes;
+		final List<ViewAttribute> viewAttributes;
 		
-		ViewBindingAttributes(List<BindingAttribute> bindingAttributes)
+		ViewAttributes(List<ViewAttribute> viewAttributes)
 		{
-			this.bindingAttributes = bindingAttributes;
+			this.viewAttributes = viewAttributes;
 		}
 		
 		public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 		{
-			for (BindingAttribute bindingAttribute : bindingAttributes)
-				bindingAttribute.bind(presentationModelAdapter, context);
+			for (ViewAttribute viewAttribute : viewAttributes)
+				viewAttribute.bind(presentationModelAdapter, context);
 		}
 	}
 }

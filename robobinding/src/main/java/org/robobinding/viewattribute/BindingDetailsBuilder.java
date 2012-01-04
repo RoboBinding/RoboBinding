@@ -34,15 +34,13 @@ public class BindingDetailsBuilder
 	
 	private String propertyName;
 	private boolean twoWayBinding;
-	private boolean preInitializeView;
 	private String resourceName;
 	private String resourceType;
 	private String resourcePackage;
 	
-	public BindingDetailsBuilder(String attributeValue, boolean preInitializeView)
+	public BindingDetailsBuilder(String attributeValue)
 	{
 		this.attributeValue = attributeValue;
-		this.preInitializeView = preInitializeView;
 		deriveProperties();
 	}
 
@@ -51,7 +49,7 @@ public class BindingDetailsBuilder
 		if (propertyName == null)
 			throw new RuntimeException("Attribute value: " + attributeValue + " is not valid property attribute syntax.");
 		
-		return new PropertyBindingDetails(propertyName, twoWayBinding, preInitializeView);
+		return new PropertyBindingDetails(propertyName, twoWayBinding);
 	}
 	
 	public ResourceBindingDetails createResourceBindingDetails()

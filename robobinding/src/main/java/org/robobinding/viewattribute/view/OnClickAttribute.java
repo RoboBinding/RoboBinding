@@ -27,16 +27,8 @@ import android.view.View.OnClickListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnClickAttribute extends AbstractCommandViewAttribute
+public class OnClickAttribute extends AbstractCommandViewAttribute<View>
 {
-	final View view;
-
-	public OnClickAttribute(View view, String commandName)
-	{
-		super(commandName);
-		this.view = view;
-	}
-
 	@Override
 	protected void bind(final Command command)
 	{

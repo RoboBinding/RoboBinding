@@ -15,14 +15,17 @@
  */
 package org.robobinding.viewattribute.view;
 
-import org.junit.Assert;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.MockPresentationModelAdapterForProperty;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
-import android.graphics.Color;
+import android.view.View;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
  *
@@ -30,23 +33,17 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(RobolectricTestRunner.class)
-public class BackgroundColorAttributeTest extends AbstractViewPropertyAttributeTest
+public class BackgroundColorAttributeTest extends AbstractPropertyViewAttributeTest<View, BackgroundColorAttribute>
 {
 	@Test
-	public void givenBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
+	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		int color = Color.RED;
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();
+		int newColor = RandomValues.anyColor();
 
-		mockPresentationModelAdapter.updatePropertyValue(color);
+		attribute.valueModelUpdated(newColor);
 
-		Assert.assertEquals(color, shadowView.getBackgroundColor());
+		ShadowView shadowView = Robolectric.shadowOf(view);
+		assertThat(shadowView.getBackgroundColor(), equalTo(newColor));
 	}
-	private MockPresentationModelAdapterForProperty<Integer> createBoundAttribute()
-	{
-		BackgroundColorAttribute backgroundColorAttribute = new BackgroundColorAttribute(view, MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = bindToProperty(backgroundColorAttribute, Integer.class);
-		return mockPresentationModelAdapter;
-	}
+	
 }

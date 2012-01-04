@@ -27,16 +27,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute
+public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute<CompoundButton>
 {
-	final CompoundButton view;
-
-	public OnCheckedChangeAttribute(CompoundButton view, String commandName)
-	{
-		super(commandName);
-		this.view = view;
-	}
-
 	@Override
 	protected void bind(final Command command)
 	{

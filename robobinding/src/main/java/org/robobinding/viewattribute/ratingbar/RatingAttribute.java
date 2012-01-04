@@ -15,14 +15,12 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PropertyValueModel;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.PropertyBindingDetails;
-import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.PropertyViewAttribute;
 
-import android.content.Context;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 
@@ -32,52 +30,35 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class RatingAttribute implements ViewAttribute
+public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<RatingBar>
 {
-	private final RatingBar ratingBar;
-	private PropertyBindingDetails propertyBindingDetails;
-
-	public RatingAttribute(RatingBar ratingBar, String attributeValue, boolean preInitializeView)
-	{
-		this.ratingBar = ratingBar;
-		propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue, preInitializeView);
-	}
-
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	protected PropertyViewAttribute<RatingBar> createPropertyViewAttribute(Class<?> propertyType)
 	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
-		ViewAttribute viewAttribute;
-
 		if (PrimitiveTypeUtils.floatIsAssignableFrom(propertyType))
 		{
-			viewAttribute = new FloatRatingAttribute();
-		} else if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
+			return new FloatRatingAttribute();
+		} 
+		else if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
-			viewAttribute = new IntegerRatingAttribute();
-		} else
+			return new IntegerRatingAttribute();
+		} 
+		else
 			throw new RuntimeException("Could not find a suitable rating attribute class for property type: " + propertyType);
-
-		viewAttribute.bind(presentationModelAdapter, context);
 	}
-
-	private class FloatRatingAttribute extends AbstractPropertyViewAttribute<Float>
+	
+	private static class FloatRatingAttribute extends AbstractPropertyViewAttribute<RatingBar, Float>
 	{
-		public FloatRatingAttribute()
-		{
-			super(propertyBindingDetails);
-		}
-
 		@Override
 		protected void valueModelUpdated(Float newRating)
 		{
-			ratingBar.setRating(newRating);
+			view.setRating(newRating);
 		}
 
 		@Override
 		protected void observeChangesOnTheView(final PropertyValueModel<Float> valueModel)
 		{
-			RatingBarListenerUtils.addOnRatingBarChangeListener(ratingBar, new OnRatingBarChangeListener() {
+			RatingBarListenerUtils.addOnRatingBarChangeListener(view, new OnRatingBarChangeListener() {
 
 				@Override
 				public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)
@@ -88,23 +69,18 @@ public class RatingAttribute implements ViewAttribute
 		}
 	}
 
-	public class IntegerRatingAttribute extends AbstractPropertyViewAttribute<Integer>
+	private static class IntegerRatingAttribute extends AbstractPropertyViewAttribute<RatingBar, Integer>
 	{
-		public IntegerRatingAttribute()
-		{
-			super(propertyBindingDetails);
-		}
-
 		@Override
 		protected void valueModelUpdated(Integer newRating)
 		{
-			ratingBar.setRating((float)newRating);
+			view.setRating((float)newRating);
 		}
 
 		@Override
 		protected void observeChangesOnTheView(final PropertyValueModel<Integer> valueModel)
 		{
-			ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+			view.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 
 				@Override
 				public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)

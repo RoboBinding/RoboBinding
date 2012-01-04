@@ -25,18 +25,16 @@ public class PropertyBindingDetails
 {
 	public final String propertyName;
 	public final boolean twoWayBinding;
-	public final boolean preInitializeView;
 	
-	public PropertyBindingDetails(String propertyName, boolean twoWayBinding, boolean preInitializeView)
+	public PropertyBindingDetails(String propertyName, boolean twoWayBinding)
 	{
 		this.propertyName = propertyName;
 		this.twoWayBinding = twoWayBinding;
-		this.preInitializeView = preInitializeView;
 	}
 
-	public static PropertyBindingDetails createFrom(String attributeValue, boolean preInitializeView)
+	public static PropertyBindingDetails createFrom(String attributeValue)
 	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(attributeValue, preInitializeView);
+		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(attributeValue);
 		return bindingDetailsBuilder.createPropertyBindingDetails();
 	}
 }

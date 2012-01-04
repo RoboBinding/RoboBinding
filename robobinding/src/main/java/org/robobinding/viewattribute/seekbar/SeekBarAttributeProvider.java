@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.seekbar;
 
-import org.robobinding.binder.BindingAttributeResolver;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.widget.SeekBar;
 
@@ -26,27 +26,12 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SeekBarAttributeProvider implements BindingAttributeProvider<SeekBar>
+public class SeekBarAttributeProvider implements WidgetViewAttributeProvider<SeekBar>
 {
-	private static final String ON_SEEK_BAR_CHANGE = "onSeekBarChange";
-	private static final String PROGRESS = "progress";
-
 	@Override
-	public void resolveSupportedBindingAttributes(SeekBar seekBar, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
+	public void populateViewAttributeMappings(ViewAttributeMappings<SeekBar> mappings)
 	{
-		OnSeekBarChangeListeners onSeekBarChangeListeners = new OnSeekBarChangeListeners();
-		seekBar.setOnSeekBarChangeListener(onSeekBarChangeListeners);
-		
-		if (bindingAttributeResolver.hasAttribute(ON_SEEK_BAR_CHANGE))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_SEEK_BAR_CHANGE);
-			bindingAttributeResolver.resolveAttribute(ON_SEEK_BAR_CHANGE, new OnSeekBarChangeAttribute(attributeValue, onSeekBarChangeListeners));
-		}
-		if (bindingAttributeResolver.hasAttribute(PROGRESS))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(PROGRESS);
-			bindingAttributeResolver.resolveAttribute(PROGRESS, new TwoWayProgressAttribute(seekBar, attributeValue, preInitializeViews, onSeekBarChangeListeners));
-		}
+		mappings.mapGroup(OnSeekBarChangeAttributes.class, OnSeekBarChangeAttributes.PROGRESS, OnSeekBarChangeAttributes.ON_SEEK_BAR_CHANGE);
 	}
-
+	
 }

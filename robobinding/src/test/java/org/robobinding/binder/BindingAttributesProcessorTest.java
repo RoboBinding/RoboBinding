@@ -26,9 +26,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.AttributeSetParser;
-import org.robobinding.binder.BindingAttributesProcessor;
-import org.robobinding.binder.BindingAttributesProcessor.ViewBindingAttributes;
+import org.robobinding.binder.BindingAttributesProcessor.ViewAttributes;
 import org.robobinding.internal.com_google_common.collect.Maps;
 
 import android.util.AttributeSet;
@@ -60,9 +58,9 @@ public class BindingAttributesProcessorTest
 		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(singleBindingAttribute());
 	
 		BindingAttributesProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
-		ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
+		ViewAttributes viewAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
 		
-		assertThat(viewBindingAttributes.bindingAttributes.size(), equalTo(1));
+		assertThat(viewAttributes.viewAttributes.size(), equalTo(1));
 	}
 
 	@Test
@@ -73,9 +71,9 @@ public class BindingAttributesProcessorTest
 		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(multipleBindingAttributes);
 	
 		BindingAttributesProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
-		ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
+		ViewAttributes viewAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
 		
-		assertThat(viewBindingAttributes.bindingAttributes.size(), equalTo(attributesCount));
+		assertThat(viewAttributes.viewAttributes.size(), equalTo(attributesCount));
 	}
 
 	@Test (expected=RuntimeException.class)

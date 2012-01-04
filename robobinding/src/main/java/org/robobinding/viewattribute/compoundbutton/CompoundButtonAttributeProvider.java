@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.compoundbutton;
 
-import org.robobinding.binder.BindingAttributeResolver;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.widget.CompoundButton;
 
@@ -26,22 +26,12 @@ import android.widget.CompoundButton;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CompoundButtonAttributeProvider implements BindingAttributeProvider<CompoundButton>
+public class CompoundButtonAttributeProvider implements WidgetViewAttributeProvider<CompoundButton>
 {
-	private static final String CHECKED = "checked";
-	private static final String ON_CHECKED_CHANGE = "onCheckedChange";
 	@Override
-	public void resolveSupportedBindingAttributes(CompoundButton compoundButton, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
+	public void populateViewAttributeMappings(ViewAttributeMappings<CompoundButton> mappings)
 	{
-		if (bindingAttributeResolver.hasAttribute("checked"))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(CHECKED);
-			bindingAttributeResolver.resolveAttribute(CHECKED, new CheckedAttribute(compoundButton, attributeValue, preInitializeView));
-		}
-		if (bindingAttributeResolver.hasAttribute(ON_CHECKED_CHANGE))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_CHECKED_CHANGE);
-			bindingAttributeResolver.resolveAttribute(ON_CHECKED_CHANGE, new OnCheckedChangeAttribute(compoundButton, attributeValue));
-		}
+		mappings.mapProperty(CheckedAttribute.class, "checked");
+		mappings.mapCommand(OnCheckedChangeAttribute.class, "onCheckedChange");
 	}
 }

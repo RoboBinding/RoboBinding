@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
-import org.robobinding.binder.BindingAttributeResolver;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.widget.RatingBar;
 
@@ -26,30 +26,14 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class RatingBarAttributeProvider implements BindingAttributeProvider<RatingBar>
+public class RatingBarAttributeProvider implements WidgetViewAttributeProvider<RatingBar>
 {
-	private static final String ON_RATING_BAR_CHANGE = "onRatingBarChange";
-	private static final String NUM_STARS = "numStars";
-	private static final String RATING = "rating";
-
 	@Override
-	public void resolveSupportedBindingAttributes(RatingBar ratingBar, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeViews)
+	public void populateViewAttributeMappings(ViewAttributeMappings<RatingBar> mappings)
 	{
-		if (bindingAttributeResolver.hasAttribute(RATING))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(RATING);
-			bindingAttributeResolver.resolveAttribute(RATING, new RatingAttribute(ratingBar, attributeValue, preInitializeViews));
-		}
-		if (bindingAttributeResolver.hasAttribute(NUM_STARS))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(NUM_STARS);
-			bindingAttributeResolver.resolveAttribute(NUM_STARS, new NumStarsAttribute(ratingBar, attributeValue, preInitializeViews));
-		}
-		if (bindingAttributeResolver.hasAttribute(ON_RATING_BAR_CHANGE))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_RATING_BAR_CHANGE);
-			bindingAttributeResolver.resolveAttribute(ON_RATING_BAR_CHANGE, new OnRatingBarChangeAttribute(ratingBar, attributeValue));
-		}
+		mappings.mapProperty(RatingAttribute.class, "rating");
+		mappings.mapProperty(NumStarsAttribute.class, "numStars");
+		
+		mappings.mapCommand(OnRatingBarChangeAttribute.class, "onRatingBarChange");
 	}
-
 }

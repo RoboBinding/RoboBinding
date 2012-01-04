@@ -15,15 +15,17 @@
  */
 package org.robobinding.viewattribute.textview;
 
-import org.junit.Assert;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.MockPresentationModelAdapterForProperty;
-import org.robobinding.viewattribute.textview.TextColorAttribute;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import android.widget.TextView;
 
-import android.graphics.Color;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.shadows.ShadowTextView;
 
 /**
  *
@@ -31,23 +33,16 @@ import android.graphics.Color;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(RobolectricTestRunner.class)
-public class TextColorAttributeTest extends AbstractTextViewPropertyAttributeTest
+public class TextColorAttributeTest extends AbstractPropertyViewAttributeTest<TextView, TextColorAttribute>
 {
 	@Test
-	public void givenBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
+	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		Integer color = Color.RED;
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = createBoundAttribute();
+		int newColor = RandomValues.anyColor();
 
-		mockPresentationModelAdapter.updatePropertyValue(color);
+		attribute.valueModelUpdated(newColor);
 
-		Assert.assertEquals(color, shadowTextView.getTextColorHexValue());
-	}
-	private MockPresentationModelAdapterForProperty<Integer> createBoundAttribute()
-	{
-		TextColorAttribute textColorAttribute = new TextColorAttribute(textView, MockPresentationModelAdapterForProperty.ONE_WAY_BINDING_PROPERTY_NAME, true);
-		MockPresentationModelAdapterForProperty<Integer> mockPresentationModelAdapter = bindToProperty(textColorAttribute, Integer.class);
-		return mockPresentationModelAdapter;
+		ShadowTextView shadowView = Robolectric.shadowOf(view);
+		assertThat(shadowView.getTextColorHexValue(), equalTo(newColor));
 	}
 }

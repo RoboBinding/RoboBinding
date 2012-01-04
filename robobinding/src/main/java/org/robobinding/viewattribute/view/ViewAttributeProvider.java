@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.view;
 
-import org.robobinding.binder.BindingAttributeResolver;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttributeMappings;
+import org.robobinding.viewattribute.WidgetViewAttributeProvider;
 
 import android.view.View;
 
@@ -26,63 +26,20 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ViewAttributeProvider implements BindingAttributeProvider<View>
+public class ViewAttributeProvider implements WidgetViewAttributeProvider<View>
 {
-	private static final String VISIBILITY = "visibility";
-	private static final String ENABLED = "enabled";
-	private static final String ON_CLICK = "onClick";
-	private static final String ON_LONG_CLICK = "onLongClick";
-	private static final String BACKGROUND_COLOR = "backgroundColor";
-	private static final String BACKGROUND = "background";
-	private static final String ON_FOCUS_CHANGE = "onFocusChange";
-	private static final String ON_FOCUS = "onFocus";
-	private static final String ON_FOCUS_LOST = "onFocusLost";
 	@Override
-	public void resolveSupportedBindingAttributes(View view, BindingAttributeResolver bindingAttributeResolver, boolean preInitializeView)
+	public void populateViewAttributeMappings(ViewAttributeMappings<View> mappings)
 	{
-		if (bindingAttributeResolver.hasAttribute(VISIBILITY))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(VISIBILITY);
-			bindingAttributeResolver.resolveAttribute(VISIBILITY, new VisibilityAttribute(view, attributeValue, preInitializeView));
-		}
-		if (bindingAttributeResolver.hasAttribute(ENABLED))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(ENABLED);
-			bindingAttributeResolver.resolveAttribute(ENABLED, new EnabledAttribute(view, attributeValue, preInitializeView));
-		}
-		if(bindingAttributeResolver.hasAttribute(BACKGROUND))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(BACKGROUND);
-			bindingAttributeResolver.resolveAttribute(BACKGROUND, new BackgroundAttribute(view, attributeValue, preInitializeView));
-		}
-		if (bindingAttributeResolver.hasAttribute(BACKGROUND_COLOR))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(BACKGROUND_COLOR);
-			bindingAttributeResolver.resolveAttribute(BACKGROUND_COLOR, new BackgroundColorAttribute(view, attributeValue, preInitializeView));
-		}
-		if (bindingAttributeResolver.hasAttribute(ON_CLICK))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_CLICK);
-			bindingAttributeResolver.resolveAttribute(ON_CLICK, new OnClickAttribute(view, attributeValue));
-		}
-		if (bindingAttributeResolver.hasAttribute(ON_LONG_CLICK))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_LONG_CLICK);
-			bindingAttributeResolver.resolveAttribute(ON_LONG_CLICK, new OnLongClickAttribute(view, attributeValue));
-		}
-		if (bindingAttributeResolver.hasAttribute(ON_FOCUS_CHANGE))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_FOCUS_CHANGE);
-			bindingAttributeResolver.resolveAttribute(ON_FOCUS_CHANGE, OnFocusChangeAttribute.createOnFocusChange(view, attributeValue));
-		}
-		if (bindingAttributeResolver.hasAttribute(ON_FOCUS))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_FOCUS);
-			bindingAttributeResolver.resolveAttribute(ON_FOCUS, OnFocusChangeAttribute.createOnFocus(view, attributeValue));
-		}if (bindingAttributeResolver.hasAttribute(ON_FOCUS_LOST))
-		{
-			String attributeValue = bindingAttributeResolver.findAttributeValue(ON_FOCUS_LOST);
-			bindingAttributeResolver.resolveAttribute(ON_FOCUS_LOST, OnFocusChangeAttribute.createOnFocusLost(view, attributeValue));
-		}
+		mappings.mapProperty(VisibilityAttribute.class, "visibility");
+		mappings.mapProperty(EnabledAttribute.class, "enabled");
+		mappings.mapProperty(BackgroundAttribute.class, "background");
+		mappings.mapProperty(BackgroundColorAttribute.class, "backgroundColor");
+		
+		mappings.mapCommand(OnClickAttribute.class, "onClick");
+		mappings.mapCommand(OnLongClickAttribute.class, "onLongClick");
+		mappings.mapCommand(OnFocusChangeAttribute.class, "onFocusChange");
+		mappings.mapCommand(OnFocusAttribute.class, "onFocus");
+		mappings.mapCommand(OnFocusLostAttribute.class, "onFocusLost");
 	}
 }

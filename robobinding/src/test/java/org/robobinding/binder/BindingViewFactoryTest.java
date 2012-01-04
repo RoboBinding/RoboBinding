@@ -27,9 +27,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributesProcessor;
-import org.robobinding.binder.BindingViewFactory;
-import org.robobinding.binder.BindingAttributesProcessor.ViewBindingAttributes;
+import org.robobinding.binder.BindingAttributesProcessor.ViewAttributes;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -54,7 +52,7 @@ public class BindingViewFactoryTest
 	private String prefix = null;
 	private Context context = null;
 	private View theView = new View(context);
-	private ViewBindingAttributes sampleViewBindingAttributes = new ViewBindingAttributes(null);
+	private ViewAttributes sampleViewAttributes = new ViewAttributes(null);
 	private LayoutInflater layoutInflater;
 	private BindingAttributesProcessor bindingAttributesProcessor;
 	private BindingViewFactory bindingViewFactory;
@@ -64,7 +62,7 @@ public class BindingViewFactoryTest
 	{
 		layoutInflater = mock(LayoutInflater.class);
 		bindingAttributesProcessor = mock(BindingAttributesProcessor.class);
-		when(bindingAttributesProcessor.read(theView, attrs)).thenReturn(sampleViewBindingAttributes);
+		when(bindingAttributesProcessor.read(theView, attrs)).thenReturn(sampleViewAttributes);
 		bindingViewFactory = new BindingViewFactory(layoutInflater, bindingAttributesProcessor);
 	}
 	
@@ -93,9 +91,9 @@ public class BindingViewFactoryTest
 		when(layoutInflater.createView(fullyQualifiedViewName, prefix, attrs)).thenReturn(theView);
 		bindingViewFactory.onCreateView(viewName, context, attrs);
 		
-		List<ViewBindingAttributes> viewHierarchyBindingAttributes = bindingViewFactory.getChildViewBindingAttributes();
+		List<ViewAttributes> viewHierarchyBindingAttributes = bindingViewFactory.getChildViewBindingAttributes();
 		assertTrue(viewHierarchyBindingAttributes.size() == 1);
-		assertThat(viewHierarchyBindingAttributes.get(0), equalTo(sampleViewBindingAttributes));
+		assertThat(viewHierarchyBindingAttributes.get(0), equalTo(sampleViewAttributes));
 	}
 
 	@Test

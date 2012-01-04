@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.view;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -25,6 +26,7 @@ import android.view.View.OnFocusChangeListener;
 
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
  *
@@ -36,10 +38,9 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public class ViewListenerUtilsTest
 {
 	@Test
+	@Ignore //Waiting for Robolectric support for getOnFocusChangeListener (pull request submitted https://github.com/pivotal/robolectric/pull/167)
 	public void shouldSupportMultipleOnFocusChangeListeners()
 	{
-		Robolectric.bindShadowClass(ShadowView.class);
-		
 		View view = new View(null);
 		MockOnFocusChangeListener listener1 = new MockOnFocusChangeListener();
 		MockOnFocusChangeListener listener2 = new MockOnFocusChangeListener();

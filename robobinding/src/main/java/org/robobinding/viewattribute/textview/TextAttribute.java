@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,11 @@
  */
 package org.robobinding.viewattribute.textview;
 
-import org.robobinding.binder.PropertyViewAttribute;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PropertyValueModel;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.PropertyBindingDetails;
+import org.robobinding.viewattribute.PropertyViewAttribute;
 
-import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -34,102 +32,88 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextAttribute implements PropertyViewAttribute
+public class TextAttribute extends AbstractMultiTypePropertyViewAttribute<TextView>
 {
-	private final TextView textView;
-	private final ValueCommitMode valueCommitMode;
-	private final PropertyBindingDetails propertyBindingDetails;
-
-	public TextAttribute(TextView textView, PropertyBindingDetails propertyBindingDetails, ValueCommitMode valueCommitMode)
-	{
-		this.textView = textView;
-		this.valueCommitMode = valueCommitMode;
-		this.propertyBindingDetails = propertyBindingDetails;
-	}
+	private ValueCommitMode valueCommitMode;
 
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	protected PropertyViewAttribute<TextView> createPropertyViewAttribute(Class<?> propertyType)
 	{
-		PropertyViewAttribute propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
-		propertyViewAttribute.bind(presentationModelAdapter, context);
-	}
-
-	PropertyViewAttribute lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
-	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
-		
 		if (String.class.isAssignableFrom(propertyType))
 		{
-			return new StringTextAttribute();
-		}
+			return new StringTextAttribute(valueCommitMode);
+		} 
 		else if (CharSequence.class.isAssignableFrom(propertyType))
 		{
-			return new CharSequenceTextAttribute();
-		}
-		
-		throw new RuntimeException("Could not find a suitable text attribute class for property type: " + propertyType);
-	}
-	
-	public ValueCommitMode getValueCommitMode()
-	{
-		return valueCommitMode;
-	}
-	
-	abstract class AbstractCharSequenceTextAttribute<T extends CharSequence> extends AbstractPropertyViewAttribute<T>
-	{
-		public AbstractCharSequenceTextAttribute()
-		{
-			super(propertyBindingDetails);
-		}
-		
-		@Override
-		protected void valueModelUpdated(T newValue)
-		{
-			textView.setText(newValue);
+			return new CharSequenceTextAttribute(valueCommitMode);
 		}
 
-		protected void observeChangesOnTheView(final PropertyValueModel<T> valueModel)
+		throw null;
+	}
+
+	private abstract static class AbstractCharSequenceTextAttribute<PropertyType extends CharSequence> extends
+			AbstractPropertyViewAttribute<TextView, PropertyType>
+	{
+		private final ValueCommitMode valueCommitMode;
+
+		public AbstractCharSequenceTextAttribute(ValueCommitMode valueCommitMode)
+		{
+			this.valueCommitMode = valueCommitMode;
+		}
+
+		@Override
+		protected void valueModelUpdated(PropertyType newValue)
+		{
+			view.setText(newValue);
+		}
+
+		protected void observeChangesOnTheView(final PropertyValueModel<PropertyType> valueModel)
 		{
 			if (valueCommitMode == ValueCommitMode.ON_CHANGE)
 			{
-				textView.addTextChangedListener(new TextWatcher() {
-					
+				view.addTextChangedListener(new TextWatcher() {
+
 					@Override
 					public void onTextChanged(CharSequence s, int start, int before, int count)
 					{
 						updateValueModel(valueModel, s);
 					}
-					
+
 					@Override
 					public void beforeTextChanged(CharSequence s, int start, int count, int after)
 					{
 					}
-					
+
 					@Override
 					public void afterTextChanged(Editable s)
 					{
 					}
 				});
-			}
+			} 
 			else
 			{
-				textView.setOnFocusChangeListener(new OnFocusChangeListener() {
-					
+				view.setOnFocusChangeListener(new OnFocusChangeListener() {
+
 					@Override
 					public void onFocusChange(View v, boolean hasFocus)
 					{
 						if (!hasFocus)
-							updateValueModel(valueModel, textView.getText());
+							updateValueModel(valueModel, view.getText());
 					}
 				});
 			}
 		}
-		
-		protected abstract void updateValueModel(PropertyValueModel<T> valueModel, CharSequence charSequence);
+
+		protected abstract void updateValueModel(PropertyValueModel<PropertyType> valueModel, CharSequence charSequence);
 	}
-	
-	class StringTextAttribute extends AbstractCharSequenceTextAttribute<String>
+
+	private static class StringTextAttribute extends AbstractCharSequenceTextAttribute<String>
 	{
+		public StringTextAttribute(ValueCommitMode valueCommitMode)
+		{
+			super(valueCommitMode);
+		}
+
 		@Override
 		protected void updateValueModel(PropertyValueModel<String> valueModel, CharSequence charSequence)
 		{
@@ -137,12 +121,22 @@ public class TextAttribute implements PropertyViewAttribute
 		}
 	}
 
-	class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
+	private static class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
 	{
+		public CharSequenceTextAttribute(ValueCommitMode valueCommitMode)
+		{
+			super(valueCommitMode);
+		}
+
 		@Override
 		protected void updateValueModel(PropertyValueModel<CharSequence> valueModel, CharSequence charSequence)
 		{
 			valueModel.setValue(charSequence);
 		}
+	}
+
+	void setValueCommitMode(ValueCommitMode valueCommitMode)
+	{
+		this.valueCommitMode = valueCommitMode;
 	}
 }

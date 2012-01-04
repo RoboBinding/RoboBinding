@@ -15,18 +15,14 @@
  */
 package org.robobinding.viewattribute.imageview;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.imageview.ImageSourceAttribute;
-import org.robobinding.viewattribute.imageview.ImageSourceAttribute.BitmapImageSourceAttribute;
-import org.robobinding.viewattribute.imageview.ImageSourceAttribute.DrawableImageSourceAttribute;
-import org.robobinding.viewattribute.imageview.ImageSourceAttribute.IntegerImageSourceAttribute;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
+import org.robobinding.viewattribute.DrawableData;
+import org.robobinding.viewattribute.MockPresentationModelForProperty;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -38,49 +34,37 @@ import android.widget.ImageView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
-public class ImageSourceAttributeTest
+public class ImageSourceAttributeTest extends AbstractPropertyViewAttributeTest<ImageView, ImageSourceAttribute>
 {
-	private ImageView imageView;
-	private ImageSourceAttribute imageSourceAttribute;
-	private PresentationModelAdapter presentationModelAdapter;
-
-	@Before
-	public void setUp()
+	private DrawableData drawableData = DrawableData.get(0);
+	
+	@Test
+	public void givenValueModelIsIntegerType_WhenUpdatingPresentationModel_ThenViewShouldReflectViewModel()
 	{
-		 imageSourceAttribute = new ImageSourceAttribute(imageView, "{property_name}", true);
-		 presentationModelAdapter = mock(PresentationModelAdapter.class);
+		MockPresentationModelForProperty<Integer> presentationModel = initializeForOneWayBinding(RandomValues.primitiveOrBoxedIntegerClass());
+		
+		presentationModel.updatePropertyValue(drawableData.resourceId);
+		
+		assertThat(view.getDrawable(), equalTo(drawableData.drawable));
 	}
 	
 	@Test
-	public void whenBindingWithAnIntPrimitiveProperty_ThenInitializeIntegerImageSourceAttribute()
+	public void givenValueModelIsDrawableType_WhenUpdatingPresentationModel_ThenViewShouldReflectViewModel()
 	{
-		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)int.class);
+		MockPresentationModelForProperty<Drawable> presentationModel = initializeForOneWayBinding(Drawable.class);
 		
-		assertThat(imageSourceAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerImageSourceAttribute.class));
+		presentationModel.updatePropertyValue(drawableData.drawable);
+		
+		assertThat(view.getDrawable(), equalTo(drawableData.drawable));
 	}
 	
 	@Test
-	public void whenBindingWithAnIntegerProperty_ThenInitializeIntegerImageSourceAttribute()
+	public void givenValueModelIsBitmapType_WhenUpdatingPresentationModel_ThenViewShouldReflectViewModel()
 	{
-		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)Integer.class);
+		MockPresentationModelForProperty<Bitmap> presentationModel = initializeForOneWayBinding(Bitmap.class);
 		
-		assertThat(imageSourceAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(IntegerImageSourceAttribute.class));
-	}
-	
-	@Test
-	public void whenBindingWithADrawableProperty_ThenInitializeDrawableImageSourceAttribute()
-	{
-		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)Drawable.class);
+		presentationModel.updatePropertyValue(drawableData.bitmap);
 		
-		assertThat(imageSourceAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(DrawableImageSourceAttribute.class));
-	}
-	
-	@Test
-	public void whenBindingWithABitmapProperty_ThenInitializeBitmapImageSourceAttribute()
-	{
-		when(presentationModelAdapter.getPropertyType("property_name")).thenReturn((Class)Bitmap.class);
-		
-		assertThat(imageSourceAttribute.lookupPropertyViewAttribute(presentationModelAdapter), instanceOf(BitmapImageSourceAttribute.class));
+		assertThat(view.getDrawable(), equalTo(drawableData.drawable));
 	}
 }

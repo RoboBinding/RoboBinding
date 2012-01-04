@@ -28,6 +28,7 @@ import android.widget.CompoundButton;
 public class CheckedChangeEvent extends ViewEvent
 {
 	private boolean checked;
+	
 	public CheckedChangeEvent(CompoundButton compoundButton, boolean isChecked)
 	{
 		super(compoundButton);

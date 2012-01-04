@@ -23,25 +23,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- *
  */
-public class OnItemClickAttribute extends AbstractCommandViewAttribute
+public class OnItemClickAttribute extends AbstractCommandViewAttribute<AdapterView<?>>
 {
-	private final AdapterView<?> adapterView;
-
-	public OnItemClickAttribute(AdapterView<?> adapterView, String commandName)
-	{
-		super(commandName);
-		this.adapterView = adapterView;
-	}
-
 	@Override
 	protected void bind(final Command command)
 	{
-		adapterView.setOnItemClickListener(new OnItemClickListener() {
+		view.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
