@@ -35,7 +35,7 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Ignore //Waiting for Robolectric to get updated
+@Ignore //Waiting for Robolectric to get updated (https://github.com/pivotal/robolectric/pull/167)
 public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttributeTest<RatingBar, OnRatingBarChangeAttribute>
 {
 	private float newRatingValue;

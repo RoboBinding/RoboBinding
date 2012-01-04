@@ -79,11 +79,11 @@ public class ViewAttributeResolver
 
 	private void resolveAndInitializePropertyViewAttribute(String propertyAttribute, PropertyViewAttribute<View> propertyViewAttribute)
 	{
-		resolveViewAttribute(propertyAttribute, propertyViewAttribute);
-		
 		propertyViewAttribute.setView(view);
 		propertyViewAttribute.setPreInitializeView(preInitializeView);
 		propertyViewAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(getAttributeValue(propertyAttribute)));
+		
+		resolveViewAttribute(propertyAttribute, propertyViewAttribute);
 	}
 
 	private String getAttributeValue(String attribute)
