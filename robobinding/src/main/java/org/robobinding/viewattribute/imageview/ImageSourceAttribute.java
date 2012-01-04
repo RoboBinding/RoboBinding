@@ -50,9 +50,8 @@ public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute
 		
 		return null;
 	}
-
 	
-	class IntegerImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Integer>
+	static class IntegerImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer resourceId)
@@ -61,7 +60,7 @@ public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute
 		}
 	}
 	
-	class DrawableImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Drawable>
+	static class DrawableImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Drawable>
 	{
 		@Override
 		protected void valueModelUpdated(Drawable drawable)
@@ -70,7 +69,7 @@ public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute
 		}
 	}
 	
-	class BitmapImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Bitmap>
+	static class BitmapImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Bitmap>
 	{
 		@Override
 		protected void valueModelUpdated(Bitmap bitmap)

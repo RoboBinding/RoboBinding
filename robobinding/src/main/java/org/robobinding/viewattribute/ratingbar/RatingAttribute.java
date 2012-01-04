@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
-import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
@@ -47,7 +47,7 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 			throw new RuntimeException("Could not find a suitable rating attribute class for property type: " + propertyType);
 	}
 	
-	private static class FloatRatingAttribute extends AbstractPropertyViewAttribute<RatingBar, Float>
+	static class FloatRatingAttribute extends AbstractPropertyViewAttribute<RatingBar, Float>
 	{
 		@Override
 		protected void valueModelUpdated(Float newRating)
@@ -56,7 +56,7 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 		}
 
 		@Override
-		protected void observeChangesOnTheView(final PropertyValueModel<Float> valueModel)
+		protected void observeChangesOnTheView(final ValueModel<Float> valueModel)
 		{
 			RatingBarListenerUtils.addOnRatingBarChangeListener(view, new OnRatingBarChangeListener() {
 
@@ -69,7 +69,7 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 		}
 	}
 
-	private static class IntegerRatingAttribute extends AbstractPropertyViewAttribute<RatingBar, Integer>
+	static class IntegerRatingAttribute extends AbstractPropertyViewAttribute<RatingBar, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newRating)
@@ -78,7 +78,7 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 		}
 
 		@Override
-		protected void observeChangesOnTheView(final PropertyValueModel<Integer> valueModel)
+		protected void observeChangesOnTheView(final ValueModel<Integer> valueModel)
 		{
 			view.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 

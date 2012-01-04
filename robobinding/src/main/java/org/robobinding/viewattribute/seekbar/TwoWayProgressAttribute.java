@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.seekbar;
 
-import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 
 import android.widget.SeekBar;
@@ -38,7 +38,7 @@ public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekB
 	}
 
 	@Override
-	protected void observeChangesOnTheView(final PropertyValueModel<Integer> valueModel)
+	protected void observeChangesOnTheView(final ValueModel<Integer> valueModel)
 	{
 		onSeekBarChangeListeners.addListener(new OnSeekBarChangeListener() {
 			

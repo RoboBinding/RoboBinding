@@ -17,7 +17,7 @@ package org.robobinding.presentationmodel;
 
 import org.robobinding.function.Function;
 import org.robobinding.property.DataSetProperty;
-import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModel;
 
 
 /**
@@ -31,9 +31,9 @@ public interface PresentationModelAdapter
 {
 	Class<?> getPropertyType(String propertyName);
 
-	<T> PropertyValueModel<T> getReadOnlyPropertyValueModel(String propertyName);
+	<T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName);
 
-	<T> PropertyValueModel<T> getPropertyValueModel(String propertyName);
+	<T> ValueModel<T> getPropertyValueModel(String propertyName);
 
 	DataSetProperty<?> getDataSetPropertyValueModel(String propertyName);
 

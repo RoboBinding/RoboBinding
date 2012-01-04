@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.textview;
 
-import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PropertyViewAttribute;
@@ -34,32 +34,31 @@ import android.widget.TextView;
  */
 public class TextAttribute extends AbstractMultiTypePropertyViewAttribute<TextView>
 {
-	private ValueCommitMode valueCommitMode;
+	private ValueCommitMode valueCommitMode = ValueCommitMode.ON_CHANGE;
 
 	@Override
 	protected PropertyViewAttribute<TextView> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (String.class.isAssignableFrom(propertyType))
 		{
-			return new StringTextAttribute(valueCommitMode);
+			StringTextAttribute stringTextAttribute = new StringTextAttribute();
+			stringTextAttribute.setValueCommitMode(valueCommitMode);
+			return stringTextAttribute;
 		} 
 		else if (CharSequence.class.isAssignableFrom(propertyType))
 		{
-			return new CharSequenceTextAttribute(valueCommitMode);
+			CharSequenceTextAttribute charSequenceTextAttribute = new CharSequenceTextAttribute();
+			charSequenceTextAttribute.setValueCommitMode(valueCommitMode);
+			return charSequenceTextAttribute;
 		}
 
-		throw null;
+		return null;
 	}
 
 	private abstract static class AbstractCharSequenceTextAttribute<PropertyType extends CharSequence> extends
 			AbstractPropertyViewAttribute<TextView, PropertyType>
 	{
-		private final ValueCommitMode valueCommitMode;
-
-		public AbstractCharSequenceTextAttribute(ValueCommitMode valueCommitMode)
-		{
-			this.valueCommitMode = valueCommitMode;
-		}
+		private ValueCommitMode valueCommitMode;
 
 		@Override
 		protected void valueModelUpdated(PropertyType newValue)
@@ -67,9 +66,21 @@ public class TextAttribute extends AbstractMultiTypePropertyViewAttribute<TextVi
 			view.setText(newValue);
 		}
 
-		protected void observeChangesOnTheView(final PropertyValueModel<PropertyType> valueModel)
+		protected void observeChangesOnTheView(final ValueModel<PropertyType> valueModel)
 		{
-			if (valueCommitMode == ValueCommitMode.ON_CHANGE)
+			if (valueCommitMode == ValueCommitMode.ON_FOCUS_LOST)
+			{
+				view.setOnFocusChangeListener(new OnFocusChangeListener() {
+
+					@Override
+					public void onFocusChange(View v, boolean hasFocus)
+					{
+						if (!hasFocus)
+							updateValueModel(valueModel, view.getText());
+					}
+				});
+			} 
+			else
 			{
 				view.addTextChangedListener(new TextWatcher() {
 
@@ -89,47 +100,30 @@ public class TextAttribute extends AbstractMultiTypePropertyViewAttribute<TextVi
 					{
 					}
 				});
-			} 
-			else
-			{
-				view.setOnFocusChangeListener(new OnFocusChangeListener() {
-
-					@Override
-					public void onFocusChange(View v, boolean hasFocus)
-					{
-						if (!hasFocus)
-							updateValueModel(valueModel, view.getText());
-					}
-				});
 			}
 		}
 
-		protected abstract void updateValueModel(PropertyValueModel<PropertyType> valueModel, CharSequence charSequence);
+		public void setValueCommitMode(ValueCommitMode valueCommitMode)
+		{
+			this.valueCommitMode = valueCommitMode;
+		}
+		
+		protected abstract void updateValueModel(ValueModel<PropertyType> valueModel, CharSequence charSequence);
 	}
 
-	private static class StringTextAttribute extends AbstractCharSequenceTextAttribute<String>
+	static class StringTextAttribute extends AbstractCharSequenceTextAttribute<String>
 	{
-		public StringTextAttribute(ValueCommitMode valueCommitMode)
-		{
-			super(valueCommitMode);
-		}
-
 		@Override
-		protected void updateValueModel(PropertyValueModel<String> valueModel, CharSequence charSequence)
+		protected void updateValueModel(ValueModel<String> valueModel, CharSequence charSequence)
 		{
 			valueModel.setValue(charSequence.toString());
 		}
 	}
 
-	private static class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
+	static class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
 	{
-		public CharSequenceTextAttribute(ValueCommitMode valueCommitMode)
-		{
-			super(valueCommitMode);
-		}
-
 		@Override
-		protected void updateValueModel(PropertyValueModel<CharSequence> valueModel, CharSequence charSequence)
+		protected void updateValueModel(ValueModel<CharSequence> valueModel, CharSequence charSequence)
 		{
 			valueModel.setValue(charSequence);
 		}

@@ -15,15 +15,19 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 
+import java.util.Map;
+
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.MockPresentationModelForProperty;
+import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.ratingbar.RatingAttribute.FloatRatingAttribute;
+import org.robobinding.viewattribute.ratingbar.RatingAttribute.IntegerRatingAttribute;
 
 import android.widget.RatingBar;
 
@@ -38,56 +42,29 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class RatingAttributeTest extends AbstractPropertyViewAttributeTest<RatingBar, RatingAttribute>
 {
-	private static final float NEW_RATING_AS_FLOAT = 2.0f;
-	private static final int NEW_RATING_AS_INT = 2;
+	private RatingAttribute ratingAttribute;
+	private Map<Class<?>, Class<? extends PropertyViewAttribute<RatingBar>>> propertyTypeToViewAttributeMappings;
 	
 	@Before
 	public void setUp()
 	{
-		//TODO Remove this next line once Robolectric auto-initializes this field to 100 as it should do (pull request submitted)
-		view.setMax(100);
+		ratingAttribute = new RatingAttribute();
+		
+		propertyTypeToViewAttributeMappings = Maps.newHashMap();
+		propertyTypeToViewAttributeMappings.put(int.class, IntegerRatingAttribute.class);
+		propertyTypeToViewAttributeMappings.put(Integer.class, IntegerRatingAttribute.class);
+		propertyTypeToViewAttributeMappings.put(float.class, FloatRatingAttribute.class);
+		propertyTypeToViewAttributeMappings.put(Float.class, FloatRatingAttribute.class);
 	}
 	
 	@Test
-	public void givenValueModelIsTypeFloat_WhenUpdatingPresentationModel_ThenSetRatingOnRatingBar()
+	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
 	{
-		MockPresentationModelForProperty<Float> presentationModel = initializeForOneWayBinding(float.class);
-		
-		presentationModel.updatePropertyValue(NEW_RATING_AS_FLOAT);
-		
-		assertThat(view.getRating(), is(NEW_RATING_AS_FLOAT));
+		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
+		{
+			PropertyViewAttribute<RatingBar> propertyViewAttribute = ratingAttribute.createPropertyViewAttribute(propertyType);
+			
+			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
+		}
 	}
-	
-	@Test
-	@Ignore //Waiting for Robolectric update
-	public void givenValueModelIsTypeFloat_WhenUpdatingView_ThenSetValueOnPresentationModel()
-	{
-		MockPresentationModelForProperty<Float> presentationModel = initializeForTwoWayBinding(float.class);
-		
-		view.setRating(NEW_RATING_AS_FLOAT);
-		
-		assertThat(presentationModel.getPropertyValue(), is(NEW_RATING_AS_FLOAT));
-	}
-	
-	@Test
-	public void givenValueModelIsTypeInteger_WhenUpdatingPresentationModel_ThenSetRatingOnRatingBar()
-	{
-		MockPresentationModelForProperty<Integer> presentationModel = initializeForOneWayBinding(int.class);
-		
-		presentationModel.updatePropertyValue(NEW_RATING_AS_INT);
-		
-		assertThat(view.getRating(), is(NEW_RATING_AS_FLOAT));
-	}
-	
-	@Test
-	@Ignore //Waiting for Robolectric update
-	public void givenValueModelIsTypeInteger_WhenUpdatingView_ThenSetValueOnPresentationModel()
-	{
-		MockPresentationModelForProperty<Integer> presentationModel = initializeForTwoWayBinding(int.class);
-		
-		view.setRating(NEW_RATING_AS_FLOAT);
-		
-		assertThat(presentationModel.getPropertyValue(), is(NEW_RATING_AS_INT));
-	}
-	
 }

@@ -15,14 +15,18 @@
  */
 package org.robobinding.viewattribute.imageview;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 
+import java.util.Map;
+
+import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.DrawableData;
-import org.robobinding.viewattribute.MockPresentationModelForProperty;
-import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.internal.com_google_common.collect.Maps;
+import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.imageview.ImageSourceAttribute.BitmapImageSourceAttribute;
+import org.robobinding.viewattribute.imageview.ImageSourceAttribute.DrawableImageSourceAttribute;
+import org.robobinding.viewattribute.imageview.ImageSourceAttribute.IntegerImageSourceAttribute;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -34,37 +38,32 @@ import android.widget.ImageView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ImageSourceAttributeTest extends AbstractPropertyViewAttributeTest<ImageView, ImageSourceAttribute>
+public class ImageSourceAttributeTest
 {
-	private DrawableData drawableData = DrawableData.get(0);
+	private ImageSourceAttribute imageSourceAttribute;
+	private Map<Class<?>, Class<? extends PropertyViewAttribute<ImageView>>> propertyTypeToViewAttributeMappings;
 	
-	@Test
-	public void givenValueModelIsIntegerType_WhenUpdatingPresentationModel_ThenViewShouldReflectViewModel()
+	@Before
+	public void setUp()
 	{
-		MockPresentationModelForProperty<Integer> presentationModel = initializeForOneWayBinding(RandomValues.primitiveOrBoxedIntegerClass());
+		imageSourceAttribute = new ImageSourceAttribute();
 		
-		presentationModel.updatePropertyValue(drawableData.resourceId);
-		
-		assertThat(view.getDrawable(), equalTo(drawableData.drawable));
+		propertyTypeToViewAttributeMappings = Maps.newHashMap();
+		propertyTypeToViewAttributeMappings.put(int.class, IntegerImageSourceAttribute.class);
+		propertyTypeToViewAttributeMappings.put(Integer.class, IntegerImageSourceAttribute.class);
+		propertyTypeToViewAttributeMappings.put(Bitmap.class, BitmapImageSourceAttribute.class);
+		propertyTypeToViewAttributeMappings.put(Drawable.class, DrawableImageSourceAttribute.class);
 	}
 	
 	@Test
-	public void givenValueModelIsDrawableType_WhenUpdatingPresentationModel_ThenViewShouldReflectViewModel()
+	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
 	{
-		MockPresentationModelForProperty<Drawable> presentationModel = initializeForOneWayBinding(Drawable.class);
-		
-		presentationModel.updatePropertyValue(drawableData.drawable);
-		
-		assertThat(view.getDrawable(), equalTo(drawableData.drawable));
+		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
+		{
+			PropertyViewAttribute<ImageView> propertyViewAttribute = imageSourceAttribute.createPropertyViewAttribute(propertyType);
+			
+			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
+		}
 	}
 	
-	@Test
-	public void givenValueModelIsBitmapType_WhenUpdatingPresentationModel_ThenViewShouldReflectViewModel()
-	{
-		MockPresentationModelForProperty<Bitmap> presentationModel = initializeForOneWayBinding(Bitmap.class);
-		
-		presentationModel.updatePropertyValue(drawableData.bitmap);
-		
-		assertThat(view.getDrawable(), equalTo(drawableData.drawable));
-	}
 }

@@ -19,7 +19,7 @@ import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModel;
 
 import android.app.Activity;
 import android.content.Context;
@@ -66,27 +66,7 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 		}
 	}
 	
-	protected <C> PropertyValueModel<C> initializeForTwoWayBinding(C initialValue)
-	{
-		@SuppressWarnings("unchecked")
-		MockPresentationModelForProperty<C> presentationModel = initializeForTwoWayBinding((Class<C>)initialValue.getClass());
-		presentationModel.updatePropertyValue(initialValue);
-		return presentationModel.getPropertyValueModel();
-	}
-	
-	protected <C> MockPresentationModelForProperty<C> initializeForOneWayBinding(Class<C> propertyClass)
-	{
-		attribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME));
-		return MockPresentationModelForProperty.bindToProperty(attribute, propertyClass);
-	}
-	
-	protected <C> MockPresentationModelForProperty<C> initializeForTwoWayBinding(Class<C> propertyClass)
-	{
-		attribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(MockPresentationModelForProperty.TWO_WAY_BINDING_PROPERTY_NAME));
-		return MockPresentationModelForProperty.bindToProperty(attribute, propertyClass);
-	}
-	
-	protected <C> PropertyValueModel<C> twoWayBindToProperty(Class<C> propertyClass)
+	protected <C> ValueModel<C> twoWayBindToProperty(Class<C> propertyClass)
 	{
 		attribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(MockPresentationModelForProperty.TWO_WAY_BINDING_PROPERTY_NAME));
 		MockPresentationModelForProperty<C> mockPresentationModelForProperty = MockPresentationModelForProperty.bindToProperty(attribute, propertyClass);

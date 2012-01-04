@@ -17,7 +17,7 @@ package org.robobinding.viewattribute;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
-import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModel;
 
 import android.content.Context;
 import android.view.View;
@@ -74,9 +74,9 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	}
 	
 	protected abstract void valueModelUpdated(PropertyType newValue);
-	protected abstract void observeChangesOnTheView(final PropertyValueModel<PropertyType> valueModel);
+	protected abstract void observeChangesOnTheView(final ValueModel<PropertyType> valueModel);
 	
-	protected void initializeView(PropertyValueModel<PropertyType> valueModel)
+	protected void initializeView(ValueModel<PropertyType> valueModel)
 	{
 		if (preInitializeViews)
 			valueModelUpdated(valueModel.getValue());
@@ -92,7 +92,7 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		@Override
 		public void performBind()
 		{
-			final PropertyValueModel<PropertyType> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
+			final ValueModel<PropertyType> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
 			initializeView(valueModel);
 			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener(){
 				@Override
@@ -111,14 +111,14 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		@Override
 		public void performBind()
 		{
-			PropertyValueModel<PropertyType> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
+			ValueModel<PropertyType> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
 			valueModel = new PropertyValueModelWrapper(valueModel);
 			initializeView(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);
 		}
 		
-		private void observeChangesOnTheValueModel(final PropertyValueModel<PropertyType> valueModel)
+		private void observeChangesOnTheValueModel(final ValueModel<PropertyType> valueModel)
 		{
 			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener() {
 				@Override
@@ -130,11 +130,11 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 			});
 		}
 		
-		private class PropertyValueModelWrapper implements PropertyValueModel<PropertyType>
+		private class PropertyValueModelWrapper implements ValueModel<PropertyType>
 		{
-			private PropertyValueModel<PropertyType> propertyValueModel;
+			private ValueModel<PropertyType> propertyValueModel;
 
-			public PropertyValueModelWrapper(PropertyValueModel<PropertyType> propertyValueModel)
+			public PropertyValueModelWrapper(ValueModel<PropertyType> propertyValueModel)
 			{
 				this.propertyValueModel = propertyValueModel;
 			}

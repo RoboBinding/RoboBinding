@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 
 import android.view.View;
@@ -37,7 +37,7 @@ public class SelectedItemPositionAttribute extends AbstractPropertyViewAttribute
 	}
 
 	@Override
-	protected void observeChangesOnTheView(final PropertyValueModel<Integer> valueModel)
+	protected void observeChangesOnTheView(final ValueModel<Integer> valueModel)
 	{
 		AdapterViewListenerUtils.addOnItemSelectedListener(view, new OnItemSelectedListener() {
 			@Override

@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.compoundbutton;
+package org.robobinding.viewattribute.ratingbar;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.closeTo;
 import static org.junit.Assert.assertThat;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.ratingbar.RatingAttribute.FloatRatingAttribute;
 
-import android.widget.CheckBox;
+import android.widget.RatingBar;
 
 /**
  *
@@ -31,26 +33,32 @@ import android.widget.CheckBox;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<CheckBox, CheckedAttribute>
+public class FloatRatingAttributeTest extends AbstractPropertyViewAttributeTest<RatingBar, FloatRatingAttribute>
 {
+	@Before
+	public void setUp()
+	{
+		//TODO Remove this line once Robolectric auto-initializes this field to 100 as it should do (pull request submitted)
+		view.setMax(100);
+	}
+	
 	@Test
 	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
 	{
-		boolean checked = RandomValues.trueOrFalse();
+		float newRating = RandomValues.anyFloat();
 		
-		attribute.valueModelUpdated(checked);
-		
-		assertThat(view.isChecked(), equalTo(checked));
+		attribute.valueModelUpdated(newRating);
+
+		assertThat((double)view.getRating(), closeTo(newRating, 0.1));
 	}
 	
 	@Test
-	public void whenViewIsChecked_ThenUpdateValueModel()
+	public void whenRatingIsChanged_ThenUpdateValueModel()
 	{
-		ValueModel<Boolean> valueModel = twoWayBindToProperty(Boolean.class);
+		ValueModel<Float> valueModel = twoWayBindToProperty(Float.class);
 		
-		view.setChecked(RandomValues.trueOrFalse());
+		view.setRating(RandomValues.anyFloat());
 		
-		assertThat(valueModel.getValue(), equalTo(view.isChecked()));
+		assertThat((double)valueModel.getValue(), closeTo(view.getRating(), 0.1));
 	}
-	
 }

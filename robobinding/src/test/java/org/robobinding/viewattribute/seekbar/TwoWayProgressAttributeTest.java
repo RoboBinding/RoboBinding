@@ -21,7 +21,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 
@@ -55,7 +55,8 @@ public class TwoWayProgressAttributeTest extends AbstractPropertyViewAttributeTe
 	public void whenUpdatingTheSeekBar_ThenUpdateValueModel()
 	{
 		int initialProgressValue = RandomValues.anyInteger();
-		PropertyValueModel<Integer> valueModel = initializeForTwoWayBinding(initialProgressValue);
+		ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);
+		valueModel.setValue(initialProgressValue);
 		
 		int newProgressValue = RandomValues.anyInteger();
 		view.setProgress(newProgressValue);

@@ -16,19 +16,26 @@
 package org.robobinding.viewattribute.textview;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
+
+import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.internal.com_google_common.collect.Maps;
+import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.MockPresentationModelForProperty;
+import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.textview.TextAttribute.CharSequenceTextAttribute;
+import org.robobinding.viewattribute.textview.TextAttribute.StringTextAttribute;
+
+import android.widget.TextView;
 
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.shadows.ShadowTextView;
-
-import android.widget.TextView;
 
 /**
  *
@@ -38,54 +45,28 @@ import android.widget.TextView;
  */
 public class TextAttributeTest extends AbstractPropertyViewAttributeTest<TextView, TextAttribute>
 {
+	private TextAttribute textAttribute;
+	private Map<Class<?>, Class<? extends PropertyViewAttribute<TextView>>> propertyTypeToViewAttributeMappings;
+	
 	@Before
 	public void setUp()
 	{
-		attribute.setValueCommitMode(ValueCommitMode.ON_CHANGE);
+		textAttribute = new TextAttribute();
+		
+		propertyTypeToViewAttributeMappings = Maps.newHashMap();
+		propertyTypeToViewAttributeMappings.put(String.class, StringTextAttribute.class);
+		propertyTypeToViewAttributeMappings.put(CharSequence.class, CharSequenceTextAttribute.class);
 	}
 	
 	@Test
-	public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges()
+	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
 	{
-		String newText = RandomStringUtils.random(5);
-		MockPresentationModelForProperty<String> presentationModel = initializeForOneWayBinding(String.class);
-		
-		presentationModel.updatePropertyValue(newText);
-
-		assertThat(view.getText().toString(), equalTo(newText));
-	}
-	
-	@Test
-	public void givenValueModelIsStringType_whenViewStateIsChanged_thenUpdateValueModel()
-	{
-		String newText = RandomStringUtils.random(5);
-		MockPresentationModelForProperty<String> presentationModel = initializeForTwoWayBinding(String.class);
-		
-		view.setText(newText);
-
-		assertThat(presentationModel.getPropertyValue(), equalTo(newText));
-	}
-	
-	@Test
-	public void givenValueModelIsCharSequenceType_whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		CharSequence newText = RandomStringUtils.random(5);
-		MockPresentationModelForProperty<CharSequence> presentationModel = initializeForOneWayBinding(CharSequence.class);
-		
-		presentationModel.updatePropertyValue(newText);
-
-		assertThat(view.getText(), equalTo(newText));
-	}
-	
-	@Test
-	public void givenValueModelIsCharSequenceType_whenViewStateIsChanged_thenUpdateValueModel()
-	{
-		CharSequence newText = RandomStringUtils.random(5);
-		MockPresentationModelForProperty<CharSequence> presentationModel = initializeForTwoWayBinding(CharSequence.class);
-		
-		view.setText(newText);
-
-		assertThat(presentationModel.getPropertyValue().toString(), equalTo(newText));
+		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
+		{
+			PropertyViewAttribute<TextView> propertyViewAttribute = textAttribute.createPropertyViewAttribute(propertyType);
+			
+			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
+		}
 	}
 	
 	@Test
@@ -93,11 +74,11 @@ public class TextAttributeTest extends AbstractPropertyViewAttributeTest<TextVie
 	{
 		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
 		String newText = RandomStringUtils.random(5);
-		MockPresentationModelForProperty<String> presentationModel = initializeForTwoWayBinding(String.class);
+		ValueModel<String> valueModel = twoWayBindToProperty(String.class);
 		
 		view.setText(newText);
 
-		assertThat(presentationModel.getPropertyValue(), not(equalTo(newText)));
+		assertThat(valueModel.getValue(), not(equalTo(newText)));
 	}
 	
 	@Test
@@ -105,13 +86,13 @@ public class TextAttributeTest extends AbstractPropertyViewAttributeTest<TextVie
 	{
 		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
 		String newText = RandomStringUtils.random(5);
-		MockPresentationModelForProperty<String> presentationModel = initializeForTwoWayBinding(String.class);
+		ValueModel<String> valueModel = twoWayBindToProperty(String.class);
 		
 		view.setText(newText);
 
 		ShadowTextView shadowTextView = Robolectric.shadowOf(view);
 		shadowTextView.setViewFocus(false);
 		
-		assertThat(presentationModel.getPropertyValue(), equalTo(newText));
+		assertThat(valueModel.getValue(), equalTo(newText));
 	}
 }

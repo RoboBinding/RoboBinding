@@ -45,7 +45,7 @@ public class VisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<
 		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
 	}
 	
-	private static class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
+	static class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 	{
 		@Override
 		protected void valueModelUpdated(Boolean newValue)
@@ -54,7 +54,7 @@ public class VisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<
 		}
 	}
 	
-	private static class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
+	static class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newValue)

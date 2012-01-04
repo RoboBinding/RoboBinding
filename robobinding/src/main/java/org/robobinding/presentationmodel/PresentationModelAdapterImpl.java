@@ -21,7 +21,7 @@ import org.robobinding.internal.org_apache_commons_lang3.Validate;
 import org.robobinding.property.CachedProperties;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.Properties;
-import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModel;
 
 
 /**
@@ -48,11 +48,11 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter
 	{
 		return properties.getPropertyType(propertyName);
 	}
-	public <T> PropertyValueModel<T> getPropertyValueModel(String propertyName)
+	public <T> ValueModel<T> getPropertyValueModel(String propertyName)
 	{
 		return properties.getReadWriteProperty(propertyName);
 	}
-	public <T> PropertyValueModel<T> getReadOnlyPropertyValueModel(String propertyName)
+	public <T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName)
 	{
 		return properties.getReadOnlyProperty(propertyName);
 	}

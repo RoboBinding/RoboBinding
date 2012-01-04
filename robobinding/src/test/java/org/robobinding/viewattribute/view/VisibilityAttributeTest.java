@@ -15,13 +15,18 @@
  */
 package org.robobinding.viewattribute.view;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 
+import java.util.Map;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.MockPresentationModelForProperty;
-import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.view.VisibilityAttribute.BooleanVisibilityAttribute;
+import org.robobinding.viewattribute.view.VisibilityAttribute.IntegerVisibilityAttribute;
 
 import android.view.View;
 
@@ -33,26 +38,30 @@ import android.view.View;
  */
 public class VisibilityAttributeTest extends AbstractPropertyViewAttributeTest<View, VisibilityAttribute>
 {
-	@Test
-	public void givenValueModelIsIntegerType_WhenUpdatingPresentationModel_ThenViewShouldReflectViewModel()
+	private VisibilityAttribute visibilityAttribute;
+	private Map<Class<?>, Class<? extends PropertyViewAttribute<View>>> propertyTypeToViewAttributeMappings;
+	
+	@Before
+	public void setUp()
 	{
-		int visibility = RandomValues.anyVisibility();
-		MockPresentationModelForProperty<Integer> presentationModel = initializeForOneWayBinding(RandomValues.primitiveOrBoxedIntegerClass());
+		visibilityAttribute = new VisibilityAttribute();
 		
-		presentationModel.updatePropertyValue(visibility);
-		
-		assertThat(view.getVisibility(), is(visibility));
+		propertyTypeToViewAttributeMappings = Maps.newHashMap();
+		propertyTypeToViewAttributeMappings.put(int.class, IntegerVisibilityAttribute.class);
+		propertyTypeToViewAttributeMappings.put(Integer.class, IntegerVisibilityAttribute.class);
+		propertyTypeToViewAttributeMappings.put(boolean.class, BooleanVisibilityAttribute.class);
+		propertyTypeToViewAttributeMappings.put(Boolean.class, BooleanVisibilityAttribute.class);
 	}
 	
 	@Test
-	public void whenBindingWithABooleanProperty_ThenInitializeBooleanVisibilityAttribute()
+	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
 	{
-		boolean visible = RandomValues.trueOrFalse();
-		MockPresentationModelForProperty<Boolean> presentationModel = initializeForOneWayBinding(RandomValues.primitiveOrBoxedBooleanClass());
-		
-		presentationModel.updatePropertyValue(visible);
-		
-		assertThat(view.getVisibility(), is(visible ? View.VISIBLE : View.GONE));
+		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
+		{
+			PropertyViewAttribute<View> propertyViewAttribute = visibilityAttribute.createPropertyViewAttribute(propertyType);
+			
+			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
+		}
 	}
 	
 }

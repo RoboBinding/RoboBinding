@@ -21,8 +21,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.MockPresentationModelForProperty;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.AdapterView;
@@ -38,12 +38,12 @@ import android.widget.ListView;
 public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttributeTest<ListView, SelectedItemPositionAttribute>
 {
 	private ArrayAdapter<String> arrayAdapter;
-	private MockPresentationModelForProperty<Integer> presentationModel;
+	private ValueModel<Integer> valueModel;
 	
 	@Before
 	public void setUp()
 	{
-		presentationModel = initializeForTwoWayBinding(Integer.class);
+		valueModel = twoWayBindToProperty(Integer.class);
 		arrayAdapter = new MockArrayAdapter();
 		view.setAdapter(arrayAdapter);
 	}
@@ -52,7 +52,7 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 	public void whenUpdatingValueModel_ThenSelectedItemShouldBeUpdated()
 	{
 		int index = RandomValues.anyIndex(arrayAdapter);
-		presentationModel.updatePropertyValue(index);
+		valueModel.setValue(index);
 		
 		assertThat(view.getSelectedItemPosition(), is(index));
 	}
@@ -63,7 +63,7 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 		int index = RandomValues.anyIndex(arrayAdapter);
 		view.setSelection(index);
 		
-		assertThat(presentationModel.getPropertyValue(), is(index));
+		assertThat(valueModel.getValue(), is(index));
 	}
 	
 	@Test
@@ -74,6 +74,6 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 		arrayAdapter.clear();
 		arrayAdapter.notifyDataSetChanged();
 		
-		assertThat(presentationModel.getPropertyValue(), is(AdapterView.INVALID_POSITION));
+		assertThat(valueModel.getValue(), is(AdapterView.INVALID_POSITION));
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.compoundbutton;
+package org.robobinding.viewattribute.view;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.view.VisibilityAttribute.BooleanVisibilityAttribute;
 
-import android.widget.CheckBox;
+import android.view.View;
 
 /**
  *
@@ -31,26 +31,15 @@ import android.widget.CheckBox;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<CheckBox, CheckedAttribute>
+public class BooleanVisibilityAttributeTest extends AbstractPropertyViewAttributeTest<View, BooleanVisibilityAttribute>
 {
 	@Test
-	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void whenBindingWithABooleanProperty_ThenInitializeBooleanVisibilityAttribute()
 	{
-		boolean checked = RandomValues.trueOrFalse();
+		boolean visible = RandomValues.trueOrFalse();
 		
-		attribute.valueModelUpdated(checked);
-		
-		assertThat(view.isChecked(), equalTo(checked));
+		attribute.valueModelUpdated(visible);
+
+		assertThat(view.getVisibility(), equalTo(visible ? View.VISIBLE : View.GONE));
 	}
-	
-	@Test
-	public void whenViewIsChecked_ThenUpdateValueModel()
-	{
-		ValueModel<Boolean> valueModel = twoWayBindToProperty(Boolean.class);
-		
-		view.setChecked(RandomValues.trueOrFalse());
-		
-		assertThat(valueModel.getValue(), equalTo(view.isChecked()));
-	}
-	
 }

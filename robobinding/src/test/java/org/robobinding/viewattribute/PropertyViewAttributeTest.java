@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.property.PropertyValueModel;
+import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 
 import android.content.Context;
@@ -48,7 +48,7 @@ public class PropertyViewAttributeTest
 	
 	private PresentationModelAdapter presentationModelAdapter;
 	private Context context;
-	private PropertyValueModel<Integer> valueModel = ValueModelUtils.createInteger(-1);
+	private ValueModel<Integer> valueModel = ValueModelUtils.createInteger(-1);
 	private PropertyViewAttributeSpy propertyViewAttributeSpy;
 	
 	@Before
@@ -133,7 +133,7 @@ public class PropertyViewAttributeTest
 		int viewUpdateNotificationCount;
 		int updatedValue;
 		boolean viewInitialized;
-		private PropertyValueModel<Integer> valueModelUpdatedByView;
+		private ValueModel<Integer> valueModelUpdatedByView;
 		
 		public void simulateViewUpdate(int newValue)
 		{
@@ -141,7 +141,7 @@ public class PropertyViewAttributeTest
 		}
 
 		@Override
-		protected void observeChangesOnTheView(PropertyValueModel<Integer> valueModel)
+		protected void observeChangesOnTheView(ValueModel<Integer> valueModel)
 		{
 			valueModelUpdatedByView = valueModel;
 		}

@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,44 +13,34 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.compoundbutton;
+package org.robobinding.viewattribute.imageview;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
+import org.robobinding.viewattribute.DrawableData;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.imageview.ImageSourceAttribute.DrawableImageSourceAttribute;
 
-import android.widget.CheckBox;
+import android.widget.ImageView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<CheckBox, CheckedAttribute>
+public class DrawableImageSourceAttributeTest extends AbstractPropertyViewAttributeTest<ImageView, DrawableImageSourceAttribute>
 {
 	@Test
-	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void whenUpdatingValueModel_thenViewShouldReflectChanges()
 	{
-		boolean checked = RandomValues.trueOrFalse();
+		DrawableData drawableData = RandomValues.anyDrawableData();
 		
-		attribute.valueModelUpdated(checked);
+		attribute.valueModelUpdated(drawableData.drawable);
 		
-		assertThat(view.isChecked(), equalTo(checked));
+		assertThat(view.getDrawable(), equalTo(drawableData.drawable));
 	}
-	
-	@Test
-	public void whenViewIsChecked_ThenUpdateValueModel()
-	{
-		ValueModel<Boolean> valueModel = twoWayBindToProperty(Boolean.class);
-		
-		view.setChecked(RandomValues.trueOrFalse());
-		
-		assertThat(valueModel.getValue(), equalTo(view.isChecked()));
-	}
-	
 }

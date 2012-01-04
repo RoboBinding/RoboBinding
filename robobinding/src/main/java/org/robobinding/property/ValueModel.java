@@ -21,7 +21,7 @@ package org.robobinding.property;
  * @author Cheng Wei
  *
  */
-public interface PropertyValueModel<T>
+public interface ValueModel<T>
 {
     T getValue();
     void setValue(T newValue);

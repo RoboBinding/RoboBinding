@@ -10,35 +10,35 @@ package org.robobinding.property;
 public class ValueModelUtils
 {
 	private ValueModelUtils(){}
-	public static PropertyValueModel<Boolean> createBoolean(boolean b)
+	public static ValueModel<Boolean> createBoolean(boolean b)
 	{
 		return new BooleanValueHolder(b);
 	}
-	public static PropertyValueModel<Double> createDouble(double d)
+	public static ValueModel<Double> createDouble(double d)
 	{
 		return new DoubleValueHolder(d);
 	}
-	public static PropertyValueModel<Float> createFloat(float f)
+	public static ValueModel<Float> createFloat(float f)
 	{
 		return new FloatValueHolder(f);
 	}
-	public static PropertyValueModel<Integer> createInteger(int i)
+	public static ValueModel<Integer> createInteger(int i)
 	{
 		return new IntegerValueHolder(i);
 	}
-	public static PropertyValueModel<Long> createLong(long l)
+	public static ValueModel<Long> createLong(long l)
 	{
 		return new LongValueHolder(l);
 	}
-	public static <T> PropertyValueModel<T> create()
+	public static <T> ValueModel<T> create()
 	{
 		return new GenericValueHolder<T>(null);
 	}
-	public static <T> PropertyValueModel<T> create(T o)
+	public static <T> ValueModel<T> create(T o)
 	{
 		return new GenericValueHolder<T>(o);
 	}
-	public static <T> PropertyValueModel<T> create(T o, boolean checkIdentity)
+	public static <T> ValueModel<T> create(T o, boolean checkIdentity)
 	{
 		return new GenericValueHolder<T>(o, checkIdentity);
 	}
@@ -93,7 +93,7 @@ public class ValueModelUtils
 		return new PropertyCreator(presentationModel).createDataSetProperty(propertyName);
 	}
 	
-	private abstract static class AbstractValueModel<T> implements PropertyValueModel<T>
+	private abstract static class AbstractValueModel<T> implements ValueModel<T>
 	{
 		private static final String PROPERTY_VALUE = "value";
 		

@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.compoundbutton;
+package org.robobinding.viewattribute.textview;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.textview.TextAttribute.CharSequenceTextAttribute;
 
-import android.widget.CheckBox;
+import android.widget.TextView;
 
 /**
  *
@@ -31,26 +32,25 @@ import android.widget.CheckBox;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<CheckBox, CheckedAttribute>
+public class CharSequenceAttributeTest extends AbstractPropertyViewAttributeTest<TextView, CharSequenceTextAttribute>
 {
 	@Test
-	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
-		boolean checked = RandomValues.trueOrFalse();
+		CharSequence newText = RandomStringUtils.random(5);
 		
-		attribute.valueModelUpdated(checked);
-		
-		assertThat(view.isChecked(), equalTo(checked));
+		attribute.valueModelUpdated(newText);
+
+		assertThat(view.getText(), equalTo(newText));
 	}
 	
 	@Test
-	public void whenViewIsChecked_ThenUpdateValueModel()
+	public void givenValueModelIsStringType_whenViewStateIsChanged_thenUpdateValueModel()
 	{
-		ValueModel<Boolean> valueModel = twoWayBindToProperty(Boolean.class);
+		ValueModel<CharSequence> valueModel = twoWayBindToProperty(CharSequence.class);
 		
-		view.setChecked(RandomValues.trueOrFalse());
-		
-		assertThat(valueModel.getValue(), equalTo(view.isChecked()));
+		view.setText(RandomStringUtils.random(5));
+
+		assertThat(valueModel.getValue(), equalTo(view.getText()));
 	}
-	
 }
