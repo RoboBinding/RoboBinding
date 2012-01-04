@@ -41,10 +41,9 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Abstr
 	public void populateMappings()
 	{
 		propertyTypeToViewAttributeMappings = Maps.newHashMap();
-		populateTypeMappingExpectations(new TypeMappingExpectations());
 	}
 	
-	protected abstract void populateTypeMappingExpectations(TypeMappingExpectations mappingExpectations);
+	protected abstract void setTypeMappingExpectations();
 	
 	@Test
 	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
@@ -60,9 +59,21 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Abstr
 		}
 	}
 	
-	protected class TypeMappingExpectations
+	protected TypeMappingBuilder forPropertyType(Class<?> propertyType)
 	{
-		public void add(Class<?> propertyType, Class<? extends PropertyViewAttribute<? extends View>> attributeClass)
+		return new TypeMappingBuilder(propertyType);
+	}
+	
+	protected class TypeMappingBuilder
+	{
+		private final Class<?> propertyType;
+
+		public TypeMappingBuilder(Class<?> propertyType)
+		{
+			this.propertyType = propertyType;
+		}
+
+		public void expectAttribute(Class<? extends PropertyViewAttribute<? extends View>> attributeClass)
 		{
 			propertyTypeToViewAttributeMappings.put(propertyType, attributeClass);
 		}
