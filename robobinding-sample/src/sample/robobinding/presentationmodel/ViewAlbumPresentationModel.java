@@ -20,6 +20,7 @@ import org.robobinding.presentationmodelaspects.PresentationModel;
 import sample.robobinding.CreateEditAlbumActivity;
 import sample.robobinding.DeleteAlbumDialog;
 import sample.robobinding.model.Album;
+import sample.robobinding.model.Genre;
 import sample.robobinding.store.AlbumStore;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -70,6 +71,21 @@ public class ViewAlbumPresentationModel
 		return album.isClassical() ? "Classical" : "Not classical";
 	}
 	
+	public boolean isGenreSpecified()
+	{
+		return album.getGenre() != Genre.UNSPECIFIED;
+	}
+	
+	public String getGenreLabel()
+	{
+		return album.getGenre().getLabel();
+	}
+	
+	public int getGenreIcon()
+	{
+		return album.getGenre().getIconResId();
+	}
+	
 	public void editAlbum()
 	{
 		Intent intent = new Intent(activity, CreateEditAlbumActivity.class);
@@ -88,6 +104,16 @@ public class ViewAlbumPresentationModel
 			}
 		});
 		deleteAlbumDialog.show();
+	}
+	
+	public int getNumStars()
+	{
+		return Album.MAX_RATING;
+	}
+	
+	public int getRating()
+	{
+		return album.getRating();
 	}
 	
 	public void refresh()

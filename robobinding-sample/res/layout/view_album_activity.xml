@@ -1,85 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:binding="http://robobinding.org/robobinding.android"
-	android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    xmlns:bind="http://robobinding.org/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-    <Button android:id="@+id/delete_button"
-	    	android:layout_width="fill_parent"
-	  		android:layout_height="wrap_content"
-	  		android:layout_alignParentBottom="true"
-	  		android:text="@string/delete"
-	  		binding:onClick="deleteAlbum" />
-    
-	<Button android:id="@+id/edit_button"
-	    	android:layout_width="fill_parent"
-	  		android:layout_height="wrap_content"
-	  		android:layout_above="@id/delete_button"
-	  		android:text="@string/edit"
-	  		binding:onClick="editAlbum" />
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        bind:onClick="deleteAlbum"
+        android:text="@string/delete" />
 
-	<ScrollView 
-		android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_above="@id/edit_button">
-	    
-		<LinearLayout 
-		    android:orientation="vertical"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content" >
-			
-			<TextView 
-				android:layout_width="fill_parent" 
-			    android:layout_height="wrap_content" 
-			    android:text="@string/view_album"
-			    style="@style/ScreenTitle" />
-			
-			<TextView
-			    android:layout_width="fill_parent" 
-			    android:layout_height="wrap_content" 
-			    android:text="@string/title"
-			    style="@style/Heading" />
-			
-			<TextView
-			    android:layout_width="fill_parent" 
-			    android:layout_height="wrap_content" 
-			    binding:text="{title}" />
-			
-			<TextView
-			    android:layout_width="fill_parent" 
-			    android:layout_height="wrap_content" 
-			    android:text="@string/artist"
-			    style="@style/Heading" />
-			
-			<TextView
-			    android:layout_width="fill_parent" 
-			    android:layout_height="wrap_content" 
-			    binding:text="{artist}" />
-			
-			<TextView
-			    android:layout_width="fill_parent" 
-			    android:layout_height="wrap_content" 
-			    android:text="@string/classical"
-			    style="@style/Heading" />
-			
-			<TextView
-				android:layout_width="wrap_content" 
-			    android:layout_height="wrap_content"
-			    binding:text="{classicalDescription}" />
-			
-			<TextView
-			    android:layout_width="fill_parent" 
-			    android:layout_height="wrap_content" 
-			    android:text="@string/composer"
-			    style="@style/Heading"
-			    binding:visibility="{composerEnabled}" />
-			
-			<TextView
-			    android:layout_width="fill_parent" 
-			    android:layout_height="wrap_content" 
-			    binding:text="{composer}"
-			    binding:visibility="{composerEnabled}" />
-			    
-		</LinearLayout>
-	</ScrollView>
+    <Button
+        android:id="@+id/edit_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/delete_button"
+        bind:onClick="editAlbum"
+        android:text="@string/edit" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/edit_button" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/ScreenTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/view_album" />
+
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                bind:text="{title}" />
+
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/artist" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                bind:text="{artist}" />
+
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/classical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bind:text="{classicalDescription}" />
+
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/composer"
+                bind:visibility="{composerEnabled}" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                bind:text="{composer}"
+                bind:visibility="{composerEnabled}" />
+
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/genre"
+                bind:visibility="{genreSpecified}" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                bind:text="{genreLabel}"
+                bind:visibility="{genreSpecified}" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/genre_icon"
+                bind:src="{genreIcon}"
+                bind:visibility="{genreSpecified}" />
+            
+            <TextView
+                style="@style/Heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rating" />
+            
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                style="?android:attr/ratingBarStyleSmall" 
+                bind:numStars="{numStars}"
+                bind:rating="{rating}" />
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

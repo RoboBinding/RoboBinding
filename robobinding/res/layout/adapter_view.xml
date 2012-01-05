@@ -9,14 +9,14 @@
 	<ListView
 	    android:id="@+id/supportedAttributesOfAdapterView">
 	    <!-- 
-	    binding:onItemClick="onItemClick()"
-	    binding:onItemLongClicked="onItemLongClick()"
-	    binding:onItemSelected="onItemSelected()"
-	    binding:selectedItemPosition="integer"
-	    binding:selectedItem="Object(readonly)"
-	    binding:selectedItemId="long(readonly)"
-	    binding:source="List/TypedCursor"
-	    binding:itemLayout="item layout resource id"
+	    bind:onItemClick="onItemClick()"
+	    bind:onItemLongClicked="onItemLongClick()"
+	    bind:onItemSelected="onItemSelected()"
+	    bind:selectedItemPosition="integer"
+	    bind:selectedItem="Object(readonly)"
+	    bind:selectedItemId="long(readonly)"
+	    bind:source="List/TypedCursor"
+	    bind:itemLayout="item layout resource id"
 	     -->
 	</ListView>
 	<ListView

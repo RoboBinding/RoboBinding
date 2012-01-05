@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout 
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:binding="http://robobinding.org/robobinding.android"
+	xmlns:bind="http://robobinding.org/android"
 	android:orientation="horizontal">
 
 	<RelativeLayout
@@ -12,14 +12,14 @@
 	    <TextView android:id="@+id/title"
 	    	android:layout_width="wrap_content"
 	  		android:layout_height="wrap_content"
-	  		binding:text="{title}"
+	  		bind:text="{title}"
 	  		style="@style/Heading" />
 	    
 	    <TextView
 	    	android:layout_width="wrap_content"
 	  		android:layout_height="wrap_content"
 	  		android:layout_below="@id/title"
-	  		binding:text="{artist}" />
+	  		bind:text="{artist}" />
 	    
 	</RelativeLayout>
 	    

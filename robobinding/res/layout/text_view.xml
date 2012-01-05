@@ -7,7 +7,7 @@
         android:text="String(to support 'int, double, long, float' where they are easy)"
         android:textColor="@android:color/background_light">
         <!-- 
-        binding:onTextChange="onTextChange()"
+        bind:onTextChange="onTextChange()"
          -->
     </TextView>
 	<TextView 

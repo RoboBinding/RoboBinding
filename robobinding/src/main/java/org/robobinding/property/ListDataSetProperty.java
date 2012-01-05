@@ -17,14 +17,12 @@ package org.robobinding.property;
 
 import java.util.List;
 
-
-
 /**
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  * @author Cheng Wei
- *
  */
 class ListDataSetProperty<T> extends AbstractDataSetProperty<T>
 {
@@ -36,9 +34,8 @@ class ListDataSetProperty<T> extends AbstractDataSetProperty<T>
 	public int size()
 	{
 		if(getData() == null)
-		{
 			return 0;
-		}
+
 		return getData().size();
 	}
 	@Override

@@ -7,10 +7,10 @@
     <ListView 
         android:id="@+id/supportedAttributesOfAbsListView">
         <!-- 
-        binding:checkedItemCount="integer(readonly)"
-        binding:checkedItemIds="long[](readonly)"
-        binding:checkedItemPosition="integer(readonly)"
-        binding:checkedItemPositions="SparseBooleanArray(readonly)"
+        bind:checkedItemCount="integer(readonly)"
+        bind:checkedItemIds="long[](readonly)"
+        bind:checkedItemPosition="integer(readonly)"
+        bind:checkedItemPositions="SparseBooleanArray(readonly)"
          -->
     </ListView>
     <ListView 
@@ -26,7 +26,7 @@
         android:textFilterEnabled="true"
         android:transcriptMode="disabled">
         <!-- 
-        binding:filterText="String"
+        bind:filterText="String"
         -->
     </ListView>
 </LinearLayout>

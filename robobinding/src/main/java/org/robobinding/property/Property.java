@@ -21,7 +21,7 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface Property<T> extends PropertyValueModel<T>
+public interface Property<T> extends ValueModel<T>
 {
 	Class<?> getPropertyType();
 	void checkReadWriteProperty(boolean isReadWriteProperty);

@@ -20,6 +20,7 @@ import org.robobinding.presentationmodelaspects.PresentationModel;
 
 import sample.robobinding.R;
 import sample.robobinding.model.Album;
+import sample.robobinding.model.Genre;
 import sample.robobinding.store.AlbumStore;
 import android.app.Activity;
 
@@ -107,6 +108,53 @@ public class CreateEditAlbumPresentationModel
 		albumBuilder.setComposer(composer);
 	}
 
+	public void setGenre(Genre genre)
+	{
+		albumBuilder.setGenre(genre);
+	}
+	
+	public int getSliderMax()
+	{
+		return Genre.values().length;
+	}
+	
+	public int getGenreIndex()
+	{
+		return Genre.indexOf(albumBuilder.getGenre());
+	}
+	
+	public void setGenreIndex(int index)
+	{
+		setGenre(Genre.values()[index]);
+	}
+	
+	@DependsOnStateOf("genre")
+	public int getGenreIcon()
+	{
+		return albumBuilder.getGenre().getIconResId();
+	}
+	
+	@DependsOnStateOf("genre")
+	public String getGenreLabel()
+	{
+		return albumBuilder.getGenre().getLabel();
+	}
+	
+	public int getNumStars()
+	{
+		return Album.MAX_RATING;
+	}
+	
+	public int getRating()
+	{
+		return albumBuilder.getRating();
+	}
+	
+	public void setRating(int rating)
+	{
+		albumBuilder.setRating(rating);
+	}
+	
 	@DependsOnStateOf(CLASSICAL)
 	public String getWindowTitle()
 	{

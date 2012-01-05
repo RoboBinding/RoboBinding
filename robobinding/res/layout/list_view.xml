@@ -6,10 +6,10 @@
 	<ListView 
 	    android:id="@+id/supportedAttributesOfListView">
 	    <!-- 
-	    binding:header="header presentation model"
-	    binding:headerLayout="layout resource id"
-	    binding:footer="footer presentation model"
-	    binding:footerLayout="layout resource id"
+	    bind:header="header presentation model"
+	    bind:headerLayout="layout resource id"
+	    bind:footer="footer presentation model"
+	    bind:footerLayout="layout resource id"
 	     -->
 	</ListView>
 	<ListView 

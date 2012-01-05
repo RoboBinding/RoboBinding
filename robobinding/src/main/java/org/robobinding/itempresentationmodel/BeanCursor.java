@@ -143,7 +143,7 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 	@Override
 	public T getObjectAtPosition(int position)
 	{
-		Validate.isTrue(position < getCount(), "Invalid position '"+position);
+		Validate.isTrue(position < getCount(), "Invalid requested position '"+position+"', as the cursor size is '"+getCount()+"'");
 		return beans.get(position);
 	}
 }
