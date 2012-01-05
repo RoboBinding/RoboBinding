@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.listview;
 
-import org.robobinding.binding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 
 import android.view.View;
 import android.widget.ListView;
@@ -26,16 +26,13 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class FooterVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<Boolean>
+public class FooterVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 {
 	private ListView listView;
-	private View footerView;
 
-	public FooterVisibilityAttribute(ListView listView, View footerView, String attributeValue)
+	public FooterVisibilityAttribute(ListView listView)
 	{
-		super(attributeValue, false);
 		this.listView = listView;
-		this.footerView = footerView;
 	}
 
 	@Override
@@ -53,14 +50,14 @@ public class FooterVisibilityAttribute extends AbstractReadOnlyPropertyViewAttri
 	{
 		if(listView.getFooterViewsCount() == 0)
 		{
-			listView.addFooterView(footerView);
+			listView.addFooterView(view);
 		}
 	}
 	private void makeGone()
 	{
 		if(listView.getFooterViewsCount()>0)
 		{
-			listView.removeFooterView(footerView);
+			listView.removeFooterView(view);
 		}
 	}
 }

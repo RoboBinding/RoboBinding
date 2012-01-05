@@ -1,18 +1,16 @@
 /**
- * HeaderSourceViewAttribute.java
+ * HeaderAttributes.java
  * Sep 6, 2011
  * Copyright 2009~2011 ESCA Mobile Ltd company, Inc. All rights reserved.
  * ESCA Mobile Ltd PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 package org.robobinding.viewattribute.listview;
 
-import org.apache.commons.lang3.Validate;
-import org.robobinding.binding.ViewAttribute;
-import org.robobinding.binding.customwidget.Attribute;
-import org.robobinding.binding.viewattribute.BindingDetailsBuilder;
-import org.robobinding.binding.viewattribute.PropertyBindingDetails;
-import org.robobinding.binding.viewattribute.ResourceBindingDetails;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.BindingDetailsBuilder;
+import org.robobinding.viewattribute.ResourceBindingDetails;
 
 import android.content.Context;
 import android.view.View;
@@ -23,65 +21,46 @@ import android.widget.ListView;
  * @author Cheng Wei
  *
  */
-public class HeaderAttributes implements ViewAttribute
+public class HeaderAttributes extends AbstractGroupedViewAttribute<ListView>
 {
-	private ListView listView;
+	static final String HEADER_LAYOUT = "headerLayout";
+	static final String HEADER_SOURCE = "headerSource";
 	
-	private Attribute headerLayout;
-	private Attribute headerSource;
-	
-	private HeaderAttributes(Builder builder)
+	private int headerLayoutId;
+	private Object headerSourcePresentationModel;
+	@Override
+	protected void initializeChildViewAttributes()
 	{
-		validate(builder);
-		
-		this.listView = builder.listView;
-		this.headerLayout = builder.headerLayout;
-		this.headerSource = builder.headerSource;
+		validateAttributes();
 	}
 
-	private void validate(Builder builder)
+	private void validateAttributes()
 	{
-		Validate.notNull(builder.listView);
-		Validate.notNull(builder.headerLayout);
-		Validate.notNull(builder.headerSource);
+		assertAttributesArePresent(HEADER_LAYOUT, HEADER_SOURCE);
 	}
 
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(headerLayout.getValue(), false);
-		ResourceBindingDetails resourceBindingDetails = bindingDetailsBuilder.createResourceBindingDetails();
-		int headerLayoutId = resourceBindingDetails.getResourceId(context);
-		
-		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(headerSource.getValue(), false);
-		Object headerSourcePresentationModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName).getValue();
+		initializeHeaderLayoutId(context);
+		initializeHeaderSourcePresentationModel(presentationModelAdapter);
 		
 		SubviewBinder binder = new SubviewBinder(context, headerLayoutId);
 		View headerView = binder.bindTo(headerSourcePresentationModel);
-		listView.addHeaderView(headerView, null, false);
+		view.addHeaderView(headerView, null, false);
 	}
-	
-	public static class Builder
+
+	private void initializeHeaderLayoutId(Context context)
 	{
-		private ListView listView;
-		
-		private Attribute headerLayout;
-		private Attribute headerSource;
-		public void setListView(ListView listView)
-		{
-			this.listView = listView;
-		}
-		public void setHeaderLayout(Attribute headerLayout)
-		{
-			this.headerLayout = headerLayout;
-		}
-		public void setHeaderSource(Attribute headerSource)
-		{
-			this.headerSource = headerSource;
-		}
-		public HeaderAttributes create()
-		{
-			return new HeaderAttributes(this);
-		}
+		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(groupedAttributeDetails.attributeValueFor(HEADER_LAYOUT));
+		ResourceBindingDetails resourceBindingDetails = bindingDetailsBuilder.createResourceBindingDetails();
+		headerLayoutId = resourceBindingDetails.getResourceId(context);
+	}
+
+	private void initializeHeaderSourcePresentationModel(PresentationModelAdapter presentationModelAdapter)
+	{
+		String propertyName = groupedAttributeDetails.attributeValueFor(HEADER_SOURCE);
+		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
+		headerSourcePresentationModel = valueModel.getValue();
 	}
 }

@@ -1,7 +1,7 @@
 package org.robobinding.viewattribute.listview;
 
-import org.robobinding.binding.AbstractBinder;
-import org.robobinding.binding.BindingViewFactory.InflatedView;
+import org.robobinding.binder.AbstractBinder;
+import org.robobinding.binder.BindingViewFactory.InflatedView;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
 
