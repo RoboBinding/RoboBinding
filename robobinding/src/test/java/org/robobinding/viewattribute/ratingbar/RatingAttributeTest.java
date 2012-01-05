@@ -15,21 +15,10 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
-
-import java.util.Map;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttributeTest;
 import org.robobinding.viewattribute.ratingbar.RatingAttribute.FloatRatingAttribute;
 import org.robobinding.viewattribute.ratingbar.RatingAttribute.IntegerRatingAttribute;
-
-import android.widget.RatingBar;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -40,31 +29,14 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class RatingAttributeTest extends AbstractPropertyViewAttributeTest<RatingBar, RatingAttribute>
+public class RatingAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<RatingAttribute>
 {
-	private RatingAttribute ratingAttribute;
-	private Map<Class<?>, Class<? extends PropertyViewAttribute<RatingBar>>> propertyTypeToViewAttributeMappings;
-	
-	@Before
-	public void setUp()
+	@Override
+	protected void setTypeMappingExpectations()
 	{
-		ratingAttribute = new RatingAttribute();
-		
-		propertyTypeToViewAttributeMappings = Maps.newHashMap();
-		propertyTypeToViewAttributeMappings.put(int.class, IntegerRatingAttribute.class);
-		propertyTypeToViewAttributeMappings.put(Integer.class, IntegerRatingAttribute.class);
-		propertyTypeToViewAttributeMappings.put(float.class, FloatRatingAttribute.class);
-		propertyTypeToViewAttributeMappings.put(Float.class, FloatRatingAttribute.class);
-	}
-	
-	@Test
-	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
-	{
-		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
-		{
-			PropertyViewAttribute<RatingBar> propertyViewAttribute = ratingAttribute.createPropertyViewAttribute(propertyType);
-			
-			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
-		}
+		forPropertyType(int.class).expectAttribute(IntegerRatingAttribute.class);
+		forPropertyType(int.class).expectAttribute(IntegerRatingAttribute.class);
+		forPropertyType(float.class).expectAttribute(FloatRatingAttribute.class);
+		forPropertyType(Float.class).expectAttribute(FloatRatingAttribute.class);
 	}
 }

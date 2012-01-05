@@ -15,27 +15,9 @@
  */
 package org.robobinding.viewattribute.textview;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
-
-import java.util.Map;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttributeTest;
 import org.robobinding.viewattribute.textview.TextAttribute.CharSequenceTextAttribute;
 import org.robobinding.viewattribute.textview.TextAttribute.StringTextAttribute;
-
-import android.widget.TextView;
-
-import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.shadows.ShadowTextView;
 
 /**
  *
@@ -43,56 +25,13 @@ import com.xtremelabs.robolectric.shadows.ShadowTextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextAttributeTest extends AbstractPropertyViewAttributeTest<TextView, TextAttribute>
+public class TextAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<TextAttribute>
 {
-	private TextAttribute textAttribute;
-	private Map<Class<?>, Class<? extends PropertyViewAttribute<TextView>>> propertyTypeToViewAttributeMappings;
-	
-	@Before
-	public void setUp()
+	@Override
+	protected void setTypeMappingExpectations()
 	{
-		textAttribute = new TextAttribute();
-		
-		propertyTypeToViewAttributeMappings = Maps.newHashMap();
-		propertyTypeToViewAttributeMappings.put(String.class, StringTextAttribute.class);
-		propertyTypeToViewAttributeMappings.put(CharSequence.class, CharSequenceTextAttribute.class);
+		forPropertyType(String.class).expectAttribute(StringTextAttribute.class);
+		forPropertyType(CharSequence.class).expectAttribute(CharSequenceTextAttribute.class);
 	}
 	
-	@Test
-	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
-	{
-		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
-		{
-			PropertyViewAttribute<TextView> propertyViewAttribute = textAttribute.createPropertyViewAttribute(propertyType);
-			
-			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
-		}
-	}
-	
-	@Test
-	public void givenALateValueCommitAttribute_whenUpdatingView_thenDoNotImmediatelyCommitToValueModel()
-	{
-		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
-		String newText = RandomStringUtils.random(5);
-		ValueModel<String> valueModel = twoWayBindToProperty(String.class);
-		
-		view.setText(newText);
-
-		assertThat(valueModel.getValue(), not(equalTo(newText)));
-	}
-	
-	@Test
-	public void givenALateValueCommitAttribute_whenViewLosesFocus_thenCommitToValueModel()
-	{
-		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
-		String newText = RandomStringUtils.random(5);
-		ValueModel<String> valueModel = twoWayBindToProperty(String.class);
-		
-		view.setText(newText);
-
-		ShadowTextView shadowTextView = Robolectric.shadowOf(view);
-		shadowTextView.setViewFocus(false);
-		
-		assertThat(valueModel.getValue(), equalTo(newText));
-	}
 }
