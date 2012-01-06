@@ -33,9 +33,9 @@ public class WidgetViewAttributeProviderAdapter<T extends View>
 		this.widgetViewAttributeProvider = widgetViewAttributeProvider;
 	}
 	
-	public ViewAttributeMappingsImpl<T> createViewAttributeMappings()
+	public ViewAttributeMappingsImpl<T> createViewAttributeMappings(T view, boolean preInitializeViews)
 	{
-		ViewAttributeMappingsImpl<T> viewAttributeMappings = new ViewAttributeMappingsImpl<T>();
+		ViewAttributeMappingsImpl<T> viewAttributeMappings = new ViewAttributeMappingsImpl<T>(view, preInitializeViews);
 		widgetViewAttributeProvider.populateViewAttributeMappings(viewAttributeMappings);
 		return viewAttributeMappings;
 	}

@@ -22,6 +22,7 @@ import org.apache.commons.lang3.Validate;
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.ViewAttributeMappings;
@@ -37,12 +38,18 @@ import android.view.View;
  */
 class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings<T>
 {
+	private T view;
+	private boolean preInitializeViews;
+	
 	private Map<String, Class<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
 	private Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
 	private Map<GroupedAttributeDetailsImpl, Class<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
 
-	public ViewAttributeMappingsImpl()
+	public ViewAttributeMappingsImpl(T view, boolean preInitializeViews)
 	{
+		this.view = view;
+		this.preInitializeViews = preInitializeViews;
+		
 		propertyViewAttributeMappings = Maps.newHashMap();
 		commandViewAttributeMappings = Maps.newHashMap();
 		groupedViewAttributeMappings = Maps.newHashMap();
@@ -78,11 +85,16 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 		return propertyViewAttributeMappings.keySet();
 	}
 
-	public PropertyViewAttribute<View> createPropertyViewAttribute(String propertyAttribute)
+	public PropertyViewAttribute<View> createPropertyViewAttribute(String propertyAttribute, String attributeValue)
 	{
 		Class<? extends PropertyViewAttribute<? extends View>> propertyViewAttributeClass = propertyViewAttributeMappings.get(propertyAttribute);
 		@SuppressWarnings("unchecked")
 		PropertyViewAttribute<View> propertyViewAttribute = (PropertyViewAttribute<View>) newViewAttribute(propertyViewAttributeClass);
+		
+		propertyViewAttribute.setView(view);
+		propertyViewAttribute.setPreInitializeView(preInitializeViews);
+		propertyViewAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(attributeValue));
+		
 		return propertyViewAttribute;
 	}
 
@@ -91,11 +103,15 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 		return commandViewAttributeMappings.keySet();
 	}
 
-	public AbstractCommandViewAttribute<View> createCommandViewAttribute(String commandAttribute)
+	public AbstractCommandViewAttribute<View> createCommandViewAttribute(String commandAttribute, String attributeValue)
 	{
 		Class<? extends AbstractCommandViewAttribute<? extends View>> commandViewAttributeClass = commandViewAttributeMappings.get(commandAttribute);
 		@SuppressWarnings("unchecked")
 		AbstractCommandViewAttribute<View> commandViewAttribute = (AbstractCommandViewAttribute<View>) newViewAttribute(commandViewAttributeClass);
+		
+		commandViewAttribute.setView(view);
+		commandViewAttribute.setCommandName(attributeValue);
+		
 		return commandViewAttribute;
 	}
 
@@ -109,6 +125,11 @@ class ViewAttributeMappingsImpl<T extends View> implements ViewAttributeMappings
 		Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass = groupedViewAttributeMappings.get(groupedAttributeDetails);
 		@SuppressWarnings("unchecked")
 		AbstractGroupedViewAttribute<View> groupedPropertyViewAttribute = (AbstractGroupedViewAttribute<View>)newViewAttribute(groupedViewAttributeClass);
+		
+		groupedPropertyViewAttribute.setView(view);
+		groupedPropertyViewAttribute.setPreInitializeViews(preInitializeViews);
+		groupedPropertyViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
+		
 		return groupedPropertyViewAttribute;
 	}
 	

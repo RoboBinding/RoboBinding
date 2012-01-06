@@ -60,14 +60,15 @@ public class BindingAttributesProcessor
 	
 	private List<ViewAttribute> determineViewAttributes(View view, Map<String, String> pendingBindingAttributes)
 	{
-		ViewAttributeResolver viewAttributeResolver = new ViewAttributeResolver(view, preInitializeViews, pendingBindingAttributes);
+		ViewAttributeResolver viewAttributeResolver = new ViewAttributeResolver(pendingBindingAttributes);
 		Collection<WidgetViewAttributeProviderAdapter<? extends View>> providers = providersResolver.getCandidateProviders(view);
 		
 		for (WidgetViewAttributeProviderAdapter<? extends View> provider : providers)
 		{
 			@SuppressWarnings("unchecked")
 			WidgetViewAttributeProviderAdapter<View> viewProvider = (WidgetViewAttributeProviderAdapter<View>)provider;
-			viewAttributeResolver.resolve(viewProvider);
+			ViewAttributeMappingsImpl<View> viewAttributeMappings = viewProvider.createViewAttributeMappings(view, preInitializeViews);
+			viewAttributeResolver.resolve(viewAttributeMappings);
 			
 			if (viewAttributeResolver.isDone())
 				break;
