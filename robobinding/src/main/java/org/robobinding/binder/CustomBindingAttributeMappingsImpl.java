@@ -63,7 +63,7 @@ public class CustomBindingAttributeMappingsImpl<T extends View> extends BindingA
 	protected void addGroupedViewAttributeMapping(Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass,	String... attributeNames)
 	{
 		Validate.notNull(attributeNames, "attribute names must not be null");
-		Validate.notNull(groupedViewAttributeClass, "groupedPropertyViewAttribute must not be null");
+		Validate.notNull(groupedViewAttributeClass, "groupedViewAttributeClass must not be null");
 		super.addGroupedViewAttributeMapping(groupedViewAttributeClass, attributeNames);
 	}
 	
