@@ -18,14 +18,13 @@ package org.robobinding.binder;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.commons.lang3.Validate;
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
-import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.view.View;
 
@@ -58,24 +57,18 @@ class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMa
 	@Override
 	public void mapPropertyAttribute(Class<? extends PropertyViewAttribute<T>> propertyViewAttributeClass, String attributeName)
 	{
-		Validate.notBlank(attributeName, "attribute name must not be empty");
-		Validate.notNull(propertyViewAttributeClass, "propertyViewAttributeClass must not be null");
 		addPropertyViewAttributeMapping(propertyViewAttributeClass, attributeName);
 	}
 
 	@Override
 	public void mapCommandAttribute(Class<? extends AbstractCommandViewAttribute<T>> commandViewAttributeClass, String attributeName)
 	{
-		Validate.notBlank(attributeName, "attribute name must not be empty");
-		Validate.notNull(commandViewAttributeClass, "commandViewAttributeClass must not be null");
 		addCommandViewAttributeMapping(commandViewAttributeClass, attributeName);
 	}
 
 	@Override
 	public void mapGroupedAttribute(Class<? extends AbstractGroupedViewAttribute<T>> groupedViewAttributeClass,	String... attributeNames)
 	{
-		Validate.notNull(attributeNames, "attribute names must not be null");
-		Validate.notNull(groupedViewAttributeClass, "groupedPropertyViewAttribute must not be null");
 		addGroupedViewAttributeMapping(groupedViewAttributeClass, attributeNames);
 	}
 
@@ -86,6 +79,7 @@ class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMa
 	
 	protected void addCommandViewAttributeMapping(Class<? extends AbstractCommandViewAttribute<?>> commandViewAttributeClass, String attributeName)
 	{
+		
 		commandViewAttributeMappings.put(attributeName, commandViewAttributeClass);
 	}
 	
