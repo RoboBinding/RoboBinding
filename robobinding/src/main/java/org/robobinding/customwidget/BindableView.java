@@ -15,8 +15,6 @@
  */
 package org.robobinding.customwidget;
 
-import org.robobinding.viewattribute.WidgetViewAttributeProvider;
-
 import android.view.View;
 
 /**
@@ -26,6 +24,7 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface BindableView<T extends View> extends WidgetViewAttributeProvider<T>
+public interface BindableView<T extends View>
 {
+	void populateBindingAttributeMappings(CustomBindingAttributeMappings<T> mappings);
 }

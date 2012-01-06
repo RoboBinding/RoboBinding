@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.imageview;
+package org.robobinding.viewattribute;
 
-import org.robobinding.viewattribute.ViewAttributeMappings;
-import org.robobinding.viewattribute.WidgetViewAttributeProvider;
+import android.view.View;
 
-import android.widget.ImageView;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
+ * @author Cheng Wei
  */
-public class ImageViewAttributeProvider implements WidgetViewAttributeProvider<ImageView>
+public interface BindingAttributeMappings<T extends View>
 {
-	@Override
-	public void populateViewAttributeMappings(ViewAttributeMappings<ImageView> mappings)
-	{
-		mappings.mapProperty(ImageSourceAttribute.class, "src");
-	}
-
+	void mapPropertyAttribute(Class<? extends PropertyViewAttribute<T>> propertyViewAttributeClass, String attributeName);
+	
+	void mapCommandAttribute(Class<? extends AbstractCommandViewAttribute<T>> commandViewAttributeClass, String attributeName);
+	
+	void mapGroupedAttribute(Class<? extends AbstractGroupedViewAttribute<T>> groupedViewAttributeClass, String... attributeNames);
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.seekbar;
+package org.robobinding.binder;
 
-import org.robobinding.viewattribute.ViewAttributeMappings;
-import org.robobinding.viewattribute.WidgetViewAttributeProvider;
-
-import android.widget.SeekBar;
+import android.view.View;
 
 /**
  *
@@ -26,12 +23,7 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SeekBarAttributeProvider implements WidgetViewAttributeProvider<SeekBar>
+public interface BindingAttributeMapperAdapter<T extends View>
 {
-	@Override
-	public void populateViewAttributeMappings(ViewAttributeMappings<SeekBar> mappings)
-	{
-		mappings.mapGroup(OnSeekBarChangeAttributes.class, OnSeekBarChangeAttributes.PROGRESS, OnSeekBarChangeAttributes.ON_SEEK_BAR_CHANGE);
-	}
-	
+	BindingAttributeMappingsImpl<T> createBindingAttributeMappings(T view, boolean preInitializeViews);
 }

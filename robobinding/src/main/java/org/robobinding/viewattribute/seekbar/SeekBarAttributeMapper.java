@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.ratingbar;
+package org.robobinding.viewattribute.seekbar;
 
-import org.robobinding.viewattribute.ViewAttributeMappings;
-import org.robobinding.viewattribute.WidgetViewAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.BindingAttributeMapper;
 
-import android.widget.RatingBar;
+import android.widget.SeekBar;
 
 /**
  *
@@ -26,14 +26,12 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class RatingBarAttributeProvider implements WidgetViewAttributeProvider<RatingBar>
+public class SeekBarAttributeMapper implements BindingAttributeMapper<SeekBar>
 {
 	@Override
-	public void populateViewAttributeMappings(ViewAttributeMappings<RatingBar> mappings)
+	public void populateBindingAttributeMappings(BindingAttributeMappings<SeekBar> mappings)
 	{
-		mappings.mapProperty(RatingAttribute.class, "rating");
-		mappings.mapProperty(NumStarsAttribute.class, "numStars");
-		
-		mappings.mapCommand(OnRatingBarChangeAttribute.class, "onRatingBarChange");
+		mappings.mapGroupedAttribute(OnSeekBarChangeAttributes.class, OnSeekBarChangeAttributes.PROGRESS, OnSeekBarChangeAttributes.ON_SEEK_BAR_CHANGE);
 	}
+	
 }

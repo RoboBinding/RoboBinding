@@ -13,18 +13,27 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.ratingbar;
 
-import android.view.View;
+import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.BindingAttributeMapper;
+
+import android.widget.RatingBar;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- * @author Cheng Wei
  */
-public interface WidgetViewAttributeProvider<T extends View>
+public class RatingBarAttributeMapper implements BindingAttributeMapper<RatingBar>
 {
-	void populateViewAttributeMappings(ViewAttributeMappings<T> mappings);
+	@Override
+	public void populateBindingAttributeMappings(BindingAttributeMappings<RatingBar> mappings)
+	{
+		mappings.mapPropertyAttribute(RatingAttribute.class, "rating");
+		mappings.mapPropertyAttribute(NumStarsAttribute.class, "numStars");
+		
+		mappings.mapCommandAttribute(OnRatingBarChangeAttribute.class, "onRatingBarChange");
+	}
 }

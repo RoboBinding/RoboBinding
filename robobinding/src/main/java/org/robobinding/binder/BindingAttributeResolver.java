@@ -35,25 +35,25 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class ViewAttributeResolver
+public class BindingAttributeResolver
 {
 	private List<ViewAttribute> resolvedViewAttributes;
 	private Map<String, String> pendingAttributeMappings;
 
-	public ViewAttributeResolver(Map<String, String> pendingAttributes)
+	public BindingAttributeResolver(Map<String, String> pendingAttributes)
 	{
 		this.pendingAttributeMappings = pendingAttributes;
 		this.resolvedViewAttributes = Lists.newArrayList();
 	}
 
-	void resolve(ViewAttributeMappingsImpl<View> viewAttributeMappings)
+	void resolve(BindingAttributeMappingsImpl<View> viewAttributeMappings)
 	{
 		resolvePropertyViewAttributes(viewAttributeMappings);
 		resolveCommandViewAttributes(viewAttributeMappings);
 		resolveGroupedViewAttributes(viewAttributeMappings);
 	}
 
-	private void resolvePropertyViewAttributes(ViewAttributeMappingsImpl<View> viewAttributeMappings)
+	private void resolvePropertyViewAttributes(BindingAttributeMappingsImpl<View> viewAttributeMappings)
 	{
 		for (String propertyAttribute : viewAttributeMappings.getPropertyAttributes())
 		{
@@ -95,7 +95,7 @@ public class ViewAttributeResolver
 		}
 	}
 
-	private void resolveCommandViewAttributes(ViewAttributeMappingsImpl<View> viewAttributeMappings)
+	private void resolveCommandViewAttributes(BindingAttributeMappingsImpl<View> viewAttributeMappings)
 	{
 		for (String commandAttribute : viewAttributeMappings.getCommandAttributes())
 		{
@@ -108,7 +108,7 @@ public class ViewAttributeResolver
 		}
 	}
 
-	private void resolveGroupedViewAttributes(ViewAttributeMappingsImpl<View> viewAttributeMappings)
+	private void resolveGroupedViewAttributes(BindingAttributeMappingsImpl<View> viewAttributeMappings)
 	{
 		for (GroupedAttributeDetailsImpl groupedAttributeDetails : viewAttributeMappings.getGroupedPropertyAttributes())
 		{

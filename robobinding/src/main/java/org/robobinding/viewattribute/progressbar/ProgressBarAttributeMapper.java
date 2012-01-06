@@ -13,28 +13,27 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.textview;
+package org.robobinding.viewattribute.progressbar;
 
-import org.robobinding.viewattribute.ViewAttributeMappings;
-import org.robobinding.viewattribute.WidgetViewAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.BindingAttributeMapper;
 
-import android.widget.TextView;
+import android.widget.ProgressBar;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextViewAttributeProvider implements WidgetViewAttributeProvider<TextView>
+public class ProgressBarAttributeMapper implements BindingAttributeMapper<ProgressBar>
 {
 	@Override
-	public void populateViewAttributeMappings(ViewAttributeMappings<TextView> mappings)
+	public void populateBindingAttributeMappings(BindingAttributeMappings<ProgressBar> mappings)
 	{
-		mappings.mapGroup(TextAttributeGroup.class, TextAttributeGroup.TEXT, TextAttributeGroup.VALUE_COMMIT_MODE);
-		
-		mappings.mapProperty(TextColorAttribute.class, "textColor");
-		
-		mappings.mapCommand(OnTextChangedAttribute.class, "onTextChanged");
+		mappings.mapPropertyAttribute(MaxAttribute.class, "max");
+		mappings.mapPropertyAttribute(ProgressAttribute.class, "progress");
+		mappings.mapPropertyAttribute(SecondaryProgressAttribute.class, "secondaryProgress");
 	}
+
 }

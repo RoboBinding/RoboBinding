@@ -35,14 +35,14 @@ import android.view.View;
  */
 public class BindingAttributesProcessor
 {
-	private final ProvidersResolver providersResolver;
+	private final BindingMappersResolver providersResolver;
 	private final AttributeSetParser attributeSetParser;
 	private final boolean preInitializeViews;
 	
 	public BindingAttributesProcessor(AttributeSetParser attributeSetParser, boolean preInitializeViews)
 	{
 		this.preInitializeViews = preInitializeViews;
-		this.providersResolver = new ProvidersResolver();
+		this.providersResolver = new BindingMappersResolver();
 		this.attributeSetParser = attributeSetParser;
 	}
 
@@ -60,24 +60,24 @@ public class BindingAttributesProcessor
 	
 	private List<ViewAttribute> determineViewAttributes(View view, Map<String, String> pendingBindingAttributes)
 	{
-		ViewAttributeResolver viewAttributeResolver = new ViewAttributeResolver(pendingBindingAttributes);
-		Collection<WidgetViewAttributeProviderAdapter<? extends View>> providers = providersResolver.getCandidateProviders(view);
+		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(pendingBindingAttributes);
+		Collection<BindingAttributeMapperAdapter<? extends View>> mappers = providersResolver.getCandidateMappers(view);
 		
-		for (WidgetViewAttributeProviderAdapter<? extends View> provider : providers)
+		for (BindingAttributeMapperAdapter<? extends View> mapper : mappers)
 		{
 			@SuppressWarnings("unchecked")
-			WidgetViewAttributeProviderAdapter<View> viewProvider = (WidgetViewAttributeProviderAdapter<View>)provider;
-			ViewAttributeMappingsImpl<View> viewAttributeMappings = viewProvider.createViewAttributeMappings(view, preInitializeViews);
-			viewAttributeResolver.resolve(viewAttributeMappings);
+			BindingAttributeMapperAdapterImpl<View> bindingAttributeMapper = (BindingAttributeMapperAdapterImpl<View>)mapper;
+			BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeMapper.createBindingAttributeMappings(view, preInitializeViews);
+			bindingAttributeResolver.resolve(bindingAttributeMappings);
 			
-			if (viewAttributeResolver.isDone())
+			if (bindingAttributeResolver.isDone())
 				break;
 		}
 		
-		if (viewAttributeResolver.hasUnresolvedAttributes())
-			throw new RuntimeException("Unhandled binding attribute(s): " + viewAttributeResolver.describeUnresolvedAttributes());
+		if (bindingAttributeResolver.hasUnresolvedAttributes())
+			throw new RuntimeException("Unhandled binding attribute(s): " + bindingAttributeResolver.describeUnresolvedAttributes());
 		
-		return viewAttributeResolver.getResolvedViewAttributes();
+		return bindingAttributeResolver.getResolvedViewAttributes();
 	}
 	
 	public static class ViewAttributes
