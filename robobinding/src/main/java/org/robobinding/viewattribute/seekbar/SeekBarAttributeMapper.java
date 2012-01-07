@@ -29,7 +29,7 @@ import android.widget.SeekBar;
 public class SeekBarAttributeMapper implements BindingAttributeMapper<SeekBar>
 {
 	@Override
-	public void populateBindingAttributeMappings(BindingAttributeMappings<SeekBar> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<SeekBar> mappings)
 	{
 		mappings.mapGroupedAttribute(OnSeekBarChangeAttributes.class, OnSeekBarChangeAttributes.PROGRESS, OnSeekBarChangeAttributes.ON_SEEK_BAR_CHANGE);
 	}

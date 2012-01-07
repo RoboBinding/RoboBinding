@@ -29,7 +29,7 @@ import android.view.View;
 public class ViewAttributeMapper implements BindingAttributeMapper<View>
 {
 	@Override
-	public void populateBindingAttributeMappings(BindingAttributeMappings<View> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<View> mappings)
 	{
 		mappings.mapPropertyAttribute(VisibilityAttribute.class, "visibility");
 		mappings.mapPropertyAttribute(EnabledAttribute.class, "enabled");

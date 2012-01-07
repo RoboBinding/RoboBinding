@@ -29,7 +29,7 @@ import android.widget.ImageView;
 public class ImageViewAttributeMapper implements BindingAttributeMapper<ImageView>
 {
 	@Override
-	public void populateBindingAttributeMappings(BindingAttributeMappings<ImageView> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<ImageView> mappings)
 	{
 		mappings.mapPropertyAttribute(ImageSourceAttribute.class, "src");
 	}

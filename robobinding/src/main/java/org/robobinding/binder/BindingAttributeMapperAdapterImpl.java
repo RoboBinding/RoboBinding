@@ -36,7 +36,7 @@ public class BindingAttributeMapperAdapterImpl<T extends View> implements Bindin
 	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(T view, boolean preInitializeViews)
 	{
 		BindingAttributeMappingsImpl<T> bindingAttributeMappings = new BindingAttributeMappingsImpl<T>(view, preInitializeViews);
-		bindingAttributeMapper.populateBindingAttributeMappings(bindingAttributeMappings);
+		bindingAttributeMapper.mapBindingAttributes(bindingAttributeMappings);
 		return bindingAttributeMappings;
 	}
 }

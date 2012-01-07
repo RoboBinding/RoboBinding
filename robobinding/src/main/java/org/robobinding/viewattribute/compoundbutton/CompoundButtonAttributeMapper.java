@@ -29,7 +29,7 @@ import android.widget.CompoundButton;
 public class CompoundButtonAttributeMapper implements BindingAttributeMapper<CompoundButton>
 {
 	@Override
-	public void populateBindingAttributeMappings(BindingAttributeMappings<CompoundButton> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<CompoundButton> mappings)
 	{
 		mappings.mapPropertyAttribute(CheckedAttribute.class, "checked");
 		mappings.mapCommandAttribute(OnCheckedChangeAttribute.class, "onCheckedChange");

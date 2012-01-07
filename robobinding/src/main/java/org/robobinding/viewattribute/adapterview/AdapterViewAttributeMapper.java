@@ -30,7 +30,7 @@ import android.widget.AdapterView;
 public class AdapterViewAttributeMapper implements BindingAttributeMapper<AdapterView<?>>
 {
 	@Override
-	public void populateBindingAttributeMappings(BindingAttributeMappings<AdapterView<?>> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<AdapterView<?>> mappings)
 	{
 		mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, AdaptedDataSetAttributes.SOURCE, 
 				AdaptedDataSetAttributes.ITEM_LAYOUT, AdaptedDataSetAttributes.ITEM_MAPPING, 

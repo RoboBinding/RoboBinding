@@ -29,7 +29,7 @@ import android.widget.RatingBar;
 public class RatingBarAttributeMapper implements BindingAttributeMapper<RatingBar>
 {
 	@Override
-	public void populateBindingAttributeMappings(BindingAttributeMappings<RatingBar> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<RatingBar> mappings)
 	{
 		mappings.mapPropertyAttribute(RatingAttribute.class, "rating");
 		mappings.mapPropertyAttribute(NumStarsAttribute.class, "numStars");

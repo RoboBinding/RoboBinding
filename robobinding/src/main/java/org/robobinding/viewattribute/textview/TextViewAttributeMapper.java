@@ -29,7 +29,7 @@ import android.widget.TextView;
 public class TextViewAttributeMapper implements BindingAttributeMapper<TextView>
 {
 	@Override
-	public void populateBindingAttributeMappings(BindingAttributeMappings<TextView> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<TextView> mappings)
 	{
 		mappings.mapGroupedAttribute(TextAttributeGroup.class, TextAttributeGroup.TEXT, TextAttributeGroup.VALUE_COMMIT_MODE);
 		

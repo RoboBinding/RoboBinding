@@ -29,7 +29,7 @@ import android.widget.ProgressBar;
 public class ProgressBarAttributeMapper implements BindingAttributeMapper<ProgressBar>
 {
 	@Override
-	public void populateBindingAttributeMappings(BindingAttributeMappings<ProgressBar> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<ProgressBar> mappings)
 	{
 		mappings.mapPropertyAttribute(MaxAttribute.class, "max");
 		mappings.mapPropertyAttribute(ProgressAttribute.class, "progress");
