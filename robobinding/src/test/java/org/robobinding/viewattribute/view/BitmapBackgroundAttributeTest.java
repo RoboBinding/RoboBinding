@@ -35,7 +35,7 @@ import android.view.View;
 public class BitmapBackgroundAttributeTest extends AbstractPropertyViewAttributeTest<View, BitmapBackgroundAttribute>
 {
 	@Test
-	public void givenBoundAttribute_whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void givenBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		DrawableData drawableData = RandomValues.anyDrawableData();
 

@@ -44,7 +44,7 @@ public class FloatRatingAttributeTest extends AbstractPropertyViewAttributeTest<
 	}
 	
 	@Test
-	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		float newRating = RandomValues.anyFloat();
 		
@@ -55,7 +55,7 @@ public class FloatRatingAttributeTest extends AbstractPropertyViewAttributeTest<
 	
 	@Test
 	@Ignore //TODO Robolectric error (pull request submitted)
-	public void whenRatingIsChanged_ThenUpdateValueModel()
+	public void whenRatingIsChanged_thenUpdateValueModel()
 	{
 		ValueModel<Float> valueModel = twoWayBindToProperty(Float.class);
 		

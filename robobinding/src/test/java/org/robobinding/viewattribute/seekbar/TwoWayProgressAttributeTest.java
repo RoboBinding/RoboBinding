@@ -42,7 +42,7 @@ public class TwoWayProgressAttributeTest extends AbstractPropertyViewAttributeTe
 	}
 	
 	@Test
-	public void whenUpdatingValueModel_ThenSetProgressOnSeekBar()
+	public void whenUpdatingValueModel_thenSetProgressOnSeekBar()
 	{
 		int newProgressValue = RandomValues.anyInteger();
 		
@@ -52,7 +52,7 @@ public class TwoWayProgressAttributeTest extends AbstractPropertyViewAttributeTe
 	}
 	
 	@Test
-	public void whenUpdatingTheSeekBar_ThenUpdateValueModel()
+	public void whenUpdatingTheSeekBar_thenUpdateValueModel()
 	{
 		int initialProgressValue = RandomValues.anyInteger();
 		ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);

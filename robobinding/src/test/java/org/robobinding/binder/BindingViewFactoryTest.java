@@ -67,26 +67,26 @@ public class BindingViewFactoryTest
 	}
 	
 	@Test
-	public void whenInitializing_ThenInitialChildViewBindingAttributesShouldBeEmpty()
+	public void whenInitializing_thenInitialChildViewBindingAttributesShouldBeEmpty()
 	{
 		assertTrue(bindingViewFactory.getChildViewBindingAttributes().isEmpty());
 	}
 	
 	@Test
-	public void whenInitializing_ThenLayoutInflaterFactoryShouldBeSetAsThis()
+	public void whenInitializing_thenLayoutInflaterFactoryShouldBeSetAsThis()
 	{
 		verify(layoutInflater).setFactory(bindingViewFactory);
 	}
 	
 	@Test
-	public void whenCreatingAView_ThenReturnViewInflatedFromLayoutInflater() throws Exception
+	public void whenCreatingAView_thenReturnViewInflatedFromLayoutInflater() throws Exception
 	{
 		when(layoutInflater.createView(fullyQualifiedViewName, prefix, attrs)).thenReturn(theView);
 		assertThat(bindingViewFactory.onCreateView(viewName, context, attrs), equalTo(theView));
 	}
 	
 	@Test
-	public void whenCreatingAView_ThenAddNewViewBindingAttributes() throws Exception
+	public void whenCreatingAView_thenAddNewViewBindingAttributes() throws Exception
 	{
 		when(layoutInflater.createView(fullyQualifiedViewName, prefix, attrs)).thenReturn(theView);
 		bindingViewFactory.onCreateView(viewName, context, attrs);
@@ -97,7 +97,7 @@ public class BindingViewFactoryTest
 	}
 
 	@Test
-	public void whenCreatingMultipleViews_ThenAddNewViewBindingAttributesForEach() throws Exception
+	public void whenCreatingMultipleViews_thenAddNewViewBindingAttributesForEach() throws Exception
 	{
 		View anotherView = new View(context);
 		AttributeSet someOtherAttrs = MockAttributeSet.withAttributes(5, 5);
@@ -114,7 +114,7 @@ public class BindingViewFactoryTest
 	}
 
 	@Test (expected=RuntimeException.class)
-	public void whenCreatingAViewThrowsAClassNotFoundException_ThenPropagateAsRuntimeException() throws Exception
+	public void whenCreatingAViewThrowsAClassNotFoundException_thenPropagateAsRuntimeException() throws Exception
 	{
 		when(layoutInflater.createView(fullyQualifiedViewName, prefix, attrs)).thenThrow(new ClassNotFoundException());
 		bindingViewFactory.onCreateView(viewName, context, attrs);

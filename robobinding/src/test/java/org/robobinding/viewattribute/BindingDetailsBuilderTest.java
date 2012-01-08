@@ -84,7 +84,7 @@ public class BindingDetailsBuilderTest
 	}
 	
 	@Theory
-	public void whenBindingWithIllegalAttributeValues_ThenThrowARuntimeException(IllegalBindingAttributeValue illegalBindingAttributeValue)
+	public void whenBindingWithIllegalAttributeValues_thenThrowARuntimeException(IllegalBindingAttributeValue illegalBindingAttributeValue)
 	{
 		boolean exceptionThrown = false;
 		

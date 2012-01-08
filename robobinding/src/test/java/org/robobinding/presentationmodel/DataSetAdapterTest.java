@@ -60,7 +60,7 @@ public class DataSetAdapterTest
 	}
 	
 	@Test
-	public void whenUpdatingTheValueModel_ThenNotifyDataSetChanged()
+	public void whenUpdatingTheValueModel_thenNotifyDataSetChanged()
 	{
 		dataSetAdapterSpy.observeChangesOnTheValueModel();
 		
@@ -70,7 +70,7 @@ public class DataSetAdapterTest
 	}
 	
 	@Test
-	public void givenItemLayoutId_WhenGeneratingItemView_ThenInflateTheCorrectView()
+	public void givenItemLayoutId_whenGeneratingItemView_thenInflateTheCorrectView()
 	{
 		dataSetAdapterSpy.setItemLayoutId(R.layout.sample_item_layout);
 		
@@ -81,7 +81,7 @@ public class DataSetAdapterTest
 	}
 	
 	@Test
-	public void givenDropdownLayoutId_WhenGeneratingDropdownView_ThenInflateTheCorrectView()
+	public void givenDropdownLayoutId_whenGeneratingDropdownView_thenInflateTheCorrectView()
 	{
 		dataSetAdapterSpy.setDropdownLayoutId(R.layout.sample_dropdown_layout);
 		

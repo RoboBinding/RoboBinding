@@ -49,7 +49,7 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 	}
 	
 	@Test
-	public void whenUpdatingValueModel_ThenSelectedItemShouldBeUpdated()
+	public void whenUpdatingValueModel_thenSelectedItemShouldBeUpdated()
 	{
 		int index = RandomValues.anyIndex(arrayAdapter);
 		valueModel.setValue(index);
@@ -58,7 +58,7 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 	}
 	
 	@Test
-	public void whenUpdatingSelectedItem_ThenPresentationModelShouldBeUpdated()
+	public void whenUpdatingSelectedItem_thenPresentationModelShouldBeUpdated()
 	{
 		int index = RandomValues.anyIndex(arrayAdapter);
 		view.setSelection(index);
@@ -69,7 +69,7 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 	@Test
 	@Ignore
 	//TODO Enable this test when the appropriate support has been added to Robolectric
-	public void whenAllItemsAreRemovedFromAdapter_ThenSelectedItemPositionShouldEqualInvalidPosition()
+	public void whenAllItemsAreRemovedFromAdapter_thenSelectedItemPositionShouldEqualInvalidPosition()
 	{
 		arrayAdapter.clear();
 		arrayAdapter.notifyDataSetChanged();

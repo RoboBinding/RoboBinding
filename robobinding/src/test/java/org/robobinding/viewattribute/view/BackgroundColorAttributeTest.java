@@ -36,7 +36,7 @@ import com.xtremelabs.robolectric.shadows.ShadowView;
 public class BackgroundColorAttributeTest extends AbstractPropertyViewAttributeTest<View, BackgroundColorAttribute>
 {
 	@Test
-	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		int newColor = RandomValues.anyColor();
 

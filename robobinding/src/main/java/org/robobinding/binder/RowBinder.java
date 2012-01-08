@@ -49,7 +49,7 @@ public class RowBinder extends AbstractBinder
 		
 		if (itemMappingAttribute != null)
 		{
-			itemMappingAttribute.bindToPredefined(bindingAttributesProcessor, inflatedView.getRootView(), presentationModelAdapter, context);
+			itemMappingAttribute.bindToPredefined(bindingAttributeProcessor, inflatedView.getRootView(), presentationModelAdapter, context);
 		}
 		
 		return inflatedView.getRootView();
@@ -62,7 +62,7 @@ public class RowBinder extends AbstractBinder
 		
 		if (dropdownMappingAttribute != null)
 		{
-			dropdownMappingAttribute.bindToPredefined(bindingAttributesProcessor, inflatedView.getRootView(), presentationModelAdapter, context);
+			dropdownMappingAttribute.bindToPredefined(bindingAttributeProcessor, inflatedView.getRootView(), presentationModelAdapter, context);
 		}
 		
 		return inflatedView.getRootView();

@@ -77,7 +77,7 @@ public class OnItemSelectedAttributeTest extends AbstractCommandViewAttributeTes
 	@Test
 	@Ignore
 	//TODO Enable this test when the appropriate support has been added to Robolectric
-	public void whenAllItemsAreRemovedFromAdapter_ThenInvokeCommandPassingClickEventWithPositionAsInvalidPosition()
+	public void whenAllItemsAreRemovedFromAdapter_thenInvokeCommandPassingClickEventWithPositionAsInvalidPosition()
 	{
 		bindAttribute();
 		

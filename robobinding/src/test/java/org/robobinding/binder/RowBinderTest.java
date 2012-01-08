@@ -70,7 +70,7 @@ public class RowBinderTest
 		
 		rowBinder.inflateItemAndBindTo(presentationModel);
 		
-		verify(itemMappingAttribute).bindToPredefined(eq(rowBinder.bindingAttributesProcessor), eq(view), any(PresentationModelAdapter.class), eq(context));
+		verify(itemMappingAttribute).bindToPredefined(eq(rowBinder.bindingAttributeProcessor), eq(view), any(PresentationModelAdapter.class), eq(context));
 	}
 	
 	@Test
@@ -82,7 +82,7 @@ public class RowBinderTest
 		
 		rowBinder.inflateDropdownAndBindTo(presentationModel);
 		
-		verify(dropdownMappingAttribute).bindToPredefined(eq(rowBinder.bindingAttributesProcessor), eq(view), any(PresentationModelAdapter.class), eq(context));
+		verify(dropdownMappingAttribute).bindToPredefined(eq(rowBinder.bindingAttributeProcessor), eq(view), any(PresentationModelAdapter.class), eq(context));
 	}
 	
 	private RowBinder mockRowBinderInflatingSimpleView(View view)
@@ -91,7 +91,7 @@ public class RowBinderTest
 		LayoutInflater mockLayoutInflater = mock(LayoutInflater.class);
 		when(mockLayoutInflater.inflate(VIEW_ID, null)).thenReturn(view);
 		when(mockLayoutInflater.inflate(VIEW_ID, null, false)).thenReturn(view);
-		BindingViewFactory bindingViewFactory = new BindingViewFactory(mockLayoutInflater, rowBinder.bindingAttributesProcessor);
+		BindingViewFactory bindingViewFactory = new BindingViewFactory(mockLayoutInflater, rowBinder.bindingAttributeProcessor);
 		rowBinder.setBindingViewFactory(bindingViewFactory);
 		return rowBinder;
 	}

@@ -33,7 +33,7 @@ import android.view.View;
 public class EnabledAttributeTest extends AbstractPropertyViewAttributeTest<View, EnabledAttribute>
 {
 	@Test
-	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		boolean enabled = RandomValues.trueOrFalse();
 		

@@ -51,7 +51,7 @@ public class ItemMappingAttributeTest
 	}
 	
 	@Test
-	public void whenBinding_ThenUpdateDataSetAdapter()
+	public void whenBinding_thenUpdateDataSetAdapter()
 	{
 		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		
@@ -61,7 +61,7 @@ public class ItemMappingAttributeTest
 	}
 	
 	@Test
-	public void whenBinding_ThenInitializeViewMappings()
+	public void whenBinding_thenInitializeViewMappings()
 	{
 		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		

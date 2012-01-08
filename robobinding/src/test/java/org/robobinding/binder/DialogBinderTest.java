@@ -62,7 +62,7 @@ public class DialogBinderTest
 	}
 	
 	@Test
-	public void whenBindingToPresentationModel_ThenSetContentViewReturnedFromBindingInflater()
+	public void whenBindingToPresentationModel_thenSetContentViewReturnedFromBindingInflater()
 	{
 		Object presentationModel = new Object();
 		
@@ -72,7 +72,7 @@ public class DialogBinderTest
 	}
 	
 	@Test
-	public void givenADialogPresentationModel_WhenBinding_ThenTitleOfInflatedDialogShouldEqualTitleProperty()
+	public void givenADialogPresentationModel_whenBinding_thenTitleOfInflatedDialogShouldEqualTitleProperty()
 	{
 		MockDialogPresentationModelWithTitle dialogPresentationModelWithTitle = new MockDialogPresentationModelWithTitle();
 		
@@ -82,7 +82,7 @@ public class DialogBinderTest
 	}
 
 	@Test
-	public void givenADialogPresentationModelWithANullTitleProperty_WhenBinding_ThenTitleOfInflatedDialogShouldBeGone()
+	public void givenADialogPresentationModelWithANullTitleProperty_whenBinding_thenTitleOfInflatedDialogShouldBeGone()
 	{
 		MockDialogPresentationModelWithNullTitle dialogPresentationModelWithNullTitle = new MockDialogPresentationModelWithNullTitle();
 		

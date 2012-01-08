@@ -45,7 +45,7 @@ public class ActivityBinderTest
 	private Activity activity = mock(Activity.class);
 	
 	@Test
-	public void whenBindingToPresentationModel_ThenSetContentViewReturnedFromBindingInflater()
+	public void whenBindingToPresentationModel_thenSetContentViewReturnedFromBindingInflater()
 	{
 		View rootView = new View(activity);
 		InflatedView inflatedView = new InflatedView(rootView, new ArrayList<ViewAttributes>());

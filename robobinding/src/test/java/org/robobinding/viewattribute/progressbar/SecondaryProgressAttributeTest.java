@@ -35,7 +35,7 @@ import android.widget.ProgressBar;
 public class SecondaryProgressAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, SecondaryProgressAttribute>
 {
 	@Test
-	public void whenUpdatingValueModel_ThenSetSecondaryProgressOnProgressBar()
+	public void whenUpdatingValueModel_thenSetSecondaryProgressOnProgressBar()
 	{
 		int newProgress = RandomValues.anyInteger();
 		

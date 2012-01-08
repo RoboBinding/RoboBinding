@@ -53,7 +53,7 @@ public class BindingAttributesProcessorTest
 	}
 	
 	@Test
-	public void givenOneBindingAttribute_WhenLoading_ThenReturnOneBindingAttributeInstance()
+	public void givenOneBindingAttribute_whenLoading_thenReturnOneBindingAttributeInstance()
 	{
 		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(singleBindingAttribute());
 	
@@ -64,7 +64,7 @@ public class BindingAttributesProcessorTest
 	}
 
 	@Test
-	public void givenXBindingAttributes_WhenLoading_ThenReturnXBindingAttributeInstances()
+	public void givenXBindingAttributes_whenLoading_thenReturnXBindingAttributeInstances()
 	{
 		Map<String, String> multipleBindingAttributes = multipleBindingAttributes();
 		int attributesCount = multipleBindingAttributes.size();
@@ -77,7 +77,7 @@ public class BindingAttributesProcessorTest
 	}
 
 	@Test (expected=RuntimeException.class)
-	public void givenAnyUnsupportedBindingAttributes_WhenLoading_ThenThrowRuntimeException()
+	public void givenAnyUnsupportedBindingAttributes_whenLoading_thenThrowRuntimeException()
 	{
 		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(unsupportedBindingAttributes());
 		

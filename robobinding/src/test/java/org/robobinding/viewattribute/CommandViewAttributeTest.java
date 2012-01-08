@@ -55,13 +55,13 @@ public class CommandViewAttributeTest
 	}
 	
 	@Test (expected=RuntimeException.class)
-	public void givenAPresentationModelWithNoMatchingFunction_WhenBinding_ThenThrowRuntimeException()
+	public void givenAPresentationModelWithNoMatchingFunction_whenBinding_thenThrowRuntimeException()
 	{
 		commandViewAttribute.bind(presentationModelAdapter, context);
 	}
 	
 	@Test
-	public void givenAPresentationModelWithAMatchingNoArgsFunction_WhenBinding_ThenBindWithThatFunction()
+	public void givenAPresentationModelWithAMatchingNoArgsFunction_whenBinding_thenBindWithThatFunction()
 	{
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
 		
@@ -71,7 +71,7 @@ public class CommandViewAttributeTest
 	}
 	
 	@Test
-	public void givenAPresentationModelWithAMatchingPreferredArgsFunction_WhenBinding_ThenBindWithThatFunctionAndParamsBuilder()
+	public void givenAPresentationModelWithAMatchingPreferredArgsFunction_whenBinding_thenBindWithThatFunctionAndParamsBuilder()
 	{
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME, ItemClickEvent.class)).thenReturn(preferredFunction);

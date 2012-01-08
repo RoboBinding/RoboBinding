@@ -34,7 +34,7 @@ import android.view.View;
 public class BooleanVisibilityAttributeTest extends AbstractPropertyViewAttributeTest<View, BooleanVisibilityAttribute>
 {
 	@Test
-	public void whenBindingWithABooleanProperty_ThenInitializeBooleanVisibilityAttribute()
+	public void whenBindingWithABooleanProperty_thenInitializeBooleanVisibilityAttribute()
 	{
 		boolean visible = RandomValues.trueOrFalse();
 		
