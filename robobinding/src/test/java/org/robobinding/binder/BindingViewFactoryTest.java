@@ -27,7 +27,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributesProcessor.ViewAttributes;
+import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -54,14 +54,14 @@ public class BindingViewFactoryTest
 	private View theView = new View(context);
 	private ViewAttributes sampleViewAttributes = new ViewAttributes(null);
 	private LayoutInflater layoutInflater;
-	private BindingAttributesProcessor bindingAttributesProcessor;
+	private BindingAttributeProcessor bindingAttributesProcessor;
 	private BindingViewFactory bindingViewFactory;
 	
 	@Before
 	public void setUp() throws Exception
 	{
 		layoutInflater = mock(LayoutInflater.class);
-		bindingAttributesProcessor = mock(BindingAttributesProcessor.class);
+		bindingAttributesProcessor = mock(BindingAttributeProcessor.class);
 		when(bindingAttributesProcessor.read(theView, attrs)).thenReturn(sampleViewAttributes);
 		bindingViewFactory = new BindingViewFactory(layoutInflater, bindingAttributesProcessor);
 	}

@@ -23,6 +23,8 @@ import org.robobinding.customwidget.CustomWidgetUtils;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.BindingAttributeMapperAdapter;
+import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.adapterview.AdapterViewAttributeMapper;
 import org.robobinding.viewattribute.compoundbutton.CompoundButtonAttributeMapper;
 import org.robobinding.viewattribute.imageview.ImageViewAttributeMapper;
@@ -48,55 +50,55 @@ import android.widget.TextView;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class BindingMappersResolver
+public class BindingAttributeProvidersResolver
 {
-	private final Map<Class<?>, BindingAttributeMapperAdapter<? extends View>> bindingAttributeMappersMap;
+	private final Map<Class<?>, BindingAttributeProvider<? extends View>> bindingAttributeProvidersMap;
 
-	public BindingMappersResolver()
+	public BindingAttributeProvidersResolver()
 	{
-		bindingAttributeMappersMap = Maps.newHashMap();
-		bindingAttributeMappersMap.put(View.class, adapt(new ViewAttributeMapper()));
-		bindingAttributeMappersMap.put(TextView.class, adapt(new TextViewAttributeMapper()));
-		bindingAttributeMappersMap.put(AdapterView.class, adapt(new AdapterViewAttributeMapper()));
-		bindingAttributeMappersMap.put(CompoundButton.class, adapt(new CompoundButtonAttributeMapper()));
-		bindingAttributeMappersMap.put(ImageView.class, adapt(new ImageViewAttributeMapper()));
-		bindingAttributeMappersMap.put(ProgressBar.class, adapt(new ProgressBarAttributeMapper()));
-		bindingAttributeMappersMap.put(SeekBar.class, adapt(new SeekBarAttributeMapper()));
-		bindingAttributeMappersMap.put(RatingBar.class, adapt(new RatingBarAttributeMapper()));
+		bindingAttributeProvidersMap = Maps.newHashMap();
+		bindingAttributeProvidersMap.put(View.class, adapt(new ViewAttributeMapper()));
+		bindingAttributeProvidersMap.put(TextView.class, adapt(new TextViewAttributeMapper()));
+		bindingAttributeProvidersMap.put(AdapterView.class, adapt(new AdapterViewAttributeMapper()));
+		bindingAttributeProvidersMap.put(CompoundButton.class, adapt(new CompoundButtonAttributeMapper()));
+		bindingAttributeProvidersMap.put(ImageView.class, adapt(new ImageViewAttributeMapper()));
+		bindingAttributeProvidersMap.put(ProgressBar.class, adapt(new ProgressBarAttributeMapper()));
+		bindingAttributeProvidersMap.put(SeekBar.class, adapt(new SeekBarAttributeMapper()));
+		bindingAttributeProvidersMap.put(RatingBar.class, adapt(new RatingBarAttributeMapper()));
 	}
 	
-	private <T extends View> BindingAttributeMapperAdapter<T> adapt(BindingAttributeMapper<T> mapper)
+	private <T extends View> BindingAttributeProvider<T> adapt(BindingAttributeMapper<T> mapper)
 	{
-		return new BindingAttributeMapperAdapterImpl<T>(mapper);
+		return new BindingAttributeMapperAdapter<T>(mapper);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Queue<BindingAttributeMapperAdapter<? extends View>> getCandidateMappers(View view)
+	public Queue<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)
 	{
-		Queue<BindingAttributeMapperAdapter<? extends View>> candidateMappers = Lists.newLinkedList();
+		Queue<BindingAttributeProvider<? extends View>> candidateProviders = Lists.newLinkedList();
 		
 		if (CustomWidgetUtils.isCustomWidget(view))
 		{
-			candidateMappers.add(CustomWidgetUtils.adapt((BindableView)view));
+			candidateProviders.add(CustomWidgetUtils.adapt((BindableView)view));
 		}
 				
-		processViewHierarchy(view.getClass(), candidateMappers);
-		return candidateMappers;
+		processViewHierarchy(view.getClass(), candidateProviders);
+		return candidateProviders;
 	}
 
-	private void processViewHierarchy(Class<?> clazz, Queue<BindingAttributeMapperAdapter<? extends View>> candidateProviders)
+	private void processViewHierarchy(Class<?> clazz, Queue<BindingAttributeProvider<? extends View>> candidateProviders)
 	{
-		BindingAttributeMapperAdapter<? extends View> widgetAttributeProvider = lookupProviderForViewType(clazz);
+		BindingAttributeProvider<? extends View> bindingAttributeProvider = lookupProviderForViewType(clazz);
 		
-		if (widgetAttributeProvider != null)
-			candidateProviders.add(widgetAttributeProvider);
+		if (bindingAttributeProvider != null)
+			candidateProviders.add(bindingAttributeProvider);
 		
 		if (clazz != View.class)
 			processViewHierarchy(clazz.getSuperclass(), candidateProviders);
 	}
 
-	private BindingAttributeMapperAdapter<? extends View> lookupProviderForViewType(Class<?> clazz)
+	private BindingAttributeProvider<? extends View> lookupProviderForViewType(Class<?> clazz)
 	{
-		return bindingAttributeMappersMap.get(clazz);
+		return bindingAttributeProvidersMap.get(clazz);
 	}
 }

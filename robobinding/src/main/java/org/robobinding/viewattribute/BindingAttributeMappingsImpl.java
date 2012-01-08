@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.viewattribute;
 
 import java.util.Collection;
 import java.util.Map;
 
+import org.robobinding.binder.GroupedAttributeDetailsImpl;
 import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.PropertyBindingDetails;
-import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewAttribute;
 
 import android.view.View;
 
@@ -35,7 +30,7 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T>
+public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T>
 {
 	private T view;
 	private boolean preInitializeViews;

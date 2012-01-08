@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.customwidget;
 
-import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.BindingAttributeProvider;
 
 import android.view.View;
 
@@ -23,20 +24,22 @@ import android.view.View;
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Cheng Wei
+ * @author Robert Taylor
  */
-public class BindingAttributeMapperAdapterImpl<T extends View> implements BindingAttributeMapperAdapter<T>
+public class CustomBindingAttributeMapperAdapter<T extends View> implements BindingAttributeProvider<T>
 {
-	private BindingAttributeMapper<T> bindingAttributeMapper;
-	public BindingAttributeMapperAdapterImpl(BindingAttributeMapper<T> bindingAttributeMapper)
+	private BindableView<T> bindableView;
+	public CustomBindingAttributeMapperAdapter(BindableView<T> bindableView)
 	{
-		this.bindingAttributeMapper = bindingAttributeMapper;
+		this.bindableView = bindableView;
 	}
-	
+
+	@Override
 	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(T view, boolean preInitializeViews)
 	{
-		BindingAttributeMappingsImpl<T> bindingAttributeMappings = new BindingAttributeMappingsImpl<T>(view, preInitializeViews);
-		bindingAttributeMapper.mapBindingAttributes(bindingAttributeMappings);
+		CustomBindingAttributeMappingsImpl<T> bindingAttributeMappings = new CustomBindingAttributeMappingsImpl<T>(view, preInitializeViews);
+		bindableView.mapBindingAttributes(bindingAttributeMappings);
 		return bindingAttributeMappings;
 	}
+
 }

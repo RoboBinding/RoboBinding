@@ -26,5 +26,5 @@ import android.view.View;
  */
 public interface BindableView<T extends View>
 {
-	void populateBindingAttributeMappings(CustomBindingAttributeMappings<T> mappings);
+	void mapBindingAttributes(CustomBindingAttributeMappings<T> mappings);
 }

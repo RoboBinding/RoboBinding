@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 
 import android.content.Context;
@@ -33,16 +35,16 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class BindingAttributesProcessor
+public class BindingAttributeProcessor
 {
-	private final BindingMappersResolver providersResolver;
+	private final BindingAttributeProvidersResolver providersResolver;
 	private final AttributeSetParser attributeSetParser;
 	private final boolean preInitializeViews;
 	
-	public BindingAttributesProcessor(AttributeSetParser attributeSetParser, boolean preInitializeViews)
+	public BindingAttributeProcessor(AttributeSetParser attributeSetParser, boolean preInitializeViews)
 	{
 		this.preInitializeViews = preInitializeViews;
-		this.providersResolver = new BindingMappersResolver();
+		this.providersResolver = new BindingAttributeProvidersResolver();
 		this.attributeSetParser = attributeSetParser;
 	}
 
@@ -61,13 +63,13 @@ public class BindingAttributesProcessor
 	private List<ViewAttribute> determineViewAttributes(View view, Map<String, String> pendingBindingAttributes)
 	{
 		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(pendingBindingAttributes);
-		Collection<BindingAttributeMapperAdapter<? extends View>> mappers = providersResolver.getCandidateMappers(view);
+		Collection<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(view);
 		
-		for (BindingAttributeMapperAdapter<? extends View> mapper : mappers)
+		for (BindingAttributeProvider<? extends View> provider : providers)
 		{
 			@SuppressWarnings("unchecked")
-			BindingAttributeMapperAdapterImpl<View> bindingAttributeMapper = (BindingAttributeMapperAdapterImpl<View>)mapper;
-			BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeMapper.createBindingAttributeMappings(view, preInitializeViews);
+			BindingAttributeProvider<View> bindingAttributeProvider = (BindingAttributeProvider<View>)provider;
+			BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(view, preInitializeViews);
 			bindingAttributeResolver.resolve(bindingAttributeMappings);
 			
 			if (bindingAttributeResolver.isDone())

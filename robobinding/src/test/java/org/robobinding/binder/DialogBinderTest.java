@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributesProcessor.ViewAttributes;
+import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
 import org.robobinding.binder.BindingViewFactory.InflatedView;
 import org.robobinding.presentationmodel.DialogPresentationModel;
 

@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.robobinding.binder.BindingAttributesProcessor;
-import org.robobinding.binder.BindingAttributesProcessor.ViewAttributes;
+import org.robobinding.binder.BindingAttributeProcessor;
+import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
@@ -61,7 +61,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 		dataSetAdapter.setItemMappingAttribute(this);
 	}
 
-	public void bindToPredefined(BindingAttributesProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bindToPredefined(BindingAttributeProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
 		for (ViewMapping viewMapping : getViewMappingsCollection())
 		{
@@ -165,7 +165,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 			this.bindingAttributes.put(attributeName, attributeValue);
 		}
 
-		public void bind(BindingAttributesProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
+		public void bind(BindingAttributeProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
 		{
 			View viewToBind = view.findViewById(viewId);
 			ViewAttributes viewBindingAttributes = bindingAttributesProcessor.process(viewToBind, Maps.newHashMap(bindingAttributes));

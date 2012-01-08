@@ -26,7 +26,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributesProcessor.ViewAttributes;
+import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
 import org.robobinding.internal.com_google_common.collect.Maps;
 
 import android.util.AttributeSet;
@@ -57,7 +57,7 @@ public class BindingAttributesProcessorTest
 	{
 		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(singleBindingAttribute());
 	
-		BindingAttributesProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
+		BindingAttributeProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
 		ViewAttributes viewAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
 		
 		assertThat(viewAttributes.viewAttributes.size(), equalTo(1));
@@ -70,7 +70,7 @@ public class BindingAttributesProcessorTest
 		int attributesCount = multipleBindingAttributes.size();
 		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(multipleBindingAttributes);
 	
-		BindingAttributesProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
+		BindingAttributeProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
 		ViewAttributes viewAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
 		
 		assertThat(viewAttributes.viewAttributes.size(), equalTo(attributesCount));
@@ -81,7 +81,7 @@ public class BindingAttributesProcessorTest
 	{
 		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(unsupportedBindingAttributes());
 		
-		BindingAttributesProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
+		BindingAttributeProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
 		bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
 	}
 
@@ -108,9 +108,9 @@ public class BindingAttributesProcessorTest
 		return unsupportedBindingAttributes;
 	}
 
-	private BindingAttributesProcessor newBindingAttributesProcessor()
+	private BindingAttributeProcessor newBindingAttributesProcessor()
 	{
-		return new BindingAttributesProcessor(attributeSetParser, false);
+		return new BindingAttributeProcessor(attributeSetParser, false);
 	}
 	
 }

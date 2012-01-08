@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 public abstract class AbstractBinder
 {
 	protected final Context context;
-	protected final BindingAttributesProcessor bindingAttributesProcessor;
+	protected final BindingAttributeProcessor bindingAttributesProcessor;
 	
 	private BindingViewFactory bindingViewFactory;
 	
@@ -43,7 +43,7 @@ public abstract class AbstractBinder
 	public AbstractBinder(Context context, boolean preInitializeViews)
 	{
 		this.context = context;
-		bindingAttributesProcessor = new BindingAttributesProcessor(new AttributeSetParser(), preInitializeViews);
+		bindingAttributesProcessor = new BindingAttributeProcessor(new AttributeSetParser(), preInitializeViews);
 	}
 
 	protected InflatedView inflateAndBind(int layoutId, PresentationModelAdapter presentationModelAdapter)

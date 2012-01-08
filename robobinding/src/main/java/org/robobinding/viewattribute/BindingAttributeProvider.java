@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.viewattribute;
 
 import android.view.View;
 
@@ -23,7 +23,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface BindingAttributeMapperAdapter<T extends View>
+public interface BindingAttributeProvider<T extends View>
 {
 	BindingAttributeMappingsImpl<T> createBindingAttributeMappings(T view, boolean preInitializeViews);
 }

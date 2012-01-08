@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.customwidget;
 
 import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
-import org.robobinding.customwidget.CustomBindingAttributeMappings;
+import org.robobinding.binder.GroupedAttributeDetailsImpl;
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.view.View;
