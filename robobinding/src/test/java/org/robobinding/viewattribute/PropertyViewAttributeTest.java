@@ -98,7 +98,7 @@ public class PropertyViewAttributeTest
 	}
 	
 	@Test
-	public void givenPreInitializeViewFlag_ThenPreInitializeTheViewToReflectTheValueModel()
+	public void givenPreInitializeViewFlag_thenPreInitializeTheViewToReflectTheValueModel()
 	{
 		initializeAndBindPropertyViewAttribute(ONE_WAY_BINDING, PRE_INITIALIZE_VIEW);
 		
@@ -106,7 +106,7 @@ public class PropertyViewAttributeTest
 	}
 	
 	@Test
-	public void givenNoPreInitializeViewFlag_ThenDontPreInitializeTheView()
+	public void givenNoPreInitializeViewFlag_thenDontPreInitializeTheView()
 	{
 		initializeAndBindPropertyViewAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		

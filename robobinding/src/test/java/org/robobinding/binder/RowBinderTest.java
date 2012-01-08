@@ -62,7 +62,7 @@ public class RowBinderTest
 	}
 	
 	@Test
-	public void givenAnItemMappingAttribute_ThenBindToItWhenInflatingView()
+	public void givenAnItemMappingAttribute_thenBindToItWhenInflatingView()
 	{
 		ItemMappingAttribute itemMappingAttribute = mock(ItemMappingAttribute.class);
 		rowBinder.setItemMappingAttribute(itemMappingAttribute);
@@ -74,7 +74,7 @@ public class RowBinderTest
 	}
 	
 	@Test
-	public void givenADropdownMappingAttribute_ThenBindToItWhenInflatingView()
+	public void givenADropdownMappingAttribute_thenBindToItWhenInflatingView()
 	{
 		DropdownMappingAttribute dropdownMappingAttribute = mock(DropdownMappingAttribute.class);
 		rowBinder.setDropdownMappingAttribute(dropdownMappingAttribute);
