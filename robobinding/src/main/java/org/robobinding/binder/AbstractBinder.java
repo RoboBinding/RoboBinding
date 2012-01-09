@@ -56,7 +56,7 @@ public abstract class AbstractBinder
 		return inflatedView;
 	}
 	
-	protected InflatedView inflateAndBind_attachToRoot(int layoutId, PresentationModelAdapter presentationModelAdapter, ViewGroup viewGroup)
+	protected InflatedView inflateAttachToRootAndBind(int layoutId, PresentationModelAdapter presentationModelAdapter, ViewGroup viewGroup)
 	{
 		ensureBindingFactoryInitialized();
 		
