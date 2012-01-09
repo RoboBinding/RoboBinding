@@ -28,11 +28,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -113,6 +115,17 @@ public class BindingViewFactoryTest
 		verify(bindingAttributesProcessor).read(anotherView, someOtherAttrs);
 	}
 
+	@Test
+	public void whenInflatingAndAttachingToRoot_thenLayoutInflaterShouldInflateRootViewWith() throws Exception
+	{
+		int resourceId = RandomValues.anyInteger();
+		ViewGroup viewGroup = mock(ViewGroup.class);
+		
+		bindingViewFactory.inflateViewAndAttachToRoot(resourceId, viewGroup);
+	
+		verify(layoutInflater).inflate(resourceId, viewGroup, true);
+	}
+	
 	@Test (expected=RuntimeException.class)
 	public void whenCreatingAViewThrowsAClassNotFoundException_thenPropagateAsRuntimeException() throws Exception
 	{
