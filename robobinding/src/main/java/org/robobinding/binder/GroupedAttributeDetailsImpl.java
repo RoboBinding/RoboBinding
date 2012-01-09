@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.robobinding.internal.com_google_common.collect.Lists;
+import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.internal.org_apache_commons_lang3.builder.EqualsBuilder;
 import org.robobinding.internal.org_apache_commons_lang3.builder.HashCodeBuilder;
 import org.robobinding.viewattribute.GroupedAttributeDetails;
@@ -38,6 +39,7 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	public GroupedAttributeDetailsImpl(String[] attributes)
 	{
 		this.supportedAttributes = attributes;
+		presentAttributeMappings = Maps.newHashMap();
 	}
 
 	public String[] getSupportedAttributes()

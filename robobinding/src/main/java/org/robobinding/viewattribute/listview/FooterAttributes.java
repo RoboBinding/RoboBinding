@@ -64,8 +64,8 @@ public class FooterAttributes extends AbstractGroupedViewAttribute<ListView>
 
 	private void initializeFooterSourcePresentationModel(PresentationModelAdapter presentationModelAdapter)
 	{
-		String propertyName = groupedAttributeDetails.attributeValueFor(FOOTER_SOURCE);
-		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
+		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(FOOTER_SOURCE));
+		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
 		footerSourcePresentationModel = valueModel.getValue();
 	}
 
@@ -73,9 +73,8 @@ public class FooterAttributes extends AbstractGroupedViewAttribute<ListView>
 	{
 		if(groupedAttributeDetails.hasAttribute(FOOTER_VISIBILITY))
 		{
-			FooterVisibilityAttribute footerVisibilityAttribute = new FooterVisibilityAttribute(view);
+			HeaderOrFooterVisibilityAttribute footerVisibilityAttribute = new HeaderOrFooterVisibilityAttribute(footerView);
 			footerVisibilityAttribute.setPreInitializeView(preInitializeViews);
-			footerVisibilityAttribute.setView(footerView);
 			footerVisibilityAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(FOOTER_VISIBILITY)));
 			footerVisibilityAttribute.bind(presentationModelAdapter, context);
 		}

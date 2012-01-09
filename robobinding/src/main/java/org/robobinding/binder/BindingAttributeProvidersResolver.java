@@ -28,6 +28,7 @@ import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.adapterview.AdapterViewAttributeMapper;
 import org.robobinding.viewattribute.compoundbutton.CompoundButtonAttributeMapper;
 import org.robobinding.viewattribute.imageview.ImageViewAttributeMapper;
+import org.robobinding.viewattribute.listview.ListViewAttributeMapper;
 import org.robobinding.viewattribute.progressbar.ProgressBarAttributeMapper;
 import org.robobinding.viewattribute.ratingbar.RatingBarAttributeMapper;
 import org.robobinding.viewattribute.seekbar.SeekBarAttributeMapper;
@@ -38,6 +39,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
@@ -65,6 +67,7 @@ public class BindingAttributeProvidersResolver
 		bindingAttributeProvidersMap.put(ProgressBar.class, adapt(new ProgressBarAttributeMapper()));
 		bindingAttributeProvidersMap.put(SeekBar.class, adapt(new SeekBarAttributeMapper()));
 		bindingAttributeProvidersMap.put(RatingBar.class, adapt(new RatingBarAttributeMapper()));
+		bindingAttributeProvidersMap.put(ListView.class, adapt(new ListViewAttributeMapper()));
 	}
 	
 	private <T extends View> BindingAttributeProvider<T> adapt(BindingAttributeMapper<T> mapper)

@@ -10,6 +10,7 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.BindingDetailsBuilder;
+import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.ResourceBindingDetails;
 
 import android.content.Context;
@@ -25,6 +26,7 @@ public class HeaderAttributes extends AbstractGroupedViewAttribute<ListView>
 {
 	static final String HEADER_LAYOUT = "headerLayout";
 	static final String HEADER_SOURCE = "headerSource";
+	static final String HEADER_VISIBILITY = "headerVisibility";
 	
 	private int headerLayoutId;
 	private Object headerSourcePresentationModel;
@@ -48,6 +50,8 @@ public class HeaderAttributes extends AbstractGroupedViewAttribute<ListView>
 		SubviewBinder binder = new SubviewBinder(context, headerLayoutId);
 		View headerView = binder.bindTo(headerSourcePresentationModel);
 		view.addHeaderView(headerView, null, false);
+		
+		addHeaderVisibilityIfPresent(headerView, presentationModelAdapter, context);
 	}
 
 	private void initializeHeaderLayoutId(Context context)
@@ -59,8 +63,19 @@ public class HeaderAttributes extends AbstractGroupedViewAttribute<ListView>
 
 	private void initializeHeaderSourcePresentationModel(PresentationModelAdapter presentationModelAdapter)
 	{
-		String propertyName = groupedAttributeDetails.attributeValueFor(HEADER_SOURCE);
-		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
+		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(HEADER_SOURCE));
+		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
 		headerSourcePresentationModel = valueModel.getValue();
+	}
+	
+	private void addHeaderVisibilityIfPresent(View headerView, PresentationModelAdapter presentationModelAdapter, Context context)
+	{
+		if(groupedAttributeDetails.hasAttribute(HEADER_VISIBILITY))
+		{
+			HeaderOrFooterVisibilityAttribute headerVisibilityAttribute = new HeaderOrFooterVisibilityAttribute(headerView);
+			headerVisibilityAttribute.setPreInitializeView(preInitializeViews);
+			headerVisibilityAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(HEADER_VISIBILITY)));
+			headerVisibilityAttribute.bind(presentationModelAdapter, context);
+		}
 	}
 }
