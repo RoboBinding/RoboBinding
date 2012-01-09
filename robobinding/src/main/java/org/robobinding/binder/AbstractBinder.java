@@ -50,7 +50,7 @@ public abstract class AbstractBinder
 	{
 		ensureBindingFactoryInitialized();
 		
-		InflatedView inflatedView = bindingViewFactory.inflateView(layoutId, context);
+		InflatedView inflatedView = bindingViewFactory.inflateView(layoutId);
 		inflatedView.bindChildViews(presentationModelAdapter, context);
 		
 		return inflatedView;
