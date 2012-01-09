@@ -6,6 +6,7 @@
  */
 package org.robobinding.viewattribute.listview;
 
+import org.robobinding.binder.Binder;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
@@ -14,6 +15,7 @@ import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.ResourceBindingDetails;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 
@@ -28,8 +30,7 @@ public class HeaderAttributes extends AbstractGroupedViewAttribute<ListView>
 	static final String HEADER_SOURCE = "headerSource";
 	static final String HEADER_VISIBILITY = "headerVisibility";
 	
-	private int headerLayoutId;
-	private Object headerSourcePresentationModel;
+	private View headerView;
 	@Override
 	protected void initializeChildViewAttributes()
 	{
@@ -38,37 +39,47 @@ public class HeaderAttributes extends AbstractGroupedViewAttribute<ListView>
 
 	private void validateAttributes()
 	{
-		assertAttributesArePresent(HEADER_LAYOUT, HEADER_SOURCE);
+		assertAttributesArePresent(HEADER_LAYOUT);
 	}
 
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		initializeHeaderLayoutId(context);
-		initializeHeaderSourcePresentationModel(presentationModelAdapter);
+		initializeHeaderView(presentationModelAdapter, context);
 		
-		SubviewBinder binder = new SubviewBinder(context, headerLayoutId);
-		View headerView = binder.bindTo(headerSourcePresentationModel);
-		view.addHeaderView(headerView, null, false);
-		
-		addHeaderVisibilityIfPresent(headerView, presentationModelAdapter, context);
+		addHeaderVisibilityIfPresent(presentationModelAdapter, context);
 	}
 
-	private void initializeHeaderLayoutId(Context context)
+	private void initializeHeaderView(PresentationModelAdapter presentationModelAdapter, Context context)
+	{
+		int headerLayoutId = getHeaderLayoutId(context);
+		if(groupedAttributeDetails.hasAttribute(HEADER_SOURCE))
+		{
+			Object headerSourcePresentationModel = getHeaderSourcePresentationModel(presentationModelAdapter);
+			headerView = Binder.bindView(context, headerLayoutId, headerSourcePresentationModel);
+		}else
+		{
+			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			headerView = inflater.inflate(headerLayoutId, null);
+		}
+		view.addHeaderView(headerView, null, false);
+	}
+
+	private int getHeaderLayoutId(Context context)
 	{
 		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(groupedAttributeDetails.attributeValueFor(HEADER_LAYOUT));
 		ResourceBindingDetails resourceBindingDetails = bindingDetailsBuilder.createResourceBindingDetails();
-		headerLayoutId = resourceBindingDetails.getResourceId(context);
+		return resourceBindingDetails.getResourceId(context);
 	}
 
-	private void initializeHeaderSourcePresentationModel(PresentationModelAdapter presentationModelAdapter)
+	private Object getHeaderSourcePresentationModel(PresentationModelAdapter presentationModelAdapter)
 	{
 		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(HEADER_SOURCE));
 		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
-		headerSourcePresentationModel = valueModel.getValue();
+		return valueModel.getValue();
 	}
 	
-	private void addHeaderVisibilityIfPresent(View headerView, PresentationModelAdapter presentationModelAdapter, Context context)
+	private void addHeaderVisibilityIfPresent(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
 		if(groupedAttributeDetails.hasAttribute(HEADER_VISIBILITY))
 		{
