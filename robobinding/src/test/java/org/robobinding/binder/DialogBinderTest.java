@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributesProcessor.ViewAttributes;
+import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
 import org.robobinding.binder.BindingViewFactory.InflatedView;
 import org.robobinding.presentationmodel.DialogPresentationModel;
 
@@ -62,7 +62,7 @@ public class DialogBinderTest
 	}
 	
 	@Test
-	public void whenBindingToPresentationModel_ThenSetContentViewReturnedFromBindingInflater()
+	public void whenBindingToPresentationModel_thenSetContentViewReturnedFromBindingInflater()
 	{
 		Object presentationModel = new Object();
 		
@@ -72,7 +72,7 @@ public class DialogBinderTest
 	}
 	
 	@Test
-	public void givenADialogPresentationModel_WhenBinding_ThenTitleOfInflatedDialogShouldEqualTitleProperty()
+	public void givenADialogPresentationModel_whenBinding_thenTitleOfInflatedDialogShouldEqualTitleProperty()
 	{
 		MockDialogPresentationModelWithTitle dialogPresentationModelWithTitle = new MockDialogPresentationModelWithTitle();
 		
@@ -82,7 +82,7 @@ public class DialogBinderTest
 	}
 
 	@Test
-	public void givenADialogPresentationModelWithANullTitleProperty_WhenBinding_ThenTitleOfInflatedDialogShouldBeGone()
+	public void givenADialogPresentationModelWithANullTitleProperty_whenBinding_thenTitleOfInflatedDialogShouldBeGone()
 	{
 		MockDialogPresentationModelWithNullTitle dialogPresentationModelWithNullTitle = new MockDialogPresentationModelWithNullTitle();
 		

@@ -52,7 +52,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	
 	protected void assertAttributesArePresent(String... attributes)
 	{
-		if(groupedAttributeDetails.hasAbsentAttributes(attributes))
+		if(!groupedAttributeDetails.hasAttributes(attributes))
 		{
 			Collection<String> missingAttributes = groupedAttributeDetails.findAbsentAttributes(attributes);
 			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",

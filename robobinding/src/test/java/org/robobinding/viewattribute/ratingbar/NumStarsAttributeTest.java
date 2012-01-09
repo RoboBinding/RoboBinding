@@ -32,7 +32,7 @@ import android.widget.RatingBar;
 public class NumStarsAttributeTest extends AbstractPropertyViewAttributeTest<RatingBar, NumStarsAttribute>
 {
 	@Test
-	public void whenUpdatingValueModel_ThenSetNumStarsOnRatingBar()
+	public void whenUpdatingValueModel_thenSetNumStarsOnRatingBar()
 	{
 		int newNumStars = 10;
 		

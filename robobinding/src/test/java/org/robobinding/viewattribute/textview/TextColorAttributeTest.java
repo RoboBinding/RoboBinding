@@ -36,7 +36,7 @@ import com.xtremelabs.robolectric.shadows.ShadowTextView;
 public class TextColorAttributeTest extends AbstractPropertyViewAttributeTest<TextView, TextColorAttribute>
 {
 	@Test
-	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		int newColor = RandomValues.anyColor();
 

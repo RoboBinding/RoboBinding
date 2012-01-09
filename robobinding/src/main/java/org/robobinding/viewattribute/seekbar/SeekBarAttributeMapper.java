@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.progressbar;
+package org.robobinding.viewattribute.seekbar;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.BindingAttributeMapper;
 
-import org.junit.Test;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.RandomValues;
-
-import android.widget.ProgressBar;
+import android.widget.SeekBar;
 
 /**
  *
@@ -30,15 +26,12 @@ import android.widget.ProgressBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ProgressAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, ProgressAttribute>
+public class SeekBarAttributeMapper implements BindingAttributeMapper<SeekBar>
 {
-	@Test
-	public void whenUpdatingValueModel_thenSetProgressOnProgressBar()
+	@Override
+	public void mapBindingAttributes(BindingAttributeMappings<SeekBar> mappings)
 	{
-		int newProgress = RandomValues.anyInteger();
-		
-		attribute.valueModelUpdated(newProgress);
-
-		assertThat(view.getProgress(), is(newProgress));
+		mappings.mapGroupedAttribute(OnSeekBarChangeAttributes.class, OnSeekBarChangeAttributes.PROGRESS, OnSeekBarChangeAttributes.ON_SEEK_BAR_CHANGE);
 	}
+	
 }

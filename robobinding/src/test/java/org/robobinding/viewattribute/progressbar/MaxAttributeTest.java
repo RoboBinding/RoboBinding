@@ -34,7 +34,7 @@ import android.widget.ProgressBar;
 public class MaxAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, MaxAttribute>
 {
 	@Test
-	public void whenUpdatingValueModel_ThenSetMaxOnProgressBar()
+	public void whenUpdatingValueModel_thenSetMaxOnProgressBar()
 	{
 		int newMaxValue = RandomValues.anyInteger();
 		

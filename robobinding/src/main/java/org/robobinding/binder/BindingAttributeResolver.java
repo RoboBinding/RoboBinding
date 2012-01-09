@@ -23,7 +23,7 @@ import java.util.Map;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.PropertyBindingDetails;
+import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 
@@ -36,38 +36,33 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class ViewAttributeResolver
+public class BindingAttributeResolver
 {
-	private View view;
-	private boolean preInitializeView;
 	private List<ViewAttribute> resolvedViewAttributes;
 	private Map<String, String> pendingAttributeMappings;
 
-	public ViewAttributeResolver(View view, boolean preInitializeView, Map<String, String> pendingAttributes)
+	public BindingAttributeResolver(Map<String, String> pendingAttributes)
 	{
-		this.view = view;
-		this.preInitializeView = preInitializeView;
 		this.pendingAttributeMappings = pendingAttributes;
 		this.resolvedViewAttributes = Lists.newArrayList();
 	}
 
-	void resolve(WidgetViewAttributeProviderAdapter<View> viewAttributeProvider)
+	void resolve(BindingAttributeMappingsImpl<View> viewAttributeMappings)
 	{
-		ViewAttributeMappingsImpl<View> viewAttributeMappings = viewAttributeProvider.createViewAttributeMappings();
-		
 		resolvePropertyViewAttributes(viewAttributeMappings);
 		resolveCommandViewAttributes(viewAttributeMappings);
 		resolveGroupedViewAttributes(viewAttributeMappings);
 	}
 
-	private void resolvePropertyViewAttributes(ViewAttributeMappingsImpl<View> viewAttributeMappings)
+	private void resolvePropertyViewAttributes(BindingAttributeMappingsImpl<View> viewAttributeMappings)
 	{
 		for (String propertyAttribute : viewAttributeMappings.getPropertyAttributes())
 		{
 			if (hasAttribute(propertyAttribute))
 			{
-				PropertyViewAttribute<View> propertyViewAttribute = viewAttributeMappings.createPropertyViewAttribute(propertyAttribute);
-				resolveAndInitializePropertyViewAttribute(propertyAttribute, propertyViewAttribute);
+				PropertyViewAttribute<View> propertyViewAttribute = viewAttributeMappings.createPropertyViewAttribute(
+						propertyAttribute, getAttributeValue(propertyAttribute));
+				resolveViewAttribute(propertyAttribute, propertyViewAttribute);
 			}
 		}
 	}
@@ -75,15 +70,6 @@ public class ViewAttributeResolver
 	private boolean hasAttribute(String attribute)
 	{
 		return pendingAttributeMappings.containsKey(attribute);
-	}
-
-	private void resolveAndInitializePropertyViewAttribute(String propertyAttribute, PropertyViewAttribute<View> propertyViewAttribute)
-	{
-		propertyViewAttribute.setView(view);
-		propertyViewAttribute.setPreInitializeView(preInitializeView);
-		propertyViewAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(getAttributeValue(propertyAttribute)));
-		
-		resolveViewAttribute(propertyAttribute, propertyViewAttribute);
 	}
 
 	private String getAttributeValue(String attribute)
@@ -110,27 +96,20 @@ public class ViewAttributeResolver
 		}
 	}
 
-	private void resolveCommandViewAttributes(ViewAttributeMappingsImpl<View> viewAttributeMappings)
+	private void resolveCommandViewAttributes(BindingAttributeMappingsImpl<View> viewAttributeMappings)
 	{
 		for (String commandAttribute : viewAttributeMappings.getCommandAttributes())
 		{
 			if (hasAttribute(commandAttribute))
 			{
-				AbstractCommandViewAttribute<View> commandViewAttribute = viewAttributeMappings.createCommandViewAttribute(commandAttribute);
-				resolveAndInitializeCommandViewAttribute(commandAttribute, commandViewAttribute);
+				AbstractCommandViewAttribute<View> commandViewAttribute = viewAttributeMappings.createCommandViewAttribute(
+						commandAttribute, getAttributeValue(commandAttribute));
+				resolveViewAttribute(commandAttribute, commandViewAttribute);
 			}
 		}
 	}
 
-	private void resolveAndInitializeCommandViewAttribute(String attribute, AbstractCommandViewAttribute<View> commandViewAttribute)
-	{
-		resolveViewAttribute(attribute, commandViewAttribute);
-	
-		commandViewAttribute.setView(view);
-		commandViewAttribute.setCommandName(getAttributeValue(attribute));
-	}
-
-	private void resolveGroupedViewAttributes(ViewAttributeMappingsImpl<View> viewAttributeMappings)
+	private void resolveGroupedViewAttributes(BindingAttributeMappingsImpl<View> viewAttributeMappings)
 	{
 		for (GroupedAttributeDetailsImpl groupedAttributeDetails : viewAttributeMappings.getGroupedPropertyAttributes())
 		{
@@ -145,19 +124,9 @@ public class ViewAttributeResolver
 					}
 				}
 				
-				resolveAndInitializeGroupedViewAttribute(groupedAttributeDetails, groupedViewAttribute);
+				resolveViewAttribute(groupedAttributeDetails.getPresentAttributes(), groupedViewAttribute);
 			}
 		}
-	}
-
-	private void resolveAndInitializeGroupedViewAttribute(GroupedAttributeDetailsImpl groupedAttributeDetails,
-			AbstractGroupedViewAttribute<View> groupedPropertyViewAttribute)
-	{
-		resolveViewAttribute(groupedAttributeDetails.getPresentAttributes(), groupedPropertyViewAttribute);
-		
-		groupedPropertyViewAttribute.setView(view);
-		groupedPropertyViewAttribute.setPreInitializeViews(preInitializeView);
-		groupedPropertyViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
 	}
 
 	private boolean hasOneOfAttributes(String[] attributes)

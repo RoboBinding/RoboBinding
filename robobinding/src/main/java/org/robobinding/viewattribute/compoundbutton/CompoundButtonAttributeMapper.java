@@ -13,18 +13,25 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.compoundbutton;
 
-import android.view.View;
+import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.BindingAttributeMapper;
+
+import android.widget.CompoundButton;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- * @author Cheng Wei
  */
-public interface WidgetViewAttributeProvider<T extends View>
+public class CompoundButtonAttributeMapper implements BindingAttributeMapper<CompoundButton>
 {
-	void populateViewAttributeMappings(ViewAttributeMappings<T> mappings);
+	@Override
+	public void mapBindingAttributes(BindingAttributeMappings<CompoundButton> mappings)
+	{
+		mappings.mapPropertyAttribute(CheckedAttribute.class, "checked");
+		mappings.mapCommandAttribute(OnCheckedChangeAttribute.class, "onCheckedChange");
+	}
 }

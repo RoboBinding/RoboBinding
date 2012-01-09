@@ -15,22 +15,13 @@
  */
 package org.robobinding.viewattribute.imageview;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
-
-import java.util.Map;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttributeTest;
 import org.robobinding.viewattribute.imageview.ImageSourceAttribute.BitmapImageSourceAttribute;
 import org.robobinding.viewattribute.imageview.ImageSourceAttribute.DrawableImageSourceAttribute;
 import org.robobinding.viewattribute.imageview.ImageSourceAttribute.IntegerImageSourceAttribute;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
 
 /**
  *
@@ -38,32 +29,15 @@ import android.widget.ImageView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ImageSourceAttributeTest
+public class ImageSourceAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<ImageSourceAttribute>
 {
-	private ImageSourceAttribute imageSourceAttribute;
-	private Map<Class<?>, Class<? extends PropertyViewAttribute<ImageView>>> propertyTypeToViewAttributeMappings;
-	
-	@Before
-	public void setUp()
+	@Override
+	protected void setTypeMappingExpectations()
 	{
-		imageSourceAttribute = new ImageSourceAttribute();
-		
-		propertyTypeToViewAttributeMappings = Maps.newHashMap();
-		propertyTypeToViewAttributeMappings.put(int.class, IntegerImageSourceAttribute.class);
-		propertyTypeToViewAttributeMappings.put(Integer.class, IntegerImageSourceAttribute.class);
-		propertyTypeToViewAttributeMappings.put(Bitmap.class, BitmapImageSourceAttribute.class);
-		propertyTypeToViewAttributeMappings.put(Drawable.class, DrawableImageSourceAttribute.class);
-	}
-	
-	@Test
-	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
-	{
-		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
-		{
-			PropertyViewAttribute<ImageView> propertyViewAttribute = imageSourceAttribute.createPropertyViewAttribute(propertyType);
-			
-			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
-		}
+		forPropertyType(int.class).expectAttribute(IntegerImageSourceAttribute.class);
+		forPropertyType(int.class).expectAttribute(IntegerImageSourceAttribute.class);
+		forPropertyType(Bitmap.class).expectAttribute(BitmapImageSourceAttribute.class);
+		forPropertyType(Drawable.class).expectAttribute(DrawableImageSourceAttribute.class);
 	}
 	
 }

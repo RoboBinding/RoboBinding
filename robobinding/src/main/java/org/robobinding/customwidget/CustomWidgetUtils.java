@@ -15,7 +15,7 @@
  */
 package org.robobinding.customwidget;
 
-import org.robobinding.binder.WidgetViewAttributeProviderAdapter;
+import org.robobinding.viewattribute.BindingAttributeProvider;
 
 import android.view.View;
 
@@ -27,17 +27,17 @@ import android.view.View;
  */
 public class CustomWidgetUtils
 {
+	private CustomWidgetUtils()
+	{
+	}
+	
 	public static boolean isCustomWidget(View view)
 	{
 		return view instanceof BindableView;
 	}
 
-	public static <T extends View> WidgetViewAttributeProviderAdapter<T> adapt(BindableView<T> bindableView)
+	public static <T extends View> BindingAttributeProvider<T> adapt(BindableView<T> bindableView)
 	{
-		return new WidgetViewAttributeProviderAdapter<T>(bindableView);
-	}
-
-	private CustomWidgetUtils()
-	{
+		return new CustomBindingAttributeMapperAdapter<T>(bindableView);
 	}
 }

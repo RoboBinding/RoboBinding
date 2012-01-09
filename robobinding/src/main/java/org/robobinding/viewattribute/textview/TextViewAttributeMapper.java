@@ -13,32 +13,28 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.progressbar;
+package org.robobinding.viewattribute.textview;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.BindingAttributeMapper;
 
-import org.junit.Test;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.RandomValues;
-
-import android.widget.ProgressBar;
+import android.widget.TextView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ProgressAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, ProgressAttribute>
+public class TextViewAttributeMapper implements BindingAttributeMapper<TextView>
 {
-	@Test
-	public void whenUpdatingValueModel_thenSetProgressOnProgressBar()
+	@Override
+	public void mapBindingAttributes(BindingAttributeMappings<TextView> mappings)
 	{
-		int newProgress = RandomValues.anyInteger();
+		mappings.mapGroupedAttribute(TextAttributeGroup.class, TextAttributeGroup.TEXT, TextAttributeGroup.VALUE_COMMIT_MODE);
 		
-		attribute.valueModelUpdated(newProgress);
-
-		assertThat(view.getProgress(), is(newProgress));
+		mappings.mapPropertyAttribute(TextColorAttribute.class, "textColor");
+		
+		mappings.mapCommandAttribute(OnTextChangedAttribute.class, "onTextChanged");
 	}
 }

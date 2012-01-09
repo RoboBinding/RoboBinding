@@ -58,7 +58,7 @@ public class PropertyViewAttributeTest
 	}
 	
 	@Test
-	public void givenABoundPropertyViewAttribute_WhenValueModelIsUpdated_ThenNewValueShouldBePassedToThePropertyViewAttribute()
+	public void givenABoundPropertyViewAttribute_whenValueModelIsUpdated_thenNewValueShouldBePassedToThePropertyViewAttribute()
 	{
 		initializeAndBindPropertyViewAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
@@ -68,7 +68,7 @@ public class PropertyViewAttributeTest
 	}
 	
 	@Test
-	public void givenAPropertyViewAttributeWithTwoWayBinding_WhenTheViewIsUpdated_ThenValueModelShouldBeUpdated()
+	public void givenAPropertyViewAttributeWithTwoWayBinding_whenTheViewIsUpdated_thenValueModelShouldBeUpdated()
 	{
 		initializeAndBindPropertyViewAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
@@ -78,7 +78,7 @@ public class PropertyViewAttributeTest
 	}
 	
 	@Test
-	public void givenAPropertyViewAttributeWithTwoWayBinding_WhenTheViewIsUpdated_ThenViewShouldNotReceiveAFurtherUpdate()
+	public void givenAPropertyViewAttributeWithTwoWayBinding_whenTheViewIsUpdated_thenViewShouldNotReceiveAFurtherUpdate()
 	{
 		initializeAndBindPropertyViewAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
@@ -88,7 +88,7 @@ public class PropertyViewAttributeTest
 	}
 	
 	@Test
-	public void givenAPropertyViewAttributeWithTwoWayBinding_WhenValueModelIsUpdated_ThenViewShouldReceiveOnlyASingleUpdate()
+	public void givenAPropertyViewAttributeWithTwoWayBinding_whenValueModelIsUpdated_thenViewShouldReceiveOnlyASingleUpdate()
 	{
 		initializeAndBindPropertyViewAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
@@ -98,7 +98,7 @@ public class PropertyViewAttributeTest
 	}
 	
 	@Test
-	public void givenPreInitializeViewFlag_ThenPreInitializeTheViewToReflectTheValueModel()
+	public void givenPreInitializeViewFlag_thenPreInitializeTheViewToReflectTheValueModel()
 	{
 		initializeAndBindPropertyViewAttribute(ONE_WAY_BINDING, PRE_INITIALIZE_VIEW);
 		
@@ -106,7 +106,7 @@ public class PropertyViewAttributeTest
 	}
 	
 	@Test
-	public void givenNoPreInitializeViewFlag_ThenDontPreInitializeTheView()
+	public void givenNoPreInitializeViewFlag_thenDontPreInitializeTheView()
 	{
 		initializeAndBindPropertyViewAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		

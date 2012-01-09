@@ -85,14 +85,14 @@ public class ItemMappingParserTest
 	
 	@Theory
 	@Test (expected=RuntimeException.class)
-	public void whenParsingAnIllegalAttributeValue_ThenReject(String illegalAttributeValue)
+	public void whenParsingAnIllegalAttributeValue_thenReject(String illegalAttributeValue)
 	{
 		ItemMappingParser itemMappingParser = new ItemMappingParser();
 		itemMappingParser.parse(illegalAttributeValue, mockContext);
 	}
 	
 	@Test (expected=RuntimeException.class)
-	public void givenALegalAttributeValue_WhenViewCantBeFound_ThenThrowException()
+	public void givenALegalAttributeValue_whenViewCantBeFound_thenThrowException()
 	{
 		when(mockResources.getIdentifier("text1", "id", "android")).thenReturn(0);
 		

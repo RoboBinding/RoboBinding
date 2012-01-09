@@ -30,7 +30,7 @@ import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
 public class DropdownMappingAttributeTest extends ItemMappingAttributeTest
 {
 	@Test
-	public void whenBinding_ThenUpdateDataSetAdapter()
+	public void whenBinding_thenUpdateDataSetAdapter()
 	{
 		DropdownMappingAttribute dropdownMappingAttribute = new DropdownMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		
@@ -40,7 +40,7 @@ public class DropdownMappingAttributeTest extends ItemMappingAttributeTest
 	}
 	
 	@Test
-	public void whenBinding_ThenInitializeViewMappings()
+	public void whenBinding_thenInitializeViewMappings()
 	{
 		DropdownMappingAttribute dropdownMappingAttribute = new DropdownMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		

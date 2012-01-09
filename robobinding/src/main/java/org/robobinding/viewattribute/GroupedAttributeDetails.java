@@ -25,11 +25,11 @@ import java.util.Collection;
  */
 public interface GroupedAttributeDetails
 {
-	boolean hasAbsentAttributes(String... attributes);
+	boolean hasAttribute(String attribute);
+	
+	boolean hasAttributes(String... attributes);
+	
+	String attributeValueFor(String attribute);
 	
 	Collection<String> findAbsentAttributes(String... attributes);
-
-	String attributeValueFor(String attribute);
-
-	boolean hasAttribute(String attribute);
 }

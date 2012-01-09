@@ -34,7 +34,7 @@ import android.widget.CheckBox;
 public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<CheckBox, CheckedAttribute>
 {
 	@Test
-	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		boolean checked = RandomValues.trueOrFalse();
 		
@@ -44,7 +44,7 @@ public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<Chec
 	}
 	
 	@Test
-	public void whenViewIsChecked_ThenUpdateValueModel()
+	public void whenViewIsChecked_thenUpdateValueModel()
 	{
 		ValueModel<Boolean> valueModel = twoWayBindToProperty(Boolean.class);
 		

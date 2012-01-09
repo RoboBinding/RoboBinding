@@ -17,7 +17,7 @@ package org.robobinding.binder;
 
 import java.util.List;
 
-import org.robobinding.binder.BindingAttributesProcessor.ViewAttributes;
+import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
@@ -38,15 +38,15 @@ import android.view.ViewGroup;
 public class BindingViewFactory implements Factory
 {
 	private final LayoutInflater layoutInflater;
-	private final BindingAttributesProcessor bindingAttributesProcessor;
+	private final BindingAttributeProcessor bindingAttributeProcessor;
 	private final ViewNameResolver viewNameResolver;
 	
 	private List<ViewAttributes> childViewBindingAttributes = Lists.newArrayList();
 	
-	BindingViewFactory(LayoutInflater layoutInflater, BindingAttributesProcessor bindingAttributesProcessor)
+	BindingViewFactory(LayoutInflater layoutInflater, BindingAttributeProcessor bindingAttributeProcessor)
 	{
 		this.layoutInflater = layoutInflater;
-		this.bindingAttributesProcessor = bindingAttributesProcessor;
+		this.bindingAttributeProcessor = bindingAttributeProcessor;
 		this.viewNameResolver = new ViewNameResolver();
 		layoutInflater.setFactory(this);
 	}
@@ -58,7 +58,7 @@ public class BindingViewFactory implements Factory
 			String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
 			
 			View view = layoutInflater.createView(viewFullName, null, attrs);
-			ViewAttributes viewBindingAttributes = bindingAttributesProcessor.read(view, attrs);
+			ViewAttributes viewBindingAttributes = bindingAttributeProcessor.read(view, attrs);
 			childViewBindingAttributes.add(viewBindingAttributes);
 			return view;
 		} 

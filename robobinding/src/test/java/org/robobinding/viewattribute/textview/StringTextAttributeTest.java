@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.textview;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -23,6 +24,9 @@ import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.textview.TextAttribute.StringTextAttribute;
+
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.shadows.ShadowTextView;
 
 import android.widget.TextView;
 
@@ -52,5 +56,32 @@ public class StringTextAttributeTest extends AbstractPropertyViewAttributeTest<T
 		view.setText(RandomStringUtils.random(5));
 
 		assertThat(valueModel.getValue(), equalTo(view.getText()));
+	}
+	
+	@Test
+	public void givenALateValueCommitAttribute_whenUpdatingView_thenDoNotImmediatelyCommitToValueModel()
+	{
+		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
+		String newText = RandomStringUtils.random(5);
+		ValueModel<String> valueModel = twoWayBindToProperty(String.class);
+		
+		view.setText(newText);
+
+		assertThat(valueModel.getValue(), not(equalTo(newText)));
+	}
+	
+	@Test
+	public void givenALateValueCommitAttribute_whenViewLosesFocus_thenCommitToValueModel()
+	{
+		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
+		String newText = RandomStringUtils.random(5);
+		ValueModel<String> valueModel = twoWayBindToProperty(String.class);
+		
+		view.setText(newText);
+
+		ShadowTextView shadowTextView = Robolectric.shadowOf(view);
+		shadowTextView.setViewFocus(false);
+		
+		assertThat(valueModel.getValue(), equalTo(newText));
 	}
 }

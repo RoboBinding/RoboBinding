@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.progressbar;
+package org.robobinding.viewattribute.imageview;
 
-import org.robobinding.viewattribute.ViewAttributeMappings;
-import org.robobinding.viewattribute.WidgetViewAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.BindingAttributeMapper;
 
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 
 /**
  *
@@ -26,14 +26,12 @@ import android.widget.ProgressBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ProgressBarAttributeProvider implements WidgetViewAttributeProvider<ProgressBar>
+public class ImageViewAttributeMapper implements BindingAttributeMapper<ImageView>
 {
 	@Override
-	public void populateViewAttributeMappings(ViewAttributeMappings<ProgressBar> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<ImageView> mappings)
 	{
-		mappings.mapProperty(MaxAttribute.class, "max");
-		mappings.mapProperty(ProgressAttribute.class, "progress");
-		mappings.mapProperty(SecondaryProgressAttribute.class, "secondaryProgress");
+		mappings.mapPropertyAttribute(ImageSourceAttribute.class, "src");
 	}
 
 }

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.compoundbutton;
+package org.robobinding.viewattribute.ratingbar;
 
-import org.robobinding.viewattribute.ViewAttributeMappings;
-import org.robobinding.viewattribute.WidgetViewAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.BindingAttributeMapper;
 
-import android.widget.CompoundButton;
+import android.widget.RatingBar;
 
 /**
  *
@@ -26,12 +26,14 @@ import android.widget.CompoundButton;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CompoundButtonAttributeProvider implements WidgetViewAttributeProvider<CompoundButton>
+public class RatingBarAttributeMapper implements BindingAttributeMapper<RatingBar>
 {
 	@Override
-	public void populateViewAttributeMappings(ViewAttributeMappings<CompoundButton> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<RatingBar> mappings)
 	{
-		mappings.mapProperty(CheckedAttribute.class, "checked");
-		mappings.mapCommand(OnCheckedChangeAttribute.class, "onCheckedChange");
+		mappings.mapPropertyAttribute(RatingAttribute.class, "rating");
+		mappings.mapPropertyAttribute(NumStarsAttribute.class, "numStars");
+		
+		mappings.mapCommandAttribute(OnRatingBarChangeAttribute.class, "onRatingBarChange");
 	}
 }

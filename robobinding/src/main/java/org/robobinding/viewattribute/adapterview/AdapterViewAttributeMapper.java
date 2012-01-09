@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.viewattribute.ViewAttributeMappings;
-import org.robobinding.viewattribute.WidgetViewAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.BindingAttributeMapper;
 
 import android.widget.AdapterView;
 
@@ -27,18 +27,18 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdapterViewAttributeProvider implements WidgetViewAttributeProvider<AdapterView<?>>
+public class AdapterViewAttributeMapper implements BindingAttributeMapper<AdapterView<?>>
 {
 	@Override
-	public void populateViewAttributeMappings(ViewAttributeMappings<AdapterView<?>> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<AdapterView<?>> mappings)
 	{
-		mappings.mapGroup(AdaptedDataSetAttributes.class, AdaptedDataSetAttributes.SOURCE, 
+		mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, AdaptedDataSetAttributes.SOURCE, 
 				AdaptedDataSetAttributes.ITEM_LAYOUT, AdaptedDataSetAttributes.ITEM_MAPPING, 
 				AdaptedDataSetAttributes.DROPDOWN_LAYOUT, AdaptedDataSetAttributes.DROPDOWN_MAPPING);
 		
-		mappings.mapCommand(OnItemClickAttribute.class, "onItemClick");
-		mappings.mapCommand(OnItemSelectedAttribute.class, "onItemSelected");
+		mappings.mapCommandAttribute(OnItemClickAttribute.class, "onItemClick");
+		mappings.mapCommandAttribute(OnItemSelectedAttribute.class, "onItemSelected");
 		
-		mappings.mapProperty(SelectedItemPositionAttribute.class, "selectedItemPosition");
+		mappings.mapPropertyAttribute(SelectedItemPositionAttribute.class, "selectedItemPosition");
 	}
 }

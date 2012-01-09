@@ -52,7 +52,7 @@ public class ResourceBindingDetailsTest
 	}
 	
 	@Test
-	public void givenResourceNameTypeAndPackage_ThenGetResourceIdFromContextResources()
+	public void givenResourceNameTypeAndPackage_thenGetResourceIdFromContextResources()
 	{
 		ResourceBindingDetails resourceBindingDetails = new ResourceBindingDetails(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE);
 		int resourceId = anyNumber();
@@ -64,7 +64,7 @@ public class ResourceBindingDetailsTest
 	}
 
 	@Test
-	public void givenOnlyResourceNameAndType_ThenUseContextPackageToGetResourceId()
+	public void givenOnlyResourceNameAndType_thenUseContextPackageToGetResourceId()
 	{
 		ResourceBindingDetails resourceBindingDetails = new ResourceBindingDetails(RESOURCE_NAME, RESOURCE_TYPE);
 		int resourceId = anyNumber();

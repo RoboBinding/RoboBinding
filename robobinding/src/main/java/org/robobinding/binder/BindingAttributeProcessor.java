@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 
 import android.content.Context;
@@ -33,16 +35,16 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class BindingAttributesProcessor
+public class BindingAttributeProcessor
 {
-	private final ProvidersResolver providersResolver;
+	private final BindingAttributeProvidersResolver providersResolver;
 	private final AttributeSetParser attributeSetParser;
 	private final boolean preInitializeViews;
 	
-	public BindingAttributesProcessor(AttributeSetParser attributeSetParser, boolean preInitializeViews)
+	public BindingAttributeProcessor(AttributeSetParser attributeSetParser, boolean preInitializeViews)
 	{
 		this.preInitializeViews = preInitializeViews;
-		this.providersResolver = new ProvidersResolver();
+		this.providersResolver = new BindingAttributeProvidersResolver();
 		this.attributeSetParser = attributeSetParser;
 	}
 
@@ -60,23 +62,24 @@ public class BindingAttributesProcessor
 	
 	private List<ViewAttribute> determineViewAttributes(View view, Map<String, String> pendingBindingAttributes)
 	{
-		ViewAttributeResolver viewAttributeResolver = new ViewAttributeResolver(view, preInitializeViews, pendingBindingAttributes);
-		Collection<WidgetViewAttributeProviderAdapter<? extends View>> providers = providersResolver.getCandidateProviders(view);
+		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(pendingBindingAttributes);
+		Collection<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(view);
 		
-		for (WidgetViewAttributeProviderAdapter<? extends View> provider : providers)
+		for (BindingAttributeProvider<? extends View> provider : providers)
 		{
 			@SuppressWarnings("unchecked")
-			WidgetViewAttributeProviderAdapter<View> viewProvider = (WidgetViewAttributeProviderAdapter<View>)provider;
-			viewAttributeResolver.resolve(viewProvider);
+			BindingAttributeProvider<View> bindingAttributeProvider = (BindingAttributeProvider<View>)provider;
+			BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(view, preInitializeViews);
+			bindingAttributeResolver.resolve(bindingAttributeMappings);
 			
-			if (viewAttributeResolver.isDone())
+			if (bindingAttributeResolver.isDone())
 				break;
 		}
 		
-		if (viewAttributeResolver.hasUnresolvedAttributes())
-			throw new RuntimeException("Unhandled binding attribute(s): " + viewAttributeResolver.describeUnresolvedAttributes());
+		if (bindingAttributeResolver.hasUnresolvedAttributes())
+			throw new RuntimeException("Unhandled binding attribute(s): " + bindingAttributeResolver.describeUnresolvedAttributes());
 		
-		return viewAttributeResolver.getResolvedViewAttributes();
+		return bindingAttributeResolver.getResolvedViewAttributes();
 	}
 	
 	public static class ViewAttributes

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.seekbar;
+package org.robobinding.viewattribute.progressbar;
 
-import org.robobinding.viewattribute.ViewAttributeMappings;
-import org.robobinding.viewattribute.WidgetViewAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.BindingAttributeMapper;
 
-import android.widget.SeekBar;
+import android.widget.ProgressBar;
 
 /**
  *
@@ -26,12 +26,14 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SeekBarAttributeProvider implements WidgetViewAttributeProvider<SeekBar>
+public class ProgressBarAttributeMapper implements BindingAttributeMapper<ProgressBar>
 {
 	@Override
-	public void populateViewAttributeMappings(ViewAttributeMappings<SeekBar> mappings)
+	public void mapBindingAttributes(BindingAttributeMappings<ProgressBar> mappings)
 	{
-		mappings.mapGroup(OnSeekBarChangeAttributes.class, OnSeekBarChangeAttributes.PROGRESS, OnSeekBarChangeAttributes.ON_SEEK_BAR_CHANGE);
+		mappings.mapPropertyAttribute(MaxAttribute.class, "max");
+		mappings.mapPropertyAttribute(ProgressAttribute.class, "progress");
+		mappings.mapPropertyAttribute(SecondaryProgressAttribute.class, "secondaryProgress");
 	}
-	
+
 }

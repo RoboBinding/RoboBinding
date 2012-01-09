@@ -44,7 +44,7 @@ public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeTes
 	}
 	
 	@Test
-	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		int newRating = RandomValues.anyInteger();
 		
@@ -55,7 +55,7 @@ public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeTes
 	
 	@Test
 	@Ignore //TODO Robolectric error (pull request submitted)
-	public void whenRatingIsChanged_ThenUpdateValueModel()
+	public void whenRatingIsChanged_thenUpdateValueModel()
 	{
 		ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);
 		

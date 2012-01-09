@@ -37,7 +37,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public class SelectedAttributeTest extends AbstractPropertyViewAttributeTest<View, SelectedAttribute>
 {
 	@Test
-	public void whenValueModelUpdated_ThenViewShouldReflectChanges()
+	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		boolean selected = RandomValues.trueOrFalse();
 		

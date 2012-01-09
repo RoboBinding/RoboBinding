@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.ratingbar;
+package org.robobinding.viewattribute;
 
-import org.robobinding.viewattribute.ViewAttributeMappings;
-import org.robobinding.viewattribute.WidgetViewAttributeProvider;
-
-import android.widget.RatingBar;
+import android.view.View;
 
 /**
  *
@@ -26,14 +23,7 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class RatingBarAttributeProvider implements WidgetViewAttributeProvider<RatingBar>
+public interface BindingAttributeProvider<T extends View>
 {
-	@Override
-	public void populateViewAttributeMappings(ViewAttributeMappings<RatingBar> mappings)
-	{
-		mappings.mapProperty(RatingAttribute.class, "rating");
-		mappings.mapProperty(NumStarsAttribute.class, "numStars");
-		
-		mappings.mapCommand(OnRatingBarChangeAttribute.class, "onRatingBarChange");
-	}
+	BindingAttributeMappingsImpl<T> createBindingAttributeMappings(T view, boolean preInitializeViews);
 }

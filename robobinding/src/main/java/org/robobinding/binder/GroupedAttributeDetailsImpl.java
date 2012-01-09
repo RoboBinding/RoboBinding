@@ -56,16 +56,16 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	}
 	
 	@Override
-	public boolean hasAbsentAttributes(String... attributes)
+	public boolean hasAttributes(String... attributes)
 	{
 		for (String attribute : attributes)
 		{
 			if(!presentAttributeMappings.containsKey(attribute))
 			{
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	@Override
