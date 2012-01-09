@@ -50,13 +50,13 @@ public abstract class AbstractBinder
 	{
 		ensureBindingFactoryInitialized();
 		
-		InflatedView inflatedView = bindingViewFactory.inflateView(layoutId, context);
+		InflatedView inflatedView = bindingViewFactory.inflateView(layoutId);
 		inflatedView.bindChildViews(presentationModelAdapter, context);
 		
 		return inflatedView;
 	}
 	
-	protected InflatedView inflateAndBind_attachToRoot(int layoutId, PresentationModelAdapter presentationModelAdapter, ViewGroup viewGroup)
+	protected InflatedView inflateAttachToRootAndBind(int layoutId, PresentationModelAdapter presentationModelAdapter, ViewGroup viewGroup)
 	{
 		ensureBindingFactoryInitialized();
 		

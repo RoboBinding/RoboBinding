@@ -68,10 +68,10 @@ public class BindingViewFactory implements Factory
 		}
 	}
  
-	InflatedView inflateView(int resourceId, Context context)
+	InflatedView inflateView(int resourceId)
 	{
 		childViewBindingAttributes = Lists.newArrayList();
-		View rootView = layoutInflater.inflate(resourceId, null, false);
+		View rootView = layoutInflater.inflate(resourceId, null);
 		return new InflatedView(rootView, childViewBindingAttributes);
 	}
 	

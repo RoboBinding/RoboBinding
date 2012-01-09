@@ -17,6 +17,9 @@ package org.robobinding.binder;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  *
@@ -44,5 +47,17 @@ public class Binder
 	{
 		DialogBinder dialogBinder = new DialogBinder(dialog, layoutId);
 		dialogBinder.bindTo(presentationModel);
+	}
+	
+	public static View bindView(Context context, int layoutId, Object presentationModel)
+	{
+		SubviewBinder subviewBinder = new SubviewBinder(context, layoutId);
+		return subviewBinder.bindTo(presentationModel);
+	}
+	
+	public static View bindViewAndAttachToRoot(Context context, int layoutId, Object presentationModel, ViewGroup viewGroup)
+	{
+		SubviewBinder subviewBinder = new SubviewBinder(context, layoutId);
+		return subviewBinder.bindToAndAttachToRoot(presentationModel, viewGroup);
 	}
 }

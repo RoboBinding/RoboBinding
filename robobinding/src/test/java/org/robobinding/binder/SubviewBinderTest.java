@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,9 @@
  */
 package org.robobinding.binder;
 
+import static org.hamcrest.Matchers.sameInstance;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -25,37 +26,40 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
 import org.robobinding.binder.BindingViewFactory.InflatedView;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.app.Activity;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class ActivityBinderTest
-{	
+public class SubviewBinderTest
+{
 	private Object presentationModel = new Object();
-	private int layoutId = 0;
-	private Activity activity = mock(Activity.class);
+	private int layoutId = RandomValues.anyInteger();
+	private Activity context = mock(Activity.class);
+	private View rootView = mock(View.class);
+	private ViewGroup viewGroup = mock(ViewGroup.class);
+	private BindingViewFactory bindingViewFactory = mock(BindingViewFactory.class);
 	
 	@Test
-	public void whenBindingToPresentationModel_thenSetContentViewReturnedFromBindingViewFactory()
+	public void whenBindingAndAttachingToRoot_thenShouldInteractCorrectlyWithCollaborator()
 	{
-		View rootView = new View(activity);
 		InflatedView inflatedView = new InflatedView(rootView, new ArrayList<ViewAttributes>());
-		BindingViewFactory bindingViewFactory = mock(BindingViewFactory.class);
-		when(bindingViewFactory.inflateView(layoutId)).thenReturn(inflatedView);
+		when(bindingViewFactory.inflateViewAndAttachToRoot(layoutId, viewGroup)).thenReturn(inflatedView);
 		
-		ActivityBinder activityBinder = new ActivityBinder(activity, layoutId);
-		activityBinder.setBindingViewFactory(bindingViewFactory);
-		activityBinder.bindTo(presentationModel);
+		SubviewBinder subviewBinder = new SubviewBinder(context, layoutId);
+		subviewBinder.setBindingViewFactory(bindingViewFactory);
+		View inflatedRootView = subviewBinder.bindToAndAttachToRoot(presentationModel, viewGroup);
 		
-		verify(activity).setContentView(rootView);
+		assertThat(rootView, sameInstance(inflatedRootView));
 	}
 }

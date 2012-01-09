@@ -58,7 +58,7 @@ public class DialogBinderTest
 		inflatedRootView = new View(dialogContext);
 		InflatedView inflatedView = new InflatedView(inflatedRootView, new ArrayList<ViewAttributes>());
 		bindingViewFactory = mock(BindingViewFactory.class);
-		when(bindingViewFactory.inflateView(layoutId, dialogContext)).thenReturn(inflatedView);
+		when(bindingViewFactory.inflateView(layoutId)).thenReturn(inflatedView);
 	}
 	
 	@Test
