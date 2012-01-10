@@ -16,6 +16,8 @@
 package sample.robobinding.presentationmodel;
 
 import sample.robobinding.CursorBackedViewAlbumsActivity;
+import sample.robobinding.DynamicDropdownLayoutSpinnerAlbumsActivity;
+import sample.robobinding.DynamicItemLayoutListViewAlbumsActivity;
 import sample.robobinding.ListViewAlbumsActivity;
 import sample.robobinding.ListViewWithPredefinedViewsAlbumsActivity;
 import sample.robobinding.SpinnerAlbumsActivity;
@@ -61,5 +63,15 @@ public class HomePresentationModel
 	public void listBackedAlbumsSpinnerWithPredefinedViews()
 	{
 		context.startActivity(new Intent(context, SpinnerWithPredefinedViewsAlbumsActivity.class));
+	}
+	
+	public void dynamicItemLayoutListBackedAlbumsListView()
+	{
+		context.startActivity(new Intent(context, DynamicItemLayoutListViewAlbumsActivity.class));
+	}
+	
+	public void dynamicDropdownLayoutListBackedAlbumsSpinner()
+	{
+		context.startActivity(new Intent(context, DynamicDropdownLayoutSpinnerAlbumsActivity.class));
 	}
 }

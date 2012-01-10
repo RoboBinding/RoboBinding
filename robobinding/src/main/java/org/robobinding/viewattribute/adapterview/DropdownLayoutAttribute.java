@@ -17,6 +17,8 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.presentationmodel.DataSetAdapter;
 
+import android.widget.AdapterView;
+
 /**
  *
  * @since 1.0
@@ -25,9 +27,9 @@ import org.robobinding.presentationmodel.DataSetAdapter;
  */
 public class DropdownLayoutAttribute extends ItemLayoutAttribute
 {
-	public DropdownLayoutAttribute(String attributeValue)
+	public DropdownLayoutAttribute(AdapterView<?> adapterView, String attributeValue)
 	{
-		super(attributeValue);
+		super(adapterView, attributeValue);
 	}
 
 	@Override

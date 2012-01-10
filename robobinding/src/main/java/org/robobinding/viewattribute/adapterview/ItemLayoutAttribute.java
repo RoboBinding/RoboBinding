@@ -35,14 +35,14 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 {
 	private AdapterViewAttribute itemLayoutAttribute;
 	
-	public ItemLayoutAttribute(String attributeValue)
+	public ItemLayoutAttribute(AdapterView<?> adapterView, String attributeValue)
 	{
 		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(attributeValue);
 		
 		if (bindingDetailsBuilder.bindsToStaticResource())
 			itemLayoutAttribute = new StaticItemLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
 		else
-			itemLayoutAttribute = new DynamicItemLayoutAttribute(bindingDetailsBuilder.createPropertyBindingDetails());
+			itemLayoutAttribute = new DynamicItemLayoutAttribute(adapterView, bindingDetailsBuilder.createPropertyBindingDetails());
 	}
 
 	@Override
@@ -56,12 +56,16 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		dataSetAdapter.setItemLayoutId(layoutId);
 	}
 	
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	private class DynamicItemLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer> implements AdapterViewAttribute
 	{
 		private DataSetAdapter<?> dataSetAdapter;
+		
+		private final AdapterView adapterView;
 
-		public DynamicItemLayoutAttribute(PropertyBindingDetails propertyBindingDetails)
+		public DynamicItemLayoutAttribute(AdapterView<?> adapterView, PropertyBindingDetails propertyBindingDetails)
 		{
+			this.adapterView = adapterView;
 			setPropertyBindingDetails(propertyBindingDetails);
 		}
 		
@@ -73,9 +77,10 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		}
 
 		@Override
-		protected void valueModelUpdated(Integer newValue)
+		protected void valueModelUpdated(Integer newItemLayout)
 		{
-			updateLayoutId(dataSetAdapter, newValue);
+			updateLayoutId(dataSetAdapter, newItemLayout);
+			adapterView.setAdapter(dataSetAdapter);
 		}
 	}
 	
