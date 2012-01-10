@@ -36,7 +36,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  */
 @RunWith(RobolectricTestRunner.class)
 @SuppressWarnings({"rawtypes"})
-public class AbstractDynamicLayoutAttributeTest
+public abstract class AbstractDynamicLayoutAttributeTest
 {
 	protected DynamicLayoutAttribute dynamicItemLayoutAttribute;
 	protected AdapterView adapterView;
