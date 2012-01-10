@@ -70,7 +70,7 @@ public class HeaderOrFooterVisibility
 		}
 	}
 	
-	private void makeInvisible()
+	void makeInvisible()
 	{
 		if(originalLayoutParams != null)
 		{

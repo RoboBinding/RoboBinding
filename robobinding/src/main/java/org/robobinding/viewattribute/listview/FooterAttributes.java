@@ -6,88 +6,40 @@
  */
 package org.robobinding.viewattribute.listview;
 
-import org.robobinding.binder.Binder;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.BindingDetailsBuilder;
-import org.robobinding.viewattribute.PropertyBindingDetails;
-import org.robobinding.viewattribute.ResourceBindingDetails;
-
-import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ListView;
 
 /**
  * @since 1.0
  * @author Cheng Wei
  * 
  */
-public class FooterAttributes extends AbstractGroupedViewAttribute<ListView>
+public class FooterAttributes extends AbstractHeaderOrFooterAttributes
 {
 	static final String FOOTER_LAYOUT = "footerLayout";
 	static final String FOOTER_SOURCE = "footerSource";
 	static final String FOOTER_VISIBILITY = "footerVisibility";
 	
-	private View footerView;
+	@Override
+	protected String layoutAttribute()
+	{
+		return FOOTER_LAYOUT;
+	}
 	
 	@Override
-	protected void initializeChildViewAttributes()
+	protected String sourceAttribute()
 	{
-		validateAttributes();
+		return FOOTER_SOURCE;
 	}
 	
-	private void validateAttributes()
-	{
-		assertAttributesArePresent(FOOTER_LAYOUT, FOOTER_SOURCE);
-	}
-
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	protected String visibilityAttribute()
 	{
-		initializeFooterView(presentationModelAdapter, context);
-		
-		addFooterVisibilityIfPresent(presentationModelAdapter, context);
+		return FOOTER_VISIBILITY;
 	}
-
-	private void initializeFooterView(PresentationModelAdapter presentationModelAdapter, Context context)
+	
+	@Override
+	protected void addSubView(View subView)
 	{
-		int footerLayoutId = getFooterLayoutId(context);
-		if(groupedAttributeDetails.hasAttribute(FOOTER_SOURCE))
-		{
-			Object footerSourcePresentationModel = getFooterSourcePresentationModel(presentationModelAdapter);
-			footerView = Binder.bindView(context, footerLayoutId, footerSourcePresentationModel);
-		}else
-		{
-			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			footerView = inflater.inflate(footerLayoutId, null);
-		}
-		view.addFooterView(footerView, null, false);
-	}
-
-	private int getFooterLayoutId(Context context)
-	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(groupedAttributeDetails.attributeValueFor(FOOTER_LAYOUT));
-		ResourceBindingDetails resourceBindingDetails = bindingDetailsBuilder.createResourceBindingDetails();
-		return resourceBindingDetails.getResourceId(context);
-	}
-
-	private Object getFooterSourcePresentationModel(PresentationModelAdapter presentationModelAdapter)
-	{
-		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(FOOTER_SOURCE));
-		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
-		return valueModel.getValue();
-	}
-
-	private void addFooterVisibilityIfPresent(PresentationModelAdapter presentationModelAdapter, Context context)
-	{
-		if(groupedAttributeDetails.hasAttribute(FOOTER_VISIBILITY))
-		{
-			HeaderOrFooterVisibilityAttribute footerVisibilityAttribute = new HeaderOrFooterVisibilityAttribute(footerView);
-			footerVisibilityAttribute.setPreInitializeView(preInitializeViews);
-			footerVisibilityAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(FOOTER_VISIBILITY)));
-			footerVisibilityAttribute.bind(presentationModelAdapter, context);
-		}
+		view.addFooterView(subView);
 	}
 }

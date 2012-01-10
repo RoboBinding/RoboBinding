@@ -32,9 +32,9 @@ import android.widget.ListView;
 public class HeaderOrFooterVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<ListView>
 {
 	private HeaderOrFooterVisibility headerOrFooterVisibility;
-	public HeaderOrFooterVisibilityAttribute(View headerOrFooterView)
+	HeaderOrFooterVisibilityAttribute(HeaderOrFooterVisibility headerOrFooterVisibility)
 	{
-		this.headerOrFooterVisibility = new HeaderOrFooterVisibility(headerOrFooterView);
+		this.headerOrFooterVisibility = headerOrFooterVisibility;
 	}
 	@Override
 	protected PropertyViewAttribute<ListView> createPropertyViewAttribute(Class<?> propertyType)
@@ -49,6 +49,11 @@ public class HeaderOrFooterVisibilityAttribute extends AbstractMultiTypeProperty
 		}
 		
 		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
+	}
+	
+	public static HeaderOrFooterVisibilityAttribute create(View headerOrFooterView)
+	{
+		return new HeaderOrFooterVisibilityAttribute(new HeaderOrFooterVisibility(headerOrFooterView));
 	}
 	
 	class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<ListView, Boolean>

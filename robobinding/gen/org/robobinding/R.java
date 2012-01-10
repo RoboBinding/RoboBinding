@@ -45,16 +45,18 @@ public final class R {
         public static final int compound_button=0x7f030003;
         public static final int expandable_list_view=0x7f030004;
         public static final int image_view=0x7f030005;
-        public static final int list_view=0x7f030006;
-        public static final int no_bound_views_activity=0x7f030007;
-        public static final int progress_bar=0x7f030008;
-        public static final int rating_bar=0x7f030009;
-        public static final int sample_dropdown_layout=0x7f03000a;
-        public static final int sample_item_layout=0x7f03000b;
-        public static final int seek_bar=0x7f03000c;
-        public static final int text_view=0x7f03000d;
-        public static final int two_bound_views_activity=0x7f03000e;
-        public static final int view=0x7f03000f;
+        public static final int layout1=0x7f030006;
+        public static final int layout2=0x7f030007;
+        public static final int list_view=0x7f030008;
+        public static final int no_bound_views_activity=0x7f030009;
+        public static final int progress_bar=0x7f03000a;
+        public static final int rating_bar=0x7f03000b;
+        public static final int sample_dropdown_layout=0x7f03000c;
+        public static final int sample_item_layout=0x7f03000d;
+        public static final int seek_bar=0x7f03000e;
+        public static final int text_view=0x7f03000f;
+        public static final int two_bound_views_activity=0x7f030010;
+        public static final int view=0x7f030011;
     }
     public static final class string {
         public static final int app_name=0x7f040001;
