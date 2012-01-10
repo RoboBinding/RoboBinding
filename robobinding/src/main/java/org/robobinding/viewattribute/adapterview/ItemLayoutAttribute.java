@@ -19,7 +19,6 @@ import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.BindingDetailsBuilder;
-import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.ResourceBindingDetails;
 
 import android.content.Context;
@@ -40,9 +39,14 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(attributeValue);
 		
 		if (bindingDetailsBuilder.bindsToStaticResource())
-			itemLayoutAttribute = new StaticItemLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
+			itemLayoutAttribute = new StaticLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
 		else
-			itemLayoutAttribute = new DynamicItemLayoutAttribute(adapterView, bindingDetailsBuilder.createPropertyBindingDetails());
+		{
+			DynamicLayoutAttribute dynamicItemLayoutAttribute = new DynamicLayoutAttribute();
+			dynamicItemLayoutAttribute.setView(adapterView);
+			dynamicItemLayoutAttribute.setPropertyBindingDetails(bindingDetailsBuilder.createPropertyBindingDetails());
+			itemLayoutAttribute = dynamicItemLayoutAttribute;
+		}
 	}
 
 	@Override
@@ -57,17 +61,9 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 	}
 	
 	@SuppressWarnings({"rawtypes", "unchecked"})
-	private class DynamicItemLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer> implements AdapterViewAttribute
+	class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer> implements AdapterViewAttribute
 	{
 		private DataSetAdapter<?> dataSetAdapter;
-		
-		private final AdapterView adapterView;
-
-		public DynamicItemLayoutAttribute(AdapterView<?> adapterView, PropertyBindingDetails propertyBindingDetails)
-		{
-			this.adapterView = adapterView;
-			setPropertyBindingDetails(propertyBindingDetails);
-		}
 		
 		@Override
 		public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
@@ -77,18 +73,18 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		}
 
 		@Override
-		protected void valueModelUpdated(Integer newItemLayout)
+		protected void valueModelUpdated(Integer newItemLayoutId)
 		{
-			updateLayoutId(dataSetAdapter, newItemLayout);
-			adapterView.setAdapter(dataSetAdapter);
+			updateLayoutId(dataSetAdapter, newItemLayoutId);
+			((AdapterView)view).setAdapter(dataSetAdapter);
 		}
 	}
 	
-	private class StaticItemLayoutAttribute implements AdapterViewAttribute
+	class StaticLayoutAttribute implements AdapterViewAttribute
 	{
 		private ResourceBindingDetails resourceBindingDetails;
 
-		public StaticItemLayoutAttribute(ResourceBindingDetails resourceBindingDetails)
+		public StaticLayoutAttribute(ResourceBindingDetails resourceBindingDetails)
 		{
 			this.resourceBindingDetails = resourceBindingDetails;
 		}
