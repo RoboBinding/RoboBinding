@@ -16,9 +16,9 @@
 package org.robobinding.viewattribute.view;
 
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.view.View;
 
@@ -31,7 +31,7 @@ import android.view.View;
 public class VisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View>
 {
 	@Override
-	protected PropertyViewAttribute<View> createPropertyViewAttribute(Class<?> propertyType)
+	protected AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{

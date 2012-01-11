@@ -92,7 +92,7 @@ public abstract class AbstractHeaderOrFooterAttributes extends AbstractGroupedVi
 		{
 			HeaderOrFooterVisibilityAttribute visibilityAttribute = HeaderOrFooterVisibilityAttribute.create(subView);
 			visibilityAttribute.setPreInitializeView(preInitializeViews);
-			visibilityAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(visibilityAttribute())));
+			visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
 			visibilityAttribute.bind(presentationModelAdapter, context);
 		}
 	}

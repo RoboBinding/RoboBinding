@@ -41,14 +41,13 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 	protected void initializeChildViewAttributes()
 	{
 		assertAttributesArePresent(TEXT);
-		propertyBindingDetails = PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(TEXT));
 		
 		determineValueCommitMode();
 		
 		textAttribute = new TextAttribute();
 		textAttribute.setView(view);
 		textAttribute.setPreInitializeView(preInitializeViews);
-		textAttribute.setPropertyBindingDetails(propertyBindingDetails);
+		textAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(TEXT));
 		textAttribute.setValueCommitMode(valueCommitMode);
 	}
 
