@@ -19,6 +19,7 @@ import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.BindingDetailsBuilder;
+import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.ResourceBindingDetails;
 
 import android.content.Context;
@@ -77,6 +78,11 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		{
 			updateLayoutId(dataSetAdapter, newItemLayoutId);
 			((AdapterView)view).setAdapter(dataSetAdapter);
+		}
+		
+		public void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
+		{
+			super.setPropertyBindingDetails(propertyBindingDetails);
 		}
 	}
 	

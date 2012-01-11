@@ -47,7 +47,7 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue);
 	}
 	
-	public void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
+	protected void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
 	{
 		this.propertyBindingDetails = propertyBindingDetails;
 	}
