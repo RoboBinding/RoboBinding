@@ -97,4 +97,8 @@ public class RandomValues
 		return random.nextInt(arrayAdapter.getCount());
 	}
 
+	public static String anyLayoutResource()
+	{
+		return random.nextBoolean()?"@layout/layout1":"@layout/layout2";
+	}
 }

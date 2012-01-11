@@ -47,6 +47,7 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 		
 		textAttribute = new TextAttribute();
 		textAttribute.setView(view);
+		textAttribute.setPreInitializeView(preInitializeViews);
 		textAttribute.setPropertyBindingDetails(propertyBindingDetails);
 		textAttribute.setValueCommitMode(valueCommitMode);
 	}

@@ -48,8 +48,7 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Abstr
 	@Test
 	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
 	{
-		ParameterizedType attributeType = (ParameterizedType)getClass().getGenericSuperclass();
-		AbstractMultiTypePropertyViewAttribute<?> attribute = ParameterizedTypeUtils.createTypeArgument(attributeType, 0);
+		AbstractMultiTypePropertyViewAttribute<?> attribute = createAttribute();
 		
 		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
 		{
@@ -57,6 +56,13 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Abstr
 			
 			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
 		}
+	}
+
+	protected AbstractMultiTypePropertyViewAttribute<?> createAttribute()
+	{
+		ParameterizedType attributeType = (ParameterizedType)getClass().getGenericSuperclass();
+		AbstractMultiTypePropertyViewAttribute<?> attribute = ParameterizedTypeUtils.createTypeArgument(attributeType, 0);
+		return attribute;
 	}
 	
 	protected TypeMappingBuilder forPropertyType(Class<?> propertyType)
