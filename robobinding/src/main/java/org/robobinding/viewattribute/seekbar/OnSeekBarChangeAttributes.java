@@ -49,12 +49,17 @@ public class OnSeekBarChangeAttributes extends AbstractGroupedViewAttribute<Seek
 		{
 			TwoWayProgressAttribute twoWayProgressAttribute = new TwoWayProgressAttribute();
 			twoWayProgressAttribute.setOnSeekBarChangeListeners(onSeekBarChangeListeners);
+			twoWayProgressAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(PROGRESS));
+			twoWayProgressAttribute.setView(view);
+			twoWayProgressAttribute.setPreInitializeView(preInitializeViews);
 			viewAttributes.add(twoWayProgressAttribute);
 		}
 		if (groupedAttributeDetails.hasAttribute(ON_SEEK_BAR_CHANGE))
 		{
 			OnSeekBarChangeAttribute onSeekBarChangeAttribute = new OnSeekBarChangeAttribute();
 			onSeekBarChangeAttribute.setOnSeekBarChangeListeners(onSeekBarChangeListeners);
+			onSeekBarChangeAttribute.setCommandName(groupedAttributeDetails.attributeValueFor(ON_SEEK_BAR_CHANGE));
+			onSeekBarChangeAttribute.setView(view);
 			viewAttributes.add(onSeekBarChangeAttribute);
 		}
 		

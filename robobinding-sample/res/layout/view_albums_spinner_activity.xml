@@ -2,7 +2,7 @@
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:bind="http://robobinding.org/android"
-  xmlns:rs="http://robobinding.sample/android"
+  xmlns:rs="http://schemas.android.com/apk/res/sample.robobinding"
   android:layout_width="match_parent"
   android:layout_height="match_parent" >
     
@@ -14,13 +14,15 @@
 	    style="@style/ScreenTitle" />
     
     <sample.robobinding.customwidget.NavigationBar
+        android:id="@+id/navigation_bar"
         android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
 	    android:layout_alignParentBottom="true"
 	    bind:leftButtonAction="createAlbum"
-	    rs:leftButtonLabel="@string/create"
 	    bind:rightButtonAction="viewAlbum"
-	    rs:rightButtonLabel="@string/view" />
+	    rs:leftButtonLabel="@string/create"
+	    rs:rightButtonLabel="@string/view"
+	    style="@android:style/ButtonBar" />
     
     <Spinner 
     	android:layout_width="fill_parent"

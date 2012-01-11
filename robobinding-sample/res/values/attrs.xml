@@ -1,0 +1,13 @@
+<resources>
+	<attr name="leftButtonLabel" format="reference|string"/>
+	<attr name="leftButtonVisible" format="boolean"/>
+	<attr name="rightButtonLabel" format="reference|string"/>
+	<attr name="rightButtonVisible" format="boolean"/>
+	
+	<declare-styleable name="NavigationBar">
+		<attr name="leftButtonLabel"/>
+		<attr name="leftButtonVisible"/>
+		<attr name="rightButtonLabel"/>
+		<attr name="rightButtonVisible"/>
+	</declare-styleable>
+</resources>

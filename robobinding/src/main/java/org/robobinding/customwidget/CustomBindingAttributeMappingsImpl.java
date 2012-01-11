@@ -17,9 +17,9 @@ package org.robobinding.customwidget;
 
 import java.util.Map;
 
-import org.apache.commons.lang3.Validate;
 import org.robobinding.binder.GroupedAttributeDetailsImpl;
 import org.robobinding.internal.com_google_common.collect.Maps;
+import org.robobinding.internal.org_apache_commons_lang3.Validate;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.BindingAttributeMappingsImpl;

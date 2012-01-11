@@ -21,9 +21,10 @@ import org.robobinding.customwidget.CustomBindingAttributeMappings;
 import org.robobinding.viewattribute.view.OnClickAttribute;
 
 import sample.robobinding.R;
-
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
@@ -35,29 +36,55 @@ import android.widget.RelativeLayout;
  */
 public class NavigationBar extends RelativeLayout implements BindableView<NavigationBar>
 {
-	private final Button leftButton;
-	private final Button rightButton;
+	private final Context context;
+	private Button leftButton;
+	private Button rightButton;
+	private final AttributeSet attrs;
 	
 	public NavigationBar(Context context, AttributeSet attrs)
 	{
-		this(context, attrs, R.layout.navigation_bar);
+		super(context, attrs);
+		this.context = context;
+		this.attrs = attrs;
 	}
 
-	public NavigationBar(Context context, AttributeSet attrs, int layoutId)
+	private void initializeViews()
 	{
-		super(context, attrs);
-		
 		leftButton = (Button)findViewById(R.id.left_button);
 		rightButton = (Button)findViewById(R.id.right_button);
 		
-		Binder.bindViewAndAttachToRoot(context, layoutId, this, this);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NavigationBar);
+		boolean leftButtonVisible = a.getBoolean(R.styleable.NavigationBar_leftButtonVisible, true);
+		boolean rightButtonVisible = a.getBoolean(R.styleable.NavigationBar_rightButtonVisible, true);
+		String leftButtonText = a.getString(R.styleable.NavigationBar_leftButtonLabel);
+		String rightButtonText = a.getString(R.styleable.NavigationBar_rightButtonLabel);
+		a.recycle();
+		
+		leftButton.setVisibility(leftButtonVisible ? View.VISIBLE : View.INVISIBLE);
+		rightButton.setVisibility(rightButtonVisible ? View.VISIBLE : View.INVISIBLE);
+		leftButton.setText(leftButtonText);
+		rightButton.setText(rightButtonText);
 	}
+
+	private boolean firstMapping;
 	
 	@Override
 	public void mapBindingAttributes(CustomBindingAttributeMappings<NavigationBar> mappings)
 	{
+		if (!firstMapping)
+		{
+			firstMapping = true;
+			return;
+		}
+		
 		mappings.mapCommandAttribute(leftButton, OnClickAttribute.class, "leftButtonAction");
 		mappings.mapCommandAttribute(rightButton, OnClickAttribute.class, "rightButtonAction");
 	}
 
+	public void setPresentationModel(Object presentationModel)
+	{
+		Binder.bindViewAndAttachToRoot(context, R.layout.navigation_bar, presentationModel, this);
+		
+		initializeViews();
+	}
 }

@@ -15,6 +15,9 @@
  */
 package sample.robobinding;
 
+import android.os.Bundle;
+import sample.robobinding.customwidget.NavigationBar;
+
 
 /**
  *
@@ -24,6 +27,17 @@ package sample.robobinding;
  */
 public class SpinnerAlbumsActivity extends AbstractListBackedViewAlbumsActivity
 {
+	private NavigationBar navigationBar;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		
+		navigationBar = (NavigationBar)findViewById(R.id.navigation_bar);
+		navigationBar.setPresentationModel(viewAlbumsPresentationModel);
+	}
+	
 	@Override
 	protected int getLayoutId()
 	{

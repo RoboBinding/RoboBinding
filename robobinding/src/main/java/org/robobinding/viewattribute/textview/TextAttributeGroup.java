@@ -35,13 +35,11 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 	
 	private TextAttribute textAttribute;
 	private ValueCommitMode valueCommitMode;
-	private PropertyBindingDetails propertyBindingDetails;
 	
 	@Override
 	protected void initializeChildViewAttributes()
 	{
 		assertAttributesArePresent(TEXT);
-		
 		determineValueCommitMode();
 		
 		textAttribute = new TextAttribute();
@@ -53,8 +51,8 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 
 	private void determineValueCommitMode()
 	{
-		if (propertyBindingDetails.twoWayBinding && valueCommitModeSpecified())
-			throw new RuntimeException("The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
+//		if (propertyBindingDetails.twoWayBinding && valueCommitModeSpecified())
+//			throw new RuntimeException("The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
 		
 		if (!valueCommitModeSpecified() || "onChange".equals(valueCommitModeAttributeValue()))
 			valueCommitMode = ValueCommitMode.ON_CHANGE;
@@ -76,11 +74,6 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
 		textAttribute.bind(presentationModelAdapter, context);
-	}
-	
-	public ValueCommitMode getValueCommitMode()
-	{
-		return valueCommitMode;
 	}
 	
 }
