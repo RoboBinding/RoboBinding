@@ -31,6 +31,9 @@ public class ListViewAttributeMapper implements BindingAttributeMapper<ListView>
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<ListView> mappings)
 	{
+		mappings.mapPropertyAttribute(CheckedItemPositionAttribute.class, "checkedItemPosition");
+		mappings.mapPropertyAttribute(CheckedItemPositionsAttribute.class, "checkedItemPositions");
+		
 		mappings.mapGroupedAttribute(HeaderAttributes.class, HeaderAttributes.HEADER_LAYOUT, HeaderAttributes.HEADER_PRESENTATION_MODEL,
 				HeaderAttributes.HEADER_VISIBILITY);
 		mappings.mapGroupedAttribute(FooterAttributes.class, FooterAttributes.FOOTER_LAYOUT, FooterAttributes.FOOTER_PRESENTATION_MODEL, 

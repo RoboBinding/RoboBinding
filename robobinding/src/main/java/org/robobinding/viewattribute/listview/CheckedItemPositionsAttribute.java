@@ -15,6 +15,11 @@
  */
 package org.robobinding.viewattribute.listview;
 
+import java.util.Map;
+import java.util.Set;
+
+import org.robobinding.internal.com_google_common.collect.Maps;
+import org.robobinding.internal.com_google_common.collect.Sets;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
@@ -64,7 +69,76 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		{
 			for(int i=0; i<array.size(); i++)
 			{
-				view.setItemChecked(array.keyAt(i), array.valueAt(i)) ;
+				view.setItemChecked(array.keyAt(i), array.valueAt(i));
+			}
+		}
+	}
+	
+	static class IntegerSetAttribute extends AbstractPropertyViewAttribute<ListView, Set<Integer>>
+	{
+		@Override
+		protected void observeChangesOnTheView(final ValueModel<Set<Integer>> valueModel)
+		{
+			view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View itemView, int clickedItemPosition, long id)
+				{
+					SparseBooleanArray array = view.getCheckedItemPositions();
+					
+					Set<Integer> checkedItemPositions = Sets.newHashSet();
+					for(int i=0; i<array.size(); i++)
+					{
+						int position = array.keyAt(i);
+						if(array.valueAt(position))
+						{
+							checkedItemPositions.add(position);
+						}
+					}
+					
+					valueModel.setValue(checkedItemPositions);
+				}
+			});
+		}
+		
+		@Override
+		protected void valueModelUpdated(Set<Integer> newValue)
+		{
+			for(int position : newValue)
+			{
+				view.setItemChecked(position, true);
+			}
+		}
+	}
+	
+	static class MapAttribute extends AbstractPropertyViewAttribute<ListView, Map<Integer, Boolean>>
+	{
+		@Override
+		protected void observeChangesOnTheView(final ValueModel<Map<Integer, Boolean>> valueModel)
+		{
+			view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View itemView, int clickedItemPosition, long id)
+				{
+					SparseBooleanArray array = view.getCheckedItemPositions();
+					
+					Map<Integer, Boolean> checkedItemPositions = Maps.newHashMap();
+					for(int i=0; i<array.size(); i++)
+					{
+						checkedItemPositions.put(array.keyAt(i), array.valueAt(i));
+					}
+					
+					valueModel.setValue(checkedItemPositions);
+				}
+			});
+		}
+		
+		@Override
+		protected void valueModelUpdated(Map<Integer, Boolean> newValue)
+		{
+			for(Integer position : newValue.keySet())
+			{
+				Boolean checked = newValue.get(position);
+				view.setItemChecked(position, checked);
 			}
 		}
 	}
