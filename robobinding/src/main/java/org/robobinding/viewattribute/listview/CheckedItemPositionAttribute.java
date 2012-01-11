@@ -35,9 +35,9 @@ public class CheckedItemPositionAttribute extends AbstractPropertyViewAttribute<
 	{
 		view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			public void onItemClick(AdapterView<?> parent, View itemView, int position, long id)
 			{
-				int checkedItemPosition = getListView().getCheckedItemPosition();
+				int checkedItemPosition = view.getCheckedItemPosition();
 				valueModel.setValue(checkedItemPosition);
 			}
 		});
@@ -47,10 +47,5 @@ public class CheckedItemPositionAttribute extends AbstractPropertyViewAttribute<
 	protected void valueModelUpdated(Integer newValue)
 	{
 		view.setItemChecked(newValue, true);
-	}
-	
-	private ListView getListView()
-	{
-		return view;
 	}
 }

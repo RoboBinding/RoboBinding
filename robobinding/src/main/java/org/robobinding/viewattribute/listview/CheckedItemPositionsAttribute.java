@@ -16,7 +16,9 @@
 package org.robobinding.viewattribute.listview;
 
 import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -29,32 +31,41 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CheckedItemPositionsAttribute extends AbstractPropertyViewAttribute<ListView, SparseBooleanArray>
+public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyViewAttribute<ListView>
 {
 	@Override
-	protected void observeChangesOnTheView(final ValueModel<SparseBooleanArray> valueModel)
+	protected PropertyViewAttribute<ListView> createPropertyViewAttribute(Class<?> propertyType)
 	{
-		view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-			{
-				SparseBooleanArray array = getListView().getCheckedItemPositions();
-				valueModel.setValue(array);
-			}
-		});
-	}
-	
-	@Override
-	protected void valueModelUpdated(SparseBooleanArray array)
-	{
-		for(int i=0; i<array.size(); i++)
+		if (SparseBooleanArray.class.isAssignableFrom(propertyType))
 		{
-			view.setItemChecked(array.keyAt(i), array.valueAt(i)) ;
+			return new SparseBooleanArrayAttribute();
 		}
+		
+		throw new RuntimeException("Could not find a suitable checkedItemPositions attribute class for property type: " + propertyType);
 	}
 	
-	private ListView getListView()
+	static class SparseBooleanArrayAttribute extends AbstractPropertyViewAttribute<ListView, SparseBooleanArray>
 	{
-		return view;
+		@Override
+		protected void observeChangesOnTheView(final ValueModel<SparseBooleanArray> valueModel)
+		{
+			view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View itemView, int position, long id)
+				{
+					SparseBooleanArray array = view.getCheckedItemPositions();
+					valueModel.setValue(array);
+				}
+			});
+		}
+		
+		@Override
+		protected void valueModelUpdated(SparseBooleanArray array)
+		{
+			for(int i=0; i<array.size(); i++)
+			{
+				view.setItemChecked(array.keyAt(i), array.valueAt(i)) ;
+			}
+		}
 	}
 }
