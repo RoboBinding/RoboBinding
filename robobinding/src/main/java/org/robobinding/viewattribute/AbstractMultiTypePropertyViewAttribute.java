@@ -38,9 +38,9 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		this.view = view;
 	}
 	@Override
-	public void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
+	public void setAttributeValue(String attributeValue)
 	{
-		this.propertyBindingDetails = propertyBindingDetails;
+		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue);
 	}
 	@Override
 	public void setPreInitializeView(boolean preInitializeViews)
@@ -51,19 +51,19 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		PropertyViewAttribute<T> propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
+		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
 		propertyViewAttribute.setView(view);
 		propertyViewAttribute.setPropertyBindingDetails(propertyBindingDetails);
 		propertyViewAttribute.setPreInitializeView(preInitializeViews);
 		propertyViewAttribute.bind(presentationModelAdapter, context);
 	}
 
-	protected abstract PropertyViewAttribute<T> createPropertyViewAttribute(Class<?> propertyType);
+	protected abstract AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType);
 
-	private PropertyViewAttribute<T> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
+	private AbstractPropertyViewAttribute<T, ?> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
 	{
 		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
-		PropertyViewAttribute<T> propertyViewAttribute = createPropertyViewAttribute(propertyType);
+		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
 		
 		if (propertyViewAttribute == null)
 			throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);

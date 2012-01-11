@@ -16,9 +16,9 @@
 package org.robobinding.viewattribute.imageview;
 
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -33,7 +33,7 @@ import android.widget.ImageView;
 public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute<ImageView>
 {
 	@Override
-	protected PropertyViewAttribute<ImageView> createPropertyViewAttribute(Class<?> propertyType)
+	protected AbstractPropertyViewAttribute<ImageView, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{

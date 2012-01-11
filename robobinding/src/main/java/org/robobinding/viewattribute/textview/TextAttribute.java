@@ -18,7 +18,6 @@ package org.robobinding.viewattribute.textview;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,7 +36,7 @@ public class TextAttribute extends AbstractMultiTypePropertyViewAttribute<TextVi
 	private ValueCommitMode valueCommitMode = ValueCommitMode.ON_CHANGE;
 
 	@Override
-	protected PropertyViewAttribute<TextView> createPropertyViewAttribute(Class<?> propertyType)
+	protected AbstractPropertyViewAttribute<TextView, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (String.class.isAssignableFrom(propertyType))
 		{

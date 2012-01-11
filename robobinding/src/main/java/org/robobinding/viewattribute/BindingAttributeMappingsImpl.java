@@ -97,7 +97,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		
 		propertyViewAttribute.setView(getViewForAttribute(propertyAttribute));
 		propertyViewAttribute.setPreInitializeView(preInitializeViews);
-		propertyViewAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(attributeValue));
+		propertyViewAttribute.setAttributeValue(attributeValue);
 		
 		return propertyViewAttribute;
 	}

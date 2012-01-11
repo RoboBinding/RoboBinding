@@ -42,6 +42,11 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	}
 	
 	@Override
+	public void setAttributeValue(String attributeValue)
+	{
+		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue);
+	}
+	
 	public void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
 	{
 		this.propertyBindingDetails = propertyBindingDetails;

@@ -19,7 +19,6 @@ import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
@@ -33,7 +32,7 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<RatingBar>
 {
 	@Override
-	protected PropertyViewAttribute<RatingBar> createPropertyViewAttribute(Class<?> propertyType)
+	protected AbstractPropertyViewAttribute<RatingBar, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.floatIsAssignableFrom(propertyType))
 		{

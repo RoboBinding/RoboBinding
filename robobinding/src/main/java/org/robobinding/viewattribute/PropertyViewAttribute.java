@@ -29,5 +29,5 @@ public interface PropertyViewAttribute<T extends View> extends ViewAttribute
 {
 	void setView(T view);
 	void setPreInitializeView(boolean preInitializeViews);
-	void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails);
+	void setAttributeValue(String attributeValue);
 }

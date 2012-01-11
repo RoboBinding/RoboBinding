@@ -16,9 +16,9 @@
 package org.robobinding.viewattribute.listview;
 
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.view.View;
 import android.widget.ListView;
@@ -37,7 +37,7 @@ public class HeaderOrFooterVisibilityAttribute extends AbstractMultiTypeProperty
 		this.headerOrFooterVisibility = headerOrFooterVisibility;
 	}
 	@Override
-	protected PropertyViewAttribute<ListView> createPropertyViewAttribute(Class<?> propertyType)
+	protected AbstractPropertyViewAttribute<ListView, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
