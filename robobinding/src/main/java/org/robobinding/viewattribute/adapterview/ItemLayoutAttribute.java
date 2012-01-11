@@ -32,27 +32,27 @@ import android.widget.AdapterView;
  */
 public class ItemLayoutAttribute implements AdapterViewAttribute
 {
-	private AdapterViewAttribute itemLayoutAttribute;
+	final AdapterViewAttribute layoutAttribute;
 	
 	public ItemLayoutAttribute(AdapterView<?> adapterView, String attributeValue)
 	{
 		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(attributeValue);
 		
 		if (bindingDetailsBuilder.bindsToStaticResource())
-			itemLayoutAttribute = new StaticLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
+			layoutAttribute = new StaticLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
 		else
 		{
-			DynamicLayoutAttribute dynamicItemLayoutAttribute = new DynamicLayoutAttribute();
-			dynamicItemLayoutAttribute.setView(adapterView);
-			dynamicItemLayoutAttribute.setPropertyBindingDetails(bindingDetailsBuilder.createPropertyBindingDetails());
-			itemLayoutAttribute = dynamicItemLayoutAttribute;
+			DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute();
+			dynamicLayoutAttribute.setView(adapterView);
+			dynamicLayoutAttribute.setPropertyBindingDetails(bindingDetailsBuilder.createPropertyBindingDetails());
+			layoutAttribute = dynamicLayoutAttribute;
 		}
 	}
 
 	@Override
 	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		itemLayoutAttribute.bind(dataSetAdapter, presentationModelAdapter, context);			
+		layoutAttribute.bind(dataSetAdapter, presentationModelAdapter, context);			
 	}
 	
 	protected void updateLayoutId(DataSetAdapter<?> dataSetAdapter, int layoutId)

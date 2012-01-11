@@ -15,16 +15,10 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import static org.mockito.Mockito.mock;
-
-import org.junit.Before;
-import org.junit.runner.RunWith;
 import org.robobinding.presentationmodel.DataSetAdapter;
-import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.DynamicLayoutAttribute;
+import org.robobinding.viewattribute.MockPresentationModelForProperty;
 
-import android.widget.AdapterView;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import android.app.Activity;
 
 /**
  *
@@ -32,18 +26,13 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-@SuppressWarnings({"rawtypes"})
-public abstract class AbstractDynamicLayoutAttributeTest
+public class DynamicLayoutAttributeUtils
 {
-	protected DynamicLayoutAttribute dynamicLayoutAttribute;
-	protected AdapterView adapterView;
-	protected DataSetAdapter<?> dataSetAdapter;
+	private DynamicLayoutAttributeUtils(){}
 	
-	@Before
-	public void init()
+	public static void bindAttribute(DataSetAdapter<?> dataSetAdapter, AdapterViewAttribute dynamicLayoutAttribute)
 	{
-		adapterView = mock(AdapterView.class);
-		dataSetAdapter = mock(DataSetAdapter.class);
+		MockPresentationModelForProperty<Integer> presentationModelAdapter = new MockPresentationModelForProperty<Integer>(int.class);
+		dynamicLayoutAttribute.bind(dataSetAdapter, presentationModelAdapter, new Activity());
 	}
 }
