@@ -35,18 +35,18 @@ public class DynamicDropdownLayoutAttributeTest extends AbstractDynamicLayoutAtt
 	public void setUp()
 	{
 		String attributeValue = MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME;
-		dynamicItemLayoutAttribute = new DropdownLayoutAttribute(adapterView, attributeValue).new DynamicLayoutAttribute();
-		dynamicItemLayoutAttribute.setView(adapterView);
-		dynamicItemLayoutAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(attributeValue));
+		dynamicLayoutAttribute = new DropdownLayoutAttribute(adapterView, attributeValue).new DynamicLayoutAttribute();
+		dynamicLayoutAttribute.setView(adapterView);
+		dynamicLayoutAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(attributeValue));
 	}
 	
 	@Test
 	public void givenBound_whenUpdatingValueModel_thenUpdateDropdownLayoutIdOnDataSetAdapter()
 	{
-		bindAttribute(dataSetAdapter);
+		DynamicLayoutAttributeUtils.bindAttribute(dataSetAdapter, dynamicLayoutAttribute);
 		
 		int newDropdownLayoutId = RandomValues.anyInteger();
-		dynamicItemLayoutAttribute.valueModelUpdated(newDropdownLayoutId);
+		dynamicLayoutAttribute.valueModelUpdated(newDropdownLayoutId);
 		
 		verify(dataSetAdapter).setDropdownLayoutId(newDropdownLayoutId);
 	}

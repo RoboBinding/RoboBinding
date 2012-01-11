@@ -36,18 +36,18 @@ public class DynamicItemLayoutAttributeTest extends AbstractDynamicLayoutAttribu
 	public void setUp()
 	{
 		String attributeValue = MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME;
-		dynamicItemLayoutAttribute = new ItemLayoutAttribute(adapterView, attributeValue).new DynamicLayoutAttribute();
-		dynamicItemLayoutAttribute.setView(adapterView);
-		dynamicItemLayoutAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(attributeValue));
+		dynamicLayoutAttribute = new ItemLayoutAttribute(adapterView, attributeValue).new DynamicLayoutAttribute();
+		dynamicLayoutAttribute.setView(adapterView);
+		dynamicLayoutAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(attributeValue));
 	}
 	
 	@Test
 	public void givenBound_whenUpdatingValueModel_thenUpdateItemLayoutIdOnDataSetAdapter()
 	{
-		bindAttribute(dataSetAdapter);
+		DynamicLayoutAttributeUtils.bindAttribute(dataSetAdapter, dynamicLayoutAttribute);
 		
 		int newItemLayoutId = RandomValues.anyInteger();
-		dynamicItemLayoutAttribute.valueModelUpdated(newItemLayoutId);
+		dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
 		
 		verify(dataSetAdapter).setItemLayoutId(newItemLayoutId);
 	}
@@ -56,10 +56,10 @@ public class DynamicItemLayoutAttributeTest extends AbstractDynamicLayoutAttribu
 	@Test
 	public void givenBound_whenUpdatingValueModel_thenUpdateAdapterOnAdapterView()
 	{
-		bindAttribute(dataSetAdapter);
+		DynamicLayoutAttributeUtils.bindAttribute(dataSetAdapter, dynamicLayoutAttribute);
 		
 		int newItemLayoutId = RandomValues.anyInteger();
-		dynamicItemLayoutAttribute.valueModelUpdated(newItemLayoutId);
+		dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
 		
 		verify(adapterView).setAdapter(dataSetAdapter);
 	}
