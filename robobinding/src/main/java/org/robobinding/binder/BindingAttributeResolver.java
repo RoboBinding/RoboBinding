@@ -115,7 +115,6 @@ public class BindingAttributeResolver
 		{
 			if (hasOneOfAttributes(groupedAttributeDetails.getSupportedAttributes()))
 			{
-				AbstractGroupedViewAttribute<View> groupedViewAttribute = viewAttributeMappings.createGroupedViewAttribute(groupedAttributeDetails);
 				for (String attribute : groupedAttributeDetails.getSupportedAttributes())
 				{
 					if (hasAttribute(attribute))
@@ -124,6 +123,7 @@ public class BindingAttributeResolver
 					}
 				}
 				
+				AbstractGroupedViewAttribute<View> groupedViewAttribute = viewAttributeMappings.createGroupedViewAttribute(groupedAttributeDetails);
 				resolveViewAttribute(groupedAttributeDetails.getPresentAttributes(), groupedViewAttribute);
 			}
 		}

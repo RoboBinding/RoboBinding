@@ -64,6 +64,12 @@
 			<artifactId>mockito-core</artifactId>
 			<version>1.8.5</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>hamcrest-core</artifactId>
+					<groupId>org.hamcrest</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

@@ -51,10 +51,10 @@ public class AdaptedDataSetAttributes extends AbstractGroupedViewAttribute<Adapt
 		
 		childViewAttributes = Lists.newArrayList();
 		childViewAttributes.add(new SourceAttribute(groupedAttributeDetails.attributeValueFor(SOURCE)));
-		childViewAttributes.add(new ItemLayoutAttribute(groupedAttributeDetails.attributeValueFor(ITEM_LAYOUT)));
+		childViewAttributes.add(new ItemLayoutAttribute(view, groupedAttributeDetails.attributeValueFor(ITEM_LAYOUT)));
 		
 		if (groupedAttributeDetails.hasAttribute(DROPDOWN_LAYOUT))
-			childViewAttributes.add(new DropdownLayoutAttribute(groupedAttributeDetails.attributeValueFor(DROPDOWN_LAYOUT)));
+			childViewAttributes.add(new DropdownLayoutAttribute(view, groupedAttributeDetails.attributeValueFor(DROPDOWN_LAYOUT)));
 		
 		if (groupedAttributeDetails.hasAttribute(ITEM_MAPPING))
 			childViewAttributes.add(new ItemMappingAttribute(groupedAttributeDetails.attributeValueFor(ITEM_MAPPING)));

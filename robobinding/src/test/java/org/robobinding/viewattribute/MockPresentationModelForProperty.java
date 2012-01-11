@@ -19,7 +19,7 @@ public class MockPresentationModelForProperty<T> implements PresentationModelAda
 	private ValueModel<T> propertyValueModel;
 	
 	@SuppressWarnings("unchecked")
-	private MockPresentationModelForProperty(Class<T> propertyType)
+	public MockPresentationModelForProperty(Class<T> propertyType)
 	{
 		this.propertyType = propertyType;
 		
