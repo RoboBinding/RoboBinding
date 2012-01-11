@@ -42,8 +42,8 @@ import android.widget.ListView;
 @RunWith(RobolectricTestRunner.class)
 public class AbstractHeaderOrFooterAttributesTest
 {
-	private static final String SOURCE_PROPERTY = "headerSource";
-	private static final String VISIBILITY_PROPERTY = "headerVisibility";
+	private static final String PRESENTATION_MODEL_PROPERTY = "presentationModel";
+	private static final String VISIBILITY_PROPERTY = "visibility";
 	
 	private GroupedAttributeDetailsImpl groupedAttributeDetails;
 	
@@ -54,46 +54,46 @@ public class AbstractHeaderOrFooterAttributesTest
 	}
 	
 	@Test(expected=RuntimeException.class)
-	public void createAttributeWithoutHeaderLayout_thenThrowException()
+	public void createAttributeWithoutLayout_thenThrowException()
 	{
 		createAttribute();
 	}
 	
 	@Test
-	public void createAttributeWithoutHeaderSource_thenSuccessful()
+	public void createAttributeWithoutPresentationModel_thenSuccessful()
 	{
-		addHeaderLayoutAsPresentAttribute();
+		addLayoutAsPresentAttribute();
 		createAttribute();
 	}
 
 	@Test
-	public void createAttributeWithHeaderSource_thenSuccessful()
+	public void createAttributeWithPresentationModel_thenSuccessful()
 	{
-		addHeaderLayoutAsPresentAttribute();
-		addHeaderSourceAsPresentAttribute();
+		addLayoutAsPresentAttribute();
+		addPresentationModelAsPresentAttribute();
 		createAttribute();
 	}
 
 	@Test
-	public void createAttributeWithHeaderVisibility_thenSuccessful()
+	public void createAttributeWithVisibility_thenSuccessful()
 	{
-		addHeaderLayoutAsPresentAttribute();
-		addHeaderSourceAsPresentAttribute();
-		addHeaderVisibilityAsPresentAttribute();
+		addLayoutAsPresentAttribute();
+		addPresentationModelAsPresentAttribute();
+		addVisibilityAsPresentAttribute();
 		createAttribute();
 	}
 
-	private void addHeaderLayoutAsPresentAttribute()
+	private void addLayoutAsPresentAttribute()
 	{
 		groupedAttributeDetails.addPresentAttribute(HeaderOrFooterAttributes.LAYOUT, RandomValues.anyLayoutResource());
 	}
 	
-	private void addHeaderSourceAsPresentAttribute()
+	private void addPresentationModelAsPresentAttribute()
 	{
-		groupedAttributeDetails.addPresentAttribute(HeaderOrFooterAttributes.SOURCE, BindingAttributeValueUtils.oneWay(SOURCE_PROPERTY));
+		groupedAttributeDetails.addPresentAttribute(HeaderOrFooterAttributes.PRESENTATION_MODEL, BindingAttributeValueUtils.oneWay(PRESENTATION_MODEL_PROPERTY));
 	}
 
-	private void addHeaderVisibilityAsPresentAttribute()
+	private void addVisibilityAsPresentAttribute()
 	{
 		groupedAttributeDetails.addPresentAttribute(HeaderOrFooterAttributes.VISIBILITY, BindingAttributeValueUtils.oneWay(VISIBILITY_PROPERTY));
 	}
@@ -102,7 +102,7 @@ public class AbstractHeaderOrFooterAttributesTest
 	private HeaderOrFooterAttributes createAttribute()
 	{
 		PresentationModelAdapter mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(mockPresentationModelAdapter.getReadOnlyPropertyValueModel(SOURCE_PROPERTY)).thenReturn(ValueModelUtils.create(new Object()));
+		when(mockPresentationModelAdapter.getReadOnlyPropertyValueModel(PRESENTATION_MODEL_PROPERTY)).thenReturn(ValueModelUtils.create(new Object()));
 		when((Class<Integer>)mockPresentationModelAdapter.getPropertyType(VISIBILITY_PROPERTY)).thenReturn(Integer.class);
 		when(mockPresentationModelAdapter.getReadOnlyPropertyValueModel(VISIBILITY_PROPERTY)).thenReturn(ValueModelUtils.create());
 		
@@ -115,14 +115,14 @@ public class AbstractHeaderOrFooterAttributesTest
 	
 	private GroupedAttributeDetailsImpl createGroupedAttributeDetails()
 	{
-		return new GroupedAttributeDetailsImpl(new String[]{HeaderAttributes.HEADER_LAYOUT, 
-				HeaderAttributes.HEADER_SOURCE, HeaderAttributes.HEADER_VISIBILITY});
+		return new GroupedAttributeDetailsImpl(new String[]{HeaderOrFooterAttributes.LAYOUT, 
+				HeaderOrFooterAttributes.PRESENTATION_MODEL, HeaderOrFooterAttributes.VISIBILITY});
 	}
 	
 	private static class HeaderOrFooterAttributes extends AbstractHeaderOrFooterAttributes
 	{
 		static final String LAYOUT = "layout";
-		static final String SOURCE = "source";
+		static final String PRESENTATION_MODEL = "presentationModel";
 		static final String VISIBILITY = "visibility";
 		
 		@Override
@@ -132,9 +132,9 @@ public class AbstractHeaderOrFooterAttributesTest
 		}
 
 		@Override
-		protected String sourceAttribute()
+		protected String subViewPresentationModelAttribute()
 		{
-			return SOURCE;
+			return PRESENTATION_MODEL;
 		}
 
 		@Override

@@ -16,7 +16,7 @@ import android.view.View;
 public class HeaderAttributes extends AbstractHeaderOrFooterAttributes
 {
 	static final String HEADER_LAYOUT = "headerLayout";
-	static final String HEADER_SOURCE = "headerSource";
+	static final String HEADER_PRESENTATION_MODEL = "headerPresentationModel";
 	static final String HEADER_VISIBILITY = "headerVisibility";
 	
 	@Override
@@ -26,9 +26,9 @@ public class HeaderAttributes extends AbstractHeaderOrFooterAttributes
 	}
 	
 	@Override
-	protected String sourceAttribute()
+	protected String subViewPresentationModelAttribute()
 	{
-		return HEADER_SOURCE;
+		return HEADER_PRESENTATION_MODEL;
 	}
 	
 	@Override

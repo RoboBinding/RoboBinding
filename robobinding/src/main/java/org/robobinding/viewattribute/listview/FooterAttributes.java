@@ -16,7 +16,7 @@ import android.view.View;
 public class FooterAttributes extends AbstractHeaderOrFooterAttributes
 {
 	static final String FOOTER_LAYOUT = "footerLayout";
-	static final String FOOTER_SOURCE = "footerSource";
+	static final String FOOTER_PRESENTATION_MODEL = "footerPresentationModel";
 	static final String FOOTER_VISIBILITY = "footerVisibility";
 	
 	@Override
@@ -26,9 +26,9 @@ public class FooterAttributes extends AbstractHeaderOrFooterAttributes
 	}
 	
 	@Override
-	protected String sourceAttribute()
+	protected String subViewPresentationModelAttribute()
 	{
-		return FOOTER_SOURCE;
+		return FOOTER_PRESENTATION_MODEL;
 	}
 	
 	@Override

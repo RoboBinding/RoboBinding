@@ -52,53 +52,53 @@ public abstract class AbstractHeaderOrFooterAttributes extends AbstractGroupedVi
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		initializeFooterView(presentationModelAdapter, context);
+		initializeSubView(presentationModelAdapter, context);
 		
-		addFooterVisibilityIfPresent(presentationModelAdapter, context);
+		addVisibilityIfPresent(presentationModelAdapter, context);
 	}
 
-	private void initializeFooterView(PresentationModelAdapter presentationModelAdapter, Context context)
+	private void initializeSubView(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		int footerLayoutId = getFooterLayoutId(context);
-		if(groupedAttributeDetails.hasAttribute(sourceAttribute()))
+		int layoutId = getLayoutId(context);
+		if(groupedAttributeDetails.hasAttribute(subViewPresentationModelAttribute()))
 		{
-			Object footerSourcePresentationModel = getFooterSourcePresentationModel(presentationModelAdapter);
-			subView = Binder.bindView(context, footerLayoutId, footerSourcePresentationModel);
+			Object subViewPresentationModel = getSubViewPresentationModel(presentationModelAdapter);
+			subView = Binder.bindView(context, layoutId, subViewPresentationModel);
 		}else
 		{
 			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			subView = inflater.inflate(footerLayoutId, null);
+			subView = inflater.inflate(layoutId, null);
 		}
 		addSubView(subView);
 	}
 
-	private int getFooterLayoutId(Context context)
+	private int getLayoutId(Context context)
 	{
 		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(groupedAttributeDetails.attributeValueFor(layoutAttribute()));
 		ResourceBindingDetails resourceBindingDetails = bindingDetailsBuilder.createResourceBindingDetails();
 		return resourceBindingDetails.getResourceId(context);
 	}
 
-	private Object getFooterSourcePresentationModel(PresentationModelAdapter presentationModelAdapter)
+	private Object getSubViewPresentationModel(PresentationModelAdapter presentationModelAdapter)
 	{
-		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(sourceAttribute()));
+		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(subViewPresentationModelAttribute()));
 		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
 		return valueModel.getValue();
 	}
 
-	private void addFooterVisibilityIfPresent(PresentationModelAdapter presentationModelAdapter, Context context)
+	private void addVisibilityIfPresent(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
 		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
 		{
-			HeaderOrFooterVisibilityAttribute footerVisibilityAttribute = HeaderOrFooterVisibilityAttribute.create(subView);
-			footerVisibilityAttribute.setPreInitializeView(preInitializeViews);
-			footerVisibilityAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(visibilityAttribute())));
-			footerVisibilityAttribute.bind(presentationModelAdapter, context);
+			HeaderOrFooterVisibilityAttribute visibilityAttribute = HeaderOrFooterVisibilityAttribute.create(subView);
+			visibilityAttribute.setPreInitializeView(preInitializeViews);
+			visibilityAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(visibilityAttribute())));
+			visibilityAttribute.bind(presentationModelAdapter, context);
 		}
 	}
 	
 	protected abstract String layoutAttribute();
-	protected abstract String sourceAttribute();
+	protected abstract String subViewPresentationModelAttribute();
 	protected abstract String visibilityAttribute();
 	protected abstract void addSubView(View subView);
 }
