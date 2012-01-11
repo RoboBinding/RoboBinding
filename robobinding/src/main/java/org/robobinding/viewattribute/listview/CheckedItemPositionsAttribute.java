@@ -23,7 +23,6 @@ import org.robobinding.internal.com_google_common.collect.Sets;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -39,17 +38,23 @@ import android.widget.ListView;
 public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyViewAttribute<ListView>
 {
 	@Override
-	protected PropertyViewAttribute<ListView> createPropertyViewAttribute(Class<?> propertyType)
+	protected AbstractPropertyViewAttribute<ListView, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (SparseBooleanArray.class.isAssignableFrom(propertyType))
 		{
-			return new SparseBooleanArrayAttribute();
+			return new SparseBooleanArrayCheckedItemPositionsAttribute();
+		} else if(Set.class.isAssignableFrom(propertyType))
+		{
+			return new SetCheckedItemPositionsAttribute();
+		} else if(Map.class.isAssignableFrom(propertyType))
+		{
+			return new MapCheckedItemPositionsAttribute();
 		}
 		
 		throw new RuntimeException("Could not find a suitable checkedItemPositions attribute class for property type: " + propertyType);
 	}
 	
-	static class SparseBooleanArrayAttribute extends AbstractPropertyViewAttribute<ListView, SparseBooleanArray>
+	static class SparseBooleanArrayCheckedItemPositionsAttribute extends AbstractPropertyViewAttribute<ListView, SparseBooleanArray>
 	{
 		@Override
 		protected void observeChangesOnTheView(final ValueModel<SparseBooleanArray> valueModel)
@@ -74,7 +79,7 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		}
 	}
 	
-	static class IntegerSetAttribute extends AbstractPropertyViewAttribute<ListView, Set<Integer>>
+	static class SetCheckedItemPositionsAttribute extends AbstractPropertyViewAttribute<ListView, Set<Integer>>
 	{
 		@Override
 		protected void observeChangesOnTheView(final ValueModel<Set<Integer>> valueModel)
@@ -110,7 +115,7 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		}
 	}
 	
-	static class MapAttribute extends AbstractPropertyViewAttribute<ListView, Map<Integer, Boolean>>
+	static class MapCheckedItemPositionsAttribute extends AbstractPropertyViewAttribute<ListView, Map<Integer, Boolean>>
 	{
 		@Override
 		protected void observeChangesOnTheView(final ValueModel<Map<Integer, Boolean>> valueModel)
