@@ -20,10 +20,7 @@ import java.util.Random;
 import sample.robobinding.model.Album;
 import sample.robobinding.model.Genre;
 import sample.robobinding.store.AlbumStore;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.RatingBar;
-
-import com.jayway.android.robotium.solo.Solo;
 
 
 /**
@@ -32,18 +29,11 @@ import com.jayway.android.robotium.solo.Solo;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCase2<HomeActivity>
+public abstract class AbstractWorkflowTest extends AbstractSampleAppTest
 {
 	private final int genreIndex = randomGenreIndex();
 	private final int ratingIndex = randomRatingIndex();
 	
-	protected Solo solo;
-
-	public AbstractWorkflowTest()
-	{
-		super("sample.robobinding", HomeActivity.class);
-	}
-
 	protected void createAnAlbumTests()
 	{
 		clickOnButtonWithLabel(homeButtonStringResId());
@@ -60,7 +50,6 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 	protected void editAnAlbumTests()
 	{
 		solo.clickOnText("Album name");
-		
 		assertTrue(solo.searchText("Classical"));
 		assertTrue(solo.searchText("Composer name"));
 		assertGenreIsVisible();
@@ -183,34 +172,6 @@ public abstract class AbstractWorkflowTest extends ActivityInstrumentationTestCa
 		assertFalse(solo.searchText(firstAlbum.getTitle()));
 	}
 
-	protected void setUp() throws Exception
-	{
-		super.setUp();
-		solo = new Solo(getInstrumentation(), getActivity());
-		AlbumStore.resetData();
-	}
-	
-	protected void clickOnButtonWithLabel(String label)
-	{
-		solo.clickOnButton(label);
-	}
-
-	protected void clickOnButtonWithLabel(int resId)
-	{
-		clickOnButtonWithLabel(getString(resId));
-	}
-	
-	protected String getString(int resId)
-	{
-		return getActivity().getString(resId);
-	}
-	
-	protected void tearDown() throws Exception
-	{
-		super.tearDown();
-		solo.finishOpenedActivities();
-	}
-	
 	protected abstract int homeButtonStringResId();
 	
 	protected abstract void selectFirstAlbum();

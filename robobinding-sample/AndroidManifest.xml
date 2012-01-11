@@ -1,38 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="sample.robobinding"
-      android:versionCode="1"
-      android:versionName="1.0">
+    package="sample.robobinding"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
     <uses-sdk android:minSdkVersion="8" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name="sample.robobinding.HomeActivity"
-                  android:label="@string/app_name">
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <activity
+            android:name="sample.robobinding.HomeActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="sample.robobinding.CreateEditAlbumActivity"
-                  android:label="@string/app_name">
-	</activity>
-	<activity android:name="sample.robobinding.CursorBackedViewAlbumsActivity"
-                  android:label="@string/app_name">
+        <activity
+            android:name="sample.robobinding.CreateEditAlbumActivity"
+            android:label="@string/app_name" >
         </activity>
-        <activity android:name="sample.robobinding.ViewAlbumActivity"
-                  android:label="@string/app_name">
+        <activity
+            android:name="sample.robobinding.CursorBackedViewAlbumsActivity"
+            android:label="@string/app_name" >
         </activity>
-	<activity android:name="sample.robobinding.ListViewAlbumsActivity"
-                  android:label="@string/app_name">
+        <activity
+            android:name="sample.robobinding.ViewAlbumActivity"
+            android:label="@string/app_name" >
         </activity>
-	<activity android:name="sample.robobinding.ListViewWithPredefinedViewsAlbumsActivity"
-                  android:label="@string/app_name">
+        <activity
+            android:name="sample.robobinding.ListViewAlbumsActivity"
+            android:label="@string/app_name" >
         </activity>
-        <activity android:name="sample.robobinding.SpinnerAlbumsActivity"
-		  android:label="@string/app_name">
-	</activity>
-	<activity android:name="sample.robobinding.SpinnerWithPredefinedViewsAlbumsActivity"
-                  android:label="@string/app_name">
+        <activity
+            android:name="sample.robobinding.ListViewWithPredefinedViewsAlbumsActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="sample.robobinding.SpinnerAlbumsActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="sample.robobinding.SpinnerWithPredefinedViewsAlbumsActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="sample.robobinding.DynamicItemLayoutListViewAlbumsActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="sample.robobinding.DynamicDropdownLayoutSpinnerAlbumsActivity"
+            android:label="@string/app_name" >
         </activity>
     </application>
+
 </manifest>

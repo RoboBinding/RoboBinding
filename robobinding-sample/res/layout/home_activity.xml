@@ -42,6 +42,18 @@
     	android:text="@string/spinner_albums_with_predefined_views"
     	bind:onClick="listBackedAlbumsSpinnerWithPredefinedViews" />
     
+    <Button
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:text="@string/dynamic_itemlayout_albums_listview"
+    	bind:onClick="dynamicItemLayoutListBackedAlbumsListView" />
+    
+    <Button
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:text="@string/dynamic_dropdownlayout_albums_spinner"
+    	bind:onClick="dynamicDropdownLayoutListBackedAlbumsSpinner" />
+    
     <TextView
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
