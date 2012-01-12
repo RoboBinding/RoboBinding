@@ -32,6 +32,8 @@ import android.view.View;
  */
 public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T>
 {
+	private static ViewAttributeInjector viewAttributeInjector = new ViewAttributeInjector();
+	
 	private T view;
 	private boolean preInitializeViews;
 	
@@ -94,10 +96,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		Class<? extends PropertyViewAttribute<? extends View>> propertyViewAttributeClass = propertyViewAttributeMappings.get(propertyAttribute);
 		@SuppressWarnings("unchecked")
 		PropertyViewAttribute<View> propertyViewAttribute = (PropertyViewAttribute<View>) newViewAttribute(propertyViewAttributeClass);
-		
-		propertyViewAttribute.setView(getViewForAttribute(propertyAttribute));
-		propertyViewAttribute.setPreInitializeView(preInitializeViews);
-		propertyViewAttribute.setAttributeValue(attributeValue);
+		viewAttributeInjector.injectPropertyAttributeValues(propertyViewAttribute, getViewForAttribute(propertyAttribute), attributeValue, preInitializeViews);
 		
 		return propertyViewAttribute;
 	}
@@ -112,9 +111,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		Class<? extends AbstractCommandViewAttribute<? extends View>> commandViewAttributeClass = commandViewAttributeMappings.get(commandAttribute);
 		@SuppressWarnings("unchecked")
 		AbstractCommandViewAttribute<View> commandViewAttribute = (AbstractCommandViewAttribute<View>) newViewAttribute(commandViewAttributeClass);
-		
-		commandViewAttribute.setView(getViewForAttribute(commandAttribute));
-		commandViewAttribute.setCommandName(attributeValue);
+		viewAttributeInjector.injectCommandAttributeValues(commandViewAttribute, getViewForAttribute(commandAttribute), attributeValue);
 		
 		return commandViewAttribute;
 	}
@@ -134,10 +131,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass = groupedViewAttributeMappings.get(groupedAttributeDetails);
 		@SuppressWarnings("unchecked")
 		AbstractGroupedViewAttribute<View> groupedPropertyViewAttribute = (AbstractGroupedViewAttribute<View>)newViewAttribute(groupedViewAttributeClass);
-		
-		groupedPropertyViewAttribute.setView(view);
-		groupedPropertyViewAttribute.setPreInitializeViews(preInitializeViews);
-		groupedPropertyViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
+		viewAttributeInjector.injectGroupedAttributeValues(groupedPropertyViewAttribute, view, preInitializeViews, groupedAttributeDetails);
 		
 		return groupedPropertyViewAttribute;
 	}

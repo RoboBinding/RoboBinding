@@ -25,10 +25,10 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractReadOnlyPropertyViewAttribute<T extends View, S> extends AbstractPropertyViewAttribute<T, S>
+public abstract class AbstractReadOnlyPropertyViewAttribute<ViewType extends View, PropertyType> extends AbstractPropertyViewAttribute<ViewType, PropertyType>
 {
 	@Override
-	protected void observeChangesOnTheView(ValueModel<S> valueModel)
+	protected void observeChangesOnTheView(ValueModel<PropertyType> valueModel)
 	{
 		throw new UnsupportedOperationException(getClass().getName() + " only supports one-way binding");
 	}

@@ -64,13 +64,18 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		this.presentationModelAdapter = presentationModelAdapter;
 		performBind();
 	}
-
+	
 	private void performBind()
 	{
-		if (propertyBindingDetails.twoWayBinding)
+		if (isTwoWayBinding())
 			new TwoWayBinder().performBind();
 		else
 			new OneWayBinder().performBind();
+	}
+
+	public boolean isTwoWayBinding()
+	{
+		return propertyBindingDetails.twoWayBinding;
 	}
 	
 	void setPresentationModelAdapter(PresentationModelAdapter presentationModelAdapter)
@@ -78,14 +83,14 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		this.presentationModelAdapter = presentationModelAdapter;
 	}
 	
-	protected abstract void valueModelUpdated(PropertyType newValue);
-	protected abstract void observeChangesOnTheView(final ValueModel<PropertyType> valueModel);
-	
 	protected void initializeView(ValueModel<PropertyType> valueModel)
 	{
 		if (preInitializeViews)
 			valueModelUpdated(valueModel.getValue());
 	}
+	
+	protected abstract void valueModelUpdated(PropertyType newValue);
+	protected abstract void observeChangesOnTheView(final ValueModel<PropertyType> valueModel);
 	
 	interface PropertyBinder
 	{
