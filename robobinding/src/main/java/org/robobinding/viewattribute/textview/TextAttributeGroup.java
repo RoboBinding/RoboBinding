@@ -42,12 +42,14 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 	{
 		assertAttributesArePresent(TEXT);
 		
+		propertyBindingDetails = PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(TEXT));
+		
 		determineValueCommitMode();
 		
 		textAttribute = new TextAttribute();
 		textAttribute.setView(view);
 		textAttribute.setPreInitializeView(preInitializeViews);
-		textAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(TEXT));
+		textAttribute.setPropertyBindingDetails(propertyBindingDetails);
 		textAttribute.setValueCommitMode(valueCommitMode);
 	}
 

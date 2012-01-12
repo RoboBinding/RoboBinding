@@ -42,6 +42,10 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	{
 		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue);
 	}
+	public void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
+	{
+		this.propertyBindingDetails = propertyBindingDetails;
+	}
 	@Override
 	public void setPreInitializeView(boolean preInitializeViews)
 	{
