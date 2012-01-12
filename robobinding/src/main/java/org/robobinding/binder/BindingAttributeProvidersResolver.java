@@ -18,8 +18,8 @@ package org.robobinding.binder;
 import java.util.Map;
 import java.util.Queue;
 
-import org.robobinding.customwidget.BindableView;
-import org.robobinding.customwidget.CustomWidgetUtils;
+import org.robobinding.customview.BindableView;
+import org.robobinding.customview.CustomViewUtils;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.BindingAttributeMapper;
@@ -80,9 +80,9 @@ public class BindingAttributeProvidersResolver
 	{
 		Queue<BindingAttributeProvider<? extends View>> candidateProviders = Lists.newLinkedList();
 		
-		if (CustomWidgetUtils.isCustomWidget(view))
+		if (CustomViewUtils.isCustomWidget(view))
 		{
-			candidateProviders.add(CustomWidgetUtils.adapt((BindableView)view));
+			candidateProviders.add(CustomViewUtils.adapt((BindableView)view));
 		}
 				
 		processViewHierarchy(view.getClass(), candidateProviders);

@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding.customwidget;
+package sample.robobinding.customview;
 
-import org.robobinding.binder.Binder;
-import org.robobinding.customwidget.BindableView;
-import org.robobinding.customwidget.CustomBindingAttributeMappings;
+import org.robobinding.customview.BindableView;
+import org.robobinding.customview.CustomBindingAttributeMappings;
 import org.robobinding.viewattribute.view.OnClickAttribute;
 
 import sample.robobinding.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -36,20 +36,16 @@ import android.widget.RelativeLayout;
  */
 public class NavigationBar extends RelativeLayout implements BindableView<NavigationBar>
 {
-	private final Context context;
 	private Button leftButton;
 	private Button rightButton;
-	private final AttributeSet attrs;
 	
 	public NavigationBar(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-		this.context = context;
-		this.attrs = attrs;
-	}
-
-	private void initializeViews()
-	{
+		
+		LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		layoutInflater.inflate(R.layout.navigation_bar, this);
+		
 		leftButton = (Button)findViewById(R.id.left_button);
 		rightButton = (Button)findViewById(R.id.right_button);
 		
@@ -66,25 +62,10 @@ public class NavigationBar extends RelativeLayout implements BindableView<Naviga
 		rightButton.setText(rightButtonText);
 	}
 
-	private boolean firstMapping;
-	
 	@Override
 	public void mapBindingAttributes(CustomBindingAttributeMappings<NavigationBar> mappings)
 	{
-		if (!firstMapping)
-		{
-			firstMapping = true;
-			return;
-		}
-		
 		mappings.mapCommandAttribute(leftButton, OnClickAttribute.class, "leftButtonAction");
 		mappings.mapCommandAttribute(rightButton, OnClickAttribute.class, "rightButtonAction");
-	}
-
-	public void setPresentationModel(Object presentationModel)
-	{
-		Binder.bindViewAndAttachToRoot(context, R.layout.navigation_bar, presentationModel, this);
-		
-		initializeViews();
 	}
 }

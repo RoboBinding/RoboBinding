@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.textview;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.PropertyBindingDetails;
 
 import android.content.Context;
 import android.widget.TextView;

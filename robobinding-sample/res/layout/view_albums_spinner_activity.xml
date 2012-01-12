@@ -13,7 +13,7 @@
 	    android:text="@string/view_albums"
 	    style="@style/ScreenTitle" />
     
-    <sample.robobinding.customwidget.NavigationBar
+    <sample.robobinding.customview.NavigationBar
         android:id="@+id/navigation_bar"
         android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
