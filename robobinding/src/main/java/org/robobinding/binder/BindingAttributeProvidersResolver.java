@@ -25,6 +25,7 @@ import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeMapperAdapter;
 import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.absspinner.AbsSpinnerAttributeMapper;
 import org.robobinding.viewattribute.adapterview.AdapterViewAttributeMapper;
 import org.robobinding.viewattribute.compoundbutton.CompoundButtonAttributeMapper;
 import org.robobinding.viewattribute.imageview.ImageViewAttributeMapper;
@@ -36,6 +37,7 @@ import org.robobinding.viewattribute.textview.TextViewAttributeMapper;
 import org.robobinding.viewattribute.view.ViewAttributeMapper;
 
 import android.view.View;
+import android.widget.AbsSpinner;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -68,6 +70,7 @@ public class BindingAttributeProvidersResolver
 		bindingAttributeProvidersMap.put(SeekBar.class, adapt(new SeekBarAttributeMapper()));
 		bindingAttributeProvidersMap.put(RatingBar.class, adapt(new RatingBarAttributeMapper()));
 		bindingAttributeProvidersMap.put(ListView.class, adapt(new ListViewAttributeMapper()));
+		bindingAttributeProvidersMap.put(AbsSpinner.class, adapt(new AbsSpinnerAttributeMapper()));
 	}
 	
 	private <T extends View> BindingAttributeProvider<T> adapt(BindingAttributeMapper<T> mapper)

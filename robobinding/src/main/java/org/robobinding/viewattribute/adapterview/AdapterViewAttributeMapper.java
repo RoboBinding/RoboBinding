@@ -32,9 +32,8 @@ public class AdapterViewAttributeMapper implements BindingAttributeMapper<Adapte
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<AdapterView<?>> mappings)
 	{
-		mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, AdaptedDataSetAttributes.SOURCE, 
-				AdaptedDataSetAttributes.ITEM_LAYOUT, AdaptedDataSetAttributes.ITEM_MAPPING, 
-				AdaptedDataSetAttributes.DROPDOWN_LAYOUT, AdaptedDataSetAttributes.DROPDOWN_MAPPING);
+		mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, AbstractAdaptedDataSetAttributes.SOURCE, 
+				AbstractAdaptedDataSetAttributes.ITEM_LAYOUT, AbstractAdaptedDataSetAttributes.ITEM_MAPPING);
 		
 		mappings.mapCommandAttribute(OnItemClickAttribute.class, "onItemClick");
 		mappings.mapCommandAttribute(OnItemSelectedAttribute.class, "onItemSelected");
