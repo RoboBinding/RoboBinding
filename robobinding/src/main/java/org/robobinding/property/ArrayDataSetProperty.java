@@ -31,20 +31,16 @@ public class ArrayDataSetProperty<T> extends AbstractDataSetProperty<T>
 	@Override
 	public int size()
 	{
-		if (getData() == null)
+		if (isDataSetNull())
 			return 0;
 		
-		return getData().length;
+		T[] array = getCachedDataSet();
+		return array.length;
 	}
 	@Override
 	public T getItem(int position)
 	{
-		return getData()[position];
-	}
-	private T[] getData()
-	{
-		@SuppressWarnings("unchecked")
-		T[] data = (T[])getValue();
-		return data;
+		T[] array = getCachedDataSet();
+		return array[position];
 	}
 }

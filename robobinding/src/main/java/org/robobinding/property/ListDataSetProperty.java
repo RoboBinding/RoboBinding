@@ -33,21 +33,16 @@ class ListDataSetProperty<T> extends AbstractDataSetProperty<T>
 	@Override
 	public int size()
 	{
-		if(getData() == null)
+		if(isDataSetNull())
 			return 0;
 
-		return getData().size();
+		List<T> list = getCachedDataSet();
+		return list.size();
 	}
 	@Override
 	public T getItem(int index)
 	{
-		List<T> data = getData();
-		return data.get(index);
-	}
-	private List<T> getData()
-	{
-		@SuppressWarnings("unchecked")
-		List<T> data = (List<T>)getValue();
-		return data;
+		List<T> list = getCachedDataSet();
+		return list.get(index);
 	}
 }

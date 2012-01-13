@@ -33,6 +33,8 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 {
 	private ItemPresentationModelFactory<T> factory;
 	private Object bean;
+	private boolean isDataSetCached;
+	private Object cachedDataSet;
 
 	protected AbstractDataSetProperty(ObservableBean observableBean, PropertyAccessor<Object> propertyAccessor)
 	{
@@ -40,6 +42,7 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 		
 		this.bean = observableBean.getBean();
 		initializeFactory();
+		isDataSetCached = false;
 	}
 	
 	private void initializeFactory()
@@ -56,7 +59,29 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 			factory = new FactoryMethodImpl<T>(bean, itemPresentationModelClass, factoryMethod);
 		}
 	}
-
+	@Override
+	public Object getValue()
+	{
+		cachedDataSet = super.getValue();
+		isDataSetCached = true;
+		return cachedDataSet;
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected <DataSetType> DataSetType getCachedDataSet()
+	{
+		if(isDataSetCached)
+		{
+			return (DataSetType)cachedDataSet;
+		}
+		return (DataSetType)getValue();
+	}
+	
+	protected boolean isDataSetNull()
+	{
+		return getCachedDataSet() == null;
+	}
+	
 	@Override
 	public void setValue(Object newValue)
 	{
