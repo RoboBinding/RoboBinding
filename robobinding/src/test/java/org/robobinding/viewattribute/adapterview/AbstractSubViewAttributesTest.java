@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.listview;
+package org.robobinding.viewattribute.adapterview;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,13 +26,13 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.viewattribute.BindingAttributeValueUtils;
 import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -41,7 +41,7 @@ import android.widget.ListView;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class AbstractHeaderOrFooterAttributesTest
+public class AbstractSubViewAttributesTest
 {
 	private static final String PRESENTATION_MODEL_PROPERTY = "presentationModel";
 	private static final String VISIBILITY_PROPERTY = "visibility";
@@ -86,41 +86,41 @@ public class AbstractHeaderOrFooterAttributesTest
 
 	private void addLayoutAsPresentAttribute()
 	{
-		groupedAttributeDetails.addPresentAttribute(HeaderOrFooterAttributes.LAYOUT, RandomValues.anyLayoutResource());
+		groupedAttributeDetails.addPresentAttribute(SubViewAttributes.LAYOUT, RandomValues.anyLayoutResource());
 	}
 	
 	private void addPresentationModelAsPresentAttribute()
 	{
-		groupedAttributeDetails.addPresentAttribute(HeaderOrFooterAttributes.PRESENTATION_MODEL, BindingAttributeValueUtils.oneWay(PRESENTATION_MODEL_PROPERTY));
+		groupedAttributeDetails.addPresentAttribute(SubViewAttributes.PRESENTATION_MODEL, BindingAttributeValueUtils.oneWay(PRESENTATION_MODEL_PROPERTY));
 	}
 
 	private void addVisibilityAsPresentAttribute()
 	{
-		groupedAttributeDetails.addPresentAttribute(HeaderOrFooterAttributes.VISIBILITY, BindingAttributeValueUtils.oneWay(VISIBILITY_PROPERTY));
+		groupedAttributeDetails.addPresentAttribute(SubViewAttributes.VISIBILITY, BindingAttributeValueUtils.oneWay(VISIBILITY_PROPERTY));
 	}
 	
 	@SuppressWarnings("unchecked")
-	private HeaderOrFooterAttributes createAttribute()
+	private SubViewAttributes createAttribute()
 	{
 		PresentationModelAdapter mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
 		when(mockPresentationModelAdapter.getReadOnlyPropertyValueModel(PRESENTATION_MODEL_PROPERTY)).thenReturn(ValueModelUtils.create(new Object()));
 		when((Class<Integer>)mockPresentationModelAdapter.getPropertyType(VISIBILITY_PROPERTY)).thenReturn(Integer.class);
 		when(mockPresentationModelAdapter.getReadOnlyPropertyValueModel(VISIBILITY_PROPERTY)).thenReturn(ValueModelUtils.create());
 		
-		HeaderOrFooterAttributes headerOrFooterAttributes = new HeaderOrFooterAttributes();
-		headerOrFooterAttributes.setView(new ListView(new Activity()));
-		headerOrFooterAttributes.setGroupedAttributeDetails(groupedAttributeDetails);
-		headerOrFooterAttributes.bind(mockPresentationModelAdapter, new Activity());
-		return headerOrFooterAttributes;
+		SubViewAttributes subViewAttributes = new SubViewAttributes();
+		subViewAttributes.setView(new ListView(new Activity()));
+		subViewAttributes.setGroupedAttributeDetails(groupedAttributeDetails);
+		subViewAttributes.bind(mockPresentationModelAdapter, new Activity());
+		return subViewAttributes;
 	}
 	
 	private GroupedAttributeDetailsImpl createGroupedAttributeDetails()
 	{
-		return new GroupedAttributeDetailsImpl(new String[]{HeaderOrFooterAttributes.LAYOUT, 
-				HeaderOrFooterAttributes.PRESENTATION_MODEL, HeaderOrFooterAttributes.VISIBILITY});
+		return new GroupedAttributeDetailsImpl(new String[]{SubViewAttributes.LAYOUT, 
+				SubViewAttributes.PRESENTATION_MODEL, SubViewAttributes.VISIBILITY});
 	}
 	
-	private static class HeaderOrFooterAttributes extends AbstractSubViewAttributes
+	private static class SubViewAttributes extends AbstractSubViewAttributes<AdapterView<?>>
 	{
 		static final String LAYOUT = "layout";
 		static final String PRESENTATION_MODEL = "presentationModel";

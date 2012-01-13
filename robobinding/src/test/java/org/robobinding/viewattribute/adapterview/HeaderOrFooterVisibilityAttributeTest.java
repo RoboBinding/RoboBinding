@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.listview;
+package org.robobinding.viewattribute.adapterview;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttributeTest;
 import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.BooleanVisibilityAttribute;
 import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.IntegerVisibilityAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -33,26 +31,20 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class IntegerVisibilityAttributeTest
+public class HeaderOrFooterVisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<SubViewVisibilityAttribute>
 {
-	private IntegerVisibilityAttribute attribute;
-	private MockHeaderOrFooterVisibility mockVisibility;
-	
-	@Before
-	public void setUp()
+	@Override
+	protected void setTypeMappingExpectations()
 	{
-		mockVisibility = new MockHeaderOrFooterVisibility();
-		SubViewVisibilityAttribute headerOrFooterVisibilityAttribute = new SubViewVisibilityAttribute(mockVisibility);
-		attribute = headerOrFooterVisibilityAttribute.new IntegerVisibilityAttribute();
+		forPropertyType(int.class).expectAttribute(IntegerVisibilityAttribute.class);
+		forPropertyType(Integer.class).expectAttribute(IntegerVisibilityAttribute.class);
+		forPropertyType(Boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
+		forPropertyType(boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
 	}
 	
-	@Test
-	public void whenValueModelUpdated_thenVisibilityStateUpdatedAccordingly()
+	@Override
+	protected AbstractMultiTypePropertyViewAttribute<?> createAttribute()
 	{
-		int visibility = RandomValues.anyVisibility();
-		
-		attribute.valueModelUpdated(visibility);
-		
-		assertEquals(visibility, mockVisibility.state);
+		return new SubViewVisibilityAttribute(null);
 	}
 }
