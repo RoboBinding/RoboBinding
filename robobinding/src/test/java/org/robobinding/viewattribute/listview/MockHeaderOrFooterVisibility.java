@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute.listview;
 
+import org.robobinding.viewattribute.adapterview.SubViewVisibility;
+
 import android.view.View;
 
 /**
@@ -23,7 +25,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class MockHeaderOrFooterVisibility extends HeaderOrFooterVisibility
+class MockHeaderOrFooterVisibility extends SubViewVisibility
 {
 	int state;
 

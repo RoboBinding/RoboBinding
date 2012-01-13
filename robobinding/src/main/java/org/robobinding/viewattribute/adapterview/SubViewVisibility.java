@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.listview;
+package org.robobinding.viewattribute.adapterview;
 
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -25,35 +25,35 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class HeaderOrFooterVisibility
+public class SubViewVisibility
 {
 	private static LayoutParams ZERO_LAYOUT_PARAMS = new ListView.LayoutParams(0, 1);
 	
-	private View headerOrFooterView;
+	private View subView;
 	private LayoutParams originalLayoutParams;
 	
-	public HeaderOrFooterVisibility(View headerOrFooterView)
+	public SubViewVisibility(View subView)
 	{
-		this.headerOrFooterView = headerOrFooterView;
+		this.subView = subView;
 	}
 	
 	public void makeVisible()
 	{
 		if(originalLayoutParams != null)
 		{
-			headerOrFooterView.setLayoutParams(originalLayoutParams);
+			subView.setLayoutParams(originalLayoutParams);
 		}
-		headerOrFooterView.setVisibility(View.VISIBLE);
+		subView.setVisibility(View.VISIBLE);
 	}
 	
 	public void makeGone()
 	{
 		if(originalLayoutParams == null)
 		{
-			originalLayoutParams = headerOrFooterView.getLayoutParams();
+			originalLayoutParams = subView.getLayoutParams();
 		}
-		headerOrFooterView.setLayoutParams(ZERO_LAYOUT_PARAMS);
-		headerOrFooterView.setVisibility(View.GONE);
+		subView.setLayoutParams(ZERO_LAYOUT_PARAMS);
+		subView.setVisibility(View.GONE);
 	}
 	
 	public final void setVisibility(int visibility)
@@ -74,8 +74,8 @@ public class HeaderOrFooterVisibility
 	{
 		if(originalLayoutParams != null)
 		{
-			headerOrFooterView.setLayoutParams(originalLayoutParams);
+			subView.setLayoutParams(originalLayoutParams);
 		}
-		headerOrFooterView.setVisibility(View.INVISIBLE);
+		subView.setVisibility(View.INVISIBLE);
 	}
 }

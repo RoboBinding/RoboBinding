@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.listview;
+package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.binder.Binder;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
@@ -26,7 +26,7 @@ import org.robobinding.viewattribute.ResourceBindingDetails;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.AdapterView;
 
 /**
  *
@@ -34,7 +34,7 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractHeaderOrFooterAttributes extends AbstractGroupedViewAttribute<ListView>
+public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T>
 {
 	private View subView;
 	
@@ -90,7 +90,7 @@ public abstract class AbstractHeaderOrFooterAttributes extends AbstractGroupedVi
 	{
 		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
 		{
-			HeaderOrFooterVisibilityAttribute visibilityAttribute = HeaderOrFooterVisibilityAttribute.create(subView);
+			SubViewVisibilityAttribute visibilityAttribute = SubViewVisibilityAttribute.create(subView);
 			visibilityAttribute.setPreInitializeView(preInitializeViews);
 			visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
 			visibilityAttribute.bind(presentationModelAdapter, context);

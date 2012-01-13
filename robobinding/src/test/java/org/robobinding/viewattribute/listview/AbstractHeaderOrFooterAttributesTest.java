@@ -26,6 +26,7 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.viewattribute.BindingAttributeValueUtils;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -119,7 +120,7 @@ public class AbstractHeaderOrFooterAttributesTest
 				HeaderOrFooterAttributes.PRESENTATION_MODEL, HeaderOrFooterAttributes.VISIBILITY});
 	}
 	
-	private static class HeaderOrFooterAttributes extends AbstractHeaderOrFooterAttributes
+	private static class HeaderOrFooterAttributes extends AbstractSubViewAttributes
 	{
 		static final String LAYOUT = "layout";
 		static final String PRESENTATION_MODEL = "presentationModel";

@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+
+import android.view.View;
 import android.widget.AdapterView;
 
 /**
@@ -23,7 +25,34 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdaptedDataSetAttributes extends AbstractAdaptedDataSetAttributes<AdapterView<?>>
+public class EmptyViewAttributes extends AbstractSubViewAttributes<AdapterView<?>>
 {
+	static final String EMPTY_VIEW_LAYOUT = "emptyViewLayout";
+	static final String EMPTY_VIEW_PRESENTATION_MODEL = "emptyViewPresentationModel";
+	static final String EMPTY_VIEW_VISIBILITY = "emptyViewVisibility";
+	
+	@Override
+	protected String layoutAttribute()
+	{
+		return EMPTY_VIEW_LAYOUT;
+	}
+
+	@Override
+	protected String subViewPresentationModelAttribute()
+	{
+		return EMPTY_VIEW_PRESENTATION_MODEL;
+	}
+
+	@Override
+	protected String visibilityAttribute()
+	{
+		return EMPTY_VIEW_VISIBILITY ;
+	}
+
+	@Override
+	protected void addSubView(View subView)
+	{
+		view.setEmptyView(subView);
+	}
 
 }

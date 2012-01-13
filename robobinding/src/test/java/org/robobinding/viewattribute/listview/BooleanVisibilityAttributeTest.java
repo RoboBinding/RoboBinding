@@ -21,7 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.viewattribute.listview.HeaderOrFooterVisibilityAttribute.BooleanVisibilityAttribute;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.BooleanVisibilityAttribute;
 
 import android.view.View;
 
@@ -43,7 +44,7 @@ public class BooleanVisibilityAttributeTest
 	public void setUp()
 	{
 		mockVisibility = new MockHeaderOrFooterVisibility();
-		HeaderOrFooterVisibilityAttribute headerOrFooterVisibilityAttribute = new HeaderOrFooterVisibilityAttribute(mockVisibility);
+		SubViewVisibilityAttribute headerOrFooterVisibilityAttribute = new SubViewVisibilityAttribute(mockVisibility);
 		attribute = headerOrFooterVisibilityAttribute.new BooleanVisibilityAttribute();
 	}
 	

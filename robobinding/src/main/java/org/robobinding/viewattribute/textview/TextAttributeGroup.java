@@ -40,11 +40,11 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 	{
 		assertAttributesArePresent(TEXT);
 		
-		determineValueCommitMode();
-		
 		textAttribute = new TextAttribute();
-		textAttribute.setValueCommitMode(valueCommitMode);
 		injectPropertyAttributeValues(textAttribute, TEXT);
+		
+		determineValueCommitMode();
+		textAttribute.setValueCommitMode(valueCommitMode);
 	}
 
 	private void determineValueCommitMode()
