@@ -67,6 +67,9 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	
 	private void performBind()
 	{
+		if (!validate())
+			throw new IllegalStateException(getValidationError());
+		
 		if (isTwoWayBinding())
 			new TwoWayBinder().performBind();
 		else
@@ -175,5 +178,22 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 				propertyValueModel.removePropertyChangeListener(listener);
 			}
 		}
+	}
+
+	public boolean validate()
+	{
+		return propertyBindingDetails != null && view != null;
+	}
+	
+	public String getValidationError()
+	{
+		StringBuilder errorMessage = new StringBuilder();
+		
+		if (propertyBindingDetails == null)
+			errorMessage.append("Attribute value was not set. ");
+		if (view == null)
+			errorMessage.append("View was not set. ");
+		
+		return errorMessage.toString();
 	}
 }

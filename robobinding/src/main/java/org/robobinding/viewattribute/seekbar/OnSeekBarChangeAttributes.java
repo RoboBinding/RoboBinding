@@ -36,7 +36,7 @@ public class OnSeekBarChangeAttributes extends AbstractGroupedViewAttribute<Seek
 	public static final String ON_SEEK_BAR_CHANGE = "onSeekBarChange";
 	public static final String PROGRESS = "progress";
 	
-	private List<ViewAttribute> viewAttributes;
+	List<ViewAttribute> viewAttributes;
 
 	@Override
 	protected void initializeChildViewAttributes()
@@ -47,16 +47,14 @@ public class OnSeekBarChangeAttributes extends AbstractGroupedViewAttribute<Seek
 		
 		if (groupedAttributeDetails.hasAttribute(PROGRESS))
 		{
-			TwoWayProgressAttribute twoWayProgressAttribute = new TwoWayProgressAttribute();
+			TwoWayProgressAttribute twoWayProgressAttribute = newPropertyViewAttribute(TwoWayProgressAttribute.class, PROGRESS);
 			twoWayProgressAttribute.setOnSeekBarChangeListeners(onSeekBarChangeListeners);
-			injectPropertyAttributeValues(twoWayProgressAttribute, PROGRESS);
 			viewAttributes.add(twoWayProgressAttribute);
 		}
 		if (groupedAttributeDetails.hasAttribute(ON_SEEK_BAR_CHANGE))
 		{
-			OnSeekBarChangeAttribute onSeekBarChangeAttribute = new OnSeekBarChangeAttribute();
+			OnSeekBarChangeAttribute onSeekBarChangeAttribute = newCommandViewAttribute(OnSeekBarChangeAttribute.class, ON_SEEK_BAR_CHANGE);
 			onSeekBarChangeAttribute.setOnSeekBarChangeListeners(onSeekBarChangeListeners);
-			injectCommandAttributeValues(onSeekBarChangeAttribute, ON_SEEK_BAR_CHANGE);
 			viewAttributes.add(onSeekBarChangeAttribute);
 		}
 	}
@@ -66,11 +64,6 @@ public class OnSeekBarChangeAttributes extends AbstractGroupedViewAttribute<Seek
 	{
 		for (ViewAttribute viewAttribute : viewAttributes)
 			viewAttribute.bind(presentationModelAdapter, context);
-	}
-
-	List<ViewAttribute> getViewAttributes()
-	{
-		return viewAttributes;
 	}
 
 }

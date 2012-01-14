@@ -30,16 +30,16 @@ import android.view.View;
  * @author Robert Taylor
  */
 @SuppressWarnings("unchecked")
-public class ViewAttributeInjectorTest
+public class ViewAttributeInstantiatorTest
 {
-	private ViewAttributeInjector viewAttributeInjector;
+	private ViewAttributeInstantiator viewAttributeInjector;
 
 	@Before
 	public void setUp()
 	{
-		viewAttributeInjector = new ViewAttributeInjector();
+		viewAttributeInjector = new ViewAttributeInstantiator();
 	}
-	
+
 	@Test
 	public void whenInvokingOnPropertyViewAttribute_thenInjectAllPropertiesIntoPropertyViewAttribute()
 	{
@@ -47,27 +47,27 @@ public class ViewAttributeInjectorTest
 		View view = mock(View.class);
 		String attributeValue = "{some_property}";
 		boolean preInitializeViews = RandomValues.trueOrFalse();
-		
+
 		viewAttributeInjector.injectPropertyAttributeValues(propertyViewAttribute, view, attributeValue, preInitializeViews);
-		
+
 		verify(propertyViewAttribute).setView(view);
 		verify(propertyViewAttribute).setAttributeValue(attributeValue);
 		verify(propertyViewAttribute).setPreInitializeView(preInitializeViews);
 	}
-	
+
 	@Test
 	public void whenInvokingOnCommandViewAttribute_thenInjectAllPropertiesIntoCommandViewAttribute()
 	{
 		AbstractCommandViewAttribute<View> commandViewAttribute = mock(AbstractCommandViewAttribute.class);
 		View view = mock(View.class);
 		String commandName = "save";
-		
+
 		viewAttributeInjector.injectCommandAttributeValues(commandViewAttribute, view, commandName);
-		
+
 		verify(commandViewAttribute).setView(view);
 		verify(commandViewAttribute).setCommandName(commandName);
 	}
-	
+
 	@Test
 	public void whenInvokingOnGroupViewAttribute_thenInjectAllPropertiesIntoCommandViewAttribute()
 	{
@@ -75,12 +75,11 @@ public class ViewAttributeInjectorTest
 		View view = mock(View.class);
 		GroupedAttributeDetails groupedAttributeDetails = mock(GroupedAttributeDetails.class);
 		boolean preInitializeViews = RandomValues.trueOrFalse();
-		
+
 		viewAttributeInjector.injectGroupedAttributeValues(groupedViewAttribute, view, preInitializeViews, groupedAttributeDetails);
-		
+
 		verify(groupedViewAttribute).setView(view);
 		verify(groupedViewAttribute).setPreInitializeViews(preInitializeViews);
 		verify(groupedViewAttribute).setGroupedAttributeDetails(groupedAttributeDetails);
-		verify(groupedViewAttribute).setViewAttributeInjector(viewAttributeInjector);
 	}
 }

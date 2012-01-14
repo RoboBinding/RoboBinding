@@ -23,7 +23,7 @@ import org.robobinding.internal.org_apache_commons_lang3.StringUtils;
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -33,54 +33,57 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected T view;
 	protected boolean preInitializeViews;
 	protected GroupedAttributeDetails groupedAttributeDetails;
-	private ViewAttributeInjector viewAttributeInjector;
-	
+	private ViewAttributeInstantiator viewAttributeInstantiator;
+
 	public void setView(T view)
 	{
 		this.view = view;
 	}
+
 	public void setPreInitializeViews(boolean preInitializeViews)
 	{
 		this.preInitializeViews = preInitializeViews;
 	}
+
 	public void setGroupedAttributeDetails(GroupedAttributeDetails groupedAttributeDetails)
 	{
 		this.groupedAttributeDetails = groupedAttributeDetails;
 		initializeChildViewAttributes();
 	}
-	
+
 	protected abstract void initializeChildViewAttributes();
-	
+
 	protected void assertAttributesArePresent(String... attributes)
 	{
-		if(!groupedAttributeDetails.hasAttributes(attributes))
+		if (!groupedAttributeDetails.hasAttributes(attributes))
 		{
 			Collection<String> missingAttributes = groupedAttributeDetails.findAbsentAttributes(attributes);
-			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
-					getClass().getName(), view.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
+			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''", getClass().getName(), view
+					.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
 		}
 	}
-	
-	public void setViewAttributeInjector(ViewAttributeInjector viewAttributeInjector)
+
+	@SuppressWarnings("unchecked")
+	protected <ViewType extends View, AttributeType extends PropertyViewAttribute<ViewType>> AttributeType newPropertyViewAttribute(
+			Class<AttributeType> propertyViewAttributeClass, String attributeName)
 	{
-		this.viewAttributeInjector = viewAttributeInjector;
+		ensureViewAttributeInstantiator();
+		return (AttributeType) viewAttributeInstantiator.newPropertyViewAttribute(propertyViewAttributeClass, view,
+				groupedAttributeDetails.attributeValueFor(attributeName), preInitializeViews);
 	}
-	
-	protected void injectPropertyAttributeValues(PropertyViewAttribute<T> propertyViewAttribute, String attributeName)
+
+	@SuppressWarnings("unchecked")
+	protected <ViewType extends View, AttributeType extends AbstractCommandViewAttribute<ViewType>> AttributeType newCommandViewAttribute(
+			Class<AttributeType> commandViewAttributeClass, String attributeName)
 	{
-		ensureViewAttributeInjector();
-		viewAttributeInjector.injectPropertyAttributeValues(propertyViewAttribute, view, groupedAttributeDetails.attributeValueFor(attributeName), preInitializeViews);
+		ensureViewAttributeInstantiator();
+		return (AttributeType) viewAttributeInstantiator.newCommandViewAttribute(commandViewAttributeClass, view,
+				groupedAttributeDetails.attributeValueFor(attributeName));
 	}
-	
-	protected void injectCommandAttributeValues(AbstractCommandViewAttribute<T> commandViewAttribute, String attributeName)
+
+	private void ensureViewAttributeInstantiator()
 	{
-		ensureViewAttributeInjector();
-		viewAttributeInjector.injectCommandAttributeValues(commandViewAttribute, view, groupedAttributeDetails.attributeValueFor(attributeName));
-	}
-	
-	private void ensureViewAttributeInjector()
-	{
-		if (viewAttributeInjector == null)
-			viewAttributeInjector = new ViewAttributeInjector();
+		if (viewAttributeInstantiator == null)
+			viewAttributeInstantiator = new ViewAttributeInstantiator();
 	}
 }

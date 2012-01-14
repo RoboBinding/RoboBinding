@@ -44,6 +44,9 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
+		if (!validate())
+			throw new IllegalStateException(getValidationError());
+		
 		Function function = presentationModelAdapter.findFunction(commandName, getPreferredCommandParameterType());
 		boolean supportsPreferredParameterType = true;
 
@@ -85,5 +88,22 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	protected abstract void bind(Command command);
 
 	protected abstract Class<?> getPreferredCommandParameterType();
+	
+	public boolean validate()
+	{
+		return view != null && commandName != null;
+	}
+	
+	public String getValidationError()
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		if (view == null)
+			stringBuilder.append("View not set. ");
+		if (commandName == null)
+			stringBuilder.append("Command name not set. ");
+		
+		return stringBuilder.toString();
+	}
 
 }

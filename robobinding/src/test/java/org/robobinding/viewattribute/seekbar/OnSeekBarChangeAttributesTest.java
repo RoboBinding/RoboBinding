@@ -23,9 +23,13 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.viewattribute.AbstractCommandViewAttribute;
+import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.GroupedAttributeDetails;
+import org.robobinding.viewattribute.MockPresentationModelForProperty;
 import org.robobinding.viewattribute.ViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeInjectorSpy;
+
+import android.widget.SeekBar;
 
 
 /**
@@ -38,32 +42,30 @@ public class OnSeekBarChangeAttributesTest
 {
 	private OnSeekBarChangeAttributes onSeekBarAttributes;
 	private GroupedAttributeDetails mockGroupedAttributeDetails;
-	private ViewAttributeInjectorSpy viewAttributeInjectorSpy;
 
 	@Before
 	public void setUp()
 	{
 		onSeekBarAttributes = new OnSeekBarChangeAttributes();
+		onSeekBarAttributes.setView(mock(SeekBar.class));
 		mockGroupedAttributeDetails = mock(GroupedAttributeDetails.class);
 		onSeekBarAttributes.setGroupedAttributeDetails(mockGroupedAttributeDetails);
-		viewAttributeInjectorSpy = new ViewAttributeInjectorSpy();
-		onSeekBarAttributes.setViewAttributeInjector(viewAttributeInjectorSpy);
 	}
 	
 	@Test
 	public void givenProgressAttributeValue_thenInitializeProgressAttributeInstance()
 	{
-		when(mockGroupedAttributeDetails.hasAttribute("progress")).thenReturn(true);
+		hasPropertyAttribute("progress");
 		
 		onSeekBarAttributes.initializeChildViewAttributes();
 		
 		assertThatAttributeWasCreated(TwoWayProgressAttribute.class);
 	}
-	
+
 	@Test
 	public void givenOnSeekBarChangeAttributeValue_thenInitializeOnSeekBarChangeAttributeInstance()
 	{
-		when(mockGroupedAttributeDetails.hasAttribute("onSeekBarChange")).thenReturn(true);
+		hasCommandAttribute("onSeekBarChange");
 		
 		onSeekBarAttributes.initializeChildViewAttributes();
 		
@@ -73,18 +75,30 @@ public class OnSeekBarChangeAttributesTest
 	@Test
 	public void givenProgressAndOnSeekBarChangeAttributeValues_thenInitializeBothAttributeInstances()
 	{
-		when(mockGroupedAttributeDetails.hasAttribute("progress")).thenReturn(true);
-		when(mockGroupedAttributeDetails.hasAttribute("onSeekBarChange")).thenReturn(true);
+		hasPropertyAttribute("progress");
+		hasCommandAttribute("onSeekBarChange");
 		
 		onSeekBarAttributes.initializeChildViewAttributes();
 		
 		assertThatAttributeWasCreated(TwoWayProgressAttribute.class);
 		assertThatAttributeWasCreated(OnSeekBarChangeAttribute.class);
 	}
+
+	private void hasPropertyAttribute(String attributeName)
+	{
+		when(mockGroupedAttributeDetails.hasAttribute(attributeName)).thenReturn(true);
+		when(mockGroupedAttributeDetails.attributeValueFor(attributeName)).thenReturn(MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME);
+	}
+	
+	private void hasCommandAttribute(String commandName)
+	{
+		when(mockGroupedAttributeDetails.hasAttribute(commandName)).thenReturn(true);
+		when(mockGroupedAttributeDetails.attributeValueFor(commandName)).thenReturn("some_method");
+	}
 	
 	private void assertThatAttributeWasCreated(Class<? extends ViewAttribute> viewAttributeClass)
 	{
-		List<ViewAttribute> viewAttributes = onSeekBarAttributes.getViewAttributes();
+		List<ViewAttribute> viewAttributes = onSeekBarAttributes.viewAttributes;
 		boolean instanceFound = false;
 		
 		for (ViewAttribute viewAttribute : viewAttributes)
@@ -92,12 +106,23 @@ public class OnSeekBarChangeAttributesTest
 			if (viewAttribute.getClass().isAssignableFrom(viewAttributeClass))
 			{
 				instanceFound = true;
+				
+				if (viewAttribute instanceof AbstractPropertyViewAttribute)
+				{
+					AbstractPropertyViewAttribute<?, ?> propertyViewAttribute = (AbstractPropertyViewAttribute<?, ?>)viewAttribute;
+					assertTrue(propertyViewAttribute.getValidationError(), propertyViewAttribute.validate());
+				}
+				else if (viewAttribute instanceof AbstractCommandViewAttribute)
+				{
+					AbstractCommandViewAttribute<?> commandViewAttribute = (AbstractCommandViewAttribute<?>)viewAttribute;
+					assertTrue(commandViewAttribute.getValidationError(), commandViewAttribute.validate());
+				}
+				
 				break;
 			}
 		}
 		
 		assertTrue(instanceFound);
-		assertTrue(viewAttributeInjectorSpy.viewAttributeValuesInjected(viewAttributeClass));
 	}
 	
 }
