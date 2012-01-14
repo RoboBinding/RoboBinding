@@ -15,13 +15,52 @@
  */
 package org.robobinding.viewattribute.listview;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import java.util.Set;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.listview.CheckedItemPositionsAttribute.SetCheckedItemPositionsAttribute;
+
+import android.widget.ListView;
+
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SetCheckedItemPositionsAttributeTest
+public class SetCheckedItemPositionsAttributeTest extends AbstractCheckedItemPositionsAttributeTest<ListView, SetCheckedItemPositionsAttribute>
 {
+	private Set<Integer> checkedItemPositions;
+	
+	@Before
+	public void setUp()
+	{
+		super.setUp();
+		
+		checkedItemPositions = asSet(anySparseBooleanArray());
+	}
+	@Test
+	public void whenValueModelUpdated_thenViewShouldReflectChanges()
+	{
+		attribute.valueModelUpdated(checkedItemPositions);
+		
+		assertThat(asSet(view.getCheckedItemPositions()), equalTo(checkedItemPositions));
+	}
+	
+	@Test
+	public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly()
+	{
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		ValueModel<Set<Integer>> valueModel = (ValueModel)twoWayBindToProperty(Set.class);
+		
+		setItemsChecked(checkedItemPositions);
+		
+		assertThat(valueModel.getValue(), equalTo(checkedItemPositions));
+	}
 
 }

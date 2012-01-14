@@ -15,13 +15,47 @@
  */
 package org.robobinding.viewattribute.listview;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.listview.CheckedItemPositionsAttribute.SparseBooleanArrayCheckedItemPositionsAttribute;
+
+import android.util.SparseBooleanArray;
+import android.widget.ListView;
+
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SparseBooleanArrayCheckedItemPositionsAttributeTest
+public class SparseBooleanArrayCheckedItemPositionsAttributeTest extends AbstractCheckedItemPositionsAttributeTest<ListView, SparseBooleanArrayCheckedItemPositionsAttribute>
 {
+	private SparseBooleanArray checkedItemPositions;
+	
+	@Before
+	public void setUp()
+	{
+		super.setUp();
+		
+		checkedItemPositions = anySparseBooleanArray();
+	}
+	@Test
+	public void whenValueModelUpdated_thenViewShouldReflectChanges()
+	{
+		attribute.valueModelUpdated(checkedItemPositions);
+		
+		assertSparseBooleanArrayEquals(checkedItemPositions, view.getCheckedItemPositions());
+	}
+	
+	@Test
+	public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly()
+	{
+		ValueModel<SparseBooleanArray> valueModel = twoWayBindToProperty(SparseBooleanArray.class);
+		
+		setItemsChecked(asSet(checkedItemPositions));
+		
+		assertSparseBooleanArrayEquals(checkedItemPositions, valueModel.getValue());
+	}
 
 }

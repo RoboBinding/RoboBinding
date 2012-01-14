@@ -93,9 +93,9 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 					Set<Integer> checkedItemPositions = Sets.newHashSet();
 					for(int i=0; i<array.size(); i++)
 					{
-						int position = array.keyAt(i);
-						if(array.valueAt(position))
+						if(array.valueAt(i))
 						{
+							int position = array.keyAt(i);
 							checkedItemPositions.add(position);
 						}
 					}

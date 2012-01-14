@@ -24,6 +24,8 @@ import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 
+import com.xtremelabs.robolectric.Robolectric;
+
 import android.R;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -40,6 +42,7 @@ public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttrib
 	@Before
 	public void setUp()
 	{
+		Robolectric.bindShadowClass(ShadowListView.class);
 		super.initializeViewAndAttribute();
 		
 		ListAdapter adapter = new MockArrayAdapter(R.layout.simple_list_item_single_choice);

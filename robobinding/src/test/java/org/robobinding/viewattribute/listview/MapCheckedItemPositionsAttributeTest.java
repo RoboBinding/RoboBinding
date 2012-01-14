@@ -15,13 +15,49 @@
  */
 package org.robobinding.viewattribute.listview;
 
+import java.util.Map;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.listview.CheckedItemPositionsAttribute.MapCheckedItemPositionsAttribute;
+
+import android.widget.ListView;
+
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class MapCheckedItemPositionsAttributeTest
+public class MapCheckedItemPositionsAttributeTest extends AbstractCheckedItemPositionsAttributeTest<ListView, MapCheckedItemPositionsAttribute>
 {
+	private Map<Integer, Boolean> checkedItemPositions;
+	
+	@Before
+	public void setUp()
+	{
+		super.setUp();
+		
+		checkedItemPositions = asMap(anySparseBooleanArray());
+	}
+	@Test
+	public void whenValueModelUpdated_thenViewShouldReflectChanges()
+	{
+		attribute.valueModelUpdated(checkedItemPositions);
+		
+		assertMapEquals(checkedItemPositions, asMap(view.getCheckedItemPositions()));
+	}
+	
+	@Test
+	public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly()
+	{
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		ValueModel<Map<Integer, Boolean>> valueModel = (ValueModel)twoWayBindToProperty(Map.class);
+		
+		setItemsChecked(asSet(checkedItemPositions));
+		
+		assertMapEquals(checkedItemPositions, valueModel.getValue());
+	}
 
 }
