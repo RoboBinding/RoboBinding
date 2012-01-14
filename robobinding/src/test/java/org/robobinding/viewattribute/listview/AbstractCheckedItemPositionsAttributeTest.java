@@ -15,14 +15,9 @@
  */
 package org.robobinding.viewattribute.listview;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.internal.com_google_common.collect.Sets;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.RandomValues;
@@ -80,56 +75,5 @@ public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends
 			}
 		}
 		return sparseBooleanArray;
-	}
-	
-	protected void assertSparseBooleanArrayEquals(SparseBooleanArray expected, SparseBooleanArray actual)
-	{
-		Set<Integer> expectedSet = asSet(expected);
-		Set<Integer> actualSet = asSet(actual);
-		assertEquals(expectedSet, actualSet);
-	}
-
-	
-	protected void assertMapEquals(Map<Integer, Boolean> expected, Map<Integer, Boolean> actual)
-	{
-		Set<Integer> expectedSet = asSet(expected);
-		Set<Integer> actualSet = asSet(actual);
-		assertEquals(expectedSet, actualSet);
-	}
-	
-	protected Set<Integer> asSet(SparseBooleanArray array)
-	{
-		Set<Integer> trueSet = Sets.newHashSet();
-		for(int i=0; i<array.size(); i++)
-		{
-			if(array.valueAt(i))
-			{
-				trueSet.add(array.keyAt(i));
-			}
-		}
-		return trueSet;
-	}
-	
-	protected Set<Integer> asSet(Map<Integer, Boolean> map)
-	{
-		Set<Integer> trueSet = Sets.newHashSet();
-		for(Integer key : map.keySet())
-		{
-			if(map.get(key))
-			{
-				trueSet.add(key);
-			}
-		}
-		return trueSet;
-	}
-	
-	protected Map<Integer, Boolean> asMap(SparseBooleanArray array)
-	{
-		Map<Integer, Boolean> map = Maps.newHashMap();
-		for(int i=0; i<array.size(); i++)
-		{
-			map.put(array.keyAt(i), array.valueAt(i));
-		}
-		return map;
 	}
 }

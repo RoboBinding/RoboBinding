@@ -15,6 +15,11 @@
  */
 package org.robobinding.viewattribute.listview;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
@@ -53,9 +58,15 @@ public class SparseBooleanArrayCheckedItemPositionsAttributeTest extends Abstrac
 	{
 		ValueModel<SparseBooleanArray> valueModel = twoWayBindToProperty(SparseBooleanArray.class);
 		
-		setItemsChecked(asSet(checkedItemPositions));
+		setItemsChecked(SparseBooleanArrayUtils.toSet(checkedItemPositions));
 		
 		assertSparseBooleanArrayEquals(checkedItemPositions, valueModel.getValue());
 	}
 
+	private void assertSparseBooleanArrayEquals(SparseBooleanArray expected, SparseBooleanArray actual)
+	{
+		Set<Integer> expectedSet = SparseBooleanArrayUtils.toSet(expected);
+		Set<Integer> actualSet = SparseBooleanArrayUtils.toSet(actual);
+		assertThat(actualSet, equalTo(expectedSet));
+	}
 }

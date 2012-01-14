@@ -42,14 +42,14 @@ public class SetCheckedItemPositionsAttributeTest extends AbstractCheckedItemPos
 	{
 		super.setUp();
 		
-		checkedItemPositions = asSet(anySparseBooleanArray());
+		checkedItemPositions = SparseBooleanArrayUtils.toSet(anySparseBooleanArray());
 	}
 	@Test
 	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		attribute.valueModelUpdated(checkedItemPositions);
 		
-		assertThat(asSet(view.getCheckedItemPositions()), equalTo(checkedItemPositions));
+		assertThat(SparseBooleanArrayUtils.toSet(view.getCheckedItemPositions()), equalTo(checkedItemPositions));
 	}
 	
 	@Test

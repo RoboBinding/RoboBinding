@@ -18,8 +18,6 @@ package org.robobinding.viewattribute.listview;
 import java.util.Map;
 import java.util.Set;
 
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.internal.com_google_common.collect.Sets;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
@@ -63,8 +61,8 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 				@Override
 				public void onItemClick(AdapterView<?> parent, View itemView, int position, long id)
 				{
-					SparseBooleanArray array = view.getCheckedItemPositions();
-					valueModel.setValue(array);
+					SparseBooleanArray checkedItemPositions = view.getCheckedItemPositions();
+					valueModel.setValue(checkedItemPositions);
 				}
 			});
 		}
@@ -88,19 +86,8 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 				@Override
 				public void onItemClick(AdapterView<?> parent, View itemView, int clickedItemPosition, long id)
 				{
-					SparseBooleanArray array = view.getCheckedItemPositions();
-					
-					Set<Integer> checkedItemPositions = Sets.newHashSet();
-					for(int i=0; i<array.size(); i++)
-					{
-						if(array.valueAt(i))
-						{
-							int position = array.keyAt(i);
-							checkedItemPositions.add(position);
-						}
-					}
-					
-					valueModel.setValue(checkedItemPositions);
+					SparseBooleanArray checkedItemPositions = view.getCheckedItemPositions();
+					valueModel.setValue(SparseBooleanArrayUtils.toSet(checkedItemPositions));
 				}
 			});
 		}
@@ -124,15 +111,8 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 				@Override
 				public void onItemClick(AdapterView<?> parent, View itemView, int clickedItemPosition, long id)
 				{
-					SparseBooleanArray array = view.getCheckedItemPositions();
-					
-					Map<Integer, Boolean> checkedItemPositions = Maps.newHashMap();
-					for(int i=0; i<array.size(); i++)
-					{
-						checkedItemPositions.put(array.keyAt(i), array.valueAt(i));
-					}
-					
-					valueModel.setValue(checkedItemPositions);
+					SparseBooleanArray checkedItemPositions = view.getCheckedItemPositions();
+					valueModel.setValue(SparseBooleanArrayUtils.toMap(checkedItemPositions));
 				}
 			});
 		}
