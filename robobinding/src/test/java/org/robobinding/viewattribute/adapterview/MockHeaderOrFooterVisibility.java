@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.listview;
+package org.robobinding.viewattribute.adapterview;
+
+import org.robobinding.viewattribute.adapterview.SubViewVisibility;
 
 import android.view.View;
 
@@ -23,7 +25,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class MockHeaderOrFooterVisibility extends HeaderOrFooterVisibility
+class MockHeaderOrFooterVisibility extends SubViewVisibility
 {
 	int state;
 

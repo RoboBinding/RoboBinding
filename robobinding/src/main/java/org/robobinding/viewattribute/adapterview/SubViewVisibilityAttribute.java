@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.listview;
+package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
@@ -29,12 +29,12 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class HeaderOrFooterVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<ListView>
+public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<ListView>
 {
-	private HeaderOrFooterVisibility headerOrFooterVisibility;
-	HeaderOrFooterVisibilityAttribute(HeaderOrFooterVisibility headerOrFooterVisibility)
+	private SubViewVisibility subViewVisibility;
+	SubViewVisibilityAttribute(SubViewVisibility subViewVisibility)
 	{
-		this.headerOrFooterVisibility = headerOrFooterVisibility;
+		this.subViewVisibility = subViewVisibility;
 	}
 	@Override
 	protected AbstractPropertyViewAttribute<ListView, ?> createPropertyViewAttribute(Class<?> propertyType)
@@ -51,9 +51,9 @@ public class HeaderOrFooterVisibilityAttribute extends AbstractMultiTypeProperty
 		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
 	}
 	
-	public static HeaderOrFooterVisibilityAttribute create(View headerOrFooterView)
+	public static SubViewVisibilityAttribute create(View headerOrFooterView)
 	{
-		return new HeaderOrFooterVisibilityAttribute(new HeaderOrFooterVisibility(headerOrFooterView));
+		return new SubViewVisibilityAttribute(new SubViewVisibility(headerOrFooterView));
 	}
 	
 	class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<ListView, Boolean>
@@ -63,10 +63,10 @@ public class HeaderOrFooterVisibilityAttribute extends AbstractMultiTypeProperty
 		{
 			if(newValue)
 			{
-				headerOrFooterVisibility.makeVisible();
+				subViewVisibility.makeVisible();
 			}else
 			{
-				headerOrFooterVisibility.makeGone();
+				subViewVisibility.makeGone();
 			}
 		}
 	}
@@ -76,7 +76,7 @@ public class HeaderOrFooterVisibilityAttribute extends AbstractMultiTypeProperty
 		@Override
 		protected void valueModelUpdated(Integer newValue)
 		{
-			headerOrFooterVisibility.setVisibility(newValue);
+			subViewVisibility.setVisibility(newValue);
 		}
 	}
 }

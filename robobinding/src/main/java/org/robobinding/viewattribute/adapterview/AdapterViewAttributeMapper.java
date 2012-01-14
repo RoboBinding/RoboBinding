@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.widget.AdapterView;
 
@@ -34,6 +34,9 @@ public class AdapterViewAttributeMapper implements BindingAttributeMapper<Adapte
 	{
 		mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, AbstractAdaptedDataSetAttributes.SOURCE, 
 				AbstractAdaptedDataSetAttributes.ITEM_LAYOUT, AbstractAdaptedDataSetAttributes.ITEM_MAPPING);
+		
+		mappings.mapGroupedAttribute(EmptyViewAttributes.class, EmptyViewAttributes.EMPTY_VIEW_LAYOUT, EmptyViewAttributes.EMPTY_VIEW_PRESENTATION_MODEL,
+				EmptyViewAttributes.EMPTY_VIEW_VISIBILITY);
 		
 		mappings.mapCommandAttribute(OnItemClickAttribute.class, "onItemClick");
 		mappings.mapCommandAttribute(OnItemSelectedAttribute.class, "onItemSelected");
