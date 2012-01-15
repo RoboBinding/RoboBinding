@@ -32,12 +32,12 @@ import android.view.View;
 @SuppressWarnings("unchecked")
 public class ViewAttributeInjectorTest
 {
-	private ViewAttributeInjector viewAttributeInjector;
+	private ViewAttributeInstantiator viewAttributeInjector;
 
 	@Before
 	public void setUp()
 	{
-		viewAttributeInjector = new ViewAttributeInjector();
+		viewAttributeInjector = new ViewAttributeInstantiator();
 	}
 	
 	@Test

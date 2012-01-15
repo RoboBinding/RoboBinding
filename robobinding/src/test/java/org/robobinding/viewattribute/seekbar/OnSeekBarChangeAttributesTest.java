@@ -55,7 +55,7 @@ public class OnSeekBarChangeAttributesTest
 	{
 		when(mockGroupedAttributeDetails.hasAttribute("progress")).thenReturn(true);
 		
-		onSeekBarAttributes.initializeChildViewAttributes();
+		onSeekBarAttributes.postInitialization();
 		
 		assertThatAttributeWasCreated(TwoWayProgressAttribute.class);
 	}
@@ -65,7 +65,7 @@ public class OnSeekBarChangeAttributesTest
 	{
 		when(mockGroupedAttributeDetails.hasAttribute("onSeekBarChange")).thenReturn(true);
 		
-		onSeekBarAttributes.initializeChildViewAttributes();
+		onSeekBarAttributes.postInitialization();
 		
 		assertThatAttributeWasCreated(OnSeekBarChangeAttribute.class);
 	}
@@ -76,7 +76,7 @@ public class OnSeekBarChangeAttributesTest
 		when(mockGroupedAttributeDetails.hasAttribute("progress")).thenReturn(true);
 		when(mockGroupedAttributeDetails.hasAttribute("onSeekBarChange")).thenReturn(true);
 		
-		onSeekBarAttributes.initializeChildViewAttributes();
+		onSeekBarAttributes.postInitialization();
 		
 		assertThatAttributeWasCreated(TwoWayProgressAttribute.class);
 		assertThatAttributeWasCreated(OnSeekBarChangeAttribute.class);

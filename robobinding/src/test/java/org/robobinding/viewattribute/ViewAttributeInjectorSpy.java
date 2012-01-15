@@ -6,11 +6,11 @@ import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeInjector;
+import org.robobinding.viewattribute.ViewAttributeInstantiator;
 
 import android.view.View;
 
-public class ViewAttributeInjectorSpy extends ViewAttributeInjector
+public class ViewAttributeInjectorSpy extends ViewAttributeInstantiator
 {
 	private List<Class<? extends ViewAttribute>> attributesInjected = Lists.newArrayList();
 	

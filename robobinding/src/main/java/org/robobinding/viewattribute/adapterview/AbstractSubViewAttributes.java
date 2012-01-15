@@ -39,14 +39,9 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	private View subView;
 	
 	@Override
-	protected void initializeChildViewAttributes()
+	protected String[] getCompulsoryAttributes()
 	{
-		validateAttributes();
-	}
-	
-	private void validateAttributes()
-	{
-		assertAttributesArePresent(layoutAttribute());
+		return new String[]{layoutAttribute()};
 	}
 
 	@Override

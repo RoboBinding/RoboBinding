@@ -21,6 +21,7 @@ import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.ViewAttributeInstantiator;
 
 import android.content.Context;
 import android.widget.SeekBar;
@@ -39,24 +40,23 @@ public class OnSeekBarChangeAttributes extends AbstractGroupedViewAttribute<Seek
 	private List<ViewAttribute> viewAttributes;
 
 	@Override
-	protected void initializeChildViewAttributes()
+	protected void postInitialization()
 	{
 		viewAttributes = Lists.newArrayList();
 		
 		OnSeekBarChangeListeners onSeekBarChangeListeners = new OnSeekBarChangeListeners();
 		
+		ViewAttributeInstantiator<SeekBar> viewAttributeInstantiator = getViewAttributeInstantiator();
 		if (groupedAttributeDetails.hasAttribute(PROGRESS))
 		{
-			TwoWayProgressAttribute twoWayProgressAttribute = new TwoWayProgressAttribute();
+			TwoWayProgressAttribute twoWayProgressAttribute = viewAttributeInstantiator.newPropertyViewAttribute(TwoWayProgressAttribute.class, PROGRESS);
 			twoWayProgressAttribute.setOnSeekBarChangeListeners(onSeekBarChangeListeners);
-			injectPropertyAttributeValues(twoWayProgressAttribute, PROGRESS);
 			viewAttributes.add(twoWayProgressAttribute);
 		}
 		if (groupedAttributeDetails.hasAttribute(ON_SEEK_BAR_CHANGE))
 		{
-			OnSeekBarChangeAttribute onSeekBarChangeAttribute = new OnSeekBarChangeAttribute();
+			OnSeekBarChangeAttribute onSeekBarChangeAttribute = viewAttributeInstantiator.newCommandViewAttribute(OnSeekBarChangeAttribute.class, ON_SEEK_BAR_CHANGE);
 			onSeekBarChangeAttribute.setOnSeekBarChangeListeners(onSeekBarChangeListeners);
-			injectCommandAttributeValues(onSeekBarChangeAttribute, ON_SEEK_BAR_CHANGE);
 			viewAttributes.add(onSeekBarChangeAttribute);
 		}
 	}

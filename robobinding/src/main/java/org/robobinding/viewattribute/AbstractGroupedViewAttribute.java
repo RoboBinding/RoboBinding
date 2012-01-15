@@ -33,7 +33,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected T view;
 	protected boolean preInitializeViews;
 	protected GroupedAttributeDetails groupedAttributeDetails;
-	private ViewAttributeInjector viewAttributeInjector;
+	private ViewAttributeInstantiator<T> viewAttributeInstantiator;
 	
 	public void setView(T view)
 	{
@@ -46,12 +46,27 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	public void setGroupedAttributeDetails(GroupedAttributeDetails groupedAttributeDetails)
 	{
 		this.groupedAttributeDetails = groupedAttributeDetails;
-		initializeChildViewAttributes();
+		
+		validateAttributes();
+	}
+	private void validateAttributes()
+	{
+		String[] compulsoryAttributes = getCompulsoryAttributes();
+		if((compulsoryAttributes != null) && (compulsoryAttributes.length > 0))
+		{
+			assertAttributesArePresent(compulsoryAttributes);
+		}
+	}
+	protected String[] getCompulsoryAttributes()
+	{
+		return null;
 	}
 	
-	protected abstract void initializeChildViewAttributes();
+	protected void postInitialization()
+	{
+	}
 	
-	protected void assertAttributesArePresent(String... attributes)
+	private void assertAttributesArePresent(String... attributes)
 	{
 		if(!groupedAttributeDetails.hasAttributes(attributes))
 		{
@@ -61,26 +76,10 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		}
 	}
 	
-	public void setViewAttributeInjector(ViewAttributeInjector viewAttributeInjector)
+	protected ViewAttributeInstantiator<T> getViewAttributeInstantiator()
 	{
-		this.viewAttributeInjector = viewAttributeInjector;
-	}
-	
-	protected void injectPropertyAttributeValues(PropertyViewAttribute<T> propertyViewAttribute, String attributeName)
-	{
-		ensureViewAttributeInjector();
-		viewAttributeInjector.injectPropertyAttributeValues(propertyViewAttribute, view, groupedAttributeDetails.attributeValueFor(attributeName), preInitializeViews);
-	}
-	
-	protected void injectCommandAttributeValues(AbstractCommandViewAttribute<T> commandViewAttribute, String attributeName)
-	{
-		ensureViewAttributeInjector();
-		viewAttributeInjector.injectCommandAttributeValues(commandViewAttribute, view, groupedAttributeDetails.attributeValueFor(attributeName));
-	}
-	
-	private void ensureViewAttributeInjector()
-	{
-		if (viewAttributeInjector == null)
-			viewAttributeInjector = new ViewAttributeInjector();
+		if (viewAttributeInstantiator == null)
+			viewAttributeInstantiator = new ViewAttributeInstantiator<T>(view, preInitializeViews, groupedAttributeDetails);
+		return viewAttributeInstantiator;
 	}
 }
