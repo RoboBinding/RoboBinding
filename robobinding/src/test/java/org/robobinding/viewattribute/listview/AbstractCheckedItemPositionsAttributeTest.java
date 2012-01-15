@@ -18,11 +18,11 @@ package org.robobinding.viewattribute.listview;
 import java.util.Set;
 
 import org.junit.Before;
+import org.robobinding.R;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.RandomValues;
 
-import android.R;
 import android.util.SparseBooleanArray;
 import android.widget.ListAdapter;
 import android.widget.ListView;

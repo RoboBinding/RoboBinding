@@ -54,9 +54,11 @@ public final class R {
         public static final int sample_dropdown_layout=0x7f03000c;
         public static final int sample_item_layout=0x7f03000d;
         public static final int seek_bar=0x7f03000e;
-        public static final int text_view=0x7f03000f;
-        public static final int two_bound_views_activity=0x7f030010;
-        public static final int view=0x7f030011;
+        public static final int simple_list_item_multiple_choice=0x7f03000f;
+        public static final int simple_list_item_single_choice=0x7f030010;
+        public static final int text_view=0x7f030011;
+        public static final int two_bound_views_activity=0x7f030012;
+        public static final int view=0x7f030013;
     }
     public static final class string {
         public static final int app_name=0x7f040001;

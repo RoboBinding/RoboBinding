@@ -20,13 +20,13 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.R;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import com.xtremelabs.robolectric.Robolectric;
 
-import android.R;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
