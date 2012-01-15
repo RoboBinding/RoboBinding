@@ -51,7 +51,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="sample.robobinding.DynamicDropdownLayoutSpinnerAlbumsActivity"
+            android:name=".DynamicDropdownLayoutSpinnerAlbumsActivity"
             android:label="@string/app_name" >
         </activity>
     </application>

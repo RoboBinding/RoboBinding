@@ -18,13 +18,14 @@ package org.robobinding.binder;
 import java.util.Map;
 import java.util.Queue;
 
-import org.robobinding.customwidget.BindableView;
-import org.robobinding.customwidget.CustomWidgetUtils;
+import org.robobinding.customview.BindableView;
+import org.robobinding.customview.CustomViewUtils;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeMapperAdapter;
 import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.absspinner.AbsSpinnerAttributeMapper;
 import org.robobinding.viewattribute.adapterview.AdapterViewAttributeMapper;
 import org.robobinding.viewattribute.compoundbutton.CompoundButtonAttributeMapper;
 import org.robobinding.viewattribute.imageview.ImageViewAttributeMapper;
@@ -36,6 +37,7 @@ import org.robobinding.viewattribute.textview.TextViewAttributeMapper;
 import org.robobinding.viewattribute.view.ViewAttributeMapper;
 
 import android.view.View;
+import android.widget.AbsSpinner;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -68,6 +70,7 @@ public class BindingAttributeProvidersResolver
 		bindingAttributeProvidersMap.put(SeekBar.class, adapt(new SeekBarAttributeMapper()));
 		bindingAttributeProvidersMap.put(RatingBar.class, adapt(new RatingBarAttributeMapper()));
 		bindingAttributeProvidersMap.put(ListView.class, adapt(new ListViewAttributeMapper()));
+		bindingAttributeProvidersMap.put(AbsSpinner.class, adapt(new AbsSpinnerAttributeMapper()));
 	}
 	
 	private <T extends View> BindingAttributeProvider<T> adapt(BindingAttributeMapper<T> mapper)
@@ -80,9 +83,9 @@ public class BindingAttributeProvidersResolver
 	{
 		Queue<BindingAttributeProvider<? extends View>> candidateProviders = Lists.newLinkedList();
 		
-		if (CustomWidgetUtils.isCustomWidget(view))
+		if (CustomViewUtils.isCustomWidget(view))
 		{
-			candidateProviders.add(CustomWidgetUtils.adapt((BindableView)view));
+			candidateProviders.add(CustomViewUtils.adapt((BindableView)view));
 		}
 				
 		processViewHierarchy(view.getClass(), candidateProviders);

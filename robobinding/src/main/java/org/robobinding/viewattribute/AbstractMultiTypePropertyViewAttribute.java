@@ -52,6 +52,11 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		this.preInitializeViews = preInitializeViews;
 	}
 	
+	public boolean isTwoWayBinding()
+	{
+		return propertyBindingDetails.twoWayBinding;
+	}
+	
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{

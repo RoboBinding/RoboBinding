@@ -25,6 +25,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.viewattribute.GroupedAttributeDetails;
 import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.ViewAttributeInjectorSpy;
+
 
 /**
  *
@@ -36,6 +38,7 @@ public class OnSeekBarChangeAttributesTest
 {
 	private OnSeekBarChangeAttributes onSeekBarAttributes;
 	private GroupedAttributeDetails mockGroupedAttributeDetails;
+	private ViewAttributeInjectorSpy viewAttributeInjectorSpy;
 
 	@Before
 	public void setUp()
@@ -43,6 +46,8 @@ public class OnSeekBarChangeAttributesTest
 		onSeekBarAttributes = new OnSeekBarChangeAttributes();
 		mockGroupedAttributeDetails = mock(GroupedAttributeDetails.class);
 		onSeekBarAttributes.setGroupedAttributeDetails(mockGroupedAttributeDetails);
+		viewAttributeInjectorSpy = new ViewAttributeInjectorSpy();
+		onSeekBarAttributes.setViewAttributeInjector(viewAttributeInjectorSpy);
 	}
 	
 	@Test
@@ -77,14 +82,14 @@ public class OnSeekBarChangeAttributesTest
 		assertThatAttributeWasCreated(OnSeekBarChangeAttribute.class);
 	}
 	
-	private void assertThatAttributeWasCreated(Class<?> attributeClass)
+	private void assertThatAttributeWasCreated(Class<? extends ViewAttribute> viewAttributeClass)
 	{
 		List<ViewAttribute> viewAttributes = onSeekBarAttributes.getViewAttributes();
 		boolean instanceFound = false;
 		
 		for (ViewAttribute viewAttribute : viewAttributes)
 		{
-			if (viewAttribute.getClass().isAssignableFrom(attributeClass))
+			if (viewAttribute.getClass().isAssignableFrom(viewAttributeClass))
 			{
 				instanceFound = true;
 				break;
@@ -92,6 +97,7 @@ public class OnSeekBarChangeAttributesTest
 		}
 		
 		assertTrue(instanceFound);
+		assertTrue(viewAttributeInjectorSpy.viewAttributeValuesInjected(viewAttributeClass));
 	}
 	
 }

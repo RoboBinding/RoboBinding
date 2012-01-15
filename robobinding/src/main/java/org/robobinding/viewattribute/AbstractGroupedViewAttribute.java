@@ -33,6 +33,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected T view;
 	protected boolean preInitializeViews;
 	protected GroupedAttributeDetails groupedAttributeDetails;
+	private ViewAttributeInjector viewAttributeInjector;
 	
 	public void setView(T view)
 	{
@@ -58,5 +59,28 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
 					getClass().getName(), view.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
 		}
+	}
+	
+	public void setViewAttributeInjector(ViewAttributeInjector viewAttributeInjector)
+	{
+		this.viewAttributeInjector = viewAttributeInjector;
+	}
+	
+	protected void injectPropertyAttributeValues(PropertyViewAttribute<T> propertyViewAttribute, String attributeName)
+	{
+		ensureViewAttributeInjector();
+		viewAttributeInjector.injectPropertyAttributeValues(propertyViewAttribute, view, groupedAttributeDetails.attributeValueFor(attributeName), preInitializeViews);
+	}
+	
+	protected void injectCommandAttributeValues(AbstractCommandViewAttribute<T> commandViewAttribute, String attributeName)
+	{
+		ensureViewAttributeInjector();
+		viewAttributeInjector.injectCommandAttributeValues(commandViewAttribute, view, groupedAttributeDetails.attributeValueFor(attributeName));
+	}
+	
+	private void ensureViewAttributeInjector()
+	{
+		if (viewAttributeInjector == null)
+			viewAttributeInjector = new ViewAttributeInjector();
 	}
 }

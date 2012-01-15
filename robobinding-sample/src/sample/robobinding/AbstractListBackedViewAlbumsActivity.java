@@ -29,7 +29,7 @@ import android.os.Bundle;
  */
 public abstract class AbstractListBackedViewAlbumsActivity extends Activity
 {
-	private ListBackedViewAlbumsPresentationModel viewAlbumsPresentationModel;
+	protected ListBackedViewAlbumsPresentationModel viewAlbumsPresentationModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)

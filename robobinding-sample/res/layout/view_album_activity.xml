@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://robobinding.org/android"
+    xmlns:rs="http://schemas.android.com/apk/res/sample.robobinding"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <Button
-        android:id="@+id/delete_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        bind:onClick="deleteAlbum"
-        android:text="@string/delete" />
-
-    <Button
-        android:id="@+id/edit_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/delete_button"
-        bind:onClick="editAlbum"
-        android:text="@string/edit" />
-
+    <sample.robobinding.customview.NavigationBar
+        android:id="@+id/navigation_bar"
+        android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:layout_alignParentBottom="true"
+	    bind:leftButtonAction="deleteAlbum"
+	    bind:rightButtonAction="editAlbum"
+	    rs:leftButtonLabel="@string/delete"
+	    rs:rightButtonLabel="@string/edit"
+	    style="@android:style/ButtonBar" />
+    
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/edit_button" >
+        android:layout_above="@id/navigation_bar" >
 
         <LinearLayout
             android:layout_width="fill_parent"

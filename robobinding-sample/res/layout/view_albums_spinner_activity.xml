@@ -2,29 +2,27 @@
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:bind="http://robobinding.org/android"
+  xmlns:rs="http://schemas.android.com/apk/res/sample.robobinding"
   android:layout_width="match_parent"
   android:layout_height="match_parent" >
     
-    <TextView android:id="@+id/window_title"
+    <TextView 
+        android:id="@+id/window_title"
 		android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
 	    android:text="@string/view_albums"
 	    style="@style/ScreenTitle" />
     
-    <Button android:id="@+id/create_button"
-    	android:layout_width="fill_parent"
-  		android:layout_height="wrap_content"
-  		android:layout_alignParentBottom="true"
-  		android:text="@string/create"
-  		bind:onClick="createAlbum" />
-    
-    <Button
-    	android:layout_width="fill_parent"
-  		android:layout_height="wrap_content"
-  		android:layout_above="@id/create_button"
-  		android:text="@string/view"
-  		bind:onClick="viewAlbum"
-  		bind:enabled="{viewAlbumFieldsEnabled}" />
+    <sample.robobinding.customview.NavigationBar
+        android:id="@+id/navigation_bar"
+        android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:layout_alignParentBottom="true"
+	    bind:leftButtonAction="createAlbum"
+	    bind:rightButtonAction="viewAlbum"
+	    rs:leftButtonLabel="@string/create"
+	    rs:rightButtonLabel="@string/view"
+	    style="@android:style/ButtonBar" />
     
     <Spinner 
     	android:layout_width="fill_parent"
