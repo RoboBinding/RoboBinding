@@ -34,13 +34,13 @@ public class ArrayDataSetProperty<T> extends AbstractDataSetProperty<T>
 		if (isDataSetNull())
 			return 0;
 		
-		T[] array = getCachedDataSet();
+		T[] array = getDataSet();
 		return array.length;
 	}
 	@Override
 	public T getItem(int position)
 	{
-		T[] array = getCachedDataSet();
+		T[] array = getDataSet();
 		return array[position];
 	}
 }

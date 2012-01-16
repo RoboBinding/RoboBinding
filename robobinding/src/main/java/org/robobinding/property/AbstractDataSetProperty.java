@@ -29,12 +29,12 @@ import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> implements DataSetProperty<T>
+abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> implements DataSetProperty<T>, PresentationModelPropertyChangeListener
 {
 	private ItemPresentationModelFactory<T> factory;
 	private Object bean;
-	private boolean isDataSetCached;
-	private Object cachedDataSet;
+	private boolean isDataSetNotInitialized;
+	private Object dataSet;
 
 	protected AbstractDataSetProperty(ObservableBean observableBean, PropertyAccessor<Object> propertyAccessor)
 	{
@@ -42,7 +42,8 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 		
 		this.bean = observableBean.getBean();
 		initializeFactory();
-		isDataSetCached = false;
+		isDataSetNotInitialized = true;
+		addPropertyChangeListener(this);
 	}
 	
 	private void initializeFactory()
@@ -60,30 +61,34 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 		}
 	}
 	@Override
-	public Object getValue()
+	public final Object getValue()
 	{
-		cachedDataSet = super.getValue();
-		isDataSetCached = true;
-		return cachedDataSet;
+		throw new UnsupportedOperationException();
 	}
 	
 	@SuppressWarnings("unchecked")
-	protected <DataSetType> DataSetType getCachedDataSet()
+	protected <DataSetType> DataSetType getDataSet()
 	{
-		if(isDataSetCached)
+		if(isDataSetNotInitialized)
 		{
-			return (DataSetType)cachedDataSet;
+			updateDataSet();
+			isDataSetNotInitialized = false;
 		}
-		return (DataSetType)getValue();
+		return (DataSetType)dataSet;
 	}
 	
+	private void updateDataSet()
+	{
+		dataSet = super.getValue();
+	}
+
 	protected boolean isDataSetNull()
 	{
-		return getCachedDataSet() == null;
+		return getDataSet() == null;
 	}
 	
 	@Override
-	public void setValue(Object newValue)
+	public final void setValue(Object newValue)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -96,5 +101,11 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 	{
 		T item = getItem(position);
 		itemPresentationModel.updateData(position, item);
+	}
+	
+	@Override
+	public final void propertyChanged()
+	{
+		updateDataSet();
 	}
 }

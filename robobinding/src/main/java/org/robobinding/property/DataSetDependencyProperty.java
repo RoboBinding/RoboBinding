@@ -24,10 +24,11 @@ package org.robobinding.property;
 class DataSetDependencyProperty<T> extends DataSetPropertyWrapper<T>
 {
 	private Dependency dependency;
-	public DataSetDependencyProperty(DataSetProperty<T> dataSetProperty, Dependency dependency)
+	public DataSetDependencyProperty(AbstractDataSetProperty<T> dataSetProperty, Dependency dependency)
 	{
 		super(dataSetProperty);
 		this.dependency = dependency;
+		dependency.addListenerToDependentProperties(dataSetProperty);
 	}
 	@Override
 	public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener)

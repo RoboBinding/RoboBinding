@@ -38,13 +38,13 @@ class CursorDataSetProperty<T> extends AbstractDataSetProperty<T>
 		{
 			return 0;
 		}
-		TypedCursor<T> cursor = getCachedDataSet();
+		TypedCursor<T> cursor = getDataSet();
 		return cursor.getCount();
 	}
 	@Override
 	public T getItem(int position)
 	{
-		TypedCursor<T> cursor = getCachedDataSet();
+		TypedCursor<T> cursor = getDataSet();
 		return cursor.getObjectAtPosition(position);
 	}
 }

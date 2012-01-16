@@ -66,10 +66,17 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 		}
 	}
 	
-	protected <C> ValueModel<C> twoWayBindToProperty(Class<C> propertyClass)
+	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass)
 	{
 		attribute.setAttributeValue(MockPresentationModelForProperty.TWO_WAY_BINDING_PROPERTY_NAME);
-		MockPresentationModelForProperty<C> mockPresentationModelForProperty = MockPresentationModelForProperty.bindToProperty(attribute, propertyClass);
+		MockPresentationModelForProperty<PropertyType> mockPresentationModelForProperty = MockPresentationModelForProperty.bindToProperty(attribute, propertyClass);
 		return mockPresentationModelForProperty.getPropertyValueModel();
+	}
+	
+	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass, PropertyType initialValue)
+	{
+		ValueModel<PropertyType> valueModel = twoWayBindToProperty(propertyClass);
+		valueModel.setValue(initialValue);
+		return valueModel;
 	}
 }

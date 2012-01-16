@@ -15,7 +15,11 @@
  */
 package org.robobinding.property;
 
+import java.util.List;
+
 import org.robobinding.DependsOnStateOf;
+import org.robobinding.ItemPresentationModel;
+import org.robobinding.itempresentationmodel.TypedCursor;
 import org.robobinding.property.ObservableProperties;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 import org.robobinding.property.PresentationModelPropertyChangeListeners;
@@ -30,6 +34,12 @@ import org.robobinding.property.PresentationModelPropertyChangeSupport;
  */
 public class ObservableTestBean extends Bean implements ObservableProperties
 {
+	public static final String LIST_DATA_SET_PROPERTY = "listDataSetProperty";
+	public static final String ARRAY_DATA_SET_PROPERTY = "arrayDataSetProperty";
+	public static final String CURSOR_DATA_SET_PROPERTY = "cursorDataSetProperty";
+	public static final String UNSUPPORTED_DATA_SET_PROPERTY = "UnsupportedDataSetProperty";
+	public static final String DATA_SET_PROPERTY_WITHOUT_ITEM_PRESENTATION_MODEL_ANNOTATION = "DataSetPropertyWithoutItemPresentationModelAnnotation";
+	
 	public static final String PROPERTY_WITH_VALID_DEPENDENT_PROPERTIES = "propertyWithValidDependentProperties";
 	public static final String DEPENDENT_PROPERTY = "dependentProperty";
 	public static final String PROPERTY_WITH_DUPLICATED_DEPENDENT_PROPERTIES = "propertyWithDuplicatedDependentProperties";
@@ -40,6 +50,30 @@ public class ObservableTestBean extends Bean implements ObservableProperties
 	public ObservableTestBean()
 	{
 		propertyChangeSupport = new PresentationModelPropertyChangeSupport(this);
+	}
+	@ItemPresentationModel(ItemPresentationModelImpl.class)
+	public List<Object> getListDataSetProperty()
+	{
+		return null;
+	}
+	@ItemPresentationModel(ItemPresentationModelImpl.class)
+	public Object[] getArrayDataSetProperty()
+	{
+		return null;
+	}
+	@ItemPresentationModel(ItemPresentationModelImpl.class)
+	public TypedCursor<Object> getCursorDataSetProperty()
+	{
+		return null;
+	}
+	@ItemPresentationModel(ItemPresentationModelImpl.class)
+	public Object[] getUnsupportedDataSetProperty()
+	{
+		return null;
+	}
+	public List<Object> getDataSetPropertyWithoutItemPresentationModelAnnotation()
+	{
+		return null;
 	}
 	@DependsOnStateOf({DEPENDENT_PROPERTY,PROPERTY})
 	public boolean getPropertyWithValidDependentProperties()

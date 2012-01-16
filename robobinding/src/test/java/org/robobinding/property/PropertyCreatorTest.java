@@ -32,7 +32,7 @@ public class PropertyCreatorTest
 	@Before
 	public void setUp()
 	{
-		propertyCreator = new PropertyCreator(new Bean());
+		propertyCreator = new PropertyCreator(new ObservableTestBean());
 	}
 	@Test(expected=RuntimeException.class)
 	public void whenCreateNonExistingProperty_thenThrowException()
@@ -42,32 +42,32 @@ public class PropertyCreatorTest
 	@Test
 	public void whenCreateListDataSetProperty_thenReturnInstance()
 	{
-		DataSetProperty<Object> listDataSetProperty = propertyCreator.createDataSetProperty(Bean.LIST_DATA_SET_PROPERTY);
+		DataSetProperty<Object> listDataSetProperty = propertyCreator.createDataSetProperty(ObservableTestBean.LIST_DATA_SET_PROPERTY);
 		
 		Assert.assertNotNull(listDataSetProperty);
 	}
 	@Test
 	public void whenCreateArrayDataSetProperty_thenReturnInstance()
 	{
-		DataSetProperty<Object> arrayDataSetProperty = propertyCreator.createDataSetProperty(Bean.ARRAY_DATA_SET_PROPERTY);
+		DataSetProperty<Object> arrayDataSetProperty = propertyCreator.createDataSetProperty(ObservableTestBean.ARRAY_DATA_SET_PROPERTY);
 		
 		Assert.assertNotNull(arrayDataSetProperty);
 	}
 	@Test
 	public void whenCreateCursorDataSetProperty_thenReturnInstance()
 	{
-		DataSetProperty<Object> cursorDataSetProperty = propertyCreator.createDataSetProperty(Bean.CURSOR_DATA_SET_PROPERTY);
+		DataSetProperty<Object> cursorDataSetProperty = propertyCreator.createDataSetProperty(ObservableTestBean.CURSOR_DATA_SET_PROPERTY);
 		
 		Assert.assertNotNull(cursorDataSetProperty);
 	}
 	@Test(expected=RuntimeException.class)
 	public void whenCreateUnsupportedDataSetProperty_thenThrowException()
 	{
-		propertyCreator.createDataSetProperty(Bean.UNSUPPORTED_DATA_SET_PROPERTY);
+		propertyCreator.createDataSetProperty(ObservableTestBean.UNSUPPORTED_DATA_SET_PROPERTY);
 	}
 	@Test(expected=RuntimeException.class)
 	public void whenCreateDataSetPropertyWithoutItemPresentationModelAnnotation_thenThrowException()
 	{
-		propertyCreator.createDataSetProperty(Bean.DATA_SET_PROPERTY_WITHOUT_ITEM_PRESENTATION_MODEL_ANNOTATION);
+		propertyCreator.createDataSetProperty(ObservableTestBean.DATA_SET_PROPERTY_WITHOUT_ITEM_PRESENTATION_MODEL_ANNOTATION);
 	}
 }

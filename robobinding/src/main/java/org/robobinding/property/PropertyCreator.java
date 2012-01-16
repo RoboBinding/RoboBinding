@@ -80,7 +80,7 @@ class PropertyCreator
 		PropertyAccessor<Object> propertyAccessor = getPropertyAccessor(propertyName);
 		if(propertyAccessor.hasAnnotation(ItemPresentationModel.class))
 		{
-			DataSetProperty<T> dataSetProperty = null;
+			AbstractDataSetProperty<T> dataSetProperty = null;
 			if(List.class.isAssignableFrom(propertyAccessor.getPropertyType()))
 			{
 				dataSetProperty = new ListDataSetProperty<T>(observableBean, propertyAccessor);
@@ -102,7 +102,7 @@ class PropertyCreator
 		}
 	}
 	
-	private <T> DataSetProperty<T> convertAsDataSetDependencyPropertyIfNeccessary(DataSetProperty<T> dataSetProperty)
+	private <T> DataSetProperty<T> convertAsDataSetDependencyPropertyIfNeccessary(AbstractDataSetProperty<T> dataSetProperty)
 	{
 		PropertyAccessor<Object> propertyAccessor = dataSetProperty.getPropertyAccessor();
 		if(propertyAccessor.hasAnnotation(DependsOnStateOf.class))
