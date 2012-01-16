@@ -16,6 +16,7 @@
 package org.robobinding.presentationmodel;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -30,6 +31,7 @@ import org.robobinding.R;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.ValueModelUtils;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.app.Activity;
 import android.content.Context;
@@ -46,35 +48,36 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class DataSetAdapterTest
 {
-	private Context context = new Activity();
-	private DataSetAdapterSpy dataSetAdapterSpy;
+	private DataSetAdapterForTest dataSetAdapter;
 	private MockPresentationModel mockPresentationModel;
+	private DataSetProperty<Object> dataSetProperty;
+	private Context context = new Activity();
 	
 	@Before
 	public void setUp()
 	{
-		dataSetAdapterSpy = new DataSetAdapterSpy(context);
 		mockPresentationModel = new MockPresentationModel();
-		DataSetProperty<Object> dataSetProperty = ValueModelUtils.createDataSetValueModel(mockPresentationModel, "list");
-		dataSetAdapterSpy.setValueModel(dataSetProperty);
+		dataSetProperty = ValueModelUtils.createDataSetValueModel(mockPresentationModel, "list");
 	}
-	
+
 	@Test
 	public void whenUpdatingTheValueModel_thenNotifyDataSetChanged()
 	{
-		dataSetAdapterSpy.observeChangesOnTheValueModel();
+		dataSetAdapterWithViewsPreInitialized();
+		dataSetAdapter.observeChangesOnTheValueModel();
 		
 		mockPresentationModel.update();
 		
-		assertTrue(dataSetAdapterSpy.hasNotifiedDataSetChanged);
+		assertTrue(dataSetAdapter.hasNotifiedDataSetChanged);
 	}
 	
 	@Test
 	public void givenItemLayoutId_whenGeneratingItemView_thenInflateTheCorrectView()
 	{
-		dataSetAdapterSpy.setItemLayoutId(R.layout.sample_item_layout);
+		dataSetAdapterWithViewsPreInitialized();
+		dataSetAdapter.setItemLayoutId(R.layout.sample_item_layout);
 		
-		View view = dataSetAdapterSpy.getView(0, null, null);
+		View view = dataSetAdapter.getView(0, null, null);
 		
 		assertNotNull(view);
 		assertThat(view.getId(), equalTo(R.id.sample_item_layout));
@@ -83,21 +86,56 @@ public class DataSetAdapterTest
 	@Test
 	public void givenDropdownLayoutId_whenGeneratingDropdownView_thenInflateTheCorrectView()
 	{
-		dataSetAdapterSpy.setDropdownLayoutId(R.layout.sample_dropdown_layout);
+		dataSetAdapterWithViewsPreInitialized();
+		dataSetAdapter.setDropdownLayoutId(R.layout.sample_dropdown_layout);
 		
-		View view = dataSetAdapterSpy.getDropDownView(0, null, null);
+		View view = dataSetAdapter.getDropDownView(0, null, null);
 		
 		assertNotNull(view);
 		assertThat(view.getId(), equalTo(R.id.sample_dropdown_layout));
 	}
 	
-	static class DataSetAdapterSpy extends DataSetAdapter<Object>
+	@Test
+	public void givenPreInitializeViewsIsFalse_whenValueModelHasNotBeenUpdated_thenShouldNotHaveAccessedPresentationModel()
+	{
+		dataSetAdapterNotPreInitializingViews();
+		
+		assertThat(mockPresentationModel.listAccessCount, is(0));
+		assertThat(dataSetAdapter.getCount(), is(0));
+	}
+
+	@Test
+	public void givenPreInitializeViewsIsFalse_whenUpdatingValueModel_thenShouldHaveAccessedPresentationModel()
+	{
+		dataSetAdapterNotPreInitializingViews();
+		dataSetAdapter.observeChangesOnTheValueModel();
+		
+		mockPresentationModel.update();
+		
+		assertThat(mockPresentationModel.listAccessCount, is(1));
+		assertThat(dataSetAdapter.getCount(), is(mockPresentationModel.list.size()));
+	}
+	
+	private void dataSetAdapterWithViewsPreInitialized()
+	{
+		dataSetAdapter = new DataSetAdapterForTest(context, true);
+		dataSetAdapter.setValueModel(dataSetProperty);
+	}
+	
+	private DataSetAdapterForTest dataSetAdapterNotPreInitializingViews()
+	{
+		dataSetAdapter = new DataSetAdapterForTest(context, false);
+		dataSetAdapter.setValueModel(dataSetProperty);
+		return dataSetAdapter;
+	}
+	
+	static class DataSetAdapterForTest extends DataSetAdapter<Object>
 	{
 		private boolean hasNotifiedDataSetChanged;
 
-		public DataSetAdapterSpy(Context context)
+		public DataSetAdapterForTest(Context context, boolean preInitializeViews)
 		{
-			super(context);
+			super(context, preInitializeViews);
 		}
 
 		@Override
@@ -109,6 +147,17 @@ public class DataSetAdapterTest
 
 	public static class MockPresentationModel extends AbstractPresentationModel
 	{
+		List<Object> list;
+		int listAccessCount = 0; 
+		
+		public MockPresentationModel()
+		{
+			list = Lists.newArrayList();
+			
+			for (int i = 0; i < RandomValues.anyInteger(); i++)
+				list.add(new Object());
+		}
+		
 		void update()
 		{
 			presentationModelChangeSupport.fireChangeAll();
@@ -117,7 +166,8 @@ public class DataSetAdapterTest
 		@ItemPresentationModel(value = ItemPresentationModelDummy.class)
 		public List<Object> getList()
 		{
-			return Lists.newArrayList(new Object(), new Object());
+			listAccessCount++;
+			return list;
 		}
 	}
 	

@@ -18,6 +18,7 @@ package org.robobinding.presentationmodel;
 import org.robobinding.binder.RowBinder;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetProperty;
+import org.robobinding.property.DataSetPropertyWrapper;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
 import org.robobinding.viewattribute.adapterview.ItemMappingAttribute;
@@ -40,9 +41,13 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private DataSetProperty<T> dataSetValueModel;
 	private final RowBinder rowBinder;
 	
-	public DataSetAdapter(Context context)
+	private boolean preInitializeViews;
+	private boolean propertyChangeEventOccurred = false;
+	
+	public DataSetAdapter(Context context, boolean preInitializeViews)
 	{
-		rowBinder = new RowBinder(context);
+		this.rowBinder = new RowBinder(context);
+		this.preInitializeViews = preInitializeViews;
 	}
 
 	public void observeChangesOnTheValueModel()
@@ -51,6 +56,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 			@Override
 			public void propertyChanged()
 			{
+				propertyChangeEventOccurred = true;
 				notifyDataSetChanged();
 			}
 		});
@@ -58,7 +64,24 @@ public class DataSetAdapter<T> extends BaseAdapter
 
 	public void setValueModel(DataSetProperty<T> valueModel)
 	{
-		this.dataSetValueModel = valueModel;
+		if (!preInitializeViews)
+			returnZeroSizeDataSetUntilPropertyChangeEvent(valueModel);
+		else
+			this.dataSetValueModel = valueModel;
+	}
+
+	private void returnZeroSizeDataSetUntilPropertyChangeEvent(DataSetProperty<T> valueModel)
+	{
+		this.dataSetValueModel = new DataSetPropertyWrapper<T>(valueModel){
+			@Override
+			public int size()
+			{
+				if (propertyChangeEventOccurred)
+					return super.size();
+				
+				return 0;
+			}
+		};
 	}
 	
 	public void setItemLayoutId(int itemLayoutId)

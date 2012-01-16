@@ -58,7 +58,7 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		DataSetAdapter dataSetAdapter = new DataSetAdapter(context);
+		DataSetAdapter dataSetAdapter = new DataSetAdapter(context, preInitializeViews);
 		
 		for (AdapterViewAttribute adapterViewAttribute : childViewAttributes)
 			adapterViewAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
