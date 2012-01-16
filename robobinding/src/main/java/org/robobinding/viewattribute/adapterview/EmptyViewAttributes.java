@@ -16,6 +16,9 @@
 package org.robobinding.viewattribute.adapterview;
 
 
+import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.view.VisibilityAttribute;
+
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -55,4 +58,13 @@ public class EmptyViewAttributes extends AbstractSubViewAttributes<AdapterView<?
 		view.setEmptyView(subView);
 	}
 
+	@Override
+	protected PropertyViewAttribute<View> createVisibilityAttribute(View subView)
+	{
+		VisibilityAttribute visibilityAttribute = new VisibilityAttribute();
+		visibilityAttribute.setView(subView);
+		visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
+		visibilityAttribute.setPreInitializeView(preInitializeViews);
+		return visibilityAttribute;
+	}
 }

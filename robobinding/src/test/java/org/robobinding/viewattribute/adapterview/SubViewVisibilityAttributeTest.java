@@ -18,9 +18,9 @@ package org.robobinding.viewattribute.adapterview;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttributeTest;
-import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
-import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.BooleanSubViewVisibilityAttribute;
-import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.IntegerSubViewVisibilityAttribute;
+import org.robobinding.viewattribute.listview.HeaderOrFooterVisibilityAttribute;
+import org.robobinding.viewattribute.listview.HeaderOrFooterVisibilityAttribute.BooleanHeaderOrFooterVisibilityAttribute;
+import org.robobinding.viewattribute.listview.HeaderOrFooterVisibilityAttribute.IntegerHeaderOrFooterVisibilityAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -31,20 +31,20 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class SubViewVisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<SubViewVisibilityAttribute>
+public class SubViewVisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<HeaderOrFooterVisibilityAttribute>
 {
 	@Override
 	protected void setTypeMappingExpectations()
 	{
-		forPropertyType(int.class).expectAttribute(IntegerSubViewVisibilityAttribute.class);
-		forPropertyType(Integer.class).expectAttribute(IntegerSubViewVisibilityAttribute.class);
-		forPropertyType(Boolean.class).expectAttribute(BooleanSubViewVisibilityAttribute.class);
-		forPropertyType(boolean.class).expectAttribute(BooleanSubViewVisibilityAttribute.class);
+		forPropertyType(int.class).expectAttribute(IntegerHeaderOrFooterVisibilityAttribute.class);
+		forPropertyType(Integer.class).expectAttribute(IntegerHeaderOrFooterVisibilityAttribute.class);
+		forPropertyType(Boolean.class).expectAttribute(BooleanHeaderOrFooterVisibilityAttribute.class);
+		forPropertyType(boolean.class).expectAttribute(BooleanHeaderOrFooterVisibilityAttribute.class);
 	}
 	
 	@Override
 	protected AbstractMultiTypePropertyViewAttribute<?> createAttribute()
 	{
-		return new SubViewVisibilityAttribute(null);
+		return new HeaderOrFooterVisibilityAttribute(null);
 	}
 }

@@ -6,17 +6,14 @@
  */
 package org.robobinding.viewattribute.listview;
 
-import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
-
 import android.view.View;
-import android.widget.ListView;
 
 /**
  * @since 1.0
  * @author Cheng Wei
  * 
  */
-public class FooterAttributes extends AbstractSubViewAttributes<ListView>
+public class FooterAttributes extends AbstractHeaderOrFooterAttributes
 {
 	static final String FOOTER_LAYOUT = "footerLayout";
 	static final String FOOTER_PRESENTATION_MODEL = "footerPresentationModel";
