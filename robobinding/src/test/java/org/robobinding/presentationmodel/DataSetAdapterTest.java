@@ -96,23 +96,29 @@ public class DataSetAdapterTest
 	}
 	
 	@Test
-	public void givenPreInitializeViewsIsFalse_whenValueModelHasNotBeenUpdated_thenShouldNotHaveAccessedPresentationModel()
+	public void givenPreInitializeViewsIsTrue_whenInitializing_thenDataSetAdapterCountShouldReflectPresentationModel()
+	{
+		dataSetAdapterWithViewsPreInitialized();
+		
+		assertThat(dataSetAdapter.getCount(), is(mockPresentationModel.list.size()));
+	}
+	
+	@Test
+	public void givenPreInitializeViewsIsFalse_whenValueModelHasNotBeenUpdated_thenDataSetAdapterCountShouldBeZero()
 	{
 		dataSetAdapterNotPreInitializingViews();
 		
-		assertThat(mockPresentationModel.listAccessCount, is(0));
 		assertThat(dataSetAdapter.getCount(), is(0));
 	}
 
 	@Test
-	public void givenPreInitializeViewsIsFalse_whenUpdatingValueModel_thenShouldHaveAccessedPresentationModel()
+	public void givenPreInitializeViewsIsFalse_whenUpdatingValueModel_thenDataSetAdapterCountShouldReflectPresentationModel()
 	{
 		dataSetAdapterNotPreInitializingViews();
-		dataSetAdapter.observeChangesOnTheValueModel();
 		
+		dataSetAdapter.observeChangesOnTheValueModel();
 		mockPresentationModel.update();
 		
-		assertThat(mockPresentationModel.listAccessCount, is(1));
 		assertThat(dataSetAdapter.getCount(), is(mockPresentationModel.list.size()));
 	}
 	
