@@ -47,7 +47,7 @@ public class OnItemClickAttributeTest extends AbstractCommandViewAttributeTest<L
 	{
 		ArrayAdapter<String> arrayAdapter = new MockArrayAdapter();
 		view.setAdapter(arrayAdapter);
-		indexToClick = RandomValues.anyIndex(arrayAdapter);
+		indexToClick = RandomValues.anyIndex(arrayAdapter.getCount());
 	}
 	
 	@Test

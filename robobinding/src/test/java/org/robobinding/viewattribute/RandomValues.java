@@ -19,7 +19,6 @@ import java.util.Random;
 
 import android.graphics.Color;
 import android.view.View;
-import android.widget.ArrayAdapter;
 
 /**
  *
@@ -92,9 +91,9 @@ public class RandomValues
 		return Boolean.class;
 	}
 
-	public static int anyIndex(ArrayAdapter<?> arrayAdapter)
+	public static int anyIndex(int collectionSize)
 	{
-		return random.nextInt(arrayAdapter.getCount());
+		return nextInt(collectionSize);
 	}
 
 	public static String anyLayoutResource()

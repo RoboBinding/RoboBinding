@@ -47,7 +47,7 @@ public class OnItemSelectedAttributeTest extends AbstractCommandViewAttributeTes
 	{
 		arrayAdapter = new MockArrayAdapter();
 		view.setAdapter(arrayAdapter);
-		indexToSelect = RandomValues.anyIndex(arrayAdapter);
+		indexToSelect = RandomValues.anyIndex(arrayAdapter.getCount());
 	}
 	
 	@Test
