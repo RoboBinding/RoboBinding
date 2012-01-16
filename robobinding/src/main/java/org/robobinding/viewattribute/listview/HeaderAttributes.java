@@ -6,17 +6,14 @@
  */
 package org.robobinding.viewattribute.listview;
 
-import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
-
 import android.view.View;
-import android.widget.ListView;
 
 /**
  * @since 1.0
  * @author Cheng Wei
  *
  */
-public class HeaderAttributes extends AbstractSubViewAttributes<ListView>
+public class HeaderAttributes extends AbstractHeaderOrFooterAttributes
 {
 	static final String HEADER_LAYOUT = "headerLayout";
 	static final String HEADER_PRESENTATION_MODEL = "headerPresentationModel";
