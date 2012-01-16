@@ -56,7 +56,7 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 		}
 	}
 
-	private View createSubView(PresentationModelAdapter presentationModelAdapter, Context context)
+	View createSubView(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
 		SubViewCreator subViewCreator;
 		

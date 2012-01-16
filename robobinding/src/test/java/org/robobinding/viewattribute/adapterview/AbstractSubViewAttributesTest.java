@@ -21,10 +21,11 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.GroupedAttributeDetailsImpl;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModelUtils;
-import org.robobinding.viewattribute.BindingAttributeValueUtils;
+import org.robobinding.viewattribute.BindingProperties;
+import org.robobinding.viewattribute.GroupedAttributeDetails;
+import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.app.Activity;
@@ -43,64 +44,57 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class AbstractSubViewAttributesTest
 {
-	private static final String PRESENTATION_MODEL_PROPERTY = "presentationModel";
+	private static final String PRESENTATION_MODEL_PROPERTY = BindingProperties.PROPERTY_NAME;
+	private static final String ONE_WAY_BINDING_PRESENTATION_MODEL_PROPERTY = BindingProperties.ONE_WAY_BINDING_PROPERTY_NAME;
 	private static final String VISIBILITY_PROPERTY = "visibility";
 	
-	private GroupedAttributeDetailsImpl groupedAttributeDetails;
+	private GroupedAttributeDetails mockGroupedAttributeDetails;
 	
 	@Before
 	public void setUp()
 	{
-		groupedAttributeDetails = createGroupedAttributeDetails();
+		mockGroupedAttributeDetails = mock(GroupedAttributeDetails.class);
 	}
 	
 	@Test(expected=RuntimeException.class)
 	public void createAttributeWithoutLayout_thenThrowException()
 	{
-		createAttribute();
+		createSubView();
 	}
 	
 	@Test
 	public void createAttributeWithoutPresentationModel_thenSuccessful()
 	{
-		addLayoutAsPresentAttribute();
-		createAttribute();
+		makeLayoutAttributeAvailable();
+		createSubView();
 	}
 
 	@Test
 	public void createAttributeWithPresentationModel_thenSuccessful()
 	{
-		addLayoutAsPresentAttribute();
-		addPresentationModelAsPresentAttribute();
-		createAttribute();
+		makeLayoutAttributeAvailable();
+		makePresentationModelAttributeAvailable();
+		createSubView();
 	}
 
-	@Test
-	public void createAttributeWithVisibility_thenSuccessful()
+	private void makeLayoutAttributeAvailable()
 	{
-		addLayoutAsPresentAttribute();
-		addPresentationModelAsPresentAttribute();
-		addVisibilityAsPresentAttribute();
-		createAttribute();
-	}
-
-	private void addLayoutAsPresentAttribute()
-	{
-		groupedAttributeDetails.addPresentAttribute(SubViewAttributes.LAYOUT, RandomValues.anyLayoutResource());
+		makeAttributeAvailable(SubViewAttributes.LAYOUT, RandomValues.anyLayoutResource());
 	}
 	
-	private void addPresentationModelAsPresentAttribute()
+	private void makePresentationModelAttributeAvailable()
 	{
-		groupedAttributeDetails.addPresentAttribute(SubViewAttributes.PRESENTATION_MODEL, BindingAttributeValueUtils.oneWay(PRESENTATION_MODEL_PROPERTY));
+		makeAttributeAvailable(SubViewAttributes.PRESENTATION_MODEL, ONE_WAY_BINDING_PRESENTATION_MODEL_PROPERTY);
 	}
-
-	private void addVisibilityAsPresentAttribute()
+	
+	private void makeAttributeAvailable(String attribute, String attributeValue)
 	{
-		groupedAttributeDetails.addPresentAttribute(SubViewAttributes.VISIBILITY, BindingAttributeValueUtils.oneWay(VISIBILITY_PROPERTY));
+		when(mockGroupedAttributeDetails.hasAttribute(attribute)).thenReturn(true);
+		when(mockGroupedAttributeDetails.attributeValueFor(attribute)).thenReturn(attributeValue);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private SubViewAttributes createAttribute()
+	private SubViewAttributes createSubView()
 	{
 		PresentationModelAdapter mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
 		when(mockPresentationModelAdapter.getReadOnlyPropertyValueModel(PRESENTATION_MODEL_PROPERTY)).thenReturn(ValueModelUtils.create(new Object()));
@@ -109,15 +103,9 @@ public class AbstractSubViewAttributesTest
 		
 		SubViewAttributes subViewAttributes = new SubViewAttributes();
 		subViewAttributes.setView(new ListView(new Activity()));
-		subViewAttributes.setGroupedAttributeDetails(groupedAttributeDetails);
+		subViewAttributes.setGroupedAttributeDetails(mockGroupedAttributeDetails);
 		subViewAttributes.bind(mockPresentationModelAdapter, new Activity());
 		return subViewAttributes;
-	}
-	
-	private GroupedAttributeDetailsImpl createGroupedAttributeDetails()
-	{
-		return new GroupedAttributeDetailsImpl(new String[]{SubViewAttributes.LAYOUT, 
-				SubViewAttributes.PRESENTATION_MODEL, SubViewAttributes.VISIBILITY});
 	}
 	
 	private static class SubViewAttributes extends AbstractSubViewAttributes<AdapterView<?>>
@@ -125,6 +113,11 @@ public class AbstractSubViewAttributesTest
 		static final String LAYOUT = "layout";
 		static final String PRESENTATION_MODEL = "presentationModel";
 		static final String VISIBILITY = "visibility";
+		@Override
+		public void setGroupedAttributeDetails(GroupedAttributeDetails groupedAttributeDetails)
+		{
+			super.groupedAttributeDetails = groupedAttributeDetails;
+		}
 		
 		@Override
 		protected String layoutAttribute()
@@ -150,5 +143,10 @@ public class AbstractSubViewAttributesTest
 			//as an always successful operation.
 		}
 		
+		@Override
+		protected PropertyViewAttribute<View> createVisibilityAttribute(View subView)
+		{
+			throw new RuntimeException();
+		}
 	}
 }
