@@ -35,23 +35,23 @@ import android.view.View;
  */
 public class SubViewCreator
 {
-	private String layoutAttribute;
-	private String presentationModelAttribute;
-	public SubViewCreator(String layoutAttribute)
+	private String layoutResource;
+	private String presentationModelAttributeValue;
+	public SubViewCreator(String layoutResource)
 	{
-		this.layoutAttribute = layoutAttribute;
+		this.layoutResource = layoutResource;
 	}
 	
-	public SubViewCreator(String layoutAttribute, String presentationModelAttribute)
+	public SubViewCreator(String layoutResource, String presentationModelAttributeValue)
 	{
-		this(layoutAttribute);
-		this.presentationModelAttribute = presentationModelAttribute;
+		this(layoutResource);
+		this.presentationModelAttributeValue = presentationModelAttributeValue;
 	}
 	
 	public View bindAndCreate(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
 		int layoutId = getLayoutId(context);
-		if(hasPresentationModelAttribute())
+		if(hasPresentationModelAttributeValue())
 		{
 			Object presentationModel = getPresentationModel(presentationModelAdapter);
 			return Binder.bindView(context, layoutId, presentationModel);
@@ -64,19 +64,19 @@ public class SubViewCreator
 
 	private int getLayoutId(Context context)
 	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(layoutAttribute);
+		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(layoutResource);
 		ResourceBindingDetails resourceBindingDetails = bindingDetailsBuilder.createResourceBindingDetails();
 		return resourceBindingDetails.getResourceId(context);
 	}
 
-	private boolean hasPresentationModelAttribute()
+	private boolean hasPresentationModelAttributeValue()
 	{
-		return StringUtils.isNotBlank(presentationModelAttribute);
+		return StringUtils.isNotBlank(presentationModelAttributeValue);
 	}
 
 	private Object getPresentationModel(PresentationModelAdapter presentationModelAdapter)
 	{
-		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(presentationModelAttribute);
+		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(presentationModelAttributeValue);
 		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
 		return valueModel.getValue();
 	}
