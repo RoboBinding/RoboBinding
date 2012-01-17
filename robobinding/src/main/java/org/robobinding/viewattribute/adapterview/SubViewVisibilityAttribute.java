@@ -40,11 +40,11 @@ public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAtt
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
-			return new IntegerHeaderOrFooterVisibilityAttribute();
+			return new IntegerSubViewVisibilityAttribute();
 		}
 		else if (PrimitiveTypeUtils.booleanIsAssignableFrom(propertyType))
 		{
-			return new BooleanHeaderOrFooterVisibilityAttribute();
+			return new BooleanSubViewVisibilityAttribute();
 		}
 		
 		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
@@ -55,7 +55,7 @@ public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAtt
 		return new SubViewVisibilityAttribute(subViewVisibility);
 	}
 	
-	class BooleanHeaderOrFooterVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
+	class BooleanSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 	{
 		@Override
 		protected void valueModelUpdated(Boolean newValue)
@@ -70,7 +70,7 @@ public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAtt
 		}
 	}
 	
-	class IntegerHeaderOrFooterVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
+	class IntegerSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newValue)
