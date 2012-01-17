@@ -15,6 +15,17 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.viewattribute.BindingAttributeValues;
+import org.robobinding.viewattribute.MockPresentationModelAdapterBuilder;
+import org.robobinding.viewattribute.MockResourcesBuilder;
+
+import android.content.Context;
+
 /**
  *
  * @since 1.0
@@ -23,5 +34,28 @@ package org.robobinding.viewattribute.adapterview;
  */
 public class SubViewCreatorTest
 {
-
+	@Test
+	public void whenGetLayoutId_returnExpectedResult()
+	{
+		MockResourcesBuilder builder = new MockResourcesBuilder();
+		int layoutId = builder.desclareLayoutResource(BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE_NAME);
+		Context mockContext = builder.build();
+		
+		SubViewCreator subViewCreator = new SubViewCreator(mockContext, BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE);
+		assertThat(subViewCreator.getLayoutId(), equalTo(layoutId));
+	}
+	
+	@Test
+	public void whenGetPresentationModel_returnExpectedResult()
+	{
+		SubViewCreator subViewCreator = new SubViewCreator(null, null);
+		
+		Object presentationModel = new Object();
+		String presentationModelAttributeValue = BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME; 
+		
+		PresentationModelAdapter mockPresentationModelAdapter = MockPresentationModelAdapterBuilder.createWithReadOnlyDefaultProperty(presentationModel);
+		
+		assertThat(subViewCreator.getPresentationModel(mockPresentationModelAdapter, presentationModelAttributeValue),
+				equalTo(presentationModel));
+	}
 }

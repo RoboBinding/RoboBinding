@@ -23,13 +23,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.presentationmodel.DataSetAdapter;
-import org.robobinding.viewattribute.MockPresentationModelForProperty;
+import org.robobinding.viewattribute.BindingAttributeValues;
 import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.DynamicLayoutAttribute;
 import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.StaticLayoutAttribute;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-
 import android.widget.AdapterView;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -61,7 +61,7 @@ public class ItemLayoutAttributeTest
 	@Test
 	public void whenCreatingWithAPropertyValue_thenInitializeDynamicLayoutAttribute()
 	{
-		String dynamicLayoutAttribute = MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME;
+		String dynamicLayoutAttribute = BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME;
 		
 		ItemLayoutAttribute itemLayoutAttribute = new ItemLayoutAttribute(adapterView, dynamicLayoutAttribute);
 	

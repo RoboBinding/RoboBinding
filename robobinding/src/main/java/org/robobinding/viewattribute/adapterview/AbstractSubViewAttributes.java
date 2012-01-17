@@ -58,19 +58,21 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 
 	View createSubView(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		SubViewCreator subViewCreator;
+		SubViewCreator subViewCreator = createSubViewCreator(context, groupedAttributeDetails.attributeValueFor(layoutAttribute()));
 		
-		String layoutAttributeValue = groupedAttributeDetails.attributeValueFor(layoutAttribute());
 		if(groupedAttributeDetails.hasAttribute(subViewPresentationModelAttribute()))
 		{
 			String subViewPresentationModelAttributeValue = groupedAttributeDetails.attributeValueFor(subViewPresentationModelAttribute());
-			subViewCreator = new SubViewCreator(layoutAttributeValue, subViewPresentationModelAttributeValue);
+			return subViewCreator.createAndBindTo(subViewPresentationModelAttributeValue, presentationModelAdapter);
 		}else
 		{
-			subViewCreator = new SubViewCreator(layoutAttributeValue);
+			return subViewCreator.create();
 		}
-		
-		return subViewCreator.bindAndCreate(presentationModelAdapter, context);
+	}
+
+	SubViewCreator createSubViewCreator(Context context, String layoutAttributeValue)
+	{
+		return new SubViewCreator(context, layoutAttributeValue);
 	}
 	
 	protected abstract String layoutAttribute();
