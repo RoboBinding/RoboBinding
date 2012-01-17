@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.GroupedAttributeDetails;
-import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute;
 
 import android.content.Context;
 import android.view.View;
@@ -121,7 +121,7 @@ public class AbstractSubViewAttributesTest
 		}
 		
 		@Override
-		protected PropertyViewAttribute<View> createVisibilityAttribute(View subView)
+		protected SubViewVisibilityAttribute createVisibilityAttribute(View subView)
 		{
 			throw new RuntimeException();
 		}

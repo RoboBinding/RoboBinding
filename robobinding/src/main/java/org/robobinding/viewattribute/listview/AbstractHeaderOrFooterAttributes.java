@@ -33,5 +33,4 @@ public abstract class AbstractHeaderOrFooterAttributes extends AbstractSubViewAt
 	{
 		return new SubViewVisibilityAttribute(new HeaderOrFooterVisibility(subView));
 	}
-	
 }

@@ -21,7 +21,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute;
 import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute.IntegerHeaderOrFooterVisibilityAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
