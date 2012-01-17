@@ -21,7 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute.BooleanHeaderOrFooterVisibilityAttribute;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.BooleanHeaderOrFooterVisibilityAttribute;
 
 import android.view.View;
 

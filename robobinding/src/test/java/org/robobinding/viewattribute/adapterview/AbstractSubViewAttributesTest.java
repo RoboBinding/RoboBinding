@@ -26,7 +26,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.GroupedAttributeDetails;
-import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute;
 
 import android.content.Context;
 import android.view.View;

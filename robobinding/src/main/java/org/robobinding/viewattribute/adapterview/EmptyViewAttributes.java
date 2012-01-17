@@ -16,7 +16,6 @@
 package org.robobinding.viewattribute.adapterview;
 
 
-import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute;
 
 import android.view.View;
 import android.view.ViewGroup;

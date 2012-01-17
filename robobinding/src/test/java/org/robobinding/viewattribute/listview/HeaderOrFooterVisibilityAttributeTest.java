@@ -18,8 +18,8 @@ package org.robobinding.viewattribute.listview;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttributeTest;
-import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute.BooleanHeaderOrFooterVisibilityAttribute;
-import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute.IntegerHeaderOrFooterVisibilityAttribute;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.BooleanHeaderOrFooterVisibilityAttribute;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.IntegerHeaderOrFooterVisibilityAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 

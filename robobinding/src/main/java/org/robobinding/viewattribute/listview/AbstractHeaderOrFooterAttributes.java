@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.listview;
 
 import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
 
 import android.view.View;
 import android.widget.ListView;
