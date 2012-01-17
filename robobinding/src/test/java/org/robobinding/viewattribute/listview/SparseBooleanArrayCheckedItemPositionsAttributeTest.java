@@ -56,7 +56,7 @@ public class SparseBooleanArrayCheckedItemPositionsAttributeTest extends Abstrac
 	@Test
 	public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly()
 	{
-		ValueModel<SparseBooleanArray> valueModel = twoWayBindToProperty(SparseBooleanArray.class);
+		ValueModel<SparseBooleanArray> valueModel = twoWayBindToProperty(SparseBooleanArray.class, new SparseBooleanArray());
 		
 		setItemsChecked(SparseBooleanArrayUtils.toSet(checkedItemPositions));
 		

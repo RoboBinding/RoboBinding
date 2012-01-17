@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.internal.com_google_common.collect.Sets;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.listview.CheckedItemPositionsAttribute.MapCheckedItemPositionsAttribute;
@@ -58,7 +59,7 @@ public class MapCheckedItemPositionsAttributeTest extends AbstractCheckedItemPos
 	public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly()
 	{
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		ValueModel<Map<Integer, Boolean>> valueModel = (ValueModel)twoWayBindToProperty(Map.class);
+		ValueModel<Map<Integer, Boolean>> valueModel = (ValueModel)twoWayBindToProperty(Map.class, Maps.newHashMap());
 		
 		setItemsChecked(toSet(checkedItemPositions));
 		

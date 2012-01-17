@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.internal.com_google_common.collect.Sets;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.listview.CheckedItemPositionsAttribute.SetCheckedItemPositionsAttribute;
 
@@ -56,7 +57,7 @@ public class SetCheckedItemPositionsAttributeTest extends AbstractCheckedItemPos
 	public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly()
 	{
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		ValueModel<Set<Integer>> valueModel = (ValueModel)twoWayBindToProperty(Set.class);
+		ValueModel<Set<Integer>> valueModel = (ValueModel)twoWayBindToProperty(Set.class, Sets.newHashSet());
 		
 		setItemsChecked(checkedItemPositions);
 		

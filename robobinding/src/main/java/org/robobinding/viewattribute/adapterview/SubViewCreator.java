@@ -16,7 +16,6 @@
 package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.binder.Binder;
-import org.robobinding.internal.org_apache_commons_lang3.StringUtils;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.BindingDetailsBuilder;
@@ -33,48 +32,40 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SubViewCreator
+class SubViewCreator
 {
+	private Context context;
 	private String layoutResource;
-	private String presentationModelAttributeValue;
-	public SubViewCreator(String layoutResource)
+	public SubViewCreator(Context context, String layoutResource)
 	{
+		this.context = context;
 		this.layoutResource = layoutResource;
 	}
 	
-	public SubViewCreator(String layoutResource, String presentationModelAttributeValue)
+	public View create()
 	{
-		this(layoutResource);
-		this.presentationModelAttributeValue = presentationModelAttributeValue;
+		int layoutId = getLayoutId();
+		
+		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(layoutId, null);
 	}
 	
-	public View bindAndCreate(PresentationModelAdapter presentationModelAdapter, Context context)
+	public View createAndBindTo(String presentationModelAttributeValue, PresentationModelAdapter presentationModelAdapter)
 	{
-		int layoutId = getLayoutId(context);
-		if(hasPresentationModelAttributeValue())
-		{
-			Object presentationModel = getPresentationModel(presentationModelAdapter);
-			return Binder.bindView(context, layoutId, presentationModel);
-		}else
-		{
-			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			return inflater.inflate(layoutId, null);
-		}
+		int layoutId = getLayoutId();
+		
+		Object presentationModel = getPresentationModel(presentationModelAdapter, presentationModelAttributeValue);
+		return Binder.bindView(context, layoutId, presentationModel);
 	}
 
-	private int getLayoutId(Context context)
+	int getLayoutId()
 	{
 		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(layoutResource);
 		ResourceBindingDetails resourceBindingDetails = bindingDetailsBuilder.createResourceBindingDetails();
 		return resourceBindingDetails.getResourceId(context);
 	}
 
-	private boolean hasPresentationModelAttributeValue()
-	{
-		return StringUtils.isNotBlank(presentationModelAttributeValue);
-	}
-
-	private Object getPresentationModel(PresentationModelAdapter presentationModelAdapter)
+	Object getPresentationModel(PresentationModelAdapter presentationModelAdapter, String presentationModelAttributeValue)
 	{
 		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(presentationModelAttributeValue);
 		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
