@@ -30,7 +30,8 @@ public class EmptyListViewTest extends AbstractSampleAppTest
     {
         clickOnButtonWithLabel(R.string.list_backed_albums);
         
-        for (int i = 0; i < AlbumStore.getAll().size(); i++)
+        int albumCount = AlbumStore.getAll().size();
+		for (int i = 0; i < albumCount; i++)
         {
             selectFirstItemInList();
             deleteAlbum();

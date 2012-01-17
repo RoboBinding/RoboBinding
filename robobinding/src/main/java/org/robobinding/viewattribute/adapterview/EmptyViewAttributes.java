@@ -20,6 +20,7 @@ import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.view.VisibilityAttribute;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 /**
@@ -53,9 +54,11 @@ public class EmptyViewAttributes extends AbstractSubViewAttributes<AdapterView<?
 	}
 
 	@Override
-	protected void addSubView(View subView)
+	protected void addSubView(View emptyView)
 	{
-		view.setEmptyView(subView);
+		ViewGroup viewGroupParent = (ViewGroup)view.getParent();
+		viewGroupParent.addView(emptyView);
+		view.setEmptyView(emptyView);
 	}
 
 	@Override

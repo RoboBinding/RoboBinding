@@ -33,6 +33,8 @@ public class DynamicItemLayoutListViewTest extends AbstractSampleAppTest
 		
 		clickOnButtonWithLabel(R.string.toggle_itemlayout);
 		
+		solo.sleep(500);
+		
 		int heightOfNewListViewItem = getHeightOfFirstItemInListView();
 		assertFalse(heightOfListViewItem == heightOfNewListViewItem);
 	}

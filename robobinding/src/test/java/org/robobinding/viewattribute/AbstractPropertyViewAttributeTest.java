@@ -83,10 +83,4 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 		return presentationModelAdapter.getPropertyValueModel(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
 	}
 	
-	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass, PropertyType initialValue)
-	{
-		ValueModel<PropertyType> valueModel = twoWayBindToProperty(propertyClass);
-		valueModel.setValue(initialValue);
-		return valueModel;
-	}
 }
