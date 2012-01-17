@@ -39,6 +39,7 @@ public class HeaderOrFooterVisibility implements SubViewVisibility
 		this.view = headerOrFooterView;
 	}
 	
+	@Override
 	public void makeVisible()
 	{
 		if(originalLayoutParams != null)
@@ -48,6 +49,7 @@ public class HeaderOrFooterVisibility implements SubViewVisibility
 		view.setVisibility(View.VISIBLE);
 	}
 	
+	@Override
 	public void makeGone()
 	{
 		if(originalLayoutParams == null)
@@ -58,6 +60,7 @@ public class HeaderOrFooterVisibility implements SubViewVisibility
 		view.setVisibility(View.GONE);
 	}
 	
+	@Override
 	public final void setVisibility(int visibility)
 	{
 		if(View.VISIBLE == visibility)

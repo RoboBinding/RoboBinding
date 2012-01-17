@@ -42,8 +42,7 @@ class MockSubViewVisibility implements SubViewVisibility
 	@Override
 	public void setVisibility(int visibility)
 	{
-		// TODO Auto-generated method stub
-		
+		this.state = visibility;
 	}
 
 }

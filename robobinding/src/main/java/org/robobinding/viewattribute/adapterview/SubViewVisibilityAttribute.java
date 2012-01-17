@@ -31,9 +31,9 @@ import android.view.View;
 public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View>
 {
 	private SubViewVisibility visibility;
-	public SubViewVisibilityAttribute(SubViewVisibility headerOrFooterVisibility)
+	public SubViewVisibilityAttribute(SubViewVisibility subViewVisibility)
 	{
-		this.visibility = headerOrFooterVisibility;
+		this.visibility = subViewVisibility;
 	}
 	@Override
 	protected AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
