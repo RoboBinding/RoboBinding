@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute.listview;
 
+import org.robobinding.viewattribute.adapterview.SubViewVisibility;
+
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ListView;
@@ -25,7 +27,7 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class HeaderOrFooterVisibility
+public class HeaderOrFooterVisibility implements SubViewVisibility
 {
 	private static LayoutParams ZERO_LAYOUT_PARAMS = new ListView.LayoutParams(0, 1);
 	
@@ -37,6 +39,7 @@ public class HeaderOrFooterVisibility
 		this.view = headerOrFooterView;
 	}
 	
+	@Override
 	public void makeVisible()
 	{
 		if(originalLayoutParams != null)
@@ -46,6 +49,7 @@ public class HeaderOrFooterVisibility
 		view.setVisibility(View.VISIBLE);
 	}
 	
+	@Override
 	public void makeGone()
 	{
 		if(originalLayoutParams == null)
@@ -56,6 +60,7 @@ public class HeaderOrFooterVisibility
 		view.setVisibility(View.GONE);
 	}
 	
+	@Override
 	public final void setVisibility(int visibility)
 	{
 		if(View.VISIBLE == visibility)

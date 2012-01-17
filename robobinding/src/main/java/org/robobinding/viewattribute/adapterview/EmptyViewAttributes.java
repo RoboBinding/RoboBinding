@@ -16,8 +16,7 @@
 package org.robobinding.viewattribute.adapterview;
 
 
-import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.view.VisibilityAttribute;
+import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +28,12 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class EmptyViewAttributes extends AbstractSubViewAttributes<AdapterView<?>>
+public class EmptyViewAttributes extends AbstractSubViewAttributes<AdapterView<?>> implements SubViewVisibility
 {
 	static final String EMPTY_VIEW_LAYOUT = "emptyViewLayout";
 	static final String EMPTY_VIEW_PRESENTATION_MODEL = "emptyViewPresentationModel";
 	static final String EMPTY_VIEW_VISIBILITY = "emptyViewVisibility";
+	private View emptyView;
 	
 	@Override
 	protected String layoutAttribute()
@@ -50,24 +50,54 @@ public class EmptyViewAttributes extends AbstractSubViewAttributes<AdapterView<?
 	@Override
 	protected String visibilityAttribute()
 	{
-		return EMPTY_VIEW_VISIBILITY ;
+		return EMPTY_VIEW_VISIBILITY;
 	}
 
 	@Override
 	protected void addSubView(View emptyView)
 	{
+		this.emptyView = emptyView;
+		makeVisible();
+	}
+
+	@Override
+	protected SubViewVisibilityAttribute createVisibilityAttribute(View emptyView)
+	{
+		return new SubViewVisibilityAttribute(this);
+	}
+	
+	@Override
+	public void makeVisible()
+	{
+		if (view.getEmptyView() == emptyView)
+			return;
+		
 		ViewGroup viewGroupParent = (ViewGroup)view.getParent();
 		viewGroupParent.addView(emptyView);
 		view.setEmptyView(emptyView);
 	}
 
 	@Override
-	protected PropertyViewAttribute<View> createVisibilityAttribute(View subView)
+	public void makeGone()
 	{
-		VisibilityAttribute visibilityAttribute = new VisibilityAttribute();
-		visibilityAttribute.setView(subView);
-		visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
-		visibilityAttribute.setPreInitializeView(preInitializeViews);
-		return visibilityAttribute;
+		if (view.getEmptyView() == null)
+			return;
+		
+		ViewGroup viewGroupParent = (ViewGroup)view.getParent();
+		viewGroupParent.removeView(emptyView);
+		view.setEmptyView(null);
+	}
+
+	@Override
+	public void setVisibility(int visibility)
+	{
+		if(View.VISIBLE == visibility)
+		{
+			makeVisible();
+		}
+		else
+		{
+			makeGone();
+		}
 	}
 }

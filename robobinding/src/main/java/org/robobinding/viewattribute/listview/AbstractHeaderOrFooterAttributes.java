@@ -15,7 +15,6 @@
  */
 package org.robobinding.viewattribute.listview;
 
-import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
 
 import android.view.View;
@@ -30,11 +29,9 @@ import android.widget.ListView;
 public abstract class AbstractHeaderOrFooterAttributes extends AbstractSubViewAttributes<ListView>
 {
 	@Override
-	protected PropertyViewAttribute<View> createVisibilityAttribute(View subView)
+	protected SubViewVisibilityAttribute createVisibilityAttribute(View subView)
 	{
-		HeaderOrFooterVisibilityAttribute visibilityAttribute = HeaderOrFooterVisibilityAttribute.create(subView);
-		visibilityAttribute.setPreInitializeView(preInitializeViews);
-		visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
-		return visibilityAttribute;
+		return new SubViewVisibilityAttribute(new HeaderOrFooterVisibility(subView));
 	}
+	
 }

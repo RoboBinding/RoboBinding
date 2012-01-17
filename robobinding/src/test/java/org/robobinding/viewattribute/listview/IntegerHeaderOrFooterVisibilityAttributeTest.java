@@ -21,8 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.viewattribute.listview.HeaderOrFooterVisibilityAttribute;
-import org.robobinding.viewattribute.listview.HeaderOrFooterVisibilityAttribute.IntegerHeaderOrFooterVisibilityAttribute;
+import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute;
+import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute.IntegerHeaderOrFooterVisibilityAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -42,7 +42,7 @@ public class IntegerHeaderOrFooterVisibilityAttributeTest
 	public void setUp()
 	{
 		mockVisibility = new MockHeaderOrFooterVisibility();
-		HeaderOrFooterVisibilityAttribute visibilityAttribute = new HeaderOrFooterVisibilityAttribute(mockVisibility);
+		SubViewVisibilityAttribute visibilityAttribute = new SubViewVisibilityAttribute(mockVisibility);
 		attribute = visibilityAttribute.new IntegerHeaderOrFooterVisibilityAttribute();
 	}
 	

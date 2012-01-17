@@ -18,9 +18,9 @@ package org.robobinding.viewattribute.listview;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttributeTest;
-import org.robobinding.viewattribute.listview.HeaderOrFooterVisibilityAttribute;
-import org.robobinding.viewattribute.listview.HeaderOrFooterVisibilityAttribute.BooleanHeaderOrFooterVisibilityAttribute;
-import org.robobinding.viewattribute.listview.HeaderOrFooterVisibilityAttribute.IntegerHeaderOrFooterVisibilityAttribute;
+import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute;
+import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute.BooleanHeaderOrFooterVisibilityAttribute;
+import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute.IntegerHeaderOrFooterVisibilityAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -31,7 +31,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class HeaderOrFooterVisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<HeaderOrFooterVisibilityAttribute>
+public class HeaderOrFooterVisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<SubViewVisibilityAttribute>
 {
 	@Override
 	protected void setTypeMappingExpectations()
@@ -45,6 +45,6 @@ public class HeaderOrFooterVisibilityAttributeTest extends AbstractMultiTypeProp
 	@Override
 	protected AbstractMultiTypePropertyViewAttribute<?> createAttribute()
 	{
-		return new HeaderOrFooterVisibilityAttribute(null);
+		return new SubViewVisibilityAttribute(null);
 	}
 }

@@ -17,7 +17,7 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.listview.SubViewVisibilityAttribute;
 
 import android.content.Context;
 import android.view.View;
@@ -51,7 +51,9 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 		
 		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
 		{
-			PropertyViewAttribute<View> visibilityAttribute = createVisibilityAttribute(subView);
+			SubViewVisibilityAttribute visibilityAttribute = createVisibilityAttribute(subView);
+			visibilityAttribute.setPreInitializeView(preInitializeViews);
+			visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
 			visibilityAttribute.bind(presentationModelAdapter, context);
 		}
 	}
@@ -79,5 +81,5 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	protected abstract String subViewPresentationModelAttribute();
 	protected abstract String visibilityAttribute();
 	protected abstract void addSubView(View subView);
-	protected abstract PropertyViewAttribute<View> createVisibilityAttribute(View subView);
+	protected abstract SubViewVisibilityAttribute createVisibilityAttribute(View subView);
 }

@@ -19,6 +19,7 @@ import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
+import org.robobinding.viewattribute.adapterview.SubViewVisibility;
 
 import android.view.View;
 
@@ -28,10 +29,10 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class HeaderOrFooterVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View>
+public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View>
 {
-	private HeaderOrFooterVisibility visibility;
-	HeaderOrFooterVisibilityAttribute(HeaderOrFooterVisibility headerOrFooterVisibility)
+	private SubViewVisibility visibility;
+	public SubViewVisibilityAttribute(SubViewVisibility headerOrFooterVisibility)
 	{
 		this.visibility = headerOrFooterVisibility;
 	}
@@ -50,9 +51,9 @@ public class HeaderOrFooterVisibilityAttribute extends AbstractMultiTypeProperty
 		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
 	}
 	
-	public static HeaderOrFooterVisibilityAttribute create(View headerOrFooterView)
+	public static SubViewVisibilityAttribute create(SubViewVisibility subViewVisibility)
 	{
-		return new HeaderOrFooterVisibilityAttribute(new HeaderOrFooterVisibility(headerOrFooterView));
+		return new SubViewVisibilityAttribute(subViewVisibility);
 	}
 	
 	class BooleanHeaderOrFooterVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
@@ -78,4 +79,5 @@ public class HeaderOrFooterVisibilityAttribute extends AbstractMultiTypeProperty
 			visibility.setVisibility(newValue);
 		}
 	}
+
 }
