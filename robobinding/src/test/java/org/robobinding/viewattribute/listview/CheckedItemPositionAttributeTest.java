@@ -24,11 +24,12 @@ import org.robobinding.R;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
-
-import com.xtremelabs.robolectric.Robolectric;
+import org.robobinding.viewattribute.adapterview.MockArrayAdapter;
 
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.xtremelabs.robolectric.Robolectric;
 
 /**
  *
