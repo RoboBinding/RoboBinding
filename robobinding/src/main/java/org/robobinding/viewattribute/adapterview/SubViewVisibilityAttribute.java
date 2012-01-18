@@ -47,7 +47,7 @@ public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAtt
 			return new BooleanSubViewVisibilityAttribute();
 		}
 		
-		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
+		return null;
 	}
 	
 	class BooleanSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>

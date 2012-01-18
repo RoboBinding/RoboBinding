@@ -41,6 +41,7 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Abstr
 	public void populateMappings()
 	{
 		propertyTypeToViewAttributeMappings = Maps.newHashMap();
+		setTypeMappingExpectations();
 	}
 	
 	protected abstract void setTypeMappingExpectations();
