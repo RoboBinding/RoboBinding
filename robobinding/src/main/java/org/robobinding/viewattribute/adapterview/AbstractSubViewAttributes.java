@@ -51,6 +51,7 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
 		{
 			SubViewVisibilityAttribute visibilityAttribute = createVisibilityAttribute(subView);
+			visibilityAttribute.setView(subView);
 			visibilityAttribute.setPreInitializeView(preInitializeViews);
 			visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
 			visibilityAttribute.bind(presentationModelAdapter, context);
