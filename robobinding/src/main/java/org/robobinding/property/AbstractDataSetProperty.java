@@ -31,7 +31,7 @@ import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
  */
 abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> implements DataSetPropertyValueModel<T>, PresentationModelPropertyChangeListener
 {
-	private ItemPresentationModelFactory<T> factory;
+	ItemPresentationModelFactory<T> factory;
 	private boolean isDataSetNotInitialized;
 	private Object dataSet;
 

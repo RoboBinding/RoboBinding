@@ -32,7 +32,7 @@ import org.robobinding.itempresentationmodel.TypedCursor;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class PropertyCreator
+public class PropertyCreator
 {
 	private final ObservableBean observableBean;
 	private Map<String, PropertyDescriptor> availableProperties;

@@ -77,7 +77,7 @@ abstract class AbstractProperty<T> implements PropertyValueModel<T>
 		return propertyAccessor;
 	}
 	
-	protected final Object getBean()
+	protected Object getBean()
 	{
 		return observableBean.getBean();
 	}
