@@ -16,11 +16,13 @@
 package org.robobinding.viewattribute;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.presentationmodel.PresentationModelAdapter;
 
+import android.content.Context;
 import android.view.View;
 
 /**
@@ -29,57 +31,103 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@SuppressWarnings("unchecked")
 public class ViewAttributeInstantiatorTest
 {
-	private ViewAttributeInstantiator viewAttributeInjector;
-
+	private final static String ATTRIBUTE_NAME = "attribute_name";
+	private final static String ATTRIBUTE_VALUE = "attribute_value";
+	
+	private ViewAttributeInstantiator<View> viewAttributeInstantiator;
+	private View view;
+	private boolean preInitializeViews;
+	private GroupedAttributeDetails groupedAttributeDetails;
+	
 	@Before
 	public void setUp()
 	{
-		viewAttributeInjector = new ViewAttributeInstantiator();
+		view = mock(View.class);
+		preInitializeViews = RandomValues.trueOrFalse();
+		groupedAttributeDetails = mock(GroupedAttributeDetails.class);
+		when(groupedAttributeDetails.attributeValueFor(ATTRIBUTE_NAME)).thenReturn(ATTRIBUTE_VALUE);
+		viewAttributeInstantiator = new ViewAttributeInstantiator<View>(view, preInitializeViews, groupedAttributeDetails);
 	}
-
+	
 	@Test
-	public void whenInvokingOnPropertyViewAttribute_thenInjectAllPropertiesIntoPropertyViewAttribute()
+	public void whenInvokingOnPropertyViewAttribute_thenInjectAllPropertiesCorrectly()
 	{
-		PropertyViewAttribute<View> propertyViewAttribute = mock(PropertyViewAttribute.class);
-		View view = mock(View.class);
-		String attributeValue = "{some_property}";
-		boolean preInitializeViews = RandomValues.trueOrFalse();
-
-		viewAttributeInjector.injectPropertyAttributeValues(propertyViewAttribute, view, attributeValue, preInitializeViews);
-
-		verify(propertyViewAttribute).setView(view);
-		verify(propertyViewAttribute).setAttributeValue(attributeValue);
-		verify(propertyViewAttribute).setPreInitializeView(preInitializeViews);
+		MockPropertyViewAttribute mockPropertyViewAttribute = viewAttributeInstantiator.newPropertyViewAttribute(MockPropertyViewAttribute.class, ATTRIBUTE_NAME);
+		
+		mockPropertyViewAttribute.assertAllPropertiesAssigned(view, preInitializeViews, ATTRIBUTE_VALUE);
 	}
-
+	
 	@Test
-	public void whenInvokingOnCommandViewAttribute_thenInjectAllPropertiesIntoCommandViewAttribute()
+	public void whenInvokingOnAbstractCommandViewAttribute_thenInjectAllPropertiesCorrectly()
 	{
-		AbstractCommandViewAttribute<View> commandViewAttribute = mock(AbstractCommandViewAttribute.class);
-		View view = mock(View.class);
-		String commandName = "save";
-
-		viewAttributeInjector.injectCommandAttributeValues(commandViewAttribute, view, commandName);
-
-		verify(commandViewAttribute).setView(view);
-		verify(commandViewAttribute).setCommandName(commandName);
+		MockCommandViewAttribute mockCommandViewAttribute = viewAttributeInstantiator.newCommandViewAttribute(MockCommandViewAttribute.class, ATTRIBUTE_NAME);
+		
+		mockCommandViewAttribute.assertBothPropertiesAssigned(view, ATTRIBUTE_VALUE);
 	}
-
-	@Test
-	public void whenInvokingOnGroupViewAttribute_thenInjectAllPropertiesIntoCommandViewAttribute()
+	
+	public static class MockPropertyViewAttribute implements PropertyViewAttribute<View>
 	{
-		AbstractGroupedViewAttribute<View> groupedViewAttribute = mock(AbstractGroupedViewAttribute.class);
-		View view = mock(View.class);
-		GroupedAttributeDetails groupedAttributeDetails = mock(GroupedAttributeDetails.class);
-		boolean preInitializeViews = RandomValues.trueOrFalse();
+		private String attributeValue;
+		private View view;
+		private boolean preInitializeViews;
 
-		viewAttributeInjector.injectGroupedAttributeValues(groupedViewAttribute, view, preInitializeViews, groupedAttributeDetails);
+		@Override
+		public void setView(View view)
+		{
+			this.view = view;
+		}
 
-		verify(groupedViewAttribute).setView(view);
-		verify(groupedViewAttribute).setPreInitializeViews(preInitializeViews);
-		verify(groupedViewAttribute).setGroupedAttributeDetails(groupedAttributeDetails);
+		@Override
+		public void setPreInitializeView(boolean preInitializeViews)
+		{
+			this.preInitializeViews = preInitializeViews;
+		}
+
+		@Override
+		public void setAttributeValue(String attributeValue)
+		{
+			this.attributeValue = attributeValue;
+		}
+		
+		public boolean assertAllPropertiesAssigned(View view, boolean preInitializeViews, String attributeValue)
+		{
+			return this.view == view && this.preInitializeViews == preInitializeViews && this.attributeValue == attributeValue;
+		}
+		
+		@Override
+		public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+		{
+		}
 	}
+	
+	public static class MockCommandViewAttribute extends AbstractCommandViewAttribute<View>
+	{
+		private String commandName;
+
+		@Override
+		public void setCommandName(String commandName)
+		{
+			this.commandName = commandName;
+		}
+
+		public boolean assertBothPropertiesAssigned(View view, String commandName)
+		{
+			return this.view == view && this.commandName == commandName;
+		}
+		
+		@Override
+		protected void bind(Command command)
+		{
+		}
+
+		@Override
+		protected Class<?> getPreferredCommandParameterType()
+		{
+			return null;
+		}
+		
+	}
+	
 }

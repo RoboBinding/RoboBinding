@@ -21,7 +21,6 @@ import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
 
 import android.view.View;
-import android.widget.ListView;
 
 /**
  * 
@@ -29,7 +28,7 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<ListView>
+public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View>
 {
 	private SubViewVisibility subViewVisibility;
 	SubViewVisibilityAttribute(SubViewVisibility subViewVisibility)
@@ -37,7 +36,7 @@ public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAtt
 		this.subViewVisibility = subViewVisibility;
 	}
 	@Override
-	protected AbstractPropertyViewAttribute<ListView, ?> createPropertyViewAttribute(Class<?> propertyType)
+	protected AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
@@ -56,7 +55,7 @@ public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAtt
 		return new SubViewVisibilityAttribute(new SubViewVisibility(headerOrFooterView));
 	}
 	
-	class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<ListView, Boolean>
+	class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 	{
 		@Override
 		protected void valueModelUpdated(Boolean newValue)
@@ -71,7 +70,7 @@ public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAtt
 		}
 	}
 	
-	class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<ListView, Integer>
+	class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newValue)

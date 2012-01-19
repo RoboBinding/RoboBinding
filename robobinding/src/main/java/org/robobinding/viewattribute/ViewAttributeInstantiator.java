@@ -23,36 +23,41 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ViewAttributeInstantiator
+public class ViewAttributeInstantiator<T extends View>
 {
-	public PropertyViewAttribute<View> newPropertyViewAttribute(Class<? extends PropertyViewAttribute<? extends View>> propertyViewAttributeClass, View view,
-			String attributeValue, boolean preInitializeViews)
+	private T view;
+	private boolean preInitializeViews;
+	private GroupedAttributeDetails groupedAttributeDetails;
+
+	ViewAttributeInstantiator(T view, boolean preInitializeViews, GroupedAttributeDetails groupedAttributeDetails)
+	{
+		this.view = view;
+		this.preInitializeViews = preInitializeViews;
+		this.groupedAttributeDetails = groupedAttributeDetails;
+	}
+
+	public <PropertyViewAttributeType extends PropertyViewAttribute<? super T>>  PropertyViewAttributeType newPropertyViewAttribute(
+			Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
 	{
 		@SuppressWarnings("unchecked")
-		PropertyViewAttribute<View> propertyViewAttribute = (PropertyViewAttribute<View>) newViewAttribute(propertyViewAttributeClass);
-		injectPropertyAttributeValues(propertyViewAttribute, view, attributeValue, preInitializeViews);
+		PropertyViewAttributeType propertyViewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass);
+		propertyViewAttribute.setView(view);
+		propertyViewAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(propertyAttribute));
+		propertyViewAttribute.setPreInitializeView(preInitializeViews);
 		return propertyViewAttribute;
 	}
 
-	public AbstractCommandViewAttribute<View> newCommandViewAttribute(Class<? extends AbstractCommandViewAttribute<? extends View>> commandViewAttributeClass,
-			View view, String attributeValue)
+	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? super T>> CommandViewAttributeType newCommandViewAttribute(
+			Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
 	{
 		@SuppressWarnings("unchecked")
-		AbstractCommandViewAttribute<View> commandViewAttribute = (AbstractCommandViewAttribute<View>) newViewAttribute(commandViewAttributeClass);
-		injectCommandAttributeValues(commandViewAttribute, view, attributeValue);
+		CommandViewAttributeType commandViewAttribute = (CommandViewAttributeType)newViewAttribute(commandViewAttributeClass);
+		commandViewAttribute.setView(view);
+		commandViewAttribute.setCommandName(groupedAttributeDetails.attributeValueFor(commandAttribute));
 		return commandViewAttribute;
 	}
 
-	public AbstractGroupedViewAttribute<View> newGroupedViewAttribute(Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass,
-			View view, boolean preInitializeViews, GroupedAttributeDetails groupedAttributeDetails)
-	{
-		@SuppressWarnings("unchecked")
-		AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>) newViewAttribute(groupedViewAttributeClass);
-		injectGroupedAttributeValues(groupedViewAttribute, view, preInitializeViews, groupedAttributeDetails);
-		return groupedViewAttribute;
-	}
-
-	ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass)
+	private ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass)
 	{
 		try
 		{
@@ -64,26 +69,5 @@ public class ViewAttributeInstantiator
 		{
 			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " is not public");
 		}
-	}
-
-	void injectPropertyAttributeValues(PropertyViewAttribute<View> propertyViewAttribute, View view, String attributeValue, boolean preInitializeViews)
-	{
-		propertyViewAttribute.setView(view);
-		propertyViewAttribute.setAttributeValue(attributeValue);
-		propertyViewAttribute.setPreInitializeView(preInitializeViews);
-	}
-
-	<T extends View> void injectCommandAttributeValues(AbstractCommandViewAttribute<T> commandViewAttribute, T view, String commandName)
-	{
-		commandViewAttribute.setView(view);
-		commandViewAttribute.setCommandName(commandName);
-	}
-
-	void injectGroupedAttributeValues(AbstractGroupedViewAttribute<View> groupedViewAttribute, View view, boolean preInitializeViews,
-			GroupedAttributeDetails groupedAttributeDetails)
-	{
-		groupedViewAttribute.setView(view);
-		groupedViewAttribute.setPreInitializeViews(preInitializeViews);
-		groupedViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
 	}
 }

@@ -15,6 +15,7 @@
  */
 package org.robobinding.viewattribute.absspinner;
 
+import org.robobinding.internal.org_apache_commons_lang3.ArrayUtils;
 import org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes;
 import org.robobinding.viewattribute.adapterview.DropdownLayoutAttribute;
 import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
@@ -33,21 +34,20 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 	public static final String DROPDOWN_MAPPING = "dropdownMapping";
 	
 	@Override
-	protected void initializeChildViewAttributes()
+	protected String[] getCompulsoryAttributes()
 	{
-		super.initializeChildViewAttributes();
+		return ArrayUtils.addAll(super.getCompulsoryAttributes(), DROPDOWN_LAYOUT);
+	}
+	
+	@Override
+	protected void postInitialization()
+	{
+		super.postInitialization();
 		
 		if (groupedAttributeDetails.hasAttribute(DROPDOWN_LAYOUT))
 			childViewAttributes.add(new DropdownLayoutAttribute(view, groupedAttributeDetails.attributeValueFor(DROPDOWN_LAYOUT)));
 		
 		if (groupedAttributeDetails.hasAttribute(DROPDOWN_MAPPING))
 			childViewAttributes.add(new DropdownMappingAttribute(groupedAttributeDetails.attributeValueFor(DROPDOWN_MAPPING)));
-	}
-	
-	protected void validateAttributes()
-	{
-		super.validateAttributes();
-		
-		assertAttributesArePresent(DROPDOWN_LAYOUT);
 	}
 }

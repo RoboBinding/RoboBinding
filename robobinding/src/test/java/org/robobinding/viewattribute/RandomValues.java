@@ -101,4 +101,9 @@ public class RandomValues
 	{
 		return random.nextBoolean()?"@layout/layout1":"@layout/layout2";
 	}
+	
+	public static int nextInt(int n)
+	{
+		return random.nextInt(n);
+	}
 }

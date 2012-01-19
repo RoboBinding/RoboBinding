@@ -33,8 +33,8 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected T view;
 	protected boolean preInitializeViews;
 	protected GroupedAttributeDetails groupedAttributeDetails;
-	private ViewAttributeInstantiator viewAttributeInstantiator;
-
+	private ViewAttributeInstantiator<T> viewAttributeInstantiator;
+	
 	public void setView(T view)
 	{
 		this.view = view;
@@ -48,42 +48,40 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	public void setGroupedAttributeDetails(GroupedAttributeDetails groupedAttributeDetails)
 	{
 		this.groupedAttributeDetails = groupedAttributeDetails;
-		initializeChildViewAttributes();
+		
+		validateAttributes();
 	}
-
-	protected abstract void initializeChildViewAttributes();
-
-	protected void assertAttributesArePresent(String... attributes)
+	private void validateAttributes()
 	{
-		if (!groupedAttributeDetails.hasAttributes(attributes))
+		String[] compulsoryAttributes = getCompulsoryAttributes();
+		if((compulsoryAttributes != null) && (compulsoryAttributes.length > 0))
 		{
-			Collection<String> missingAttributes = groupedAttributeDetails.findAbsentAttributes(attributes);
-			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''", getClass().getName(), view
-					.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
+			assertAttributesArePresent(compulsoryAttributes);
 		}
 	}
-
-	@SuppressWarnings("unchecked")
-	protected <ViewType extends View, AttributeType extends PropertyViewAttribute<ViewType>> AttributeType newPropertyViewAttribute(
-			Class<AttributeType> propertyViewAttributeClass, String attributeName)
+	protected String[] getCompulsoryAttributes()
 	{
-		ensureViewAttributeInstantiator();
-		return (AttributeType) viewAttributeInstantiator.newPropertyViewAttribute(propertyViewAttributeClass, view,
-				groupedAttributeDetails.attributeValueFor(attributeName), preInitializeViews);
+		return null;
 	}
-
-	@SuppressWarnings("unchecked")
-	protected <ViewType extends View, AttributeType extends AbstractCommandViewAttribute<ViewType>> AttributeType newCommandViewAttribute(
-			Class<AttributeType> commandViewAttributeClass, String attributeName)
+	
+	protected void postInitialization()
 	{
-		ensureViewAttributeInstantiator();
-		return (AttributeType) viewAttributeInstantiator.newCommandViewAttribute(commandViewAttributeClass, view,
-				groupedAttributeDetails.attributeValueFor(attributeName));
 	}
-
-	private void ensureViewAttributeInstantiator()
+	
+	private void assertAttributesArePresent(String... attributes)
+	{
+		if(!groupedAttributeDetails.hasAttributes(attributes))
+		{
+			Collection<String> missingAttributes = groupedAttributeDetails.findAbsentAttributes(attributes);
+			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
+					getClass().getName(), view.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
+		}
+	}
+	
+	protected ViewAttributeInstantiator<T> getViewAttributeInstantiator()
 	{
 		if (viewAttributeInstantiator == null)
-			viewAttributeInstantiator = new ViewAttributeInstantiator();
+			viewAttributeInstantiator = new ViewAttributeInstantiator<T>(view, preInitializeViews, groupedAttributeDetails);
+		return viewAttributeInstantiator;
 	}
 }

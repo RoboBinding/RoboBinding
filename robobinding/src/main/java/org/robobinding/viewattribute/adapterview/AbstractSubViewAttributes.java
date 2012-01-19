@@ -39,14 +39,9 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	private View subView;
 	
 	@Override
-	protected void initializeChildViewAttributes()
+	protected String[] getCompulsoryAttributes()
 	{
-		validateAttributes();
-	}
-	
-	private void validateAttributes()
-	{
-		assertAttributesArePresent(layoutAttribute());
+		return new String[]{layoutAttribute()};
 	}
 
 	@Override
@@ -91,6 +86,7 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
 		{
 			SubViewVisibilityAttribute visibilityAttribute = SubViewVisibilityAttribute.create(subView);
+			visibilityAttribute.setView(subView);
 			visibilityAttribute.setPreInitializeView(preInitializeViews);
 			visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
 			visibilityAttribute.bind(presentationModelAdapter, context);

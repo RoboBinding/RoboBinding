@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.textview;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.ViewAttributeInstantiator;
 
 import android.content.Context;
 import android.widget.TextView;
@@ -36,11 +37,16 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 	private ValueCommitMode valueCommitMode;
 	
 	@Override
-	protected void initializeChildViewAttributes()
+	protected String[] getCompulsoryAttributes()
 	{
-		assertAttributesArePresent(TEXT);
-		
-		textAttribute = newPropertyViewAttribute(TextAttribute.class, TEXT);
+		return new String[]{TEXT};
+	}
+	
+	@Override
+	protected void postInitialization()
+	{
+		ViewAttributeInstantiator<TextView> viewAttributeInstantiator = getViewAttributeInstantiator();
+		TextAttribute textAttribute = viewAttributeInstantiator.newPropertyViewAttribute(TextAttribute.class, TEXT);
 		
 		determineValueCommitMode();
 		textAttribute.setValueCommitMode(valueCommitMode);
