@@ -25,7 +25,7 @@ package org.robobinding.property;
 public interface Properties
 {
 	Class<?> getPropertyType(String propertyName);
-	<T> Property<T> getReadWriteProperty(String propertyName);
-	<T> Property<T> getReadOnlyProperty(String propertyName);
-	<T> DataSetProperty<T> getReadOnlyDataSetProperty(String propertyName);
+	<T> ValueModel<T> getReadWriteProperty(String propertyName);
+	<T> ValueModel<T> getReadOnlyProperty(String propertyName);
+	<T> DataSetValueModel<T> getReadOnlyDataSetProperty(String propertyName);
 }

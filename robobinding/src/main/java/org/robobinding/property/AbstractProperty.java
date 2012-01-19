@@ -59,11 +59,13 @@ abstract class AbstractProperty<T> implements Property<T>
 		}
 	}
 
+	@Override
 	public Class<?> getPropertyType()
 	{
 		return propertyAccessor.getPropertyType();
 	}
 
+	@Override
 	public void checkReadWriteProperty(boolean isReadWriteProperty)
 	{
 		propertyAccessor.checkReadable();
@@ -73,7 +75,6 @@ abstract class AbstractProperty<T> implements Property<T>
 		}
 	}
 
-	@Override
 	public PropertyAccessor<T> getPropertyAccessor()
 	{
 		return propertyAccessor;

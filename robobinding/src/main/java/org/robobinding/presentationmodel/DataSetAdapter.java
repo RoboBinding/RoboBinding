@@ -17,7 +17,7 @@ package org.robobinding.presentationmodel;
 
 import org.robobinding.binder.RowBinder;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
-import org.robobinding.property.DataSetProperty;
+import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
 import org.robobinding.viewattribute.adapterview.ItemMappingAttribute;
@@ -37,7 +37,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 {
 	private enum ViewType {ITEM_LAYOUT, DROPDOWN_LAYOUT}
 	
-	private DataSetProperty<T> dataSetValueModel;
+	private DataSetValueModel<T> dataSetValueModel;
 	private final RowBinder rowBinder;
 	
 	public DataSetAdapter(Context context)
@@ -56,7 +56,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 		});
 	}
 
-	public void setValueModel(DataSetProperty<T> valueModel)
+	public void setValueModel(DataSetValueModel<T> valueModel)
 	{
 		this.dataSetValueModel = valueModel;
 	}
@@ -131,7 +131,8 @@ public class DataSetAdapter<T> extends BaseAdapter
 	{
 		@SuppressWarnings("unchecked")
 		ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>)view.getTag();
-		dataSetValueModel.updateItemPresentationModel(itemPresentationModel, position);
+		T item = dataSetValueModel.getItem(position);
+		itemPresentationModel.updateData(position, item);
 	}
 
 	public void setItemMappingAttribute(ItemMappingAttribute itemMappingAttribute)

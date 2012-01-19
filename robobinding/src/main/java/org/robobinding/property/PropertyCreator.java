@@ -54,12 +54,12 @@ class PropertyCreator
 	public <T> Property<T> createProperty(String propertyName)
 	{
 		PropertyAccessor<T> propertyAccessor = getPropertyAccessor(propertyName);
-		Property<T> property = new SimpleProperty<T>(observableBean, propertyAccessor);
+		AbstractProperty<T> property = new SimpleProperty<T>(observableBean, propertyAccessor);
 		
 		return convertAsDependencyPropertyIfNeccessary(property);
 	}
 	
-	private <T> Property<T> convertAsDependencyPropertyIfNeccessary(Property<T> property)
+	private <T> Property<T> convertAsDependencyPropertyIfNeccessary(AbstractProperty<T> property)
 	{
 		PropertyAccessor<T> propertyAccessor = property.getPropertyAccessor();
 		if(propertyAccessor.hasAnnotation(DependsOnStateOf.class))

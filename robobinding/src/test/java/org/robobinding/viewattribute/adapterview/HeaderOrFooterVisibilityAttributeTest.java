@@ -18,7 +18,6 @@ package org.robobinding.viewattribute.adapterview;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttributeTest;
-import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
 import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.BooleanVisibilityAttribute;
 import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.IntegerVisibilityAttribute;
 

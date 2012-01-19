@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.property.DataSetProperty;
+import org.robobinding.property.DataSetValueModel;
 
 import android.content.Context;
 
@@ -53,7 +53,7 @@ public class SourceAttributeTest
 	@Test
 	public void whenBinding_thenSetDataSetValueModelOnDataSetAdapter()
 	{
-		DataSetProperty dataSetValueModel = mock(DataSetProperty.class);
+		DataSetValueModel dataSetValueModel = mock(DataSetValueModel.class);
 		when(presentationModelAdapter.getDataSetPropertyValueModel(propertyName)).thenReturn(dataSetValueModel);		
 		SourceAttribute sourceAttribute = new SourceAttribute(attributeValue);
 		

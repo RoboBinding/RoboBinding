@@ -15,8 +15,6 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.viewattribute.adapterview.SubViewVisibility;
-
 import android.view.View;
 
 /**

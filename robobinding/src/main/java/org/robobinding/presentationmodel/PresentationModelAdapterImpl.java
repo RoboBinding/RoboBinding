@@ -19,7 +19,7 @@ import org.robobinding.function.CachedFunctions;
 import org.robobinding.function.Function;
 import org.robobinding.internal.org_apache_commons_lang3.Validate;
 import org.robobinding.property.CachedProperties;
-import org.robobinding.property.DataSetProperty;
+import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.Properties;
 import org.robobinding.property.ValueModel;
 
@@ -38,7 +38,7 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter
 	
 	public PresentationModelAdapterImpl(Object presentationModel)
 	{
-		Validate.notNull(presentationModel);
+		Validate.notNull(presentationModel, "presentationModel must not be null");
 		
 		properties = new CachedProperties(presentationModel);
 		functions = new CachedFunctions(presentationModel);
@@ -57,7 +57,7 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter
 		return properties.getReadOnlyProperty(propertyName);
 	}
 	@Override
-	public DataSetProperty<?> getDataSetPropertyValueModel(String propertyName)
+	public DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName)
 	{
 		return properties.getReadOnlyDataSetProperty(propertyName);
 	}

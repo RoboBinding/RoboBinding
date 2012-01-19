@@ -15,7 +15,6 @@
  */
 package org.robobinding.property;
 
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
 /**
  * 
@@ -23,13 +22,6 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface DataSetProperty<T> extends Property<Object>
+interface DataSetProperty<T> extends DataSetValueModel<T>, Property<Object>
 {
-	int size();
-
-	T getItem(int position);
-
-	ItemPresentationModel<T> newItemPresentationModel();
-
-	void updateItemPresentationModel(ItemPresentationModel<T> itemPresentationModel, int position);
 }

@@ -49,11 +49,4 @@ public class DataSetPropertyWrapper<T> extends PropertyWrapper<Object> implement
 	{
 		return dataSetProperty.newItemPresentationModel();
 	}
-
-	@Override
-	public void updateItemPresentationModel(ItemPresentationModel<T> itemPresentationModel, int position)
-	{
-		dataSetProperty.updateItemPresentationModel(itemPresentationModel, position);
-	}
-	
 }

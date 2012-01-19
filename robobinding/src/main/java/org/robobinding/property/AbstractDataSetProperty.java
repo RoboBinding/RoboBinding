@@ -42,6 +42,7 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 		
 		this.bean = observableBean.getBean();
 		initializeFactory();
+		
 		isDataSetNotInitialized = true;
 		addPropertyChangeListener(this);
 	}
@@ -59,11 +60,6 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 		{
 			factory = new FactoryMethodImpl<T>(bean, itemPresentationModelClass, factoryMethod);
 		}
-	}
-	@Override
-	public final Object getValue()
-	{
-		throw new UnsupportedOperationException();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -88,19 +84,9 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 	}
 	
 	@Override
-	public final void setValue(Object newValue)
-	{
-		throw new UnsupportedOperationException();
-	}
-	
 	public ItemPresentationModel<T> newItemPresentationModel()
 	{
 		return factory.newItemPresentationModel();
-	}
-	public void updateItemPresentationModel(ItemPresentationModel<T> itemPresentationModel, int position)
-	{
-		T item = getItem(position);
-		itemPresentationModel.updateData(position, item);
 	}
 	
 	@Override

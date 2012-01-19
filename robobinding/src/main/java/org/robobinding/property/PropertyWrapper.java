@@ -63,11 +63,4 @@ class PropertyWrapper<T> implements Property<T>
 	{
 		property.checkReadWriteProperty(isReadWriteProperty);
 	}
-
-	@Override
-	public PropertyAccessor<T> getPropertyAccessor()
-	{
-		return property.getPropertyAccessor();
-	}
-
 }

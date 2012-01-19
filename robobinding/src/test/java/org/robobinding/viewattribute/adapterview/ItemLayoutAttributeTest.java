@@ -27,9 +27,9 @@ import org.robobinding.viewattribute.MockPresentationModelForProperty;
 import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.DynamicLayoutAttribute;
 import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.StaticLayoutAttribute;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-
 import android.widget.AdapterView;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *

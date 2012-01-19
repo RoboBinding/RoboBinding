@@ -19,7 +19,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
 
 /**
  *

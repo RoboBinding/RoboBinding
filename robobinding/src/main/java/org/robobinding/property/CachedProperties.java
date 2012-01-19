@@ -41,18 +41,18 @@ public class CachedProperties implements Properties
 	@Override
 	public Class<?> getPropertyType(String propertyName)
 	{
-		Property<?> property = getReadOnlyProperty(propertyName);
+		Property<?> property = getProperty(propertyName, false);
 		return property.getPropertyType();
 	}
 
 	@Override
-	public <T> Property<T> getReadWriteProperty(String propertyName)
+	public <T> ValueModel<T> getReadWriteProperty(String propertyName)
 	{
 		return getProperty(propertyName, true);
 	}
 
 	@Override
-	public <T> Property<T> getReadOnlyProperty(String propertyName)
+	public <T> ValueModel<T> getReadOnlyProperty(String propertyName)
 	{
 		return getProperty(propertyName, false);
 	}
@@ -70,18 +70,29 @@ public class CachedProperties implements Properties
 		return property;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> DataSetProperty<T> getReadOnlyDataSetProperty(String propertyName)
 	{
-		@SuppressWarnings("unchecked")
-		DataSetProperty<T> property = (DataSetProperty<T>)propertyCache.get(propertyName);
-		if(property == null)
+		Property<T> property = (Property<T>)propertyCache.get(propertyName);
+		DataSetProperty<T> dataSetProperty = null;
+		if(property != null)
 		{
-			property = propertyCreator.createDataSetProperty(propertyName);
-			propertyCache.put(propertyName, property);
+			if(property instanceof DataSetProperty)
+			{
+				dataSetProperty = (DataSetProperty<T>)property;
+			}else
+			{
+				throw new RuntimeException(property.toString()+" is not a dataSet property");
+			}
 		}
-		property.checkReadWriteProperty(false);
-		return property;
+		if(dataSetProperty == null)
+		{
+			dataSetProperty = propertyCreator.createDataSetProperty(propertyName);
+			propertyCache.put(propertyName, dataSetProperty);
+		}
+		dataSetProperty.checkReadWriteProperty(false);
+		return dataSetProperty;
 	}
 
 }
