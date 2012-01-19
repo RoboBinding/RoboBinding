@@ -16,40 +16,81 @@
  */
 package org.robobinding.property;
 
+import java.util.List;
+
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class CachedPropertiesTest
 {
+	private static final String PROPERTY_NAME = "property";
 	private CachedProperties cachedProperties;
-	@Before
-	public void setUp()
-	{
-		cachedProperties = new CachedProperties(new Bean());
-	}
+
 	@Test
 	public void givenGetReadOnlyPropertyOnce_whenGetReadOnlyPropertyAgain_thenReturnSameInstance()
 	{
-		Property<Boolean> property = cachedProperties.getReadOnlyProperty(Bean.READ_ONLY_PROPERTY);
-		
-		Property<Boolean> cachedProperty = cachedProperties.getReadOnlyProperty(Bean.READ_ONLY_PROPERTY);
-		
+		declareReadOnlyProperty();
+
+		ValueModel<Boolean> property = cachedProperties.getReadOnlyProperty(PROPERTY_NAME);
+
+		ValueModel<Boolean> cachedProperty = cachedProperties.getReadOnlyProperty(PROPERTY_NAME);
+
 		Assert.assertTrue(property == cachedProperty);
 	}
+
+	private void declareReadOnlyProperty()
+	{
+		PropertyCreator mockPropertyCreator = MockPropertyCreatorBuilder.createWithReadOnlyProperty(PROPERTY_NAME);
+		cachedProperties = new CachedProperties(mockPropertyCreator);
+	}
+
 	@Test
 	public void givenAccessReadWritePropertyUsingGetReadOnlyPropertyAtFirst_whenAccessUsingGetReadWritePropertyLater_thenReturnSameInstance()
 	{
-		Property<Boolean> propertyUsingGetReadOnlyProperty = cachedProperties.getReadOnlyProperty(Bean.READ_WRITE_PROPERTY);
-		
-		Property<Boolean> propertyUsingGetReadWriteProperty = cachedProperties.getReadWriteProperty(Bean.READ_WRITE_PROPERTY);
-		
+		declareProperty();
+
+		ValueModel<Boolean> propertyUsingGetReadOnlyProperty = cachedProperties.getReadOnlyProperty(PROPERTY_NAME);
+
+		ValueModel<Boolean> propertyUsingGetReadWriteProperty = cachedProperties.getReadWriteProperty(PROPERTY_NAME);
+
 		Assert.assertTrue(propertyUsingGetReadOnlyProperty == propertyUsingGetReadWriteProperty);
+	}
+
+	private void declareProperty()
+	{
+		PropertyCreator mockPropertyCreator = MockPropertyCreatorBuilder.createWithProperty(PROPERTY_NAME);
+		cachedProperties = new CachedProperties(mockPropertyCreator);
+	}
+
+	@Test
+	public void givenGetDatSetPropertyOnce_whenGetDataSetPropertyAgain_thenReturnSameInstance()
+	{
+		declareDataSetProperty();
+
+		DataSetValueModel<List<Boolean>> dataSetProperty = cachedProperties.getDataSetProperty(PROPERTY_NAME);
+
+		DataSetValueModel<List<Boolean>> cachedDataSetProperty = cachedProperties.getDataSetProperty(PROPERTY_NAME);
+
+		Assert.assertTrue(dataSetProperty == cachedDataSetProperty);
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void givenProperty_whenAccessUsingGetDataSetProperty_thenThrowException()
+	{
+		declareProperty();
+
+		cachedProperties.getDataSetProperty(PROPERTY_NAME);
+	}
+
+	private void declareDataSetProperty()
+	{
+		PropertyCreator mockPropertyCreator = MockPropertyCreatorBuilder.createWithDataSetProperty(PROPERTY_NAME);
+		cachedProperties = new CachedProperties(mockPropertyCreator);
 	}
 }

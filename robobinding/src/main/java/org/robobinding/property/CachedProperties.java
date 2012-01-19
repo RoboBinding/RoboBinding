@@ -30,12 +30,14 @@ import org.robobinding.internal.com_google_common.collect.Maps;
  */
 public class CachedProperties implements Properties
 {
-	private PropertyCreator propertyCreator;
+	PropertyCreator propertyCreator;
 	private Map<String, Property<?>> propertyCache;
-	public CachedProperties(Object bean)
+	private Map<String, DataSetProperty<?>> dataSetPropertyCache;
+	CachedProperties(PropertyCreator propertyCreator)
 	{
-		propertyCreator = new PropertyCreator(bean);
+		this.propertyCreator = propertyCreator;
 		propertyCache = Maps.newHashMap();
+		dataSetPropertyCache = Maps.newHashMap();
 	}
 
 	@Override
@@ -70,29 +72,22 @@ public class CachedProperties implements Properties
 		return property;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <T> DataSetProperty<T> getReadOnlyDataSetProperty(String propertyName)
+	public <T> DataSetValueModel<T> getDataSetProperty(String propertyName)
 	{
-		Property<T> property = (Property<T>)propertyCache.get(propertyName);
-		DataSetProperty<T> dataSetProperty = null;
-		if(property != null)
-		{
-			if(property instanceof DataSetProperty)
-			{
-				dataSetProperty = (DataSetProperty<T>)property;
-			}else
-			{
-				throw new RuntimeException(property.toString()+" is not a dataSet property");
-			}
-		}
+		@SuppressWarnings("unchecked")
+		DataSetProperty<T> dataSetProperty = (DataSetProperty<T>)dataSetPropertyCache.get(propertyName);
 		if(dataSetProperty == null)
 		{
 			dataSetProperty = propertyCreator.createDataSetProperty(propertyName);
-			propertyCache.put(propertyName, dataSetProperty);
+			dataSetPropertyCache.put(propertyName, dataSetProperty);
 		}
 		dataSetProperty.checkReadWriteProperty(false);
 		return dataSetProperty;
 	}
 
+	public static Properties create(Object bean)
+	{
+		return new CachedProperties(new PropertyCreator(bean));
+	}
 }

@@ -31,11 +31,11 @@ import org.robobinding.property.PropertyAccessor;
  */
 public class PropertyAccessorTest
 {
-	private Bean bean;
+	private TestBean bean;
 	@Before
 	public void setUp()
 	{
-		bean = new Bean();
+		bean = new TestBean();
 	}
 	@Test
 	public void givenReadOnlyProperty_whenCheckReadable_thenPassCheck()
@@ -133,19 +133,19 @@ public class PropertyAccessorTest
 	}
 	private PropertyAccessor<Boolean> createReadOnlyPropertyAccessor()
 	{
-		return createPropertyAccessor(Bean.READ_ONLY_PROPERTY);
+		return createPropertyAccessor(TestBean.READ_ONLY_PROPERTY);
 	}
 	private PropertyAccessor<Boolean> createWriteOnlyPropertyAccessor()
 	{
-		return createPropertyAccessor(Bean.WRITE_ONLY_PROPERTY);
+		return createPropertyAccessor(TestBean.WRITE_ONLY_PROPERTY);
 	}
 	private PropertyAccessor<Boolean> createAnnotatedPropertyAccessor()
 	{
-		return createPropertyAccessor(Bean.ANNOTATED_PROPERTY);
+		return createPropertyAccessor(TestBean.ANNOTATED_PROPERTY);
 	}
 	private PropertyAccessor<Boolean> createNotAnnotatedPropertyAccessor()
 	{
-		return createPropertyAccessor(Bean.NOT_ANNOTATED_PROPERTY);
+		return createPropertyAccessor(TestBean.NOT_ANNOTATED_PROPERTY);
 	}
 	private PropertyAccessor<Boolean> createPropertyAccessor(String propertyName)
 	{

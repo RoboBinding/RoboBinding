@@ -35,13 +35,13 @@ abstract class AbstractProperty<T> implements Property<T>
 	@Override
 	public T getValue()
 	{
-		return propertyAccessor.getValue(observableBean.getBean());
+		return propertyAccessor.getValue(getBean());
 	}
 
 	@Override
 	public void setValue(T newValue)
 	{
-		propertyAccessor.setValue(observableBean.getBean(), newValue);
+		propertyAccessor.setValue(getBean(), newValue);
 	}
 
 	@Override
@@ -53,10 +53,7 @@ abstract class AbstractProperty<T> implements Property<T>
 	@Override
 	public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener)
 	{
-		if (observableBean.isObservable())
-		{
-			observableBean.removePropertyChangeListener(propertyAccessor.getPropertyName(), listener);
-		}
+		observableBean.removePropertyChangeListener(propertyAccessor.getPropertyName(), listener);
 	}
 
 	@Override
@@ -78,6 +75,11 @@ abstract class AbstractProperty<T> implements Property<T>
 	public PropertyAccessor<T> getPropertyAccessor()
 	{
 		return propertyAccessor;
+	}
+	
+	protected final Object getBean()
+	{
+		return observableBean.getBean();
 	}
 	
 	@Override

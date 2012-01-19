@@ -85,12 +85,9 @@ class Dependency
 
 	public void removeListenerOffDependentProperties(PresentationModelPropertyChangeListener listener)
 	{
-		if (observableBean.isObservable())
+		for (String dependentProperty : dependentProperties)
 		{
-			for (String dependentProperty : dependentProperties)
-			{
-				observableBean.removePropertyChangeListener(dependentProperty, listener);
-			}
+			observableBean.removePropertyChangeListener(dependentProperty, listener);
 		}
 	}
 

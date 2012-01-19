@@ -32,7 +32,7 @@ import org.robobinding.property.PresentationModelPropertyChangeSupport;
  * @author Cheng Wei
  *
  */
-public class ObservableTestBean extends Bean implements ObservableProperties
+public class ObservableTestBean extends TestBean implements ObservableProperties
 {
 	public static final String LIST_DATA_SET_PROPERTY = "listDataSetProperty";
 	public static final String ARRAY_DATA_SET_PROPERTY = "arrayDataSetProperty";

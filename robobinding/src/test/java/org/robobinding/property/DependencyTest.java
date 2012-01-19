@@ -37,7 +37,7 @@ public class DependencyTest
 	public void setUp()
 	{
 		observableTestBean = new ObservableTestBean();
-		listener = new PresentationModelPropertyChangeListenerImpl();
+		listener = new MockPresentationModelPropertyChangeListener();
 	}
 	@Test
 	public void whenCreateWithValidDependentProperties_thenSuccessful()

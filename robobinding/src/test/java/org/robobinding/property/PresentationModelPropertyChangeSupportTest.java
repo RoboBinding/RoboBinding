@@ -16,6 +16,9 @@
  */
 package org.robobinding.property;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,28 +49,27 @@ public class PresentationModelPropertyChangeSupportTest
 	@Test
 	public void givenListenerOnProperty1_whenRemoveIt_thenShouldNotReceiveNotification()
 	{
-		PresentationModelPropertyChangeListener mockListener = createListenerOnProperty(Bean.PROPERTY1);
+		MockPresentationModelPropertyChangeListener mockListener = createListenerOnProperty(Bean.PROPERTY1);
 		
 		propertyChangeSupport.removePropertyChangeListener(Bean.PROPERTY1, mockListener);
 		
 		propertyChangeSupport.firePropertyChange(Bean.PROPERTY1);
-		EasyMock.verify(mockListener);
+		assertFalse(mockListener.propertyChangedFired);
 	}
-	private PresentationModelPropertyChangeListener createListenerOnProperty(String propertyName)
+	private MockPresentationModelPropertyChangeListener createListenerOnProperty(String propertyName)
 	{
-		PresentationModelPropertyChangeListener mockListener = EasyMock.createMock(PresentationModelPropertyChangeListener.class);
-		EasyMock.replay(mockListener);
+		MockPresentationModelPropertyChangeListener mockListener = new MockPresentationModelPropertyChangeListener();
 		propertyChangeSupport.addPropertyChangeListener(propertyName, mockListener);
 		return mockListener;
 	}
 	@Test
 	public void givenListenerOnProperty1_whenFirePropertyChange_thenShouldReceiveNotification()
 	{
-		PresentationModelPropertyChangeListener mockListener = createShouldBeNotifiedListenerOnProperty(Bean.PROPERTY1);
+		MockPresentationModelPropertyChangeListener mockListener = createShouldBeNotifiedListenerOnProperty(Bean.PROPERTY1);
 		
 		propertyChangeSupport.firePropertyChange(Bean.PROPERTY1);
 		
-		EasyMock.verify(mockListener);
+		assertTrue(mockListener.propertyChangedFired);
 	}
 	@Test
 	public void givenListenersOnProperty1AndProperty2_whenFireChangeAll_thenShouldAllReceiveNotifications()
@@ -79,11 +81,9 @@ public class PresentationModelPropertyChangeSupportTest
 		
 		EasyMock.verify(listenerOnProperty1, listenerOnProperty2);
 	}
-	private PresentationModelPropertyChangeListener createShouldBeNotifiedListenerOnProperty(String propertyName)
+	private MockPresentationModelPropertyChangeListener createShouldBeNotifiedListenerOnProperty(String propertyName)
 	{
-		PresentationModelPropertyChangeListener mockPropertyChangeListener = EasyMock.createMock(PresentationModelPropertyChangeListener.class);
-		mockPropertyChangeListener.propertyChanged();
-		EasyMock.replay(mockPropertyChangeListener);
+		MockPresentationModelPropertyChangeListener mockPropertyChangeListener = new MockPresentationModelPropertyChangeListener();
 		
 		propertyChangeSupport.addPropertyChangeListener(propertyName, mockPropertyChangeListener);
 		return mockPropertyChangeListener;

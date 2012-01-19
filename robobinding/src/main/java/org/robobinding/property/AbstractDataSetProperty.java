@@ -32,7 +32,6 @@ import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
 abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> implements DataSetProperty<T>, PresentationModelPropertyChangeListener
 {
 	private ItemPresentationModelFactory<T> factory;
-	private Object bean;
 	private boolean isDataSetNotInitialized;
 	private Object dataSet;
 
@@ -40,7 +39,6 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 	{
 		super(observableBean, propertyAccessor);
 		
-		this.bean = observableBean.getBean();
 		initializeFactory();
 		
 		isDataSetNotInitialized = true;
@@ -58,7 +56,7 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 			factory = new DefaultConstructorImpl<T>(itemPresentationModelClass);
 		}else
 		{
-			factory = new FactoryMethodImpl<T>(bean, itemPresentationModelClass, factoryMethod);
+			factory = new FactoryMethodImpl<T>(getBean(), itemPresentationModelClass, factoryMethod);
 		}
 	}
 	

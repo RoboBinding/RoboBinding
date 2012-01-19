@@ -27,5 +27,5 @@ public interface Properties
 	Class<?> getPropertyType(String propertyName);
 	<T> ValueModel<T> getReadWriteProperty(String propertyName);
 	<T> ValueModel<T> getReadOnlyProperty(String propertyName);
-	<T> DataSetValueModel<T> getReadOnlyDataSetProperty(String propertyName);
+	<T> DataSetValueModel<T> getDataSetProperty(String propertyName);
 }

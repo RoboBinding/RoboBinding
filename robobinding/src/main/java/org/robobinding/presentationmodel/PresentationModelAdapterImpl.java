@@ -40,7 +40,7 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter
 	{
 		Validate.notNull(presentationModel, "presentationModel must not be null");
 		
-		properties = new CachedProperties(presentationModel);
+		properties = CachedProperties.create(presentationModel);
 		functions = new CachedFunctions(presentationModel);
 		presentationModelClass = presentationModel.getClass();
 	}
@@ -59,7 +59,7 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter
 	@Override
 	public DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName)
 	{
-		return properties.getReadOnlyDataSetProperty(propertyName);
+		return properties.getDataSetProperty(propertyName);
 	}
 	@Override
 	public Function findFunction(String functionName, Class<?>... parameterTypes)

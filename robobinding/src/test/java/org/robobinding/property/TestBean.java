@@ -15,6 +15,9 @@
  */
 package org.robobinding.property;
 
+import java.util.List;
+
+import org.robobinding.internal.com_google_common.collect.Lists;
 
 /**
  * 
@@ -22,7 +25,7 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class Bean
+public class TestBean
 {
 	public static final String READ_ONLY_PROPERTY = "readOnlyProperty";
 	public static final String WRITE_ONLY_PROPERTY = "writeOnlyProperty";
@@ -30,34 +33,47 @@ public class Bean
 	public static final String NOT_ANNOTATED_PROPERTY = "notAnnotatedProperty";
 	public static final String PROPERTY = "property";
 	public static final String READ_WRITE_PROPERTY = "readWriteProperty";
-	
+	public static final String DATA_SET_PROPERTY = "readOnlyDataSetProperty";
+
 	public boolean writeOnlyPropertyValue = true;
+
 	public boolean getReadOnlyProperty()
 	{
 		return true;
 	}
+
 	public void setWriteOnlyProperty(boolean newValue)
 	{
 		writeOnlyPropertyValue = newValue;
 	}
+
 	@PropertyAnnotation
 	public boolean getAnnotatedProperty()
 	{
 		return true;
 	}
+
 	public boolean getNotAnnotatedProperty()
 	{
 		return true;
 	}
+
 	public boolean getProperty()
 	{
 		return true;
 	}
+
 	public boolean getReadWriteProperty()
 	{
 		return true;
 	}
+
 	public void setReadWriteProperty(boolean b)
 	{
+	}
+
+	public List<Boolean> getDataSetProperty()
+	{
+		return Lists.newArrayList();
 	}
 }

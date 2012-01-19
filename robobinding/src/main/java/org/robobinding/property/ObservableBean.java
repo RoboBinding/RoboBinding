@@ -32,11 +32,6 @@ class ObservableBean implements ObservableProperties
 		this.bean = bean;
 	}
 
-	public boolean isObservable()
-	{
-		return bean instanceof ObservableProperties;
-	}
-
 	public Object getBean()
 	{
 		return bean;
@@ -62,10 +57,17 @@ class ObservableBean implements ObservableProperties
 	@Override
 	public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
-		checkObservable(propertyName);
-		asObservableBean().removePropertyChangeListener(propertyName, listener);
+		if (isObservable())
+		{
+			asObservableBean().removePropertyChangeListener(propertyName, listener);
+		}
 	}
 	
+	private boolean isObservable()
+	{
+		return bean instanceof ObservableProperties;
+	}
+
 	private ObservableProperties asObservableBean()
 	{
 		return (ObservableProperties) bean;

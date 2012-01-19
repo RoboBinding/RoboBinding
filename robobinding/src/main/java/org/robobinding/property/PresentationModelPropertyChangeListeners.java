@@ -15,52 +15,52 @@
  */
 package org.robobinding.property;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.internal.org_apache_commons_lang3.Validate;
 
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class PresentationModelPropertyChangeListeners implements Iterable<PresentationModelPropertyChangeListener>
+class PresentationModelPropertyChangeListeners
 {
 	private List<PresentationModelPropertyChangeListener> listeners;
+
 	public PresentationModelPropertyChangeListeners()
 	{
 		this.listeners = Lists.newArrayList();
 	}
+
 	public void add(PresentationModelPropertyChangeListener propertyChangeListener)
 	{
 		Validate.notNull(propertyChangeListener, "propertyChangeListener cannot be null");
 		listeners.add(propertyChangeListener);
 	}
+
 	public boolean remove(PresentationModelPropertyChangeListener listener)
 	{
 		return listeners.remove(listener);
 	}
+
 	public boolean contains(PresentationModelPropertyChangeListener listener)
 	{
 		return listeners.contains(listener);
 	}
+
 	public void firePropertyChange()
 	{
-		for(PresentationModelPropertyChangeListener listener : listeners)
+		for (PresentationModelPropertyChangeListener listener : listeners)
 		{
 			listener.propertyChanged();
 		}
 	}
-	@Override
-	public Iterator<PresentationModelPropertyChangeListener> iterator()
-	{
-		return listeners.iterator();
-	}
+
 	private static PresentationModelPropertyChangeListeners EMPTY = new PresentationModelPropertyChangeListeners();
+
 	public static PresentationModelPropertyChangeListeners empty()
 	{
 		return EMPTY;

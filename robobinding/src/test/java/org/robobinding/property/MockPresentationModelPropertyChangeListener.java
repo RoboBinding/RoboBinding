@@ -24,10 +24,12 @@ import org.robobinding.property.PresentationModelPropertyChangeListener;
 * @version $Revision: 1.0 $
 * @author Cheng Wei
 */
-public class PresentationModelPropertyChangeListenerImpl implements PresentationModelPropertyChangeListener
+public class MockPresentationModelPropertyChangeListener implements PresentationModelPropertyChangeListener
 {
+	public boolean propertyChangedFired = false;
 	@Override
 	public void propertyChanged()
 	{
+		propertyChangedFired = true;
 	}
 }
