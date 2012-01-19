@@ -31,8 +31,8 @@ import org.robobinding.internal.com_google_common.collect.Maps;
 public class CachedProperties implements Properties
 {
 	PropertyCreator propertyCreator;
-	private Map<String, Property<?>> propertyCache;
-	private Map<String, DataSetProperty<?>> dataSetPropertyCache;
+	private Map<String, PropertyValueModel<?>> propertyCache;
+	private Map<String, DataSetPropertyValueModel<?>> dataSetPropertyCache;
 	CachedProperties(PropertyCreator propertyCreator)
 	{
 		this.propertyCreator = propertyCreator;
@@ -43,7 +43,7 @@ public class CachedProperties implements Properties
 	@Override
 	public Class<?> getPropertyType(String propertyName)
 	{
-		Property<?> property = getProperty(propertyName, false);
+		PropertyValueModel<?> property = getProperty(propertyName, false);
 		return property.getPropertyType();
 	}
 
@@ -59,10 +59,10 @@ public class CachedProperties implements Properties
 		return getProperty(propertyName, false);
 	}
 
-	private <T> Property<T> getProperty(String propertyName, boolean isReadWriteProperty)
+	private <T> PropertyValueModel<T> getProperty(String propertyName, boolean isReadWriteProperty)
 	{
 		@SuppressWarnings("unchecked")
-		Property<T> property = (Property<T>)propertyCache.get(propertyName);
+		PropertyValueModel<T> property = (PropertyValueModel<T>)propertyCache.get(propertyName);
 		if(property == null)
 		{
 			property = propertyCreator.createProperty(propertyName);
@@ -76,7 +76,7 @@ public class CachedProperties implements Properties
 	public <T> DataSetValueModel<T> getDataSetProperty(String propertyName)
 	{
 		@SuppressWarnings("unchecked")
-		DataSetProperty<T> dataSetProperty = (DataSetProperty<T>)dataSetPropertyCache.get(propertyName);
+		DataSetPropertyValueModel<T> dataSetProperty = (DataSetPropertyValueModel<T>)dataSetPropertyCache.get(propertyName);
 		if(dataSetProperty == null)
 		{
 			dataSetProperty = propertyCreator.createDataSetProperty(propertyName);

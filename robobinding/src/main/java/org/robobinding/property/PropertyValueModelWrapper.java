@@ -15,38 +15,41 @@
  */
 package org.robobinding.property;
 
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class DataSetPropertyWrapper<T> extends PropertyWrapper<Object> implements DataSetProperty<T>
+class PropertyValueModelWrapper<T> extends PropertyWrapper implements PropertyValueModel<T>
 {
-	private DataSetProperty<T> dataSetProperty;
-	public DataSetPropertyWrapper(DataSetProperty<T> dataSetProperty)
+	private PropertyValueModel<T> propertyValueModel;
+	public PropertyValueModelWrapper(PropertyValueModel<T> propertyValueModel)
 	{
-		super(dataSetProperty);
-		this.dataSetProperty = dataSetProperty;
+		super(propertyValueModel);
+		this.propertyValueModel = propertyValueModel;
+	}
+	@Override
+	public T getValue()
+	{
+		return propertyValueModel.getValue();
 	}
 
 	@Override
-	public int size()
+	public void setValue(T newValue)
 	{
-		return dataSetProperty.size();
+		propertyValueModel.setValue(newValue);
 	}
 
 	@Override
-	public T getItem(int position)
+	public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener)
 	{
-		return dataSetProperty.getItem(position);
+		propertyValueModel.addPropertyChangeListener(listener);
 	}
 
 	@Override
-	public ItemPresentationModel<T> newItemPresentationModel()
+	public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener)
 	{
-		return dataSetProperty.newItemPresentationModel();
+		propertyValueModel.removePropertyChangeListener(listener);
 	}
 }

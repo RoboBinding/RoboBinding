@@ -21,7 +21,7 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class DataSetDependencyProperty<T> extends DataSetPropertyWrapper<T>
+class DataSetDependencyProperty<T> extends DataSetPropertyValueModelWrapper<T>
 {
 	private Dependency dependency;
 	public DataSetDependencyProperty(AbstractDataSetProperty<T> dataSetProperty, Dependency dependency)

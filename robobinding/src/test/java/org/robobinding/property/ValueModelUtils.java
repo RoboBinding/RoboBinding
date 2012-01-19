@@ -88,7 +88,7 @@ public class ValueModelUtils
 			super(o);
 		}
 	}
-	public static DataSetProperty<Object> createDataSetValueModel(Object presentationModel, String propertyName)
+	public static DataSetPropertyValueModel<Object> createDataSetValueModel(Object presentationModel, String propertyName)
 	{
 		return new PropertyCreator(presentationModel).createDataSetProperty(propertyName);
 	}

@@ -21,7 +21,7 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-abstract class AbstractProperty<T> implements Property<T>
+abstract class AbstractProperty<T> implements PropertyValueModel<T>
 {
 	private final ObservableBean observableBean;
 	private final PropertyAccessor<T> propertyAccessor;

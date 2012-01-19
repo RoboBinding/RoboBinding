@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
  */
 package org.robobinding.property;
 
-
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-interface DataSetProperty<T> extends DataSetValueModel<T>, Property<Object>
+public interface PropertyValueModel<T> extends Property, ValueModel<T>
 {
+
 }

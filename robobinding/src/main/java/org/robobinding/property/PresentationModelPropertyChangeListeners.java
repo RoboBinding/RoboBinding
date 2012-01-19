@@ -28,7 +28,7 @@ import org.robobinding.internal.org_apache_commons_lang3.Validate;
  */
 class PresentationModelPropertyChangeListeners
 {
-	private List<PresentationModelPropertyChangeListener> listeners;
+	List<PresentationModelPropertyChangeListener> listeners;
 
 	public PresentationModelPropertyChangeListeners()
 	{

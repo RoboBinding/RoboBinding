@@ -16,12 +16,12 @@
  */
 package org.robobinding.property;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.robobinding.internal.com_google_common.collect.Sets;
-import org.robobinding.property.PropertyUtils;
 
 
 /**
@@ -37,7 +37,7 @@ public class PropertyUtilsTest
 	{
 		List<String> propertyNames = PropertyUtils.getPropertyNames(Bean.class);
 		
-		Assert.assertEquals(Sets.newHashSet(Bean.PROPERTY1, Bean.PROPERTY2), Sets.newHashSet(propertyNames));
+		assertEquals(Sets.newHashSet(Bean.PROPERTY1, Bean.PROPERTY2), Sets.newHashSet(propertyNames));
 	}
 	public static class Bean
 	{

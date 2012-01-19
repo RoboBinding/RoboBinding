@@ -24,12 +24,12 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class DependencyProperty<T> extends PropertyWrapper<T>
+class DependencyProperty<T> extends PropertyValueModelWrapper<T>
 {
 	private Dependency dependency;
-	public DependencyProperty(Property<T> property, Dependency dependency)
+	public DependencyProperty(PropertyValueModel<T> propertyValueModel, Dependency dependency)
 	{
-		super(property);
+		super(propertyValueModel);
 		this.dependency = dependency;
 	}
 	@Override

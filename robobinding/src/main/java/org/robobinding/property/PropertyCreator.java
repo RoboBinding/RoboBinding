@@ -51,7 +51,7 @@ class PropertyCreator
 			availableProperties.put(propertyDescriptor.getName(), propertyDescriptor);
 		}
 	}
-	public <T> Property<T> createProperty(String propertyName)
+	public <T> PropertyValueModel<T> createProperty(String propertyName)
 	{
 		PropertyAccessor<T> propertyAccessor = getPropertyAccessor(propertyName);
 		AbstractProperty<T> property = new SimpleProperty<T>(observableBean, propertyAccessor);
@@ -59,7 +59,7 @@ class PropertyCreator
 		return convertAsDependencyPropertyIfNeccessary(property);
 	}
 	
-	private <T> Property<T> convertAsDependencyPropertyIfNeccessary(AbstractProperty<T> property)
+	private <T> PropertyValueModel<T> convertAsDependencyPropertyIfNeccessary(AbstractProperty<T> property)
 	{
 		PropertyAccessor<T> propertyAccessor = property.getPropertyAccessor();
 		if(propertyAccessor.hasAnnotation(DependsOnStateOf.class))
@@ -75,7 +75,7 @@ class PropertyCreator
 		return new Dependency(observableBean, propertyAccessor, availableProperties.keySet());
 	}
 	
-	public <T> DataSetProperty<T> createDataSetProperty(String propertyName)
+	public <T> DataSetPropertyValueModel<T> createDataSetProperty(String propertyName)
 	{
 		PropertyAccessor<Object> propertyAccessor = getPropertyAccessor(propertyName);
 		if(propertyAccessor.hasAnnotation(ItemPresentationModel.class))
@@ -102,7 +102,7 @@ class PropertyCreator
 		}
 	}
 	
-	private <T> DataSetProperty<T> convertAsDataSetDependencyPropertyIfNeccessary(AbstractDataSetProperty<T> dataSetProperty)
+	private <T> DataSetPropertyValueModel<T> convertAsDataSetDependencyPropertyIfNeccessary(AbstractDataSetProperty<T> dataSetProperty)
 	{
 		PropertyAccessor<Object> propertyAccessor = dataSetProperty.getPropertyAccessor();
 		if(propertyAccessor.hasAnnotation(DependsOnStateOf.class))

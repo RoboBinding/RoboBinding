@@ -16,9 +16,13 @@
  */
 package org.robobinding.property;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.ItemPresentationModel;
+import org.robobinding.itempresentationmodel.TypedCursor;
 
 /**
  *
@@ -42,21 +46,21 @@ public class PropertyCreatorTest
 	@Test
 	public void whenCreateListDataSetProperty_thenReturnInstance()
 	{
-		DataSetProperty<Object> listDataSetProperty = propertyCreator.createDataSetProperty(ObservableTestBean.LIST_DATA_SET_PROPERTY);
+		DataSetPropertyValueModel<Object> listDataSetProperty = propertyCreator.createDataSetProperty(ObservableTestBean.LIST_DATA_SET_PROPERTY);
 		
 		Assert.assertNotNull(listDataSetProperty);
 	}
 	@Test
 	public void whenCreateArrayDataSetProperty_thenReturnInstance()
 	{
-		DataSetProperty<Object> arrayDataSetProperty = propertyCreator.createDataSetProperty(ObservableTestBean.ARRAY_DATA_SET_PROPERTY);
+		DataSetPropertyValueModel<Object> arrayDataSetProperty = propertyCreator.createDataSetProperty(ObservableTestBean.ARRAY_DATA_SET_PROPERTY);
 		
 		Assert.assertNotNull(arrayDataSetProperty);
 	}
 	@Test
 	public void whenCreateCursorDataSetProperty_thenReturnInstance()
 	{
-		DataSetProperty<Object> cursorDataSetProperty = propertyCreator.createDataSetProperty(ObservableTestBean.CURSOR_DATA_SET_PROPERTY);
+		DataSetPropertyValueModel<Object> cursorDataSetProperty = propertyCreator.createDataSetProperty(ObservableTestBean.CURSOR_DATA_SET_PROPERTY);
 		
 		Assert.assertNotNull(cursorDataSetProperty);
 	}
@@ -69,5 +73,47 @@ public class PropertyCreatorTest
 	public void whenCreateDataSetPropertyWithoutItemPresentationModelAnnotation_thenThrowException()
 	{
 		propertyCreator.createDataSetProperty(ObservableTestBean.DATA_SET_PROPERTY_WITHOUT_ITEM_PRESENTATION_MODEL_ANNOTATION);
+	}
+	
+	static class ObservableTestBean implements ObservableProperties
+	{
+		public static final String LIST_DATA_SET_PROPERTY = "listDataSetProperty";
+		public static final String ARRAY_DATA_SET_PROPERTY = "arrayDataSetProperty";
+		public static final String CURSOR_DATA_SET_PROPERTY = "cursorDataSetProperty";
+		public static final String UNSUPPORTED_DATA_SET_PROPERTY = "UnsupportedDataSetProperty";
+		public static final String DATA_SET_PROPERTY_WITHOUT_ITEM_PRESENTATION_MODEL_ANNOTATION = "DataSetPropertyWithoutItemPresentationModelAnnotation";
+		
+		@ItemPresentationModel(ItemPresentationModelImpl.class)
+		public List<Object> getListDataSetProperty()
+		{
+			return null;
+		}
+		@ItemPresentationModel(ItemPresentationModelImpl.class)
+		public Object[] getArrayDataSetProperty()
+		{
+			return null;
+		}
+		@ItemPresentationModel(ItemPresentationModelImpl.class)
+		public TypedCursor<Object> getCursorDataSetProperty()
+		{
+			return null;
+		}
+		@ItemPresentationModel(ItemPresentationModelImpl.class)
+		public Object[] getUnsupportedDataSetProperty()
+		{
+			return null;
+		}
+		public List<Object> getDataSetPropertyWithoutItemPresentationModelAnnotation()
+		{
+			return null;
+		}
+		@Override
+		public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
+		{
+		}
+		@Override
+		public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
+		{
+		}
 	}
 }

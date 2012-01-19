@@ -37,7 +37,7 @@ public class MockPropertyCreatorBuilder
 	public MockPropertyCreatorBuilder declareProperty(String propertyName)
 	{
 		@SuppressWarnings("unchecked")
-		Property<Object> mockProperty = (Property<Object>) mock(Property.class);
+		PropertyValueModel<Object> mockProperty = (PropertyValueModel<Object>) mock(PropertyValueModel.class);
 		when(mockPropertyCreator.createProperty(propertyName)).thenReturn(mockProperty);
 
 		return this;
@@ -46,7 +46,7 @@ public class MockPropertyCreatorBuilder
 	public MockPropertyCreatorBuilder declareReadOnlyProperty(String propertyName)
 	{
 		@SuppressWarnings("unchecked")
-		Property<Object> mockReadOnlyProperty = (Property<Object>) mock(Property.class);
+		PropertyValueModel<Object> mockReadOnlyProperty = (PropertyValueModel<Object>) mock(PropertyValueModel.class);
 		doThrow(new RuntimeException()).when(mockReadOnlyProperty).checkReadWriteProperty(true);
 		when(mockPropertyCreator.createProperty(propertyName)).thenReturn(mockReadOnlyProperty);
 
@@ -56,9 +56,8 @@ public class MockPropertyCreatorBuilder
 	public MockPropertyCreatorBuilder declareDataSetProperty(String propertyName)
 	{
 		@SuppressWarnings("unchecked")
-		DataSetProperty<Object> mockDataSetProperty = (DataSetProperty<Object>) mock(DataSetProperty.class);
+		DataSetPropertyValueModel<Object> mockDataSetProperty = (DataSetPropertyValueModel<Object>) mock(DataSetPropertyValueModel.class);
 		when(mockPropertyCreator.createDataSetProperty(propertyName)).thenReturn(mockDataSetProperty);
-		when(mockPropertyCreator.createProperty(propertyName)).thenReturn(mockDataSetProperty);
 
 		return this;
 	}

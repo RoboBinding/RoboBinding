@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Cheng Wei, Robert Taylor
+ * Copyright 2011 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,31 +15,13 @@
  */
 package org.robobinding.property;
 
+
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PropertyWrapper implements Property
+interface DataSetPropertyValueModel<T> extends Property, DataSetValueModel<T>
 {
-	private Property property;
-	
-	public PropertyWrapper(Property property)
-	{
-		this.property = property;
-	}
-	
-	@Override
-	public Class<?> getPropertyType()
-	{
-		return property.getPropertyType();
-	}
-
-	@Override
-	public void checkReadWriteProperty(boolean isReadWriteProperty)
-	{
-		property.checkReadWriteProperty(isReadWriteProperty);
-	}
-	
 }

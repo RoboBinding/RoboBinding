@@ -80,14 +80,6 @@ public class CachedPropertiesTest
 		Assert.assertTrue(dataSetProperty == cachedDataSetProperty);
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void givenProperty_whenAccessUsingGetDataSetProperty_thenThrowException()
-	{
-		declareProperty();
-
-		cachedProperties.getDataSetProperty(PROPERTY_NAME);
-	}
-
 	private void declareDataSetProperty()
 	{
 		PropertyCreator mockPropertyCreator = MockPropertyCreatorBuilder.createWithDataSetProperty(PROPERTY_NAME);
