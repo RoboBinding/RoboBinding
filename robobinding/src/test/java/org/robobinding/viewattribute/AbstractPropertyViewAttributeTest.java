@@ -19,6 +19,7 @@ import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 
 import android.app.Activity;
@@ -68,15 +69,18 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 	
 	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass)
 	{
-		attribute.setAttributeValue(MockPresentationModelForProperty.TWO_WAY_BINDING_PROPERTY_NAME);
-		MockPresentationModelForProperty<PropertyType> mockPresentationModelForProperty = MockPresentationModelForProperty.bindToProperty(attribute, propertyClass);
-		return mockPresentationModelForProperty.getPropertyValueModel();
+		attribute.setAttributeValue(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME);
+		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.<PropertyType>createWithDefaultProperty();
+		attribute.bind(presentationModelAdapter, new Activity());
+		return presentationModelAdapter.getPropertyValueModel(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
 	}
 	
-	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass, PropertyType initialValue)
+	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass, PropertyType initialPropertyValue)
 	{
-		ValueModel<PropertyType> valueModel = twoWayBindToProperty(propertyClass);
-		valueModel.setValue(initialValue);
-		return valueModel;
+		attribute.setAttributeValue(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME);
+		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.<PropertyType>createWithDefaultProperty(initialPropertyValue);
+		attribute.bind(presentationModelAdapter, new Activity());
+		return presentationModelAdapter.getPropertyValueModel(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
 	}
+	
 }

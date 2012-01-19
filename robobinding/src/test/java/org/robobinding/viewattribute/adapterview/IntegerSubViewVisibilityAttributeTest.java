@@ -21,9 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.BooleanVisibilityAttribute;
-
-import android.view.View;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.IntegerSubViewVisibilityAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -34,26 +33,26 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class BooleanVisibilityAttributeTest
+public class IntegerSubViewVisibilityAttributeTest
 {
-	private BooleanVisibilityAttribute attribute;
-	private MockHeaderOrFooterVisibility mockVisibility;
+	private IntegerSubViewVisibilityAttribute attribute;
+	private MockSubViewVisibility mockVisibility;
 	
 	@Before
 	public void setUp()
 	{
-		mockVisibility = new MockHeaderOrFooterVisibility();
-		SubViewVisibilityAttribute headerOrFooterVisibilityAttribute = new SubViewVisibilityAttribute(mockVisibility);
-		attribute = headerOrFooterVisibilityAttribute.new BooleanVisibilityAttribute();
+		mockVisibility = new MockSubViewVisibility();
+		SubViewVisibilityAttribute visibilityAttribute = new SubViewVisibilityAttribute(mockVisibility);
+		attribute = visibilityAttribute.new IntegerSubViewVisibilityAttribute();
 	}
 	
 	@Test
 	public void whenValueModelUpdated_thenVisibilityStateUpdatedAccordingly()
 	{
-		boolean newValue = RandomValues.trueOrFalse();
+		int visibility = RandomValues.anyVisibility();
 		
-		attribute.valueModelUpdated(newValue);
+		attribute.valueModelUpdated(visibility);
 		
-		assertEquals(newValue?View.VISIBLE:View.GONE, mockVisibility.state);
+		assertEquals(visibility, mockVisibility.state);
 	}
 }

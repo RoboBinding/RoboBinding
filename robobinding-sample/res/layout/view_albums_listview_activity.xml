@@ -29,6 +29,7 @@
   		android:layout_below="@id/window_title"
   		bind:source="{albums}"
   		bind:itemLayout="@layout/album_row"
-  		bind:onItemClick="viewAlbum" />
+  		bind:onItemClick="viewAlbum"
+  		bind:emptyViewLayout="@layout/albums_empty_view" />
     
 </RelativeLayout>

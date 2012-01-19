@@ -15,16 +15,10 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binder.Binder;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.BindingDetailsBuilder;
-import org.robobinding.viewattribute.PropertyBindingDetails;
-import org.robobinding.viewattribute.ResourceBindingDetails;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -36,8 +30,6 @@ import android.widget.AdapterView;
  */
 public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T>
 {
-	private View subView;
-	
 	@Override
 	protected void initializeChildViewAttributes()
 	{
@@ -52,53 +44,41 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	@Override
 	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		initializeSubView(presentationModelAdapter, context);
+		View subView = createSubView(presentationModelAdapter, context);
 		
-		addVisibilityIfPresent(presentationModelAdapter, context);
-	}
-
-	private void initializeSubView(PresentationModelAdapter presentationModelAdapter, Context context)
-	{
-		int layoutId = getLayoutId(context);
-		if(groupedAttributeDetails.hasAttribute(subViewPresentationModelAttribute()))
-		{
-			Object subViewPresentationModel = getSubViewPresentationModel(presentationModelAdapter);
-			subView = Binder.bindView(context, layoutId, subViewPresentationModel);
-		}else
-		{
-			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			subView = inflater.inflate(layoutId, null);
-		}
 		addSubView(subView);
-	}
-
-	private int getLayoutId(Context context)
-	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(groupedAttributeDetails.attributeValueFor(layoutAttribute()));
-		ResourceBindingDetails resourceBindingDetails = bindingDetailsBuilder.createResourceBindingDetails();
-		return resourceBindingDetails.getResourceId(context);
-	}
-
-	private Object getSubViewPresentationModel(PresentationModelAdapter presentationModelAdapter)
-	{
-		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(groupedAttributeDetails.attributeValueFor(subViewPresentationModelAttribute()));
-		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
-		return valueModel.getValue();
-	}
-
-	private void addVisibilityIfPresent(PresentationModelAdapter presentationModelAdapter, Context context)
-	{
+		
 		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
 		{
-			SubViewVisibilityAttribute visibilityAttribute = SubViewVisibilityAttribute.create(subView);
+			SubViewVisibilityAttribute visibilityAttribute = createVisibilityAttribute(subView);
 			visibilityAttribute.setPreInitializeView(preInitializeViews);
 			visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
 			visibilityAttribute.bind(presentationModelAdapter, context);
 		}
+	}
+
+	View createSubView(PresentationModelAdapter presentationModelAdapter, Context context)
+	{
+		SubViewCreator subViewCreator = createSubViewCreator(context, groupedAttributeDetails.attributeValueFor(layoutAttribute()));
+		
+		if(groupedAttributeDetails.hasAttribute(subViewPresentationModelAttribute()))
+		{
+			String subViewPresentationModelAttributeValue = groupedAttributeDetails.attributeValueFor(subViewPresentationModelAttribute());
+			return subViewCreator.createAndBindTo(subViewPresentationModelAttributeValue, presentationModelAdapter);
+		}else
+		{
+			return subViewCreator.create();
+		}
+	}
+
+	SubViewCreator createSubViewCreator(Context context, String layoutAttributeValue)
+	{
+		return new SubViewCreator(context, layoutAttributeValue);
 	}
 	
 	protected abstract String layoutAttribute();
 	protected abstract String subViewPresentationModelAttribute();
 	protected abstract String visibilityAttribute();
 	protected abstract void addSubView(View subView);
+	protected abstract SubViewVisibilityAttribute createVisibilityAttribute(View subView);
 }

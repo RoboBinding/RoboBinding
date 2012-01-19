@@ -18,8 +18,8 @@ package org.robobinding.viewattribute.adapterview;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttributeTest;
-import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.BooleanVisibilityAttribute;
-import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.IntegerVisibilityAttribute;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.BooleanSubViewVisibilityAttribute;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.IntegerSubViewVisibilityAttribute;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -30,15 +30,15 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class HeaderOrFooterVisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<SubViewVisibilityAttribute>
+public class SubViewVisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<SubViewVisibilityAttribute>
 {
 	@Override
 	protected void setTypeMappingExpectations()
 	{
-		forPropertyType(int.class).expectAttribute(IntegerVisibilityAttribute.class);
-		forPropertyType(Integer.class).expectAttribute(IntegerVisibilityAttribute.class);
-		forPropertyType(Boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
-		forPropertyType(boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
+		forPropertyType(int.class).expectAttribute(IntegerSubViewVisibilityAttribute.class);
+		forPropertyType(Integer.class).expectAttribute(IntegerSubViewVisibilityAttribute.class);
+		forPropertyType(Boolean.class).expectAttribute(BooleanSubViewVisibilityAttribute.class);
+		forPropertyType(boolean.class).expectAttribute(BooleanSubViewVisibilityAttribute.class);
 	}
 	
 	@Override

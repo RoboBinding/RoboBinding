@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.adapterview;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,7 +72,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	
 	Collection<ViewMapping> getViewMappingsCollection()
 	{
-		return viewMappings.viewMappingsMap.values();
+		return Collections.unmodifiableCollection(viewMappings.viewMappingsMap.values());
 	}
 	
 	static class ItemMappingParser

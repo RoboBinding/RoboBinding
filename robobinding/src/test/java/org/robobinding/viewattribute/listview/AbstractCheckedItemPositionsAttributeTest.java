@@ -22,6 +22,7 @@ import org.robobinding.R;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.adapterview.MockArrayAdapter;
 
 import android.util.SparseBooleanArray;
 import android.widget.ListAdapter;

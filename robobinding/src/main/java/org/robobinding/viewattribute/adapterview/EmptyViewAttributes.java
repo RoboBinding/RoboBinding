@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.adapterview;
 
 
+
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -30,6 +31,7 @@ public class EmptyViewAttributes extends AbstractSubViewAttributes<AdapterView<?
 	static final String EMPTY_VIEW_LAYOUT = "emptyViewLayout";
 	static final String EMPTY_VIEW_PRESENTATION_MODEL = "emptyViewPresentationModel";
 	static final String EMPTY_VIEW_VISIBILITY = "emptyViewVisibility";
+	private EmptyViewVisibility emptyViewVisibility;
 	
 	@Override
 	protected String layoutAttribute()
@@ -46,13 +48,19 @@ public class EmptyViewAttributes extends AbstractSubViewAttributes<AdapterView<?
 	@Override
 	protected String visibilityAttribute()
 	{
-		return EMPTY_VIEW_VISIBILITY ;
+		return EMPTY_VIEW_VISIBILITY;
 	}
 
 	@Override
-	protected void addSubView(View subView)
+	protected void addSubView(View emptyView)
 	{
-		view.setEmptyView(subView);
+		emptyViewVisibility = new EmptyViewVisibility(view, emptyView);
+		emptyViewVisibility.makeVisible();
 	}
 
+	@Override
+	protected SubViewVisibilityAttribute createVisibilityAttribute(View emptyView)
+	{
+		return new SubViewVisibilityAttribute(emptyViewVisibility);
+	}
 }

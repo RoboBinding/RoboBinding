@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.MockPresentationModelForProperty;
+import org.robobinding.viewattribute.BindingAttributeValues;
 import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.RandomValues;
 
@@ -35,7 +35,7 @@ public class DynamicItemLayoutAttributeTest extends AbstractDynamicLayoutAttribu
 	@Before
 	public void setUp()
 	{
-		String attributeValue = MockPresentationModelForProperty.ONE_WAY_BINDING_PROPERTY_NAME;
+		String attributeValue = BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME;
 		dynamicLayoutAttribute = new ItemLayoutAttribute(adapterView, attributeValue).new DynamicLayoutAttribute();
 		dynamicLayoutAttribute.setView(adapterView);
 		dynamicLayoutAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(attributeValue));

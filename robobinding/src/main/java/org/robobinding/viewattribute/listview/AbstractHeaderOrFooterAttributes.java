@@ -13,7 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.listview;
+
+import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
+
+import android.view.View;
+import android.widget.ListView;
 
 /**
  *
@@ -21,17 +27,11 @@ package org.robobinding.viewattribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BindingAttributeValueUtils
+public abstract class AbstractHeaderOrFooterAttributes extends AbstractSubViewAttributes<ListView>
 {
-	public static String oneWay(String propertyName)
+	@Override
+	protected SubViewVisibilityAttribute createVisibilityAttribute(View subView)
 	{
-		return "{"+propertyName+"}";
+		return new SubViewVisibilityAttribute(new HeaderOrFooterVisibility(subView));
 	}
-	
-	public static String twoWay(String propertyName)
-	{
-		return "${"+propertyName+"}";
-	}
-	
-	private BindingAttributeValueUtils(){}
 }

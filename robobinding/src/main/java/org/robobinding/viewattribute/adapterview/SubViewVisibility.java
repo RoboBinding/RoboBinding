@@ -15,67 +15,17 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ListView;
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Cheng Wei
+ * @author Robert Taylor
  */
-public class SubViewVisibility
+public interface SubViewVisibility
 {
-	private static LayoutParams ZERO_LAYOUT_PARAMS = new ListView.LayoutParams(0, 1);
-	
-	private View subView;
-	private LayoutParams originalLayoutParams;
-	
-	public SubViewVisibility(View subView)
-	{
-		this.subView = subView;
-	}
-	
-	public void makeVisible()
-	{
-		if(originalLayoutParams != null)
-		{
-			subView.setLayoutParams(originalLayoutParams);
-		}
-		subView.setVisibility(View.VISIBLE);
-	}
-	
-	public void makeGone()
-	{
-		if(originalLayoutParams == null)
-		{
-			originalLayoutParams = subView.getLayoutParams();
-		}
-		subView.setLayoutParams(ZERO_LAYOUT_PARAMS);
-		subView.setVisibility(View.GONE);
-	}
-	
-	public final void setVisibility(int visibility)
-	{
-		if(View.VISIBLE == visibility)
-		{
-			makeVisible();
-		}else if(View.INVISIBLE == visibility)
-		{
-			makeInvisible();
-		}else
-		{
-			makeGone();
-		}
-	}
-	
-	void makeInvisible()
-	{
-		if(originalLayoutParams != null)
-		{
-			subView.setLayoutParams(originalLayoutParams);
-		}
-		subView.setVisibility(View.INVISIBLE);
-	}
+	public abstract void makeVisible();
+
+	public abstract void makeGone();
+
+	public abstract void setVisibility(int visibility);
 }

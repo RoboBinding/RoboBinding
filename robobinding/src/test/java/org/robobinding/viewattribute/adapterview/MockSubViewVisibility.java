@@ -23,14 +23,9 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class MockHeaderOrFooterVisibility extends SubViewVisibility
+class MockSubViewVisibility implements SubViewVisibility
 {
 	int state;
-
-	public MockHeaderOrFooterVisibility()
-	{
-		super(null);
-	}
 
 	@Override
 	public void makeGone()
@@ -45,8 +40,9 @@ class MockHeaderOrFooterVisibility extends SubViewVisibility
 	}
 
 	@Override
-	void makeInvisible()
+	public void setVisibility(int visibility)
 	{
-		state = View.INVISIBLE;
+		this.state = visibility;
 	}
+
 }

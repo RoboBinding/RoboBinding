@@ -21,7 +21,6 @@ import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
 
 import android.view.View;
-import android.widget.ListView;
 
 /**
  * 
@@ -29,54 +28,50 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<ListView>
+public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View>
 {
-	private SubViewVisibility subViewVisibility;
-	SubViewVisibilityAttribute(SubViewVisibility subViewVisibility)
+	private SubViewVisibility visibility;
+	public SubViewVisibilityAttribute(SubViewVisibility subViewVisibility)
 	{
-		this.subViewVisibility = subViewVisibility;
+		this.visibility = subViewVisibility;
 	}
 	@Override
-	protected AbstractPropertyViewAttribute<ListView, ?> createPropertyViewAttribute(Class<?> propertyType)
+	protected AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
-			return new IntegerVisibilityAttribute();
+			return new IntegerSubViewVisibilityAttribute();
 		}
 		else if (PrimitiveTypeUtils.booleanIsAssignableFrom(propertyType))
 		{
-			return new BooleanVisibilityAttribute();
+			return new BooleanSubViewVisibilityAttribute();
 		}
 		
-		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
+		return null;
 	}
 	
-	public static SubViewVisibilityAttribute create(View headerOrFooterView)
-	{
-		return new SubViewVisibilityAttribute(new SubViewVisibility(headerOrFooterView));
-	}
-	
-	class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<ListView, Boolean>
+	class BooleanSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 	{
 		@Override
 		protected void valueModelUpdated(Boolean newValue)
 		{
 			if(newValue)
 			{
-				subViewVisibility.makeVisible();
+				visibility.makeVisible();
 			}else
 			{
-				subViewVisibility.makeGone();
+				visibility.makeGone();
 			}
 		}
 	}
 	
-	class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<ListView, Integer>
+	class IntegerSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newValue)
 		{
-			subViewVisibility.setVisibility(newValue);
+			visibility.setVisibility(newValue);
 		}
 	}
+
 }

@@ -30,6 +30,7 @@
   		bind:source="{albums}"
   		bind:itemLayout="@android:layout/simple_list_item_2"
   		bind:itemMapping="[text1.text:{title},text2.text:{artist}]"
-  		bind:onItemClick="viewAlbum" />
+  		bind:onItemClick="viewAlbum"
+  		bind:emptyViewLayout="@layout/albums_empty_view" />
     
 </RelativeLayout>

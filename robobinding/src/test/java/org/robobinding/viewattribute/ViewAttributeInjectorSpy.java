@@ -3,10 +3,6 @@ package org.robobinding.viewattribute;
 import java.util.List;
 
 import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeInjector;
 
 import android.view.View;
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,30 +23,41 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class DataSetPropertyWrapper<T> extends PropertyWrapper<Object> implements DataSetProperty<T>
+public class DataSetValueModelWrapper<T> implements DataSetValueModel<T>
 {
-	private DataSetProperty<T> dataSetProperty;
-	public DataSetPropertyWrapper(DataSetProperty<T> dataSetProperty)
+	private DataSetValueModel<T> valueModel;
+	public DataSetValueModelWrapper(DataSetValueModel<T> valueModel)
 	{
-		super(dataSetProperty);
-		this.dataSetProperty = dataSetProperty;
+		this.valueModel = valueModel;
 	}
-
 	@Override
 	public int size()
 	{
-		return dataSetProperty.size();
+		return valueModel.size();
 	}
 
 	@Override
 	public T getItem(int position)
 	{
-		return dataSetProperty.getItem(position);
+		return valueModel.getItem(position);
 	}
 
 	@Override
 	public ItemPresentationModel<T> newItemPresentationModel()
 	{
-		return dataSetProperty.newItemPresentationModel();
+		return valueModel.newItemPresentationModel();
 	}
+
+	@Override
+	public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener)
+	{
+		valueModel.addPropertyChangeListener(listener);
+	}
+
+	@Override
+	public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener)
+	{
+		valueModel.removePropertyChangeListener(listener);
+	}
+	
 }

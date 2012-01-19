@@ -31,6 +31,11 @@ public class MockArrayAdapter extends ArrayAdapter<String>
 {
 	public MockArrayAdapter()
 	{
-		super(new Activity(), R.layout.simple_list_item_1, Lists.newArrayList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
+		this(R.layout.simple_list_item_1);
+	}
+	
+	public MockArrayAdapter(int layoutResourceId)
+	{
+		super(new Activity(), layoutResourceId, Lists.newArrayList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
 	}
 }
