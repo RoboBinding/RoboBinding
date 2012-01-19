@@ -42,10 +42,14 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	protected List<AdapterViewAttribute> childViewAttributes;
 	
 	@Override
-	protected void initializeChildViewAttributes()
+	protected String[] getCompulsoryAttributes()
 	{
-		validateAttributes();
-		
+		return new String[]{SOURCE, ITEM_LAYOUT};
+	}
+	
+	@Override
+	public void postInitialization()
+	{
 		childViewAttributes = Lists.newArrayList();
 		childViewAttributes.add(new SourceAttribute(groupedAttributeDetails.attributeValueFor(SOURCE)));
 		childViewAttributes.add(new ItemLayoutAttribute(view, groupedAttributeDetails.attributeValueFor(ITEM_LAYOUT)));
@@ -65,11 +69,6 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 		
 		dataSetAdapter.observeChangesOnTheValueModel();
 		((AdapterView)view).setAdapter(dataSetAdapter);
-	}
-
-	protected void validateAttributes()
-	{
-		assertAttributesArePresent(SOURCE, ITEM_LAYOUT);
 	}
 	
 	List<AdapterViewAttribute> getAdapterViewAttributes()

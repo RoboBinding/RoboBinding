@@ -31,14 +31,9 @@ import android.widget.AdapterView;
 public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T>
 {
 	@Override
-	protected void initializeChildViewAttributes()
+	protected String[] getCompulsoryAttributes()
 	{
-		validateAttributes();
-	}
-	
-	private void validateAttributes()
-	{
-		assertAttributesArePresent(layoutAttribute());
+		return new String[]{layoutAttribute()};
 	}
 
 	@Override

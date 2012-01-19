@@ -66,4 +66,21 @@ public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekB
 	{
 		this.onSeekBarChangeListeners = onSeekBarChangeListeners;
 	}
+	
+	@Override
+	public boolean validate()
+	{
+		return super.validate() && onSeekBarChangeListeners != null;
+	}
+	
+	@Override
+	public String getValidationError()
+	{
+		StringBuilder errorMessage = new StringBuilder(super.getValidationError());
+		
+		if (onSeekBarChangeListeners == null)
+			errorMessage.append("OnSeekBarChangeListeners not set. ");
+		
+		return errorMessage.toString();
+	}
 }

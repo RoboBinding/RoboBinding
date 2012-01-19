@@ -35,7 +35,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CommandViewAttributeTest
+public final class CommandViewAttributeTest
 {
 	private static final String FUNCTION_NAME = "functionName";
 	
@@ -50,14 +50,9 @@ public class CommandViewAttributeTest
 	public void setUp()
 	{
 		commandViewAttribute = new DummyCommandViewAttribute();
+		commandViewAttribute.setView(mock(View.class));
 		commandViewAttribute.setCommandName(FUNCTION_NAME);
 		presentationModelAdapter = mock(PresentationModelAdapter.class);
-	}
-	
-	@Test (expected=RuntimeException.class)
-	public void givenAPresentationModelWithNoMatchingFunction_whenBinding_thenThrowRuntimeException()
-	{
-		commandViewAttribute.bind(presentationModelAdapter, context);
 	}
 	
 	@Test
@@ -79,7 +74,19 @@ public class CommandViewAttributeTest
 		commandViewAttribute.bind(presentationModelAdapter, context);
 		
 		assertThat(commandViewAttribute.functionBound, equalTo(preferredFunction));
-		//assertThat(commandViewAttribute.paramBuilderBound, equalTo(preferredParamsBuilder));
+	}
+	
+	@Test (expected=RuntimeException.class)
+	public void givenAPresentationModelWithNoMatchingFunction_whenBinding_thenThrowRuntimeException()
+	{
+		commandViewAttribute.bind(presentationModelAdapter, context);
+	}
+	
+	@Test (expected=IllegalStateException.class)
+	public void givenAnAttributeWhosePropertiesHaveNotBeenSet_whenBinding_thenThrowException()
+	{
+		AbstractCommandViewAttribute<?> commandViewAttribute = new DummyCommandViewAttribute();
+		commandViewAttribute.bind(presentationModelAdapter, context);
 	}
 	
 	public class DummyCommandViewAttribute extends AbstractCommandViewAttribute<View>

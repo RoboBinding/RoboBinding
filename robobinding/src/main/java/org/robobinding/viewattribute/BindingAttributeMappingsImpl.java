@@ -32,15 +32,13 @@ import android.view.View;
  */
 public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T>
 {
-	private static ViewAttributeInjector viewAttributeInjector = new ViewAttributeInjector();
-	
 	private T view;
 	private boolean preInitializeViews;
 	
 	private Map<String, Class<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
 	private Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
 	private Map<GroupedAttributeDetailsImpl, Class<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
-
+	
 	public BindingAttributeMappingsImpl(T view, boolean preInitializeViews)
 	{
 		this.view = view;
@@ -76,7 +74,6 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	
 	protected void addCommandViewAttributeMapping(Class<? extends AbstractCommandViewAttribute<?>> commandViewAttributeClass, String attributeName)
 	{
-		
 		commandViewAttributeMappings.put(attributeName, commandViewAttributeClass);
 	}
 	
@@ -96,8 +93,9 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		Class<? extends PropertyViewAttribute<? extends View>> propertyViewAttributeClass = propertyViewAttributeMappings.get(propertyAttribute);
 		@SuppressWarnings("unchecked")
 		PropertyViewAttribute<View> propertyViewAttribute = (PropertyViewAttribute<View>) newViewAttribute(propertyViewAttributeClass);
-		viewAttributeInjector.injectPropertyAttributeValues(propertyViewAttribute, getViewForAttribute(propertyAttribute), attributeValue, preInitializeViews);
-		
+		propertyViewAttribute.setView(getViewForAttribute(propertyAttribute));
+		propertyViewAttribute.setAttributeValue(attributeValue);
+		propertyViewAttribute.setPreInitializeView(preInitializeViews);
 		return propertyViewAttribute;
 	}
 
@@ -111,8 +109,8 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		Class<? extends AbstractCommandViewAttribute<? extends View>> commandViewAttributeClass = commandViewAttributeMappings.get(commandAttribute);
 		@SuppressWarnings("unchecked")
 		AbstractCommandViewAttribute<View> commandViewAttribute = (AbstractCommandViewAttribute<View>) newViewAttribute(commandViewAttributeClass);
-		viewAttributeInjector.injectCommandAttributeValues(commandViewAttribute, getViewForAttribute(commandAttribute), attributeValue);
-		
+		commandViewAttribute.setView(getViewForAttribute(commandAttribute));
+		commandViewAttribute.setCommandName(attributeValue);
 		return commandViewAttribute;
 	}
 
@@ -130,10 +128,12 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	{
 		Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass = groupedViewAttributeMappings.get(groupedAttributeDetails);
 		@SuppressWarnings("unchecked")
-		AbstractGroupedViewAttribute<View> groupedPropertyViewAttribute = (AbstractGroupedViewAttribute<View>)newViewAttribute(groupedViewAttributeClass);
-		viewAttributeInjector.injectGroupedAttributeValues(groupedPropertyViewAttribute, view, preInitializeViews, groupedAttributeDetails);
-		
-		return groupedPropertyViewAttribute;
+		AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>)newViewAttribute(groupedViewAttributeClass);
+		groupedViewAttribute.setView(view);
+		groupedViewAttribute.setPreInitializeViews(preInitializeViews);
+		groupedViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
+		groupedViewAttribute.postInitialization();
+		return groupedViewAttribute;
 	}
 	
 	protected View getViewForGroupedAttribute(GroupedAttributeDetailsImpl groupedAttributeDetails)
@@ -146,15 +146,13 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		try
 		{
 			return viewAttributeClass.newInstance();
-		}
-		catch (InstantiationException e)
+		} catch (InstantiationException e)
 		{
 			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " does not have an empty default constructor");
-		} 
-		catch (IllegalAccessException e)
+		} catch (IllegalAccessException e)
 		{
 			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " is not public");
 		}
 	}
-
+	
 }

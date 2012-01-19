@@ -37,7 +37,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class PropertyViewAttributeTest
+public final class PropertyViewAttributeTest
 {
 	private static final String PROPERTY_NAME = "property_name";
 	private static final boolean ONE_WAY_BINDING = false;
@@ -113,6 +113,13 @@ public class PropertyViewAttributeTest
 		assertFalse(propertyViewAttributeSpy.viewInitialized);
 	}
 	
+	@Test (expected=IllegalStateException.class)
+	public void whenBindingWithoutSettingAllValues_thenShouldThrowException()
+	{
+		PropertyViewAttributeSpy propertyViewAttribute = new PropertyViewAttributeSpy();
+		propertyViewAttribute.bind(presentationModelAdapter, context);
+	}
+	
 	private void initializeAndBindPropertyViewAttribute(boolean twoWayBinding, boolean preInitializeView)
 	{
 		PropertyBindingDetails propertyBindingDetails = new PropertyBindingDetails(PROPERTY_NAME, twoWayBinding);
@@ -123,6 +130,7 @@ public class PropertyViewAttributeTest
 			when(presentationModelAdapter.<Integer>getReadOnlyPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
 		
 		propertyViewAttributeSpy = new PropertyViewAttributeSpy();
+		propertyViewAttributeSpy.setView(mock(View.class));
 		propertyViewAttributeSpy.setPropertyBindingDetails(propertyBindingDetails);
 		propertyViewAttributeSpy.setPreInitializeView(preInitializeView);
 		propertyViewAttributeSpy.bind(presentationModelAdapter, context);
