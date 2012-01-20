@@ -15,9 +15,7 @@
  */
 package org.robobinding.viewattribute.compoundbutton;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,6 +24,10 @@ import org.junit.Test;
 import org.robobinding.viewattribute.BindingAttributeValues;
 import org.robobinding.viewattribute.GroupedAttributeDetails;
 import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.ViewAttributeAssert;
+import org.robobinding.viewattribute.ViewAttributeUtils;
+
+import android.widget.CheckBox;
 
 /**
  *
@@ -42,12 +44,13 @@ public class OnCheckedChangeAttributesTest
 	public void setUp()
 	{
 		onCheckedChangeAttributes = new OnCheckedChangeAttributes();
+		onCheckedChangeAttributes.setView(mock(CheckBox.class));
 		mockGroupedAttributeDetails = mock(GroupedAttributeDetails.class);
 		onCheckedChangeAttributes.setGroupedAttributeDetails(mockGroupedAttributeDetails);
 	}
 	
 	@Test
-	public void whenCheckedAttributeIsPresent_thenCheckedAttributeCreated()
+	public void whenAttributeCheckedIsPresent_thenCheckedAttributeCreated()
 	{
 		makeAttributePresent(OnCheckedChangeAttributes.CHECKED);
 		
@@ -57,12 +60,24 @@ public class OnCheckedChangeAttributesTest
 	}
 
 	@Test
-	public void whenOnCheckedChangeAttributeIsPresent_thenOnCheckedChangeAttributeCreated()
+	public void whenAttributeOnCheckedChangeIsPresent_thenOnCheckedChangeAttributeCreated()
 	{
 		makeAttributePresent(OnCheckedChangeAttributes.ON_CHECKED_CHANGE);
 		
 		onCheckedChangeAttributes.postInitialization();
 		
+		assertAttributeCreated(OnCheckedChangeAttribute.class);
+	}
+	
+	@Test
+	public void whenAttributesOnCheckedChangeAndCheckedArePresent_thenBothAttributesCreated()
+	{
+		makeAttributePresent(OnCheckedChangeAttributes.CHECKED);
+		makeAttributePresent(OnCheckedChangeAttributes.ON_CHECKED_CHANGE);
+		
+		onCheckedChangeAttributes.postInitialization();
+		
+		assertAttributeCreated(CheckedAttribute.class);
 		assertAttributeCreated(OnCheckedChangeAttribute.class);
 	}
 	
@@ -74,7 +89,8 @@ public class OnCheckedChangeAttributesTest
 	
 	private void assertAttributeCreated(Class<? extends ViewAttribute> viewAttributeClass)
 	{
-		assertThat(onCheckedChangeAttributes.viewAttributes.size(), equalTo(1));
-		assertThat(onCheckedChangeAttributes.viewAttributes.get(0), instanceOf(viewAttributeClass));
+		ViewAttribute viewAttribute = ViewAttributeUtils.findFirstViewAttributeOfType(onCheckedChangeAttributes.viewAttributes, viewAttributeClass);
+		assertNotNull(viewAttribute);
+		ViewAttributeAssert.assertValidationPassed(viewAttribute);
 	}
 }
