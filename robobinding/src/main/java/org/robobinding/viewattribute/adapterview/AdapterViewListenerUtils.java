@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.adapterview;
 
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 /**
@@ -41,6 +42,20 @@ public class AdapterViewListenerUtils
 			OnItemSelectedListeners listeners = OnItemSelectedListeners.convert(existingListener);
 			listeners.addListener(listener);
 			view.setOnItemSelectedListener(listeners);
+		}
+	}
+	
+	public static void addOnItemClickListener(AdapterView<?> view, OnItemClickListener listener)
+	{
+		OnItemClickListener existingListener = view.getOnItemClickListener();
+		if (existingListener == null)
+		{
+			view.setOnItemClickListener(listener);
+		}else
+		{
+			OnItemClickListeners listeners = OnItemClickListeners.convert(existingListener);
+			listeners.addListener(listener);
+			view.setOnItemClickListener(listeners);
 		}
 	}
 }

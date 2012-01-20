@@ -19,13 +19,17 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 
+import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.xtremelabs.robolectric.shadows.ShadowListView;
 
 /**
  *
@@ -66,6 +70,35 @@ public class AdapterViewListenerUtilsTest
 		@Override
 		public void onNothingSelected(AdapterView<?> parent)
 		{
+		}
+	}
+	
+	@Test
+	public void shouldSupportMultipleOnItemClickListenersInAdapterViews()
+	{
+		ListView adapterView = new ListView(null);
+		MockArrayAdapter arrayAdapter = new MockArrayAdapter();
+		adapterView.setAdapter(arrayAdapter);
+		MockOnItemClickListener listener1 = new MockOnItemClickListener();
+		MockOnItemClickListener listener2 = new MockOnItemClickListener();
+		
+		AdapterViewListenerUtils.addOnItemClickListener(adapterView, listener1);
+		AdapterViewListenerUtils.addOnItemClickListener(adapterView, listener2);
+		
+		ShadowListView shadowAdapterView = Robolectric.shadowOf(adapterView);
+		shadowAdapterView.performItemClick(RandomValues.anyIndex(arrayAdapter.getCount()));
+		
+		assertTrue(listener1.itemClickEventFired);
+		assertTrue(listener2.itemClickEventFired);
+	}
+
+	private static class MockOnItemClickListener implements OnItemClickListener
+	{
+		private boolean itemClickEventFired = false;
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+		{
+			itemClickEventFired = true;
 		}
 	}
 }

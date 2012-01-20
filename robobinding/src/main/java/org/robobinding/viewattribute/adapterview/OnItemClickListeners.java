@@ -15,38 +15,40 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.Command;
+import org.robobinding.viewattribute.AbstractListeners;
 
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
+ * @author Cheng Wei
  */
-public class OnItemClickAttribute extends AbstractCommandViewAttribute<AdapterView<?>>
+public class OnItemClickListeners extends AbstractListeners<OnItemClickListener> implements OnItemClickListener
 {
 	@Override
-	protected void bind(final Command command)
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
-		AdapterViewListenerUtils.addOnItemClickListener(view, new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-			{
-				ItemClickEvent itemClickEvent = new ItemClickEvent(parent, view, position, id);
-				command.invoke(itemClickEvent);
-			}
-		});
+		for(OnItemClickListener listener : listeners)
+		{
+			listener.onItemClick(parent, view, position, id);
+		}
 	}
 
-	@Override
-	protected Class<?> getPreferredCommandParameterType()
+	public static OnItemClickListeners convert(OnItemClickListener listener)
 	{
-		return ItemClickEvent.class;
+		if (listener instanceof OnItemClickListeners)
+		{
+			return (OnItemClickListeners)listener;
+		}else
+		{
+			OnItemClickListeners onItemClickListeners = new OnItemClickListeners();
+			onItemClickListeners.addListener(listener);
+			return onItemClickListeners;
+		}
 	}
-	
+
 }

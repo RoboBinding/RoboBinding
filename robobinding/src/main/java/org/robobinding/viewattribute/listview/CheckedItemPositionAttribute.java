@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.listview;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.adapterview.AdapterViewListenerUtils;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,7 +34,7 @@ public class CheckedItemPositionAttribute extends AbstractPropertyViewAttribute<
 	@Override
 	protected void observeChangesOnTheView(final ValueModel<Integer> valueModel)
 	{
-		view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		AdapterViewListenerUtils.addOnItemClickListener(view, new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View itemView, int position, long id)
 			{

@@ -21,6 +21,7 @@ import java.util.Set;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.adapterview.AdapterViewListenerUtils;
 
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -52,19 +53,30 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		throw new RuntimeException("Could not find a suitable checkedItemPositions attribute class for property type: " + propertyType);
 	}
 	
-	static class SparseBooleanArrayCheckedItemPositionsAttribute extends AbstractPropertyViewAttribute<ListView, SparseBooleanArray>
+	static abstract class AbstractCheckedItemPositionsAttribute<PropertyType> extends AbstractPropertyViewAttribute<ListView, PropertyType>
 	{
 		@Override
-		protected void observeChangesOnTheView(final ValueModel<SparseBooleanArray> valueModel)
+		protected void observeChangesOnTheView(final ValueModel<PropertyType> valueModel)
 		{
-			view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			AdapterViewListenerUtils.addOnItemClickListener(view, new AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View itemView, int position, long id)
 				{
-					SparseBooleanArray checkedItemPositions = view.getCheckedItemPositions();
-					valueModel.setValue(checkedItemPositions);
+					viewCheckedItemPositionsChanged(valueModel);
 				}
 			});
+		}
+		
+		protected abstract void viewCheckedItemPositionsChanged(ValueModel<PropertyType> valueModel);
+	}
+	
+	static class SparseBooleanArrayCheckedItemPositionsAttribute extends AbstractCheckedItemPositionsAttribute<SparseBooleanArray>
+	{
+		@Override
+		protected void viewCheckedItemPositionsChanged(ValueModel<SparseBooleanArray> valueModel)
+		{
+			SparseBooleanArray checkedItemPositions = view.getCheckedItemPositions();
+			valueModel.setValue(checkedItemPositions);
 		}
 		
 		@Override
@@ -77,19 +89,13 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		}
 	}
 	
-	static class SetCheckedItemPositionsAttribute extends AbstractPropertyViewAttribute<ListView, Set<Integer>>
+	static class SetCheckedItemPositionsAttribute extends AbstractCheckedItemPositionsAttribute<Set<Integer>>
 	{
 		@Override
-		protected void observeChangesOnTheView(final ValueModel<Set<Integer>> valueModel)
+		protected void viewCheckedItemPositionsChanged(ValueModel<Set<Integer>> valueModel)
 		{
-			view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> parent, View itemView, int clickedItemPosition, long id)
-				{
-					SparseBooleanArray checkedItemPositions = view.getCheckedItemPositions();
-					valueModel.setValue(SparseBooleanArrayUtils.toSet(checkedItemPositions));
-				}
-			});
+			SparseBooleanArray checkedItemPositions = view.getCheckedItemPositions();
+			valueModel.setValue(SparseBooleanArrayUtils.toSet(checkedItemPositions));
 		}
 		
 		@Override
@@ -102,19 +108,13 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		}
 	}
 	
-	static class MapCheckedItemPositionsAttribute extends AbstractPropertyViewAttribute<ListView, Map<Integer, Boolean>>
+	static class MapCheckedItemPositionsAttribute extends AbstractCheckedItemPositionsAttribute<Map<Integer, Boolean>>
 	{
 		@Override
-		protected void observeChangesOnTheView(final ValueModel<Map<Integer, Boolean>> valueModel)
+		protected void viewCheckedItemPositionsChanged(ValueModel<Map<Integer, Boolean>> valueModel)
 		{
-			view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> parent, View itemView, int clickedItemPosition, long id)
-				{
-					SparseBooleanArray checkedItemPositions = view.getCheckedItemPositions();
-					valueModel.setValue(SparseBooleanArrayUtils.toMap(checkedItemPositions));
-				}
-			});
+			SparseBooleanArray checkedItemPositions = view.getCheckedItemPositions();
+			valueModel.setValue(SparseBooleanArrayUtils.toMap(checkedItemPositions));
 		}
 		
 		@Override
