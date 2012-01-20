@@ -32,22 +32,22 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 {
 	public static final String TEXT = "text";
 	public static final String VALUE_COMMIT_MODE = "valueCommitMode";
-	
-	private TextAttribute textAttribute;
-	private ValueCommitMode valueCommitMode;
-	
+
+	TextAttribute textAttribute;
+	ValueCommitMode valueCommitMode;
+
 	@Override
 	protected String[] getCompulsoryAttributes()
 	{
-		return new String[]{TEXT};
+		return new String[] { TEXT };
 	}
-	
+
 	@Override
 	public void postInitialization()
 	{
 		ViewAttributeInstantiator<TextView> viewAttributeInstantiator = getViewAttributeInstantiator();
 		textAttribute = viewAttributeInstantiator.newPropertyViewAttribute(TextAttribute.class, TEXT);
-		
+
 		determineValueCommitMode();
 		textAttribute.setValueCommitMode(valueCommitMode);
 	}
@@ -56,18 +56,15 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 	{
 		if (textAttribute.isTwoWayBinding() && valueCommitModeSpecified())
 			throw new RuntimeException("The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
-		
-		if (!valueCommitModeSpecified() || "onChange".equals(valueCommitModeAttributeValue()))
-			valueCommitMode = ValueCommitMode.ON_CHANGE;
-		else if ("onFocusLost".equals(valueCommitModeAttributeValue()))
-			valueCommitMode = ValueCommitMode.ON_FOCUS_LOST;
+
+		valueCommitMode = ValueCommitMode.from(valueCommitModeAttributeValue());
 	}
-	
+
 	private String valueCommitModeAttributeValue()
 	{
 		return groupedAttributeDetails.attributeValueFor(VALUE_COMMIT_MODE);
 	}
-	
+
 	private boolean valueCommitModeSpecified()
 	{
 		return groupedAttributeDetails.hasAttribute(VALUE_COMMIT_MODE);
@@ -78,5 +75,5 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 	{
 		textAttribute.bind(presentationModelAdapter, context);
 	}
-	
+
 }

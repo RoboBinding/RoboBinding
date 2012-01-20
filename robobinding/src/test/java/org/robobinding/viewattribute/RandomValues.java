@@ -31,8 +31,7 @@ public class RandomValues
 	private static Random random = new Random();
 
 	private RandomValues()
-	{
-	}
+	{}
 	
 	public static DrawableData anyDrawableData()
 	{
@@ -104,5 +103,10 @@ public class RandomValues
 	public static int nextInt(int n)
 	{
 		return random.nextInt(n);
+	}
+	
+	public static <T> T either(T... objects)
+	{
+		return objects[nextInt(objects.length)];
 	}
 }

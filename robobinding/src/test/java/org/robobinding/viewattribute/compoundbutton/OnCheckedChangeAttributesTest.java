@@ -15,18 +15,12 @@
  */
 package org.robobinding.viewattribute.compoundbutton;
 
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.BindingAttributeValues;
-import org.robobinding.viewattribute.GroupedAttributeDetails;
-import org.robobinding.viewattribute.ViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeAssert;
-import org.robobinding.viewattribute.ViewAttributeUtils;
+import org.robobinding.viewattribute.seekbar.AbstractGroupedViewAttributeTest;
 
+import android.view.View;
 import android.widget.CheckBox;
 
 /**
@@ -35,62 +29,50 @@ import android.widget.CheckBox;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnCheckedChangeAttributesTest
+public class OnCheckedChangeAttributesTest extends AbstractGroupedViewAttributeTest<OnCheckedChangeAttributes>
 {
-	private OnCheckedChangeAttributes onCheckedChangeAttributes;
-	private GroupedAttributeDetails mockGroupedAttributeDetails;
-	
-	@Before
-	public void setUp()
-	{
-		onCheckedChangeAttributes = new OnCheckedChangeAttributes();
-		onCheckedChangeAttributes.setView(mock(CheckBox.class));
-		mockGroupedAttributeDetails = mock(GroupedAttributeDetails.class);
-		onCheckedChangeAttributes.setGroupedAttributeDetails(mockGroupedAttributeDetails);
-	}
+	private final Attribute checked = attribute("checked={checked}");
+	private final Attribute onCheckedChange = attribute("onCheckedChange=checkedChange");
 	
 	@Test
 	public void whenAttributeCheckedIsPresent_thenCheckedAttributeCreated()
 	{
-		makeAttributePresent(OnCheckedChangeAttributes.CHECKED);
+		givenAttribute(checked);
 		
-		onCheckedChangeAttributes.postInitialization();
+		performInitialization();
 		
-		assertAttributeCreated(CheckedAttribute.class);
+		assertThatAttributeWasCreated(CheckedAttribute.class);
 	}
 
 	@Test
 	public void whenAttributeOnCheckedChangeIsPresent_thenOnCheckedChangeAttributeCreated()
 	{
-		makeAttributePresent(OnCheckedChangeAttributes.ON_CHECKED_CHANGE);
+		givenAttribute(onCheckedChange);
 		
-		onCheckedChangeAttributes.postInitialization();
+		performInitialization();
 		
-		assertAttributeCreated(OnCheckedChangeAttribute.class);
+		assertThatAttributeWasCreated(OnCheckedChangeAttribute.class);
 	}
 	
 	@Test
 	public void whenAttributesOnCheckedChangeAndCheckedArePresent_thenBothAttributesCreated()
 	{
-		makeAttributePresent(OnCheckedChangeAttributes.CHECKED);
-		makeAttributePresent(OnCheckedChangeAttributes.ON_CHECKED_CHANGE);
+		givenAttributes(checked, onCheckedChange);
 		
-		onCheckedChangeAttributes.postInitialization();
+		performInitialization();
 		
-		assertAttributeCreated(CheckedAttribute.class);
-		assertAttributeCreated(OnCheckedChangeAttribute.class);
+		assertThatAttributesWereCreated(CheckedAttribute.class, OnCheckedChangeAttribute.class);
 	}
-	
-	private void makeAttributePresent(String attribute)
+
+	@Override
+	protected List<?> getGeneratedChildAttributes(OnCheckedChangeAttributes attributeUnderTest)
 	{
-		when(mockGroupedAttributeDetails.hasAttribute(attribute)).thenReturn(true);
-		when(mockGroupedAttributeDetails.attributeValueFor(attribute)).thenReturn(BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME);
+		return attributeUnderTest.viewAttributes;
 	}
-	
-	private void assertAttributeCreated(Class<? extends ViewAttribute> viewAttributeClass)
+
+	@Override
+	protected Class<? extends View> overrideViewClass()
 	{
-		ViewAttribute viewAttribute = ViewAttributeUtils.findFirstViewAttributeOfType(onCheckedChangeAttributes.viewAttributes, viewAttributeClass);
-		assertNotNull(viewAttribute);
-		ViewAttributeAssert.assertValidationPassed(viewAttribute);
+		return CheckBox.class;
 	}
 }

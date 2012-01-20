@@ -15,21 +15,10 @@
  */
 package org.robobinding.viewattribute.seekbar;
 
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.BindingAttributeValues;
-import org.robobinding.viewattribute.GroupedAttributeDetails;
 import org.robobinding.viewattribute.ViewAttribute;
-
-import android.widget.SeekBar;
 
 
 /**
@@ -38,91 +27,45 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnSeekBarChangeAttributesTest
+public class OnSeekBarChangeAttributesTest extends AbstractGroupedViewAttributeTest<OnSeekBarChangeAttributes>
 {
-	private OnSeekBarChangeAttributes onSeekBarAttributes;
-	private GroupedAttributeDetails mockGroupedAttributeDetails;
-
-	@Before
-	public void setUp()
-	{
-		onSeekBarAttributes = new OnSeekBarChangeAttributes();
-		onSeekBarAttributes.setView(mock(SeekBar.class));
-		mockGroupedAttributeDetails = mock(GroupedAttributeDetails.class);
-		onSeekBarAttributes.setGroupedAttributeDetails(mockGroupedAttributeDetails);
-	}
+	private Attribute progress = attribute("progress={some_property}");
+	private Attribute onSeekBarChange = attribute("onSeekBarChange=some_method");
 	
 	@Test
-	public void givenProgressAttributeValue_thenInitializeProgressAttributeInstance()
+	public void givenProgressAttribute_thenInitializeProgressAttributeInstance()
 	{
-		hasPropertyAttribute("progress");
+		givenAttribute(progress);
 		
-		onSeekBarAttributes.postInitialization();
+		performInitialization();
 		
 		assertThatAttributeWasCreated(TwoWayProgressAttribute.class);
 	}
 
 	@Test
-	public void givenOnSeekBarChangeAttributeValue_thenInitializeOnSeekBarChangeAttributeInstance()
+	public void givenOnSeekBarChangeAttribute_thenInitializeOnSeekBarChangeAttributeInstance()
 	{
-		hasCommandAttribute("onSeekBarChange");
+		givenAttribute(onSeekBarChange);
 		
-		onSeekBarAttributes.postInitialization();
+		performInitialization();
 		
 		assertThatAttributeWasCreated(OnSeekBarChangeAttribute.class);
 	}
 	
 	@Test
-	public void givenProgressAndOnSeekBarChangeAttributeValues_thenInitializeBothAttributeInstances()
+	public void givenProgressAndOnSeekBarChangeAttributes_thenInitializeBothAttributeInstances()
 	{
-		hasPropertyAttribute("progress");
-		hasCommandAttribute("onSeekBarChange");
+		givenAttributes(progress, onSeekBarChange);
 		
-		onSeekBarAttributes.postInitialization();
+		performInitialization();
 		
-		assertThatAttributeWasCreated(TwoWayProgressAttribute.class);
-		assertThatAttributeWasCreated(OnSeekBarChangeAttribute.class);
+		assertThatAttributesWereCreated(TwoWayProgressAttribute.class, OnSeekBarChangeAttribute.class);
 	}
 
-	private void hasPropertyAttribute(String attributeName)
+	@Override
+	protected List<ViewAttribute> getGeneratedChildAttributes(OnSeekBarChangeAttributes attributeUnderTest)
 	{
-		when(mockGroupedAttributeDetails.hasAttribute(attributeName)).thenReturn(true);
-		when(mockGroupedAttributeDetails.attributeValueFor(attributeName)).thenReturn(BindingAttributeValues.ONE_WAY_BINDING_PROPERTY_NAME1);
-	}
-	
-	private void hasCommandAttribute(String commandName)
-	{
-		when(mockGroupedAttributeDetails.hasAttribute(commandName)).thenReturn(true);
-		when(mockGroupedAttributeDetails.attributeValueFor(commandName)).thenReturn("some_method");
-	}
-	
-	private void assertThatAttributeWasCreated(Class<? extends ViewAttribute> viewAttributeClass)
-	{
-		List<ViewAttribute> viewAttributes = onSeekBarAttributes.viewAttributes;
-		boolean instanceFound = false;
-		
-		for (ViewAttribute viewAttribute : viewAttributes)
-		{
-			if (viewAttribute.getClass().isAssignableFrom(viewAttributeClass))
-			{
-				instanceFound = true;
-				
-				if (viewAttribute instanceof AbstractPropertyViewAttribute)
-				{
-					AbstractPropertyViewAttribute<?, ?> propertyViewAttribute = (AbstractPropertyViewAttribute<?, ?>)viewAttribute;
-					assertTrue(propertyViewAttribute.getValidationError(), propertyViewAttribute.validate());
-				}
-				else if (viewAttribute instanceof AbstractCommandViewAttribute)
-				{
-					AbstractCommandViewAttribute<?> commandViewAttribute = (AbstractCommandViewAttribute<?>)viewAttribute;
-					assertTrue(commandViewAttribute.getValidationError(), commandViewAttribute.validate());
-				}
-				
-				break;
-			}
-		}
-		
-		assertTrue(instanceFound);
+		return attributeUnderTest.viewAttributes;
 	}
 	
 }
