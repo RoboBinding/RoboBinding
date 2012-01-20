@@ -29,10 +29,12 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  */
 public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute<CompoundButton>
 {
+	private OnCheckedChangeListeners onCheckedChangeListeners;
+	
 	@Override
 	protected void bind(final Command command)
 	{
-		view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		onCheckedChangeListeners.addListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
@@ -48,4 +50,10 @@ public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute<Compo
 	{
 		return CheckedChangeEvent.class;
 	}
+
+	public void setOnCheckedChangeListeners(OnCheckedChangeListeners onCheckedChangeListeners)
+	{
+		this.onCheckedChangeListeners = onCheckedChangeListeners;
+	}
+
 }

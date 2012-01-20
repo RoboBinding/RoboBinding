@@ -29,6 +29,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  */
 public class CheckedAttribute extends AbstractPropertyViewAttribute<CompoundButton, Boolean>
 {
+	private OnCheckedChangeListeners onCheckedChangeListeners;
+	
 	@Override
 	protected void valueModelUpdated(Boolean newValue)
 	{
@@ -38,13 +40,18 @@ public class CheckedAttribute extends AbstractPropertyViewAttribute<CompoundButt
 	@Override
 	protected void observeChangesOnTheView(final ValueModel<Boolean> valueModel)
 	{
-		view.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		onCheckedChangeListeners.addListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
 				valueModel.setValue(isChecked);
 			}
 		});
+	}
+
+	public void setOnCheckedChangeListeners(OnCheckedChangeListeners onCheckedChangeListeners)
+	{
+		this.onCheckedChangeListeners = onCheckedChangeListeners;
 	}
 
 }

@@ -18,6 +18,7 @@ package org.robobinding.viewattribute.compoundbutton;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
@@ -33,6 +34,13 @@ import android.widget.CheckBox;
  */
 public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<CheckBox, CheckedAttribute>
 {
+	@Before
+	public void setUp()
+	{
+		OnCheckedChangeListeners onCheckedChangeListeners = new OnCheckedChangeListeners();
+		view.setOnCheckedChangeListener(onCheckedChangeListeners);
+		attribute.setOnCheckedChangeListeners(onCheckedChangeListeners);
+	}
 	@Test
 	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{

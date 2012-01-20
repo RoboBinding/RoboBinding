@@ -15,6 +15,7 @@
  */
 package org.robobinding.viewattribute.compoundbutton;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 
@@ -28,6 +29,13 @@ import android.widget.CheckBox;
  */
 public class OnCheckedChangeAttributeTest extends AbstractCommandViewAttributeTest<CheckBox, OnCheckedChangeAttribute>
 {
+	@Before
+	public void setUp()
+	{
+		OnCheckedChangeListeners onCheckedChangeListeners = new OnCheckedChangeListeners();
+		view.setOnCheckedChangeListener(onCheckedChangeListeners);
+		attribute.setOnCheckedChangeListeners(onCheckedChangeListeners);
+	}
 	@Test
 	public void givenBoundAttribute_whenChangeChecked_thenEventReceived()
 	{
