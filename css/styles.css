@@ -25,8 +25,12 @@ body {
   float:right;
 }
 
-.highlight {
+.code_block {
   padding-left: 25px;
+  padding-right: 25px;
+  margin-left: 25px;
+  display: inline-block;
+  background-color: #bbc794
 }
 
 header {

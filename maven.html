@@ -6,6 +6,7 @@ title: Getting started - Maven
 <h2>Maven integration</h2>
 <p>To include RoboBinding to your project dependencies, add the following to your POM:</p>
 
+<span class="code_block">
 {% highlight xml %}
 <dependency>
 	<groupId>org.robobinding</groupId>
@@ -13,11 +14,13 @@ title: Getting started - Maven
 	<version>0.8.0-SNAPSHOT</version>
 </dependency>
 {% endhighlight %}
+</span>
 
 <p>If you're using the AspectJ-powered features of the framework, then you'll need to add both the AspectJ runtime dependency and the <a href="http://mojo.codehaus.org/aspectj-maven-plugin/">AspectJ Maven plugin</a>.
 
 <p>To your dependencies add:</p>
 
+<span class="code_block">
 {% highlight xml %}
 <dependency>
 	<groupId>org.aspectj</groupId>
@@ -25,9 +28,11 @@ title: Getting started - Maven
 	<version>1.6.11</version>
 </dependency>
 {% endhighlight %}
+</span>
 
 <p>To your build plugins, add:</p>
 
+<span class="code_block">
 {% highlight xml %}
 <plugin>
 	<groupId>org.codehaus.mojo</groupId>
@@ -63,3 +68,4 @@ title: Getting started - Maven
 	</configuration>
 </plugin>
 {% endhighlight %}
+</span>
