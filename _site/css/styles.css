@@ -1,0 +1,43 @@
+body {
+  font: 14px/1.5 verdana, helvetica-neue, helvetica, arial, san-serif;
+  padding: 0;
+  margin: 0;
+}
+
+#main {
+  width: 1000px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#navigation_bar {
+  float: left;
+  width: 200px;
+}
+
+#content {
+  float: right;
+  width: 800px;
+  padding-bottom: 50px;
+}
+
+#latest_version {
+  float:right;
+}
+
+.highlight {
+  padding-left: 25px;
+}
+
+header {
+  padding-left: 25px;
+  padding-top: 5px;
+}
+
+footer {
+  clear: both;
+  text-align: center;
+  padding-left: 25px;
+  padding-right: 25px;
+  border-top: 1px solid #aaaaaa
+}

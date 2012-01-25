@@ -1,0 +1,65 @@
+---
+layout: main
+title: Getting started - Maven
+---
+
+<h2>Maven integration</h2>
+<p>To include RoboBinding to your project dependencies, add the following to your POM:</p>
+
+{% highlight xml %}
+<dependency>
+	<groupId>org.robobinding</groupId>
+	<artifactId>robobinding</artifactId>
+	<version>0.8.0-SNAPSHOT</version>
+</dependency>
+{% endhighlight %}
+
+<p>If you're using the AspectJ-powered features of the framework, then you'll need to add both the AspectJ runtime dependency and the <a href="http://mojo.codehaus.org/aspectj-maven-plugin/">AspectJ Maven plugin</a>.
+
+<p>To your dependencies add:</p>
+
+{% highlight xml %}
+<dependency>
+	<groupId>org.aspectj</groupId>
+	<artifactId>aspectjrt</artifactId>
+	<version>1.6.11</version>
+</dependency>
+{% endhighlight %}
+
+<p>To your build plugins, add:</p>
+
+{% highlight xml %}
+<plugin>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>aspectj-maven-plugin</artifactId>
+	<version>1.4</version>
+	<executions>
+		<execution>
+			<phase>process-sources</phase>
+			<goals>
+				<goal>compile</goal>
+			</goals>
+		</execution>
+	</executions>
+	<configuration>
+		<aspectLibraries>
+			<aspectLibrary>
+				<groupId>org.robobinding</groupId>
+				<artifactId>robobinding</artifactId>
+			</aspectLibrary>
+		</aspectLibraries>
+		<source>${maven.compiler.source}</source>
+		<target>${maven.compiler.target}</target>
+	</configuration>
+</plugin>
+
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-compiler-plugin</artifactId>
+	<version>2.3.2</version>
+	<configuration>
+		<source>${maven.compiler.source}</source>
+		<target>${maven.compiler.target}</target>
+	</configuration>
+</plugin>
+{% endhighlight %}

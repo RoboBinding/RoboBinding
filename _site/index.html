@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>RoboBinding - Home</title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="content-language" content="en" />
+		<link rel="stylesheet" type="text/css" href="/css/styles.css" />
+		<link rel="stylesheet" type="text/css" href="/css/pygments.css" />
+	</head>
+	<div id="main">
+ 
+    <header>
+	<img src="/img/robobinding_header_quarter.png" />
+	<div id="latest_version">
+        <p>Latest version: 0.8.0 (alpha)</p>
+	</div>
+    </header>
+
+    <div id="navigation_bar">
+    <nav role="navigation">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/getting_started.html">Getting started</a>
+		<ul>
+			<li><a href="/eclipse.html">Eclipse</a></li>
+        		<li><a href="/maven.html">Maven</a></li>
+		</ul>
+	</li>
+	<li><a href="/binding_attributes.html">Binding attributes</a></li>
+	<li><a href="/">Google group</a></li>
+      </ul>
+    </nav>
+    </div>
+ 
+	<div id="content">
+    <h2>Bind the gap</h2>
+<p>RoboBinding is a data-binding <a href="http://martinfowler.com/eaaDev/PresentationModel.html">presentation model</a> framework for the Android platform. RoboBinding helps you write UI code that is easier to read, test and maintain.</p>
+<h2>Property Binding</h2>
+<p>Declare a binding attribute in your layout xml:</p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;EditText</span> <span class="na">android:layout=</span><span class="s">&quot;wrap_content&quot;</span>
+	<span class="na">android:layout=</span><span class="s">&quot;wrap_content&quot;</span>
+	<span class="na">bind:text=</span><span class="s">&quot;${superHeroName}&quot;</span> <span class="nt">/&gt;</span>
+</code></pre>
+</div>
+
+
+<p>provide a pojo presentation model class that exposes the relevant property:</p>
+
+<div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSuperHeroName</span><span class="o">(</span><span class="n">String</span> <span class="n">superHeroName</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">this</span><span class="o">.</span><span class="na">superHeroName</span> <span class="o">=</span> <span class="n">superHeroName</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="n">String</span> <span class="nf">getSuperHeroName</span><span class="o">()</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="n">superHeroName</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+
+<p>and RoboBinding will provide fine-grained synchronization between view and presentation model.</p>
+
+<h2>Event handling</h2>
+
+<p>Declare a binding attribute in your layout xml:</p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;ListView</span> <span class="na">android:layout=</span><span class="s">&quot;wrap_content&quot;</span>
+	<span class="na">android:layout=</span><span class="s">&quot;wrap_content&quot;</span>
+	<span class="na">bind:onItemClick=</span><span class="s">&quot;${superHeroSelected}&quot;</span> <span class="nt">/&gt;</span>
+</code></pre>
+</div>
+
+
+<p>provide a pojo presentation model class that exposes an appropriate event handler:</p>
+
+<div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">superHeroSelected</span><span class="o">(</span><span class="n">ItemClickEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">SuperHero</span> <span class="n">chosenSuperHero</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">superHeros</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getPosition</span><span class="o">());</span>
+	<span class="n">chosenSuperHero</span><span class="o">.</span><span class="na">summon</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+
+<p>and RoboBinding will delegate item click events to this method.</p>
+
+    	</div>
+    <footer>
+      <p>Disclaimer: portions of this page are modifications based on work created and <a href="http://code.google.com/policies.html">shared by Google</a> and used according to terms described in the <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons 3.0 Attribution License</a></p>
+    </footer>
+ 
+  </div>
+ </html>

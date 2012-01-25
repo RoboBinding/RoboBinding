@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>RoboBinding - Getting started - Maven</title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="content-language" content="en" />
+		<link rel="stylesheet" type="text/css" href="/css/styles.css" />
+		<link rel="stylesheet" type="text/css" href="/css/pygments.css" />
+	</head>
+	<div id="main">
+ 
+    <header>
+	<img src="/img/robobinding_header_quarter.png" />
+	<div id="latest_version">
+        <p>Latest version: 0.8.0 (alpha)</p>
+	</div>
+    </header>
+
+    <div id="navigation_bar">
+    <nav role="navigation">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/getting_started.html">Getting started</a>
+		<ul>
+			<li><a href="/eclipse.html">Eclipse</a></li>
+        		<li><a href="/maven.html">Maven</a></li>
+		</ul>
+	</li>
+	<li><a href="/binding_attributes.html">Binding attributes</a></li>
+	<li><a href="/">Google group</a></li>
+      </ul>
+    </nav>
+    </div>
+ 
+	<div id="content">
+    <h2>Maven integration</h2>
+<p>To include RoboBinding to your project dependencies, add the following to your POM:</p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.robobinding<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>robobinding<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>0.8.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre>
+</div>
+
+
+<p>If you're using the AspectJ-powered features of the framework, then you'll need to add both the AspectJ runtime dependency and the <a href="http://mojo.codehaus.org/aspectj-maven-plugin/">AspectJ Maven plugin</a>.
+
+<p>To your dependencies add:</p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.aspectj<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>aspectjrt<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>1.6.11<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre>
+</div>
+
+
+<p>To your build plugins, add:</p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;plugin&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.codehaus.mojo<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>aspectj-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>1.4<span class="nt">&lt;/version&gt;</span>
+	<span class="nt">&lt;executions&gt;</span>
+		<span class="nt">&lt;execution&gt;</span>
+			<span class="nt">&lt;phase&gt;</span>process-sources<span class="nt">&lt;/phase&gt;</span>
+			<span class="nt">&lt;goals&gt;</span>
+				<span class="nt">&lt;goal&gt;</span>compile<span class="nt">&lt;/goal&gt;</span>
+			<span class="nt">&lt;/goals&gt;</span>
+		<span class="nt">&lt;/execution&gt;</span>
+	<span class="nt">&lt;/executions&gt;</span>
+	<span class="nt">&lt;configuration&gt;</span>
+		<span class="nt">&lt;aspectLibraries&gt;</span>
+			<span class="nt">&lt;aspectLibrary&gt;</span>
+				<span class="nt">&lt;groupId&gt;</span>org.robobinding<span class="nt">&lt;/groupId&gt;</span>
+				<span class="nt">&lt;artifactId&gt;</span>robobinding<span class="nt">&lt;/artifactId&gt;</span>
+			<span class="nt">&lt;/aspectLibrary&gt;</span>
+		<span class="nt">&lt;/aspectLibraries&gt;</span>
+		<span class="nt">&lt;source&gt;</span>${maven.compiler.source}<span class="nt">&lt;/source&gt;</span>
+		<span class="nt">&lt;target&gt;</span>${maven.compiler.target}<span class="nt">&lt;/target&gt;</span>
+	<span class="nt">&lt;/configuration&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+
+<span class="nt">&lt;plugin&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>2.3.2<span class="nt">&lt;/version&gt;</span>
+	<span class="nt">&lt;configuration&gt;</span>
+		<span class="nt">&lt;source&gt;</span>${maven.compiler.source}<span class="nt">&lt;/source&gt;</span>
+		<span class="nt">&lt;target&gt;</span>${maven.compiler.target}<span class="nt">&lt;/target&gt;</span>
+	<span class="nt">&lt;/configuration&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</code></pre>
+</div>
+
+
+    	</div>
+    <footer>
+      <p>Disclaimer: portions of this page are modifications based on work created and <a href="http://code.google.com/policies.html">shared by Google</a> and used according to terms described in the <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons 3.0 Attribution License</a></p>
+    </footer>
+ 
+  </div>
+ </html>
