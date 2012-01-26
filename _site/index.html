@@ -67,7 +67,6 @@
 
 <p>provide a pojo presentation model class that exposes the relevant property:</p>
 
-<span class="code_block">
 <div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSuperHeroName</span><span class="o">(</span><span class="n">String</span> <span class="n">superHeroName</span><span class="o">)</span> <span class="o">{</span>
 	<span class="k">this</span><span class="o">.</span><span class="na">superHeroName</span> <span class="o">=</span> <span class="n">superHeroName</span><span class="o">;</span>
 <span class="o">}</span>
@@ -78,7 +77,6 @@
 </code></pre>
 </div>
 
-</span>
 
 <p>and RoboBinding will provide fine-grained synchronization between view and presentation model.</p>
 
@@ -86,18 +84,15 @@
 
 <p>Declare a binding attribute in your layout xml:</p>
 
-<span class="code_block">
 <div class="highlight"><pre><code class="xml"><span class="nt">&lt;ListView</span> <span class="na">android:layout=</span><span class="s">&quot;wrap_content&quot;</span>
 	<span class="na">android:layout=</span><span class="s">&quot;wrap_content&quot;</span>
 	<span class="na">bind:onItemClick=</span><span class="s">&quot;${superHeroSelected}&quot;</span> <span class="nt">/&gt;</span>
 </code></pre>
 </div>
 
-</span>
 
 <p>provide a pojo presentation model class that exposes an appropriate event handler:</p>
 
-<span class="code_block">
 <div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">superHeroSelected</span><span class="o">(</span><span class="n">ItemClickEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
 	<span class="n">SuperHero</span> <span class="n">chosenSuperHero</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">superHeros</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getPosition</span><span class="o">());</span>
 	<span class="n">chosenSuperHero</span><span class="o">.</span><span class="na">summon</span><span class="o">();</span>
@@ -105,7 +100,6 @@
 </code></pre>
 </div>
 
-</span>
 
 <p>and RoboBinding will delegate item click events to this method.</p>
 </div>

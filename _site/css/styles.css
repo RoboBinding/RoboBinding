@@ -5,19 +5,19 @@ body {
 }
 
 #main {
-  width: 1000px;
+  width: 850px;
   margin-left:auto;
   margin-right:auto;
 }
 
 #navigation_bar {
   float: left;
-  width: 200px;
+  width: 180px;
 }
 
 #content {
   float: right;
-  width: 800px;
+  width: 670px;
   padding-bottom: 50px;
 }
 
@@ -25,12 +25,12 @@ body {
   float:right;
 }
 
-.code_block {
+.highlight {
   padding-left: 25px;
   padding-right: 25px;
   margin-left: 25px;
   display: inline-block;
-  background-color: #bbc794
+  background-color: #e9f8bb
 }
 
 header {

@@ -19,7 +19,6 @@ title: Home
 
 <p>provide a pojo presentation model class that exposes the relevant property:</p>
 
-<span class="code_block">
 {% highlight java %}
 public void setSuperHeroName(String superHeroName) {
 	this.superHeroName = superHeroName;
@@ -29,7 +28,6 @@ public String getSuperHeroName() {
 	return superHeroName;
 }
 {% endhighlight %}
-</span>
 
 <p>and RoboBinding will provide fine-grained synchronization between view and presentation model.</p>
 
@@ -37,23 +35,19 @@ public String getSuperHeroName() {
 
 <p>Declare a binding attribute in your layout xml:</p>
 
-<span class="code_block">
 {% highlight xml %}
 <ListView android:layout="wrap_content"
 	android:layout="wrap_content"
 	bind:onItemClick="${superHeroSelected}" />
 {% endhighlight %}
-</span>
 
 <p>provide a pojo presentation model class that exposes an appropriate event handler:</p>
 
-<span class="code_block">
 {% highlight java %}
 public void superHeroSelected(ItemClickEvent event) {
 	SuperHero chosenSuperHero = this.superHeros.get(event.getPosition());
 	chosenSuperHero.summon();
 }
 {% endhighlight %}
-</span>
 
 <p>and RoboBinding will delegate item click events to this method.</p>
