@@ -6,4 +6,91 @@ title: Binding attributes
 <p>Binding attributes are available for many of the standard widgets in the Android toolbox. You can also add binding support to your own custom widgets.</p>
 
 <h2>Glossary</h2>
-<p>Coming soon.</p>
+
+<h2>android.view.View</h2>
+<strong>Properties</strong>
+<table>
+<tr>
+<th>Name</th>
+<th>Supported types</th>
+<th>Two-way?</th>
+</tr>
+<tr>
+<td>enabled</td>
+<td>Boolean</td>
+<td>no</td>
+</tr>
+<tr>
+<td>visibility</td>
+<td>Boolean, Integer</td>
+<td>no</td>
+</tr>
+</table>
+<strong>Events</strong>
+<table>
+<tr>
+<th>Name</th>
+<th>Event class</th>
+</tr>
+<tr>
+<td>onClick</td>
+<td>ClickEvent</td>
+</tr>
+<tr>
+<td>onFocus</td>
+<td>ViewEvent</td>
+</tr>
+<tr>
+<td>onFocusChange</td>
+<td>FocusChangeEvent</td>
+</tr>
+<tr>
+<td>onFocusLost</td>
+<td>ViewEvent</td>
+</tr>
+<tr>
+<td>onLongClick</td>
+<td>ClickEvent</td>
+</tr>
+</table>
+
+<h2>android.widget.AdapterView</h2>
+<strong>Properties</strong>
+<table>
+<tr>
+<th>Name</th>
+<th>Supported types</th>
+<th>Two-way?</th>
+</tr>
+<tr>
+<td>itemLayout</td>
+<td>Integer,Static resource</td>
+<td>no</td>
+</tr>
+<tr>
+<td>itemMapping</td>
+<td>?</td>
+<td>no</td>
+</tr>
+<tr>
+<td>source</td>
+<td>Array, List</td>
+<td>no</td>
+</tr>
+</table>
+<strong>Events</strong>
+<table>
+<tr>
+<th>Name</th>
+<th>Event class</th>
+</tr>
+<tr>
+<td>onItemClick</td>
+<td>ItemClickEvent</td>
+</tr>
+<tr>
+<td>onItemSelected</td>
+<td>ItemClickEvent</td>
+</tr>
+</table>
+

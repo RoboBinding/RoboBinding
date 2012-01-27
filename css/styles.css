@@ -22,7 +22,22 @@ body {
 }
 
 #latest_version {
-  float:right;
+  float: right;
+}
+
+th {
+  background-color: #999999;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+td {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+table {
+  margin-bottom: 25px;
 }
 
 .highlight {
