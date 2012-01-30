@@ -31,7 +31,6 @@ public class CompoundButtonAttributeMapper implements BindingAttributeMapper<Com
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<CompoundButton> mappings)
 	{
-		mappings.mapPropertyAttribute(CheckedAttribute.class, "checked");
-		mappings.mapCommandAttribute(OnCheckedChangeAttribute.class, "onCheckedChange");
+		mappings.mapGroupedAttribute(OnCheckedChangeAttributes.class, OnCheckedChangeAttributes.CHECKED, OnCheckedChangeAttributes.ON_CHECKED_CHANGE);
 	}
 }
