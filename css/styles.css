@@ -10,6 +10,16 @@ body {
   margin-right:auto;
 }
 
+nav {
+  margin-right: 45px;
+  margin-top: 24px;
+  background-color: #d5e3aa;
+  border-radius: 15px;
+  padding-top: 10px;
+  padding-left: 12px;
+  padding-bottom: 15px;
+}
+
 #navigation_bar {
   float: left;
   width: 180px;
@@ -26,9 +36,10 @@ body {
 }
 
 th {
-  background-color: #999999;
+  background-color: #eeeeee;
   padding-left: 30px;
   padding-right: 30px;
+  box-shadow: inset 0 0 5px #000000;
 }
 
 td {
@@ -43,8 +54,24 @@ table {
 .highlight {
   padding-left: 25px;
   padding-right: 25px;
-  margin-left: 25px;
-  display: inline-block;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  background-color: #eeeeee;
+  box-shadow: inset 0 0 5px #000000;
+}
+
+a:link {
+  color: #435117;
+}
+
+a:visited {
+  color: #6d8426;
+}
+
+ul {
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 header {
