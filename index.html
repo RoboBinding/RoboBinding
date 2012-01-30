@@ -11,8 +11,8 @@ title: Home
 <span class="code_block">
 {% highlight xml %}
 
-<EditText android:layout="fill_parent"
-	  android:layout="wrap_content"
+<EditText android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
 	  bind:text="${superHeroName}" />
 {% endhighlight %}
 </span>
@@ -36,8 +36,8 @@ public String getSuperHeroName() {
 <p>Declare a binding attribute in your layout xml:</p>
 
 {% highlight xml %}
-<ListView android:layout="fill_parent"
-	  android:layout="fill_parent"
+<ListView android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
 	  bind:onItemClick="${superHeroSelected}" />
 {% endhighlight %}
 
