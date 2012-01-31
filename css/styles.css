@@ -5,7 +5,7 @@ body {
 }
 
 #main {
-  width: 850px;
+  width: 870px;
   margin-left:auto;
   margin-right:auto;
 }
@@ -22,7 +22,7 @@ nav {
 
 #navigation_bar {
   float: left;
-  width: 180px;
+  width: 200px;
 }
 
 #content {
@@ -75,7 +75,7 @@ ul {
 }
 
 header {
-  padding-left: 25px;
+  padding-left: 45px;
   padding-top: 5px;
 }
 
