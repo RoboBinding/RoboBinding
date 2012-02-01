@@ -45,7 +45,7 @@ public String getSuperHeroName() {
 
 {% highlight java %}
 public void superHeroSelected(ItemClickEvent event) {
-	SuperHero chosenSuperHero = this.superHeros.get(event.getPosition());
+	SuperHero chosenSuperHero = this.superHeroes.get(event.getPosition());
 	chosenSuperHero.summon();
 }
 {% endhighlight %}
