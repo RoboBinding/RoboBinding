@@ -15,7 +15,7 @@
  */
 package sample.robobinding.presentationmodel;
 
-import org.robobinding.presentationmodelaspects.PresentationModel;
+import org.robobinding.presentationmodel.PresentationModel;
 
 import sample.robobinding.CreateEditAlbumActivity;
 import sample.robobinding.DeleteAlbumDialog;

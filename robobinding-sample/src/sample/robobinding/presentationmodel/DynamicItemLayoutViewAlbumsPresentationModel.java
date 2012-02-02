@@ -15,10 +15,9 @@
  */
 package sample.robobinding.presentationmodel;
 
-import org.robobinding.presentationmodelaspects.PresentationModel;
+import org.robobinding.presentationmodel.PresentationModel;
 
 import sample.robobinding.R;
-
 import android.app.Activity;
 
 /**

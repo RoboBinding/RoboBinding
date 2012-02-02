@@ -15,9 +15,9 @@
  */
 package sample.robobinding.presentationmodel;
 
-import org.robobinding.ItemPresentationModel;
 import org.robobinding.itempresentationmodel.TypedCursor;
-import org.robobinding.presentationmodelaspects.PresentationModel;
+import org.robobinding.presentationmodel.ItemPresentationModel;
+import org.robobinding.presentationmodel.PresentationModel;
 
 import sample.robobinding.model.Album;
 import sample.robobinding.model.PurchaseService;

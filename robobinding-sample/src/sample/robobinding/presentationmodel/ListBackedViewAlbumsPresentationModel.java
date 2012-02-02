@@ -17,10 +17,10 @@ package sample.robobinding.presentationmodel;
 
 import java.util.List;
 
-import org.robobinding.DependsOnStateOf;
-import org.robobinding.ItemPresentationModel;
 import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.presentationmodelaspects.PresentationModel;
+import org.robobinding.presentationmodel.DependsOnStateOf;
+import org.robobinding.presentationmodel.ItemPresentationModel;
+import org.robobinding.presentationmodel.PresentationModel;
 
 import sample.robobinding.model.Album;
 import sample.robobinding.store.AlbumStore;

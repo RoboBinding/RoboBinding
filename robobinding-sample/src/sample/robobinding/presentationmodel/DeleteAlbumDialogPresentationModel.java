@@ -16,7 +16,7 @@
 package sample.robobinding.presentationmodel;
 
 import org.robobinding.presentationmodel.DialogPresentationModel;
-import org.robobinding.presentationmodelaspects.PresentationModel;
+import org.robobinding.presentationmodel.PresentationModel;
 
 import sample.robobinding.R;
 import sample.robobinding.model.Album;
