@@ -56,7 +56,7 @@ public class SubviewBinderTest
 		InflatedView inflatedView = new InflatedView(rootView, new ArrayList<ViewAttributes>());
 		when(bindingViewFactory.inflateViewAndAttachToRoot(layoutId, viewGroup)).thenReturn(inflatedView);
 		
-		SubviewBinder subviewBinder = new SubviewBinder(context, layoutId);
+		SubViewBinderNew subviewBinder = new SubViewBinderNew(context, layoutId);
 		subviewBinder.setBindingViewFactory(bindingViewFactory);
 		View inflatedRootView = subviewBinder.bindToAndAttachToRoot(presentationModel, viewGroup);
 		
