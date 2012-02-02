@@ -29,11 +29,11 @@ import android.view.ViewGroup;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class SubViewBinderNew extends AbstractBinder
+class SubViewBinder extends AbstractBinder
 {
 	private final int layoutId;
 
-	public SubViewBinderNew(Context context, int layoutId)
+	public SubViewBinder(Context context, int layoutId)
 	{
 		super(context, true);
 		this.layoutId = layoutId;
