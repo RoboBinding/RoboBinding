@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.itempresentationmodelaspects;
+package org.robobinding.itempresentationmodel;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
@@ -24,8 +24,8 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
-import org.robobinding.presentationmodelaspects.PresentationModelMixin;
-import org.robobinding.presentationmodelaspects.PropertyChangeListenerTester;
+import org.robobinding.presentationmodel.PresentationModelMixin;
+import org.robobinding.presentationmodel.PropertyChangeListenerTester;
 import org.robobinding.property.ObservableProperties;
 
 

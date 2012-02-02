@@ -18,7 +18,6 @@ package org.robobinding.viewattribute;
 import java.util.Collection;
 import java.util.Map;
 
-import org.robobinding.binder.GroupedAttributeDetailsImpl;
 import org.robobinding.internal.com_google_common.collect.Maps;
 
 import android.view.View;

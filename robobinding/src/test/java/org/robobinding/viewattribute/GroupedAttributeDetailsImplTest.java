@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.viewattribute;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
@@ -24,7 +24,7 @@ import java.util.Collection;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
 
 /**
  *

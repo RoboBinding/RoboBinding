@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.itempresentationmodelaspects;
+package org.robobinding.presentationmodel;
 
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
-
+import org.robobinding.presentationmodel.AbstractPresentationModel;
 
 /**
  *
@@ -24,17 +23,7 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ItemPresentationModel_AutoCodeGeneration implements ItemPresentationModel<Object>
+public class PresentationModel_ManualImplementation2 extends AbstractPresentationModel
 {
-	Object bean;
-	public static final String PROPERTY = "property";
-	public void updateData(int index, Object bean)
-	{
-		this.bean = bean;
-	}
-	public boolean getProperty()
-	{
-		return true;
-	}
 
 }

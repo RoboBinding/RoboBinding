@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 

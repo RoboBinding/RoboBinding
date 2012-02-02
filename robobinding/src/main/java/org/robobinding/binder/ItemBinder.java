@@ -30,14 +30,14 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class RowBinder extends AbstractBinder
+public class ItemBinder extends AbstractBinder
 {
 	private int itemLayoutId;
 	private ItemMappingAttribute itemMappingAttribute;
 	private int dropdownLayoutId;
 	private DropdownMappingAttribute dropdownMappingAttribute;
 
-	public RowBinder(Context context)
+	public ItemBinder(Context context)
 	{
 		super(context);
 	}

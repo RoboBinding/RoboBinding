@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.presentationmodelaspects;
+package org.robobinding.itempresentationmodel;
 
-import org.junit.Assert;
+import org.robobinding.itempresentationmodel.ItemPresentationModel;
+import org.robobinding.property.ObservableProperties;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 
 
@@ -25,20 +26,18 @@ import org.robobinding.property.PresentationModelPropertyChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PropertyChangeListenerTester implements PresentationModelPropertyChangeListener
+public class ItemPresentationModel_ManualImplementation1 implements ItemPresentationModel<Object>, ObservableProperties
 {
-	private int timesOfPropertyChanged = 0;
 	@Override
-	public void propertyChanged()
+	public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
-		timesOfPropertyChanged++;
 	}
-	public void assertPropertyChangedOnce()
+	@Override
+	public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
 	{
-		assertTimesOfPropertyChanged(1);
 	}
-	public void assertTimesOfPropertyChanged(int expectedTimes)
+	@Override
+	public void updateData(int index, Object bean)
 	{
-		Assert.assertEquals(expectedTimes, timesOfPropertyChanged);
 	}
 }

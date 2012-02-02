@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.presentationmodel;
+package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binder.RowBinder;
+import org.robobinding.binder.ItemBinder;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.DataSetValueModelWrapper;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
-import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
-import org.robobinding.viewattribute.adapterview.ItemMappingAttribute;
 
 import android.content.Context;
 import android.view.View;
@@ -39,14 +37,14 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private enum ViewType {ITEM_LAYOUT, DROPDOWN_LAYOUT}
 	
 	private DataSetValueModel<T> dataSetValueModel;
-	private final RowBinder rowBinder;
+	private final ItemBinder rowBinder;
 	
 	private boolean preInitializeViews;
 	private boolean propertyChangeEventOccurred = false;
 	
 	public DataSetAdapter(Context context, boolean preInitializeViews)
 	{
-		this.rowBinder = new RowBinder(context);
+		this.rowBinder = new ItemBinder(context);
 		this.preInitializeViews = preInitializeViews;
 	}
 

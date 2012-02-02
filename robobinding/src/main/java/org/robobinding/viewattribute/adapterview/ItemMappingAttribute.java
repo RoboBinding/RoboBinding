@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 import org.robobinding.binder.BindingAttributeProcessor;
 import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
 import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.content.Context;

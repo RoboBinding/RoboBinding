@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.presentationmodelaspects;
+package org.robobinding.presentationmodel;
 
 import org.aspectj.lang.annotation.AdviceName;
-import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.property.ObservableProperties;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 

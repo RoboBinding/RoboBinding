@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.presentationmodelaspects;
+package org.robobinding.presentationmodel;
 
-import org.robobinding.presentationmodelaspects.CustomSetter;
-import org.robobinding.presentationmodelaspects.PresentationModel;
+import org.robobinding.presentationmodel.CustomSetter;
+import org.robobinding.presentationmodel.PresentationModel;
 
 
 /**

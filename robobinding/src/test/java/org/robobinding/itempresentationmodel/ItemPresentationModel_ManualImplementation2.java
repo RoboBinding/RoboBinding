@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.presentationmodelaspects;
+package org.robobinding.itempresentationmodel;
+
+import org.robobinding.itempresentationmodel.ItemPresentationModel;
+import org.robobinding.presentationmodel.AbstractPresentationModel;
+
 
 /**
  *
@@ -21,8 +25,11 @@ package org.robobinding.presentationmodelaspects;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class FieldDeclarationOfPropertyChangeSupportNotAllowed
+public class ItemPresentationModel_ManualImplementation2 extends AbstractPresentationModel
+	implements ItemPresentationModel<Object>
 {
-/*	robobinding.property.PresentationModelPropertyChangeSupport presentationModelPropertyChangeSupport = 
-			new robobinding.property.PresentationModelPropertyChangeSupport(this);*/
+	@Override
+	public void updateData(int index, Object bean)
+	{
+	}
 }

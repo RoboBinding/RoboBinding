@@ -21,7 +21,6 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetValueModel;
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.presentationmodel;
+package org.robobinding.viewattribute.adapterview;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -28,9 +28,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.R;
 import org.robobinding.internal.com_google_common.collect.Lists;
+import org.robobinding.presentationmodel.AbstractPresentationModel;
+import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.adapterview.DataSetAdapter;
 
 import android.app.Activity;
 import android.content.Context;

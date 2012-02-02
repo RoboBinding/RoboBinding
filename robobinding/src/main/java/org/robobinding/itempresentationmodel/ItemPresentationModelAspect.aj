@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.itempresentationmodelaspects;
+package org.robobinding.itempresentationmodel;
 
 import org.aspectj.lang.annotation.AdviceName;
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
-import org.robobinding.presentationmodelaspects.PresentationModelMixin;
+import org.robobinding.presentationmodel.PresentationModelMixin;
 import org.robobinding.property.ObservableProperties;
 
 /**

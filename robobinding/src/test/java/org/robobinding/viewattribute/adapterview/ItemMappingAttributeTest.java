@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.presentationmodel.DataSetAdapter;
 
 import android.content.Context;
 import android.content.res.Resources;

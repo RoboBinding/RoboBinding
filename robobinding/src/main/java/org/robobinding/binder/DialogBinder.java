@@ -29,7 +29,7 @@ import android.view.Window;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class DialogBinder extends AbstractBinder
+class DialogBinder extends AbstractBinder
 {
 	private final Dialog dialog;
 	private final int layoutId;

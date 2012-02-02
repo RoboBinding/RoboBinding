@@ -27,7 +27,7 @@ import android.app.Activity;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ActivityBinder extends AbstractBinder
+class ActivityBinder extends AbstractBinder
 {
 	private final Activity activity;
 	private final int layoutId;

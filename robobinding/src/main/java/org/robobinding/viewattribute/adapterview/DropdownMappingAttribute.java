@@ -15,7 +15,6 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.presentationmodel.DataSetAdapter;
 
 /**
  *

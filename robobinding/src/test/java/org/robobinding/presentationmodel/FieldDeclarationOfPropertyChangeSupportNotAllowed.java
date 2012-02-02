@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.presentationmodelaspects;
-
-import org.robobinding.property.ObservableProperties;
-import org.robobinding.property.PresentationModelPropertyChangeListener;
+package org.robobinding.presentationmodel;
 
 /**
  *
@@ -24,14 +21,8 @@ import org.robobinding.property.PresentationModelPropertyChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PresentationModel_ManualImplementation1 implements ObservableProperties
+public class FieldDeclarationOfPropertyChangeSupportNotAllowed
 {
-	@Override
-	public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
-	{
-	}
-	@Override
-	public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
-	{
-	}
+/*	robobinding.property.PresentationModelPropertyChangeSupport presentationModelPropertyChangeSupport = 
+			new robobinding.property.PresentationModelPropertyChangeSupport(this);*/
 }

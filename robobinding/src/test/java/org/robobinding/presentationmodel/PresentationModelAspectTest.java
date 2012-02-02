@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.presentationmodelaspects;
+package org.robobinding.presentationmodel;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.not;
@@ -25,7 +25,7 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.presentationmodelaspects.PresentationModelMixin;
+import org.robobinding.presentationmodel.PresentationModelMixin;
 import org.robobinding.property.ObservableProperties;
 
 

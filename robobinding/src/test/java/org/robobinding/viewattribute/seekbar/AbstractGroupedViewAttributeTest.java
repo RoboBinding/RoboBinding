@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.GroupedAttributeDetailsImpl;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
 import org.robobinding.viewattribute.ParameterizedTypeUtils;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;

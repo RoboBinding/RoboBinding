@@ -22,7 +22,6 @@ import static org.mockito.Mockito.mock;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.presentationmodel.DataSetAdapter;
 import org.robobinding.viewattribute.BindingAttributeValues;
 import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.DynamicLayoutAttribute;
 import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.StaticLayoutAttribute;

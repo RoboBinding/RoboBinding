@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.viewattribute;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +23,6 @@ import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.internal.org_apache_commons_lang3.builder.EqualsBuilder;
 import org.robobinding.internal.org_apache_commons_lang3.builder.HashCodeBuilder;
-import org.robobinding.viewattribute.GroupedAttributeDetails;
 
 /**
  *

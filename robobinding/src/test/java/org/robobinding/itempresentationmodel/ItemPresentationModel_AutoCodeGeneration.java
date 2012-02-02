@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.itempresentationmodelaspects;
+package org.robobinding.itempresentationmodel;
 
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
-import org.robobinding.property.ObservableProperties;
-import org.robobinding.property.PresentationModelPropertyChangeListener;
 
 
 /**
@@ -26,18 +24,17 @@ import org.robobinding.property.PresentationModelPropertyChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ItemPresentationModel_ManualImplementation1 implements ItemPresentationModel<Object>, ObservableProperties
+public class ItemPresentationModel_AutoCodeGeneration implements ItemPresentationModel<Object>
 {
-	@Override
-	public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
-	{
-	}
-	@Override
-	public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener)
-	{
-	}
-	@Override
+	Object bean;
+	public static final String PROPERTY = "property";
 	public void updateData(int index, Object bean)
 	{
+		this.bean = bean;
 	}
+	public boolean getProperty()
+	{
+		return true;
+	}
+
 }

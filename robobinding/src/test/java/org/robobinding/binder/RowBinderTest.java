@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.R;
 import org.robobinding.binder.BindingViewFactory;
-import org.robobinding.binder.RowBinder;
+import org.robobinding.binder.ItemBinder;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
 import org.robobinding.viewattribute.adapterview.ItemMappingAttribute;
@@ -52,7 +52,7 @@ public class RowBinderTest
 	private Context context = new Activity();
 	
 	private View view;
-	private RowBinder rowBinder;
+	private ItemBinder rowBinder;
 	
 	@Before
 	public void setUp()
@@ -85,9 +85,9 @@ public class RowBinderTest
 		verify(dropdownMappingAttribute).bindToPredefined(eq(rowBinder.bindingAttributeProcessor), eq(view), any(PresentationModelAdapter.class), eq(context));
 	}
 	
-	private RowBinder mockRowBinderInflatingSimpleView(View view)
+	private ItemBinder mockRowBinderInflatingSimpleView(View view)
 	{
-		RowBinder rowBinder = new RowBinder(context);
+		ItemBinder rowBinder = new ItemBinder(context);
 		LayoutInflater mockLayoutInflater = mock(LayoutInflater.class);
 		when(mockLayoutInflater.inflate(VIEW_ID, null)).thenReturn(view);
 		when(mockLayoutInflater.inflate(VIEW_ID, null, false)).thenReturn(view);
