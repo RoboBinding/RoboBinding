@@ -19,10 +19,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.robobinding.DependsOnStateOf;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.internal.com_google_common.collect.Sets;
 import org.robobinding.internal.org_apache_commons_lang3.StringUtils;
+import org.robobinding.presentationmodel.DependsOnStateOf;
 
 /**
  * 

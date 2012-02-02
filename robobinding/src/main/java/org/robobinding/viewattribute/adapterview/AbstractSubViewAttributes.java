@@ -41,7 +41,7 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	{
 		View subView = createSubView(presentationModelAdapter, context);
 		
-		addSubView(subView);
+		addSubView(subView, context);
 		
 		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
 		{
@@ -75,6 +75,6 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	protected abstract String layoutAttribute();
 	protected abstract String subViewPresentationModelAttribute();
 	protected abstract String visibilityAttribute();
-	protected abstract void addSubView(View subView);
+	protected abstract void addSubView(View subView, Context context);
 	protected abstract SubViewVisibilityAttribute createVisibilityAttribute(View subView);
 }

@@ -15,11 +15,9 @@
  */
 package org.robobinding.viewattribute.listview;
 
-import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
-import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
+import org.robobinding.viewattribute.adapterview.AbstractSubViewVisibility;
 
 import android.view.View;
-import android.widget.ListView;
 
 /**
  *
@@ -27,11 +25,30 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractHeaderOrFooterAttributes extends AbstractSubViewAttributes<ListView>
+public class HeaderVisibility extends AbstractSubViewVisibility
 {
-	@Override
-	protected SubViewVisibilityAttribute createVisibilityAttribute(View subView)
+	private View headerView;
+	
+	public HeaderVisibility(View headerView)
 	{
-		return new SubViewVisibilityAttribute(new HeaderOrFooterVisibility(subView));
+		this.headerView = headerView;
+	}
+
+	@Override
+	public void makeGone()
+	{
+		headerView.setVisibility(View.GONE);
+	}
+	
+	@Override
+	public void makeVisible()
+	{
+		headerView.setVisibility(View.VISIBLE);
+	}
+	
+	@Override
+	protected void makeInvisible()
+	{
+		headerView.setVisibility(View.INVISIBLE);
 	}
 }

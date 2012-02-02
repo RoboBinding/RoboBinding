@@ -21,8 +21,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.ItemPresentationModel;
 import org.robobinding.itempresentationmodel.TypedCursor;
+import org.robobinding.presentationmodel.ItemPresentationModel;
 
 /**
  *

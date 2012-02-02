@@ -6,14 +6,21 @@
  */
 package org.robobinding.viewattribute.listview;
 
+import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
+
+import android.content.Context;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 /**
  * @since 1.0
  * @author Cheng Wei
  *
  */
-public class HeaderAttributes extends AbstractHeaderOrFooterAttributes
+public class HeaderAttributes extends AbstractSubViewAttributes<ListView>
 {
 	static final String HEADER_LAYOUT = "headerLayout";
 	static final String HEADER_PRESENTATION_MODEL = "headerPresentationModel";
@@ -38,8 +45,20 @@ public class HeaderAttributes extends AbstractHeaderOrFooterAttributes
 	}
 	
 	@Override
-	protected void addSubView(View subView)
+	protected void addSubView(View subView, Context context)
 	{
-		view.addHeaderView(subView);
+		LinearLayout outerLinearLayout = new LinearLayout(context);
+		AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(AbsListView.LayoutParams.FILL_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
+		outerLinearLayout.setLayoutParams(layoutParams);
+		outerLinearLayout.setOrientation(LinearLayout.VERTICAL);
+		outerLinearLayout.addView(subView);
+		view.addHeaderView(outerLinearLayout);
+	}
+	
+	@Override
+	protected SubViewVisibilityAttribute createVisibilityAttribute(View subView)
+	{
+		HeaderVisibility visibility = new HeaderVisibility(subView);
+		return new SubViewVisibilityAttribute(visibility);
 	}
 }

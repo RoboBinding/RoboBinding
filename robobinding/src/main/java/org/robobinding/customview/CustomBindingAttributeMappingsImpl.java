@@ -33,7 +33,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttributeMappingsImpl<T> implements CustomBindingAttributeMappings<T>
+class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttributeMappingsImpl<T> implements CustomBindingAttributeMappings<T>
 {
 	private Map<String, View> customAttributeViews;
 	

@@ -47,7 +47,7 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 	
 	private void initializeFactory()
 	{
-		org.robobinding.ItemPresentationModel annotation = getPropertyAccessor().getAnnotation(org.robobinding.ItemPresentationModel.class);
+		org.robobinding.presentationmodel.ItemPresentationModel annotation = getPropertyAccessor().getAnnotation(org.robobinding.presentationmodel.ItemPresentationModel.class);
 		@SuppressWarnings("unchecked")
 		Class<? extends ItemPresentationModel<T>> itemPresentationModelClass = (Class<? extends ItemPresentationModel<T>>)annotation.value();
 		String factoryMethod = annotation.factoryMethod();

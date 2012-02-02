@@ -25,7 +25,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-class EmptyViewVisibility implements SubViewVisibility
+class EmptyViewVisibility extends AbstractSubViewVisibility
 {
 	private final AdapterView<?> adapterView;
 	private final View emptyView;
@@ -59,15 +59,8 @@ class EmptyViewVisibility implements SubViewVisibility
 	}
 
 	@Override
-	public void setVisibility(int visibility)
+	protected void makeInvisible()
 	{
-		if(View.VISIBLE == visibility)
-		{
-			makeVisible();
-		}
-		else
-		{
-			makeGone();
-		}
+		makeGone();
 	}
 }

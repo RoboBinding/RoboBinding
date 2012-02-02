@@ -30,8 +30,8 @@ import android.view.View;
  */
 public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View>
 {
-	private SubViewVisibility visibility;
-	public SubViewVisibilityAttribute(SubViewVisibility subViewVisibility)
+	private AbstractSubViewVisibility visibility;
+	public SubViewVisibilityAttribute(AbstractSubViewVisibility subViewVisibility)
 	{
 		this.visibility = subViewVisibility;
 	}

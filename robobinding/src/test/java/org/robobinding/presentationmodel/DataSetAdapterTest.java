@@ -26,7 +26,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.ItemPresentationModel;
 import org.robobinding.R;
 import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.property.DataSetValueModel;

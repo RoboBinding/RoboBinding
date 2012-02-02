@@ -18,11 +18,11 @@ package org.robobinding.property;
 import java.util.List;
 import java.util.Map;
 
-import org.robobinding.DependsOnStateOf;
-import org.robobinding.ItemPresentationModel;
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.internal.java_beans.PropertyDescriptor;
 import org.robobinding.itempresentationmodel.TypedCursor;
+import org.robobinding.presentationmodel.DependsOnStateOf;
+import org.robobinding.presentationmodel.ItemPresentationModel;
 
 
 

@@ -6,14 +6,19 @@
  */
 package org.robobinding.viewattribute.listview;
 
+import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
+import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
+
+import android.content.Context;
 import android.view.View;
+import android.widget.ListView;
 
 /**
  * @since 1.0
  * @author Cheng Wei
  * 
  */
-public class FooterAttributes extends AbstractHeaderOrFooterAttributes
+public class FooterAttributes extends AbstractSubViewAttributes<ListView>
 {
 	static final String FOOTER_LAYOUT = "footerLayout";
 	static final String FOOTER_PRESENTATION_MODEL = "footerPresentationModel";
@@ -38,8 +43,15 @@ public class FooterAttributes extends AbstractHeaderOrFooterAttributes
 	}
 	
 	@Override
-	protected void addSubView(View subView)
+	protected void addSubView(View subView, Context context)
 	{
 		view.addFooterView(subView);
+	}
+	
+	@Override
+	protected SubViewVisibilityAttribute createVisibilityAttribute(View subView)
+	{
+		FooterVisibility visibility = new FooterVisibility(view, subView);
+		return new SubViewVisibilityAttribute(visibility);
 	}
 }

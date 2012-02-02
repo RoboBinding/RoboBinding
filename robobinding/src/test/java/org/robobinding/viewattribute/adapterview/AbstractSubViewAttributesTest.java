@@ -114,7 +114,7 @@ public class AbstractSubViewAttributesTest
 		}
 
 		@Override
-		protected void addSubView(View subView)
+		protected void addSubView(View subView, Context context)
 		{
 			throw new RuntimeException();
 		}

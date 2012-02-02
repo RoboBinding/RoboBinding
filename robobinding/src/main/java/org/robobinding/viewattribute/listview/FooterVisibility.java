@@ -13,35 +13,63 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.adapterview;
+package org.robobinding.viewattribute.listview;
+
+import org.robobinding.viewattribute.adapterview.AbstractSubViewVisibility;
 
 import android.view.View;
+import android.widget.ListView;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class MockSubViewVisibility extends AbstractSubViewVisibility
+public class FooterVisibility extends AbstractSubViewVisibility
 {
-	int state;
+	private ListView listView;
+	private View footerView;
+	
+	public FooterVisibility(ListView listView, View footerView)
+	{
+		this.listView = listView;
+		this.footerView = footerView;
+	}
 
 	@Override
 	public void makeGone()
 	{
-		state = View.GONE;
+		if(listView.getAdapter() == null)
+		{
+			return;
+		}
+		
+		if(listView.getFooterViewsCount()>0)
+		{
+			listView.removeFooterView(footerView);
+		}
 	}
-
+	
 	@Override
 	public void makeVisible()
 	{
-		state = View.VISIBLE;
+		addFooterViewIfNotExist();
+		footerView.setVisibility(View.VISIBLE);
 	}
-
+	
 	@Override
 	protected void makeInvisible()
 	{
-		state = View.INVISIBLE;
+		addFooterViewIfNotExist();
+		footerView.setVisibility(View.INVISIBLE);
+	}
+
+	private void addFooterViewIfNotExist()
+	{
+		if(listView.getFooterViewsCount() == 0)
+		{
+			listView.addFooterView(footerView);
+		}
 	}
 }

@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.adapterview;
 
 
 
+import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -52,7 +53,7 @@ public class EmptyViewAttributes extends AbstractSubViewAttributes<AdapterView<?
 	}
 
 	@Override
-	protected void addSubView(View emptyView)
+	protected void addSubView(View emptyView, Context context)
 	{
 		emptyViewVisibility = new EmptyViewVisibility(view, emptyView);
 		emptyViewVisibility.makeVisible();
