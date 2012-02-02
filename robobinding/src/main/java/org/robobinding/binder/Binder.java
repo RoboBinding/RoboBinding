@@ -51,13 +51,13 @@ public class Binder
 	
 	public static View bindView(Context context, int layoutId, Object presentationModel)
 	{
-		SubViewBinder subviewBinder = new SubViewBinder(context, layoutId);
+		SubviewBinder subviewBinder = new SubviewBinder(context, layoutId);
 		return subviewBinder.bindTo(presentationModel);
 	}
 	
 	public static View bindViewAndAttachToRoot(Context context, int layoutId, Object presentationModel, ViewGroup viewGroup)
 	{
-		SubViewBinder subviewBinder = new SubViewBinder(context, layoutId);
+		SubviewBinder subviewBinder = new SubviewBinder(context, layoutId);
 		return subviewBinder.bindToAndAttachToRoot(presentationModel, viewGroup);
 	}
 }
