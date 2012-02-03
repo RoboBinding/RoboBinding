@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.textview;
+package org.robobinding.viewattribute.edittext;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -33,7 +33,7 @@ import com.xtremelabs.robolectric.shadows.ShadowTextView;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnTextChangedAttributeTest extends AbstractCommandViewAttributeTest<TextView, OnTextChangedAttribute>
+public class OnTextChangedAttributeTest extends AbstractCommandViewAttributeTest<EditText, OnTextChangedAttribute>
 {
 	@Test
 	public void givenBoundAttribute_whenChangeText_thenEventReceived()

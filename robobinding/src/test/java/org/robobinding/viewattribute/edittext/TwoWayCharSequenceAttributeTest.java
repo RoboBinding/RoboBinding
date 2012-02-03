@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.textview;
+package org.robobinding.viewattribute.edittext;
 
 import static org.junit.Assert.assertThat;
 import static org.robobinding.viewattribute.textview.CharSequenceMatcher.sameAs;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.textview.TextAttribute.StringTextAttribute;
+import org.robobinding.viewattribute.edittext.TwoWayTextAttribute.TwoWayCharSequenceTextAttribute;
 
-import android.widget.TextView;
+import android.widget.EditText;
 
 /**
  *
@@ -31,16 +33,26 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class StringTextAttributeTest extends AbstractPropertyViewAttributeTest<TextView, StringTextAttribute>
+public class TwoWayCharSequenceAttributeTest extends AbstractPropertyViewAttributeTest<EditText, TwoWayCharSequenceTextAttribute>
 {
 	@Test
+	@Ignore //Waiting for Robolectric to pull in the changes
 	public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
-		String newText = RandomStringUtils.random(5);
+		CharSequence newText = RandomStringUtils.randomAlphanumeric(5);
 		
 		attribute.valueModelUpdated(newText);
 
 		assertThat(view.getText(), sameAs(newText));
 	}
 	
+	@Test
+	public void givenValueModelIsStringType_whenViewStateIsChanged_thenUpdateValueModel()
+	{
+		ValueModel<CharSequence> valueModel = twoWayBindToProperty(CharSequence.class);
+		
+		view.setText(RandomStringUtils.random(5));
+
+		assertThat(valueModel.getValue(), sameAs(view.getText()));
+	}
 }

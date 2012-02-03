@@ -15,13 +15,8 @@
  */
 package org.robobinding.viewattribute.textview;
 
-import static org.junit.Assert.assertThat;
-import static org.robobinding.viewattribute.textview.CharSequenceMatcher.sameAs;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.textview.TextAttribute.StringTextAttribute;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 
 import android.widget.TextView;
 
@@ -31,16 +26,23 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class StringTextAttributeTest extends AbstractPropertyViewAttributeTest<TextView, StringTextAttribute>
+public abstract class AbstractTextAttribute<T extends TextView> extends AbstractMultiTypePropertyViewAttribute<T>
 {
-	@Test
-	public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges()
+	@Override
+	protected AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
-		String newText = RandomStringUtils.random(5);
-		
-		attribute.valueModelUpdated(newText);
+		if (String.class.isAssignableFrom(propertyType))
+		{
+			return createNewStringAttribute();
+		} 
+		else if (CharSequence.class.isAssignableFrom(propertyType))
+		{
+			return createNewCharSequenceAttribute();
+		}
 
-		assertThat(view.getText(), sameAs(newText));
+		return null;
 	}
-	
+
+	protected abstract AbstractPropertyViewAttribute<T, ?> createNewStringAttribute();
+	protected abstract AbstractPropertyViewAttribute<T, ?> createNewCharSequenceAttribute();
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.textview;
+package org.robobinding.viewattribute.edittext;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -32,7 +32,7 @@ import org.robobinding.viewattribute.seekbar.AbstractGroupedViewAttributeTest;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextAttributeGroupTest extends AbstractGroupedViewAttributeTest<TextAttributeGroup>
+public class TwoWayTextAttributeGroupTest extends AbstractGroupedViewAttributeTest<TwoWayTextAttributeGroup>
 {
 	private final Attribute oneWayBindingText = attribute("text={name}");
 	private final Attribute twoWayBindingText = attribute("text=${name}");
@@ -45,7 +45,7 @@ public class TextAttributeGroupTest extends AbstractGroupedViewAttributeTest<Tex
 
 		performInitialization();
 
-		assertThatAttributeWasCreated(TextAttribute.class);
+		assertThatAttributeWasCreated(TwoWayTextAttribute.class);
 	}
 
 	@Test
@@ -65,7 +65,7 @@ public class TextAttributeGroupTest extends AbstractGroupedViewAttributeTest<Tex
 
 		performInitialization();
 
-		assertThatAttributeWasCreated(TextAttribute.class);
+		assertThatAttributeWasCreated(TwoWayTextAttribute.class);
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class TextAttributeGroupTest extends AbstractGroupedViewAttributeTest<Tex
 	}
 
 	@Override
-	protected List<?> getGeneratedChildAttributes(TextAttributeGroup attributeUnderTest)
+	protected List<?> getGeneratedChildAttributes(TwoWayTextAttributeGroup attributeUnderTest)
 	{
 		return Lists.newArrayList(attributeUnderTest.textAttribute);
 	}

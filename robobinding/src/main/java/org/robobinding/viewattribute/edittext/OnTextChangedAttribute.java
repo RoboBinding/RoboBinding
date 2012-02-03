@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.textview;
+package org.robobinding.viewattribute.edittext;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.Command;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.TextView;
+import android.widget.EditText;
 
 /**
  * 
@@ -28,7 +28,7 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnTextChangedAttribute extends AbstractCommandViewAttribute<TextView>
+public class OnTextChangedAttribute extends AbstractCommandViewAttribute<EditText>
 {
 	@Override
 	protected void bind(final Command command)
