@@ -13,26 +13,24 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.textview;
-
-import org.robobinding.viewattribute.BindingAttributeMapper;
-import org.robobinding.viewattribute.BindingAttributeMappings;
-
-import android.widget.TextView;
+package org.robobinding.viewattribute.edittext;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextViewAttributeMapper implements BindingAttributeMapper<TextView>
+public enum ValueCommitMode
 {
-	@Override
-	public void mapBindingAttributes(BindingAttributeMappings<TextView> mappings)
+	ON_FOCUS_LOST, ON_CHANGE;
+
+	
+	public static ValueCommitMode from(String attributeValue)
 	{
-		mappings.mapPropertyAttribute(TextAttribute.class, "text");
+		if ("onFocusLost".equals(attributeValue))
+			return ON_FOCUS_LOST;
 		
-		mappings.mapPropertyAttribute(TextColorAttribute.class, "textColor");
+		return ON_CHANGE;
 	}
 }

@@ -13,24 +13,41 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.textview;
+package org.robobinding.viewattribute.edittext;
+
+
+import org.robobinding.viewattribute.textview.AbstractTextViewEvent;
+
+import android.widget.TextView;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
+ * @author Cheng Wei
  */
-public enum ValueCommitMode
+public class TextChangedEvent extends AbstractTextViewEvent
 {
-	ON_FOCUS_LOST, ON_CHANGE;
-
-	
-	public static ValueCommitMode from(String attributeValue)
+	private int start;
+	private int before;
+	private int count;
+	public TextChangedEvent(TextView textView, int start, int before, int count)
 	{
-		if ("onFocusLost".equals(attributeValue))
-			return ON_FOCUS_LOST;
-		
-		return ON_CHANGE;
+		super(textView);
+		this.start = start;
+		this.before = before;
+		this.count = count;
+	}
+	public int getStart()
+	{
+		return start;
+	}
+	public int getBefore()
+	{
+		return before;
+	}
+	public int getCount()
+	{
+		return count;
 	}
 }

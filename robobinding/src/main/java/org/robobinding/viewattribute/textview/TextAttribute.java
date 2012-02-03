@@ -16,13 +16,9 @@
 package org.robobinding.viewattribute.textview;
 
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.widget.TextView;
 
 /**
@@ -31,82 +27,31 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextAttribute extends AbstractMultiTypePropertyViewAttribute<TextView>
+public class TextAttribute extends AbstractTextAttribute<TextView>
 {
-	private ValueCommitMode valueCommitMode = ValueCommitMode.ON_CHANGE;
-
 	@Override
-	protected AbstractPropertyViewAttribute<TextView, ?> createPropertyViewAttribute(Class<?> propertyType)
+	protected AbstractPropertyViewAttribute<TextView, ?> createNewCharSequenceAttribute()
 	{
-		if (String.class.isAssignableFrom(propertyType))
-		{
-			StringTextAttribute stringTextAttribute = new StringTextAttribute();
-			stringTextAttribute.setValueCommitMode(valueCommitMode);
-			return stringTextAttribute;
-		} 
-		else if (CharSequence.class.isAssignableFrom(propertyType))
-		{
-			CharSequenceTextAttribute charSequenceTextAttribute = new CharSequenceTextAttribute();
-			charSequenceTextAttribute.setValueCommitMode(valueCommitMode);
-			return charSequenceTextAttribute;
-		}
-
-		return null;
+		CharSequenceTextAttribute charSequenceTextAttribute = new CharSequenceTextAttribute();
+		return charSequenceTextAttribute;
 	}
 
-	private abstract static class AbstractCharSequenceTextAttribute<PropertyType extends CharSequence> extends
-			AbstractPropertyViewAttribute<TextView, PropertyType>
+	@Override
+	protected AbstractPropertyViewAttribute<TextView, ?> createNewStringAttribute()
 	{
-		private ValueCommitMode valueCommitMode;
-
+		StringTextAttribute stringTextAttribute = new StringTextAttribute();
+		return stringTextAttribute;
+	}
+	
+	private abstract static class AbstractCharSequenceTextAttribute<PropertyType extends CharSequence> extends
+			AbstractReadOnlyPropertyViewAttribute<TextView, PropertyType>
+	{
 		@Override
 		protected void valueModelUpdated(PropertyType newValue)
 		{
 			view.setText(newValue);
 		}
 
-		protected void observeChangesOnTheView(final ValueModel<PropertyType> valueModel)
-		{
-			if (valueCommitMode == ValueCommitMode.ON_FOCUS_LOST)
-			{
-				view.setOnFocusChangeListener(new OnFocusChangeListener() {
-
-					@Override
-					public void onFocusChange(View v, boolean hasFocus)
-					{
-						if (!hasFocus)
-							updateValueModel(valueModel, view.getText());
-					}
-				});
-			} 
-			else
-			{
-				view.addTextChangedListener(new TextWatcher() {
-
-					@Override
-					public void onTextChanged(CharSequence s, int start, int before, int count)
-					{
-						updateValueModel(valueModel, s);
-					}
-
-					@Override
-					public void beforeTextChanged(CharSequence s, int start, int count, int after)
-					{
-					}
-
-					@Override
-					public void afterTextChanged(Editable s)
-					{
-					}
-				});
-			}
-		}
-
-		public void setValueCommitMode(ValueCommitMode valueCommitMode)
-		{
-			this.valueCommitMode = valueCommitMode;
-		}
-		
 		protected abstract void updateValueModel(ValueModel<PropertyType> valueModel, CharSequence charSequence);
 	}
 
@@ -126,10 +71,5 @@ public class TextAttribute extends AbstractMultiTypePropertyViewAttribute<TextVi
 		{
 			valueModel.setValue(charSequence);
 		}
-	}
-
-	void setValueCommitMode(ValueCommitMode valueCommitMode)
-	{
-		this.valueCommitMode = valueCommitMode;
 	}
 }

@@ -13,39 +13,26 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.textview;
+package org.robobinding.viewattribute.edittext;
 
+import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.BindingAttributeMappings;
 
-import android.widget.TextView;
+import android.widget.EditText;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Cheng Wei
+ * @author Robert Taylor
  */
-public class TextChangedEvent extends AbstractTextViewEvent
+public class EditTextAttributeMapper implements BindingAttributeMapper<EditText>
 {
-	private int start;
-	private int before;
-	private int count;
-	public TextChangedEvent(TextView textView, int start, int before, int count)
+	@Override
+	public void mapBindingAttributes(BindingAttributeMappings<EditText> mappings)
 	{
-		super(textView);
-		this.start = start;
-		this.before = before;
-		this.count = count;
-	}
-	public int getStart()
-	{
-		return start;
-	}
-	public int getBefore()
-	{
-		return before;
-	}
-	public int getCount()
-	{
-		return count;
+		mappings.mapGroupedAttribute(TwoWayTextAttributeGroup.class, TwoWayTextAttributeGroup.TEXT, TwoWayTextAttributeGroup.VALUE_COMMIT_MODE);
+	
+		mappings.mapCommandAttribute(OnTextChangedAttribute.class, "onTextChanged");
 	}
 }

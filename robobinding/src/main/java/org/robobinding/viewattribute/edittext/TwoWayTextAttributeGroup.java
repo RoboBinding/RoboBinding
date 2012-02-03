@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.textview;
+package org.robobinding.viewattribute.edittext;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ViewAttributeInstantiator;
 
 import android.content.Context;
-import android.widget.TextView;
+import android.widget.EditText;
 
 /**
  * 
@@ -28,12 +28,12 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
+public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditText>
 {
 	public static final String TEXT = "text";
 	public static final String VALUE_COMMIT_MODE = "valueCommitMode";
 
-	TextAttribute textAttribute;
+	TwoWayTextAttribute textAttribute;
 	ValueCommitMode valueCommitMode;
 
 	@Override
@@ -45,8 +45,8 @@ public class TextAttributeGroup extends AbstractGroupedViewAttribute<TextView>
 	@Override
 	public void postInitialization()
 	{
-		ViewAttributeInstantiator<TextView> viewAttributeInstantiator = getViewAttributeInstantiator();
-		textAttribute = viewAttributeInstantiator.newPropertyViewAttribute(TextAttribute.class, TEXT);
+		ViewAttributeInstantiator<EditText> viewAttributeInstantiator = getViewAttributeInstantiator();
+		textAttribute = viewAttributeInstantiator.newPropertyViewAttribute(TwoWayTextAttribute.class, TEXT);
 
 		determineValueCommitMode();
 		textAttribute.setValueCommitMode(valueCommitMode);
