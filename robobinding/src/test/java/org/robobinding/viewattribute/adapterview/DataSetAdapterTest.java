@@ -162,7 +162,7 @@ public class DataSetAdapterTest
 		{
 			list = Lists.newArrayList();
 			
-			for (int i = 0; i < RandomValues.anyInteger(); i++)
+			for (int i = 0; i < RandomValues.anyIntegerGreaterThanZero(); i++)
 				list.add(new Object());
 		}
 		

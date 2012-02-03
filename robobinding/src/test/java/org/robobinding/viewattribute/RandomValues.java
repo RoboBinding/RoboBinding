@@ -54,6 +54,11 @@ public class RandomValues
 		return random.nextInt(100);
 	}
 
+	public static int anyIntegerGreaterThanZero()
+	{
+		return random.nextInt(100) + 1;
+	}
+	
 	public static float anyFloat()
 	{
 		return random.nextFloat()*anyInteger();
