@@ -152,13 +152,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 	{
 		@SuppressWarnings("unchecked")
 		ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>)view.getTag();
-		if(itemPresentationModel != null)
-		{
-			itemPresentationModel.updateData(position, getItem(position));
-		}else
-		{
-			System.out.println("null itemPresentationModel");
-		}
+		itemPresentationModel.updateData(position, getItem(position));
 	}
 
 	public void setItemMappingAttribute(ItemMappingAttribute itemMappingAttribute)
