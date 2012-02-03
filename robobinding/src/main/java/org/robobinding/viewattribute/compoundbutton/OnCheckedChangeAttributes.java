@@ -59,6 +59,8 @@ public class OnCheckedChangeAttributes extends AbstractGroupedViewAttribute<Comp
 			onCheckedChangeAttribute.setOnCheckedChangeListeners(onCheckedChangeListeners);
 			viewAttributes.add(onCheckedChangeAttribute);
 		}
+		
+		view.setOnCheckedChangeListener(onCheckedChangeListeners);
 	}
 	
 	@Override
