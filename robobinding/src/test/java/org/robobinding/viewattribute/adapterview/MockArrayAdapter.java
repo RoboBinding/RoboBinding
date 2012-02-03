@@ -38,4 +38,9 @@ public class MockArrayAdapter extends ArrayAdapter<String>
 	{
 		super(new Activity(), layoutResourceId, Lists.newArrayList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
 	}
+	
+	public void removeLastElement()
+	{
+		remove(getItem(getCount() - 1));
+	}
 }

@@ -18,6 +18,7 @@ package org.robobinding.viewattribute.adapterview;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.Command;
 
+import android.database.DataSetObserver;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -47,6 +48,18 @@ public class OnItemSelectedAttribute extends AbstractCommandViewAttribute<Adapte
 				ItemClickEvent itemClickEvent = new ItemClickEvent(parent, null, AdapterView.INVALID_POSITION, 0);
 				command.invoke(itemClickEvent);
 			}
+		});
+		
+		view.getAdapter().registerDataSetObserver(new DataSetObserver() {
+			public void onChanged() {
+				int position = view.getSelectedItemPosition();
+				
+				if (position >= view.getCount())
+					return;
+				
+				ItemClickEvent itemClickEvent = new ItemClickEvent(view, view.getChildAt(position), position, 0);
+				command.invoke(itemClickEvent);
+		    }
 		});
 	}
 

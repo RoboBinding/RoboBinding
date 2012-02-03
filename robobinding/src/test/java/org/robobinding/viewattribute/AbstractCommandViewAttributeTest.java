@@ -95,4 +95,9 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
 	{
 		return (T)mockFunction.argsPassedToInvoke[0];
 	}
+	
+	protected int eventInvocationCount()
+	{
+		return mockFunction.invocationCount;
+	}
 }

@@ -27,7 +27,6 @@ import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,7 +39,7 @@ import android.widget.TextView;
 public class OnItemSelectedAttributeTest extends AbstractCommandViewAttributeTest<ListView, OnItemSelectedAttribute>
 {
 	private int indexToSelect;
-	private ArrayAdapter<String> arrayAdapter;
+	private MockArrayAdapter arrayAdapter;
 	
 	@Before
 	public void setUp()
@@ -67,10 +66,15 @@ public class OnItemSelectedAttributeTest extends AbstractCommandViewAttributeTes
 
 	private void assertEventReceived()
 	{
+		assertEventReceivedWithIndex(indexToSelect);
+	}
+
+	private void assertEventReceivedWithIndex(int index)
+	{
 		assertEventReceived(ItemClickEvent.class);
 		ItemClickEvent itemClickEvent = getEventReceived();
 		assertTrue(itemClickEvent.getParent() == view);
-		assertThat(itemClickEvent.getPosition(), is(indexToSelect));
+		assertThat(itemClickEvent.getPosition(), is(index));
 		assertThat(itemClickEvent.getView(), instanceOf(TextView.class));
 	}
 	
@@ -88,5 +92,31 @@ public class OnItemSelectedAttributeTest extends AbstractCommandViewAttributeTes
 		ItemClickEvent itemClickEvent = getEventReceived();
 		assertThat(itemClickEvent.getPosition(), is(AdapterView.INVALID_POSITION));
 	}
+	
+	@Test
+	public void whenAdapterDataSetIsChanged_andSelectedItemPositionHasNotChanged_thenInvokeEvent()
+	{
+		bindAttribute();
+		
+		arrayAdapter.notifyDataSetChanged();
+		
+		assertEventReceivedWithIndex(view.getSelectedItemPosition());
+	}
 
+	@Test
+	public void whenAdapterDataSetIsChanged_andSelectedItemPositionHasChanged_thenOnlyInvokeEventOnce()
+	{
+		bindAttribute();
+		
+		selectLastItem();
+		arrayAdapter.removeLastElement();
+		arrayAdapter.notifyDataSetChanged();
+		
+		assertThat(eventInvocationCount(), is(1));
+	}
+
+	private void selectLastItem()
+	{
+		view.setSelection(view.getCount() - 1);
+	}
 }
