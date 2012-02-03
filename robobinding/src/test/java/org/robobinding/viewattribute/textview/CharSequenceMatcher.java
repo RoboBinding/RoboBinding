@@ -15,15 +15,10 @@
  */
 package org.robobinding.viewattribute.textview;
 
-import static org.junit.Assert.assertThat;
-import static org.robobinding.viewattribute.textview.CharSequenceMatcher.sameAs;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
-import org.robobinding.viewattribute.textview.TextAttribute.StringTextAttribute;
-
-import android.widget.TextView;
+import org.hamcrest.Description;
+import org.hamcrest.Factory;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
 /**
  *
@@ -31,16 +26,30 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class StringTextAttributeTest extends AbstractPropertyViewAttributeTest<TextView, StringTextAttribute>
+public class CharSequenceMatcher extends TypeSafeMatcher<CharSequence>
 {
-	@Test
-	public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		String newText = RandomStringUtils.random(5);
-		
-		attribute.valueModelUpdated(newText);
+	private final CharSequence value;
 
-		assertThat(view.getText(), sameAs(newText));
+	public CharSequenceMatcher(CharSequence value)
+	{
+		this.value = value;
+	}
+
+	@Override
+	public boolean matchesSafely(CharSequence item)
+	{
+		return value.toString().equals(item.toString());
 	}
 	
+	@Override
+	public void describeTo(Description description)
+	{
+		description.appendText("equivalent text value to '").appendText(value.toString()).appendText("'");
+	}
+	
+	@Factory 
+	public static Matcher<CharSequence> sameAs(CharSequence value)
+	{
+		return new CharSequenceMatcher(value);
+	}
 }
