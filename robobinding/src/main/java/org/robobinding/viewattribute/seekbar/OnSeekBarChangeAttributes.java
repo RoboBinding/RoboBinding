@@ -59,6 +59,8 @@ public class OnSeekBarChangeAttributes extends AbstractGroupedViewAttribute<Seek
 			onSeekBarChangeAttribute.setOnSeekBarChangeListeners(onSeekBarChangeListeners);
 			viewAttributes.add(onSeekBarChangeAttribute);
 		}
+		
+		view.setOnSeekBarChangeListener(onSeekBarChangeListeners);
 	}
 	
 	@Override

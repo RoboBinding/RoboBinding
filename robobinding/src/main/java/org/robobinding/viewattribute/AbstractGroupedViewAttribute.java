@@ -51,6 +51,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		
 		validateAttributes();
 	}
+	
 	private void validateAttributes()
 	{
 		String[] compulsoryAttributes = getCompulsoryAttributes();
@@ -59,6 +60,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 			assertAttributesArePresent(compulsoryAttributes);
 		}
 	}
+	
 	protected String[] getCompulsoryAttributes()
 	{
 		return null;

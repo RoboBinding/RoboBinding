@@ -15,10 +15,16 @@
  */
 package org.robobinding.viewattribute.seekbar;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import java.util.List;
 
 import org.junit.Test;
 import org.robobinding.viewattribute.ViewAttribute;
+
+import android.widget.SeekBar;
 
 
 /**
@@ -62,6 +68,18 @@ public class OnSeekBarChangeAttributesTest extends AbstractGroupedViewAttributeT
 		assertThatAttributesWereCreated(TwoWayProgressAttribute.class, OnSeekBarChangeAttribute.class);
 	}
 
+	@Test
+	public void whenInitializingAttributes_thenSetListenerOnTheView()
+	{
+		SeekBar mockSeekBar = mock(SeekBar.class);
+		attributeUnderTest.setView(mockSeekBar);
+		givenAttributes(progress, onSeekBarChange);
+		
+		performInitialization();
+		
+		verify(mockSeekBar).setOnSeekBarChangeListener(any(OnSeekBarChangeListeners.class));
+	}
+	
 	@Override
 	protected List<ViewAttribute> getGeneratedChildAttributes(OnSeekBarChangeAttributes attributeUnderTest)
 	{
