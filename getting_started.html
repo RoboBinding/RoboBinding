@@ -16,8 +16,10 @@ title: Getting started
 
 <h2><a name="environment_setup">Environment setup</a></h2>
 <p>RoboBinding has been developed and tested with <a href="http://www.eclipse.org/">Eclipse</a> (we hope to bring improved support for other IDEs in the future). It can also optionally be used with the <a href="http://code.google.com/p/maven-android-plugin/">Android Maven plugin</a>.</p>
-<p>In order to support pojo presentation models, RoboBinding allows you to decorate your classes with the @PresentationModel annotation. Behind the scenes, RoboBinding uses <a href="http://www.eclipse.org/aspectj/">AspectJ</a> to transparently generate the code required to fire the relevant property change events when your presentation model is updated. Plugins are available to support AspectJ development in both Eclipse and Maven.</p>
-<p>If AspectJ is not your thing, then you can extend the AbstractPresentationModel class included in the library. Don't forget to fire the necessary property change events whenever you need to synchronize with your views (helper methods are available).</p>
+
+<p>In order to support pojo presentation models, RoboBinding allows you to decorate your classes with the @PresentationModel annotation. Behind the scenes, RoboBinding uses <a href="http://www.eclipse.org/aspectj/">AspectJ</a> to transparently generate the code required to fire the relevant property change events when your presentation model is updated. The examples shown here assume you are using the @PresentationModel annotation.</p>
+
+<p>If AspectJ is not your thing, then you can optionally extend the AbstractPresentationModel class. Don't forget to fire the necessary property change events whenever you need to update properties and synchronize your views (helper methods are available).</p>
 
 <h2><a name="configuring_your_activity">Configuring your Activity</a></h2>
 <p>In most cases, the wiring required to bind a set of views onto a presentation model will take place inside the appropriate Activity. You will normally want one presentation model per Activity.</p>
