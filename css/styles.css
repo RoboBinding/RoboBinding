@@ -5,13 +5,13 @@ body {
 }
 
 #main {
-  width: 870px;
+  width: 905px;
   margin-left:auto;
   margin-right:auto;
 }
 
 nav {
-  margin-right: 45px;
+  margin-right: 20px;
   margin-top: 24px;
   background-color: #d5e3aa;
   border-radius: 15px;
@@ -22,12 +22,12 @@ nav {
 
 #navigation_bar {
   float: left;
-  width: 200px;
+  width: 180px;
 }
 
 #content {
   float: right;
-  width: 670px;
+  width: 705px;
   padding-bottom: 50px;
 }
 
