@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.robobinding</groupId>
 	<artifactId>robobinding</artifactId>
-	<version>0.8.0</version>
+	<version>0.8.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>RoboBinding</name>
 	<description>A Presentation Model framework for the Android platform.</description>
