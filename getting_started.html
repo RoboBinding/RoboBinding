@@ -6,6 +6,7 @@ title: Getting started
 <h2>Getting started</h2>
 <ul>
 <li><a href="#environment_setup">Environment setup</a></li>
+<li><a href="#robobinding_namespace">Declaring the RoboBinding namespace</a></li>
 <li><a href="#property_binding">Property binding</a></li>
 <li><a href="#two_way_property_binding">Two-way property binding</a></li>
 <li><a href="#event_handling">Event handling</a></li>
@@ -16,6 +17,20 @@ title: Getting started
 <p>RoboBinding has been developed and tested with <a href="http://www.eclipse.org/">Eclipse</a> (we hope to bring improved support for other IDEs in the future). It can also optionally be used with the <a href="http://code.google.com/p/maven-android-plugin/">Android Maven plugin</a>.</p>
 <p>To enable support of pojo presentation models, RoboBinding allows you to decorate your classes with the @PresentationModel annotation. In order to transparently fire the necessary property change events, RoboBinding uses <a href="http://www.eclipse.org/aspectj/">AspectJ</a> to generate the required code. Plugins are available to support AspectJ development in both Eclipse and Maven.</p>
 <p>If AspectJ is not your thing, then you can extend the AbstractPresentationModel class included in the library. Don't forget to fire the necessary property change events whenever you need to synchronize with your views (helper methods are available).</p>
+
+<h2><a name="robobinding_namespace">Declaring the RoboBinding namespace</a></h2>
+<p>Before declaring any bindings in your layout xml, you will need to add the RoboBinding namespace declaration to the root view of each layout. For example:</p>
+
+{% highlight xml %}
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+    
+    ...
+    
+</RelativeLayout>
+{% endhighlight %}
 
 <h2><a name="property_binding">Property binding</a></h2>
 <p>When you bind to a property on the presentation model, any changes made to that property are automatically propagated to the view.</p>
@@ -99,4 +114,79 @@ public void superHeroSelected() {
 
 <h2><a name="binding_with_adapterviews">Binding with AdapterViews</a></h2>
 
-<p>Coming soon.</p>
+<p>When binding with AdapterViews, RoboBinding first requires you to expose the underlying data from your presentation model. This can be in the form of an array, List or TypedCursor. From our previous example, we might well be exposing the superHeroes list.</p>
+
+<p>As well as providing the data, RoboBinding needs to know the <i>type</i> of presentation model each child view of the AdapterView should bind onto. We declare this in our code with the @ItemPresentationModel annotation.</p>
+
+{% highlight java %}
+@ItemPresentationModel(SuperHeroPresentationModel.class)
+public void getSuperHeroes() {
+	return superHeroes;
+}
+{% endhighlight %}
+
+<p>The class we use for our item presentation model will need to implement the ItemPresentationModel interface, parameterized to the type of data we are displaying at each index.</p>
+
+{% highlight java %}
+public class SuperHeroPresentationModel 
+			implements ItemPresentationModel<SuperHero> {
+	
+	private SuperHero superHero;
+	
+	public void updateData(int index, SuperHero superHero) {
+		this.superHero = superHero;
+	}
+}
+{% endhighlight %}
+
+<p>We can then define a layout xml that will provide the view for each row in our AdapterView. A simple example (simple_super_hero_row.xml) might look like this:</p>
+
+{% highlight xml %}
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" />
+	  
+	  <TextView android:layout_width="fill_parent"
+	      android:layout_height="wrap_content"
+	      bind:text="{superHeroName}" />
+	      
+	  <TextView android:layout_width="fill_parent"
+	      android:layout_height="wrap_content"
+	      bind:text="{superHeroCallSign}" />
+	      
+</LinearLayout>
+{% endhighlight %}
+
+<p>The two bindings that we declared, superHeroName and superHeroCallSign, will need to be exposed from our item presentation model in the normal way.</p>
+
+{% highlight java %}
+public class SuperHeroPresentationModel 
+			implements ItemPresentationModel<SuperHero> {
+	
+	private SuperHero superHero;
+	
+	public String getSuperHeroName() {
+	    return superHero.getName();
+	}
+	
+	public String getSuperHeroCallSign() {
+	    return superHero.getCallSign();
+	}
+	
+	public void updateData(int index, SuperHero superHero) {
+		this.superHero = superHero;
+	}
+}
+{% endhighlight %}
+
+<p>The last thing to do is to declare our ListView binding attributes in the layout xml, and we're done.</p>
+
+{% highlight xml %}
+<ListView android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  bind:onItemClick="superHeroSelected"
+	  bind:source="{superHeroes}"
+	  bind:itemLayout="@layout/simple_super_hero_row" />
+{% endhighlight %}
