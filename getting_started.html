@@ -3,12 +3,20 @@ layout: main
 title: Getting started
 ---
 
-<h2>Environment setup</h2>
+<ul>
+<li><a href="#environment_setup">Environment setup</a></li>
+<li><a href="#property_binding">Property binding</a></li>
+<li><a href="#two_way_property_binding">Two-way property binding</a></li>
+<li><a href="#event_handling">Event handling</a></li>
+<li><a href="#binding_with_adapterviews">Binding with AdapterViews</a></li>
+</ul>
+
+<h2><a name="environment_setup">Environment setup</a></h2>
 <p>RoboBinding has been developed and tested with <a href="http://www.eclipse.org/">Eclipse</a> (we hope to bring improved support for other IDEs in the future). It can also optionally be used with the <a href="http://code.google.com/p/maven-android-plugin/">Android Maven plugin</a>.</p>
 <p>To enable support of pojo presentation models, RoboBinding allows you to decorate your classes with the @PresentationModel annotation. In order to transparently fire the necessary property change events, RoboBinding uses <a href="http://www.eclipse.org/aspectj/">AspectJ</a> to generate the required code. Plugins are available to support AspectJ development in both Eclipse and Maven.</p>
 <p>If AspectJ is not your thing, then you can extend the AbstractPresentationModel class included in the library. Don't forget to fire the necessary property change events whenever you need to synchronize with your views (helper methods are available).</p>
 
-<h2>Property binding</h2>
+<h2><a name="property_binding">Property binding</a></h2>
 <p>When you bind to a property on the presentation model, any changes made to that property are automatically propagated to the view.</p>
 <p>RoboBinding adheres to the JavaBeans specification whereby to expose a property called 'superHeroName', you provide the corresponding public getters and setters:</p>
 {% highlight java %}
@@ -41,7 +49,7 @@ public String getSuperHeroName() {
 
 <p>See the <a href="binding_attributes.html">Glossary</a> for more on the available binding attributes.</p>
 
-<h2>Two-way property binding</h2>
+<h2><a name="two_way_property_binding">Two-way property binding</a></h2>
 
 <p>Two-way binding takes property binding one step further, and ensures that as well as propagating changes from the presentation model to the view, any changes to the view are also synched back to the presentation model.</p>
 
@@ -57,7 +65,7 @@ public String getSuperHeroName() {
 
 <p>That's the only thing we have to do. Note that in the case of two-way binding, we would need to have given RoboBinding write-access to the property, so supplying a setter method on our presentation model is compulsory.</p>
 
-<h2>Event handling</h2>
+<h2><a name="event_handling">Event handling</a></h2>
 
 <p>In order to further keep logic decoupled from your views, RoboBinding also gives you the ability to delegate input events to your presentation model. Different views support different input events (see the <a href="binding_attributes.html">Glossary</a> for a comprehensive list).</p>
 
@@ -88,6 +96,6 @@ public void superHeroSelected() {
 }
 {% endhighlight %}
 
-<h2>Binding with AdapterViews</h2>
+<h2><a name="binding_with_adapterviews">Binding with AdapterViews</a></h2>
 
 <p>Coming soon.</p>
