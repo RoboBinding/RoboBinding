@@ -21,7 +21,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
@@ -79,8 +78,6 @@ public class OnItemSelectedAttributeTest extends AbstractCommandViewAttributeTes
 	}
 	
 	@Test
-	@Ignore
-	//TODO Enable this test when the appropriate support has been added to Robolectric
 	public void whenAllItemsAreRemovedFromAdapter_thenInvokeCommandPassingClickEventWithPositionAsInvalidPosition()
 	{
 		bindAttribute();

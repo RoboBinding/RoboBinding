@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.ratingbar;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -33,7 +32,6 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-@Ignore //Waiting for Robolectric (https://github.com/pivotal/robolectric/pull/167)
 public class RatingBarListenerUtilsTest
 {
 	@Test

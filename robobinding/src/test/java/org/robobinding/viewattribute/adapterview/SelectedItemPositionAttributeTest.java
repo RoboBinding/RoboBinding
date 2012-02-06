@@ -19,7 +19,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
@@ -67,8 +66,6 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 	}
 	
 	@Test
-	@Ignore
-	//TODO Enable this test when the appropriate support has been added to Robolectric
 	public void whenAllItemsAreRemovedFromAdapter_thenSelectedItemPositionShouldEqualInvalidPosition()
 	{
 		arrayAdapter.clear();

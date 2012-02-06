@@ -18,7 +18,6 @@ package org.robobinding.viewattribute.progressbar;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
@@ -31,7 +30,6 @@ import android.widget.ProgressBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Ignore //Waiting for Robolectric (https://github.com/pivotal/robolectric/pull/167)
 public class SecondaryProgressAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, SecondaryProgressAttribute>
 {
 	@Test

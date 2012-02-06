@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.view;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -38,7 +37,6 @@ import com.xtremelabs.robolectric.shadows.ShadowView;
 public class ViewListenerUtilsTest
 {
 	@Test
-	@Ignore //Waiting for Robolectric support for getOnFocusChangeListener (pull request submitted https://github.com/pivotal/robolectric/pull/167)
 	public void shouldSupportMultipleOnFocusChangeListeners()
 	{
 		View view = new View(null);

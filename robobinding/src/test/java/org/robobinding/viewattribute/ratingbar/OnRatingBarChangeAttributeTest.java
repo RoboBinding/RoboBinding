@@ -22,7 +22,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
@@ -35,7 +34,6 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Ignore //Waiting for Robolectric to get updated (https://github.com/pivotal/robolectric/pull/167)
 public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttributeTest<RatingBar, OnRatingBarChangeAttribute>
 {
 	private float newRatingValue;

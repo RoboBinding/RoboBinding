@@ -18,8 +18,6 @@ package org.robobinding.viewattribute.ratingbar;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
@@ -36,13 +34,6 @@ import android.widget.RatingBar;
  */
 public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeTest<RatingBar, IntegerRatingAttribute>
 {
-	@Before
-	public void setUp()
-	{
-		//TODO Remove this line once Robolectric auto-initializes this field to 100 as it should do (pull request submitted)
-		view.setMax(100);
-	}
-	
 	@Test
 	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
@@ -54,7 +45,6 @@ public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeTes
 	}
 	
 	@Test
-	@Ignore //TODO Robolectric error (pull request submitted)
 	public void whenRatingIsChanged_thenUpdateValueModel()
 	{
 		ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);
