@@ -6,6 +6,7 @@ title: Getting started
 <h2>Getting started</h2>
 <ul>
 <li><a href="#environment_setup">Environment setup</a></li>
+<li><a href="#configuring_your_activity">Configuring your Activity</a></li>
 <li><a href="#robobinding_namespace">Declaring the RoboBinding namespace</a></li>
 <li><a href="#property_binding">Property binding</a></li>
 <li><a href="#two_way_property_binding">Two-way property binding</a></li>
@@ -15,11 +16,28 @@ title: Getting started
 
 <h2><a name="environment_setup">Environment setup</a></h2>
 <p>RoboBinding has been developed and tested with <a href="http://www.eclipse.org/">Eclipse</a> (we hope to bring improved support for other IDEs in the future). It can also optionally be used with the <a href="http://code.google.com/p/maven-android-plugin/">Android Maven plugin</a>.</p>
-<p>To enable support of pojo presentation models, RoboBinding allows you to decorate your classes with the @PresentationModel annotation. In order to transparently fire the necessary property change events, RoboBinding uses <a href="http://www.eclipse.org/aspectj/">AspectJ</a> to generate the required code. Plugins are available to support AspectJ development in both Eclipse and Maven.</p>
+<p>In order to support pojo presentation models, RoboBinding allows you to decorate your classes with the @PresentationModel annotation. Behind the scenes, RoboBinding uses <a href="http://www.eclipse.org/aspectj/">AspectJ</a> to transparently generate the code required to fire the relevant property change events when your presentation model is updated. Plugins are available to support AspectJ development in both Eclipse and Maven.</p>
 <p>If AspectJ is not your thing, then you can extend the AbstractPresentationModel class included in the library. Don't forget to fire the necessary property change events whenever you need to synchronize with your views (helper methods are available).</p>
 
+<h2><a name="configuring_your_activity">Configuring your Activity</a></h2>
+<p>In most cases, the wiring required to bind a set of views onto a presentation model will take place inside the appropriate Activity. You will normally want one presentation model per Activity.</p>
+
+<p>In the onCreate() method of your Activity, use the org.robobinding.binder.Binder utility class to bind the content view onto a presentation model instance. For example:</p>
+
+{% highlight java %}
+@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    SuperHeroPresentationModel presentationModel = new SuperHeroPresentationModel();
+    Binder.bind(this, R.layout.super_hero_activity, presentationModel);
+}
+{% endhighlight %}
+
+<p>Notice you don't actually need to call setContentView() inside your onCreate() method, RoboBinding will do this for you.</p>
+
 <h2><a name="robobinding_namespace">Declaring the RoboBinding namespace</a></h2>
-<p>Before declaring any bindings in your layout xml, you will need to add the RoboBinding namespace declaration to the root view of each layout. For example:</p>
+<p>Before declaring any bindings in your layout xml, you will need to add the RoboBinding namespace declaration to the root view of each layout. For example, inside our super_hero_activity.xml we might start:</p>
 
 {% highlight xml %}
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -47,7 +65,7 @@ public void setSuperHeroName(String superHeroName) {
 }
 {% endhighlight %}
 
-<p>You can then bind to this property from a view, by using the text attribute available on the TextView class:</p>
+<p>You can then bind to this property from a view, by using the text attribute available on the TextView class.</p>
 
 {% highlight xml %}
 <TextView android:layout_width="fill_parent"
