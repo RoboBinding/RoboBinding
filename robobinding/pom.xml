@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.robobinding</groupId>
 	<artifactId>robobinding</artifactId>
-	<version>0.8.1-SNAPSHOT</version>
+	<version>0.8.0</version>
 	<packaging>jar</packaging>
 	<name>RoboBinding</name>
 	<description>A Presentation Model framework for the Android platform.</description>
@@ -85,7 +85,7 @@
 			<version>1.6.11</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -153,19 +153,19 @@
 			</plugin>
 
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.1.2</version>
-                <configuration />
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<configuration />
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -177,8 +177,23 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
-		
+
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
@@ -218,9 +233,9 @@
 	</scm>
 
 	<ciManagement>
-        <system>Jenkins</system>
-        <url>https://robobinding.ci.cloudbees.com/</url>
-    </ciManagement>
+		<system>Jenkins</system>
+		<url>https://robobinding.ci.cloudbees.com/</url>
+	</ciManagement>
 
 	<developers>
 		<developer>
