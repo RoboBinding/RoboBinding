@@ -8,9 +8,11 @@ title: Getting started - ProGuard
 
 <p>To achieve this, add the following directives to your ProGuard configuration:</p>
 
-<div class="highlight">
+
+{% highlight php %}
 -keep class * implements org.robobinding.property.ObservableProperties {
     public *** *(...);
 }
 
--keepattributes *Annotation*</div>
+-keepattributes *Annotation*
+{% endhighlight %}
