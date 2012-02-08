@@ -97,6 +97,18 @@
 				<extensions>true</extensions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.robobinding</groupId>
+				<artifactId>robobinding-validator</artifactId>
+				<version>1.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>validate-bindings</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 		<pluginManagement>
@@ -123,6 +135,27 @@
 										</versionRange>
 										<goals>
 											<goal>proguard</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.robobinding
+										</groupId>
+										<artifactId>
+											robobinding-validator
+										</artifactId>
+										<versionRange>
+											[1.0-SNAPSHOT,)
+										</versionRange>
+										<goals>
+											<goal>
+												validate-bindings
+											</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
