@@ -15,6 +15,8 @@
  */
 package sample.robobinding.presentationmodel;
 
+import org.robobinding.presentationmodel.PresentationModel;
+
 import sample.robobinding.CursorBackedViewAlbumsActivity;
 import sample.robobinding.DynamicDropdownLayoutSpinnerAlbumsActivity;
 import sample.robobinding.DynamicItemLayoutListViewAlbumsActivity;
@@ -31,6 +33,7 @@ import android.content.Intent;
  * @author Cheng Wei
  * @author Robert Taylor
  */
+@PresentationModel
 public class HomePresentationModel
 {
 	private Context context;

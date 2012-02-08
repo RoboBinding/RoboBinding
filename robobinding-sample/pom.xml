@@ -7,6 +7,7 @@
 	<version>1.0.0</version>
 	<packaging>apk</packaging>
 	<name>RoboBinding Sample</name>
+	<description>A sample project to demonstrate the features of the RoboBinding framework.</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -88,11 +89,14 @@
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>android-maven-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.1.1</version>
 				<configuration>
 					<sdk>
 						<platform>8</platform>
 					</sdk>
+					<proguard>
+						<skip>false</skip>
+					</proguard>
 				</configuration>
 				<extensions>true</extensions>
 			</plugin>
@@ -169,5 +173,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	<description>A sample project to demonstrate the features of the RoboBinding framework.</description>
 </project>
