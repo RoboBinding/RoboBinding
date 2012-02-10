@@ -101,18 +101,18 @@
 				<extensions>true</extensions>
 			</plugin>
 
-			<plugin>
-				<groupId>org.robobinding</groupId>
-				<artifactId>robobinding-validator</artifactId>
-				<version>1.0-SNAPSHOT</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>validate-bindings</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.robobinding</groupId> -->
+<!-- 				<artifactId>robobinding-validator</artifactId> -->
+<!-- 				<version>1.0-SNAPSHOT</version> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<goals> -->
+<!-- 							<goal>validate-bindings</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 		</plugins>
 
 		<pluginManagement>
