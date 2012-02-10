@@ -163,7 +163,9 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<execute>
+											<runOnConfiguration>false</runOnConfiguration>
+										</execute>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
