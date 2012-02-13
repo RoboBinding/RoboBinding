@@ -152,18 +152,15 @@ public class BindingAttributeResolver
 		return !pendingAttributeMappings.isEmpty();
 	}
 
-	public String describeUnresolvedAttributes()
-	{
-		String unhandledAttributes = "";
-
-		for (String attributeKey : pendingAttributeMappings.keySet())
-			unhandledAttributes += attributeKey + ": " + pendingAttributeMappings.get(attributeKey) + "; ";
-
-		return unhandledAttributes;
-	}
-
 	public List<ViewAttribute> getResolvedViewAttributes()
 	{
 		return Collections.unmodifiableList(resolvedViewAttributes);
+	}
+
+	public void verifyAllAttributesResolved()
+	{
+		if (!pendingAttributeMappings.isEmpty())
+			throw new UnrecognizedBindingAttributeException(pendingAttributeMappings);
+		
 	}
 }
