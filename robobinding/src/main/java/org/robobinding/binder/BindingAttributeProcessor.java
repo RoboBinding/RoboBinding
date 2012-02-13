@@ -76,7 +76,7 @@ public class BindingAttributeProcessor
 				break;
 		}
 		
-		bindingAttributeResolver.verifyAllAttributesResolved();
+		bindingAttributeResolver.assertAllAttributesResolvedFor(view);
 		
 		return bindingAttributeResolver.getResolvedViewAttributes();
 	}

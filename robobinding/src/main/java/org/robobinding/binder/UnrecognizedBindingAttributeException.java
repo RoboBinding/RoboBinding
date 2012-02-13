@@ -18,6 +18,8 @@ package org.robobinding.binder;
 import java.util.Collections;
 import java.util.Map;
 
+import android.view.View;
+
 /**
  *
  * @since 1.0
@@ -28,10 +30,12 @@ import java.util.Map;
 public class UnrecognizedBindingAttributeException extends RuntimeException
 {
 	private final Map<String, String> unrecognizedBindingAttributes;
+	private final View view;
 
-	public UnrecognizedBindingAttributeException(Map<String, String> unrecognizedBindingAttributes)
+	public UnrecognizedBindingAttributeException(Map<String, String> unrecognizedBindingAttributes, View view)
 	{
 		this.unrecognizedBindingAttributes = unrecognizedBindingAttributes;
+		this.view = view;
 	}
 	
 	@Override
@@ -42,7 +46,7 @@ public class UnrecognizedBindingAttributeException extends RuntimeException
 	
 	private String describeUnresolvedAttributes()
 	{
-		String unhandledAttributes = "Unrecognized binding attribute(s): ";
+		String unhandledAttributes = "Unrecognized binding attribute(s) for " + view.getClass().getName() + ": ";
 
 		for (String attributeKey : unrecognizedBindingAttributes.keySet())
 			unhandledAttributes += attributeKey + ": " + unrecognizedBindingAttributes.get(attributeKey) + "; ";

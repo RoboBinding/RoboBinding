@@ -15,7 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
-import java.util.Collection;
+import android.view.View;
+
 
 /**
  * 
@@ -27,9 +28,7 @@ public interface GroupedAttributeDetails
 {
 	boolean hasAttribute(String attribute);
 	
-	boolean hasAttributes(String... attributes);
-	
 	String attributeValueFor(String attribute);
 	
-	Collection<String> findAbsentAttributes(String... attributes);
+	void assertAttributesArePresent(View view, String... attributeNames);
 }

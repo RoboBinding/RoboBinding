@@ -157,10 +157,9 @@ public class BindingAttributeResolver
 		return Collections.unmodifiableList(resolvedViewAttributes);
 	}
 
-	public void verifyAllAttributesResolved()
+	public void assertAllAttributesResolvedFor(View view)
 	{
 		if (!pendingAttributeMappings.isEmpty())
-			throw new UnrecognizedBindingAttributeException(pendingAttributeMappings);
-		
+			throw new UnrecognizedBindingAttributeException(pendingAttributeMappings, view);
 	}
 }

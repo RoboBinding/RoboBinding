@@ -15,11 +15,14 @@
  */
 package org.robobinding.binder;
 
+import static org.mockito.Mockito.mock;
+
 import java.util.Map;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.internal.com_google_common.collect.Maps;
+
+import android.view.View;
 
 /**
  *
@@ -30,21 +33,23 @@ import org.robobinding.internal.com_google_common.collect.Maps;
 public class BindingAttributeResolverTest
 {
 	@Test
-	public void givenThereAreNoPendingAttributes_whenVerifyingAllAttributesResolved_thenDoNothing()
+	public void givenThereAreNoPendingAttributes_whenAssertingAllAttributesResolved_thenDoNothing()
 	{
+		View view = mock(View.class);
 		Map<String, String> pendingAttributes = Maps.newHashMap();
 		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(pendingAttributes);
 	
-		bindingAttributeResolver.verifyAllAttributesResolved();
+		bindingAttributeResolver.assertAllAttributesResolvedFor(view);
 	}
 	
 	@Test (expected = UnrecognizedBindingAttributeException.class)
-	public void givenThereArePendingAttributes_whenVerifyingAllAttributesResolved_thenThrowUnrecognizedBindingAttributeException()
+	public void givenThereArePendingAttributes_whenAssertingAllAttributesResolved_thenThrowUnrecognizedBindingAttributeException()
 	{
+		View view = mock(View.class);
 		Map<String, String> pendingAttributes = Maps.newHashMap();
 		pendingAttributes.put("text", "{value}");
 		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(pendingAttributes);
 	
-		bindingAttributeResolver.verifyAllAttributesResolved();
+		bindingAttributeResolver.assertAllAttributesResolvedFor(view);
 	}
 }
