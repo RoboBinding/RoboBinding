@@ -15,11 +15,6 @@
  */
 package org.robobinding.viewattribute;
 
-import java.text.MessageFormat;
-import java.util.Collection;
-
-import org.robobinding.internal.org_apache_commons_lang3.StringUtils;
-
 import android.view.View;
 
 /**
