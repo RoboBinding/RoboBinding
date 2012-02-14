@@ -38,6 +38,10 @@ public class ArrayUtils {
      */
     public static final Class<?>[] EMPTY_CLASS_ARRAY = new Class[0];
     /**
+     * An empty immutable {@code Object} array.
+     */
+    public static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
+    /**
      * <p>ArrayUtils instances should NOT be constructed in standard programming.
      * Instead, the class should be used as <code>ArrayUtils.clone(new int[] {2})</code>.</p>
      *

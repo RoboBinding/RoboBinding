@@ -24,6 +24,7 @@ import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
 import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
 import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.ViewListenersProvider;
 
 import android.view.View;
 
@@ -37,9 +38,9 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 {
 	private Map<String, View> customAttributeViews;
 	
-	public CustomBindingAttributeMappingsImpl(T view, boolean preInitializeViews)
+	public CustomBindingAttributeMappingsImpl(T view, boolean preInitializeViews, ViewListenersProvider viewListenersProvider)
 	{
-		super(view, preInitializeViews);
+		super(view, preInitializeViews, viewListenersProvider);
 		
 		customAttributeViews = Maps.newHashMap();
 	}

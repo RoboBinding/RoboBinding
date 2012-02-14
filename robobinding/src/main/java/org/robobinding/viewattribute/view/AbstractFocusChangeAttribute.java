@@ -27,13 +27,18 @@ import android.view.View.OnFocusChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractFocusChangeAttribute extends AbstractCommandViewAttribute<View>
+public abstract class AbstractFocusChangeAttribute extends AbstractCommandViewAttribute<View> implements ViewListenersAware<ViewListeners>
 {
-
+	private ViewListeners viewListeners;
+	@Override
+	public void setViewListeners(ViewListeners viewListeners)
+	{
+		this.viewListeners = viewListeners;
+	}
 	@Override
 	protected void bind(final Command command)
 	{
-		ViewListenerUtils.addOnFocusChangeListener(view, new OnFocusChangeListener() {
+		viewListeners.addOnFocusChangeListener(new OnFocusChangeListener() {
 
 			@Override
 			public void onFocusChange(View view, boolean hasFocus)

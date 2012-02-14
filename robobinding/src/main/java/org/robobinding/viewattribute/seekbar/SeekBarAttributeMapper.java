@@ -31,7 +31,9 @@ public class SeekBarAttributeMapper implements BindingAttributeMapper<SeekBar>
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<SeekBar> mappings)
 	{
-		mappings.mapGroupedAttribute(OnSeekBarChangeAttributes.class, OnSeekBarChangeAttributes.PROGRESS, OnSeekBarChangeAttributes.ON_SEEK_BAR_CHANGE);
+		mappings.mapPropertyAttribute(TwoWayProgressAttribute.class, "progress");
+		
+		mappings.mapCommandAttribute(OnSeekBarChangeAttribute.class, "onSeekBarChange");
 	}
 	
 }

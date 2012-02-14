@@ -19,6 +19,8 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.robobinding.internal.com_google_common.collect.Maps;
+import org.robobinding.viewattribute.view.ViewListeners;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 
@@ -33,15 +35,17 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 {
 	private T view;
 	private boolean preInitializeViews;
+	private ViewListenersProvider viewListenersProvider;
 	
 	private Map<String, Class<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
 	private Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
 	private Map<GroupedAttributeDetailsImpl, Class<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
 	
-	public BindingAttributeMappingsImpl(T view, boolean preInitializeViews)
+	public BindingAttributeMappingsImpl(T view, boolean preInitializeViews, ViewListenersProvider viewListenersProvider)
 	{
 		this.view = view;
 		this.preInitializeViews = preInitializeViews;
+		this.viewListenersProvider = viewListenersProvider;
 		
 		propertyViewAttributeMappings = Maps.newHashMap();
 		commandViewAttributeMappings = Maps.newHashMap();
@@ -92,9 +96,11 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		Class<? extends PropertyViewAttribute<? extends View>> propertyViewAttributeClass = propertyViewAttributeMappings.get(propertyAttribute);
 		@SuppressWarnings("unchecked")
 		PropertyViewAttribute<View> propertyViewAttribute = (PropertyViewAttribute<View>) newViewAttribute(propertyViewAttributeClass);
-		propertyViewAttribute.setView(getViewForAttribute(propertyAttribute));
+		View view = getViewForAttribute(propertyAttribute);
+		propertyViewAttribute.setView(view);
 		propertyViewAttribute.setAttributeValue(attributeValue);
 		propertyViewAttribute.setPreInitializeView(preInitializeViews);
+		setViewListenersIfRequired(propertyViewAttribute, view);
 		return propertyViewAttribute;
 	}
 
@@ -108,8 +114,10 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		Class<? extends AbstractCommandViewAttribute<? extends View>> commandViewAttributeClass = commandViewAttributeMappings.get(commandAttribute);
 		@SuppressWarnings("unchecked")
 		AbstractCommandViewAttribute<View> commandViewAttribute = (AbstractCommandViewAttribute<View>) newViewAttribute(commandViewAttributeClass);
-		commandViewAttribute.setView(getViewForAttribute(commandAttribute));
+		View view = getViewForAttribute(commandAttribute);
+		commandViewAttribute.setView(view);
 		commandViewAttribute.setCommandName(attributeValue);
+		setViewListenersIfRequired(commandViewAttribute, view);
 		return commandViewAttribute;
 	}
 
@@ -128,9 +136,11 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass = groupedViewAttributeMappings.get(groupedAttributeDetails);
 		@SuppressWarnings("unchecked")
 		AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>)newViewAttribute(groupedViewAttributeClass);
+		View view = getViewForGroupedAttribute(groupedAttributeDetails);
 		groupedViewAttribute.setView(view);
 		groupedViewAttribute.setPreInitializeViews(preInitializeViews);
 		groupedViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
+		setViewListenersIfRequired(groupedViewAttribute, view);
 		groupedViewAttribute.postInitialization();
 		return groupedViewAttribute;
 	}
@@ -140,6 +150,21 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		return view;
 	}
 	
+	private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
+	{
+		ViewListeners viewListeners = null;
+		if(viewAttribute instanceof ViewListenersAware)
+		{
+			if(viewListeners == null)
+			{
+				viewListeners = viewListenersProvider.forView(view);
+			}
+			@SuppressWarnings("unchecked")
+			ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)viewAttribute;
+			viewListenersAware.setViewListeners(viewListeners);
+		}
+	}
+
 	private ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass)
 	{
 		try

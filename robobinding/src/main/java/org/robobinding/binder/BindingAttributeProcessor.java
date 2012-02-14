@@ -23,6 +23,7 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.ViewListenersProvider;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -62,6 +63,7 @@ public class BindingAttributeProcessor
 	
 	private List<ViewAttribute> determineViewAttributes(View view, Map<String, String> pendingBindingAttributes)
 	{
+		ViewListenersProvider viewListenersProvider = new ViewListenersProviderImpl();
 		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(pendingBindingAttributes);
 		Collection<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(view);
 		
@@ -69,7 +71,7 @@ public class BindingAttributeProcessor
 		{
 			@SuppressWarnings("unchecked")
 			BindingAttributeProvider<View> bindingAttributeProvider = (BindingAttributeProvider<View>)provider;
-			BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(view, preInitializeViews);
+			BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(view, preInitializeViews, viewListenersProvider);
 			bindingAttributeResolver.resolve(bindingAttributeMappings);
 			
 			if (bindingAttributeResolver.isDone())

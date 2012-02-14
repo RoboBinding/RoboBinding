@@ -36,17 +36,4 @@ public class OnFocusChangeListeners extends AbstractListeners<OnFocusChangeListe
 			listener.onFocusChange(view, hasFocus);
 		}
 	}
-
-	public static OnFocusChangeListeners convert(OnFocusChangeListener listener)
-	{
-		if (listener instanceof OnFocusChangeListeners)
-		{
-			return (OnFocusChangeListeners) listener;
-		} else
-		{
-			OnFocusChangeListeners listeners = new OnFocusChangeListeners();
-			listeners.addListener(listener);
-			return listeners;
-		}
-	}
 }
