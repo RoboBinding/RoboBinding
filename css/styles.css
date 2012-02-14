@@ -25,6 +25,11 @@ nav {
   width: 180px;
 }
 
+#twitter_reader {
+  margin-top: 24px;
+  margin-right: 15px;  
+}
+
 #content {
   float: right;
   width: 705px;
