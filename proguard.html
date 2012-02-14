@@ -1,0 +1,17 @@
+---
+layout: main
+title: Getting started - ProGuard
+---
+
+<h2>ProGuard</h2>
+<p>RoboBinding requires that all classes which implement ObservableProperties (i.e. presentation models) have their names and public methods left intact. Additionally, we need to preserve all annotations.</p>
+
+<p>To achieve this, add the following directives to your ProGuard configuration:</p>
+
+{% highlight php %}
+-keep class * implements org.robobinding.property.ObservableProperties {
+    public *** *(...);
+}
+
+-keepattributes *Annotation*
+{% endhighlight %}
