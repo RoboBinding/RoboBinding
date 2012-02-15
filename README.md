@@ -1,4 +1,4 @@
-<h2>[Welcome to RoboBinding](http://robobinding.org)</h2>
+<h2><a href="http://robobinding.org">Welcome to RoboBinding</a></h2>
 
 RoboBinding is a data-binding [Presentation Model](http://martinfowler.com/eaaDev/PresentationModel.html) framework for the Android platform.
 
