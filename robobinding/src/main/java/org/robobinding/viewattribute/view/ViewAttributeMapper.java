@@ -35,6 +35,7 @@ public class ViewAttributeMapper implements BindingAttributeMapper<View>
 		mappings.mapPropertyAttribute(EnabledAttribute.class, "enabled");
 		mappings.mapPropertyAttribute(BackgroundAttribute.class, "background");
 		mappings.mapPropertyAttribute(BackgroundColorAttribute.class, "backgroundColor");
+		mappings.mapPropertyAttribute(FocusableAttribute.class, "focusable");
 		
 		mappings.mapCommandAttribute(OnClickAttribute.class, "onClick");
 		mappings.mapCommandAttribute(OnLongClickAttribute.class, "onLongClick");
