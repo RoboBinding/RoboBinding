@@ -42,7 +42,7 @@ public class BindingAttributeResolverTest
 		bindingAttributeResolver.assertAllAttributesResolvedFor(view);
 	}
 	
-	@Test (expected = UnrecognizedBindingAttributeException.class)
+	@Test (expected = BindingAttributeException.class)
 	public void givenThereArePendingAttributes_whenAssertingAllAttributesResolved_thenThrowUnrecognizedBindingAttributeException()
 	{
 		View view = mock(View.class);

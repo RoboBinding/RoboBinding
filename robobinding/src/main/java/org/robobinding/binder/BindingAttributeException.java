@@ -27,14 +27,16 @@ import android.view.View;
  * @author Robert Taylor
  */
 @SuppressWarnings("serial")
-public class UnrecognizedBindingAttributeException extends RuntimeException
+public class BindingAttributeException extends RuntimeException
 {
 	private final Map<String, String> unrecognizedBindingAttributes;
+	private final Map<String, String> malformedBindingAttributes;
 	private final View view;
 
-	public UnrecognizedBindingAttributeException(Map<String, String> unrecognizedBindingAttributes, View view)
+	public BindingAttributeException(Map<String, String> unrecognizedBindingAttributes, Map<String, String> malformedBindingAttributes, View view)
 	{
 		this.unrecognizedBindingAttributes = unrecognizedBindingAttributes;
+		this.malformedBindingAttributes = malformedBindingAttributes;
 		this.view = view;
 	}
 	
@@ -46,16 +48,37 @@ public class UnrecognizedBindingAttributeException extends RuntimeException
 	
 	private String describeUnresolvedAttributes()
 	{
-		String unhandledAttributes = "Unrecognized binding attribute(s) for " + view.getClass().getName() + ": ";
-
-		for (String attributeKey : unrecognizedBindingAttributes.keySet())
-			unhandledAttributes += attributeKey + ": " + unrecognizedBindingAttributes.get(attributeKey) + "; ";
-
-		return unhandledAttributes;
+		String attributeErrors = "";
+		
+		if (!unrecognizedBindingAttributes.isEmpty()) {
+		
+			String unhandledAttributes = "Unrecognized binding attribute(s) for " + view.getClass().getName() + ": ";
+	
+			for (String attributeKey : unrecognizedBindingAttributes.keySet())
+				unhandledAttributes += attributeKey + ": " + unrecognizedBindingAttributes.get(attributeKey) + "; ";
+			
+			attributeErrors += unhandledAttributes;
+			
+			if (!malformedBindingAttributes.isEmpty())
+				attributeErrors += "\n\n";
+		}
+		if (!malformedBindingAttributes.isEmpty()) {
+			
+			for (String attributeName : malformedBindingAttributes.keySet()) {
+				attributeErrors += malformedBindingAttributes.get(attributeName);
+			}
+		}
+		
+		return attributeErrors;
 	}
 	
 	public Map<String, String> getUnrecognizedBindingAttributes()
 	{
 		return Collections.unmodifiableMap(unrecognizedBindingAttributes);
+	}
+	
+	public Map<String, String> getMalformedBindingAttributes()
+	{
+		return Collections.unmodifiableMap(malformedBindingAttributes);
 	}
 }

@@ -21,10 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.robobinding.internal.com_google_common.collect.Lists;
+import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
 import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
+import org.robobinding.viewattribute.MalformedBindingAttributeException;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 
@@ -41,11 +43,13 @@ public class BindingAttributeResolver
 {
 	private List<ViewAttribute> resolvedViewAttributes;
 	private Map<String, String> pendingAttributeMappings;
+	private Map<String, String> malformedBindingAttributes;
 
 	public BindingAttributeResolver(Map<String, String> pendingAttributes)
 	{
 		this.pendingAttributeMappings = pendingAttributes;
 		this.resolvedViewAttributes = Lists.newArrayList();
+		this.malformedBindingAttributes = Maps.newHashMap();
 	}
 
 	void resolve(BindingAttributeMappingsImpl<View> viewAttributeMappings)
@@ -61,39 +65,17 @@ public class BindingAttributeResolver
 		{
 			if (hasAttribute(propertyAttribute))
 			{
-				PropertyViewAttribute<View> propertyViewAttribute = viewAttributeMappings.createPropertyViewAttribute(
-						propertyAttribute, getAttributeValue(propertyAttribute));
-				resolveViewAttribute(propertyAttribute, propertyViewAttribute);
+				try
+				{
+					PropertyViewAttribute<View> propertyViewAttribute = viewAttributeMappings.createPropertyViewAttribute(propertyAttribute,
+							getAttributeValue(propertyAttribute));
+					resolveViewAttribute(propertyAttribute, propertyViewAttribute);
+				} catch (MalformedBindingAttributeException e)
+				{
+					malformedBindingAttributes.put(propertyAttribute, e.getMessage());
+					pendingAttributeMappings.remove(propertyAttribute);
+				}
 			}
-		}
-	}
-
-	private boolean hasAttribute(String attribute)
-	{
-		return pendingAttributeMappings.containsKey(attribute);
-	}
-
-	private String getAttributeValue(String attribute)
-	{
-		return pendingAttributeMappings.get(attribute);
-	}
-
-	private void resolveViewAttribute(String attribute, ViewAttribute viewAttribute)
-	{
-		resolveViewAttribute(Lists.newArrayList(attribute), viewAttribute);
-	}
-
-	private void resolveViewAttribute(Collection<String> attributes, ViewAttribute viewAttribute)
-	{
-		removeResolvedAttributes(attributes);
-		resolvedViewAttributes.add(viewAttribute);
-	}
-
-	private void removeResolvedAttributes(Collection<String> attributes)
-	{
-		for (String attribute : attributes)
-		{
-			pendingAttributeMappings.remove(attribute);
 		}
 	}
 
@@ -103,8 +85,8 @@ public class BindingAttributeResolver
 		{
 			if (hasAttribute(commandAttribute))
 			{
-				AbstractCommandViewAttribute<View> commandViewAttribute = viewAttributeMappings.createCommandViewAttribute(
-						commandAttribute, getAttributeValue(commandAttribute));
+				AbstractCommandViewAttribute<View> commandViewAttribute = viewAttributeMappings.createCommandViewAttribute(commandAttribute,
+						getAttributeValue(commandAttribute));
 				resolveViewAttribute(commandAttribute, commandViewAttribute);
 			}
 		}
@@ -123,11 +105,35 @@ public class BindingAttributeResolver
 						groupedAttributeDetails.addPresentAttribute(attribute, getAttributeValue(attribute));
 					}
 				}
-				
+
 				AbstractGroupedViewAttribute<View> groupedViewAttribute = viewAttributeMappings.createGroupedViewAttribute(groupedAttributeDetails);
 				resolveViewAttribute(groupedAttributeDetails.getPresentAttributes(), groupedViewAttribute);
 			}
 		}
+	}
+
+	private boolean hasAttribute(String attribute)
+	{
+		return pendingAttributeMappings.containsKey(attribute);
+	}
+
+	private String getAttributeValue(String attribute)
+	{
+		return pendingAttributeMappings.get(attribute);
+	}
+
+	private void resolveViewAttribute(String attribute, ViewAttribute viewAttribute)
+	{
+		pendingAttributeMappings.remove(attribute);
+		resolvedViewAttributes.add(viewAttribute);
+	}
+
+	private void resolveViewAttribute(Collection<String> attributes, ViewAttribute viewAttribute)
+	{
+		for (String attribute : attributes)
+			pendingAttributeMappings.remove(attribute);
+
+		resolvedViewAttributes.add(viewAttribute);
 	}
 
 	private boolean hasOneOfAttributes(String[] attributes)
@@ -159,7 +165,7 @@ public class BindingAttributeResolver
 
 	public void assertAllAttributesResolvedFor(View view)
 	{
-		if (!pendingAttributeMappings.isEmpty())
-			throw new UnrecognizedBindingAttributeException(pendingAttributeMappings, view);
+		if (!pendingAttributeMappings.isEmpty() || !malformedBindingAttributes.isEmpty())
+			throw new BindingAttributeException(pendingAttributeMappings, malformedBindingAttributes, view);
 	}
 }
