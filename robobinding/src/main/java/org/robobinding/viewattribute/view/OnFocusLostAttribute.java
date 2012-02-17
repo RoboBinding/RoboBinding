@@ -28,7 +28,7 @@ public class OnFocusLostAttribute extends AbstractFocusChangeAttribute
 	@Override
 	public Class<?> getEventType()
 	{
-		return ViewEvent.class;
+		return AbstractViewEvent.class;
 	}
 
 	@Override
@@ -38,8 +38,8 @@ public class OnFocusLostAttribute extends AbstractFocusChangeAttribute
 	}
 
 	@Override
-	public ViewEvent createEvent(View view, boolean hasFocus)
+	public AbstractViewEvent createEvent(View view, boolean hasFocus)
 	{
-		return new ViewEvent(view);
+		return new FocusLostEvent(view);
 	}
 }

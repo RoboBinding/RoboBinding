@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.textview;
+package org.robobinding.viewattribute.view;
 
-import org.robobinding.viewattribute.view.ViewEvent;
-
-import android.widget.TextView;
+import android.view.View;
 
 /**
  *
@@ -25,14 +23,18 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractTextViewEvent extends ViewEvent
+public abstract class AbstractViewEvent
 {
-	protected AbstractTextViewEvent(TextView textView)
+	private View view;
+	
+	protected AbstractViewEvent(View view)
 	{
-		super(textView);
+		this.view = view;
 	}
-	public TextView getTextView()
+
+	public View getView()
 	{
-		return (TextView)getView();
+		return view;
 	}
+
 }
