@@ -20,9 +20,10 @@ import static org.mockito.Mockito.mock;
 import java.util.Map;
 
 import org.junit.Test;
-import org.robobinding.internal.com_google_common.collect.Maps;
 
 import android.view.View;
+
+import com.google.common.collect.Maps;
 
 /**
  *

@@ -20,14 +20,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.internal.com_google_common.collect.Maps;
+import org.apache.commons.lang3.Validate;
 import org.robobinding.internal.java_beans.PropertyDescriptor;
-import org.robobinding.internal.org_apache_commons_lang3.Validate;
 import org.robobinding.property.PropertyAccessor;
 import org.robobinding.property.PropertyUtils;
 
 import android.database.AbstractCursor;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  *

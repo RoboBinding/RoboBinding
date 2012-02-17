@@ -19,7 +19,6 @@ package org.robobinding.property;
 import org.junit.Assert;
 import org.junit.Test;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
-import org.robobinding.property.DefaultConstructorImpl;
 
 
 /**

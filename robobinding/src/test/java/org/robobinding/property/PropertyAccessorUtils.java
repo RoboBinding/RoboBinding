@@ -19,8 +19,6 @@ package org.robobinding.property;
 import java.util.List;
 
 import org.robobinding.internal.java_beans.PropertyDescriptor;
-import org.robobinding.property.PropertyAccessor;
-import org.robobinding.property.PropertyUtils;
 
 
 /**

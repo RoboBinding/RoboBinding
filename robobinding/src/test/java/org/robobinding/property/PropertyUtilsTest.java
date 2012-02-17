@@ -21,7 +21,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.junit.Test;
-import org.robobinding.internal.com_google_common.collect.Sets;
+
+import com.google.common.collect.Sets;
 
 
 /**

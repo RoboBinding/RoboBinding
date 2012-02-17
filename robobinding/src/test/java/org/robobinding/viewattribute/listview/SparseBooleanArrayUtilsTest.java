@@ -24,11 +24,11 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.internal.com_google_common.collect.Sets;
 
 import android.util.SparseBooleanArray;
 
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 

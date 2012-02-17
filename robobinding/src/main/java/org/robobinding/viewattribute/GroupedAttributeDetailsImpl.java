@@ -19,12 +19,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.internal.org_apache_commons_lang3.builder.EqualsBuilder;
-import org.robobinding.internal.org_apache_commons_lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import android.view.View;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  *

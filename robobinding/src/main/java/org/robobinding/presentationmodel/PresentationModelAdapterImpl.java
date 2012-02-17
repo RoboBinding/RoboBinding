@@ -15,9 +15,9 @@
  */
 package org.robobinding.presentationmodel;
 
+import org.apache.commons.lang3.Validate;
 import org.robobinding.function.CachedFunctions;
 import org.robobinding.function.Function;
-import org.robobinding.internal.org_apache_commons_lang3.Validate;
 import org.robobinding.property.CachedProperties;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.Properties;

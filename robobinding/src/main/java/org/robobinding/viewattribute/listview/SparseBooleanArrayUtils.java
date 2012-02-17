@@ -18,10 +18,10 @@ package org.robobinding.viewattribute.listview;
 import java.util.Map;
 import java.util.Set;
 
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.internal.com_google_common.collect.Sets;
-
 import android.util.SparseBooleanArray;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  *

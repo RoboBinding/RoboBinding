@@ -27,11 +27,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
-import org.robobinding.internal.com_google_common.collect.Maps;
 
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.google.common.collect.Maps;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**

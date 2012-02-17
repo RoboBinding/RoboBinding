@@ -18,7 +18,6 @@ package org.robobinding.binder;
 import java.util.List;
 
 import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
-import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.content.Context;
@@ -27,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.LayoutInflater.Factory;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.common.collect.Lists;
 
 
 /**

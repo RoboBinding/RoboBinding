@@ -15,8 +15,6 @@
  */
 package org.robobinding.presentationmodel;
 
-import org.robobinding.presentationmodel.CustomSetter;
-import org.robobinding.presentationmodel.PresentationModel;
 
 
 /**
