@@ -23,9 +23,10 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.internal.com_google_common.collect.Maps;
 
 import android.view.View;
+
+import com.google.common.collect.Maps;
 
 /**
  *

@@ -20,8 +20,6 @@ import java.util.Queue;
 
 import org.robobinding.customview.BindableView;
 import org.robobinding.customview.CustomViewUtils;
-import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeMapperAdapter;
 import org.robobinding.viewattribute.BindingAttributeProvider;
@@ -48,6 +46,9 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * 

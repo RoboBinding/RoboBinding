@@ -15,15 +15,14 @@
  */
 package org.robobinding.viewattribute.view;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
+import org.robobinding.viewattribute.RandomValues;
 
 import android.view.View;
-
-import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
  *
@@ -31,27 +30,16 @@ import com.xtremelabs.robolectric.shadows.ShadowView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(RobolectricTestRunner.class)
-public class OnFocusLostAttributeTest extends AbstractCommandViewAttributeTest<View, OnFocusChangeAttribute>
+public class FocusableAttributeTest extends AbstractPropertyViewAttributeTest<View, FocusableAttribute>
 {
 	@Test
-	public void givenBoundAttribute_whenClearFocus_thenEventReceived()
+	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
-		bindAttribute();
-
-		clearViewFocus();
-
-		assertEventReceived();
+		boolean focusable = RandomValues.trueOrFalse();
+		
+		attribute.valueModelUpdated(focusable);
+		
+		assertThat(view.isFocusable(), equalTo(focusable));
 	}
 
-	private void clearViewFocus()
-	{
-		ShadowView shadowView = Robolectric.shadowOf(view);
-		shadowView.setViewFocus(false);
-	}
-
-	private void assertEventReceived()
-	{
-		assertEventReceived(ViewEvent.class);
-	}
 }

@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.compoundbutton;
 
 import java.util.List;
 
-import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
@@ -25,6 +24,8 @@ import org.robobinding.viewattribute.ViewAttributeInstantiator;
 
 import android.content.Context;
 import android.widget.CompoundButton;
+
+import com.google.common.collect.Lists;
 
 /**
  *

@@ -17,7 +17,7 @@ package org.robobinding.viewattribute;
 
 import java.util.List;
 
-import org.robobinding.internal.com_google_common.collect.Lists;
+import com.google.common.collect.Lists;
 
 
 /**

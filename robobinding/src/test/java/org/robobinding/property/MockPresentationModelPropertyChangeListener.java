@@ -16,7 +16,6 @@
  */
 package org.robobinding.property;
 
-import org.robobinding.property.PresentationModelPropertyChangeListener;
 
 /**
 *

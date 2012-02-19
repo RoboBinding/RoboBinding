@@ -15,11 +15,6 @@
  */
 package org.robobinding.viewattribute;
 
-import java.text.MessageFormat;
-import java.util.Collection;
-
-import org.robobinding.internal.org_apache_commons_lang3.StringUtils;
-
 import android.view.View;
 
 /**
@@ -47,18 +42,8 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 
 	public void setGroupedAttributeDetails(GroupedAttributeDetails groupedAttributeDetails)
 	{
+		groupedAttributeDetails.assertAttributesArePresent(view, getCompulsoryAttributes());
 		this.groupedAttributeDetails = groupedAttributeDetails;
-		
-		validateAttributes();
-	}
-	
-	private void validateAttributes()
-	{
-		String[] compulsoryAttributes = getCompulsoryAttributes();
-		if((compulsoryAttributes != null) && (compulsoryAttributes.length > 0))
-		{
-			assertAttributesArePresent(compulsoryAttributes);
-		}
 	}
 	
 	protected String[] getCompulsoryAttributes()
@@ -68,16 +53,6 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	
 	public void postInitialization()
 	{
-	}
-	
-	private void assertAttributesArePresent(String... attributes)
-	{
-		if(!groupedAttributeDetails.hasAttributes(attributes))
-		{
-			Collection<String> missingAttributes = groupedAttributeDetails.findAbsentAttributes(attributes);
-			throw new RuntimeException(MessageFormat.format("Property ''{0}'' of {1} has the following missing attributes ''{2}''",
-					getClass().getName(), view.getClass().getName(), StringUtils.join(missingAttributes, ", ")));
-		}
 	}
 	
 	protected ViewAttributeInstantiator<T> getViewAttributeInstantiator()

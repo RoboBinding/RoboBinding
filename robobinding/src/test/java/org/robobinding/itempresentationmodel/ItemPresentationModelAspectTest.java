@@ -23,7 +23,6 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModelMixin;
 import org.robobinding.presentationmodel.PropertyChangeListenerTester;
 import org.robobinding.property.ObservableProperties;

@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.view;
+
+import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 
 import android.view.View;
 
-
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface GroupedAttributeDetails
+public class FocusableAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 {
-	boolean hasAttribute(String attribute);
-	
-	String attributeValueFor(String attribute);
-	
-	void assertAttributesArePresent(View view, String... attributeNames);
+	@Override
+	protected void valueModelUpdated(Boolean newValue)
+	{
+		view.setFocusable(newValue);
+	}
 }

@@ -28,6 +28,19 @@
 		</repository>
 	</repositories>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>oss-sonatype-snapshots</id>
+			<url>http://oss.sonatype.org/content/repositories/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.robobinding</groupId>
@@ -101,18 +114,18 @@
 				<extensions>true</extensions>
 			</plugin>
 
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.robobinding</groupId> -->
-<!-- 				<artifactId>robobinding-validator</artifactId> -->
-<!-- 				<version>1.0-SNAPSHOT</version> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<goals> -->
-<!-- 							<goal>validate-bindings</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+			<plugin>
+				<groupId>org.robobinding.plugins</groupId>
+				<artifactId>robobinding-validator</artifactId>
+				<version>0.8.2-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>validate-bindings</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 		<pluginManagement>
@@ -148,13 +161,13 @@
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>
-											org.robobinding
+											org.robobinding.plugins
 										</groupId>
 										<artifactId>
 											robobinding-validator
 										</artifactId>
 										<versionRange>
-											[1.0-SNAPSHOT,)
+											[0.8-SNAPSHOT,)
 										</versionRange>
 										<goals>
 											<goal>

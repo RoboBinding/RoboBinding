@@ -22,11 +22,12 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.internal.com_google_common.collect.Sets;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.listview.CheckedItemPositionsAttribute.SetCheckedItemPositionsAttribute;
 
 import android.widget.ListView;
+
+import com.google.common.collect.Sets;
 
 /**
  *

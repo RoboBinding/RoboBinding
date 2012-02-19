@@ -19,10 +19,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.internal.org_apache_commons_lang3.builder.EqualsBuilder;
-import org.robobinding.internal.org_apache_commons_lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import android.view.View;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  *
@@ -56,8 +59,7 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 		return presentAttributeMappings.keySet();
 	}
 	
-	@Override
-	public boolean hasAttributes(String... attributes)
+	boolean hasAttributes(String... attributes)
 	{
 		for (String attribute : attributes)
 		{
@@ -69,8 +71,7 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 		return true;
 	}
 	
-	@Override
-	public Collection<String> findAbsentAttributes(String... attributeNames)
+	Collection<String> findAbsentAttributes(String... attributeNames)
 	{
 		List<String> absentAttributes = Lists.newArrayList();
 		for (String attributeName : attributeNames)
@@ -112,5 +113,15 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 		return new HashCodeBuilder()
 			.append(supportedAttributes)
 			.toHashCode();
+	}
+
+	@Override
+	public void assertAttributesArePresent(View view, String... attributeNames)
+	{
+		if (attributeNames == null)
+			return;
+		
+		if(!hasAttributes(attributeNames))
+			throw new MissingRequiredBindingAttributeException(findAbsentAttributes(attributeNames), view);
 	}
 }

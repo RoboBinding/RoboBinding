@@ -5,21 +5,18 @@ package org.robobinding.itempresentationmodel;
 
 import java.util.List;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.internal.org_apache_commons_lang3.builder.EqualsBuilder;
-import org.robobinding.internal.org_apache_commons_lang3.builder.HashCodeBuilder;
-import org.robobinding.itempresentationmodel.BeanCursor;
-import org.robobinding.itempresentationmodel.RowMapper;
-import org.robobinding.itempresentationmodel.TypedCursorAdapter;
-
-import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 import android.database.Cursor;
+
+import com.google.common.collect.Lists;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *

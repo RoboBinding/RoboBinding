@@ -29,10 +29,10 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-
 import android.app.Activity;
 import android.view.View;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *

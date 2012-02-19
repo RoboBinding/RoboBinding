@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,18 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.itempresentationmodel;
-
-
+package org.robobinding.viewattribute;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Cheng Wei
+ * @author Robert Taylor
  */
-public class ItemPresentationModel_AutoCodeGeneration implements ItemPresentationModel<Object>
+@SuppressWarnings("serial")
+public class MalformedBindingAttributeException extends RuntimeException
 {
-	Object bean;
-	public static final String PROPERTY = "property";
-	public void updateData(int index, Object bean)
-	{
-		this.bean = bean;
+	public MalformedBindingAttributeException(String message) {
+		super(message);
 	}
-	public boolean getProperty()
-	{
-		return true;
-	}
-
 }

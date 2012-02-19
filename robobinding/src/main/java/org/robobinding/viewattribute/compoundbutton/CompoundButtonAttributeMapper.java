@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.compoundbutton;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.widget.CompoundButton;
 

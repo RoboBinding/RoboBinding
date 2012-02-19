@@ -18,13 +18,15 @@ package org.robobinding.viewattribute;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.util.Collection;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
+
+import android.view.View;
 
 /**
  *
@@ -36,12 +38,14 @@ public class GroupedAttributeDetailsImplTest
 {
 	private GroupedAttributeDetailsImpl groupedAttributeDetails;
 	private String[] attributeNames;
+	private View view;
 
 	@Before
 	public void setUp()
 	{
 		groupedAttributeDetails = new GroupedAttributeDetailsImpl(new String[0]);
 		attributeNames = randomAttributeArray();
+		view = mock(View.class);
 	}
 
 	@Test
@@ -54,12 +58,39 @@ public class GroupedAttributeDetailsImplTest
 	}
 	
 	@Test
-	public void whenPresentAttributesHaveBeenAdded_thenShouldHaveAllAttributes()
+	public void whenPresentAttributesHaveAllBeenAdded_thenShouldHaveAllAttributes()
+	{
+		allAttributesArePresent();
+		
+		assertTrue(groupedAttributeDetails.hasAttributes(attributeNames));
+	}
+
+	@Test
+	public void givenAllAttributesArePresent_whenAssertingAllAttributesArePresent_thenDoNothing()
+	{
+		allAttributesArePresent();
+		
+		groupedAttributeDetails.assertAttributesArePresent(view, attributeNames);
+	}
+	
+	@Test (expected = MissingRequiredBindingAttributeException.class)
+	public void givenNoAttributesArePresent_whenAssertingAllAttributesArePresent_thenDoNothing()
+	{
+		groupedAttributeDetails.assertAttributesArePresent(view, attributeNames);
+	}
+	
+	@Test
+	public void whenAssertingAllAttributesArePresentWithNull_thenIgnore()
+	{
+		String[] compulsoryAttributes = null;
+		
+		groupedAttributeDetails.assertAttributesArePresent(view, compulsoryAttributes);
+	}
+	
+	private void allAttributesArePresent()
 	{
 		for (int i = 0; i < attributeNames.length; i++)
 			groupedAttributeDetails.addPresentAttribute(attributeNames[i], "attributeValue");
-		
-		assertTrue(groupedAttributeDetails.hasAttributes(attributeNames));
 	}
 	
 	private String[] randomAttributeArray()

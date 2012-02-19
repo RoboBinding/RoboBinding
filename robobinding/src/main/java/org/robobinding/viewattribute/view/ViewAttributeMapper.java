@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.view;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.view.View;
 
@@ -35,6 +35,7 @@ public class ViewAttributeMapper implements BindingAttributeMapper<View>
 		mappings.mapPropertyAttribute(EnabledAttribute.class, "enabled");
 		mappings.mapPropertyAttribute(BackgroundAttribute.class, "background");
 		mappings.mapPropertyAttribute(BackgroundColorAttribute.class, "backgroundColor");
+		mappings.mapPropertyAttribute(FocusableAttribute.class, "focusable");
 		
 		mappings.mapCommandAttribute(OnClickAttribute.class, "onClick");
 		mappings.mapCommandAttribute(OnLongClickAttribute.class, "onLongClick");

@@ -17,9 +17,6 @@ package org.robobinding.binder;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import org.robobinding.binder.AttributeSetParser;
-
 import android.util.AttributeSet;
 
 /**

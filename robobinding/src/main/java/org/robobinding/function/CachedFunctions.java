@@ -19,10 +19,11 @@ package org.robobinding.function;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.internal.org_apache_commons_lang3.builder.EqualsBuilder;
-import org.robobinding.internal.org_apache_commons_lang3.builder.HashCodeBuilder;
-import org.robobinding.internal.org_apache_commons_lang3.reflect.MethodUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.reflect.MethodUtils;
+
+import com.google.common.collect.Maps;
 
 
 

@@ -17,7 +17,7 @@ package org.robobinding.property;
 
 import java.util.Map;
 
-import org.robobinding.internal.com_google_common.collect.Maps;
+import com.google.common.collect.Maps;
 
 
 
