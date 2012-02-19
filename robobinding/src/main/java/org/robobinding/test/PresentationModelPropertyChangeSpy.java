@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.experimental.test;
+package org.robobinding.test;
 
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 
@@ -25,29 +25,28 @@ import org.robobinding.property.PresentationModelPropertyChangeListener;
  */
 public class PresentationModelPropertyChangeSpy implements PresentationModelPropertyChangeListener
 {
-	private boolean changeFired;
-	private int firedNumTimes;
+	private boolean propertyChanged;
+	private int propertyChangedCount;
 
 	PresentationModelPropertyChangeSpy()
 	{
-		changeFired = false;
 	}
 
 	@Override
 	public void propertyChanged()
 	{
-		changeFired = true;
-		firedNumTimes++;
+		propertyChanged = true;
+		propertyChangedCount++;
 	}
 
-	public boolean isChangeFired()
+	public boolean isPropertyChanged()
 	{
-		return changeFired;
+		return propertyChanged;
 	}
 
-	public int getFiredNumTimes()
+	public int getPropertyChangedCount()
 	{
-		return firedNumTimes;
+		return propertyChangedCount;
 	}
 
 }

@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.experimental.test;
+package org.robobinding.test;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.experimental.test.PresentationModelPropertyChangeSpy;
-import org.robobinding.experimental.test.PresentationModelTester;
 import org.robobinding.presentationmodel.DependsOnStateOf;
 import org.robobinding.presentationmodel.PresentationModel;
+import org.robobinding.test.PresentationModelPropertyChangeSpy;
+import org.robobinding.test.PresentationModelTester;
 import org.robobinding.viewattribute.RandomValues;
 
 /**
@@ -39,16 +39,16 @@ public class DependsOnStateOfUnitTest
 	public void setUp()
 	{
 		presentationModel = new SamplePresentationModel();
-		presentationModelTester = PresentationModelTester.create(presentationModel);
+		presentationModelTester = new PresentationModelTester(presentationModel);
 	}
 	@Test
 	public void whenChangeProperty1_thenProperty2ChangeFired()
 	{
-		PresentationModelPropertyChangeSpy spy = presentationModelTester.spyReadOnlyPropertyChange(SamplePresentationModel.PROPERTY2);
+		PresentationModelPropertyChangeSpy spy = presentationModelTester.spyPropertyChange(SamplePresentationModel.PROPERTY2);
 
 		presentationModel.changeProperty1();
 		
-		assertTrue(spy.isChangeFired());
+		assertTrue(spy.isPropertyChanged());
 	}
 	
 	@PresentationModel
