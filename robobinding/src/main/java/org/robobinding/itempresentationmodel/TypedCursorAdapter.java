@@ -15,7 +15,7 @@
  */
 package org.robobinding.itempresentationmodel;
 
-import org.robobinding.internal.org_apache_commons_lang3.Validate;
+import org.apache.commons.lang3.Validate;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;

@@ -78,8 +78,7 @@ public class BindingAttributeProcessor
 				break;
 		}
 		
-		if (bindingAttributeResolver.hasUnresolvedAttributes())
-			throw new RuntimeException("Unhandled binding attribute(s): " + bindingAttributeResolver.describeUnresolvedAttributes());
+		bindingAttributeResolver.assertAllAttributesResolvedFor(view);
 		
 		return bindingAttributeResolver.getResolvedViewAttributes();
 	}

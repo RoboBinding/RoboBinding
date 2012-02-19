@@ -18,11 +18,16 @@ package org.robobinding.viewattribute;
 import java.util.Collection;
 import java.util.Map;
 
+<<<<<<< HEAD
 import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
+=======
+>>>>>>> master
 import android.view.View;
+
+import com.google.common.collect.Maps;
 
 /**
  * 

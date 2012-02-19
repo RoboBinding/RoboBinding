@@ -15,7 +15,6 @@
  */
 package org.robobinding.presentationmodel;
 
-import org.robobinding.presentationmodel.AbstractPresentationModel;
 
 /**
  *

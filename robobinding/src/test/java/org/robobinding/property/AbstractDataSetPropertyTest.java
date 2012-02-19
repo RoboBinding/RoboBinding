@@ -22,9 +22,10 @@ import static org.junit.Assert.assertThat;
 import java.util.List;
 
 import org.junit.Test;
-import org.robobinding.internal.com_google_common.collect.Lists;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.viewattribute.RandomValues;
+
+import com.google.common.collect.Lists;
 
 /**
  * 

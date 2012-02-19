@@ -19,11 +19,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 
+import android.view.View;
+
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 import com.xtremelabs.robolectric.shadows.ShadowView;
-
-import android.view.View;
 
 /**
  *
@@ -52,7 +52,7 @@ public class OnFocusAttributeTest extends AbstractCommandViewAttributeTest<View,
 
 	private void assertEventReceived()
 	{
-		assertEventReceived(ViewEvent.class);
+		assertEventReceived(AbstractViewEvent.class);
 	}
 
 }

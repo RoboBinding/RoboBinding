@@ -1,13 +1,14 @@
 package org.robobinding.itempresentationmodel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.database.AbstractCursor;
 import android.database.CursorWindow;
+
 import com.xtremelabs.robolectric.internal.Implementation;
 import com.xtremelabs.robolectric.internal.Implements;
 import com.xtremelabs.robolectric.internal.RealObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Implements(AbstractCursor.class)
 public class ShadowAbstractCursor

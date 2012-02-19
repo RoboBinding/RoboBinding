@@ -18,11 +18,9 @@ package org.robobinding.function;
 
 import java.lang.reflect.Method;
 
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.robobinding.function.Function;
-import org.robobinding.function.FunctionImpl;
-import org.robobinding.internal.org_apache_commons_lang3.reflect.MethodUtils;
 
 
 /**

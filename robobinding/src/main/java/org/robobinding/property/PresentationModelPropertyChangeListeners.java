@@ -17,8 +17,9 @@ package org.robobinding.property;
 
 import java.util.List;
 
-import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.internal.org_apache_commons_lang3.Validate;
+import org.apache.commons.lang3.Validate;
+
+import com.google.common.collect.Lists;
 
 /**
  * 

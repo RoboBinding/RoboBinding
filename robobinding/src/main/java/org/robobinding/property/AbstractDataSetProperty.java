@@ -17,7 +17,7 @@ package org.robobinding.property;
 
 
 
-import org.robobinding.internal.org_apache_commons_lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
 

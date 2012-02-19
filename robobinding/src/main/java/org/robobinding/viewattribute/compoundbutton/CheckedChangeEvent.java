@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.compoundbutton;
 
-import org.robobinding.viewattribute.view.ViewEvent;
+import org.robobinding.viewattribute.view.AbstractViewEvent;
 
 import android.widget.CompoundButton;
 
@@ -25,11 +25,11 @@ import android.widget.CompoundButton;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CheckedChangeEvent extends ViewEvent
+public class CheckedChangeEvent extends AbstractViewEvent
 {
 	private boolean checked;
 	
-	public CheckedChangeEvent(CompoundButton compoundButton, boolean isChecked)
+	CheckedChangeEvent(CompoundButton compoundButton, boolean isChecked)
 	{
 		super(compoundButton);
 		checked = isChecked;

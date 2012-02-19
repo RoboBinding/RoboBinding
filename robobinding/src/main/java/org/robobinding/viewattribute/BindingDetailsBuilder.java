@@ -47,7 +47,7 @@ public class BindingDetailsBuilder
 	public PropertyBindingDetails createPropertyBindingDetails()
 	{
 		if (propertyName == null)
-			throw new RuntimeException("Attribute value: " + attributeValue + " is not valid property attribute syntax.");
+			throw new MalformedBindingAttributeException("Attribute value: " + attributeValue + " is not valid property attribute syntax.");
 		
 		return new PropertyBindingDetails(propertyName, twoWayBinding);
 	}
@@ -55,7 +55,7 @@ public class BindingDetailsBuilder
 	public ResourceBindingDetails createResourceBindingDetails()
 	{
 		if (resourceName == null || resourceType == null)
-			throw new RuntimeException("Attribute value: " + attributeValue + " is not valid resource attribute syntax.");
+			throw new MalformedBindingAttributeException("Attribute value: " + attributeValue + " is not valid resource attribute syntax.");
 		
 		return new ResourceBindingDetails(resourceName, resourceType, resourcePackage);
 	}
@@ -83,7 +83,7 @@ public class BindingDetailsBuilder
 		}
 		
 		if (!propertiesDetermined)
-			throw new RuntimeException(getErrorDescriptionForAttributeValue());
+			throw new MalformedBindingAttributeException(getErrorDescriptionForAttributeValue());
 	}
 
 	private String getErrorDescriptionForAttributeValue()
@@ -112,7 +112,7 @@ public class BindingDetailsBuilder
 	{
 		matcher.find();
 		if (!matcher.matches() || matcher.groupCount() < 2 || matcher.groupCount() > 3)
-			throw new RuntimeException("Invalid resource syntax: " + attributeValue);
+			throw new MalformedBindingAttributeException("Invalid resource syntax: " + attributeValue);
 		
 		resourcePackage = matcher.group(1);
 		

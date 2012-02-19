@@ -15,7 +15,6 @@
  */
 package org.robobinding.itempresentationmodel;
 
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.ObservableProperties;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 

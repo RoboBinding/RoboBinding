@@ -15,11 +15,11 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.internal.com_google_common.collect.Lists;
-
 import android.R;
 import android.app.Activity;
 import android.widget.ArrayAdapter;
+
+import com.google.common.collect.Lists;
 
 /**
  *

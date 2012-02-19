@@ -18,13 +18,14 @@ package org.robobinding.property;
 import java.util.List;
 import java.util.Set;
 
-import org.robobinding.internal.com_google_common.collect.Lists;
-import org.robobinding.internal.com_google_common.collect.Sets;
+import org.apache.commons.lang3.Validate;
 import org.robobinding.internal.java_beans.BeanInfo;
 import org.robobinding.internal.java_beans.IntrospectionException;
 import org.robobinding.internal.java_beans.Introspector;
 import org.robobinding.internal.java_beans.PropertyDescriptor;
-import org.robobinding.internal.org_apache_commons_lang3.Validate;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 
 /**

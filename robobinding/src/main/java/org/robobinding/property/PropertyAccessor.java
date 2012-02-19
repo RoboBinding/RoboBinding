@@ -20,9 +20,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.robobinding.internal.java_beans.PropertyDescriptor;
-import org.robobinding.internal.org_apache_commons_lang3.StringUtils;
-import org.robobinding.internal.org_apache_commons_lang3.Validate;
 
 
 /**

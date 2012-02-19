@@ -20,7 +20,7 @@ package org.robobinding.internal.java_beans;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import org.robobinding.internal.org_apache_commons_lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 
 public class PropertyDescriptor extends FeatureDescriptor {

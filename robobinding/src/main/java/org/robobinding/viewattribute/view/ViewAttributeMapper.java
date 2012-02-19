@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.view;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.view.View;
 

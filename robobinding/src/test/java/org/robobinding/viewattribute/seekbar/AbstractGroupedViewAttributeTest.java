@@ -28,11 +28,11 @@ import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
 import org.robobinding.viewattribute.ParameterizedTypeUtils;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  * 

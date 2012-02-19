@@ -23,17 +23,10 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ClickEvent
+public class ClickEvent extends AbstractViewEvent
 {
-	private View view;
-	
-	public ClickEvent(View view)
+	protected ClickEvent(View view)
 	{
-		this.view = view;
-	}
-
-	public View getView()
-	{
-		return view;
+		super(view);
 	}
 }

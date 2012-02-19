@@ -60,5 +60,5 @@ public abstract class AbstractFocusChangeAttribute extends AbstractCommandViewAt
 
 	protected abstract Class<?> getEventType();
 	protected abstract boolean firesNewEvent(boolean hasFocus);
-	protected abstract ViewEvent createEvent(View view, boolean hasFocus);
+	protected abstract AbstractViewEvent createEvent(View view, boolean hasFocus);
 }
