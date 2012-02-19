@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.compoundbutton;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.Command;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -27,14 +28,21 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute<CompoundButton>
+public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute<CompoundButton> implements ViewListenersAware<CompoundButtonListeners>
 {
-	private OnCheckedChangeListeners onCheckedChangeListeners;
+	private CompoundButtonListeners viewListeners;
+
+	@Override
+	public void setViewListeners(CompoundButtonListeners viewListeners)
+	{
+		this.viewListeners = viewListeners;
+	}
+
 	
 	@Override
 	protected void bind(final Command command)
 	{
-		onCheckedChangeListeners.addListener(new OnCheckedChangeListener() {
+		viewListeners.addOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
@@ -50,10 +58,4 @@ public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute<Compo
 	{
 		return CheckedChangeEvent.class;
 	}
-
-	public void setOnCheckedChangeListeners(OnCheckedChangeListeners onCheckedChangeListeners)
-	{
-		this.onCheckedChangeListeners = onCheckedChangeListeners;
-	}
-
 }

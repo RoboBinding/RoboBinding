@@ -26,7 +26,7 @@ import android.view.View.OnFocusChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnFocusChangeListeners extends AbstractListeners<OnFocusChangeListener> implements OnFocusChangeListener
+class OnFocusChangeListeners extends AbstractListeners<OnFocusChangeListener> implements OnFocusChangeListener
 {
 	@Override
 	public void onFocusChange(View view, boolean hasFocus)

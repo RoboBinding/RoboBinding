@@ -31,12 +31,13 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 public class CheckedAttribute extends AbstractPropertyViewAttribute<CompoundButton, Boolean> implements ViewListenersAware<CompoundButtonListeners>
 {
 	private CompoundButtonListeners viewListeners;
+
 	@Override
 	public void setViewListeners(CompoundButtonListeners viewListeners)
 	{
 		this.viewListeners = viewListeners;
 	}
-	
+
 	@Override
 	protected void valueModelUpdated(Boolean newValue)
 	{
