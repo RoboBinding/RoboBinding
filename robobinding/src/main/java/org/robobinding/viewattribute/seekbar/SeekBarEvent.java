@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute.seekbar;
 
+import org.robobinding.viewattribute.view.AbstractViewEvent;
+
 import android.widget.SeekBar;
 
 /**
@@ -23,22 +25,21 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SeekBarEvent
+public class SeekBarEvent extends AbstractViewEvent
 {
-	private final SeekBar seekBar;
 	private final int progress;
 	private final boolean fromUser;
 
-	public SeekBarEvent(SeekBar seekBar, int progress, boolean fromUser)
+	SeekBarEvent(SeekBar seekBar, int progress, boolean fromUser)
 	{
-		this.seekBar = seekBar;
+		super(seekBar);
 		this.progress = progress;
 		this.fromUser = fromUser;
 	}
 
 	public SeekBar getSeekBar()
 	{
-		return seekBar;
+		return (SeekBar)getView();
 	}
 
 	public int getProgress()

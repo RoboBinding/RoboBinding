@@ -38,7 +38,7 @@ public class OnFocusChangeAttribute extends AbstractFocusChangeAttribute
 	}
 
 	@Override
-	public ViewEvent createEvent(View view, boolean hasFocus)
+	public AbstractViewEvent createEvent(View view, boolean hasFocus)
 	{
 		return new FocusChangeEvent(view, hasFocus);
 	}
