@@ -25,7 +25,7 @@ import android.view.View;
  */
 public class FocusEvent extends AbstractViewEvent
 {
-	public FocusEvent(View view)
+	FocusEvent(View view)
 	{
 		super(view);
 	}

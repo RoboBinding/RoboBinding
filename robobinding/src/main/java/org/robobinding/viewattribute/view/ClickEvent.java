@@ -25,7 +25,7 @@ import android.view.View;
  */
 public class ClickEvent extends AbstractViewEvent
 {
-	public ClickEvent(View view)
+	protected ClickEvent(View view)
 	{
 		super(view);
 	}
