@@ -15,6 +15,8 @@
  */
 package org.robobinding.test;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -26,7 +28,7 @@ import org.robobinding.test.PresentationModelTester;
 import org.robobinding.viewattribute.RandomValues;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -34,40 +36,64 @@ import org.robobinding.viewattribute.RandomValues;
 public class DependsOnStateOfUnitTest
 {
 	private SamplePresentationModel presentationModel;
-	private PresentationModelTester presentationModelTester;
+
 	@Before
 	public void setUp()
 	{
 		presentationModel = new SamplePresentationModel();
-		presentationModelTester = new PresentationModelTester(presentationModel);
 	}
+
 	@Test
-	public void whenChangeProperty1_thenProperty2ChangeFired()
+	public void whenChangeProperty1_thenProperty2ChangeReceived()
 	{
-		PresentationModelPropertyChangeSpy spy = presentationModelTester.spyPropertyChange(SamplePresentationModel.PROPERTY2);
+		PresentationModelPropertyChangeSpy spy = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
 
 		presentationModel.changeProperty1();
-		
+
 		assertTrue(spy.isPropertyChanged());
 	}
-	
+
+	@Test
+	public void whenChangeProperty1_thenProperty2ChangeReceivedByBoth()
+	{
+		PresentationModelPropertyChangeSpy spy1 = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
+		PresentationModelPropertyChangeSpy spy2 = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
+
+		presentationModel.changeProperty1();
+
+		assertTrue(spy1.isPropertyChanged());
+		assertTrue(spy2.isPropertyChanged());
+	}
+
+	@Test
+	public void whenChangeProperty1Twice_thenProperty2ChangeReceivedTwice()
+	{
+		PresentationModelPropertyChangeSpy spy = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
+
+		presentationModel.changeProperty1();
+		presentationModel.changeProperty1();
+
+		assertThat(spy.getPropertyChangedCount(), is(2));
+	}
+
 	@PresentationModel
 	public static class SamplePresentationModel
 	{
 		private static final String PROPERTY1 = "property1";
 		private static final String PROPERTY2 = "property2";
 		private boolean property1Value;
+
 		public boolean getProperty1()
 		{
 			return property1Value;
 		}
-		
+
 		public void changeProperty1()
 		{
 			property1Value = RandomValues.trueOrFalse();
 			firePropertyChange(PROPERTY1);
 		}
-		
+
 		@DependsOnStateOf(PROPERTY1)
 		public boolean getProperty2()
 		{
