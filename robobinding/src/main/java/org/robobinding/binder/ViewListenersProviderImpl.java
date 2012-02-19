@@ -18,8 +18,7 @@ package org.robobinding.binder;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import org.robobinding.internal.com_google_common.collect.Maps;
-import org.robobinding.internal.org_apache_commons_lang3.reflect.ConstructorUtils;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.robobinding.viewattribute.ViewListenersProvider;
 import org.robobinding.viewattribute.compoundbutton.CompoundButtonListeners;
 import org.robobinding.viewattribute.seekbar.SeekBarListeners;
@@ -28,6 +27,8 @@ import org.robobinding.viewattribute.view.ViewListeners;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
+
+import com.google.common.collect.Maps;
 
 /**
  *
