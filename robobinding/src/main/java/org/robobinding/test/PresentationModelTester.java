@@ -29,17 +29,23 @@ import org.robobinding.property.ValueModel;
 public class PresentationModelTester
 {
 	private PresentationModelAdapter presentationModelAdapter;
-	public PresentationModelTester(Object presentationModel)
+	private PresentationModelTester(Object presentationModel)
 	{
 		Validate.notNull(presentationModel, "presentationModel should not be null");
 		presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 	}
 	
-	public PresentationModelPropertyChangeSpy spyPropertyChange(String propertyName)
+	private PresentationModelPropertyChangeSpy spyPropertyChange(String propertyName)
 	{
 		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
 		PresentationModelPropertyChangeSpy spy = new PresentationModelPropertyChangeSpy();
 		valueModel.addPropertyChangeListener(spy);
 		return spy;
+	}
+	
+	public static PresentationModelPropertyChangeSpy spyPropertyChange(Object presentationModel, String propertyName)
+	{
+		PresentationModelTester presentationModelTester = new PresentationModelTester(presentationModel);
+		return presentationModelTester.spyPropertyChange(propertyName);
 	}
 }
