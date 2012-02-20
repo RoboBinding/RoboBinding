@@ -117,7 +117,7 @@
 			<plugin>
 				<groupId>org.robobinding.plugins</groupId>
 				<artifactId>robobinding-validator</artifactId>
-				<version>0.8.2-SNAPSHOT</version>
+				<version>0.8.3-SNAPSHOT</version>
 				<executions>
 					<execution>
 						<goals>
