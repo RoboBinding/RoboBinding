@@ -27,7 +27,6 @@ import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.ViewListenersProviderImpl;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
@@ -73,13 +72,7 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
         view = ParameterizedTypeUtils.createTypeArgument(superclass, 0);
         attribute = ParameterizedTypeUtils.createTypeArgument(superclass, 1);
         
-        if(attribute instanceof ViewListenersAware)
-		{
-			ViewListeners viewListeners = new ViewListenersProviderImpl().forView(view);
-			@SuppressWarnings("unchecked")
-			ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)attribute;
-			viewListenersAware.setViewListeners(viewListeners);
-		}
+        ViewListenersAwareTestUtils.considerInjectingViewListenersIntoAttribute(attribute, view);
 	}
 
 	private void initializeAttribute()

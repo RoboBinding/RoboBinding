@@ -19,11 +19,8 @@ import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.ViewListenersProviderImpl;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.app.Activity;
 import android.content.Context;
@@ -69,13 +66,7 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 			throw new RuntimeException("Error instantiating attribute: " + e.getMessage());
 		}
 		
-		if(attribute instanceof ViewListenersAware)
-		{
-			ViewListeners viewListeners = new ViewListenersProviderImpl().forView(view);
-			@SuppressWarnings("unchecked")
-			ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)attribute;
-			viewListenersAware.setViewListeners(viewListeners);
-		}
+		ViewListenersAwareTestUtils.considerInjectingViewListenersIntoAttribute(attribute, view);
 	}
 	
 	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass)
