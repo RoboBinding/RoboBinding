@@ -37,7 +37,7 @@ public class OnFocusAttributeTest extends AbstractCommandViewAttributeTest<View,
 	@Test
 	public void givenBoundAttribute_whenApplyFocus_thenEventReceived()
 	{
-		bindAttribute();
+		bindViewListenersAwareAttribute(new MockViewListeners(view));
 
 		setViewFocus();
 

@@ -26,7 +26,7 @@ import android.view.View.OnFocusChangeListener;
  */
 public class ViewListeners
 {
-	private View view;
+	View view;
 	private OnFocusChangeListeners onFocusChangeListeners;
 
 	public ViewListeners(View view)

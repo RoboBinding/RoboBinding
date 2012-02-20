@@ -38,7 +38,7 @@ public class TwoWayProgressAttributeTest extends AbstractPropertyViewAttributeTe
 	@Before
 	public void setUp()
 	{
-		attribute.setOnSeekBarChangeListeners(new OnSeekBarChangeListeners());
+		attribute.setViewListeners(new MockSeekBarListeners(view));
 	}
 	
 	@Test
@@ -54,9 +54,7 @@ public class TwoWayProgressAttributeTest extends AbstractPropertyViewAttributeTe
 	@Test
 	public void whenUpdatingTheSeekBar_thenUpdateValueModel()
 	{
-		int initialProgressValue = RandomValues.anyInteger();
-		ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);
-		valueModel.setValue(initialProgressValue);
+		ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class, RandomValues.anyInteger());
 		
 		int newProgressValue = RandomValues.anyInteger();
 		view.setProgress(newProgressValue);

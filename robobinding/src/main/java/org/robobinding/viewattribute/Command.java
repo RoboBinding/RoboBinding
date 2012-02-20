@@ -17,6 +17,12 @@ package org.robobinding.viewattribute;
 
 import org.robobinding.function.Function;
 
+/**
+*
+* @since 1.0
+* @version $Revision: 1.0 $
+* @author Robert Taylor
+*/
 public class Command
 {
 	public final Function function;

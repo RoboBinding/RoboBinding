@@ -28,7 +28,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  */
 public class CompoundButtonListeners extends ViewListeners
 {
-	private CompoundButton compoundButton;
+	CompoundButton compoundButton;
 	private OnCheckedChangeListeners onCheckedChangeListeners;
 
 	public CompoundButtonListeners(CompoundButton compoundButton)

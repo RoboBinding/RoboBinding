@@ -18,8 +18,8 @@ package org.robobinding.viewattribute.adapterview;
 import java.util.List;
 
 import org.junit.Test;
+import org.robobinding.viewattribute.AbstractGroupedViewAttributeTest;
 import org.robobinding.viewattribute.absspinner.AdaptedAbsSpinnerDataSetAttributes;
-import org.robobinding.viewattribute.seekbar.AbstractGroupedViewAttributeTest;
 
 import android.view.View;
 import android.widget.Spinner;

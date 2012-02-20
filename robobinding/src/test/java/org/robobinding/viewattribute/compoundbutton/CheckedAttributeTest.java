@@ -37,9 +37,7 @@ public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<Chec
 	@Before
 	public void setUp()
 	{
-		OnCheckedChangeListeners onCheckedChangeListeners = new OnCheckedChangeListeners();
-		view.setOnCheckedChangeListener(onCheckedChangeListeners);
-		attribute.setOnCheckedChangeListeners(onCheckedChangeListeners);
+		attribute.setViewListeners(new MockCompoundButtonListeners(view));
 	}
 	@Test
 	public void whenValueModelUpdated_thenViewShouldReflectChanges()
@@ -56,9 +54,10 @@ public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<Chec
 	{
 		ValueModel<Boolean> valueModel = twoWayBindToProperty(Boolean.class);
 		
-		view.setChecked(!view.isChecked());
+		boolean newValue = !view.isChecked();
+		view.setChecked(newValue);
 		
-		assertThat(valueModel.getValue(), equalTo(view.isChecked()));
+		assertThat(valueModel.getValue(), equalTo(newValue));
 	}
 	
 }

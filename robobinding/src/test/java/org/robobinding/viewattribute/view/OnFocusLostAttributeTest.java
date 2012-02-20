@@ -37,7 +37,7 @@ public class OnFocusLostAttributeTest extends AbstractCommandViewAttributeTest<V
 	@Test
 	public void givenBoundAttribute_whenClearFocus_thenEventReceived()
 	{
-		bindAttribute();
+		bindViewListenersAwareAttribute(new MockViewListeners(view));
 
 		clearViewFocus();
 

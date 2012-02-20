@@ -28,7 +28,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  */
 public class SeekBarListeners extends ViewListeners
 {
-	private SeekBar seekBar;
+	SeekBar seekBar;
 	private OnSeekBarChangeListeners onSeekBarChangeListeners;
 
 	public SeekBarListeners(SeekBar seekBar)

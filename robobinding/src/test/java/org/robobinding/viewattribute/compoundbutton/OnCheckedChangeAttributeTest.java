@@ -32,9 +32,7 @@ public class OnCheckedChangeAttributeTest extends AbstractCommandViewAttributeTe
 	@Before
 	public void setUp()
 	{
-		OnCheckedChangeListeners onCheckedChangeListeners = new OnCheckedChangeListeners();
-		view.setOnCheckedChangeListener(onCheckedChangeListeners);
-		attribute.setOnCheckedChangeListeners(onCheckedChangeListeners);
+		attribute.setViewListeners(new MockCompoundButtonListeners(view));
 	}
 	@Test
 	public void givenBoundAttribute_whenChangeChecked_thenEventReceived()

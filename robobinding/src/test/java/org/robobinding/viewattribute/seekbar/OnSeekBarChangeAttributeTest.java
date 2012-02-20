@@ -19,9 +19,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +26,6 @@ import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
 /**
  * 
@@ -45,19 +41,20 @@ public class OnSeekBarChangeAttributeTest extends AbstractCommandViewAttributeTe
 	public void setUp()
 	{
 		newProgressValue = RandomValues.anyInteger();
-		attribute.setOnSeekBarChangeListeners(new OnSeekBarChangeListeners());
 	}
 	
 	@Test
 	public void givenBoundAttribute_whenUpdatingProgress_thenEventReceived()
 	{
-		bindAttribute();
+		bindViewListenersAwareAttribute(new MockSeekBarListeners(view));
 
 		updateProgressOnSeekBar();
 
 		assertEventReceived();
 	}
 
+	/*
+	//TODO:The logic is already tested by unit test above. Remove the block when agreed - Cheng.
 	@Test
 	public void whenBinding_thenRegisterWithMulticastListener()
 	{
@@ -67,7 +64,7 @@ public class OnSeekBarChangeAttributeTest extends AbstractCommandViewAttributeTe
 		bindAttribute();
 
 		verify(mockOnSeekBChangeListeners).addListener(any(OnSeekBarChangeListener.class));
-	}
+	}*/
 	
 	private void updateProgressOnSeekBar()
 	{

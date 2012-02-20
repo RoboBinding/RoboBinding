@@ -18,13 +18,9 @@ package org.robobinding.viewattribute;
 import java.util.Collection;
 import java.util.Map;
 
-<<<<<<< HEAD
-import org.robobinding.internal.com_google_common.collect.Maps;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
-=======
->>>>>>> master
 import android.view.View;
 
 import com.google.common.collect.Maps;
@@ -157,13 +153,9 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	
 	private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
 	{
-		ViewListeners viewListeners = null;
 		if(viewAttribute instanceof ViewListenersAware)
 		{
-			if(viewListeners == null)
-			{
-				viewListeners = viewListenersProvider.forView(view);
-			}
+			ViewListeners viewListeners = viewListenersProvider.forView(view);
 			@SuppressWarnings("unchecked")
 			ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)viewAttribute;
 			viewListenersAware.setViewListeners(viewListeners);
