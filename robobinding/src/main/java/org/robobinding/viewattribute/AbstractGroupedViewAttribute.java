@@ -28,7 +28,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected T view;
 	protected boolean preInitializeViews;
 	protected GroupedAttributeDetails groupedAttributeDetails;
-	private ViewAttributeInstantiator<T> viewAttributeInstantiator;
+	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
 	
 	public void setView(T view)
 	{
@@ -55,10 +55,28 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	{
 	}
 	
-	protected ViewAttributeInstantiator<T> getViewAttributeInstantiator()
+	protected AbstractViewAttributeInstantiator getViewAttributeInstantiator()
 	{
 		if (viewAttributeInstantiator == null)
-			viewAttributeInstantiator = new ViewAttributeInstantiator<T>(view, preInitializeViews, groupedAttributeDetails);
+			viewAttributeInstantiator = new ViewAttributeInstantiator();
 		return viewAttributeInstantiator;
+	}
+	
+	private class ViewAttributeInstantiator extends AbstractViewAttributeInstantiator
+	{
+		public ViewAttributeInstantiator()
+		{
+			super(preInitializeViews);
+		}
+		@Override
+		protected String attributeValueFor(String attribute)
+		{
+			return groupedAttributeDetails.attributeValueFor(attribute);
+		}
+		@Override
+		protected T getViewForAttribute(String attributeName)
+		{
+			return view;
+		}
 	}
 }

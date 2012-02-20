@@ -16,7 +16,6 @@
 package org.robobinding.viewattribute;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,24 +30,21 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ViewAttributeInstantiatorTest
+public class AbstractViewAttributeInstantiatorTest
 {
 	private final static String ATTRIBUTE_NAME = "attribute_name";
 	private final static String ATTRIBUTE_VALUE = "attribute_value";
 	
-	private ViewAttributeInstantiator<View> viewAttributeInstantiator;
+	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
 	private View view;
 	private boolean preInitializeViews;
-	private GroupedAttributeDetails groupedAttributeDetails;
 	
 	@Before
 	public void setUp()
 	{
 		view = mock(View.class);
 		preInitializeViews = RandomValues.trueOrFalse();
-		groupedAttributeDetails = mock(GroupedAttributeDetails.class);
-		when(groupedAttributeDetails.attributeValueFor(ATTRIBUTE_NAME)).thenReturn(ATTRIBUTE_VALUE);
-		viewAttributeInstantiator = new ViewAttributeInstantiator<View>(view, preInitializeViews, groupedAttributeDetails);
+		viewAttributeInstantiator = new ViewAttributeInstantiatorForTest();
 	}
 	
 	@Test
@@ -65,6 +61,26 @@ public class ViewAttributeInstantiatorTest
 		MockCommandViewAttribute mockCommandViewAttribute = viewAttributeInstantiator.newCommandViewAttribute(MockCommandViewAttribute.class, ATTRIBUTE_NAME);
 		
 		mockCommandViewAttribute.assertBothPropertiesAssigned(view, ATTRIBUTE_VALUE);
+	}
+	
+	public class ViewAttributeInstantiatorForTest extends AbstractViewAttributeInstantiator
+	{
+		public ViewAttributeInstantiatorForTest()
+		{
+			super(preInitializeViews);
+		}
+		
+		@Override
+		protected String attributeValueFor(String attribute)
+		{
+			return ATTRIBUTE_VALUE;
+		}
+		
+		@Override
+		protected View getViewForAttribute(String attributeName)
+		{
+			return view;
+		}
 	}
 	
 	public static class MockPropertyViewAttribute implements PropertyViewAttribute<View>
