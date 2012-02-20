@@ -52,7 +52,7 @@ public class OnFocusAttributeTest extends AbstractCommandViewAttributeTest<View,
 
 	private void assertEventReceived()
 	{
-		assertEventReceived(ViewEvent.class);
+		assertEventReceived(AbstractViewEvent.class);
 	}
 
 }

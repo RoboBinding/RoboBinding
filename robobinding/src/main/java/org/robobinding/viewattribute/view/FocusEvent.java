@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.compoundbutton;
+package org.robobinding.viewattribute.view;
 
-import org.robobinding.viewattribute.view.AbstractViewEvent;
-
-import android.widget.CompoundButton;
+import android.view.View;
 
 /**
  *
@@ -25,23 +23,10 @@ import android.widget.CompoundButton;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CheckedChangeEvent extends AbstractViewEvent
+public class FocusEvent extends AbstractViewEvent
 {
-	private boolean checked;
-	
-	CheckedChangeEvent(CompoundButton compoundButton, boolean isChecked)
+	FocusEvent(View view)
 	{
-		super(compoundButton);
-		checked = isChecked;
-	}
-	
-	public CompoundButton getCompoundButton()
-	{
-		return (CompoundButton)getView();
-	}
-
-	public boolean isChecked()
-	{
-		return checked;
+		super(view);
 	}
 }

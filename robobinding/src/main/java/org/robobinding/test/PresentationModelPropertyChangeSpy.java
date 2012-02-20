@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,35 +13,40 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.compoundbutton;
+package org.robobinding.test;
 
-import org.robobinding.viewattribute.view.AbstractViewEvent;
-
-import android.widget.CompoundButton;
+import org.robobinding.property.PresentationModelPropertyChangeListener;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CheckedChangeEvent extends AbstractViewEvent
+public class PresentationModelPropertyChangeSpy implements PresentationModelPropertyChangeListener
 {
-	private boolean checked;
-	
-	CheckedChangeEvent(CompoundButton compoundButton, boolean isChecked)
+	private boolean propertyChanged;
+	private int propertyChangedCount;
+
+	PresentationModelPropertyChangeSpy()
 	{
-		super(compoundButton);
-		checked = isChecked;
-	}
-	
-	public CompoundButton getCompoundButton()
-	{
-		return (CompoundButton)getView();
 	}
 
-	public boolean isChecked()
+	@Override
+	public void propertyChanged()
 	{
-		return checked;
+		propertyChanged = true;
+		propertyChangedCount++;
 	}
+
+	public boolean isPropertyChanged()
+	{
+		return propertyChanged;
+	}
+
+	public int getPropertyChangedCount()
+	{
+		return propertyChangedCount;
+	}
+
 }

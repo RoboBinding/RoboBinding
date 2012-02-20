@@ -33,7 +33,7 @@ public class ItemClickEvent extends ClickEvent
 	private int position;
 	private long id;
 	
-	public ItemClickEvent(AdapterView<?> parent, View view, int position, long id)
+	ItemClickEvent(AdapterView<?> parent, View view, int position, long id)
 	{
 		super(view);
 		this.parent = parent;

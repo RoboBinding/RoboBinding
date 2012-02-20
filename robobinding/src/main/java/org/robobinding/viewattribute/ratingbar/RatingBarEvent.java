@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
+import org.robobinding.viewattribute.view.AbstractViewEvent;
+
 import android.widget.RatingBar;
 
 /**
@@ -23,22 +25,21 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class RatingBarEvent
+public class RatingBarEvent extends AbstractViewEvent
 {
-	private RatingBar ratingBar;
 	private float rating;
 	private boolean fromUser;
 	
-	public RatingBarEvent(RatingBar ratingBar, float rating, boolean fromUser)
+	RatingBarEvent(RatingBar ratingBar, float rating, boolean fromUser)
 	{
-		this.ratingBar = ratingBar;
+		super(ratingBar);
 		this.rating = rating;
 		this.fromUser = fromUser;
 	}
 
 	public RatingBar getRatingBar()
 	{
-		return ratingBar;
+		return (RatingBar)getView();
 	}
 
 	public float getRating()
