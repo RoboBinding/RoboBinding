@@ -15,3 +15,9 @@ title: Getting started - ProGuard
 
 -keepattributes *Annotation*
 {% endhighlight %}
+
+<p>From 0.8.1 we have added a dependency on the <a href="http://code.google.com/p/guava-libraries/">guava libraries</a>. At the moment ProGuard <a href="http://stackoverflow.com/questions/9120338/proguard-configuration-for-guava-with-obfuscation-and-optimization">doesn't seem to play nicely with guava</a>, so you'll need to the add the following additional line:</p>
+
+{% highlight php %}
+-dontwarn com.google.common.collect.MinMaxPriorityQueue
+{% endhighlight %}
