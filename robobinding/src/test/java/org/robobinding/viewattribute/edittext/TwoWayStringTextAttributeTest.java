@@ -20,7 +20,6 @@ import static org.junit.Assert.assertThat;
 import static org.robobinding.viewattribute.textview.CharSequenceMatcher.sameAs;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
@@ -40,7 +39,6 @@ import com.xtremelabs.robolectric.shadows.ShadowTextView;
 public class TwoWayStringTextAttributeTest extends AbstractPropertyViewAttributeTest<EditText, TwoWayStringTextAttribute>
 {
 	@Test
-	@Ignore //Waiting for Robolectric to pull in the changes
 	public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		String newText = RandomStringUtils.randomAlphanumeric(5);
@@ -73,7 +71,6 @@ public class TwoWayStringTextAttributeTest extends AbstractPropertyViewAttribute
 	}
 	
 	@Test
-	@Ignore //Waiting for Robolectric to pull in the changes
 	public void givenALateValueCommitAttribute_whenViewLosesFocus_thenCommitToValueModel()
 	{
 		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);

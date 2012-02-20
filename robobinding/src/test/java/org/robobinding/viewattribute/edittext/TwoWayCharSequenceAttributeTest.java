@@ -19,7 +19,6 @@ import static org.junit.Assert.assertThat;
 import static org.robobinding.viewattribute.textview.CharSequenceMatcher.sameAs;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
@@ -36,7 +35,6 @@ import android.widget.EditText;
 public class TwoWayCharSequenceAttributeTest extends AbstractPropertyViewAttributeTest<EditText, TwoWayCharSequenceTextAttribute>
 {
 	@Test
-	@Ignore //Waiting for Robolectric to pull in the changes
 	public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
 		CharSequence newText = RandomStringUtils.randomAlphanumeric(5);

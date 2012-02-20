@@ -54,7 +54,7 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Abstr
 		
 		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
 		{
-			PropertyViewAttribute<?> propertyViewAttribute = attribute.createPropertyViewAttribute(propertyType);
+			AbstractPropertyViewAttribute<?,?> propertyViewAttribute = attribute.createPropertyViewAttribute(propertyType);
 			
 			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
 		}
