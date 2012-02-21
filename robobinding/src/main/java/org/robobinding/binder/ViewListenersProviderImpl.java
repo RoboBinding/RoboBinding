@@ -21,11 +21,13 @@ import java.util.Map;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.robobinding.viewattribute.ViewListenersProvider;
 import org.robobinding.viewattribute.compoundbutton.CompoundButtonListeners;
+import org.robobinding.viewattribute.ratingbar.RatingBarListeners;
 import org.robobinding.viewattribute.seekbar.SeekBarListeners;
 import org.robobinding.viewattribute.view.ViewListeners;
 
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.RatingBar;
 import android.widget.SeekBar;
 
 import com.google.common.collect.Maps;
@@ -103,6 +105,7 @@ public class ViewListenersProviderImpl implements ViewListenersProvider
 		viewListenersMap.put(View.class, ViewListeners.class);
 		viewListenersMap.put(CompoundButton.class, CompoundButtonListeners.class);
 		viewListenersMap.put(SeekBar.class, SeekBarListeners.class);
+		viewListenersMap.put(RatingBar.class, RatingBarListeners.class);
 		return viewListenersMap;
 	}
 }

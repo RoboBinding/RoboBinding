@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,20 +31,10 @@ public class OnRatingBarChangeListeners extends AbstractListeners<OnRatingBarCha
 	@Override
 	public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)
 	{
-		for (OnRatingBarChangeListener onRatingBarChangeListener : listeners)
-			onRatingBarChangeListener.onRatingChanged(ratingBar, rating, fromUser);
-	}
-
-	public static OnRatingBarChangeListeners convert(OnRatingBarChangeListener existingListener)
-	{
-		if (existingListener instanceof OnRatingBarChangeListeners)
+		for(OnRatingBarChangeListener listener : listeners)
 		{
-			return (OnRatingBarChangeListeners)existingListener;
-		} else
-		{
-			OnRatingBarChangeListeners listeners = new OnRatingBarChangeListeners();
-			listeners.addListener(existingListener);
-			return listeners;
+			listener.onRatingChanged(ratingBar, rating, fromUser);
 		}
 	}
+
 }

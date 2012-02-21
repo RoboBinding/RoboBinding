@@ -26,12 +26,12 @@ import android.view.View.OnFocusChangeListener;
  */
 public class ViewListeners
 {
-	View view;
+	View ratingBar;
 	private OnFocusChangeListeners onFocusChangeListeners;
 
 	public ViewListeners(View view)
 	{
-		this.view = view;
+		this.ratingBar = view;
 	}
 
 	public void addOnFocusChangeListener(OnFocusChangeListener listener)
@@ -45,7 +45,7 @@ public class ViewListeners
 		if (onFocusChangeListeners == null)
 		{
 			onFocusChangeListeners = new OnFocusChangeListeners();
-			view.setOnFocusChangeListener(onFocusChangeListeners);
+			ratingBar.setOnFocusChangeListener(onFocusChangeListeners);
 		}
 	}
 }

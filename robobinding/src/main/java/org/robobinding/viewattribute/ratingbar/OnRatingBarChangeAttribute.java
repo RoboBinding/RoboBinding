@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.ratingbar;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.Command;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
@@ -27,12 +28,14 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnRatingBarChangeAttribute extends AbstractCommandViewAttribute<RatingBar>
+public class OnRatingBarChangeAttribute extends AbstractCommandViewAttribute<RatingBar> implements ViewListenersAware<RatingBarListeners>
 {
+	private RatingBarListeners ratingBarListeners;
+
 	@Override
 	protected void bind(final Command command)
 	{
-		RatingBarListenerUtils.addOnRatingBarChangeListener(view, new OnRatingBarChangeListener(){
+		ratingBarListeners.addOnRatingBarChangeListener(new OnRatingBarChangeListener(){
 			@Override
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)
 			{
@@ -46,5 +49,11 @@ public class OnRatingBarChangeAttribute extends AbstractCommandViewAttribute<Rat
 	protected Class<?> getPreferredCommandParameterType()
 	{
 		return RatingBarEvent.class;
+	}
+
+	@Override
+	public void setViewListeners(RatingBarListeners ratingBarListeners)
+	{
+		this.ratingBarListeners = ratingBarListeners;
 	}
 }

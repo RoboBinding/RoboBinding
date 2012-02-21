@@ -187,7 +187,9 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	
 	public String getValidationError()
 	{
-		StringBuilder errorMessage = new StringBuilder();
+		StringBuilder errorMessage = new StringBuilder("Error validating ");
+		errorMessage.append(getClass().getName());
+		errorMessage.append(": ");
 		
 		if (propertyBindingDetails == null)
 			errorMessage.append("Attribute value was not set. ");
