@@ -31,13 +31,18 @@ public class BindingAttributeException extends RuntimeException
 {
 	private final Map<String, String> unrecognizedBindingAttributes;
 	private final Map<String, String> malformedBindingAttributes;
-	private final View view;
+	private final String viewName;
 
 	public BindingAttributeException(Map<String, String> unrecognizedBindingAttributes, Map<String, String> malformedBindingAttributes, View view)
 	{
+		this(unrecognizedBindingAttributes, malformedBindingAttributes, view.getClass().getName());
+	}
+	
+	public BindingAttributeException(Map<String, String> unrecognizedBindingAttributes, Map<String, String> malformedBindingAttributes, String viewName)
+	{
 		this.unrecognizedBindingAttributes = unrecognizedBindingAttributes;
 		this.malformedBindingAttributes = malformedBindingAttributes;
-		this.view = view;
+		this.viewName = viewName;
 	}
 	
 	@Override
@@ -52,7 +57,7 @@ public class BindingAttributeException extends RuntimeException
 		
 		if (!unrecognizedBindingAttributes.isEmpty()) {
 		
-			String unhandledAttributes = "Unrecognized binding attribute(s) for " + view.getClass().getName() + ": ";
+			String unhandledAttributes = "Unrecognized binding attribute(s) for " + viewName + ": ";
 	
 			for (String attributeKey : unrecognizedBindingAttributes.keySet())
 				unhandledAttributes += attributeKey + ": " + unrecognizedBindingAttributes.get(attributeKey) + "; ";
