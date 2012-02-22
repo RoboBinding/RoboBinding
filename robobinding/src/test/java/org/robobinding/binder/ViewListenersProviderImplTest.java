@@ -26,9 +26,13 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.ViewListenersProvider;
+import org.robobinding.viewattribute.compoundbutton.CheckedAttribute;
 import org.robobinding.viewattribute.compoundbutton.CompoundButtonListeners;
+import org.robobinding.viewattribute.seekbar.OnSeekBarChangeAttribute;
 import org.robobinding.viewattribute.seekbar.SeekBarListeners;
+import org.robobinding.viewattribute.view.OnFocusAttribute;
 import org.robobinding.viewattribute.view.ViewListeners;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 import android.widget.CheckBox;
@@ -43,12 +47,11 @@ import android.widget.SeekBar;
 @RunWith(Theories.class)
 public class ViewListenersProviderImplTest
 {
-	
 	@DataPoints
 	public static ViewAndViewListenersType[] viewAndViewListenersTypeArray = new ViewAndViewListenersType[]{
-		new ViewAndViewListenersType(mock(View.class), ViewListeners.class),
-		new ViewAndViewListenersType(mock(CheckBox.class), CompoundButtonListeners.class), 
-		new ViewAndViewListenersType(mock(SeekBar.class), SeekBarListeners.class)};
+		new ViewAndViewListenersType(mock(OnFocusAttribute.class), mock(View.class), ViewListeners.class),
+		new ViewAndViewListenersType(mock(CheckedAttribute.class), mock(CheckBox.class), CompoundButtonListeners.class),
+		new ViewAndViewListenersType(mock(OnSeekBarChangeAttribute.class), mock(SeekBar.class), SeekBarListeners.class)};
 	
 	private ViewListenersProvider viewListenersProvider;
 	
@@ -62,27 +65,29 @@ public class ViewListenersProviderImplTest
 	@Theory
 	public void whenAskViewListenersForView_thenReturnViewListenerOfCorrectType(ViewAndViewListenersType viewAndViewListenersType)
 	{
-		ViewListeners viewListeners = viewListenersProvider.forView(viewAndViewListenersType.view);
-		
+		ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(viewAndViewListenersType.view, viewAndViewListenersType.viewListenersAware);
+
 		assertThat(viewListeners, instanceOf(viewAndViewListenersType.viewListenersType));
 	}
 	
 	@Theory
-	public void whenAskViewListenersForViewAgain_thenReturnTheSameInstance(ViewAndViewListenersType viewAndViewListenersType)
+	public void whenAskViewListenersProviderForViewListenersAgain_thenReturnTheSameInstance(ViewAndViewListenersType viewAndViewListenersType)
 	{
-		ViewListeners viewListeners1 = viewListenersProvider.forView(viewAndViewListenersType.view);
+		ViewListeners viewListeners1 = viewListenersProvider.forViewAndAttribute(viewAndViewListenersType.view, viewAndViewListenersType.viewListenersAware);
 		
-		ViewListeners viewListeners2 = viewListenersProvider.forView(viewAndViewListenersType.view);
-		
+		ViewListeners viewListeners2 = viewListenersProvider.forViewAndAttribute(viewAndViewListenersType.view, viewAndViewListenersType.viewListenersAware);
+
 		assertThat(viewListeners1, sameInstance(viewListeners2));
 	}
 	
 	private static class ViewAndViewListenersType
 	{
-		private View view;
-		private Class<? extends ViewListeners> viewListenersType;
-		public ViewAndViewListenersType(View view, Class<? extends ViewListeners> viewListenersType)
+		private final View view;
+		private final Class<? extends ViewListeners> viewListenersType;
+		private final ViewListenersAware<?> viewListenersAware;
+		public ViewAndViewListenersType(ViewListenersAware<?> viewListenersAware, View view, Class<? extends ViewListeners> viewListenersType)
 		{
+			this.viewListenersAware = viewListenersAware;
 			this.view = view;
 			this.viewListenersType = viewListenersType;
 		}

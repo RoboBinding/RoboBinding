@@ -17,6 +17,9 @@ package org.robobinding.viewattribute.compoundbutton;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
@@ -24,6 +27,7 @@ import org.robobinding.viewattribute.AbstractPropertyViewAttributeWithViewListen
 import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.CheckBox;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 /**
  *
@@ -54,4 +58,14 @@ public class CheckedAttributeTest extends AbstractPropertyViewAttributeWithViewL
 		assertThat(valueModel.getValue(), equalTo(newValue));
 	}
 	
+	@Test
+	public void whenTwoWayBinding_thenRegisterWithMulticastListener()
+	{
+		CompoundButtonListeners mockCompoundButtonListeners = mock(CompoundButtonListeners.class);
+		attribute.setViewListeners(mockCompoundButtonListeners);
+		
+		twoWayBindToProperty(Boolean.class);
+		
+		verify(mockCompoundButtonListeners).addOnCheckedChangeListener(any(OnCheckedChangeListener.class));
+	}
 }
