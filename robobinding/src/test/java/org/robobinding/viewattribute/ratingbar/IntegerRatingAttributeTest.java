@@ -17,14 +17,18 @@ package org.robobinding.viewattribute.ratingbar;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 import org.robobinding.viewattribute.RandomValues;
 import org.robobinding.viewattribute.ratingbar.RatingAttribute.IntegerRatingAttribute;
 
 import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 
 /**
  *
@@ -32,7 +36,7 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeTest<RatingBar, IntegerRatingAttribute>
+public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeWithViewListenersAwareTest<RatingBar, IntegerRatingAttribute, MockRatingBarListeners>
 {
 	@Test
 	public void whenValueModelUpdated_thenViewShouldReflectChanges()
@@ -52,5 +56,16 @@ public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeTes
 		view.setRating(RandomValues.anyInteger());
 		
 		assertThat((float)valueModel.getValue(), equalTo(view.getRating()));
+	}
+	
+	@Test
+	public void whenTwoWayBinding_thenRegisterWithMulticastListener()
+	{
+		RatingBarListeners mockRatingBarListeners = mock(RatingBarListeners.class);
+		attribute.setViewListeners(mockRatingBarListeners);
+		
+		twoWayBindToProperty(Integer.class);
+		
+		verify(mockRatingBarListeners).addOnRatingBarChangeListener(any(OnRatingBarChangeListener.class));
 	}
 }

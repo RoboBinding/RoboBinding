@@ -20,6 +20,8 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import org.apache.commons.lang3.reflect.ConstructorUtils;
+
 /**
  *
  * @since 1.0
@@ -41,7 +43,9 @@ public class ParameterizedTypeUtils
 			Type argumentType = type.getActualTypeArguments()[i];
 			Class<?> rawType = (argumentType instanceof Class<?>) ? 
 				(Class<?>)argumentType : (Class<?>)((ParameterizedType)argumentType).getRawType();
-			Constructor<?> constructor = clazz == null ? rawType.getDeclaredConstructor() : rawType.getDeclaredConstructor(clazz);
+			
+			//Constructor<?> constructor = clazz == null ? rawType.getDeclaredConstructor() : rawType.getDeclaredConstructor(clazz);
+			Constructor<?> constructor = clazz == null ? rawType.getDeclaredConstructor() : ConstructorUtils.getMatchingAccessibleConstructor(rawType, clazz);
 			makeAccessible(constructor);
 			
 			if (constructorArg != null)

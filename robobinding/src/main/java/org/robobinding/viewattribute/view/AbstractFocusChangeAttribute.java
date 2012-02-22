@@ -61,4 +61,16 @@ public abstract class AbstractFocusChangeAttribute extends AbstractCommandViewAt
 	protected abstract Class<?> getEventType();
 	protected abstract boolean firesNewEvent(boolean hasFocus);
 	protected abstract AbstractViewEvent createEvent(View view, boolean hasFocus);
+	
+	@Override
+	public boolean validate()
+	{
+		return super.validate() && (viewListeners != null);
+	}
+
+	@Override
+	public String getValidationError()
+	{
+		return super.getValidationError() + "ViewListeners have not been initialized. ";
+	}
 }

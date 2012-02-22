@@ -32,18 +32,23 @@ import android.view.View;
 public class MissingRequiredBindingAttributeException extends RuntimeException
 {
 	private final Collection<String> missingAttributes;
-	private final View view;
+	private final String viewName;
 
 	public MissingRequiredBindingAttributeException(Collection<String> missingAttributes, View view)
 	{
+		this(missingAttributes, view.getClass().getName());
+	}
+	
+	public MissingRequiredBindingAttributeException(Collection<String> missingAttributes, String viewName)
+	{
 		this.missingAttributes = missingAttributes;
-		this.view = view;
+		this.viewName = viewName;
 	}
 	
 	@Override
 	public String toString()
 	{
-		return "Missing attribute(s) for " + view.getClass().getName() + ": " + StringUtils.join(missingAttributes, ", ");
+		return "Missing attribute(s) for " + viewName + ": " + StringUtils.join(missingAttributes, ", ");
 	}
 	
 	public Collection<String> getMissingAttributes()

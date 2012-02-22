@@ -20,7 +20,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.CheckBox;
@@ -31,7 +31,7 @@ import android.widget.CheckBox;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<CheckBox, CheckedAttribute>
+public class CheckedAttributeTest extends AbstractPropertyViewAttributeWithViewListenersAwareTest<CheckBox, CheckedAttribute, MockCompoundButtonListeners>
 {
 	@Test
 	public void whenValueModelUpdated_thenViewShouldReflectChanges()

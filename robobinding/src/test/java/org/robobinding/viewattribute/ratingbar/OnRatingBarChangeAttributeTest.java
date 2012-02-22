@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
+import org.robobinding.viewattribute.AbstractCommandViewAttributeWithViewListenersAwareTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.RatingBar;
@@ -34,7 +34,7 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttributeTest<RatingBar, OnRatingBarChangeAttribute>
+public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<RatingBar, OnRatingBarChangeAttribute, MockRatingBarListeners>
 {
 	private float newRatingValue;
 

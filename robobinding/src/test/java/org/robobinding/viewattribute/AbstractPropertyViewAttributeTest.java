@@ -65,8 +65,6 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 		{
 			throw new RuntimeException("Error instantiating attribute: " + e.getMessage());
 		}
-		
-		ViewListenersAwareTestUtils.considerInjectingViewListenersIntoAttribute(attribute, view);
 	}
 	
 	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass)
