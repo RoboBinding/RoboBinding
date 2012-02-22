@@ -95,7 +95,7 @@ public class GroupedAttributeDetailsImplTest
 	
 	private String[] randomAttributeArray()
 	{
-		String[] attributeNames = new String[RandomValues.anyInteger()];
+		String[] attributeNames = new String[RandomValues.anyInteger() + 1];
 	
 		for (int i = 0; i < attributeNames.length; i++)
 			attributeNames[i] = RandomStringUtils.random(10);
