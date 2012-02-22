@@ -68,4 +68,16 @@ public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute<SeekB
 	{
 		return SeekBarEvent.class;
 	}
+	
+	@Override
+	public boolean validate()
+	{
+		return super.validate() && (viewListeners != null);
+	}
+
+	@Override
+	public String getValidationError()
+	{
+		return super.getValidationError() + "ViewListeners have not been initialized. ";
+	}
 }

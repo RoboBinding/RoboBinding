@@ -17,7 +17,7 @@ package org.robobinding.viewattribute.view;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
+import org.robobinding.viewattribute.AbstractCommandViewAttributeWithViewListenersAwareTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.view.View;
@@ -33,12 +33,12 @@ import com.xtremelabs.robolectric.shadows.ShadowView;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnFocusChangeAttributeTest extends AbstractCommandViewAttributeTest<View, OnFocusChangeAttribute>
+public class OnFocusChangeAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<View, OnFocusChangeAttribute, MockViewListeners>
 {
 	@Test
 	public void givenBoundAttribute_whenChangeFocus_thenEventReceived()
 	{
-		bindViewListenersAwareAttribute(new MockViewListeners(view));
+		bindAttribute();
 
 		changeViewFocus();
 

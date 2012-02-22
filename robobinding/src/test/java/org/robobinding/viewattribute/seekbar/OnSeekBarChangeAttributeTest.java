@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
+import org.robobinding.viewattribute.AbstractCommandViewAttributeWithViewListenersAwareTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.SeekBar;
@@ -33,7 +33,7 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnSeekBarChangeAttributeTest extends AbstractCommandViewAttributeTest<SeekBar, OnSeekBarChangeAttribute>
+public class OnSeekBarChangeAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<SeekBar, OnSeekBarChangeAttribute, MockSeekBarListeners>
 {
 	private int newProgressValue;
 	
@@ -46,7 +46,7 @@ public class OnSeekBarChangeAttributeTest extends AbstractCommandViewAttributeTe
 	@Test
 	public void givenBoundAttribute_whenUpdatingProgress_thenEventReceived()
 	{
-		bindViewListenersAwareAttribute(new MockSeekBarListeners(view));
+		bindAttribute();
 
 		updateProgressOnSeekBar();
 
