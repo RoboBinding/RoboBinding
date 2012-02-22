@@ -98,6 +98,7 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
 	@SuppressWarnings("unchecked")
 	protected void bindViewListenersAwareAttribute(ViewListeners viewListeners)
 	{
+		assertThat(attribute, instanceOf(ViewListenersAware.class));
 		((ViewListenersAware<ViewListeners>)attribute).setViewListeners(viewListeners);
 		bindAttribute();
 	}
