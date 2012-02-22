@@ -15,11 +15,12 @@
  */
 package org.robobinding.binder;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import org.robobinding.viewattribute.ParameterizedTypeUtils;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.robobinding.viewattribute.ViewListenersProvider;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
@@ -63,9 +64,30 @@ public class ViewListenersProviderImpl implements ViewListenersProvider
 		ParameterizedType viewListenersAwareParameterizedType = findViewListenersAwareParameterizedType(viewAttribute);
 
 		if (viewListenersAwareParameterizedType != null)
-			return ParameterizedTypeUtils.createTypeArgument(viewListenersAwareParameterizedType, 0, view.getClass(), view);
+			return instantiateViewListenersInstance(view, viewListenersAwareParameterizedType);
 		
 		return getViewListenersClassFromAttributeSuperClass(view, viewAttribute);
+	}
+
+	private <S> S instantiateViewListenersInstance(View view, ParameterizedType viewListenersAwareParameterizedType)
+	{
+		try
+		{
+			S viewListeners = ConstructorUtils.invokeConstructor((Class<S>)viewListenersAwareParameterizedType.getActualTypeArguments()[0], view);
+			return viewListeners;
+		} catch (NoSuchMethodException e)
+		{
+			throw new RuntimeException(e);
+		} catch (IllegalAccessException e)
+		{
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e)
+		{
+			throw new RuntimeException(e);
+		} catch (InstantiationException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 	private <T> ParameterizedType findViewListenersAwareParameterizedType(Class<T> viewAttribute)
@@ -91,7 +113,7 @@ public class ViewListenersProviderImpl implements ViewListenersProvider
 		if (ViewListenersAware.class.isAssignableFrom(superclass))
 			return getViewListenersClass(view, (Class<T>)viewAttribute.getSuperclass());
 		
-		throw new RuntimeException("No class in hierachy implements ViewListenersAware.");
+		throw new RuntimeException("No class in hierachy implements ViewListenersAware");
 	}
 	
 	private boolean instanceOfViewListenersAware(ParameterizedType parameterizedType)
