@@ -20,6 +20,9 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.Matchers.closeTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +30,7 @@ import org.robobinding.viewattribute.AbstractCommandViewAttributeWithViewListene
 import org.robobinding.viewattribute.RandomValues;
 
 import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 
 /**
  *
@@ -54,6 +58,17 @@ public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttribute
 		assertEventReceived();
 	}
 
+	@Test
+	public void whenBinding_thenRegisterWithMulticastListener()
+	{
+		RatingBarListeners mockRatingBarListeners = mock(RatingBarListeners.class);
+		attribute.setViewListeners(mockRatingBarListeners);
+		
+		bindAttribute();
+		
+		verify(mockRatingBarListeners).addOnRatingBarChangeListener(any(OnRatingBarChangeListener.class));
+	}
+	
 	private void updateRating()
 	{
 		view.setRating(newRatingValue);
