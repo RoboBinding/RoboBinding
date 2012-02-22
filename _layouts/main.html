@@ -51,12 +51,12 @@
 				<a href="http://groups.google.com/group/robobinding">Google group</a><br />
 				<a href="on_the_web.html">On the web</a><br />
 			</nav>
-			<!--<div id="twitter_reader">
+			<div id="twitter_reader">
 				<script type="text/javascript">
 					new TWTR.Widget({
 					  version: 2,
-					  type: 'search',
-					  search: 'robobinding',
+					  type: 'profile',
+					  rpp: 4,
 					  interval: 30000,
 					  title: 'RoboBinding',
 					  subject: '',
@@ -79,9 +79,9 @@
 						live: true,
 						behavior: 'all'
 					  }
-					}).render().start();
+					}).render().setUser('robobinding').start();
 				</script>
-			</div>-->
+			</div>
 		</div>
 
 		<div id="content">{{ content }}</div>
