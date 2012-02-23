@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.viewattribute.view.ViewListeners;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 
@@ -27,5 +28,5 @@ import android.view.View;
  */
 public interface ViewListenersProvider
 {
-	ViewListeners forView(View view);
+	<T extends ViewListeners> T forViewAndAttribute(View view, ViewListenersAware<T> viewListenersAware);
 }

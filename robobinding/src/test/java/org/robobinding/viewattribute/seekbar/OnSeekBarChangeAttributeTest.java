@@ -57,7 +57,6 @@ public class OnSeekBarChangeAttributeTest extends AbstractCommandViewAttributeWi
 		assertEventReceived();
 	}
 
-	//TODO:The logic is already tested by unit test above. Remove the block when agreed - Cheng.
 	@Test
 	public void whenBinding_thenRegisterWithMulticastListener()
 	{

@@ -46,12 +46,12 @@ public class OnCheckedChangeAttributeTest extends AbstractCommandViewAttributeWi
 	@Test
 	public void whenBinding_thenRegisterWithMulticastListener()
 	{
-		CompoundButtonListeners mockCompoundListeners = mock(CompoundButtonListeners.class);
-		attribute.setViewListeners(mockCompoundListeners);
+		CompoundButtonListeners mockCompoundButtonListeners = mock(CompoundButtonListeners.class);
+		attribute.setViewListeners(mockCompoundButtonListeners);
 		
 		bindAttribute();
 		
-		verify(mockCompoundListeners).addOnCheckedChangeListener(any(OnCheckedChangeListener.class));
+		verify(mockCompoundButtonListeners).addOnCheckedChangeListener(any(OnCheckedChangeListener.class));
 	}
 	
 	private void changeCheckedState()

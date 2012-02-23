@@ -61,11 +61,11 @@ public class CheckedAttributeTest extends AbstractPropertyViewAttributeWithViewL
 	@Test
 	public void whenTwoWayBinding_thenRegisterWithMulticastListener()
 	{
-		CompoundButtonListeners mockCompoundListeners = mock(CompoundButtonListeners.class);
-		attribute.setViewListeners(mockCompoundListeners);
+		CompoundButtonListeners mockCompoundButtonListeners = mock(CompoundButtonListeners.class);
+		attribute.setViewListeners(mockCompoundButtonListeners);
 		
 		twoWayBindToProperty(Boolean.class);
 		
-		verify(mockCompoundListeners).addOnCheckedChangeListener(any(OnCheckedChangeListener.class));
+		verify(mockCompoundButtonListeners).addOnCheckedChangeListener(any(OnCheckedChangeListener.class));
 	}
 }
