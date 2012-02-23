@@ -48,10 +48,10 @@ import android.widget.SeekBar;
 public class ViewListenersProviderImplTest
 {
 	@DataPoints
-	public static ViewAndViewListenersType[] viewAndViewListenersTypeArray = new ViewAndViewListenersType[]{
-		new ViewAndViewListenersType(mock(OnFocusAttribute.class), mock(View.class), ViewListeners.class),
-		new ViewAndViewListenersType(mock(CheckedAttribute.class), mock(CheckBox.class), CompoundButtonListeners.class),
-		new ViewAndViewListenersType(mock(OnSeekBarChangeAttribute.class), mock(SeekBar.class), SeekBarListeners.class)};
+	public static ViewListenersAttributeViewAndViewListenersClass[] sampleData = new ViewListenersAttributeViewAndViewListenersClass[]{
+		new ViewListenersAttributeViewAndViewListenersClass(mock(OnFocusAttribute.class), mock(View.class), ViewListeners.class),
+		new ViewListenersAttributeViewAndViewListenersClass(mock(CheckedAttribute.class), mock(CheckBox.class), CompoundButtonListeners.class),
+		new ViewListenersAttributeViewAndViewListenersClass(mock(OnSeekBarChangeAttribute.class), mock(SeekBar.class), SeekBarListeners.class)};
 	
 	private ViewListenersProvider viewListenersProvider;
 	
@@ -60,10 +60,9 @@ public class ViewListenersProviderImplTest
 	{
 		viewListenersProvider = new ViewListenersProviderImpl();
 	}
-	
 
 	@Theory
-	public void whenAskViewListenersForView_thenReturnViewListenerOfCorrectType(ViewAndViewListenersType viewAndViewListenersType)
+	public void whenAskViewListenersForView_thenReturnViewListenerOfCorrectType(ViewListenersAttributeViewAndViewListenersClass viewAndViewListenersType)
 	{
 		ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(viewAndViewListenersType.view, viewAndViewListenersType.viewListenersAware);
 
@@ -71,7 +70,7 @@ public class ViewListenersProviderImplTest
 	}
 	
 	@Theory
-	public void whenAskViewListenersProviderForViewListenersAgain_thenReturnTheSameInstance(ViewAndViewListenersType viewAndViewListenersType)
+	public void whenAskViewListenersProviderForViewListenersAgain_thenReturnTheSameInstance(ViewListenersAttributeViewAndViewListenersClass viewAndViewListenersType)
 	{
 		ViewListeners viewListeners1 = viewListenersProvider.forViewAndAttribute(viewAndViewListenersType.view, viewAndViewListenersType.viewListenersAware);
 		
@@ -80,12 +79,12 @@ public class ViewListenersProviderImplTest
 		assertThat(viewListeners1, sameInstance(viewListeners2));
 	}
 	
-	private static class ViewAndViewListenersType
+	private static class ViewListenersAttributeViewAndViewListenersClass
 	{
 		private final View view;
 		private final Class<? extends ViewListeners> viewListenersType;
 		private final ViewListenersAware<?> viewListenersAware;
-		public ViewAndViewListenersType(ViewListenersAware<?> viewListenersAware, View view, Class<? extends ViewListeners> viewListenersType)
+		public ViewListenersAttributeViewAndViewListenersClass(ViewListenersAware<?> viewListenersAware, View view, Class<? extends ViewListeners> viewListenersType)
 		{
 			this.viewListenersAware = viewListenersAware;
 			this.view = view;

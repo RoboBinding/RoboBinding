@@ -38,8 +38,10 @@ import com.google.common.collect.Maps;
 @SuppressWarnings("unchecked")
 public class ViewListenersProviderImpl implements ViewListenersProvider
 {
-	private Map<View, ViewListeners> cachedViewListeners;
+	private Map<ViewAndViewListenersClassPair, ViewListeners> cachedViewListeners;
 
+	private static Map<Class<? extends ViewListenersAware<?>>, Class<? extends ViewListeners>> cachedViewListenersClasses = Maps.newHashMap();
+	
 	public ViewListenersProviderImpl()
 	{
 		cachedViewListeners = Maps.newHashMap();
@@ -48,32 +50,74 @@ public class ViewListenersProviderImpl implements ViewListenersProvider
 	@Override
 	public <T extends ViewListeners> T forViewAndAttribute(View view, ViewListenersAware<T> viewListenersAware)
 	{
-		if (cachedViewListeners.containsKey(view))
-		{
-			return (T) cachedViewListeners.get(view);
-		} else
-		{
-			T viewListeners = (T)getViewListenersClass(view, viewListenersAware.getClass());
-			cachedViewListeners.put(view, viewListeners);
-			return viewListeners;
-		}
+		return (T)lookupViewListenersClass(view, viewListenersAware.getClass());
 	}
 
-	private <S extends ViewListeners, T extends ViewListenersAware<S>> S getViewListenersClass(View view, Class<T> viewAttribute)
+	private <T extends ViewListeners, S extends ViewListenersAware<T>> T lookupViewListenersClass(View view, Class<S> viewListenersAwareClass)
 	{
-		ParameterizedType viewListenersAwareParameterizedType = findViewListenersAwareParameterizedType(viewAttribute);
+		if (viewListenersClassIsKnown(viewListenersAwareClass))
+			return loadViewListenersInstanceFromCache(view, viewListenersAwareClass);
+		
+		ParameterizedType viewListenersAwareParameterizedType = findViewListenersAwareParameterizedType(viewListenersAwareClass);
 
 		if (viewListenersAwareParameterizedType != null)
-			return instantiateViewListenersInstance(view, viewListenersAwareParameterizedType);
+			return createAndCacheNewViewListenersInstance(view, viewListenersAwareClass, viewListenersAwareParameterizedType);
 		
-		return getViewListenersClassFromAttributeSuperClass(view, viewAttribute);
+		return findViewListenersClassForAttributeSuperClass(view, viewListenersAwareClass);
 	}
 
-	private <S> S instantiateViewListenersInstance(View view, ParameterizedType viewListenersAwareParameterizedType)
+	private <T extends ViewListeners, S> T loadViewListenersInstanceFromCache(View view, Class<S> viewListenersAwareClass)
+	{
+		Class<T> viewListenersClass = loadViewListenersClassFromCache(viewListenersAwareClass);
+		
+		ViewAndViewListenersClassPair viewAndViewListenersClassPair = new ViewAndViewListenersClassPair(view, viewListenersClass);
+		
+		if (viewIsNotObservedByViewListenersInstance(viewAndViewListenersClassPair))
+			createAndCacheKnownViewListenersInstance(view, viewListenersClass, viewAndViewListenersClassPair);
+		
+		return (T)cachedViewListeners.get(viewAndViewListenersClassPair);
+	}
+
+	private <T, S> Class<T> loadViewListenersClassFromCache(Class<S> viewListenersAwareClass)
+	{
+		return (Class<T>)cachedViewListenersClasses.get(viewListenersAwareClass);
+	}
+
+	private <T extends ViewListeners> void createAndCacheKnownViewListenersInstance(View view, Class<T> viewListenersClass, ViewAndViewListenersClassPair viewAndViewListenersClassPair)
+	{
+		T viewListenersInstance = (T)instantiateViewListenersInstance(view, viewListenersClass);
+		cachedViewListeners.put(viewAndViewListenersClassPair, viewListenersInstance);
+	}
+
+	private <T extends ViewListeners, S extends ViewListenersAware<T>> T createAndCacheNewViewListenersInstance(View view, Class<S> viewListenersAwareClass, ParameterizedType viewListenersAwareParameterizedType)
+	{
+		Class<T> viewListenersClass = determineViewListenersClass(viewListenersAwareParameterizedType);
+		cachedViewListenersClasses.put(viewListenersAwareClass, viewListenersClass);
+		T viewListeners = instantiateViewListenersInstance(view, viewListenersClass);
+		cachedViewListeners.put(new ViewAndViewListenersClassPair(view, viewListeners.getClass()), viewListeners);
+		return viewListeners;
+	}
+	
+	private boolean viewIsNotObservedByViewListenersInstance(ViewAndViewListenersClassPair viewAndViewListenersClassPair)
+	{
+		return !cachedViewListeners.containsKey(viewAndViewListenersClassPair);
+	}
+
+	private <S> boolean viewListenersClassIsKnown(Class<S> viewListenersAwareClass)
+	{
+		return cachedViewListenersClasses.containsKey(viewListenersAwareClass);
+	}
+
+	private <T> Class<T> determineViewListenersClass(ParameterizedType viewListenersAwareParameterizedType)
+	{
+		return (Class<T>)viewListenersAwareParameterizedType.getActualTypeArguments()[0];
+	}
+		
+	private <T> T instantiateViewListenersInstance(View view, Class<T> viewListenersClass)
 	{
 		try
 		{
-			S viewListeners = ConstructorUtils.invokeConstructor((Class<S>)viewListenersAwareParameterizedType.getActualTypeArguments()[0], view);
+			T viewListeners = ConstructorUtils.invokeConstructor(viewListenersClass, view);
 			return viewListeners;
 		} catch (NoSuchMethodException e)
 		{
@@ -107,11 +151,11 @@ public class ViewListenersProviderImpl implements ViewListenersProvider
 		return null;
 	}
 
-	private <S extends ViewListeners, T extends ViewListenersAware<S>> S getViewListenersClassFromAttributeSuperClass(View view, Class<T> viewAttribute)
+	private <T extends ViewListeners, S extends ViewListenersAware<T>> T findViewListenersClassForAttributeSuperClass(View view, Class<S> viewAttribute)
 	{
-		Class<? super T> superclass = viewAttribute.getSuperclass();
+		Class<? super S> superclass = viewAttribute.getSuperclass();
 		if (ViewListenersAware.class.isAssignableFrom(superclass))
-			return getViewListenersClass(view, (Class<T>)viewAttribute.getSuperclass());
+			return lookupViewListenersClass(view, (Class<S>)viewAttribute.getSuperclass());
 		
 		throw new RuntimeException("No class in hierachy implements ViewListenersAware");
 	}
@@ -119,5 +163,32 @@ public class ViewListenersProviderImpl implements ViewListenersProvider
 	private boolean instanceOfViewListenersAware(ParameterizedType parameterizedType)
 	{
 		return parameterizedType.getRawType().getClass().isInstance(ViewListenersAware.class);
+	}
+	
+	private static class ViewAndViewListenersClassPair
+	{
+		private View view;
+		private Class<? extends ViewListeners> viewListenersClass;
+		public ViewAndViewListenersClassPair(View view, Class<? extends ViewListeners> viewListenersClass)
+		{
+			this.view = view;
+			this.viewListenersClass = viewListenersClass;
+		}
+		public boolean equals(Object o)
+		{
+			if (!(o instanceof ViewAndViewListenersClassPair))
+				return false;
+			
+			ViewAndViewListenersClassPair target = (ViewAndViewListenersClassPair)o;
+			
+			return target.view.equals(view) && target.viewListenersClass.equals(viewListenersClass);
+		}
+		public int hashCode()
+		{
+			int result = 17;
+			result += 31 + view.hashCode();
+			result += 31 + viewListenersClass.getClass().hashCode();
+			return result;
+		}
 	}
 }
