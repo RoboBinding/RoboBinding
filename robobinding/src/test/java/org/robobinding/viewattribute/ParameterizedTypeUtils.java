@@ -30,17 +30,17 @@ import org.apache.commons.lang3.reflect.ConstructorUtils;
  */
 public class ParameterizedTypeUtils
 {
-	public static <T> T createTypeArgument(ParameterizedType type, int i)
+	public static <T> T createTypeArgument(ParameterizedType type, int typeArgumentIndex)
 	{
-		return createTypeArgument(type, i, null, null);
+		return createTypeArgument(type, typeArgumentIndex, null, null);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T createTypeArgument(ParameterizedType type, int i, Class<?> clazz, Object constructorArg)
+	public static <T> T createTypeArgument(ParameterizedType type, int typeArgumentIndex, Class<?> clazz, Object constructorArg)
 	{
 		try
 		{
-			Type argumentType = type.getActualTypeArguments()[i];
+			Type argumentType = type.getActualTypeArguments()[typeArgumentIndex];
 			Class<?> rawType = (argumentType instanceof Class<?>) ? 
 				(Class<?>)argumentType : (Class<?>)((ParameterizedType)argumentType).getRawType();
 			
