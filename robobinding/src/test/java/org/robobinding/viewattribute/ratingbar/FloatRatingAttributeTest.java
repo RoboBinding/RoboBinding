@@ -23,9 +23,9 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 import org.robobinding.viewattribute.RandomValues;
 import org.robobinding.viewattribute.ratingbar.RatingAttribute.FloatRatingAttribute;
+import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;

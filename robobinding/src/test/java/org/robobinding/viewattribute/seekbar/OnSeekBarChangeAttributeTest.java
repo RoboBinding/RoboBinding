@@ -19,17 +19,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractCommandViewAttributeWithViewListenersAwareTest;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.view.AbstractCommandViewAttributeWithViewListenersAwareTest;
 
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
 /**
  * 
@@ -58,14 +54,11 @@ public class OnSeekBarChangeAttributeTest extends AbstractCommandViewAttributeWi
 	}
 
 	@Test
-	public void whenBinding_thenRegisterWithMulticastListener()
+	public void whenBinding_thenRegisterWithViewListeners()
 	{
-		SeekBarListeners mockSeekBarListeners = mock(SeekBarListeners.class);
-		attribute.setViewListeners(mockSeekBarListeners);
-		
 		bindAttribute();
-
-		verify(mockSeekBarListeners).addOnSeekBarChangeListener(any(OnSeekBarChangeListener.class));
+		
+		assertTrue(viewListeners.addOnSeekBarChangeListenerInvoked);
 	}
 	
 	private void updateProgressOnSeekBar()

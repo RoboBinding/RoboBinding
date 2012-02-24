@@ -15,15 +15,12 @@
  */
 package org.robobinding.viewattribute.compoundbutton;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractCommandViewAttributeWithViewListenersAwareTest;
+import org.robobinding.viewattribute.view.AbstractCommandViewAttributeWithViewListenersAwareTest;
 
 import android.widget.CheckBox;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 /**
  *
@@ -44,16 +41,13 @@ public class OnCheckedChangeAttributeTest extends AbstractCommandViewAttributeWi
 	}
 
 	@Test
-	public void whenBinding_thenRegisterWithMulticastListener()
+	public void whenBinding_thenRegisterWithViewListeners()
 	{
-		CompoundButtonListeners mockCompoundButtonListeners = mock(CompoundButtonListeners.class);
-		attribute.setViewListeners(mockCompoundButtonListeners);
-		
 		bindAttribute();
 		
-		verify(mockCompoundButtonListeners).addOnCheckedChangeListener(any(OnCheckedChangeListener.class));
+		assertTrue(viewListeners.addOnCheckedChangeListenerInvoked);
 	}
-	
+		
 	private void changeCheckedState()
 	{
 		view.setChecked(!view.isChecked());

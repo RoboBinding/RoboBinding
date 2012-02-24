@@ -26,6 +26,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  */
 public class MockSeekBarListeners extends SeekBarListeners
 {
+	public boolean addOnSeekBarChangeListenerInvoked;
+	
 	public MockSeekBarListeners(SeekBar seekBar)
 	{
 		super(seekBar);
@@ -34,6 +36,7 @@ public class MockSeekBarListeners extends SeekBarListeners
 	@Override
 	public void addOnSeekBarChangeListener(OnSeekBarChangeListener listener)
 	{
+		addOnSeekBarChangeListenerInvoked = true;
 		seekBar.setOnSeekBarChangeListener(listener);
 	}
 }

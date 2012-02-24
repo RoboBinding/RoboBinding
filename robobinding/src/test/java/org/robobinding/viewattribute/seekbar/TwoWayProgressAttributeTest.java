@@ -18,17 +18,14 @@ package org.robobinding.viewattribute.seekbar;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
 /**
  *
@@ -58,15 +55,12 @@ public class TwoWayProgressAttributeTest extends AbstractPropertyViewAttributeWi
 		
 		assertThat(valueModel.getValue(), equalTo(newProgressValue));
 	}	
-	
+
 	@Test
-	public void whenTwoWayBinding_thenRegisterWithMulticastListener()
+	public void whenTwoWayBinding_thenRegisterWithViewListeners()
 	{
-		SeekBarListeners mockSeekBarListeners = mock(SeekBarListeners.class);
-		attribute.setViewListeners(mockSeekBarListeners);
-		
 		twoWayBindToProperty(Integer.class);
 		
-		verify(mockSeekBarListeners).addOnSeekBarChangeListener(any(OnSeekBarChangeListener.class));
+		assertTrue(viewListeners.addOnSeekBarChangeListenerInvoked);
 	}
 }
