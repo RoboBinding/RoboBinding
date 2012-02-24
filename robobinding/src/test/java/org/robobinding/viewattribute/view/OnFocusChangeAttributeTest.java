@@ -15,12 +15,17 @@
  */
 package org.robobinding.viewattribute.view;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.AbstractCommandViewAttributeWithViewListenersAwareTest;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -45,6 +50,17 @@ public class OnFocusChangeAttributeTest extends AbstractCommandViewAttributeWith
 		assertEventReceived();
 	}
 
+	@Test
+	public void whenBinding_thenRegisterWithMulticastListener()
+	{
+		ViewListeners mockViewListeners = mock(ViewListeners.class);
+		attribute.setViewListeners(mockViewListeners);
+		
+		bindAttribute();
+		
+		verify(mockViewListeners).addOnFocusChangeListener(any(OnFocusChangeListener.class));
+	}
+	
 	private void changeViewFocus()
 	{
 		ShadowView shadowView = Robolectric.shadowOf(view);

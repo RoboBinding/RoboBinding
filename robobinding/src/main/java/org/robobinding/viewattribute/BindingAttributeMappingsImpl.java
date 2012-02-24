@@ -201,7 +201,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		{
 			if(viewAttribute instanceof ViewListenersAware)
 			{
-				ViewListeners viewListeners = viewListenersProvider.forView(view);
+				ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(view, (ViewListenersAware<?>)viewAttribute);
 				@SuppressWarnings("unchecked")
 				ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)viewAttribute;
 				viewListenersAware.setViewListeners(viewListeners);
