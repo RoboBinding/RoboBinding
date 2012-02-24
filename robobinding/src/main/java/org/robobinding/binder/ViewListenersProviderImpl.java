@@ -38,9 +38,9 @@ import com.google.common.collect.Maps;
 @SuppressWarnings("unchecked")
 public class ViewListenersProviderImpl implements ViewListenersProvider
 {
-	private Map<ViewAndViewListenersClassPair, ViewListeners> cachedViewListeners;
-
 	private static Map<Class<? extends ViewListenersAware<?>>, Class<? extends ViewListeners>> cachedViewListenersClasses = Maps.newHashMap();
+	
+	private Map<ViewAndViewListenersClassPair, ViewListeners> cachedViewListeners;
 	
 	public ViewListenersProviderImpl()
 	{

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -28,6 +29,8 @@ import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.ViewListenersProvider;
 import org.robobinding.viewattribute.compoundbutton.CheckedAttribute;
 import org.robobinding.viewattribute.compoundbutton.CompoundButtonListeners;
+import org.robobinding.viewattribute.ratingbar.OnRatingBarChangeAttribute;
+import org.robobinding.viewattribute.ratingbar.RatingBarListeners;
 import org.robobinding.viewattribute.seekbar.OnSeekBarChangeAttribute;
 import org.robobinding.viewattribute.seekbar.SeekBarListeners;
 import org.robobinding.viewattribute.view.OnFocusAttribute;
@@ -36,6 +39,7 @@ import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.RatingBar;
 import android.widget.SeekBar;
 
 /**
@@ -62,7 +66,7 @@ public class ViewListenersProviderImplTest
 	}
 
 	@Theory
-	public void whenAskViewListenersForView_thenReturnViewListenerOfCorrectType(ViewListenersAttributeViewAndViewListenersClass viewAndViewListenersType)
+	public void whenAskingForView_thenReturnViewListenerOfCorrectType(ViewListenersAttributeViewAndViewListenersClass viewAndViewListenersType)
 	{
 		ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(viewAndViewListenersType.view, viewAndViewListenersType.viewListenersAware);
 
@@ -70,13 +74,23 @@ public class ViewListenersProviderImplTest
 	}
 	
 	@Theory
-	public void whenAskViewListenersProviderForViewListenersAgain_thenReturnTheSameInstance(ViewListenersAttributeViewAndViewListenersClass viewAndViewListenersType)
+	public void whenAskingForViewListenersAgain_thenReturnTheSameInstance(ViewListenersAttributeViewAndViewListenersClass viewAndViewListenersType)
 	{
 		ViewListeners viewListeners1 = viewListenersProvider.forViewAndAttribute(viewAndViewListenersType.view, viewAndViewListenersType.viewListenersAware);
-		
 		ViewListeners viewListeners2 = viewListenersProvider.forViewAndAttribute(viewAndViewListenersType.view, viewAndViewListenersType.viewListenersAware);
 
 		assertThat(viewListeners1, sameInstance(viewListeners2));
+	}
+	
+	@Test
+	public void whenAskingForTwoDifferentViewListenersForTheSameView_thenReturnTheCorrectInstances()
+	{
+		RatingBar ratingBar = mock(RatingBar.class);
+		ViewListeners viewListeners1 = viewListenersProvider.forViewAndAttribute(ratingBar, mock(OnRatingBarChangeAttribute.class));
+		ViewListeners viewListeners2 = viewListenersProvider.forViewAndAttribute(ratingBar, mock(OnFocusAttribute.class));
+	
+		assertThat(viewListeners1, instanceOf(RatingBarListeners.class));
+		assertThat(viewListeners2, instanceOf(ViewListeners.class));
 	}
 	
 	private static class ViewListenersAttributeViewAndViewListenersClass
@@ -91,4 +105,5 @@ public class ViewListenersProviderImplTest
 			this.viewListenersType = viewListenersType;
 		}
 	}
+	
 }
