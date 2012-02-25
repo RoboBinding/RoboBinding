@@ -24,8 +24,6 @@ import org.junit.Before;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.ParameterizedTypeUtils;
 import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 
@@ -45,7 +43,7 @@ public abstract class AbstractPropertyViewAttributeWithViewListenersAwareTest<Vi
 	public void initializeViewListeners()
 	{
 		assertThat(attribute, instanceOf(ViewListenersAware.class));
-		ParameterizedType superclass = (ParameterizedType) getClass().getGenericSuperclass();
+		ParameterizedType superclass = (ParameterizedType)getClass().getGenericSuperclass();
 		viewListeners = ParameterizedTypeUtils.createTypeArgument(superclass, 2, view.getClass(), view);
 		((ViewListenersAware<ViewListeners>) attribute).setViewListeners(viewListeners);
 	}

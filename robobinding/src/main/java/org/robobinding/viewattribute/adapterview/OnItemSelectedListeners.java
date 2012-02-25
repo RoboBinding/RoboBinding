@@ -34,7 +34,6 @@ public class OnItemSelectedListeners extends AbstractListeners<OnItemSelectedLis
 	{
 		for (OnItemSelectedListener listener : listeners)
 			listener.onItemSelected(parent, view, position, id);
-		
 	}
 
 	@Override

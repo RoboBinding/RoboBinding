@@ -22,8 +22,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.view.AbstractCommandViewAttributeWithViewListenersAwareTest;
 
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -38,7 +38,7 @@ import com.xtremelabs.robolectric.shadows.ShadowListView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnItemClickAttributeTest extends AbstractCommandViewAttributeTest<ListView, OnItemClickAttribute>
+public class OnItemClickAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<ListView, OnItemClickAttribute, MockAdapterViewListeners>
 {
 	private int indexToClick;
 	
@@ -58,6 +58,14 @@ public class OnItemClickAttributeTest extends AbstractCommandViewAttributeTest<L
 		clickOnAnItem();
 
 		assertEventReceived();
+	}
+	
+	@Test
+	public void whenBinding_thenRegisterWithMulticastListener()
+	{
+		bindAttribute();
+		
+		assertTrue(viewListeners.addOnItemClickListenerInvoked);
 	}
 
 	private void clickOnAnItem()

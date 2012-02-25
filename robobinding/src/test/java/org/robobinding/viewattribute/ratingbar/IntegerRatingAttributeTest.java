@@ -17,9 +17,7 @@ package org.robobinding.viewattribute.ratingbar;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
@@ -28,7 +26,6 @@ import org.robobinding.viewattribute.ratingbar.RatingAttribute.IntegerRatingAttr
 import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 
 import android.widget.RatingBar;
-import android.widget.RatingBar.OnRatingBarChangeListener;
 
 /**
  *
@@ -61,11 +58,8 @@ public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeWit
 	@Test
 	public void whenTwoWayBinding_thenRegisterWithMulticastListener()
 	{
-		RatingBarListeners mockRatingBarListeners = mock(RatingBarListeners.class);
-		attribute.setViewListeners(mockRatingBarListeners);
-		
 		twoWayBindToProperty(Integer.class);
 		
-		verify(mockRatingBarListeners).addOnRatingBarChangeListener(any(OnRatingBarChangeListener.class));
+		assertTrue(viewListeners.addOnRatingBarChangeListenerInvoked);
 	}
 }

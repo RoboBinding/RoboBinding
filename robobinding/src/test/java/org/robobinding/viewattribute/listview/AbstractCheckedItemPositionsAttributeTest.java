@@ -22,7 +22,10 @@ import org.robobinding.R;
 import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.adapterview.AdapterViewListeners;
+import org.robobinding.viewattribute.adapterview.MockAdapterViewListeners;
 import org.robobinding.viewattribute.adapterview.MockArrayAdapter;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.util.SparseBooleanArray;
 import android.widget.ListAdapter;
@@ -39,6 +42,8 @@ import com.xtremelabs.robolectric.Robolectric;
 public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends ListView, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>> extends AbstractPropertyViewAttributeTest<ViewType, PropertyViewAttributeType>
 {
 	private ListAdapter adapter;
+	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp()
 	{
@@ -49,6 +54,8 @@ public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends
 		adapter = new MockArrayAdapter(R.layout.simple_list_item_multiple_choice);
 		view.setAdapter(adapter);
 		view.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		
+		((ViewListenersAware<AdapterViewListeners>)attribute).setViewListeners(new MockAdapterViewListeners(view));
 	}
 	
 	protected void setItemsChecked(Set<Integer> checkedItemPositions)

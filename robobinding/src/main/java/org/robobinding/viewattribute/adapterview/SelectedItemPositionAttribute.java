@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,8 +29,10 @@ import android.widget.AdapterView.OnItemSelectedListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SelectedItemPositionAttribute extends AbstractPropertyViewAttribute<AdapterView<?>, Integer>
+public class SelectedItemPositionAttribute extends AbstractPropertyViewAttribute<AdapterView<?>, Integer> implements ViewListenersAware<AdapterViewListeners>
 {
+	private AdapterViewListeners adapterViewListeners;
+
 	@Override
 	protected void valueModelUpdated(Integer newPosition)
 	{
@@ -39,7 +42,7 @@ public class SelectedItemPositionAttribute extends AbstractPropertyViewAttribute
 	@Override
 	protected void observeChangesOnTheView(final ValueModel<Integer> valueModel)
 	{
-		AdapterViewListenerUtils.addOnItemSelectedListener(view, new OnItemSelectedListener() {
+		adapterViewListeners.addOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 			{
@@ -52,5 +55,11 @@ public class SelectedItemPositionAttribute extends AbstractPropertyViewAttribute
 				valueModel.setValue(AdapterView.INVALID_POSITION);
 			}
 		});
+	}
+
+	@Override
+	public void setViewListeners(AdapterViewListeners adapterViewListeners)
+	{
+		this.adapterViewListeners = adapterViewListeners;
 	}
 }

@@ -26,6 +26,8 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  */
 public class MockRatingBarListeners extends RatingBarListeners
 {
+	public boolean addOnRatingBarChangeListenerInvoked;
+	
 	public MockRatingBarListeners(RatingBar ratingBar)
 	{
 		super(ratingBar);
@@ -35,5 +37,6 @@ public class MockRatingBarListeners extends RatingBarListeners
 	public void addOnRatingBarChangeListener(OnRatingBarChangeListener listener)
 	{
 		ratingBar.setOnRatingBarChangeListener(listener);
+		addOnRatingBarChangeListenerInvoked = true;
 	}
 }
