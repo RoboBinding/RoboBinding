@@ -15,7 +15,11 @@
  */
 package org.robobinding.viewattribute;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.robobinding.viewattribute.view.ViewListeners;
+
+import android.view.View;
 
 /**
  * 
@@ -25,16 +29,45 @@ import org.apache.commons.lang3.Validate;
  */
 public class ViewAttributeValidation
 {
+	private static final String ERROR_MESSAGE_SEPARATOR = "; ";
 	private StringBuilder errorMessages;
 
-	public ViewAttributeValidation()
+	ViewAttributeValidation()
 	{
 		errorMessages = new StringBuilder();
 	}
 
-	public void notNull(Object obj, String errorMessage)
+	public void addErrorIfViewNotSet(View view)
 	{
-		if(obj == null)
+		notNull(view, "View not set");
+	}
+
+	public void addErrorIfPropertyAttributeValueNotSet(PropertyBindingDetails propertyBindingDetails)
+	{
+		notNull(propertyBindingDetails, "Attribute value not set");
+	}
+
+	public void addErrorIfViewListenersNotSet(ViewListeners viewListeners)
+	{
+		notNull(viewListeners, "ViewListeners not set");
+	}
+
+	private void notNull(Object obj, String errorMessage)
+	{
+		if (obj == null)
+		{
+			addError(errorMessage);
+		}
+	}
+
+	public void addErrorIfCommandNameNotSet(String commandName)
+	{
+		notBlank(commandName, "Command name not set");
+	}
+
+	private void notBlank(String str, String errorMessage)
+	{
+		if(StringUtils.isBlank(str))
 		{
 			addError(errorMessage);
 		}
@@ -43,6 +76,10 @@ public class ViewAttributeValidation
 	public void addError(String errorMessage)
 	{
 		Validate.notBlank(errorMessage);
+		if (hasErrors())
+		{
+			errorMessages.append(ERROR_MESSAGE_SEPARATOR);
+		}
 		errorMessages.append(errorMessage);
 	}
 

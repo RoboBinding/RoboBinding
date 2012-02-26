@@ -61,6 +61,12 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 		bind(new Command(function, supportsPreferredParameterType));
 	}
 
+	public void validate(ViewAttributeValidation validation)
+	{
+		validation.addErrorIfViewNotSet(view);
+		validation.addErrorIfCommandNameNotSet(commandName);
+	}
+	
 	private Function getNoArgsCommand(PresentationModelAdapter presentationModelAdapter)
 	{
 		Function noArgsCommand = presentationModelAdapter.findFunction(commandName);
@@ -90,10 +96,4 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	protected abstract void bind(Command command);
 
 	protected abstract Class<?> getPreferredCommandParameterType();
-	
-	public void validate(ViewAttributeValidation validation)
-	{
-		validation.notNull(view, "View not set. ");
-		validation.notNull(commandName, "Command name not set. ");
-	}
 }

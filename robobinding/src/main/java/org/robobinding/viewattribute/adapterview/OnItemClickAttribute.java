@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.Command;
+import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
@@ -56,6 +57,13 @@ public class OnItemClickAttribute extends AbstractCommandViewAttribute<AdapterVi
 	public void setViewListeners(AdapterViewListeners adapterViewListeners)
 	{
 		this.adapterViewListeners = adapterViewListeners;
+	}
+	
+	@Override
+	public void validate(ViewAttributeValidation validation)
+	{
+		super.validate(validation);
+		validation.addErrorIfViewListenersNotSet(adapterViewListeners);
 	}
 	
 }

@@ -80,8 +80,8 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 
 	public void validate(ViewAttributeValidation validation)
 	{
-		validation.notNull(propertyBindingDetails, "Attribute value was not set. ");
-		validation.notNull(view, "View was not set. ");
+		validation.addErrorIfViewNotSet(view);
+		validation.addErrorIfPropertyAttributeValueNotSet(propertyBindingDetails);
 	}
 
 	public boolean isTwoWayBinding()

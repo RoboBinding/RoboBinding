@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.seekbar;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.SeekBar;
@@ -68,19 +69,9 @@ public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekB
 	}
 	
 	@Override
-	public boolean validate()
+	public void validate(ViewAttributeValidation validation)
 	{
-		return super.validate() && viewListeners != null;
-	}
-	
-	@Override
-	public String getValidationError()
-	{
-		StringBuilder errorMessage = new StringBuilder(super.getValidationError());
-		
-		if (viewListeners == null)
-			errorMessage.append("viewListeners not set. ");
-		
-		return errorMessage.toString();
+		super.validate(validation);
+		validation.addErrorIfViewListenersNotSet(viewListeners);
 	}
 }
