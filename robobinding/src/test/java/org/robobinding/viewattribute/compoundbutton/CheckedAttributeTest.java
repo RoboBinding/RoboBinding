@@ -17,12 +17,12 @@ package org.robobinding.viewattribute.compoundbutton;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 
 import android.widget.CheckBox;
 
@@ -32,15 +32,8 @@ import android.widget.CheckBox;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<CheckBox, CheckedAttribute>
+public class CheckedAttributeTest extends AbstractPropertyViewAttributeWithViewListenersAwareTest<CheckBox, CheckedAttribute, MockCompoundButtonListeners>
 {
-	@Before
-	public void setUp()
-	{
-		OnCheckedChangeListeners onCheckedChangeListeners = new OnCheckedChangeListeners();
-		view.setOnCheckedChangeListener(onCheckedChangeListeners);
-		attribute.setOnCheckedChangeListeners(onCheckedChangeListeners);
-	}
 	@Test
 	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
@@ -56,9 +49,17 @@ public class CheckedAttributeTest extends AbstractPropertyViewAttributeTest<Chec
 	{
 		ValueModel<Boolean> valueModel = twoWayBindToProperty(Boolean.class);
 		
-		view.setChecked(!view.isChecked());
+		boolean newValue = !view.isChecked();
+		view.setChecked(newValue);
 		
-		assertThat(valueModel.getValue(), equalTo(view.isChecked()));
+		assertThat(valueModel.getValue(), equalTo(newValue));
 	}
-	
+
+	@Test
+	public void whenTwoWayBinding_thenRegisterWithViewListeners()
+	{
+		twoWayBindToProperty(Boolean.class);
+		
+		assertTrue(viewListeners.addOnCheckedChangeListenerInvoked);
+	}
 }

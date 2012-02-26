@@ -26,7 +26,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnSeekBarChangeListeners extends AbstractListeners<OnSeekBarChangeListener> implements OnSeekBarChangeListener
+class OnSeekBarChangeListeners extends AbstractListeners<OnSeekBarChangeListener> implements OnSeekBarChangeListener
 {
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)

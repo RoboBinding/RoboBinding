@@ -78,6 +78,12 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 			new OneWayBinder().performBind();
 	}
 
+	public void validate(ViewAttributeValidation validation)
+	{
+		validation.notNull(propertyBindingDetails, "Attribute value was not set. ");
+		validation.notNull(view, "View was not set. ");
+	}
+
 	public boolean isTwoWayBinding()
 	{
 		return propertyBindingDetails.twoWayBinding;
@@ -180,11 +186,5 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 				propertyValueModel.removePropertyChangeListener(listener);
 			}
 		}
-	}
-
-	public void validate(ViewAttributeValidation validation)
-	{
-		validation.notNull(propertyBindingDetails, "Attribute value was not set. ");
-		validation.notNull(view, "View was not set. ");
 	}
 }

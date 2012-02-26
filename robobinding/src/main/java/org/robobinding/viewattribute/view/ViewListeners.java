@@ -13,28 +13,39 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.compoundbutton;
+package org.robobinding.viewattribute.view;
 
-import org.robobinding.viewattribute.AbstractListeners;
-
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.view.View;
+import android.view.View.OnFocusChangeListener;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class OnCheckedChangeListeners extends AbstractListeners<OnCheckedChangeListener> implements OnCheckedChangeListener
+public class ViewListeners
 {
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+	View ratingBar;
+	private OnFocusChangeListeners onFocusChangeListeners;
+
+	public ViewListeners(View view)
 	{
-		for(OnCheckedChangeListener listener : listeners)
-		{
-			listener.onCheckedChanged(buttonView, isChecked);
-		}
+		this.ratingBar = view;
 	}
 
+	public void addOnFocusChangeListener(OnFocusChangeListener listener)
+	{
+		ensureOnFocusChangeListenersInitialized();
+		onFocusChangeListeners.addListener(listener);
+	}
+
+	private void ensureOnFocusChangeListenersInitialized()
+	{
+		if (onFocusChangeListeners == null)
+		{
+			onFocusChangeListeners = new OnFocusChangeListeners();
+			ratingBar.setOnFocusChangeListener(onFocusChangeListeners);
+		}
+	}
 }

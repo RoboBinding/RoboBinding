@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.seekbar;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -27,10 +28,16 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekBar, Integer>
+public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekBar, Integer> implements ViewListenersAware<SeekBarListeners>
 {
-	private OnSeekBarChangeListeners onSeekBarChangeListeners;
+	private SeekBarListeners viewListeners;
 
+	@Override
+	public void setViewListeners(SeekBarListeners viewListeners)
+	{
+		this.viewListeners = viewListeners;
+	}
+	
 	@Override
 	protected void valueModelUpdated(Integer progress)
 	{
@@ -40,7 +47,7 @@ public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekB
 	@Override
 	protected void observeChangesOnTheView(final ValueModel<Integer> valueModel)
 	{
-		onSeekBarChangeListeners.addListener(new OnSeekBarChangeListener() {
+		viewListeners.addOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
@@ -58,19 +65,12 @@ public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekB
 			{
 			}
 		});
-		
-		view.setOnSeekBarChangeListener(onSeekBarChangeListeners);
-	}
-
-	void setOnSeekBarChangeListeners(OnSeekBarChangeListeners onSeekBarChangeListeners)
-	{
-		this.onSeekBarChangeListeners = onSeekBarChangeListeners;
 	}
 	
 	@Override
 	public boolean validate()
 	{
-		return super.validate() && onSeekBarChangeListeners != null;
+		return super.validate() && viewListeners != null;
 	}
 	
 	@Override
@@ -78,8 +78,8 @@ public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekB
 	{
 		StringBuilder errorMessage = new StringBuilder(super.getValidationError());
 		
-		if (onSeekBarChangeListeners == null)
-			errorMessage.append("OnSeekBarChangeListeners not set. ");
+		if (viewListeners == null)
+			errorMessage.append("viewListeners not set. ");
 		
 		return errorMessage.toString();
 	}

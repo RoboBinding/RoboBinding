@@ -13,28 +13,30 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.compoundbutton;
+package org.robobinding.viewattribute.seekbar;
 
-import org.robobinding.viewattribute.AbstractListeners;
-
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class OnCheckedChangeListeners extends AbstractListeners<OnCheckedChangeListener> implements OnCheckedChangeListener
+public class MockSeekBarListeners extends SeekBarListeners
 {
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+	public boolean addOnSeekBarChangeListenerInvoked;
+	
+	public MockSeekBarListeners(SeekBar seekBar)
 	{
-		for(OnCheckedChangeListener listener : listeners)
-		{
-			listener.onCheckedChanged(buttonView, isChecked);
-		}
+		super(seekBar);
 	}
 
+	@Override
+	public void addOnSeekBarChangeListener(OnSeekBarChangeListener listener)
+	{
+		addOnSeekBarChangeListenerInvoked = true;
+		seekBar.setOnSeekBarChangeListener(listener);
+	}
 }

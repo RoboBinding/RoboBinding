@@ -20,6 +20,8 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import org.apache.commons.lang3.reflect.ConstructorUtils;
+
 /**
  *
  * @since 1.0
@@ -28,20 +30,22 @@ import java.lang.reflect.Type;
  */
 public class ParameterizedTypeUtils
 {
-	public static <T> T createTypeArgument(ParameterizedType type, int i)
+	public static <T> T createTypeArgument(ParameterizedType type, int typeArgumentIndex)
 	{
-		return createTypeArgument(type, i, null, null);
+		return createTypeArgument(type, typeArgumentIndex, null, null);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T createTypeArgument(ParameterizedType type, int i, Class<?> clazz, Object constructorArg)
+	public static <T> T createTypeArgument(ParameterizedType type, int typeArgumentIndex, Class<?> clazz, Object constructorArg)
 	{
 		try
 		{
-			Type argumentType = type.getActualTypeArguments()[i];
+			Type argumentType = type.getActualTypeArguments()[typeArgumentIndex];
 			Class<?> rawType = (argumentType instanceof Class<?>) ? 
 				(Class<?>)argumentType : (Class<?>)((ParameterizedType)argumentType).getRawType();
-			Constructor<?> constructor = clazz == null ? rawType.getDeclaredConstructor() : rawType.getDeclaredConstructor(clazz);
+			
+			//Constructor<?> constructor = clazz == null ? rawType.getDeclaredConstructor() : rawType.getDeclaredConstructor(clazz);
+			Constructor<?> constructor = clazz == null ? rawType.getDeclaredConstructor() : ConstructorUtils.getMatchingAccessibleConstructor(rawType, clazz);
 			makeAccessible(constructor);
 			
 			if (constructorArg != null)

@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.Command;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,12 +29,14 @@ import android.widget.AdapterView.OnItemClickListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnItemClickAttribute extends AbstractCommandViewAttribute<AdapterView<?>>
+public class OnItemClickAttribute extends AbstractCommandViewAttribute<AdapterView<?>> implements ViewListenersAware<AdapterViewListeners>
 {
+	private AdapterViewListeners adapterViewListeners;
+
 	@Override
 	protected void bind(final Command command)
 	{
-		AdapterViewListenerUtils.addOnItemClickListener(view, new OnItemClickListener() {
+		adapterViewListeners.addOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
@@ -47,6 +50,12 @@ public class OnItemClickAttribute extends AbstractCommandViewAttribute<AdapterVi
 	protected Class<?> getPreferredCommandParameterType()
 	{
 		return ItemClickEvent.class;
+	}
+
+	@Override
+	public void setViewListeners(AdapterViewListeners adapterViewListeners)
+	{
+		this.adapterViewListeners = adapterViewListeners;
 	}
 	
 }

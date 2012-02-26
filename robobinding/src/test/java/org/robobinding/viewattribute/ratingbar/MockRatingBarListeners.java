@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.ratingbar;
 
-import java.util.Map;
-
-import android.view.View;
+import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 
 /**
  *
@@ -25,9 +24,19 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface GroupedPropertyViewAttribute<T extends View> extends ViewAttribute
+public class MockRatingBarListeners extends RatingBarListeners
 {
-	void setView(T view);
-	void setPreInitializeViews(boolean preInitializeViews);
-	void setChildAttributes(Map<String, String> childAttributes);
+	public boolean addOnRatingBarChangeListenerInvoked;
+	
+	public MockRatingBarListeners(RatingBar ratingBar)
+	{
+		super(ratingBar);
+	}
+
+	@Override
+	public void addOnRatingBarChangeListener(OnRatingBarChangeListener listener)
+	{
+		ratingBar.setOnRatingBarChangeListener(listener);
+		addOnRatingBarChangeListenerInvoked = true;
+	}
 }

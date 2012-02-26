@@ -23,8 +23,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.view.AbstractCommandViewAttributeWithViewListenersAwareTest;
 
 import android.widget.RatingBar;
 
@@ -34,7 +34,7 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttributeTest<RatingBar, OnRatingBarChangeAttribute>
+public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<RatingBar, OnRatingBarChangeAttribute, MockRatingBarListeners>
 {
 	private float newRatingValue;
 
@@ -54,6 +54,14 @@ public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttribute
 		assertEventReceived();
 	}
 
+	@Test
+	public void whenBinding_thenRegisterWithMulticastListener()
+	{
+		bindAttribute();
+		
+		assertTrue(viewListeners.addOnRatingBarChangeListenerInvoked);
+	}
+	
 	private void updateRating()
 	{
 		view.setRating(newRatingValue);

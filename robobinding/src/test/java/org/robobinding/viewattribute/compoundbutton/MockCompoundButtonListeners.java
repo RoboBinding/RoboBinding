@@ -15,26 +15,28 @@
  */
 package org.robobinding.viewattribute.compoundbutton;
 
-import org.robobinding.viewattribute.AbstractListeners;
-
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class OnCheckedChangeListeners extends AbstractListeners<OnCheckedChangeListener> implements OnCheckedChangeListener
+public class MockCompoundButtonListeners extends CompoundButtonListeners
 {
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+	public boolean addOnCheckedChangeListenerInvoked;
+
+	public MockCompoundButtonListeners(CompoundButton compoundButton)
 	{
-		for(OnCheckedChangeListener listener : listeners)
-		{
-			listener.onCheckedChanged(buttonView, isChecked);
-		}
+		super(compoundButton);
 	}
 
+	@Override
+	public void addOnCheckedChangeListener(OnCheckedChangeListener listener)
+	{
+		addOnCheckedChangeListenerInvoked = true;
+		compoundButton.setOnCheckedChangeListener(listener);
+	}
 }

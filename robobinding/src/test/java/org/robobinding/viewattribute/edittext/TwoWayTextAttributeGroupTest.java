@@ -22,8 +22,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.Test;
+import org.robobinding.viewattribute.AbstractGroupedViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.viewattribute.seekbar.AbstractGroupedViewAttributeTest;
 
 import com.google.common.collect.Lists;
 

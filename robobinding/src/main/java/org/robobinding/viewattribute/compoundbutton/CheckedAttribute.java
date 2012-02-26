@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.compoundbutton;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -27,10 +28,16 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedAttribute extends AbstractPropertyViewAttribute<CompoundButton, Boolean>
+public class CheckedAttribute extends AbstractPropertyViewAttribute<CompoundButton, Boolean> implements ViewListenersAware<CompoundButtonListeners>
 {
-	private OnCheckedChangeListeners onCheckedChangeListeners;
-	
+	private CompoundButtonListeners viewListeners;
+
+	@Override
+	public void setViewListeners(CompoundButtonListeners viewListeners)
+	{
+		this.viewListeners = viewListeners;
+	}
+
 	@Override
 	protected void valueModelUpdated(Boolean newValue)
 	{
@@ -40,7 +47,7 @@ public class CheckedAttribute extends AbstractPropertyViewAttribute<CompoundButt
 	@Override
 	protected void observeChangesOnTheView(final ValueModel<Boolean> valueModel)
 	{
-		onCheckedChangeListeners.addListener(new OnCheckedChangeListener() {
+		viewListeners.addOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
@@ -48,10 +55,16 @@ public class CheckedAttribute extends AbstractPropertyViewAttribute<CompoundButt
 			}
 		});
 	}
-
-	public void setOnCheckedChangeListeners(OnCheckedChangeListeners onCheckedChangeListeners)
+	
+	@Override
+	public boolean validate()
 	{
-		this.onCheckedChangeListeners = onCheckedChangeListeners;
+		return super.validate() && (viewListeners != null);
 	}
 
+	@Override
+	public String getValidationError()
+	{
+		return super.getValidationError() + "ViewListeners have not been initialized. ";
+	}
 }

@@ -19,6 +19,7 @@ import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
@@ -46,7 +47,37 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 			throw new RuntimeException("Could not find a suitable rating attribute class for property type: " + propertyType);
 	}
 	
-	static class FloatRatingAttribute extends AbstractPropertyViewAttribute<RatingBar, Float>
+	
+	
+	abstract static class AbstractRatingAttribute<T> extends AbstractPropertyViewAttribute<RatingBar, T> implements ViewListenersAware<RatingBarListeners>
+	{
+		protected RatingBarListeners ratingBarListeners;
+
+		void setRatingBarListeners(RatingBarListeners ratingBarListeners)
+		{
+			this.ratingBarListeners = ratingBarListeners;
+		}
+
+		@Override
+		public boolean validate()
+		{
+			return super.validate() && ratingBarListeners != null;
+		}
+
+		@Override
+		public String getValidationError()
+		{
+			return super.getValidationError() + "RatingBarListeners have not been initialized. ";
+		}
+		
+		@Override
+		public void setViewListeners(RatingBarListeners ratingBarListeners)
+		{
+			this.ratingBarListeners = ratingBarListeners;
+		}
+	}
+	
+	static class FloatRatingAttribute extends AbstractRatingAttribute<Float>
 	{
 		@Override
 		protected void valueModelUpdated(Float newRating)
@@ -57,7 +88,7 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 		@Override
 		protected void observeChangesOnTheView(final ValueModel<Float> valueModel)
 		{
-			RatingBarListenerUtils.addOnRatingBarChangeListener(view, new OnRatingBarChangeListener() {
+			ratingBarListeners.addOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 
 				@Override
 				public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)
@@ -68,7 +99,7 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 		}
 	}
 
-	static class IntegerRatingAttribute extends AbstractPropertyViewAttribute<RatingBar, Integer>
+	static class IntegerRatingAttribute extends AbstractRatingAttribute<Integer>
 	{
 		@Override
 		protected void valueModelUpdated(Integer newRating)
@@ -79,7 +110,7 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 		@Override
 		protected void observeChangesOnTheView(final ValueModel<Integer> valueModel)
 		{
-			view.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+			ratingBarListeners.addOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 
 				@Override
 				public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)

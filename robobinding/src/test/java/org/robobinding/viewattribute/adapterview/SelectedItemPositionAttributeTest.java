@@ -17,12 +17,13 @@ package org.robobinding.viewattribute.adapterview;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,7 +35,7 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttributeTest<ListView, SelectedItemPositionAttribute>
+public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttributeWithViewListenersAwareTest<ListView, SelectedItemPositionAttribute, MockAdapterViewListeners>
 {
 	private ArrayAdapter<String> arrayAdapter;
 	private ValueModel<Integer> valueModel;
@@ -72,5 +73,11 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 		arrayAdapter.notifyDataSetChanged();
 		
 		assertThat(valueModel.getValue(), is(AdapterView.INVALID_POSITION));
+	}
+	
+	@Test
+	public void whenBinding_thenRegisterWithMulticastListener()
+	{
+		assertTrue(viewListeners.addOnItemSelectedListenerInvoked);
 	}
 }

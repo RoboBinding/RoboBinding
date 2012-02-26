@@ -17,14 +17,16 @@ package org.robobinding.viewattribute.listview;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.R;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.adapterview.MockAdapterViewListeners;
 import org.robobinding.viewattribute.adapterview.MockArrayAdapter;
+import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -37,14 +39,16 @@ import com.xtremelabs.robolectric.Robolectric;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttributeTest<ListView, CheckedItemPositionAttribute>
+public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttributeWithViewListenersAwareTest<ListView, CheckedItemPositionAttribute, MockAdapterViewListeners>
 {
 	private int checkedItemPosition;
+	
 	@Before
 	public void setUp()
 	{
 		Robolectric.bindShadowClass(ShadowListView.class);
 		super.initializeViewAndAttribute();
+		super.initializeViewListeners();
 		
 		ListAdapter adapter = new MockArrayAdapter(R.layout.simple_list_item_single_choice);
 		view.setAdapter(adapter);
@@ -52,6 +56,7 @@ public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttrib
 		
 		checkedItemPosition = RandomValues.nextInt(adapter.getCount());
 	}
+	
 	@Test
 	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
@@ -68,5 +73,13 @@ public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttrib
 		view.setItemChecked(checkedItemPosition, true);
 		
 		assertThat(valueModel.getValue(), equalTo(checkedItemPosition));
+	}
+	
+	@Test
+	public void whenTwoWayBinding_thenRegisterWithMulticastListener()
+	{
+		twoWayBindToProperty(Integer.class);
+		
+		assertTrue(viewListeners.addOnItemClickListenerInvoked);
 	}
 }

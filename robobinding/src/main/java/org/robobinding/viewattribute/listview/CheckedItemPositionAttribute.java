@@ -17,7 +17,8 @@ package org.robobinding.viewattribute.listview;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.adapterview.AdapterViewListenerUtils;
+import org.robobinding.viewattribute.adapterview.AdapterViewListeners;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,12 +30,14 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CheckedItemPositionAttribute extends AbstractPropertyViewAttribute<ListView, Integer>
+public class CheckedItemPositionAttribute extends AbstractPropertyViewAttribute<ListView, Integer> implements ViewListenersAware<AdapterViewListeners>
 {
+	private AdapterViewListeners adapterViewListeners;
+
 	@Override
 	protected void observeChangesOnTheView(final ValueModel<Integer> valueModel)
 	{
-		AdapterViewListenerUtils.addOnItemClickListener(view, new AdapterView.OnItemClickListener() {
+		adapterViewListeners.addOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View itemView, int position, long id)
 			{
@@ -48,5 +51,11 @@ public class CheckedItemPositionAttribute extends AbstractPropertyViewAttribute<
 	protected void valueModelUpdated(Integer newValue)
 	{
 		view.setItemChecked(newValue, true);
+	}
+
+	@Override
+	public void setViewListeners(AdapterViewListeners adapterViewListeners)
+	{
+		this.adapterViewListeners = adapterViewListeners;
 	}
 }

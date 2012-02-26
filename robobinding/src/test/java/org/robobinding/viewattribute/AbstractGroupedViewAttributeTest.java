@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.seekbar;
+package org.robobinding.viewattribute;
 
 import static org.junit.Assert.assertTrue;
 
@@ -26,7 +26,6 @@ import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
-import org.robobinding.viewattribute.ParameterizedTypeUtils;
 
 import android.app.Activity;
 import android.content.Context;

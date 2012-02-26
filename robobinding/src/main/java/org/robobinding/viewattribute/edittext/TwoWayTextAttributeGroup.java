@@ -17,7 +17,7 @@ package org.robobinding.viewattribute.edittext;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeInstantiator;
+import org.robobinding.viewattribute.AbstractViewAttributeInstantiator;
 
 import android.content.Context;
 import android.widget.EditText;
@@ -45,7 +45,7 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	@Override
 	public void postInitialization()
 	{
-		ViewAttributeInstantiator<EditText> viewAttributeInstantiator = getViewAttributeInstantiator();
+		AbstractViewAttributeInstantiator viewAttributeInstantiator = getViewAttributeInstantiator();
 		textAttribute = viewAttributeInstantiator.newPropertyViewAttribute(TwoWayTextAttribute.class, TEXT);
 
 		determineValueCommitMode();

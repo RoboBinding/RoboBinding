@@ -17,12 +17,13 @@ package org.robobinding.viewattribute.ratingbar;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 import org.robobinding.viewattribute.ratingbar.RatingAttribute.IntegerRatingAttribute;
+import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 
 import android.widget.RatingBar;
 
@@ -32,7 +33,7 @@ import android.widget.RatingBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeTest<RatingBar, IntegerRatingAttribute>
+public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeWithViewListenersAwareTest<RatingBar, IntegerRatingAttribute, MockRatingBarListeners>
 {
 	@Test
 	public void whenValueModelUpdated_thenViewShouldReflectChanges()
@@ -52,5 +53,13 @@ public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeTes
 		view.setRating(RandomValues.anyInteger());
 		
 		assertThat((float)valueModel.getValue(), equalTo(view.getRating()));
+	}
+	
+	@Test
+	public void whenTwoWayBinding_thenRegisterWithMulticastListener()
+	{
+		twoWayBindToProperty(Integer.class);
+		
+		assertTrue(viewListeners.addOnRatingBarChangeListenerInvoked);
 	}
 }

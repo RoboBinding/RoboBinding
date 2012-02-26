@@ -15,9 +15,10 @@
  */
 package org.robobinding.viewattribute.view;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 
 import android.view.View;
 
@@ -32,7 +33,7 @@ import com.xtremelabs.robolectric.shadows.ShadowView;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnFocusLostAttributeTest extends AbstractCommandViewAttributeTest<View, OnFocusChangeAttribute>
+public class OnFocusLostAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<View, OnFocusChangeAttribute, MockViewListeners>
 {
 	@Test
 	public void givenBoundAttribute_whenClearFocus_thenEventReceived()
@@ -44,6 +45,14 @@ public class OnFocusLostAttributeTest extends AbstractCommandViewAttributeTest<V
 		assertEventReceived();
 	}
 
+	@Test
+	public void whenBinding_thenRegisterWithViewListeners()
+	{
+		bindAttribute();
+		
+		assertTrue(viewListeners.addOnFocusChangeListenerInvoked);
+	}
+	
 	private void clearViewFocus()
 	{
 		ShadowView shadowView = Robolectric.shadowOf(view);

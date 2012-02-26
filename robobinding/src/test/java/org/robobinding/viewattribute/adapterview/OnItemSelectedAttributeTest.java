@@ -22,8 +22,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.view.AbstractCommandViewAttributeWithViewListenersAwareTest;
 
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -35,7 +35,7 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnItemSelectedAttributeTest extends AbstractCommandViewAttributeTest<ListView, OnItemSelectedAttribute>
+public class OnItemSelectedAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<ListView, OnItemSelectedAttribute, MockAdapterViewListeners>
 {
 	private int indexToSelect;
 	private MockArrayAdapter arrayAdapter;
@@ -58,6 +58,14 @@ public class OnItemSelectedAttributeTest extends AbstractCommandViewAttributeTes
 		assertEventReceived();
 	}
 
+	@Test
+	public void whenBinding_thenRegisterWithMulticastListener()
+	{
+		bindAttribute();
+		
+		assertTrue(viewListeners.addOnItemSelectedListenerInvoked);
+	}
+	
 	private void selectAnItem()
 	{
 		view.setSelection(indexToSelect);

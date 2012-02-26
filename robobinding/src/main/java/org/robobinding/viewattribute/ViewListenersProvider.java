@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.compoundbutton;
+package org.robobinding.viewattribute;
 
-import org.robobinding.viewattribute.AbstractListeners;
+import org.robobinding.viewattribute.view.ViewListeners;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.view.View;
 
 /**
  *
@@ -26,15 +26,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class OnCheckedChangeListeners extends AbstractListeners<OnCheckedChangeListener> implements OnCheckedChangeListener
+public interface ViewListenersProvider
 {
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-	{
-		for(OnCheckedChangeListener listener : listeners)
-		{
-			listener.onCheckedChanged(buttonView, isChecked);
-		}
-	}
-
+	<T extends ViewListeners> T forViewAndAttribute(View view, ViewListenersAware<T> viewListenersAware);
 }

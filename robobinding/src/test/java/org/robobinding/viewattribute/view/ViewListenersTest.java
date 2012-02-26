@@ -20,48 +20,49 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.view.View;
-
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 import com.xtremelabs.robolectric.shadows.ShadowView;
+
+import android.view.View;
+import android.view.View.OnFocusChangeListener;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Robert Taylor
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnFocusAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<View, OnFocusChangeAttribute, MockViewListeners>
+public class ViewListenersTest
 {
 	@Test
-	public void givenBoundAttribute_whenApplyFocus_thenEventReceived()
+	public void shouldSupportMultipleOnFocusChangeListeners()
 	{
-		bindAttribute();
-
-		setViewFocus();
-
-		assertEventReceived();
-	}
-
-	@Test
-	public void whenBinding_thenRegisterWithViewListeners()
-	{
-		bindAttribute();
+		View view = new View(null);
+		ViewListeners viewListeners = new ViewListeners(view);
 		
-		assertTrue(viewListeners.addOnFocusChangeListenerInvoked);
+		MockOnFocusChangeListener listener1 = new MockOnFocusChangeListener();
+		MockOnFocusChangeListener listener2 = new MockOnFocusChangeListener();
+		
+		viewListeners.addOnFocusChangeListener(listener1);
+		viewListeners.addOnFocusChangeListener(listener2);
+		
+		ShadowView shadowView = (ShadowView)Robolectric.shadowOf_(view);
+		shadowView.setViewFocus(!view.isFocused());
+		
+		assertTrue(listener1.focusChangeEventFired);
+		assertTrue(listener2.focusChangeEventFired);
 	}
 	
-	private void setViewFocus()
+	private static class MockOnFocusChangeListener implements OnFocusChangeListener 
 	{
-		ShadowView shadowView = Robolectric.shadowOf(view);
-		shadowView.setViewFocus(true);
+		private boolean focusChangeEventFired;
+		@Override
+		public void onFocusChange(View v, boolean hasFocus)
+		{
+			focusChangeEventFired = true;
+		}
 	}
-
-	private void assertEventReceived()
-	{
-		assertEventReceived(AbstractViewEvent.class);
-	}
-
 }

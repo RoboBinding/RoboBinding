@@ -18,6 +18,9 @@ package org.robobinding.viewattribute;
 import java.util.Collection;
 import java.util.Map;
 
+import org.robobinding.viewattribute.view.ViewListeners;
+import org.robobinding.viewattribute.view.ViewListenersAware;
+
 import android.view.View;
 
 import com.google.common.collect.Maps;
@@ -33,15 +36,20 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 {
 	private T view;
 	private boolean preInitializeViews;
+	private ViewListenersProvider viewListenersProvider;
 	
+	private ViewAttributeInstantiator viewAttributeInstantiator;
 	private Map<String, Class<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
 	private Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
 	private Map<GroupedAttributeDetailsImpl, Class<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
 	
-	public BindingAttributeMappingsImpl(T view, boolean preInitializeViews)
+	public BindingAttributeMappingsImpl(T view, boolean preInitializeViews, ViewListenersProvider viewListenersProvider)
 	{
 		this.view = view;
 		this.preInitializeViews = preInitializeViews;
+		this.viewListenersProvider = viewListenersProvider;
+		
+		viewAttributeInstantiator = new ViewAttributeInstantiator();
 		
 		propertyViewAttributeMappings = Maps.newHashMap();
 		commandViewAttributeMappings = Maps.newHashMap();
@@ -91,10 +99,8 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	{
 		Class<? extends PropertyViewAttribute<? extends View>> propertyViewAttributeClass = propertyViewAttributeMappings.get(propertyAttribute);
 		@SuppressWarnings("unchecked")
-		PropertyViewAttribute<View> propertyViewAttribute = (PropertyViewAttribute<View>) newViewAttribute(propertyViewAttributeClass);
-		propertyViewAttribute.setView(getViewForAttribute(propertyAttribute));
-		propertyViewAttribute.setAttributeValue(attributeValue);
-		propertyViewAttribute.setPreInitializeView(preInitializeViews);
+		PropertyViewAttribute<View> propertyViewAttribute = (PropertyViewAttribute<View>)viewAttributeInstantiator.newPropertyViewAttribute(
+				propertyViewAttributeClass, propertyAttribute, attributeValue);
 		return propertyViewAttribute;
 	}
 
@@ -107,9 +113,8 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	{
 		Class<? extends AbstractCommandViewAttribute<? extends View>> commandViewAttributeClass = commandViewAttributeMappings.get(commandAttribute);
 		@SuppressWarnings("unchecked")
-		AbstractCommandViewAttribute<View> commandViewAttribute = (AbstractCommandViewAttribute<View>) newViewAttribute(commandViewAttributeClass);
-		commandViewAttribute.setView(getViewForAttribute(commandAttribute));
-		commandViewAttribute.setCommandName(attributeValue);
+		AbstractCommandViewAttribute<View> commandViewAttribute = (AbstractCommandViewAttribute<View>) viewAttributeInstantiator.newCommandViewAttribute(
+				commandViewAttributeClass, commandAttribute, attributeValue);
 		return commandViewAttribute;
 	}
 
@@ -127,11 +132,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	{
 		Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass = groupedViewAttributeMappings.get(groupedAttributeDetails);
 		@SuppressWarnings("unchecked")
-		AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>)newViewAttribute(groupedViewAttributeClass);
-		groupedViewAttribute.setView(view);
-		groupedViewAttribute.setPreInitializeViews(preInitializeViews);
-		groupedViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
-		groupedViewAttribute.postInitialization();
+		AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>)viewAttributeInstantiator.newGroupedViewAttribute(groupedViewAttributeClass, groupedAttributeDetails);
 		return groupedViewAttribute;
 	}
 	
@@ -140,18 +141,83 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		return view;
 	}
 	
-	private ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass)
+	private class ViewAttributeInstantiator extends AbstractViewAttributeInstantiator
 	{
-		try
+		private String currentPropertyOrCommandAttributeValue;
+		
+		protected ViewAttributeInstantiator()
 		{
-			return viewAttributeClass.newInstance();
-		} catch (InstantiationException e)
+			super(preInitializeViews);
+		}
+
+		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
+				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute, String attributeValue)
 		{
-			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " does not have an empty default constructor");
-		} catch (IllegalAccessException e)
+			currentPropertyOrCommandAttributeValue = attributeValue;
+			return newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
+		}
+		
+		@Override
+		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
+				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
 		{
-			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " is not public");
+			PropertyViewAttributeType propertyViewAttribute = super.newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
+			setViewListenersIfRequired(propertyViewAttribute, getViewForAttribute(propertyAttribute));
+			return propertyViewAttribute;
+		}
+		
+		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
+				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute, String attributeValue)
+		{
+			currentPropertyOrCommandAttributeValue = attributeValue;
+			return newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
+		}
+		
+		@Override
+		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
+				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
+		{
+			CommandViewAttributeType commandViewAttribute = super.newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
+			setViewListenersIfRequired(commandViewAttribute, getViewForAttribute(commandAttribute));
+			return commandViewAttribute;
+		}
+		
+		
+		@SuppressWarnings("unchecked")
+		public <GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType newGroupedViewAttribute(
+				Class<GroupedViewAttributeType> groupedViewAttributeClass, GroupedAttributeDetailsImpl groupedAttributeDetails)
+		{
+			GroupedViewAttributeType groupedViewAttribute = (GroupedViewAttributeType)newViewAttribute(groupedViewAttributeClass);
+			View view = getViewForGroupedAttribute(groupedAttributeDetails);
+			((AbstractGroupedViewAttribute<View>)groupedViewAttribute).setView(view);
+			groupedViewAttribute.setPreInitializeViews(preInitializeViews);
+			groupedViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
+			setViewListenersIfRequired(groupedViewAttribute, view);
+			groupedViewAttribute.postInitialization();
+			return groupedViewAttribute;
+		}
+		
+		private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
+		{
+			if(viewAttribute instanceof ViewListenersAware)
+			{
+				ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(view, (ViewListenersAware<?>)viewAttribute);
+				@SuppressWarnings("unchecked")
+				ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)viewAttribute;
+				viewListenersAware.setViewListeners(viewListeners);
+			}
+		}
+
+		@Override
+		protected View getViewForAttribute(String attributeName)
+		{
+			return BindingAttributeMappingsImpl.this.getViewForAttribute(attributeName);
+		}
+
+		@Override
+		protected String attributeValueFor(String attribute)
+		{
+			return currentPropertyOrCommandAttributeValue;
 		}
 	}
-	
 }

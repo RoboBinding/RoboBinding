@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
+import org.robobinding.viewattribute.view.ViewListeners;
+
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 
@@ -24,23 +26,29 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class RatingBarListenerUtils
+public class RatingBarListeners extends ViewListeners
 {
-	private RatingBarListenerUtils()
+	final RatingBar ratingBar;
+	private OnRatingBarChangeListeners ratingBarChangeListeners;
+	
+	public RatingBarListeners(RatingBar ratingBar)
 	{
+		super(ratingBar);
+		this.ratingBar = ratingBar;
+	}
+
+	public void addOnRatingBarChangeListener(OnRatingBarChangeListener listener)
+	{
+		ensureRatingBarChangeListenersInitialized();
+		ratingBarChangeListeners.addListener(listener);
 	}
 	
-	public static void addOnRatingBarChangeListener(RatingBar ratingBar, OnRatingBarChangeListener listener)
+	private void ensureRatingBarChangeListenersInitialized()
 	{
-		OnRatingBarChangeListener existingListener = ratingBar.getOnRatingBarChangeListener();
-		if(existingListener == null)
+		if (ratingBarChangeListeners == null)
 		{
-			ratingBar.setOnRatingBarChangeListener(listener);
-		}else
-		{
-			OnRatingBarChangeListeners listeners = OnRatingBarChangeListeners.convert(existingListener);
-			listeners.addListener(listener);
-			ratingBar.setOnRatingBarChangeListener(listeners);
+			ratingBarChangeListeners = new OnRatingBarChangeListeners();
+			ratingBar.setOnRatingBarChangeListener(ratingBarChangeListeners);
 		}
 	}
 }

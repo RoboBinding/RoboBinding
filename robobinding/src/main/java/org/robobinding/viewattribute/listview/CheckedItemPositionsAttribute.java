@@ -21,7 +21,8 @@ import java.util.Set;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.adapterview.AdapterViewListenerUtils;
+import org.robobinding.viewattribute.adapterview.AdapterViewListeners;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -53,12 +54,14 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		throw new RuntimeException("Could not find a suitable checkedItemPositions attribute class for property type: " + propertyType);
 	}
 	
-	static abstract class AbstractCheckedItemPositionsAttribute<PropertyType> extends AbstractPropertyViewAttribute<ListView, PropertyType>
+	static abstract class AbstractCheckedItemPositionsAttribute<PropertyType> extends AbstractPropertyViewAttribute<ListView, PropertyType> implements ViewListenersAware<AdapterViewListeners>
 	{
+		private AdapterViewListeners adapterViewListeners;
+
 		@Override
 		protected void observeChangesOnTheView(final ValueModel<PropertyType> valueModel)
 		{
-			AdapterViewListenerUtils.addOnItemClickListener(view, new AdapterView.OnItemClickListener() {
+			adapterViewListeners.addOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View itemView, int position, long id)
 				{
@@ -68,6 +71,12 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		}
 		
 		protected abstract void viewCheckedItemPositionsChanged(ValueModel<PropertyType> valueModel);
+
+		@Override
+		public void setViewListeners(AdapterViewListeners adapterViewListeners)
+		{
+			this.adapterViewListeners = adapterViewListeners;
+		}
 	}
 	
 	static class SparseBooleanArrayCheckedItemPositionsAttribute extends AbstractCheckedItemPositionsAttribute<SparseBooleanArray>

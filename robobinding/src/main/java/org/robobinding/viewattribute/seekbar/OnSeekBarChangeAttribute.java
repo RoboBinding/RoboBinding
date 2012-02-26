@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.seekbar;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.Command;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -27,14 +28,20 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute<SeekBar>
+public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute<SeekBar> implements ViewListenersAware<SeekBarListeners>
 {
-	private OnSeekBarChangeListeners onSeekBarChangeListeners;
+	private SeekBarListeners viewListeners;
 
+	@Override
+	public void setViewListeners(SeekBarListeners viewListeners)
+	{
+		this.viewListeners = viewListeners;
+	}
+	
 	@Override
 	protected void bind(final Command command)
 	{
-		onSeekBarChangeListeners.addListener(new OnSeekBarChangeListener() {
+		viewListeners.addOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
@@ -54,8 +61,6 @@ public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute<SeekB
 			}
 			
 		});
-
-		view.setOnSeekBarChangeListener(onSeekBarChangeListeners);
 	}
 
 	@Override
@@ -63,10 +68,16 @@ public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute<SeekB
 	{
 		return SeekBarEvent.class;
 	}
-
-	void setOnSeekBarChangeListeners(OnSeekBarChangeListeners onSeekBarChangeListeners)
+	
+	@Override
+	public boolean validate()
 	{
-		this.onSeekBarChangeListeners = onSeekBarChangeListeners;
+		return super.validate() && (viewListeners != null);
 	}
 
+	@Override
+	public String getValidationError()
+	{
+		return super.getValidationError() + "ViewListeners have not been initialized. ";
+	}
 }
