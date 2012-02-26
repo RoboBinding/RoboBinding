@@ -37,6 +37,6 @@ public class MockViewListeners extends ViewListeners
 	public void addOnFocusChangeListener(OnFocusChangeListener listener)
 	{
 		addOnFocusChangeListenerInvoked = true;
-		ratingBar.setOnFocusChangeListener(listener);
+		view.setOnFocusChangeListener(listener);
 	}
 }
