@@ -34,7 +34,7 @@ public abstract class AbstractViewAttributeInstantiator
 	}
 
 	@SuppressWarnings("unchecked")
-	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>>  PropertyViewAttributeType newPropertyViewAttribute(
+	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
 			Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
 	{
 		PropertyViewAttributeType propertyViewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass);

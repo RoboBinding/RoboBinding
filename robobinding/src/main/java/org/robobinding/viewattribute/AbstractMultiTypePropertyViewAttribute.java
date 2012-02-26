@@ -16,6 +16,8 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.viewattribute.view.ViewListeners;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.content.Context;
 import android.view.View;
@@ -31,7 +33,8 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	private T view;
 	private PropertyBindingDetails propertyBindingDetails;
 	private boolean preInitializeViews;
-
+	private ViewListenersProvider viewListenersProvider;
+	
 	@Override
 	public void setView(T view)
 	{
@@ -42,14 +45,15 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	{
 		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue);
 	}
-	public void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
-	{
-		this.propertyBindingDetails = propertyBindingDetails;
-	}
 	@Override
 	public void setPreInitializeView(boolean preInitializeViews)
 	{
 		this.preInitializeViews = preInitializeViews;
+	}
+	
+	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
+	{
+		this.viewListenersProvider = viewListenersProvider;
 	}
 	
 	public boolean isTwoWayBinding()
@@ -64,9 +68,21 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		propertyViewAttribute.setView(view);
 		propertyViewAttribute.setPropertyBindingDetails(propertyBindingDetails);
 		propertyViewAttribute.setPreInitializeView(preInitializeViews);
+		setViewListenersIfRequired(propertyViewAttribute, view);
 		propertyViewAttribute.bind(presentationModelAdapter, context);
 	}
 
+	private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
+	{
+		if(viewAttribute instanceof ViewListenersAware)
+		{
+			ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(view, (ViewListenersAware<?>)viewAttribute);
+			@SuppressWarnings("unchecked")
+			ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)viewAttribute;
+			viewListenersAware.setViewListeners(viewListeners);
+		}
+	}
+	
 	protected abstract AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType);
 
 	private AbstractPropertyViewAttribute<T, ?> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)

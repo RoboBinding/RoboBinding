@@ -47,16 +47,9 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 			throw new RuntimeException("Could not find a suitable rating attribute class for property type: " + propertyType);
 	}
 	
-	
-	
 	abstract static class AbstractRatingAttribute<T> extends AbstractPropertyViewAttribute<RatingBar, T> implements ViewListenersAware<RatingBarListeners>
 	{
 		protected RatingBarListeners ratingBarListeners;
-
-		void setRatingBarListeners(RatingBarListeners ratingBarListeners)
-		{
-			this.ratingBarListeners = ratingBarListeners;
-		}
 
 		@Override
 		public boolean validate()
@@ -67,7 +60,7 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 		@Override
 		public String getValidationError()
 		{
-			return super.getValidationError() + "RatingBarListeners have not been initialized. ";
+			return super.getValidationError() + "ratingBarListeners has not been initialized. ";
 		}
 		
 		@Override

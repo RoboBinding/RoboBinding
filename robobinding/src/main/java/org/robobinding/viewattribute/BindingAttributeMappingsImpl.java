@@ -162,6 +162,10 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
 		{
 			PropertyViewAttributeType propertyViewAttribute = super.newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
+			
+			if (propertyViewAttribute instanceof AbstractMultiTypePropertyViewAttribute<?>)
+				((AbstractMultiTypePropertyViewAttribute<?>)propertyViewAttribute).setViewListenersProvider(viewListenersProvider);
+			
 			setViewListenersIfRequired(propertyViewAttribute, getViewForAttribute(propertyAttribute));
 			return propertyViewAttribute;
 		}
