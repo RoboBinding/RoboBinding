@@ -154,29 +154,12 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 			return newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
 		}
 		
-//		@Override
-//		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
-//				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
-//		{
-//			PropertyViewAttributeType propertyViewAttribute = super.newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
-//			return propertyViewAttribute;
-//		}
-		
 		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
 				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute, String attributeValue)
 		{
 			currentPropertyOrCommandAttributeValue = attributeValue;
 			return newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
 		}
-		
-//		@Override
-//		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
-//				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
-//		{
-//			CommandViewAttributeType commandViewAttribute = super.newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
-//			return commandViewAttribute;
-//		}
-		
 		
 		@SuppressWarnings("unchecked")
 		public <GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType newGroupedViewAttribute(
