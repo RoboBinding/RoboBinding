@@ -67,7 +67,7 @@ public class AbstractViewAttributeInstantiatorTest
 	{
 		public ViewAttributeInstantiatorForTest()
 		{
-			super(preInitializeViews);
+			super(preInitializeViews, mock(ViewListenersProvider.class));
 		}
 		
 		@Override

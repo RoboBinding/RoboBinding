@@ -18,9 +18,6 @@ package org.robobinding.viewattribute;
 import java.util.Collection;
 import java.util.Map;
 
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersAware;
-
 import android.view.View;
 
 import com.google.common.collect.Maps;
@@ -147,7 +144,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		
 		protected ViewAttributeInstantiator()
 		{
-			super(preInitializeViews);
+			super(preInitializeViews, viewListenersProvider);
 		}
 
 		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
@@ -157,18 +154,13 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 			return newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
 		}
 		
-		@Override
-		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
-				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
-		{
-			PropertyViewAttributeType propertyViewAttribute = super.newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
-			
-			if (propertyViewAttribute instanceof AbstractMultiTypePropertyViewAttribute<?>)
-				((AbstractMultiTypePropertyViewAttribute<?>)propertyViewAttribute).setViewListenersProvider(viewListenersProvider);
-			
-			setViewListenersIfRequired(propertyViewAttribute, getViewForAttribute(propertyAttribute));
-			return propertyViewAttribute;
-		}
+//		@Override
+//		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
+//				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
+//		{
+//			PropertyViewAttributeType propertyViewAttribute = super.newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
+//			return propertyViewAttribute;
+//		}
 		
 		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
 				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute, String attributeValue)
@@ -177,14 +169,13 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 			return newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
 		}
 		
-		@Override
-		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
-				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
-		{
-			CommandViewAttributeType commandViewAttribute = super.newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
-			setViewListenersIfRequired(commandViewAttribute, getViewForAttribute(commandAttribute));
-			return commandViewAttribute;
-		}
+//		@Override
+//		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
+//				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
+//		{
+//			CommandViewAttributeType commandViewAttribute = super.newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
+//			return commandViewAttribute;
+//		}
 		
 		
 		@SuppressWarnings("unchecked")
@@ -197,21 +188,11 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 			groupedViewAttribute.setPreInitializeViews(preInitializeViews);
 			groupedViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
 			setViewListenersIfRequired(groupedViewAttribute, view);
+			groupedViewAttribute.setViewListenersProvider(viewListenersProvider);
 			groupedViewAttribute.postInitialization();
 			return groupedViewAttribute;
 		}
 		
-		private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
-		{
-			if(viewAttribute instanceof ViewListenersAware)
-			{
-				ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(view, (ViewListenersAware<?>)viewAttribute);
-				@SuppressWarnings("unchecked")
-				ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)viewAttribute;
-				viewListenersAware.setViewListeners(viewListeners);
-			}
-		}
-
 		@Override
 		protected View getViewForAttribute(String attributeName)
 		{
