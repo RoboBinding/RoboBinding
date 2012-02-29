@@ -21,7 +21,6 @@ import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
-
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 
@@ -47,8 +46,6 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 		else
 			throw new RuntimeException("Could not find a suitable rating attribute class for property type: " + propertyType);
 	}
-	
-	
 	
 	abstract static class AbstractRatingAttribute<T> extends AbstractPropertyViewAttribute<RatingBar, T> implements ViewListenersAware<RatingBarListeners>
 	{

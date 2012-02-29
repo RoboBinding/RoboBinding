@@ -157,7 +157,7 @@ public class ViewListenersProviderImpl implements ViewListenersProvider
 		if (ViewListenersAware.class.isAssignableFrom(superclass))
 			return lookupViewListenersClass(view, (Class<S>)viewAttribute.getSuperclass());
 		
-		throw new RuntimeException("No class in hierachy implements ViewListenersAware");
+		throw new RuntimeException("No class in hierarchy implements ViewListenersAware");
 	}
 	
 	private boolean instanceOfViewListenersAware(ParameterizedType parameterizedType)

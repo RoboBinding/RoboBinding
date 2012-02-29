@@ -29,6 +29,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected boolean preInitializeViews;
 	protected GroupedAttributeDetails groupedAttributeDetails;
 	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
+	private ViewListenersProvider viewListenersProvider;
 	
 	public void setView(T view)
 	{
@@ -44,6 +45,11 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	{
 		groupedAttributeDetails.assertAttributesArePresent(view, getCompulsoryAttributes());
 		this.groupedAttributeDetails = groupedAttributeDetails;
+	}
+	
+	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
+	{
+		this.viewListenersProvider = viewListenersProvider;
 	}
 	
 	protected String[] getCompulsoryAttributes()
@@ -66,7 +72,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	{
 		public ViewAttributeInstantiator()
 		{
-			super(preInitializeViews);
+			super(preInitializeViews, viewListenersProvider);
 		}
 		@Override
 		protected String attributeValueFor(String attribute)

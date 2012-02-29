@@ -15,6 +15,9 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.viewattribute.view.ViewListeners;
+import org.robobinding.viewattribute.view.ViewListenersAware;
+
 import android.view.View;
 
 /**
@@ -26,15 +29,17 @@ import android.view.View;
  */
 public abstract class AbstractViewAttributeInstantiator
 {
-	private boolean preInitializeViews;
+	private final boolean preInitializeViews;
+	private final ViewListenersProvider viewListenersProvider;
 
-	protected AbstractViewAttributeInstantiator(boolean preInitializeViews)
+	protected AbstractViewAttributeInstantiator(boolean preInitializeViews, ViewListenersProvider viewListenersProvider)
 	{
 		this.preInitializeViews = preInitializeViews;
+		this.viewListenersProvider = viewListenersProvider;
 	}
 
 	@SuppressWarnings("unchecked")
-	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>>  PropertyViewAttributeType newPropertyViewAttribute(
+	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
 			Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
 	{
 		PropertyViewAttributeType propertyViewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass);
@@ -42,6 +47,11 @@ public abstract class AbstractViewAttributeInstantiator
 		((PropertyViewAttribute<View>)propertyViewAttribute).setView(view);
 		propertyViewAttribute.setAttributeValue(attributeValueFor(propertyAttribute));
 		propertyViewAttribute.setPreInitializeView(preInitializeViews);
+		
+		if (propertyViewAttribute instanceof AbstractMultiTypePropertyViewAttribute<?>)
+			((AbstractMultiTypePropertyViewAttribute<?>)propertyViewAttribute).setViewListenersProvider(viewListenersProvider);
+		
+		setViewListenersIfRequired(propertyViewAttribute, getViewForAttribute(propertyAttribute));
 		return propertyViewAttribute;
 	}
 
@@ -53,7 +63,19 @@ public abstract class AbstractViewAttributeInstantiator
 		View view = getViewForAttribute(commandAttribute);
 		((AbstractCommandViewAttribute<View>)commandViewAttribute).setView(view);
 		commandViewAttribute.setCommandName(attributeValueFor(commandAttribute));
+		setViewListenersIfRequired(commandViewAttribute, getViewForAttribute(commandAttribute));
 		return commandViewAttribute;
+	}
+	
+	protected void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
+	{
+		if(viewAttribute instanceof ViewListenersAware)
+		{
+			ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(view, (ViewListenersAware<?>)viewAttribute);
+			@SuppressWarnings("unchecked")
+			ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)viewAttribute;
+			viewListenersAware.setViewListeners(viewListeners);
+		}
 	}
 	
 	protected abstract View getViewForAttribute(String attributeName);

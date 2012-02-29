@@ -15,11 +15,17 @@
  */
 package org.robobinding.viewattribute;
 
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.viewattribute.view.ViewListeners;
+import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.content.Context;
 import android.view.View;
@@ -38,12 +44,18 @@ public class AbstractViewAttributeInstantiatorTest
 	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
 	private View view;
 	private boolean preInitializeViews;
+	private ViewListenersProvider viewListenersProvider;
+	private ViewListeners viewListeners;
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp()
 	{
 		view = mock(View.class);
 		preInitializeViews = RandomValues.trueOrFalse();
+		viewListenersProvider = mock(ViewListenersProvider.class);
+		viewListeners = new ViewListeners(view);
+		when(viewListenersProvider.forViewAndAttribute(eq(view), any(ViewListenersAware.class))).thenReturn(viewListeners);
 		viewAttributeInstantiator = new ViewAttributeInstantiatorForTest();
 	}
 	
@@ -56,6 +68,14 @@ public class AbstractViewAttributeInstantiatorTest
 	}
 	
 	@Test
+	public void whenInvokingOnViewListenersAwarePropertyViewAttribute_thenInjectAllPropertiesCorrectly()
+	{
+		MockViewListenersAwarePropertyViewAttribute mockPropertyViewAttribute = viewAttributeInstantiator.newPropertyViewAttribute(MockViewListenersAwarePropertyViewAttribute.class, ATTRIBUTE_NAME);
+		
+		mockPropertyViewAttribute.assertAllPropertiesAssigned(view, preInitializeViews, ATTRIBUTE_VALUE, viewListeners);
+	}
+	
+	@Test
 	public void whenInvokingOnAbstractCommandViewAttribute_thenInjectAllPropertiesCorrectly()
 	{
 		MockCommandViewAttribute mockCommandViewAttribute = viewAttributeInstantiator.newCommandViewAttribute(MockCommandViewAttribute.class, ATTRIBUTE_NAME);
@@ -63,11 +83,19 @@ public class AbstractViewAttributeInstantiatorTest
 		mockCommandViewAttribute.assertBothPropertiesAssigned(view, ATTRIBUTE_VALUE);
 	}
 	
+	@Test
+	public void whenInvokingOnViewListenersAwareAbstractCommandViewAttribute_thenInjectAllPropertiesCorrectly()
+	{
+		MockViewListenersAwareCommandViewAttribute mockCommandViewAttribute = viewAttributeInstantiator.newCommandViewAttribute(MockViewListenersAwareCommandViewAttribute.class, ATTRIBUTE_NAME);
+		
+		mockCommandViewAttribute.assertAllPropertiesAssigned(view, ATTRIBUTE_VALUE, viewListeners);
+	}
+	
 	public class ViewAttributeInstantiatorForTest extends AbstractViewAttributeInstantiator
 	{
 		public ViewAttributeInstantiatorForTest()
 		{
-			super(preInitializeViews);
+			super(preInitializeViews, viewListenersProvider);
 		}
 		
 		@Override
@@ -107,14 +135,31 @@ public class AbstractViewAttributeInstantiatorTest
 			this.attributeValue = attributeValue;
 		}
 		
-		public boolean assertAllPropertiesAssigned(View view, boolean preInitializeViews, String attributeValue)
+		public void assertAllPropertiesAssigned(View view, boolean preInitializeViews, String attributeValue)
 		{
-			return this.view == view && this.preInitializeViews == preInitializeViews && this.attributeValue == attributeValue;
+			assertTrue(this.view == view && this.preInitializeViews == preInitializeViews && this.attributeValue == attributeValue);
 		}
 		
 		@Override
 		public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
 		{
+		}
+	}
+	
+	public static class MockViewListenersAwarePropertyViewAttribute extends MockPropertyViewAttribute implements ViewListenersAware<ViewListeners>
+	{
+		private ViewListeners viewListeners;
+
+		@Override
+		public void setViewListeners(ViewListeners viewListeners)
+		{
+			this.viewListeners = viewListeners;
+		}
+
+		public void assertAllPropertiesAssigned(View view, boolean preInitializeViews, String attributeValue, ViewListeners viewListeners)
+		{
+			super.assertAllPropertiesAssigned(view, preInitializeViews, attributeValue);
+			assertTrue(this.viewListeners == viewListeners);
 		}
 	}
 	
@@ -128,9 +173,9 @@ public class AbstractViewAttributeInstantiatorTest
 			this.commandName = commandName;
 		}
 
-		public boolean assertBothPropertiesAssigned(View view, String commandName)
+		public void assertBothPropertiesAssigned(View view, String commandName)
 		{
-			return this.view == view && this.commandName == commandName;
+			assertTrue(this.view == view && this.commandName == commandName);
 		}
 		
 		@Override
@@ -143,7 +188,23 @@ public class AbstractViewAttributeInstantiatorTest
 		{
 			return null;
 		}
+	}
+	
+	public static class MockViewListenersAwareCommandViewAttribute extends MockCommandViewAttribute implements ViewListenersAware<ViewListeners>
+	{
+		private ViewListeners viewListeners;
+
+		@Override
+		public void setViewListeners(ViewListeners viewListeners)
+		{
+			this.viewListeners = viewListeners;
+		}
 		
+		public void assertAllPropertiesAssigned(View view, String commandName, ViewListeners viewListeners)
+		{
+			super.assertBothPropertiesAssigned(view, commandName);
+			assertTrue(this.viewListeners == viewListeners);
+		}
 	}
 	
 }
