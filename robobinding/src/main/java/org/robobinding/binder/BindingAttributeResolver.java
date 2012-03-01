@@ -22,11 +22,11 @@ import java.util.Map;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
-import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
 import org.robobinding.viewattribute.MalformedBindingAttributeException;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.impl.GroupedAttributeDetailsImpl;
 
 import android.view.View;
 

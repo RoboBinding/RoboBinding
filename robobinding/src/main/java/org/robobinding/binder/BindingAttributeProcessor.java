@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.ViewListenersProvider;
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
 
 import android.content.Context;
 import android.util.AttributeSet;

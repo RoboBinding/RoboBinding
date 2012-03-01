@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.impl;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,6 +21,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.robobinding.viewattribute.GroupedAttributeDetails;
+import org.robobinding.viewattribute.MissingRequiredBindingAttributeException;
 
 import android.view.View;
 

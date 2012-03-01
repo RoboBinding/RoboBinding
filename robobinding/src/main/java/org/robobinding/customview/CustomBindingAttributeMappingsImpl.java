@@ -20,10 +20,10 @@ import java.util.Map;
 import org.apache.commons.lang3.Validate;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
-import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewListenersProvider;
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.impl.GroupedAttributeDetailsImpl;
 
 import android.view.View;
 
