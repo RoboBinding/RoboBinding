@@ -17,6 +17,8 @@ package org.robobinding.viewattribute;
 
 import java.util.Random;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import android.graphics.Color;
 import android.view.View;
 
@@ -113,5 +115,10 @@ public class RandomValues
 	public static <T> T either(T... objects)
 	{
 		return objects[nextInt(objects.length)];
+	}
+	
+	public static String anyBlankString()
+	{
+		return RandomStringUtils.random(random.nextInt(10), " ");
 	}
 }

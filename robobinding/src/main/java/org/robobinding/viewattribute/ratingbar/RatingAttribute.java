@@ -19,8 +19,8 @@ import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
+import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
-
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 
@@ -52,15 +52,10 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 		protected RatingBarListeners ratingBarListeners;
 
 		@Override
-		public boolean validate()
+		public void validate(ViewAttributeValidation validation)
 		{
-			return super.validate() && ratingBarListeners != null;
-		}
-
-		@Override
-		public String getValidationError()
-		{
-			return super.getValidationError() + "ratingBarListeners has not been initialized. ";
+			super.validate(validation);
+			validation.addErrorIfViewListenersNotSet(ratingBarListeners);
 		}
 		
 		@Override

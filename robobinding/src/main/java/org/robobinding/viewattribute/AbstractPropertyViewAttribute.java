@@ -67,8 +67,9 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	
 	private void performBind()
 	{
-		if (!validate())
-			throw new IllegalStateException(getValidationError());
+		ViewAttributeValidation validation = new ViewAttributeValidation();
+		validate(validation);
+		validation.assertNoErrors();
 		
 		if (isTwoWayBinding())
 			new TwoWayBinder().performBind();
@@ -76,6 +77,12 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 			new OneWayBinder().performBind();
 	}
 
+	protected void validate(ViewAttributeValidation validation)
+	{
+		validation.addErrorIfViewNotSet(view);
+		validation.addErrorIfPropertyAttributeValueNotSet(propertyBindingDetails);
+	}
+	
 	public boolean isTwoWayBinding()
 	{
 		return propertyBindingDetails.twoWayBinding;
@@ -178,24 +185,5 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 				propertyValueModel.removePropertyChangeListener(listener);
 			}
 		}
-	}
-
-	public boolean validate()
-	{
-		return propertyBindingDetails != null && view != null;
-	}
-	
-	public String getValidationError()
-	{
-		StringBuilder errorMessage = new StringBuilder("Error validating ");
-		errorMessage.append(getClass().getName());
-		errorMessage.append(": ");
-		
-		if (propertyBindingDetails == null)
-			errorMessage.append("Attribute value was not set. ");
-		if (view == null)
-			errorMessage.append("View was not set. ");
-		
-		return errorMessage.toString();
 	}
 }

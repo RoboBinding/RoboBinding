@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.seekbar;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.Command;
+import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.SeekBar;
@@ -70,14 +71,9 @@ public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute<SeekB
 	}
 	
 	@Override
-	public boolean validate()
+	public void validate(ViewAttributeValidation validation)
 	{
-		return super.validate() && (viewListeners != null);
-	}
-
-	@Override
-	public String getValidationError()
-	{
-		return super.getValidationError() + "ViewListeners have not been initialized. ";
+		super.validate(validation);
+		validation.addErrorIfViewListenersNotSet(viewListeners);
 	}
 }

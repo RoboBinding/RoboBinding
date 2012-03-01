@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.compoundbutton;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.Command;
+import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.CompoundButton;
@@ -60,14 +61,9 @@ public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute<Compo
 	}
 	
 	@Override
-	public boolean validate()
+	public void validate(ViewAttributeValidation validation)
 	{
-		return super.validate() && (viewListeners != null);
-	}
-
-	@Override
-	public String getValidationError()
-	{
-		return super.getValidationError() + "ViewListeners have not been initialized. ";
+		super.validate(validation);
+		validation.addErrorIfViewListenersNotSet(viewListeners);
 	}
 }
