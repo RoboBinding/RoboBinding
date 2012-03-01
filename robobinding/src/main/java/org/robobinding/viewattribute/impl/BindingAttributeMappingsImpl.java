@@ -13,10 +13,17 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.impl;
 
 import java.util.Collection;
 import java.util.Map;
+
+import org.robobinding.viewattribute.AbstractCommandViewAttribute;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.AbstractViewAttributeInstantiator;
+import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.ViewListenersProvider;
 
 import android.view.View;
 

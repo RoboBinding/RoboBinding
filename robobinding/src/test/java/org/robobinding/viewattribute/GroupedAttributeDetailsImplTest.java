@@ -25,6 +25,7 @@ import java.util.Collection;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.viewattribute.impl.GroupedAttributeDetailsImpl;
 
 import android.view.View;
 

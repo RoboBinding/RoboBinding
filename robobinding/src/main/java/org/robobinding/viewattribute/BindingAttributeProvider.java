@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
+
 import android.view.View;
 
 /**

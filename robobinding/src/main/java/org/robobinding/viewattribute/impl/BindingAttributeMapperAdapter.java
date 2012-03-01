@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.impl;
 
+
+import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewListenersProvider;
 
 import android.view.View;
 

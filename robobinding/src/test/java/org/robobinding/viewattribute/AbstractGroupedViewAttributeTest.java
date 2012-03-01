@@ -22,6 +22,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.robobinding.viewattribute.AbstractCommandViewAttribute;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.impl.GroupedAttributeDetailsImpl;
 
 import android.app.Activity;
 import android.content.Context;
