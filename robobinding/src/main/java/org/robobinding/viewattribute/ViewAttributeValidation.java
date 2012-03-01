@@ -29,20 +29,20 @@ import android.view.View;
  */
 public class ViewAttributeValidation
 {
-	private static final String ERROR_MESSAGE_SEPARATOR = "; ";
-	private StringBuilder errorMessages;
+	static final String ERROR_MESSAGE_SEPARATOR = "; ";
+	
+	StringBuilder errorMessages;
 
 	ViewAttributeValidation()
 	{
-		errorMessages = new StringBuilder();
 	}
 
-	public void addErrorIfViewNotSet(View view)
+	void addErrorIfViewNotSet(View view)
 	{
 		notNull(view, "View not set");
 	}
 
-	public void addErrorIfPropertyAttributeValueNotSet(PropertyBindingDetails propertyBindingDetails)
+	void addErrorIfPropertyAttributeValueNotSet(PropertyBindingDetails propertyBindingDetails)
 	{
 		notNull(propertyBindingDetails, "Attribute value not set");
 	}
@@ -52,7 +52,7 @@ public class ViewAttributeValidation
 		notNull(viewListeners, "ViewListeners not set");
 	}
 
-	private void notNull(Object obj, String errorMessage)
+	void notNull(Object obj, String errorMessage)
 	{
 		if (obj == null)
 		{
@@ -60,12 +60,12 @@ public class ViewAttributeValidation
 		}
 	}
 
-	public void addErrorIfCommandNameNotSet(String commandName)
+	void addErrorIfCommandNameNotSet(String commandName)
 	{
 		notBlank(commandName, "Command name not set");
 	}
 
-	private void notBlank(String str, String errorMessage)
+	void notBlank(String str, String errorMessage)
 	{
 		if(StringUtils.isBlank(str))
 		{
@@ -76,20 +76,27 @@ public class ViewAttributeValidation
 	public void addError(String errorMessage)
 	{
 		Validate.notBlank(errorMessage);
-		if (hasErrors())
+		
+		if(hasErrors())
 		{
 			errorMessages.append(ERROR_MESSAGE_SEPARATOR);
+		}else
+		{
+			errorMessages = new StringBuilder();
 		}
 		errorMessages.append(errorMessage);
 	}
 
-	public boolean hasErrors()
+	boolean hasErrors()
 	{
-		return errorMessages.length() > 0;
+		return errorMessages != null;
 	}
-
-	public String getErrorMessages()
+	
+	void assertNoErrors()
 	{
-		return errorMessages.toString();
+		if(hasErrors())
+		{
+			throw new IllegalStateException(errorMessages.toString());
+		}
 	}
 }

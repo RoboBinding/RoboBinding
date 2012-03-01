@@ -15,17 +15,13 @@
  */
 package org.robobinding.viewattribute;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
 
 import android.app.Activity;
 import android.content.Context;
@@ -132,30 +128,42 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 
 	protected void assertThatAttributeWasCreated(Class<?> attributeClass)
 	{
+		Object childAttribute = findChildAttributeOfType(attributeClass);
+		assertNotNull("Child attribute of type '"+attributeClass.getName()+" not found", childAttribute);
+		if(childAttribute instanceof ViewAttribute)
+		{
+			assertViewAttributeProperlyInitialized((ViewAttribute)childAttribute);
+		}
+	}
+	
+	private Object findChildAttributeOfType(Class<?> attributeClass)
+	{
 		List<?> childAttributes = getGeneratedChildAttributes(attributeUnderTest);
-		boolean instanceFound = false;
-
+		
 		for (Object childAttribute : childAttributes)
 		{
-			if (childAttribute.getClass().isAssignableFrom(attributeClass))
+			if (attributeClass.isInstance(childAttribute))
 			{
-				instanceFound = true;
-
-				if (childAttribute instanceof AbstractPropertyViewAttribute)
-				{
-					AbstractPropertyViewAttribute<?, ?> propertyViewAttribute = (AbstractPropertyViewAttribute<?, ?>) childAttribute;
-					assertTrue(propertyViewAttribute.getValidationError(), propertyViewAttribute.validate());
-				} else if (childAttribute instanceof AbstractCommandViewAttribute)
-				{
-					AbstractCommandViewAttribute<?> commandViewAttribute = (AbstractCommandViewAttribute<?>) childAttribute;
-					assertTrue(commandViewAttribute.getValidationError(), commandViewAttribute.validate());
-				}
-
-				break;
+				return childAttribute;
 			}
 		}
+		
+		return null;
+	}
 
-		assertTrue(instanceFound);
+	private void assertViewAttributeProperlyInitialized(ViewAttribute childAttribute)
+	{
+		ViewAttributeValidation validation = new ViewAttributeValidation();
+		if (childAttribute instanceof AbstractPropertyViewAttribute)
+		{
+			AbstractPropertyViewAttribute<?, ?> propertyViewAttribute = (AbstractPropertyViewAttribute<?, ?>) childAttribute;
+			propertyViewAttribute.validate(validation);
+		} else if (childAttribute instanceof AbstractCommandViewAttribute)
+		{
+			AbstractCommandViewAttribute<?> commandViewAttribute = (AbstractCommandViewAttribute<?>) childAttribute;
+			commandViewAttribute.validate(validation);
+		}
+		validation.assertNoErrors();
 	}
 
 	protected abstract List<?> getGeneratedChildAttributes(T attributeUnderTest);

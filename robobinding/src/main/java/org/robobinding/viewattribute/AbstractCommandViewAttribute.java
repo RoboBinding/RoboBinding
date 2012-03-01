@@ -46,8 +46,7 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	{
 		ViewAttributeValidation validation = new ViewAttributeValidation();
 		validate(validation);
-		if (validation.hasErrors())
-			throw new IllegalStateException(validation.getErrorMessages());
+		validation.assertNoErrors();
 		
 		Function function = presentationModelAdapter.findFunction(commandName, getPreferredCommandParameterType());
 		boolean supportsPreferredParameterType = true;
@@ -61,7 +60,7 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 		bind(new Command(function, supportsPreferredParameterType));
 	}
 
-	public void validate(ViewAttributeValidation validation)
+	protected void validate(ViewAttributeValidation validation)
 	{
 		validation.addErrorIfViewNotSet(view);
 		validation.addErrorIfCommandNameNotSet(commandName);

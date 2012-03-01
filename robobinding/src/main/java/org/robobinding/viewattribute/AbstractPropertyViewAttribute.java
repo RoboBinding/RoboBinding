@@ -69,8 +69,7 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	{
 		ViewAttributeValidation validation = new ViewAttributeValidation();
 		validate(validation);
-		if (validation.hasErrors())
-			throw new IllegalStateException(validation.getErrorMessages());
+		validation.assertNoErrors();
 		
 		if (isTwoWayBinding())
 			new TwoWayBinder().performBind();
@@ -78,12 +77,12 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 			new OneWayBinder().performBind();
 	}
 
-	public void validate(ViewAttributeValidation validation)
+	protected void validate(ViewAttributeValidation validation)
 	{
 		validation.addErrorIfViewNotSet(view);
 		validation.addErrorIfPropertyAttributeValueNotSet(propertyBindingDetails);
 	}
-
+	
 	public boolean isTwoWayBinding()
 	{
 		return propertyBindingDetails.twoWayBinding;
