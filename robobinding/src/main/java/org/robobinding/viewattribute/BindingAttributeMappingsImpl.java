@@ -81,9 +81,14 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		commandViewAttributeMappings.put(attributeName, commandViewAttributeClass);
 	}
 	
-	protected void addGroupedViewAttributeMapping(Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass,	String... attributeNames)
+	protected void addGroupedViewAttributeMapping(Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass, String... attributeNames)
 	{
 		GroupedAttributeDetailsImpl groupedPropertyAttribute = new GroupedAttributeDetailsImpl(attributeNames);
+		addGroupedViewAttributeMapping(groupedPropertyAttribute, groupedViewAttributeClass);
+	}
+	
+	void addGroupedViewAttributeMapping(GroupedAttributeDetailsImpl groupedPropertyAttribute, Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass)
+	{
 		groupedViewAttributeMappings.put(groupedPropertyAttribute, groupedViewAttributeClass);
 	}
 	
@@ -170,7 +175,6 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 			((AbstractGroupedViewAttribute<View>)groupedViewAttribute).setView(view);
 			groupedViewAttribute.setPreInitializeViews(preInitializeViews);
 			groupedViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
-			setViewListenersIfRequired(groupedViewAttribute, view);
 			groupedViewAttribute.setViewListenersProvider(viewListenersProvider);
 			groupedViewAttribute.postInitialization();
 			return groupedViewAttribute;
