@@ -26,7 +26,6 @@ import android.view.View;
 public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute
 {
 	protected T view;
-	protected boolean preInitializeViews;
 	protected GroupedAttributeDetails groupedAttributeDetails;
 	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
 	private ViewListenersProvider viewListenersProvider;
@@ -34,11 +33,6 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	public void setView(T view)
 	{
 		this.view = view;
-	}
-
-	public void setPreInitializeViews(boolean preInitializeViews)
-	{
-		this.preInitializeViews = preInitializeViews;
 	}
 
 	public void setGroupedAttributeDetails(GroupedAttributeDetails groupedAttributeDetails)
@@ -72,7 +66,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	{
 		public ViewAttributeInstantiator()
 		{
-			super(preInitializeViews, viewListenersProvider);
+			super(viewListenersProvider);
 		}
 		@Override
 		protected String attributeValueFor(String attribute)

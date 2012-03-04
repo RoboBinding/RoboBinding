@@ -15,6 +15,7 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import org.robobinding.binders.BindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 
@@ -37,7 +38,7 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	}
 
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bindTo(BindingContext bindingContext)
 	{
 		View subView = createSubView(presentationModelAdapter, context);
 		

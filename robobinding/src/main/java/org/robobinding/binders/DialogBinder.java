@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binders;
 
-import org.robobinding.binder.BindingViewFactory.InflatedView;
 import org.robobinding.presentationmodel.DialogPresentationModel;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
 
 import android.app.Dialog;
+import android.view.View;
 import android.view.Window;
 
 /**
@@ -29,22 +27,19 @@ import android.view.Window;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-class DialogBinder extends AbstractBinder
+public class DialogBinder
 {
 	private final Dialog dialog;
-	private final int layoutId;
+	private final BinderImplementor binderImplementor;
 
-	public DialogBinder(Dialog dialog, int layoutId)
+	public DialogBinder(Dialog dialog, BinderImplementor binderImplementor)
 	{
-		super(dialog.getContext(), true);
 		this.dialog = dialog;
-		this.layoutId = layoutId;
+		this.binderImplementor = binderImplementor;
 	}
 
-	public void bindTo(Object presentationModel)
+	public void bind(int layoutId, Object presentationModel)
 	{
-		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
-		
 		if (presentationModel instanceof DialogPresentationModel)
 		{
 			DialogPresentationModel dialogPresentationModel = (DialogPresentationModel)presentationModel;
@@ -55,7 +50,7 @@ class DialogBinder extends AbstractBinder
 				dialog.setTitle(dialogPresentationModel.getTitle());
 		}
 
-		InflatedView inflatedView = inflateAndBind(layoutId, presentationModelAdapter);
-		dialog.setContentView(inflatedView.getRootView());
+		View rootView = binderImplementor.bind(layoutId, presentationModel);
+		dialog.setContentView(rootView);
 	}
 }

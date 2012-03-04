@@ -26,7 +26,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
+import org.robobinding.binder.BindingAttributeProcessor.ViewBindingAttributes;
 
 import android.util.AttributeSet;
 import android.view.View;
@@ -44,12 +44,12 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public class BindingAttributesProcessorTest
 {
 	private static final View VIEW = new View(null);
-	private AttributeSetParser attributeSetParser;
+	private BindingAttributesParser attributeSetParser;
 	
 	@Before
 	public void setUp()
 	{
-		attributeSetParser = mock(AttributeSetParser.class);
+		attributeSetParser = mock(BindingAttributesParser.class);
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ public class BindingAttributesProcessorTest
 		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(singleBindingAttribute());
 	
 		BindingAttributeProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
-		ViewAttributes viewAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
+		ViewBindingAttributes viewAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
 		
 		assertThat(viewAttributes.viewAttributes.size(), equalTo(1));
 	}
@@ -71,7 +71,7 @@ public class BindingAttributesProcessorTest
 		when(attributeSetParser.parse(any(AttributeSet.class))).thenReturn(multipleBindingAttributes);
 	
 		BindingAttributeProcessor bindingAttributesProcessor = newBindingAttributesProcessor();
-		ViewAttributes viewAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
+		ViewBindingAttributes viewAttributes = bindingAttributesProcessor.read(VIEW, mock(AttributeSet.class));
 		
 		assertThat(viewAttributes.viewAttributes.size(), equalTo(attributesCount));
 	}

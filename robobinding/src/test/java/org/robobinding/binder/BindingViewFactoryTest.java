@@ -27,7 +27,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
+import org.robobinding.binder.BindingAttributeProcessor.ViewBindingAttributes;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.content.Context;
@@ -54,7 +54,7 @@ public class BindingViewFactoryTest
 	private String prefix = null;
 	private Context context = null;
 	private View theView = new View(context);
-	private ViewAttributes sampleViewAttributes = new ViewAttributes(null);
+	private ViewBindingAttributes sampleViewAttributes = new ViewBindingAttributes(null);
 	private LayoutInflater layoutInflater;
 	private BindingAttributeProcessor bindingAttributesProcessor;
 	private BindingViewFactory bindingViewFactory;
@@ -93,7 +93,7 @@ public class BindingViewFactoryTest
 		when(layoutInflater.createView(fullyQualifiedViewName, prefix, attrs)).thenReturn(theView);
 		bindingViewFactory.onCreateView(viewName, context, attrs);
 		
-		List<ViewAttributes> viewHierarchyBindingAttributes = bindingViewFactory.getChildViewBindingAttributes();
+		List<ViewBindingAttributes> viewHierarchyBindingAttributes = bindingViewFactory.getChildViewBindingAttributes();
 		assertTrue(viewHierarchyBindingAttributes.size() == 1);
 		assertThat(viewHierarchyBindingAttributes.get(0), equalTo(sampleViewAttributes));
 	}

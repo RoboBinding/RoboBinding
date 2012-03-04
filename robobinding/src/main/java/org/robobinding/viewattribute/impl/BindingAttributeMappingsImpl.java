@@ -39,7 +39,6 @@ import com.google.common.collect.Maps;
 public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T>
 {
 	private T view;
-	private boolean preInitializeViews;
 	private ViewListenersProvider viewListenersProvider;
 	
 	private ViewAttributeInstantiator viewAttributeInstantiator;
@@ -47,10 +46,9 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	private Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
 	private Map<GroupedAttributeDetailsImpl, Class<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
 	
-	public BindingAttributeMappingsImpl(T view, boolean preInitializeViews, ViewListenersProvider viewListenersProvider)
+	public BindingAttributeMappingsImpl(T view, ViewListenersProvider viewListenersProvider)
 	{
 		this.view = view;
-		this.preInitializeViews = preInitializeViews;
 		this.viewListenersProvider = viewListenersProvider;
 		
 		viewAttributeInstantiator = new ViewAttributeInstantiator();
@@ -151,7 +149,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		
 		protected ViewAttributeInstantiator()
 		{
-			super(preInitializeViews, viewListenersProvider);
+			super(viewListenersProvider);
 		}
 
 		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
@@ -175,7 +173,6 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 			GroupedViewAttributeType groupedViewAttribute = (GroupedViewAttributeType)newViewAttribute(groupedViewAttributeClass);
 			View view = getViewForGroupedAttribute(groupedAttributeDetails);
 			((AbstractGroupedViewAttribute<View>)groupedViewAttribute).setView(view);
-			groupedViewAttribute.setPreInitializeViews(preInitializeViews);
 			groupedViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
 			setViewListenersIfRequired(groupedViewAttribute, view);
 			groupedViewAttribute.setViewListenersProvider(viewListenersProvider);

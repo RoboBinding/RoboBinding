@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binder.ItemBinder;
+import org.robobinding.binders.ItemBinder1;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.DataSetValueModelWrapper;
@@ -37,14 +37,14 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private enum ViewType {ITEM_LAYOUT, DROPDOWN_LAYOUT}
 	
 	private DataSetValueModel<T> dataSetValueModel;
-	private final ItemBinder rowBinder;
+	private final ItemBinder1 rowBinder;
 	
 	private boolean preInitializeViews;
 	private boolean propertyChangeEventOccurred = false;
 	
 	public DataSetAdapter(Context context, boolean preInitializeViews)
 	{
-		this.rowBinder = new ItemBinder(context);
+		this.rowBinder = new ItemBinder1(context);
 		this.preInitializeViews = preInitializeViews;
 	}
 

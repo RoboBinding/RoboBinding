@@ -39,9 +39,9 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 {
 	private Map<String, View> customAttributeViews;
 	
-	public CustomBindingAttributeMappingsImpl(T view, boolean preInitializeViews, ViewListenersProvider viewListenersProvider)
+	public CustomBindingAttributeMappingsImpl(T view, ViewListenersProvider viewListenersProvider)
 	{
-		super(view, preInitializeViews, viewListenersProvider);
+		super(view, viewListenersProvider);
 		
 		customAttributeViews = Maps.newHashMap();
 	}

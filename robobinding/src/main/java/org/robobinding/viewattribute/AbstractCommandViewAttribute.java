@@ -15,10 +15,10 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.binders.BindingContext;
 import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
-import android.content.Context;
 import android.view.View;
 
 /**
@@ -36,18 +36,34 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	{
 		this.view = view;
 	}
+
 	public void setCommandName(String commandName)
 	{
 		this.commandName = commandName;
 	}
-	
+
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bindTo(BindingContext context)
+	{
+		performValidate();
+		performBind(context.getPresentationModelAdapter());
+	}
+
+	private void performValidate()
 	{
 		ViewAttributeValidation validation = new ViewAttributeValidation();
 		validate(validation);
 		validation.assertNoErrors();
-		
+	}
+
+	protected void validate(ViewAttributeValidation validation)
+	{
+		validation.addErrorIfViewNotSet(view);
+		validation.addErrorIfCommandNameNotSet(commandName);
+	}
+
+	private void performBind(PresentationModelAdapter presentationModelAdapter)
+	{
 		Function function = presentationModelAdapter.findFunction(commandName, getPreferredCommandParameterType());
 		boolean supportsPreferredParameterType = true;
 
@@ -60,12 +76,6 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 		bind(new Command(function, supportsPreferredParameterType));
 	}
 
-	protected void validate(ViewAttributeValidation validation)
-	{
-		validation.addErrorIfViewNotSet(view);
-		validation.addErrorIfCommandNameNotSet(commandName);
-	}
-	
 	private Function getNoArgsCommand(PresentationModelAdapter presentationModelAdapter)
 	{
 		Function noArgsCommand = presentationModelAdapter.findFunction(commandName);

@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.robobinding.binders.BindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
@@ -39,26 +40,24 @@ import android.view.View;
 public class BindingAttributeProcessor
 {
 	private final BindingAttributeProvidersResolver providersResolver;
-	private final AttributeSetParser attributeSetParser;
-	private final boolean preInitializeViews;
+	private final BindingAttributesParser attributeSetParser;
 	
-	public BindingAttributeProcessor(AttributeSetParser attributeSetParser, boolean preInitializeViews)
+	public BindingAttributeProcessor()
 	{
-		this.preInitializeViews = preInitializeViews;
 		this.providersResolver = new BindingAttributeProvidersResolver();
-		this.attributeSetParser = attributeSetParser;
+		this.attributeSetParser = new BindingAttributesParser();
 	}
 
-	public ViewAttributes read(View view, AttributeSet attrs)
+	public ViewBindingAttributes read(View view, AttributeSet attrs)
 	{
 		Map<String, String> pendingBindingAttributes = attributeSetParser.parse(attrs);
 		return process(view, pendingBindingAttributes);
 	}
 	
-	public ViewAttributes process(View view, Map<String, String> pendingBindingAttributes)
+	public ViewBindingAttributes process(View view, Map<String, String> pendingBindingAttributes)
 	{
 		List<ViewAttribute> viewAttributes = determineViewAttributes(view, pendingBindingAttributes);
-		return new ViewAttributes(viewAttributes);
+		return new ViewBindingAttributes(viewAttributes);
 	}
 	
 	private List<ViewAttribute> determineViewAttributes(View view, Map<String, String> pendingBindingAttributes)
@@ -71,7 +70,7 @@ public class BindingAttributeProcessor
 		{
 			@SuppressWarnings("unchecked")
 			BindingAttributeProvider<View> bindingAttributeProvider = (BindingAttributeProvider<View>)provider;
-			BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(view, preInitializeViews, viewListenersProvider);
+			BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(view, viewListenersProvider);
 			bindingAttributeResolver.resolve(bindingAttributeMappings);
 			
 			if (bindingAttributeResolver.isDone())
@@ -83,19 +82,19 @@ public class BindingAttributeProcessor
 		return bindingAttributeResolver.getResolvedViewAttributes();
 	}
 	
-	public static class ViewAttributes
+	public static class ViewBindingAttributes
 	{
 		final List<ViewAttribute> viewAttributes;
 		
-		ViewAttributes(List<ViewAttribute> viewAttributes)
+		ViewBindingAttributes(List<ViewAttribute> viewAttributes)
 		{
 			this.viewAttributes = viewAttributes;
 		}
 		
-		public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+		public void bindTo(BindingContext context)
 		{
 			for (ViewAttribute viewAttribute : viewAttributes)
-				viewAttribute.bind(presentationModelAdapter, context);
+				viewAttribute.bindTo(context);
 		}
 	}
 }

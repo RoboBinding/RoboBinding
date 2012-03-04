@@ -15,11 +15,10 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import org.robobinding.binders.BindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.viewattribute.PropertyBindingDetails;
-
-import android.content.Context;
 
 /**
  * 
@@ -38,8 +37,9 @@ public class SourceAttribute implements AdapterViewAttribute
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
-	public void bind(final DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bind(final DataSetAdapter<?> dataSetAdapter, BindingContext context)
 	{
+		PresentationModelAdapter presentationModelAdapter = context.getPresentationModelAdapter();
 		DataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyBindingDetails.propertyName);
 		dataSetAdapter.setValueModel(dataSetValueModel);
 	}

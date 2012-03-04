@@ -29,12 +29,10 @@ import android.view.View;
  */
 public abstract class AbstractViewAttributeInstantiator
 {
-	private final boolean preInitializeViews;
 	private final ViewListenersProvider viewListenersProvider;
 
-	protected AbstractViewAttributeInstantiator(boolean preInitializeViews, ViewListenersProvider viewListenersProvider)
+	protected AbstractViewAttributeInstantiator(ViewListenersProvider viewListenersProvider)
 	{
-		this.preInitializeViews = preInitializeViews;
 		this.viewListenersProvider = viewListenersProvider;
 	}
 
@@ -46,7 +44,6 @@ public abstract class AbstractViewAttributeInstantiator
 		View view = getViewForAttribute(propertyAttribute);
 		((PropertyViewAttribute<View>)propertyViewAttribute).setView(view);
 		propertyViewAttribute.setAttributeValue(attributeValueFor(propertyAttribute));
-		propertyViewAttribute.setPreInitializeView(preInitializeViews);
 		
 		if (propertyViewAttribute instanceof AbstractMultiTypePropertyViewAttribute<?>)
 			((AbstractMultiTypePropertyViewAttribute<?>)propertyViewAttribute).setViewListenersProvider(viewListenersProvider);

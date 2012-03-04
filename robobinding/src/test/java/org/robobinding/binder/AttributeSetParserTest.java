@@ -40,7 +40,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class AttributeSetParserTest
 {
-	private AttributeSetParser attributeSetParser = new AttributeSetParser();
+	private BindingAttributesParser attributeSetParser = new BindingAttributesParser();
 
 	@Test
 	public void givenAttributeSetWithNoBindingAttributes_whenLoading_thenBindingMapShouldBeEmpty()
@@ -68,7 +68,7 @@ public class AttributeSetParserTest
 		
 		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(attributeSetWithAttributes);
 		for (String attribute : bindingMap.keySet())
-			assertThat(bindingMap.get(attribute), equalTo(attributeSetWithAttributes.getAttributeValue(AttributeSetParser.ROBOBINDING_NAMESPACE, attribute)));
+			assertThat(bindingMap.get(attribute), equalTo(attributeSetWithAttributes.getAttributeValue(BindingAttributesParser.ROBOBINDING_NAMESPACE, attribute)));
 	}
 	
 	private Map<String, String> loadBindingMapFromAttributeSet(AttributeSet attrs)

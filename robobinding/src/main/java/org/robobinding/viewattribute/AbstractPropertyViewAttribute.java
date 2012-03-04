@@ -15,11 +15,11 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.binders.BindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 import org.robobinding.property.ValueModel;
 
-import android.content.Context;
 import android.view.View;
 
 /**
@@ -30,9 +30,7 @@ import android.view.View;
  */
 public abstract class AbstractPropertyViewAttribute<ViewType extends View, PropertyType> implements PropertyViewAttribute<ViewType>
 {
-	private PresentationModelAdapter presentationModelAdapter;
 	private PropertyBindingDetails propertyBindingDetails;
-	private boolean preInitializeViews;
 	protected ViewType view;
 	
 	@Override
@@ -53,28 +51,17 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	}
 	
 	@Override
-	public void setPreInitializeView(boolean preInitializeView)
+	public void bindTo(BindingContext context)
 	{
-		this.preInitializeViews = preInitializeView;
+		performValidate();
+		performBind(context);
 	}
 	
-	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
-	{
-		this.presentationModelAdapter = presentationModelAdapter;
-		performBind();
-	}
-	
-	private void performBind()
+	private void performValidate()
 	{
 		ViewAttributeValidation validation = new ViewAttributeValidation();
 		validate(validation);
 		validation.assertNoErrors();
-		
-		if (isTwoWayBinding())
-			new TwoWayBinder().performBind();
-		else
-			new OneWayBinder().performBind();
 	}
 
 	protected void validate(ViewAttributeValidation validation)
@@ -82,38 +69,54 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		validation.addErrorIfViewNotSet(view);
 		validation.addErrorIfPropertyAttributeValueNotSet(propertyBindingDetails);
 	}
-	
+
+	private void performBind(BindingContext context)
+	{
+		if (isTwoWayBinding())
+			new TwoWayBinder(context).performBind();
+		else
+			new OneWayBinder(context).performBind();
+	}
+
 	public boolean isTwoWayBinding()
 	{
 		return propertyBindingDetails.twoWayBinding;
 	}
 	
-	void setPresentationModelAdapter(PresentationModelAdapter presentationModelAdapter)
-	{
-		this.presentationModelAdapter = presentationModelAdapter;
-	}
-	
-	protected void initializeView(ValueModel<PropertyType> valueModel)
-	{
-		if (preInitializeViews)
-			valueModelUpdated(valueModel.getValue());
-	}
-	
 	protected abstract void valueModelUpdated(PropertyType newValue);
 	protected abstract void observeChangesOnTheView(final ValueModel<PropertyType> valueModel);
 	
-	interface PropertyBinder
+	abstract class AbstractPropertyBinder
 	{
-		void performBind();
+		private BindingContext context;
+		protected PresentationModelAdapter presentationModelAdapter;
+		public AbstractPropertyBinder(BindingContext context)
+		{
+			this.context = context;
+		}
+		
+		protected void initializeViewIfRequired(ValueModel<PropertyType> valueModel)
+		{
+			if (context.shouldPreInitializeViews())
+			{
+				valueModelUpdated(valueModel.getValue());
+			}
+		}
+		
+		abstract void performBind();
 	}
 	
-	private class OneWayBinder implements PropertyBinder
+	private class OneWayBinder extends AbstractPropertyBinder
 	{
+		public OneWayBinder(BindingContext context)
+		{
+			super(context);
+		}
 		@Override
 		public void performBind()
 		{
 			final ValueModel<PropertyType> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
-			initializeView(valueModel);
+			initializeViewIfRequired(valueModel);
 			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener(){
 				@Override
 				public void propertyChanged()
@@ -124,16 +127,19 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		}
 	}
 	
-	private class TwoWayBinder implements PropertyBinder
+	private class TwoWayBinder extends AbstractPropertyBinder
 	{
 		private boolean updatedProgrammatically;
-		
+		public TwoWayBinder(BindingContext context)
+		{
+			super(context);
+		}
 		@Override
 		public void performBind()
 		{
 			ValueModel<PropertyType> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
 			valueModel = new PropertyValueModelWrapper(valueModel);
-			initializeView(valueModel);
+			initializeViewIfRequired(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);
 		}

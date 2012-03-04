@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binders;
 
+import org.robobinding.binder.BinderImplementorImpl;
+import org.robobinding.binder.BindingViewFactory;
 import org.robobinding.binder.BindingViewFactory.InflatedView;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
@@ -30,20 +32,24 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemBinder extends AbstractBinder
+public class ItemBinder1
 {
 	private int itemLayoutId;
 	private ItemMappingAttribute itemMappingAttribute;
 	private int dropdownLayoutId;
 	private DropdownMappingAttribute dropdownMappingAttribute;
+	private BindingContext context;
+	private BinderImplementorImpl itemLayoutBinder;
+	
 
-	public ItemBinder(Context context)
+	public ItemBinder1()
 	{
 		super(context);
 	}
 	
 	public View inflateItemAndBindTo(Object presentationModel)
 	{
+		itemLayoutBinder.bindTo(presentationModel);
 		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 		InflatedView inflatedView = inflateAndBind(itemLayoutId, presentationModelAdapter);
 		

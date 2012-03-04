@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
+import org.robobinding.binder.BindingAttributeProcessor.ViewBindingAttributes;
 import org.robobinding.binder.BindingViewFactory.InflatedView;
 import org.robobinding.viewattribute.RandomValues;
 
@@ -53,7 +53,7 @@ public class SubviewBinderTest
 	@Test
 	public void whenBindingAndAttachingToRoot_thenShouldInteractCorrectlyWithCollaborator()
 	{
-		InflatedView inflatedView = new InflatedView(rootView, new ArrayList<ViewAttributes>());
+		InflatedView inflatedView = new InflatedView(rootView, new ArrayList<ViewBindingAttributes>());
 		when(bindingViewFactory.inflateViewAndAttachToRoot(layoutId, viewGroup)).thenReturn(inflatedView);
 		
 		SubViewBinder subviewBinder = new SubViewBinder(context, layoutId);

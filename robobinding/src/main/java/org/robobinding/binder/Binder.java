@@ -15,6 +15,11 @@
  */
 package org.robobinding.binder;
 
+import org.robobinding.binders.ActivityBinder;
+import org.robobinding.binders.BinderImplementor;
+import org.robobinding.binders.DialogBinder;
+import org.robobinding.binders.ViewBinder;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -29,35 +34,39 @@ import android.view.ViewGroup;
  */
 public class Binder
 {
-	private Binder(){};
-	
 	public static void bind(Activity activity, int layoutId, Object presentationModel)
 	{
-		ActivityBinder activityBinder = new ActivityBinder(activity, layoutId, true);
-		activityBinder.bindTo(presentationModel);
+		BinderImplementor binderImplementor = BinderImplementorFactoryImpl.create(activity, true);
+		ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
+		activityBinder.bind(layoutId, presentationModel);
 	}
 	
 	public static void bindWithoutPreInitializingViews(Activity activity, int layoutId, Object presentationModel)
 	{
-		ActivityBinder activityBinder = new ActivityBinder(activity, layoutId, false);
-		activityBinder.bindTo(presentationModel);
+		BinderImplementor binderImplementor = BinderImplementorFactoryImpl.create(activity, false);
+		ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
+		activityBinder.bind(layoutId, presentationModel);
 	}
 	
 	public static void bind(Dialog dialog, int layoutId, Object presentationModel)
 	{
-		DialogBinder dialogBinder = new DialogBinder(dialog, layoutId);
-		dialogBinder.bindTo(presentationModel);
+		BinderImplementor binderImplementor = BinderImplementorFactoryImpl.create(dialog.getContext(), true);
+		DialogBinder dialogBinder = new DialogBinder(dialog, binderImplementor);
+		dialogBinder.bind(layoutId, presentationModel);
 	}
 	
 	public static View bindView(Context context, int layoutId, Object presentationModel)
 	{
-		SubViewBinder subviewBinder = new SubViewBinder(context, layoutId);
-		return subviewBinder.bindTo(presentationModel);
+		BinderImplementor binderImplementor = BinderImplementorFactoryImpl.create(context, true);
+		ViewBinder viewBinder = new ViewBinder(binderImplementor);
+		return viewBinder.bind(layoutId, presentationModel);
 	}
 	
-	public static View bindViewAndAttachToRoot(Context context, int layoutId, Object presentationModel, ViewGroup viewGroup)
+	public static View attachToRootAndBindView(ViewGroup parentView, Context context, int layoutId, Object presentationModel)
 	{
-		SubViewBinder subviewBinder = new SubViewBinder(context, layoutId);
-		return subviewBinder.bindToAndAttachToRoot(presentationModel, viewGroup);
+		BinderImplementor binderImplementor = BinderImplementorFactoryImpl.create(context, true);
+		ViewBinder viewBinder = new ViewBinder(binderImplementor);
+		viewBinder.attachToRoot(parentView);
+		return viewBinder.bind(layoutId, presentationModel);
 	}
 }
