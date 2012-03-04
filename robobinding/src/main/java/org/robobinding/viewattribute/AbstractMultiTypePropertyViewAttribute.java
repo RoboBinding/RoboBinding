@@ -15,11 +15,11 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.binders.BindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
-import android.content.Context;
 import android.view.View;
 
 /**
@@ -32,7 +32,6 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 {
 	private T view;
 	private PropertyBindingDetails propertyBindingDetails;
-	private boolean preInitializeViews;
 	private ViewListenersProvider viewListenersProvider;
 	
 	@Override
@@ -44,11 +43,6 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	public void setAttributeValue(String attributeValue)
 	{
 		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue);
-	}
-	@Override
-	public void setPreInitializeView(boolean preInitializeViews)
-	{
-		this.preInitializeViews = preInitializeViews;
 	}
 	
 	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
@@ -62,14 +56,13 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	}
 	
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bindTo(BindingContext context)
 	{
-		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
+		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(context.getPresentationModelAdapter());
 		propertyViewAttribute.setView(view);
 		propertyViewAttribute.setPropertyBindingDetails(propertyBindingDetails);
-		propertyViewAttribute.setPreInitializeView(preInitializeViews);
 		setViewListenersIfRequired(propertyViewAttribute, view);
-		propertyViewAttribute.bind(presentationModelAdapter, context);
+		propertyViewAttribute.bindTo(context);
 	}
 
 	private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)

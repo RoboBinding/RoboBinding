@@ -22,8 +22,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.robobinding.binder.BindingAttributeProcessor;
-import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.binder.BindingAttributeProcessor.ViewBindingAttributes;
+import org.robobinding.binders.BindingContext;
 
 import android.content.Context;
 import android.view.View;
@@ -51,9 +51,9 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	}
 
 	@Override
-	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
 	{
-		viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, context);
+		viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, bindingContext.getContext());
 		updateDataSetAdapter(dataSetAdapter);
 	}
 
@@ -62,11 +62,11 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 		dataSetAdapter.setItemMappingAttribute(this);
 	}
 
-	public void bindToPredefined(BindingAttributeProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bindToPredefined(BindingAttributeProcessor bindingAttributesProcessor, View view, BindingContext context)
 	{
 		for (ViewMapping viewMapping : getViewMappingsCollection())
 		{
-			viewMapping.bind(bindingAttributesProcessor, view, presentationModelAdapter, context);
+			viewMapping.bind(bindingAttributesProcessor, view, context);
 		}
 	}
 	
@@ -166,11 +166,11 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 			this.bindingAttributes.put(attributeName, attributeValue);
 		}
 
-		public void bind(BindingAttributeProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
+		public void bind(BindingAttributeProcessor bindingAttributesProcessor, View view, BindingContext context)
 		{
 			View viewToBind = view.findViewById(viewId);
-			ViewAttributes viewBindingAttributes = bindingAttributesProcessor.process(viewToBind, Maps.newHashMap(bindingAttributes));
-			viewBindingAttributes.bind(presentationModelAdapter, context);
+			ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.process(viewToBind, Maps.newHashMap(bindingAttributes));
+			viewBindingAttributes.bindTo(context);
 		}
 
 		@Override

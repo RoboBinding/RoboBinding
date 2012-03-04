@@ -15,13 +15,12 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.binders.BindingContext;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.BindingDetailsBuilder;
 import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.ResourceBindingDetails;
 
-import android.content.Context;
 import android.widget.AdapterView;
 
 /**
@@ -50,9 +49,9 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 	}
 
 	@Override
-	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext context)
 	{
-		layoutAttribute.bind(dataSetAdapter, presentationModelAdapter, context);			
+		layoutAttribute.bind(dataSetAdapter, context);		
 	}
 	
 	protected void updateLayoutId(DataSetAdapter<?> dataSetAdapter, int layoutId)
@@ -66,10 +65,10 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		private DataSetAdapter<?> dataSetAdapter;
 		
 		@Override
-		public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+		public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext context)
 		{
 			this.dataSetAdapter = dataSetAdapter;
-			super.bind(presentationModelAdapter, context);
+			super.bindTo(context);
 		}
 
 		@Override
@@ -95,9 +94,9 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		}
 
 		@Override
-		public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+		public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
 		{
-			int itemLayoutId = resourceBindingDetails.getResourceId(context);
+			int itemLayoutId = resourceBindingDetails.getResourceId(bindingContext.getContext());
 			updateLayoutId(dataSetAdapter, itemLayoutId);
 		}
 	}

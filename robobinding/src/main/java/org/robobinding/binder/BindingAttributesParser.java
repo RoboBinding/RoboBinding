@@ -28,7 +28,7 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-class AttributeSetParser
+class BindingAttributesParser
 {
 	static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/android";
 

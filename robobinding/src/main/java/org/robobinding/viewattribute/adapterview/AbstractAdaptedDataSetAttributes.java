@@ -19,10 +19,9 @@ package org.robobinding.viewattribute.adapterview;
 import java.util.Collections;
 import java.util.List;
 
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.binders.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 
-import android.content.Context;
 import android.widget.AdapterView;
 
 import com.google.common.collect.Lists;
@@ -60,12 +59,12 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bindTo(BindingContext context)
 	{
-		DataSetAdapter dataSetAdapter = new DataSetAdapter(context, preInitializeViews);
+		DataSetAdapter dataSetAdapter = new DataSetAdapter(context.getContext(), context.shouldPreInitializeViews());
 		
 		for (AdapterViewAttribute adapterViewAttribute : childViewAttributes)
-			adapterViewAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
+			adapterViewAttribute.bind(dataSetAdapter, context);
 		
 		dataSetAdapter.observeChangesOnTheValueModel();
 		((AdapterView)view).setAdapter(dataSetAdapter);

@@ -17,7 +17,7 @@ package org.robobinding.binder;
 
 import java.util.List;
 
-import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
+import org.robobinding.binder.BindingAttributeProcessor.ViewBindingAttributes;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.content.Context;
@@ -42,7 +42,7 @@ public class BindingViewFactory implements Factory
 	private final BindingAttributeProcessor bindingAttributeProcessor;
 	private final ViewNameResolver viewNameResolver;
 	
-	private List<ViewAttributes> childViewBindingAttributes = Lists.newArrayList();
+	private List<ViewBindingAttributes> childViewBindingAttributes = Lists.newArrayList();
 	
 	BindingViewFactory(LayoutInflater layoutInflater, BindingAttributeProcessor bindingAttributeProcessor)
 	{
@@ -59,7 +59,7 @@ public class BindingViewFactory implements Factory
 			String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
 			
 			View view = layoutInflater.createView(viewFullName, null, attrs);
-			ViewAttributes viewBindingAttributes = bindingAttributeProcessor.read(view, attrs);
+			ViewBindingAttributes viewBindingAttributes = bindingAttributeProcessor.read(view, attrs);
 			childViewBindingAttributes.add(viewBindingAttributes);
 			return view;
 		} 
@@ -83,7 +83,7 @@ public class BindingViewFactory implements Factory
 		return new InflatedView(rootView, childViewBindingAttributes);
 	}
 	
-	List<ViewAttributes> getChildViewBindingAttributes()
+	List<ViewBindingAttributes> getChildViewBindingAttributes()
 	{
 		return childViewBindingAttributes;
 	}
@@ -91,9 +91,9 @@ public class BindingViewFactory implements Factory
 	public static class InflatedView
 	{
 		private View rootView;
-		private List<ViewAttributes> childViewBindingAttributes;
+		private List<ViewBindingAttributes> childViewBindingAttributes;
 		
-		InflatedView(View rootView, List<ViewAttributes> childViewBindingAttributes)
+		InflatedView(View rootView, List<ViewBindingAttributes> childViewBindingAttributes)
 		{
 			this.rootView = rootView;
 			this.childViewBindingAttributes = childViewBindingAttributes;
@@ -106,7 +106,7 @@ public class BindingViewFactory implements Factory
 
 		void bindChildViews(PresentationModelAdapter presentationModelAdapter, Context context)
 		{
-			for (ViewAttributes viewAttributeBinder : childViewBindingAttributes)
+			for (ViewBindingAttributes viewAttributeBinder : childViewBindingAttributes)
 				viewAttributeBinder.bind(presentationModelAdapter, context);
 		}
 	}

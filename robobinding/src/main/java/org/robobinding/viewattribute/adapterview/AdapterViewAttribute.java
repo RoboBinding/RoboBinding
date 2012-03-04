@@ -15,9 +15,7 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.presentationmodel.PresentationModelAdapter;
-
-import android.content.Context;
+import org.robobinding.binders.BindingContext;
 
 /**
  * 
@@ -27,5 +25,5 @@ import android.content.Context;
  */
 public interface AdapterViewAttribute
 {
-	void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context);
+	void bind(DataSetAdapter<?> dataSetAdapter, BindingContext context);
 }

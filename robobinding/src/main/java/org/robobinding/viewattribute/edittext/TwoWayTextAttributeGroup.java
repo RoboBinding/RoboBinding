@@ -15,11 +15,10 @@
  */
 package org.robobinding.viewattribute.edittext;
 
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.binders.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractViewAttributeInstantiator;
 
-import android.content.Context;
 import android.widget.EditText;
 
 /**
@@ -71,9 +70,9 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	}
 
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bindTo(BindingContext context)
 	{
-		textAttribute.bind(presentationModelAdapter, context);
+		textAttribute.bindTo(context);
 	}
 
 }

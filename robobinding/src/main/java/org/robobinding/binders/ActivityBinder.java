@@ -13,18 +13,32 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.binders;
 
-import org.robobinding.binders.BindingContext;
-
+import android.app.Activity;
+import android.view.View;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface ViewAttribute
+public class ActivityBinder
 {
-	void bindTo(BindingContext context);
+	private final Activity activity;
+	private final BinderImplementor binderImplementor;
+	
+	public ActivityBinder(Activity activity, BinderImplementor binderImplementor)
+	{
+		this.activity = activity;
+		this.binderImplementor = binderImplementor;
+	}
+
+	public void bind(int layoutId, Object presentationModel)
+	{
+		View rootView = binderImplementor.bind(layoutId, presentationModel);
+		activity.setContentView(rootView);
+	}
+	
 }
