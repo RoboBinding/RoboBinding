@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding;
+package org.robobinding.binders;
 
-import org.robobinding.presentationmodel.DialogPresentationModel;
-
-import android.app.Dialog;
+import android.app.Activity;
 import android.view.View;
-import android.view.Window;
 
 /**
  *
@@ -27,30 +24,21 @@ import android.view.Window;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class DialogBinder
+public class ActivityBinder
 {
-	private final Dialog dialog;
+	private final Activity activity;
 	private final BinderImplementor binderImplementor;
-
-	public DialogBinder(Dialog dialog, BinderImplementor binderImplementor)
+	
+	public ActivityBinder(Activity activity, BinderImplementor binderImplementor)
 	{
-		this.dialog = dialog;
+		this.activity = activity;
 		this.binderImplementor = binderImplementor;
 	}
 
-	public void inflateAndBind(int layoutId, Object presentationModel)
+	public void bind(int layoutId, Object presentationModel)
 	{
-		if (presentationModel instanceof DialogPresentationModel)
-		{
-			DialogPresentationModel dialogPresentationModel = (DialogPresentationModel)presentationModel;
-			
-			if (dialogPresentationModel.getTitle() == null)
-				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			else
-				dialog.setTitle(dialogPresentationModel.getTitle());
-		}
-
-		View rootView = binderImplementor.inflateAndBind(layoutId, presentationModel);
-		dialog.setContentView(rootView);
+		View rootView = binderImplementor.bind(layoutId, presentationModel);
+		activity.setContentView(rootView);
 	}
+	
 }
