@@ -87,6 +87,12 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	protected void addGroupedViewAttributeMapping(Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass, String... attributeNames)
 	{
 		groupedViewAttributeMappings.put(attributeNames, groupedViewAttributeClass);
+		addGroupedViewAttributeMapping(attributeNames, groupedViewAttributeClass);
+	}
+	
+	void addGroupedViewAttributeMapping(String[] attributeNames, Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass)
+	{
+		groupedViewAttributeMappings.put(attributeNames, groupedViewAttributeClass);
 	}
 	
 	public Iterable<String> getPropertyAttributes()
