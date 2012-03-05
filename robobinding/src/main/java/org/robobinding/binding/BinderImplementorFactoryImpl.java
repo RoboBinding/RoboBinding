@@ -13,13 +13,20 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binding;
 
+<<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binder/BinderImplementorFactoryImpl.java
 import org.robobinding.BinderImplementor;
 import org.robobinding.BinderImplementorFactory;
 import org.robobinding.BindingContext;
 import org.robobinding.binder.BinderImplementorImpl.BindingContextCreator;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
+=======
+import org.robobinding.binder.BinderImplementor;
+import org.robobinding.binder.BinderImplementorFactory;
+import org.robobinding.binder.BindingContext;
+import org.robobinding.binding.BinderImplementorImpl.BindingContextCreator;
+>>>>>>> Apply PredefinedViewPendingAttributes and BindingContext ideas.:robobinding/src/main/java/org/robobinding/binding/BinderImplementorFactoryImpl.java
 
 import android.content.Context;
 

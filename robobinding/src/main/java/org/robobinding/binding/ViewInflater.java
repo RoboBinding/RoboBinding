@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binding;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+<<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binder/BindingViewInflater.java
 import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
@@ -27,6 +28,15 @@ import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatt
 import org.robobinding.binder.ViewFactory.ViewFactoryListener;
 
 import android.content.Context;
+=======
+import org.robobinding.binder.BindingContext;
+import org.robobinding.binder.PredefinedViewPendingAttributes;
+import org.robobinding.binder.ViewPendingAttributes;
+import org.robobinding.binder.ViewPendingAttributesImpl;
+import org.robobinding.binding.BindingAttributeResolver.ViewBindingAttributes;
+import org.robobinding.binding.ViewFactory.ViewCreationListener;
+
+>>>>>>> Apply PredefinedViewPendingAttributes and BindingContext ideas.:robobinding/src/main/java/org/robobinding/binding/ViewInflater.java
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +51,7 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  * @author Cheng Wei
  */
+<<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binder/BindingViewInflater.java
 class BindingViewInflater implements ViewFactoryListener
 {
 	private final List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
@@ -52,9 +63,24 @@ class BindingViewInflater implements ViewFactoryListener
 	private List<ResolvedBindingAttributes> childViewBindingAttributesGroup;
 
 	BindingViewInflater(Builder builder)
+=======
+class ViewInflater implements ViewCreationListener
+{
+	private final LayoutInflater layoutInflater;
+	private final ViewGroup parentViewToAttach;
+	private final List<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup;
+	private final BindingAttributeResolver bindingAttributeResolver;
+	private final BindingAttributeParser bindingAttributesParser;
+	
+	private List<ViewBindingAttributes> childViewBindingAttributes;
+	private boolean isInflatingBindingView;
+
+	private ViewInflater(Builder builder)
+>>>>>>> Apply PredefinedViewPendingAttributes and BindingContext ideas.:robobinding/src/main/java/org/robobinding/binding/ViewInflater.java
 	{
 		this.predefinedPendingAttributesForViewGroup = builder.predefinedPendingAttributesForViewGroup;
 
+<<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binder/BindingViewInflater.java
 		this.viewInflator = createViewInflator(builder);
 		bindingAttributeResolver = new BindingAttributeResolver();
 		bindingAttributeParser = new BindingAttributeParser();
@@ -67,6 +93,32 @@ class BindingViewInflater implements ViewFactoryListener
 	}
 
 	private LayoutInflater createLayoutInflaterWithCustomViewFactory(Context context)
+=======
+		ViewFactory viewFactory = new ViewFactory(layoutInflater);
+		viewFactory.setListener(this);
+		bindingAttributeResolver = new BindingAttributeResolver();
+		bindingAttributesParser = new BindingAttributeParser();
+	}
+
+	public InflatedView inflateBindingView(int layoutId)
+	{
+		childViewBindingAttributes = Lists.newArrayList();
+		isInflatingBindingView = true;
+		
+		View rootView = inflate(layoutId);
+		addPredefinedViewPendingAttributesGroup(rootView);
+		
+		return new InflatedView(rootView, childViewBindingAttributes);
+	}
+
+	public View inflateView(int layoutId)
+	{
+		isInflatingBindingView = false;
+		return inflate(layoutId);
+	}
+
+	private View inflate(int layoutId)
+>>>>>>> Apply PredefinedViewPendingAttributes and BindingContext ideas.:robobinding/src/main/java/org/robobinding/binding/ViewInflater.java
 	{
 		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
 		ViewFactory viewFactory = new ViewFactory(layoutInflater);
@@ -97,19 +149,32 @@ class BindingViewInflater implements ViewFactoryListener
 	@Override
 	public void onViewCreated(View childView, AttributeSet attrs)
 	{
+<<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binder/BindingViewInflater.java
 		Map<String, String> pendingAttributeMappings = bindingAttributeParser.parse(attrs);
 		if(!pendingAttributeMappings.isEmpty())
 		{
 			PendingAttributesForView pendingAttributesForView = new PendingAttributesForViewImpl(childView, pendingAttributeMappings);
 			resolveAndAddViewBindingAttributes(pendingAttributesForView);
+=======
+		if(isInflatingBindingView)
+		{
+			Map<String, String> pendingAttributeMappings = bindingAttributesParser.parse(attrs);
+			ViewPendingAttributes viewPendingAttributes = new ViewPendingAttributesImpl(childView, pendingAttributeMappings);
+			resolveAndAddViewBindingAttributes(viewPendingAttributes);
+>>>>>>> Apply PredefinedViewPendingAttributes and BindingContext ideas.:robobinding/src/main/java/org/robobinding/binding/ViewInflater.java
 		}
 	}
 	
 	private void resolveAndAddViewBindingAttributes(PendingAttributesForView pendingAttributesForView)
 	{
+<<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binder/BindingViewInflater.java
 		ViewResolutionResult viewResolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
 		viewResolutionResult.addPotentialErrorTo(errors);
 		childViewBindingAttributesGroup.add(viewResolutionResult.getResolvedBindingAttributes());
+=======
+		ViewBindingAttributes viewBindingAttributes = bindingAttributeResolver.resolve(viewPendingAttributes);
+		childViewBindingAttributes.add(viewBindingAttributes);
+>>>>>>> Apply PredefinedViewPendingAttributes and BindingContext ideas.:robobinding/src/main/java/org/robobinding/binding/ViewInflater.java
 	}
 
 	public static class Builder
@@ -143,9 +208,9 @@ class BindingViewInflater implements ViewFactoryListener
 			return this;
 		}
 		
-		public BindingViewInflater create()
+		public ViewInflater create()
 		{
-			return new BindingViewInflater(this);
+			return new ViewInflater(this);
 		}
 	}
 

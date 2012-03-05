@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binders;
+package org.robobinding.binder;
 
-import android.view.View;
-import android.view.ViewGroup;
 
 /**
  *
@@ -24,20 +22,7 @@ import android.view.ViewGroup;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewBinder
+public interface BinderImplementorFactory
 {
-	private BinderImplementor binderImplementor;
-	public ViewBinder(BinderImplementor binderImplementor)
-	{
-		this.binderImplementor = binderImplementor;
-	}
-	public void attachToRoot(ViewGroup parentView)
-	{
-		binderImplementor.attachToRoot(parentView);
-	}
-	public View bind(int layoutId, Object presentationModel)
-	{
-		return binderImplementor.bind(layoutId, presentationModel);
-	}
-
+	BinderImplementor create();
 }

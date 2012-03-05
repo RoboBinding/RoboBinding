@@ -13,49 +13,56 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binders;
+package org.robobinding.binder;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
 
 import android.content.Context;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class BindingContext
 {
-	private BinderImplementorFactory factory;
+	private final BinderImplementorFactory factory;
+	private final Context context;
+	private final boolean preInitializeViews;
+	private final PresentationModelAdapter presentationModelAdapter;
+
 	public BindingContext(BinderImplementorFactory factory, Context context, boolean preInitializeViews, Object presentationModel)
 	{
-		// TODO Auto-generated constructor stub
-	}
-	
-	public boolean shouldPreInitializeViews()
-	{
-		return false;
-	}
-	
-	public PresentationModelAdapter getPresentationModelAdapter()
-	{
-		return null;
+		this.factory = factory;
+		this.context = context;
+		this.preInitializeViews = preInitializeViews;
+		this.presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 	}
 
-	public Context getContext()
+	public boolean shouldPreInitializeViews()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return preInitializeViews;
 	}
-	
-	public ItemBinder1 createItemBinder()
+
+	public PresentationModelAdapter getPresentationModelAdapter()
 	{
-		return null;
+		return presentationModelAdapter;
 	}
-	
+
+	public Context getAndroidContext()
+	{
+		return context;
+	}
+
+	public ItemBinder createItemBinder()
+	{
+		return new ItemBinder(factory.create());
+	}
+
 	public ViewBinder createViewBinder()
 	{
-		return null;
+		return new ViewBinder(factory.create());
 	}
 }

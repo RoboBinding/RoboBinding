@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binding;
 
-import org.robobinding.ActivityBinder;
-import org.robobinding.BinderImplementor;
-import org.robobinding.DialogBinder;
-import org.robobinding.ViewBinder;
+import org.robobinding.binder.ActivityBinder;
+import org.robobinding.binder.BinderImplementor;
+import org.robobinding.binder.DialogBinder;
+import org.robobinding.binder.ViewBinder;
 
 import android.app.Activity;
 import android.app.Dialog;

@@ -13,15 +13,24 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binding;
 
 import java.util.Collection;
 
+<<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binder/BinderImplementorImpl.java
 import org.robobinding.BinderImplementor;
 import org.robobinding.BindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.binder.BindingViewInflater.InflatedView;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
+=======
+import org.robobinding.binder.BinderImplementor;
+import org.robobinding.binder.BindingContext;
+import org.robobinding.binder.PredefinedViewPendingAttributes;
+import org.robobinding.binding.ViewInflater.InflatedView;
+
+import com.google.common.collect.Lists;
+>>>>>>> Apply PredefinedViewPendingAttributes and BindingContext ideas.:robobinding/src/main/java/org/robobinding/binding/BinderImplementorImpl.java
 
 import android.content.Context;
 import android.view.View;
@@ -64,10 +73,17 @@ class BinderImplementorImpl implements BinderImplementor
 	}
 	
 	@Override
+<<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binder/BinderImplementorImpl.java
 	public View inflateAndBind(int layoutId, Object presentationModel, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
 	{
 		BindingViewInflater viewInflater = createBindingViewInflater(predefinedPendingAttributesForViewGroup);
 		InflatedView inflatedView = viewInflater.inflateView(layoutId);
+=======
+	public View inflateAndBind(int layoutId, Object presentationModel)
+	{
+		ViewInflater viewInflater = createViewInflater();
+		InflatedView inflatedView = viewInflater.inflateBindingView(layoutId);
+>>>>>>> Apply PredefinedViewPendingAttributes and BindingContext ideas.:robobinding/src/main/java/org/robobinding/binding/BinderImplementorImpl.java
 		
 		BindingContext bindingContext = bindingContextCreator.create(presentationModel);
 		inflatedView.bindChildViews(bindingContext);
@@ -76,6 +92,7 @@ class BinderImplementorImpl implements BinderImplementor
 		return inflatedView.getRootView();
 	}
 
+<<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binder/BinderImplementorImpl.java
 	BindingViewInflater createBindingViewInflater(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
 	{
 		BindingViewInflater.Builder viewInflaterBuilder = new BindingViewInflater.Builder(context);
@@ -89,6 +106,22 @@ class BinderImplementorImpl implements BinderImplementor
 	{
 		ViewInflater viewInflater = new NonBindingViewInflater(context, parentView);
 		return viewInflater.inflateView(layoutId);
+=======
+	@Override
+	public View inflateOnly(int layoutId)
+	{
+		ViewInflater viewInflater = createViewInflater();
+		return viewInflater.inflateView(layoutId);
+	}
+
+	private ViewInflater createViewInflater()
+	{
+		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
+		ViewInflater.Builder viewInflaterBuilder = new ViewInflater.Builder(layoutInflater);
+		viewInflaterBuilder.setParentViewToAttach(parentView);
+		viewInflaterBuilder.setPredefinedViewPendingAttributesGroup(predefinedViewPendingAttributesGroup);
+		return viewInflaterBuilder.create();
+>>>>>>> Apply PredefinedViewPendingAttributes and BindingContext ideas.:robobinding/src/main/java/org/robobinding/binding/BinderImplementorImpl.java
 	}
 
 	public static interface BindingContextCreator
