@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
+package org.robobinding.viewattribute;
 package org.robobinding.viewattribute.impl;
 
 import java.util.Map;
@@ -84,9 +85,16 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		commandViewAttributeMappings.put(attributeName, commandViewAttributeClass);
 	}
 	
-	protected void addGroupedViewAttributeMapping(Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass,	String... attributeNames)
+	protected void addGroupedViewAttributeMapping(Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass, String... attributeNames)
 	{
 		groupedViewAttributeMappings.put(attributeNames, groupedViewAttributeClass);
+		GroupedAttributeDetailsImpl groupedPropertyAttribute = new GroupedAttributeDetailsImpl(attributeNames);
+		addGroupedViewAttributeMapping(groupedPropertyAttribute, groupedViewAttributeClass);
+	}
+	
+	void addGroupedViewAttributeMapping(GroupedAttributeDetailsImpl groupedPropertyAttribute, Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass)
+	{
+		groupedViewAttributeMappings.put(groupedPropertyAttribute, groupedViewAttributeClass);
 	}
 	
 	public Iterable<String> getPropertyAttributes()
@@ -174,7 +182,6 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 			View view = getViewForGroupedAttribute(groupedAttributeDetails);
 			((AbstractGroupedViewAttribute<View>)groupedViewAttribute).setView(view);
 			groupedViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
-			setViewListenersIfRequired(groupedViewAttribute, view);
 			groupedViewAttribute.setViewListenersProvider(viewListenersProvider);
 			groupedViewAttribute.postInitialization();
 			return groupedViewAttribute;

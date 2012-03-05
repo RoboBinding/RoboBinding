@@ -110,9 +110,6 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	@Override
 	public void assertAttributesArePresent(View view, String... attributeNames)
 	{
-		if (attributeNames == null)
-			return;
-		
 		if(!hasAttributes(attributeNames))
 			throw new MissingRequiredBindingAttributeException(findAbsentAttributes(attributeNames), view);
 	}

@@ -80,14 +80,6 @@ public class GroupedAttributeDetailsImplTest
 		groupedAttributeDetails.assertAttributesArePresent(view, attributeNames);
 	}
 	
-	@Test
-	public void whenAssertingAllAttributesArePresentWithNull_thenIgnore()
-	{
-		String[] compulsoryAttributes = null;
-		
-		groupedAttributeDetails.assertAttributesArePresent(view, compulsoryAttributes);
-	}
-	
 	private void allAttributesArePresent()
 	{
 		for (int i = 0; i < attributeNames.length; i++)
