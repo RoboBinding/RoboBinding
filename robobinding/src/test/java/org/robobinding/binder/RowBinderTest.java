@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.R;
-import org.robobinding.binders.ItemBinder1;
+import org.robobinding.binder.ItemBinder1;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
 import org.robobinding.viewattribute.adapterview.ItemMappingAttribute;

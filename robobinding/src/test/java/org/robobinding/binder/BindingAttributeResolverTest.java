@@ -20,6 +20,8 @@ import static org.mockito.Mockito.mock;
 import java.util.Map;
 
 import org.junit.Test;
+import org.robobinding.binding.BindingAttributeException;
+import org.robobinding.binding.BindingAttributeResolver;
 
 import android.view.View;
 

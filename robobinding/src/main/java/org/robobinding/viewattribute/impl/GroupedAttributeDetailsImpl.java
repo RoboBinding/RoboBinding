@@ -40,25 +40,15 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	private String[] supportedAttributes;
 	private Map<String, String> presentAttributeMappings;
 
-	public GroupedAttributeDetailsImpl(String[] attributes)
+	public GroupedAttributeDetailsImpl(String[] supportedAttributes, Map<String, String> presentAttributeMappings)
 	{
-		this.supportedAttributes = attributes;
-		presentAttributeMappings = Maps.newHashMap();
+		this.supportedAttributes = supportedAttributes;
+		this.presentAttributeMappings = Maps.newHashMap(presentAttributeMappings);
 	}
-
+	
 	public String[] getSupportedAttributes()
 	{
 		return supportedAttributes;
-	}
-
-	public void addPresentAttribute(String attributeName, String attributeValue)
-	{
-		presentAttributeMappings.put(attributeName, attributeValue);
-	}
-
-	public Collection<String> getPresentAttributes()
-	{
-		return presentAttributeMappings.keySet();
 	}
 	
 	boolean hasAttributes(String... attributes)
@@ -106,14 +96,14 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 		
 		final GroupedAttributeDetailsImpl that = (GroupedAttributeDetailsImpl)other;
 		return new EqualsBuilder()
-				.append(supportedAttributes, that.supportedAttributes)
+				.append(presentAttributeMappings, that.presentAttributeMappings)
 				.isEquals();
 	}
 	@Override
 	public int hashCode()
 	{
 		return new HashCodeBuilder()
-			.append(supportedAttributes)
+			.append(presentAttributeMappings)
 			.toHashCode();
 	}
 

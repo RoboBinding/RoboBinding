@@ -15,15 +15,14 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binder.Binder;
+import org.robobinding.binder.BindingContext;
+import org.robobinding.binder.ViewBinder;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.BindingDetailsBuilder;
 import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.ResourceBindingDetails;
 
-import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 
 /**
@@ -34,9 +33,9 @@ import android.view.View;
  */
 class SubViewCreator
 {
-	private Context context;
-	private String layoutResource;
-	public SubViewCreator(Context context, String layoutResource)
+	private final BindingContext context;
+	private final String layoutResource;
+	public SubViewCreator(BindingContext context, String layoutResource)
 	{
 		this.context = context;
 		this.layoutResource = layoutResource;
@@ -45,29 +44,30 @@ class SubViewCreator
 	public View create()
 	{
 		int layoutId = getLayoutId();
-		
-		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(layoutId, null);
+		ViewBinder viewBinder = context.createViewBinder();
+		return viewBinder.inflate(layoutId);
 	}
 	
-	public View createAndBindTo(String presentationModelAttributeValue, PresentationModelAdapter presentationModelAdapter)
+	public View createAndBindTo(String presentationModelAttributeValue)
 	{
 		int layoutId = getLayoutId();
 		
-		Object presentationModel = getPresentationModel(presentationModelAdapter, presentationModelAttributeValue);
-		return Binder.bindView(context, layoutId, presentationModel);
+		ViewBinder viewBinder = context.createViewBinder();
+		Object presentationModel = getPresentationModel(presentationModelAttributeValue);
+		return viewBinder.inflateAndBind(layoutId, presentationModel);
 	}
 
 	int getLayoutId()
 	{
 		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(layoutResource);
 		ResourceBindingDetails resourceBindingDetails = bindingDetailsBuilder.createResourceBindingDetails();
-		return resourceBindingDetails.getResourceId(context);
+		return resourceBindingDetails.getResourceId(context.getAndroidContext());
 	}
 
-	Object getPresentationModel(PresentationModelAdapter presentationModelAdapter, String presentationModelAttributeValue)
+	Object getPresentationModel(String presentationModelAttributeValue)
 	{
 		PropertyBindingDetails propertyBindingDetails = PropertyBindingDetails.createFrom(presentationModelAttributeValue);
+		PresentationModelAdapter presentationModelAdapter = context.getPresentationModelAdapter();
 		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
 		return valueModel.getValue();
 	}

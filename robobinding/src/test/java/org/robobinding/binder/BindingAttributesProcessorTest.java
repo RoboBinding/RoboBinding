@@ -26,7 +26,8 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributeProcessor.ViewBindingAttributes;
+import org.robobinding.binding.BindingAttributeParser;
+import org.robobinding.binding.BindingAttributeProcessor.ViewBindingAttributes;
 
 import android.util.AttributeSet;
 import android.view.View;
@@ -44,12 +45,12 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public class BindingAttributesProcessorTest
 {
 	private static final View VIEW = new View(null);
-	private BindingAttributesParser attributeSetParser;
+	private BindingAttributeParser attributeSetParser;
 	
 	@Before
 	public void setUp()
 	{
-		attributeSetParser = mock(BindingAttributesParser.class);
+		attributeSetParser = mock(BindingAttributeParser.class);
 	}
 	
 	@Test

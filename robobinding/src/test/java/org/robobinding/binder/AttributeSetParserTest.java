@@ -26,6 +26,7 @@ import java.util.Random;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robobinding.binding.BindingAttributeParser;
 
 import android.util.AttributeSet;
 
@@ -40,7 +41,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class AttributeSetParserTest
 {
-	private BindingAttributesParser attributeSetParser = new BindingAttributesParser();
+	private BindingAttributeParser attributeSetParser = new BindingAttributeParser();
 
 	@Test
 	public void givenAttributeSetWithNoBindingAttributes_whenLoading_thenBindingMapShouldBeEmpty()
@@ -68,7 +69,7 @@ public class AttributeSetParserTest
 		
 		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(attributeSetWithAttributes);
 		for (String attribute : bindingMap.keySet())
-			assertThat(bindingMap.get(attribute), equalTo(attributeSetWithAttributes.getAttributeValue(BindingAttributesParser.ROBOBINDING_NAMESPACE, attribute)));
+			assertThat(bindingMap.get(attribute), equalTo(attributeSetWithAttributes.getAttributeValue(BindingAttributeParser.ROBOBINDING_NAMESPACE, attribute)));
 	}
 	
 	private Map<String, String> loadBindingMapFromAttributeSet(AttributeSet attrs)

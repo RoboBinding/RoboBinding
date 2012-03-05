@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binders;
+package org.robobinding.binder;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -39,15 +40,15 @@ public class ItemBinder
 		predefinedViewPendingAttributesGroup = Lists.newArrayList();
 	}
 
-	public ItemBinder addPredefinedViewPendingAttributes(PredefinedViewPendingAttributes predefinedViewPendingAttributes)
+	public ItemBinder setPredefinedViewPendingAttributesGroup(Collection<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup)
 	{
-		predefinedViewPendingAttributesGroup.add(predefinedViewPendingAttributes);
+		this.predefinedViewPendingAttributesGroup = Lists.newArrayList(predefinedViewPendingAttributesGroup);
 		return this;
 	}
 	
-	public View bind(int layoutId, Object presentationModel)
+	public View inflateAndBind(int layoutId, Object presentationModel)
 	{
 		binderImplementor.setPredefinedViewPendingAttributesGroup(predefinedViewPendingAttributesGroup);
-		return binderImplementor.bind(layoutId, presentationModel);
+		return binderImplementor.inflateAndBind(layoutId, presentationModel);
 	}
 }

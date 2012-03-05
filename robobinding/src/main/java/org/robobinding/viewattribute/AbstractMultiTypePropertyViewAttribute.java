@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.binders.BindingContext;
+import org.robobinding.binder.BindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;

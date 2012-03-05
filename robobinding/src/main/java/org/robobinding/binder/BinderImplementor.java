@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binders;
+package org.robobinding.binder;
 
-import java.util.Map;
+import java.util.Collection;
+
 
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  *
@@ -25,21 +27,10 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ViewPendingAttributes
+public interface BinderImplementor
 {
-	View getView();
-	void resolveAttributeIfExists(String attribute, AttributeResolver attributeResolver);
-	void resolveAttributeGroupIfExists(String[] attributeGroup, AttributeGroupResolver attributeGroupResolver);
-	boolean isEmpty();
-	void assertAllResolved();
-
-	public interface AttributeResolver
-	{
-		void resolve(View view, String attribute, String attributeValue);
-	}
-	
-	public interface AttributeGroupResolver
-	{
-		void resolve(View view, Map<String, String> presentAttributeMappings);
-	}
+	BinderImplementor attachToRoot(ViewGroup parentView);
+	BinderImplementor setPredefinedViewPendingAttributesGroup(Collection<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup);
+	View inflateAndBind(int layoutId, Object presentationModel);
+	View inflateOnly(int layoutId);
 }

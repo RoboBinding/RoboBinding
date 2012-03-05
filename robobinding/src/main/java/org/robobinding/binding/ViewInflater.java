@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binding;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.robobinding.binder.BindingAttributeProcessor.ViewBindingAttributes;
-import org.robobinding.binder.ViewFactory.ViewCreationListener;
-import org.robobinding.binders.BindingContext;
-import org.robobinding.binders.PredefinedViewPendingAttributes;
-import org.robobinding.binders.ViewPendingAttributes;
-import org.robobinding.binders.ViewPendingAttributesImpl;
+import org.robobinding.binder.BindingContext;
+import org.robobinding.binder.PredefinedViewPendingAttributes;
+import org.robobinding.binder.ViewPendingAttributes;
+import org.robobinding.binder.ViewPendingAttributesImpl;
+import org.robobinding.binding.BindingAttributeResolver.ViewBindingAttributes;
+import org.robobinding.binding.ViewFactory.ViewCreationListener;
 
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -39,16 +39,18 @@ import com.google.common.collect.Lists;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class BindingViewInflater implements ViewCreationListener
+class ViewInflater implements ViewCreationListener
 {
 	private final LayoutInflater layoutInflater;
 	private final ViewGroup parentViewToAttach;
 	private final List<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup;
-	private final BindingAttributeProcessor bindingAttributeProcessor;
-	private final BindingAttributesParser bindingAttributesParser;
+	private final BindingAttributeResolver bindingAttributeResolver;
+	private final BindingAttributeParser bindingAttributesParser;
+	
 	private List<ViewBindingAttributes> childViewBindingAttributes;
+	private boolean isInflatingBindingView;
 
-	private BindingViewInflater(Builder builder)
+	private ViewInflater(Builder builder)
 	{
 		this.layoutInflater = builder.layoutInflater;
 		this.parentViewToAttach = builder.parentViewToAttach;
@@ -56,18 +58,25 @@ class BindingViewInflater implements ViewCreationListener
 
 		ViewFactory viewFactory = new ViewFactory(layoutInflater);
 		viewFactory.setListener(this);
-		bindingAttributeProcessor = new BindingAttributeProcessor();
-		bindingAttributesParser = new BindingAttributesParser();
+		bindingAttributeResolver = new BindingAttributeResolver();
+		bindingAttributesParser = new BindingAttributeParser();
 	}
 
-	public InflatedView inflateView(int layoutId)
+	public InflatedView inflateBindingView(int layoutId)
 	{
 		childViewBindingAttributes = Lists.newArrayList();
+		isInflatingBindingView = true;
 		
 		View rootView = inflate(layoutId);
 		addPredefinedViewPendingAttributesGroup(rootView);
 		
 		return new InflatedView(rootView, childViewBindingAttributes);
+	}
+
+	public View inflateView(int layoutId)
+	{
+		isInflatingBindingView = false;
+		return inflate(layoutId);
 	}
 
 	private View inflate(int layoutId)
@@ -98,14 +107,17 @@ class BindingViewInflater implements ViewCreationListener
 	@Override
 	public void onViewCreated(View childView, AttributeSet attrs)
 	{
-		Map<String, String> pendingAttributeMappings = bindingAttributesParser.parse(attrs);
-		ViewPendingAttributes viewPendingAttributes = new ViewPendingAttributesImpl(childView, pendingAttributeMappings);
-		resolveAndAddViewBindingAttributes(viewPendingAttributes);
+		if(isInflatingBindingView)
+		{
+			Map<String, String> pendingAttributeMappings = bindingAttributesParser.parse(attrs);
+			ViewPendingAttributes viewPendingAttributes = new ViewPendingAttributesImpl(childView, pendingAttributeMappings);
+			resolveAndAddViewBindingAttributes(viewPendingAttributes);
+		}
 	}
 	
 	private void resolveAndAddViewBindingAttributes(ViewPendingAttributes viewPendingAttributes)
 	{
-		ViewBindingAttributes viewBindingAttributes = bindingAttributeProcessor.resolve(viewPendingAttributes);
+		ViewBindingAttributes viewBindingAttributes = bindingAttributeResolver.resolve(viewPendingAttributes);
 		childViewBindingAttributes.add(viewBindingAttributes);
 	}
 
@@ -134,9 +146,9 @@ class BindingViewInflater implements ViewCreationListener
 			return this;
 		}
 		
-		public BindingViewInflater create()
+		public ViewInflater create()
 		{
-			return new BindingViewInflater(this);
+			return new ViewInflater(this);
 		}
 	}
 

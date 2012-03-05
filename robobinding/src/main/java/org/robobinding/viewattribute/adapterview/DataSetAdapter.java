@@ -15,13 +15,14 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binders.ItemBinder;
+import java.util.Collection;
+import org.robobinding.binder.BindingContext;
+import org.robobinding.binder.ItemBinder;
+import org.robobinding.binder.PredefinedViewPendingAttributes;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.DataSetValueModelWrapper;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
-
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -37,14 +38,20 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private enum ViewType {ITEM_LAYOUT, DROPDOWN_LAYOUT}
 	
 	private DataSetValueModel<T> dataSetValueModel;
-	private final ItemBinder itemBinder;
 	
 	private boolean preInitializeViews;
 	private boolean propertyChangeEventOccurred = false;
 	
-	public DataSetAdapter(Context context, boolean preInitializeViews)
+	private int itemLayoutId;
+	private int dropDownLayoutId;
+	
+	private final ItemBinder itemBinder;
+	private final ItemBinder dropDownBinder;
+	
+	public DataSetAdapter(BindingContext context, boolean preInitializeViews)
 	{
-		this.itemBinder = new ItemBinder(context);
+		itemBinder = context.createItemBinder();
+		dropDownBinder = context.createItemBinder();
 		this.preInitializeViews = preInitializeViews;
 	}
 
@@ -84,12 +91,12 @@ public class DataSetAdapter<T> extends BaseAdapter
 	
 	public void setItemLayoutId(int itemLayoutId)
 	{
-		itemBinder.setItemLayoutId(itemLayoutId);
+		this.itemLayoutId = itemLayoutId;
 	}
 	
-	public void setDropdownLayoutId(int dropdownLayoutId)
+	public void setDropDownLayoutId(int dropDownLayoutId)
 	{
-		itemBinder.setDropdownLayoutId(dropdownLayoutId);
+		this.dropDownLayoutId = dropDownLayoutId;
 	}
 	
 	@Override
@@ -143,7 +150,14 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private View newView(int position, ViewGroup parent, ViewType viewType)
 	{
 		ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
-		View view = viewType == ViewType.ITEM_LAYOUT ? itemBinder.inflateItemAndBindTo(itemPresentationModel) : itemBinder.inflateDropdownAndBindTo(itemPresentationModel);
+		View view;
+		if(viewType == ViewType.ITEM_LAYOUT)
+		{
+			view = itemBinder.inflateAndBind(itemLayoutId, itemPresentationModel);
+		}else
+		{
+			view = dropDownBinder.inflateAndBind(dropDownLayoutId, itemPresentationModel);
+		}
 		view.setTag(itemPresentationModel);
 		return view;
 	}
@@ -155,13 +169,13 @@ public class DataSetAdapter<T> extends BaseAdapter
 		itemPresentationModel.updateData(position, getItem(position));
 	}
 
-	public void setItemMappingAttribute(ItemMappingAttribute itemMappingAttribute)
+	public void setItemPredefinedViewPendingAttributesGroup(Collection<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup)
 	{
-		itemBinder.setItemMappingAttribute(itemMappingAttribute);
+		itemBinder.setPredefinedViewPendingAttributesGroup(predefinedViewPendingAttributesGroup);
 	}
 
-	public void setDropdownMappingAttribute(DropdownMappingAttribute dropdownMappingAttribute)
+	public void setDropdownPredefinedViewPendingAttributesGroup(Collection<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup)
 	{
-		itemBinder.setDropdownMappingAttribute(dropdownMappingAttribute);
+		dropDownBinder.setPredefinedViewPendingAttributesGroup(predefinedViewPendingAttributesGroup);
 	}
 }

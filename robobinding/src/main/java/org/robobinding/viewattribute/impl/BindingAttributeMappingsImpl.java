@@ -15,7 +15,6 @@
  */
 package org.robobinding.viewattribute.impl;
 
-import java.util.Collection;
 import java.util.Map;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
@@ -40,17 +39,16 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 {
 	private T view;
 	private ViewListenersProvider viewListenersProvider;
-	
 	private ViewAttributeInstantiator viewAttributeInstantiator;
+
 	private Map<String, Class<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
 	private Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
-	private Map<GroupedAttributeDetailsImpl, Class<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
+	private Map<String[], Class<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
 	
 	public BindingAttributeMappingsImpl(T view, ViewListenersProvider viewListenersProvider)
 	{
 		this.view = view;
 		this.viewListenersProvider = viewListenersProvider;
-		
 		viewAttributeInstantiator = new ViewAttributeInstantiator();
 		
 		propertyViewAttributeMappings = Maps.newHashMap();
@@ -88,16 +86,10 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	
 	protected void addGroupedViewAttributeMapping(Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass, String... attributeNames)
 	{
-		GroupedAttributeDetailsImpl groupedPropertyAttribute = new GroupedAttributeDetailsImpl(attributeNames);
-		addGroupedViewAttributeMapping(groupedPropertyAttribute, groupedViewAttributeClass);
+		groupedViewAttributeMappings.put(attributeNames, groupedViewAttributeClass);
 	}
 	
-	void addGroupedViewAttributeMapping(GroupedAttributeDetailsImpl groupedPropertyAttribute, Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass)
-	{
-		groupedViewAttributeMappings.put(groupedPropertyAttribute, groupedViewAttributeClass);
-	}
-	
-	public Collection<String> getPropertyAttributes()
+	public Iterable<String> getPropertyAttributes()
 	{
 		return propertyViewAttributeMappings.keySet();
 	}
@@ -111,7 +103,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		return propertyViewAttribute;
 	}
 
-	public Collection<String> getCommandAttributes()
+	public Iterable<String> getCommandAttributes()
 	{
 		return commandViewAttributeMappings.keySet();
 	}
@@ -130,16 +122,19 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		return view;
 	}
 	
-	public Collection<GroupedAttributeDetailsImpl> getGroupedPropertyAttributes()
+	public Iterable<String[]> getAttributeGroups()
 	{
 		return groupedViewAttributeMappings.keySet();
 	}
 
-	public AbstractGroupedViewAttribute<View> createGroupedViewAttribute(GroupedAttributeDetailsImpl groupedAttributeDetails)
+	public AbstractGroupedViewAttribute<View> createGroupedViewAttribute(String[] attributeGroup, Map<String, String> presentAttributeMappings)
 	{
-		Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass = groupedViewAttributeMappings.get(groupedAttributeDetails);
+		Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass = groupedViewAttributeMappings.get(attributeGroup);
+
+		GroupedAttributeDetailsImpl groupedAttributeDetails = new GroupedAttributeDetailsImpl(attributeGroup, presentAttributeMappings);
 		@SuppressWarnings("unchecked")
-		AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>)viewAttributeInstantiator.newGroupedViewAttribute(groupedViewAttributeClass, groupedAttributeDetails);
+		AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>)viewAttributeInstantiator.newGroupedViewAttribute(
+				groupedViewAttributeClass, groupedAttributeDetails);
 		return groupedViewAttribute;
 	}
 	

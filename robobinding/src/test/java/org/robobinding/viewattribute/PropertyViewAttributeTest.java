@@ -117,7 +117,7 @@ public final class PropertyViewAttributeTest
 	public void whenBindingWithoutSettingAllValues_thenShouldThrowException()
 	{
 		PropertyViewAttributeSpy propertyViewAttribute = new PropertyViewAttributeSpy();
-		propertyViewAttribute.bind(presentationModelAdapter, context);
+		propertyViewAttribute.inflateAndBind(presentationModelAdapter, context);
 	}
 	
 	private void initializeAndBindPropertyViewAttribute(boolean twoWayBinding, boolean preInitializeView)
@@ -133,7 +133,7 @@ public final class PropertyViewAttributeTest
 		propertyViewAttributeSpy.setView(mock(View.class));
 		propertyViewAttributeSpy.setPropertyBindingDetails(propertyBindingDetails);
 		propertyViewAttributeSpy.setPreInitializeView(preInitializeView);
-		propertyViewAttributeSpy.bind(presentationModelAdapter, context);
+		propertyViewAttributeSpy.inflateAndBind(presentationModelAdapter, context);
 	}
 	
 	private static class PropertyViewAttributeSpy extends AbstractPropertyViewAttribute<View, Integer>

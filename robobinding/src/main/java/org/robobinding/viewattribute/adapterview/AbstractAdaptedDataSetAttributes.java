@@ -19,7 +19,7 @@ package org.robobinding.viewattribute.adapterview;
 import java.util.Collections;
 import java.util.List;
 
-import org.robobinding.binders.BindingContext;
+import org.robobinding.binder.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 
 import android.widget.AdapterView;
@@ -61,7 +61,7 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	@Override
 	public void bindTo(BindingContext context)
 	{
-		DataSetAdapter dataSetAdapter = new DataSetAdapter(context.getContext(), context.shouldPreInitializeViews());
+		DataSetAdapter dataSetAdapter = new DataSetAdapter(context, context.shouldPreInitializeViews());
 		
 		for (AdapterViewAttribute adapterViewAttribute : childViewAttributes)
 			adapterViewAttribute.bind(dataSetAdapter, context);

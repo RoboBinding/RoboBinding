@@ -13,14 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binders;
-
-
-import java.util.Map;
-
-import com.google.common.collect.Maps;
+package org.robobinding.binder;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  *
@@ -28,34 +24,25 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewPendingAttributesImpl implements ViewPendingAttributes
+public class ViewBinder
 {
-	private View view;
-	private Map<String, String> attributeMappings;
-	public ViewPendingAttributesImpl(View view, Map<String, String> attributeMappings)
+	private BinderImplementor binderImplementor;
+	public ViewBinder(BinderImplementor binderImplementor)
 	{
-		this.view = view;
-		this.attributeMappings = Maps.newHashMap(attributeMappings);
+		this.binderImplementor = binderImplementor;
 	}
-	
-	@Override
-	public View getView()
+	public void attachToRoot(ViewGroup parentView)
 	{
-		return view;
+		binderImplementor.attachToRoot(parentView);
 	}
-
-	@Override
-	public void resolveAttributeIfExists(String attribute, AttributeResolver attributeResolver)
+	public View inflateAndBind(int layoutId, Object presentationModel)
+	{
+		return binderImplementor.inflateAndBind(layoutId, presentationModel);
+	}
+	public View inflate(int layoutId)
 	{
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void resolveAttributeGroupIfExists(String[] attributeGroup, AttributeGroupResolver attributeGroupResolver)
-	{
-		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 }

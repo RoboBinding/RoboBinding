@@ -32,6 +32,6 @@ public class DropdownMappingAttribute extends ItemMappingAttribute
 	@Override
 	protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter)
 	{
-		dataSetAdapter.setDropdownMappingAttribute(this);
+		dataSetAdapter.setDropdownPredefinedViewPendingAttributesGroup(viewMappings.getPredefinedViewPendingAttributesGroup());
 	}
 }
