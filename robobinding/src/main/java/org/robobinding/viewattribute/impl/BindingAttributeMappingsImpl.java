@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
 package org.robobinding.viewattribute.impl;
 
 import java.util.Map;
@@ -88,13 +87,12 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	protected void addGroupedViewAttributeMapping(Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass, String... attributeNames)
 	{
 		groupedViewAttributeMappings.put(attributeNames, groupedViewAttributeClass);
-		GroupedAttributeDetailsImpl groupedPropertyAttribute = new GroupedAttributeDetailsImpl(attributeNames);
-		addGroupedViewAttributeMapping(groupedPropertyAttribute, groupedViewAttributeClass);
+		addGroupedViewAttributeMapping(attributeNames, groupedViewAttributeClass);
 	}
 	
-	void addGroupedViewAttributeMapping(GroupedAttributeDetailsImpl groupedPropertyAttribute, Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass)
+	void addGroupedViewAttributeMapping(String[] attributeNames, Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass)
 	{
-		groupedViewAttributeMappings.put(groupedPropertyAttribute, groupedViewAttributeClass);
+		groupedViewAttributeMappings.put(attributeNames, groupedViewAttributeClass);
 	}
 	
 	public Iterable<String> getPropertyAttributes()
