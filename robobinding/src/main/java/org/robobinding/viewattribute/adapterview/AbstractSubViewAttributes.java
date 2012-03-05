@@ -15,8 +15,7 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binders.BindingContext;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.binder.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 
 import android.content.Context;
@@ -38,37 +37,36 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	}
 
 	@Override
-	public void bindTo(BindingContext bindingContext)
+	public void bindTo(BindingContext context)
 	{
-		View subView = createSubView(presentationModelAdapter, context);
+		View subView = createSubView(context);
 		
-		addSubView(subView, context);
+		addSubView(subView, context.getAndroidContext());
 		
 		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
 		{
 			SubViewVisibilityAttribute visibilityAttribute = createVisibilityAttribute(subView);
 			visibilityAttribute.setView(subView);
-			visibilityAttribute.setPreInitializeView(preInitializeViews);
 			visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
-			visibilityAttribute.bind(presentationModelAdapter, context);
+			visibilityAttribute.bindTo(context);
 		}
 	}
 
-	View createSubView(PresentationModelAdapter presentationModelAdapter, Context context)
+	View createSubView(BindingContext context)
 	{
 		SubViewCreator subViewCreator = createSubViewCreator(context, groupedAttributeDetails.attributeValueFor(layoutAttribute()));
 		
 		if(groupedAttributeDetails.hasAttribute(subViewPresentationModelAttribute()))
 		{
 			String subViewPresentationModelAttributeValue = groupedAttributeDetails.attributeValueFor(subViewPresentationModelAttribute());
-			return subViewCreator.createAndBindTo(subViewPresentationModelAttributeValue, presentationModelAdapter);
+			return subViewCreator.createAndBindTo(subViewPresentationModelAttributeValue);
 		}else
 		{
 			return subViewCreator.create();
 		}
 	}
 
-	SubViewCreator createSubViewCreator(Context context, String layoutAttributeValue)
+	SubViewCreator createSubViewCreator(BindingContext context, String layoutAttributeValue)
 	{
 		return new SubViewCreator(context, layoutAttributeValue);
 	}

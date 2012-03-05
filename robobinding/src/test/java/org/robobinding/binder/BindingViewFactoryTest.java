@@ -27,7 +27,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributeProcessor.ViewBindingAttributes;
+import org.robobinding.binding.BindingAttributeProcessor.ViewBindingAttributes;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.content.Context;

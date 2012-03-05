@@ -60,7 +60,7 @@ public final class CommandViewAttributeTest
 	{
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
 		
-		commandViewAttribute.bind(presentationModelAdapter, context);
+		commandViewAttribute.inflateAndBind(presentationModelAdapter, context);
 
 		assertThat(commandViewAttribute.functionBound, equalTo(noArgsFunction));
 	}
@@ -71,7 +71,7 @@ public final class CommandViewAttributeTest
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME, ItemClickEvent.class)).thenReturn(preferredFunction);
 		
-		commandViewAttribute.bind(presentationModelAdapter, context);
+		commandViewAttribute.inflateAndBind(presentationModelAdapter, context);
 		
 		assertThat(commandViewAttribute.functionBound, equalTo(preferredFunction));
 	}
@@ -79,14 +79,14 @@ public final class CommandViewAttributeTest
 	@Test (expected=RuntimeException.class)
 	public void givenAPresentationModelWithNoMatchingFunction_whenBinding_thenThrowRuntimeException()
 	{
-		commandViewAttribute.bind(presentationModelAdapter, context);
+		commandViewAttribute.inflateAndBind(presentationModelAdapter, context);
 	}
 	
 	@Test (expected=IllegalStateException.class)
 	public void givenAnAttributeWhosePropertiesHaveNotBeenSet_whenBinding_thenThrowException()
 	{
 		AbstractCommandViewAttribute<?> commandViewAttribute = new DummyCommandViewAttribute();
-		commandViewAttribute.bind(presentationModelAdapter, context);
+		commandViewAttribute.inflateAndBind(presentationModelAdapter, context);
 	}
 	
 	public class DummyCommandViewAttribute extends AbstractCommandViewAttribute<View>

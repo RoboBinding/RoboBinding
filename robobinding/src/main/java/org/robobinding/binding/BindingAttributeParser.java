@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binding;
 
 import java.util.Map;
 
@@ -28,7 +28,7 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-class BindingAttributesParser
+class BindingAttributeParser
 {
 	static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/android";
 

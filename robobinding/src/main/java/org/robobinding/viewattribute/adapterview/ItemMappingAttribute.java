@@ -21,13 +21,15 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.robobinding.binder.BindingAttributeProcessor;
-import org.robobinding.binder.BindingAttributeProcessor.ViewBindingAttributes;
-import org.robobinding.binders.BindingContext;
+import org.robobinding.binder.BindingContext;
+import org.robobinding.binder.PredefinedViewPendingAttributes;
+import org.robobinding.binder.ViewPendingAttributes;
+import org.robobinding.binder.ViewPendingAttributesImpl;
 
 import android.content.Context;
 import android.view.View;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -43,7 +45,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	private static final Pattern ITEM_MAPPING_ATTRIBUTE_COMPILED_PATTERN = Pattern.compile("^\\[" + ITEM_MAPPING_PATTERN + "(?:," + ITEM_MAPPING_PATTERN + ")*\\]$");
 	
 	private final String itemMappingAttributeValue;
-	private ViewMappings viewMappings;
+	protected ViewMappings viewMappings;
 	
 	public ItemMappingAttribute(String itemMappingAttributeValue)
 	{
@@ -53,23 +55,15 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	@Override
 	public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
 	{
-		viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, bindingContext.getContext());
+		viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, bindingContext.getAndroidContext());
 		updateDataSetAdapter(dataSetAdapter);
 	}
 
 	protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter)
 	{
-		dataSetAdapter.setItemMappingAttribute(this);
+		dataSetAdapter.setItemPredefinedViewPendingAttributesGroup(viewMappings.getPredefinedViewPendingAttributesGroup());
 	}
 
-	public void bindToPredefined(BindingAttributeProcessor bindingAttributesProcessor, View view, BindingContext context)
-	{
-		for (ViewMapping viewMapping : getViewMappingsCollection())
-		{
-			viewMapping.bind(bindingAttributesProcessor, view, context);
-		}
-	}
-	
 	Collection<ViewMapping> getViewMappingsCollection()
 	{
 		return Collections.unmodifiableCollection(viewMappings.viewMappingsMap.values());
@@ -121,6 +115,11 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 			}
 		}
 		
+		public Collection<PredefinedViewPendingAttributes> getPredefinedViewPendingAttributesGroup()
+		{
+			return Lists.<PredefinedViewPendingAttributes>newArrayList(viewMappingsMap.values());
+		}
+		
 		@Override
 		public int hashCode()
 		{
@@ -150,7 +149,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 		}
 	}
 	
-	static class ViewMapping
+	static class ViewMapping implements PredefinedViewPendingAttributes
 	{
 		int viewId;
 		Map<String,String> bindingAttributes = Maps.newHashMap();
@@ -166,11 +165,11 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 			this.bindingAttributes.put(attributeName, attributeValue);
 		}
 
-		public void bind(BindingAttributeProcessor bindingAttributesProcessor, View view, BindingContext context)
+		@Override
+		public ViewPendingAttributes createViewPendingAttributes(View rootView)
 		{
-			View viewToBind = view.findViewById(viewId);
-			ViewBindingAttributes viewBindingAttributes = bindingAttributesProcessor.process(viewToBind, Maps.newHashMap(bindingAttributes));
-			viewBindingAttributes.bindTo(context);
+			View childView = rootView.findViewById(viewId);
+			return new ViewPendingAttributesImpl(childView, bindingAttributes);
 		}
 
 		@Override

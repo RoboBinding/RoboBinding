@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binders;
+package org.robobinding.binder;
 
 import org.robobinding.presentationmodel.DialogPresentationModel;
 
@@ -38,7 +38,7 @@ public class DialogBinder
 		this.binderImplementor = binderImplementor;
 	}
 
-	public void bind(int layoutId, Object presentationModel)
+	public void inflateAndBind(int layoutId, Object presentationModel)
 	{
 		if (presentationModel instanceof DialogPresentationModel)
 		{
@@ -50,7 +50,7 @@ public class DialogBinder
 				dialog.setTitle(dialogPresentationModel.getTitle());
 		}
 
-		View rootView = binderImplementor.bind(layoutId, presentationModel);
+		View rootView = binderImplementor.inflateAndBind(layoutId, presentationModel);
 		dialog.setContentView(rootView);
 	}
 }

@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binders.BindingContext;
+import org.robobinding.binder.BindingContext;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.BindingDetailsBuilder;
 import org.robobinding.viewattribute.PropertyBindingDetails;
@@ -96,7 +96,7 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		@Override
 		public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
 		{
-			int itemLayoutId = resourceBindingDetails.getResourceId(bindingContext.getContext());
+			int itemLayoutId = resourceBindingDetails.getResourceId(bindingContext.getAndroidContext());
 			updateLayoutId(dataSetAdapter, itemLayoutId);
 		}
 	}

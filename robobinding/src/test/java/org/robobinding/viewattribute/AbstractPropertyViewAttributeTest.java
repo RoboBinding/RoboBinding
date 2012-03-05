@@ -71,7 +71,7 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 	{
 		attribute.setAttributeValue(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME);
 		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.<PropertyType>createWithDefaultProperty();
-		attribute.bind(presentationModelAdapter, new Activity());
+		attribute.inflateAndBind(presentationModelAdapter, new Activity());
 		return presentationModelAdapter.getPropertyValueModel(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
 	}
 	
@@ -79,7 +79,7 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 	{
 		attribute.setAttributeValue(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME);
 		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.<PropertyType>createWithDefaultProperty(initialPropertyValue);
-		attribute.bind(presentationModelAdapter, new Activity());
+		attribute.inflateAndBind(presentationModelAdapter, new Activity());
 		return presentationModelAdapter.getPropertyValueModel(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
 	}
 	

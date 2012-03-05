@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binding;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.robobinding.binder.BindingViewInflater.InflatedView;
-import org.robobinding.binders.BinderImplementor;
-import org.robobinding.binders.BindingContext;
-import org.robobinding.binders.PredefinedViewPendingAttributes;
+import org.robobinding.binder.BinderImplementor;
+import org.robobinding.binder.BindingContext;
+import org.robobinding.binder.PredefinedViewPendingAttributes;
+import org.robobinding.binding.ViewInflater.InflatedView;
 
 import com.google.common.collect.Lists;
 
@@ -64,9 +64,10 @@ class BinderImplementorImpl implements BinderImplementor
 	}
 	
 	@Override
-	public View bind(int layoutId, Object presentationModel)
+	public View inflateAndBind(int layoutId, Object presentationModel)
 	{
-		InflatedView inflatedView = inflateView(layoutId);
+		ViewInflater viewInflater = createViewInflater();
+		InflatedView inflatedView = viewInflater.inflateBindingView(layoutId);
 		
 		BindingContext context = bindingContextCreator.create(presentationModel);
 		inflatedView.bindChildViews(context);
@@ -74,15 +75,20 @@ class BinderImplementorImpl implements BinderImplementor
 		return inflatedView.getRootView();
 	}
 
-	private InflatedView inflateView(int layoutId)
+	@Override
+	public View inflateOnly(int layoutId)
+	{
+		ViewInflater viewInflater = createViewInflater();
+		return viewInflater.inflateView(layoutId);
+	}
+
+	private ViewInflater createViewInflater()
 	{
 		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
-		BindingViewInflater.Builder bindingViewInflaterBuilder = new BindingViewInflater.Builder(layoutInflater);
-		bindingViewInflaterBuilder.setParentViewToAttach(parentView);
-		bindingViewInflaterBuilder.setPredefinedViewPendingAttributesGroup(predefinedViewPendingAttributesGroup);
-		BindingViewInflater bindingViewInflater = bindingViewInflaterBuilder.create();
-		InflatedView inflatedView = bindingViewInflater.inflateView(layoutId);
-		return inflatedView;
+		ViewInflater.Builder viewInflaterBuilder = new ViewInflater.Builder(layoutInflater);
+		viewInflaterBuilder.setParentViewToAttach(parentView);
+		viewInflaterBuilder.setPredefinedViewPendingAttributesGroup(predefinedViewPendingAttributesGroup);
+		return viewInflaterBuilder.create();
 	}
 
 	public static interface BindingContextCreator

@@ -48,6 +48,6 @@ public class DynamicDropdownLayoutAttributeTest extends AbstractDynamicLayoutAtt
 		int newDropdownLayoutId = RandomValues.anyInteger();
 		dynamicLayoutAttribute.valueModelUpdated(newDropdownLayoutId);
 		
-		verify(dataSetAdapter).setDropdownLayoutId(newDropdownLayoutId);
+		verify(dataSetAdapter).setDropDownLayoutId(newDropdownLayoutId);
 	}
 }

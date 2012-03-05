@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binders;
+package org.robobinding.binder;
 
 import android.app.Activity;
 import android.view.View;
@@ -35,9 +35,9 @@ public class ActivityBinder
 		this.binderImplementor = binderImplementor;
 	}
 
-	public void bind(int layoutId, Object presentationModel)
+	public void inflateAndBind(int layoutId, Object presentationModel)
 	{
-		View rootView = binderImplementor.bind(layoutId, presentationModel);
+		View rootView = binderImplementor.inflateAndBind(layoutId, presentationModel);
 		activity.setContentView(rootView);
 	}
 	

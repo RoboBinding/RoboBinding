@@ -34,6 +34,6 @@ public class DropdownLayoutAttribute extends ItemLayoutAttribute
 	@Override
 	protected void updateLayoutId(DataSetAdapter<?> dataSetAdapter, int layoutId)
 	{
-		dataSetAdapter.setDropdownLayoutId(layoutId);
+		dataSetAdapter.setDropDownLayoutId(layoutId);
 	}
 }

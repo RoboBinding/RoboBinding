@@ -88,7 +88,7 @@ public class DataSetAdapterTest
 	public void givenDropdownLayoutId_whenGeneratingDropdownView_thenInflateTheCorrectView()
 	{
 		dataSetAdapterWithViewsPreInitialized();
-		dataSetAdapter.setDropdownLayoutId(R.layout.sample_dropdown_layout);
+		dataSetAdapter.setDropDownLayoutId(R.layout.sample_dropdown_layout);
 		
 		View view = dataSetAdapter.getDropDownView(0, null, null);
 		

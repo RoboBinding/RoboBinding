@@ -81,7 +81,7 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
 	
 	protected void bindAttribute()
 	{
-		attribute.bind(mockPresentationModelAdapter, new Activity());
+		attribute.inflateAndBind(mockPresentationModelAdapter, new Activity());
 	}
 	
 	protected void assertEventReceived(Class<?> eventClass)

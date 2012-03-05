@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributeProcessor.ViewBindingAttributes;
-import org.robobinding.binder.BindingViewFactory.InflatedView;
-import org.robobinding.binders.DialogBinder;
+import org.robobinding.binder.DialogBinder;
+import org.robobinding.binding.BindingAttributeProcessor.ViewBindingAttributes;
+import org.robobinding.binding.BindingViewFactory.InflatedView;
 import org.robobinding.presentationmodel.DialogPresentationModel;
 
 import android.app.Activity;

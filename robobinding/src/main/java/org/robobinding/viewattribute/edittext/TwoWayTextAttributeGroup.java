@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.edittext;
 
-import org.robobinding.binders.BindingContext;
+import org.robobinding.binder.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractViewAttributeInstantiator;
 

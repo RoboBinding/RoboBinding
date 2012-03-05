@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binding;
 
-import org.robobinding.binder.BinderImplementorImpl.BindingContextCreator;
-import org.robobinding.binders.BinderImplementor;
-import org.robobinding.binders.BinderImplementorFactory;
-import org.robobinding.binders.BindingContext;
+import org.robobinding.binder.BinderImplementor;
+import org.robobinding.binder.BinderImplementorFactory;
+import org.robobinding.binder.BindingContext;
+import org.robobinding.binding.BinderImplementorImpl.BindingContextCreator;
 
 import android.content.Context;
 
@@ -28,7 +28,7 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BinderImplementorFactoryImpl implements BinderImplementorFactory, BindingContextCreator
+class BinderImplementorFactoryImpl implements BinderImplementorFactory, BindingContextCreator
 {
 	private Context context;
 	private boolean preInitializeViews;
