@@ -25,6 +25,8 @@ import android.view.View;
  */
 public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute
 {
+	private static final String[] NO_COMPULSORY_ATTRIBUTES = new String[0];
+	
 	protected T view;
 	protected boolean preInitializeViews;
 	protected GroupedAttributeDetails groupedAttributeDetails;
@@ -50,11 +52,12 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
 	{
 		this.viewListenersProvider = viewListenersProvider;
+		getViewAttributeInstantiator().setViewListenersIfRequired(this, view);
 	}
 	
 	protected String[] getCompulsoryAttributes()
 	{
-		return null;
+		return NO_COMPULSORY_ATTRIBUTES;
 	}
 	
 	public void postInitialization()
