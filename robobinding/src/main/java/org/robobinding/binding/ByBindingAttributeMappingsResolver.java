@@ -38,9 +38,9 @@ import com.google.common.collect.Lists;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ByBindingAttributeMappingsResolver
+class ByBindingAttributeMappingsResolver
 {
-	private final BindingAttributeMappingsImpl<View> bindingAttributeMappingsImpl;
+	private final BindingAttributeMappingsImpl<View> bindingAttributeMappings;
 
 	private final PropertyViewAttributeResolver propertyViewAttributeResolver;
 	private final CommandViewAttributeResolver commandViewAttributeResolver;
@@ -48,9 +48,9 @@ public class ByBindingAttributeMappingsResolver
 	
 	private List<ViewAttribute> resolvedViewAttributes;
 	
-	public ByBindingAttributeMappingsResolver(BindingAttributeMappingsImpl<View> bindingAttributeMappingsImpl)
+	public ByBindingAttributeMappingsResolver(BindingAttributeMappingsImpl<View> bindingAttributeMappings)
 	{
-		this.bindingAttributeMappingsImpl = bindingAttributeMappingsImpl;
+		this.bindingAttributeMappings = bindingAttributeMappings;
 		this.propertyViewAttributeResolver = new PropertyViewAttributeResolver();
 		this.commandViewAttributeResolver = new CommandViewAttributeResolver();
 		this.groupedViewAttributeResolver = new GroupedViewAttributeResolver();
@@ -69,7 +69,7 @@ public class ByBindingAttributeMappingsResolver
 	
 	private void resolvePropertyViewAttributes(ViewPendingAttributes viewPendingAttributes)
 	{
-		for (String propertyAttribute : bindingAttributeMappingsImpl.getPropertyAttributes())
+		for (String propertyAttribute : bindingAttributeMappings.getPropertyAttributes())
 		{
 			viewPendingAttributes.resolveAttributeIfExists(propertyAttribute, propertyViewAttributeResolver);
 		}
@@ -77,7 +77,7 @@ public class ByBindingAttributeMappingsResolver
 
 	private void resolveCommandViewAttributes(ViewPendingAttributes viewPendingAttributes)
 	{
-		for (String commandAttribute : bindingAttributeMappingsImpl.getCommandAttributes())
+		for (String commandAttribute : bindingAttributeMappings.getCommandAttributes())
 		{
 			viewPendingAttributes.resolveAttributeIfExists(commandAttribute, commandViewAttributeResolver);
 		}
@@ -85,7 +85,7 @@ public class ByBindingAttributeMappingsResolver
 
 	private void resolveGroupedViewAttributes(ViewPendingAttributes viewPendingAttributes)
 	{
-		for (String[] attributeGroup : bindingAttributeMappingsImpl.getAttributeGroups())
+		for (String[] attributeGroup : bindingAttributeMappings.getAttributeGroups())
 		{
 			viewPendingAttributes.resolveAttributeGroupIfExists(attributeGroup, groupedViewAttributeResolver);
 		}
@@ -96,8 +96,8 @@ public class ByBindingAttributeMappingsResolver
 		@Override
 		public void resolve(View view, String attribute, String attributeValue)
 		{
-			PropertyViewAttribute<View> propertyViewAttribute = bindingAttributeMappingsImpl.createPropertyViewAttribute(
-					attribute, attributeValue);
+			PropertyViewAttribute<View> propertyViewAttribute = bindingAttributeMappings.createPropertyViewAttribute(
+					view, attribute, attributeValue);
 			resolvedViewAttributes.add(propertyViewAttribute);
 		}
 	}
@@ -107,8 +107,8 @@ public class ByBindingAttributeMappingsResolver
 		@Override
 		public void resolve(View view, String attribute, String attributeValue)
 		{
-			AbstractCommandViewAttribute<View> commandViewAttribute = bindingAttributeMappingsImpl.createCommandViewAttribute(
-					attribute, attributeValue);
+			AbstractCommandViewAttribute<View> commandViewAttribute = bindingAttributeMappings.createCommandViewAttribute(
+					view, attribute, attributeValue);
 			resolvedViewAttributes.add(commandViewAttribute);
 		}
 	}
@@ -118,8 +118,8 @@ public class ByBindingAttributeMappingsResolver
 		@Override
 		public void resolve(View view, String[] attributeGroup, Map<String, String> presentAttributeMappings)
 		{
-			AbstractGroupedViewAttribute<View> groupedViewAttribute = bindingAttributeMappingsImpl.createGroupedViewAttribute(
-					attributeGroup, presentAttributeMappings);
+			AbstractGroupedViewAttribute<View> groupedViewAttribute = bindingAttributeMappings.createGroupedViewAttribute(
+					view, attributeGroup, presentAttributeMappings);
 			resolvedViewAttributes.add(groupedViewAttribute);
 		}
 	}

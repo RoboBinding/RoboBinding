@@ -50,11 +50,11 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private final ItemBinder itemBinder;
 	private final ItemBinder dropDownBinder;
 	
-	public DataSetAdapter(BindingContext context, boolean preInitializeViews)
+	public DataSetAdapter(BindingContext context)
 	{
 		itemBinder = context.createItemBinder();
 		dropDownBinder = context.createItemBinder();
-		this.preInitializeViews = preInitializeViews;
+		this.preInitializeViews = context.shouldPreInitializeViews();
 	}
 
 	public void observeChangesOnTheValueModel()
@@ -89,16 +89,6 @@ public class DataSetAdapter<T> extends BaseAdapter
 				return 0;
 			}
 		};
-	}
-	
-	public void setItemLayoutId(int itemLayoutId)
-	{
-		this.itemLayoutId = itemLayoutId;
-	}
-	
-	public void setDropDownLayoutId(int dropDownLayoutId)
-	{
-		this.dropDownLayoutId = dropDownLayoutId;
 	}
 	
 	@Override
@@ -169,6 +159,16 @@ public class DataSetAdapter<T> extends BaseAdapter
 		@SuppressWarnings("unchecked")
 		ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>)view.getTag();
 		itemPresentationModel.updateData(position, getItem(position));
+	}
+
+	public void setItemLayoutId(int itemLayoutId)
+	{
+		this.itemLayoutId = itemLayoutId;
+	}
+
+	public void setDropDownLayoutId(int dropDownLayoutId)
+	{
+		this.dropDownLayoutId = dropDownLayoutId;
 	}
 
 	public void setItemPredefinedViewPendingAttributesGroup(Collection<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup)

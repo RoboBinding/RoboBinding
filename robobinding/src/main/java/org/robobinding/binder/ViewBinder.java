@@ -22,6 +22,7 @@ import android.view.ViewGroup;
  *
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Robert Taylor
  * @author Cheng Wei
  */
 public class ViewBinder
@@ -41,8 +42,7 @@ public class ViewBinder
 	}
 	public View inflate(int layoutId)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return binderImplementor.inflateOnly(layoutId);
 	}
 
 }

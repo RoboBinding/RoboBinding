@@ -19,10 +19,9 @@ import java.util.Map;
 
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.AbstractViewAttributeInstantiator;
 import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.GroupedAttributeDetails;
 import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewListenersProvider;
 
 import android.view.View;
 
@@ -37,19 +36,15 @@ import com.google.common.collect.Maps;
  */
 public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T>
 {
-	private T view;
-	private ViewListenersProvider viewListenersProvider;
-	private ViewAttributeInstantiator viewAttributeInstantiator;
+	private final ViewAttributeInstantiator viewAttributeInstantiator;
 
-	private Map<String, Class<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
-	private Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
-	private Map<String[], Class<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
+	private final Map<String, Class<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
+	private final Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
+	private final Map<String[], Class<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
 	
-	public BindingAttributeMappingsImpl(T view, ViewListenersProvider viewListenersProvider)
+	public BindingAttributeMappingsImpl(ViewAttributeInstantiator viewAttributeInstantiator)
 	{
-		this.view = view;
-		this.viewListenersProvider = viewListenersProvider;
-		viewAttributeInstantiator = new ViewAttributeInstantiator();
+		this.viewAttributeInstantiator = viewAttributeInstantiator;
 		
 		propertyViewAttributeMappings = Maps.newHashMap();
 		commandViewAttributeMappings = Maps.newHashMap();
@@ -87,12 +82,6 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	protected void addGroupedViewAttributeMapping(Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass, String... attributeNames)
 	{
 		groupedViewAttributeMappings.put(attributeNames, groupedViewAttributeClass);
-		addGroupedViewAttributeMapping(attributeNames, groupedViewAttributeClass);
-	}
-	
-	void addGroupedViewAttributeMapping(String[] attributeNames, Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass)
-	{
-		groupedViewAttributeMappings.put(attributeNames, groupedViewAttributeClass);
 	}
 	
 	public Iterable<String> getPropertyAttributes()
@@ -100,12 +89,13 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		return propertyViewAttributeMappings.keySet();
 	}
 
-	public PropertyViewAttribute<View> createPropertyViewAttribute(String propertyAttribute, String attributeValue)
+	public PropertyViewAttribute<View> createPropertyViewAttribute(T defaultView, String propertyAttribute, String attributeValue)
 	{
 		Class<? extends PropertyViewAttribute<? extends View>> propertyViewAttributeClass = propertyViewAttributeMappings.get(propertyAttribute);
+		View view = getViewForAttribute(propertyAttribute, defaultView);
 		@SuppressWarnings("unchecked")
 		PropertyViewAttribute<View> propertyViewAttribute = (PropertyViewAttribute<View>)viewAttributeInstantiator.newPropertyViewAttribute(
-				propertyViewAttributeClass, propertyAttribute, attributeValue);
+				view, propertyViewAttributeClass, propertyAttribute, attributeValue);
 		return propertyViewAttribute;
 	}
 
@@ -114,18 +104,19 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		return commandViewAttributeMappings.keySet();
 	}
 
-	public AbstractCommandViewAttribute<View> createCommandViewAttribute(String commandAttribute, String attributeValue)
+	public AbstractCommandViewAttribute<View> createCommandViewAttribute(View defaultView, String commandAttribute, String attributeValue)
 	{
 		Class<? extends AbstractCommandViewAttribute<? extends View>> commandViewAttributeClass = commandViewAttributeMappings.get(commandAttribute);
+		View view = getViewForAttribute(commandAttribute, defaultView);
 		@SuppressWarnings("unchecked")
 		AbstractCommandViewAttribute<View> commandViewAttribute = (AbstractCommandViewAttribute<View>) viewAttributeInstantiator.newCommandViewAttribute(
-				commandViewAttributeClass, commandAttribute, attributeValue);
+				view, commandViewAttributeClass, commandAttribute, attributeValue);
 		return commandViewAttribute;
 	}
 
-	protected View getViewForAttribute(String attributeName)
+	protected View getViewForAttribute(String attributeName, View defaultView)
 	{
-		return view;
+		return defaultView;
 	}
 	
 	public Iterable<String[]> getAttributeGroups()
@@ -133,68 +124,20 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		return groupedViewAttributeMappings.keySet();
 	}
 
-	public AbstractGroupedViewAttribute<View> createGroupedViewAttribute(String[] attributeGroup, Map<String, String> presentAttributeMappings)
+	public AbstractGroupedViewAttribute<View> createGroupedViewAttribute(View defaultView, String[] attributeGroup, Map<String, String> presentAttributeMappings)
 	{
 		Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass = groupedViewAttributeMappings.get(attributeGroup);
-
-		GroupedAttributeDetailsImpl groupedAttributeDetails = new GroupedAttributeDetailsImpl(attributeGroup, presentAttributeMappings);
+		View view = getViewForAttributeGroup(attributeGroup, defaultView);
+		
+		GroupedAttributeDetails groupedAttributeDetails = new GroupedAttributeDetailsImpl(attributeGroup, presentAttributeMappings);
 		@SuppressWarnings("unchecked")
 		AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>)viewAttributeInstantiator.newGroupedViewAttribute(
-				groupedViewAttributeClass, groupedAttributeDetails);
+				view, groupedViewAttributeClass, groupedAttributeDetails);
 		return groupedViewAttribute;
 	}
 	
-	protected View getViewForGroupedAttribute(GroupedAttributeDetailsImpl groupedAttributeDetails)
+	protected View getViewForAttributeGroup(String[] attributeGroup, View defaultView)
 	{
-		return view;
-	}
-	
-	private class ViewAttributeInstantiator extends AbstractViewAttributeInstantiator
-	{
-		private String currentPropertyOrCommandAttributeValue;
-		
-		protected ViewAttributeInstantiator()
-		{
-			super(viewListenersProvider);
-		}
-
-		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
-				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute, String attributeValue)
-		{
-			currentPropertyOrCommandAttributeValue = attributeValue;
-			return newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
-		}
-		
-		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
-				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute, String attributeValue)
-		{
-			currentPropertyOrCommandAttributeValue = attributeValue;
-			return newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
-		}
-		
-		@SuppressWarnings("unchecked")
-		public <GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType newGroupedViewAttribute(
-				Class<GroupedViewAttributeType> groupedViewAttributeClass, GroupedAttributeDetailsImpl groupedAttributeDetails)
-		{
-			GroupedViewAttributeType groupedViewAttribute = (GroupedViewAttributeType)newViewAttribute(groupedViewAttributeClass);
-			View view = getViewForGroupedAttribute(groupedAttributeDetails);
-			((AbstractGroupedViewAttribute<View>)groupedViewAttribute).setView(view);
-			groupedViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
-			groupedViewAttribute.setViewListenersProvider(viewListenersProvider);
-			groupedViewAttribute.postInitialization();
-			return groupedViewAttribute;
-		}
-		
-		@Override
-		protected View getViewForAttribute(String attributeName)
-		{
-			return BindingAttributeMappingsImpl.this.getViewForAttribute(attributeName);
-		}
-
-		@Override
-		protected String attributeValueFor(String attribute)
-		{
-			return currentPropertyOrCommandAttributeValue;
-		}
+		return defaultView;
 	}
 }

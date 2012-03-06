@@ -35,6 +35,7 @@ import android.view.ViewGroup;
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
 class BinderImplementorImpl implements BinderImplementor
 {

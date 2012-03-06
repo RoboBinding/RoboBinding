@@ -29,7 +29,7 @@ import android.view.View;
  */
 public abstract class AbstractViewAttributeInstantiator
 {
-	private final ViewListenersProvider viewListenersProvider;
+	protected final ViewListenersProvider viewListenersProvider;
 
 	protected AbstractViewAttributeInstantiator(ViewListenersProvider viewListenersProvider)
 	{
@@ -41,14 +41,14 @@ public abstract class AbstractViewAttributeInstantiator
 			Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
 	{
 		PropertyViewAttributeType propertyViewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass);
-		View view = getViewForAttribute(propertyAttribute);
+		View view = getView();
 		((PropertyViewAttribute<View>)propertyViewAttribute).setView(view);
 		propertyViewAttribute.setAttributeValue(attributeValueFor(propertyAttribute));
 		
 		if (propertyViewAttribute instanceof AbstractMultiTypePropertyViewAttribute<?>)
 			((AbstractMultiTypePropertyViewAttribute<?>)propertyViewAttribute).setViewListenersProvider(viewListenersProvider);
 		
-		setViewListenersIfRequired(propertyViewAttribute, getViewForAttribute(propertyAttribute));
+		setViewListenersIfRequired(propertyViewAttribute, view);
 		return propertyViewAttribute;
 	}
 
@@ -57,10 +57,10 @@ public abstract class AbstractViewAttributeInstantiator
 			Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
 	{
 		CommandViewAttributeType commandViewAttribute = (CommandViewAttributeType)newViewAttribute(commandViewAttributeClass);
-		View view = getViewForAttribute(commandAttribute);
+		View view = getView();
 		((AbstractCommandViewAttribute<View>)commandViewAttribute).setView(view);
 		commandViewAttribute.setCommandName(attributeValueFor(commandAttribute));
-		setViewListenersIfRequired(commandViewAttribute, getViewForAttribute(commandAttribute));
+		setViewListenersIfRequired(commandViewAttribute, view);
 		return commandViewAttribute;
 	}
 	
@@ -75,7 +75,7 @@ public abstract class AbstractViewAttributeInstantiator
 		}
 	}
 	
-	protected abstract View getViewForAttribute(String attributeName);
+	protected abstract View getView();
 	protected abstract String attributeValueFor(String attribute);
 	
 	protected ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass)

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binding;
+package org.robobinding.viewattribute.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
@@ -33,10 +33,11 @@ import com.google.common.collect.Maps;
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Robert Taylor
  * @author Cheng Wei
  */
 @SuppressWarnings("unchecked")
-public class ViewListenersProviderImpl implements ViewListenersProvider
+class ViewListenersProviderImpl implements ViewListenersProvider
 {
 	private static Map<Class<? extends ViewListenersAware<?>>, Class<? extends ViewListeners>> cachedViewListenersClasses = Maps.newHashMap();
 	
