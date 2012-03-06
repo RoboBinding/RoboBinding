@@ -23,6 +23,7 @@ import org.robobinding.attribute.AbstractAttribute;
  *
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Robert Taylor
  * @author Cheng Wei
  */
 public interface ChildViewAttribute<T extends AbstractAttribute> extends ViewAttribute

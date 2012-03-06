@@ -22,8 +22,8 @@ import org.robobinding.binder.BindingContext;
 import org.robobinding.binder.ViewPendingAttributes;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
-import org.robobinding.viewattribute.ViewListenersProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.impl.ViewAttributeInstantiator;
 
 import android.view.View;
 
@@ -39,7 +39,7 @@ import com.google.common.collect.Lists;
 class BindingAttributeResolver
 {
 	private final BindingAttributeProvidersResolver providersResolver;
-	private ViewListenersProvider viewListenersProvider;
+	private ViewAttributeInstantiator viewAttributeInstantiator;
 
 	public BindingAttributeResolver()
 	{
@@ -49,7 +49,7 @@ class BindingAttributeResolver
 	public ViewBindingAttributes resolve(ViewPendingAttributes viewPendingAttributes)
 	{
 		ViewBindingAttributes viewBindingAttributes = new ViewBindingAttributes();
-		viewListenersProvider = new ViewListenersProviderImpl();
+		viewAttributeInstantiator = new ViewAttributeInstantiator();
 		
 		Collection<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(viewPendingAttributes.getView());
 		
@@ -73,8 +73,7 @@ class BindingAttributeResolver
 	private Collection<ViewAttribute> resolveByBindingAttributeProvider(ViewPendingAttributes viewPendingAttributes,
 			BindingAttributeProvider<View> bindingAttributeProvider)
 	{
-		BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(
-				viewPendingAttributes.getView(), viewListenersProvider);
+		BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(viewAttributeInstantiator);
 		ByBindingAttributeMappingsResolver bindingAttributeMappingsResolver = new ByBindingAttributeMappingsResolver(bindingAttributeMappings);
 		Collection<ViewAttribute> resolvedViewAttributes = bindingAttributeMappingsResolver.resolve(viewPendingAttributes);
 		return resolvedViewAttributes;

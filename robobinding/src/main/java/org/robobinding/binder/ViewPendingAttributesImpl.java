@@ -18,8 +18,6 @@ package org.robobinding.binder;
 
 import java.util.Map;
 
-import org.robobinding.binding.BindingAttributeException;
-import org.robobinding.viewattribute.MalformedBindingAttributeException;
 
 import android.view.View;
 
@@ -29,6 +27,7 @@ import com.google.common.collect.Maps;
  *
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Robert Taylor
  * @author Cheng Wei
  */
 public class ViewPendingAttributesImpl implements ViewPendingAttributes
