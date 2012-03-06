@@ -16,8 +16,8 @@
 package org.robobinding.customview;
 
 import org.robobinding.viewattribute.BindingAttributeProvider;
-import org.robobinding.viewattribute.ViewListenersProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.impl.ViewAttributeInstantiator;
 
 import android.view.View;
 
@@ -36,9 +36,9 @@ public class CustomBindingAttributeMapperAdapter<T extends View> implements Bind
 	}
 
 	@Override
-	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(T view, ViewListenersProvider viewListenersProvider)
+	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInstantiator viewAttributeInstantiator)
 	{
-		CustomBindingAttributeMappingsImpl<T> bindingAttributeMappings = new CustomBindingAttributeMappingsImpl<T>(view, viewListenersProvider);
+		CustomBindingAttributeMappingsImpl<T> bindingAttributeMappings = new CustomBindingAttributeMappingsImpl<T>(viewAttributeInstantiator);
 		bindableView.mapBindingAttributes(bindingAttributeMappings);
 		return bindingAttributeMappings;
 	}

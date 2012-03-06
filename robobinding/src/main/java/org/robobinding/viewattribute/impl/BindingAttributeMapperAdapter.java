@@ -18,7 +18,6 @@ package org.robobinding.viewattribute.impl;
 
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeProvider;
-import org.robobinding.viewattribute.ViewListenersProvider;
 
 import android.view.View;
 
@@ -36,9 +35,9 @@ public class BindingAttributeMapperAdapter<T extends View> implements BindingAtt
 		this.bindingAttributeMapper = bindingAttributeMapper;
 	}
 	
-	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(T view, ViewListenersProvider viewListenersProvider)
+	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInstantiator viewAttributeInstantiator)
 	{
-		BindingAttributeMappingsImpl<T> bindingAttributeMappings = new BindingAttributeMappingsImpl<T>(view, viewListenersProvider);
+		BindingAttributeMappingsImpl<T> bindingAttributeMappings = new BindingAttributeMappingsImpl<T>(viewAttributeInstantiator);
 		bindingAttributeMapper.mapBindingAttributes(bindingAttributeMappings);
 		return bindingAttributeMappings;
 	}

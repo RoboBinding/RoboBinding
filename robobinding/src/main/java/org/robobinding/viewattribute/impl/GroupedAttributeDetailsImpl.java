@@ -30,9 +30,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Robert Taylor
  * @author Cheng Wei
  */
 public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
@@ -45,64 +46,64 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 		this.supportedAttributes = supportedAttributes;
 		this.presentAttributeMappings = Maps.newHashMap(presentAttributeMappings);
 	}
-	
-	public String[] getSupportedAttributes()
-	{
-		return supportedAttributes;
-	}
-	
+
 	boolean hasAttributes(String... attributes)
 	{
 		for (String attribute : attributes)
 		{
-			if(!presentAttributeMappings.containsKey(attribute))
+			if (!presentAttributeMappings.containsKey(attribute))
 			{
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	Collection<String> findAbsentAttributes(String... attributeNames)
 	{
 		List<String> absentAttributes = Lists.newArrayList();
 		for (String attributeName : attributeNames)
 		{
-			if(!presentAttributeMappings.containsKey(attributeName))
+			if (!presentAttributeMappings.containsKey(attributeName))
 			{
 				absentAttributes.add(attributeName);
 			}
 		}
 		return absentAttributes;
 	}
-	
+
 	@Override
 	public String attributeValueFor(String attributeName)
 	{
 		return presentAttributeMappings.get(attributeName);
 	}
-	
+
 	@Override
 	public boolean hasAttribute(String attributeName)
 	{
 		return presentAttributeMappings.containsKey(attributeName);
 	}
-	
+
 	@Override
 	public boolean equals(Object other)
 	{
-		if (this==other) return true;
-		if (!(other instanceof GroupedAttributeDetailsImpl)) return false;
-		
-		final GroupedAttributeDetailsImpl that = (GroupedAttributeDetailsImpl)other;
+		if (this == other)
+			return true;
+		if (!(other instanceof GroupedAttributeDetailsImpl))
+			return false;
+
+		final GroupedAttributeDetailsImpl that = (GroupedAttributeDetailsImpl) other;
 		return new EqualsBuilder()
-				.append(presentAttributeMappings, that.presentAttributeMappings)
-				.isEquals();
+			.append(supportedAttributes, that.supportedAttributes)
+			.append(presentAttributeMappings, that.presentAttributeMappings)
+			.isEquals();
 	}
+
 	@Override
 	public int hashCode()
 	{
 		return new HashCodeBuilder()
+			.append(supportedAttributes)
 			.append(presentAttributeMappings)
 			.toHashCode();
 	}
@@ -110,7 +111,7 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	@Override
 	public void assertAttributesArePresent(View view, String... attributeNames)
 	{
-		if(!hasAttributes(attributeNames))
+		if (!hasAttributes(attributeNames))
 			throw new MissingRequiredBindingAttributeException(findAbsentAttributes(attributeNames), view);
 	}
 }

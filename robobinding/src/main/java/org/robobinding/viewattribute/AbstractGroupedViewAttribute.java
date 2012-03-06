@@ -69,7 +69,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	{
 		public ViewAttributeInstantiator()
 		{
-			super(viewListenersProvider);
+			super(AbstractGroupedViewAttribute.this.viewListenersProvider);
 		}
 		@Override
 		protected String attributeValueFor(String attribute)
@@ -77,7 +77,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 			return groupedAttributeDetails.attributeValueFor(attribute);
 		}
 		@Override
-		protected T getViewForAttribute(String attributeName)
+		protected T getView()
 		{
 			return view;
 		}

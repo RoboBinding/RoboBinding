@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.impl.ViewAttributeInstantiator;
 
 import android.view.View;
 
@@ -27,5 +28,5 @@ import android.view.View;
  */
 public interface BindingAttributeProvider<T extends View>
 {
-	BindingAttributeMappingsImpl<T> createBindingAttributeMappings(T view, ViewListenersProvider viewListenersProvider);
+	BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInstantiator viewAttributeInstantiator);
 }

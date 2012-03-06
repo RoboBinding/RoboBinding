@@ -21,9 +21,8 @@ import org.apache.commons.lang3.Validate;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewListenersProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
-import org.robobinding.viewattribute.impl.GroupedAttributeDetailsImpl;
+import org.robobinding.viewattribute.impl.ViewAttributeInstantiator;
 
 import android.view.View;
 
@@ -37,11 +36,11 @@ import com.google.common.collect.Maps;
  */
 class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttributeMappingsImpl<T> implements CustomBindingAttributeMappings<T>
 {
-	private Map<String, View> customAttributeViews;
+	private final Map<String, View> customAttributeViews;
 	
-	public CustomBindingAttributeMappingsImpl(T view, ViewListenersProvider viewListenersProvider)
+	public CustomBindingAttributeMappingsImpl(ViewAttributeInstantiator viewAttributeInstantiator)
 	{
-		super(view, viewListenersProvider);
+		super(viewAttributeInstantiator);
 		
 		customAttributeViews = Maps.newHashMap();
 	}
@@ -98,22 +97,22 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 	}
 
 	@Override
-	protected View getViewForAttribute(String attributeName)
+	protected View getViewForAttribute(String attributeName, View defaultView)
 	{
 		if (customAttributeViews.containsKey(attributeName))
 			return customAttributeViews.get(attributeName);
 		
-		return super.getViewForAttribute(attributeName);
+		return super.getViewForAttribute(attributeName, defaultView);
 	}
 	
 	@Override
-	protected View getViewForGroupedAttribute(GroupedAttributeDetailsImpl groupedAttributeDetails)
+	protected View getViewForAttributeGroup(String[] attributeGroup, View defaultView)
 	{
-		String identifyingAttributeName = groupedAttributeDetails.getSupportedAttributes()[0];
+		String identifyingAttributeName = attributeGroup[0];
 		
 		if (customAttributeViews.containsKey(identifyingAttributeName))
 			return customAttributeViews.get(identifyingAttributeName);
 			
-		return super.getViewForGroupedAttribute(groupedAttributeDetails);
+		return super.getViewForAttributeGroup(attributeGroup, defaultView);
 	}
 }
