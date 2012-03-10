@@ -23,11 +23,10 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.binder.BindingContext;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
-import android.content.Context;
 import android.view.View;
 
 /**
@@ -43,7 +42,6 @@ public class AbstractViewAttributeInstantiatorTest
 	
 	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
 	private View view;
-	private boolean preInitializeViews;
 	private ViewListenersProvider viewListenersProvider;
 	private ViewListeners viewListeners;
 	
@@ -52,7 +50,6 @@ public class AbstractViewAttributeInstantiatorTest
 	public void setUp()
 	{
 		view = mock(View.class);
-		preInitializeViews = RandomValues.trueOrFalse();
 		viewListenersProvider = mock(ViewListenersProvider.class);
 		viewListeners = new ViewListeners(view);
 		when(viewListenersProvider.forViewAndAttribute(eq(view), any(ViewListenersAware.class))).thenReturn(viewListeners);
@@ -64,7 +61,7 @@ public class AbstractViewAttributeInstantiatorTest
 	{
 		MockPropertyViewAttribute mockPropertyViewAttribute = viewAttributeInstantiator.newPropertyViewAttribute(MockPropertyViewAttribute.class, ATTRIBUTE_NAME);
 		
-		mockPropertyViewAttribute.assertAllPropertiesAssigned(view, preInitializeViews, ATTRIBUTE_VALUE);
+		mockPropertyViewAttribute.assertAllPropertiesAssigned(view, ATTRIBUTE_VALUE);
 	}
 	
 	@Test
@@ -72,7 +69,7 @@ public class AbstractViewAttributeInstantiatorTest
 	{
 		MockViewListenersAwarePropertyViewAttribute mockPropertyViewAttribute = viewAttributeInstantiator.newPropertyViewAttribute(MockViewListenersAwarePropertyViewAttribute.class, ATTRIBUTE_NAME);
 		
-		mockPropertyViewAttribute.assertAllPropertiesAssigned(view, preInitializeViews, ATTRIBUTE_VALUE, viewListeners);
+		mockPropertyViewAttribute.assertAllPropertiesAssigned(view, ATTRIBUTE_VALUE, viewListeners);
 	}
 	
 	@Test
@@ -95,7 +92,7 @@ public class AbstractViewAttributeInstantiatorTest
 	{
 		public ViewAttributeInstantiatorForTest()
 		{
-			super(preInitializeViews, viewListenersProvider);
+			super(AbstractViewAttributeInstantiatorTest.this.viewListenersProvider);
 		}
 		
 		@Override
@@ -105,7 +102,7 @@ public class AbstractViewAttributeInstantiatorTest
 		}
 		
 		@Override
-		protected View getViewForAttribute(String attributeName)
+		protected View getView()
 		{
 			return view;
 		}
@@ -115,7 +112,6 @@ public class AbstractViewAttributeInstantiatorTest
 	{
 		private String attributeValue;
 		private View view;
-		private boolean preInitializeViews;
 
 		@Override
 		public void setView(View view)
@@ -124,24 +120,18 @@ public class AbstractViewAttributeInstantiatorTest
 		}
 
 		@Override
-		public void setPreInitializeView(boolean preInitializeViews)
-		{
-			this.preInitializeViews = preInitializeViews;
-		}
-
-		@Override
 		public void setAttributeValue(String attributeValue)
 		{
 			this.attributeValue = attributeValue;
 		}
 		
-		public void assertAllPropertiesAssigned(View view, boolean preInitializeViews, String attributeValue)
+		public void assertAllPropertiesAssigned(View view, String attributeValue)
 		{
-			assertTrue(this.view == view && this.preInitializeViews == preInitializeViews && this.attributeValue == attributeValue);
+			assertTrue(this.view == view && this.attributeValue == attributeValue);
 		}
 		
 		@Override
-		public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+		public void bindTo(BindingContext bindingContext)
 		{
 		}
 	}
@@ -156,9 +146,9 @@ public class AbstractViewAttributeInstantiatorTest
 			this.viewListeners = viewListeners;
 		}
 
-		public void assertAllPropertiesAssigned(View view, boolean preInitializeViews, String attributeValue, ViewListeners viewListeners)
+		public void assertAllPropertiesAssigned(View view, String attributeValue, ViewListeners viewListeners)
 		{
-			super.assertAllPropertiesAssigned(view, preInitializeViews, attributeValue);
+			super.assertAllPropertiesAssigned(view, attributeValue);
 			assertTrue(this.viewListeners == viewListeners);
 		}
 	}

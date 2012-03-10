@@ -169,10 +169,10 @@ class ViewInflater implements ViewCreationListener
 			return rootView;
 		}
 
-		public void bindChildViews(BindingContext context)
+		public void bindChildViews(BindingContext bindingContext)
 		{
 			for (ViewBindingAttributes viewBindingAttributes : childViewBindingAttributes)
-				viewBindingAttributes.bindTo(context);
+				viewBindingAttributes.bindTo(bindingContext);
 		}
 	}
 }

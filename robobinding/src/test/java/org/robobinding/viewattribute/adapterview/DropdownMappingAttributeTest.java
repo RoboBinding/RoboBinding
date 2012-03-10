@@ -16,9 +16,12 @@
 package org.robobinding.viewattribute.adapterview;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
+import org.robobinding.binder.MockBindingContext;
+import org.robobinding.binder.PredefinedViewPendingAttributes;
 
 /**
  *
@@ -33,9 +36,9 @@ public class DropdownMappingAttributeTest extends ItemMappingAttributeTest
 	{
 		DropdownMappingAttribute dropdownMappingAttribute = new DropdownMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		
-		dropdownMappingAttribute.bind(dataSetAdapter, null, mockContext);
+		dropdownMappingAttribute.bind(dataSetAdapter, MockBindingContext.create(mockContext));
 		
-		verify(dataSetAdapter).setDropdownMappingAttribute(dropdownMappingAttribute);
+		verify(dataSetAdapter).setDropdownPredefinedViewPendingAttributesGroup(anyCollectionOf(PredefinedViewPendingAttributes.class));
 	}
 	
 	@Test
@@ -43,7 +46,7 @@ public class DropdownMappingAttributeTest extends ItemMappingAttributeTest
 	{
 		DropdownMappingAttribute dropdownMappingAttribute = new DropdownMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		
-		dropdownMappingAttribute.bind(dataSetAdapter, null, mockContext);
+		dropdownMappingAttribute.bind(dataSetAdapter, MockBindingContext.create(mockContext));
 		
 		assertNotNull(dropdownMappingAttribute.getViewMappingsCollection());
 	}

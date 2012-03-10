@@ -129,7 +129,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass = groupedViewAttributeMappings.get(attributeGroup);
 		View view = getViewForAttributeGroup(attributeGroup, defaultView);
 		
-		GroupedAttributeDetails groupedAttributeDetails = new GroupedAttributeDetailsImpl(attributeGroup, presentAttributeMappings);
+		GroupedAttributeDetails groupedAttributeDetails = new GroupedAttributeDetailsImpl(presentAttributeMappings);
 		@SuppressWarnings("unchecked")
 		AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>)viewAttributeInstantiator.newGroupedViewAttribute(
 				view, groupedViewAttributeClass, groupedAttributeDetails);

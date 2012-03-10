@@ -56,13 +56,13 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	}
 	
 	@Override
-	public void bindTo(BindingContext context)
+	public void bindTo(BindingContext bindingContext)
 	{
-		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(context.getPresentationModelAdapter());
+		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
 		propertyViewAttribute.setView(view);
 		propertyViewAttribute.setPropertyBindingDetails(propertyBindingDetails);
 		setViewListenersIfRequired(propertyViewAttribute, view);
-		propertyViewAttribute.bindTo(context);
+		propertyViewAttribute.bindTo(bindingContext);
 	}
 
 	private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)

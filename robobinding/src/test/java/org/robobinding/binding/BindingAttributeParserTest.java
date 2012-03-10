@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binding;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.robobinding.binder.MockAttributeSet.withAttributes;
-import static org.robobinding.binder.MockAttributeSet.withNoBindingAttributes;
+import static org.robobinding.binding.MockAttributeSet.withAttributes;
+import static org.robobinding.binding.MockAttributeSet.withNoBindingAttributes;
 
 import java.util.Map;
 import java.util.Random;
@@ -39,9 +39,9 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class AttributeSetParserTest
+public class BindingAttributeParserTest
 {
-	private BindingAttributeParser attributeSetParser = new BindingAttributeParser();
+	private BindingAttributeParser bindingAttributeParser = new BindingAttributeParser();
 
 	@Test
 	public void givenAttributeSetWithNoBindingAttributes_whenLoading_thenBindingMapShouldBeEmpty()
@@ -74,7 +74,7 @@ public class AttributeSetParserTest
 	
 	private Map<String, String> loadBindingMapFromAttributeSet(AttributeSet attrs)
 	{
-		return attributeSetParser.parse(attrs);
+		return bindingAttributeParser.parse(attrs);
 	}
 	
 	private int anyNumber()

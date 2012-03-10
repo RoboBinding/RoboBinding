@@ -19,6 +19,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.robobinding.binder.MockBindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.BindingAttributeValues;
 import org.robobinding.viewattribute.MockPresentationModelAdapterBuilder;
@@ -41,21 +42,21 @@ public class SubViewCreatorTest
 		int layoutId = builder.desclareLayoutResource(BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE_NAME);
 		Context mockContext = builder.build();
 		
-		SubViewCreator subViewCreator = new SubViewCreator(mockContext, BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE);
+		SubViewCreator subViewCreator = new SubViewCreator(MockBindingContext.create(mockContext), BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE);
+		
 		assertThat(subViewCreator.getLayoutId(), equalTo(layoutId));
 	}
 	
 	@Test
 	public void whenGetPresentationModel_returnExpectedResult()
 	{
-		SubViewCreator subViewCreator = new SubViewCreator(null, null);
-		
 		Object presentationModel = new Object();
 		String presentationModelAttributeValue = BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME; 
+		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.createWithReadOnlyDefaultProperty(presentationModel);
 		
-		PresentationModelAdapter mockPresentationModelAdapter = MockPresentationModelAdapterBuilder.createWithReadOnlyDefaultProperty(presentationModel);
-		
-		assertThat(subViewCreator.getPresentationModel(mockPresentationModelAdapter, presentationModelAttributeValue),
+		SubViewCreator subViewCreator = new SubViewCreator(MockBindingContext.create(presentationModelAdapter), null);
+	
+		assertThat(subViewCreator.getPresentationModel(presentationModelAttributeValue),
 				equalTo(presentationModel));
 	}
 }

@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.R;
+import org.robobinding.binder.MockBindingContext;
 import org.robobinding.presentationmodel.AbstractPresentationModel;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
@@ -142,7 +143,7 @@ public class DataSetAdapterTest
 
 		public DataSetAdapterForTest(Context context, boolean preInitializeViews)
 		{
-			super(context, preInitializeViews);
+			super(MockBindingContext.create(context, preInitializeViews));
 		}
 
 		@Override

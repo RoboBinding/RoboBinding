@@ -37,24 +37,24 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	}
 
 	@Override
-	public void bindTo(BindingContext context)
+	public void bindTo(BindingContext bindingContext)
 	{
-		View subView = createSubView(context);
+		View subView = createSubView(bindingContext);
 		
-		addSubView(subView, context.getAndroidContext());
+		addSubView(subView, bindingContext.getContext());
 		
 		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
 		{
 			SubViewVisibilityAttribute visibilityAttribute = createVisibilityAttribute(subView);
 			visibilityAttribute.setView(subView);
 			visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
-			visibilityAttribute.bindTo(context);
+			visibilityAttribute.bindTo(bindingContext);
 		}
 	}
 
-	View createSubView(BindingContext context)
+	View createSubView(BindingContext bindingContext)
 	{
-		SubViewCreator subViewCreator = createSubViewCreator(context, groupedAttributeDetails.attributeValueFor(layoutAttribute()));
+		SubViewCreator subViewCreator = createSubViewCreator(bindingContext, groupedAttributeDetails.attributeValueFor(layoutAttribute()));
 		
 		if(groupedAttributeDetails.hasAttribute(subViewPresentationModelAttribute()))
 		{
@@ -66,9 +66,9 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 		}
 	}
 
-	SubViewCreator createSubViewCreator(BindingContext context, String layoutAttributeValue)
+	SubViewCreator createSubViewCreator(BindingContext bindingContext, String layoutAttributeValue)
 	{
-		return new SubViewCreator(context, layoutAttributeValue);
+		return new SubViewCreator(bindingContext, layoutAttributeValue);
 	}
 	
 	protected abstract String layoutAttribute();

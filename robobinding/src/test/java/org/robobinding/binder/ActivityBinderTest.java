@@ -19,13 +19,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.ActivityBinder;
-import org.robobinding.binding.BindingAttributeProcessor.ViewBindingAttributes;
-import org.robobinding.binding.BindingViewFactory.InflatedView;
 
 import android.app.Activity;
 import android.view.View;
@@ -41,22 +37,32 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class ActivityBinderTest
 {	
-	private Object presentationModel = new Object();
-	private int layoutId = 0;
-	private Activity activity = mock(Activity.class);
+	private Activity activity;
+	private BinderImplementor binderImplementor;
+	private Object presentationModel;
+	private int layoutId;
 	
-	@Test
-	public void whenBindingToPresentationModel_thenSetContentViewReturnedFromBindingViewFactory()
+	@Before
+	public void setUp()
 	{
-		View rootView = new View(activity);
-		InflatedView inflatedView = new InflatedView(rootView, new ArrayList<ViewBindingAttributes>());
-		BindingViewFactory bindingViewFactory = mock(BindingViewFactory.class);
-		when(bindingViewFactory.inflateView(layoutId)).thenReturn(inflatedView);
+		activity = mock(Activity.class);
+		binderImplementor = mock(BinderImplementor.class);
+		presentationModel = new Object();
+		layoutId = 0;
+	}
+	@Test
+	public void whenInflateAndBind_thenContentViewIsSetToResultView()
+	{
+		View resultView = mock(View.class);
+		when(binderImplementor.inflateAndBind(layoutId, presentationModel)).thenReturn(resultView);
 		
-		ActivityBinder activityBinder = new ActivityBinder(activity, layoutId);
-		activityBinder.setBindingViewFactory(bindingViewFactory);
-		activityBinder.bindTo(presentationModel);
+		inflateAndBind();
 		
-		verify(activity).setContentView(rootView);
+		verify(activity).setContentView(resultView);
+	}
+	private void inflateAndBind()
+	{
+		ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
+		activityBinder.inflateAndBind(layoutId, presentationModel);
 	}
 }

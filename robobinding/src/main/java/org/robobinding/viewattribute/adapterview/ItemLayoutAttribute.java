@@ -49,9 +49,9 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 	}
 
 	@Override
-	public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext context)
+	public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
 	{
-		layoutAttribute.bind(dataSetAdapter, context);		
+		layoutAttribute.bind(dataSetAdapter, bindingContext);		
 	}
 	
 	protected void updateLayoutId(DataSetAdapter<?> dataSetAdapter, int layoutId)
@@ -65,10 +65,10 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		private DataSetAdapter<?> dataSetAdapter;
 		
 		@Override
-		public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext context)
+		public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
 		{
 			this.dataSetAdapter = dataSetAdapter;
-			super.bindTo(context);
+			super.bindTo(bindingContext);
 		}
 
 		@Override
@@ -96,7 +96,7 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 		@Override
 		public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
 		{
-			int itemLayoutId = resourceBindingDetails.getResourceId(bindingContext.getAndroidContext());
+			int itemLayoutId = resourceBindingDetails.getResourceId(bindingContext.getContext());
 			updateLayoutId(dataSetAdapter, itemLayoutId);
 		}
 	}

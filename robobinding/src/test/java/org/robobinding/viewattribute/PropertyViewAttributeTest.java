@@ -24,6 +24,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.binder.MockBindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
@@ -117,7 +118,7 @@ public final class PropertyViewAttributeTest
 	public void whenBindingWithoutSettingAllValues_thenShouldThrowException()
 	{
 		PropertyViewAttributeSpy propertyViewAttribute = new PropertyViewAttributeSpy();
-		propertyViewAttribute.inflateAndBind(presentationModelAdapter, context);
+		propertyViewAttribute.bindTo(MockBindingContext.create(presentationModelAdapter, context));
 	}
 	
 	private void initializeAndBindPropertyViewAttribute(boolean twoWayBinding, boolean preInitializeView)
@@ -132,8 +133,7 @@ public final class PropertyViewAttributeTest
 		propertyViewAttributeSpy = new PropertyViewAttributeSpy();
 		propertyViewAttributeSpy.setView(mock(View.class));
 		propertyViewAttributeSpy.setPropertyBindingDetails(propertyBindingDetails);
-		propertyViewAttributeSpy.setPreInitializeView(preInitializeView);
-		propertyViewAttributeSpy.inflateAndBind(presentationModelAdapter, context);
+		propertyViewAttributeSpy.bindTo(MockBindingContext.create(presentationModelAdapter, context, preInitializeView));
 	}
 	
 	private static class PropertyViewAttributeSpy extends AbstractPropertyViewAttribute<View, Integer>

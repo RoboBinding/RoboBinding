@@ -19,19 +19,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.DialogBinder;
-import org.robobinding.binding.BindingAttributeProcessor.ViewBindingAttributes;
-import org.robobinding.binding.BindingViewFactory.InflatedView;
 import org.robobinding.presentationmodel.DialogPresentationModel;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.view.View;
 import android.view.Window;
 
@@ -46,59 +39,56 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class DialogBinderTest
 {	
-	private int layoutId = 0;
-	private Dialog dialog = mock(Dialog.class);
-	private BindingViewFactory bindingViewFactory;
-	private View inflatedRootView;
+	private BinderImplementor binderImplementor;
+	private Dialog dialog;
+	private int layoutId;
 
 	@Before
 	public void setUp()
 	{
-		Context dialogContext = new Activity();
-		when(dialog.getContext()).thenReturn(dialogContext);
-		inflatedRootView = new View(dialogContext);
-		InflatedView inflatedView = new InflatedView(inflatedRootView, new ArrayList<ViewBindingAttributes>());
-		bindingViewFactory = mock(BindingViewFactory.class);
-		when(bindingViewFactory.inflateView(layoutId)).thenReturn(inflatedView);
+		binderImplementor = mock(BinderImplementor.class);
+		layoutId = 0;
+		dialog = mock(Dialog.class);
 	}
 	
 	@Test
-	public void whenBindingToPresentationModel_thenSetContentViewReturnedFromBindingInflater()
+	public void whenInflateAndBind_thenSetContentViewIsSetToResultView()
 	{
 		Object presentationModel = new Object();
+		View resultView = mock(View.class);
+		when(binderImplementor.inflateAndBind(layoutId, presentationModel)).thenReturn(resultView);
 		
-		initializeDialogBinderAndBindTo(presentationModel);
+		inflateAndBind(presentationModel);
 		
-		verify(dialog).setContentView(inflatedRootView);
+		verify(dialog).setContentView(resultView);
 	}
-	
+
 	@Test
-	public void givenADialogPresentationModel_whenBinding_thenTitleOfInflatedDialogShouldEqualTitleProperty()
+	public void givenADialogPresentationModel_whenInflateAndBind_thenTitleOfDialogShouldEqualTitleProperty()
 	{
 		MockDialogPresentationModelWithTitle dialogPresentationModelWithTitle = new MockDialogPresentationModelWithTitle();
 		
-		initializeDialogBinderAndBindTo(dialogPresentationModelWithTitle);
+		inflateAndBind(dialogPresentationModelWithTitle);
 	
 		verify(dialog).setTitle(dialogPresentationModelWithTitle.getTitle());
 	}
 
 	@Test
-	public void givenADialogPresentationModelWithANullTitleProperty_whenBinding_thenTitleOfInflatedDialogShouldBeGone()
+	public void givenADialogPresentationModelWithANullTitleProperty_whenInflateAndBind_thenTitleOfDialogShouldBeGone()
 	{
 		MockDialogPresentationModelWithNullTitle dialogPresentationModelWithNullTitle = new MockDialogPresentationModelWithNullTitle();
 		
-		initializeDialogBinderAndBindTo(dialogPresentationModelWithNullTitle);
+		inflateAndBind(dialogPresentationModelWithNullTitle);
 		
 		verify(dialog).requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 	
-	private void initializeDialogBinderAndBindTo(Object presentationModel)
+	private void inflateAndBind(Object presentationModel)
 	{
-		DialogBinder dialogBinder = new DialogBinder(dialog, layoutId);
-		dialogBinder.setBindingViewFactory(bindingViewFactory);
-		dialogBinder.bindTo(presentationModel);
+		DialogBinder dialogBinder = new DialogBinder(dialog, binderImplementor);
+		dialogBinder.inflateAndBind(layoutId, presentationModel);
 	}
-	
+
 	public static class MockDialogPresentationModelWithTitle implements DialogPresentationModel
 	{
 		public String getTitle()

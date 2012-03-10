@@ -15,6 +15,7 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import org.robobinding.binder.MockBindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.MockPresentationModelAdapterBuilder;
 
@@ -33,6 +34,6 @@ public class DynamicLayoutAttributeUtils
 	public static void bindAttribute(DataSetAdapter<?> dataSetAdapter, AdapterViewAttribute dynamicLayoutAttribute)
 	{
 		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.<Integer>createWithReadOnlyDefaultProperty();
-		dynamicLayoutAttribute.bind(dataSetAdapter, presentationModelAdapter, new Activity());
+		dynamicLayoutAttribute.bind(dataSetAdapter, MockBindingContext.create(presentationModelAdapter, new Activity()));
 	}
 }

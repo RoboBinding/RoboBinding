@@ -38,12 +38,10 @@ import com.google.common.collect.Maps;
  */
 public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 {
-	private String[] supportedAttributes;
 	private Map<String, String> presentAttributeMappings;
 
-	public GroupedAttributeDetailsImpl(String[] supportedAttributes, Map<String, String> presentAttributeMappings)
+	public GroupedAttributeDetailsImpl(Map<String, String> presentAttributeMappings)
 	{
-		this.supportedAttributes = supportedAttributes;
 		this.presentAttributeMappings = Maps.newHashMap(presentAttributeMappings);
 	}
 
@@ -94,7 +92,6 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 
 		final GroupedAttributeDetailsImpl that = (GroupedAttributeDetailsImpl) other;
 		return new EqualsBuilder()
-			.append(supportedAttributes, that.supportedAttributes)
 			.append(presentAttributeMappings, that.presentAttributeMappings)
 			.isEquals();
 	}
@@ -103,7 +100,6 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	public int hashCode()
 	{
 		return new HashCodeBuilder()
-			.append(supportedAttributes)
 			.append(presentAttributeMappings)
 			.toHashCode();
 	}

@@ -50,11 +50,11 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private final ItemBinder itemBinder;
 	private final ItemBinder dropDownBinder;
 	
-	public DataSetAdapter(BindingContext context)
+	public DataSetAdapter(BindingContext bindingContext)
 	{
-		itemBinder = context.createItemBinder();
-		dropDownBinder = context.createItemBinder();
-		this.preInitializeViews = context.shouldPreInitializeViews();
+		itemBinder = bindingContext.createItemBinder();
+		dropDownBinder = bindingContext.createItemBinder();
+		this.preInitializeViews = bindingContext.shouldPreInitializeViews();
 	}
 
 	public void observeChangesOnTheValueModel()
