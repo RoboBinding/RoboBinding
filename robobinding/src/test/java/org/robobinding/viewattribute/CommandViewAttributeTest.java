@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.binder.MockBindingContext;
 import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.adapterview.ItemClickEvent;
@@ -60,9 +61,14 @@ public final class CommandViewAttributeTest
 	{
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
 		
-		commandViewAttribute.inflateAndBind(presentationModelAdapter, context);
+		bindAttribute();
 
 		assertThat(commandViewAttribute.functionBound, equalTo(noArgsFunction));
+	}
+
+	private void bindAttribute()
+	{
+		commandViewAttribute.bindTo(MockBindingContext.create(presentationModelAdapter, context));
 	}
 	
 	@Test
@@ -71,7 +77,7 @@ public final class CommandViewAttributeTest
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME, ItemClickEvent.class)).thenReturn(preferredFunction);
 		
-		commandViewAttribute.inflateAndBind(presentationModelAdapter, context);
+		bindAttribute();
 		
 		assertThat(commandViewAttribute.functionBound, equalTo(preferredFunction));
 	}
@@ -79,14 +85,15 @@ public final class CommandViewAttributeTest
 	@Test (expected=RuntimeException.class)
 	public void givenAPresentationModelWithNoMatchingFunction_whenBinding_thenThrowRuntimeException()
 	{
-		commandViewAttribute.inflateAndBind(presentationModelAdapter, context);
+		bindAttribute();
 	}
 	
 	@Test (expected=IllegalStateException.class)
 	public void givenAnAttributeWhosePropertiesHaveNotBeenSet_whenBinding_thenThrowException()
 	{
-		AbstractCommandViewAttribute<?> commandViewAttribute = new DummyCommandViewAttribute();
-		commandViewAttribute.inflateAndBind(presentationModelAdapter, context);
+		commandViewAttribute = new DummyCommandViewAttribute();
+		
+		bindAttribute();
 	}
 	
 	public class DummyCommandViewAttribute extends AbstractCommandViewAttribute<View>

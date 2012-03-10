@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.binder.MockBindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetValueModel;
 
@@ -56,7 +57,7 @@ public class SourceAttributeTest
 		when(presentationModelAdapter.getDataSetPropertyValueModel(propertyName)).thenReturn(dataSetValueModel);		
 		SourceAttribute sourceAttribute = new SourceAttribute(attributeValue);
 		
-		sourceAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
+		sourceAttribute.bind(dataSetAdapter, MockBindingContext.create(presentationModelAdapter, context));
 		
 		verify(dataSetAdapter).setValueModel(dataSetValueModel);
 	}

@@ -16,12 +16,15 @@
 package org.robobinding.viewattribute.adapterview;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.binder.MockBindingContext;
+import org.robobinding.binder.PredefinedViewPendingAttributes;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -53,9 +56,9 @@ public class ItemMappingAttributeTest
 	{
 		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		
-		itemMappingAttribute.bind(dataSetAdapter, null, mockContext);
+		itemMappingAttribute.bind(dataSetAdapter, MockBindingContext.create(mockContext));
 		
-		verify(dataSetAdapter).setItemMappingAttribute(itemMappingAttribute);
+		verify(dataSetAdapter).setItemPredefinedViewPendingAttributesGroup(anyCollectionOf(PredefinedViewPendingAttributes.class));
 	}
 	
 	@Test
@@ -63,7 +66,7 @@ public class ItemMappingAttributeTest
 	{
 		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
 		
-		itemMappingAttribute.bind(dataSetAdapter, null, mockContext);
+		itemMappingAttribute.bind(dataSetAdapter, MockBindingContext.create(mockContext));
 		
 		assertNotNull(itemMappingAttribute.getViewMappingsCollection());
 	}

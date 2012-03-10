@@ -51,7 +51,7 @@ public class BindingContext
 		return presentationModelAdapter;
 	}
 
-	public Context getAndroidContext()
+	public Context getContext()
 	{
 		return context;
 	}

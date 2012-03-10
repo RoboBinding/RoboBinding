@@ -70,8 +70,8 @@ class BinderImplementorImpl implements BinderImplementor
 		ViewInflater viewInflater = createViewInflater();
 		InflatedView inflatedView = viewInflater.inflateBindingView(layoutId);
 		
-		BindingContext context = bindingContextCreator.create(presentationModel);
-		inflatedView.bindChildViews(context);
+		BindingContext bindingContext = bindingContextCreator.create(presentationModel);
+		inflatedView.bindChildViews(bindingContext);
 		
 		return inflatedView.getRootView();
 	}

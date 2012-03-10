@@ -93,10 +93,10 @@ class BindingAttributeResolver
 			this.viewAttributes.addAll(viewAttributes);
 		}
 		
-		public void bindTo(BindingContext context)
+		public void bindTo(BindingContext bindingContext)
 		{
 			for (ViewAttribute viewAttribute : viewAttributes)
-				viewAttribute.bindTo(context);
+				viewAttribute.bindTo(bindingContext);
 		}
 	}
 }

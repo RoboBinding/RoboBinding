@@ -55,7 +55,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 	@Override
 	public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
 	{
-		viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, bindingContext.getAndroidContext());
+		viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, bindingContext.getContext());
 		updateDataSetAdapter(dataSetAdapter);
 	}
 

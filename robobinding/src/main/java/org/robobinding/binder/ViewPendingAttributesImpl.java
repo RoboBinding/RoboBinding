@@ -16,6 +16,7 @@
 package org.robobinding.binder;
 
 
+import java.util.Collection;
 import java.util.Map;
 
 
@@ -33,7 +34,7 @@ import com.google.common.collect.Maps;
 public class ViewPendingAttributesImpl implements ViewPendingAttributes
 {
 	private View view;
-	private Map<String, String> attributeMappings;
+	Map<String, String> attributeMappings;
 	private Map<String, String> malformedAttributes;
 	public ViewPendingAttributesImpl(View view, Map<String, String> attributeMappings)
 	{
@@ -70,6 +71,8 @@ public class ViewPendingAttributesImpl implements ViewPendingAttributes
 			{
 				String attributeValue = attributeMappings.get(attribute);
 				attributeResolver.resolve(view, attribute, attributeValue);
+				
+				attributeMappings.remove(attribute);
 			}
 		} catch (MalformedBindingAttributeException e)
 		{
@@ -87,7 +90,10 @@ public class ViewPendingAttributesImpl implements ViewPendingAttributes
 		if (hasOneOfAttributes(attributeGroup))
 		{
 			Map<String, String> presentAttributeMappings = findPresentAttributeMappings(attributeGroup);
+			Collection<String> presentAttributes = presentAttributeMappings.keySet();
+			
 			attributeGroupResolver.resolve(view, attributeGroup, presentAttributeMappings);
+			removeAttributes(presentAttributes);
 		}
 	}
 
@@ -115,5 +121,13 @@ public class ViewPendingAttributesImpl implements ViewPendingAttributes
 			}
 		}
 		return presentAttributeMappings;
+	}
+
+	private void removeAttributes(Collection<String> attributes)
+	{
+		for(String attribute : attributes)
+		{
+			attributeMappings.remove(attribute);
+		}
 	}
 }

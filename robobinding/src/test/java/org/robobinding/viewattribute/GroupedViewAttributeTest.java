@@ -22,9 +22,8 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.binder.BindingContext;
 
-import android.content.Context;
 import android.view.View;
 
 /**
@@ -71,7 +70,7 @@ public class GroupedViewAttributeTest
 		}
 
 		@Override
-		public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+		public void bindTo(BindingContext bindingContext)
 		{
 		}
 	}

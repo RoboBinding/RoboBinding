@@ -16,7 +16,6 @@
 package org.robobinding.viewattribute.adapterview;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -24,7 +23,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.binder.BindingContext;
 import org.robobinding.viewattribute.GroupedAttributeDetails;
 
 import android.content.Context;
@@ -64,7 +63,7 @@ public class AbstractSubViewAttributesTest
 	public void createAttributeWithPresentationModel_thenSuccessful()
 	{
 		makePresentationModelAttributeAvailable();
-		when(mockSubViewCreator.createAndBindTo(anyString(), (PresentationModelAdapter)any())).thenReturn(new View(null));
+		when(mockSubViewCreator.createAndBindTo(anyString())).thenReturn(new View(null));
 		
 		assertNotNull(createSubView());
 	}
@@ -77,7 +76,7 @@ public class AbstractSubViewAttributesTest
 	private View createSubView()
 	{
 		SubViewAttributes subViewAttributes = new SubViewAttributes();
-		return subViewAttributes.createSubView(null, null);
+		return subViewAttributes.createSubView(null);
 	}
 	
 	private class SubViewAttributes extends AbstractSubViewAttributes<AdapterView<?>>
@@ -90,7 +89,7 @@ public class AbstractSubViewAttributesTest
 		}
 		
 		@Override
-		SubViewCreator createSubViewCreator(Context context, String layoutAttributeValue)
+		SubViewCreator createSubViewCreator(BindingContext context, String layoutAttributeValue)
 		{
 			return mockSubViewCreator;
 		}

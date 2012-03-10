@@ -37,9 +37,9 @@ public class SourceAttribute implements AdapterViewAttribute
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
-	public void bind(final DataSetAdapter<?> dataSetAdapter, BindingContext context)
+	public void bind(final DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
 	{
-		PresentationModelAdapter presentationModelAdapter = context.getPresentationModelAdapter();
+		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
 		DataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyBindingDetails.propertyName);
 		dataSetAdapter.setValueModel(dataSetValueModel);
 	}

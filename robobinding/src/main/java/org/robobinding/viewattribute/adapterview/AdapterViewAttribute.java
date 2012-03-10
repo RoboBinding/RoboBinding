@@ -25,5 +25,5 @@ import org.robobinding.binder.BindingContext;
  */
 public interface AdapterViewAttribute
 {
-	void bind(DataSetAdapter<?> dataSetAdapter, BindingContext context);
+	void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext);
 }

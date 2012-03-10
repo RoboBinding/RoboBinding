@@ -59,12 +59,12 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void bindTo(BindingContext context)
+	public void bindTo(BindingContext bindingContext)
 	{
-		DataSetAdapter dataSetAdapter = new DataSetAdapter(context);
+		DataSetAdapter dataSetAdapter = new DataSetAdapter(bindingContext);
 		
 		for (AdapterViewAttribute adapterViewAttribute : childViewAttributes)
-			adapterViewAttribute.bind(dataSetAdapter, context);
+			adapterViewAttribute.bind(dataSetAdapter, bindingContext);
 		
 		dataSetAdapter.observeChangesOnTheValueModel();
 		((AdapterView)view).setAdapter(dataSetAdapter);

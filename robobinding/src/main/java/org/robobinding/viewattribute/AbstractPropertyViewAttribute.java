@@ -51,10 +51,10 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	}
 	
 	@Override
-	public void bindTo(BindingContext context)
+	public void bindTo(BindingContext bindingContext)
 	{
 		performValidate();
-		performBind(context);
+		performBind(bindingContext);
 	}
 	
 	private void performValidate()
@@ -70,12 +70,12 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		validation.addErrorIfPropertyAttributeValueNotSet(propertyBindingDetails);
 	}
 
-	private void performBind(BindingContext context)
+	private void performBind(BindingContext bindingContext)
 	{
 		if (isTwoWayBinding())
-			new TwoWayBinder(context).performBind();
+			new TwoWayBinder(bindingContext).performBind();
 		else
-			new OneWayBinder(context).performBind();
+			new OneWayBinder(bindingContext).performBind();
 	}
 
 	public boolean isTwoWayBinding()
@@ -88,16 +88,17 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	
 	abstract class AbstractPropertyBinder
 	{
-		private BindingContext context;
-		protected PresentationModelAdapter presentationModelAdapter;
-		public AbstractPropertyBinder(BindingContext context)
+		private final BindingContext bindingContext;
+		protected final PresentationModelAdapter presentationModelAdapter;
+		public AbstractPropertyBinder(BindingContext bindingContext)
 		{
-			this.context = context;
+			this.bindingContext = bindingContext;
+			this.presentationModelAdapter = bindingContext.getPresentationModelAdapter();
 		}
 		
 		protected void initializeViewIfRequired(ValueModel<PropertyType> valueModel)
 		{
-			if (context.shouldPreInitializeViews())
+			if (bindingContext.shouldPreInitializeViews())
 			{
 				valueModelUpdated(valueModel.getValue());
 			}
@@ -108,9 +109,9 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	
 	private class OneWayBinder extends AbstractPropertyBinder
 	{
-		public OneWayBinder(BindingContext context)
+		public OneWayBinder(BindingContext bindingContext)
 		{
-			super(context);
+			super(bindingContext);
 		}
 		@Override
 		public void performBind()
@@ -130,9 +131,9 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	private class TwoWayBinder extends AbstractPropertyBinder
 	{
 		private boolean updatedProgrammatically;
-		public TwoWayBinder(BindingContext context)
+		public TwoWayBinder(BindingContext bindingContext)
 		{
-			super(context);
+			super(bindingContext);
 		}
 		@Override
 		public void performBind()

@@ -19,6 +19,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -31,6 +32,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
+import com.google.common.collect.Maps;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
@@ -44,7 +46,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGroupedViewAttribute<?>>
 {
 	protected T attributeUnderTest;
-	protected GroupedAttributeDetailsImpl mockGroupedAttributeDetails;
+	private Map<String, String> presentAttributeMappings;
 
 	@Before
 	@SuppressWarnings("unchecked")
@@ -53,7 +55,7 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 		AbstractGroupedViewAttribute<View> attributeUnderTest = instantiateAttributeUnderTest();
 		instantiateView(attributeUnderTest);
 		this.attributeUnderTest = (T) attributeUnderTest;
-		mockGroupedAttributeDetails = new GroupedAttributeDetailsImpl(null);
+		presentAttributeMappings = Maps.newHashMap();
 	}
 
 	private AbstractGroupedViewAttribute<View> instantiateAttributeUnderTest()
@@ -98,7 +100,8 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 
 	protected void performInitialization()
 	{
-		attributeUnderTest.setGroupedAttributeDetails(mockGroupedAttributeDetails);
+		GroupedAttributeDetails groupedAttributeDetails = new GroupedAttributeDetailsImpl(presentAttributeMappings);
+		attributeUnderTest.setGroupedAttributeDetails(groupedAttributeDetails);
 		attributeUnderTest.postInitialization();
 	}
 
@@ -121,7 +124,7 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 
 	protected void givenAttribute(Attribute attribute)
 	{
-		mockGroupedAttributeDetails.addPresentAttribute(attribute.name, attribute.value);
+		presentAttributeMappings.put(attribute.name, attribute.value);
 	}
 
 	protected void assertThatAttributesWereCreated(Class<?>... attributeClasses)

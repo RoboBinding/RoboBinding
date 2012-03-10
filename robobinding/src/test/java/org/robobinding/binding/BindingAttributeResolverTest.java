@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.binding;
 
 import static org.mockito.Mockito.mock;
 
 import java.util.Map;
 
 import org.junit.Test;
+import org.robobinding.binder.BindingAttributeException;
 import org.robobinding.binding.BindingAttributeResolver;
 
 import android.view.View;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.impl;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
@@ -21,11 +21,16 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.viewattribute.MissingRequiredBindingAttributeException;
+import org.robobinding.viewattribute.RandomValues;
 import org.robobinding.viewattribute.impl.GroupedAttributeDetailsImpl;
+
+import com.google.common.collect.Maps;
 
 import android.view.View;
 
@@ -44,7 +49,6 @@ public class GroupedAttributeDetailsImplTest
 	@Before
 	public void setUp()
 	{
-		groupedAttributeDetails = new GroupedAttributeDetailsImpl(new String[0]);
 		attributeNames = randomAttributeArray();
 		view = mock(View.class);
 	}
@@ -52,12 +56,14 @@ public class GroupedAttributeDetailsImplTest
 	@Test
 	public void givenNoAttributesHaveBeenAdded_whenFindingAbsentAttributes_thenReturnAllAttributes()
 	{
+		noAttributeIsPresent();
+		
 		Collection<String> absentAttributes = groupedAttributeDetails.findAbsentAttributes(attributeNames);
 	
 		for (String attributeName : attributeNames)
 			assertThat(absentAttributes, hasItem(attributeName));
 	}
-	
+
 	@Test
 	public void whenPresentAttributesHaveAllBeenAdded_thenShouldHaveAllAttributes()
 	{
@@ -77,13 +83,25 @@ public class GroupedAttributeDetailsImplTest
 	@Test (expected = MissingRequiredBindingAttributeException.class)
 	public void givenNoAttributesArePresent_whenAssertingAllAttributesArePresent_thenDoNothing()
 	{
+		noAttributeIsPresent();
+		
 		groupedAttributeDetails.assertAttributesArePresent(view, attributeNames);
+	}
+	
+	private void noAttributeIsPresent()
+	{
+		groupedAttributeDetails = new GroupedAttributeDetailsImpl(Maps.<String, String>newHashMap());
 	}
 	
 	private void allAttributesArePresent()
 	{
-		for (int i = 0; i < attributeNames.length; i++)
-			groupedAttributeDetails.addPresentAttribute(attributeNames[i], "attributeValue");
+		Map<String, String> presentAttributeMappings = Maps.newHashMap();
+		for(String attributeName : attributeNames)
+		{
+			presentAttributeMappings.put(attributeName, "attributeValue");
+		}
+		
+		groupedAttributeDetails = new GroupedAttributeDetailsImpl(presentAttributeMappings);
 	}
 	
 	private String[] randomAttributeArray()

@@ -70,9 +70,9 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	}
 
 	@Override
-	public void bindTo(BindingContext context)
+	public void bindTo(BindingContext bindingContext)
 	{
-		textAttribute.bindTo(context);
+		textAttribute.bindTo(bindingContext);
 	}
 
 }
