@@ -31,9 +31,9 @@ import android.view.View;
 class ViewFactory implements Factory
 {
 	private final LayoutInflater layoutInflater;
-	private final ViewNameResolver viewNameResolver;
+	ViewNameResolver viewNameResolver;
 	
-	private ViewCreationListener listener;
+	private ViewFactoryListener listener;
 	
 	public ViewFactory(LayoutInflater layoutInflater)
 	{
@@ -42,7 +42,7 @@ class ViewFactory implements Factory
 		viewNameResolver = new ViewNameResolver();
 	}
 	
-	public void setListener(ViewCreationListener listener)
+	public void setListener(ViewFactoryListener listener)
 	{
 		this.listener = listener;
 	}
@@ -74,7 +74,7 @@ class ViewFactory implements Factory
 		}
 	}
 
-	public static interface ViewCreationListener
+	public static interface ViewFactoryListener
 	{
 		void onViewCreated(View view, AttributeSet attrs);
 	}
