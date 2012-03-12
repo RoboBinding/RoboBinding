@@ -24,8 +24,9 @@ import org.robobinding.binder.PredefinedViewPendingAttributes;
 import org.robobinding.binder.ViewPendingAttributes;
 import org.robobinding.binder.ViewPendingAttributesImpl;
 import org.robobinding.binding.BindingAttributeResolver.ViewBindingAttributes;
-import org.robobinding.binding.ViewFactory.ViewCreationListener;
+import org.robobinding.binding.ViewFactory.ViewFactoryListener;
 
+import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,38 +41,44 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class ViewInflater implements ViewCreationListener
+class ViewInflater implements ViewFactoryListener
 {
 	private final LayoutInflater layoutInflater;
 	private final ViewGroup parentViewToAttach;
 	private final List<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup;
-	private final BindingAttributeResolver bindingAttributeResolver;
-	private final BindingAttributeParser bindingAttributesParser;
+	BindingAttributeResolver bindingAttributeResolver;
+	BindingAttributeParser bindingAttributesParser;
 	
-	private List<ViewBindingAttributes> childViewBindingAttributes;
+	private List<ViewBindingAttributes> childViewBindingAttributesGroup;
 	private boolean isInflatingBindingView;
 
-	private ViewInflater(Builder builder)
+	ViewInflater(Builder builder)
 	{
-		this.layoutInflater = builder.layoutInflater;
 		this.parentViewToAttach = builder.parentViewToAttach;
 		this.predefinedViewPendingAttributesGroup = builder.predefinedViewPendingAttributesGroup;
 
-		ViewFactory viewFactory = new ViewFactory(layoutInflater);
-		viewFactory.setListener(this);
+		this.layoutInflater = createLayoutInflaterWithCustomViewFactory(builder.context);
 		bindingAttributeResolver = new BindingAttributeResolver();
 		bindingAttributesParser = new BindingAttributeParser();
 	}
 
+	LayoutInflater createLayoutInflaterWithCustomViewFactory(Context context)
+	{
+		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
+		ViewFactory viewFactory = new ViewFactory(layoutInflater);
+		viewFactory.setListener(this);
+		return layoutInflater;
+	}
+
 	public InflatedView inflateBindingView(int layoutId)
 	{
-		childViewBindingAttributes = Lists.newArrayList();
+		childViewBindingAttributesGroup = Lists.newArrayList();
 		isInflatingBindingView = true;
 		
 		View rootView = inflate(layoutId);
 		addPredefinedViewPendingAttributesGroup(rootView);
 		
-		return new InflatedView(rootView, childViewBindingAttributes);
+		return new InflatedView(rootView, childViewBindingAttributesGroup);
 	}
 
 	public View inflateView(int layoutId)
@@ -80,7 +87,7 @@ class ViewInflater implements ViewCreationListener
 		return inflate(layoutId);
 	}
 
-	private View inflate(int layoutId)
+	View inflate(int layoutId)
 	{
 		if(shouldAttachToParentView())
 		{
@@ -111,26 +118,29 @@ class ViewInflater implements ViewCreationListener
 		if(isInflatingBindingView)
 		{
 			Map<String, String> pendingAttributeMappings = bindingAttributesParser.parse(attrs);
-			ViewPendingAttributes viewPendingAttributes = new ViewPendingAttributesImpl(childView, pendingAttributeMappings);
-			resolveAndAddViewBindingAttributes(viewPendingAttributes);
+			if(!pendingAttributeMappings.isEmpty())
+			{
+				ViewPendingAttributes viewPendingAttributes = new ViewPendingAttributesImpl(childView, pendingAttributeMappings);
+				resolveAndAddViewBindingAttributes(viewPendingAttributes);
+			}
 		}
 	}
 	
 	private void resolveAndAddViewBindingAttributes(ViewPendingAttributes viewPendingAttributes)
 	{
 		ViewBindingAttributes viewBindingAttributes = bindingAttributeResolver.resolve(viewPendingAttributes);
-		childViewBindingAttributes.add(viewBindingAttributes);
+		childViewBindingAttributesGroup.add(viewBindingAttributes);
 	}
 
 	public static class Builder
 	{
-		private final LayoutInflater layoutInflater;
+		private final Context context;
 		private ViewGroup parentViewToAttach;
 		private List<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup;
 
-		public Builder(LayoutInflater layoutInflater)
+		public Builder(Context context)
 		{
-			this.layoutInflater = layoutInflater;
+			this.context = context;
 
 			predefinedViewPendingAttributesGroup = Lists.newArrayList();
 		}
@@ -147,6 +157,12 @@ class ViewInflater implements ViewCreationListener
 			return this;
 		}
 		
+		public Builder addPredefinedViewPendingAttributes(PredefinedViewPendingAttributes predefinedViewPendingAttributes)
+		{
+			this.predefinedViewPendingAttributesGroup.add(predefinedViewPendingAttributes);
+			return this;
+		}
+		
 		public ViewInflater create()
 		{
 			return new ViewInflater(this);
@@ -156,12 +172,12 @@ class ViewInflater implements ViewCreationListener
 	static class InflatedView
 	{
 		private View rootView;
-		private List<ViewBindingAttributes> childViewBindingAttributes;
+		List<ViewBindingAttributes> childViewBindingAttributesGroup;
 
-		private InflatedView(View rootView, List<ViewBindingAttributes> childViewBindingAttributes)
+		private InflatedView(View rootView, List<ViewBindingAttributes> childViewBindingAttributesGroup)
 		{
 			this.rootView = rootView;
-			this.childViewBindingAttributes = childViewBindingAttributes;
+			this.childViewBindingAttributesGroup = childViewBindingAttributesGroup;
 		}
 
 		public View getRootView()
@@ -171,7 +187,7 @@ class ViewInflater implements ViewCreationListener
 
 		public void bindChildViews(BindingContext bindingContext)
 		{
-			for (ViewBindingAttributes viewBindingAttributes : childViewBindingAttributes)
+			for (ViewBindingAttributes viewBindingAttributes : childViewBindingAttributesGroup)
 				viewBindingAttributes.bindTo(bindingContext);
 		}
 	}

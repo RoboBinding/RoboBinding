@@ -59,7 +59,7 @@ import com.google.common.collect.Maps;
  */
 public class BindingAttributeProvidersResolver
 {
-	private final Map<Class<?>, BindingAttributeProvider<? extends View>> bindingAttributeProvidersMap;
+	Map<Class<?>, BindingAttributeProvider<? extends View>> bindingAttributeProvidersMap;
 
 	public BindingAttributeProvidersResolver()
 	{
@@ -83,7 +83,7 @@ public class BindingAttributeProvidersResolver
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Queue<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)
+	public Iterable<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)
 	{
 		Queue<BindingAttributeProvider<? extends View>> candidateProviders = Lists.newLinkedList();
 		

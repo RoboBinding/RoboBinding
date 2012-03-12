@@ -15,44 +15,105 @@
  */
 package org.robobinding.binding;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import java.util.Map;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.binder.BindingAttributeException;
-import org.robobinding.binding.BindingAttributeResolver;
+import org.robobinding.binder.ViewPendingAttributes;
+import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.ViewAttribute;
 
 import android.view.View;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
+@SuppressWarnings("unchecked")
 public class BindingAttributeResolverTest
 {
-	@Test
-	public void givenThereAreNoPendingAttributes_whenAssertingAllAttributesResolved_thenDoNothing()
+	private BindingAttributeResolverForTest bindingAttributeResolver;
+	private List<BindingAttributeProvider<? extends View>> candidateBindingAttributeProviders;
+
+	@Before
+	public void setUp()
 	{
-		View view = mock(View.class);
-		Map<String, String> pendingAttributes = Maps.newHashMap();
-		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(pendingAttributes);
-	
-		bindingAttributeResolver.assertAllAttributesResolvedFor(view);
+		candidateBindingAttributeProviders = Lists.newArrayList();
+		bindingAttributeResolver = new BindingAttributeResolverForTest();
 	}
-	
-	@Test (expected = BindingAttributeException.class)
-	public void givenThereArePendingAttributes_whenAssertingAllAttributesResolved_thenThrowUnrecognizedBindingAttributeException()
+
+	@Test
+	public void givenTwoCandidateBindingAttributeProviders_whenResolve_thenBothProvidersInvolveResolving()
 	{
-		View view = mock(View.class);
-		Map<String, String> pendingAttributes = Maps.newHashMap();
-		pendingAttributes.put("text", "{value}");
-		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(pendingAttributes);
-	
-		bindingAttributeResolver.assertAllAttributesResolvedFor(view);
+		BindingAttributeProvider<View> bindingAttributeProvider1 = createAndAddCandidateBindingAttributeProvider();
+		BindingAttributeProvider<View> bindingAttributeProvider2 = createAndAddCandidateBindingAttributeProvider();
+		ViewPendingAttributes viewPendingAttributes = mock(ViewPendingAttributes.class);
+		when(viewPendingAttributes.isEmpty()).thenReturn(false);
+
+		bindingAttributeResolver.resolve(viewPendingAttributes);
+
+		bindingAttributeResolver.assertBindingAttributeProvidersInvolveResolving(bindingAttributeProvider1, bindingAttributeProvider2);
+	}
+
+	@Test
+	public void givenTwoCandidateBindingAttributeProviders_whenResolveCompletedAtFirstProvider_thenSecondProviderIsSkipped()
+	{
+		BindingAttributeProvider<View> bindingAttributeProvider1 = createAndAddCandidateBindingAttributeProvider();
+		createAndAddCandidateBindingAttributeProvider();
+		ViewPendingAttributes viewPendingAttributes = mock(ViewPendingAttributes.class);
+		when(viewPendingAttributes.isEmpty()).thenReturn(true);
+
+		bindingAttributeResolver.resolve(viewPendingAttributes);
+
+		bindingAttributeResolver.assertBindingAttributeProvidersInvolveResolving(bindingAttributeProvider1);
+	}
+
+	private BindingAttributeProvider<View> createAndAddCandidateBindingAttributeProvider()
+	{
+		BindingAttributeProvider<View> bindingAttributeProvider = mock(BindingAttributeProvider.class);
+		candidateBindingAttributeProviders.add(bindingAttributeProvider);
+		return bindingAttributeProvider;
+	}
+
+	private class BindingAttributeResolverForTest extends BindingAttributeResolver
+	{
+		private Set<BindingAttributeProvider<View>> bindingAttributeProvidersInvolveResolving;
+
+		public BindingAttributeResolverForTest()
+		{
+			providersResolver = mock(BindingAttributeProvidersResolver.class);
+			when(providersResolver.getCandidateProviders(any(View.class))).thenReturn(candidateBindingAttributeProviders);
+
+			bindingAttributeProvidersInvolveResolving = Sets.newHashSet();
+		}
+		
+		@Override
+		Collection<ViewAttribute> resolveByBindingAttributeProvider(ViewPendingAttributes viewPendingAttributes,
+				BindingAttributeProvider<View> bindingAttributeProvider)
+		{
+			bindingAttributeProvidersInvolveResolving.add(bindingAttributeProvider);
+			return Collections.emptyList();
+		}
+
+		public void assertBindingAttributeProvidersInvolveResolving(BindingAttributeProvider<View>... bindingAttributeProviders)
+		{
+			assertThat(Sets.newHashSet(bindingAttributeProviders), equalTo(bindingAttributeProvidersInvolveResolving));
+		}
+
 	}
 }

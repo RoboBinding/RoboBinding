@@ -23,12 +23,11 @@ import org.robobinding.binder.BindingContext;
 import org.robobinding.binder.PredefinedViewPendingAttributes;
 import org.robobinding.binding.ViewInflater.InflatedView;
 
-import com.google.common.collect.Lists;
-
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.common.collect.Lists;
 
 /**
  * 
@@ -83,10 +82,9 @@ class BinderImplementorImpl implements BinderImplementor
 		return viewInflater.inflateView(layoutId);
 	}
 
-	private ViewInflater createViewInflater()
+	ViewInflater createViewInflater()
 	{
-		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
-		ViewInflater.Builder viewInflaterBuilder = new ViewInflater.Builder(layoutInflater);
+		ViewInflater.Builder viewInflaterBuilder = new ViewInflater.Builder(context);
 		viewInflaterBuilder.setParentViewToAttach(parentView);
 		viewInflaterBuilder.setPredefinedViewPendingAttributesGroup(predefinedViewPendingAttributesGroup);
 		return viewInflaterBuilder.create();
