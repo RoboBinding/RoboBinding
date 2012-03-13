@@ -50,7 +50,7 @@ public class ViewPendingAttributesImplTest
 	}
 	
 	@Test
-	public void givenAttributeInPendingList_whenResolveAttributeIfExists_thenResolved()
+	public void givenAttributeInPendingList_whenResolveAttributeIfExists_thenAttributeShouldBeResolved()
 	{
 		String attribute = "existingAttribute";
 		ViewPendingAttributes viewPendingAttributes = createWithPendingList(attribute);
@@ -61,7 +61,7 @@ public class ViewPendingAttributesImplTest
 	}
 	
 	@Test
-	public void givenAttributeNotInPendingList_whenResolveAttributeIfExists_thenIgnore()
+	public void givenAttributeNotInPendingList_whenResolveAttributeIfExists_thenAttributeShouldBeIgnored()
 	{
 		String attribute = "nonExistingAttribute";
 		ViewPendingAttributes viewPendingAttributes = createWithPendingList();
@@ -72,7 +72,7 @@ public class ViewPendingAttributesImplTest
 	}
 	
 	@Test
-	public void whenResolveAttributeSuccessfully_thenAttributeRemovedOffPendingList()
+	public void whenResolveAttributeSuccessfully_thenAttributeShouldBeRemovedOffPendingList()
 	{
 		String attribute = "existingAttribute";
 		ViewPendingAttributes viewPendingAttributes = createWithPendingList(attribute);
@@ -83,7 +83,7 @@ public class ViewPendingAttributesImplTest
 	}
 	
 	@Test
-	public void whenResolveAttributeFailed_thenAttributeRemovedOffPendingList()
+	public void whenResolveAttributeFailed_thenAttributeShouldBeRemovedOffPendingList()
 	{
 		String attribute = "existingAttribute";
 		ViewPendingAttributes viewPendingAttributes = createWithPendingList(attribute);
@@ -96,7 +96,7 @@ public class ViewPendingAttributesImplTest
 	}
 	
 	@Test
-	public void whenAttributeGroupResolvedSuccessfully_thenPresentAttributesRemovedOffThePendingList()
+	public void whenAttributeGroupResolvedSuccessfully_thenPresentAttributesShouldBeRemovedOffThePendingList()
 	{
 		String[] presentAttributes = {"group_attribute1", "group_attribute2"};
 		String[] attributeGroup = ArrayUtils.add(presentAttributes, "group_attribute3");

@@ -49,11 +49,11 @@ public class ViewFactoryTest
 	public void setUp()
 	{
 		layoutInflater = mock(LayoutInflater.class);
-		viewFactory = new ViewFactoryForTest();
+		viewFactory = new ViewFactoryForTest(layoutInflater);
 	}
 	
 	@Test
-	public void whenCreate_thenViewFactoryShouldBeSetOnLayoutInflater()
+	public void whenInitialize_thenViewFactoryShouldBeSetOnLayoutInflater()
 	{
 		verify(layoutInflater).setFactory(viewFactory);
 	}
@@ -66,7 +66,7 @@ public class ViewFactoryTest
 	}
 	
 	@Test
-	public void givenViewFactoryListenerRegistered_whenCreateView_thenListenerWasCorrectlyNotified() throws ClassNotFoundException
+	public void givenViewFactoryListenerRegistered_whenCreateView_thenListenerShouldBeCorrectlyNotified() throws ClassNotFoundException
 	{
 		View view = mock(View.class);
 		when(layoutInflater.createView(anyString(), anyString(), any(AttributeSet.class))).thenReturn(view);
@@ -79,9 +79,9 @@ public class ViewFactoryTest
 		verify(listener).onViewCreated(same(view), same(attributeSet));
 	}
 	
-	private class ViewFactoryForTest extends ViewFactory
+	private static class ViewFactoryForTest extends ViewFactory
 	{
-		public ViewFactoryForTest()
+		public ViewFactoryForTest(LayoutInflater layoutInflater)
 		{
 			super(layoutInflater);
 			viewNameResolver = mock(ViewNameResolver.class);
