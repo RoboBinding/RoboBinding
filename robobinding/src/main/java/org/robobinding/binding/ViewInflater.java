@@ -47,7 +47,7 @@ class ViewInflater implements ViewFactoryListener
 	private final ViewGroup parentViewToAttach;
 	private final List<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup;
 	BindingAttributeResolver bindingAttributeResolver;
-	BindingAttributeParser bindingAttributesParser;
+	BindingAttributeParser bindingAttributeParser;
 	
 	private List<ViewBindingAttributes> childViewBindingAttributesGroup;
 	private boolean isInflatingBindingView;
@@ -59,7 +59,7 @@ class ViewInflater implements ViewFactoryListener
 
 		this.layoutInflater = createLayoutInflaterWithCustomViewFactory(builder.context);
 		bindingAttributeResolver = new BindingAttributeResolver();
-		bindingAttributesParser = new BindingAttributeParser();
+		bindingAttributeParser = new BindingAttributeParser();
 	}
 
 	LayoutInflater createLayoutInflaterWithCustomViewFactory(Context context)
@@ -117,7 +117,7 @@ class ViewInflater implements ViewFactoryListener
 	{
 		if(isInflatingBindingView)
 		{
-			Map<String, String> pendingAttributeMappings = bindingAttributesParser.parse(attrs);
+			Map<String, String> pendingAttributeMappings = bindingAttributeParser.parse(attrs);
 			if(!pendingAttributeMappings.isEmpty())
 			{
 				ViewPendingAttributes viewPendingAttributes = new ViewPendingAttributesImpl(childView, pendingAttributeMappings);

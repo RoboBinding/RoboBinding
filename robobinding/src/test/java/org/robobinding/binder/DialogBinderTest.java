@@ -52,7 +52,7 @@ public class DialogBinderTest
 	}
 	
 	@Test
-	public void whenInflateAndBind_thenSetContentViewIsSetToResultView()
+	public void whenInflateAndBind_thenSetContentViewShouldBeSetToResultView()
 	{
 		Object presentationModel = new Object();
 		View resultView = mock(View.class);

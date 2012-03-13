@@ -30,44 +30,63 @@ import android.content.Context;
  */
 public class MockBindingContext
 {
-	private MockBindingContext(){}
+	private BindingContext bindingContext;
+	private MockBindingContext()
+	{
+		bindingContext = mock(BindingContext.class);
+	}
+	
+	private void declarePresentationModelAdapter(PresentationModelAdapter presentationModelAdapter)
+	{
+		when(bindingContext.getPresentationModelAdapter()).thenReturn(presentationModelAdapter);
+	}
+	
+	private void declareContext(Context context)
+	{
+		when(bindingContext.getContext()).thenReturn(context);
+	}
+	
+	private void declarePreInitializeViews(boolean preInitializeViews)
+	{
+		when(bindingContext.shouldPreInitializeViews()).thenReturn(preInitializeViews);
+	}
 	
 	public static BindingContext create(PresentationModelAdapter presentationModelAdapter, Context context)
 	{
-		BindingContext bindingContext = mock(BindingContext.class);
-		when(bindingContext.getPresentationModelAdapter()).thenReturn(presentationModelAdapter);
-		when(bindingContext.getContext()).thenReturn(context);
-		return bindingContext;
+		MockBindingContext creator = new MockBindingContext();
+		creator.declarePresentationModelAdapter(presentationModelAdapter);
+		creator.declareContext(context);
+		return creator.bindingContext;
 	}
 	
 	public static BindingContext create(PresentationModelAdapter presentationModelAdapter, Context context, boolean preInitializeViews)
 	{
-		BindingContext bindingContext = mock(BindingContext.class);
-		when(bindingContext.getPresentationModelAdapter()).thenReturn(presentationModelAdapter);
-		when(bindingContext.getContext()).thenReturn(context);
-		when(bindingContext.shouldPreInitializeViews()).thenReturn(preInitializeViews);
-		return bindingContext;
+		MockBindingContext creator = new MockBindingContext();
+		creator.declarePresentationModelAdapter(presentationModelAdapter);
+		creator.declareContext(context);
+		creator.declarePreInitializeViews(preInitializeViews);
+		return creator.bindingContext;
 	}
 	
 	public static BindingContext create(Context context)
 	{
-		BindingContext bindingContext = mock(BindingContext.class);
-		when(bindingContext.getContext()).thenReturn(context);
-		return bindingContext;
+		MockBindingContext creator = new MockBindingContext();
+		creator.declareContext(context);
+		return creator.bindingContext;
 	}
 
 	public static BindingContext create(Context context, boolean preInitializeViews)
 	{
-		BindingContext bindingContext = mock(BindingContext.class);
-		when(bindingContext.shouldPreInitializeViews()).thenReturn(preInitializeViews);
-		when(bindingContext.getContext()).thenReturn(context);
-		return bindingContext;
+		MockBindingContext creator = new MockBindingContext();
+		creator.declareContext(context);
+		creator.declarePreInitializeViews(preInitializeViews);
+		return creator.bindingContext;
 	}
 
 	public static BindingContext create(PresentationModelAdapter presentationModelAdapter)
 	{
-		BindingContext bindingContext = mock(BindingContext.class);
-		when(bindingContext.getPresentationModelAdapter()).thenReturn(presentationModelAdapter);
-		return bindingContext;
+		MockBindingContext creator = new MockBindingContext();
+		creator.declarePresentationModelAdapter(presentationModelAdapter);
+		return creator.bindingContext;
 	}
 }

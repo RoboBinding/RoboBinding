@@ -76,7 +76,6 @@ public class ViewPendingAttributesImpl implements ViewPendingAttributes
 			}
 		} catch (MalformedBindingAttributeException e)
 		{
-			//TODO:map with error message?
 			malformedAttributes.put(attribute, e.getMessage());
 			attributeMappings.remove(attribute);
 		}

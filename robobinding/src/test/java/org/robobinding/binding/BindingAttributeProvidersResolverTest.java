@@ -58,7 +58,7 @@ public class BindingAttributeProvidersResolverTest
 	}
 	
 	@Test
-	public void givenViewWithNoParent_whenGetCandidateProviders_thenOnlyProviderForViewReturned()
+	public void givenViewWithNoParent_whenGetCandidateProviders_thenOnlyProviderForViewShouldBeReturned()
 	{
 		ViewWithNoParent viewWithNoParent = new ViewWithNoParent();
 		
@@ -68,7 +68,7 @@ public class BindingAttributeProvidersResolverTest
 	}
 	
 	@Test
-	public void givenViewWithParents_whenGetCandidateProviders_thenProvidersForViewAndItsParentsReturned()
+	public void givenViewWithParents_whenGetCandidateProviders_thenProvidersForViewAndItsParentsShouldBeReturned()
 	{
 		ViewWithParents viewWithParents = new ViewWithParents();
 		

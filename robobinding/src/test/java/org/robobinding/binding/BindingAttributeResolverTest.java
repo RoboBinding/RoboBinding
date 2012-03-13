@@ -54,11 +54,11 @@ public class BindingAttributeResolverTest
 	public void setUp()
 	{
 		candidateBindingAttributeProviders = Lists.newArrayList();
-		bindingAttributeResolver = new BindingAttributeResolverForTest();
+		bindingAttributeResolver = new BindingAttributeResolverForTest(candidateBindingAttributeProviders);
 	}
 
 	@Test
-	public void givenTwoCandidateBindingAttributeProviders_whenResolve_thenBothProvidersInvolveResolving()
+	public void givenTwoCandidateBindingAttributeProviders_whenResolve_thenBothProvidersShouldInvolveResolving()
 	{
 		BindingAttributeProvider<View> bindingAttributeProvider1 = createAndAddCandidateBindingAttributeProvider();
 		BindingAttributeProvider<View> bindingAttributeProvider2 = createAndAddCandidateBindingAttributeProvider();
@@ -71,7 +71,7 @@ public class BindingAttributeResolverTest
 	}
 
 	@Test
-	public void givenTwoCandidateBindingAttributeProviders_whenResolveCompletedAtFirstProvider_thenSecondProviderIsSkipped()
+	public void givenTwoCandidateBindingAttributeProviders_whenResolveCompletedAtFirstProvider_thenSecondProviderShouldBeSkipped()
 	{
 		BindingAttributeProvider<View> bindingAttributeProvider1 = createAndAddCandidateBindingAttributeProvider();
 		createAndAddCandidateBindingAttributeProvider();
@@ -90,11 +90,11 @@ public class BindingAttributeResolverTest
 		return bindingAttributeProvider;
 	}
 
-	private class BindingAttributeResolverForTest extends BindingAttributeResolver
+	private static class BindingAttributeResolverForTest extends BindingAttributeResolver
 	{
 		private Set<BindingAttributeProvider<View>> bindingAttributeProvidersInvolveResolving;
 
-		public BindingAttributeResolverForTest()
+		public BindingAttributeResolverForTest(List<BindingAttributeProvider<? extends View>> candidateBindingAttributeProviders)
 		{
 			providersResolver = mock(BindingAttributeProvidersResolver.class);
 			when(providersResolver.getCandidateProviders(any(View.class))).thenReturn(candidateBindingAttributeProviders);

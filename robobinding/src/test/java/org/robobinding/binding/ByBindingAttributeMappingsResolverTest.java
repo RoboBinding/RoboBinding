@@ -65,7 +65,7 @@ public class ByBindingAttributeMappingsResolverTest
 	}
 
 	@Test
-	public void givenAPropertyAttribute_whenResolve_thenAResolvedPropertyViewAttributeReturned()
+	public void givenAPropertyAttribute_whenResolve_thenAResolvedPropertyViewAttributeShouldBeReturned()
 	{
 		String propertyAttribute = "propertyAttribute";
 		propertyAttributes.add(propertyAttribute);
@@ -76,7 +76,7 @@ public class ByBindingAttributeMappingsResolverTest
 	}
 
 	@Test
-	public void givenACommandAttribute_whenResolve_thenAResolvedCommandViewAttributeReturned()
+	public void givenACommandAttribute_whenResolve_thenAResolvedCommandViewAttributeShouldBeReturned()
 	{
 		String commandAttribute = "commandAttribute";
 		commandAttributes.add(commandAttribute);
@@ -87,7 +87,7 @@ public class ByBindingAttributeMappingsResolverTest
 	}
 
 	@Test
-	public void givenAAttributeGroup_whenResolve_thenAResolvedGroupedViewAttributeReturned()
+	public void givenAAttributeGroup_whenResolve_thenAResolvedGroupedViewAttributeShouldBeReturned()
 	{
 		String[] attributeGroup = { "group_attribute1", "group_attribute2" };
 		attributeGroups.add(attributeGroup);

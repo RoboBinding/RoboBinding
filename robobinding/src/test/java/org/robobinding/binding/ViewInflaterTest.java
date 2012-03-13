@@ -66,7 +66,7 @@ public class ViewInflaterTest
 	}
 	
 	@Test
-	public void whenInflateView_thenResultViewReturned()
+	public void whenInflateView_thenResultViewShouldBeReturned()
 	{
 		View resultView = mock(View.class);
 		when(layoutInflater.inflate(layoutId, null)).thenReturn(resultView);
@@ -77,7 +77,7 @@ public class ViewInflaterTest
 	}
 	
 	@Test
-	public void givenAttachToParentView_whenInflateView_thenResultViewWithAttachingToParentViewReturned()
+	public void givenAttachToParentView_whenInflateView_thenResultViewWithAttachingToParentViewShouldBeReturned()
 	{
 		ViewGroup parentViewToAttach = attachToParentView();
 		View resultViewWithAttachingToParentView = mock(View.class);
@@ -90,13 +90,13 @@ public class ViewInflaterTest
 
 	private View inflateView()
 	{
-		ViewInflater viewInflater = new ViewInflaterForTest();
+		ViewInflater viewInflater = new ViewInflaterForTest(viewInflaterBuilder, bindingAttributesParser);
 		View view = viewInflater.inflateView(layoutId);
 		return view;
 	}
 
 	@Test
-	public void whenInflateBindingView_thenInflatedViewReturned()
+	public void whenInflateBindingView_thenInflatedViewShouldBeReturned()
 	{
 		View resultView = mock(View.class);
 		when(layoutInflater.inflate(layoutId, null)).thenReturn(resultView);
@@ -107,7 +107,7 @@ public class ViewInflaterTest
 	}
 	
 	@Test
-	public void givenAttachToParentView_whenInflateBindingView_thenInflatedViewWithAttachingToParentViewReturned()
+	public void givenAttachToParentView_whenInflateBindingView_thenInflatedViewWithAttachingToParentViewShouldReturned()
 	{
 		ViewGroup parentViewToAttach = attachToParentView();
 		View resultViewWithAttachingToParentView = mock(View.class);
@@ -119,7 +119,7 @@ public class ViewInflaterTest
 	}
 	
 	@Test
-	public void givenAChildViewWithBindingAttributes_whenInflateBindingView_thenChildViewBindingAttributesWasAdded()
+	public void givenAChildViewWithBindingAttributes_whenInflateBindingView_thenAChildViewBindingAttributesShouldBeAdded()
 	{
 		declareChildView(true);
 		
@@ -129,7 +129,7 @@ public class ViewInflaterTest
 	}
 
 	@Test
-	public void givenAChildViewWithoutBindingAttributes_whenInflateBindingView_thenNoChildViewBindingAttributesWasAdded()
+	public void givenAChildViewWithoutBindingAttributes_whenInflateBindingView_thenNoChildViewBindingAttributesShouldBeAdded()
 	{
 		declareChildView(false);
 		
@@ -162,7 +162,7 @@ public class ViewInflaterTest
 	}
 
 	@Test
-	public void givenAPredefinedViewPendingAttributes_whenInflateBindingView_thenChildViewBindingAttributesAdded()
+	public void givenAPredefinedViewPendingAttributes_whenInflateBindingView_thenChildViewBindingAttributesIsAdded()
 	{
 		declarePredefinedViewPendingAttributes();
 		
@@ -173,7 +173,7 @@ public class ViewInflaterTest
 	
 	private InflatedView inflateBindingView()
 	{
-		ViewInflater viewInflater = new ViewInflaterForTest();
+		ViewInflater viewInflater = new ViewInflaterForTest(viewInflaterBuilder, bindingAttributesParser);
 		InflatedView inflatedView = viewInflater.inflateBindingView(layoutId);
 		return inflatedView;
 	}
@@ -195,10 +195,10 @@ public class ViewInflaterTest
 
 	private class ViewInflaterForTest extends ViewInflater
 	{
-		public ViewInflaterForTest()
+		public ViewInflaterForTest(Builder viewInflaterBuilder, BindingAttributeParser bindingAttributeParser)
 		{
 			super(viewInflaterBuilder);
-			bindingAttributesParser = ViewInflaterTest.this.bindingAttributesParser;
+			this.bindingAttributeParser = bindingAttributeParser;
 			
 			bindingAttributeResolver = mock(BindingAttributeResolver.class);
 			ViewBindingAttributes viewBindingAttributes = mock(ViewBindingAttributes.class);

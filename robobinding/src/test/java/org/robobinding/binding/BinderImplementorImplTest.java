@@ -54,7 +54,7 @@ public class BinderImplementorImplTest
 	}
 	
 	@Test
-	public void whenInflateAndBind_thenViewWithBindingReturned()
+	public void whenInflateAndBind_thenViewWithBindingShouldBeReturned()
 	{
 		Object presentationModel = new Object();
 		View viewWithBinding = mock(View.class);
@@ -68,7 +68,7 @@ public class BinderImplementorImplTest
 	}
 	
 	@Test
-	public void whenInflateAndBind_thenChildViewsBound()
+	public void whenInflateAndBind_thenChildViewsShouldBeBound()
 	{
 		Object presentationModel = new Object();
 		InflatedView inflatedView = mock(InflatedView.class);
@@ -80,7 +80,7 @@ public class BinderImplementorImplTest
 	}
 	
 	@Test
-	public void whenInflateOnly_thenViewWithInflatingOnlyReturned()
+	public void whenInflateOnly_thenViewWithInflatingOnlyShouldBeReturned()
 	{
 		View viewWithInflatingOnly = mock(View.class);
 		when(viewInflater.inflateView(layoutId)).thenReturn(viewWithInflatingOnly);

@@ -34,8 +34,8 @@ import android.view.View;
  */
 public class ViewAttributeInstantiator
 {
-	private final ViewListenersProvider viewListenersProvider;
-	private final ViewAttributeInstantiatorImplementor viewAttributeInstantiatorImplementor;
+	ViewListenersProvider viewListenersProvider;
+	ViewAttributeInstantiatorImplementor viewAttributeInstantiatorImplementor;
 
 	public ViewAttributeInstantiator()
 	{
@@ -46,16 +46,14 @@ public class ViewAttributeInstantiator
 	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
 			View view, Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute, String attributeValue)
 	{
-		viewAttributeInstantiatorImplementor.setCurrentView(view);
-		viewAttributeInstantiatorImplementor.setCurrentAttributeValue(attributeValue);
+		viewAttributeInstantiatorImplementor.setCurrentViewAndAttributeValue(view, attributeValue);
 		return viewAttributeInstantiatorImplementor.newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
 	}
 
 	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
 			View view, Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute, String attributeValue)
 	{
-		viewAttributeInstantiatorImplementor.setCurrentView(view);
-		viewAttributeInstantiatorImplementor.setCurrentAttributeValue(attributeValue);
+		viewAttributeInstantiatorImplementor.setCurrentViewAndAttributeValue(view, attributeValue);
 		return viewAttributeInstantiatorImplementor.newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
 	}
 
@@ -71,7 +69,7 @@ public class ViewAttributeInstantiator
 		return groupedViewAttribute;
 	}
 
-	private static class ViewAttributeInstantiatorImplementor extends AbstractViewAttributeInstantiator
+	public static class ViewAttributeInstantiatorImplementor extends AbstractViewAttributeInstantiator
 	{
 		private View currentView;
 		private String currentAttributeValue;
@@ -93,13 +91,9 @@ public class ViewAttributeInstantiator
 			return currentView;
 		}
 
-		public void setCurrentView(View currentView)
+		public void setCurrentViewAndAttributeValue(View currentView, String currentAttributeValue)
 		{
 			this.currentView = currentView;
-		}
-
-		public void setCurrentAttributeValue(String currentAttributeValue)
-		{
 			this.currentAttributeValue = currentAttributeValue;
 		}
 		

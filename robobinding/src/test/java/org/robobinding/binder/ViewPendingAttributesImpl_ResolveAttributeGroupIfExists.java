@@ -78,7 +78,7 @@ public class ViewPendingAttributesImpl_ResolveAttributeGroupIfExists
 	}
 	
 	@Theory
-	public void whenResolveAttributeGroupIfExists_thenMeetExceptation(AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes)
+	public void whenResolveAttributeGroupIfExists_thenResolutionExpectationShouldMeet(AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes)
 	{
 		resolveAttributeGroupIfExists(attributeGroupAndPresentAttributes);
 
