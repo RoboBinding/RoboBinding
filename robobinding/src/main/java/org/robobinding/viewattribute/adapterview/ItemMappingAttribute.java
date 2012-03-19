@@ -22,9 +22,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.robobinding.binder.BindingContext;
-import org.robobinding.binder.PredefinedViewPendingAttributes;
-import org.robobinding.binder.ViewPendingAttributes;
-import org.robobinding.binder.ViewPendingAttributesImpl;
+import org.robobinding.binder.PredefinedPendingAttributesForView;
+import org.robobinding.binder.PendingAttributesForView;
+import org.robobinding.binder.PendingAttributesForViewImpl;
 
 import android.content.Context;
 import android.view.View;
@@ -61,7 +61,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 
 	protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter)
 	{
-		dataSetAdapter.setItemPredefinedViewPendingAttributesGroup(viewMappings.getPredefinedViewPendingAttributesGroup());
+		dataSetAdapter.setItemPredefinedViewPendingAttributesGroup(viewMappings.getPredefinedPendingAttributesForViewGroup());
 	}
 
 	Collection<ViewMapping> getViewMappingsCollection()
@@ -115,9 +115,9 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 			}
 		}
 		
-		public Collection<PredefinedViewPendingAttributes> getPredefinedViewPendingAttributesGroup()
+		public Collection<PredefinedPendingAttributesForView> getPredefinedPendingAttributesForViewGroup()
 		{
-			return Lists.<PredefinedViewPendingAttributes>newArrayList(viewMappingsMap.values());
+			return Lists.<PredefinedPendingAttributesForView>newArrayList(viewMappingsMap.values());
 		}
 		
 		@Override
@@ -149,7 +149,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 		}
 	}
 	
-	static class ViewMapping implements PredefinedViewPendingAttributes
+	static class ViewMapping implements PredefinedPendingAttributesForView
 	{
 		int viewId;
 		Map<String,String> bindingAttributes = Maps.newHashMap();
@@ -166,10 +166,10 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 		}
 
 		@Override
-		public ViewPendingAttributes createViewPendingAttributes(View rootView)
+		public PendingAttributesForView createViewPendingAttributes(View rootView)
 		{
 			View childView = rootView.findViewById(viewId);
-			return new ViewPendingAttributesImpl(childView, bindingAttributes);
+			return new PendingAttributesForViewImpl(childView, bindingAttributes);
 		}
 
 		@Override

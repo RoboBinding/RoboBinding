@@ -28,7 +28,7 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.binder.ViewPendingAttributes;
+import org.robobinding.binder.PendingAttributesForView;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 
@@ -62,7 +62,7 @@ public class BindingAttributeResolverTest
 	{
 		BindingAttributeProvider<View> bindingAttributeProvider1 = createAndAddCandidateBindingAttributeProvider();
 		BindingAttributeProvider<View> bindingAttributeProvider2 = createAndAddCandidateBindingAttributeProvider();
-		ViewPendingAttributes viewPendingAttributes = mock(ViewPendingAttributes.class);
+		PendingAttributesForView viewPendingAttributes = mock(PendingAttributesForView.class);
 		when(viewPendingAttributes.isEmpty()).thenReturn(false);
 
 		bindingAttributeResolver.resolve(viewPendingAttributes);
@@ -75,7 +75,7 @@ public class BindingAttributeResolverTest
 	{
 		BindingAttributeProvider<View> bindingAttributeProvider1 = createAndAddCandidateBindingAttributeProvider();
 		createAndAddCandidateBindingAttributeProvider();
-		ViewPendingAttributes viewPendingAttributes = mock(ViewPendingAttributes.class);
+		PendingAttributesForView viewPendingAttributes = mock(PendingAttributesForView.class);
 		when(viewPendingAttributes.isEmpty()).thenReturn(true);
 
 		bindingAttributeResolver.resolve(viewPendingAttributes);
@@ -103,7 +103,7 @@ public class BindingAttributeResolverTest
 		}
 		
 		@Override
-		Collection<ViewAttribute> resolveByBindingAttributeProvider(ViewPendingAttributes viewPendingAttributes,
+		Collection<ViewAttribute> resolveByBindingAttributeProvider(PendingAttributesForView viewPendingAttributes,
 				BindingAttributeProvider<View> bindingAttributeProvider)
 		{
 			bindingAttributeProvidersInvolveResolving.add(bindingAttributeProvider);

@@ -29,7 +29,7 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.ViewPendingAttributes.AttributeGroupResolver;
+import org.robobinding.binder.PendingAttributesForView.AttributeGroupResolver;
 
 import android.view.View;
 
@@ -52,14 +52,14 @@ public class ViewPendingAttributesImpl_ResolveAttributeGroupIfExists
 		attributeGroup("group2_attribute1", "group2_attribute2", "group2_attribute3").andPresentAttributes("group2_attribute1", "group2_attribute3"),
 		attributeGroup("group3_attribute1")};
 
-	private ViewPendingAttributes viewPendingAttributes;
+	private PendingAttributesForView viewPendingAttributes;
 	private AttributeGroupResolverImpl attributeGroupResolver;
 
 	@Before
 	public void setUp()
 	{
 		Map<String, String> presentAttributeMappings = createPresentAttributeMappings();
-		viewPendingAttributes = new ViewPendingAttributesImpl(mock(View.class), presentAttributeMappings);
+		viewPendingAttributes = new PendingAttributesForViewImpl(mock(View.class), presentAttributeMappings);
 		
 		attributeGroupResolver = new AttributeGroupResolverImpl();
 	}

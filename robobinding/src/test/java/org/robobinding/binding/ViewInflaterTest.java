@@ -28,8 +28,8 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.binder.PredefinedViewPendingAttributes;
-import org.robobinding.binder.ViewPendingAttributes;
+import org.robobinding.binder.PredefinedPendingAttributesForView;
+import org.robobinding.binder.PendingAttributesForView;
 import org.robobinding.binding.BindingAttributeResolver.ViewBindingAttributes;
 import org.robobinding.binding.ViewInflater.InflatedView;
 
@@ -186,11 +186,11 @@ public class ViewInflaterTest
 	
 	private void declarePredefinedViewPendingAttributes()
 	{
-		PredefinedViewPendingAttributes predefinedViewPendingAttributes = mock(PredefinedViewPendingAttributes.class);
-		ViewPendingAttributes viewPendingAttributes = mock(ViewPendingAttributes.class);
+		PredefinedPendingAttributesForView predefinedViewPendingAttributes = mock(PredefinedPendingAttributesForView.class);
+		PendingAttributesForView viewPendingAttributes = mock(PendingAttributesForView.class);
 		when(predefinedViewPendingAttributes.createViewPendingAttributes(any(View.class))).thenReturn(viewPendingAttributes);
 		
-		viewInflaterBuilder.addPredefinedViewPendingAttributes(predefinedViewPendingAttributes);
+		viewInflaterBuilder.addPredefinedPendingAttributesForView(predefinedViewPendingAttributes);
 	}
 
 	private class ViewInflaterForTest extends ViewInflater
@@ -202,7 +202,7 @@ public class ViewInflaterTest
 			
 			bindingAttributeResolver = mock(BindingAttributeResolver.class);
 			ViewBindingAttributes viewBindingAttributes = mock(ViewBindingAttributes.class);
-			when(bindingAttributeResolver.resolve(any(ViewPendingAttributes.class))).thenReturn(viewBindingAttributes);
+			when(bindingAttributeResolver.resolve(any(PendingAttributesForView.class))).thenReturn(viewBindingAttributes);
 		}
 		
 		@Override

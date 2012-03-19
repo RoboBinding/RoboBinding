@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.robobinding.binder.BindingContext;
-import org.robobinding.binder.ViewPendingAttributes;
+import org.robobinding.binder.PendingAttributesForView;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
@@ -47,7 +47,7 @@ public class BindingAttributeResolver
 		this.providersResolver = new BindingAttributeProvidersResolver();
 	}
 
-	public ViewBindingAttributes resolve(ViewPendingAttributes viewPendingAttributes)
+	public ViewBindingAttributes resolve(PendingAttributesForView viewPendingAttributes)
 	{
 		initializeNewResolving();
 		
@@ -64,7 +64,7 @@ public class BindingAttributeResolver
 		viewAttributeInstantiator = new ViewAttributeInstantiator();
 	}
 
-	private void resolveByBindingAttributeProviders(ViewPendingAttributes viewPendingAttributes)
+	private void resolveByBindingAttributeProviders(PendingAttributesForView viewPendingAttributes)
 	{
 		Iterable<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(viewPendingAttributes.getView());
 		
@@ -81,7 +81,7 @@ public class BindingAttributeResolver
 		}
 	}
 
-	Collection<ViewAttribute> resolveByBindingAttributeProvider(ViewPendingAttributes viewPendingAttributes,
+	Collection<ViewAttribute> resolveByBindingAttributeProvider(PendingAttributesForView viewPendingAttributes,
 			BindingAttributeProvider<View> bindingAttributeProvider)
 	{
 		BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(viewAttributeInstantiator);
