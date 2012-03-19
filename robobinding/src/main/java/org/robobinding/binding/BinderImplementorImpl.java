@@ -57,7 +57,7 @@ class BinderImplementorImpl implements BinderImplementor
 		return this;
 	}
 	
-	public BinderImplementor setPredefinedViewPendingAttributesGroup(Collection<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup)
+	public BinderImplementor setPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup)
 	{
 		this.predefinedViewPendingAttributesGroup = Lists.newArrayList(predefinedViewPendingAttributesGroup);
 		return this;
