@@ -49,7 +49,7 @@ public class ItemBinder
 	
 	public View inflateAndBind(int layoutId, Object presentationModel)
 	{
-		binderImplementor.setPredefinedViewPendingAttributesGroup(predefinedViewPendingAttributesGroup);
+		binderImplementor.setPredefinedPendingAttributesForViewGroup(predefinedViewPendingAttributesGroup);
 		return binderImplementor.inflateAndBind(layoutId, presentationModel);
 	}
 }
