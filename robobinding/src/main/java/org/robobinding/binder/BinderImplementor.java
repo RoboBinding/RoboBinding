@@ -30,7 +30,7 @@ import android.view.ViewGroup;
 public interface BinderImplementor
 {
 	BinderImplementor attachToRoot(ViewGroup parentView);
-	BinderImplementor setPredefinedViewPendingAttributesGroup(Collection<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup);
+	BinderImplementor setPredefinedViewPendingAttributesGroup(Collection<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup);
 	View inflateAndBind(int layoutId, Object presentationModel);
 	View inflateOnly(int layoutId);
 }

@@ -25,7 +25,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ViewPendingAttributes
+public interface PendingAttributesForView
 {
 	View getView();
 	void resolveAttributeIfExists(String attribute, AttributeResolver attributeResolver);
