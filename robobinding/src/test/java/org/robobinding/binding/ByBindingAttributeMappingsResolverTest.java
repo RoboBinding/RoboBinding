@@ -26,7 +26,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.binder.BindingContext;
-import org.robobinding.binder.ViewPendingAttributes;
+import org.robobinding.binder.PendingAttributesForView;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.Command;
@@ -48,7 +48,7 @@ import com.google.common.collect.Sets;
 public class ByBindingAttributeMappingsResolverTest
 {
 	private ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver;
-	private ViewPendingAttributes viewPendingAttributes;
+	private PendingAttributesForView viewPendingAttributes;
 	private List<String> propertyAttributes;
 	private List<String> commandAttributes;
 	private List<String[]> attributeGroups;
@@ -143,7 +143,7 @@ public class ByBindingAttributeMappingsResolverTest
 
 	}
 
-	private static class MockViewPendingAttribute implements ViewPendingAttributes
+	private static class MockViewPendingAttribute implements PendingAttributesForView
 	{
 		@Override
 		public void resolveAttributeGroupIfExists(String[] attributeGroup, AttributeGroupResolver attributeGroupResolver)

@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.robobinding.binder.BindingContext;
-import org.robobinding.binder.PredefinedViewPendingAttributes;
-import org.robobinding.binder.ViewPendingAttributes;
-import org.robobinding.binder.ViewPendingAttributesImpl;
+import org.robobinding.binder.PredefinedPendingAttributesForView;
+import org.robobinding.binder.PendingAttributesForView;
+import org.robobinding.binder.PendingAttributesForViewImpl;
 import org.robobinding.binding.BindingAttributeResolver.ViewBindingAttributes;
 import org.robobinding.binding.ViewFactory.ViewFactoryListener;
 
@@ -45,7 +45,7 @@ class ViewInflater implements ViewFactoryListener
 {
 	private final LayoutInflater layoutInflater;
 	private final ViewGroup parentViewToAttach;
-	private final List<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup;
+	private final List<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup;
 	BindingAttributeResolver bindingAttributeResolver;
 	BindingAttributeParser bindingAttributeParser;
 	
@@ -76,7 +76,7 @@ class ViewInflater implements ViewFactoryListener
 		isInflatingBindingView = true;
 		
 		View rootView = inflate(layoutId);
-		addPredefinedViewPendingAttributesGroup(rootView);
+		addPredefinedPendingAttributesForViewGroup(rootView);
 		
 		return new InflatedView(rootView, childViewBindingAttributesGroup);
 	}
@@ -103,11 +103,11 @@ class ViewInflater implements ViewFactoryListener
 		return parentViewToAttach != null;
 	}
 
-	private void addPredefinedViewPendingAttributesGroup(View rootView)
+	private void addPredefinedPendingAttributesForViewGroup(View rootView)
 	{
-		for(PredefinedViewPendingAttributes predefinedViewPendingAttributes : predefinedViewPendingAttributesGroup)
+		for(PredefinedPendingAttributesForView predefinedViewPendingAttributes : predefinedViewPendingAttributesGroup)
 		{
-			ViewPendingAttributes viewPendingAttributes = predefinedViewPendingAttributes.createViewPendingAttributes(rootView);
+			PendingAttributesForView viewPendingAttributes = predefinedViewPendingAttributes.createViewPendingAttributes(rootView);
 			resolveAndAddViewBindingAttributes(viewPendingAttributes);
 		}
 	}
@@ -120,13 +120,13 @@ class ViewInflater implements ViewFactoryListener
 			Map<String, String> pendingAttributeMappings = bindingAttributeParser.parse(attrs);
 			if(!pendingAttributeMappings.isEmpty())
 			{
-				ViewPendingAttributes viewPendingAttributes = new ViewPendingAttributesImpl(childView, pendingAttributeMappings);
+				PendingAttributesForView viewPendingAttributes = new PendingAttributesForViewImpl(childView, pendingAttributeMappings);
 				resolveAndAddViewBindingAttributes(viewPendingAttributes);
 			}
 		}
 	}
 	
-	private void resolveAndAddViewBindingAttributes(ViewPendingAttributes viewPendingAttributes)
+	private void resolveAndAddViewBindingAttributes(PendingAttributesForView viewPendingAttributes)
 	{
 		ViewBindingAttributes viewBindingAttributes = bindingAttributeResolver.resolve(viewPendingAttributes);
 		childViewBindingAttributesGroup.add(viewBindingAttributes);
@@ -136,7 +136,7 @@ class ViewInflater implements ViewFactoryListener
 	{
 		private final Context context;
 		private ViewGroup parentViewToAttach;
-		private List<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup;
+		private List<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup;
 
 		public Builder(Context context)
 		{
@@ -151,13 +151,13 @@ class ViewInflater implements ViewFactoryListener
 			return this;
 		}
 
-		public Builder setPredefinedViewPendingAttributesGroup(Collection<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup)
+		public Builder setPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup)
 		{
 			this.predefinedViewPendingAttributesGroup = Lists.newArrayList(predefinedViewPendingAttributesGroup);
 			return this;
 		}
 		
-		public Builder addPredefinedViewPendingAttributes(PredefinedViewPendingAttributes predefinedViewPendingAttributes)
+		public Builder addPredefinedPendingAttributesForView(PredefinedPendingAttributesForView predefinedViewPendingAttributes)
 		{
 			this.predefinedViewPendingAttributesGroup.add(predefinedViewPendingAttributes);
 			return this;

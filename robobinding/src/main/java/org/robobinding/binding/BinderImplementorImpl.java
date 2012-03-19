@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.robobinding.binder.BinderImplementor;
 import org.robobinding.binder.BindingContext;
-import org.robobinding.binder.PredefinedViewPendingAttributes;
+import org.robobinding.binder.PredefinedPendingAttributesForView;
 import org.robobinding.binding.ViewInflater.InflatedView;
 
 import android.content.Context;
@@ -41,7 +41,7 @@ class BinderImplementorImpl implements BinderImplementor
 	private final Context context;
 	private final BindingContextCreator bindingContextCreator;
 	private ViewGroup parentView;
-	private List<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup;
+	private List<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup;
 	
 	public BinderImplementorImpl(Context context, BindingContextCreator bindingContextCreator)
 	{
@@ -57,7 +57,7 @@ class BinderImplementorImpl implements BinderImplementor
 		return this;
 	}
 	
-	public BinderImplementor setPredefinedViewPendingAttributesGroup(Collection<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup)
+	public BinderImplementor setPredefinedViewPendingAttributesGroup(Collection<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup)
 	{
 		this.predefinedViewPendingAttributesGroup = Lists.newArrayList(predefinedViewPendingAttributesGroup);
 		return this;
@@ -86,7 +86,7 @@ class BinderImplementorImpl implements BinderImplementor
 	{
 		ViewInflater.Builder viewInflaterBuilder = new ViewInflater.Builder(context);
 		viewInflaterBuilder.setParentViewToAttach(parentView);
-		viewInflaterBuilder.setPredefinedViewPendingAttributesGroup(predefinedViewPendingAttributesGroup);
+		viewInflaterBuilder.setPredefinedPendingAttributesForViewGroup(predefinedViewPendingAttributesGroup);
 		return viewInflaterBuilder.create();
 	}
 

@@ -19,9 +19,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.robobinding.binder.ViewPendingAttributes;
-import org.robobinding.binder.ViewPendingAttributes.AttributeGroupResolver;
-import org.robobinding.binder.ViewPendingAttributes.AttributeResolver;
+import org.robobinding.binder.PendingAttributesForView;
+import org.robobinding.binder.PendingAttributesForView.AttributeGroupResolver;
+import org.robobinding.binder.PendingAttributesForView.AttributeResolver;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.PropertyViewAttribute;
@@ -56,7 +56,7 @@ class ByBindingAttributeMappingsResolver
 		this.groupedViewAttributeResolver = new GroupedViewAttributeResolver();
 	}
 	
-	public Collection<ViewAttribute> resolve(ViewPendingAttributes viewPendingAttributes)
+	public Collection<ViewAttribute> resolve(PendingAttributesForView viewPendingAttributes)
 	{
 		resolvedViewAttributes = Lists.newArrayList();
 		
@@ -67,7 +67,7 @@ class ByBindingAttributeMappingsResolver
 		return resolvedViewAttributes;
 	}
 	
-	private void resolvePropertyViewAttributes(ViewPendingAttributes viewPendingAttributes)
+	private void resolvePropertyViewAttributes(PendingAttributesForView viewPendingAttributes)
 	{
 		for (String propertyAttribute : bindingAttributeMappings.getPropertyAttributes())
 		{
@@ -75,7 +75,7 @@ class ByBindingAttributeMappingsResolver
 		}
 	}
 
-	private void resolveCommandViewAttributes(ViewPendingAttributes viewPendingAttributes)
+	private void resolveCommandViewAttributes(PendingAttributesForView viewPendingAttributes)
 	{
 		for (String commandAttribute : bindingAttributeMappings.getCommandAttributes())
 		{
@@ -83,7 +83,7 @@ class ByBindingAttributeMappingsResolver
 		}
 	}
 
-	private void resolveGroupedViewAttributes(ViewPendingAttributes viewPendingAttributes)
+	private void resolveGroupedViewAttributes(PendingAttributesForView viewPendingAttributes)
 	{
 		for (String[] attributeGroup : bindingAttributeMappings.getAttributeGroups())
 		{

@@ -24,7 +24,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface PredefinedViewPendingAttributes
+public interface PredefinedPendingAttributesForView
 {
-	ViewPendingAttributes createViewPendingAttributes(View rootView);
+	PendingAttributesForView createViewPendingAttributes(View rootView);
 }

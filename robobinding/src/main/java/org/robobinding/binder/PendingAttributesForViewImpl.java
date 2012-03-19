@@ -31,12 +31,12 @@ import com.google.common.collect.Maps;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class ViewPendingAttributesImpl implements ViewPendingAttributes
+public class PendingAttributesForViewImpl implements PendingAttributesForView
 {
 	private View view;
 	Map<String, String> attributeMappings;
 	private Map<String, String> malformedAttributes;
-	public ViewPendingAttributesImpl(View view, Map<String, String> attributeMappings)
+	public PendingAttributesForViewImpl(View view, Map<String, String> attributeMappings)
 	{
 		this.view = view;
 		this.attributeMappings = Maps.newHashMap(attributeMappings);

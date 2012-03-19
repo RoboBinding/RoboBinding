@@ -33,7 +33,7 @@ import android.view.View;
 public class ItemBinder
 {
 	private BinderImplementor binderImplementor;
-	private List<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup;
+	private List<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup;
 
 	public ItemBinder(BinderImplementor binderImplementor)
 	{
@@ -41,7 +41,7 @@ public class ItemBinder
 		predefinedViewPendingAttributesGroup = Lists.newArrayList();
 	}
 
-	public ItemBinder setPredefinedViewPendingAttributesGroup(Collection<PredefinedViewPendingAttributes> predefinedViewPendingAttributesGroup)
+	public ItemBinder setPredefinedViewPendingAttributesGroup(Collection<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup)
 	{
 		this.predefinedViewPendingAttributesGroup = Lists.newArrayList(predefinedViewPendingAttributesGroup);
 		return this;
