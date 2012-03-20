@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binding;
+package org.robobinding.binder;
 
 import java.util.Collection;
 
+<<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binding/BinderImplementorImpl.java
 <<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binder/BinderImplementorImpl.java
 import org.robobinding.BinderImplementor;
 import org.robobinding.BindingContext;
@@ -28,6 +29,12 @@ import org.robobinding.binder.BinderImplementor;
 import org.robobinding.binder.BindingContext;
 import org.robobinding.binder.PredefinedViewPendingAttributes;
 import org.robobinding.binding.ViewInflater.InflatedView;
+=======
+import org.robobinding.BinderImplementor;
+import org.robobinding.BindingContext;
+import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.binder.ViewInflater.InflatedView;
+>>>>>>> Refactoring package names as discussed:robobinding/src/main/java/org/robobinding/binder/BinderImplementorImpl.java
 
 import com.google.common.collect.Lists;
 >>>>>>> Apply PredefinedViewPendingAttributes and BindingContext ideas.:robobinding/src/main/java/org/robobinding/binding/BinderImplementorImpl.java

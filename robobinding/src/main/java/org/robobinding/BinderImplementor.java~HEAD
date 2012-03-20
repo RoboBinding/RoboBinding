@@ -13,18 +13,24 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding;
+
+import java.util.Collection;
+
+
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
+ * @author Cheng Wei
  */
-@SuppressWarnings("serial")
-public class MalformedBindingAttributeException extends RuntimeException
+public interface BinderImplementor
 {
-	public MalformedBindingAttributeException(String message) {
-		super(message);
-	}
+	BinderImplementor attachToRoot(ViewGroup parentView);
+	View inflateAndBind(int layoutId, Object presentationModel);
+	View inflateAndBind(int layoutId, Object presentationModel, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup);
+	View inflateOnly(int layoutId);
 }

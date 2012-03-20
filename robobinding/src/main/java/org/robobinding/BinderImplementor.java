@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding;
+package org.robobinding.binder;
 
 import java.util.Collection;
 
@@ -30,7 +30,7 @@ import android.view.ViewGroup;
 public interface BinderImplementor
 {
 	BinderImplementor attachToRoot(ViewGroup parentView);
+	BinderImplementor setPredefinedViewPendingAttributesGroup(Collection<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup);
 	View inflateAndBind(int layoutId, Object presentationModel);
-	View inflateAndBind(int layoutId, Object presentationModel, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup);
 	View inflateOnly(int layoutId);
 }

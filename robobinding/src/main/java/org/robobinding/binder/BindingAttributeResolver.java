@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binding;
+package org.robobinding.binder;
 
 import java.util.Collection;
 import java.util.List;
 
+<<<<<<< HEAD:robobinding/src/main/java/org/robobinding/binding/BindingAttributeResolver.java
 import org.robobinding.binder.BindingContext;
 import org.robobinding.binder.ViewPendingAttributes;
+=======
+import org.robobinding.BindingContext;
+import org.robobinding.PendingAttributesForView;
+>>>>>>> Refactoring package names as discussed:robobinding/src/main/java/org/robobinding/binder/BindingAttributeResolver.java
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;

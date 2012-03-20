@@ -26,5 +26,5 @@ import android.view.View;
  */
 public interface PredefinedPendingAttributesForView
 {
-	PendingAttributesForView createPendingAttributesForView(View rootView);
+	PendingAttributesForView createViewPendingAttributes(View rootView);
 }

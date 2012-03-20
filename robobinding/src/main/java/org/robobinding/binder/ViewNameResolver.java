@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +15,29 @@
  */
 package org.robobinding.binder;
 
-import android.app.Activity;
-import android.view.View;
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ActivityBinder
+public class ViewNameResolver
 {
-	private final Activity activity;
-	private final BinderImplementor binderImplementor;
-	
-	public ActivityBinder(Activity activity, BinderImplementor binderImplementor)
+	public String getViewNameFromLayoutTag(String tagName)
 	{
-		this.activity = activity;
-		this.binderImplementor = binderImplementor;
+		StringBuilder nameBuilder = new StringBuilder();
+
+		if ("View".equals(tagName) || "ViewGroup".equals(tagName))
+			nameBuilder.append("android.view.");
+		else if (!viewNameIsFullyQualified(tagName))
+			nameBuilder.append("android.widget.");
+
+		nameBuilder.append(tagName);
+		return nameBuilder.toString();
 	}
 
-	public void inflateAndBind(int layoutId, Object presentationModel)
+	private boolean viewNameIsFullyQualified(String name)
 	{
-		View rootView = binderImplementor.inflateAndBind(layoutId, presentationModel);
-		activity.setContentView(rootView);
+		return name.contains(".");
 	}
-	
 }
