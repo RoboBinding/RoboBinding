@@ -17,9 +17,9 @@ package org.robobinding.viewattribute.adapterview;
 
 import java.util.Collection;
 
-import org.robobinding.binder.BindingContext;
-import org.robobinding.binder.ItemBinder;
-import org.robobinding.binder.PredefinedPendingAttributesForView;
+import org.robobinding.BindingContext;
+import org.robobinding.ItemBinder;
+import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.DataSetValueModelWrapper;

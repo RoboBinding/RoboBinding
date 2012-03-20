@@ -21,10 +21,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.robobinding.binder.BindingContext;
-import org.robobinding.binder.PredefinedPendingAttributesForView;
-import org.robobinding.binder.PendingAttributesForView;
-import org.robobinding.binder.PendingAttributesForViewImpl;
+import org.robobinding.BindingContext;
+import org.robobinding.PendingAttributesForView;
+import org.robobinding.PendingAttributesForViewImpl;
+import org.robobinding.PredefinedPendingAttributesForView;
 
 import android.content.Context;
 import android.view.View;

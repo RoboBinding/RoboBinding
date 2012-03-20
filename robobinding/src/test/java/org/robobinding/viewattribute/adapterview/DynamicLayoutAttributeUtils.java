@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binder.MockBindingContext;
+import org.robobinding.MockBindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.MockPresentationModelAdapterBuilder;
 

@@ -19,7 +19,7 @@ import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.MockBindingContext;
+import org.robobinding.MockBindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 

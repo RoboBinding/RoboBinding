@@ -19,7 +19,7 @@ package org.robobinding.viewattribute.adapterview;
 import java.util.Collections;
 import java.util.List;
 
-import org.robobinding.binder.BindingContext;
+import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 
 import android.widget.AdapterView;

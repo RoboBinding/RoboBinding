@@ -23,8 +23,8 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.binder.MockBindingContext;
-import org.robobinding.binder.PredefinedPendingAttributesForView;
+import org.robobinding.MockBindingContext;
+import org.robobinding.PredefinedPendingAttributesForView;
 
 import android.content.Context;
 import android.content.res.Resources;

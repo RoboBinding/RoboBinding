@@ -18,7 +18,7 @@ package org.robobinding.viewattribute;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.robobinding.binder.MalformedBindingAttributeException;
+import org.robobinding.MalformedBindingAttributeException;
 
 /**
  *
