@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.binder.BindingContext;
+import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.GroupedAttributeDetails;
 import org.robobinding.viewattribute.ViewListenersProvider;

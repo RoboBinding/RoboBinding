@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binder.BindingContext;
-import org.robobinding.binder.ViewBinder;
+import org.robobinding.BindingContext;
+import org.robobinding.ViewBinder;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.BindingDetailsBuilder;

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.binder.BindingContext;
+import org.robobinding.BindingContext;
 
 import android.view.View;
 

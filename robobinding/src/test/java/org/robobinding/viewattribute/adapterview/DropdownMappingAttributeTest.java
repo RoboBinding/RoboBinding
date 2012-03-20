@@ -20,8 +20,8 @@ import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
-import org.robobinding.binder.MockBindingContext;
-import org.robobinding.binder.PredefinedViewPendingAttributes;
+import org.robobinding.MockBindingContext;
+import org.robobinding.PredefinedPendingAttributesForView;
 
 /**
  *
@@ -38,7 +38,7 @@ public class DropdownMappingAttributeTest extends ItemMappingAttributeTest
 		
 		dropdownMappingAttribute.bind(dataSetAdapter, MockBindingContext.create(mockContext));
 		
-		verify(dataSetAdapter).setDropdownPredefinedViewPendingAttributesGroup(anyCollectionOf(PredefinedViewPendingAttributes.class));
+		verify(dataSetAdapter).setDropdownPredefinedViewPendingAttributesGroup(anyCollectionOf(PredefinedPendingAttributesForView.class));
 	}
 	
 	@Test

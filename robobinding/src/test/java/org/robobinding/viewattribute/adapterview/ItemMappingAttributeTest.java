@@ -23,8 +23,8 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.binder.MockBindingContext;
-import org.robobinding.binder.PredefinedViewPendingAttributes;
+import org.robobinding.MockBindingContext;
+import org.robobinding.PredefinedPendingAttributesForView;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -58,7 +58,7 @@ public class ItemMappingAttributeTest
 		
 		itemMappingAttribute.bind(dataSetAdapter, MockBindingContext.create(mockContext));
 		
-		verify(dataSetAdapter).setItemPredefinedViewPendingAttributesGroup(anyCollectionOf(PredefinedViewPendingAttributes.class));
+		verify(dataSetAdapter).setItemPredefinedViewPendingAttributesGroup(anyCollectionOf(PredefinedPendingAttributesForView.class));
 	}
 	
 	@Test
