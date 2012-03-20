@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binder.BindingContext;
+import org.robobinding.BindingContext;
 
 /**
  * 

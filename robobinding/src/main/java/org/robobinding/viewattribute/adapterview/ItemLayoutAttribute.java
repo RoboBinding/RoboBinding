@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.binder.BindingContext;
+import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.BindingDetailsBuilder;
 import org.robobinding.viewattribute.PropertyBindingDetails;

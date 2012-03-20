@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.binder.MockBindingContext;
+import org.robobinding.MockBindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.BindingAttributeValues;
 import org.robobinding.viewattribute.MockPresentationModelAdapterBuilder;

@@ -20,8 +20,8 @@ import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
-import org.robobinding.binder.MockBindingContext;
-import org.robobinding.binder.PredefinedPendingAttributesForView;
+import org.robobinding.MockBindingContext;
+import org.robobinding.PredefinedPendingAttributesForView;
 
 /**
  *
