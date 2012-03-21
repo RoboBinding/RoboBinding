@@ -46,7 +46,7 @@ import com.google.common.collect.Sets;
  * @author Cheng Wei
  */
 @RunWith(Theories.class)
-public class ViewPendingAttributesImpl_ResolveAttributeGroupIfExists
+public class PendingAttributesForViewImpl_ResolveAttributeGroupIfExists
 {
 	@DataPoints
 	public static AttributeGroupAndPresentAttributes[] samples = {
@@ -54,14 +54,14 @@ public class ViewPendingAttributesImpl_ResolveAttributeGroupIfExists
 		attributeGroup("group2_attribute1", "group2_attribute2", "group2_attribute3").andPresentAttributes("group2_attribute1", "group2_attribute3"),
 		attributeGroup("group3_attribute1")};
 
-	private PendingAttributesForView viewPendingAttributes;
+	private PendingAttributesForView pendingAttributesForView;
 	private AttributeGroupResolverImpl attributeGroupResolver;
 
 	@Before
 	public void setUp()
 	{
 		Map<String, String> presentAttributeMappings = createPresentAttributeMappings();
-		viewPendingAttributes = new PendingAttributesForViewImpl(mock(View.class), presentAttributeMappings);
+		pendingAttributesForView = new PendingAttributesForViewImpl(mock(View.class), presentAttributeMappings);
 		
 		attributeGroupResolver = new AttributeGroupResolverImpl();
 	}
@@ -89,7 +89,7 @@ public class ViewPendingAttributesImpl_ResolveAttributeGroupIfExists
 
 	private void resolveAttributeGroupIfExists(AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes)
 	{
-		viewPendingAttributes.resolveAttributeGroupIfExists(attributeGroupAndPresentAttributes.attributeGroup, attributeGroupResolver);
+		pendingAttributesForView.resolveAttributeGroupIfExists(attributeGroupAndPresentAttributes.attributeGroup, attributeGroupResolver);
 	}
 
 	private ResolutionExpectation resolutionExpectation(AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes)

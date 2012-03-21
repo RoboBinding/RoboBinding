@@ -61,7 +61,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 
 	protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter)
 	{
-		dataSetAdapter.setItemPredefinedViewPendingAttributesGroup(viewMappings.getPredefinedPendingAttributesForViewGroup());
+		dataSetAdapter.setItemPredefinedPendingAttributesForViewGroup(viewMappings.getPredefinedPendingAttributesForViewGroup());
 	}
 
 	Collection<ViewMapping> getViewMappingsCollection()
@@ -166,7 +166,7 @@ public class ItemMappingAttribute implements AdapterViewAttribute
 		}
 
 		@Override
-		public PendingAttributesForView createViewPendingAttributes(View rootView)
+		public PendingAttributesForView createPendingAttributesForView(View rootView)
 		{
 			View childView = rootView.findViewById(viewId);
 			return new PendingAttributesForViewImpl(childView, bindingAttributes);

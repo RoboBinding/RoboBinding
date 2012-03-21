@@ -42,7 +42,7 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewPendingAttributesImplTest
+public class PendingAttributesForViewImplTest
 {
 	private AttributeResolverImpl attributeResolver;
 	
@@ -56,9 +56,9 @@ public class ViewPendingAttributesImplTest
 	public void givenAttributeInPendingList_whenResolveAttributeIfExists_thenAttributeShouldBeResolved()
 	{
 		String attribute = "existingAttribute";
-		PendingAttributesForView viewPendingAttributes = createWithPendingList(attribute);
+		PendingAttributesForView pendingAttributesForView = createWithPendingList(attribute);
 		
-		viewPendingAttributes.resolveAttributeIfExists(attribute, attributeResolver);
+		pendingAttributesForView.resolveAttributeIfExists(attribute, attributeResolver);
 		
 		assertTrue(attributeResolver.isAttributeResolved(attribute));
 	}
@@ -67,9 +67,9 @@ public class ViewPendingAttributesImplTest
 	public void givenAttributeNotInPendingList_whenResolveAttributeIfExists_thenAttributeShouldBeIgnored()
 	{
 		String attribute = "nonExistingAttribute";
-		PendingAttributesForView viewPendingAttributes = createWithPendingList();
+		PendingAttributesForView pendingAttributesForView = createWithPendingList();
 		
-		viewPendingAttributes.resolveAttributeIfExists(attribute, attributeResolver);
+		pendingAttributesForView.resolveAttributeIfExists(attribute, attributeResolver);
 		
 		assertFalse(attributeResolver.isAttributeResolved(attribute));
 	}
@@ -78,24 +78,24 @@ public class ViewPendingAttributesImplTest
 	public void whenResolveAttributeSuccessfully_thenAttributeShouldBeRemovedOffPendingList()
 	{
 		String attribute = "existingAttribute";
-		PendingAttributesForView viewPendingAttributes = createWithPendingList(attribute);
+		PendingAttributesForView pendingAttributesForView = createWithPendingList(attribute);
 		
-		viewPendingAttributes.resolveAttributeIfExists(attribute, mock(AttributeResolver.class));
+		pendingAttributesForView.resolveAttributeIfExists(attribute, mock(AttributeResolver.class));
 
-		assertTrue(viewPendingAttributes.isEmpty());
+		assertTrue(pendingAttributesForView.isEmpty());
 	}
 	
 	@Test
 	public void whenResolveAttributeFailed_thenAttributeShouldBeRemovedOffPendingList()
 	{
 		String attribute = "existingAttribute";
-		PendingAttributesForView viewPendingAttributes = createWithPendingList(attribute);
+		PendingAttributesForView pendingAttributesForView = createWithPendingList(attribute);
 		AttributeResolver attributeResolver = mock(AttributeResolver.class);
 		when(attributeResolver).thenThrow(new MalformedBindingAttributeException(""));
 		
-		viewPendingAttributes.resolveAttributeIfExists(attribute, attributeResolver);
+		pendingAttributesForView.resolveAttributeIfExists(attribute, attributeResolver);
 
-		assertTrue(viewPendingAttributes.isEmpty());
+		assertTrue(pendingAttributesForView.isEmpty());
 	}
 	
 	@Test
@@ -103,11 +103,11 @@ public class ViewPendingAttributesImplTest
 	{
 		String[] presentAttributes = {"group_attribute1", "group_attribute2"};
 		String[] attributeGroup = ArrayUtils.add(presentAttributes, "group_attribute3");
-		PendingAttributesForView viewPendingAttributes = createWithPendingList(presentAttributes);
+		PendingAttributesForView pendingAttributesForView = createWithPendingList(presentAttributes);
 		
-		viewPendingAttributes.resolveAttributeGroupIfExists(attributeGroup, mock(AttributeGroupResolver.class));
+		pendingAttributesForView.resolveAttributeGroupIfExists(attributeGroup, mock(AttributeGroupResolver.class));
 		
-		assertTrue(viewPendingAttributes.isEmpty());
+		assertTrue(pendingAttributesForView.isEmpty());
 	}
 	
 	private PendingAttributesForView createWithPendingList(String... pendingAttributes)

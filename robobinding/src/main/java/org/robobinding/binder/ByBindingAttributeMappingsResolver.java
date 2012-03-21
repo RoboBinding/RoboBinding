@@ -56,38 +56,38 @@ class ByBindingAttributeMappingsResolver
 		this.groupedViewAttributeResolver = new GroupedViewAttributeResolver();
 	}
 	
-	public Collection<ViewAttribute> resolve(PendingAttributesForView viewPendingAttributes)
+	public Collection<ViewAttribute> resolve(PendingAttributesForView pendingAttributesForView)
 	{
 		resolvedViewAttributes = Lists.newArrayList();
 		
-		resolvePropertyViewAttributes(viewPendingAttributes);
-		resolveCommandViewAttributes(viewPendingAttributes);
-		resolveGroupedViewAttributes(viewPendingAttributes);
+		resolvePropertyViewAttributes(pendingAttributesForView);
+		resolveCommandViewAttributes(pendingAttributesForView);
+		resolveGroupedViewAttributes(pendingAttributesForView);
 		
 		return resolvedViewAttributes;
 	}
 	
-	private void resolvePropertyViewAttributes(PendingAttributesForView viewPendingAttributes)
+	private void resolvePropertyViewAttributes(PendingAttributesForView pendingAttributesForView)
 	{
 		for (String propertyAttribute : bindingAttributeMappings.getPropertyAttributes())
 		{
-			viewPendingAttributes.resolveAttributeIfExists(propertyAttribute, propertyViewAttributeResolver);
+			pendingAttributesForView.resolveAttributeIfExists(propertyAttribute, propertyViewAttributeResolver);
 		}
 	}
 
-	private void resolveCommandViewAttributes(PendingAttributesForView viewPendingAttributes)
+	private void resolveCommandViewAttributes(PendingAttributesForView pendingAttributesForView)
 	{
 		for (String commandAttribute : bindingAttributeMappings.getCommandAttributes())
 		{
-			viewPendingAttributes.resolveAttributeIfExists(commandAttribute, commandViewAttributeResolver);
+			pendingAttributesForView.resolveAttributeIfExists(commandAttribute, commandViewAttributeResolver);
 		}
 	}
 
-	private void resolveGroupedViewAttributes(PendingAttributesForView viewPendingAttributes)
+	private void resolveGroupedViewAttributes(PendingAttributesForView pendingAttributesForView)
 	{
 		for (String[] attributeGroup : bindingAttributeMappings.getAttributeGroups())
 		{
-			viewPendingAttributes.resolveAttributeGroupIfExists(attributeGroup, groupedViewAttributeResolver);
+			pendingAttributesForView.resolveAttributeGroupIfExists(attributeGroup, groupedViewAttributeResolver);
 		}
 	}
 

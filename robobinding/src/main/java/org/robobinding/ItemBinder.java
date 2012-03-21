@@ -33,23 +33,23 @@ import android.view.View;
 public class ItemBinder
 {
 	private BinderImplementor binderImplementor;
-	private List<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup;
+	private List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
 
 	public ItemBinder(BinderImplementor binderImplementor)
 	{
 		this.binderImplementor = binderImplementor;
-		predefinedViewPendingAttributesGroup = Lists.newArrayList();
+		predefinedPendingAttributesForViewGroup = Lists.newArrayList();
 	}
 
-	public ItemBinder setPredefinedViewPendingAttributesGroup(Collection<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup)
+	public ItemBinder setPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
 	{
-		this.predefinedViewPendingAttributesGroup = Lists.newArrayList(predefinedViewPendingAttributesGroup);
+		this.predefinedPendingAttributesForViewGroup = Lists.newArrayList(predefinedPendingAttributesForViewGroup);
 		return this;
 	}
 	
 	public View inflateAndBind(int layoutId, Object presentationModel)
 	{
-		binderImplementor.setPredefinedPendingAttributesForViewGroup(predefinedViewPendingAttributesGroup);
+		binderImplementor.setPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup);
 		return binderImplementor.inflateAndBind(layoutId, presentationModel);
 	}
 }

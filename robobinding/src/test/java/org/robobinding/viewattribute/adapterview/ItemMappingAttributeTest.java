@@ -58,7 +58,7 @@ public class ItemMappingAttributeTest
 		
 		itemMappingAttribute.bind(dataSetAdapter, MockBindingContext.create(mockContext));
 		
-		verify(dataSetAdapter).setItemPredefinedViewPendingAttributesGroup(anyCollectionOf(PredefinedPendingAttributesForView.class));
+		verify(dataSetAdapter).setItemPredefinedPendingAttributesForViewGroup(anyCollectionOf(PredefinedPendingAttributesForView.class));
 	}
 	
 	@Test
