@@ -38,7 +38,7 @@ public class DropdownMappingAttributeTest extends ItemMappingAttributeTest
 		
 		dropdownMappingAttribute.bind(dataSetAdapter, MockBindingContext.create(mockContext));
 		
-		verify(dataSetAdapter).setDropdownPredefinedViewPendingAttributesGroup(anyCollectionOf(PredefinedPendingAttributesForView.class));
+		verify(dataSetAdapter).setDropdownPredefinedPendingAttributesForViewGroup(anyCollectionOf(PredefinedPendingAttributesForView.class));
 	}
 	
 	@Test

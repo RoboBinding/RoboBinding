@@ -64,10 +64,10 @@ public class BindingAttributeResolverTest
 	{
 		BindingAttributeProvider<View> bindingAttributeProvider1 = createAndAddCandidateBindingAttributeProvider();
 		BindingAttributeProvider<View> bindingAttributeProvider2 = createAndAddCandidateBindingAttributeProvider();
-		PendingAttributesForView viewPendingAttributes = mock(PendingAttributesForView.class);
-		when(viewPendingAttributes.isEmpty()).thenReturn(false);
+		PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
+		when(pendingAttributesForView.isEmpty()).thenReturn(false);
 
-		bindingAttributeResolver.resolve(viewPendingAttributes);
+		bindingAttributeResolver.resolve(pendingAttributesForView);
 
 		bindingAttributeResolver.assertBindingAttributeProvidersInvolveResolving(bindingAttributeProvider1, bindingAttributeProvider2);
 	}
@@ -77,10 +77,10 @@ public class BindingAttributeResolverTest
 	{
 		BindingAttributeProvider<View> bindingAttributeProvider1 = createAndAddCandidateBindingAttributeProvider();
 		createAndAddCandidateBindingAttributeProvider();
-		PendingAttributesForView viewPendingAttributes = mock(PendingAttributesForView.class);
-		when(viewPendingAttributes.isEmpty()).thenReturn(true);
+		PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
+		when(pendingAttributesForView.isEmpty()).thenReturn(true);
 
-		bindingAttributeResolver.resolve(viewPendingAttributes);
+		bindingAttributeResolver.resolve(pendingAttributesForView);
 
 		bindingAttributeResolver.assertBindingAttributeProvidersInvolveResolving(bindingAttributeProvider1);
 	}
@@ -105,7 +105,7 @@ public class BindingAttributeResolverTest
 		}
 		
 		@Override
-		Collection<ViewAttribute> resolveByBindingAttributeProvider(PendingAttributesForView viewPendingAttributes,
+		Collection<ViewAttribute> resolveByBindingAttributeProvider(PendingAttributesForView pendingAttributesForView,
 				BindingAttributeProvider<View> bindingAttributeProvider)
 		{
 			bindingAttributeProvidersInvolveResolving.add(bindingAttributeProvider);

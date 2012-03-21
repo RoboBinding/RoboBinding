@@ -165,9 +165,9 @@ public class ViewInflaterTest
 	}
 
 	@Test
-	public void givenAPredefinedViewPendingAttributes_whenInflateBindingView_thenChildViewBindingAttributesIsAdded()
+	public void givenAPredefinedPendingAttributesForView_whenInflateBindingView_thenChildViewBindingAttributesIsAdded()
 	{
-		declarePredefinedViewPendingAttributes();
+		declarePredefinedPendingAttributesForView();
 		
 		InflatedView inflatedView = inflateBindingView();
 		
@@ -187,13 +187,13 @@ public class ViewInflaterTest
 		return childViewBindingAttributesGroup.size();
 	}
 	
-	private void declarePredefinedViewPendingAttributes()
+	private void declarePredefinedPendingAttributesForView()
 	{
-		PredefinedPendingAttributesForView predefinedViewPendingAttributes = mock(PredefinedPendingAttributesForView.class);
-		PendingAttributesForView viewPendingAttributes = mock(PendingAttributesForView.class);
-		when(predefinedViewPendingAttributes.createViewPendingAttributes(any(View.class))).thenReturn(viewPendingAttributes);
+		PredefinedPendingAttributesForView predefinedPendingAttributesForView = mock(PredefinedPendingAttributesForView.class);
+		PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
+		when(predefinedPendingAttributesForView.createPendingAttributesForView(any(View.class))).thenReturn(pendingAttributesForView);
 		
-		viewInflaterBuilder.addPredefinedPendingAttributesForView(predefinedViewPendingAttributes);
+		viewInflaterBuilder.addPredefinedPendingAttributesForView(predefinedPendingAttributesForView);
 	}
 
 	private class ViewInflaterForTest extends ViewInflater

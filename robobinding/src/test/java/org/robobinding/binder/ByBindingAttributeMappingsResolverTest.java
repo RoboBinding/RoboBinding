@@ -49,7 +49,7 @@ import com.google.common.collect.Sets;
 public class ByBindingAttributeMappingsResolverTest
 {
 	private ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver;
-	private PendingAttributesForView viewPendingAttributes;
+	private PendingAttributesForView pendingAttributesForView;
 	private List<String> propertyAttributes;
 	private List<String> commandAttributes;
 	private List<String[]> attributeGroups;
@@ -62,7 +62,7 @@ public class ByBindingAttributeMappingsResolverTest
 		attributeGroups = Lists.newArrayList();
 
 		byBindingAttributeMappingsResolver = new ByBindingAttributeMappingsResolver(new MockBindingAttributeMappingsImpl<View>());
-		viewPendingAttributes = new MockViewPendingAttribute();
+		pendingAttributesForView = new MockViewPendingAttribute();
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class ByBindingAttributeMappingsResolverTest
 		String propertyAttribute = "propertyAttribute";
 		propertyAttributes.add(propertyAttribute);
 
-		Collection<ViewAttribute> viewAttributes = byBindingAttributeMappingsResolver.resolve(viewPendingAttributes);
+		Collection<ViewAttribute> viewAttributes = byBindingAttributeMappingsResolver.resolve(pendingAttributesForView);
 
 		assertThat(Sets.newHashSet(viewAttributes), equalTo(Sets.<ViewAttribute> newHashSet(new MockPropertyViewAttribute(propertyAttribute))));
 	}
@@ -82,7 +82,7 @@ public class ByBindingAttributeMappingsResolverTest
 		String commandAttribute = "commandAttribute";
 		commandAttributes.add(commandAttribute);
 
-		Collection<ViewAttribute> viewAttributes = byBindingAttributeMappingsResolver.resolve(viewPendingAttributes);
+		Collection<ViewAttribute> viewAttributes = byBindingAttributeMappingsResolver.resolve(pendingAttributesForView);
 
 		assertThat(Sets.newHashSet(viewAttributes), equalTo(Sets.<ViewAttribute> newHashSet(new MockCommandViewAttribute(commandAttribute))));
 	}
@@ -93,7 +93,7 @@ public class ByBindingAttributeMappingsResolverTest
 		String[] attributeGroup = { "group_attribute1", "group_attribute2" };
 		attributeGroups.add(attributeGroup);
 
-		Collection<ViewAttribute> viewAttributes = byBindingAttributeMappingsResolver.resolve(viewPendingAttributes);
+		Collection<ViewAttribute> viewAttributes = byBindingAttributeMappingsResolver.resolve(pendingAttributesForView);
 
 		assertThat(Sets.newHashSet(viewAttributes), equalTo(Sets.<ViewAttribute> newHashSet(new MockGroupedViewAttribute(attributeGroup))));
 	}
