@@ -171,13 +171,13 @@ public class DataSetAdapter<T> extends BaseAdapter
 		this.dropDownLayoutId = dropDownLayoutId;
 	}
 
-	public void setItemPredefinedViewPendingAttributesGroup(Collection<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup)
+	public void setItemPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
 	{
-		itemBinder.setPredefinedViewPendingAttributesGroup(predefinedViewPendingAttributesGroup);
+		itemBinder.setPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup);
 	}
 
-	public void setDropdownPredefinedViewPendingAttributesGroup(Collection<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup)
+	public void setDropdownPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
 	{
-		dropDownBinder.setPredefinedViewPendingAttributesGroup(predefinedViewPendingAttributesGroup);
+		dropDownBinder.setPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup);
 	}
 }

@@ -41,13 +41,13 @@ class BinderImplementorImpl implements BinderImplementor
 	private final Context context;
 	private final BindingContextCreator bindingContextCreator;
 	private ViewGroup parentView;
-	private List<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup;
+	private List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
 	
 	public BinderImplementorImpl(Context context, BindingContextCreator bindingContextCreator)
 	{
 		this.context = context;
 		this.bindingContextCreator = bindingContextCreator;
-		predefinedViewPendingAttributesGroup = Lists.newArrayList();
+		predefinedPendingAttributesForViewGroup = Lists.newArrayList();
 	}
 	
 	@Override
@@ -57,9 +57,9 @@ class BinderImplementorImpl implements BinderImplementor
 		return this;
 	}
 	
-	public BinderImplementor setPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedViewPendingAttributesGroup)
+	public BinderImplementor setPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
 	{
-		this.predefinedViewPendingAttributesGroup = Lists.newArrayList(predefinedViewPendingAttributesGroup);
+		this.predefinedPendingAttributesForViewGroup = Lists.newArrayList(predefinedPendingAttributesForViewGroup);
 		return this;
 	}
 	
@@ -86,7 +86,7 @@ class BinderImplementorImpl implements BinderImplementor
 	{
 		ViewInflater.Builder viewInflaterBuilder = new ViewInflater.Builder(context);
 		viewInflaterBuilder.setParentViewToAttach(parentView);
-		viewInflaterBuilder.setPredefinedPendingAttributesForViewGroup(predefinedViewPendingAttributesGroup);
+		viewInflaterBuilder.setPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup);
 		return viewInflaterBuilder.create();
 	}
 
