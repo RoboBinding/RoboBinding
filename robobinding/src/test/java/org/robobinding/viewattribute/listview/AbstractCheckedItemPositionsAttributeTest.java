@@ -56,10 +56,17 @@ public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends
 		view.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		
 		((ViewListenersAware<AdapterViewListeners>)attribute).setViewListeners(new MockAdapterViewListeners(view));
+		preInitializeCheckedItemPositionsToRandomState();
 	}
 	
+	private void preInitializeCheckedItemPositionsToRandomState()
+	{
+		setItemsChecked(SparseBooleanArrayUtils.toSet(anySparseBooleanArray()));
+	}
+
 	protected void setItemsChecked(Set<Integer> checkedItemPositions)
 	{
+		ListViewUtils.clearSelections(view);
 		for(Integer checkedItemPosition : checkedItemPositions)
 		{
 			view.setItemChecked(checkedItemPosition, true);
