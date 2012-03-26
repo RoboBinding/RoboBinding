@@ -99,6 +99,7 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		@Override
 		protected void valueModelUpdated(SparseBooleanArray array)
 		{
+			ListViewUtils.clearSelections(view);
 			for(int i=0; i<array.size(); i++)
 			{
 				view.setItemChecked(array.keyAt(i), array.valueAt(i));
@@ -118,6 +119,7 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		@Override
 		protected void valueModelUpdated(Set<Integer> newValue)
 		{
+			ListViewUtils.clearSelections(view);
 			for(int position : newValue)
 			{
 				view.setItemChecked(position, true);
@@ -137,6 +139,7 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		@Override
 		protected void valueModelUpdated(Map<Integer, Boolean> newValue)
 		{
+			ListViewUtils.clearSelections(view);
 			for(Integer position : newValue.keySet())
 			{
 				Boolean checked = newValue.get(position);
