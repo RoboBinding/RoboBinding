@@ -46,7 +46,6 @@ public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttrib
 	@Before
 	public void setUp()
 	{
-		Robolectric.bindShadowClass(ShadowListView.class);
 		super.initializeViewAndAttribute();
 		super.initializeViewListeners();
 		
@@ -70,9 +69,14 @@ public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttrib
 	{
 		ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);
 		
-		view.setItemChecked(checkedItemPosition, true);
+		setItemChecked();
 		
 		assertThat(valueModel.getValue(), equalTo(checkedItemPosition));
+	}
+
+	private void setItemChecked()
+	{
+		view.performItemClick(null, checkedItemPosition, 0);
 	}
 	
 	@Test
