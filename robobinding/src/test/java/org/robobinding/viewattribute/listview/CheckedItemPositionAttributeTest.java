@@ -20,6 +20,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.R;
 import org.robobinding.property.ValueModel;
@@ -30,6 +31,8 @@ import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewL
 
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.xtremelabs.robolectric.Robolectric;
 
 /**
  *
@@ -44,6 +47,8 @@ public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttrib
 	@Before
 	public void setUp()
 	{
+		//TODO: Delete this class once Robolectric has pulled in the change request
+		Robolectric.bindShadowClass(ShadowListView.class);
 		super.initializeViewAndAttribute();
 		super.initializeViewListeners();
 		
@@ -63,6 +68,8 @@ public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttrib
 	}
 	
 	@Test
+	@Ignore
+	//TODO Enable once Robolectric pull request is merged
 	public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly()
 	{
 		ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);
