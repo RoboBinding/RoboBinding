@@ -31,8 +31,6 @@ import android.util.SparseBooleanArray;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.xtremelabs.robolectric.Robolectric;
-
 /**
  *
  * @since 1.0
