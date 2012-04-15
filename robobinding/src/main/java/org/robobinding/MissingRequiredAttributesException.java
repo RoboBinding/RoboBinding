@@ -13,14 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding;
 
 import java.util.Collection;
 import java.util.Collections;
-
-import org.apache.commons.lang3.StringUtils;
-
-import android.view.View;
 
 /**
  *
@@ -29,26 +25,13 @@ import android.view.View;
  * @author Robert Taylor
  */
 @SuppressWarnings("serial")
-public class MissingRequiredBindingAttributeException extends RuntimeException
+public class MissingRequiredAttributesException extends AttributeResolutionException
 {
 	private final Collection<String> missingAttributes;
-	private final String viewName;
-
-	public MissingRequiredBindingAttributeException(Collection<String> missingAttributes, View view)
-	{
-		this(missingAttributes, view.getClass().getName());
-	}
 	
-	public MissingRequiredBindingAttributeException(Collection<String> missingAttributes, String viewName)
+	public MissingRequiredAttributesException(Collection<String> missingAttributes)
 	{
 		this.missingAttributes = missingAttributes;
-		this.viewName = viewName;
-	}
-	
-	@Override
-	public String toString()
-	{
-		return "Missing attribute(s) for " + viewName + ": " + StringUtils.join(missingAttributes, ", ");
 	}
 	
 	public Collection<String> getMissingAttributes()

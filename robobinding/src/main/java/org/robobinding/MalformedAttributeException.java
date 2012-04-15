@@ -22,9 +22,9 @@ package org.robobinding;
  * @author Robert Taylor
  */
 @SuppressWarnings("serial")
-public class MalformedBindingAttributeException extends RuntimeException
+public class MalformedAttributeException extends AttributeResolutionException
 {
-	public MalformedBindingAttributeException(String message) {
+	public MalformedAttributeException(String message) {
 		super(message);
 	}
 }

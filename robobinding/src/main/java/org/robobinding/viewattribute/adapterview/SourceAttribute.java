@@ -18,6 +18,7 @@ package org.robobinding.viewattribute.adapterview;
 import org.robobinding.BindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetValueModel;
+import org.robobinding.viewattribute.CustomChildAttribute;
 import org.robobinding.viewattribute.PropertyBindingDetails;
 
 /**
@@ -26,18 +27,25 @@ import org.robobinding.viewattribute.PropertyBindingDetails;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SourceAttribute implements AdapterViewAttribute
+public class SourceAttribute implements CustomChildAttribute
 {
-	private final PropertyBindingDetails propertyBindingDetails;
+	private final DataSetAdapter<?> dataSetAdapter;
+	private PropertyBindingDetails propertyBindingDetails;
 
-	public SourceAttribute(String attributeValue)
+	public SourceAttribute(final DataSetAdapter<?> dataSetAdapter)
+	{
+		this.dataSetAdapter = dataSetAdapter;
+	}
+	
+	@Override
+	public void setAttributeValue(String attributeValue)
 	{
 		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue);
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
-	public void bind(final DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
+	public void bindTo(BindingContext bindingContext)
 	{
 		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
 		DataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyBindingDetails.propertyName);

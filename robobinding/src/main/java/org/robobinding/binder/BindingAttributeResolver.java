@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
+import org.robobinding.ViewResolutionErrors;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
@@ -47,15 +48,15 @@ public class BindingAttributeResolver
 		this.providersResolver = new BindingAttributeProvidersResolver();
 	}
 
-	public ViewBindingAttributes resolve(PendingAttributesForView pendingAttributesForView)
+	public ViewResolutionResult resolve(PendingAttributesForView pendingAttributesForView)
 	{
 		initializeNewResolving();
 		
 		resolveByBindingAttributeProviders(pendingAttributesForView);
 		
-		pendingAttributesForView.assertAllResolved();
+		ViewResolutionErrors errors = pendingAttributesForView.resolveCompleted();
 		
-		return viewBindingAttributes;
+		return new ViewResolutionResult(viewBindingAttributes, errors);
 	}
 
 	private void initializeNewResolving()

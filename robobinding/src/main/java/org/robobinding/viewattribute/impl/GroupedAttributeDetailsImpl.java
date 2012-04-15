@@ -21,8 +21,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.robobinding.MissingRequiredAttributesException;
 import org.robobinding.viewattribute.GroupedAttributeDetails;
-import org.robobinding.viewattribute.MissingRequiredBindingAttributeException;
 
 import android.view.View;
 
@@ -108,6 +108,6 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	public void assertAttributesArePresent(View view, String... attributeNames)
 	{
 		if (!hasAttributes(attributeNames))
-			throw new MissingRequiredBindingAttributeException(findAbsentAttributes(attributeNames), view);
+			throw new MissingRequiredAttributesException(findAbsentAttributes(attributeNames), view);
 	}
 }

@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Map;
 
 
+
 import android.view.View;
 
 import com.google.common.collect.Maps;
@@ -35,6 +36,7 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 {
 	private View view;
 	Map<String, String> attributeMappings;
+	private ViewResolutionErrorReporter viewResolutionErrorReporter;
 	private Map<String, String> malformedAttributes;
 	public PendingAttributesForViewImpl(View view, Map<String, String> attributeMappings)
 	{
@@ -56,42 +58,45 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 	}
 
 	@Override
-	public void assertAllResolved()
+	public ViewResolutionErrors resolveCompleted()
 	{
-		if (!attributeMappings.isEmpty() || !malformedAttributes.isEmpty())
-			throw new BindingAttributeException(attributeMappings, malformedAttributes, view);
+		viewResolutionErrorReporter.reportUnrecogonizedAttribute(attributeMappings.keySet());
+		return viewResolutionErrorReporter.createErrors();
 	}
 
 	@Override
 	public void resolveAttributeIfExists(String attribute, AttributeResolver attributeResolver)
 	{
-		try
+		if(attributeMappings.containsKey(attribute))
 		{
-			if(attributeMappings.containsKey(attribute))
+			String attributeValue = attributeMappings.get(attribute);
+			try
 			{
-				String attributeValue = attributeMappings.get(attribute);
 				attributeResolver.resolve(view, attribute, attributeValue);
-				
-				attributeMappings.remove(attribute);
+			}catch(MalformedAttributeException e)
+			{
+				viewResolutionErrorReporter.reportMalformedAttribute(attribute, attributeValue, e.getMessage());
 			}
-		} catch (MalformedBindingAttributeException e)
-		{
-			malformedAttributes.put(attribute, e.getMessage());
+			
 			attributeMappings.remove(attribute);
 		}
-
 	}
 
 	@Override
 	public void resolveAttributeGroupIfExists(String[] attributeGroup, AttributeGroupResolver attributeGroupResolver)
 	{
-		//TODO:malformedAttributes error handling.
 		if (hasOneOfAttributes(attributeGroup))
 		{
 			Map<String, String> presentAttributeMappings = findPresentAttributeMappings(attributeGroup);
 			Collection<String> presentAttributes = presentAttributeMappings.keySet();
 			
-			attributeGroupResolver.resolve(view, attributeGroup, presentAttributeMappings);
+			try
+			{
+				attributeGroupResolver.resolve(view, attributeGroup, presentAttributeMappings);
+			}catch(MissingRequiredAttributesException e)
+			{
+				viewResolutionErrorReporter.reportMissingRequiredAttributes(attributeGroup, e.getMissingAttributes());
+			}
 			removeAttributes(presentAttributes);
 		}
 	}
