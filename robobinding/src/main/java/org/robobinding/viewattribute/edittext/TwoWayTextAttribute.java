@@ -51,6 +51,16 @@ public class TwoWayTextAttribute extends AbstractTextAttribute<EditText>
 		return charSequenceTextAttribute;
 	}
 	
+	protected boolean isTwoWayBinding()
+	{
+		return attributeValue.isTwoWayBinding();
+	}
+
+	void setValueCommitMode(ValueCommitMode valueCommitMode)
+	{
+		this.valueCommitMode = valueCommitMode;
+	}
+
 	private abstract static class AbstractTwoWayCharSequenceTextAttribute<PropertyType extends CharSequence> extends
 			AbstractPropertyViewAttribute<EditText, PropertyType>
 	{
@@ -124,10 +134,5 @@ public class TwoWayTextAttribute extends AbstractTextAttribute<EditText>
 		{
 			valueModel.setValue(charSequence);
 		}
-	}
-
-	void setValueCommitMode(ValueCommitMode valueCommitMode)
-	{
-		this.valueCommitMode = valueCommitMode;
 	}
 }

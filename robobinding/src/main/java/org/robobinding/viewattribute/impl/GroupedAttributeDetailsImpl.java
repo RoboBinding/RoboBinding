@@ -24,8 +24,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.robobinding.MissingRequiredAttributesException;
 import org.robobinding.viewattribute.GroupedAttributeDetails;
 
-import android.view.View;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -105,9 +103,9 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	}
 
 	@Override
-	public void assertAttributesArePresent(View view, String... attributeNames)
+	public void assertAttributesArePresent(String... attributeNames)
 	{
 		if (!hasAttributes(attributeNames))
-			throw new MissingRequiredAttributesException(findAbsentAttributes(attributeNames), view);
+			throw new MissingRequiredAttributesException(findAbsentAttributes(attributeNames));
 	}
 }

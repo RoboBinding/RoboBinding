@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding;
+package org.robobinding.viewattribute;
 
 /**
  *
@@ -21,13 +21,10 @@ package org.robobinding;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class Attribute
+public interface AttributeValue
 {
-	private String name;
-	private String value;
-	public Attribute(String name, String value)
-	{
-		this.name = name;
-		this.value = value;
-	}
+	boolean isTwoWayBinding();
+	boolean isStaticResource();
+	PropertyAttributeValue asPropertyAttributeValue();
+	ResourceAttributeValue asResourceAttributeValue();
 }

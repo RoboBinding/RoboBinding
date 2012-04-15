@@ -30,6 +30,7 @@ import android.widget.AdapterView;
  */
 public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T>
 {
+	private View subView;
 	@Override
 	protected String[] getCompulsoryAttributes()
 	{
@@ -37,21 +38,13 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	}
 
 	@Override
-	public void bindTo(BindingContext bindingContext)
+	protected void preBind(BindingContext bindingContext)
 	{
-		View subView = createSubView(bindingContext);
+		subView = createSubView(bindingContext);
 		
 		addSubView(subView, bindingContext.getContext());
-		
-		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
-		{
-			SubViewVisibilityAttribute visibilityAttribute = createVisibilityAttribute(subView);
-			visibilityAttribute.setView(subView);
-			visibilityAttribute.setAttributeValue(groupedAttributeDetails.attributeValueFor(visibilityAttribute()));
-			visibilityAttribute.bindTo(bindingContext);
-		}
 	}
-
+	
 	View createSubView(BindingContext bindingContext)
 	{
 		SubViewCreator subViewCreator = createSubViewCreator(bindingContext, groupedAttributeDetails.attributeValueFor(layoutAttribute()));
@@ -70,10 +63,19 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	{
 		return new SubViewCreator(bindingContext, layoutAttributeValue);
 	}
-	
+
+	@Override
+	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
+	{
+		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
+		{
+			binding.add(new SubViewVisibilityAttribute(createVisibility(subView)), visibilityAttribute());
+		}
+	}
+
 	protected abstract String layoutAttribute();
 	protected abstract String subViewPresentationModelAttribute();
 	protected abstract String visibilityAttribute();
 	protected abstract void addSubView(View subView, Context context);
-	protected abstract SubViewVisibilityAttribute createVisibilityAttribute(View subView);
+	protected abstract AbstractSubViewVisibility createVisibility(View subView);
 }

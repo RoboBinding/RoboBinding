@@ -7,7 +7,6 @@
 package org.robobinding.viewattribute.listview;
 
 import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
-import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
 
 import android.content.Context;
 import android.view.View;
@@ -49,9 +48,8 @@ public class FooterAttributes extends AbstractSubViewAttributes<ListView>
 	}
 	
 	@Override
-	protected SubViewVisibilityAttribute createVisibilityAttribute(View subView)
+	protected FooterVisibility createVisibility(View subView)
 	{
-		FooterVisibility visibility = new FooterVisibility(view, subView);
-		return new SubViewVisibilityAttribute(visibility);
+		return new FooterVisibility(view, subView);
 	}
 }

@@ -38,16 +38,16 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 	{
 		return ArrayUtils.addAll(super.getCompulsoryAttributes(), DROPDOWN_LAYOUT);
 	}
-	
+
 	@Override
-	public void postInitialization()
+	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
 	{
-		super.postInitialization();
+		super.setupChildAttributesBinding(binding);
 		
 		if (groupedAttributeDetails.hasAttribute(DROPDOWN_LAYOUT))
-			childViewAttributes.add(new DropdownLayoutAttribute(view, groupedAttributeDetails.attributeValueFor(DROPDOWN_LAYOUT)));
+			binding.add(new DropdownLayoutAttribute(view, dataSetAdapter), DROPDOWN_LAYOUT);
 		
 		if (groupedAttributeDetails.hasAttribute(DROPDOWN_MAPPING))
-			childViewAttributes.add(new DropdownMappingAttribute(groupedAttributeDetails.attributeValueFor(DROPDOWN_MAPPING)));
+			binding.add(new DropdownMappingAttribute(dataSetAdapter), DROPDOWN_MAPPING);
 	}
 }

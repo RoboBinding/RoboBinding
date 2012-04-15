@@ -21,7 +21,7 @@ package org.robobinding.viewattribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface CustomChildAttribute extends ChildAttribute
+public interface CustomChildAttribute extends ViewAttribute
 {
-	void setAttributeValue(String attributeValue);
+	public void setAttributeValue(String attributeValue);
 }

@@ -16,15 +16,10 @@
 package org.robobinding.viewattribute.adapterview;
 
 
-import java.util.Collections;
-import java.util.List;
-
 import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 
 import android.widget.AdapterView;
-
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -37,10 +32,7 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	public static final String SOURCE = "source";
 	public static final String ITEM_LAYOUT = "itemLayout";
 	public static final String ITEM_MAPPING = "itemMapping";
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private DataSetAdapter dataSetAdapter;
-	
-	protected List<AdapterViewAttribute> childViewAttributes;
+	protected DataSetAdapter<?> dataSetAdapter;
 	
 	@Override
 	protected String[] getCompulsoryAttributes()
@@ -49,7 +41,7 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	}
 	
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected void preBind(BindingContext bindingContext)
 	{
@@ -61,10 +53,10 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
 	{
 		binding.add(new SourceAttribute(dataSetAdapter), SOURCE);
-		binding.addChildAttribute(new ItemLayoutAttribute(view, dataSetAdapter), ITEM_LAYOUT);
-		if(binding.hasAttribute(ITEM_MAPPING))
+		binding.add(new ItemLayoutAttribute(view, dataSetAdapter), ITEM_LAYOUT);
+		if(groupedAttributeDetails.hasAttribute(ITEM_MAPPING))
 		{
-			binding.addChildAttribute(new ItemMappingAttribute(dataSetAdapter), ITEM_MAPPING);
+			binding.add(new ItemMappingAttribute(dataSetAdapter), ITEM_MAPPING);
 		}
 	}
 
@@ -74,34 +66,5 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	{
 		dataSetAdapter.observeChangesOnTheValueModel();
 		((AdapterView)view).setAdapter(dataSetAdapter);
-	}
-	
-	@Override
-	public void postInitialization()
-	{
-		childViewAttributes = Lists.newArrayList();
-		childViewAttributes.add(new SourceAttribute(groupedAttributeDetails.attributeValueFor(SOURCE)));
-		childViewAttributes.add(new ItemLayoutAttribute(view, groupedAttributeDetails.attributeValueFor(ITEM_LAYOUT)));
-		
-		if (groupedAttributeDetails.hasAttribute(ITEM_MAPPING))
-			childViewAttributes.add(new ItemMappingAttribute(groupedAttributeDetails.attributeValueFor(ITEM_MAPPING)));
-	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	public void bindTo(BindingContext bindingContext)
-	{
-		DataSetAdapter dataSetAdapter = new DataSetAdapter(bindingContext);
-		
-		for (AdapterViewAttribute adapterViewAttribute : childViewAttributes)
-			adapterViewAttribute.bind(dataSetAdapter, bindingContext);
-		
-		dataSetAdapter.observeChangesOnTheValueModel();
-		((AdapterView)view).setAdapter(dataSetAdapter);
-	}
-	
-	List<AdapterViewAttribute> getAdapterViewAttributes()
-	{
-		return Collections.unmodifiableList(childViewAttributes);
 	}
 }

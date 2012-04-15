@@ -34,9 +34,9 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	private static final String[] NO_COMPULSORY_ATTRIBUTES = new String[0];
 	
 	protected T view;
-	private GroupedAttributeDetails groupedAttributeDetails;
-	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
+	protected GroupedAttributeDetails groupedAttributeDetails;
 	private ViewListenersProvider viewListenersProvider;
+	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
 	
 	public void setView(T view)
 	{
@@ -45,7 +45,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 
 	public void setGroupedAttributeDetails(GroupedAttributeDetails groupedAttributeDetails)
 	{
-		groupedAttributeDetails.assertAttributesArePresent(view, getCompulsoryAttributes());
+		groupedAttributeDetails.assertAttributesArePresent(getCompulsoryAttributes());
 		this.groupedAttributeDetails = groupedAttributeDetails;
 	}
 	
@@ -96,44 +96,45 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected class ChildAttributesBinding
 	{
 		private final BindingContext bindingContext;
-		private Map<String, ChildAttribute> childAttributeMap;
+		private final AttributeValueParser attributeValueParser;
+		private Map<String, ViewAttribute> childAttributeMap;
 		private List<AttributeBindingException> attributeBindingExceptions;
 		private ChildAttributesBinding(BindingContext bindingContext)
 		{
 			this.bindingContext = bindingContext;
+			attributeValueParser = new AttributeValueParser();
 		}
 		
-		public void add(CustomChildAttribute childAttribute, String attributeName)
+		public ChildAttribute add(ChildAttribute childAttribute, String attribute)
 		{
-			childAttributeMap.put(attributeName, childAttribute);
+			AttributeValue attributeValue = attributeValueParser.parse(groupedAttributeDetails.attributeValueFor(attribute));
+			childAttribute.setAttributeValue(attributeValue);
+			childAttributeMap.put(attribute, childAttribute);
+			return childAttribute;
 		}
 		
-		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> void addProperty(
+		public CustomChildAttribute add(CustomChildAttribute childAttribute, String attribute)
+		{
+			String attributeValue = groupedAttributeDetails.attributeValueFor(attribute);
+			childAttribute.setAttributeValue(attributeValue);
+			childAttributeMap.put(attribute, childAttribute);
+			return childAttribute;
+		}
+		
+		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType addProperty(
 				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
 		{
-			final PropertyViewAttributeType propertyViewAttribute = safeGetViewAttributeInstantiator().newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
-			childAttributeMap.put(propertyAttribute, new ChildAttribute() {
-				
-				@Override
-				public void bindTo(BindingContext bindingContext)
-				{
-					propertyViewAttribute.bindTo(bindingContext);
-				}
-			});
+			PropertyViewAttributeType propertyViewAttribute = safeGetViewAttributeInstantiator().newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
+			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
+			return propertyViewAttribute;
 		}
 		
-		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> void addCommand(
+		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType addCommand(
 				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
 		{
-			final CommandViewAttributeType commandViewAttribute = safeGetViewAttributeInstantiator().newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
-			childAttributeMap.put(commandAttribute, new ChildAttribute() {
-				
-				@Override
-				public void bindTo(BindingContext bindingContext)
-				{
-					commandViewAttribute.bindTo(bindingContext);
-				}
-			});
+			CommandViewAttributeType commandViewAttribute = safeGetViewAttributeInstantiator().newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
+			childAttributeMap.put(commandAttribute, commandViewAttribute);
+			return commandViewAttribute;
 		}
 		
 		private void perform()
@@ -143,9 +144,9 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	
 		private void bindChildAttributes()
 		{
-			for(Map.Entry<String, ChildAttribute> childAttributeEntry : childAttributeMap.entrySet())
+			for(Map.Entry<String, ViewAttribute> childAttributeEntry : childAttributeMap.entrySet())
 			{
-				ChildAttribute childAttribute = childAttributeEntry.getValue();
+				ViewAttribute childAttribute = childAttributeEntry.getValue();
 				
 				try
 				{

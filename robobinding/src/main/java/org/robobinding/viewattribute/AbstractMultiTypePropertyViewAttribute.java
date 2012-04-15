@@ -31,7 +31,7 @@ import android.view.View;
 public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> implements PropertyViewAttribute<T>
 {
 	private T view;
-	private PropertyBindingDetails propertyBindingDetails;
+	protected PropertyAttributeValue attributeValue;
 	private ViewListenersProvider viewListenersProvider;
 	
 	@Override
@@ -40,9 +40,9 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		this.view = view;
 	}
 	@Override
-	public void setAttributeValue(String attributeValue)
+	public void setAttributeValue(PropertyAttributeValue attributeValue)
 	{
-		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue);
+		this.attributeValue = attributeValue;
 	}
 	
 	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
@@ -50,17 +50,12 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		this.viewListenersProvider = viewListenersProvider;
 	}
 	
-	public boolean isTwoWayBinding()
-	{
-		return propertyBindingDetails.twoWayBinding;
-	}
-	
 	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
 		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
 		propertyViewAttribute.setView(view);
-		propertyViewAttribute.setPropertyBindingDetails(propertyBindingDetails);
+		propertyViewAttribute.setAttributeValue(attributeValue);
 		setViewListenersIfRequired(propertyViewAttribute, view);
 		propertyViewAttribute.bindTo(bindingContext);
 	}
@@ -80,7 +75,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 
 	private AbstractPropertyViewAttribute<T, ?> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
 	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(attributeValue.getPropertyName());
 		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
 		
 		if (propertyViewAttribute == null)

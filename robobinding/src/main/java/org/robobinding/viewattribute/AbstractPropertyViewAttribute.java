@@ -30,7 +30,7 @@ import android.view.View;
  */
 public abstract class AbstractPropertyViewAttribute<ViewType extends View, PropertyType> implements PropertyViewAttribute<ViewType>
 {
-	private PropertyBindingDetails propertyBindingDetails;
+	private PropertyAttributeValue attributeValue;
 	protected ViewType view;
 	
 	@Override
@@ -40,14 +40,9 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	}
 	
 	@Override
-	public void setAttributeValue(String attributeValue)
+	public void setAttributeValue(PropertyAttributeValue attributeValue)
 	{
-		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue);
-	}
-	
-	protected void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
-	{
-		this.propertyBindingDetails = propertyBindingDetails;
+		this.attributeValue = attributeValue;
 	}
 	
 	@Override
@@ -67,20 +62,15 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	protected void validate(ViewAttributeValidation validation)
 	{
 		validation.addErrorIfViewNotSet(view);
-		validation.addErrorIfPropertyAttributeValueNotSet(propertyBindingDetails);
+		validation.addErrorIfPropertyAttributeValueNotSet(attributeValue);
 	}
 
 	private void performBind(BindingContext bindingContext)
 	{
-		if (isTwoWayBinding())
+		if (attributeValue.isTwoWayBinding())
 			new TwoWayBinder(bindingContext).performBind();
 		else
 			new OneWayBinder(bindingContext).performBind();
-	}
-
-	public boolean isTwoWayBinding()
-	{
-		return propertyBindingDetails.twoWayBinding;
 	}
 	
 	protected abstract void valueModelUpdated(PropertyType newValue);
@@ -116,7 +106,7 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		@Override
 		public void performBind()
 		{
-			final ValueModel<PropertyType> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyBindingDetails.propertyName);
+			final ValueModel<PropertyType> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(attributeValue.getPropertyName());
 			initializeViewIfRequired(valueModel);
 			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener(){
 				@Override
@@ -138,7 +128,7 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		@Override
 		public void performBind()
 		{
-			ValueModel<PropertyType> valueModel = presentationModelAdapter.getPropertyValueModel(propertyBindingDetails.propertyName);
+			ValueModel<PropertyType> valueModel = presentationModelAdapter.getPropertyValueModel(attributeValue.getPropertyName());
 			valueModel = new PropertyValueModelWrapper(valueModel);
 			initializeViewIfRequired(valueModel);
 			observeChangesOnTheValueModel(valueModel);

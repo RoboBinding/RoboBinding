@@ -25,6 +25,7 @@ import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.viewattribute.CustomChildAttribute;
 
 import android.content.Context;
 import android.view.View;
@@ -38,27 +39,34 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemMappingAttribute implements AdapterViewAttribute
+public class ItemMappingAttribute implements CustomChildAttribute
 {
 	private static final String ITEM_MAPPING_PATTERN = "(\\w+)\\.(\\w+):($?\\{\\w+\\})";
 	private static final Pattern ITEM_MAPPING_COMPILED_PATTERN = Pattern.compile(ITEM_MAPPING_PATTERN);
 	private static final Pattern ITEM_MAPPING_ATTRIBUTE_COMPILED_PATTERN = Pattern.compile("^\\[" + ITEM_MAPPING_PATTERN + "(?:," + ITEM_MAPPING_PATTERN + ")*\\]$");
 	
-	private final String itemMappingAttributeValue;
+	private final DataSetAdapter<?> dataSetAdapter;
+	private String itemMappingAttributeValue;
 	protected ViewMappings viewMappings;
 	
-	public ItemMappingAttribute(String itemMappingAttributeValue)
+	public ItemMappingAttribute(DataSetAdapter<?> dataSetAdapter)
 	{
-		this.itemMappingAttributeValue = itemMappingAttributeValue;
+		this.dataSetAdapter = dataSetAdapter;
 	}
-
+	
 	@Override
-	public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
+	public void setAttributeValue(String attributeValue)
+	{
+		this.itemMappingAttributeValue = attributeValue;
+	}
+	
+	@Override
+	public void bindTo(BindingContext bindingContext)
 	{
 		viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, bindingContext.getContext());
 		updateDataSetAdapter(dataSetAdapter);
 	}
-
+	
 	protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter)
 	{
 		dataSetAdapter.setItemPredefinedPendingAttributesForViewGroup(viewMappings.getPredefinedPendingAttributesForViewGroup());
