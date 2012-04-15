@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.MissingRequiredBindingAttributeException;
+import org.robobinding.MissingRequiredAttributesException;
 import org.robobinding.viewattribute.RandomValues;
 import org.robobinding.viewattribute.impl.GroupedAttributeDetailsImpl;
 
@@ -80,7 +80,7 @@ public class GroupedAttributeDetailsImplTest
 		groupedAttributeDetails.assertAttributesArePresent(view, attributeNames);
 	}
 	
-	@Test (expected = MissingRequiredBindingAttributeException.class)
+	@Test (expected = MissingRequiredAttributesException.class)
 	public void givenNoAttributesArePresent_whenAssertingAllAttributesArePresent_thenDoNothing()
 	{
 		noAttributeIsPresent();

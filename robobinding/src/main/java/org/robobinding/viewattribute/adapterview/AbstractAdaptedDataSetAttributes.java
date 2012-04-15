@@ -37,6 +37,8 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	public static final String SOURCE = "source";
 	public static final String ITEM_LAYOUT = "itemLayout";
 	public static final String ITEM_MAPPING = "itemMapping";
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private DataSetAdapter dataSetAdapter;
 	
 	protected List<AdapterViewAttribute> childViewAttributes;
 	
@@ -44,6 +46,34 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	protected String[] getCompulsoryAttributes()
 	{
 		return new String[]{SOURCE, ITEM_LAYOUT};
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	protected void preBind(BindingContext bindingContext)
+	{
+		dataSetAdapter = new DataSetAdapter(bindingContext);
+	}
+
+
+	@Override
+	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
+	{
+		binding.add(new SourceAttribute(dataSetAdapter), SOURCE);
+		binding.addChildAttribute(new ItemLayoutAttribute(view, dataSetAdapter), ITEM_LAYOUT);
+		if(binding.hasAttribute(ITEM_MAPPING))
+		{
+			binding.addChildAttribute(new ItemMappingAttribute(dataSetAdapter), ITEM_MAPPING);
+		}
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	protected void postBind(BindingContext bindingContext)
+	{
+		dataSetAdapter.observeChangesOnTheValueModel();
+		((AdapterView)view).setAdapter(dataSetAdapter);
 	}
 	
 	@Override

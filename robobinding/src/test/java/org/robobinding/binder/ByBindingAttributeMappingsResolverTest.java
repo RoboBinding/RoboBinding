@@ -165,7 +165,7 @@ public class ByBindingAttributeMappingsResolverTest
 		}
 
 		@Override
-		public void assertAllResolved()
+		public void resolveCompleted()
 		{
 			throw new UnsupportedOperationException();
 		}

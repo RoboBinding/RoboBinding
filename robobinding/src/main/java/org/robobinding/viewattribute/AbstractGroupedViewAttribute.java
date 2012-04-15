@@ -15,6 +15,12 @@
  */
 package org.robobinding.viewattribute;
 
+import java.util.List;
+import java.util.Map;
+
+import org.robobinding.AttributeBindingException;
+import org.robobinding.BindingContext;
+
 import android.view.View;
 
 /**
@@ -28,7 +34,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	private static final String[] NO_COMPULSORY_ATTRIBUTES = new String[0];
 	
 	protected T view;
-	protected GroupedAttributeDetails groupedAttributeDetails;
+	private GroupedAttributeDetails groupedAttributeDetails;
 	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
 	private ViewListenersProvider viewListenersProvider;
 	
@@ -46,7 +52,6 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
 	{
 		this.viewListenersProvider = viewListenersProvider;
-		getViewAttributeInstantiator().setViewListenersIfRequired(this, view);
 	}
 	
 	protected String[] getCompulsoryAttributes()
@@ -54,17 +59,105 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		return NO_COMPULSORY_ATTRIBUTES;
 	}
 	
-	public void postInitialization()
+	@Override
+	public final void bindTo(BindingContext bindingContext)
 	{
+		preBind(bindingContext);
+		
+		ChildAttributesBinding binding = new ChildAttributesBinding(bindingContext);
+		setupChildAttributesBinding(binding);
+		binding.perform();
+		
+		postBind(bindingContext);
 	}
 	
-	protected AbstractViewAttributeInstantiator getViewAttributeInstantiator()
+	protected void preBind(BindingContext bindingContext)
+	{
+		
+	}
+	
+	protected abstract void setupChildAttributesBinding(ChildAttributesBinding binding);
+	
+	protected void postBind(BindingContext bindingContext)
+	{
+		
+	}
+	
+	private AbstractViewAttributeInstantiator safeGetViewAttributeInstantiator()
 	{
 		if (viewAttributeInstantiator == null)
+		{
 			viewAttributeInstantiator = new ViewAttributeInstantiator();
+			viewAttributeInstantiator.setViewListenersIfRequired(this, view);
+		}
 		return viewAttributeInstantiator;
 	}
 	
+	protected class ChildAttributesBinding
+	{
+		private final BindingContext bindingContext;
+		private Map<String, ChildAttribute> childAttributeMap;
+		private List<AttributeBindingException> attributeBindingExceptions;
+		private ChildAttributesBinding(BindingContext bindingContext)
+		{
+			this.bindingContext = bindingContext;
+		}
+		
+		public void add(CustomChildAttribute childAttribute, String attributeName)
+		{
+			childAttributeMap.put(attributeName, childAttribute);
+		}
+		
+		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> void addProperty(
+				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
+		{
+			final PropertyViewAttributeType propertyViewAttribute = safeGetViewAttributeInstantiator().newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
+			childAttributeMap.put(propertyAttribute, new ChildAttribute() {
+				
+				@Override
+				public void bindTo(BindingContext bindingContext)
+				{
+					propertyViewAttribute.bindTo(bindingContext);
+				}
+			});
+		}
+		
+		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> void addCommand(
+				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
+		{
+			final CommandViewAttributeType commandViewAttribute = safeGetViewAttributeInstantiator().newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
+			childAttributeMap.put(commandAttribute, new ChildAttribute() {
+				
+				@Override
+				public void bindTo(BindingContext bindingContext)
+				{
+					commandViewAttribute.bindTo(bindingContext);
+				}
+			});
+		}
+		
+		private void perform()
+		{
+			bindChildAttributes();
+		}
+	
+		private void bindChildAttributes()
+		{
+			for(Map.Entry<String, ChildAttribute> childAttributeEntry : childAttributeMap.entrySet())
+			{
+				ChildAttribute childAttribute = childAttributeEntry.getValue();
+				
+				try
+				{
+					childAttribute.bindTo(bindingContext);
+				}catch(AttributeBindingException e)
+				{
+					attributeBindingExceptions.add(e);
+				}
+			}
+		}
+	}
+
 	private class ViewAttributeInstantiator extends AbstractViewAttributeInstantiator
 	{
 		public ViewAttributeInstantiator()

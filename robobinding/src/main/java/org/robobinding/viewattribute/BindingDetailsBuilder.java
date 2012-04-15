@@ -18,7 +18,7 @@ package org.robobinding.viewattribute;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.robobinding.MalformedBindingAttributeException;
+import org.robobinding.MalformedAttributeException;
 
 /**
  *
@@ -49,7 +49,7 @@ public class BindingDetailsBuilder
 	public PropertyBindingDetails createPropertyBindingDetails()
 	{
 		if (propertyName == null)
-			throw new MalformedBindingAttributeException("Attribute value: " + attributeValue + " is not valid property attribute syntax.");
+			throw new MalformedAttributeException("Attribute value: " + attributeValue + " is not valid property attribute syntax.");
 		
 		return new PropertyBindingDetails(propertyName, twoWayBinding);
 	}
@@ -57,7 +57,7 @@ public class BindingDetailsBuilder
 	public ResourceBindingDetails createResourceBindingDetails()
 	{
 		if (resourceName == null || resourceType == null)
-			throw new MalformedBindingAttributeException("Attribute value: " + attributeValue + " is not valid resource attribute syntax.");
+			throw new MalformedAttributeException("Attribute value: " + attributeValue + " is not valid resource attribute syntax.");
 		
 		return new ResourceBindingDetails(resourceName, resourceType, resourcePackage);
 	}
@@ -85,7 +85,7 @@ public class BindingDetailsBuilder
 		}
 		
 		if (!propertiesDetermined)
-			throw new MalformedBindingAttributeException(getErrorDescriptionForAttributeValue());
+			throw new MalformedAttributeException(getErrorDescriptionForAttributeValue());
 	}
 
 	private String getErrorDescriptionForAttributeValue()
@@ -114,7 +114,7 @@ public class BindingDetailsBuilder
 	{
 		matcher.find();
 		if (!matcher.matches() || matcher.groupCount() < 2 || matcher.groupCount() > 3)
-			throw new MalformedBindingAttributeException("Invalid resource syntax: " + attributeValue);
+			throw new MalformedAttributeException("Invalid resource syntax: " + attributeValue);
 		
 		resourcePackage = matcher.group(1);
 		

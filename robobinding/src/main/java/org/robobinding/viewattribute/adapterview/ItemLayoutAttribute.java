@@ -18,6 +18,7 @@ package org.robobinding.viewattribute.adapterview;
 import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.BindingDetailsBuilder;
+import org.robobinding.viewattribute.CustomChildAttribute;
 import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.ResourceBindingDetails;
 
@@ -29,7 +30,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemLayoutAttribute implements AdapterViewAttribute
+public class ItemLayoutAttribute implements CustomChildAttribute
 {
 	final AdapterViewAttribute layoutAttribute;
 	
@@ -49,9 +50,20 @@ public class ItemLayoutAttribute implements AdapterViewAttribute
 	}
 
 	@Override
-	public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
+	public void setAttributeValue(String attributeValue)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void bindTo(BindingContext bindingContext)
 	{
 		layoutAttribute.bind(dataSetAdapter, bindingContext);		
+	}
+	@Override
+	public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
+	{
 	}
 	
 	protected void updateLayoutId(DataSetAdapter<?> dataSetAdapter, int layoutId)
