@@ -15,7 +15,6 @@
  */
 package org.robobinding.viewattribute;
 
-import android.view.View;
 
 
 /**
@@ -31,5 +30,5 @@ public interface GroupedAttributeDetails
 	
 	String attributeValueFor(String attribute);
 	
-	void assertAttributesArePresent(View view, String... attributeNames);
+	void assertAttributesArePresent(String... attributeNames);
 }

@@ -65,7 +65,7 @@ public class BindingDetailsBuilderTest
 	@Theory
 	public void givenLegalPropertyAttributeValues(LegalPropertyAttributeValues legalAttributeValues)
 	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(legalAttributeValues.value);
+		AttributeValueParser bindingDetailsBuilder = new AttributeValueParser(legalAttributeValues.value);
 		
 		assertFalse(bindingDetailsBuilder.bindsToStaticResource());
 		assertThat(bindingDetailsBuilder.getPropertyName(), equalTo(legalAttributeValues.expectedPropertyName));
@@ -75,7 +75,7 @@ public class BindingDetailsBuilderTest
 	@Theory
 	public void givenLegalResourceAttributeValues(LegalResourceAttributeValues legalAttributeValues)
 	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(legalAttributeValues.value);
+		AttributeValueParser bindingDetailsBuilder = new AttributeValueParser(legalAttributeValues.value);
 
 		assertTrue(bindingDetailsBuilder.bindsToStaticResource());
 		assertThat(bindingDetailsBuilder.getResourceName(), equalTo(legalAttributeValues.expectedName));
@@ -90,7 +90,7 @@ public class BindingDetailsBuilderTest
 		
 		try
 		{
-			new BindingDetailsBuilder(illegalBindingAttributeValue.value);
+			new AttributeValueParser(illegalBindingAttributeValue.value);
 		} catch (RuntimeException e)
 		{
 			assertThat(e.getMessage(), equalTo(illegalBindingAttributeValue.getExpectedErrorMessage()));

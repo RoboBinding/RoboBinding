@@ -24,9 +24,9 @@ package org.robobinding.viewattribute.adapterview;
  */
 public class DropdownMappingAttribute extends ItemMappingAttribute
 {
-	public DropdownMappingAttribute(String attributeValue)
+	public DropdownMappingAttribute(DataSetAdapter<?> dataSetAdapter)
 	{
-		super(attributeValue);
+		super(dataSetAdapter);
 	}
 
 	@Override

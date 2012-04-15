@@ -65,7 +65,6 @@ public class ViewAttributeInstantiator
 		((AbstractGroupedViewAttribute<View>) groupedViewAttribute).setView(view);
 		groupedViewAttribute.setGroupedAttributeDetails(groupedAttributeDetails);
 		groupedViewAttribute.setViewListenersProvider(viewListenersProvider);
-		groupedViewAttribute.postInitialization();
 		return groupedViewAttribute;
 	}
 

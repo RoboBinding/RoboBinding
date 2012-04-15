@@ -7,7 +7,6 @@
 package org.robobinding.viewattribute.listview;
 
 import org.robobinding.viewattribute.adapterview.AbstractSubViewAttributes;
-import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute;
 
 import android.content.Context;
 import android.view.View;
@@ -47,18 +46,17 @@ public class HeaderAttributes extends AbstractSubViewAttributes<ListView>
 	@Override
 	protected void addSubView(View subView, Context context)
 	{
-		LinearLayout outerLinearLayout = new LinearLayout(context);
+		LinearLayout outerContainer = new LinearLayout(context);
 		AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(AbsListView.LayoutParams.FILL_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
-		outerLinearLayout.setLayoutParams(layoutParams);
-		outerLinearLayout.setOrientation(LinearLayout.VERTICAL);
-		outerLinearLayout.addView(subView);
-		view.addHeaderView(outerLinearLayout);
+		outerContainer.setLayoutParams(layoutParams);
+		outerContainer.setOrientation(LinearLayout.VERTICAL);
+		outerContainer.addView(subView);
+		view.addHeaderView(outerContainer);
 	}
 	
 	@Override
-	protected SubViewVisibilityAttribute createVisibilityAttribute(View subView)
+	protected HeaderVisibility createVisibility(View subView)
 	{
-		HeaderVisibility visibility = new HeaderVisibility(subView);
-		return new SubViewVisibilityAttribute(visibility);
+		return new HeaderVisibility(subView);
 	}
 }

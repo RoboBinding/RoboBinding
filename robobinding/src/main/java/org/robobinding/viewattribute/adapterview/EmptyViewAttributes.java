@@ -60,8 +60,8 @@ public class EmptyViewAttributes extends AbstractSubViewAttributes<AdapterView<?
 	}
 
 	@Override
-	protected SubViewVisibilityAttribute createVisibilityAttribute(View emptyView)
+	protected EmptyViewVisibility createVisibility(View emptyView)
 	{
-		return new SubViewVisibilityAttribute(emptyViewVisibility);
+		return emptyViewVisibility;
 	}
 }

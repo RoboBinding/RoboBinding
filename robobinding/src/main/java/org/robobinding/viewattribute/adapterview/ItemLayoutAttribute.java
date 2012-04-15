@@ -17,10 +17,10 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.BindingDetailsBuilder;
-import org.robobinding.viewattribute.CustomChildAttribute;
-import org.robobinding.viewattribute.PropertyBindingDetails;
-import org.robobinding.viewattribute.ResourceBindingDetails;
+import org.robobinding.viewattribute.AttributeValue;
+import org.robobinding.viewattribute.ChildAttribute;
+import org.robobinding.viewattribute.ResourceAttributeValue;
+import org.robobinding.viewattribute.ViewAttribute;
 
 import android.widget.AdapterView;
 
@@ -30,86 +30,68 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemLayoutAttribute implements CustomChildAttribute
+public class ItemLayoutAttribute implements ChildAttribute
 {
-	final AdapterViewAttribute layoutAttribute;
+	private final AdapterView<?> adapterView;
+	protected final DataSetAdapter<?> dataSetAdapter;
+	private ViewAttribute layoutAttribute;
 	
-	public ItemLayoutAttribute(AdapterView<?> adapterView, String attributeValue)
+	public ItemLayoutAttribute(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter)
 	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(attributeValue);
-		
-		if (bindingDetailsBuilder.bindsToStaticResource())
-			layoutAttribute = new StaticLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
+		this.adapterView = adapterView;
+		this.dataSetAdapter = dataSetAdapter;
+	}
+
+	@Override
+	public void setAttributeValue(AttributeValue attributeValue)
+	{
+		if (attributeValue.isStaticResource())
+			layoutAttribute = new StaticLayoutAttribute(attributeValue.asResourceAttributeValue());
 		else
 		{
 			DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute();
 			dynamicLayoutAttribute.setView(adapterView);
-			dynamicLayoutAttribute.setPropertyBindingDetails(bindingDetailsBuilder.createPropertyBindingDetails());
+			dynamicLayoutAttribute.setAttributeValue(attributeValue.asPropertyAttributeValue());
 			layoutAttribute = dynamicLayoutAttribute;
 		}
-	}
-
-	@Override
-	public void setAttributeValue(String attributeValue)
-	{
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
-		layoutAttribute.bind(dataSetAdapter, bindingContext);		
-	}
-	@Override
-	public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
-	{
+		layoutAttribute.bindTo(bindingContext);		
 	}
 	
-	protected void updateLayoutId(DataSetAdapter<?> dataSetAdapter, int layoutId)
+	protected void updateLayoutId(int layoutId)
 	{
 		dataSetAdapter.setItemLayoutId(layoutId);
 	}
 	
 	@SuppressWarnings({"rawtypes", "unchecked"})
-	class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer> implements AdapterViewAttribute
+	class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer>
 	{
-		private DataSetAdapter<?> dataSetAdapter;
-		
-		@Override
-		public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
-		{
-			this.dataSetAdapter = dataSetAdapter;
-			super.bindTo(bindingContext);
-		}
-
 		@Override
 		protected void valueModelUpdated(Integer newItemLayoutId)
 		{
-			updateLayoutId(dataSetAdapter, newItemLayoutId);
+			updateLayoutId(newItemLayoutId);
 			((AdapterView)view).setAdapter(dataSetAdapter);
-		}
-		
-		public void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
-		{
-			super.setPropertyBindingDetails(propertyBindingDetails);
 		}
 	}
 	
-	class StaticLayoutAttribute implements AdapterViewAttribute
+	class StaticLayoutAttribute implements ViewAttribute
 	{
-		private ResourceBindingDetails resourceBindingDetails;
+		private ResourceAttributeValue attributeValue;
 
-		public StaticLayoutAttribute(ResourceBindingDetails resourceBindingDetails)
+		public StaticLayoutAttribute(ResourceAttributeValue attributeValue)
 		{
-			this.resourceBindingDetails = resourceBindingDetails;
+			this.attributeValue = attributeValue;
 		}
 
 		@Override
-		public void bind(DataSetAdapter<?> dataSetAdapter, BindingContext bindingContext)
+		public void bindTo(BindingContext bindingContext)
 		{
-			int itemLayoutId = resourceBindingDetails.getResourceId(bindingContext.getContext());
-			updateLayoutId(dataSetAdapter, itemLayoutId);
+			int itemLayoutId = attributeValue.getResourceId(bindingContext.getContext());
+			updateLayoutId(itemLayoutId);
 		}
 	}
 

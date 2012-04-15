@@ -15,9 +15,7 @@
  */
 package org.robobinding.viewattribute.edittext;
 
-import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.AbstractViewAttributeInstantiator;
 
 import android.widget.EditText;
 
@@ -40,13 +38,12 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	{
 		return new String[] { TEXT };
 	}
-
+	
 	@Override
-	public void postInitialization()
+	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
 	{
-		AbstractViewAttributeInstantiator viewAttributeInstantiator = getViewAttributeInstantiator();
-		textAttribute = viewAttributeInstantiator.newPropertyViewAttribute(TwoWayTextAttribute.class, TEXT);
-
+		textAttribute = binding.addProperty(TwoWayTextAttribute.class, TEXT);
+		
 		determineValueCommitMode();
 		textAttribute.setValueCommitMode(valueCommitMode);
 	}
@@ -68,11 +65,4 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	{
 		return groupedAttributeDetails.hasAttribute(VALUE_COMMIT_MODE);
 	}
-
-	@Override
-	public void bindTo(BindingContext bindingContext)
-	{
-		textAttribute.bindTo(bindingContext);
-	}
-
 }

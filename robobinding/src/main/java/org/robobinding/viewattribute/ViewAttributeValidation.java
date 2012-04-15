@@ -42,9 +42,9 @@ public class ViewAttributeValidation
 		notNull(view, "View not set");
 	}
 
-	void addErrorIfPropertyAttributeValueNotSet(PropertyBindingDetails propertyBindingDetails)
+	void addErrorIfPropertyAttributeValueNotSet(PropertyAttributeValue attributeValue)
 	{
-		notNull(propertyBindingDetails, "Attribute value not set");
+		notNull(attributeValue, "Attribute value not set");
 	}
 
 	public void addErrorIfViewListenersNotSet(ViewListeners viewListeners)
