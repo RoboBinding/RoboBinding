@@ -34,4 +34,15 @@ public class ViewResolutionResult
 		this.resolvedBindingAttributes = resolvedBindingAttributes;
 		this.errors = errors;
 	}
+
+	public ViewBindingAttributes getResolvedBindingAttributes()
+	{
+		return resolvedBindingAttributes;
+	}
+
+	public void assertNoErrors()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

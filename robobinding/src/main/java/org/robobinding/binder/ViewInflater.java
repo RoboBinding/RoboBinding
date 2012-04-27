@@ -128,8 +128,9 @@ class ViewInflater implements ViewFactoryListener
 	
 	private void resolveAndAddViewBindingAttributes(PendingAttributesForView pendingAttributesForView)
 	{
-		ViewBindingAttributes viewBindingAttributes = bindingAttributeResolver.resolve(pendingAttributesForView);
-		childViewBindingAttributesGroup.add(viewBindingAttributes);
+		ViewResolutionResult viewResolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
+		viewResolutionResult.assertNoErrors();
+		childViewBindingAttributesGroup.add(viewResolutionResult.getResolvedBindingAttributes());
 	}
 
 	public static class Builder
