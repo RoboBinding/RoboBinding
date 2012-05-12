@@ -27,8 +27,6 @@ import org.robobinding.viewattribute.adapterview.MockAdapterViewListeners;
 import org.robobinding.viewattribute.adapterview.MockArrayAdapter;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
-import com.xtremelabs.robolectric.Robolectric;
-
 import android.util.SparseBooleanArray;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -47,9 +45,6 @@ public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends
 	@Before
 	public void setUp()
 	{
-		//TODO: Delete these classes once Robolectric has pulled in the change request
-		Robolectric.bindShadowClass(ShadowListView.class);
-		Robolectric.bindShadowClass(ShadowSparseBooleanArray.class);
 		super.initializeViewAndAttribute();
 		
 		adapter = new MockArrayAdapter(R.layout.simple_list_item_multiple_choice);

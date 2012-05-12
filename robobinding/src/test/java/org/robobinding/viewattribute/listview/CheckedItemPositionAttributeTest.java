@@ -18,21 +18,18 @@ package org.robobinding.viewattribute.listview;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.robobinding.viewattribute.RandomValues.nextInt;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.R;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.RandomValues;
 import org.robobinding.viewattribute.adapterview.MockAdapterViewListeners;
 import org.robobinding.viewattribute.adapterview.MockArrayAdapter;
 import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
-import com.xtremelabs.robolectric.Robolectric;
 
 /**
  *
@@ -47,8 +44,6 @@ public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttrib
 	@Before
 	public void setUp()
 	{
-		//TODO: Delete this class once Robolectric has pulled in the change request
-		Robolectric.bindShadowClass(ShadowListView.class);
 		super.initializeViewAndAttribute();
 		super.initializeViewListeners();
 		
@@ -56,7 +51,7 @@ public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttrib
 		view.setAdapter(adapter);
 		view.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
-		checkedItemPosition = RandomValues.nextInt(adapter.getCount());
+		checkedItemPosition = nextInt(adapter.getCount());
 	}
 	
 	@Test
@@ -68,8 +63,6 @@ public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttrib
 	}
 	
 	@Test
-	@Ignore
-	//TODO Enable once Robolectric pull request is merged
 	public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly()
 	{
 		ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);
@@ -81,7 +74,7 @@ public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttrib
 
 	private void setItemChecked()
 	{
-		view.performItemClick(null, checkedItemPosition, 0);
+		view.performItemClick(view, checkedItemPosition, 0);
 	}
 	
 	@Test

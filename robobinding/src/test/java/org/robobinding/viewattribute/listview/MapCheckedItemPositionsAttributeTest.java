@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.listview.CheckedItemPositionsAttribute.MapCheckedItemPositionsAttribute;
@@ -58,8 +57,6 @@ public class MapCheckedItemPositionsAttributeTest extends AbstractCheckedItemPos
 	}
 	
 	@Test
-	@Ignore
-	//TODO Enable once Robolectric pull request is merged
 	public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly()
 	{
 		@SuppressWarnings({ "unchecked", "rawtypes" })
