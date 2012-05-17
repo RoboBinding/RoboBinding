@@ -25,5 +25,5 @@ package org.robobinding.viewattribute;
  */
 public interface ChildAttribute extends ViewAttribute
 {
-	void setAttributeValue(String value);
+	void setAttributeValue(String name, String value);
 }

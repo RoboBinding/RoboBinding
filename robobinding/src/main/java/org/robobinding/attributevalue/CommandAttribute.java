@@ -16,7 +16,6 @@
 package org.robobinding.attributevalue;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.robobinding.MalformedAttributeException;
 import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
@@ -26,11 +25,13 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CommandAttributeValue
+public class CommandAttribute extends Attribute
 {
 	private String commandName;
-	public CommandAttributeValue(String value)
+	public CommandAttribute(String name, String value)
 	{
+		super(name);
+		
 		if (curlyBracesArePresentIn(value))
 		{
 			throw new MalformedAttributeException("Curly braces should be used for binding to properties. "

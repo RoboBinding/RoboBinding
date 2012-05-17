@@ -13,41 +13,25 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding;
-
-import java.util.Collection;
-
-import android.view.View;
+package org.robobinding.attributevalue;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewResolutionErrorReporter
+public class Attribute
 {
-	private View view;
-	public ViewResolutionErrorReporter(View view)
+	private final String name;
+
+	public Attribute(String name)
 	{
-		this.view = view;
+		this.name = name;
 	}
-	public void reportMalformedAttribute(String attribute, String attributeValue, String errorDescription)
+
+	public String getName()
 	{
-		
-	}
-	public void reportUnrecogonizedAttribute(Collection<String> attributes)
-	{
-		
-	}
-	public void reportMissingRequiredAttributes(String[] attributeGroup, Collection<String> missingAttributes)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	public ViewResolutionErrors createErrors()
-	{
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 }

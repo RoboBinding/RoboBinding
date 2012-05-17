@@ -26,11 +26,11 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.MalformedAttributeException;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PendingAttributesForView.AttributeGroupResolver;
 import org.robobinding.PendingAttributesForView.AttributeResolver;
+import org.robobinding.attributevalue.MalformedAttributeException;
 
 import android.view.View;
 

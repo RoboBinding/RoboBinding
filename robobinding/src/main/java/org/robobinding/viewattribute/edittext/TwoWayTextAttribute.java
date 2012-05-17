@@ -53,7 +53,7 @@ public class TwoWayTextAttribute extends AbstractTextAttribute<EditText>
 	
 	protected boolean isTwoWayBinding()
 	{
-		return attributeValue.isTwoWayBinding();
+		return attribute.isTwoWayBinding();
 	}
 
 	void setValueCommitMode(ValueCommitMode valueCommitMode)

@@ -26,7 +26,7 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.attributevalue.PropertyAttributeValueParser;
+import org.robobinding.attributevalue.PropertyAttributeParser;
 
 /**
  *
@@ -66,7 +66,7 @@ public class BindingDetailsBuilderTest
 	@Theory
 	public void givenLegalPropertyAttributeValues(LegalPropertyAttributeValues legalAttributeValues)
 	{
-		PropertyAttributeValueParser bindingDetailsBuilder = new PropertyAttributeValueParser(legalAttributeValues.value);
+		PropertyAttributeParser bindingDetailsBuilder = new PropertyAttributeParser(legalAttributeValues.value);
 		
 		assertFalse(bindingDetailsBuilder.bindsToStaticResource());
 		assertThat(bindingDetailsBuilder.getPropertyName(), equalTo(legalAttributeValues.expectedPropertyName));
@@ -76,7 +76,7 @@ public class BindingDetailsBuilderTest
 	@Theory
 	public void givenLegalResourceAttributeValues(LegalResourceAttributeValues legalAttributeValues)
 	{
-		PropertyAttributeValueParser bindingDetailsBuilder = new PropertyAttributeValueParser(legalAttributeValues.value);
+		PropertyAttributeParser bindingDetailsBuilder = new PropertyAttributeParser(legalAttributeValues.value);
 
 		assertTrue(bindingDetailsBuilder.bindsToStaticResource());
 		assertThat(bindingDetailsBuilder.getResourceName(), equalTo(legalAttributeValues.expectedName));
@@ -91,7 +91,7 @@ public class BindingDetailsBuilderTest
 		
 		try
 		{
-			new PropertyAttributeValueParser(illegalBindingAttributeValue.value);
+			new PropertyAttributeParser(illegalBindingAttributeValue.value);
 		} catch (RuntimeException e)
 		{
 			assertThat(e.getMessage(), equalTo(illegalBindingAttributeValue.getExpectedErrorMessage()));

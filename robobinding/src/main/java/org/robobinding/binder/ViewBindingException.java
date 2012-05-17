@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding;
+package org.robobinding.binder;
+
+import android.view.View;
 
 /**
  *
@@ -22,7 +24,17 @@ package org.robobinding;
  * @author Cheng Wei
  */
 @SuppressWarnings("serial")
-public class AttributeBindingException extends RuntimeException
+public class ViewBindingException extends RuntimeException
 {
-
+	private View view;
+	
+	public ViewBindingException(View view)
+	{
+		this.view = view;
+	}
+	
+	public View getView()
+	{
+		return view;
+	}
 }

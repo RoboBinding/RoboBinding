@@ -13,38 +13,25 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.viewattribute;
 
-import org.robobinding.ViewResolutionErrors;
-import org.robobinding.binder.BindingAttributeResolver.ViewBindingAttributes;
+import java.util.List;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewResolutionResult
+public class AttributeGroupBindingException
 {
-	private ViewBindingAttributes resolvedBindingAttributes;
-	private ViewResolutionErrors errors;
-
-	public ViewResolutionResult(ViewBindingAttributes resolvedBindingAttributes, ViewResolutionErrors errors)
+	private List<String> generalErrors;
+	void addGeneralError(String errorMessage)
 	{
-		this.resolvedBindingAttributes = resolvedBindingAttributes;
-		this.errors = errors;
+		
 	}
-
-	public ViewBindingAttributes getResolvedBindingAttributes()
+	void addChildAttributeError(String attribute, String errorMessage)
 	{
-		return resolvedBindingAttributes;
-	}
-
-	public void assertNoErrors()
-	{
-		if(errors.isNotEmpty())
-		{
-			throw new ViewResolutionException(errors);
-		}
+		
 	}
 }

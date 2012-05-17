@@ -53,7 +53,7 @@ public final class CommandViewAttributeTest
 	{
 		commandViewAttribute = new DummyCommandViewAttribute();
 		commandViewAttribute.setView(mock(View.class));
-		commandViewAttribute.setAttributeValue(FUNCTION_NAME);
+		commandViewAttribute.setAttribute(FUNCTION_NAME);
 		presentationModelAdapter = mock(PresentationModelAdapter.class);
 	}
 	

@@ -18,11 +18,10 @@ package org.robobinding.viewattribute;
 import java.util.List;
 import java.util.Map;
 
-import org.robobinding.AttributeBindingException;
 import org.robobinding.BindingContext;
-import org.robobinding.attributevalue.CommandAttributeValue;
+import org.robobinding.attributevalue.CommandAttribute;
 import org.robobinding.attributevalue.GroupedAttributeDetails;
-import org.robobinding.attributevalue.ValueModelAttributeValue;
+import org.robobinding.attributevalue.ValueModelAttribute;
 
 import android.view.View;
 
@@ -115,7 +114,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(
 				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
 		{
-			ValueModelAttributeValue attributeValue = groupedAttributeDetails.valueModelAttributeValueFor(propertyAttribute);
+			ValueModelAttribute attributeValue = groupedAttributeDetails.valueModelAttributeValueFor(propertyAttribute);
 			PropertyViewAttributeType propertyViewAttribute = safeGetViewAttributeInstantiator().newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
 			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
 			return propertyViewAttribute;
@@ -124,7 +123,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		public <CommandViewAttributeType extends AbstractCommandViewAttribute<T>> CommandViewAttributeType addCommand(
 				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
 		{
-			CommandAttributeValue attributeValue = groupedAttributeDetails.commandAttributeValueFor(commandAttribute);
+			CommandAttribute attributeValue = groupedAttributeDetails.commandAttributeValueFor(commandAttribute);
 			CommandViewAttributeType commandViewAttribute = safeGetViewAttributeInstantiator().newCommandViewAttribute(commandViewAttributeClass, attributeValue);
 			childAttributeMap.put(commandAttribute, commandViewAttribute);
 			return commandViewAttribute;
@@ -144,7 +143,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 				try
 				{
 					childAttribute.bindTo(bindingContext);
-				}catch(AttributeBindingException e)
+				}catch(RuntimeException e)
 				{
 					attributeBindingExceptions.add(e);
 				}

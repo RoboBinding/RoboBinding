@@ -55,7 +55,7 @@ public class ItemMappingAttribute implements ChildAttribute
 	}
 	
 	@Override
-	public void setAttributeValue(String value)
+	public void setAttributeValue(String name, String value)
 	{
 		this.itemMappingAttributeValue = value;
 	}

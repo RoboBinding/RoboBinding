@@ -77,7 +77,7 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
 		createViewAndAttribute();
 		
 		attribute.setView(view);
-		attribute.setAttributeValue(commandName);
+		attribute.setAttribute(commandName);
 	}
 	
 	protected void bindAttribute()

@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.attributevalue.CommandAttributeValue;
-import org.robobinding.attributevalue.ValueModelAttributeValue;
+import org.robobinding.attributevalue.CommandAttribute;
+import org.robobinding.attributevalue.ValueModelAttribute;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
@@ -40,7 +40,7 @@ public abstract class AbstractViewAttributeInstantiator
 
 	@SuppressWarnings("unchecked")
 	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
-			Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttributeValue attributeValue)
+			Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttribute attributeValue)
 	{
 		PropertyViewAttributeType propertyViewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass);
 		View view = getView();
@@ -56,12 +56,12 @@ public abstract class AbstractViewAttributeInstantiator
 
 	@SuppressWarnings("unchecked")
 	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
-			Class<CommandViewAttributeType> commandViewAttributeClass, CommandAttributeValue attributeValue)
+			Class<CommandViewAttributeType> commandViewAttributeClass, CommandAttribute attributeValue)
 	{
 		CommandViewAttributeType commandViewAttribute = (CommandViewAttributeType)newViewAttribute(commandViewAttributeClass);
 		View view = getView();
 		((AbstractCommandViewAttribute<View>)commandViewAttribute).setView(view);
-		commandViewAttribute.setAttributeValue(attributeValue);
+		commandViewAttribute.setAttribute(attributeValue);
 		setViewListenersIfRequired(commandViewAttribute, view);
 		return commandViewAttribute;
 	}

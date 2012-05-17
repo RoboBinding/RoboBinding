@@ -18,7 +18,6 @@ package org.robobinding.attributevalue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.robobinding.MalformedAttributeException;
 
 /**
  *
@@ -27,32 +26,42 @@ import org.robobinding.MalformedAttributeException;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class PropertyAttributeValueParser
+public class PropertyAttributeParser
 {
-	public static AbstractPropertyAttributeValue parse(String value)
+	public AbstractPropertyAttribute parse(String name, String value)
 	{
-		if (ValueModelAttributeValue.is(value))
+		if (ValueModelAttribute.is(value))
 		{
-			return new ValueModelAttributeValue(value);
-		} else if(StaticResourceAttributeValue.is(value))
+			return new ValueModelAttribute(name, value);
+		} else if(StaticResourceAttribute.is(value))
 		{
-			return new StaticResourceAttributeValue(value);
+			return new StaticResourceAttribute(name, value);
 		}
 		
 		throw new MalformedAttributeException(describeSyntaxError(value));
 	}
 	
-	public static ValueModelAttributeValue parseAsValueModelAttributeValue(String value)
+	public ValueModelAttribute parseAsValueModelAttribute(String name, String value)
 	{
-		if(ValueModelAttributeValue.is(value))
+		if(ValueModelAttribute.is(value))
 		{
-			return new ValueModelAttributeValue(value);
+			return new ValueModelAttribute(name, value);
+		}
+		
+		throw new MalformedAttributeException(describeSyntaxError(value));
+	}
+	
+	StaticResourceAttribute parseAsStaticResourceAttribute(String name, String value)
+	{
+		if(StaticResourceAttribute.is(value))
+		{
+			return new StaticResourceAttribute(name, value);
 		}
 		
 		throw new MalformedAttributeException(describeSyntaxError(value));
 	}
 
-	private static String describeSyntaxError(String value)
+	private String describeSyntaxError(String value)
 	{
 		String errorMessage = "Invalid binding syntax: '" + value + "'.";
 			

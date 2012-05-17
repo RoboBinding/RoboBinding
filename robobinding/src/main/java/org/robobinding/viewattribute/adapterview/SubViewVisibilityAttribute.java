@@ -16,8 +16,8 @@
 package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
-import org.robobinding.attributevalue.PropertyAttributeValueParser;
-import org.robobinding.attributevalue.ValueModelAttributeValue;
+import org.robobinding.attributevalue.PropertyAttributeParser;
+import org.robobinding.attributevalue.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
@@ -36,7 +36,7 @@ import android.view.View;
 public class SubViewVisibilityAttribute implements ChildAttribute
 {
 	private AbstractSubViewVisibility visibility;
-	private ValueModelAttributeValue attributeValue;
+	private ValueModelAttribute attributeValue;
 	
 	public SubViewVisibilityAttribute(AbstractSubViewVisibility subViewVisibility)
 	{
@@ -44,9 +44,9 @@ public class SubViewVisibilityAttribute implements ChildAttribute
 	}
 	
 	@Override
-	public void setAttributeValue(String value)
+	public void setAttributeValue(String name, String value)
 	{
-		this.attributeValue = PropertyAttributeValueParser.parseAsValueModelAttributeValue(value);		
+		this.attributeValue = new PropertyAttributeParser().parseAsValueModelAttribute(name, value);		
 	}
 	
 	@Override
