@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.BindingContext;
-import org.robobinding.attributevalue.GroupedAttributeDetails;
+import org.robobinding.attribute.GroupedAttributeDetails;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ViewListenersProvider;
 

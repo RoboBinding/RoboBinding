@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.ratingbar;
 
-import org.robobinding.attributevalue.Command;
+import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 

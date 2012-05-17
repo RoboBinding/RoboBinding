@@ -16,8 +16,8 @@
 package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
-import org.robobinding.attributevalue.PropertyAttributeParser;
-import org.robobinding.attributevalue.ValueModelAttribute;
+import org.robobinding.attribute.ParsableAttribute;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
@@ -36,7 +36,7 @@ import android.view.View;
 public class SubViewVisibilityAttribute implements ChildAttribute
 {
 	private AbstractSubViewVisibility visibility;
-	private ValueModelAttribute attributeValue;
+	private ValueModelAttribute attribute;
 	
 	public SubViewVisibilityAttribute(AbstractSubViewVisibility subViewVisibility)
 	{
@@ -44,9 +44,9 @@ public class SubViewVisibilityAttribute implements ChildAttribute
 	}
 	
 	@Override
-	public void setAttributeValue(String name, String value)
+	public void setAttribute(ParsableAttribute attribute)
 	{
-		this.attributeValue = new PropertyAttributeParser().parseAsValueModelAttribute(name, value);		
+		this.attribute = attribute.asValueModelAttribute();		
 	}
 	
 	@Override
@@ -59,7 +59,7 @@ public class SubViewVisibilityAttribute implements ChildAttribute
 	private AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(BindingContext bindingContext)
 	{
 		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(attributeValue.getPropertyName());
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
 		
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{

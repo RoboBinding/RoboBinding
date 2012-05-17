@@ -13,25 +13,23 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.attributevalue;
+package org.robobinding.attribute;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class Attribute
+@SuppressWarnings("serial")
+public abstract class AttributeResolutionException extends RuntimeException
 {
-	private final String name;
-
-	public Attribute(String name)
+	public AttributeResolutionException()
 	{
-		this.name = name;
 	}
-
-	public String getName()
+	
+	public AttributeResolutionException(String message)
 	{
-		return name;
+		super(message);
 	}
 }

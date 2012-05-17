@@ -16,7 +16,7 @@
 package org.robobinding.viewattribute;
 
 
-import org.robobinding.attributevalue.ValueModelAttribute;
+import org.robobinding.attribute.ValueModelAttribute;
 
 import android.view.View;
 

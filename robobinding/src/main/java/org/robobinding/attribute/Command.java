@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.attributevalue;
+package org.robobinding.attribute;
 
 import org.robobinding.function.Function;
 

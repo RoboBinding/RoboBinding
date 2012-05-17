@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.attributevalue;
+package org.robobinding.attribute;
 
 /**
  *
@@ -21,7 +21,7 @@ package org.robobinding.attributevalue;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractPropertyAttribute extends Attribute
+public abstract class AbstractPropertyAttribute extends AbstractAttribute
 {
 	public AbstractPropertyAttribute(String name)
 	{

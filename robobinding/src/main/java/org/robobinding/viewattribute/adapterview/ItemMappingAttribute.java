@@ -25,6 +25,7 @@ import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.attribute.ParsableAttribute;
 import org.robobinding.viewattribute.ChildAttribute;
 
 import android.content.Context;
@@ -55,9 +56,9 @@ public class ItemMappingAttribute implements ChildAttribute
 	}
 	
 	@Override
-	public void setAttributeValue(String name, String value)
+	public void setAttribute(ParsableAttribute attribute)
 	{
-		this.itemMappingAttributeValue = value;
+		this.itemMappingAttributeValue = attribute.getValue();
 	}
 	
 	@Override
