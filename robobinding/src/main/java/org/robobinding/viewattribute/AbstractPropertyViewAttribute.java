@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.BindingContext;
+import org.robobinding.attributevalue.ValueModelAttributeValue;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 import org.robobinding.property.ValueModel;
@@ -30,7 +31,7 @@ import android.view.View;
  */
 public abstract class AbstractPropertyViewAttribute<ViewType extends View, PropertyType> implements PropertyViewAttribute<ViewType>
 {
-	private PropertyAttributeValue attributeValue;
+	private ValueModelAttributeValue attributeValue;
 	protected ViewType view;
 	
 	@Override
@@ -40,7 +41,7 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	}
 	
 	@Override
-	public void setAttributeValue(PropertyAttributeValue attributeValue)
+	public void setAttributeValue(ValueModelAttributeValue attributeValue)
 	{
 		this.attributeValue = attributeValue;
 	}

@@ -17,10 +17,10 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
 import org.robobinding.ViewBinder;
+import org.robobinding.attributevalue.ValueModelAttributeValue;
+import org.robobinding.attributevalue.StaticResourceAttributeValue;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.PropertyAttributeValue;
-import org.robobinding.viewattribute.ResourceAttributeValue;
 
 import android.view.View;
 
@@ -58,13 +58,13 @@ class SubViewCreator
 
 	int getLayoutId()
 	{
-		ResourceAttributeValue attributeValue = new ResourceAttributeValue(layoutResource);
+		StaticResourceAttributeValue attributeValue = new StaticResourceAttributeValue(layoutResource);
 		return attributeValue.getResourceId(bindingContext.getContext());
 	}
 
 	Object getPresentationModel(String presentationModelAttributeValue)
 	{
-		PropertyAttributeValue attributeValue = new PropertyAttributeValue(presentationModelAttributeValue);
+		ValueModelAttributeValue attributeValue = new ValueModelAttributeValue(presentationModelAttributeValue);
 		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
 		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(attributeValue.getPropertyName());
 		return valueModel.getValue();

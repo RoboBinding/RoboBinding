@@ -18,6 +18,7 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.ChildAttributesBinding;
 
 import android.widget.AdapterView;
 
@@ -50,7 +51,7 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 
 
 	@Override
-	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
+	protected void setupChildAttributesBinding(ChildAttributesBinding<T> binding)
 	{
 		binding.add(new SourceAttribute(dataSetAdapter), SOURCE);
 		binding.add(new ItemLayoutAttribute(view, dataSetAdapter), ITEM_LAYOUT);

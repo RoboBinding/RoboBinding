@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.edittext;
 
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.ChildAttributesBinding;
 
 import android.widget.EditText;
 
@@ -40,7 +41,7 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	}
 	
 	@Override
-	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
+	protected void setupChildAttributesBinding(ChildAttributesBinding<T> binding)
 	{
 		textAttribute = binding.addProperty(TwoWayTextAttribute.class, TEXT);
 		

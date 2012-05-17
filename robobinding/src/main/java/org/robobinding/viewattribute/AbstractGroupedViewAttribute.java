@@ -20,6 +20,8 @@ import java.util.Map;
 
 import org.robobinding.AttributeBindingException;
 import org.robobinding.BindingContext;
+import org.robobinding.attributevalue.AbstractPropertyAttributeValue;
+import org.robobinding.attributevalue.PropertyAttributeValueParser;
 
 import android.view.View;
 
@@ -96,18 +98,18 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected class ChildAttributesBinding
 	{
 		private final BindingContext bindingContext;
-		private final AttributeValueParser attributeValueParser;
+		private final PropertyAttributeValueParser attributeValueParser;
 		private Map<String, ViewAttribute> childAttributeMap;
 		private List<AttributeBindingException> attributeBindingExceptions;
 		private ChildAttributesBinding(BindingContext bindingContext)
 		{
 			this.bindingContext = bindingContext;
-			attributeValueParser = new AttributeValueParser();
+			attributeValueParser = new PropertyAttributeValueParser();
 		}
 		
 		public ChildAttribute add(ChildAttribute childAttribute, String attribute)
 		{
-			AttributeValue attributeValue = attributeValueParser.parse(groupedAttributeDetails.attributeValueFor(attribute));
+			AbstractPropertyAttributeValue attributeValue = attributeValueParser.parse(groupedAttributeDetails.attributeValueFor(attribute));
 			childAttribute.setAttributeValue(attributeValue);
 			childAttributeMap.put(attribute, childAttribute);
 			return childAttribute;

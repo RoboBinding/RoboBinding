@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.edittext;
 
+import org.robobinding.attributevalue.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.Command;
 
 import android.text.Editable;
 import android.text.TextWatcher;

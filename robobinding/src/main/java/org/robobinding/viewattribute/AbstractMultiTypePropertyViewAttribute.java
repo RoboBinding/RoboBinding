@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.BindingContext;
+import org.robobinding.attributevalue.ValueModelAttributeValue;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
@@ -31,7 +32,7 @@ import android.view.View;
 public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> implements PropertyViewAttribute<T>
 {
 	private T view;
-	protected PropertyAttributeValue attributeValue;
+	protected ValueModelAttributeValue attributeValue;
 	private ViewListenersProvider viewListenersProvider;
 	
 	@Override
@@ -40,7 +41,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		this.view = view;
 	}
 	@Override
-	public void setAttributeValue(PropertyAttributeValue attributeValue)
+	public void setAttributeValue(ValueModelAttributeValue attributeValue)
 	{
 		this.attributeValue = attributeValue;
 	}

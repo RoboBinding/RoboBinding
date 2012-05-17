@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.ChildAttributesBinding;
 
 import android.content.Context;
 import android.view.View;
@@ -65,7 +66,7 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	}
 
 	@Override
-	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
+	protected void setupChildAttributesBinding(ChildAttributesBinding<T> binding)
 	{
 		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
 		{

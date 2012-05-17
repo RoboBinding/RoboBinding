@@ -16,7 +16,8 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.BindingContext;
-import org.robobinding.function.Function;
+import org.robobinding.attributevalue.Command;
+import org.robobinding.attributevalue.CommandAttributeValue;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.view.View;
@@ -30,16 +31,16 @@ import android.view.View;
 public abstract class AbstractCommandViewAttribute<T extends View> implements ViewAttribute
 {
 	protected T view;
-	private String commandName;
+	private CommandAttributeValue attributeValue;
 
 	public void setView(T view)
 	{
 		this.view = view;
 	}
 
-	public void setCommandName(String commandName)
+	public void setAttributeValue(CommandAttributeValue attributeValue)
 	{
-		this.commandName = commandName;
+		this.attributeValue = attributeValue;
 	}
 
 	@Override
@@ -59,29 +60,28 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	protected void validate(ViewAttributeValidation validation)
 	{
 		validation.addErrorIfViewNotSet(view);
-		validation.addErrorIfCommandNameNotSet(commandName);
+		validation.addErrorIfCommandNameNotSet(attributeValue);
 	}
 
 	private void performBind(PresentationModelAdapter presentationModelAdapter)
 	{
-		Function function = presentationModelAdapter.findFunction(commandName, getPreferredCommandParameterType());
-		boolean supportsPreferredParameterType = true;
-
-		if (function == null)
+		Command command = attributeValue.findCommand(presentationModelAdapter, getPreferredCommandParameterType());
+		if(command != null)
 		{
-			function = getNoArgsCommand(presentationModelAdapter);
-			supportsPreferredParameterType = false;
+			bind(command);
+		}else
+		{
+			bind(getNoArgsCommand(presentationModelAdapter));
 		}
-
-		bind(new Command(function, supportsPreferredParameterType));
 	}
 
-	private Function getNoArgsCommand(PresentationModelAdapter presentationModelAdapter)
+	private Command getNoArgsCommand(PresentationModelAdapter presentationModelAdapter)
 	{
-		Function noArgsCommand = presentationModelAdapter.findFunction(commandName);
+		Command noArgsCommand = attributeValue.findCommand(presentationModelAdapter);
 
 		if (noArgsCommand == null)
 		{
+			String commandName = attributeValue.getCommandName();
 			throw new IllegalArgumentException("Could not find method " + commandName + "() or " + commandName + "(" + getAcceptedParameterTypesDescription()
 					+ ") in class " + presentationModelAdapter.getPresentationModelClass().getName());
 		}

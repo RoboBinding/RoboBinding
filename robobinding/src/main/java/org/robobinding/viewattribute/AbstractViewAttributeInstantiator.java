@@ -15,6 +15,9 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.attributevalue.CommandAttributeValue;
+import org.robobinding.attributevalue.PropertyAttributeValueParser;
+import org.robobinding.attributevalue.ValueModelAttributeValue;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
@@ -29,12 +32,12 @@ import android.view.View;
  */
 public abstract class AbstractViewAttributeInstantiator
 {
-	private final AttributeValueParser attributeValueParser;
+	private final PropertyAttributeValueParser attributeValueParser;
 	protected final ViewListenersProvider viewListenersProvider;
 
 	protected AbstractViewAttributeInstantiator(ViewListenersProvider viewListenersProvider)
 	{
-		attributeValueParser = new AttributeValueParser();
+		attributeValueParser = new PropertyAttributeValueParser();
 		this.viewListenersProvider = viewListenersProvider;
 	}
 
@@ -45,8 +48,8 @@ public abstract class AbstractViewAttributeInstantiator
 		PropertyViewAttributeType propertyViewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass);
 		View view = getView();
 		((PropertyViewAttribute<View>)propertyViewAttribute).setView(view);
-		AttributeValue attributeValue = attributeValueParser.parse(attributeValueFor(propertyAttribute));
-		propertyViewAttribute.setAttributeValue(attributeValue.asPropertyAttributeValue());
+		ValueModelAttributeValue attributeValue = attributeValueParser.parseAsValueModelAttributeValue(attributeValueFor(propertyAttribute));
+		propertyViewAttribute.setAttributeValue(attributeValue);
 		
 		if (propertyViewAttribute instanceof AbstractMultiTypePropertyViewAttribute<?>)
 			((AbstractMultiTypePropertyViewAttribute<?>)propertyViewAttribute).setViewListenersProvider(viewListenersProvider);
@@ -62,7 +65,8 @@ public abstract class AbstractViewAttributeInstantiator
 		CommandViewAttributeType commandViewAttribute = (CommandViewAttributeType)newViewAttribute(commandViewAttributeClass);
 		View view = getView();
 		((AbstractCommandViewAttribute<View>)commandViewAttribute).setView(view);
-		commandViewAttribute.setCommandName(attributeValueFor(commandAttribute));
+		CommandAttributeValue attributeValue = new CommandAttributeValue(attributeValueFor(commandAttribute));
+		commandViewAttribute.setAttributeValue(attributeValue);
 		setViewListenersIfRequired(commandViewAttribute, view);
 		return commandViewAttribute;
 	}
