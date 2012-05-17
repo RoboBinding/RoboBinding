@@ -15,9 +15,9 @@
  */
 package org.robobinding.viewattribute.impl;
 
-import org.robobinding.attributevalue.CommandAttributeValue;
+import org.robobinding.attributevalue.CommandAttribute;
 import org.robobinding.attributevalue.GroupedAttributeDetails;
-import org.robobinding.attributevalue.ValueModelAttributeValue;
+import org.robobinding.attributevalue.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractViewAttributeInstantiator;
@@ -46,14 +46,14 @@ public class ViewAttributeInstantiator
 	}
 
 	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
-			View view, Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttributeValue attributeValue)
+			View view, Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttribute attributeValue)
 	{
 		viewAttributeInstantiatorImplementor.setCurrentView(view);
 		return viewAttributeInstantiatorImplementor.newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
 	}
 
 	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
-			View view, Class<CommandViewAttributeType> commandViewAttributeClass, CommandAttributeValue attributeValue)
+			View view, Class<CommandViewAttributeType> commandViewAttributeClass, CommandAttribute attributeValue)
 	{
 		viewAttributeInstantiatorImplementor.setCurrentView(view);
 		return viewAttributeInstantiatorImplementor.newCommandViewAttribute(commandViewAttributeClass, attributeValue);

@@ -17,7 +17,7 @@ package org.robobinding.viewattribute;
 
 import org.robobinding.BindingContext;
 import org.robobinding.attributevalue.Command;
-import org.robobinding.attributevalue.CommandAttributeValue;
+import org.robobinding.attributevalue.CommandAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.view.View;
@@ -31,23 +31,29 @@ import android.view.View;
 public abstract class AbstractCommandViewAttribute<T extends View> implements ViewAttribute
 {
 	protected T view;
-	private CommandAttributeValue attributeValue;
+	private CommandAttribute attribute;
 
 	public void setView(T view)
 	{
 		this.view = view;
 	}
 
-	public void setAttributeValue(CommandAttributeValue attributeValue)
+	public void setAttribute(CommandAttribute attribute)
 	{
-		this.attributeValue = attributeValue;
+		this.attribute = attribute;
 	}
 
 	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
-		performValidate();
-		performBind(bindingContext.getPresentationModelAdapter());
+		try
+		{
+			performValidate();
+			performBind(bindingContext.getPresentationModelAdapter());
+		}catch(RuntimeException e)
+		{
+			throw new AttributeBindingException(attribute.getName(), e.getMessage());
+		}
 	}
 
 	private void performValidate()
@@ -60,12 +66,12 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	protected void validate(ViewAttributeValidation validation)
 	{
 		validation.addErrorIfViewNotSet(view);
-		validation.addErrorIfCommandNameNotSet(attributeValue);
+		validation.addErrorIfCommandNameNotSet(attribute);
 	}
 
 	private void performBind(PresentationModelAdapter presentationModelAdapter)
 	{
-		Command command = attributeValue.findCommand(presentationModelAdapter, getPreferredCommandParameterType());
+		Command command = attribute.findCommand(presentationModelAdapter, getPreferredCommandParameterType());
 		if(command != null)
 		{
 			bind(command);
@@ -77,11 +83,11 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 
 	private Command getNoArgsCommand(PresentationModelAdapter presentationModelAdapter)
 	{
-		Command noArgsCommand = attributeValue.findCommand(presentationModelAdapter);
+		Command noArgsCommand = attribute.findCommand(presentationModelAdapter);
 
 		if (noArgsCommand == null)
 		{
-			String commandName = attributeValue.getCommandName();
+			String commandName = attribute.getCommandName();
 			throw new IllegalArgumentException("Could not find method " + commandName + "() or " + commandName + "(" + getAcceptedParameterTypesDescription()
 					+ ") in class " + presentationModelAdapter.getPresentationModelClass().getName());
 		}

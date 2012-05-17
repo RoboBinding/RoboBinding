@@ -36,13 +36,12 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 {
 	private View view;
 	Map<String, String> attributeMappings;
-	private ViewResolutionErrorReporter viewResolutionErrorReporter;
-	private Map<String, String> malformedAttributes;
+	private ViewResolutionErrorsImpl resolutionErrors;
 	public PendingAttributesForViewImpl(View view, Map<String, String> attributeMappings)
 	{
 		this.view = view;
 		this.attributeMappings = Maps.newHashMap(attributeMappings);
-		malformedAttributes = Maps.newHashMap();
+		resolutionErrors = new ViewResolutionErrorsImpl(view);
 	}
 	
 	@Override
@@ -60,8 +59,7 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 	@Override
 	public ViewResolutionErrors resolveCompleted()
 	{
-		viewResolutionErrorReporter.reportUnrecogonizedAttribute(attributeMappings.keySet());
-		return viewResolutionErrorReporter.createErrors();
+		return resolutionErrors;
 	}
 
 	@Override
@@ -73,9 +71,9 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 			try
 			{
 				attributeResolver.resolve(view, attribute, attributeValue);
-			}catch(MalformedAttributeException e)
+			}catch(RuntimeException e)
 			{
-				viewResolutionErrorReporter.reportMalformedAttribute(attribute, attributeValue, e.getMessage());
+				resolutionErrors.addAttributeError(attribute, e.getMessage());
 			}
 			
 			attributeMappings.remove(attribute);
@@ -93,9 +91,9 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 			try
 			{
 				attributeGroupResolver.resolve(view, attributeGroup, presentAttributeMappings);
-			}catch(MissingRequiredAttributesException e)
+			}catch(RuntimeException e)
 			{
-				viewResolutionErrorReporter.reportMissingRequiredAttributes(attributeGroup, e.getMissingAttributes());
+				resolutionErrors.addAttributeGroupError(attributeGroup, e.getMessage());
 			}
 			removeAttributes(presentAttributes);
 		}
@@ -132,6 +130,36 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 		for(String attribute : attributes)
 		{
 			attributeMappings.remove(attribute);
+		}
+	}
+	
+	public static class ViewResolutionErrorsImpl implements ViewResolutionErrors
+	{
+		private View view;
+		public ViewResolutionErrorsImpl(View view)
+		{
+			this.view = view;
+		}
+		@Override
+		public View getView()
+		{
+			return view;
+		}
+		@Override
+		public boolean isNotEmpty()
+		{
+			// TODO Auto-generated method stub
+			return false;
+		}
+		
+		private void addAttributeError(String attribute, String errorMessage)
+		{
+			
+		}
+		
+		private void addAttributeGroupError(String[] attributeGroup, String errorMessage)
+		{
+			
 		}
 	}
 }

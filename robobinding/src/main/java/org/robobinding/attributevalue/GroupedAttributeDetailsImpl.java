@@ -21,10 +21,11 @@ import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.robobinding.MissingRequiredAttributesException;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import static org.robobinding.attributevalue.PropertyAttributeParser.*;
 
 /**
  * 
@@ -49,21 +50,21 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	}
 
 	@Override
-	public CommandAttributeValue commandAttributeValueFor(String attribute)
+	public CommandAttribute commandAttributeValueFor(String attribute)
 	{
-		return new CommandAttributeValue(attributeValueFor(attribute));
+		return new CommandAttribute(attribute, attributeValueFor(attribute));
 	}
 
 	@Override
-	public ValueModelAttributeValue valueModelAttributeValueFor(String attribute)
+	public ValueModelAttribute valueModelAttributeValueFor(String attribute)
 	{
-		return new ValueModelAttributeValue(attributeValueFor(attribute));
+		return parseAsValueModelAttribute(attribute, attributeValueFor(attribute));
 	}
 
 	@Override
-	public StaticResourceAttributeValue staticResourceAttributeValueFor(String attribute)
+	public StaticResourceAttribute staticResourceAttributeValueFor(String attribute)
 	{
-		return new StaticResourceAttributeValue(attributeValueFor(attribute));
+		return parseAsStaticResourceAttribute(attribute, attributeValueFor(attribute));
 	}
 
 	@Override

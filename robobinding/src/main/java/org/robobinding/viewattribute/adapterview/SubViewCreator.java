@@ -17,8 +17,8 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
 import org.robobinding.ViewBinder;
-import org.robobinding.attributevalue.ValueModelAttributeValue;
-import org.robobinding.attributevalue.StaticResourceAttributeValue;
+import org.robobinding.attributevalue.ValueModelAttribute;
+import org.robobinding.attributevalue.StaticResourceAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 
@@ -33,8 +33,8 @@ import android.view.View;
 class SubViewCreator
 {
 	private final BindingContext bindingContext;
-	private final StaticResourceAttributeValue layoutAttributeValue;
-	public SubViewCreator(BindingContext bindingContext, StaticResourceAttributeValue layoutResourceAttributeValue)
+	private final StaticResourceAttribute layoutAttributeValue;
+	public SubViewCreator(BindingContext bindingContext, StaticResourceAttribute layoutResourceAttributeValue)
 	{
 		this.bindingContext = bindingContext;
 		this.layoutAttributeValue = layoutResourceAttributeValue;
@@ -47,7 +47,7 @@ class SubViewCreator
 		return viewBinder.inflate(layoutId);
 	}
 	
-	public View createAndBindTo(ValueModelAttributeValue presentationModelAttributeValue)
+	public View createAndBindTo(ValueModelAttribute presentationModelAttributeValue)
 	{
 		int layoutId = getLayoutId();
 		
@@ -61,7 +61,7 @@ class SubViewCreator
 		return layoutAttributeValue.getResourceId(bindingContext.getContext());
 	}
 
-	Object getPresentationModel(ValueModelAttributeValue presentationModelAttributeValue)
+	Object getPresentationModel(ValueModelAttribute presentationModelAttributeValue)
 	{
 		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
 		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(presentationModelAttributeValue.getPropertyName());

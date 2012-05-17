@@ -28,9 +28,9 @@ public interface GroupedAttributeDetails
 {
 	boolean hasAttribute(String attribute);
 	
-	CommandAttributeValue commandAttributeValueFor(String attribute);
-	ValueModelAttributeValue valueModelAttributeValueFor(String attribute);
-	StaticResourceAttributeValue staticResourceAttributeValueFor(String attribute);
+	CommandAttribute commandAttributeValueFor(String attribute);
+	ValueModelAttribute valueModelAttributeValueFor(String attribute);
+	StaticResourceAttribute staticResourceAttributeValueFor(String attribute);
 	String attributeValueFor(String attribute);
 	
 	void assertAttributesArePresent(String... attributeNames);

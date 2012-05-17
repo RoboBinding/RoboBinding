@@ -16,7 +16,7 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.BindingContext;
-import org.robobinding.attributevalue.ValueModelAttributeValue;
+import org.robobinding.attributevalue.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
@@ -32,7 +32,7 @@ import android.view.View;
 public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> implements PropertyViewAttribute<T>
 {
 	private T view;
-	protected ValueModelAttributeValue attributeValue;
+	protected ValueModelAttribute attribute;
 	private ViewListenersProvider viewListenersProvider;
 	
 	@Override
@@ -41,9 +41,9 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		this.view = view;
 	}
 	@Override
-	public void setAttributeValue(ValueModelAttributeValue attributeValue)
+	public void setAttributeValue(ValueModelAttribute attribute)
 	{
-		this.attributeValue = attributeValue;
+		this.attribute = attribute;
 	}
 	
 	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
@@ -56,7 +56,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	{
 		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
 		propertyViewAttribute.setView(view);
-		propertyViewAttribute.setAttributeValue(attributeValue);
+		propertyViewAttribute.setAttributeValue(attribute);
 		setViewListenersIfRequired(propertyViewAttribute, view);
 		propertyViewAttribute.bindTo(bindingContext);
 	}
@@ -76,7 +76,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 
 	private AbstractPropertyViewAttribute<T, ?> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
 	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(attributeValue.getPropertyName());
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
 		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
 		
 		if (propertyViewAttribute == null)

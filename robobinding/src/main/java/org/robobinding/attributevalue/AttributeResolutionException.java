@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.attributevalue;
 
 /**
  *
@@ -21,7 +21,15 @@ package org.robobinding.binder;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class AttributeGroupBindingException
+@SuppressWarnings("serial")
+public abstract class AttributeResolutionException extends RuntimeException
 {
-
+	public AttributeResolutionException()
+	{
+	}
+	
+	public AttributeResolutionException(String message)
+	{
+		super(message);
+	}
 }

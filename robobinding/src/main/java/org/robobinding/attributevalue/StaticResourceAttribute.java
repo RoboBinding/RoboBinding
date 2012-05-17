@@ -18,7 +18,6 @@ package org.robobinding.attributevalue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.robobinding.MalformedAttributeException;
 
 import android.content.Context;
 
@@ -28,7 +27,7 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class StaticResourceAttributeValue extends AbstractPropertyAttributeValue
+public class StaticResourceAttribute extends AbstractPropertyAttribute
 {
 	private final static Pattern RESOURCE_ATTRIBUTE_PATTERN = Pattern.compile("^@([\\w\\.]+:)?(\\w+)/(\\w+)$");
 	
@@ -36,8 +35,9 @@ public class StaticResourceAttributeValue extends AbstractPropertyAttributeValue
 	private String resourceType;
 	private String resourcePackage;
 	
-	public StaticResourceAttributeValue(String value)
+	StaticResourceAttribute(String name, String value)
 	{
+		super(name);
 		determineResourceNameAndType(value);
 	}
 	

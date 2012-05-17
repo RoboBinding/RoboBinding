@@ -21,6 +21,7 @@ import java.util.List;
 import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.ViewResolutionErrors;
+import org.robobinding.viewattribute.AttributeGroupBindingException;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
@@ -61,7 +62,7 @@ public class BindingAttributeResolver
 
 	private void initializeNewResolving()
 	{
-		viewBindingAttributes = new ViewBindingAttributes();
+		viewBindingAttributes = new ViewBindingAttributes(view);
 		viewAttributeInstantiator = new ViewAttributeInstantiator();
 	}
 
@@ -93,10 +94,12 @@ public class BindingAttributeResolver
 
 	public static class ViewBindingAttributes
 	{
+		private View view;
 		private final List<ViewAttribute> viewAttributes;
 		
-		private ViewBindingAttributes()
+		private ViewBindingAttributes(View view)
 		{
+			this.view = view;
 			this.viewAttributes = Lists.newArrayList();
 		}
 		
@@ -107,8 +110,17 @@ public class BindingAttributeResolver
 		
 		public void bindTo(BindingContext bindingContext)
 		{
+			ViewBindingException viewBindingException = new ViewBindingException(view);
 			for (ViewAttribute viewAttribute : viewAttributes)
-				viewAttribute.bindTo(bindingContext);
+			{
+				try
+				{
+					viewAttribute.bindTo(bindingContext);
+				}catch (AttributeGroupBindingException e) 
+				{
+					// TODO: handle exception
+				}catch()
+			}
 		}
 	}
 }

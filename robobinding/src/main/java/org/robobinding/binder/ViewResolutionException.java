@@ -16,35 +16,18 @@
 package org.robobinding.binder;
 
 import org.robobinding.ViewResolutionErrors;
-import org.robobinding.binder.BindingAttributeResolver.ViewBindingAttributes;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewResolutionResult
+@SuppressWarnings("serial")
+public class ViewResolutionException extends RuntimeException
 {
-	private ViewBindingAttributes resolvedBindingAttributes;
-	private ViewResolutionErrors errors;
-
-	public ViewResolutionResult(ViewBindingAttributes resolvedBindingAttributes, ViewResolutionErrors errors)
+	public ViewResolutionException(ViewResolutionErrors errors)
 	{
-		this.resolvedBindingAttributes = resolvedBindingAttributes;
-		this.errors = errors;
-	}
-
-	public ViewBindingAttributes getResolvedBindingAttributes()
-	{
-		return resolvedBindingAttributes;
-	}
-
-	public void assertNoErrors()
-	{
-		if(errors.isNotEmpty())
-		{
-			throw new ViewResolutionException(errors);
-		}
+		// TODO Auto-generated constructor stub
 	}
 }

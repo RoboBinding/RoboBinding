@@ -23,11 +23,8 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewResolutionErrors
+public interface ViewResolutionErrors
 {
-	private View view;
-	public ViewResolutionErrors(View view)
-	{
-		this.view = view;
-	}
+	View getView();
+	boolean isNotEmpty();
 }
