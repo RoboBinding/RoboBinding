@@ -20,8 +20,9 @@ import java.util.Map;
 
 import org.robobinding.AttributeBindingException;
 import org.robobinding.BindingContext;
-import org.robobinding.attributevalue.AbstractPropertyAttributeValue;
-import org.robobinding.attributevalue.PropertyAttributeValueParser;
+import org.robobinding.attributevalue.CommandAttributeValue;
+import org.robobinding.attributevalue.GroupedAttributeDetails;
+import org.robobinding.attributevalue.ValueModelAttributeValue;
 
 import android.view.View;
 
@@ -98,43 +99,33 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected class ChildAttributesBinding
 	{
 		private final BindingContext bindingContext;
-		private final PropertyAttributeValueParser attributeValueParser;
 		private Map<String, ViewAttribute> childAttributeMap;
 		private List<AttributeBindingException> attributeBindingExceptions;
 		private ChildAttributesBinding(BindingContext bindingContext)
 		{
 			this.bindingContext = bindingContext;
-			attributeValueParser = new PropertyAttributeValueParser();
 		}
 		
 		public ChildAttribute add(ChildAttribute childAttribute, String attribute)
 		{
-			AbstractPropertyAttributeValue attributeValue = attributeValueParser.parse(groupedAttributeDetails.attributeValueFor(attribute));
-			childAttribute.setAttributeValue(attributeValue);
 			childAttributeMap.put(attribute, childAttribute);
 			return childAttribute;
 		}
 		
-		public CustomChildAttribute add(CustomChildAttribute childAttribute, String attribute)
-		{
-			String attributeValue = groupedAttributeDetails.attributeValueFor(attribute);
-			childAttribute.setAttributeValue(attributeValue);
-			childAttributeMap.put(attribute, childAttribute);
-			return childAttribute;
-		}
-		
-		public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType addProperty(
+		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(
 				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
 		{
-			PropertyViewAttributeType propertyViewAttribute = safeGetViewAttributeInstantiator().newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
+			ValueModelAttributeValue attributeValue = groupedAttributeDetails.valueModelAttributeValueFor(propertyAttribute);
+			PropertyViewAttributeType propertyViewAttribute = safeGetViewAttributeInstantiator().newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
 			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
 			return propertyViewAttribute;
 		}
 		
-		public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType addCommand(
+		public <CommandViewAttributeType extends AbstractCommandViewAttribute<T>> CommandViewAttributeType addCommand(
 				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
 		{
-			CommandViewAttributeType commandViewAttribute = safeGetViewAttributeInstantiator().newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
+			CommandAttributeValue attributeValue = groupedAttributeDetails.commandAttributeValueFor(commandAttribute);
+			CommandViewAttributeType commandViewAttribute = safeGetViewAttributeInstantiator().newCommandViewAttribute(commandViewAttributeClass, attributeValue);
 			childAttributeMap.put(commandAttribute, commandViewAttribute);
 			return commandViewAttribute;
 		}
@@ -166,11 +157,6 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		public ViewAttributeInstantiator()
 		{
 			super(AbstractGroupedViewAttribute.this.viewListenersProvider);
-		}
-		@Override
-		protected String attributeValueFor(String attribute)
-		{
-			return groupedAttributeDetails.attributeValueFor(attribute);
 		}
 		@Override
 		protected T getView()

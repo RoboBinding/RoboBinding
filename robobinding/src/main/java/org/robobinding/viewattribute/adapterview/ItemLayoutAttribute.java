@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
 import org.robobinding.attributevalue.AbstractPropertyAttributeValue;
+import org.robobinding.attributevalue.PropertyAttributeValueParser;
 import org.robobinding.attributevalue.StaticResourceAttributeValue;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.ChildAttribute;
@@ -43,8 +44,9 @@ public class ItemLayoutAttribute implements ChildAttribute
 	}
 
 	@Override
-	public void setAttributeValue(AbstractPropertyAttributeValue attributeValue)
+	public void setAttributeValue(String value)
 	{
+		AbstractPropertyAttributeValue attributeValue = PropertyAttributeValueParser.parse(value);
 		if (attributeValue.isStaticResource())
 			layoutAttribute = new StaticLayoutAttribute(attributeValue.asStaticResourceAttributeValue());
 		else

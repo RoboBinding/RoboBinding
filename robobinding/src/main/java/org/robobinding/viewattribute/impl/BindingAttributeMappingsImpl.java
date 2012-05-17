@@ -17,10 +17,13 @@ package org.robobinding.viewattribute.impl;
 
 import java.util.Map;
 
+import org.robobinding.attributevalue.CommandAttributeValue;
+import org.robobinding.attributevalue.GroupedAttributeDetails;
+import org.robobinding.attributevalue.GroupedAttributeDetailsImpl;
+import org.robobinding.attributevalue.PropertyAttributeValueParser;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.GroupedAttributeDetails;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.view.View;
@@ -37,6 +40,7 @@ import com.google.common.collect.Maps;
 public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T>
 {
 	private final ViewAttributeInstantiator viewAttributeInstantiator;
+	private final PropertyAttributeValueParser propertyAttributeValueParser;
 
 	private final Map<String, Class<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
 	private final Map<String, Class<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
@@ -45,6 +49,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	public BindingAttributeMappingsImpl(ViewAttributeInstantiator viewAttributeInstantiator)
 	{
 		this.viewAttributeInstantiator = viewAttributeInstantiator;
+		propertyAttributeValueParser = new PropertyAttributeValueParser();
 		
 		propertyViewAttributeMappings = Maps.newHashMap();
 		commandViewAttributeMappings = Maps.newHashMap();
@@ -95,7 +100,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		View view = getViewForAttribute(propertyAttribute, defaultView);
 		@SuppressWarnings("unchecked")
 		PropertyViewAttribute<View> propertyViewAttribute = (PropertyViewAttribute<View>)viewAttributeInstantiator.newPropertyViewAttribute(
-				view, propertyViewAttributeClass, propertyAttribute, attributeValue);
+				view, propertyViewAttributeClass, propertyAttributeValueParser.parseAsValueModelAttributeValue(attributeValue));
 		return propertyViewAttribute;
 	}
 
@@ -110,7 +115,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		View view = getViewForAttribute(commandAttribute, defaultView);
 		@SuppressWarnings("unchecked")
 		AbstractCommandViewAttribute<View> commandViewAttribute = (AbstractCommandViewAttribute<View>) viewAttributeInstantiator.newCommandViewAttribute(
-				view, commandViewAttributeClass, commandAttribute, attributeValue);
+				view, commandViewAttributeClass, new CommandAttributeValue(attributeValue));
 		return commandViewAttribute;
 	}
 

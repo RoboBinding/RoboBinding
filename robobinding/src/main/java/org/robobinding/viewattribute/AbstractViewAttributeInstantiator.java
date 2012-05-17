@@ -16,7 +16,6 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.attributevalue.CommandAttributeValue;
-import org.robobinding.attributevalue.PropertyAttributeValueParser;
 import org.robobinding.attributevalue.ValueModelAttributeValue;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
@@ -32,23 +31,20 @@ import android.view.View;
  */
 public abstract class AbstractViewAttributeInstantiator
 {
-	private final PropertyAttributeValueParser attributeValueParser;
 	protected final ViewListenersProvider viewListenersProvider;
 
 	protected AbstractViewAttributeInstantiator(ViewListenersProvider viewListenersProvider)
 	{
-		attributeValueParser = new PropertyAttributeValueParser();
 		this.viewListenersProvider = viewListenersProvider;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
-			Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
+			Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttributeValue attributeValue)
 	{
 		PropertyViewAttributeType propertyViewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass);
 		View view = getView();
 		((PropertyViewAttribute<View>)propertyViewAttribute).setView(view);
-		ValueModelAttributeValue attributeValue = attributeValueParser.parseAsValueModelAttributeValue(attributeValueFor(propertyAttribute));
 		propertyViewAttribute.setAttributeValue(attributeValue);
 		
 		if (propertyViewAttribute instanceof AbstractMultiTypePropertyViewAttribute<?>)
@@ -60,12 +56,11 @@ public abstract class AbstractViewAttributeInstantiator
 
 	@SuppressWarnings("unchecked")
 	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
-			Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
+			Class<CommandViewAttributeType> commandViewAttributeClass, CommandAttributeValue attributeValue)
 	{
 		CommandViewAttributeType commandViewAttribute = (CommandViewAttributeType)newViewAttribute(commandViewAttributeClass);
 		View view = getView();
 		((AbstractCommandViewAttribute<View>)commandViewAttribute).setView(view);
-		CommandAttributeValue attributeValue = new CommandAttributeValue(attributeValueFor(commandAttribute));
 		commandViewAttribute.setAttributeValue(attributeValue);
 		setViewListenersIfRequired(commandViewAttribute, view);
 		return commandViewAttribute;
@@ -83,7 +78,6 @@ public abstract class AbstractViewAttributeInstantiator
 	}
 	
 	protected abstract View getView();
-	protected abstract String attributeValueFor(String attribute);
 	
 	protected ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass)
 	{

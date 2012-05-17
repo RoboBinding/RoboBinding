@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.impl;
+package org.robobinding.attributevalue;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,7 +22,6 @@ import java.util.Map;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.robobinding.MissingRequiredAttributesException;
-import org.robobinding.viewattribute.GroupedAttributeDetails;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -41,6 +40,43 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	public GroupedAttributeDetailsImpl(Map<String, String> presentAttributeMappings)
 	{
 		this.presentAttributeMappings = Maps.newHashMap(presentAttributeMappings);
+	}
+
+	@Override
+	public boolean hasAttribute(String attributeName)
+	{
+		return presentAttributeMappings.containsKey(attributeName);
+	}
+
+	@Override
+	public CommandAttributeValue commandAttributeValueFor(String attribute)
+	{
+		return new CommandAttributeValue(attributeValueFor(attribute));
+	}
+
+	@Override
+	public ValueModelAttributeValue valueModelAttributeValueFor(String attribute)
+	{
+		return new ValueModelAttributeValue(attributeValueFor(attribute));
+	}
+
+	@Override
+	public StaticResourceAttributeValue staticResourceAttributeValueFor(String attribute)
+	{
+		return new StaticResourceAttributeValue(attributeValueFor(attribute));
+	}
+
+	@Override
+	public String attributeValueFor(String attributeName)
+	{
+		return presentAttributeMappings.get(attributeName);
+	}
+
+	@Override
+	public void assertAttributesArePresent(String... attributeNames)
+	{
+		if (!hasAttributes(attributeNames))
+			throw new MissingRequiredAttributesException(findAbsentAttributes(attributeNames));
 	}
 
 	boolean hasAttributes(String... attributes)
@@ -69,25 +105,13 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	}
 
 	@Override
-	public String attributeValueFor(String attributeName)
-	{
-		return presentAttributeMappings.get(attributeName);
-	}
-
-	@Override
-	public boolean hasAttribute(String attributeName)
-	{
-		return presentAttributeMappings.containsKey(attributeName);
-	}
-
-	@Override
 	public boolean equals(Object other)
 	{
 		if (this == other)
 			return true;
 		if (!(other instanceof GroupedAttributeDetailsImpl))
 			return false;
-
+	
 		final GroupedAttributeDetailsImpl that = (GroupedAttributeDetailsImpl) other;
 		return new EqualsBuilder()
 			.append(presentAttributeMappings, that.presentAttributeMappings)
@@ -100,12 +124,5 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 		return new HashCodeBuilder()
 			.append(presentAttributeMappings)
 			.toHashCode();
-	}
-
-	@Override
-	public void assertAttributesArePresent(String... attributeNames)
-	{
-		if (!hasAttributes(attributeNames))
-			throw new MissingRequiredAttributesException(findAbsentAttributes(attributeNames));
 	}
 }

@@ -18,7 +18,6 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.ChildAttributesBinding;
 
 import android.widget.AdapterView;
 
@@ -41,7 +40,6 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 		return new String[]{SOURCE, ITEM_LAYOUT};
 	}
 	
-	
 	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected void preBind(BindingContext bindingContext)
@@ -49,15 +47,14 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 		dataSetAdapter = new DataSetAdapter(bindingContext);
 	}
 
-
 	@Override
-	protected void setupChildAttributesBinding(ChildAttributesBinding<T> binding)
+	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
 	{
 		binding.add(new SourceAttribute(dataSetAdapter), SOURCE);
 		binding.add(new ItemLayoutAttribute(view, dataSetAdapter), ITEM_LAYOUT);
 		if(groupedAttributeDetails.hasAttribute(ITEM_MAPPING))
 		{
-			binding.add(new ItemMappingAttribute(dataSetAdapter), ITEM_MAPPING);
+			binding.add(new ItemMappingAttribute(dataSetAdapter),ITEM_MAPPING);
 		}
 	}
 

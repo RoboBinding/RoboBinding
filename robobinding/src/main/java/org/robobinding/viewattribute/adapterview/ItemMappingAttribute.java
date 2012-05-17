@@ -25,7 +25,7 @@ import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.viewattribute.CustomChildAttribute;
+import org.robobinding.viewattribute.ChildAttribute;
 
 import android.content.Context;
 import android.view.View;
@@ -39,7 +39,7 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemMappingAttribute implements CustomChildAttribute
+public class ItemMappingAttribute implements ChildAttribute
 {
 	private static final String ITEM_MAPPING_PATTERN = "(\\w+)\\.(\\w+):($?\\{\\w+\\})";
 	private static final Pattern ITEM_MAPPING_COMPILED_PATTERN = Pattern.compile(ITEM_MAPPING_PATTERN);
@@ -55,9 +55,9 @@ public class ItemMappingAttribute implements CustomChildAttribute
 	}
 	
 	@Override
-	public void setAttributeValue(String attributeValue)
+	public void setAttributeValue(String value)
 	{
-		this.itemMappingAttributeValue = attributeValue;
+		this.itemMappingAttributeValue = value;
 	}
 	
 	@Override

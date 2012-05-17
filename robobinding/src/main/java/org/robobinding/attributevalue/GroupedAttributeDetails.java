@@ -13,15 +13,25 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attributevalue;
+
+
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface CustomChildAttribute extends ViewAttribute
+public interface GroupedAttributeDetails
 {
-	public void setAttributeValue(String attributeValue);
+	boolean hasAttribute(String attribute);
+	
+	CommandAttributeValue commandAttributeValueFor(String attribute);
+	ValueModelAttributeValue valueModelAttributeValueFor(String attribute);
+	StaticResourceAttributeValue staticResourceAttributeValueFor(String attribute);
+	String attributeValueFor(String attribute);
+	
+	void assertAttributesArePresent(String... attributeNames);
 }

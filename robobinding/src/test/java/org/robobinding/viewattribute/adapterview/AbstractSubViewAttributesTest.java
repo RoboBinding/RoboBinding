@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.BindingContext;
-import org.robobinding.viewattribute.GroupedAttributeDetails;
+import org.robobinding.attributevalue.GroupedAttributeDetails;
 
 import android.content.Context;
 import android.view.View;
