@@ -48,12 +48,12 @@ public class ItemLayoutAttribute implements ChildAttribute
 	{
 		AbstractPropertyAttribute propertyAttribute = attribute.asPropertyAttribute();
 		if (propertyAttribute.isStaticResource())
-			layoutAttribute = new StaticLayoutAttribute(propertyAttribute.asStaticResourceAttributeValue());
+			layoutAttribute = new StaticLayoutAttribute(propertyAttribute.asStaticResourceAttribute());
 		else
 		{
 			DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute();
 			dynamicLayoutAttribute.setView(adapterView);
-			dynamicLayoutAttribute.setAttributeValue(propertyAttribute.asValueModelAttributeValue());
+			dynamicLayoutAttribute.setAttributeValue(propertyAttribute.asValueModelAttribute());
 			layoutAttribute = dynamicLayoutAttribute;
 		}
 	}
