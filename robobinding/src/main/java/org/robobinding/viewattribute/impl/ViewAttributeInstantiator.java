@@ -15,10 +15,12 @@
  */
 package org.robobinding.viewattribute.impl;
 
+import org.robobinding.attributevalue.CommandAttributeValue;
+import org.robobinding.attributevalue.GroupedAttributeDetails;
+import org.robobinding.attributevalue.ValueModelAttributeValue;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractViewAttributeInstantiator;
-import org.robobinding.viewattribute.GroupedAttributeDetails;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.ViewListenersProvider;
@@ -44,17 +46,17 @@ public class ViewAttributeInstantiator
 	}
 
 	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
-			View view, Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute, String attributeValue)
+			View view, Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttributeValue attributeValue)
 	{
-		viewAttributeInstantiatorImplementor.setCurrentViewAndAttributeValue(view, attributeValue);
-		return viewAttributeInstantiatorImplementor.newPropertyViewAttribute(propertyViewAttributeClass, propertyAttribute);
+		viewAttributeInstantiatorImplementor.setCurrentView(view);
+		return viewAttributeInstantiatorImplementor.newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
 	}
 
 	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
-			View view, Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute, String attributeValue)
+			View view, Class<CommandViewAttributeType> commandViewAttributeClass, CommandAttributeValue attributeValue)
 	{
-		viewAttributeInstantiatorImplementor.setCurrentViewAndAttributeValue(view, attributeValue);
-		return viewAttributeInstantiatorImplementor.newCommandViewAttribute(commandViewAttributeClass, commandAttribute);
+		viewAttributeInstantiatorImplementor.setCurrentView(view);
+		return viewAttributeInstantiatorImplementor.newCommandViewAttribute(commandViewAttributeClass, attributeValue);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -71,17 +73,10 @@ public class ViewAttributeInstantiator
 	public static class ViewAttributeInstantiatorImplementor extends AbstractViewAttributeInstantiator
 	{
 		private View currentView;
-		private String currentAttributeValue;
 
 		public ViewAttributeInstantiatorImplementor(ViewListenersProvider viewListenersProvider)
 		{
 			super(viewListenersProvider);
-		}
-
-		@Override
-		protected String attributeValueFor(String attribute)
-		{
-			return currentAttributeValue;
 		}
 
 		@Override
@@ -90,10 +85,9 @@ public class ViewAttributeInstantiator
 			return currentView;
 		}
 
-		public void setCurrentViewAndAttributeValue(View currentView, String currentAttributeValue)
+		public void setCurrentView(View currentView)
 		{
 			this.currentView = currentView;
-			this.currentAttributeValue = currentAttributeValue;
 		}
 		
 		@Override

@@ -16,7 +16,6 @@
 package org.robobinding.viewattribute.absspinner;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.robobinding.viewattribute.ChildAttributesBinding;
 import org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes;
 import org.robobinding.viewattribute.adapterview.DropdownLayoutAttribute;
 import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
@@ -41,7 +40,7 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 	}
 
 	@Override
-	protected void setupChildAttributesBinding(ChildAttributesBinding<T> binding)
+	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
 	{
 		super.setupChildAttributesBinding(binding);
 		

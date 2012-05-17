@@ -33,11 +33,11 @@ import android.view.View;
 class SubViewCreator
 {
 	private final BindingContext bindingContext;
-	private final String layoutResource;
-	public SubViewCreator(BindingContext bindingContext, String layoutResource)
+	private final StaticResourceAttributeValue layoutAttributeValue;
+	public SubViewCreator(BindingContext bindingContext, StaticResourceAttributeValue layoutResourceAttributeValue)
 	{
 		this.bindingContext = bindingContext;
-		this.layoutResource = layoutResource;
+		this.layoutAttributeValue = layoutResourceAttributeValue;
 	}
 	
 	public View create()
@@ -47,7 +47,7 @@ class SubViewCreator
 		return viewBinder.inflate(layoutId);
 	}
 	
-	public View createAndBindTo(String presentationModelAttributeValue)
+	public View createAndBindTo(ValueModelAttributeValue presentationModelAttributeValue)
 	{
 		int layoutId = getLayoutId();
 		
@@ -58,15 +58,13 @@ class SubViewCreator
 
 	int getLayoutId()
 	{
-		StaticResourceAttributeValue attributeValue = new StaticResourceAttributeValue(layoutResource);
-		return attributeValue.getResourceId(bindingContext.getContext());
+		return layoutAttributeValue.getResourceId(bindingContext.getContext());
 	}
 
-	Object getPresentationModel(String presentationModelAttributeValue)
+	Object getPresentationModel(ValueModelAttributeValue presentationModelAttributeValue)
 	{
-		ValueModelAttributeValue attributeValue = new ValueModelAttributeValue(presentationModelAttributeValue);
 		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
-		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(attributeValue.getPropertyName());
+		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(presentationModelAttributeValue.getPropertyName());
 		return valueModel.getValue();
 	}
 

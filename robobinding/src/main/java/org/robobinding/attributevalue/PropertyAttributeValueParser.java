@@ -29,7 +29,7 @@ import org.robobinding.MalformedAttributeException;
  */
 public class PropertyAttributeValueParser
 {
-	public AbstractPropertyAttributeValue parse(String value)
+	public static AbstractPropertyAttributeValue parse(String value)
 	{
 		if (ValueModelAttributeValue.is(value))
 		{
@@ -42,7 +42,7 @@ public class PropertyAttributeValueParser
 		throw new MalformedAttributeException(describeSyntaxError(value));
 	}
 	
-	public ValueModelAttributeValue parseAsValueModelAttributeValue(String value)
+	public static ValueModelAttributeValue parseAsValueModelAttributeValue(String value)
 	{
 		if(ValueModelAttributeValue.is(value))
 		{
@@ -52,7 +52,7 @@ public class PropertyAttributeValueParser
 		throw new MalformedAttributeException(describeSyntaxError(value));
 	}
 
-	private String describeSyntaxError(String value)
+	private static String describeSyntaxError(String value)
 	{
 		String errorMessage = "Invalid binding syntax: '" + value + "'.";
 			

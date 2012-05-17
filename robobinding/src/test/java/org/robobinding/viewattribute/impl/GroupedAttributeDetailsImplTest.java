@@ -27,8 +27,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.MissingRequiredAttributesException;
+import org.robobinding.attributevalue.GroupedAttributeDetailsImpl;
 import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.viewattribute.impl.GroupedAttributeDetailsImpl;
 
 import com.google.common.collect.Maps;
 
