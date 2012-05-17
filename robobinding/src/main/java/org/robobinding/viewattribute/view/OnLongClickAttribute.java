@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.view;
 
+import org.robobinding.attributevalue.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.Command;
 
 import android.view.View;
 import android.view.View.OnLongClickListener;

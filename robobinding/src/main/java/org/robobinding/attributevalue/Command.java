@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attributevalue;
 
 import org.robobinding.function.Function;
 
@@ -28,7 +28,7 @@ public class Command
 	public final Function function;
 	private final boolean supportsPreferredParameterType;
 
-	public Command(Function function, boolean supportsPreferredParameterType)
+	Command(Function function, boolean supportsPreferredParameterType)
 	{
 		this.function = function;
 		this.supportsPreferredParameterType = supportsPreferredParameterType;

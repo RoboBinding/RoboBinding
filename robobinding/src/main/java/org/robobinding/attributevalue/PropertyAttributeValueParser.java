@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attributevalue;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,16 +27,26 @@ import org.robobinding.MalformedAttributeException;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class AttributeValueParser
+public class PropertyAttributeValueParser
 {
-	public AttributeValue parse(String value)
+	public AbstractPropertyAttributeValue parse(String value)
 	{
-		if (PropertyAttributeValue.is(value))
+		if (ValueModelAttributeValue.is(value))
 		{
-			return new PropertyAttributeValue(value);
-		} else if(ResourceAttributeValue.is(value))
+			return new ValueModelAttributeValue(value);
+		} else if(StaticResourceAttributeValue.is(value))
 		{
-			return new ResourceAttributeValue(value);
+			return new StaticResourceAttributeValue(value);
+		}
+		
+		throw new MalformedAttributeException(describeSyntaxError(value));
+	}
+	
+	public ValueModelAttributeValue parseAsValueModelAttributeValue(String value)
+	{
+		if(ValueModelAttributeValue.is(value))
+		{
+			return new ValueModelAttributeValue(value);
 		}
 		
 		throw new MalformedAttributeException(describeSyntaxError(value));

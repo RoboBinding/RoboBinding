@@ -16,11 +16,11 @@
 package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
+import org.robobinding.attributevalue.AbstractPropertyAttributeValue;
+import org.robobinding.attributevalue.ValueModelAttributeValue;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetValueModel;
-import org.robobinding.viewattribute.AttributeValue;
 import org.robobinding.viewattribute.ChildAttribute;
-import org.robobinding.viewattribute.PropertyAttributeValue;
 
 /**
  * 
@@ -31,7 +31,7 @@ import org.robobinding.viewattribute.PropertyAttributeValue;
 public class SourceAttribute implements ChildAttribute
 {
 	private final DataSetAdapter<?> dataSetAdapter;
-	private PropertyAttributeValue attributeValue;
+	private ValueModelAttributeValue attributeValue;
 
 	public SourceAttribute(final DataSetAdapter<?> dataSetAdapter)
 	{
@@ -39,9 +39,9 @@ public class SourceAttribute implements ChildAttribute
 	}
 	
 	@Override
-	public void setAttributeValue(AttributeValue attributeValue)
+	public void setAttributeValue(AbstractPropertyAttributeValue attributeValue)
 	{
-		this.attributeValue = attributeValue.asPropertyAttributeValue();
+		this.attributeValue = attributeValue.asValueModelAttributeValue();
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attributevalue;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,7 +28,7 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ResourceAttributeValue implements AttributeValue
+public class StaticResourceAttributeValue extends AbstractPropertyAttributeValue
 {
 	private final static Pattern RESOURCE_ATTRIBUTE_PATTERN = Pattern.compile("^@([\\w\\.]+:)?(\\w+)/(\\w+)$");
 	
@@ -36,7 +36,7 @@ public class ResourceAttributeValue implements AttributeValue
 	private String resourceType;
 	private String resourcePackage;
 	
-	public ResourceAttributeValue(String value)
+	public StaticResourceAttributeValue(String value)
 	{
 		determineResourceNameAndType(value);
 	}
@@ -69,26 +69,7 @@ public class ResourceAttributeValue implements AttributeValue
 		return false;
 	}
 
-	@Override
-	public boolean isStaticResource()
-	{
-		return true;
-	}
-	
-	@Override
-	public ResourceAttributeValue asResourceAttributeValue()
-	{
-		return this;
-	}
-	
-	@Override
-	public PropertyAttributeValue asPropertyAttributeValue()
-	{
-		// TODO throws exception.
-		return null;
-	}
-
-	public static boolean is(String value)
+	static boolean is(String value)
 	{
 		Matcher matcher = RESOURCE_ATTRIBUTE_PATTERN.matcher(value);
 		

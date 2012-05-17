@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.attributevalue.AbstractPropertyAttributeValue;
+
 /**
  *
  * @since 1.0
@@ -23,5 +25,5 @@ package org.robobinding.viewattribute;
  */
 public interface ChildAttribute extends ViewAttribute
 {
-	void setAttributeValue(AttributeValue attributeValue);
+	void setAttributeValue(AbstractPropertyAttributeValue attributeValue);
 }

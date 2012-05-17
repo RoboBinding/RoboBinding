@@ -17,6 +17,8 @@ package org.robobinding.viewattribute;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.robobinding.attributevalue.CommandAttributeValue;
+import org.robobinding.attributevalue.ValueModelAttributeValue;
 import org.robobinding.viewattribute.view.ViewListeners;
 
 import android.view.View;
@@ -42,7 +44,7 @@ public class ViewAttributeValidation
 		notNull(view, "View not set");
 	}
 
-	void addErrorIfPropertyAttributeValueNotSet(PropertyAttributeValue attributeValue)
+	void addErrorIfPropertyAttributeValueNotSet(ValueModelAttributeValue attributeValue)
 	{
 		notNull(attributeValue, "Attribute value not set");
 	}
@@ -60,9 +62,9 @@ public class ViewAttributeValidation
 		}
 	}
 
-	void addErrorIfCommandNameNotSet(String commandName)
+	void addErrorIfCommandNameNotSet(CommandAttributeValue attributeValue)
 	{
-		notBlank(commandName, "Command name not set");
+		notNull(attributeValue, "Command name not set");
 	}
 
 	void notBlank(String str, String errorMessage)

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attributevalue;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PropertyAttributeValue implements AttributeValue
+public class ValueModelAttributeValue extends AbstractPropertyAttributeValue
 {
 	private final static Pattern PROPERTY_ATTRIBUTE_PATTERN = Pattern.compile("[$]?\\{[\\w]+\\}");
 	private final static Pattern PROPERTY_NAME_PATTERN = Pattern.compile("\\w+");
@@ -32,7 +32,7 @@ public class PropertyAttributeValue implements AttributeValue
 	private String propertyName;
 	private boolean twoWayBinding;
 	
-	public PropertyAttributeValue(String value)
+	public ValueModelAttributeValue(String value)
 	{
 		determinePropertyName(value);
 		determineBindingType(value);
@@ -60,27 +60,8 @@ public class PropertyAttributeValue implements AttributeValue
 	{
 		return twoWayBinding;
 	}
-
-	@Override
-	public boolean isStaticResource()
-	{
-		return false;
-	}
-
-	@Override
-	public PropertyAttributeValue asPropertyAttributeValue()
-	{
-		return this;
-	}
 	
-	@Override
-	public ResourceAttributeValue asResourceAttributeValue()
-	{
-		// TODO throws exception.
-		return null;
-	}
-	
-	public static boolean is(String value)
+	static boolean is(String value)
 	{
 		Matcher matcher = PROPERTY_ATTRIBUTE_PATTERN.matcher(value);
 		return matcher.matches();
