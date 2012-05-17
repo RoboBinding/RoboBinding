@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.attributevalue.CommandAttribute;
-import org.robobinding.attributevalue.ValueModelAttribute;
+import org.robobinding.attribute.CommandAttribute;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 

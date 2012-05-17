@@ -13,23 +13,25 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.attributevalue;
+package org.robobinding.attribute;
+
+
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Robert Taylor
  * @author Cheng Wei
  */
-@SuppressWarnings("serial")
-public abstract class AttributeResolutionException extends RuntimeException
+public interface GroupedAttributeDetails
 {
-	public AttributeResolutionException()
-	{
-	}
+	boolean hasAttribute(String attribute);
 	
-	public AttributeResolutionException(String message)
-	{
-		super(message);
-	}
+	CommandAttribute commandAttributeFor(String attribute);
+	ValueModelAttribute valueModelAttributeFor(String attribute);
+	StaticResourceAttribute staticResourceAttributeFor(String attribute);
+	ParsableAttribute parsableAttributeFor(String attribute);
+	
+	void assertAttributesArePresent(String... attributeNames);
 }

@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
-import org.robobinding.attributevalue.Command;
+import org.robobinding.attribute.Command;
 import org.robobinding.binder.ByBindingAttributeMappingsResolver;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;

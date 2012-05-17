@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.attributevalue;
-
-
+package org.robobinding.attribute;
 
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface GroupedAttributeDetails
+public abstract class AbstractAttribute
 {
-	boolean hasAttribute(String attribute);
-	
-	CommandAttribute commandAttributeValueFor(String attribute);
-	ValueModelAttribute valueModelAttributeValueFor(String attribute);
-	StaticResourceAttribute staticResourceAttributeValueFor(String attribute);
-	String attributeValueFor(String attribute);
-	
-	void assertAttributesArePresent(String... attributeNames);
+	private final String name;
+
+	public AbstractAttribute(String name)
+	{
+		this.name = name;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
 }

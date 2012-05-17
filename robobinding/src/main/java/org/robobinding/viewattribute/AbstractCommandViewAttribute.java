@@ -16,8 +16,8 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.BindingContext;
-import org.robobinding.attributevalue.Command;
-import org.robobinding.attributevalue.CommandAttribute;
+import org.robobinding.attribute.Command;
+import org.robobinding.attribute.CommandAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.view.View;

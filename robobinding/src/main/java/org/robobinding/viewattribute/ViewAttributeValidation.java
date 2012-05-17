@@ -17,8 +17,8 @@ package org.robobinding.viewattribute;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.robobinding.attributevalue.CommandAttribute;
-import org.robobinding.attributevalue.ValueModelAttribute;
+import org.robobinding.attribute.CommandAttribute;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.view.ViewListeners;
 
 import android.view.View;

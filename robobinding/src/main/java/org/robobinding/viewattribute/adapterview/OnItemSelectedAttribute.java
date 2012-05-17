@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.attributevalue.Command;
+import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;

@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.attribute.ParsableAttribute;
+
 
 
 /**
@@ -25,5 +27,5 @@ package org.robobinding.viewattribute;
  */
 public interface ChildAttribute extends ViewAttribute
 {
-	void setAttributeValue(String name, String value);
+	void setAttribute(ParsableAttribute attribute);
 }

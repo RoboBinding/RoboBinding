@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.attributevalue;
-
-import java.util.Collection;
-import java.util.Collections;
+package org.robobinding.attribute;
 
 
 /**
@@ -26,17 +23,9 @@ import java.util.Collections;
  * @author Robert Taylor
  */
 @SuppressWarnings("serial")
-public class MissingRequiredAttributesException extends AttributeResolutionException
+public class MalformedAttributeException extends AttributeResolutionException
 {
-	private final Collection<String> missingAttributes;
-	
-	public MissingRequiredAttributesException(Collection<String> missingAttributes)
-	{
-		this.missingAttributes = missingAttributes;
-	}
-	
-	public Collection<String> getMissingAttributes()
-	{
-		return Collections.unmodifiableCollection(missingAttributes);
+	public MalformedAttributeException(String message) {
+		super(message);
 	}
 }

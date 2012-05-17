@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.attributevalue;
+package org.robobinding.attribute;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.robobinding.function.Function;
@@ -25,7 +25,7 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CommandAttribute extends Attribute
+public class CommandAttribute extends AbstractAttribute
 {
 	private String commandName;
 	public CommandAttribute(String name, String value)

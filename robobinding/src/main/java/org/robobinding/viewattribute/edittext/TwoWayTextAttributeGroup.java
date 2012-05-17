@@ -58,7 +58,7 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 
 	private String valueCommitModeAttributeValue()
 	{
-		return groupedAttributeDetails.attributeValueFor(VALUE_COMMIT_MODE);
+		return groupedAttributeDetails.parsableAttributeFor(VALUE_COMMIT_MODE).getValue();
 	}
 
 	private boolean valueCommitModeSpecified()

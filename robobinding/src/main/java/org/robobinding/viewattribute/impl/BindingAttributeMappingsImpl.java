@@ -17,10 +17,10 @@ package org.robobinding.viewattribute.impl;
 
 import java.util.Map;
 
-import org.robobinding.attributevalue.CommandAttribute;
-import org.robobinding.attributevalue.GroupedAttributeDetails;
-import org.robobinding.attributevalue.GroupedAttributeDetailsImpl;
-import org.robobinding.attributevalue.PropertyAttributeParser;
+import org.robobinding.attribute.CommandAttribute;
+import org.robobinding.attribute.GroupedAttributeDetails;
+import org.robobinding.attribute.GroupedAttributeDetailsImpl;
+import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.BindingAttributeMappings;

@@ -15,6 +15,9 @@
  */
 package org.robobinding.binder;
 
+import org.robobinding.viewattribute.AttributeBindingException;
+import org.robobinding.viewattribute.AttributeGroupBindingException;
+
 import android.view.View;
 
 /**
@@ -36,5 +39,23 @@ public class ViewBindingException extends RuntimeException
 	public View getView()
 	{
 		return view;
+	}
+
+	public void addAttributeGroupError(AttributeGroupBindingException e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addAttributeError(AttributeBindingException e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void assertNoErrors()
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

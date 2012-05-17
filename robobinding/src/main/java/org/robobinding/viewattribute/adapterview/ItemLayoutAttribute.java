@@ -16,9 +16,9 @@
 package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
-import org.robobinding.attributevalue.AbstractPropertyAttribute;
-import org.robobinding.attributevalue.PropertyAttributeParser;
-import org.robobinding.attributevalue.StaticResourceAttribute;
+import org.robobinding.attribute.AbstractPropertyAttribute;
+import org.robobinding.attribute.ParsableAttribute;
+import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.ChildAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
@@ -44,16 +44,16 @@ public class ItemLayoutAttribute implements ChildAttribute
 	}
 
 	@Override
-	public void setAttributeValue(String name, String value)
+	public void setAttribute(ParsableAttribute attribute)
 	{
-		AbstractPropertyAttribute attributeValue = new PropertyAttributeParser().parse(name, value);
-		if (attributeValue.isStaticResource())
-			layoutAttribute = new StaticLayoutAttribute(attributeValue.asStaticResourceAttributeValue());
+		AbstractPropertyAttribute propertyAttribute = attribute.asPropertyAttribute();
+		if (propertyAttribute.isStaticResource())
+			layoutAttribute = new StaticLayoutAttribute(propertyAttribute.asStaticResourceAttributeValue());
 		else
 		{
 			DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute();
 			dynamicLayoutAttribute.setView(adapterView);
-			dynamicLayoutAttribute.setAttributeValue(attributeValue.asValueModelAttributeValue());
+			dynamicLayoutAttribute.setAttributeValue(propertyAttribute.asValueModelAttributeValue());
 			layoutAttribute = dynamicLayoutAttribute;
 		}
 	}

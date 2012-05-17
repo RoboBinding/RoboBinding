@@ -16,8 +16,8 @@
 package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
-import org.robobinding.attributevalue.StaticResourceAttribute;
-import org.robobinding.attributevalue.ValueModelAttribute;
+import org.robobinding.attribute.StaticResourceAttribute;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 
 import android.content.Context;
@@ -49,11 +49,11 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	
 	View createSubView(BindingContext bindingContext)
 	{
-		SubViewCreator subViewCreator = createSubViewCreator(bindingContext, groupedAttributeDetails.staticResourceAttributeValueFor(layoutAttribute()));
+		SubViewCreator subViewCreator = createSubViewCreator(bindingContext, groupedAttributeDetails.staticResourceAttributeFor(layoutAttribute()));
 		
 		if(groupedAttributeDetails.hasAttribute(subViewPresentationModelAttribute()))
 		{
-			ValueModelAttribute presentationModelAttributeValue = groupedAttributeDetails.valueModelAttributeValueFor(subViewPresentationModelAttribute());
+			ValueModelAttribute presentationModelAttributeValue = groupedAttributeDetails.valueModelAttributeFor(subViewPresentationModelAttribute());
 			return subViewCreator.createAndBindTo(presentationModelAttributeValue);
 		}else
 		{

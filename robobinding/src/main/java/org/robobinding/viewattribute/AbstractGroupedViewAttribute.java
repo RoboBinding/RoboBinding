@@ -15,13 +15,12 @@
  */
 package org.robobinding.viewattribute;
 
-import java.util.List;
 import java.util.Map;
 
 import org.robobinding.BindingContext;
-import org.robobinding.attributevalue.CommandAttribute;
-import org.robobinding.attributevalue.GroupedAttributeDetails;
-import org.robobinding.attributevalue.ValueModelAttribute;
+import org.robobinding.attribute.CommandAttribute;
+import org.robobinding.attribute.GroupedAttributeDetails;
+import org.robobinding.attribute.ValueModelAttribute;
 
 import android.view.View;
 
@@ -64,13 +63,30 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	@Override
 	public final void bindTo(BindingContext bindingContext)
 	{
-		preBind(bindingContext);
+		AttributeGroupBindingException bindingErrors = new AttributeGroupBindingException();
 		
-		ChildAttributesBinding binding = new ChildAttributesBinding(bindingContext);
-		setupChildAttributesBinding(binding);
+		try
+		{
+			preBind(bindingContext);
+		}catch(RuntimeException e)
+		{
+			bindingErrors.addGeneralError(e.getMessage());
+			throw bindingErrors;
+		}
+		
+		ChildAttributesBinding binding = new ChildAttributesBinding(bindingContext, bindingErrors);
+		try
+		{
+			setupChildAttributesBinding(binding);
+		}catch(RuntimeException e)
+		{
+			bindingErrors.addGeneralError(e.getMessage());
+		}
 		binding.perform();
+		bindingErrors.assertNoErrors();
 		
 		postBind(bindingContext);
+		bindingErrors.assertNoErrors();
 	}
 	
 	protected void preBind(BindingContext bindingContext)
@@ -99,10 +115,11 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	{
 		private final BindingContext bindingContext;
 		private Map<String, ViewAttribute> childAttributeMap;
-		private List<AttributeBindingException> attributeBindingExceptions;
-		private ChildAttributesBinding(BindingContext bindingContext)
+		private AttributeGroupBindingException bindingErrors;
+		private ChildAttributesBinding(BindingContext bindingContext, AttributeGroupBindingException bindingErrors)
 		{
 			this.bindingContext = bindingContext;
+			this.bindingErrors = bindingErrors;
 		}
 		
 		public ChildAttribute add(ChildAttribute childAttribute, String attribute)
@@ -114,7 +131,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(
 				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
 		{
-			ValueModelAttribute attributeValue = groupedAttributeDetails.valueModelAttributeValueFor(propertyAttribute);
+			ValueModelAttribute attributeValue = groupedAttributeDetails.valueModelAttributeFor(propertyAttribute);
 			PropertyViewAttributeType propertyViewAttribute = safeGetViewAttributeInstantiator().newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
 			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
 			return propertyViewAttribute;
@@ -123,7 +140,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		public <CommandViewAttributeType extends AbstractCommandViewAttribute<T>> CommandViewAttributeType addCommand(
 				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
 		{
-			CommandAttribute attributeValue = groupedAttributeDetails.commandAttributeValueFor(commandAttribute);
+			CommandAttribute attributeValue = groupedAttributeDetails.commandAttributeFor(commandAttribute);
 			CommandViewAttributeType commandViewAttribute = safeGetViewAttributeInstantiator().newCommandViewAttribute(commandViewAttributeClass, attributeValue);
 			childAttributeMap.put(commandAttribute, commandViewAttribute);
 			return commandViewAttribute;
@@ -145,7 +162,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 					childAttribute.bindTo(bindingContext);
 				}catch(RuntimeException e)
 				{
-					attributeBindingExceptions.add(e);
+					bindingErrors.addChildAttributeError(childAttributeEntry.getKey(), e.getMessage());
 				}
 			}
 		}

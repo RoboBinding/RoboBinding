@@ -15,7 +15,6 @@
  */
 package org.robobinding.viewattribute;
 
-import java.util.List;
 
 /**
  *
@@ -23,15 +22,22 @@ import java.util.List;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class AttributeGroupBindingException
+@SuppressWarnings("serial")
+public class AttributeGroupBindingException extends RuntimeException
 {
-	private List<String> generalErrors;
 	void addGeneralError(String errorMessage)
 	{
-		
+		// TODO Auto-generated method stub
 	}
+	
 	void addChildAttributeError(String attribute, String errorMessage)
 	{
+		// TODO Auto-generated method stub
+	}
+	
+	void assertNoErrors()
+	{
+		// TODO Auto-generated method stub
 		
 	}
 }

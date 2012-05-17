@@ -16,7 +16,7 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.BindingContext;
-import org.robobinding.attributevalue.ValueModelAttribute;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
 import org.robobinding.property.ValueModel;

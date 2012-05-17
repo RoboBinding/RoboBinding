@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.attributevalue;
+package org.robobinding.attribute;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,8 +25,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import static org.robobinding.attributevalue.PropertyAttributeParser.*;
-
 /**
  * 
  * @since 1.0
@@ -36,11 +34,13 @@ import static org.robobinding.attributevalue.PropertyAttributeParser.*;
  */
 public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 {
-	private Map<String, String> presentAttributeMappings;
+	private final Map<String, String> presentAttributeMappings;
+	private final PropertyAttributeParser propertyAttributeParser;
 
 	public GroupedAttributeDetailsImpl(Map<String, String> presentAttributeMappings)
 	{
 		this.presentAttributeMappings = Maps.newHashMap(presentAttributeMappings);
+		propertyAttributeParser = new PropertyAttributeParser();
 	}
 
 	@Override
@@ -50,25 +50,30 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	}
 
 	@Override
-	public CommandAttribute commandAttributeValueFor(String attribute)
+	public CommandAttribute commandAttributeFor(String attribute)
 	{
 		return new CommandAttribute(attribute, attributeValueFor(attribute));
 	}
 
 	@Override
-	public ValueModelAttribute valueModelAttributeValueFor(String attribute)
+	public ValueModelAttribute valueModelAttributeFor(String attribute)
 	{
-		return parseAsValueModelAttribute(attribute, attributeValueFor(attribute));
+		return propertyAttributeParser.parseAsValueModelAttribute(attribute, attributeValueFor(attribute));
 	}
 
 	@Override
-	public StaticResourceAttribute staticResourceAttributeValueFor(String attribute)
+	public StaticResourceAttribute staticResourceAttributeFor(String attribute)
 	{
-		return parseAsStaticResourceAttribute(attribute, attributeValueFor(attribute));
+		return propertyAttributeParser.parseAsStaticResourceAttribute(attribute, attributeValueFor(attribute));
 	}
 
 	@Override
-	public String attributeValueFor(String attributeName)
+	public ParsableAttribute parsableAttributeFor(String attribute)
+	{
+		return new ParsableAttribute(propertyAttributeParser, attribute, attributeValueFor(attribute));
+	}
+	
+	private String attributeValueFor(String attributeName)
 	{
 		return presentAttributeMappings.get(attributeName);
 	}

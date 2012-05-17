@@ -17,8 +17,8 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
 import org.robobinding.ViewBinder;
-import org.robobinding.attributevalue.ValueModelAttribute;
-import org.robobinding.attributevalue.StaticResourceAttribute;
+import org.robobinding.attribute.StaticResourceAttribute;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 
