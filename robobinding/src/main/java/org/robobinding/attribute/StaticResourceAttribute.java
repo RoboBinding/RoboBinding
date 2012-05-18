@@ -47,7 +47,7 @@ public class StaticResourceAttribute extends AbstractPropertyAttribute
 		
 		matcher.find();
 		if (!matcher.matches() || matcher.groupCount() < 2 || matcher.groupCount() > 3)
-			throw new MalformedAttributeException("Invalid resource syntax: " + value);
+			throw new MalformedAttributeException(getName(), "Invalid resource syntax: " + value);
 		
 		resourcePackage = matcher.group(1);
 		

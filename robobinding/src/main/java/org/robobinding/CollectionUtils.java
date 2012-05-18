@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.attribute;
+package org.robobinding;
+
+import java.util.Collection;
+import java.util.Map;
 
 /**
  *
@@ -21,15 +24,27 @@ package org.robobinding.attribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@SuppressWarnings("serial")
-public abstract class AttributeResolutionException extends RuntimeException
+public class CollectionUtils
 {
-	public AttributeResolutionException()
+	private CollectionUtils()
 	{
 	}
 	
-	public AttributeResolutionException(String message)
+	public static boolean isNotEmpty(Collection<?> c)
 	{
-		super(message);
+		if(c == null)
+		{
+			return false;
+		}
+		return !c.isEmpty();
+	}
+
+	public static boolean isNotEmpty(Map<?, ?> map)
+	{
+		if(map == null)
+		{
+			return false;
+		}
+		return !map.isEmpty();
 	}
 }

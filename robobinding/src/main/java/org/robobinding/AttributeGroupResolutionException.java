@@ -13,35 +13,23 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
-
-import org.robobinding.ViewResolutionErrors;
-import org.robobinding.binder.BindingAttributeResolver.ViewBindingAttributes;
+package org.robobinding;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewResolutionResult
+@SuppressWarnings("serial")
+public class AttributeGroupResolutionException extends RuntimeException
 {
-	private ViewBindingAttributes resolvedBindingAttributes;
-	private ViewResolutionErrors errors;
-
-	public ViewResolutionResult(ViewBindingAttributes resolvedBindingAttributes, ViewResolutionErrors errors)
+	public AttributeGroupResolutionException()
 	{
-		this.resolvedBindingAttributes = resolvedBindingAttributes;
-		this.errors = errors;
 	}
-
-	public ViewBindingAttributes getResolvedBindingAttributes()
+	
+	public AttributeGroupResolutionException(String message, Throwable e)
 	{
-		return resolvedBindingAttributes;
-	}
-
-	public void assertNoErrors()
-	{
-		errors.assertNoErrors();
+		super(message, e);
 	}
 }

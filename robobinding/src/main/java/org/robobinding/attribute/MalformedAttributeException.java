@@ -15,6 +15,9 @@
  */
 package org.robobinding.attribute;
 
+import org.robobinding.AttributeResolutionException;
+
+
 
 /**
  *
@@ -25,7 +28,8 @@ package org.robobinding.attribute;
 @SuppressWarnings("serial")
 public class MalformedAttributeException extends AttributeResolutionException
 {
-	public MalformedAttributeException(String message) {
-		super(message);
+	public MalformedAttributeException(String attributeName, String message) 
+	{
+		super(attributeName, message);
 	}
 }

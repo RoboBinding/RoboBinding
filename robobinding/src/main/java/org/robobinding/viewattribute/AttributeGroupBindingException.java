@@ -15,6 +15,14 @@
  */
 package org.robobinding.viewattribute;
 
+import java.util.List;
+import java.util.Map;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import static org.robobinding.CollectionUtils.*;
+
 
 /**
  *
@@ -25,19 +33,34 @@ package org.robobinding.viewattribute;
 @SuppressWarnings("serial")
 public class AttributeGroupBindingException extends RuntimeException
 {
+	private List<String> generalErrors;
+	private Map<String, String> childAttributeErrors;
+	public AttributeGroupBindingException()
+	{
+		generalErrors = Lists.newArrayList();
+		childAttributeErrors = Maps.newHashMap();
+	}
+	
 	void addGeneralError(String errorMessage)
 	{
-		// TODO Auto-generated method stub
+		generalErrors.add(errorMessage);
 	}
 	
 	void addChildAttributeError(String attribute, String errorMessage)
 	{
-		// TODO Auto-generated method stub
+		childAttributeErrors.put(attribute, errorMessage);
 	}
 	
 	void assertNoErrors()
 	{
-		// TODO Auto-generated method stub
-		
+		if(hasErrors())
+		{
+			throw this;
+		}
+	}
+
+	private boolean hasErrors()
+	{
+		return isNotEmpty(generalErrors) || isNotEmpty(childAttributeErrors);
 	}
 }

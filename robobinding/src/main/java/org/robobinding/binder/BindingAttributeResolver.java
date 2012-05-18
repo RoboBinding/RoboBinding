@@ -117,12 +117,12 @@ public class BindingAttributeResolver
 				try
 				{
 					viewAttribute.bindTo(bindingContext);
-				}catch (AttributeGroupBindingException e) 
-				{
-					viewBindingErrors.addAttributeGroupError(e);
 				}catch(AttributeBindingException e)
 				{
 					viewBindingErrors.addAttributeError(e);
+				}catch (AttributeGroupBindingException e) 
+				{
+					viewBindingErrors.addAttributeGroupError(e);
 				}
 			}
 			viewBindingErrors.assertNoErrors();

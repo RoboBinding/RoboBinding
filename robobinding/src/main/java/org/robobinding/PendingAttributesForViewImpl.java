@@ -36,12 +36,12 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 {
 	private View view;
 	Map<String, String> attributeMappings;
-	private ViewResolutionErrorsImpl resolutionErrors;
+	private ViewResolutionException resolutionErrors;
 	public PendingAttributesForViewImpl(View view, Map<String, String> attributeMappings)
 	{
 		this.view = view;
 		this.attributeMappings = Maps.newHashMap(attributeMappings);
-		resolutionErrors = new ViewResolutionErrorsImpl(view);
+		resolutionErrors = new ViewResolutionException(view);
 	}
 	
 	@Override
@@ -59,6 +59,7 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 	@Override
 	public ViewResolutionErrors resolveCompleted()
 	{
+		resolutionErrors.addUnrecognizedAttributes(attributeMappings.keySet());
 		return resolutionErrors;
 	}
 
@@ -73,7 +74,7 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 				attributeResolver.resolve(view, attribute, attributeValue);
 			}catch(RuntimeException e)
 			{
-				resolutionErrors.addAttributeError(attribute, e.getMessage());
+				resolutionErrors.addAttributeError(attribute, e);
 			}
 			
 			attributeMappings.remove(attribute);
@@ -93,7 +94,7 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 				attributeGroupResolver.resolve(view, attributeGroup, presentAttributeMappings);
 			}catch(RuntimeException e)
 			{
-				resolutionErrors.addAttributeGroupError(attributeGroup, e.getMessage());
+				resolutionErrors.addAttributeGroupError(attributeGroup, e);
 			}
 			removeAttributes(presentAttributes);
 		}
@@ -130,36 +131,6 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 		for(String attribute : attributes)
 		{
 			attributeMappings.remove(attribute);
-		}
-	}
-	
-	public static class ViewResolutionErrorsImpl implements ViewResolutionErrors
-	{
-		private View view;
-		public ViewResolutionErrorsImpl(View view)
-		{
-			this.view = view;
-		}
-		@Override
-		public View getView()
-		{
-			return view;
-		}
-		@Override
-		public boolean isNotEmpty()
-		{
-			// TODO Auto-generated method stub
-			return false;
-		}
-		
-		private void addAttributeError(String attribute, String errorMessage)
-		{
-			
-		}
-		
-		private void addAttributeGroupError(String[] attributeGroup, String errorMessage)
-		{
-			
 		}
 	}
 }

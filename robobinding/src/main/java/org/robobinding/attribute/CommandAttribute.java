@@ -34,7 +34,8 @@ public class CommandAttribute extends AbstractAttribute
 		
 		if (curlyBracesArePresentIn(value))
 		{
-			throw new MalformedAttributeException("Curly braces should be used for binding to properties. "
+			throw new MalformedAttributeException(name,
+					"Curly braces should be used for binding to properties. "
 					+ "Event handling invokes methods on your presentation model, and there is no method called '" + value + "'");
 		}
 		

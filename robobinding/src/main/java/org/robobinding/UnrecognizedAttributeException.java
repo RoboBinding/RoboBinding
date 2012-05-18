@@ -13,35 +13,26 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding;
 
-import org.robobinding.ViewResolutionErrors;
-import org.robobinding.binder.BindingAttributeResolver.ViewBindingAttributes;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewResolutionResult
+@SuppressWarnings("serial")
+public class UnrecognizedAttributeException extends AttributeResolutionException
 {
-	private ViewBindingAttributes resolvedBindingAttributes;
-	private ViewResolutionErrors errors;
-
-	public ViewResolutionResult(ViewBindingAttributes resolvedBindingAttributes, ViewResolutionErrors errors)
+	public UnrecognizedAttributeException(String attribute)
 	{
-		this.resolvedBindingAttributes = resolvedBindingAttributes;
-		this.errors = errors;
+		super(attribute);
 	}
 
-	public ViewBindingAttributes getResolvedBindingAttributes()
+	@Override
+	public String getMessage()
 	{
-		return resolvedBindingAttributes;
-	}
-
-	public void assertNoErrors()
-	{
-		errors.assertNoErrors();
+		return "Unrecognized attribute '"+getAttribute()+"'";
 	}
 }

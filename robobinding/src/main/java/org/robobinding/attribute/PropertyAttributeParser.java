@@ -38,7 +38,7 @@ public class PropertyAttributeParser
 			return new StaticResourceAttribute(name, value);
 		}
 		
-		throw new MalformedAttributeException(describeSyntaxError(value));
+		throw new MalformedAttributeException(name, describeSyntaxError(value));
 	}
 	
 	public ValueModelAttribute parseAsValueModelAttribute(String name, String value)
@@ -48,7 +48,7 @@ public class PropertyAttributeParser
 			return new ValueModelAttribute(name, value);
 		}
 		
-		throw new MalformedAttributeException(describeSyntaxError(value));
+		throw new MalformedAttributeException(name, describeSyntaxError(value));
 	}
 	
 	StaticResourceAttribute parseAsStaticResourceAttribute(String name, String value)
@@ -58,7 +58,7 @@ public class PropertyAttributeParser
 			return new StaticResourceAttribute(name, value);
 		}
 		
-		throw new MalformedAttributeException(describeSyntaxError(value));
+		throw new MalformedAttributeException(name, describeSyntaxError(value));
 	}
 
 	private String describeSyntaxError(String value)
