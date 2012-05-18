@@ -26,5 +26,6 @@ import android.view.View;
 public interface ViewResolutionErrors
 {
 	View getView();
-	boolean isNotEmpty();
+	int numErrors();
+	void assertNoErrors();
 }

@@ -18,6 +18,9 @@ package org.robobinding.attribute;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.robobinding.AttributeGroupResolutionException;
+
+
 
 /**
  *
@@ -26,7 +29,7 @@ import java.util.Collections;
  * @author Robert Taylor
  */
 @SuppressWarnings("serial")
-public class MissingRequiredAttributesException extends AttributeResolutionException
+public class MissingRequiredAttributesException extends AttributeGroupResolutionException
 {
 	private final Collection<String> missingAttributes;
 	

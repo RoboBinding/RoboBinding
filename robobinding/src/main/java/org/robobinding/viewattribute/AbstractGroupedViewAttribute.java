@@ -22,6 +22,8 @@ import org.robobinding.attribute.CommandAttribute;
 import org.robobinding.attribute.GroupedAttributeDetails;
 import org.robobinding.attribute.ValueModelAttribute;
 
+import com.google.common.collect.Maps;
+
 import android.view.View;
 
 /**
@@ -113,13 +115,14 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	
 	protected class ChildAttributesBinding
 	{
-		private final BindingContext bindingContext;
+		private BindingContext bindingContext;
 		private Map<String, ViewAttribute> childAttributeMap;
 		private AttributeGroupBindingException bindingErrors;
 		private ChildAttributesBinding(BindingContext bindingContext, AttributeGroupBindingException bindingErrors)
 		{
 			this.bindingContext = bindingContext;
 			this.bindingErrors = bindingErrors;
+			childAttributeMap = Maps.newHashMap();
 		}
 		
 		public ChildAttribute add(ChildAttribute childAttribute, String attribute)

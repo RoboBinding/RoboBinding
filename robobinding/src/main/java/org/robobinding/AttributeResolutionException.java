@@ -13,21 +13,38 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
-
-import org.robobinding.ViewResolutionErrors;
+package org.robobinding;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @SuppressWarnings("serial")
-public class ViewResolutionException extends RuntimeException
+public class AttributeResolutionException extends RuntimeException
 {
-	public ViewResolutionException(ViewResolutionErrors errors)
+	private String attribute;
+
+	public AttributeResolutionException(String attributeName)
 	{
-		// TODO Auto-generated constructor stub
+		this.attribute = attributeName;
+	}
+
+	public AttributeResolutionException(String attributeName, String message)
+	{
+		super(message);
+		this.attribute = attributeName;
+	}
+
+	public AttributeResolutionException(String attributeName, String message, Throwable cause)
+	{
+		super(message, cause);
+		this.attribute = attributeName;
+	}
+
+	public String getAttribute()
+	{
+		return attribute;
 	}
 }
