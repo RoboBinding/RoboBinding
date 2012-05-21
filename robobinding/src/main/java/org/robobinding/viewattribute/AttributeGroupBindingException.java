@@ -33,22 +33,22 @@ import static org.robobinding.CollectionUtils.*;
 @SuppressWarnings("serial")
 public class AttributeGroupBindingException extends RuntimeException
 {
-	private List<String> generalErrors;
-	private Map<String, String> childAttributeErrors;
+	private List<RuntimeException> generalErrors;
+	private Map<String, RuntimeException> childAttributeErrors;
 	public AttributeGroupBindingException()
 	{
 		generalErrors = Lists.newArrayList();
 		childAttributeErrors = Maps.newHashMap();
 	}
 	
-	void addGeneralError(String errorMessage)
+	void addGeneralError(RuntimeException e)
 	{
-		generalErrors.add(errorMessage);
+		generalErrors.add(e);
 	}
 	
-	void addChildAttributeError(String attribute, String errorMessage)
+	void addChildAttributeError(String attribute, RuntimeException e)
 	{
-		childAttributeErrors.put(attribute, errorMessage);
+		childAttributeErrors.put(attribute, e);
 	}
 	
 	void assertNoErrors()

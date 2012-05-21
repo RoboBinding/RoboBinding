@@ -15,7 +15,9 @@
  */
 package org.robobinding.viewattribute.edittext;
 
+import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import static org.robobinding.attribute.ChildAttributeResolvers.*;
 
 import android.widget.EditText;
 
@@ -40,7 +42,14 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	}
 	
 	@Override
-	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
+	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
+	{
+		resolverMappings.map(TEXT, valueModelAttributeResolver());
+		resolverMappings.map(VALUE_COMMIT_MODE, plainAttributeResolver());
+	}
+	
+	@Override
+	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 	{
 		textAttribute = binding.addProperty(TwoWayTextAttribute.class, TEXT);
 		
@@ -53,16 +62,22 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 		if (textAttribute.isTwoWayBinding() && valueCommitModeSpecified())
 			throw new RuntimeException("The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
 
-		valueCommitMode = ValueCommitMode.from(valueCommitModeAttributeValue());
+		if(valueCommitModeSpecified())
+		{
+			valueCommitMode = ValueCommitMode.from(valueCommitModeAttributeValue());
+		}else
+		{
+			valueCommitMode = ValueCommitMode.ON_CHANGE;
+		}
 	}
 
 	private String valueCommitModeAttributeValue()
 	{
-		return groupedAttributeDetails.parsableAttributeFor(VALUE_COMMIT_MODE).getValue();
+		return groupedAttribute.plainAttribute(VALUE_COMMIT_MODE).getValue();
 	}
 
 	private boolean valueCommitModeSpecified()
 	{
-		return groupedAttributeDetails.hasAttribute(VALUE_COMMIT_MODE);
+		return groupedAttribute.hasAttribute(VALUE_COMMIT_MODE);
 	}
 }

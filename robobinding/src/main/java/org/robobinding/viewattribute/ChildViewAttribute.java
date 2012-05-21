@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.attribute.ParsableAttribute;
+import org.robobinding.attribute.AbstractAttribute;
 
 
 
@@ -25,7 +25,7 @@ import org.robobinding.attribute.ParsableAttribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ChildAttribute extends ViewAttribute
+public interface ChildViewAttribute<T extends AbstractAttribute> extends ViewAttribute
 {
-	void setAttribute(ParsableAttribute attribute);
+	void setAttribute(T attribute);
 }

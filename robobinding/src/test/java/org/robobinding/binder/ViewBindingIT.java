@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
-import org.robobinding.binder.BindingAttributeResolver.ViewBindingAttributes;
 import org.robobinding.presentationmodel.PresentationModel;
 import org.robobinding.viewattribute.AttributeBindingException;
 

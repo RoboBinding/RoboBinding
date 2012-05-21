@@ -13,34 +13,15 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
-
-import org.robobinding.ViewResolutionErrors;
+package org.robobinding.attribute;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewResolutionResult
+public interface ChildAttributeResolver
 {
-	private ViewBindingAttributes resolvedBindingAttributes;
-	private ViewResolutionErrors errors;
-
-	public ViewResolutionResult(ViewBindingAttributes resolvedBindingAttributes, ViewResolutionErrors errors)
-	{
-		this.resolvedBindingAttributes = resolvedBindingAttributes;
-		this.errors = errors;
-	}
-
-	public ViewBindingAttributes getResolvedBindingAttributes()
-	{
-		return resolvedBindingAttributes;
-	}
-
-	public void assertNoErrors()
-	{
-		errors.assertNoErrors();
-	}
+	AbstractAttribute resolveChildAttribute(String attribute, String attributeValue);
 }

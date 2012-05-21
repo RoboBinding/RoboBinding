@@ -30,7 +30,6 @@ import org.junit.runner.RunWith;
 import org.robobinding.AttributeResolutionException;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.ViewResolutionException;
-import org.robobinding.binder.BindingAttributeResolver.ViewBindingAttributes;
 
 import android.app.Activity;
 import android.view.View;

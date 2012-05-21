@@ -16,18 +16,17 @@
 package org.robobinding;
 
 
+import static org.robobinding.CollectionUtils.isNotEmpty;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.robobinding.viewattribute.AttributeBindingException;
-import static org.robobinding.CollectionUtils.*;
+import android.view.View;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
-import android.view.View;
 
 /**
  *
@@ -74,34 +73,22 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 		return isNotEmpty(attributeErrors) || isNotEmpty(attributeGroupErrors);
 	}
 
-	void addAttributeError(String attribute, RuntimeException e)
+	void addAttributeError(AttributeResolutionException e)
 	{
-		if(e instanceof AttributeBindingException)
-		{
-			attributeErrors.add((AttributeResolutionException)e);
-		}else
-		{
-			attributeErrors.add(new AttributeResolutionException(attribute, e.getMessage(), e));
-		}
+		attributeErrors.add((AttributeResolutionException)e);
 	}
 	
 	void addUnrecognizedAttributes(Collection<String> attributes)
 	{
 		for(String attribute : attributes)
 		{
-			addAttributeError(attribute, new UnrecognizedAttributeException(attribute));
+			addAttributeError(new UnrecognizedAttributeException(attribute));
 		}
 	}
 	
-	void addAttributeGroupError(String[] attributeGroup, RuntimeException e)
+	void addAttributeGroupError(String[] attributeGroup, AttributeGroupResolutionException e)
 	{
-		if(e instanceof AttributeGroupResolutionException)
-		{
-			attributeGroupErrors.put(attributeGroup, (AttributeGroupResolutionException)e);
-		}else
-		{
-			attributeGroupErrors.put(attributeGroup, new AttributeGroupResolutionException(e.getMessage(), e));
-		}
+		attributeGroupErrors.put(attributeGroup, e);
 	}
 
 	public Collection<AttributeResolutionException> getAttributeErrors()

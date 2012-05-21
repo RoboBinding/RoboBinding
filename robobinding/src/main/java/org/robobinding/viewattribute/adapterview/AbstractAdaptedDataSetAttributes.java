@@ -17,7 +17,9 @@ package org.robobinding.viewattribute.adapterview;
 
 
 import org.robobinding.BindingContext;
+import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import static org.robobinding.attribute.ChildAttributeResolvers.*;
 
 import android.widget.AdapterView;
 
@@ -40,6 +42,14 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 		return new String[]{SOURCE, ITEM_LAYOUT};
 	}
 	
+	@Override
+	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
+	{
+		resolverMappings.map(SOURCE, valueModelAttributeResolver());
+		resolverMappings.map(ITEM_LAYOUT, propertyAttributeResolver());
+		resolverMappings.map(ITEM_MAPPING, plainAttributeResolver());
+	}
+	
 	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected void preBind(BindingContext bindingContext)
@@ -48,11 +58,11 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	}
 
 	@Override
-	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
+	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 	{
 		binding.add(new SourceAttribute(dataSetAdapter), SOURCE);
 		binding.add(new ItemLayoutAttribute(view, dataSetAdapter), ITEM_LAYOUT);
-		if(groupedAttributeDetails.hasAttribute(ITEM_MAPPING))
+		if(groupedAttribute.hasAttribute(ITEM_MAPPING))
 		{
 			binding.add(new ItemMappingAttribute(dataSetAdapter),ITEM_MAPPING);
 		}

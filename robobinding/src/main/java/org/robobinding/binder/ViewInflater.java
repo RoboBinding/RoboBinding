@@ -23,7 +23,6 @@ import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.binder.BindingAttributeResolver.ViewBindingAttributes;
 import org.robobinding.binder.ViewFactory.ViewFactoryListener;
 
 import android.content.Context;

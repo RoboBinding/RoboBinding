@@ -25,8 +25,8 @@ import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.attribute.ParsableAttribute;
-import org.robobinding.viewattribute.ChildAttribute;
+import org.robobinding.attribute.PlainAttribute;
+import org.robobinding.viewattribute.ChildViewAttribute;
 
 import android.content.Context;
 import android.view.View;
@@ -40,7 +40,7 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemMappingAttribute implements ChildAttribute
+public class ItemMappingAttribute implements ChildViewAttribute<PlainAttribute>
 {
 	private static final String ITEM_MAPPING_PATTERN = "(\\w+)\\.(\\w+):($?\\{\\w+\\})";
 	private static final Pattern ITEM_MAPPING_COMPILED_PATTERN = Pattern.compile(ITEM_MAPPING_PATTERN);
@@ -56,7 +56,7 @@ public class ItemMappingAttribute implements ChildAttribute
 	}
 	
 	@Override
-	public void setAttribute(ParsableAttribute attribute)
+	public void setAttribute(PlainAttribute attribute)
 	{
 		this.itemMappingAttributeValue = attribute.getValue();
 	}

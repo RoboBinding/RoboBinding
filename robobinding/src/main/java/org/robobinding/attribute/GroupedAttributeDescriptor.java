@@ -32,60 +32,27 @@ import com.google.common.collect.Maps;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
+public class GroupedAttributeDescriptor
 {
 	private final Map<String, String> presentAttributeMappings;
-	private final PropertyAttributeParser propertyAttributeParser;
 
-	public GroupedAttributeDetailsImpl(Map<String, String> presentAttributeMappings)
+	public GroupedAttributeDescriptor(Map<String, String> presentAttributeMappings)
 	{
 		this.presentAttributeMappings = Maps.newHashMap(presentAttributeMappings);
-		propertyAttributeParser = new PropertyAttributeParser();
 	}
 
-	@Override
-	public boolean hasAttribute(String attributeName)
+	Iterable<Map.Entry<String, String>> presentAttributes()
 	{
-		return presentAttributeMappings.containsKey(attributeName);
+		return presentAttributeMappings.entrySet();
 	}
 
-	@Override
-	public CommandAttribute commandAttributeFor(String attribute)
-	{
-		return new CommandAttribute(attribute, attributeValueFor(attribute));
-	}
-
-	@Override
-	public ValueModelAttribute valueModelAttributeFor(String attribute)
-	{
-		return propertyAttributeParser.parseAsValueModelAttribute(attribute, attributeValueFor(attribute));
-	}
-
-	@Override
-	public StaticResourceAttribute staticResourceAttributeFor(String attribute)
-	{
-		return propertyAttributeParser.parseAsStaticResourceAttribute(attribute, attributeValueFor(attribute));
-	}
-
-	@Override
-	public ParsableAttribute parsableAttributeFor(String attribute)
-	{
-		return new ParsableAttribute(propertyAttributeParser, attribute, attributeValueFor(attribute));
-	}
-	
-	private String attributeValueFor(String attributeName)
-	{
-		return presentAttributeMappings.get(attributeName);
-	}
-
-	@Override
 	public void assertAttributesArePresent(String... attributeNames)
 	{
 		if (!hasAttributes(attributeNames))
 			throw new MissingRequiredAttributesException(findAbsentAttributes(attributeNames));
 	}
 
-	boolean hasAttributes(String... attributes)
+	private boolean hasAttributes(String... attributes)
 	{
 		for (String attribute : attributes)
 		{
@@ -97,7 +64,7 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 		return true;
 	}
 
-	Collection<String> findAbsentAttributes(String... attributeNames)
+	private Collection<String> findAbsentAttributes(String... attributeNames)
 	{
 		List<String> absentAttributes = Lists.newArrayList();
 		for (String attributeName : attributeNames)
@@ -115,10 +82,10 @@ public class GroupedAttributeDetailsImpl implements GroupedAttributeDetails
 	{
 		if (this == other)
 			return true;
-		if (!(other instanceof GroupedAttributeDetailsImpl))
+		if (!(other instanceof GroupedAttributeDescriptor))
 			return false;
 	
-		final GroupedAttributeDetailsImpl that = (GroupedAttributeDetailsImpl) other;
+		final GroupedAttributeDescriptor that = (GroupedAttributeDescriptor) other;
 		return new EqualsBuilder()
 			.append(presentAttributeMappings, that.presentAttributeMappings)
 			.isEquals();

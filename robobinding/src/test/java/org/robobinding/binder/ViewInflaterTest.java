@@ -33,7 +33,6 @@ import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.binder.BindingAttributeParser;
 import org.robobinding.binder.BindingAttributeResolver;
 import org.robobinding.binder.ViewInflater;
-import org.robobinding.binder.BindingAttributeResolver.ViewBindingAttributes;
 import org.robobinding.binder.ViewInflater.InflatedView;
 
 import com.google.common.collect.Lists;
