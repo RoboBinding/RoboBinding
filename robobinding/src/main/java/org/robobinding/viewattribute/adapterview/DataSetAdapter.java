@@ -37,14 +37,14 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private enum ViewType {ITEM_LAYOUT, DROPDOWN_LAYOUT}
 	
 	private DataSetValueModel<T> dataSetValueModel;
-	private final ItemBinder rowBinder;
+	private final ItemBinder itemBinder;
 	
 	private boolean preInitializeViews;
 	private boolean propertyChangeEventOccurred = false;
 	
 	public DataSetAdapter(Context context, boolean preInitializeViews)
 	{
-		this.rowBinder = new ItemBinder(context);
+		this.itemBinder = new ItemBinder(context);
 		this.preInitializeViews = preInitializeViews;
 	}
 
@@ -84,12 +84,12 @@ public class DataSetAdapter<T> extends BaseAdapter
 	
 	public void setItemLayoutId(int itemLayoutId)
 	{
-		rowBinder.setItemLayoutId(itemLayoutId);
+		itemBinder.setItemLayoutId(itemLayoutId);
 	}
 	
 	public void setDropdownLayoutId(int dropdownLayoutId)
 	{
-		rowBinder.setDropdownLayoutId(dropdownLayoutId);
+		itemBinder.setDropdownLayoutId(dropdownLayoutId);
 	}
 	
 	@Override
@@ -143,7 +143,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private View newView(int position, ViewGroup parent, ViewType viewType)
 	{
 		ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
-		View view = viewType == ViewType.ITEM_LAYOUT ? rowBinder.inflateItemAndBindTo(itemPresentationModel) : rowBinder.inflateDropdownAndBindTo(itemPresentationModel);
+		View view = viewType == ViewType.ITEM_LAYOUT ? itemBinder.inflateItemAndBindTo(itemPresentationModel) : itemBinder.inflateDropdownAndBindTo(itemPresentationModel);
 		view.setTag(itemPresentationModel);
 		return view;
 	}
@@ -157,11 +157,11 @@ public class DataSetAdapter<T> extends BaseAdapter
 
 	public void setItemMappingAttribute(ItemMappingAttribute itemMappingAttribute)
 	{
-		rowBinder.setItemMappingAttribute(itemMappingAttribute);
+		itemBinder.setItemMappingAttribute(itemMappingAttribute);
 	}
 
 	public void setDropdownMappingAttribute(DropdownMappingAttribute dropdownMappingAttribute)
 	{
-		rowBinder.setDropdownMappingAttribute(dropdownMappingAttribute);
+		itemBinder.setDropdownMappingAttribute(dropdownMappingAttribute);
 	}
 }
