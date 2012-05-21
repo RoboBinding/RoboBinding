@@ -45,9 +45,9 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	@Override
 	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
-		resolverMappings.map(SOURCE, valueModelAttributeResolver());
-		resolverMappings.map(ITEM_LAYOUT, propertyAttributeResolver());
-		resolverMappings.map(ITEM_MAPPING, plainAttributeResolver());
+		resolverMappings.map(valueModelAttributeResolver(), SOURCE);
+		resolverMappings.map(propertyAttributeResolver(), ITEM_LAYOUT);
+		resolverMappings.map(plainAttributeResolver(), ITEM_MAPPING);
 	}
 	
 	@SuppressWarnings({ "rawtypes" })

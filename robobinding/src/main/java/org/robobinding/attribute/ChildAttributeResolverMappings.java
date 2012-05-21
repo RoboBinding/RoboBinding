@@ -36,7 +36,7 @@ public class ChildAttributeResolverMappings
 		childAttributeResolvers = Maps.newHashMap();
 	}
 	
-	public void map(String attribute, ChildAttributeResolver resolver)
+	public void map(ChildAttributeResolver resolver, String attribute)
 	{
 		Validate.notEmpty(attribute, "Attribute cannot be empty");
 		Validate.notNull(resolver, "Resolver cannot be null");

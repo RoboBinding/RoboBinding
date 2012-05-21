@@ -44,8 +44,8 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	@Override
 	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
-		resolverMappings.map(TEXT, valueModelAttributeResolver());
-		resolverMappings.map(VALUE_COMMIT_MODE, plainAttributeResolver());
+		resolverMappings.map(valueModelAttributeResolver(), TEXT);
+		resolverMappings.map(plainAttributeResolver(), VALUE_COMMIT_MODE);
 	}
 	
 	@Override
