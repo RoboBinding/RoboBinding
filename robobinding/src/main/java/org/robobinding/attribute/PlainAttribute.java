@@ -21,36 +21,14 @@ package org.robobinding.attribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ParsableAttribute extends AbstractAttribute
+public class PlainAttribute extends AbstractAttribute
 {
-	private final PropertyAttributeParser propertyAttributeParser;
-	private final String value;
+	private String value;
 
-	ParsableAttribute(PropertyAttributeParser propertyAttributeParser, String name, String value)
+	public PlainAttribute(String name, String value)
 	{
 		super(name);
-		this.propertyAttributeParser = propertyAttributeParser;
 		this.value = value;
-	}
-
-	public AbstractPropertyAttribute asPropertyAttribute()
-	{
-		return propertyAttributeParser.parse(getName(), value);
-	}
-	
-	public ValueModelAttribute asValueModelAttribute()
-	{
-		return propertyAttributeParser.parseAsValueModelAttribute(getName(), value);
-	}
-
-	public StaticResourceAttribute asStaticResourceAttribute()
-	{
-		return propertyAttributeParser.parseAsStaticResourceAttribute(getName(), value);
-	}
-
-	public CommandAttribute asCommandAttribute()
-	{
-		return new CommandAttribute(getName(), value);
 	}
 
 	public String getValue()

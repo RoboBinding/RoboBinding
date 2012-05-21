@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.attribute.GroupedAttributeDetailsImpl;
+import org.robobinding.attribute.GroupedAttributeDescriptor;
 import org.robobinding.attribute.MissingRequiredAttributesException;
 import org.robobinding.viewattribute.RandomValues;
 
@@ -42,7 +42,7 @@ import android.view.View;
  */
 public class GroupedAttributeDetailsImplTest
 {
-	private GroupedAttributeDetailsImpl groupedAttributeDetails;
+	private GroupedAttributeDescriptor groupedAttributeDetails;
 	private String[] attributeNames;
 	private View view;
 
@@ -90,7 +90,7 @@ public class GroupedAttributeDetailsImplTest
 	
 	private void noAttributeIsPresent()
 	{
-		groupedAttributeDetails = new GroupedAttributeDetailsImpl(Maps.<String, String>newHashMap());
+		groupedAttributeDetails = new GroupedAttributeDescriptor(Maps.<String, String>newHashMap());
 	}
 	
 	private void allAttributesArePresent()
@@ -101,7 +101,7 @@ public class GroupedAttributeDetailsImplTest
 			presentAttributeMappings.put(attributeName, "attributeValue");
 		}
 		
-		groupedAttributeDetails = new GroupedAttributeDetailsImpl(presentAttributeMappings);
+		groupedAttributeDetails = new GroupedAttributeDescriptor(presentAttributeMappings);
 	}
 	
 	private String[] randomAttributeArray()

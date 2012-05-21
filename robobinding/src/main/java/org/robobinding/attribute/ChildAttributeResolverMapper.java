@@ -15,23 +15,13 @@
  */
 package org.robobinding.attribute;
 
-
-
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface GroupedAttributeDetails
+public interface ChildAttributeResolverMapper
 {
-	boolean hasAttribute(String attribute);
-	
-	CommandAttribute commandAttributeFor(String attribute);
-	ValueModelAttribute valueModelAttributeFor(String attribute);
-	StaticResourceAttribute staticResourceAttributeFor(String attribute);
-	ParsableAttribute parsableAttributeFor(String attribute);
-	
-	void assertAttributesArePresent(String... attributeNames);
+	void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings);
 }

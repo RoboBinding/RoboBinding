@@ -16,9 +16,11 @@
 package org.robobinding.viewattribute.absspinner;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes;
 import org.robobinding.viewattribute.adapterview.DropdownLayoutAttribute;
 import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
+import static org.robobinding.attribute.ChildAttributeResolvers.*;
 
 import android.widget.AbsSpinner;
 
@@ -34,20 +36,28 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 	public static final String DROPDOWN_MAPPING = "dropdownMapping";
 	
 	@Override
+	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
+	{
+		super.mapChildAttributeResolvers(resolverMappings);
+		resolverMappings.map(DROPDOWN_LAYOUT, propertyAttributeResolver());
+		resolverMappings.map(DROPDOWN_MAPPING, plainAttributeResolver());
+	}
+	
+	@Override
 	protected String[] getCompulsoryAttributes()
 	{
 		return ArrayUtils.addAll(super.getCompulsoryAttributes(), DROPDOWN_LAYOUT);
 	}
 
 	@Override
-	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
+	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 	{
-		super.setupChildAttributesBinding(binding);
+		super.setupChildAttributeBindings(binding);
 		
-		if (groupedAttributeDetails.hasAttribute(DROPDOWN_LAYOUT))
+		if (groupedAttribute.hasAttribute(DROPDOWN_LAYOUT))
 			binding.add(new DropdownLayoutAttribute(view, dataSetAdapter), DROPDOWN_LAYOUT);
 		
-		if (groupedAttributeDetails.hasAttribute(DROPDOWN_MAPPING))
+		if (groupedAttribute.hasAttribute(DROPDOWN_MAPPING))
 			binding.add(new DropdownMappingAttribute(dataSetAdapter), DROPDOWN_MAPPING);
 	}
 }

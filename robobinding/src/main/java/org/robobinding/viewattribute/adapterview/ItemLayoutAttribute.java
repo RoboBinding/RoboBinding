@@ -17,10 +17,9 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.AbstractPropertyAttribute;
-import org.robobinding.attribute.ParsableAttribute;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.ChildAttribute;
+import org.robobinding.viewattribute.ChildViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 
 import android.widget.AdapterView;
@@ -31,7 +30,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemLayoutAttribute implements ChildAttribute
+public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyAttribute>
 {
 	private final AdapterView<?> adapterView;
 	protected final DataSetAdapter<?> dataSetAdapter;
@@ -44,9 +43,9 @@ public class ItemLayoutAttribute implements ChildAttribute
 	}
 
 	@Override
-	public void setAttribute(ParsableAttribute attribute)
+	public void setAttribute(AbstractPropertyAttribute attribute)
 	{
-		AbstractPropertyAttribute propertyAttribute = attribute.asPropertyAttribute();
+		AbstractPropertyAttribute propertyAttribute = attribute;
 		if (propertyAttribute.isStaticResource())
 			layoutAttribute = new StaticLayoutAttribute(propertyAttribute.asStaticResourceAttribute());
 		else

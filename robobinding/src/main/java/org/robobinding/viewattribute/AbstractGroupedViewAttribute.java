@@ -18,13 +18,16 @@ package org.robobinding.viewattribute;
 import java.util.Map;
 
 import org.robobinding.BindingContext;
+import org.robobinding.attribute.AbstractAttribute;
+import org.robobinding.attribute.ChildAttributeResolverMapper;
 import org.robobinding.attribute.CommandAttribute;
-import org.robobinding.attribute.GroupedAttributeDetails;
+import org.robobinding.attribute.GroupedAttribute;
+import org.robobinding.attribute.GroupedAttributeDescriptor;
 import org.robobinding.attribute.ValueModelAttribute;
 
-import com.google.common.collect.Maps;
-
 import android.view.View;
+
+import com.google.common.collect.Maps;
 
 /**
  * 
@@ -32,12 +35,12 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute
+public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute, ChildAttributeResolverMapper
 {
 	private static final String[] NO_COMPULSORY_ATTRIBUTES = new String[0];
 	
 	protected T view;
-	protected GroupedAttributeDetails groupedAttributeDetails;
+	protected GroupedAttribute groupedAttribute;
 	private ViewListenersProvider viewListenersProvider;
 	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
 	
@@ -46,12 +49,13 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		this.view = view;
 	}
 
-	public void setGroupedAttributeDetails(GroupedAttributeDetails groupedAttributeDetails)
+	public void setGroupedAttributeDescriptor(GroupedAttributeDescriptor groupedAttributeDescriptor)
 	{
-		groupedAttributeDetails.assertAttributesArePresent(getCompulsoryAttributes());
-		this.groupedAttributeDetails = groupedAttributeDetails;
+		groupedAttributeDescriptor.assertAttributesArePresent(getCompulsoryAttributes());
+		groupedAttribute = new GroupedAttribute(groupedAttributeDescriptor);
+		groupedAttribute.resolve(this);
 	}
-	
+
 	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
 	{
 		this.viewListenersProvider = viewListenersProvider;
@@ -72,17 +76,17 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 			preBind(bindingContext);
 		}catch(RuntimeException e)
 		{
-			bindingErrors.addGeneralError(e.getMessage());
+			bindingErrors.addGeneralError(e);
 			throw bindingErrors;
 		}
 		
-		ChildAttributesBinding binding = new ChildAttributesBinding(bindingContext, bindingErrors);
+		ChildAttributeBindings binding = new ChildAttributeBindings(bindingContext, bindingErrors);
 		try
 		{
-			setupChildAttributesBinding(binding);
+			setupChildAttributeBindings(binding);
 		}catch(RuntimeException e)
 		{
-			bindingErrors.addGeneralError(e.getMessage());
+			bindingErrors.addGeneralError(e);
 		}
 		binding.perform();
 		bindingErrors.assertNoErrors();
@@ -96,7 +100,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		
 	}
 	
-	protected abstract void setupChildAttributesBinding(ChildAttributesBinding binding);
+	protected abstract void setupChildAttributeBindings(ChildAttributeBindings binding);
 	
 	protected void postBind(BindingContext bindingContext)
 	{
@@ -113,28 +117,30 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		return viewAttributeInstantiator;
 	}
 	
-	protected class ChildAttributesBinding
+	protected class ChildAttributeBindings
 	{
 		private BindingContext bindingContext;
 		private Map<String, ViewAttribute> childAttributeMap;
 		private AttributeGroupBindingException bindingErrors;
-		private ChildAttributesBinding(BindingContext bindingContext, AttributeGroupBindingException bindingErrors)
+		private ChildAttributeBindings(BindingContext bindingContext, AttributeGroupBindingException bindingErrors)
 		{
 			this.bindingContext = bindingContext;
 			this.bindingErrors = bindingErrors;
 			childAttributeMap = Maps.newHashMap();
 		}
 		
-		public ChildAttribute add(ChildAttribute childAttribute, String attribute)
+		public <AttributeType extends AbstractAttribute> ChildViewAttribute<AttributeType> add(ChildViewAttribute<AttributeType> childAttribute, String attributeName)
 		{
-			childAttributeMap.put(attribute, childAttribute);
+			AttributeType attribute = groupedAttribute.attributeFor(attributeName);
+			childAttribute.setAttribute(attribute);
+			childAttributeMap.put(attributeName, childAttribute);
 			return childAttribute;
 		}
 		
 		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(
 				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
 		{
-			ValueModelAttribute attributeValue = groupedAttributeDetails.valueModelAttributeFor(propertyAttribute);
+			ValueModelAttribute attributeValue = groupedAttribute.valueModelAttributeFor(propertyAttribute);
 			PropertyViewAttributeType propertyViewAttribute = safeGetViewAttributeInstantiator().newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
 			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
 			return propertyViewAttribute;
@@ -143,7 +149,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		public <CommandViewAttributeType extends AbstractCommandViewAttribute<T>> CommandViewAttributeType addCommand(
 				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
 		{
-			CommandAttribute attributeValue = groupedAttributeDetails.commandAttributeFor(commandAttribute);
+			CommandAttribute attributeValue = groupedAttribute.commandAttributeFor(commandAttribute);
 			CommandViewAttributeType commandViewAttribute = safeGetViewAttributeInstantiator().newCommandViewAttribute(commandViewAttributeClass, attributeValue);
 			childAttributeMap.put(commandAttribute, commandViewAttribute);
 			return commandViewAttribute;
@@ -165,7 +171,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 					childAttribute.bindTo(bindingContext);
 				}catch(RuntimeException e)
 				{
-					bindingErrors.addChildAttributeError(childAttributeEntry.getKey(), e.getMessage());
+					bindingErrors.addChildAttributeError(childAttributeEntry.getKey(), e);
 				}
 			}
 		}

@@ -25,7 +25,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robobinding.attribute.GroupedAttributeDetails;
-import org.robobinding.attribute.GroupedAttributeDetailsImpl;
+import org.robobinding.attribute.GroupedAttributeDescriptor;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
@@ -102,8 +102,8 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 
 	protected void performInitialization()
 	{
-		GroupedAttributeDetails groupedAttributeDetails = new GroupedAttributeDetailsImpl(presentAttributeMappings);
-		attributeUnderTest.setGroupedAttributeDetails(groupedAttributeDetails);
+		GroupedAttributeDetails groupedAttributeDetails = new GroupedAttributeDescriptor(presentAttributeMappings);
+		attributeUnderTest.setGroupedAttributeDescriptor(groupedAttributeDetails);
 		attributeUnderTest.postInitialization();
 	}
 

@@ -16,9 +16,11 @@
 package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
+import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import static org.robobinding.attribute.ChildAttributeResolvers.*;
 
 import android.content.Context;
 import android.view.View;
@@ -38,6 +40,13 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	{
 		return new String[]{layoutAttribute()};
 	}
+	
+	@Override
+	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
+	{
+		resolverMappings.map(layoutAttribute(), staticResourceAttributeResolver());
+		resolverMappings.map(subViewPresentationModelAttribute(), valueModelAttributeResolver());
+	}
 
 	@Override
 	protected void preBind(BindingContext bindingContext)
@@ -49,11 +58,11 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	
 	View createSubView(BindingContext bindingContext)
 	{
-		SubViewCreator subViewCreator = createSubViewCreator(bindingContext, groupedAttributeDetails.staticResourceAttributeFor(layoutAttribute()));
+		SubViewCreator subViewCreator = createSubViewCreator(bindingContext, groupedAttribute.staticResourceAttributeFor(layoutAttribute()));
 		
-		if(groupedAttributeDetails.hasAttribute(subViewPresentationModelAttribute()))
+		if(groupedAttribute.hasAttribute(subViewPresentationModelAttribute()))
 		{
-			ValueModelAttribute presentationModelAttributeValue = groupedAttributeDetails.valueModelAttributeFor(subViewPresentationModelAttribute());
+			ValueModelAttribute presentationModelAttributeValue = groupedAttribute.valueModelAttributeFor(subViewPresentationModelAttribute());
 			return subViewCreator.createAndBindTo(presentationModelAttributeValue);
 		}else
 		{
@@ -67,9 +76,9 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	}
 
 	@Override
-	protected void setupChildAttributesBinding(ChildAttributesBinding binding)
+	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 	{
-		if(groupedAttributeDetails.hasAttribute(visibilityAttribute()))
+		if(groupedAttribute.hasAttribute(visibilityAttribute()))
 		{
 			binding.add(new SubViewVisibilityAttribute(createVisibility(subView)), visibilityAttribute());
 		}

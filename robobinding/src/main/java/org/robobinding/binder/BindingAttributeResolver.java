@@ -16,13 +16,9 @@
 package org.robobinding.binder;
 
 import java.util.Collection;
-import java.util.List;
 
-import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.ViewResolutionErrors;
-import org.robobinding.viewattribute.AttributeBindingException;
-import org.robobinding.viewattribute.AttributeGroupBindingException;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
@@ -30,7 +26,6 @@ import org.robobinding.viewattribute.impl.ViewAttributeInstantiator;
 
 import android.view.View;
 
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -91,41 +86,5 @@ public class BindingAttributeResolver
 		ByBindingAttributeMappingsResolver bindingAttributeMappingsResolver = new ByBindingAttributeMappingsResolver(bindingAttributeMappings);
 		Collection<ViewAttribute> resolvedViewAttributes = bindingAttributeMappingsResolver.resolve(pendingAttributesForView);
 		return resolvedViewAttributes;
-	}
-
-	public static class ViewBindingAttributes
-	{
-		private View view;
-		private final List<ViewAttribute> viewAttributes;
-		
-		private ViewBindingAttributes(View view)
-		{
-			this.view = view;
-			this.viewAttributes = Lists.newArrayList();
-		}
-		
-		private void addResolvedViewAttributes(Collection<ViewAttribute> viewAttributes)
-		{
-			this.viewAttributes.addAll(viewAttributes);
-		}
-		
-		public void bindTo(BindingContext bindingContext)
-		{
-			ViewBindingException viewBindingErrors = new ViewBindingException(view);
-			for (ViewAttribute viewAttribute : viewAttributes)
-			{
-				try
-				{
-					viewAttribute.bindTo(bindingContext);
-				}catch(AttributeBindingException e)
-				{
-					viewBindingErrors.addAttributeError(e);
-				}catch (AttributeGroupBindingException e) 
-				{
-					viewBindingErrors.addAttributeGroupError(e);
-				}
-			}
-			viewBindingErrors.assertNoErrors();
-		}
 	}
 }

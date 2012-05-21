@@ -72,9 +72,9 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 			try
 			{
 				attributeResolver.resolve(view, attribute, attributeValue);
-			}catch(RuntimeException e)
+			}catch(AttributeResolutionException e)
 			{
-				resolutionErrors.addAttributeError(attribute, e);
+				resolutionErrors.addAttributeError(e);
 			}
 			
 			attributeMappings.remove(attribute);
@@ -92,10 +92,14 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 			try
 			{
 				attributeGroupResolver.resolve(view, attributeGroup, presentAttributeMappings);
-			}catch(RuntimeException e)
+			}catch(AttributeGroupResolutionException e)
 			{
 				resolutionErrors.addAttributeGroupError(attributeGroup, e);
+			}catch(AttributeResolutionException e)
+			{
+				resolutionErrors.addAttributeError(e);
 			}
+			
 			removeAttributes(presentAttributes);
 		}
 	}

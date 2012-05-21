@@ -16,11 +16,10 @@
 package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
-import org.robobinding.attribute.ParsableAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetValueModel;
-import org.robobinding.viewattribute.ChildAttribute;
+import org.robobinding.viewattribute.ChildViewAttribute;
 
 /**
  * 
@@ -28,7 +27,7 @@ import org.robobinding.viewattribute.ChildAttribute;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SourceAttribute implements ChildAttribute
+public class SourceAttribute implements ChildViewAttribute<ValueModelAttribute>
 {
 	private final DataSetAdapter<?> dataSetAdapter;
 	private ValueModelAttribute attribute;
@@ -39,9 +38,9 @@ public class SourceAttribute implements ChildAttribute
 	}
 	
 	@Override
-	public void setAttribute(ParsableAttribute attribute)
+	public void setAttribute(ValueModelAttribute attribute)
 	{
-		this.attribute = attribute.asValueModelAttribute();
+		this.attribute = attribute;
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
