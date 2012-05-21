@@ -44,8 +44,8 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	@Override
 	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
-		resolverMappings.map(layoutAttribute(), staticResourceAttributeResolver());
-		resolverMappings.map(subViewPresentationModelAttribute(), valueModelAttributeResolver());
+		resolverMappings.map(staticResourceAttributeResolver(), layoutAttribute());
+		resolverMappings.map(valueModelAttributeResolver(), subViewPresentationModelAttribute());
 	}
 
 	@Override

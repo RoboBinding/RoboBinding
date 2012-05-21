@@ -39,8 +39,8 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
 		super.mapChildAttributeResolvers(resolverMappings);
-		resolverMappings.map(DROPDOWN_LAYOUT, propertyAttributeResolver());
-		resolverMappings.map(DROPDOWN_MAPPING, plainAttributeResolver());
+		resolverMappings.map(propertyAttributeResolver(), DROPDOWN_LAYOUT);
+		resolverMappings.map(plainAttributeResolver(), DROPDOWN_MAPPING);
 	}
 	
 	@Override
