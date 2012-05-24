@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.MockBindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.attribute.PlainAttribute;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -54,9 +55,9 @@ public class ItemMappingAttributeTest
 	@Test
 	public void whenBinding_thenUpdateDataSetAdapter()
 	{
-		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
+		ItemMappingAttribute itemMappingAttribute = newItemMappingAttribute();
 		
-		itemMappingAttribute.bind(dataSetAdapter, MockBindingContext.create(mockContext));
+		itemMappingAttribute.bindTo(MockBindingContext.create(mockContext));
 		
 		verify(dataSetAdapter).setItemPredefinedPendingAttributesForViewGroup(anyCollectionOf(PredefinedPendingAttributesForView.class));
 	}
@@ -64,10 +65,17 @@ public class ItemMappingAttributeTest
 	@Test
 	public void whenBinding_thenInitializeViewMappings()
 	{
-		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(MAPPING_ATTRIBUTE_VALUE);
+		ItemMappingAttribute itemMappingAttribute = newItemMappingAttribute();
 		
-		itemMappingAttribute.bind(dataSetAdapter, MockBindingContext.create(mockContext));
+		itemMappingAttribute.bindTo(MockBindingContext.create(mockContext));
 		
 		assertNotNull(itemMappingAttribute.getViewMappingsCollection());
+	}
+	
+	private ItemMappingAttribute newItemMappingAttribute()
+	{
+		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(dataSetAdapter);
+		itemMappingAttribute.setAttribute(new PlainAttribute("name", MAPPING_ATTRIBUTE_VALUE));
+		return itemMappingAttribute;
 	}
 }

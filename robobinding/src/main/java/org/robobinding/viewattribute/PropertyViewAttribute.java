@@ -30,5 +30,5 @@ import android.view.View;
 public interface PropertyViewAttribute<T extends View> extends ViewAttribute
 {
 	void setView(T view);
-	void setAttributeValue(ValueModelAttribute attributeValue);
+	void setAttribute(ValueModelAttribute attribute);
 }

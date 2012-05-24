@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import static org.robobinding.attribute.Attributes.*;
 
 import java.util.Random;
 
@@ -54,11 +56,11 @@ public class ResourceBindingDetailsTest
 	@Test
 	public void givenResourceNameTypeAndPackage_thenGetResourceIdFromContextResources()
 	{
-		ResourceBindingDetails resourceBindingDetails = new ResourceBindingDetails(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE);
+		StaticResourceAttribute attribute = aStaticResourceAttribute(resourceAttributeValue(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE));
 		int resourceId = anyNumber();
 		when(resources.getIdentifier(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE)).thenReturn(resourceId);
 		
-		int result = resourceBindingDetails.getResourceId(context);
+		int result = attribute.getResourceId(context);
 		
 		assertThat(result, equalTo(resourceId));
 	}
@@ -66,13 +68,23 @@ public class ResourceBindingDetailsTest
 	@Test
 	public void givenOnlyResourceNameAndType_thenUseContextPackageToGetResourceId()
 	{
-		ResourceBindingDetails resourceBindingDetails = new ResourceBindingDetails(RESOURCE_NAME, RESOURCE_TYPE);
+		StaticResourceAttribute attribute = aStaticResourceAttribute(resourceAttributeValue(RESOURCE_NAME, RESOURCE_TYPE));
 		int resourceId = anyNumber();
 		when(resources.getIdentifier(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE)).thenReturn(resourceId);
 		
-		int result = resourceBindingDetails.getResourceId(context);
+		int result = attribute.getResourceId(context);
 		
 		assertThat(result, equalTo(resourceId));
+	}
+	
+	private String resourceAttributeValue(String resourceName, String resourceType)
+	{
+		return "@"+resourceType+"/"+resourceName;
+	}
+	
+	private String resourceAttributeValue(String resourceName, String resourceType, String resourcePackage)
+	{
+		return "@"+resourcePackage+":"+resourceType+"/"+resourceName;
 	}
 	
 	private int anyNumber()

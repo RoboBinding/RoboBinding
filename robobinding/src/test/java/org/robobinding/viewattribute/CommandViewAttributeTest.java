@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.MockBindingContext;
 import org.robobinding.attribute.Command;
+import org.robobinding.attribute.CommandAttribute;
 import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.adapterview.ItemClickEvent;
@@ -53,7 +54,7 @@ public final class CommandViewAttributeTest
 	{
 		commandViewAttribute = new DummyCommandViewAttribute();
 		commandViewAttribute.setView(mock(View.class));
-		commandViewAttribute.setAttribute(FUNCTION_NAME);
+		commandViewAttribute.setAttribute(new CommandAttribute("name", FUNCTION_NAME));
 		presentationModelAdapter = mock(PresentationModelAdapter.class);
 	}
 	

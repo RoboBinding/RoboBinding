@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attribute;
 
 /**
  *
@@ -21,19 +21,24 @@ package org.robobinding.viewattribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@SuppressWarnings("serial")
-public class AttributeBindingException extends RuntimeException
+public class Attributes
 {
-	private String name;
-	public AttributeBindingException(String name, Throwable cause)
+	private Attributes()
 	{
-		super(cause.getMessage(), cause);
-		this.name = name;
-	}
-
-	public String getName()
-	{
-		return name;
 	}
 	
+	public static ValueModelAttribute aValueModelAttribute(String value)
+	{
+		return new ValueModelAttribute("name", value);
+	}
+	
+	public static CommandAttribute aCommandAttribute(String value)
+	{
+		return new CommandAttribute("name", value);
+	}
+	
+	public static StaticResourceAttribute aStaticResourceAttribute(String value)
+	{
+		return new StaticResourceAttribute("name", value);
+	}
 }

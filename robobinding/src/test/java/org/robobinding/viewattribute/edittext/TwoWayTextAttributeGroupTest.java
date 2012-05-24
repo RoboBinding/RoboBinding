@@ -19,13 +19,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractGroupedViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
-
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -95,12 +91,6 @@ public class TwoWayTextAttributeGroupTest extends AbstractGroupedViewAttributeTe
 		givenAttributes(twoWayBindingText, valueCommitMode);
 
 		performInitialization();
-	}
-
-	@Override
-	protected List<?> getGeneratedChildAttributes(TwoWayTextAttributeGroup attributeUnderTest)
-	{
-		return Lists.newArrayList(attributeUnderTest.textAttribute);
 	}
 
 }

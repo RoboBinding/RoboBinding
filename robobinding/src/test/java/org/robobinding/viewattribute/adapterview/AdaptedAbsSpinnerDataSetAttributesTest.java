@@ -15,8 +15,6 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractGroupedViewAttributeTest;
 import org.robobinding.viewattribute.absspinner.AdaptedAbsSpinnerDataSetAttributes;
@@ -74,12 +72,6 @@ public class AdaptedAbsSpinnerDataSetAttributesTest extends AbstractGroupedViewA
 		givenAttributes(dropdownLayout);
 		
 		performInitialization();
-	}
-	
-	@Override
-	protected List<?> getGeneratedChildAttributes(AdaptedAbsSpinnerDataSetAttributes attributeUnderTest)
-	{
-		return attributeUnderTest.childViewAttributes;
 	}
 
 	@Override

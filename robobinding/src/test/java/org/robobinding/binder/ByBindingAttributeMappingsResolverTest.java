@@ -27,8 +27,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
+import org.robobinding.ViewResolutionErrors;
+import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.Command;
-import org.robobinding.binder.ByBindingAttributeMappingsResolver;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.PropertyViewAttribute;
@@ -165,7 +167,7 @@ public class ByBindingAttributeMappingsResolverTest
 		}
 
 		@Override
-		public void resolveCompleted()
+		public ViewResolutionErrors resolveCompleted()
 		{
 			throw new UnsupportedOperationException();
 		}
@@ -215,7 +217,7 @@ public class ByBindingAttributeMappingsResolverTest
 		}
 
 		@Override
-		public void setAttributeValue(String attributeValue)
+		public void setAttribute(ValueModelAttribute attributeValue)
 		{
 		}
 
@@ -288,8 +290,14 @@ public class ByBindingAttributeMappingsResolverTest
 		}
 		
 		@Override
-		public void bindTo(BindingContext bindingContext)
+		public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 		{
 		}
+
+		@Override
+		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+		{
+		}
+		
 	}
 }

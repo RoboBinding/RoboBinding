@@ -18,6 +18,7 @@ package org.robobinding.viewattribute.adapterview;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.robobinding.attribute.Attributes.aValueModelAttribute;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -55,9 +56,10 @@ public class SourceAttributeTest
 	{
 		DataSetValueModel dataSetValueModel = mock(DataSetValueModel.class);
 		when(presentationModelAdapter.getDataSetPropertyValueModel(propertyName)).thenReturn(dataSetValueModel);		
-		SourceAttribute sourceAttribute = new SourceAttribute(attributeValue);
+		SourceAttribute sourceAttribute = new SourceAttribute(dataSetAdapter);
+		sourceAttribute.setAttribute(aValueModelAttribute(attributeValue));
 		
-		sourceAttribute.bind(dataSetAdapter, MockBindingContext.create(presentationModelAdapter, context));
+		sourceAttribute.bindTo(MockBindingContext.create(presentationModelAdapter, context));
 		
 		verify(dataSetAdapter).setValueModel(dataSetValueModel);
 	}

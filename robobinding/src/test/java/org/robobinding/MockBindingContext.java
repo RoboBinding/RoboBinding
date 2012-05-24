@@ -90,4 +90,10 @@ public class MockBindingContext
 		creator.declarePresentationModelAdapter(presentationModelAdapter);
 		return creator.bindingContext;
 	}
+	
+	public static BindingContext create()
+	{
+		MockBindingContext creator = new MockBindingContext();
+		return creator.bindingContext;
+	}
 }

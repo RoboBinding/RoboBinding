@@ -120,9 +120,9 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected class ChildAttributeBindings
 	{
 		private BindingContext bindingContext;
-		private Map<String, ViewAttribute> childAttributeMap;
+		Map<String, ViewAttribute> childAttributeMap;
 		private AttributeGroupBindingException bindingErrors;
-		private ChildAttributeBindings(BindingContext bindingContext, AttributeGroupBindingException bindingErrors)
+		ChildAttributeBindings(BindingContext bindingContext, AttributeGroupBindingException bindingErrors)
 		{
 			this.bindingContext = bindingContext;
 			this.bindingErrors = bindingErrors;
@@ -142,6 +142,15 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		{
 			ValueModelAttribute attributeValue = groupedAttribute.valueModelAttributeFor(propertyAttribute);
 			PropertyViewAttributeType propertyViewAttribute = safeGetViewAttributeInstantiator().newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
+			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
+			return propertyViewAttribute;
+		}
+		
+		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(
+				PropertyViewAttributeType propertyViewAttribute, String propertyAttribute)
+		{
+			ValueModelAttribute attributeValue = groupedAttribute.valueModelAttributeFor(propertyAttribute);
+			propertyViewAttribute = safeGetViewAttributeInstantiator().injectProperties(propertyViewAttribute, attributeValue);
 			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
 			return propertyViewAttribute;
 		}

@@ -18,16 +18,15 @@ package org.robobinding.viewattribute;
 import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.attribute.GroupedAttributeDetails;
+import org.robobinding.BindingContext;
+import org.robobinding.MockBindingContext;
 import org.robobinding.attribute.GroupedAttributeDescriptor;
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute.ChildAttributeBindings;
 
 import android.app.Activity;
 import android.content.Context;
@@ -48,6 +47,7 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 {
 	protected T attributeUnderTest;
 	private Map<String, String> presentAttributeMappings;
+	private Collection<ViewAttribute> childAttributes;
 
 	@Before
 	@SuppressWarnings("unchecked")
@@ -101,9 +101,37 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 
 	protected void performInitialization()
 	{
-		GroupedAttributeDetails groupedAttributeDetails = new GroupedAttributeDescriptor(presentAttributeMappings);
-		attributeUnderTest.setGroupedAttributeDescriptor(groupedAttributeDetails);
-		attributeUnderTest.postInitialization();
+		GroupedAttributeDescriptor groupedAttributeDecriptor = new GroupedAttributeDescriptor(presentAttributeMappings);
+		attributeUnderTest.setGroupedAttributeDescriptor(groupedAttributeDecriptor);
+		setupChildAttributes();
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void setupChildAttributes()
+	{
+		AttributeGroupBindingException bindingErrors = new AttributeGroupBindingException();
+		
+		BindingContext bindingContext = MockBindingContext.create();
+		try
+		{
+			attributeUnderTest.preBind(bindingContext);
+		}catch(RuntimeException e)
+		{
+			bindingErrors.addGeneralError(e);
+			throw bindingErrors;
+		}
+		
+		ChildAttributeBindings binding = attributeUnderTest.new ChildAttributeBindings(bindingContext, bindingErrors);
+		try
+		{
+			attributeUnderTest.setupChildAttributeBindings(binding);
+		}catch(RuntimeException e)
+		{
+			bindingErrors.addGeneralError(e);
+		}
+		bindingErrors.assertNoErrors();
+		
+		childAttributes = binding.childAttributeMap.values();
 	}
 
 	protected Attribute attribute(String attribute)
@@ -146,8 +174,6 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 	
 	private Object findChildAttributeOfType(Class<?> attributeClass)
 	{
-		List<?> childAttributes = getGeneratedChildAttributes(attributeUnderTest);
-		
 		for (Object childAttribute : childAttributes)
 		{
 			if (attributeClass.isInstance(childAttribute))
@@ -173,8 +199,6 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 		}
 		validation.assertNoErrors();
 	}
-
-	protected abstract List<?> getGeneratedChildAttributes(T attributeUnderTest);
 
 	public static class Attribute
 	{

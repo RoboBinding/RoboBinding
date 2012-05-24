@@ -22,6 +22,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.robobinding.attribute.Attributes.aCommandAttribute;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -77,7 +78,7 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
 		createViewAndAttribute();
 		
 		attribute.setView(view);
-		attribute.setAttribute(commandName);
+		attribute.setAttribute(aCommandAttribute(commandName));
 	}
 	
 	protected void bindAttribute()

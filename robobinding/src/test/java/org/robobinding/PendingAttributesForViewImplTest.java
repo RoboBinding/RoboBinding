@@ -91,7 +91,7 @@ public class PendingAttributesForViewImplTest
 		String attribute = "existingAttribute";
 		PendingAttributesForView pendingAttributesForView = createWithPendingList(attribute);
 		AttributeResolver attributeResolver = mock(AttributeResolver.class);
-		when(attributeResolver).thenThrow(new MalformedAttributeException(""));
+		when(attributeResolver).thenThrow(new MalformedAttributeException(attribute, "error message"));
 		
 		pendingAttributesForView.resolveAttributeIfExists(attribute, attributeResolver);
 

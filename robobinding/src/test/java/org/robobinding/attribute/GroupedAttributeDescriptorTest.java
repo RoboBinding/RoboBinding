@@ -13,26 +13,16 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.impl;
+package org.robobinding.attribute;
 
-import static org.hamcrest.Matchers.hasItem;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-
-import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.attribute.GroupedAttributeDescriptor;
-import org.robobinding.attribute.MissingRequiredAttributesException;
 import org.robobinding.viewattribute.RandomValues;
 
 import com.google.common.collect.Maps;
-
-import android.view.View;
 
 /**
  *
@@ -40,36 +30,14 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class GroupedAttributeDetailsImplTest
+public class GroupedAttributeDescriptorTest
 {
-	private GroupedAttributeDescriptor groupedAttributeDetails;
+	private GroupedAttributeDescriptor groupedAttributeDescriptor;
 	private String[] attributeNames;
-	private View view;
-
 	@Before
 	public void setUp()
 	{
 		attributeNames = randomAttributeArray();
-		view = mock(View.class);
-	}
-
-	@Test
-	public void givenNoAttributesHaveBeenAdded_whenFindingAbsentAttributes_thenReturnAllAttributes()
-	{
-		noAttributeIsPresent();
-		
-		Collection<String> absentAttributes = groupedAttributeDetails.findAbsentAttributes(attributeNames);
-	
-		for (String attributeName : attributeNames)
-			assertThat(absentAttributes, hasItem(attributeName));
-	}
-
-	@Test
-	public void whenPresentAttributesHaveAllBeenAdded_thenShouldHaveAllAttributes()
-	{
-		allAttributesArePresent();
-		
-		assertTrue(groupedAttributeDetails.hasAttributes(attributeNames));
 	}
 
 	@Test
@@ -77,7 +45,7 @@ public class GroupedAttributeDetailsImplTest
 	{
 		allAttributesArePresent();
 		
-		groupedAttributeDetails.assertAttributesArePresent(view, attributeNames);
+		groupedAttributeDescriptor.assertAttributesArePresent(attributeNames);
 	}
 	
 	@Test (expected = MissingRequiredAttributesException.class)
@@ -85,12 +53,12 @@ public class GroupedAttributeDetailsImplTest
 	{
 		noAttributeIsPresent();
 		
-		groupedAttributeDetails.assertAttributesArePresent(view, attributeNames);
+		groupedAttributeDescriptor.assertAttributesArePresent(attributeNames);
 	}
 	
 	private void noAttributeIsPresent()
 	{
-		groupedAttributeDetails = new GroupedAttributeDescriptor(Maps.<String, String>newHashMap());
+		groupedAttributeDescriptor = new GroupedAttributeDescriptor(Maps.<String, String>newHashMap());
 	}
 	
 	private void allAttributesArePresent()
@@ -101,7 +69,7 @@ public class GroupedAttributeDetailsImplTest
 			presentAttributeMappings.put(attributeName, "attributeValue");
 		}
 		
-		groupedAttributeDetails = new GroupedAttributeDescriptor(presentAttributeMappings);
+		groupedAttributeDescriptor = new GroupedAttributeDescriptor(presentAttributeMappings);
 	}
 	
 	private String[] randomAttributeArray()

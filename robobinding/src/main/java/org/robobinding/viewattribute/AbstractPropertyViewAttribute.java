@@ -41,7 +41,7 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	}
 	
 	@Override
-	public void setAttributeValue(ValueModelAttribute attribute)
+	public void setAttribute(ValueModelAttribute attribute)
 	{
 		this.attribute = attribute;
 	}
@@ -49,13 +49,13 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
+		performValidate();
 		try
 		{
-			performValidate();
 			performBind(bindingContext);
 		}catch(RuntimeException e)
 		{
-			throw new AttributeBindingException(attribute.getName(), e.getMessage());
+			throw new AttributeBindingException(attribute.getName(), e);
 		}
 	}
 	

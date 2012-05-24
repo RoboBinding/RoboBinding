@@ -25,9 +25,11 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.MockBindingContext;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
+import static org.robobinding.viewattribute.MockValueModelAttributeBuilder.*;
 
 import android.content.Context;
 import android.view.View;
@@ -123,7 +125,7 @@ public final class PropertyViewAttributeTest
 	
 	private void initializeAndBindPropertyViewAttribute(boolean twoWayBinding, boolean preInitializeView)
 	{
-		PropertyBindingDetails propertyBindingDetails = new PropertyBindingDetails(PROPERTY_NAME, twoWayBinding);
+		ValueModelAttribute attribute = aValueModelAttribute(PROPERTY_NAME, twoWayBinding);
 		
 		if (twoWayBinding)
 			when(presentationModelAdapter.<Integer>getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
@@ -132,7 +134,7 @@ public final class PropertyViewAttributeTest
 		
 		propertyViewAttributeSpy = new PropertyViewAttributeSpy();
 		propertyViewAttributeSpy.setView(mock(View.class));
-		propertyViewAttributeSpy.setPropertyBindingDetails(propertyBindingDetails);
+		propertyViewAttributeSpy.setAttribute(attribute);
 		propertyViewAttributeSpy.bindTo(MockBindingContext.create(presentationModelAdapter, context, preInitializeView));
 	}
 	
