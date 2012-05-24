@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.robobinding.viewattribute.BindingType.ONE_WAY;
-import static org.robobinding.viewattribute.BindingType.TWO_WAY;
+import static org.robobinding.attribute.BindingType.ONE_WAY;
+import static org.robobinding.attribute.BindingType.TWO_WAY;
 
+import org.junit.Before;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -35,7 +36,7 @@ import org.robobinding.attribute.PropertyAttributeParser;
  * @author Robert Taylor
  */
 @RunWith(Theories.class)
-public class BindingDetailsBuilderTest
+public class PropertyAttributeParserTest
 {
 	@DataPoints
 	public static LegalPropertyAttributeValues[] legalPropertyAttributeValues = {
@@ -63,25 +64,35 @@ public class BindingDetailsBuilderTest
 	
 	public enum ErrorMessage {SIMPLE_ERROR_MESSAGE, SUGGEST_CURLY_BRACES_ERROR_MESSAGE, SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES}
 	
+	private PropertyAttributeParser parser;
+	
+	@Before
+	public void setUp()
+	{
+		parser = new PropertyAttributeParser();
+	}
+	
 	@Theory
 	public void givenLegalPropertyAttributeValues(LegalPropertyAttributeValues legalAttributeValues)
 	{
-		PropertyAttributeParser bindingDetailsBuilder = new PropertyAttributeParser(legalAttributeValues.value);
+		AbstractPropertyAttribute attribute = parse(legalAttributeValues.value);
 		
-		assertFalse(bindingDetailsBuilder.bindsToStaticResource());
-		assertThat(bindingDetailsBuilder.getPropertyName(), equalTo(legalAttributeValues.expectedPropertyName));
-		assertThat(bindingDetailsBuilder.isTwoWayBinding(), equalTo(legalAttributeValues.expectedBindingType == TWO_WAY ? true : false));
+		assertFalse(attribute.isStaticResource());
+		ValueModelAttribute valueModelAttribute = attribute.asValueModelAttribute();
+		assertThat(valueModelAttribute.getPropertyName(), equalTo(legalAttributeValues.expectedPropertyName));
+		assertThat(valueModelAttribute.isTwoWayBinding(), equalTo(legalAttributeValues.expectedBindingType == TWO_WAY ? true : false));
 	}
 	
 	@Theory
 	public void givenLegalResourceAttributeValues(LegalResourceAttributeValues legalAttributeValues)
 	{
-		PropertyAttributeParser bindingDetailsBuilder = new PropertyAttributeParser(legalAttributeValues.value);
+		AbstractPropertyAttribute attribute = parse(legalAttributeValues.value);
 
-		assertTrue(bindingDetailsBuilder.bindsToStaticResource());
-		assertThat(bindingDetailsBuilder.getResourceName(), equalTo(legalAttributeValues.expectedName));
-		assertThat(bindingDetailsBuilder.getResourceType(), equalTo(legalAttributeValues.expectedType));
-		assertThat(bindingDetailsBuilder.getResourcePackage(), equalTo(legalAttributeValues.expectedPackage));
+		assertTrue(attribute.isStaticResource());
+		StaticResourceAttribute staticResourceAttribute = attribute.asStaticResourceAttribute();
+		assertThat(staticResourceAttribute.resourceName, equalTo(legalAttributeValues.expectedName));
+		assertThat(staticResourceAttribute.resourceType, equalTo(legalAttributeValues.expectedType));
+		assertThat(staticResourceAttribute.resourcePackage, equalTo(legalAttributeValues.expectedPackage));
 	}
 	
 	@Theory
@@ -91,7 +102,7 @@ public class BindingDetailsBuilderTest
 		
 		try
 		{
-			new PropertyAttributeParser(illegalBindingAttributeValue.value);
+			parse(illegalBindingAttributeValue.value);
 		} catch (RuntimeException e)
 		{
 			assertThat(e.getMessage(), equalTo(illegalBindingAttributeValue.getExpectedErrorMessage()));
@@ -99,6 +110,11 @@ public class BindingDetailsBuilderTest
 		}
 		
 		assertTrue(exceptionThrown);
+	}
+
+	private AbstractPropertyAttribute parse(String attributeValue)
+	{
+		return parser.parse("name", attributeValue);
 	}
 	
 	static class LegalPropertyAttributeValues

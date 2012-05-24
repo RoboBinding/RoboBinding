@@ -46,13 +46,13 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
+		performValidate();
 		try
 		{
-			performValidate();
 			performBind(bindingContext.getPresentationModelAdapter());
 		}catch(RuntimeException e)
 		{
-			throw new AttributeBindingException(attribute.getName(), e.getMessage());
+			throw new AttributeBindingException(attribute.getName(), e);
 		}
 	}
 

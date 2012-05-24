@@ -15,20 +15,27 @@
  */
 package org.robobinding.viewattribute.impl;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.BindingContext;
-import org.robobinding.attribute.GroupedAttributeDetails;
+import org.robobinding.attribute.ChildAttributeResolverMappings;
+import org.robobinding.attribute.ChildAttributeResolvers;
+import org.robobinding.attribute.GroupedAttributeDescriptor;
+import org.robobinding.attribute.PlainAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ViewListenersProvider;
 
 import android.view.View;
+
+import com.google.common.collect.Maps;
 
 /**
  *
@@ -38,6 +45,9 @@ import android.view.View;
  */
 public class ViewAttributeInstantiatorTest
 {
+	private static final String PLAIN_ATTRIBUTE_NAME = "name";
+	private static final String PLAIN_ATTRIBUTE_VALUE = "value";
+	
 	private ViewAttributeInstantiator viewAttributeInstantiator;
 	private ViewListenersProvider viewListenersProvider;
 	
@@ -52,11 +62,18 @@ public class ViewAttributeInstantiatorTest
 	public void whenNewGroupedViewAttribute_thenNewInstanceShouldBeCorrectlyInitialized()
 	{
 		View view = mock(View.class);
-		GroupedAttributeDetails groupedAttributeDetails = mock(GroupedAttributeDetails.class);
 		
-		MockGroupedViewAttribute groupedViewAttribute = viewAttributeInstantiator.newGroupedViewAttribute(view, MockGroupedViewAttribute.class, groupedAttributeDetails);
+		MockGroupedViewAttribute groupedViewAttribute = viewAttributeInstantiator.newGroupedViewAttribute(
+				view, MockGroupedViewAttribute.class, newGroupedAttributeDescriptor());
 		
-		groupedViewAttribute.assertCorrectlyInitialized(view, groupedAttributeDetails, viewListenersProvider);
+		groupedViewAttribute.assertCorrectlyInitialized(view, viewListenersProvider);
+	}
+	
+	private GroupedAttributeDescriptor newGroupedAttributeDescriptor()
+	{
+		Map<String, String> presentAttributeMappings = Maps.newHashMap();
+		presentAttributeMappings.put(PLAIN_ATTRIBUTE_NAME, PLAIN_ATTRIBUTE_VALUE);
+		return new GroupedAttributeDescriptor(presentAttributeMappings);
 	}
 	
 	private static class ViewAttributeInstantiatorForTest extends ViewAttributeInstantiator
@@ -71,20 +88,8 @@ public class ViewAttributeInstantiatorTest
 	
 	public static class MockGroupedViewAttribute extends AbstractGroupedViewAttribute<View>
 	{
-		private View view;
-		private GroupedAttributeDetails groupedAttributeDetails;
 		private ViewListenersProvider viewListenersProvider;
-		private boolean postInitializationInvoked;
-		@Override
-		public void setView(View view)
-		{
-			this.view = view;
-		}
-		@Override
-		public void setGroupedAttributeDetails(GroupedAttributeDetails groupedAttributeDetails)
-		{
-			this.groupedAttributeDetails = groupedAttributeDetails;
-		}
+		private boolean mapChildAttributeResolversInvoked = false;
 		
 		@Override
 		public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
@@ -93,23 +98,24 @@ public class ViewAttributeInstantiatorTest
 		}
 		
 		@Override
-		public void postInitialization()
+		public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 		{
-			postInitializationInvoked = true;
+			resolverMappings.map(ChildAttributeResolvers.plainAttributeResolver(), PLAIN_ATTRIBUTE_NAME);
+			mapChildAttributeResolversInvoked = true;
 		}
 		
-		public void assertCorrectlyInitialized(View view, GroupedAttributeDetails groupedAttributeDetails, 
-				ViewListenersProvider viewListenersProvider)
+		public void assertCorrectlyInitialized(View view, ViewListenersProvider viewListenersProvider)
 		{
 			assertThat(this.view, sameInstance(view));
-			assertThat(this.groupedAttributeDetails, sameInstance(groupedAttributeDetails));
+			assertThat(groupedAttribute.plainAttribute(PLAIN_ATTRIBUTE_NAME), equalTo(new PlainAttribute(PLAIN_ATTRIBUTE_NAME, PLAIN_ATTRIBUTE_VALUE)));
 			assertThat(this.viewListenersProvider, sameInstance(viewListenersProvider));
-			assertTrue(postInitializationInvoked);
+			assertTrue(mapChildAttributeResolversInvoked);
 		}
-		
+
 		@Override
-		public void bindTo(BindingContext bindingContext)
+		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 		{
 		}
+		
 	}
 }

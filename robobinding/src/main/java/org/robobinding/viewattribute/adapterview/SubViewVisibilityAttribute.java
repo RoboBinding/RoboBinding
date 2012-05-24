@@ -51,15 +51,14 @@ public class SubViewVisibilityAttribute implements ChildViewAttribute<ValueModel
 	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
-		AbstractPropertyViewAttribute<View, ?> propertyViewAttribute = createPropertyViewAttribute(bindingContext);
+		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
+		AbstractPropertyViewAttribute<View, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
 		propertyViewAttribute.bindTo(bindingContext);
 	}
 	
-	private AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(BindingContext bindingContext)
+	AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
-		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
-		
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
 			return new IntegerSubViewVisibilityAttribute();

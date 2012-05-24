@@ -15,8 +15,6 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractGroupedViewAttributeTest;
 
@@ -71,12 +69,6 @@ public class AdaptedDataSetAttributesTest extends AbstractGroupedViewAttributeTe
 		performInitialization();
 	}
 	
-	@Override
-	protected List<?> getGeneratedChildAttributes(AdaptedDataSetAttributes adaptedDataSetAttributes)
-	{
-		return adaptedDataSetAttributes.childViewAttributes;
-	}
-
 	@Override
 	protected Class<? extends View> overrideViewClass()
 	{

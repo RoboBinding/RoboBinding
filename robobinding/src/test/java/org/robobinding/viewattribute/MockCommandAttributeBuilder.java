@@ -15,25 +15,24 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.attribute.CommandAttribute;
+
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@SuppressWarnings("serial")
-public class AttributeBindingException extends RuntimeException
+public class MockCommandAttributeBuilder extends AbstractAttributeBuilder<CommandAttribute>
 {
-	private String name;
-	public AttributeBindingException(String name, Throwable cause)
+	private MockCommandAttributeBuilder()
 	{
-		super(cause.getMessage(), cause);
-		this.name = name;
+		super(CommandAttribute.class);
 	}
 
-	public String getName()
+	public static CommandAttribute aCommandAttribute()
 	{
-		return name;
+		MockCommandAttributeBuilder builder = new MockCommandAttributeBuilder();
+		return builder.attribute;
 	}
-	
 }

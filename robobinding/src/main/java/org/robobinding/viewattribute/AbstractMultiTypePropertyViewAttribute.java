@@ -41,7 +41,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		this.view = view;
 	}
 	@Override
-	public void setAttributeValue(ValueModelAttribute attribute)
+	public void setAttribute(ValueModelAttribute attribute)
 	{
 		this.attribute = attribute;
 	}
@@ -56,7 +56,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	{
 		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
 		propertyViewAttribute.setView(view);
-		propertyViewAttribute.setAttributeValue(attribute);
+		propertyViewAttribute.setAttribute(attribute);
 		setViewListenersIfRequired(propertyViewAttribute, view);
 		propertyViewAttribute.bindTo(bindingContext);
 	}

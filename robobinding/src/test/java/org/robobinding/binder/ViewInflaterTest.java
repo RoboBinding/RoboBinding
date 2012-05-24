@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.ViewResolutionErrors;
 import org.robobinding.binder.BindingAttributeParser;
 import org.robobinding.binder.BindingAttributeResolver;
 import org.robobinding.binder.ViewInflater;
@@ -203,8 +204,15 @@ public class ViewInflaterTest
 			this.bindingAttributeParser = bindingAttributeParser;
 			
 			bindingAttributeResolver = mock(BindingAttributeResolver.class);
+			ViewResolutionResult viewResolutionResult = emptyViewResolutionResult();
+			when(bindingAttributeResolver.resolve(any(PendingAttributesForView.class))).thenReturn(viewResolutionResult);
+		}
+		
+		private ViewResolutionResult emptyViewResolutionResult()
+		{
 			ViewBindingAttributes viewBindingAttributes = mock(ViewBindingAttributes.class);
-			when(bindingAttributeResolver.resolve(any(PendingAttributesForView.class))).thenReturn(viewBindingAttributes);
+			ViewResolutionErrors errors = mock(ViewResolutionErrors.class);
+			return new ViewResolutionResult(viewBindingAttributes, errors);
 		}
 		
 		@Override

@@ -16,11 +16,11 @@
 package org.robobinding.viewattribute.adapterview;
 
 import static org.mockito.Mockito.verify;
+import static org.robobinding.attribute.Attributes.aValueModelAttribute;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.viewattribute.BindingAttributeValues;
-import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.RandomValues;
 
 
@@ -36,15 +36,15 @@ public class DynamicItemLayoutAttributeTest extends AbstractDynamicLayoutAttribu
 	public void setUp()
 	{
 		String attributeValue = BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME;
-		dynamicLayoutAttribute = new ItemLayoutAttribute(adapterView, attributeValue).new DynamicLayoutAttribute();
+		dynamicLayoutAttribute = new ItemLayoutAttribute(adapterView, dataSetAdapter).new DynamicLayoutAttribute();
 		dynamicLayoutAttribute.setView(adapterView);
-		dynamicLayoutAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(attributeValue));
+		dynamicLayoutAttribute.setAttribute(aValueModelAttribute(attributeValue));
 	}
 	
 	@Test
 	public void givenBound_whenUpdatingValueModel_thenUpdateItemLayoutIdOnDataSetAdapter()
 	{
-		DynamicLayoutAttributeUtils.bindAttribute(dataSetAdapter, dynamicLayoutAttribute);
+		DynamicLayoutAttributeUtils.bindAttribute(dynamicLayoutAttribute);
 		
 		int newItemLayoutId = RandomValues.anyInteger();
 		dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
@@ -56,7 +56,7 @@ public class DynamicItemLayoutAttributeTest extends AbstractDynamicLayoutAttribu
 	@Test
 	public void givenBound_whenUpdatingValueModel_thenUpdateAdapterOnAdapterView()
 	{
-		DynamicLayoutAttributeUtils.bindAttribute(dataSetAdapter, dynamicLayoutAttribute);
+		DynamicLayoutAttributeUtils.bindAttribute(dynamicLayoutAttribute);
 		
 		int newItemLayoutId = RandomValues.anyInteger();
 		dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);

@@ -34,7 +34,7 @@ public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyA
 {
 	private final AdapterView<?> adapterView;
 	protected final DataSetAdapter<?> dataSetAdapter;
-	private ViewAttribute layoutAttribute;
+	ViewAttribute layoutAttribute;
 	
 	public ItemLayoutAttribute(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter)
 	{
@@ -52,7 +52,7 @@ public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyA
 		{
 			DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute();
 			dynamicLayoutAttribute.setView(adapterView);
-			dynamicLayoutAttribute.setAttributeValue(propertyAttribute.asValueModelAttribute());
+			dynamicLayoutAttribute.setAttribute(propertyAttribute.asValueModelAttribute());
 			layoutAttribute = dynamicLayoutAttribute;
 		}
 	}

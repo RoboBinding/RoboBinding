@@ -40,12 +40,19 @@ public abstract class AbstractViewAttributeInstantiator
 
 	@SuppressWarnings("unchecked")
 	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
-			Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttribute attributeValue)
+			Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttribute attribute)
 	{
 		PropertyViewAttributeType propertyViewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass);
+		return injectProperties(propertyViewAttribute, attribute);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType injectProperties(
+			PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute)
+	{
 		View view = getView();
 		((PropertyViewAttribute<View>)propertyViewAttribute).setView(view);
-		propertyViewAttribute.setAttributeValue(attributeValue);
+		propertyViewAttribute.setAttribute(attribute);
 		
 		if (propertyViewAttribute instanceof AbstractMultiTypePropertyViewAttribute<?>)
 			((AbstractMultiTypePropertyViewAttribute<?>)propertyViewAttribute).setViewListenersProvider(viewListenersProvider);
