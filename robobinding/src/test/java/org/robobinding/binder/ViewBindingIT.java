@@ -57,7 +57,7 @@ public class ViewBindingIT
 	@Test
 	public void whenBindingValidResolvedAttributes_thenShouldNotThrowException()
 	{
-		ViewBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
 					.withAttribute("text", "${name}")
 					.build());
@@ -68,7 +68,7 @@ public class ViewBindingIT
 	@Test(expected = ViewBindingException.class)
 	public void whenBindingInvalidResolvedPropertyAttributes_thenThrowException()
 	{
-		ViewBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
 					.withAttribute("text", "${nonExistentProperties}")
 					.build());
@@ -79,7 +79,7 @@ public class ViewBindingIT
 	@Test(expected = ViewBindingException.class)
 	public void whenBindingInvalidResolvedCommandAttributes_thenThrowException()
 	{
-		ViewBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
 					.withAttribute("onTextChanged", "setName")
 					.build());
@@ -92,7 +92,7 @@ public class ViewBindingIT
 	{
 		try
 		{
-			ViewBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+			ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 					aPendingAttributesForEditText()
 						.withAttribute("text", "${nonExistentProperties}")
 						.withAttribute("onTextChanged", "setName")
@@ -114,7 +114,7 @@ public class ViewBindingIT
 		return aPendingAttributesForView(editText);
 	}
 
-	private ViewBindingAttributes resolveBindingAttributes(PendingAttributesForView pendingAttributesForView)
+	private ResolvedBindingAttributes resolveBindingAttributes(PendingAttributesForView pendingAttributesForView)
 	{
 		ViewResolutionResult resolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
 		resolutionResult.assertNoErrors();

@@ -34,18 +34,18 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class ViewBindingAttributes
+public class ResolvedBindingAttributes
 {
 	private View view;
 	private final List<ViewAttribute> viewAttributes;
 	
-	ViewBindingAttributes(View view)
+	ResolvedBindingAttributes(View view)
 	{
 		this.view = view;
 		this.viewAttributes = Lists.newArrayList();
 	}
 	
-	void addResolvedViewAttributes(Collection<ViewAttribute> viewAttributes)
+	void add(Collection<ViewAttribute> viewAttributes)
 	{
 		this.viewAttributes.addAll(viewAttributes);
 	}
