@@ -40,7 +40,7 @@ public class PendingAttributesForViewBuilder
 		pendingAttributes = Maps.newHashMap();
 	}
 	
-	public PendingAttributesForViewBuilder withAttriubte(String name, String value)
+	public PendingAttributesForViewBuilder withAttribute(String name, String value)
 	{
 		pendingAttributes.put(name, value);
 		return this;

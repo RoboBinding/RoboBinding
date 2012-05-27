@@ -61,8 +61,8 @@ public class ViewResolutionIT
 	{
 		ViewBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
-					.withAttriubte("text", "${name}")
-					.withAttriubte("onTextChanged", "onNameChanged")
+					.withAttribute("text", "${name}")
+					.withAttribute("onTextChanged", "onNameChanged")
 					.build());
 
 		assertNotNull(resolvedBindingAttributes);
@@ -73,7 +73,7 @@ public class ViewResolutionIT
 	{
 		resolveBindingAttributes(
 				aPendingAttributesForEditText()
-					.withAttriubte("tex", "${name}")
+					.withAttribute("tex", "${name}")
 					.build());
 	}
 
@@ -82,7 +82,7 @@ public class ViewResolutionIT
 	{
 		resolveBindingAttributes(
 				aPendingAttributesForEditText()
-					.withAttriubte("text", "${name")
+					.withAttribute("text", "${name")
 					.build());
 	}
 
@@ -91,7 +91,7 @@ public class ViewResolutionIT
 	{
 		resolveBindingAttributes(
 				aPendingAttributesForEditText()
-					.withAttriubte("onTextChanged", "{nameChanged}")
+					.withAttribute("onTextChanged", "{nameChanged}")
 					.build());
 	}
 
@@ -100,7 +100,7 @@ public class ViewResolutionIT
 	{
 
 		PendingAttributesForView pendingAttributesForAdapterView = aPendingAttributesForAdapterView()
-			.withAttriubte("source", "{names}")
+			.withAttribute("source", "{names}")
 			.build();
 		try
 		{
@@ -119,9 +119,9 @@ public class ViewResolutionIT
 		{
 			resolveBindingAttributes(
 					aPendingAttributesForEditText()
-						.withAttriubte("text", "${name")
-						.withAttriubte("onTextChanged", "{nameChanged}")
-						.withAttriubte("tex", "${name}")
+						.withAttribute("text", "${name")
+						.withAttribute("onTextChanged", "{nameChanged}")
+						.withAttribute("tex", "${name}")
 						.build());
 			fail("Expected exception to be thrown");
 		} catch (ViewResolutionException e)

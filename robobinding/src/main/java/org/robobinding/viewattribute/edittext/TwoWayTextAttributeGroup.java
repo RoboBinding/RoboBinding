@@ -62,13 +62,7 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 		if (textAttribute.isTwoWayBinding() && valueCommitModeSpecified())
 			throw new RuntimeException("The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
 
-		if(valueCommitModeSpecified())
-		{
-			valueCommitMode = ValueCommitMode.from(valueCommitModeAttributeValue());
-		}else
-		{
-			valueCommitMode = ValueCommitMode.ON_CHANGE;
-		}
+		valueCommitMode = valueCommitModeSpecified() ? ValueCommitMode.from(valueCommitModeAttributeValue()) : ValueCommitMode.ON_CHANGE;
 	}
 
 	private String valueCommitModeAttributeValue()
