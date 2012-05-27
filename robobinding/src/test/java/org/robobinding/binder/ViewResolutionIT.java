@@ -59,7 +59,7 @@ public class ViewResolutionIT
 	@Test
 	public void givenASingleView_whenResolvingValidBindingAttributes_thenReturnResolvedBindingAttributes()
 	{
-		ViewBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
 					.withAttribute("text", "${name}")
 					.withAttribute("onTextChanged", "onNameChanged")
@@ -98,7 +98,6 @@ public class ViewResolutionIT
 	@Test
 	public void givenASingleView_whenResolvingMissingGroupBindingAttributes_thenThrowExceptionReferencingView()
 	{
-
 		PendingAttributesForView pendingAttributesForAdapterView = aPendingAttributesForAdapterView()
 			.withAttribute("source", "{names}")
 			.build();
@@ -109,6 +108,7 @@ public class ViewResolutionIT
 		} catch (ViewResolutionException e) 
 		{
 			assertThat(e.getView(), equalTo((View)pendingAttributesForAdapterView.getView()));
+			assertThat(e.getMissingRequiredAttributeErrors().size(), is(1));
 		}
 	}
 	
@@ -159,7 +159,7 @@ public class ViewResolutionIT
 		return aPendingAttributesForView(adapterView);
 	}
 
-	private ViewBindingAttributes resolveBindingAttributes(PendingAttributesForView pendingAttributesForView)
+	private ResolvedBindingAttributes resolveBindingAttributes(PendingAttributesForView pendingAttributesForView)
 	{
 		ViewResolutionResult resolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
 		resolutionResult.assertNoErrors();

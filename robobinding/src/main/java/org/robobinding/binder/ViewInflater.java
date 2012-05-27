@@ -48,7 +48,7 @@ class ViewInflater implements ViewFactoryListener
 	BindingAttributeResolver bindingAttributeResolver;
 	BindingAttributeParser bindingAttributeParser;
 	
-	private List<ViewBindingAttributes> childViewBindingAttributesGroup;
+	private List<ResolvedBindingAttributes> childViewBindingAttributesGroup;
 	private boolean isInflatingBindingView;
 
 	ViewInflater(Builder builder)
@@ -172,9 +172,9 @@ class ViewInflater implements ViewFactoryListener
 	static class InflatedView
 	{
 		private View rootView;
-		List<ViewBindingAttributes> childViewBindingAttributesGroup;
+		List<ResolvedBindingAttributes> childViewBindingAttributesGroup;
 
-		private InflatedView(View rootView, List<ViewBindingAttributes> childViewBindingAttributesGroup)
+		private InflatedView(View rootView, List<ResolvedBindingAttributes> childViewBindingAttributesGroup)
 		{
 			this.rootView = rootView;
 			this.childViewBindingAttributesGroup = childViewBindingAttributesGroup;
@@ -187,7 +187,7 @@ class ViewInflater implements ViewFactoryListener
 
 		public void bindChildViews(BindingContext bindingContext)
 		{
-			for (ViewBindingAttributes viewBindingAttributes : childViewBindingAttributesGroup)
+			for (ResolvedBindingAttributes viewBindingAttributes : childViewBindingAttributesGroup)
 				viewBindingAttributes.bindTo(bindingContext);
 		}
 	}
