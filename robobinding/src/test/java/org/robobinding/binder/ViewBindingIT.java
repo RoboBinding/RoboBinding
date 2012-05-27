@@ -28,10 +28,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
+import org.robobinding.attribute.ChildAttributeResolver;
+import org.robobinding.attribute.ChildAttributeResolverMappings;
+import org.robobinding.attribute.ChildAttributeResolvers;
 import org.robobinding.customview.BindableView;
 import org.robobinding.customview.CustomBindingAttributeMappings;
 import org.robobinding.presentationmodel.PresentationModel;
 import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AttributeBindingException;
 
@@ -143,7 +147,7 @@ public class ViewBindingIT
 	{
 		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForBuggyCustomView()
-				.withAttribute(BuggyCustomView.BUGGY_ATTRIBUTE, "{name}")
+				.withAttribute(BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE, "{name}")
 				.build());
 		
 		resolvedBindingAttributes.bindTo(bindingContext);
@@ -152,7 +156,12 @@ public class ViewBindingIT
 	@Test (expected = ProgrammingError.class)
 	public void whenAnUnexpectedExceptionIsThrownDuringGroupChildAttributeBinding_thenErrorShouldNotBeSuppressed()
 	{
-		fail();
+		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+				aPendingAttributesForBuggyCustomView()
+				.withAttribute(BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE, "{name}")
+				.build());
+		
+		resolvedBindingAttributes.bindTo(bindingContext);
 	}
 	
 	private PendingAttributesForViewBuilder aPendingAttributesForEditText()
@@ -217,7 +226,8 @@ public class ViewBindingIT
 	
 	private static class BuggyCustomView extends View implements BindableView<BuggyCustomView> {
 
-		static final String BUGGY_ATTRIBUTE = "buggyAttribute";
+		static final String BUGGY_PROPERTY_ATTRIBUTE = "buggyPropertyAttribute";
+		static final String BUGGY_GROUP_CHILD_ATTRIBUTE = "buggyGroupChildAttribute";
 
 		public BuggyCustomView(Context context)
 		{
@@ -227,7 +237,8 @@ public class ViewBindingIT
 		@Override
 		public void mapBindingAttributes(CustomBindingAttributeMappings<BuggyCustomView> mappings)
 		{
-			mappings.mapPropertyAttribute(BuggyPropertyAttribute.class, BUGGY_ATTRIBUTE);
+			mappings.mapPropertyAttribute(BuggyPropertyAttribute.class, BUGGY_PROPERTY_ATTRIBUTE);
+			mappings.mapGroupedAttribute(BuggyGroupedAttribute.class, BUGGY_GROUP_CHILD_ATTRIBUTE);
 		}
 	}
 	
@@ -247,6 +258,22 @@ public class ViewBindingIT
 		@Override
 		protected void observeChangesOnTheView(ValueModel<String> valueModel)
 		{
+		}
+	}
+	
+	public static class BuggyGroupedAttribute extends AbstractGroupedViewAttribute<BuggyCustomView>
+	{
+
+		@Override
+		public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
+		{
+			resolverMappings.map(ChildAttributeResolvers.propertyAttributeResolver(), BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE);
+		}
+
+		@Override
+		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+		{
+			throw new ProgrammingError();
 		}
 	}
 	
