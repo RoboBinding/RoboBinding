@@ -63,7 +63,7 @@ public class ResolvedBindingAttributes
 				viewBindingErrors.addAttributeError(e);
 			}catch (AttributeGroupBindingException e) 
 			{
-				viewBindingErrors.addAttributeGroupError(e);
+				viewBindingErrors.addAttributeErrors(e.getChildAttributeErrors());
 			}
 		}
 		viewBindingErrors.assertNoErrors();

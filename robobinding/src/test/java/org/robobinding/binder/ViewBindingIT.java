@@ -18,6 +18,7 @@ package org.robobinding.binder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
 import static org.robobinding.binder.PendingAttributesForViewBuilder.aPendingAttributesForView;
 
 import java.util.Collection;
@@ -31,7 +32,9 @@ import org.robobinding.presentationmodel.PresentationModel;
 import org.robobinding.viewattribute.AttributeBindingException;
 
 import android.app.Activity;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -94,7 +97,7 @@ public class ViewBindingIT
 		{
 			ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 					aPendingAttributesForEditText()
-						.withAttribute("text", "${nonExistentProperties}")
+						.withAttribute("visibility", "{nonExistentProperty}")
 						.withAttribute("onTextChanged", "setName")
 						.build());
 
@@ -102,18 +105,51 @@ public class ViewBindingIT
 			fail("Expected exception to be thrown");
 		} catch (ViewBindingException e)
 		{
-			assertThat(e.numErrors(), is(2));
-			//assertHasAttributeError(e, "text");
+			assertHasAttributeError(e, "visibility");
 			assertHasAttributeError(e, "onTextChanged");
+			assertThat(e.numErrors(), is(2));
+		}
+	}
+	
+	@Test
+	public void whenBindingMultipleInvalidResolvedGroupChildAttributes_thenThrowExceptionReferringToEachOne()
+	{
+		try
+		{
+			ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+					aPendingAttributesForAdapterView()
+						.withAttribute("source", "{nonExistentProperty}")
+						.withAttribute("itemLayout", "{nonExistentProperty}")
+						.build());
+
+			resolvedBindingAttributes.bindTo(bindingContext);
+			fail("Expected exception to be thrown");
+		} catch (ViewBindingException e)
+		{
+			assertHasAttributeError(e, "source");
+			assertHasAttributeError(e, "itemLayout");
+			assertThat(e.numErrors(), is(2));
 		}
 	}
 
+	@Test
+	public void whenAnUnexpectedExceptionIsThrownDuringBinding_thenTheErrorShouldNotBeSuppressed()
+	{
+		fail();
+	}
+	
 	private PendingAttributesForViewBuilder aPendingAttributesForEditText()
 	{
 		EditText editText = new EditText(new Activity());
 		return aPendingAttributesForView(editText);
 	}
 
+	private PendingAttributesForViewBuilder aPendingAttributesForAdapterView()
+	{
+		AdapterView<?> adapterView = new ListView(new Activity());
+		return aPendingAttributesForView(adapterView);
+	}
+	
 	private ResolvedBindingAttributes resolveBindingAttributes(PendingAttributesForView pendingAttributesForView)
 	{
 		ViewResolutionResult resolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
@@ -137,7 +173,7 @@ public class ViewBindingIT
 	
 	private BindingContext newBindingContext()
 	{
-		return new BindingContext(null, new Activity(), true, new PresentationModelForTest());
+		return new BindingContext(mock(BinderImplementorFactoryImpl.class), new Activity(), true, new PresentationModelForTest());
 	}
 
 	@PresentationModel
