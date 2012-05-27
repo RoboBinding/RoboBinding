@@ -70,24 +70,11 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	public final void bindTo(BindingContext bindingContext)
 	{
 		AttributeGroupBindingException bindingErrors = new AttributeGroupBindingException();
-		
-		try
-		{
-			preBind(bindingContext);
-		}catch(RuntimeException e)
-		{
-			bindingErrors.addGeneralError(e);
-			throw bindingErrors;
-		}
+		preBind(bindingContext);
 		
 		ChildAttributeBindings binding = new ChildAttributeBindings(bindingContext, bindingErrors);
-		try
-		{
-			setupChildAttributeBindings(binding);
-		}catch(RuntimeException e)
-		{
-			bindingErrors.addGeneralError(e);
-		}
+		setupChildAttributeBindings(binding);
+		
 		binding.perform();
 		bindingErrors.assertNoErrors();
 		

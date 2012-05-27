@@ -126,10 +126,10 @@ public class ViewResolutionIT
 			fail("Expected exception to be thrown");
 		} catch (ViewResolutionException e)
 		{
-			assertThat(e.numErrors(), is(3));
 			assertHasAttributeError(e, "text");
 			assertHasAttributeError(e, "onTextChanged");
 			assertHasAttributeError(e, "tex");
+			assertThat(e.numErrors(), is(3));
 		}
 	}
 

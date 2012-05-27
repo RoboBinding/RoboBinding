@@ -25,10 +25,10 @@ package org.robobinding.viewattribute;
 public class AttributeBindingException extends RuntimeException
 {
 	private String name;
-	public AttributeBindingException(String name, Throwable cause)
+	public AttributeBindingException(String attributeName, Throwable cause)
 	{
 		super(cause.getMessage(), cause);
-		this.name = name;
+		this.name = attributeName;
 	}
 
 	public String getName()
