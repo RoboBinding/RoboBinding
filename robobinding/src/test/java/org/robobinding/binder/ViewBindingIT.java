@@ -28,10 +28,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
+import org.robobinding.customview.BindableView;
+import org.robobinding.customview.CustomBindingAttributeMappings;
 import org.robobinding.presentationmodel.PresentationModel;
+import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AttributeBindingException;
 
 import android.app.Activity;
+import android.content.Context;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -93,14 +99,14 @@ public class ViewBindingIT
 	@Test
 	public void whenBindingMultipleInvalidResolvedAttributes_thenThrowExceptionReferringToEachOne()
 	{
+		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+				aPendingAttributesForEditText()
+				.withAttribute("visibility", "{nonExistentProperty}")
+				.withAttribute("onTextChanged", "setName")
+				.build());
+		
 		try
 		{
-			ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
-					aPendingAttributesForEditText()
-						.withAttribute("visibility", "{nonExistentProperty}")
-						.withAttribute("onTextChanged", "setName")
-						.build());
-
 			resolvedBindingAttributes.bindTo(bindingContext);
 			fail("Expected exception to be thrown");
 		} catch (ViewBindingException e)
@@ -114,14 +120,14 @@ public class ViewBindingIT
 	@Test
 	public void whenBindingMultipleInvalidResolvedGroupChildAttributes_thenThrowExceptionReferringToEachOne()
 	{
+		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+				aPendingAttributesForAdapterView()
+				.withAttribute("source", "{nonExistentProperty}")
+				.withAttribute("itemLayout", "{nonExistentProperty}")
+				.build());
+		
 		try
 		{
-			ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
-					aPendingAttributesForAdapterView()
-						.withAttribute("source", "{nonExistentProperty}")
-						.withAttribute("itemLayout", "{nonExistentProperty}")
-						.build());
-
 			resolvedBindingAttributes.bindTo(bindingContext);
 			fail("Expected exception to be thrown");
 		} catch (ViewBindingException e)
@@ -132,8 +138,19 @@ public class ViewBindingIT
 		}
 	}
 
-	@Test
-	public void whenAnUnexpectedExceptionIsThrownDuringBinding_thenTheErrorShouldNotBeSuppressed()
+	@Test (expected = ProgrammingError.class)
+	public void whenAnUnexpectedExceptionIsThrownDuringBinding_thenErrorShouldNotBeSuppressed()
+	{
+		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+				aPendingAttributesForBuggyCustomView()
+				.withAttribute(BuggyCustomView.BUGGY_ATTRIBUTE, "{name}")
+				.build());
+		
+		resolvedBindingAttributes.bindTo(bindingContext);
+	}
+	
+	@Test (expected = ProgrammingError.class)
+	public void whenAnUnexpectedExceptionIsThrownDuringGroupChildAttributeBinding_thenErrorShouldNotBeSuppressed()
 	{
 		fail();
 	}
@@ -148,6 +165,12 @@ public class ViewBindingIT
 	{
 		AdapterView<?> adapterView = new ListView(new Activity());
 		return aPendingAttributesForView(adapterView);
+	}
+	
+	private PendingAttributesForViewBuilder aPendingAttributesForBuggyCustomView()
+	{
+		BuggyCustomView buggyCustomView = new BuggyCustomView(new Activity());
+		return aPendingAttributesForView(buggyCustomView);
 	}
 	
 	private ResolvedBindingAttributes resolveBindingAttributes(PendingAttributesForView pendingAttributesForView)
@@ -190,5 +213,45 @@ public class ViewBindingIT
 		{
 			this.name = name;
 		}
+	}
+	
+	private static class BuggyCustomView extends View implements BindableView<BuggyCustomView> {
+
+		static final String BUGGY_ATTRIBUTE = "buggyAttribute";
+
+		public BuggyCustomView(Context context)
+		{
+			super(context);
+		}
+
+		@Override
+		public void mapBindingAttributes(CustomBindingAttributeMappings<BuggyCustomView> mappings)
+		{
+			mappings.mapPropertyAttribute(BuggyPropertyAttribute.class, BUGGY_ATTRIBUTE);
+		}
+	}
+	
+	public static class BuggyPropertyAttribute extends AbstractPropertyViewAttribute<BuggyCustomView, String>
+	{
+		@Override
+		public void bindTo(BindingContext bindingContext)
+		{
+			throw new ProgrammingError();
+		}
+		
+		@Override
+		protected void valueModelUpdated(String newValue)
+		{
+		}
+
+		@Override
+		protected void observeChangesOnTheView(ValueModel<String> valueModel)
+		{
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	public static class ProgrammingError extends RuntimeException
+	{
 	}
 }
