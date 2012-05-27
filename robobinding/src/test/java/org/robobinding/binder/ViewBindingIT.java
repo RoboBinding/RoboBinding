@@ -59,7 +59,7 @@ public class ViewBindingIT
 	{
 		ViewBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
-					.withAttriubte("text", "${name}")
+					.withAttribute("text", "${name}")
 					.build());
 
 		resolvedBindingAttributes.bindTo(bindingContext);
@@ -70,7 +70,7 @@ public class ViewBindingIT
 	{
 		ViewBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
-					.withAttriubte("text", "${nonExistentProperties}")
+					.withAttribute("text", "${nonExistentProperties}")
 					.build());
 
 		resolvedBindingAttributes.bindTo(bindingContext);
@@ -81,7 +81,7 @@ public class ViewBindingIT
 	{
 		ViewBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
-					.withAttriubte("onTextChanged", "setName")
+					.withAttribute("onTextChanged", "setName")
 					.build());
 
 		resolvedBindingAttributes.bindTo(bindingContext);
@@ -94,8 +94,8 @@ public class ViewBindingIT
 		{
 			ViewBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 					aPendingAttributesForEditText()
-						.withAttriubte("text", "${nonExistentProperties}")
-						.withAttriubte("onTextChanged", "setName")
+						.withAttribute("text", "${nonExistentProperties}")
+						.withAttribute("onTextChanged", "setName")
 						.build());
 
 			resolvedBindingAttributes.bindTo(bindingContext);
