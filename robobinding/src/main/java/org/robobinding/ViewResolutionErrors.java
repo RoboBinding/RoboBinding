@@ -15,6 +15,10 @@
  */
 package org.robobinding;
 
+import java.util.Collection;
+
+import org.robobinding.attribute.MissingRequiredAttributesException;
+
 import android.view.View;
 
 /**
@@ -28,4 +32,6 @@ public interface ViewResolutionErrors
 	View getView();
 	int numErrors();
 	void assertNoErrors();
+	Collection<AttributeResolutionException> getAttributeErrors();
+	Collection<MissingRequiredAttributesException> getMissingRequiredAttributeErrors();
 }

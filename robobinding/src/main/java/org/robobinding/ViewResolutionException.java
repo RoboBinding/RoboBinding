@@ -21,12 +21,12 @@ import static org.robobinding.CollectionUtils.isNotEmpty;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+
+import org.robobinding.attribute.MissingRequiredAttributesException;
 
 import android.view.View;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  *
@@ -39,12 +39,12 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 {
 	private View view;
 	private List<AttributeResolutionException> attributeErrors;
-	private Map<String[], AttributeGroupResolutionException> attributeGroupErrors;
+	private List<MissingRequiredAttributesException> missingRequiredAttributeErrors;
 	public ViewResolutionException(View view)
 	{
 		this.view = view;
 		attributeErrors = Lists.newArrayList();
-		attributeGroupErrors = Maps.newHashMap();
+		missingRequiredAttributeErrors = Lists.newArrayList();
 	}
 	
 	@Override
@@ -56,7 +56,7 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 	@Override
 	public int numErrors()
 	{
-		return attributeErrors.size()+attributeGroupErrors.size();
+		return attributeErrors.size()+missingRequiredAttributeErrors.size();
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 	
 	private boolean hasErrors()
 	{
-		return isNotEmpty(attributeErrors) || isNotEmpty(attributeGroupErrors);
+		return isNotEmpty(attributeErrors) || isNotEmpty(missingRequiredAttributeErrors);
 	}
 
 	void addAttributeError(AttributeResolutionException e)
@@ -86,13 +86,20 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 		}
 	}
 	
-	void addAttributeGroupError(String[] attributeGroup, AttributeGroupResolutionException e)
+	void addMissingRequiredAttributeError(MissingRequiredAttributesException e)
 	{
-		attributeGroupErrors.put(attributeGroup, e);
+		missingRequiredAttributeErrors.add(e);
 	}
 
+	@Override
 	public Collection<AttributeResolutionException> getAttributeErrors()
 	{
 		return Collections.unmodifiableCollection(attributeErrors);
+	}
+
+	@Override
+	public Collection<MissingRequiredAttributesException> getMissingRequiredAttributeErrors()
+	{
+		return Collections.unmodifiableCollection(missingRequiredAttributeErrors);
 	}
 }

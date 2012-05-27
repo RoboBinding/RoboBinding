@@ -38,7 +38,7 @@ public class BindingAttributeResolver
 {
 	BindingAttributeProvidersResolver providersResolver;
 	ViewAttributeInstantiator viewAttributeInstantiator;
-	private ViewBindingAttributes viewBindingAttributes;
+	private ResolvedBindingAttributes resolvedBindingAttributes;
 
 	public BindingAttributeResolver()
 	{
@@ -53,12 +53,12 @@ public class BindingAttributeResolver
 		
 		ViewResolutionErrors errors = pendingAttributesForView.resolveCompleted();
 		
-		return new ViewResolutionResult(viewBindingAttributes, errors);
+		return new ViewResolutionResult(resolvedBindingAttributes, errors);
 	}
 
 	private void initializeNewResolving(View view)
 	{
-		viewBindingAttributes = new ViewBindingAttributes(view);
+		resolvedBindingAttributes = new ResolvedBindingAttributes(view);
 		viewAttributeInstantiator = new ViewAttributeInstantiator();
 	}
 
@@ -72,7 +72,7 @@ public class BindingAttributeResolver
 			BindingAttributeProvider<View> bindingAttributeProvider = (BindingAttributeProvider<View>)provider;
 			Collection<ViewAttribute> resolvedViewAttributes = resolveByBindingAttributeProvider(pendingAttributesForView, 
 					bindingAttributeProvider);
-			viewBindingAttributes.addResolvedViewAttributes(resolvedViewAttributes);
+			resolvedBindingAttributes.add(resolvedViewAttributes);
 			
 			if (pendingAttributesForView.isEmpty())
 				break;

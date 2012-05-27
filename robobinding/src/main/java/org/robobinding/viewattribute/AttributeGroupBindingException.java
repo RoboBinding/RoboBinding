@@ -15,13 +15,13 @@
  */
 package org.robobinding.viewattribute;
 
+import static org.robobinding.CollectionUtils.isNotEmpty;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import static org.robobinding.CollectionUtils.*;
 
 
 /**
@@ -33,22 +33,16 @@ import static org.robobinding.CollectionUtils.*;
 @SuppressWarnings("serial")
 public class AttributeGroupBindingException extends RuntimeException
 {
-	private List<RuntimeException> generalErrors;
-	private Map<String, RuntimeException> childAttributeErrors;
+	private List<AttributeBindingException> childAttributeErrors;
+
 	public AttributeGroupBindingException()
 	{
-		generalErrors = Lists.newArrayList();
-		childAttributeErrors = Maps.newHashMap();
+		childAttributeErrors = Lists.newArrayList();
 	}
 	
-	void addGeneralError(RuntimeException e)
+	void addChildAttributeError(String attributeName, Throwable cause)
 	{
-		generalErrors.add(e);
-	}
-	
-	void addChildAttributeError(String attribute, RuntimeException e)
-	{
-		childAttributeErrors.put(attribute, e);
+		childAttributeErrors.add(new AttributeBindingException(attributeName, cause));
 	}
 	
 	void assertNoErrors()
@@ -61,6 +55,11 @@ public class AttributeGroupBindingException extends RuntimeException
 
 	private boolean hasErrors()
 	{
-		return isNotEmpty(generalErrors) || isNotEmpty(childAttributeErrors);
+		return isNotEmpty(childAttributeErrors);
+	}
+
+	public Collection<AttributeBindingException> getChildAttributeErrors()
+	{
+		return Collections.unmodifiableCollection(childAttributeErrors);
 	}
 }

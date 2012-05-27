@@ -15,13 +15,13 @@
  */
 package org.robobinding.binder;
 
+import static org.robobinding.CollectionUtils.isNotEmpty;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import org.robobinding.viewattribute.AttributeBindingException;
-import org.robobinding.viewattribute.AttributeGroupBindingException;
-import static org.robobinding.CollectionUtils.*;
 
 import android.view.View;
 
@@ -38,13 +38,11 @@ public class ViewBindingException extends RuntimeException
 {
 	private View view;
 	private List<AttributeBindingException> attributeErrors;
-	private List<AttributeGroupBindingException> attributeGroupErrors;
 	
 	public ViewBindingException(View view)
 	{
 		this.view = view;
 		attributeErrors = Lists.newArrayList();
-		attributeGroupErrors = Lists.newArrayList();
 	}
 	
 	public View getView()
@@ -62,22 +60,22 @@ public class ViewBindingException extends RuntimeException
 
 	private boolean hasErrors()
 	{
-		return isNotEmpty(attributeErrors) || isNotEmpty(attributeGroupErrors);
+		return isNotEmpty(attributeErrors);
 	}
 
 	public int numErrors()
 	{
-		return attributeErrors.size()+attributeGroupErrors.size();
+		return attributeErrors.size();
 	}
 
-	void addAttributeGroupError(AttributeGroupBindingException e)
+	void addAttributeError(AttributeBindingException attributeError)
 	{
-		attributeGroupErrors.add(e);
+		attributeErrors.add(attributeError);
 	}
-
-	void addAttributeError(AttributeBindingException e)
+	
+	void addAttributeErrors(Collection<AttributeBindingException> attributeErrors)
 	{
-		attributeErrors.add(e);
+		this.attributeErrors.addAll(attributeErrors);
 	}
 
 	public Collection<AttributeBindingException> getAttributeErrors()
