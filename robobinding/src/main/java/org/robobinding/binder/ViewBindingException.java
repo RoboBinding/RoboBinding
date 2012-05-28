@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.robobinding.viewattribute.AttributeBindingException;
+import org.robobinding.viewattribute.AttributeGroupBindingException;
 
 import android.view.View;
 
@@ -73,11 +74,11 @@ public class ViewBindingException extends RuntimeException
 		attributeErrors.add(attributeError);
 	}
 	
-	void addAttributeErrors(Collection<AttributeBindingException> attributeErrors)
+	public void addAttributeGroupError(AttributeGroupBindingException e)
 	{
-		this.attributeErrors.addAll(attributeErrors);
+		attributeErrors.addAll(e.getChildAttributeErrors());
 	}
-
+	
 	public Collection<AttributeBindingException> getAttributeErrors()
 	{
 		return Collections.unmodifiableCollection(attributeErrors);
