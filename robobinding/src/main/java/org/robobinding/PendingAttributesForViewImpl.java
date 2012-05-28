@@ -19,6 +19,8 @@ package org.robobinding;
 import java.util.Collection;
 import java.util.Map;
 
+import org.robobinding.attribute.MissingRequiredAttributesException;
+
 
 
 import android.view.View;
@@ -92,9 +94,9 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 			try
 			{
 				attributeGroupResolver.resolve(view, attributeGroup, presentAttributeMappings);
-			}catch(AttributeGroupResolutionException e)
+			}catch(MissingRequiredAttributesException e)
 			{
-				resolutionErrors.addAttributeGroupError(attributeGroup, e);
+				resolutionErrors.addMissingRequiredAttributeError(e);
 			}catch(AttributeResolutionException e)
 			{
 				resolutionErrors.addAttributeError(e);

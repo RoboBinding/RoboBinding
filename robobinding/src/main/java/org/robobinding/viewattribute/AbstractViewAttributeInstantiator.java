@@ -93,7 +93,7 @@ public abstract class AbstractViewAttributeInstantiator
 			return viewAttributeClass.newInstance();
 		} catch (InstantiationException e)
 		{
-			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " does not have an empty default constructor");
+			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " could not be instantiated: " + e);
 		} catch (IllegalAccessException e)
 		{
 			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " is not public");
