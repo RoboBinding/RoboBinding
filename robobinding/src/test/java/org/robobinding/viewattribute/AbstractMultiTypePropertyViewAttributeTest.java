@@ -18,7 +18,6 @@ package org.robobinding.viewattribute;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.Map;
 
 import org.junit.Before;
@@ -34,12 +33,12 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends AbstractMultiTypePropertyViewAttribute<?>>
+public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends AbstractMultiTypePropertyViewAttribute<?>> extends PropertyViewAttributeContractTest<T>
 {
 	private Map<Class<?>, Class<? extends PropertyViewAttribute<? extends View>>> propertyTypeToViewAttributeMappings;
 	
 	@Before
-	public void populateMappings()
+	public final void populateMappings()
 	{
 		propertyTypeToViewAttributeMappings = Maps.newHashMap();
 		setTypeMappingExpectations();
@@ -50,8 +49,6 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Abstr
 	@Test
 	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
 	{
-		AbstractMultiTypePropertyViewAttribute<?> attribute = createAttribute();
-		
 		for(Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet())
 		{
 			AbstractPropertyViewAttribute<?,?> propertyViewAttribute = attribute.createPropertyViewAttribute(propertyType);
@@ -60,13 +57,6 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Abstr
 		}
 	}
 
-	protected AbstractMultiTypePropertyViewAttribute<?> createAttribute()
-	{
-		ParameterizedType attributeType = (ParameterizedType)getClass().getGenericSuperclass();
-		AbstractMultiTypePropertyViewAttribute<?> attribute = ParameterizedTypeUtils.createTypeArgument(attributeType, 0);
-		return attribute;
-	}
-	
 	protected TypeMappingBuilder forPropertyType(Class<?> propertyType)
 	{
 		return new TypeMappingBuilder(propertyType);
