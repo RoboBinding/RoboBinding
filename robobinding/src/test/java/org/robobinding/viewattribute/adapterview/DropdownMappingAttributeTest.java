@@ -15,14 +15,9 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
-import org.robobinding.MockBindingContext;
-import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.attribute.PlainAttribute;
 
 /**
  *
@@ -35,27 +30,11 @@ public class DropdownMappingAttributeTest extends ItemMappingAttributeTest
 	@Test
 	public void whenBinding_thenUpdateDataSetAdapter()
 	{
-		DropdownMappingAttribute dropdownMappingAttribute = newDropdownMappingAttribute();
+		DropdownMappingAttribute dropdownMappingAttribute = new DropdownMappingAttribute(dataSetAdapter);
+		dropdownMappingAttribute.setAttribute(predefinedMappingsAttribute);
 		
-		dropdownMappingAttribute.bindTo(MockBindingContext.create(mockContext));
+		dropdownMappingAttribute.bindTo(bindingContext);
 		
-		verify(dataSetAdapter).setDropdownPredefinedPendingAttributesForViewGroup(anyCollectionOf(PredefinedPendingAttributesForView.class));
-	}
-	
-	@Test
-	public void whenBinding_thenInitializeViewMappings()
-	{
-		DropdownMappingAttribute dropdownMappingAttribute = newDropdownMappingAttribute();
-		
-		dropdownMappingAttribute.bindTo(MockBindingContext.create(mockContext));
-		
-		assertNotNull(dropdownMappingAttribute.getViewMappingsCollection());
-	}
-	
-	private DropdownMappingAttribute newDropdownMappingAttribute()
-	{
-		DropdownMappingAttribute attribute = new DropdownMappingAttribute(dataSetAdapter);
-		attribute.setAttribute(new PlainAttribute("name", MAPPING_ATTRIBUTE_VALUE));
-		return attribute;
+		verify(dataSetAdapter).setDropdownPredefinedPendingAttributesForViewGroup(predefinedMappings);
 	}
 }

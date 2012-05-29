@@ -15,6 +15,7 @@
  */
 package org.robobinding.attribute;
 
+
 /**
  *
  * @since 1.0
@@ -40,6 +41,11 @@ public class ChildAttributeResolvers
 	public static ChildAttributeResolver staticResourceAttributeResolver()
 	{
 		return new StaticResourceAttributeResolver();
+	}
+	
+	public static ChildAttributeResolver predefinedMappingsAttributeResolver()
+	{
+		return new PredefinedMappingsAttributeResolver();
 	}
 	
 	public static ChildAttributeResolver plainAttributeResolver()
@@ -95,6 +101,16 @@ public class ChildAttributeResolvers
 
 	}
 
+	static class PredefinedMappingsAttributeResolver implements ChildAttributeResolver
+	{
+		@Override
+		public AbstractAttribute resolveChildAttribute(String attribute, String attributeValue)
+		{
+			return new PredefinedMappingsAttribute(attribute, attributeValue);
+		}
+
+	}
+	
 	static class PlainAttributeResolver implements ChildAttributeResolver
 	{
 		

@@ -15,20 +15,21 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.anyCollectionOf;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.MockBindingContext;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.robobinding.BindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.attribute.PlainAttribute;
+import org.robobinding.attribute.PredefinedMappingsAttribute;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 /**
  *
@@ -36,46 +37,31 @@ import android.content.res.Resources;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ItemMappingAttributeTest
 {
-	protected static final String MAPPING_ATTRIBUTE_VALUE = "[text1.text:{property}]";
-	protected Context mockContext;
-	protected DataSetAdapter<?> dataSetAdapter;
+	@Mock BindingContext bindingContext;
+	@Mock Context context;
+	@Mock DataSetAdapter<?> dataSetAdapter;
+	@Mock PredefinedMappingsAttribute predefinedMappingsAttribute;
+	@Mock Collection<PredefinedPendingAttributesForView> predefinedMappings;
 	
 	@Before
 	public void setUp()
 	{
-		Resources mockResources = mock(Resources.class);
-		when(mockResources.getIdentifier("text1", "id", "android")).thenReturn(1);
-		mockContext = mock(Context.class);
-		when(mockContext.getResources()).thenReturn(mockResources);
-		dataSetAdapter = mock(DataSetAdapter.class);
+		when(bindingContext.getContext()).thenReturn(context);
+		when(predefinedMappingsAttribute.getViewMappings(context)).thenReturn(predefinedMappings);
 	}
 	
 	@Test
 	public void whenBinding_thenUpdateDataSetAdapter()
 	{
-		ItemMappingAttribute itemMappingAttribute = newItemMappingAttribute();
-		
-		itemMappingAttribute.bindTo(MockBindingContext.create(mockContext));
-		
-		verify(dataSetAdapter).setItemPredefinedPendingAttributesForViewGroup(anyCollectionOf(PredefinedPendingAttributesForView.class));
-	}
-	
-	@Test
-	public void whenBinding_thenInitializeViewMappings()
-	{
-		ItemMappingAttribute itemMappingAttribute = newItemMappingAttribute();
-		
-		itemMappingAttribute.bindTo(MockBindingContext.create(mockContext));
-		
-		assertNotNull(itemMappingAttribute.getViewMappingsCollection());
-	}
-	
-	private ItemMappingAttribute newItemMappingAttribute()
-	{
 		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(dataSetAdapter);
-		itemMappingAttribute.setAttribute(new PlainAttribute("name", MAPPING_ATTRIBUTE_VALUE));
-		return itemMappingAttribute;
+		itemMappingAttribute.setAttribute(predefinedMappingsAttribute);
+		
+		itemMappingAttribute.bindTo(bindingContext);
+		
+		verify(dataSetAdapter).setItemPredefinedPendingAttributesForViewGroup(predefinedMappings);
 	}
+	
 }
