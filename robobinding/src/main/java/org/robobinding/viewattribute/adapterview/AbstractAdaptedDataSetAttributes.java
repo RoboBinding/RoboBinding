@@ -47,7 +47,7 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	{
 		resolverMappings.map(valueModelAttributeResolver(), SOURCE);
 		resolverMappings.map(propertyAttributeResolver(), ITEM_LAYOUT);
-		resolverMappings.map(plainAttributeResolver(), ITEM_MAPPING);
+		resolverMappings.map(predefinedMappingsAttributeResolver(), ITEM_MAPPING);
 	}
 	
 	@SuppressWarnings({ "rawtypes" })
@@ -62,10 +62,9 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	{
 		binding.add(new SourceAttribute(dataSetAdapter), SOURCE);
 		binding.add(new ItemLayoutAttribute(view, dataSetAdapter), ITEM_LAYOUT);
+		
 		if(groupedAttribute.hasAttribute(ITEM_MAPPING))
-		{
 			binding.add(new ItemMappingAttribute(dataSetAdapter),ITEM_MAPPING);
-		}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
