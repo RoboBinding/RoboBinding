@@ -16,18 +16,17 @@
 package org.robobinding.attribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.robobinding.attribute.BindingType.ONE_WAY;
-import static org.robobinding.attribute.BindingType.TWO_WAY;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.attribute.PropertyAttributeParser;
+import org.robobinding.attribute.StaticResourceAttributeTest.LegalResourceAttributeValues;
+import org.robobinding.attribute.ValueModelAttributeTest.LegalValueModelAttributeValues;
 
 /**
  *
@@ -39,18 +38,10 @@ import org.robobinding.attribute.PropertyAttributeParser;
 public class PropertyAttributeParserTest
 {
 	@DataPoints
-	public static LegalPropertyAttributeValues[] legalPropertyAttributeValues = {
-		new LegalPropertyAttributeValues("{propertyX}", "propertyX", ONE_WAY),
-		new LegalPropertyAttributeValues("{propertyY}", "propertyY", ONE_WAY),
-		new LegalPropertyAttributeValues("${propertyZ}", "propertyZ", TWO_WAY)
-	};
+	public static LegalValueModelAttributeValues[] legalValueModelAttributeValues = ValueModelAttributeTest.legalAttributeValues;
 	
 	@DataPoints
-	public static LegalResourceAttributeValues[] legalResourceAttributeValues = {
-		new LegalResourceAttributeValues("@layout/layoutX", "layoutX", "layout", null),
-		new LegalResourceAttributeValues("@android:layout/layoutY", "layoutY", "layout", "android"),
-		new LegalResourceAttributeValues("@com.somecompany.widget:layout/layoutY", "layoutY", "layout", "com.somecompany.widget")
-	};
+	public static LegalResourceAttributeValues[] legalResourceAttributeValues = StaticResourceAttributeTest.legalAttributeValues;
 	
 	@DataPoints
 	public static IllegalBindingAttributeValue[] illegalAttributeValues = {
@@ -62,8 +53,6 @@ public class PropertyAttributeParserTest
 		new IllegalBindingAttributeValue("{@layout/layoutX}", ErrorMessage.SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES)
 	};
 	
-	public enum ErrorMessage {SIMPLE_ERROR_MESSAGE, SUGGEST_CURLY_BRACES_ERROR_MESSAGE, SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES}
-	
 	private PropertyAttributeParser parser;
 	
 	@Before
@@ -73,14 +62,11 @@ public class PropertyAttributeParserTest
 	}
 	
 	@Theory
-	public void givenLegalPropertyAttributeValues(LegalPropertyAttributeValues legalAttributeValues)
+	public void givenLegalValueModelAttributeValues(LegalValueModelAttributeValues legalAttributeValues)
 	{
 		AbstractPropertyAttribute attribute = parse(legalAttributeValues.value);
 		
-		assertFalse(attribute.isStaticResource());
-		ValueModelAttribute valueModelAttribute = attribute.asValueModelAttribute();
-		assertThat(valueModelAttribute.getPropertyName(), equalTo(legalAttributeValues.expectedPropertyName));
-		assertThat(valueModelAttribute.isTwoWayBinding(), equalTo(legalAttributeValues.expectedBindingType == TWO_WAY ? true : false));
+		assertTrue(attribute.isValueModel());
 	}
 	
 	@Theory
@@ -89,27 +75,19 @@ public class PropertyAttributeParserTest
 		AbstractPropertyAttribute attribute = parse(legalAttributeValues.value);
 
 		assertTrue(attribute.isStaticResource());
-		StaticResourceAttribute staticResourceAttribute = attribute.asStaticResourceAttribute();
-		assertThat(staticResourceAttribute.resourceName, equalTo(legalAttributeValues.expectedName));
-		assertThat(staticResourceAttribute.resourceType, equalTo(legalAttributeValues.expectedType));
-		assertThat(staticResourceAttribute.resourcePackage, equalTo(legalAttributeValues.expectedPackage));
 	}
 	
 	@Theory
 	public void whenBindingWithIllegalAttributeValues_thenThrowARuntimeException(IllegalBindingAttributeValue illegalBindingAttributeValue)
 	{
-		boolean exceptionThrown = false;
-		
 		try
 		{
 			parse(illegalBindingAttributeValue.value);
+			fail("Expect an exception thrown");
 		} catch (RuntimeException e)
 		{
 			assertThat(e.getMessage(), equalTo(illegalBindingAttributeValue.getExpectedErrorMessage()));
-			exceptionThrown = true;
 		}
-		
-		assertTrue(exceptionThrown);
 	}
 
 	private AbstractPropertyAttribute parse(String attributeValue)
@@ -117,37 +95,10 @@ public class PropertyAttributeParserTest
 		return parser.parse("name", attributeValue);
 	}
 	
-	static class LegalPropertyAttributeValues
-	{
-		final String value;
-		final String expectedPropertyName;
-		final BindingType expectedBindingType;
-		
-		public LegalPropertyAttributeValues(String value, String expectedPropertyName, BindingType expectedBindingType)
-		{
-			this.value = value;
-			this.expectedPropertyName = expectedPropertyName;
-			this.expectedBindingType = expectedBindingType;
-		}
-	}
 	
-	static class LegalResourceAttributeValues
-	{
-		private final String value;
-		private final String expectedName;
-		private final String expectedType;
-		private final String expectedPackage;
+	public enum ErrorMessage {SIMPLE_ERROR_MESSAGE, SUGGEST_CURLY_BRACES_ERROR_MESSAGE, SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES}
 
-		public LegalResourceAttributeValues(String value, String expectedName, String expectedType, String expectedPackage)
-		{
-			this.value = value;
-			this.expectedName = expectedName;
-			this.expectedType = expectedType;
-			this.expectedPackage = expectedPackage;
-		}
 
-	}
-	
 	static class IllegalBindingAttributeValue
 	{
 		final String value;

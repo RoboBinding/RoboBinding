@@ -31,22 +31,42 @@ public class MockResourcesBuilder
 	private Context mockContext;
 	private Resources mockResources;
 	
+	public static MockResourcesBuilder aContextOfResources()
+	{
+		return new MockResourcesBuilder();
+	}
+	
 	public MockResourcesBuilder()
 	{
 		mockContext = mock(Context.class);
-		when(mockContext.getPackageName()).thenReturn(BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE);
 		
 		mockResources = mock(Resources.class);
 		when(mockContext.getResources()).thenReturn(mockResources);
 	}
 	
+	public MockResourcesBuilder withDefaultPackage()
+	{
+		return withDefaultPackage(BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE);
+	}
+	
+	public MockResourcesBuilder withDefaultPackage(String packageName)
+	{
+		when(mockContext.getPackageName()).thenReturn(packageName);
+		return this;
+	}
+	
 	public int desclareLayoutResource(String resourceName)
+	{
+		return desclareResource(resourceName, BindingAttributeValues.LAYOUT_RESOURCE_TYPE, BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE);
+	}
+	
+	public int desclareResource(String resourceName, String resourceType, String resourcePackage)
 	{
 		int layoutId = nextResourceId();
 		when(mockResources.getIdentifier(
 				resourceName, 
-				BindingAttributeValues.LAYOUT_RESOURCE_TYPE, 
-				BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE))
+				resourceType, 
+				resourcePackage))
 				.thenReturn(layoutId);
 		return layoutId;
 	}

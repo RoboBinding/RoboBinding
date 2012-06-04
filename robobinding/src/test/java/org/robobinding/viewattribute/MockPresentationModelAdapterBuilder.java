@@ -18,6 +18,8 @@ package org.robobinding.viewattribute;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
@@ -34,57 +36,6 @@ public class MockPresentationModelAdapterBuilder
 	public MockPresentationModelAdapterBuilder()
 	{
 		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
-	}
-	
-	public <PropertyType> MockPresentationModelAdapterBuilder declareReadOnlyProperty(String propertyName)
-	{
-		ValueModel<PropertyType> propertyValueModel = ValueModelUtils.create();
-		
-		declareReadOnlyProperty(propertyName, propertyValueModel);
-		
-		return this;
-	}
-
-	public <PropertyType> MockPresentationModelAdapterBuilder declareReadOnlyProperty(String propertyName, PropertyType propertyValue)
-	{
-		ValueModel<PropertyType> propertyValueModel = ValueModelUtils.create(propertyValue);
-		
-		declareReadOnlyProperty(propertyName, propertyValueModel);
-		
-		return this;
-	}
-	
-	private <PropertyType> void declareReadOnlyProperty(String propertyName, ValueModel<PropertyType> propertyValueModel)
-	{
-		when(mockPresentationModelAdapter.<PropertyType>getReadOnlyPropertyValueModel(propertyName)).thenReturn(propertyValueModel);
-	}
-
-	public <PropertyType> MockPresentationModelAdapterBuilder declareProperty(String propertyName)
-	{
-		ValueModel<PropertyType> propertyValueModel = ValueModelUtils.create();
-		
-		declareProperty(propertyName, propertyValueModel);
-		
-		return this;
-	}
-	
-	public <PropertyType> MockPresentationModelAdapterBuilder declareProperty(String propertyName, PropertyType propertyValue)
-	{
-		ValueModel<PropertyType> propertyValueModel = ValueModelUtils.create(propertyValue);
-		
-		declareProperty(propertyName, propertyValueModel);
-		
-		return this;
-	}
-	
-	private <PropertyType> void declareProperty(String propertyName, ValueModel<PropertyType> propertyValueModel)
-	{
-		when(mockPresentationModelAdapter.<PropertyType>getPropertyValueModel(propertyName)).thenReturn(propertyValueModel);
-	}
-	
-	public PresentationModelAdapter build()
-	{
-		return mockPresentationModelAdapter;
 	}
 	
 	public static <PropertyType> PresentationModelAdapter createWithReadOnlyDefaultProperty()
@@ -113,5 +64,74 @@ public class MockPresentationModelAdapterBuilder
 		MockPresentationModelAdapterBuilder builder = new MockPresentationModelAdapterBuilder();
 		builder.<PropertyType>declareProperty(BindingAttributeValues.DEFAULT_PROPERTY_NAME, propertyValue);
 		return builder.build();
+	}
+	
+	public static MockPresentationModelAdapterBuilder aPresentationModelAdapter()
+	{
+		return new MockPresentationModelAdapterBuilder();
+	}
+	
+	public <PropertyType> MockPresentationModelAdapterBuilder declareReadOnlyProperty(String propertyName)
+	{
+		ValueModel<PropertyType> propertyValueModel = ValueModelUtils.create();
+		
+		declareReadOnlyProperty(propertyName, propertyValueModel);
+		
+		return this;
+	}
+
+	public <PropertyType> MockPresentationModelAdapterBuilder declareReadOnlyProperty(String propertyName, PropertyType propertyValue)
+	{
+		ValueModel<PropertyType> propertyValueModel = ValueModelUtils.create(propertyValue);
+		
+		declareReadOnlyProperty(propertyName, propertyValueModel);
+		
+		return this;
+	}
+
+	private <PropertyType> void declareReadOnlyProperty(String propertyName, ValueModel<PropertyType> propertyValueModel)
+	{
+		when(mockPresentationModelAdapter.<PropertyType>getReadOnlyPropertyValueModel(propertyName)).thenReturn(propertyValueModel);
+	}
+
+	public <PropertyType> MockPresentationModelAdapterBuilder declareProperty(String propertyName)
+	{
+		ValueModel<PropertyType> propertyValueModel = ValueModelUtils.create();
+		
+		declareProperty(propertyName, propertyValueModel);
+		
+		return this;
+	}
+
+	public <PropertyType> MockPresentationModelAdapterBuilder declareProperty(String propertyName, PropertyType propertyValue)
+	{
+		ValueModel<PropertyType> propertyValueModel = ValueModelUtils.create(propertyValue);
+		
+		declareProperty(propertyName, propertyValueModel);
+		
+		return this;
+	}
+
+	private <PropertyType> void declareProperty(String propertyName, ValueModel<PropertyType> propertyValueModel)
+	{
+		when(mockPresentationModelAdapter.<PropertyType>getPropertyValueModel(propertyName)).thenReturn(propertyValueModel);
+	}
+
+	public MockPresentationModelAdapterBuilder withFunction(String functionName, Class<?>... parameterTypes)
+	{
+		Function function = mock(Function.class);
+		if(ArrayUtils.isEmpty(parameterTypes))
+		{
+			when(mockPresentationModelAdapter.findFunction(functionName)).thenReturn(function);
+		}else
+		{
+			when(mockPresentationModelAdapter.findFunction(functionName, parameterTypes)).thenReturn(function);
+		}
+		return this;
+	}
+
+	public PresentationModelAdapter build()
+	{
+		return mockPresentationModelAdapter;
 	}
 }

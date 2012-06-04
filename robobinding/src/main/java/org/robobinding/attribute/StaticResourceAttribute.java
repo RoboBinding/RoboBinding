@@ -32,9 +32,9 @@ public class StaticResourceAttribute extends AbstractPropertyAttribute
 {
 	private final static Pattern RESOURCE_ATTRIBUTE_PATTERN = Pattern.compile("^@([\\w\\.]+:)?(\\w+)/(\\w+)$");
 	
-	String resourceName;
-	String resourceType;
-	String resourcePackage;
+	private String resourceName;
+	private String resourceType;
+	private String resourcePackage;
 	
 	StaticResourceAttribute(String name, String value)
 	{
