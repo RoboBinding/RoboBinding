@@ -41,7 +41,7 @@ public abstract class AbstractPropertyAttribute extends AbstractAttribute
 		}
 	}
 	
-	private boolean isValueModel()
+	boolean isValueModel()
 	{
 		return ValueModelAttribute.class.isInstance(this);
 	}
