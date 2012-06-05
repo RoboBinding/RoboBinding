@@ -20,8 +20,8 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.robobinding.viewattribute.MockCommandAttributeBuilder.aCommandAttribute;
-import static org.robobinding.viewattribute.MockValueModelAttributeBuilder.aValueModelAttribute;
+import static org.robobinding.attribute.MockCommandAttributeBuilder.aCommandAttribute;
+import static org.robobinding.attribute.MockValueModelAttributeBuilder.aValueModelAttribute;
 
 import org.junit.Before;
 import org.junit.Test;

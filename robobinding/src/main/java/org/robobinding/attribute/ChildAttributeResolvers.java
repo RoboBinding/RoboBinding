@@ -24,41 +24,73 @@ package org.robobinding.attribute;
  */
 public class ChildAttributeResolvers
 {
+	private static final ChildAttributeResolvers INSTANCE = new ChildAttributeResolvers();
+	
+	private PropertyAttributeParser propertyAttributeParser;
+	private PropertyAttributeResolver propertyAttributeResolver;
+	private ValueModelAttributeResolver valueModelAttributeResolver;
+	private StaticResourceAttributeResolver staticResourceAttributeResolver;
+	private PredefinedMappingsAttributeResolver predefinedMappingsAttributeResolver;
+	private PlainAttributeResolver plainAttributeResolver;
+	
 	private ChildAttributeResolvers()
 	{
+		propertyAttributeParser = new PropertyAttributeParser();
+		
+		propertyAttributeResolver = new PropertyAttributeResolver(propertyAttributeParser);
+		valueModelAttributeResolver = new ValueModelAttributeResolver(propertyAttributeParser);
+		staticResourceAttributeResolver = new StaticResourceAttributeResolver(propertyAttributeParser);
+		predefinedMappingsAttributeResolver = new PredefinedMappingsAttributeResolver();
+		plainAttributeResolver = new PlainAttributeResolver();
 	}
 	
 	public static ChildAttributeResolver propertyAttributeResolver()
 	{
-		return new PropertyAttributeResolver();
+		return INSTANCE.propertyAttributeResolver;
 	}
 	
 	public static ChildAttributeResolver valueModelAttributeResolver()
 	{
-		return new ValueModelAttributeResolver();
+		return INSTANCE.valueModelAttributeResolver;
 	}
 	
 	public static ChildAttributeResolver staticResourceAttributeResolver()
 	{
-		return new StaticResourceAttributeResolver();
+		return INSTANCE.staticResourceAttributeResolver;
 	}
 	
 	public static ChildAttributeResolver predefinedMappingsAttributeResolver()
 	{
-		return new PredefinedMappingsAttributeResolver();
+		return INSTANCE.predefinedMappingsAttributeResolver;
 	}
 	
 	public static ChildAttributeResolver plainAttributeResolver()
 	{
-		return new PlainAttributeResolver();
+		return INSTANCE.plainAttributeResolver;
 	}
 	
-	static class ValueModelAttributeResolver implements ChildAttributeResolver
+	private static class PropertyAttributeResolver implements ChildAttributeResolver
 	{
 		private PropertyAttributeParser propertyAttributeParser;
-		public ValueModelAttributeResolver()
+		public PropertyAttributeResolver(PropertyAttributeParser propertyAttributeParser)
 		{
-			propertyAttributeParser = new PropertyAttributeParser();
+			this.propertyAttributeParser = propertyAttributeParser;
+		}
+		
+		@Override
+		public AbstractAttribute resolveChildAttribute(String attribute, String attributeValue)
+		{
+			return propertyAttributeParser.parse(attribute, attributeValue);
+		}
+	
+	}
+
+	private static class ValueModelAttributeResolver implements ChildAttributeResolver
+	{
+		private PropertyAttributeParser propertyAttributeParser;
+		public ValueModelAttributeResolver(PropertyAttributeParser propertyAttributeParser)
+		{
+			this.propertyAttributeParser = propertyAttributeParser;
 		}
 		
 		@Override
@@ -69,12 +101,12 @@ public class ChildAttributeResolvers
 
 	}
 	
-	static class StaticResourceAttributeResolver implements ChildAttributeResolver
+	private static class StaticResourceAttributeResolver implements ChildAttributeResolver
 	{
 		private PropertyAttributeParser propertyAttributeParser;
-		public StaticResourceAttributeResolver()
+		public StaticResourceAttributeResolver(PropertyAttributeParser propertyAttributeParser)
 		{
-			propertyAttributeParser = new PropertyAttributeParser();
+			this.propertyAttributeParser = propertyAttributeParser;
 		}
 		
 		@Override
@@ -85,23 +117,7 @@ public class ChildAttributeResolvers
 
 	}
 	
-	static class PropertyAttributeResolver implements ChildAttributeResolver
-	{
-		private PropertyAttributeParser propertyAttributeParser;
-		public PropertyAttributeResolver()
-		{
-			propertyAttributeParser = new PropertyAttributeParser();
-		}
-		
-		@Override
-		public AbstractAttribute resolveChildAttribute(String attribute, String attributeValue)
-		{
-			return propertyAttributeParser.parse(attribute, attributeValue);
-		}
-
-	}
-
-	static class PredefinedMappingsAttributeResolver implements ChildAttributeResolver
+	private static class PredefinedMappingsAttributeResolver implements ChildAttributeResolver
 	{
 		@Override
 		public AbstractAttribute resolveChildAttribute(String attribute, String attributeValue)
@@ -111,7 +127,7 @@ public class ChildAttributeResolvers
 
 	}
 	
-	static class PlainAttributeResolver implements ChildAttributeResolver
+	private static class PlainAttributeResolver implements ChildAttributeResolver
 	{
 		
 		@Override

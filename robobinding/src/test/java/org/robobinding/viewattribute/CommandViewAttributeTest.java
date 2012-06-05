@@ -26,6 +26,7 @@ import org.robobinding.MockBindingContext;
 import org.robobinding.attribute.Command;
 import org.robobinding.attribute.CommandAttribute;
 import org.robobinding.function.Function;
+import org.robobinding.function.MockFunction;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.adapterview.ItemClickEvent;
 

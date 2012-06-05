@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.robobinding.attribute.Attributes.aCommandAttribute;
-import static org.robobinding.viewattribute.MockPresentationModelAdapterBuilder.aPresentationModelAdapter;
+import static org.robobinding.presentationmodel.MockPresentationModelAdapterBuilder.aPresentationModelAdapter;
 
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
@@ -49,7 +49,7 @@ public class CommandAttributeTest
 	}
 	
 	@Test
-	public void givenACommandAttributeWithParameters_whenFind_thenReturnCommandWithParametersSupported()
+	public void givenFunctionWithParameters_whenFind_thenReturnCommandWithParametersSupported()
 	{
 		CommandAttribute attribute = aCommandAttribute(COMMAND_NAME);
 		
@@ -61,8 +61,13 @@ public class CommandAttributeTest
 		assertTrue(command.supportsPreferredParameterType);
 	}
 	
+	private Class<?>[] withParameterTypes()
+	{
+		return new Class<?>[]{Object.class};
+	}
+
 	@Test
-	public void givenACommandAttributeWithoutParameters_whenFind_thenReturnCommandWithoutParametersSupported()
+	public void givenFunctionWithoutParameters_whenFind_thenReturnCommandWithoutParametersSupported()
 	{
 		CommandAttribute attribute = aCommandAttribute(COMMAND_NAME);
 		
@@ -82,10 +87,5 @@ public class CommandAttributeTest
 				aPresentationModelAdapter().build());
 		
 		assertNull(command);
-	}
-	
-	private Class<?>[] withParameterTypes()
-	{
-		return new Class<?>[]{Object.class};
 	}
 }

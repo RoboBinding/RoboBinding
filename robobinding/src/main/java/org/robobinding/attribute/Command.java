@@ -25,7 +25,7 @@ import org.robobinding.function.Function;
 */
 public class Command
 {
-	private final Function function;
+	public final Function function;
 	final boolean supportsPreferredParameterType;
 
 	Command(Function function, boolean supportsPreferredParameterType)

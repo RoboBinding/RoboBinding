@@ -29,17 +29,24 @@ public class GroupedAttribute
 {
 	private GroupedAttributeDescriptor descriptor;
 	private Map<String, AbstractAttribute> childAttributes;
-	public GroupedAttribute(GroupedAttributeDescriptor descriptor)
+	public GroupedAttribute(GroupedAttributeDescriptor descriptor, ChildAttributeResolverMapper resolverMapper)
 	{
 		this.descriptor = descriptor;
-		childAttributes = Maps.newHashMap();
+		
+		ChildAttributeResolverMappings resolverMappings = createResolverMappings(resolverMapper);
+		resolveChildAttributes(resolverMappings);
 	}
 	
-	public void resolve(ChildAttributeResolverMapper resolverMapper)
+	private ChildAttributeResolverMappings createResolverMappings(ChildAttributeResolverMapper resolverMapper)
 	{
 		ChildAttributeResolverMappings resolverMappings = new ChildAttributeResolverMappings();
 		resolverMapper.mapChildAttributeResolvers(resolverMappings);
-		
+		return resolverMappings;
+	}
+
+	private void resolveChildAttributes(ChildAttributeResolverMappings resolverMappings)
+	{
+		childAttributes = Maps.newHashMap();
 		for(Map.Entry<String, String> attributeEntry : descriptor.presentAttributes())
 		{
 			String attribute = attributeEntry.getKey();
@@ -49,29 +56,29 @@ public class GroupedAttribute
 		}
 	}
 
+	public boolean hasAttribute(String attributeName)
+	{
+		return childAttributes.containsKey(attributeName);
+	}
+
 	public CommandAttribute commandAttributeFor(String attributeName)
 	{
-		return (CommandAttribute)childAttributes.get(attributeName);
+		return attributeFor(attributeName);
 	}
 
 	public ValueModelAttribute valueModelAttributeFor(String attributeName)
 	{
-		return (ValueModelAttribute)childAttributes.get(attributeName);
+		return attributeFor(attributeName);
 	}
 
 	public StaticResourceAttribute staticResourceAttributeFor(String attributeName)
 	{
-		return (StaticResourceAttribute)childAttributes.get(attributeName);
+		return attributeFor(attributeName);
 	}
 	
 	public PlainAttribute plainAttribute(String attributeName)
 	{
-		return (PlainAttribute)childAttributes.get(attributeName);
-	}
-
-	public boolean hasAttribute(String attributeName)
-	{
-		return childAttributes.containsKey(attributeName);
+		return attributeFor(attributeName);
 	}
 
 	@SuppressWarnings("unchecked")

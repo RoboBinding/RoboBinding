@@ -49,7 +49,7 @@ public class GroupedAttributeDescriptorTest
 	}
 	
 	@Test (expected = MissingRequiredAttributesException.class)
-	public void givenNoAttributesArePresent_whenAssertingAllAttributesArePresent_thenDoNothing()
+	public void givenNoAttributesArePresent_whenAssertingAllAttributesArePresent_thenThrowException()
 	{
 		noAttributeIsPresent();
 		

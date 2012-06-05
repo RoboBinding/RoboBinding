@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attribute;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import org.robobinding.viewattribute.BindingAttributeValues;
+
 import android.content.Context;
 import android.content.res.Resources;
 
@@ -36,7 +39,7 @@ public class MockResourcesBuilder
 		return new MockResourcesBuilder();
 	}
 	
-	public MockResourcesBuilder()
+	private MockResourcesBuilder()
 	{
 		mockContext = mock(Context.class);
 		

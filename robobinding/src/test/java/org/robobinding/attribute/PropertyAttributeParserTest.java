@@ -20,6 +20,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Random;
+
 import org.junit.Before;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -64,17 +66,39 @@ public class PropertyAttributeParserTest
 	@Theory
 	public void givenLegalValueModelAttributeValues(LegalValueModelAttributeValues legalAttributeValues)
 	{
-		AbstractPropertyAttribute attribute = parse(legalAttributeValues.value);
+		AbstractPropertyAttribute attribute = parseAsValueModelAttribute(legalAttributeValues.value);
 		
 		assertTrue(attribute.isValueModel());
+	}
+	
+	private AbstractPropertyAttribute parseAsValueModelAttribute(String attributeValue)
+	{
+		if(new Random().nextBoolean())
+		{
+			return parse(attributeValue);
+		}else
+		{
+			return parser.parseAsValueModelAttribute("name", attributeValue);
+		}
 	}
 	
 	@Theory
 	public void givenLegalResourceAttributeValues(LegalResourceAttributeValues legalAttributeValues)
 	{
-		AbstractPropertyAttribute attribute = parse(legalAttributeValues.value);
+		AbstractPropertyAttribute attribute = parseAsStaticResourceAttribute(legalAttributeValues.value);
 
 		assertTrue(attribute.isStaticResource());
+	}
+	
+	private AbstractPropertyAttribute parseAsStaticResourceAttribute(String attributeValue)
+	{
+		if(new Random().nextBoolean())
+		{
+			return parse(attributeValue);
+		}else
+		{
+			return parser.parseAsStaticResourceAttribute("name", attributeValue);
+		}
 	}
 	
 	@Theory
