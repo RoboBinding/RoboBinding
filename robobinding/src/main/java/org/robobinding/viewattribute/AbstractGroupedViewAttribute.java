@@ -52,8 +52,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	public void setGroupedAttributeDescriptor(GroupedAttributeDescriptor groupedAttributeDescriptor)
 	{
 		groupedAttributeDescriptor.assertAttributesArePresent(getCompulsoryAttributes());
-		groupedAttribute = new GroupedAttribute(groupedAttributeDescriptor);
-		groupedAttribute.resolve(this);
+		groupedAttribute = new GroupedAttribute(groupedAttributeDescriptor, this);
 	}
 
 	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)

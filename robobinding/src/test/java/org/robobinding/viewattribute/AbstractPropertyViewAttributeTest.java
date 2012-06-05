@@ -23,6 +23,7 @@ import org.robobinding.MockBindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import static org.robobinding.attribute.Attributes.*;
+import static org.robobinding.presentationmodel.MockPresentationModelAdapterBuilder.*;
 
 import android.app.Activity;
 import android.content.Context;
@@ -72,7 +73,7 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass)
 	{
 		attribute.setAttribute(aValueModelAttribute(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
-		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.<PropertyType>createWithDefaultProperty();
+		PresentationModelAdapter presentationModelAdapter = aPresentationModelAdapterWithDefaultProperty();
 		attribute.bindTo(MockBindingContext.create(presentationModelAdapter, new Activity()));
 		return presentationModelAdapter.getPropertyValueModel(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
 	}
@@ -80,7 +81,7 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass, PropertyType initialPropertyValue)
 	{
 		attribute.setAttribute(aValueModelAttribute(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
-		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.<PropertyType>createWithDefaultProperty(initialPropertyValue);
+		PresentationModelAdapter presentationModelAdapter = aPresentationModelAdapterWithDefaultProperty(initialPropertyValue);
 		attribute.bindTo(MockBindingContext.create(presentationModelAdapter, new Activity()));
 		return presentationModelAdapter.getPropertyValueModel(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
 	}

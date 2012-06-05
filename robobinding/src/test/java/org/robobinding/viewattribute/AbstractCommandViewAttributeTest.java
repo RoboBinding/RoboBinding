@@ -29,6 +29,7 @@ import java.lang.reflect.ParameterizedType;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robobinding.MockBindingContext;
+import org.robobinding.function.MockFunction;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.app.Activity;

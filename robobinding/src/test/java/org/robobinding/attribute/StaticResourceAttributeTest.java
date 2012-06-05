@@ -18,13 +18,13 @@ package org.robobinding.attribute;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.robobinding.attribute.Attributes.aStaticResourceAttribute;
+import static org.robobinding.attribute.MockResourcesBuilder.aContextOfResources;
 
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.MockResourcesBuilder;
 
 /**
  *
@@ -58,23 +58,23 @@ public class StaticResourceAttributeTest
 	@Test
 	public void givenResourceNameTypeAndPackage_thenGetResourceIdFromContextResources()
 	{
-		MockResourcesBuilder resourcesBuilder = new MockResourcesBuilder();
-		int expectedResourceId = resourcesBuilder.desclareResource(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE);
+		MockResourcesBuilder aContextOfResources = aContextOfResources();
+		int expectedResourceId = aContextOfResources.desclareResource(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE);
 
 		StaticResourceAttribute attribute = aStaticResourceAttribute(resourceAttributeValue(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE));
 		
-		assertThat(attribute.getResourceId(resourcesBuilder.build()), equalTo(expectedResourceId));
+		assertThat(attribute.getResourceId(aContextOfResources.build()), equalTo(expectedResourceId));
 	}
 
 	@Test
 	public void givenOnlyResourceNameAndType_thenUseContextPackageToGetResourceId()
 	{
-		MockResourcesBuilder resourcesBuilder = new MockResourcesBuilder();
-		int expectedResourceId = resourcesBuilder.withDefaultPackage(RESOURCE_PACKAGE).desclareResource(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE);
+		MockResourcesBuilder aContextOfResources = aContextOfResources();
+		int expectedResourceId = aContextOfResources.withDefaultPackage(RESOURCE_PACKAGE).desclareResource(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE);
 		
 		StaticResourceAttribute attribute = aStaticResourceAttribute(resourceAttributeValue(RESOURCE_NAME, RESOURCE_TYPE));
 		
-		assertThat(attribute.getResourceId(resourcesBuilder.build()), equalTo(expectedResourceId));
+		assertThat(attribute.getResourceId(aContextOfResources.build()), equalTo(expectedResourceId));
 	}
 	
 	private String resourceAttributeValue(String resourceName, String resourceType)
@@ -104,9 +104,9 @@ public class StaticResourceAttributeTest
 		
 		public void assertPointToSameResource(StaticResourceAttribute attribute)
 		{
-			MockResourcesBuilder resourcesBuilder = new MockResourcesBuilder();
-			int expectedResourceId = resourcesBuilder.desclareResource(expectedName, expectedType, expectedPackage);
-			assertThat(attribute.getResourceId(resourcesBuilder.build()), equalTo(expectedResourceId));
+			MockResourcesBuilder aContextOfResources = aContextOfResources();
+			int expectedResourceId = aContextOfResources.desclareResource(expectedName, expectedType, expectedPackage);
+			assertThat(attribute.getResourceId(aContextOfResources.build()), equalTo(expectedResourceId));
 		}
 
 	}

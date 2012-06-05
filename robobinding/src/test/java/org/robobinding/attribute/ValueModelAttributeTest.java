@@ -49,7 +49,7 @@ public class ValueModelAttributeTest
 		ValueModelAttribute attribute = aValueModelAttribute(legalAttributeValues.value);
 		
 		assertThat(attribute.getPropertyName(), equalTo(legalAttributeValues.expectedPropertyName));
-		assertThat(attribute.isTwoWayBinding(), equalTo(legalAttributeValues.expectedBindingType == TWO_WAY ? true : false));
+		assertThat(attribute.isTwoWayBinding(), equalTo(legalAttributeValues.isTwoWayBinding()));
 	}
 	
 	static class LegalValueModelAttributeValues
@@ -63,6 +63,11 @@ public class ValueModelAttributeTest
 			this.value = value;
 			this.expectedPropertyName = expectedPropertyName;
 			this.expectedBindingType = expectedBindingType;
+		}
+		
+		public boolean isTwoWayBinding()
+		{
+			return expectedBindingType == TWO_WAY ? true : false;
 		}
 	}
 
