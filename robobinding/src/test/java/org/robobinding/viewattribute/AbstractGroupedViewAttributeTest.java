@@ -112,23 +112,11 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 		AttributeGroupBindingException bindingErrors = new AttributeGroupBindingException();
 		
 		BindingContext bindingContext = MockBindingContext.create();
-		try
-		{
-			attributeUnderTest.preBind(bindingContext);
-		}catch(RuntimeException e)
-		{
-			bindingErrors.addGeneralError(e);
-			throw bindingErrors;
-		}
+		attributeUnderTest.preBind(bindingContext);
 		
 		ChildAttributeBindings binding = attributeUnderTest.new ChildAttributeBindings(bindingContext, bindingErrors);
-		try
-		{
-			attributeUnderTest.setupChildAttributeBindings(binding);
-		}catch(RuntimeException e)
-		{
-			bindingErrors.addGeneralError(e);
-		}
+		attributeUnderTest.setupChildAttributeBindings(binding);
+		
 		bindingErrors.assertNoErrors();
 		
 		childAttributes = binding.childAttributeMap.values();

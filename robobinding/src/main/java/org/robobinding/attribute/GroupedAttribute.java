@@ -76,7 +76,7 @@ public class GroupedAttribute
 		return attributeFor(attributeName);
 	}
 	
-	public PlainAttribute plainAttribute(String attributeName)
+	public PlainAttribute plainAttributeFor(String attributeName)
 	{
 		return attributeFor(attributeName);
 	}

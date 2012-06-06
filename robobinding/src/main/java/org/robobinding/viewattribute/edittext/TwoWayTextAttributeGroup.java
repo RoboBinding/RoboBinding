@@ -15,9 +15,13 @@
  */
 package org.robobinding.viewattribute.edittext;
 
+import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
+
 import org.robobinding.attribute.ChildAttributeResolverMappings;
+import org.robobinding.attribute.CustomChildAttributeResolver;
+import org.robobinding.attribute.MalformedAttributeException;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import static org.robobinding.attribute.ChildAttributeResolvers.*;
 
 import android.widget.EditText;
 
@@ -45,7 +49,7 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
 		resolverMappings.map(valueModelAttributeResolver(), TEXT);
-		resolverMappings.map(plainAttributeResolver(), VALUE_COMMIT_MODE);
+		resolverMappings.map(new ValueCommitModeResolver(), VALUE_COMMIT_MODE);
 	}
 	
 	@Override
@@ -53,25 +57,31 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	{
 		textAttribute = binding.addProperty(TwoWayTextAttribute.class, TEXT);
 		
-		determineValueCommitMode();
+		if (!valueCommitModeSpecified())
+			valueCommitMode = ValueCommitMode.ON_CHANGE;
+		
 		textAttribute.setValueCommitMode(valueCommitMode);
-	}
-
-	private void determineValueCommitMode()
-	{
-		if (textAttribute.isTwoWayBinding() && valueCommitModeSpecified())
-			throw new RuntimeException("The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
-
-		valueCommitMode = valueCommitModeSpecified() ? ValueCommitMode.from(valueCommitModeAttributeValue()) : ValueCommitMode.ON_CHANGE;
-	}
-
-	private String valueCommitModeAttributeValue()
-	{
-		return groupedAttribute.plainAttribute(VALUE_COMMIT_MODE).getValue();
 	}
 
 	private boolean valueCommitModeSpecified()
 	{
 		return groupedAttribute.hasAttribute(VALUE_COMMIT_MODE);
+	}
+	
+	private class ValueCommitModeResolver extends CustomChildAttributeResolver
+	{
+		@Override
+		protected void resolve(String attribute, String attributeValue)
+		{
+			if (!textAttribute().isTwoWayBinding())
+				throw new MalformedAttributeException(VALUE_COMMIT_MODE, "The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
+			
+			valueCommitMode = ValueCommitMode.from(attributeValue);
+		}
+		
+		private ValueModelAttribute textAttribute()
+		{
+			return groupedAttribute.valueModelAttributeFor(TEXT);
+		}
 	}
 }
