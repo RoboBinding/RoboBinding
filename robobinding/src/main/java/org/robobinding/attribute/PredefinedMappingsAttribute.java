@@ -38,9 +38,9 @@ import com.google.common.collect.Maps;
  */
 public class PredefinedMappingsAttribute extends AbstractAttribute
 {
-	private static final String ITEM_MAPPING_PATTERN = "(\\w+)\\.(\\w+):($?\\{\\w+\\})";
-	private static final Pattern ITEM_MAPPING_COMPILED_PATTERN = Pattern.compile(ITEM_MAPPING_PATTERN);
-	private static final Pattern ITEM_MAPPING_ATTRIBUTE_COMPILED_PATTERN = Pattern.compile("^\\[" + ITEM_MAPPING_PATTERN + "(?:," + ITEM_MAPPING_PATTERN + ")*\\]$");
+	private static final String MAPPING_PATTERN = "(\\w+)\\.(\\w+):($?\\{\\w+\\})";
+	private static final Pattern MAPPING_COMPILED_PATTERN = Pattern.compile(MAPPING_PATTERN);
+	private static final Pattern MAPPING_ATTRIBUTE_COMPILED_PATTERN = Pattern.compile("^\\[" + MAPPING_PATTERN + "(?:," + MAPPING_PATTERN + ")*\\]$");
 	private final String attributeValue;
 	
 	public PredefinedMappingsAttribute(String name, String value)
@@ -48,8 +48,8 @@ public class PredefinedMappingsAttribute extends AbstractAttribute
 		super(name);
 		this.attributeValue = value;
 		
-		if (!ITEM_MAPPING_ATTRIBUTE_COMPILED_PATTERN.matcher(value).matches())
-			throw new MalformedAttributeException(getName(), "ItemMapping attribute value: " + value + " contains invalid syntax.");
+		if (!MAPPING_ATTRIBUTE_COMPILED_PATTERN.matcher(value).matches())
+			throw new MalformedAttributeException(getName(), "Mapping attribute value: " + value + " contains invalid syntax.");
 	}
 
 	public Collection<PredefinedPendingAttributesForView> getViewMappings(Context context)
@@ -61,7 +61,7 @@ public class PredefinedMappingsAttribute extends AbstractAttribute
 	{
 		public ViewMappings parse(String name, String value, Context context)
 		{
-			Matcher matcher = ITEM_MAPPING_COMPILED_PATTERN.matcher(value);
+			Matcher matcher = MAPPING_COMPILED_PATTERN.matcher(value);
 			ViewMappings viewMappings = new ViewMappings();
 
 			while (matcher.find())
