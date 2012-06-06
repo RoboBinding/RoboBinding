@@ -96,7 +96,7 @@ public class ChildAttributeResolvers
 		@Override
 		public AbstractAttribute resolveChildAttribute(String attribute, String attributeValue)
 		{
-			return propertyAttributeParser.parse(attribute, attributeValue);
+			return propertyAttributeParser.parseAsValueModelAttribute(attribute, attributeValue);
 		}
 
 	}

@@ -37,35 +37,35 @@ import org.junit.runner.RunWith;
 public class ValueModelAttributeTest
 {
 	@DataPoints
-	public static LegalValueModelAttributeValues[] legalAttributeValues = {
-		new LegalValueModelAttributeValues("{propertyX}", "propertyX", ONE_WAY),
-		new LegalValueModelAttributeValues("{propertyY}", "propertyY", ONE_WAY),
-		new LegalValueModelAttributeValues("${propertyZ}", "propertyZ", TWO_WAY)
+	public static LegalValueModelAttributeValue[] legalAttributeValues = {
+		new LegalValueModelAttributeValue("{propertyX}", "propertyX", ONE_WAY),
+		new LegalValueModelAttributeValue("{propertyY}", "propertyY", ONE_WAY),
+		new LegalValueModelAttributeValue("${propertyZ}", "propertyZ", TWO_WAY)
 	};
 	
 	@Theory
-	public void givenLegalAttributeValues(LegalValueModelAttributeValues legalAttributeValues)
+	public void whenCreateWithLegalAttributeValue_thenReturnAttributeWithCorrectContents(LegalValueModelAttributeValue legalAttributeValue)
 	{
-		ValueModelAttribute attribute = aValueModelAttribute(legalAttributeValues.value);
+		ValueModelAttribute attribute = aValueModelAttribute(legalAttributeValue.value);
 		
-		assertThat(attribute.getPropertyName(), equalTo(legalAttributeValues.expectedPropertyName));
-		assertThat(attribute.isTwoWayBinding(), equalTo(legalAttributeValues.isTwoWayBinding()));
+		assertThat(attribute.getPropertyName(), equalTo(legalAttributeValue.expectedPropertyName));
+		assertThat(attribute.isTwoWayBinding(), equalTo(legalAttributeValue.expectedIsTwoWayBinding()));
 	}
 	
-	static class LegalValueModelAttributeValues
+	static class LegalValueModelAttributeValue
 	{
 		final String value;
 		final String expectedPropertyName;
 		final BindingType expectedBindingType;
 		
-		public LegalValueModelAttributeValues(String value, String expectedPropertyName, BindingType expectedBindingType)
+		public LegalValueModelAttributeValue(String value, String expectedPropertyName, BindingType expectedBindingType)
 		{
 			this.value = value;
 			this.expectedPropertyName = expectedPropertyName;
 			this.expectedBindingType = expectedBindingType;
 		}
 		
-		public boolean isTwoWayBinding()
+		public boolean expectedIsTwoWayBinding()
 		{
 			return expectedBindingType == TWO_WAY ? true : false;
 		}
