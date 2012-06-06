@@ -58,12 +58,12 @@ public class MockResourcesBuilder
 		return this;
 	}
 	
-	public int desclareLayoutResource(String resourceName)
+	public int declareLayoutResource(String resourceName)
 	{
-		return desclareResource(resourceName, BindingAttributeValues.LAYOUT_RESOURCE_TYPE, BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE);
+		return declareResource(resourceName, BindingAttributeValues.LAYOUT_RESOURCE_TYPE, BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE);
 	}
 	
-	public int desclareResource(String resourceName, String resourceType, String resourcePackage)
+	public int declareResource(String resourceName, String resourceType, String resourcePackage)
 	{
 		int layoutId = nextResourceId();
 		when(mockResources.getIdentifier(

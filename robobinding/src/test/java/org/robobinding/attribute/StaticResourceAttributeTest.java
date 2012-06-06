@@ -41,25 +41,25 @@ public class StaticResourceAttributeTest
 	private static final String RESOURCE_PACKAGE = "resourcePackage";
 	
 	@DataPoints
-	public static LegalResourceAttributeValues[] legalAttributeValues = {
-		new LegalResourceAttributeValues("@layout/layoutX", "layoutX", "layout", null),
-		new LegalResourceAttributeValues("@android:layout/layoutY", "layoutY", "layout", "android"),
-		new LegalResourceAttributeValues("@com.somecompany.widget:layout/layoutY", "layoutY", "layout", "com.somecompany.widget")
+	public static LegalStaticResourceAttributeValue[] legalAttributeValues = {
+		new LegalStaticResourceAttributeValue("@layout/layoutX", "layoutX", "layout", null),
+		new LegalStaticResourceAttributeValue("@android:layout/layoutY", "layoutY", "layout", "android"),
+		new LegalStaticResourceAttributeValue("@com.somecompany.widget:layout/layoutY", "layoutY", "layout", "com.somecompany.widget")
 	};
 	
 	@Theory
-	public void givenLegalAttributeValues(LegalResourceAttributeValues legalAttributeValues)
+	public void whenCreateWithLegalAttributeValue_thenAttributePointsToSameResource(LegalStaticResourceAttributeValue legalAttributeValue)
 	{
-		StaticResourceAttribute attribute = aStaticResourceAttribute(legalAttributeValues.value);
+		StaticResourceAttribute attribute = aStaticResourceAttribute(legalAttributeValue.value);
 
-		legalAttributeValues.assertPointToSameResource(attribute);
+		legalAttributeValue.assertPointToSameResource(attribute);
 	}
 	
 	@Test
 	public void givenResourceNameTypeAndPackage_thenGetResourceIdFromContextResources()
 	{
 		MockResourcesBuilder aContextOfResources = aContextOfResources();
-		int expectedResourceId = aContextOfResources.desclareResource(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE);
+		int expectedResourceId = aContextOfResources.declareResource(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE);
 
 		StaticResourceAttribute attribute = aStaticResourceAttribute(resourceAttributeValue(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE));
 		
@@ -70,7 +70,7 @@ public class StaticResourceAttributeTest
 	public void givenOnlyResourceNameAndType_thenUseContextPackageToGetResourceId()
 	{
 		MockResourcesBuilder aContextOfResources = aContextOfResources();
-		int expectedResourceId = aContextOfResources.withDefaultPackage(RESOURCE_PACKAGE).desclareResource(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE);
+		int expectedResourceId = aContextOfResources.withDefaultPackage(RESOURCE_PACKAGE).declareResource(RESOURCE_NAME, RESOURCE_TYPE, RESOURCE_PACKAGE);
 		
 		StaticResourceAttribute attribute = aStaticResourceAttribute(resourceAttributeValue(RESOURCE_NAME, RESOURCE_TYPE));
 		
@@ -87,14 +87,14 @@ public class StaticResourceAttributeTest
 		return "@"+resourcePackage+":"+resourceType+"/"+resourceName;
 	}
 	
-	static class LegalResourceAttributeValues
+	static class LegalStaticResourceAttributeValue
 	{
 		final String value;
 		private final String expectedName;
 		private final String expectedType;
 		private final String expectedPackage;
 
-		public LegalResourceAttributeValues(String value, String expectedName, String expectedType, String expectedPackage)
+		public LegalStaticResourceAttributeValue(String value, String expectedName, String expectedType, String expectedPackage)
 		{
 			this.value = value;
 			this.expectedName = expectedName;
@@ -105,7 +105,7 @@ public class StaticResourceAttributeTest
 		public void assertPointToSameResource(StaticResourceAttribute attribute)
 		{
 			MockResourcesBuilder aContextOfResources = aContextOfResources();
-			int expectedResourceId = aContextOfResources.desclareResource(expectedName, expectedType, expectedPackage);
+			int expectedResourceId = aContextOfResources.declareResource(expectedName, expectedType, expectedPackage);
 			assertThat(attribute.getResourceId(aContextOfResources.build()), equalTo(expectedResourceId));
 		}
 

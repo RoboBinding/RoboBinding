@@ -42,8 +42,9 @@ public class CommandAttributeTest
 	
 	private static final String COMMAND_NAME = "commandName";
 	
-	@Theory@Test(expected=MalformedAttributeException.class)
-	public void givenIllegalAttributeValues(String illegalAttributeValue)
+	@Theory
+	@Test(expected=MalformedAttributeException.class)
+	public void whenCreateWithIllegalAttributeValue_thenThrowException(String illegalAttributeValue)
 	{
 		aCommandAttribute(illegalAttributeValue);
 	}

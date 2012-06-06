@@ -40,7 +40,7 @@ public class SubViewCreatorTest
 	public void whenGetLayoutId_returnExpectedResult()
 	{
 		MockResourcesBuilder aContextOfResources = aContextOfResources();
-		int layoutId = aContextOfResources.desclareLayoutResource(BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE_NAME);
+		int layoutId = aContextOfResources.declareLayoutResource(BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE_NAME);
 		
 		SubViewCreator subViewCreator = new SubViewCreator(MockBindingContext.create(aContextOfResources.build()), BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE);
 		

@@ -70,7 +70,7 @@ public class StaticResourceAttribute extends AbstractPropertyAttribute
 		return false;
 	}
 
-	static boolean is(String value)
+	static boolean isStaticResourceAttribute(String value)
 	{
 		Matcher matcher = RESOURCE_ATTRIBUTE_PATTERN.matcher(value);
 		
