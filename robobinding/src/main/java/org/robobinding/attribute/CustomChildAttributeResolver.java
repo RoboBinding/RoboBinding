@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.edittext;
-
-import org.robobinding.attribute.MalformedAttributeException;
+package org.robobinding.attribute;
 
 /**
  *
@@ -23,17 +21,16 @@ import org.robobinding.attribute.MalformedAttributeException;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public enum ValueCommitMode
+public abstract class CustomChildAttributeResolver implements ChildAttributeResolver
 {
-	ON_FOCUS_LOST, ON_CHANGE;
-	
-	public static ValueCommitMode from(String attributeValue)
+
+	@Override
+	public AbstractAttribute resolveChildAttribute(String attribute, String attributeValue)
 	{
-		if ("onFocusLost".equals(attributeValue))
-			return ON_FOCUS_LOST;
-		if ("onChange".equals(attributeValue))
-			return ON_CHANGE;
-		
-		throw new MalformedAttributeException(TwoWayTextAttributeGroup.VALUE_COMMIT_MODE, "Invalid " + TwoWayTextAttributeGroup.VALUE_COMMIT_MODE + " attribute value: " + attributeValue);
+		resolve(attribute, attributeValue);
+		return new PlainAttribute(attribute, attributeValue);
 	}
+
+	protected abstract void resolve(String attribute, String attributeValue);
+
 }

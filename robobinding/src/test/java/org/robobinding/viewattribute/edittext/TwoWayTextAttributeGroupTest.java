@@ -20,6 +20,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.robobinding.attribute.MalformedAttributeException;
+import org.robobinding.attribute.MissingRequiredAttributesException;
 import org.robobinding.viewattribute.AbstractGroupedViewAttributeTest;
 import org.robobinding.viewattribute.RandomValues;
 
@@ -56,9 +58,9 @@ public class TwoWayTextAttributeGroupTest extends AbstractGroupedViewAttributeTe
 	}
 	
 	@Test
-	public void givenOneWayBindingTextAndValueCommitModeAttributes_thenCreateTextAttribute()
+	public void givenTwoWayBindingTextAndValueCommitModeAttributes_thenCreateTextAttribute()
 	{
-		givenAttributes(oneWayBindingText, valueCommitMode);
+		givenAttributes(twoWayBindingText, valueCommitMode);
 
 		performInitialization();
 
@@ -70,14 +72,14 @@ public class TwoWayTextAttributeGroupTest extends AbstractGroupedViewAttributeTe
 	{
 		String valueCommitModeValue = RandomValues.either("onChange", "onFocusLost");
 		Attribute valueCommitMode = attribute("valueCommitMode=" + valueCommitModeValue);
-		givenAttributes(oneWayBindingText, valueCommitMode);
+		givenAttributes(twoWayBindingText, valueCommitMode);
 
 		performInitialization();
 
 		assertTrue(attributeUnderTest.valueCommitMode == ValueCommitMode.from(valueCommitModeValue));
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test(expected = MissingRequiredAttributesException.class)
 	public void givenValueCommitModeAttributeOnly_thenReject()
 	{
 		givenAttribute(valueCommitMode);
@@ -85,10 +87,10 @@ public class TwoWayTextAttributeGroupTest extends AbstractGroupedViewAttributeTe
 		performInitialization();
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void givenTwoWayBindingTextAndValueCommitModeAttributes_thenReject()
+	@Test(expected = MalformedAttributeException.class)
+	public void givenOneWayBindingTextAndValueCommitModeAttributes_thenReject()
 	{
-		givenAttributes(twoWayBindingText, valueCommitMode);
+		givenAttributes(oneWayBindingText, valueCommitMode);
 
 		performInitialization();
 	}
