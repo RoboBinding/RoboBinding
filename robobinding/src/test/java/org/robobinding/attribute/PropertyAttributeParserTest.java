@@ -82,13 +82,13 @@ public class PropertyAttributeParserTest
 	}
 
 	@Theory
-	public void whenParseIllegalAttributeValue_thenThrowARuntimeException(AbstractIllegalAttributeValue illegalAttributeValue)
+	public void whenParseIllegalAttributeValue_thenThrowException(AbstractIllegalAttributeValue illegalAttributeValue)
 	{
 		try
 		{
 			parse(illegalAttributeValue.value);
 			fail("Expect an exception thrown");
-		} catch (RuntimeException e)
+		} catch (MalformedAttributeException e)
 		{
 			assertThat(e.getMessage(), equalTo(illegalAttributeValue.getExpectedErrorMessage()));
 		}
@@ -106,13 +106,13 @@ public class PropertyAttributeParserTest
 	}
 	
 	@Theory
-	public void givenIllegalValueModelAttributeValue_whenParseAsValueModelAttribute_thenThrowARuntimeException(IllegalValueModelAttributeValue illegalValueModelAttributeValue)
+	public void givenIllegalValueModelAttributeValue_whenParseAsValueModelAttribute_thenThrowException(IllegalValueModelAttributeValue illegalValueModelAttributeValue)
 	{
 		try
 		{
 			parseAsValueModelAttribute(illegalValueModelAttributeValue.value);
 			fail("Expect an exception thrown");
-		} catch (RuntimeException e)
+		} catch (MalformedAttributeException e)
 		{
 			assertThat(e.getMessage(), equalTo(illegalValueModelAttributeValue.getExpectedErrorMessage()));
 		}
@@ -130,13 +130,13 @@ public class PropertyAttributeParserTest
 	}
 	
 	@Theory
-	public void givenIllegalStaticResourceAttributeValue_whenParseAsStaticResourceAttribute_thenThrowARuntimeException(IllegalStaticResourceAttributeValue illegalStaticResourceAttributeValue)
+	public void givenIllegalStaticResourceAttributeValue_whenParseAsStaticResourceAttribute_thenThrowException(IllegalStaticResourceAttributeValue illegalStaticResourceAttributeValue)
 	{
 		try
 		{
 			parseAsValueModelAttribute(illegalStaticResourceAttributeValue.value);
 			fail("Expect an exception thrown");
-		} catch (RuntimeException e)
+		} catch (MalformedAttributeException e)
 		{
 			assertThat(e.getMessage(), equalTo(illegalStaticResourceAttributeValue.getExpectedErrorMessage()));
 		}
