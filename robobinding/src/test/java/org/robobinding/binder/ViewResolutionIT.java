@@ -133,6 +133,25 @@ public class ViewResolutionIT
 		}
 	}
 
+	@Test
+	public void givenASingleView_whenResolvingMultipleMalformedAndUnsupportedBindingAttributesFromTheSameAttributeGroup_thenThrowExceptionReferringToEachOne()
+	{
+		try
+		{
+			resolveBindingAttributes(
+					aPendingAttributesForAdapterView()
+						.withAttribute("itemLayout", "invalid")
+						.withAttribute("source", "{invalid")
+						.build());
+			fail("Expected exception to be thrown");
+		} catch (ViewResolutionException e)
+		{
+			assertHasAttributeError(e, "itemLayout");
+			assertHasAttributeError(e, "source");
+			assertThat(e.numErrors(), is(2));
+		}
+	}
+	
 	private void assertHasAttributeError(ViewResolutionException e, String attribute)
 	{
 		Collection<AttributeResolutionException> attributeErrors = e.getAttributeErrors();
