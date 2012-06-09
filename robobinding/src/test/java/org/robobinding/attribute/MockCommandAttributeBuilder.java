@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attribute;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import org.robobinding.attribute.AbstractAttribute;
+import org.robobinding.attribute.CommandAttribute;
 
 /**
  * 
@@ -26,17 +23,16 @@ import org.robobinding.attribute.AbstractAttribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class AbstractAttributeBuilder<T extends AbstractAttribute>
+public class MockCommandAttributeBuilder extends AbstractMockAttributeBuilder<CommandAttribute>
 {
-	protected T attribute;
-
-	protected AbstractAttributeBuilder(Class<T> classToMock)
+	private MockCommandAttributeBuilder()
 	{
-		attribute = mock(classToMock);
+		super(CommandAttribute.class);
 	}
-	
-	protected void declareAttributeName(String name)
+
+	public static CommandAttribute aCommandAttribute()
 	{
-		when(attribute.getName()).thenReturn(name);
+		MockCommandAttributeBuilder builder = new MockCommandAttributeBuilder();
+		return builder.attribute;
 	}
 }

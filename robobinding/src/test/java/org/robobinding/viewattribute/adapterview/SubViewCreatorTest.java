@@ -17,13 +17,14 @@ package org.robobinding.viewattribute.adapterview;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.robobinding.attribute.MockResourcesBuilder.aContextOfResources;
 
 import org.junit.Test;
 import org.robobinding.MockBindingContext;
+import org.robobinding.attribute.MockResourcesBuilder;
+import org.robobinding.presentationmodel.MockPresentationModelAdapterBuilder;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.BindingAttributeValues;
-import org.robobinding.viewattribute.MockPresentationModelAdapterBuilder;
-import org.robobinding.viewattribute.MockResourcesBuilder;
 
 import android.content.Context;
 
@@ -38,11 +39,10 @@ public class SubViewCreatorTest
 	@Test
 	public void whenGetLayoutId_returnExpectedResult()
 	{
-		MockResourcesBuilder builder = new MockResourcesBuilder();
-		int layoutId = builder.desclareLayoutResource(BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE_NAME);
-		Context mockContext = builder.build();
+		MockResourcesBuilder aContextOfResources = aContextOfResources();
+		int layoutId = aContextOfResources.declareLayoutResource(BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE_NAME);
 		
-		SubViewCreator subViewCreator = new SubViewCreator(MockBindingContext.create(mockContext), BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE);
+		SubViewCreator subViewCreator = new SubViewCreator(MockBindingContext.create(aContextOfResources.build()), BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE);
 		
 		assertThat(subViewCreator.getLayoutId(), equalTo(layoutId));
 	}

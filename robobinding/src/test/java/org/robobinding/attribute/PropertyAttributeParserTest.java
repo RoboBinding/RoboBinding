@@ -16,18 +16,17 @@
 package org.robobinding.attribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.robobinding.attribute.BindingType.ONE_WAY;
-import static org.robobinding.attribute.BindingType.TWO_WAY;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.attribute.PropertyAttributeParser;
+import org.robobinding.attribute.StaticResourceAttributeTest.LegalStaticResourceAttributeValue;
+import org.robobinding.attribute.ValueModelAttributeTest.LegalValueModelAttributeValue;
 
 /**
  *
@@ -39,30 +38,24 @@ import org.robobinding.attribute.PropertyAttributeParser;
 public class PropertyAttributeParserTest
 {
 	@DataPoints
-	public static LegalPropertyAttributeValues[] legalPropertyAttributeValues = {
-		new LegalPropertyAttributeValues("{propertyX}", "propertyX", ONE_WAY),
-		new LegalPropertyAttributeValues("{propertyY}", "propertyY", ONE_WAY),
-		new LegalPropertyAttributeValues("${propertyZ}", "propertyZ", TWO_WAY)
+	public static LegalValueModelAttributeValue[] legalValueModelAttributeValues = ValueModelAttributeTest.legalAttributeValues;
+	
+	@DataPoints
+	public static LegalStaticResourceAttributeValue[] legalStaticResourceAttributeValues = StaticResourceAttributeTest.legalAttributeValues;
+	
+	@DataPoints
+	public static IllegalValueModelAttributeValue[] illegalValueModelAttributeValues = {
+		new IllegalValueModelAttributeValue("{propertyX", ErrorMessage.SIMPLE_ERROR_MESSAGE),
+		new IllegalValueModelAttributeValue("propertyX", ErrorMessage.SUGGEST_CURLY_BRACES_ERROR_MESSAGE),
+		new IllegalValueModelAttributeValue("propertyX}", ErrorMessage.SIMPLE_ERROR_MESSAGE),
+		new IllegalValueModelAttributeValue("$${propertyX}", ErrorMessage.SIMPLE_ERROR_MESSAGE),
+		new IllegalValueModelAttributeValue("!{propertyX}", ErrorMessage.SIMPLE_ERROR_MESSAGE)
 	};
 	
 	@DataPoints
-	public static LegalResourceAttributeValues[] legalResourceAttributeValues = {
-		new LegalResourceAttributeValues("@layout/layoutX", "layoutX", "layout", null),
-		new LegalResourceAttributeValues("@android:layout/layoutY", "layoutY", "layout", "android"),
-		new LegalResourceAttributeValues("@com.somecompany.widget:layout/layoutY", "layoutY", "layout", "com.somecompany.widget")
+	public static IllegalStaticResourceAttributeValue[] illegalStaticResourceAttributeValues = {
+		new IllegalStaticResourceAttributeValue("{@layout/layoutX}", ErrorMessage.SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES)
 	};
-	
-	@DataPoints
-	public static IllegalBindingAttributeValue[] illegalAttributeValues = {
-		new IllegalBindingAttributeValue("{propertyX", ErrorMessage.SIMPLE_ERROR_MESSAGE),
-		new IllegalBindingAttributeValue("propertyX", ErrorMessage.SUGGEST_CURLY_BRACES_ERROR_MESSAGE),
-		new IllegalBindingAttributeValue("propertyX}", ErrorMessage.SIMPLE_ERROR_MESSAGE),
-		new IllegalBindingAttributeValue("$${propertyX}", ErrorMessage.SIMPLE_ERROR_MESSAGE),
-		new IllegalBindingAttributeValue("!{propertyX}", ErrorMessage.SIMPLE_ERROR_MESSAGE),
-		new IllegalBindingAttributeValue("{@layout/layoutX}", ErrorMessage.SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES)
-	};
-	
-	public enum ErrorMessage {SIMPLE_ERROR_MESSAGE, SUGGEST_CURLY_BRACES_ERROR_MESSAGE, SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES}
 	
 	private PropertyAttributeParser parser;
 	
@@ -73,87 +66,95 @@ public class PropertyAttributeParserTest
 	}
 	
 	@Theory
-	public void givenLegalPropertyAttributeValues(LegalPropertyAttributeValues legalAttributeValues)
+	public void whenParseLegalValueModelAttributeValue_thenReturnValueModelAttribute(LegalValueModelAttributeValue legalValueModelAttributeValue)
 	{
-		AbstractPropertyAttribute attribute = parse(legalAttributeValues.value);
+		AbstractPropertyAttribute attribute = parse(legalValueModelAttributeValue.value);
 		
-		assertFalse(attribute.isStaticResource());
-		ValueModelAttribute valueModelAttribute = attribute.asValueModelAttribute();
-		assertThat(valueModelAttribute.getPropertyName(), equalTo(legalAttributeValues.expectedPropertyName));
-		assertThat(valueModelAttribute.isTwoWayBinding(), equalTo(legalAttributeValues.expectedBindingType == TWO_WAY ? true : false));
+		assertTrue(attribute.isValueModel());
 	}
 	
 	@Theory
-	public void givenLegalResourceAttributeValues(LegalResourceAttributeValues legalAttributeValues)
+	public void whenParseLegalStaticResourceAttributeValue_thenReturnStaticResourceAttribute(LegalStaticResourceAttributeValue legalStaticResourceAttributeValue)
 	{
-		AbstractPropertyAttribute attribute = parse(legalAttributeValues.value);
-
+		AbstractPropertyAttribute attribute = parse(legalStaticResourceAttributeValue.value);
+	
 		assertTrue(attribute.isStaticResource());
-		StaticResourceAttribute staticResourceAttribute = attribute.asStaticResourceAttribute();
-		assertThat(staticResourceAttribute.resourceName, equalTo(legalAttributeValues.expectedName));
-		assertThat(staticResourceAttribute.resourceType, equalTo(legalAttributeValues.expectedType));
-		assertThat(staticResourceAttribute.resourcePackage, equalTo(legalAttributeValues.expectedPackage));
 	}
-	
+
 	@Theory
-	public void whenBindingWithIllegalAttributeValues_thenThrowARuntimeException(IllegalBindingAttributeValue illegalBindingAttributeValue)
+	public void whenParseIllegalAttributeValue_thenThrowException(AbstractIllegalAttributeValue illegalAttributeValue)
 	{
-		boolean exceptionThrown = false;
-		
 		try
 		{
-			parse(illegalBindingAttributeValue.value);
-		} catch (RuntimeException e)
+			parse(illegalAttributeValue.value);
+			fail("Expect an exception thrown");
+		} catch (MalformedAttributeException e)
 		{
-			assertThat(e.getMessage(), equalTo(illegalBindingAttributeValue.getExpectedErrorMessage()));
-			exceptionThrown = true;
+			assertThat(e.getMessage(), equalTo(illegalAttributeValue.getExpectedErrorMessage()));
 		}
-		
-		assertTrue(exceptionThrown);
 	}
-
+	
 	private AbstractPropertyAttribute parse(String attributeValue)
 	{
 		return parser.parse("name", attributeValue);
 	}
-	
-	static class LegalPropertyAttributeValues
+
+	@Theory
+	public void givenLegalValueModelAttributeValue_whenParseAsValueModelAttribute_thenSuccessful(LegalValueModelAttributeValue legalValueModelAttributeValue)
 	{
-		final String value;
-		final String expectedPropertyName;
-		final BindingType expectedBindingType;
-		
-		public LegalPropertyAttributeValues(String value, String expectedPropertyName, BindingType expectedBindingType)
+		parseAsValueModelAttribute(legalValueModelAttributeValue.value);
+	}
+	
+	@Theory
+	public void givenIllegalValueModelAttributeValue_whenParseAsValueModelAttribute_thenThrowException(IllegalValueModelAttributeValue illegalValueModelAttributeValue)
+	{
+		try
 		{
-			this.value = value;
-			this.expectedPropertyName = expectedPropertyName;
-			this.expectedBindingType = expectedBindingType;
+			parseAsValueModelAttribute(illegalValueModelAttributeValue.value);
+			fail("Expect an exception thrown");
+		} catch (MalformedAttributeException e)
+		{
+			assertThat(e.getMessage(), equalTo(illegalValueModelAttributeValue.getExpectedErrorMessage()));
 		}
 	}
 	
-	static class LegalResourceAttributeValues
+	private ValueModelAttribute parseAsValueModelAttribute(String attributeValue)
 	{
-		private final String value;
-		private final String expectedName;
-		private final String expectedType;
-		private final String expectedPackage;
+		return parser.parseAsValueModelAttribute("name", attributeValue);
+	}
 
-		public LegalResourceAttributeValues(String value, String expectedName, String expectedType, String expectedPackage)
-		{
-			this.value = value;
-			this.expectedName = expectedName;
-			this.expectedType = expectedType;
-			this.expectedPackage = expectedPackage;
-		}
-
+	@Theory
+	public void givenLegalStaticResourceAttributeValue_whenParseAsValueModelAttribute_thenSuccessful(LegalStaticResourceAttributeValue legalStaticResourceAttributeValue)
+	{
+		parseAsStaticResourceAttribute(legalStaticResourceAttributeValue.value);
 	}
 	
-	static class IllegalBindingAttributeValue
+	@Theory
+	public void givenIllegalStaticResourceAttributeValue_whenParseAsStaticResourceAttribute_thenThrowException(IllegalStaticResourceAttributeValue illegalStaticResourceAttributeValue)
+	{
+		try
+		{
+			parseAsStaticResourceAttribute(illegalStaticResourceAttributeValue.value);
+			fail("Expect an exception thrown");
+		} catch (MalformedAttributeException e)
+		{
+			assertThat(e.getMessage(), equalTo(illegalStaticResourceAttributeValue.getExpectedErrorMessage()));
+		}
+	}
+
+	private StaticResourceAttribute parseAsStaticResourceAttribute(String attributeValue)
+	{
+		return parser.parseAsStaticResourceAttribute("name", attributeValue);
+	}
+	
+	public enum ErrorMessage {SIMPLE_ERROR_MESSAGE, SUGGEST_CURLY_BRACES_ERROR_MESSAGE, SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES}
+	
+	private static abstract class AbstractIllegalAttributeValue
 	{
 		final String value;
 		final ErrorMessage expectedErrorMessage;
 		
-		public IllegalBindingAttributeValue(String value, ErrorMessage expectedErrorMessage)
+		public AbstractIllegalAttributeValue(String value, ErrorMessage expectedErrorMessage)
 		{
 			this.value = value;
 			this.expectedErrorMessage = expectedErrorMessage;
@@ -174,4 +175,21 @@ public class PropertyAttributeParserTest
 			return "";
 		}
 	}
+
+	private static class IllegalValueModelAttributeValue extends AbstractIllegalAttributeValue
+	{
+		public IllegalValueModelAttributeValue(String value, ErrorMessage expectedErrorMessage)
+		{
+			super(value, expectedErrorMessage);
+		}
+	}
+	
+	private static class IllegalStaticResourceAttributeValue extends AbstractIllegalAttributeValue
+	{
+		public IllegalStaticResourceAttributeValue(String value, ErrorMessage expectedErrorMessage)
+		{
+			super(value, expectedErrorMessage);
+		}
+	}
+	
 }

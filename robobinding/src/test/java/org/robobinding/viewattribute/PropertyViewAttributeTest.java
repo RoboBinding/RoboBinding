@@ -21,7 +21,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.robobinding.viewattribute.MockValueModelAttributeBuilder.aValueModelAttribute;
+import static org.robobinding.attribute.MockValueModelAttributeBuilder.aValueModelAttribute;
 
 import org.junit.Before;
 import org.junit.Test;

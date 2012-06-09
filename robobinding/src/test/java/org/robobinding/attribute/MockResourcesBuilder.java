@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attribute;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import org.robobinding.viewattribute.BindingAttributeValues;
+
 import android.content.Context;
 import android.content.res.Resources;
 
@@ -31,22 +34,42 @@ public class MockResourcesBuilder
 	private Context mockContext;
 	private Resources mockResources;
 	
-	public MockResourcesBuilder()
+	public static MockResourcesBuilder aContextOfResources()
+	{
+		return new MockResourcesBuilder();
+	}
+	
+	private MockResourcesBuilder()
 	{
 		mockContext = mock(Context.class);
-		when(mockContext.getPackageName()).thenReturn(BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE);
 		
 		mockResources = mock(Resources.class);
 		when(mockContext.getResources()).thenReturn(mockResources);
 	}
 	
-	public int desclareLayoutResource(String resourceName)
+	public MockResourcesBuilder withDefaultPackage()
+	{
+		return withDefaultPackage(BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE);
+	}
+	
+	public MockResourcesBuilder withDefaultPackage(String packageName)
+	{
+		when(mockContext.getPackageName()).thenReturn(packageName);
+		return this;
+	}
+	
+	public int declareLayoutResource(String resourceName)
+	{
+		return declareResource(resourceName, BindingAttributeValues.LAYOUT_RESOURCE_TYPE, BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE);
+	}
+	
+	public int declareResource(String resourceName, String resourceType, String resourcePackage)
 	{
 		int layoutId = nextResourceId();
 		when(mockResources.getIdentifier(
 				resourceName, 
-				BindingAttributeValues.LAYOUT_RESOURCE_TYPE, 
-				BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE))
+				resourceType, 
+				resourcePackage))
 				.thenReturn(layoutId);
 		return layoutId;
 	}
