@@ -134,7 +134,7 @@ public class PropertyAttributeParserTest
 	{
 		try
 		{
-			parseAsValueModelAttribute(illegalStaticResourceAttributeValue.value);
+			parseAsStaticResourceAttribute(illegalStaticResourceAttributeValue.value);
 			fail("Expect an exception thrown");
 		} catch (MalformedAttributeException e)
 		{
