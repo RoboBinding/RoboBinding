@@ -15,8 +15,6 @@
  */
 package org.robobinding.viewattribute.edittext;
 
-import org.robobinding.attribute.MalformedAttributeException;
-
 /**
  *
  * @since 1.0
@@ -25,15 +23,17 @@ import org.robobinding.attribute.MalformedAttributeException;
  */
 public enum ValueCommitMode
 {
-	ON_FOCUS_LOST, ON_CHANGE;
+	ON_FOCUS_LOST("onFocusLost"), ON_CHANGE("onChange");
 	
-	public static ValueCommitMode from(String attributeValue)
+	private final String asString;
+
+	private ValueCommitMode(String asString)
 	{
-		if ("onFocusLost".equals(attributeValue))
-			return ON_FOCUS_LOST;
-		if ("onChange".equals(attributeValue))
-			return ON_CHANGE;
-		
-		throw new MalformedAttributeException(TwoWayTextAttributeGroup.VALUE_COMMIT_MODE, "Invalid " + TwoWayTextAttributeGroup.VALUE_COMMIT_MODE + " attribute value: " + attributeValue);
+		this.asString = asString;
+	}
+	
+	public String toString()
+	{
+		return asString;
 	}
 }
