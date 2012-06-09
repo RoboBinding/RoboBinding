@@ -31,7 +31,6 @@ public class ChildAttributeResolvers
 	private ValueModelAttributeResolver valueModelAttributeResolver;
 	private StaticResourceAttributeResolver staticResourceAttributeResolver;
 	private PredefinedMappingsAttributeResolver predefinedMappingsAttributeResolver;
-	private PlainAttributeResolver plainAttributeResolver;
 	
 	private ChildAttributeResolvers()
 	{
@@ -41,7 +40,6 @@ public class ChildAttributeResolvers
 		valueModelAttributeResolver = new ValueModelAttributeResolver(propertyAttributeParser);
 		staticResourceAttributeResolver = new StaticResourceAttributeResolver(propertyAttributeParser);
 		predefinedMappingsAttributeResolver = new PredefinedMappingsAttributeResolver();
-		plainAttributeResolver = new PlainAttributeResolver();
 	}
 	
 	public static ChildAttributeResolver propertyAttributeResolver()
@@ -64,7 +62,12 @@ public class ChildAttributeResolvers
 		return INSTANCE.predefinedMappingsAttributeResolver;
 	}
 	
-	static class ValueModelAttributeResolver implements ChildAttributeResolver
+	public static <T extends Enum<T>> ChildAttributeResolver enumChildAttributeResolver(Class<T> enumClass)
+	{
+		return new EnumChildAttributeResolver<T>(enumClass);
+	}
+	
+	static class PropertyAttributeResolver implements ChildAttributeResolver
 	{
 		private PropertyAttributeParser propertyAttributeParser;
 		public PropertyAttributeResolver(PropertyAttributeParser propertyAttributeParser)
@@ -120,5 +123,22 @@ public class ChildAttributeResolvers
 			return new PredefinedMappingsAttribute(attribute, attributeValue);
 		}
 
+	}
+	
+	static class EnumChildAttributeResolver<T extends Enum<T>> implements ChildAttributeResolver
+	{
+		private final Class<T> enumClass;
+
+		public EnumChildAttributeResolver(Class<T> enumClass)
+		{
+			this.enumClass = enumClass;
+		}
+
+		@Override
+		public AbstractAttribute resolveChildAttribute(String attribute, String attributeValue)
+		{
+			return new EnumAttribute<T>(attribute, attributeValue, enumClass);
+		}
+		
 	}
 }

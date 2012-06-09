@@ -21,16 +21,28 @@ package org.robobinding.attribute;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class CustomChildAttributeResolver implements ChildAttributeResolver
+public class EnumAttribute<T extends Enum<T>> extends AbstractAttribute
 {
+	private T enumeratedValue;
 
-	@Override
-	public AbstractAttribute resolveChildAttribute(String attribute, String attributeValue)
+	public EnumAttribute(String attribute, String attributeValue, Class<T> enumClass)
 	{
-		resolve(attribute, attributeValue);
-		return new PlainAttribute(attribute, attributeValue);
+		super(attribute);
+		enumeratedValue = determineAttributeValue(attributeValue, enumClass);
 	}
 
-	protected abstract void resolve(String attribute, String attributeValue);
-
+	private T determineAttributeValue(String attributeValue, Class<T> enumClass)
+	{
+		for (T value : enumClass.getEnumConstants())
+			if (value.toString().equals(attributeValue))
+				return value;
+		
+		throw new MalformedAttributeException(getName(), "Invalid " + getName() + " attribute value: " + attributeValue);
+	}
+	
+	public T getValue()
+	{
+		return enumeratedValue;
+	}
+	
 }

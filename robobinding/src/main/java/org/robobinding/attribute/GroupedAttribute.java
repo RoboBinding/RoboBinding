@@ -32,20 +32,12 @@ public class GroupedAttribute
 	public GroupedAttribute(GroupedAttributeDescriptor descriptor, ChildAttributeResolverMapper resolverMapper)
 	{
 		this.descriptor = descriptor;
-		
-		ChildAttributeResolverMappings resolverMappings = createResolverMappings(resolverMapper);
-		resolveChildAttributes(resolverMappings);
-	}
-	
-	private ChildAttributeResolverMappings createResolverMappings(ChildAttributeResolverMapper resolverMapper)
-	{
-		ChildAttributeResolverMappings resolverMappings = new ChildAttributeResolverMappings();
-		resolverMapper.mapChildAttributeResolvers(resolverMappings);
-		return resolverMappings;
+		resolveChildAttributes(resolverMapper);
 	}
 
-	private void resolveChildAttributes(ChildAttributeResolverMappings resolverMappings)
+	private void resolveChildAttributes(ChildAttributeResolverMapper resolverMapper)
 	{
+		ChildAttributeResolverMappings resolverMappings = createResolverMappings(resolverMapper);
 		childAttributes = Maps.newHashMap();
 		for(Map.Entry<String, String> attributeEntry : descriptor.presentAttributes())
 		{
@@ -54,16 +46,14 @@ public class GroupedAttribute
 			AbstractAttribute childAttribute = resolver.resolveChildAttribute(attribute, attributeEntry.getValue());
 			childAttributes.put(attribute, childAttribute);
 		}
+		resolverMapper.validateResolvedChildAttributes();
 	}
-
-	public boolean hasAttribute(String attributeName)
+	
+	private ChildAttributeResolverMappings createResolverMappings(ChildAttributeResolverMapper resolverMapper)
 	{
-		return childAttributes.containsKey(attributeName);
-	}
-
-	public CommandAttribute commandAttributeFor(String attributeName)
-	{
-		return attributeFor(attributeName);
+		ChildAttributeResolverMappings resolverMappings = new ChildAttributeResolverMappings();
+		resolverMapper.mapChildAttributeResolvers(resolverMappings);
+		return resolverMappings;
 	}
 
 	public ValueModelAttribute valueModelAttributeFor(String attributeName)
@@ -76,9 +66,15 @@ public class GroupedAttribute
 		return attributeFor(attributeName);
 	}
 	
-	public PlainAttribute plainAttributeFor(String attributeName)
+	@SuppressWarnings("unchecked")
+	public <T extends Enum<T>> EnumAttribute<T> enumAttributeFor(String attributeName)
 	{
-		return attributeFor(attributeName);
+		return (EnumAttribute<T>)childAttributes.get(attributeName);
+	}
+	
+	public boolean hasAttribute(String attributeName)
+	{
+		return childAttributes.containsKey(attributeName);
 	}
 
 	@SuppressWarnings("unchecked")
