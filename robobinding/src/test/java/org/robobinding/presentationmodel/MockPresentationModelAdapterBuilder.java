@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.presentationmodel;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
+import org.robobinding.viewattribute.BindingAttributeValues;
 
 /**
  *
@@ -31,9 +34,42 @@ import org.robobinding.property.ValueModelUtils;
 public class MockPresentationModelAdapterBuilder
 {
 	private PresentationModelAdapter mockPresentationModelAdapter;
-	public MockPresentationModelAdapterBuilder()
+	private MockPresentationModelAdapterBuilder()
 	{
 		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
+	}
+	
+	public static <PropertyType> PresentationModelAdapter aPresentationModelAdapterWithReadOnlyDefaultProperty()
+	{
+		MockPresentationModelAdapterBuilder builder = new MockPresentationModelAdapterBuilder();
+		builder.<PropertyType>declareReadOnlyProperty(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
+		return builder.build();
+	}
+	
+	public static <PropertyType> PresentationModelAdapter aPresentationModelAdapterWithReadOnlyDefaultProperty(PropertyType propertyValue)
+	{
+		MockPresentationModelAdapterBuilder builder = new MockPresentationModelAdapterBuilder();
+		builder.<PropertyType>declareReadOnlyProperty(BindingAttributeValues.DEFAULT_PROPERTY_NAME, propertyValue);
+		return builder.build();
+	}
+	
+	public static <PropertyType> PresentationModelAdapter aPresentationModelAdapterWithDefaultProperty()
+	{
+		MockPresentationModelAdapterBuilder builder = new MockPresentationModelAdapterBuilder();
+		builder.<PropertyType>declareProperty(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
+		return builder.build();
+	}
+	
+	public static <PropertyType> PresentationModelAdapter aPresentationModelAdapterWithDefaultProperty(PropertyType propertyValue)
+	{
+		MockPresentationModelAdapterBuilder builder = new MockPresentationModelAdapterBuilder();
+		builder.<PropertyType>declareProperty(BindingAttributeValues.DEFAULT_PROPERTY_NAME, propertyValue);
+		return builder.build();
+	}
+	
+	public static MockPresentationModelAdapterBuilder aPresentationModelAdapter()
+	{
+		return new MockPresentationModelAdapterBuilder();
 	}
 	
 	public <PropertyType> MockPresentationModelAdapterBuilder declareReadOnlyProperty(String propertyName)
@@ -53,7 +89,7 @@ public class MockPresentationModelAdapterBuilder
 		
 		return this;
 	}
-	
+
 	private <PropertyType> void declareReadOnlyProperty(String propertyName, ValueModel<PropertyType> propertyValueModel)
 	{
 		when(mockPresentationModelAdapter.<PropertyType>getReadOnlyPropertyValueModel(propertyName)).thenReturn(propertyValueModel);
@@ -67,7 +103,7 @@ public class MockPresentationModelAdapterBuilder
 		
 		return this;
 	}
-	
+
 	public <PropertyType> MockPresentationModelAdapterBuilder declareProperty(String propertyName, PropertyType propertyValue)
 	{
 		ValueModel<PropertyType> propertyValueModel = ValueModelUtils.create(propertyValue);
@@ -76,42 +112,27 @@ public class MockPresentationModelAdapterBuilder
 		
 		return this;
 	}
-	
+
 	private <PropertyType> void declareProperty(String propertyName, ValueModel<PropertyType> propertyValueModel)
 	{
 		when(mockPresentationModelAdapter.<PropertyType>getPropertyValueModel(propertyName)).thenReturn(propertyValueModel);
 	}
-	
+
+	public MockPresentationModelAdapterBuilder withFunction(String functionName, Class<?>... parameterTypes)
+	{
+		Function function = mock(Function.class);
+		if(ArrayUtils.isEmpty(parameterTypes))
+		{
+			when(mockPresentationModelAdapter.findFunction(functionName)).thenReturn(function);
+		}else
+		{
+			when(mockPresentationModelAdapter.findFunction(functionName, parameterTypes)).thenReturn(function);
+		}
+		return this;
+	}
+
 	public PresentationModelAdapter build()
 	{
 		return mockPresentationModelAdapter;
-	}
-	
-	public static <PropertyType> PresentationModelAdapter createWithReadOnlyDefaultProperty()
-	{
-		MockPresentationModelAdapterBuilder builder = new MockPresentationModelAdapterBuilder();
-		builder.<PropertyType>declareReadOnlyProperty(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
-		return builder.build();
-	}
-	
-	public static <PropertyType> PresentationModelAdapter createWithReadOnlyDefaultProperty(PropertyType propertyValue)
-	{
-		MockPresentationModelAdapterBuilder builder = new MockPresentationModelAdapterBuilder();
-		builder.<PropertyType>declareReadOnlyProperty(BindingAttributeValues.DEFAULT_PROPERTY_NAME, propertyValue);
-		return builder.build();
-	}
-	
-	public static <PropertyType> PresentationModelAdapter createWithDefaultProperty()
-	{
-		MockPresentationModelAdapterBuilder builder = new MockPresentationModelAdapterBuilder();
-		builder.<PropertyType>declareProperty(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
-		return builder.build();
-	}
-	
-	public static <PropertyType> PresentationModelAdapter createWithDefaultProperty(PropertyType propertyValue)
-	{
-		MockPresentationModelAdapterBuilder builder = new MockPresentationModelAdapterBuilder();
-		builder.<PropertyType>declareProperty(BindingAttributeValues.DEFAULT_PROPERTY_NAME, propertyValue);
-		return builder.build();
 	}
 }

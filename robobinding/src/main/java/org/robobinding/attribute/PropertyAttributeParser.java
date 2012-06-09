@@ -18,6 +18,9 @@ package org.robobinding.attribute;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.robobinding.attribute.StaticResourceAttribute.isStaticResourceAttribute;
+import static org.robobinding.attribute.ValueModelAttribute.isValueModelAttribute;
+
 
 /**
  *
@@ -30,10 +33,10 @@ public class PropertyAttributeParser
 {
 	public AbstractPropertyAttribute parse(String name, String value)
 	{
-		if (ValueModelAttribute.is(value))
+		if (isValueModelAttribute(value))
 		{
 			return new ValueModelAttribute(name, value);
-		} else if(StaticResourceAttribute.is(value))
+		} else if(isStaticResourceAttribute(value))
 		{
 			return new StaticResourceAttribute(name, value);
 		}
@@ -43,7 +46,7 @@ public class PropertyAttributeParser
 	
 	public ValueModelAttribute parseAsValueModelAttribute(String name, String value)
 	{
-		if(ValueModelAttribute.is(value))
+		if(isValueModelAttribute(value))
 		{
 			return new ValueModelAttribute(name, value);
 		}
@@ -53,7 +56,7 @@ public class PropertyAttributeParser
 	
 	StaticResourceAttribute parseAsStaticResourceAttribute(String name, String value)
 	{
-		if(StaticResourceAttribute.is(value))
+		if(isStaticResourceAttribute(value))
 		{
 			return new StaticResourceAttribute(name, value);
 		}

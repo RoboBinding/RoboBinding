@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.attribute;
 
 import static org.mockito.Mockito.when;
 
@@ -25,7 +25,7 @@ import org.robobinding.attribute.ValueModelAttribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class MockValueModelAttributeBuilder extends AbstractAttributeBuilder<ValueModelAttribute>
+public class MockValueModelAttributeBuilder extends AbstractMockAttributeBuilder<ValueModelAttribute>
 {
 	private MockValueModelAttributeBuilder()
 	{

@@ -63,7 +63,7 @@ public class ValueModelAttribute extends AbstractPropertyAttribute
 		return twoWayBinding;
 	}
 	
-	static boolean is(String value)
+	static boolean isValueModelAttribute(String value)
 	{
 		Matcher matcher = PROPERTY_ATTRIBUTE_PATTERN.matcher(value);
 		return matcher.matches();
