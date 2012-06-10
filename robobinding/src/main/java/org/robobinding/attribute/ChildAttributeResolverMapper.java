@@ -24,4 +24,6 @@ package org.robobinding.attribute;
 public interface ChildAttributeResolverMapper
 {
 	void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings);
+
+	void validateResolvedChildAttributes();
 }

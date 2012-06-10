@@ -20,7 +20,6 @@ import java.util.Map;
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ChildAttributeResolverMapper;
-import org.robobinding.attribute.CommandAttribute;
 import org.robobinding.attribute.GroupedAttribute;
 import org.robobinding.attribute.GroupedAttributeDescriptor;
 import org.robobinding.attribute.ValueModelAttribute;
@@ -63,6 +62,11 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected String[] getCompulsoryAttributes()
 	{
 		return NO_COMPULSORY_ATTRIBUTES;
+	}
+	
+	@Override
+	public void validateResolvedChildAttributes() {
+		
 	}
 	
 	@Override
@@ -139,15 +143,6 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 			propertyViewAttribute = safeGetViewAttributeInstantiator().injectProperties(propertyViewAttribute, attributeValue);
 			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
 			return propertyViewAttribute;
-		}
-		
-		public <CommandViewAttributeType extends AbstractCommandViewAttribute<T>> CommandViewAttributeType addCommand(
-				Class<CommandViewAttributeType> commandViewAttributeClass, String commandAttribute)
-		{
-			CommandAttribute attributeValue = groupedAttribute.commandAttributeFor(commandAttribute);
-			CommandViewAttributeType commandViewAttribute = safeGetViewAttributeInstantiator().newCommandViewAttribute(commandViewAttributeClass, attributeValue);
-			childAttributeMap.put(commandAttribute, commandViewAttribute);
-			return commandViewAttribute;
 		}
 		
 		private void perform()
