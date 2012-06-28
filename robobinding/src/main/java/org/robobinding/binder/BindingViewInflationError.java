@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding;
+package org.robobinding.binder;
 
-import java.util.Collection;
-
-import org.robobinding.attribute.MissingRequiredAttributesException;
-
-import android.view.View;
+import org.robobinding.ViewResolutionError;
 
 /**
  *
@@ -27,11 +23,24 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ViewResolutionErrors
+public class BindingViewInflationError
 {
-	View getView();
-	int numErrors();
-	void assertNoErrors();
-	Collection<AttributeResolutionException> getAttributeErrors();
-	Collection<MissingRequiredAttributesException> getMissingRequiredAttributeErrors();
+
+	public BindingViewInflationError(ViewResolutionError error)
+	{
+		// TODO Auto-generated constructor stub
+	}
+
+	public void setViewBindingError(ViewBindingError error)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean hasErrors()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

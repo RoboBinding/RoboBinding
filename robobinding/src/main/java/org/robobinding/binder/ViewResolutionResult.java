@@ -15,7 +15,7 @@
  */
 package org.robobinding.binder;
 
-import org.robobinding.ViewResolutionErrors;
+import org.robobinding.ViewResolutionError;
 
 /**
  * 
@@ -26,12 +26,12 @@ import org.robobinding.ViewResolutionErrors;
 public class ViewResolutionResult
 {
 	private ResolvedBindingAttributes resolvedBindingAttributes;
-	private ViewResolutionErrors errors;
+	private ViewResolutionError error;
 
-	public ViewResolutionResult(ResolvedBindingAttributes resolvedBindingAttributes, ViewResolutionErrors errors)
+	public ViewResolutionResult(ResolvedBindingAttributes resolvedBindingAttributes, ViewResolutionError error)
 	{
 		this.resolvedBindingAttributes = resolvedBindingAttributes;
-		this.errors = errors;
+		this.error = error;
 	}
 
 	public ResolvedBindingAttributes getResolvedBindingAttributes()
@@ -39,8 +39,13 @@ public class ViewResolutionResult
 		return resolvedBindingAttributes;
 	}
 
+	public void addPotentialErrorTo(BindingViewInflationErrors errors)
+	{
+		errors.addViewResolutionError(error);
+	}
+	
 	public void assertNoErrors()
 	{
-		errors.assertNoErrors();
+		error.assertNoErrors();
 	}
 }

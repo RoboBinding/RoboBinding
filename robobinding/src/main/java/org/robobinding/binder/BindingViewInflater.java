@@ -23,6 +23,7 @@ import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.binder.BindingViewInflationErrors.ErrorFormatter;
 import org.robobinding.binder.ViewFactory.ViewFactoryListener;
 
 import android.content.Context;
@@ -40,25 +41,29 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class ViewInflater implements ViewFactoryListener
+class BindingViewInflater implements ViewFactoryListener
 {
-	private final LayoutInflater layoutInflater;
-	private final ViewGroup parentViewToAttach;
+	private final ViewInflator viewInflator;
 	private final List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
 	BindingAttributeResolver bindingAttributeResolver;
 	BindingAttributeParser bindingAttributeParser;
 	
+	private BindingViewInflationErrors errors;
 	private List<ResolvedBindingAttributes> childViewBindingAttributesGroup;
-	private boolean isInflatingBindingView;
 
-	ViewInflater(Builder builder)
+	BindingViewInflater(Builder builder)
 	{
-		this.parentViewToAttach = builder.parentViewToAttach;
 		this.predefinedPendingAttributesForViewGroup = builder.predefinedPendingAttributesForViewGroup;
 
-		this.layoutInflater = createLayoutInflaterWithCustomViewFactory(builder.context);
+		this.viewInflator = createViewInflator(builder);
 		bindingAttributeResolver = new BindingAttributeResolver();
 		bindingAttributeParser = new BindingAttributeParser();
+	}
+
+	ViewInflator createViewInflator(Builder builder)
+	{
+		return new ViewInflator(createLayoutInflaterWithCustomViewFactory(builder.context),
+				builder.parentViewToAttach);
 	}
 
 	LayoutInflater createLayoutInflaterWithCustomViewFactory(Context context)
@@ -69,37 +74,15 @@ class ViewInflater implements ViewFactoryListener
 		return layoutInflater;
 	}
 
-	public InflatedView inflateBindingView(int layoutId)
+	public InflatedView inflateView(int layoutId)
 	{
 		childViewBindingAttributesGroup = Lists.newArrayList();
-		isInflatingBindingView = true;
+		errors = new BindingViewInflationErrors();
 		
-		View rootView = inflate(layoutId);
+		View rootView = viewInflator.inflateView(layoutId);
 		addPredefinedPendingAttributesForViewGroup(rootView);
 		
-		return new InflatedView(rootView, childViewBindingAttributesGroup);
-	}
-
-	public View inflateView(int layoutId)
-	{
-		isInflatingBindingView = false;
-		return inflate(layoutId);
-	}
-
-	View inflate(int layoutId)
-	{
-		if(shouldAttachToParentView())
-		{
-			return layoutInflater.inflate(layoutId, parentViewToAttach, true);
-		}else
-		{
-			return layoutInflater.inflate(layoutId, null);
-		}
-	}
-
-	private boolean shouldAttachToParentView()
-	{
-		return parentViewToAttach != null;
+		return new InflatedView(rootView, childViewBindingAttributesGroup, errors);
 	}
 
 	private void addPredefinedPendingAttributesForViewGroup(View rootView)
@@ -114,21 +97,18 @@ class ViewInflater implements ViewFactoryListener
 	@Override
 	public void onViewCreated(View childView, AttributeSet attrs)
 	{
-		if(isInflatingBindingView)
+		Map<String, String> pendingAttributeMappings = bindingAttributeParser.parse(attrs);
+		if(!pendingAttributeMappings.isEmpty())
 		{
-			Map<String, String> pendingAttributeMappings = bindingAttributeParser.parse(attrs);
-			if(!pendingAttributeMappings.isEmpty())
-			{
-				PendingAttributesForView pendingAttributesForView = new PendingAttributesForViewImpl(childView, pendingAttributeMappings);
-				resolveAndAddViewBindingAttributes(pendingAttributesForView);
-			}
+			PendingAttributesForView pendingAttributesForView = new PendingAttributesForViewImpl(childView, pendingAttributeMappings);
+			resolveAndAddViewBindingAttributes(pendingAttributesForView);
 		}
 	}
 	
 	private void resolveAndAddViewBindingAttributes(PendingAttributesForView pendingAttributesForView)
 	{
 		ViewResolutionResult viewResolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
-		viewResolutionResult.assertNoErrors();
+		viewResolutionResult.addPotentialErrorTo(errors);
 		childViewBindingAttributesGroup.add(viewResolutionResult.getResolvedBindingAttributes());
 	}
 
@@ -163,9 +143,9 @@ class ViewInflater implements ViewFactoryListener
 			return this;
 		}
 		
-		public ViewInflater create()
+		public BindingViewInflater create()
 		{
-			return new ViewInflater(this);
+			return new BindingViewInflater(this);
 		}
 	}
 
@@ -173,11 +153,13 @@ class ViewInflater implements ViewFactoryListener
 	{
 		private View rootView;
 		List<ResolvedBindingAttributes> childViewBindingAttributesGroup;
+		private BindingViewInflationErrors errors;
 
-		private InflatedView(View rootView, List<ResolvedBindingAttributes> childViewBindingAttributesGroup)
+		private InflatedView(View rootView, List<ResolvedBindingAttributes> childViewBindingAttributesGroup, BindingViewInflationErrors errors)
 		{
 			this.rootView = rootView;
 			this.childViewBindingAttributesGroup = childViewBindingAttributesGroup;
+			this.errors = errors;
 		}
 
 		public View getRootView()
@@ -188,7 +170,12 @@ class ViewInflater implements ViewFactoryListener
 		public void bindChildViews(BindingContext bindingContext)
 		{
 			for (ResolvedBindingAttributes viewBindingAttributes : childViewBindingAttributesGroup)
-				viewBindingAttributes.bindTo(bindingContext);
+				errors.addViewBindingError(viewBindingAttributes.bindTo(bindingContext));
+		}
+
+		public void assertNoErrors(ErrorFormatter errorFormatter)
+		{
+			errors.assertNoErrors(errorFormatter);
 		}
 	}
 }

@@ -59,7 +59,7 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 	}
 
 	@Override
-	public ViewResolutionErrors resolveCompleted()
+	public ViewResolutionError resolveCompleted()
 	{
 		resolutionErrors.addUnrecognizedAttributes(attributeMappings.keySet());
 		return resolutionErrors;
