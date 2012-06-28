@@ -35,7 +35,7 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 @SuppressWarnings("serial")
-public class ViewResolutionException extends RuntimeException implements ViewResolutionErrors
+public class ViewResolutionException extends RuntimeException implements ViewResolutionError
 {
 	private View view;
 	private List<AttributeResolutionException> attributeErrors;
@@ -68,7 +68,8 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 		}
 	}
 	
-	private boolean hasErrors()
+	@Override
+	public boolean hasErrors()
 	{
 		return isNotEmpty(attributeErrors) || isNotEmpty(missingRequiredAttributeErrors);
 	}

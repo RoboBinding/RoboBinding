@@ -27,8 +27,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.BindingContext;
 import org.robobinding.binder.BinderImplementorImpl;
-import org.robobinding.binder.ViewInflater;
-import org.robobinding.binder.ViewInflater.InflatedView;
+import org.robobinding.binder.BindingViewInflater;
+import org.robobinding.binder.BindingViewInflater.InflatedView;
 
 import android.app.Activity;
 import android.view.View;
@@ -45,14 +45,14 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public class BinderImplementorImplTest
 {
 	private BinderImplementorImplForTest binderImplementor;
-	private ViewInflater viewInflater;
+	private BindingViewInflater viewInflater;
 	private int layoutId = 0;
 	
 	@Before
 	public void setUp()
 	{
 		binderImplementor = new BinderImplementorImplForTest();
-		viewInflater = mock(ViewInflater.class);
+		viewInflater = mock(BindingViewInflater.class);
 	}
 	
 	@Test
@@ -99,7 +99,7 @@ public class BinderImplementorImplTest
 			super(new Activity(), mock(BindingContextCreator.class));
 		}
 		@Override
-		ViewInflater createViewInflater()
+		BindingViewInflater createViewInflater()
 		{
 			return viewInflater;
 		}

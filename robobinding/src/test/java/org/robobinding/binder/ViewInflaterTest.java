@@ -30,11 +30,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.ViewResolutionErrors;
+import org.robobinding.ViewResolutionError;
 import org.robobinding.binder.BindingAttributeParser;
 import org.robobinding.binder.BindingAttributeResolver;
-import org.robobinding.binder.ViewInflater;
-import org.robobinding.binder.ViewInflater.InflatedView;
+import org.robobinding.binder.BindingViewInflater;
+import org.robobinding.binder.BindingViewInflater.InflatedView;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -54,7 +54,7 @@ import android.view.ViewGroup;
 public class ViewInflaterTest
 {
 	private LayoutInflater layoutInflater;
-	private ViewInflater.Builder viewInflaterBuilder;
+	private BindingViewInflater.Builder viewInflaterBuilder;
 	private BindingAttributeParser bindingAttributesParser;
 	private List<OnViewCreatedInvocation> onViewCreatedInvocations;
 	private int layoutId = 0;
@@ -63,7 +63,7 @@ public class ViewInflaterTest
 	public void setUp()
 	{
 		layoutInflater = mock(LayoutInflater.class);
-		viewInflaterBuilder = new ViewInflater.Builder(null);
+		viewInflaterBuilder = new BindingViewInflater.Builder(null);
 		bindingAttributesParser = mock(BindingAttributeParser.class);
 		onViewCreatedInvocations = Lists.newArrayList();
 	}
@@ -93,7 +93,7 @@ public class ViewInflaterTest
 
 	private View inflateView()
 	{
-		ViewInflater viewInflater = new ViewInflaterForTest(viewInflaterBuilder, bindingAttributesParser);
+		BindingViewInflater viewInflater = new ViewInflaterForTest(viewInflaterBuilder, bindingAttributesParser);
 		View view = viewInflater.inflateView(layoutId);
 		return view;
 	}
@@ -176,7 +176,7 @@ public class ViewInflaterTest
 	
 	private InflatedView inflateBindingView()
 	{
-		ViewInflater viewInflater = new ViewInflaterForTest(viewInflaterBuilder, bindingAttributesParser);
+		BindingViewInflater viewInflater = new ViewInflaterForTest(viewInflaterBuilder, bindingAttributesParser);
 		InflatedView inflatedView = viewInflater.inflateBindingView(layoutId);
 		return inflatedView;
 	}
@@ -196,7 +196,7 @@ public class ViewInflaterTest
 		viewInflaterBuilder.addPredefinedPendingAttributesForView(predefinedPendingAttributesForView);
 	}
 
-	private class ViewInflaterForTest extends ViewInflater
+	private class ViewInflaterForTest extends BindingViewInflater
 	{
 		public ViewInflaterForTest(Builder viewInflaterBuilder, BindingAttributeParser bindingAttributeParser)
 		{
@@ -211,7 +211,7 @@ public class ViewInflaterTest
 		private ViewResolutionResult emptyViewResolutionResult()
 		{
 			ResolvedBindingAttributes viewBindingAttributes = mock(ResolvedBindingAttributes.class);
-			ViewResolutionErrors errors = mock(ViewResolutionErrors.class);
+			ViewResolutionError errors = mock(ViewResolutionError.class);
 			return new ViewResolutionResult(viewBindingAttributes, errors);
 		}
 		
@@ -236,7 +236,7 @@ public class ViewInflaterTest
 	
 	private static class OnViewCreatedInvocation
 	{
-		public void execute(ViewInflater viewInflater)
+		public void execute(BindingViewInflater viewInflater)
 		{
 			viewInflater.onViewCreated(null, null);
 		}
