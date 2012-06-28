@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding;
 
 
+import java.util.Collection;
 import java.util.Map;
+
+import org.robobinding.attribute.MissingRequiredAttributesException;
+
 
 
 import android.view.View;
@@ -33,13 +37,13 @@ import com.google.common.collect.Maps;
 public class PendingAttributesForViewImpl implements PendingAttributesForView
 {
 	private View view;
-	private Map<String, String> attributeMappings;
-	private Map<String, String> malformedAttributes;
+	Map<String, String> attributeMappings;
+	private ViewResolutionException resolutionErrors;
 	public PendingAttributesForViewImpl(View view, Map<String, String> attributeMappings)
 	{
 		this.view = view;
 		this.attributeMappings = Maps.newHashMap(attributeMappings);
-		malformedAttributes = Maps.newHashMap();
+		resolutionErrors = new ViewResolutionException(view);
 	}
 	
 	@Override
@@ -55,39 +59,50 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 	}
 
 	@Override
-	public void assertAllResolved()
+	public ViewResolutionError resolveCompleted()
 	{
-		if (!attributeMappings.isEmpty() || !malformedAttributes.isEmpty())
-			throw new BindingAttributeException(attributeMappings, malformedAttributes, view);
+		resolutionErrors.addUnrecognizedAttributes(attributeMappings.keySet());
+		return resolutionErrors;
 	}
 
 	@Override
 	public void resolveAttributeIfExists(String attribute, AttributeResolver attributeResolver)
 	{
-		try
+		if(attributeMappings.containsKey(attribute))
 		{
-			if(attributeMappings.containsKey(attribute))
+			String attributeValue = attributeMappings.get(attribute);
+			try
 			{
-				String attributeValue = attributeMappings.get(attribute);
 				attributeResolver.resolve(view, attribute, attributeValue);
+			}catch(AttributeResolutionException e)
+			{
+				resolutionErrors.addAttributeError(e);
 			}
-		} catch (MalformedBindingAttributeException e)
-		{
-			//TODO:map with error message?
-			malformedAttributes.put(attribute, e.getMessage());
+			
 			attributeMappings.remove(attribute);
 		}
-
 	}
 
 	@Override
 	public void resolveAttributeGroupIfExists(String[] attributeGroup, AttributeGroupResolver attributeGroupResolver)
 	{
-		//TODO:malformedAttributes error handling.
 		if (hasOneOfAttributes(attributeGroup))
 		{
 			Map<String, String> presentAttributeMappings = findPresentAttributeMappings(attributeGroup);
-			attributeGroupResolver.resolve(view, attributeGroup, presentAttributeMappings);
+			Collection<String> presentAttributes = presentAttributeMappings.keySet();
+			
+			try
+			{
+				attributeGroupResolver.resolve(view, attributeGroup, presentAttributeMappings);
+			}catch(MissingRequiredAttributesException e)
+			{
+				resolutionErrors.addMissingRequiredAttributeError(e);
+			}catch(AttributeResolutionException e)
+			{
+				resolutionErrors.addAttributeError(e);
+			}
+			
+			removeAttributes(presentAttributes);
 		}
 	}
 
@@ -115,5 +130,13 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 			}
 		}
 		return presentAttributeMappings;
+	}
+
+	private void removeAttributes(Collection<String> attributes)
+	{
+		for(String attribute : attributes)
+		{
+			attributeMappings.remove(attribute);
+		}
 	}
 }
