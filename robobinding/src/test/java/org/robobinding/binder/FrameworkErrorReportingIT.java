@@ -15,7 +15,6 @@
  */
 package org.robobinding.binder;
 
-import static org.junit.Assert.assertNotNull;
 import static org.robobinding.binder.MockBindingAttributeSetBuilder.aBindingAttributeSet;
 
 import java.util.Collection;
@@ -50,11 +49,10 @@ public class FrameworkErrorReportingIT
 {
 	private Context context = new Activity();
 	
-	@Test
+	@Test(expected=BindingViewInflationErrors.class)
 	public void test()
 	{
-		View view = inflateAndBindSample1();
-		assertNotNull(view);
+		inflateAndBindSample1();
 	}
 	
 	private View inflateAndBindSample1()
@@ -96,6 +94,14 @@ public class FrameworkErrorReportingIT
 				}
 			});
 			onViewCreatedInvocations = Lists.newArrayList();
+			errorFormatter = new BindingViewInflationErrors.ErrorFormatter() {
+				
+				@Override
+				public String format(BindingViewInflationError error)
+				{
+					return error.toString();
+				}
+			};
 		}
 		
 		public void addOnViewCreatedInvocation(View view, AttributeSet bindingAttributeSet)
