@@ -19,6 +19,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 
 /**
@@ -48,7 +49,7 @@ public class BindingViewInflaterForTest extends BindingViewInflater
 		private ViewInflator viewInflator;
 		public ViewInflaterWithExtraInvocations(ViewInflator viewInflator)
 		{
-			super((Context)null, null);
+			super((LayoutInflater)null, null);
 			this.viewInflator = viewInflator;
 		}
 		

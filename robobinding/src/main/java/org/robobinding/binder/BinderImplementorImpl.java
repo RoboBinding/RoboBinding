@@ -40,7 +40,7 @@ class BinderImplementorImpl implements BinderImplementor
 {
 	private final Context context;
 	private final BindingContextCreator bindingContextCreator;
-	private ErrorFormatter errorFormatter;
+	ErrorFormatter errorFormatter;
 	private ViewGroup parentView;
 	
 	public BinderImplementorImpl(Context context, BindingContextCreator bindingContextCreator)

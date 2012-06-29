@@ -25,22 +25,21 @@ import org.robobinding.ViewResolutionError;
  */
 public class BindingViewInflationError
 {
-
-	public BindingViewInflationError(ViewResolutionError error)
+	private ViewResolutionError viewResolutionError;
+	private ViewBindingError viewBindingError;
+	public BindingViewInflationError(ViewResolutionError viewResolutionError)
 	{
-		// TODO Auto-generated constructor stub
+		this.viewResolutionError = viewResolutionError;
 	}
 
-	public void setViewBindingError(ViewBindingError error)
+	public void setViewBindingError(ViewBindingError viewBindingError)
 	{
-		// TODO Auto-generated method stub
-		
+		this.viewBindingError = viewBindingError;
 	}
 
 	public boolean hasErrors()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return viewResolutionError.hasErrors() || viewBindingError.hasErrors();
 	}
 
 }
