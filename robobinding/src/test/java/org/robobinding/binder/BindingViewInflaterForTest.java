@@ -65,7 +65,7 @@ public class BindingViewInflaterForTest extends BindingViewInflater
 		}
 	}
 	
-	public static class OnViewCreatedInvocation
+	static class OnViewCreatedInvocation
 	{
 		private View view;
 		private AttributeSet bindingAttributeSet;

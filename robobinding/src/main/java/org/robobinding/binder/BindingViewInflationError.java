@@ -17,6 +17,8 @@ package org.robobinding.binder;
 
 import org.robobinding.ViewResolutionError;
 
+import android.view.View;
+
 /**
  *
  * @since 1.0
@@ -25,21 +27,38 @@ import org.robobinding.ViewResolutionError;
  */
 public class BindingViewInflationError
 {
-	private ViewResolutionError viewResolutionError;
-	private ViewBindingError viewBindingError;
-	public BindingViewInflationError(ViewResolutionError viewResolutionError)
+	private View view;
+	private ViewResolutionError resolutionError;
+	private ViewBindingError bindingError;
+	public BindingViewInflationError(ViewResolutionError resolutionError)
 	{
-		this.viewResolutionError = viewResolutionError;
+		this.view = resolutionError.getView();
+		this.resolutionError = resolutionError;
 	}
 
-	public void setViewBindingError(ViewBindingError viewBindingError)
+	void setBindingError(ViewBindingError bindingError)
 	{
-		this.viewBindingError = viewBindingError;
+		this.bindingError = bindingError;
 	}
 
 	public boolean hasErrors()
 	{
-		return viewResolutionError.hasErrors() || viewBindingError.hasErrors();
+		return resolutionError.hasErrors() || bindingError.hasErrors();
+	}
+
+	public View getView()
+	{
+		return view;
+	}
+
+	public ViewResolutionError getResolutionError()
+	{
+		return resolutionError;
+	}
+
+	public ViewBindingError getBindingError()
+	{
+		return bindingError;
 	}
 
 }

@@ -26,7 +26,7 @@ import android.view.ViewGroup;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewInflator
+class ViewInflator
 {
 	private LayoutInflater layoutInflater;
 	private ViewGroup parentViewToAttach;

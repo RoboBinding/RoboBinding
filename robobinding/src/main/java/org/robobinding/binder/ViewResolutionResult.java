@@ -39,7 +39,7 @@ public class ViewResolutionResult
 		return resolvedBindingAttributes;
 	}
 
-	public void addPotentialErrorTo(BindingViewInflationErrors errors)
+	public void addPotentialErrorTo(BindingViewInflationErrorsException errors)
 	{
 		errors.addViewResolutionError(error);
 	}
