@@ -23,7 +23,7 @@ import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.binder.BindingViewInflationErrors.ErrorFormatter;
+import org.robobinding.binder.BindingViewInflationErrorsException.ErrorFormatter;
 import org.robobinding.binder.ViewFactory.ViewFactoryListener;
 
 import android.content.Context;
@@ -48,7 +48,7 @@ class BindingViewInflater implements ViewFactoryListener
 	BindingAttributeResolver bindingAttributeResolver;
 	BindingAttributeParser bindingAttributeParser;
 	
-	private BindingViewInflationErrors errors;
+	private BindingViewInflationErrorsException errors;
 	private List<ResolvedBindingAttributes> childViewBindingAttributesGroup;
 
 	BindingViewInflater(Builder builder)
@@ -77,7 +77,7 @@ class BindingViewInflater implements ViewFactoryListener
 	public InflatedView inflateView(int layoutId)
 	{
 		childViewBindingAttributesGroup = Lists.newArrayList();
-		errors = new BindingViewInflationErrors();
+		errors = new BindingViewInflationErrorsException();
 		
 		View rootView = viewInflator.inflateView(layoutId);
 		addPredefinedPendingAttributesForViewGroup(rootView);
@@ -153,9 +153,9 @@ class BindingViewInflater implements ViewFactoryListener
 	{
 		private View rootView;
 		List<ResolvedBindingAttributes> childViewBindingAttributesGroup;
-		private BindingViewInflationErrors errors;
+		private BindingViewInflationErrorsException errors;
 
-		private InflatedView(View rootView, List<ResolvedBindingAttributes> childViewBindingAttributesGroup, BindingViewInflationErrors errors)
+		private InflatedView(View rootView, List<ResolvedBindingAttributes> childViewBindingAttributesGroup, BindingViewInflationErrorsException errors)
 		{
 			this.rootView = rootView;
 			this.childViewBindingAttributesGroup = childViewBindingAttributesGroup;

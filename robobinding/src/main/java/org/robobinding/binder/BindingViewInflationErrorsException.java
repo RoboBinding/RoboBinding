@@ -15,6 +15,7 @@
  */
 package org.robobinding.binder;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.lang3.text.StrBuilder;
@@ -31,28 +32,28 @@ import com.google.common.collect.Maps;
  * @author Cheng Wei
  */
 @SuppressWarnings("serial")
-public class BindingViewInflationErrors extends RuntimeException
+public class BindingViewInflationErrorsException extends RuntimeException
 {
 	private Map<View, BindingViewInflationError> errorMap;
 	private String errorMessage;
 	
-	public BindingViewInflationErrors()
+	BindingViewInflationErrorsException()
 	{
 		errorMap = Maps.newLinkedHashMap();
 	}
 
-	public void addViewResolutionError(ViewResolutionError error)
+	void addViewResolutionError(ViewResolutionError error)
 	{
 		errorMap.put(error.getView(), new BindingViewInflationError(error));
 	}
 
-	public void addViewBindingError(ViewBindingError error)
+	void addViewBindingError(ViewBindingError error)
 	{
 		BindingViewInflationError inflationError = errorMap.get(error.getView());
-		inflationError.setViewBindingError(error);
+		inflationError.setBindingError(error);
 	}
 	
-	public void assertNoErrors(ErrorFormatter errorFormatter)
+	void assertNoErrors(ErrorFormatter errorFormatter)
 	{
 		StrBuilder sb = new StrBuilder();
 		for(BindingViewInflationError error : errorMap.values())
@@ -76,7 +77,12 @@ public class BindingViewInflationErrors extends RuntimeException
 		return errorMessage;
 	}
 	
-	public interface ErrorFormatter
+	public Collection<BindingViewInflationError> getErrors()
+	{
+		return errorMap.values();
+	}
+	
+	protected interface ErrorFormatter
 	{
 
 		String format(BindingViewInflationError error);
