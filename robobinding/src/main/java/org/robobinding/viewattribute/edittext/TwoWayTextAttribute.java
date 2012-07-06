@@ -110,7 +110,7 @@ public class TwoWayTextAttribute extends AbstractTextAttribute<EditText>
 			}
 		}
 
-		public void setValueCommitMode(ValueCommitMode valueCommitMode)
+		void setValueCommitMode(ValueCommitMode valueCommitMode)
 		{
 			this.valueCommitMode = valueCommitMode;
 		}

@@ -15,9 +15,14 @@
  */
 package org.robobinding.viewattribute.edittext;
 
+import static org.robobinding.attribute.ChildAttributeResolvers.enumChildAttributeResolver;
+import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
+
 import org.robobinding.attribute.ChildAttributeResolverMappings;
+import org.robobinding.attribute.EnumAttribute;
+import org.robobinding.attribute.MalformedAttributeException;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import static org.robobinding.attribute.ChildAttributeResolvers.*;
 
 import android.widget.EditText;
 
@@ -33,7 +38,6 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	public static final String VALUE_COMMIT_MODE = "valueCommitMode";
 
 	TwoWayTextAttribute textAttribute;
-	ValueCommitMode valueCommitMode;
 
 	@Override
 	protected String[] getCompulsoryAttributes()
@@ -45,33 +49,40 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
 		resolverMappings.map(valueModelAttributeResolver(), TEXT);
-		resolverMappings.map(plainAttributeResolver(), VALUE_COMMIT_MODE);
+		resolverMappings.map(enumChildAttributeResolver(ValueCommitMode.class), VALUE_COMMIT_MODE);
+	}
+	
+	@Override
+	public void validateResolvedChildAttributes() {
+		if (valueCommitModeSpecified() && !textAttribute().isTwoWayBinding())
+			throw new MalformedAttributeException(VALUE_COMMIT_MODE, "The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
 	}
 	
 	@Override
 	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 	{
 		textAttribute = binding.addProperty(TwoWayTextAttribute.class, TEXT);
-		
-		determineValueCommitMode();
-		textAttribute.setValueCommitMode(valueCommitMode);
+		textAttribute.setValueCommitMode(determineValueCommitMode());
 	}
 
-	private void determineValueCommitMode()
+	private ValueCommitMode determineValueCommitMode()
 	{
-		if (textAttribute.isTwoWayBinding() && valueCommitModeSpecified())
-			throw new RuntimeException("The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
+		if (valueCommitModeSpecified())
+		{
+			EnumAttribute<ValueCommitMode> enumAttribute = groupedAttribute.enumAttributeFor(VALUE_COMMIT_MODE);
+			return enumAttribute.getValue();
+		}
 
-		valueCommitMode = valueCommitModeSpecified() ? ValueCommitMode.from(valueCommitModeAttributeValue()) : ValueCommitMode.ON_CHANGE;
-	}
-
-	private String valueCommitModeAttributeValue()
-	{
-		return groupedAttribute.plainAttribute(VALUE_COMMIT_MODE).getValue();
+		return ValueCommitMode.ON_CHANGE;
 	}
 
 	private boolean valueCommitModeSpecified()
 	{
 		return groupedAttribute.hasAttribute(VALUE_COMMIT_MODE);
+	}
+	
+	private ValueModelAttribute textAttribute()
+	{
+		return groupedAttribute.valueModelAttributeFor(TEXT);
 	}
 }

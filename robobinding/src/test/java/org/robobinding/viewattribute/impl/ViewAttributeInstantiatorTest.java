@@ -107,7 +107,7 @@ public class ViewAttributeInstantiatorTest
 		public void assertCorrectlyInitialized(View view, ViewListenersProvider viewListenersProvider)
 		{
 			assertThat(this.view, sameInstance(view));
-			assertThat(groupedAttribute.plainAttribute(PLAIN_ATTRIBUTE_NAME), equalTo(new PlainAttribute(PLAIN_ATTRIBUTE_NAME, PLAIN_ATTRIBUTE_VALUE)));
+			assertThat(groupedAttribute.plainAttributeFor(PLAIN_ATTRIBUTE_NAME), equalTo(new PlainAttribute(PLAIN_ATTRIBUTE_NAME, PLAIN_ATTRIBUTE_VALUE)));
 			assertThat(this.viewListenersProvider, sameInstance(viewListenersProvider));
 			assertTrue(mapChildAttributeResolversInvoked);
 		}
