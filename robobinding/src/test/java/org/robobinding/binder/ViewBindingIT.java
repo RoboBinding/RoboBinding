@@ -193,7 +193,7 @@ public class ViewBindingIT
 		Collection<AttributeBindingException> attributeErrors = e.getAttributeErrors();
 		for(AttributeBindingException attributeError : attributeErrors)
 		{
-			if(attributeError.getName().equals(attribute))
+			if(attributeError.getAttribute().equals(attribute))
 			{
 				return;
 			}

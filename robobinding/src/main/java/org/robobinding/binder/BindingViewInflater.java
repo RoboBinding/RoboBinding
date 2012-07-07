@@ -43,8 +43,8 @@ import com.google.common.collect.Lists;
  */
 class BindingViewInflater implements ViewFactoryListener
 {
-	private final ViewInflator viewInflator;
 	private final List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
+	ViewInflator viewInflator;
 	BindingAttributeResolver bindingAttributeResolver;
 	BindingAttributeParser bindingAttributeParser;
 	
@@ -60,13 +60,13 @@ class BindingViewInflater implements ViewFactoryListener
 		bindingAttributeParser = new BindingAttributeParser();
 	}
 
-	ViewInflator createViewInflator(Builder builder)
+	private ViewInflator createViewInflator(Builder builder)
 	{
 		return new ViewInflator(createLayoutInflaterWithCustomViewFactory(builder.context),
 				builder.parentViewToAttach);
 	}
 
-	LayoutInflater createLayoutInflaterWithCustomViewFactory(Context context)
+	private LayoutInflater createLayoutInflaterWithCustomViewFactory(Context context)
 	{
 		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
 		ViewFactory viewFactory = new ViewFactory(layoutInflater);

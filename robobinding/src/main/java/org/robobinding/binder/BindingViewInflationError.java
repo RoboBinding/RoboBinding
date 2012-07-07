@@ -15,7 +15,12 @@
  */
 package org.robobinding.binder;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.robobinding.ViewResolutionError;
+
+import com.google.common.collect.Lists;
 
 import android.view.View;
 
@@ -59,6 +64,24 @@ public class BindingViewInflationError
 	public ViewBindingError getBindingError()
 	{
 		return bindingError;
+	}
+
+	public int numErrors()
+	{
+		return resolutionError.numErrors()+bindingError.numErrors();
+	}
+
+	public String getViewName()
+	{
+		return view.getClass().getSimpleName();
+	}
+
+	public Collection<Exception> getErrors()
+	{
+		List<Exception> errors = Lists.newArrayList();
+		errors.addAll(resolutionError.getErrors());
+		errors.addAll(bindingError.getAttributeErrors());
+		return errors;
 	}
 
 }

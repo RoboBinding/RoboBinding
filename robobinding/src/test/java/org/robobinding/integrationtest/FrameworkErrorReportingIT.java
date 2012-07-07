@@ -19,6 +19,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.robobinding.binder.MockBindingAttributeSetBuilder.aBindingAttributeSet;
+import static org.robobinding.binder.BindingViewInflaterForTest.aBindingViewInflater;
 import static org.robobinding.integrationtest.BindingViewInflationErrorExpectation.aBindingViewInflationErrorExpectationOf;
 
 import java.util.Collection;
@@ -29,6 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.R;
 import org.robobinding.binder.BinderImplementorForTest;
+import org.robobinding.binder.BindingViewInflaterForTest;
 import org.robobinding.binder.BindingViewInflationError;
 import org.robobinding.binder.BindingViewInflationErrorsException;
 import org.robobinding.presentationmodel.PresentationModel;
@@ -93,11 +95,12 @@ public class FrameworkErrorReportingIT
 		public View inflateAndBind()
 		{
 			views = Lists.newArrayList();
-			BinderImplementorForTest binder = new BinderImplementorForTest(context);
+			
+			BindingViewInflaterForTest.Builder bindingViewInflaterBuilder = aBindingViewInflater(context);
 
 			Button button = new Button(context);
 			views.add(button);
-			binder.addOnViewCreatedInvocation(
+			bindingViewInflaterBuilder.withOnViewCreatedInvocation(
 					button, 
 					aBindingAttributeSet()
 						//resolution phase.
@@ -109,7 +112,7 @@ public class FrameworkErrorReportingIT
 			
 			Spinner spinner = new Spinner(context);
 			views.add(spinner);
-			binder.addOnViewCreatedInvocation(
+			bindingViewInflaterBuilder.withOnViewCreatedInvocation(
 					spinner, 
 					aBindingAttributeSet()
 						//resolution phase.
@@ -118,6 +121,8 @@ public class FrameworkErrorReportingIT
 						.withAttribute("itemLayout", "{propertyPointingToNoExistentLayout}")
 						.build());
 			
+			
+			BinderImplementorForTest binder = new BinderImplementorForTest(context, bindingViewInflaterBuilder.build());
 			return binder.inflateAndBind(R.layout.framework_error_reporting_it_sample1, new PresentationModelForTest());
 		}
 		

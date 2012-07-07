@@ -18,6 +18,8 @@ package org.robobinding.attribute;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.apache.commons.lang3.StringUtils;
+
 
 
 /**
@@ -39,5 +41,17 @@ public class MissingRequiredAttributesException extends RuntimeException
 	public Collection<String> getMissingAttributes()
 	{
 		return Collections.unmodifiableCollection(missingAttributes);
+	}
+	
+	@Override
+	public String getMessage()
+	{
+		return "Missing attributes: "+StringUtils.join(missingAttributes, ", ");
+	}
+	
+	@Override
+	public String toString()
+	{
+		return getMessage();
 	}
 }
