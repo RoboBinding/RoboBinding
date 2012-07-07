@@ -49,8 +49,14 @@ public class BindingViewInflationErrorsException extends RuntimeException
 
 	void addViewBindingError(ViewBindingError error)
 	{
+		try
+		{
 		BindingViewInflationError inflationError = errorMap.get(error.getView());
 		inflationError.setBindingError(error);
+		}catch(NullPointerException e)
+		{
+			throw e;
+		}
 	}
 	
 	void assertNoErrors(ErrorFormatter errorFormatter)

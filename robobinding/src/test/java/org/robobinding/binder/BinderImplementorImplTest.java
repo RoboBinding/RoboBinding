@@ -22,13 +22,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.BindingContext;
+import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.binder.BinderImplementorImpl;
 import org.robobinding.binder.BindingViewInflater;
 import org.robobinding.binder.BindingViewInflater.InflatedView;
+import org.robobinding.binder.BindingViewInflationErrorsException.ErrorFormatter;
 
 import android.app.Activity;
 import android.view.View;
@@ -62,7 +66,7 @@ public class BinderImplementorImplTest
 		View viewWithBinding = mock(View.class);
 		InflatedView inflatedView = mock(InflatedView.class);
 		when(inflatedView.getRootView()).thenReturn(viewWithBinding);
-		when(viewInflater.inflateBindingView(layoutId)).thenReturn(inflatedView);
+		when(viewInflater.inflateView(layoutId)).thenReturn(inflatedView);
 		
 		View view = binderImplementor.inflateAndBind(layoutId, presentationModel);
 		
@@ -74,22 +78,24 @@ public class BinderImplementorImplTest
 	{
 		Object presentationModel = new Object();
 		InflatedView inflatedView = mock(InflatedView.class);
-		when(viewInflater.inflateBindingView(layoutId)).thenReturn(inflatedView);
+		when(viewInflater.inflateView(layoutId)).thenReturn(inflatedView);
 		
 		binderImplementor.inflateAndBind(layoutId, presentationModel);
 		
 		verify(inflatedView).bindChildViews(any(BindingContext.class));
+		verify(inflatedView).assertNoErrors(any(ErrorFormatter.class));
 	}
 	
 	@Test
-	public void whenInflateOnly_thenViewWithInflatingOnlyShouldBeReturned()
+	public void whenInflateAndBind_thenViewInflationErrorsShouldBeAsserted()
 	{
-		View viewWithInflatingOnly = mock(View.class);
-		when(viewInflater.inflateView(layoutId)).thenReturn(viewWithInflatingOnly);
+		Object presentationModel = new Object();
+		InflatedView inflatedView = mock(InflatedView.class);
+		when(viewInflater.inflateView(layoutId)).thenReturn(inflatedView);
 		
-		View view = binderImplementor.inflateOnly(layoutId);
+		binderImplementor.inflateAndBind(layoutId, presentationModel);
 		
-		assertThat(view, sameInstance(viewWithInflatingOnly));
+		verify(inflatedView).assertNoErrors(any(ErrorFormatter.class));
 	}
 	
 	public class BinderImplementorImplForTest extends BinderImplementorImpl
@@ -99,7 +105,7 @@ public class BinderImplementorImplTest
 			super(new Activity(), mock(BindingContextCreator.class));
 		}
 		@Override
-		BindingViewInflater createViewInflater()
+		BindingViewInflater createBindingViewInflater(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
 		{
 			return viewInflater;
 		}

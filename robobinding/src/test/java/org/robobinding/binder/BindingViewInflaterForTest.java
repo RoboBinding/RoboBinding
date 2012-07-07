@@ -17,10 +17,14 @@ package org.robobinding.binder;
 
 import java.util.List;
 
+import org.robobinding.PredefinedPendingAttributesForView;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import com.google.common.collect.Lists;
 
 /**
  *
@@ -32,16 +36,92 @@ public class BindingViewInflaterForTest extends BindingViewInflater
 {
 	private List<OnViewCreatedInvocation> onViewCreatedInvocations;
 
-	public BindingViewInflaterForTest(Context context, List<OnViewCreatedInvocation> onViewCreatedInvocations)
+	private BindingViewInflaterForTest(BindingViewInflater.Builder bindingViewInflaterBuilder, Builder builder)
 	{
-		super(new BindingViewInflater.Builder(context));
-		this.onViewCreatedInvocations = onViewCreatedInvocations;
+		super(bindingViewInflaterBuilder);
+		this.bindingAttributeParser = builder.bindingAttributesParser;
+		this.bindingAttributeResolver = builder.bindingAttributeResolver;
+		this.viewInflator = createViewInflator(builder);
+		this.onViewCreatedInvocations = Lists.newArrayList(builder.onViewCreatedInvocations);
 	}
 	
-	@Override
-	ViewInflator createViewInflator(Builder builder)
+	private ViewInflator createViewInflator(Builder builder)
 	{
-		return new ViewInflaterWithExtraInvocations(super.createViewInflator(builder));
+		if(builder.isViewInflaterSet())
+		{
+			return new ViewInflaterWithExtraInvocations(builder.viewInflator);
+		}else
+		{
+			return new ViewInflaterWithExtraInvocations(this.viewInflator);
+		}
+	}
+	
+	public static Builder aBindingViewInflater(Context context)
+	{
+		return new Builder(context);
+	}
+	
+	public static class Builder
+	{
+		private List<OnViewCreatedInvocation> onViewCreatedInvocations;
+		private Context context;
+		private ViewInflator viewInflator;
+		private BindingAttributeParser bindingAttributesParser;
+		private BindingAttributeResolver bindingAttributeResolver;
+		private List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViews; 
+
+		private Builder(Context context)
+		{
+			this.context = context;
+			this.onViewCreatedInvocations = Lists.newArrayList();
+			this.predefinedPendingAttributesForViews = Lists.newArrayList();
+			bindingAttributesParser = new BindingAttributeParser();
+			
+			bindingAttributeResolver = new BindingAttributeResolver();
+		}
+		
+		public boolean isViewInflaterSet()
+		{
+			return viewInflator != null;
+		}
+
+		public Builder withOnViewCreatedInvocation(View view, AttributeSet bindingAttributeSet)
+		{
+			this.onViewCreatedInvocations.add(new OnViewCreatedInvocation(view, bindingAttributeSet));
+			return this;
+		}
+		
+		public Builder withViewInflator(ViewInflator viewInflator)
+		{
+			this.viewInflator = viewInflator;
+			return this;
+		}
+		
+		public Builder withBindingAttributeParser(BindingAttributeParser bindingAttributesParser)
+		{
+			this.bindingAttributesParser = bindingAttributesParser;
+			return this;
+		}
+
+		public Builder withBindingAttributeResolver(BindingAttributeResolver bindingAttributeResolver)
+		{
+			this.bindingAttributeResolver = bindingAttributeResolver;
+			return this;
+		}
+
+		public Builder withPredefinedPendingAttributesForView(PredefinedPendingAttributesForView predefinedPendingAttributesForView)
+		{
+			this.predefinedPendingAttributesForViews.add(predefinedPendingAttributesForView);
+			return this;
+		}
+
+		public BindingViewInflater build()
+		{
+			BindingViewInflater.Builder buildingViewInflaterBuilder = new BindingViewInflater.Builder(context);
+			buildingViewInflaterBuilder.setPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViews);
+			return new BindingViewInflaterForTest(buildingViewInflaterBuilder, this);
+		}
+		
 	}
 	
 	private class ViewInflaterWithExtraInvocations extends ViewInflator
@@ -65,7 +145,7 @@ public class BindingViewInflaterForTest extends BindingViewInflater
 		}
 	}
 	
-	static class OnViewCreatedInvocation
+	private static class OnViewCreatedInvocation
 	{
 		private View view;
 		private AttributeSet bindingAttributeSet;

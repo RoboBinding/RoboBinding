@@ -74,12 +74,12 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 		return isNotEmpty(attributeErrors) || isNotEmpty(missingRequiredAttributeErrors);
 	}
 
-	void addAttributeError(AttributeResolutionException e)
+	public void addAttributeError(AttributeResolutionException e)
 	{
 		attributeErrors.add((AttributeResolutionException)e);
 	}
 	
-	void addUnrecognizedAttributes(Collection<String> attributes)
+	public void addUnrecognizedAttributes(Collection<String> attributes)
 	{
 		for(String attribute : attributes)
 		{
@@ -87,7 +87,7 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 		}
 	}
 	
-	void addMissingRequiredAttributeError(MissingRequiredAttributesException e)
+	public void addMissingRequiredAttributeError(MissingRequiredAttributesException e)
 	{
 		missingRequiredAttributeErrors.add(e);
 	}
@@ -102,5 +102,14 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 	public Collection<MissingRequiredAttributesException> getMissingRequiredAttributeErrors()
 	{
 		return Collections.unmodifiableCollection(missingRequiredAttributeErrors);
+	}
+	
+	@Override
+	public Collection<Exception> getErrors()
+	{
+		List<Exception> errors = Lists.newArrayList();
+		errors.addAll(attributeErrors);
+		errors.addAll(missingRequiredAttributeErrors);
+		return errors;
 	}
 }

@@ -35,4 +35,5 @@ public interface ViewResolutionError
 	boolean hasErrors();
 	Collection<AttributeResolutionException> getAttributeErrors();
 	Collection<MissingRequiredAttributesException> getMissingRequiredAttributeErrors();
+	Collection<Exception> getErrors();
 }
