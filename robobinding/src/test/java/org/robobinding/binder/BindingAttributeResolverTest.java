@@ -62,30 +62,30 @@ public class BindingAttributeResolverTest
 	@Test
 	public void givenTwoCandidateBindingAttributeProviders_whenResolve_thenBothProvidersShouldInvolveResolving()
 	{
-		BindingAttributeProvider<View> bindingAttributeProvider1 = createAndAddCandidateBindingAttributeProvider();
-		BindingAttributeProvider<View> bindingAttributeProvider2 = createAndAddCandidateBindingAttributeProvider();
+		BindingAttributeProvider<View> bindingAttributeProvider1 = addNewCandidateBindingAttributeProvider();
+		BindingAttributeProvider<View> bindingAttributeProvider2 = addNewCandidateBindingAttributeProvider();
 		PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
 		when(pendingAttributesForView.isEmpty()).thenReturn(false);
 
 		bindingAttributeResolver.resolve(pendingAttributesForView);
 
-		bindingAttributeResolver.assertBindingAttributeProvidersInvolveResolving(bindingAttributeProvider1, bindingAttributeProvider2);
+		bindingAttributeResolver.assertBindingAttributeProvidersInvolvedResolving(bindingAttributeProvider1, bindingAttributeProvider2);
 	}
 
 	@Test
 	public void givenTwoCandidateBindingAttributeProviders_whenResolveCompletedAtFirstProvider_thenSecondProviderShouldBeSkipped()
 	{
-		BindingAttributeProvider<View> bindingAttributeProvider1 = createAndAddCandidateBindingAttributeProvider();
-		createAndAddCandidateBindingAttributeProvider();
+		BindingAttributeProvider<View> bindingAttributeProvider1 = addNewCandidateBindingAttributeProvider();
+		addNewCandidateBindingAttributeProvider();
 		PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
 		when(pendingAttributesForView.isEmpty()).thenReturn(true);
 
 		bindingAttributeResolver.resolve(pendingAttributesForView);
 
-		bindingAttributeResolver.assertBindingAttributeProvidersInvolveResolving(bindingAttributeProvider1);
+		bindingAttributeResolver.assertBindingAttributeProvidersInvolvedResolving(bindingAttributeProvider1);
 	}
 
-	private BindingAttributeProvider<View> createAndAddCandidateBindingAttributeProvider()
+	private BindingAttributeProvider<View> addNewCandidateBindingAttributeProvider()
 	{
 		BindingAttributeProvider<View> bindingAttributeProvider = mock(BindingAttributeProvider.class);
 		candidateBindingAttributeProviders.add(bindingAttributeProvider);
@@ -94,27 +94,27 @@ public class BindingAttributeResolverTest
 
 	private static class BindingAttributeResolverForTest extends BindingAttributeResolver
 	{
-		private Set<BindingAttributeProvider<View>> bindingAttributeProvidersInvolveResolving;
+		private Set<BindingAttributeProvider<View>> actualBindingAttributeProvidersInvolvedResolving;
 
 		public BindingAttributeResolverForTest(List<BindingAttributeProvider<? extends View>> candidateBindingAttributeProviders)
 		{
 			providersResolver = mock(BindingAttributeProvidersResolver.class);
 			when(providersResolver.getCandidateProviders(any(View.class))).thenReturn(candidateBindingAttributeProviders);
 
-			bindingAttributeProvidersInvolveResolving = Sets.newHashSet();
+			actualBindingAttributeProvidersInvolvedResolving = Sets.newHashSet();
 		}
 		
 		@Override
 		Collection<ViewAttribute> resolveByBindingAttributeProvider(PendingAttributesForView pendingAttributesForView,
 				BindingAttributeProvider<View> bindingAttributeProvider)
 		{
-			bindingAttributeProvidersInvolveResolving.add(bindingAttributeProvider);
+			actualBindingAttributeProvidersInvolvedResolving.add(bindingAttributeProvider);
 			return Collections.emptyList();
 		}
 
-		public void assertBindingAttributeProvidersInvolveResolving(BindingAttributeProvider<View>... bindingAttributeProviders)
+		public void assertBindingAttributeProvidersInvolvedResolving(BindingAttributeProvider<View>... expectedBindingAttributeProvidersInvolvedResolving)
 		{
-			assertThat(Sets.newHashSet(bindingAttributeProviders), equalTo(bindingAttributeProvidersInvolveResolving));
+			assertThat(Sets.newHashSet(expectedBindingAttributeProvidersInvolvedResolving), equalTo(actualBindingAttributeProvidersInvolvedResolving));
 		}
 
 	}

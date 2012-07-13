@@ -57,7 +57,7 @@ public class BindingViewInflaterTest
 	@Before
 	public void setUp()
 	{
-		ViewInflator viewInflator = mock(ViewInflator.class);
+		ViewInflater viewInflator = mock(ViewInflater.class);
 		View view = mock(View.class);
 		when(viewInflator.inflateView(anyInt())).thenReturn(view);
 		bindingAttributesParser = mock(BindingAttributeParser.class);

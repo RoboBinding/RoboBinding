@@ -88,7 +88,7 @@ class BinderImplementorImpl implements BinderImplementor
 	@Override
 	public View inflateOnly(int layoutId)
 	{
-		ViewInflator viewInflater = new ViewInflator(context, parentView);
+		ViewInflater viewInflater = new ViewInflaterImpl(context, parentView);
 		return viewInflater.inflateView(layoutId);
 	}
 

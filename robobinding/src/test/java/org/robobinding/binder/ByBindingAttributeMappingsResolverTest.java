@@ -17,29 +17,22 @@ package org.robobinding.binder;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.robobinding.binder.MockBindingAttributeMappingsImplBuilder.aBindingAttributeMappingsImpl;
+import static org.robobinding.binder.MockBindingAttributeMappingsImplBuilder.aCommandViewAttribute;
+import static org.robobinding.binder.MockBindingAttributeMappingsImplBuilder.aGroupedViewAttribute;
+import static org.robobinding.binder.MockBindingAttributeMappingsImplBuilder.aPropertyViewAttribute;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.ViewResolutionError;
-import org.robobinding.attribute.ChildAttributeResolverMappings;
-import org.robobinding.attribute.Command;
-import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
 
 import android.view.View;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -50,103 +43,59 @@ import com.google.common.collect.Sets;
  */
 public class ByBindingAttributeMappingsResolverTest
 {
-	private ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver;
 	private PendingAttributesForView pendingAttributesForView;
-	private List<String> propertyAttributes;
-	private List<String> commandAttributes;
-	private List<String[]> attributeGroups;
 
 	@Before
 	public void setUp()
 	{
-		propertyAttributes = Lists.newArrayList();
-		commandAttributes = Lists.newArrayList();
-		attributeGroups = Lists.newArrayList();
-
-		byBindingAttributeMappingsResolver = new ByBindingAttributeMappingsResolver(new MockBindingAttributeMappingsImpl<View>());
-		pendingAttributesForView = new MockViewPendingAttribute();
+		pendingAttributesForView = new MockPendingAttributesForView();
 	}
 
 	@Test
 	public void givenAPropertyAttribute_whenResolve_thenAResolvedPropertyViewAttributeShouldBeReturned()
 	{
 		String propertyAttribute = "propertyAttribute";
-		propertyAttributes.add(propertyAttribute);
+		ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver = newByBindingAttributeMappingsResolver(aBindingAttributeMappingsImpl()
+				.withPropertyAttribute(propertyAttribute)
+				.build());
 
 		Collection<ViewAttribute> viewAttributes = byBindingAttributeMappingsResolver.resolve(pendingAttributesForView);
 
-		assertThat(Sets.newHashSet(viewAttributes), equalTo(Sets.<ViewAttribute> newHashSet(new MockPropertyViewAttribute(propertyAttribute))));
+		assertThat(Sets.newHashSet(viewAttributes), equalTo(Sets.<ViewAttribute> newHashSet(aPropertyViewAttribute(propertyAttribute))));
 	}
 
 	@Test
 	public void givenACommandAttribute_whenResolve_thenAResolvedCommandViewAttributeShouldBeReturned()
 	{
 		String commandAttribute = "commandAttribute";
-		commandAttributes.add(commandAttribute);
-
+		ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver = newByBindingAttributeMappingsResolver(aBindingAttributeMappingsImpl()
+				.withCommandAttribute(commandAttribute)
+				.build());
+		
 		Collection<ViewAttribute> viewAttributes = byBindingAttributeMappingsResolver.resolve(pendingAttributesForView);
 
-		assertThat(Sets.newHashSet(viewAttributes), equalTo(Sets.<ViewAttribute> newHashSet(new MockCommandViewAttribute(commandAttribute))));
+		assertThat(Sets.newHashSet(viewAttributes), equalTo(Sets.<ViewAttribute> newHashSet(aCommandViewAttribute(commandAttribute))));
 	}
 
 	@Test
 	public void givenAAttributeGroup_whenResolve_thenAResolvedGroupedViewAttributeShouldBeReturned()
 	{
 		String[] attributeGroup = { "group_attribute1", "group_attribute2" };
-		attributeGroups.add(attributeGroup);
+		ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver = newByBindingAttributeMappingsResolver(aBindingAttributeMappingsImpl()
+				.withAttributeGroup(attributeGroup)
+				.build());
 
 		Collection<ViewAttribute> viewAttributes = byBindingAttributeMappingsResolver.resolve(pendingAttributesForView);
 
-		assertThat(Sets.newHashSet(viewAttributes), equalTo(Sets.<ViewAttribute> newHashSet(new MockGroupedViewAttribute(attributeGroup))));
+		assertThat(Sets.newHashSet(viewAttributes), equalTo(Sets.<ViewAttribute> newHashSet(aGroupedViewAttribute(attributeGroup))));
 	}
-
-	private class MockBindingAttributeMappingsImpl<T extends View> extends BindingAttributeMappingsImpl<T>
+	
+	private ByBindingAttributeMappingsResolver newByBindingAttributeMappingsResolver(BindingAttributeMappingsImpl<View> bindingAttributeMappings)
 	{
-		public MockBindingAttributeMappingsImpl()
-		{
-			super(null);
-		}
-
-		@Override
-		public Iterable<String> getPropertyAttributes()
-		{
-			return propertyAttributes;
-		}
-
-		@Override
-		public Iterable<String> getCommandAttributes()
-		{
-			return commandAttributes;
-		}
-
-		@Override
-		public Iterable<String[]> getAttributeGroups()
-		{
-			return attributeGroups;
-		}
-
-		@Override
-		public PropertyViewAttribute<View> createPropertyViewAttribute(T defaultView, String propertyAttribute, String attributeValue)
-		{
-			return new MockPropertyViewAttribute(propertyAttribute);
-		}
-
-		@Override
-		public AbstractCommandViewAttribute<View> createCommandViewAttribute(View defaultView, String commandAttribute, String attributeValue)
-		{
-			return new MockCommandViewAttribute(commandAttribute);
-		}
-
-		@Override
-		public AbstractGroupedViewAttribute<View> createGroupedViewAttribute(View defaultView, String[] attributeGroup,
-				Map<String, String> presentAttributeMappings)
-		{
-			return new MockGroupedViewAttribute(attributeGroup);
-		}
-
+		return new ByBindingAttributeMappingsResolver(bindingAttributeMappings);
 	}
 
-	private static class MockViewPendingAttribute implements PendingAttributesForView
+	private static class MockPendingAttributesForView implements PendingAttributesForView
 	{
 		@Override
 		public void resolveAttributeGroupIfExists(String[] attributeGroup, AttributeGroupResolver attributeGroupResolver)
@@ -177,127 +126,5 @@ public class ByBindingAttributeMappingsResolverTest
 		{
 			throw new UnsupportedOperationException();
 		}
-	}
-
-	private static class MockPropertyViewAttribute implements PropertyViewAttribute<View>
-	{
-		private String attributeName;
-
-		public MockPropertyViewAttribute(String attributeName)
-		{
-			this.attributeName = attributeName;
-		}
-
-		@Override
-		public int hashCode()
-		{
-			return attributeName.hashCode();
-		}
-
-		@Override
-		public boolean equals(Object other)
-		{
-			if (this == other)
-				return true;
-			if (!(other instanceof MockPropertyViewAttribute))
-				return false;
-
-			final MockPropertyViewAttribute that = (MockPropertyViewAttribute) other;
-			return new EqualsBuilder().append(attributeName, that.attributeName).isEquals();
-		}
-
-		@Override
-		public void bindTo(BindingContext bindingContext)
-		{
-		}
-
-		@Override
-		public void setView(View view)
-		{
-		}
-
-		@Override
-		public void setAttribute(ValueModelAttribute attributeValue)
-		{
-		}
-
-	}
-
-	private static class MockCommandViewAttribute extends AbstractCommandViewAttribute<View>
-	{
-		private String attributeName;
-
-		public MockCommandViewAttribute(String attributeName)
-		{
-			this.attributeName = attributeName;
-		}
-
-		@Override
-		public int hashCode()
-		{
-			return attributeName.hashCode();
-		}
-
-		@Override
-		public boolean equals(Object other)
-		{
-			if (this == other)
-				return true;
-			if (!(other instanceof MockCommandViewAttribute))
-				return false;
-
-			final MockCommandViewAttribute that = (MockCommandViewAttribute) other;
-			return new EqualsBuilder().append(attributeName, that.attributeName).isEquals();
-		}
-
-		@Override
-		protected Class<?> getPreferredCommandParameterType()
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		protected void bind(Command command)
-		{
-		}
-	}
-
-	private static class MockGroupedViewAttribute extends AbstractGroupedViewAttribute<View>
-	{
-		private String[] attributeGroup;
-
-		public MockGroupedViewAttribute(String[] attributeGroup)
-		{
-			this.attributeGroup = attributeGroup;
-		}
-
-		@Override
-		public int hashCode()
-		{
-			return attributeGroup.hashCode();
-		}
-
-		@Override
-		public boolean equals(Object other)
-		{
-			if (this == other)
-				return true;
-			if (!(other instanceof MockGroupedViewAttribute))
-				return false;
-
-			final MockGroupedViewAttribute that = (MockGroupedViewAttribute) other;
-			return new EqualsBuilder().append(attributeGroup, that.attributeGroup).isEquals();
-		}
-		
-		@Override
-		public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
-		{
-		}
-
-		@Override
-		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
-		{
-		}
-		
 	}
 }

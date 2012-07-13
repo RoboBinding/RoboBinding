@@ -21,7 +21,6 @@ import org.robobinding.PredefinedPendingAttributesForView;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.common.collect.Lists;
@@ -45,7 +44,7 @@ public class BindingViewInflaterForTest extends BindingViewInflater
 		this.onViewCreatedInvocations = Lists.newArrayList(builder.onViewCreatedInvocations);
 	}
 	
-	private ViewInflator createViewInflator(Builder builder)
+	private ViewInflater createViewInflator(Builder builder)
 	{
 		if(builder.isViewInflaterSet())
 		{
@@ -65,7 +64,7 @@ public class BindingViewInflaterForTest extends BindingViewInflater
 	{
 		private List<OnViewCreatedInvocation> onViewCreatedInvocations;
 		private Context context;
-		private ViewInflator viewInflator;
+		private ViewInflater viewInflator;
 		private BindingAttributeParser bindingAttributesParser;
 		private BindingAttributeResolver bindingAttributeResolver;
 		private List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViews; 
@@ -91,7 +90,7 @@ public class BindingViewInflaterForTest extends BindingViewInflater
 			return this;
 		}
 		
-		public Builder withViewInflator(ViewInflator viewInflator)
+		public Builder withViewInflator(ViewInflater viewInflator)
 		{
 			this.viewInflator = viewInflator;
 			return this;
@@ -124,19 +123,18 @@ public class BindingViewInflaterForTest extends BindingViewInflater
 		
 	}
 	
-	private class ViewInflaterWithExtraInvocations extends ViewInflator
+	private class ViewInflaterWithExtraInvocations implements ViewInflater
 	{
-		private ViewInflator viewInflator;
-		public ViewInflaterWithExtraInvocations(ViewInflator viewInflator)
+		private ViewInflater forwardingViewInflator;
+		public ViewInflaterWithExtraInvocations(ViewInflater viewInflator)
 		{
-			super((LayoutInflater)null, null);
-			this.viewInflator = viewInflator;
+			this.forwardingViewInflator = viewInflator;
 		}
 		
 		@Override
 		public View inflateView(int layoutId)
 		{
-			View view = viewInflator.inflateView(layoutId);
+			View view = forwardingViewInflator.inflateView(layoutId);
 			for(OnViewCreatedInvocation onViewCreatedInvocation : onViewCreatedInvocations)
 			{
 				onViewCreated(onViewCreatedInvocation.view, onViewCreatedInvocation.bindingAttributeSet);

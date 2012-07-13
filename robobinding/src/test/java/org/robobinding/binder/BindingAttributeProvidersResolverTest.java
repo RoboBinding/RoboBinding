@@ -42,7 +42,7 @@ import android.view.View;
 @SuppressWarnings("unchecked")
 public class BindingAttributeProvidersResolverTest
 {
-	private BindingAttributeProvidersResolverForTest bindingAttributeProvidersResolver;
+	private BindingAttributeProvidersResolver bindingAttributeProvidersResolver;
 	
 	private BindingAttributeProvider<ViewWithNoParent> providerForViewWithNoParent;
 	private BindingAttributeProvider<ViewWithParents> providerForViewWithParents;

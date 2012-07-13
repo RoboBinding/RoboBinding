@@ -44,7 +44,7 @@ import com.google.common.collect.Lists;
 class BindingViewInflater implements ViewFactoryListener
 {
 	private final List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
-	ViewInflator viewInflator;
+	ViewInflater viewInflator;
 	BindingAttributeResolver bindingAttributeResolver;
 	BindingAttributeParser bindingAttributeParser;
 	
@@ -60,9 +60,9 @@ class BindingViewInflater implements ViewFactoryListener
 		bindingAttributeParser = new BindingAttributeParser();
 	}
 
-	private ViewInflator createViewInflator(Builder builder)
+	private ViewInflater createViewInflator(Builder builder)
 	{
-		return new ViewInflator(createLayoutInflaterWithCustomViewFactory(builder.context),
+		return new ViewInflaterImpl(createLayoutInflaterWithCustomViewFactory(builder.context),
 				builder.parentViewToAttach);
 	}
 
