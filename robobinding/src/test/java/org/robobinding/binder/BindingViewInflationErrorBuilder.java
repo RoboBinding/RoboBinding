@@ -34,11 +34,6 @@ import com.google.common.collect.Lists;
  */
 public class BindingViewInflationErrorBuilder
 {
-	public static BindingViewInflationErrorBuilder aBindingViewInflationError(String viewName)
-	{
-		return new BindingViewInflationErrorBuilder(viewName);
-	}
-	
 	private String viewName;
 	private ViewResolutionException viewResolutionError;
 	private ViewBindingError viewBindingError;
@@ -50,6 +45,11 @@ public class BindingViewInflationErrorBuilder
 		View view = mock(View.class);
 		viewResolutionError = new ViewResolutionException(view);
 		viewBindingError = new ViewBindingError(view);
+	}
+
+	public static BindingViewInflationErrorBuilder aBindingViewInflationError(String viewName)
+	{
+		return new BindingViewInflationErrorBuilder(viewName);
 	}
 
 	public BindingViewInflationErrorBuilder withAttributeResolutionErrorOf(String attribute, String errorMessage)

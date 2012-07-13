@@ -48,15 +48,15 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class BinderImplementorImplTest
 {
-	private BinderImplementorImplForTest binderImplementor;
-	private BindingViewInflater viewInflater;
+	private BinderImplementorImpl binderImplementor;
+	private BindingViewInflater bindingViewInflater;
 	private int layoutId = 0;
 	
 	@Before
 	public void setUp()
 	{
 		binderImplementor = new BinderImplementorImplForTest();
-		viewInflater = mock(BindingViewInflater.class);
+		bindingViewInflater = mock(BindingViewInflater.class);
 	}
 	
 	@Test
@@ -66,7 +66,7 @@ public class BinderImplementorImplTest
 		View viewWithBinding = mock(View.class);
 		InflatedView inflatedView = mock(InflatedView.class);
 		when(inflatedView.getRootView()).thenReturn(viewWithBinding);
-		when(viewInflater.inflateView(layoutId)).thenReturn(inflatedView);
+		when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
 		
 		View view = binderImplementor.inflateAndBind(layoutId, presentationModel);
 		
@@ -78,12 +78,11 @@ public class BinderImplementorImplTest
 	{
 		Object presentationModel = new Object();
 		InflatedView inflatedView = mock(InflatedView.class);
-		when(viewInflater.inflateView(layoutId)).thenReturn(inflatedView);
+		when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
 		
 		binderImplementor.inflateAndBind(layoutId, presentationModel);
 		
 		verify(inflatedView).bindChildViews(any(BindingContext.class));
-		verify(inflatedView).assertNoErrors(any(ErrorFormatter.class));
 	}
 	
 	@Test
@@ -91,7 +90,7 @@ public class BinderImplementorImplTest
 	{
 		Object presentationModel = new Object();
 		InflatedView inflatedView = mock(InflatedView.class);
-		when(viewInflater.inflateView(layoutId)).thenReturn(inflatedView);
+		when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
 		
 		binderImplementor.inflateAndBind(layoutId, presentationModel);
 		
@@ -107,7 +106,7 @@ public class BinderImplementorImplTest
 		@Override
 		BindingViewInflater createBindingViewInflater(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
 		{
-			return viewInflater;
+			return bindingViewInflater;
 		}
 	}
 }

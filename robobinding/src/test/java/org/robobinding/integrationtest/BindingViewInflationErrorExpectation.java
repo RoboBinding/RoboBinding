@@ -20,6 +20,7 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.robobinding.AttributeResolutionException;
@@ -27,6 +28,7 @@ import org.robobinding.ViewResolutionError;
 import org.robobinding.attribute.MissingRequiredAttributesException;
 import org.robobinding.binder.BindingViewInflationError;
 import org.robobinding.binder.ViewBindingError;
+import org.robobinding.viewattribute.AttributeBindingException;
 
 import android.view.View;
 
@@ -42,15 +44,15 @@ import com.google.common.collect.Sets;
 public class BindingViewInflationErrorExpectation
 {
 	private View view;
-	private Set<AttributeResolutionErrorExpectation> attributeResolutionErrorExpectations;
-	private Set<MissingRequiredAttributesResolutionErrorExpectation> missingRequiredAttributesResolutionErrorExpectations;
-	private Set<String> attributesOfBindingError;
+	private List<AttributeResolutionErrorExpectation> attributeResolutionErrorExpectations;
+	private List<MissingRequiredAttributesResolutionErrorExpectation> missingRequiredAttributesResolutionErrorExpectations;
+	private List<AttributeBindingErrorExpectation> attributeBindingErrorExpectations;
 	private BindingViewInflationErrorExpectation(BindingViewInflationErrorExpectation.Builder builder)
 	{
 		this.view = builder.view;
 		this.attributeResolutionErrorExpectations = builder.attributeResolutionErrorExpectations;
 		this.missingRequiredAttributesResolutionErrorExpectations = builder.missingRequiredAttributesResolutionErrorExpectations;
-		this.attributesOfBindingError = builder.attributesOfBindingError;
+		this.attributeBindingErrorExpectations = builder.attributeBindingErrorExpectations;
 	}
 	
 	public static Builder aBindingViewInflationErrorExpectationOf(View view)
@@ -68,31 +70,94 @@ public class BindingViewInflationErrorExpectation
 
 	private void assertResolutionErrors(ViewResolutionError error)
 	{
-		assertThat(error.numErrors(), is(numResolutionErrors()));
+		assertThat(getViewName()+" has unmatched resolution errors.", error.numErrors(), is(expectedNumResolutionErrors()));
+		
+		assertAttributeResolutionErrors(error.getAttributeErrors());
+		assertMissingRequiredAttributesResolutionErrors(error.getMissingRequiredAttributeErrors());
 	}
-	
-	private int numResolutionErrors()
+
+	private int expectedNumResolutionErrors()
 	{
 		return attributeResolutionErrorExpectations.size()+missingRequiredAttributesResolutionErrorExpectations.size();
 	}
 
+	private void assertAttributeResolutionErrors(Collection<AttributeResolutionException> attributeResolutionErrors)
+	{
+		assertThat(getViewName()+" has unmatched attribute resolution errors.", attributeResolutionErrors.size(), is(expectedNumAttributeResolutionErrors()));
+		
+		int index = 0;
+		for(AttributeResolutionException error : attributeResolutionErrors)
+		{
+			AttributeResolutionErrorExpectation errorExpectation = attributeResolutionErrorExpectations.get(index);
+			errorExpectation.meet(error);
+			index++;
+		}
+	}
+	
+	private int expectedNumAttributeResolutionErrors()
+	{
+		return attributeResolutionErrorExpectations.size();
+	}
+
+	private void assertMissingRequiredAttributesResolutionErrors(Collection<MissingRequiredAttributesException> missingRequiredAttributeErrors)
+	{
+		assertThat(getViewName()+" has unmatched missing required attributes resolution errors.", missingRequiredAttributeErrors.size(), is(expectedNumMissingRequiredAttributeErrors()));
+		
+		int index = 0;
+		for(MissingRequiredAttributesException error : missingRequiredAttributeErrors)
+		{
+			MissingRequiredAttributesResolutionErrorExpectation errorExpectation = missingRequiredAttributesResolutionErrorExpectations.get(index);
+			errorExpectation.meet(error);
+			index++;
+		}
+	}
+
+	private int expectedNumMissingRequiredAttributeErrors()
+	{
+		return missingRequiredAttributesResolutionErrorExpectations.size();
+	}
+
 	private void assertBindingErrors(ViewBindingError error)
 	{
-		assertThat(error.numErrors(), is(attributesOfBindingError.size()));
+		try
+		{
+		assertThat(getViewName()+" has unmatched binding errors.", error.numErrors(), is(expectedNumAttributeBindingErrors()));
+		}catch(AssertionError e)
+		{
+			throw e;
+		}
+		
+		int index = 0;
+		for(AttributeBindingException bindingError : error.getAttributeErrors())
+		{
+			AttributeBindingErrorExpectation errorExpectation = attributeBindingErrorExpectations.get(index);
+			errorExpectation.meet(bindingError);
+			index++;
+		}
+	}
+	
+	private int expectedNumAttributeBindingErrors()
+	{
+		return attributeBindingErrorExpectations.size();
+	}
+
+	private String getViewName()
+	{
+		return view.getClass().getSimpleName();
 	}
 
 	public static class Builder
 	{
 		private View view;
-		private Set<AttributeResolutionErrorExpectation> attributeResolutionErrorExpectations;
-		private Set<MissingRequiredAttributesResolutionErrorExpectation> missingRequiredAttributesResolutionErrorExpectations;
-		private Set<String> attributesOfBindingError;
+		private List<AttributeResolutionErrorExpectation> attributeResolutionErrorExpectations;
+		private List<MissingRequiredAttributesResolutionErrorExpectation> missingRequiredAttributesResolutionErrorExpectations;
+		private List<AttributeBindingErrorExpectation> attributeBindingErrorExpectations;
 		private Builder(View view)
 		{
 			this.view = view;
-			attributeResolutionErrorExpectations = Sets.newHashSet();
-			missingRequiredAttributesResolutionErrorExpectations = Sets.newHashSet();
-			attributesOfBindingError = Sets.newHashSet();
+			attributeResolutionErrorExpectations = Lists.newArrayList();
+			missingRequiredAttributesResolutionErrorExpectations = Lists.newArrayList();
+			attributeBindingErrorExpectations = Lists.newArrayList();
 		}
 		
 		public Builder withAttributeResolutionErrorOf(String attributeName)
@@ -109,7 +174,7 @@ public class BindingViewInflationErrorExpectation
 		
 		public Builder withAttributeBindingErrorOf(String attributeName)
 		{
-			attributesOfBindingError.add(attributeName);
+			attributeBindingErrorExpectations.add(new AttributeBindingErrorExpectation(attributeName));
 			return this;
 		}
 		
@@ -135,15 +200,29 @@ public class BindingViewInflationErrorExpectation
 	
 	public static class MissingRequiredAttributesResolutionErrorExpectation
 	{
-		private Collection<String> missingAttributes;
+		private Set<String> missingAttributes;
 		public MissingRequiredAttributesResolutionErrorExpectation(String[] missingAttributes)
 		{
-			this.missingAttributes = Lists.newArrayList(missingAttributes);
+			this.missingAttributes = Sets.newHashSet(missingAttributes);
 		}
 		
 		public void meet(MissingRequiredAttributesException e)
 		{
-			assertThat(e.getMissingAttributes(), is(missingAttributes));
+			assertThat(Sets.newHashSet(e.getMissingAttributes()), is(missingAttributes));
+		}
+	}
+	
+	public static class AttributeBindingErrorExpectation
+	{
+		private String attributeName;
+		public AttributeBindingErrorExpectation(String attributeName)
+		{
+			this.attributeName = attributeName;
+		}
+		
+		public void meet(AttributeBindingException e)
+		{
+			assertThat(e.getAttribute(), is(attributeName));
 		}
 	}
 }

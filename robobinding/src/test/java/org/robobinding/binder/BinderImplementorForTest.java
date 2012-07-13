@@ -18,7 +18,9 @@ package org.robobinding.binder;
 import java.util.Collection;
 
 import org.robobinding.BindingContext;
+import org.robobinding.MockBindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
 
 import android.content.Context;
 
@@ -38,7 +40,7 @@ public class BinderImplementorForTest extends BinderImplementorImpl
 			@Override
 			public BindingContext create(Object presentationModel)
 			{
-				return new BindingContext(null, context, false, presentationModel);
+				return MockBindingContext.create(new PresentationModelAdapterImpl(presentationModel), context, false);
 			}
 		});
 		errorFormatter = new BindingViewInflationErrorsException.ErrorFormatter() {
