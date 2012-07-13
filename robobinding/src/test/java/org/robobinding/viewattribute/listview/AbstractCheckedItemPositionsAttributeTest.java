@@ -31,8 +31,6 @@ import android.util.SparseBooleanArray;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.xtremelabs.robolectric.Robolectric;
-
 /**
  *
  * @since 1.0
@@ -47,8 +45,6 @@ public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends
 	@Before
 	public void setUp()
 	{
-		Robolectric.bindShadowClass(ShadowListView.class);
-		Robolectric.bindShadowClass(ShadowSparseBooleanArray.class);
 		super.initializeViewAndAttribute();
 		
 		adapter = new MockArrayAdapter(R.layout.simple_list_item_multiple_choice);
@@ -69,7 +65,7 @@ public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends
 		ListViewUtils.clearSelections(view);
 		for(Integer checkedItemPosition : checkedItemPositions)
 		{
-			view.setItemChecked(checkedItemPosition, true);
+			view.performItemClick(null, checkedItemPosition, 0);
 		}
 	}
 	
