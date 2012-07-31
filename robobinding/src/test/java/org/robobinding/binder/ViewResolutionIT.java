@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.AttributeResolutionException;
 import org.robobinding.PendingAttributesForView;
-import org.robobinding.ViewResolutionException;
+import org.robobinding.ViewResolutionErrorsException;
 
 import android.app.Activity;
 import android.view.View;
@@ -68,7 +68,7 @@ public class ViewResolutionIT
 		assertNotNull(resolvedBindingAttributes);
 	}
 
-	@Test(expected = ViewResolutionException.class)
+	@Test(expected = ViewResolutionErrorsException.class)
 	public void givenASingleView_whenResolvingUnsupportedBindingAttributes_thenThrowException()
 	{
 		resolveBindingAttributes(
@@ -77,7 +77,7 @@ public class ViewResolutionIT
 					.build());
 	}
 
-	@Test(expected = ViewResolutionException.class)
+	@Test(expected = ViewResolutionErrorsException.class)
 	public void givenASingleView_whenResolvingMalformedPropertyBindingAttributes_thenThrowException()
 	{
 		resolveBindingAttributes(
@@ -86,7 +86,7 @@ public class ViewResolutionIT
 					.build());
 	}
 
-	@Test(expected = ViewResolutionException.class)
+	@Test(expected = ViewResolutionErrorsException.class)
 	public void givenASingleView_whenResolvingMalformedCommandBindingAttributes_thenThrowException()
 	{
 		resolveBindingAttributes(
@@ -105,7 +105,7 @@ public class ViewResolutionIT
 		{
 			resolveBindingAttributes(pendingAttributesForAdapterView);
 			fail("Expected exception to be thrown");
-		} catch (ViewResolutionException e) 
+		} catch (ViewResolutionErrorsException e) 
 		{
 			assertThat(e.getView(), equalTo((View)pendingAttributesForAdapterView.getView()));
 			assertThat(e.getMissingRequiredAttributeErrors().size(), is(1));
@@ -124,7 +124,7 @@ public class ViewResolutionIT
 						.withAttribute("tex", "${name}")
 						.build());
 			fail("Expected exception to be thrown");
-		} catch (ViewResolutionException e)
+		} catch (ViewResolutionErrorsException e)
 		{
 			assertHasAttributeError(e, "text");
 			assertHasAttributeError(e, "onTextChanged");
@@ -144,7 +144,7 @@ public class ViewResolutionIT
 						.withAttribute("source", "{invalid")
 						.build());
 			fail("Expected exception to be thrown");
-		} catch (ViewResolutionException e)
+		} catch (ViewResolutionErrorsException e)
 		{
 			assertHasAttributeError(e, "itemLayout");
 			assertHasAttributeError(e, "source");
@@ -152,7 +152,7 @@ public class ViewResolutionIT
 		}
 	}
 	
-	private void assertHasAttributeError(ViewResolutionException e, String attribute)
+	private void assertHasAttributeError(ViewResolutionErrorsException e, String attribute)
 	{
 		Collection<AttributeResolutionException> attributeErrors = e.getAttributeErrors();
 		for(AttributeResolutionException attributeError : attributeErrors)

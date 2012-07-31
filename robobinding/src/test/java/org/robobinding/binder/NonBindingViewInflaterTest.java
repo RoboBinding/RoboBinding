@@ -33,7 +33,7 @@ import android.view.ViewGroup;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewInflaterImplTest
+public class NonBindingViewInflaterTest
 {
 	private LayoutInflater layoutInflater;
 	private int layoutId = 0;
@@ -74,7 +74,7 @@ public class ViewInflaterImplTest
 	
 	private View inflateViewAndAttachTo(ViewGroup parentView)
 	{
-		ViewInflaterImpl viewInflater = new ViewInflaterImpl(layoutInflater, parentView);
+		NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater, parentView);
 		View view = viewInflater.inflateView(layoutId);
 		return view;
 	}

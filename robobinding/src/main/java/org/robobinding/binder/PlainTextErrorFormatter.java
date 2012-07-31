@@ -21,7 +21,7 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.text.StrBuilder;
-import org.robobinding.binder.BindingViewInflationErrorsException.ErrorFormatter;
+import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 /**
  *
@@ -32,7 +32,7 @@ import org.robobinding.binder.BindingViewInflationErrorsException.ErrorFormatter
 public class PlainTextErrorFormatter implements ErrorFormatter
 {
 	@Override
-	public String format(BindingViewInflationError inflationError)
+	public String format(ViewInflationErrors inflationError)
 	{
 		StrBuilder errorMessageBuilder = new StrBuilder();
 		

@@ -32,7 +32,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.ViewResolutionError;
+import org.robobinding.ViewResolutionErrors;
 import org.robobinding.binder.BindingViewInflater.InflatedView;
 
 import android.app.Activity;
@@ -75,7 +75,7 @@ public class BindingViewInflaterTest
 	private ViewResolutionResult emptyViewResolutionResult()
 	{
 		ResolvedBindingAttributes viewBindingAttributes = mock(ResolvedBindingAttributes.class);
-		ViewResolutionError errors = mock(ViewResolutionError.class);
+		ViewResolutionErrors errors = mock(ViewResolutionErrors.class);
 		return new ViewResolutionResult(viewBindingAttributes, errors);
 	}
 

@@ -18,8 +18,7 @@ package org.robobinding.binder;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.commons.lang3.text.StrBuilder;
-import org.robobinding.ViewResolutionError;
+import org.robobinding.ViewResolutionErrors;
 
 import android.view.View;
 
@@ -32,27 +31,27 @@ import com.google.common.collect.Maps;
  * @author Cheng Wei
  */
 @SuppressWarnings("serial")
-public class BindingViewInflationErrorsException extends RuntimeException
+public class ViewHierarchyInflationErrorsException extends RuntimeException
 {
-	private Map<View, BindingViewInflationError> errorMap;
+	private Map<View, ViewInflationErrors> errorMap;
 	private String errorMessage;
 	
-	BindingViewInflationErrorsException()
+	ViewHierarchyInflationErrorsException()
 	{
 		errorMap = Maps.newLinkedHashMap();
 	}
 
-	void addViewResolutionError(ViewResolutionError error)
+	void addViewResolutionError(ViewResolutionErrors error)
 	{
-		errorMap.put(error.getView(), new BindingViewInflationError(error));
+		errorMap.put(error.getView(), new ViewInflationErrors(error));
 	}
 
-	void addViewBindingError(ViewBindingError error)
+	void addViewBindingError(ViewBindingErrors error)
 	{
 		try
 		{
-		BindingViewInflationError inflationError = errorMap.get(error.getView());
-		inflationError.setBindingError(error);
+		ViewInflationErrors inflationError = errorMap.get(error.getView());
+		inflationError.setBindingErrors(error);
 		}catch(NullPointerException e)
 		{
 			throw e;
@@ -61,20 +60,26 @@ public class BindingViewInflationErrorsException extends RuntimeException
 	
 	void assertNoErrors(ErrorFormatter errorFormatter)
 	{
-		StrBuilder sb = new StrBuilder();
-		for(BindingViewInflationError error : errorMap.values())
+		StringBuilder sb = new StringBuilder();
+		for(ViewInflationErrors error : errorMap.values())
 		{
 			if(error.hasErrors())
 			{
-				sb.appendln(errorFormatter.format(error));
+				appendln(sb, errorFormatter.format(error));
 			}
 		}
 		
-		if(!sb.isEmpty())
+		if(sb.length() != 0)
 		{
 			errorMessage = sb.toString();
 			throw this;
 		}
+	}
+	
+	private static void appendln(StringBuilder sb, String str)
+	{
+		sb.append(str);
+		sb.append("\r\n");
 	}
 	
 	@Override
@@ -83,7 +88,7 @@ public class BindingViewInflationErrorsException extends RuntimeException
 		return errorMessage;
 	}
 	
-	public Collection<BindingViewInflationError> getErrors()
+	public Collection<ViewInflationErrors> getErrors()
 	{
 		return errorMap.values();
 	}
@@ -91,7 +96,7 @@ public class BindingViewInflationErrorsException extends RuntimeException
 	protected interface ErrorFormatter
 	{
 
-		String format(BindingViewInflationError error);
+		String format(ViewInflationErrors error);
 		
 	}
 

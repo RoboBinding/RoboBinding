@@ -18,7 +18,7 @@ package org.robobinding.binder;
 import java.util.Collection;
 import java.util.List;
 
-import org.robobinding.ViewResolutionError;
+import org.robobinding.ViewResolutionErrors;
 
 import com.google.common.collect.Lists;
 
@@ -30,25 +30,25 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BindingViewInflationError
+public class ViewInflationErrors
 {
 	private View view;
-	private ViewResolutionError resolutionError;
-	private ViewBindingError bindingError;
-	public BindingViewInflationError(ViewResolutionError resolutionError)
+	private ViewResolutionErrors resolutionErrors;
+	private ViewBindingErrors bindingErrors;
+	public ViewInflationErrors(ViewResolutionErrors resolutionError)
 	{
 		this.view = resolutionError.getView();
-		this.resolutionError = resolutionError;
+		this.resolutionErrors = resolutionError;
 	}
 
-	void setBindingError(ViewBindingError bindingError)
+	void setBindingErrors(ViewBindingErrors bindingError)
 	{
-		this.bindingError = bindingError;
+		this.bindingErrors = bindingError;
 	}
 
 	public boolean hasErrors()
 	{
-		return resolutionError.hasErrors() || bindingError.hasErrors();
+		return resolutionErrors.hasErrors() || bindingErrors.hasErrors();
 	}
 
 	public View getView()
@@ -56,19 +56,19 @@ public class BindingViewInflationError
 		return view;
 	}
 
-	public ViewResolutionError getResolutionError()
+	public ViewResolutionErrors getResolutionErrors()
 	{
-		return resolutionError;
+		return resolutionErrors;
 	}
 
-	public ViewBindingError getBindingError()
+	public ViewBindingErrors getBindingErrors()
 	{
-		return bindingError;
+		return bindingErrors;
 	}
 
 	public int numErrors()
 	{
-		return resolutionError.numErrors()+bindingError.numErrors();
+		return resolutionErrors.numErrors()+bindingErrors.numErrors();
 	}
 
 	public String getViewName()
@@ -79,8 +79,8 @@ public class BindingViewInflationError
 	public Collection<Exception> getErrors()
 	{
 		List<Exception> errors = Lists.newArrayList();
-		errors.addAll(resolutionError.getErrors());
-		errors.addAll(bindingError.getAttributeErrors());
+		errors.addAll(resolutionErrors.getErrors());
+		errors.addAll(bindingErrors.getAttributeErrors());
 		return errors;
 	}
 

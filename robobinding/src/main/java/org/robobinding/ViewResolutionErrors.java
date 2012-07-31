@@ -27,7 +27,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ViewResolutionError
+public interface ViewResolutionErrors
 {
 	View getView();
 	int numErrors();
