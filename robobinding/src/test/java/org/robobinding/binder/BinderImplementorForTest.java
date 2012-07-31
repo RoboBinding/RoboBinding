@@ -43,10 +43,10 @@ public class BinderImplementorForTest extends BinderImplementorImpl
 				return MockBindingContext.create(new PresentationModelAdapterImpl(presentationModel), context, false);
 			}
 		});
-		errorFormatter = new BindingViewInflationErrorsException.ErrorFormatter() {
+		errorFormatter = new ViewHierarchyInflationErrorsException.ErrorFormatter() {
 			
 			@Override
-			public String format(BindingViewInflationError error)
+			public String format(ViewInflationErrors error)
 			{
 				return error.toString();
 			}

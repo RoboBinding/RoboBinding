@@ -31,7 +31,7 @@ public interface PendingAttributesForView
 	void resolveAttributeIfExists(String attribute, AttributeResolver attributeResolver);
 	void resolveAttributeGroupIfExists(String[] attributeGroup, AttributeGroupResolver attributeGroupResolver);
 	boolean isEmpty();
-	ViewResolutionError resolveCompleted();
+	ViewResolutionErrors getResolutionError();
 
 	public interface AttributeResolver
 	{

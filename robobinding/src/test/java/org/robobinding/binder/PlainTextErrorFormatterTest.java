@@ -17,7 +17,7 @@ package org.robobinding.binder;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.robobinding.binder.BindingViewInflationErrorBuilder.aBindingViewInflationError;
+import static org.robobinding.binder.ViewInflationErrorsBuilder.aViewInflationErrors;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class PlainTextErrorFormatterTest
 	@Test
 	public void whenFormatAGivenInflationError_thenReceivedAnExpectedMessage()
 	{
-		String message = errorFormatter.format(aBindingViewInflationError("CustomView")
+		String message = errorFormatter.format(aViewInflationErrors("CustomView")
 				.withAttributeResolutionErrorOf("text", "invalid syntax ${prop1")
 				.withMissingRequiredAttributesResolutionErrorOf("source", "dropdownLayout")
 				.withAttributeBindingErrorOf("visibility", "unmatch presentationModel.prop2 type")

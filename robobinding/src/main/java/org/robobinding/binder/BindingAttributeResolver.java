@@ -18,7 +18,7 @@ package org.robobinding.binder;
 import java.util.Collection;
 
 import org.robobinding.PendingAttributesForView;
-import org.robobinding.ViewResolutionError;
+import org.robobinding.ViewResolutionErrors;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
@@ -51,7 +51,7 @@ public class BindingAttributeResolver
 		
 		resolveByBindingAttributeProviders(pendingAttributesForView);
 		
-		ViewResolutionError errors = pendingAttributesForView.resolveCompleted();
+		ViewResolutionErrors errors = pendingAttributesForView.getResolutionError();
 		
 		return new ViewResolutionResult(resolvedBindingAttributes, errors);
 	}

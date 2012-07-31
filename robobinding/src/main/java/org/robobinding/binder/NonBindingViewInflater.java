@@ -26,18 +26,18 @@ import android.view.ViewGroup;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class ViewInflaterImpl implements ViewInflater
+class NonBindingViewInflater implements ViewInflater
 {
 	private LayoutInflater layoutInflater;
 	private ViewGroup parentViewToAttach;
 	
-	public ViewInflaterImpl(LayoutInflater layoutInflater, ViewGroup parentViewToAttach)
+	public NonBindingViewInflater(LayoutInflater layoutInflater, ViewGroup parentViewToAttach)
 	{
 		this.layoutInflater = layoutInflater;
 		this.parentViewToAttach = parentViewToAttach;
 	}
 	
-	public ViewInflaterImpl(Context context, ViewGroup parentViewToAttach)
+	public NonBindingViewInflater(Context context, ViewGroup parentViewToAttach)
 	{
 		this(LayoutInflater.from(context).cloneInContext(context),
 				parentViewToAttach);

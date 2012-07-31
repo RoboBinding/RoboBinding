@@ -50,9 +50,9 @@ public class ResolvedBindingAttributes
 		this.viewAttributes.addAll(viewAttributes);
 	}
 	
-	public ViewBindingError bindTo(BindingContext bindingContext)
+	public ViewBindingErrors bindTo(BindingContext bindingContext)
 	{
-		ViewBindingError viewBindingError = new ViewBindingError(view);
+		ViewBindingErrors viewBindingError = new ViewBindingErrors(view);
 		for (ViewAttribute viewAttribute : viewAttributes)
 		{
 			try

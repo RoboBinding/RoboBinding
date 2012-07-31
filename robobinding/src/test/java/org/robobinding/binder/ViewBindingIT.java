@@ -77,7 +77,7 @@ public class ViewBindingIT
 		resolvedBindingAttributes.bindTo(bindingContext);
 	}
 
-	@Test(expected = ViewBindingError.class)
+	@Test(expected = ViewBindingErrors.class)
 	public void whenBindingInvalidResolvedPropertyAttributes_thenThrowException()
 	{
 		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
@@ -88,7 +88,7 @@ public class ViewBindingIT
 		resolvedBindingAttributes.bindTo(bindingContext);
 	}
 
-	@Test(expected = ViewBindingError.class)
+	@Test(expected = ViewBindingErrors.class)
 	public void whenBindingInvalidResolvedCommandAttributes_thenThrowException()
 	{
 		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
@@ -112,7 +112,7 @@ public class ViewBindingIT
 		{
 			resolvedBindingAttributes.bindTo(bindingContext);
 			fail("Expected exception to be thrown");
-		} catch (ViewBindingError e)
+		} catch (ViewBindingErrors e)
 		{
 			assertHasAttributeError(e, "visibility");
 			assertHasAttributeError(e, "onTextChanged");
@@ -133,7 +133,7 @@ public class ViewBindingIT
 		{
 			resolvedBindingAttributes.bindTo(bindingContext);
 			fail("Expected exception to be thrown");
-		} catch (ViewBindingError e)
+		} catch (ViewBindingErrors e)
 		{
 			assertHasAttributeError(e, "source");
 			assertHasAttributeError(e, "itemLayout");
@@ -188,7 +188,7 @@ public class ViewBindingIT
 		return resolutionResult.getResolvedBindingAttributes();
 	}
 
-	private void assertHasAttributeError(ViewBindingError e, String attribute)
+	private void assertHasAttributeError(ViewBindingErrors e, String attribute)
 	{
 		Collection<AttributeBindingException> attributeErrors = e.getAttributeErrors();
 		for(AttributeBindingException attributeError : attributeErrors)

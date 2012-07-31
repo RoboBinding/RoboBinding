@@ -32,7 +32,7 @@ import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.binder.BinderImplementorImpl;
 import org.robobinding.binder.BindingViewInflater;
 import org.robobinding.binder.BindingViewInflater.InflatedView;
-import org.robobinding.binder.BindingViewInflationErrorsException.ErrorFormatter;
+import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 import android.app.Activity;
 import android.view.View;

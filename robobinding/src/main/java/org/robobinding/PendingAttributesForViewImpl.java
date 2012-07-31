@@ -38,12 +38,14 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 {
 	private View view;
 	Map<String, String> attributeMappings;
-	private ViewResolutionException resolutionErrors;
+	private ViewResolutionErrorsException resolutionErrors;
+	private boolean isUnrecognizedAttributesAppended;
 	public PendingAttributesForViewImpl(View view, Map<String, String> attributeMappings)
 	{
 		this.view = view;
 		this.attributeMappings = Maps.newHashMap(attributeMappings);
-		resolutionErrors = new ViewResolutionException(view);
+		resolutionErrors = new ViewResolutionErrorsException(view);
+		isUnrecognizedAttributesAppended = false;
 	}
 	
 	@Override
@@ -59,9 +61,13 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 	}
 
 	@Override
-	public ViewResolutionError resolveCompleted()
+	public ViewResolutionErrors getResolutionError()
 	{
-		resolutionErrors.addUnrecognizedAttributes(attributeMappings.keySet());
+		if(!isUnrecognizedAttributesAppended)
+		{
+			resolutionErrors.addUnrecognizedAttributes(attributeMappings.keySet());
+			isUnrecognizedAttributesAppended = true;
+		}
 		return resolutionErrors;
 	}
 

@@ -27,7 +27,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.PendingAttributesForView;
-import org.robobinding.ViewResolutionError;
+import org.robobinding.ViewResolutionErrors;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
 
@@ -116,7 +116,7 @@ public class ByBindingAttributeMappingsResolverTest
 		}
 
 		@Override
-		public ViewResolutionError resolveCompleted()
+		public ViewResolutionErrors getResolutionError()
 		{
 			throw new UnsupportedOperationException();
 		}

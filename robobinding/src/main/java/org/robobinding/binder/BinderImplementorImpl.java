@@ -21,7 +21,7 @@ import org.robobinding.BinderImplementor;
 import org.robobinding.BindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.binder.BindingViewInflater.InflatedView;
-import org.robobinding.binder.BindingViewInflationErrorsException.ErrorFormatter;
+import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 import android.content.Context;
 import android.view.View;
@@ -88,7 +88,7 @@ class BinderImplementorImpl implements BinderImplementor
 	@Override
 	public View inflateOnly(int layoutId)
 	{
-		ViewInflater viewInflater = new ViewInflaterImpl(context, parentView);
+		ViewInflater viewInflater = new NonBindingViewInflater(context, parentView);
 		return viewInflater.inflateView(layoutId);
 	}
 

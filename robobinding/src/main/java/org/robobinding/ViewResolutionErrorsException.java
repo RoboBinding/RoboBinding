@@ -35,12 +35,12 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 @SuppressWarnings("serial")
-public class ViewResolutionException extends RuntimeException implements ViewResolutionError
+public class ViewResolutionErrorsException extends RuntimeException implements ViewResolutionErrors
 {
 	private View view;
 	private List<AttributeResolutionException> attributeErrors;
 	private List<MissingRequiredAttributesException> missingRequiredAttributeErrors;
-	public ViewResolutionException(View view)
+	public ViewResolutionErrorsException(View view)
 	{
 		this.view = view;
 		attributeErrors = Lists.newArrayList();

@@ -20,7 +20,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.robobinding.binder.MockBindingAttributeSetBuilder.aBindingAttributeSet;
 import static org.robobinding.binder.BindingViewInflaterForTest.aBindingViewInflater;
-import static org.robobinding.integrationtest.BindingViewInflationErrorExpectation.aBindingViewInflationErrorExpectationOf;
+import static org.robobinding.integrationtest.ViewInflationErrorsExpectation.aBindingViewInflationErrorExpectationOf;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,8 +31,8 @@ import org.junit.runner.RunWith;
 import org.robobinding.R;
 import org.robobinding.binder.BinderImplementorForTest;
 import org.robobinding.binder.BindingViewInflaterForTest;
-import org.robobinding.binder.BindingViewInflationError;
-import org.robobinding.binder.BindingViewInflationErrorsException;
+import org.robobinding.binder.ViewInflationErrors;
+import org.robobinding.binder.ViewHierarchyInflationErrorsException;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModel;
 
@@ -63,7 +63,7 @@ public class FrameworkErrorReportingIT
 		{
 			sampleAndExpectation1.inflateAndBind();
 			fail("Expect an exception thrown");
-		}catch(BindingViewInflationErrorsException bindingViewInflationErrors)
+		}catch(ViewHierarchyInflationErrorsException bindingViewInflationErrors)
 		{
 			sampleAndExpectation1.meet(bindingViewInflationErrors);
 		}
@@ -93,12 +93,12 @@ public class FrameworkErrorReportingIT
 						.withAttribute("visibility", "{nonExistentProperty}")
 						.build());
 			
-			BindingViewInflationErrorExpectation errorExpectation = aBindingViewInflationErrorExpectationOf(button)
+			ViewInflationErrorsExpectation errorExpectation = aBindingViewInflationErrorExpectationOf(button)
 					.withAttributeResolutionErrorOf("text")
 					.withAttributeResolutionErrorOf("nonExistentAttribute")
 					.withAttributeBindingErrorOf("visibility")
 					.build();
-			inflationErrorExpectations.add(errorExpectation);
+			inflationErrorsExpectations.add(errorExpectation);
 		}
 		
 		private void addListViewAndExpectations()
@@ -115,11 +115,11 @@ public class FrameworkErrorReportingIT
 						.withAttribute("itemLayout", "{propertyPointingToNoExistentLayout}")
 						.build());
 			
-			BindingViewInflationErrorExpectation errorExpectation = aBindingViewInflationErrorExpectationOf(listView)
+			ViewInflationErrorsExpectation errorExpectation = aBindingViewInflationErrorExpectationOf(listView)
 					.withAttributeResolutionErrorOf("visibility")
 					.withAttributeBindingErrorOf("itemLayout")
 					.build();
-			inflationErrorExpectations.add(errorExpectation);
+			inflationErrorsExpectations.add(errorExpectation);
 		}
 		
 		private void addSpinnerAndExpectations()
@@ -133,10 +133,10 @@ public class FrameworkErrorReportingIT
 						.withAttribute("itemLayout", "{propertyPointingToNoExistentLayout}")
 						.build());
 			
-			BindingViewInflationErrorExpectation errorExpectation = aBindingViewInflationErrorExpectationOf(spinner)
+			ViewInflationErrorsExpectation errorExpectation = aBindingViewInflationErrorExpectationOf(spinner)
 					.withMissingRequiredAttributesResolutionErrorOf("source", "dropdownLayout")
 					.build();
-			inflationErrorExpectations.add(errorExpectation);
+			inflationErrorsExpectations.add(errorExpectation);
 		}
 	}
 	
@@ -144,7 +144,7 @@ public class FrameworkErrorReportingIT
 	{
 		protected final Context context;
 		protected BindingViewInflaterForTest.Builder bindingViewInflaterBuilder;
-		protected List<BindingViewInflationErrorExpectation> inflationErrorExpectations;
+		protected List<ViewInflationErrorsExpectation> inflationErrorsExpectations;
 		
 		public AbstractSampleAndExpectation()
 		{
@@ -154,7 +154,7 @@ public class FrameworkErrorReportingIT
 		public View inflateAndBind()
 		{
 			bindingViewInflaterBuilder = aBindingViewInflater(context);
-			inflationErrorExpectations = Lists.newArrayList();
+			inflationErrorsExpectations = Lists.newArrayList();
 	
 			addViewAndExpectations();	
 			
@@ -164,22 +164,22 @@ public class FrameworkErrorReportingIT
 		
 		protected abstract void addViewAndExpectations();		
 		
-		public void meet(BindingViewInflationErrorsException bindingViewInflationErrors)
+		public void meet(ViewHierarchyInflationErrorsException bindingViewInflationErrors)
 		{
-			Collection<BindingViewInflationError> errors = bindingViewInflationErrors.getErrors();
+			Collection<ViewInflationErrors> errors = bindingViewInflationErrors.getErrors();
 			assertThat(errors.size(), is(expectedNumInflationErrors()));
 			
 			int index = 0;
-			for(BindingViewInflationErrorExpectation inflationErrorExpectation : inflationErrorExpectations)
+			for(ViewInflationErrorsExpectation inflationErrorExpectation : inflationErrorsExpectations)
 			{
-				inflationErrorExpectation.meet((BindingViewInflationError)CollectionUtils.get(errors, index));
+				inflationErrorExpectation.meet((ViewInflationErrors)CollectionUtils.get(errors, index));
 				index++;
 			}
 		}
 		
 		private int expectedNumInflationErrors()
 		{
-			return inflationErrorExpectations.size();
+			return inflationErrorsExpectations.size();
 		}
 	}
 

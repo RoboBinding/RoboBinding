@@ -24,10 +24,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.robobinding.AttributeResolutionException;
-import org.robobinding.ViewResolutionError;
+import org.robobinding.ViewResolutionErrors;
 import org.robobinding.attribute.MissingRequiredAttributesException;
-import org.robobinding.binder.BindingViewInflationError;
-import org.robobinding.binder.ViewBindingError;
+import org.robobinding.binder.ViewInflationErrors;
+import org.robobinding.binder.ViewBindingErrors;
 import org.robobinding.viewattribute.AttributeBindingException;
 
 import android.view.View;
@@ -41,13 +41,13 @@ import com.google.common.collect.Sets;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BindingViewInflationErrorExpectation
+public class ViewInflationErrorsExpectation
 {
 	private View view;
 	private List<AttributeResolutionErrorExpectation> attributeResolutionErrorExpectations;
 	private List<MissingRequiredAttributesResolutionErrorExpectation> missingRequiredAttributesResolutionErrorExpectations;
 	private List<AttributeBindingErrorExpectation> attributeBindingErrorExpectations;
-	private BindingViewInflationErrorExpectation(BindingViewInflationErrorExpectation.Builder builder)
+	private ViewInflationErrorsExpectation(ViewInflationErrorsExpectation.Builder builder)
 	{
 		this.view = builder.view;
 		this.attributeResolutionErrorExpectations = builder.attributeResolutionErrorExpectations;
@@ -60,15 +60,15 @@ public class BindingViewInflationErrorExpectation
 		return new Builder(view);
 	}
 	
-	public void meet(BindingViewInflationError error)
+	public void meet(ViewInflationErrors error)
 	{
 		assertThat(error.getView(), sameInstance(view));
 		
-		assertResolutionErrors(error.getResolutionError());
-		assertBindingErrors(error.getBindingError());
+		assertResolutionErrors(error.getResolutionErrors());
+		assertBindingErrors(error.getBindingErrors());
 	}
 
-	private void assertResolutionErrors(ViewResolutionError error)
+	private void assertResolutionErrors(ViewResolutionErrors error)
 	{
 		assertThat(getViewName()+" has unmatched resolution errors.", error.numErrors(), is(expectedNumResolutionErrors()));
 		
@@ -117,7 +117,7 @@ public class BindingViewInflationErrorExpectation
 		return missingRequiredAttributesResolutionErrorExpectations.size();
 	}
 
-	private void assertBindingErrors(ViewBindingError error)
+	private void assertBindingErrors(ViewBindingErrors error)
 	{
 		try
 		{
@@ -178,9 +178,9 @@ public class BindingViewInflationErrorExpectation
 			return this;
 		}
 		
-		public BindingViewInflationErrorExpectation build()
+		public ViewInflationErrorsExpectation build()
 		{
-			return new BindingViewInflationErrorExpectation(this);
+			return new ViewInflationErrorsExpectation(this);
 		}
 	}
 	
