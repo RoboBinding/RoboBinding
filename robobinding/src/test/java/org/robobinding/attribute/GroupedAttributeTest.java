@@ -44,7 +44,7 @@ public class GroupedAttributeTest
 		aChildAttributeExpectation("valueModelAttribute", ValueModelAttribute.class),
 		aChildAttributeExpectation("staticResourceAttribute", StaticResourceAttribute.class),
 		aChildAttributeExpectation("predefinedMappingsAttribute", PredefinedMappingsAttribute.class),
-		aChildAttributeExpectation("plainAttribute", PlainAttribute.class)
+		aChildAttributeExpectation("enumAttribute", EnumAttribute.class)
 	};
 	
 	@Theory

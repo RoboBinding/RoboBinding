@@ -24,12 +24,14 @@ import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.attribute.AbstractAttribute;
+import org.robobinding.attribute.ChildAttributeResolver;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
-import org.robobinding.attribute.ChildAttributeResolvers;
 import org.robobinding.attribute.GroupedAttributeDescriptor;
-import org.robobinding.attribute.PlainAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ViewListenersProvider;
 
@@ -45,8 +47,8 @@ import com.google.common.collect.Maps;
  */
 public class ViewAttributeInstantiatorTest
 {
-	private static final String PLAIN_ATTRIBUTE_NAME = "name";
-	private static final String PLAIN_ATTRIBUTE_VALUE = "value";
+	private static final String ATTRIBUTE_NAME = "name";
+	private static final String ATTRIBUTE_VALUE = "value";
 	
 	private ViewAttributeInstantiator viewAttributeInstantiator;
 	private ViewListenersProvider viewListenersProvider;
@@ -72,7 +74,7 @@ public class ViewAttributeInstantiatorTest
 	private GroupedAttributeDescriptor newGroupedAttributeDescriptor()
 	{
 		Map<String, String> presentAttributeMappings = Maps.newHashMap();
-		presentAttributeMappings.put(PLAIN_ATTRIBUTE_NAME, PLAIN_ATTRIBUTE_VALUE);
+		presentAttributeMappings.put(ATTRIBUTE_NAME, ATTRIBUTE_VALUE);
 		return new GroupedAttributeDescriptor(presentAttributeMappings);
 	}
 	
@@ -100,14 +102,15 @@ public class ViewAttributeInstantiatorTest
 		@Override
 		public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 		{
-			resolverMappings.map(ChildAttributeResolvers.plainAttributeResolver(), PLAIN_ATTRIBUTE_NAME);
+			resolverMappings.map(new AttributeForTestResolver(), ATTRIBUTE_NAME);
 			mapChildAttributeResolversInvoked = true;
 		}
 		
 		public void assertCorrectlyInitialized(View view, ViewListenersProvider viewListenersProvider)
 		{
 			assertThat(this.view, sameInstance(view));
-			assertThat(groupedAttribute.plainAttributeFor(PLAIN_ATTRIBUTE_NAME), equalTo(new PlainAttribute(PLAIN_ATTRIBUTE_NAME, PLAIN_ATTRIBUTE_VALUE)));
+			assertThat(groupedAttribute.<AttributeForTest>attributeFor(ATTRIBUTE_NAME), 
+					equalTo(new AttributeForTest(ATTRIBUTE_NAME, ATTRIBUTE_VALUE)));
 			assertThat(this.viewListenersProvider, sameInstance(viewListenersProvider));
 			assertTrue(mapChildAttributeResolversInvoked);
 		}
@@ -117,5 +120,52 @@ public class ViewAttributeInstantiatorTest
 		{
 		}
 		
+	}
+	
+	private static class AttributeForTest extends AbstractAttribute
+	{
+		private String value;
+		public AttributeForTest(String name, String value)
+		{
+			super(name);
+		}
+		
+		@Override
+		public boolean equals(Object other)
+		{
+			if (this == other)
+				return true;
+			if (!(other instanceof AttributeForTest))
+				return false;
+		
+			final AttributeForTest that = (AttributeForTest) other;
+			return new EqualsBuilder()
+				.append(getName(), that.getName())
+				.append(value, that.value)
+				.isEquals();
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return new HashCodeBuilder()
+				.append(getName())
+				.append(value)
+				.toHashCode();
+		}
+	}
+	
+	private static class AttributeForTestResolver implements ChildAttributeResolver
+	{
+		public AttributeForTestResolver()
+		{
+		}
+		
+		@Override
+		public AbstractAttribute resolveChildAttribute(String attribute, String attributeValue)
+		{
+			return new AttributeForTest(attribute, attributeValue);
+		}
+
 	}
 }

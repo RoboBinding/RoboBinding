@@ -66,10 +66,9 @@ public class GroupedAttribute
 		return attributeFor(attributeName);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T extends Enum<T>> EnumAttribute<T> enumAttributeFor(String attributeName)
 	{
-		return (EnumAttribute<T>)childAttributes.get(attributeName);
+		return attributeFor(attributeName);
 	}
 	
 	public boolean hasAttribute(String attributeName)
