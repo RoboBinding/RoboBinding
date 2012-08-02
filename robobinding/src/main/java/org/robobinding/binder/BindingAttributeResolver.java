@@ -37,7 +37,7 @@ import android.view.View;
 public class BindingAttributeResolver
 {
 	BindingAttributeProvidersResolver providersResolver;
-	ViewAttributeInstantiator viewAttributeInstantiator;
+	private ViewAttributeInstantiator viewAttributeInstantiator;
 	private ResolvedBindingAttributes resolvedBindingAttributes;
 
 	public BindingAttributeResolver()
@@ -51,7 +51,7 @@ public class BindingAttributeResolver
 		
 		resolveByBindingAttributeProviders(pendingAttributesForView);
 		
-		ViewResolutionErrors errors = pendingAttributesForView.resolveCompleted();
+		ViewResolutionErrors errors = pendingAttributesForView.getResolutionErrors();
 		
 		return new ViewResolutionResult(resolvedBindingAttributes, errors);
 	}

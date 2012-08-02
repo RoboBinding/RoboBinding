@@ -26,12 +26,12 @@ import org.robobinding.ViewResolutionErrors;
 public class ViewResolutionResult
 {
 	private ResolvedBindingAttributes resolvedBindingAttributes;
-	private ViewResolutionErrors errors;
+	private ViewResolutionErrors error;
 
-	public ViewResolutionResult(ResolvedBindingAttributes resolvedBindingAttributes, ViewResolutionErrors errors)
+	public ViewResolutionResult(ResolvedBindingAttributes resolvedBindingAttributes, ViewResolutionErrors error)
 	{
 		this.resolvedBindingAttributes = resolvedBindingAttributes;
-		this.errors = errors;
+		this.error = error;
 	}
 
 	public ResolvedBindingAttributes getResolvedBindingAttributes()
@@ -39,8 +39,13 @@ public class ViewResolutionResult
 		return resolvedBindingAttributes;
 	}
 
+	public void addPotentialErrorTo(ViewHierarchyInflationErrorsException errors)
+	{
+		errors.addViewResolutionError(error);
+	}
+	
 	public void assertNoErrors()
 	{
-		errors.assertNoErrors();
+		error.assertNoErrors();
 	}
 }

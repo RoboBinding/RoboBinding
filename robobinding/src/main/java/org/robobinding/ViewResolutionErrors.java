@@ -32,6 +32,8 @@ public interface ViewResolutionErrors
 	View getView();
 	int numErrors();
 	void assertNoErrors();
+	boolean hasErrors();
 	Collection<AttributeResolutionException> getAttributeErrors();
 	Collection<MissingRequiredAttributesException> getMissingRequiredAttributeErrors();
+	Collection<Exception> getErrors();
 }

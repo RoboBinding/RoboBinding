@@ -24,7 +24,7 @@
 
 	<repositories>
 		<repository>
-			<!-- This repository is required until Robolectric 1.1 is published on 
+			<!-- This repository is required until Robolectric 1.2 is published on 
 				Central -->
 			<id>oss-sonatype-snapshots</id>
 			<url>http://oss.sonatype.org/content/repositories/snapshots/</url>
@@ -53,7 +53,7 @@
 		<dependency>
 			<groupId>com.pivotallabs</groupId>
 			<artifactId>robolectric</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.2-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -89,6 +89,13 @@
 			<artifactId>aspectjrt</artifactId>
 			<version>1.6.11</version>
 			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>commons-collections</groupId>
+		    <artifactId>commons-collections</artifactId>
+		    <version>3.2.1</version>
+		    <scope>test</scope>
 		</dependency>
 
 		<dependency>

@@ -16,12 +16,12 @@
 package org.robobinding.binder;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.robobinding.BinderImplementor;
 import org.robobinding.BindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.binder.ViewInflater.InflatedView;
+import org.robobinding.binder.BindingViewInflater.InflatedView;
+import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 import android.content.Context;
 import android.view.View;
@@ -40,14 +40,14 @@ class BinderImplementorImpl implements BinderImplementor
 {
 	private final Context context;
 	private final BindingContextCreator bindingContextCreator;
+	ErrorFormatter errorFormatter;
 	private ViewGroup parentView;
-	private List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
 	
 	public BinderImplementorImpl(Context context, BindingContextCreator bindingContextCreator)
 	{
 		this.context = context;
 		this.bindingContextCreator = bindingContextCreator;
-		predefinedPendingAttributesForViewGroup = Lists.newArrayList();
+		errorFormatter = null;
 	}
 	
 	@Override
@@ -57,37 +57,39 @@ class BinderImplementorImpl implements BinderImplementor
 		return this;
 	}
 	
-	public BinderImplementor setPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
-	{
-		this.predefinedPendingAttributesForViewGroup = Lists.newArrayList(predefinedPendingAttributesForViewGroup);
-		return this;
-	}
-	
 	@Override
 	public View inflateAndBind(int layoutId, Object presentationModel)
 	{
-		ViewInflater viewInflater = createViewInflater();
-		InflatedView inflatedView = viewInflater.inflateBindingView(layoutId);
+		return inflateAndBind(layoutId, presentationModel, Lists.<PredefinedPendingAttributesForView>newArrayList());
+	}
+	
+	@Override
+	public View inflateAndBind(int layoutId, Object presentationModel, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
+	{
+		BindingViewInflater viewInflater = createBindingViewInflater(predefinedPendingAttributesForViewGroup);
+		InflatedView inflatedView = viewInflater.inflateView(layoutId);
 		
 		BindingContext bindingContext = bindingContextCreator.create(presentationModel);
 		inflatedView.bindChildViews(bindingContext);
 		
+		inflatedView.assertNoErrors(errorFormatter);
+		
 		return inflatedView.getRootView();
+	}
+
+	BindingViewInflater createBindingViewInflater(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
+	{
+		BindingViewInflater.Builder viewInflaterBuilder = new BindingViewInflater.Builder(context);
+		viewInflaterBuilder.setParentViewToAttach(parentView);
+		viewInflaterBuilder.setPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup);
+		return viewInflaterBuilder.create();
 	}
 
 	@Override
 	public View inflateOnly(int layoutId)
 	{
-		ViewInflater viewInflater = createViewInflater();
+		ViewInflater viewInflater = new NonBindingViewInflater(context, parentView);
 		return viewInflater.inflateView(layoutId);
-	}
-
-	ViewInflater createViewInflater()
-	{
-		ViewInflater.Builder viewInflaterBuilder = new ViewInflater.Builder(context);
-		viewInflaterBuilder.setParentViewToAttach(parentView);
-		viewInflaterBuilder.setPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup);
-		return viewInflaterBuilder.create();
 	}
 
 	public static interface BindingContextCreator

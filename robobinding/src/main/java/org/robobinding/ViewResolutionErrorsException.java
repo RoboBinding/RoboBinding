@@ -35,12 +35,12 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 @SuppressWarnings("serial")
-public class ViewResolutionException extends RuntimeException implements ViewResolutionErrors
+public class ViewResolutionErrorsException extends RuntimeException implements ViewResolutionErrors
 {
 	private View view;
 	private List<AttributeResolutionException> attributeErrors;
 	private List<MissingRequiredAttributesException> missingRequiredAttributeErrors;
-	public ViewResolutionException(View view)
+	public ViewResolutionErrorsException(View view)
 	{
 		this.view = view;
 		attributeErrors = Lists.newArrayList();
@@ -68,17 +68,18 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 		}
 	}
 	
-	private boolean hasErrors()
+	@Override
+	public boolean hasErrors()
 	{
 		return isNotEmpty(attributeErrors) || isNotEmpty(missingRequiredAttributeErrors);
 	}
 
-	void addAttributeError(AttributeResolutionException e)
+	public void addAttributeError(AttributeResolutionException e)
 	{
 		attributeErrors.add((AttributeResolutionException)e);
 	}
 	
-	void addUnrecognizedAttributes(Collection<String> attributes)
+	public void addUnrecognizedAttributes(Collection<String> attributes)
 	{
 		for(String attribute : attributes)
 		{
@@ -86,7 +87,7 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 		}
 	}
 	
-	void addMissingRequiredAttributeError(MissingRequiredAttributesException e)
+	public void addMissingRequiredAttributeError(MissingRequiredAttributesException e)
 	{
 		missingRequiredAttributeErrors.add(e);
 	}
@@ -101,5 +102,14 @@ public class ViewResolutionException extends RuntimeException implements ViewRes
 	public Collection<MissingRequiredAttributesException> getMissingRequiredAttributeErrors()
 	{
 		return Collections.unmodifiableCollection(missingRequiredAttributeErrors);
+	}
+	
+	@Override
+	public Collection<Exception> getErrors()
+	{
+		List<Exception> errors = Lists.newArrayList();
+		errors.addAll(attributeErrors);
+		errors.addAll(missingRequiredAttributeErrors);
+		return errors;
 	}
 }

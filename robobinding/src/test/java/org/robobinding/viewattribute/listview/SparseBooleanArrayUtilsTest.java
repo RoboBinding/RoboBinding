@@ -29,7 +29,6 @@ import android.util.SparseBooleanArray;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
@@ -46,8 +45,6 @@ public class SparseBooleanArrayUtilsTest
 	@Before
 	public void setUp()
 	{
-		Robolectric.bindShadowClass(ShadowSparseBooleanArray.class);
-		
 		array = new SparseBooleanArray();
 		array.put(1, true);
 		array.put(2, false);

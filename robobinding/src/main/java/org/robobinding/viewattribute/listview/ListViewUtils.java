@@ -28,6 +28,9 @@ public class ListViewUtils
 {
 	private ListViewUtils(){}
 	
+	/**
+	 * TODO:Will be replaced by listView.clearChoices(). Requires a change to ShadowListView in Robolectric.
+	 */
 	public static void clearSelections(ListView listView)
 	{
 		SparseBooleanArray array = listView.getCheckedItemPositions();
