@@ -51,7 +51,7 @@ public class BindingAttributeResolver
 		
 		resolveByBindingAttributeProviders(pendingAttributesForView);
 		
-		ViewResolutionErrors errors = pendingAttributesForView.getResolutionError();
+		ViewResolutionErrors errors = pendingAttributesForView.getResolutionErrors();
 		
 		return new ViewResolutionResult(resolvedBindingAttributes, errors);
 	}

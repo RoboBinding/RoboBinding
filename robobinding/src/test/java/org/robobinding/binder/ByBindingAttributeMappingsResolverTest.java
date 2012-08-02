@@ -116,7 +116,7 @@ public class ByBindingAttributeMappingsResolverTest
 		}
 
 		@Override
-		public ViewResolutionErrors getResolutionError()
+		public ViewResolutionErrors getResolutionErrors()
 		{
 			throw new UnsupportedOperationException();
 		}
