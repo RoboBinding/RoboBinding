@@ -35,12 +35,12 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 @SuppressWarnings("serial")
-public class ViewBindingException extends RuntimeException
+public class ViewBindingErrors extends RuntimeException
 {
 	private View view;
 	private List<AttributeBindingException> attributeErrors;
 	
-	public ViewBindingException(View view)
+	public ViewBindingErrors(View view)
 	{
 		this.view = view;
 		attributeErrors = Lists.newArrayList();
@@ -59,7 +59,7 @@ public class ViewBindingException extends RuntimeException
 		}
 	}
 
-	private boolean hasErrors()
+	public boolean hasErrors()
 	{
 		return isNotEmpty(attributeErrors);
 	}

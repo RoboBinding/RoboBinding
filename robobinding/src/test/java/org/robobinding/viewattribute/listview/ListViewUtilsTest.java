@@ -31,7 +31,6 @@ import android.app.Activity;
 import android.widget.ListView;
 
 import com.google.common.collect.Sets;
-import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
@@ -48,11 +47,9 @@ public class ListViewUtilsTest
 	@Before
 	public void setUp()
 	{
-		Robolectric.bindShadowClass(ShadowListView.class);
-		Robolectric.bindShadowClass(ShadowSparseBooleanArray.class);
-		
 		listView = new ListView(new Activity());
 		listView.setAdapter(new MockArrayAdapter());
+		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 	}
 	
 	@Test

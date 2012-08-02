@@ -47,4 +47,10 @@ public class AttributeResolutionException extends RuntimeException
 	{
 		return attribute;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return attribute + ": "+getMessage();
+	}
 }

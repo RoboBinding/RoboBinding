@@ -50,9 +50,9 @@ public class ResolvedBindingAttributes
 		this.viewAttributes.addAll(viewAttributes);
 	}
 	
-	public void bindTo(BindingContext bindingContext)
+	public ViewBindingErrors bindTo(BindingContext bindingContext)
 	{
-		ViewBindingException viewBindingErrors = new ViewBindingException(view);
+		ViewBindingErrors viewBindingError = new ViewBindingErrors(view);
 		for (ViewAttribute viewAttribute : viewAttributes)
 		{
 			try
@@ -60,12 +60,13 @@ public class ResolvedBindingAttributes
 				viewAttribute.bindTo(bindingContext);
 			}catch(AttributeBindingException e)
 			{
-				viewBindingErrors.addAttributeError(e);
+				viewBindingError.addAttributeError(e);
 			}catch (AttributeGroupBindingException e) 
 			{
-				viewBindingErrors.addAttributeGroupError(e);
+				viewBindingError.addAttributeGroupError(e);
 			}
 		}
-		viewBindingErrors.assertNoErrors();
+		
+		return viewBindingError;
 	}
 }
