@@ -61,7 +61,7 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 	}
 
 	@Override
-	public ViewResolutionErrors getResolutionError()
+	public ViewResolutionErrors getResolutionErrors()
 	{
 		if(!isUnrecognizedAttributesAppended)
 		{
