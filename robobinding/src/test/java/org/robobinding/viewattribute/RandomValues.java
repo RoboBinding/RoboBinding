@@ -112,6 +112,11 @@ public class RandomValues
 		return random.nextInt(n);
 	}
 	
+	public static float nextFloat(int n)
+	{
+		return random.nextFloat() * nextInt(n);
+	}
+	
 	public static <T> T either(T... objects)
 	{
 		return objects[nextInt(objects.length)];

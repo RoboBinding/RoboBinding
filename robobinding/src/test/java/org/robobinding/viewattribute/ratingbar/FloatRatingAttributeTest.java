@@ -18,10 +18,12 @@ package org.robobinding.viewattribute.ratingbar;
 import static org.hamcrest.Matchers.closeTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.robobinding.viewattribute.RandomValues.anyFloat;
+import static org.robobinding.viewattribute.RandomValues.nextFloat;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.RandomValues;
 import org.robobinding.viewattribute.ratingbar.RatingAttribute.FloatRatingAttribute;
 import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 
@@ -35,10 +37,18 @@ import android.widget.RatingBar;
  */
 public class FloatRatingAttributeTest extends AbstractPropertyViewAttributeWithViewListenersAwareTest<RatingBar, FloatRatingAttribute, MockRatingBarListeners>
 {
+	private static final int NUM_STARS_TO_SHOW = 5;
+
+	@Before
+	public void prepareRatingBar() 
+	{
+		view.setNumStars(NUM_STARS_TO_SHOW);
+	}
+	
 	@Test
 	public void whenValueModelUpdated_thenViewShouldReflectChanges()
 	{
-		float newRating = RandomValues.anyFloat();
+		float newRating = nextFloat(NUM_STARS_TO_SHOW);
 		
 		attribute.valueModelUpdated(newRating);
 
@@ -50,7 +60,7 @@ public class FloatRatingAttributeTest extends AbstractPropertyViewAttributeWithV
 	{
 		ValueModel<Float> valueModel = twoWayBindToProperty(Float.class);
 		
-		view.setRating(RandomValues.anyFloat());
+		view.setRating(anyFloat());
 		
 		assertThat((double)valueModel.getValue(), closeTo(view.getRating(), 0.1));
 	}
