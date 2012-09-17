@@ -20,10 +20,10 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.Matchers.closeTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.robobinding.viewattribute.RandomValues.nextInt;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.RandomValues;
 import org.robobinding.viewattribute.view.AbstractCommandViewAttributeWithViewListenersAwareTest;
 
 import android.widget.RatingBar;
@@ -36,12 +36,14 @@ import android.widget.RatingBar;
  */
 public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<RatingBar, OnRatingBarChangeAttribute, MockRatingBarListeners>
 {
-	private float newRatingValue;
+	private static final int NUM_STARS_TO_SHOW = 5;
+	private int newNumStars;
 
 	@Before
 	public void setUp()
 	{
-		newRatingValue = RandomValues.anyFloat();
+		view.setNumStars(NUM_STARS_TO_SHOW);
+		newNumStars = nextInt(NUM_STARS_TO_SHOW);
 	}
 	
 	@Test
@@ -64,7 +66,7 @@ public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttribute
 	
 	private void updateRating()
 	{
-		view.setRating(newRatingValue);
+		view.setRating(newNumStars);
 	}
 
 	private void assertEventReceived()
@@ -72,7 +74,7 @@ public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttribute
 		assertEventReceived(RatingBarEvent.class);
 		RatingBarEvent ratingBarEvent = getEventReceived();
 		assertThat(ratingBarEvent.getRatingBar(), sameInstance(view));
-		assertThat((double)ratingBarEvent.getRating(), is(closeTo(newRatingValue, 0.1f)));
+		assertThat((double)ratingBarEvent.getRating(), is(closeTo(newNumStars, 0.1f)));
 		assertTrue(ratingBarEvent.isFromUser());
 	}
 }
