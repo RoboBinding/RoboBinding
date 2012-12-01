@@ -25,15 +25,12 @@ package sample.robobinding.model;
 public class Album
 {
 	public static final int NO_ID = -1;
-	public static final int MAX_RATING = 5;
 	
 	private long id;
 	private String title;
 	private String artist;
 	private boolean classical;
 	private String composer;
-	private Genre genre;
-	private int rating;
 	
 	private Album(Builder builder)
 	{
@@ -46,8 +43,6 @@ public class Album
 		{
 			this.composer = builder.composer;
 		}
-		this.genre = builder.genre;
-		this.rating = builder.rating;
 	}
 	private void validate(Builder builder)
 	{
@@ -62,40 +57,6 @@ public class Album
 	{
 		this.id = id;
 	}
-	public boolean isNew()
-	{
-		return id == NO_ID;
-	}
-	public Genre getGenre()
-	{
-		return genre;
-	}
-	public void setGenre(Genre genre)
-	{
-		this.genre = genre;
-	}
-	public int getRating()
-	{
-		return rating;
-	}
-	public void setRating(int rating)
-	{
-		this.rating = rating;
-	}
-	
-	public Builder createBuilder()
-	{
-		Builder builder = new Builder();
-		builder.setTitle(title);
-		builder.setArtist(artist);
-		builder.setClassical(classical);
-		builder.setComposer(composer);
-		builder.setId(id);
-		builder.setGenre(genre);
-		builder.setRating(rating);
-		return builder;
-	}
-	
 	public String getTitle()
 	{
 		return title;
@@ -136,6 +97,25 @@ public class Album
 		return true;
 	}
 	
+	public boolean isNew()
+	{
+		return isNew(id);
+	}
+	public Builder createBuilder()
+	{
+		Builder builder = new Builder();
+		builder.setTitle(title);
+		builder.setArtist(artist);
+		builder.setClassical(classical);
+		builder.setComposer(composer);
+		builder.setId(id);
+		return builder;
+	}
+	public static boolean isNew(long albumId)
+	{
+		return albumId == NO_ID;
+	}
+	
 	public static class Builder
 	{
 		private long id = NO_ID;
@@ -143,9 +123,6 @@ public class Album
 		private String artist;
 		private boolean classical;
 		private String composer;
-		private Genre genre = Genre.UNSPECIFIED;
-		private int rating;
-		
 		public long getId()
 		{
 			return id;
@@ -193,27 +170,11 @@ public class Album
 		}
 		public boolean isNew()
 		{
-			return id == NO_ID;
-		}
-		public Genre getGenre()
-		{
-			return genre;
-		}
-		public void setGenre(Genre genre) 
-		{
-			this.genre = genre;
+			return Album.isNew(id);
 		}
 		public Album create()
 		{
 			return new Album(this);
-		}
-		public int getRating()
-		{
-			return rating;
-		}
-		public void setRating(int rating)
-		{
-			this.rating = rating;
 		}
 	}
 

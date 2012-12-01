@@ -1,63 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:bind="http://robobinding.org/android"
-  android:orientation="vertical"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-    
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
     <TextView
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:text="@string/welcome"
-    	style="@style/ScreenTitle" />
-    
-    <Button
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:text="@string/cursor_backed_albums"
-    	bind:onClick="cursorBackedAlbumsListView" />
-    	
-    <Button
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:text="@string/list_backed_albums"
-    	bind:onClick="listBackedAlbumsListView" />
-    	
-    <Button
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:text="@string/listview_albums_with_predefined_views"
-    	bind:onClick="listBackedAlbumsListViewWithPredefinedViews" />
-    
-    <Button
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:text="@string/spinner_albums"
-    	bind:onClick="listBackedAlbumsSpinner" />
-    
-    <Button
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:text="@string/spinner_albums_with_predefined_views"
-    	bind:onClick="listBackedAlbumsSpinnerWithPredefinedViews" />
-    
-    <Button
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:text="@string/dynamic_itemlayout_albums_listview"
-    	bind:onClick="dynamicItemLayoutListBackedAlbumsListView" />
-    
-    <Button
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:text="@string/dynamic_dropdownlayout_albums_spinner"
-    	bind:onClick="dynamicDropdownLayoutListBackedAlbumsSpinner" />
-    
-    <TextView
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:text="@string/the_choice_is_yours"
-    	android:gravity="center" />
-    	
+        style="@style/ScreenTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:text="@string/introduction" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+         android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            bind:onClick="albums"
+            android:text="@string/albums" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -13,8 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding.model;
+package sample.robobinding.activity;
 
+import org.robobinding.binder.Binder;
+
+import sample.robobinding.R;
+import sample.robobinding.presentationmodel.HomePresentationModel;
+import android.app.Activity;
+import android.os.Bundle;
 
 /**
  * 
@@ -22,16 +28,15 @@ package sample.robobinding.model;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class PurchaseService
+public class HomeActivity extends Activity
 {
-	public static final String PURCHASABLE_ARTIST = "Roy Harper";
-
-	public boolean isAvailableForPurchase(Album album)
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
 	{
-		if (PURCHASABLE_ARTIST.equals(album.getArtist()))
-			return true;
+		super.onCreate(savedInstanceState);
 		
-		return false;
+		HomePresentationModel presentationModel = new HomePresentationModel(this);
+		Binder.bind(this, R.layout.home_activity, presentationModel);
 	}
-
 }
+

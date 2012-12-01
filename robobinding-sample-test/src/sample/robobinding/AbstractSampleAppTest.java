@@ -15,11 +15,10 @@
  */
 package sample.robobinding;
 
-import sample.robobinding.store.AlbumStore;
+import sample.robobinding.activity.HomeActivity;
+import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
-
-import android.test.ActivityInstrumentationTestCase2;
 
 /**
  *
@@ -40,7 +39,6 @@ public abstract class AbstractSampleAppTest extends ActivityInstrumentationTestC
 	{
 		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
-		AlbumStore.resetData();
 	}
 	
 	protected void tearDown() throws Exception

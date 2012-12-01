@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:bind="http://robobinding.org/android"
   xmlns:rs="http://schemas.android.com/apk/res/sample.robobinding"
   android:layout_width="match_parent"
-  android:layout_height="match_parent" >
+  android:layout_height="match_parent" 
+  android:orientation="vertical">
     
     <TextView android:id="@+id/window_title"
 		android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
-	    android:text="@string/view_albums"
+	    android:text="@string/albums"
 	    style="@style/ScreenTitle" />
-    
-    <sample.robobinding.customview.NavigationBar
-        android:id="@+id/navigation_bar"
-        android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:layout_alignParentBottom="true"
-	    bind:leftButtonAction="createAlbum"
-	    rs:leftButtonLabel="@string/create"
-	    rs:rightButtonVisible="false"
-	    style="@android:style/ButtonBar" />
     
     <ListView 
     	android:layout_width="fill_parent"
-  		android:layout_height="fill_parent"
-  		android:layout_above="@id/navigation_bar"
-  		android:layout_below="@id/window_title"
+  		android:layout_height="0px"
+  		android:layout_weight="1.0"
   		bind:source="{albums}"
   		bind:itemLayout="@layout/album_row"
   		bind:onItemClick="viewAlbum"
   		bind:emptyViewLayout="@layout/albums_empty_view" />
     
-</RelativeLayout>
+    <Button 
+        android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		android:text="@string/create"
+        bind:onClick="createAlbum"/>
+    
+</LinearLayout>
