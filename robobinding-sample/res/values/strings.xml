@@ -1,36 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Robobinding-sample</string>
+    <string name="introduction">Album Sample - Presentation Model by Martin Fowler;\n http://martinfowler.com/eaaDev/PresentationModel.html</string>
+    <string name="albums">Albums</string>
     <string name="create">Create</string>
-    <string name="view_albums">View Albums</string>
     <string name="view_album">View Album</string>
     <string name="create_album">Create Album</string>
     <string name="edit_album">Edit Album</string>
-    <string name="welcome">Welcome</string>
-    <string name="cursor_backed_albums">Albums Cursor-backed ListView</string>
-    <string name="list_backed_albums">Albums List-backed ListView</string>
-    <string name="the_choice_is_yours">The choice is yours...</string>
-    <string name="_available_for_purchase_">(available for purchase)</string>
     <string name="save">Save</string>
     <string name="composer">Composer</string>
     <string name="classical">Classical</string>
     <string name="artist">Artist</string>
     <string name="title">Title</string>
     <string name="edit">Edit</string>
-    <string name="listview_albums_with_predefined_views">Albums ListView with predefined views</string>
-    <string name="spinner_albums">Albums Spinner</string>
-    <string name="spinner_albums_with_predefined_views">Albums Spinner with predefined views</string>
     <string name="delete_album">Delete Album</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="delete">Delete</string>
     <string name="view">View</string>
     <string name="are_you_sure_">Are you sure?</string>
-    <string name="genre">Genre</string>
-    <string name="genre_icon">Genre icon</string>
-    <string name="rating">Rating</string>
     <string name="toggle_itemlayout">Toggle itemLayout</string>
-    <string name="dynamic_itemlayout_albums_listview">Dynamic itemLayout Albums ListView</string>
-    <string name="dynamic_dropdownlayout_albums_spinner">Dynamic dropdownLayout Albums Spinner</string>
     <string name="albums_list_empty">No albums to view</string>
 </resources>

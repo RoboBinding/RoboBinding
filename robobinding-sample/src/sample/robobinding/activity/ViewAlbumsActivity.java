@@ -13,7 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding;
+package sample.robobinding.activity;
+
+import org.robobinding.binder.Binder;
+
+import sample.robobinding.R;
+import sample.robobinding.presentationmodel.ViewAlbumsPresentationModel;
+import android.app.Activity;
+import android.os.Bundle;
 
 
 /**
@@ -22,12 +29,24 @@ package sample.robobinding;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ListViewAlbumsActivity extends AbstractListBackedViewAlbumsActivity
+public class ViewAlbumsActivity extends Activity
 {
+	protected ViewAlbumsPresentationModel presentationModel;
+	
 	@Override
-	protected int getLayoutId()
+	protected void onCreate(Bundle savedInstanceState)
 	{
-		return R.layout.view_albums_listview_activity;
+		super.onCreate(savedInstanceState);
+		
+		presentationModel = new ViewAlbumsPresentationModel(this);
+		Binder.bindWithoutPreInitializingViews(this, R.layout.view_albums_activity, presentationModel);
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		presentationModel.refreshPresentationModel();
 	}
 
 }
