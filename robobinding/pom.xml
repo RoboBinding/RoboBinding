@@ -94,7 +94,7 @@
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<version>2.1.2</version>
+			<version>2.3.3</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
@@ -180,8 +180,8 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
-					<finalName>${project.build.finalName}-all</finalName>
-        			<appendAssemblyId>false</appendAssemblyId>
+					<finalName>${project.build.finalName}</finalName>
+        			<appendAssemblyId>true</appendAssemblyId>
 				</configuration>
 				<executions>
 					<execution>
