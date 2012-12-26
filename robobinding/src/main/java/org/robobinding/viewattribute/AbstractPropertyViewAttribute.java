@@ -139,8 +139,14 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	
 	private class TwoWayBindingProperty extends AbstractBindingProperty
 	{
-		private boolean updatedProgrammatically;
+		private ProgrammaticUpdateLatch programmaticUpdateLatch;
 		
+		
+		public TwoWayBinder()
+		{
+			this.programmaticUpdateLatch = new ProgrammaticUpdateLatch();
+		}
+
 		@Override
 		public void performBind(BindingContext bindingContext)
 		{
@@ -156,7 +162,7 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 				@Override
 				public void propertyChanged()
 				{
-					if (!updatedProgrammatically)
+					if (programmaticUpdateLatch.tryToPass())
 						valueModelUpdated(valueModel.getValue());
 				}
 			});
@@ -187,9 +193,14 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 			@Override
 			public void setValue(PropertyType newValue)
 			{
-				updatedProgrammatically = true;
-				propertyValueModel.setValue(newValue);
-				updatedProgrammatically = false;
+				programmaticUpdateLatch.turnOn();
+				try
+				{
+					propertyValueModel.setValue(newValue);
+				}finally
+				{
+					programmaticUpdateLatch.turnOff();
+				}
 			}
 
 			@Override
