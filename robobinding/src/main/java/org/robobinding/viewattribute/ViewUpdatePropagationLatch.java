@@ -21,11 +21,11 @@ package org.robobinding.viewattribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ProgrammaticUpdateLatch
+public class ViewUpdatePropagationLatch
 {
 	private State state;
 
-	public ProgrammaticUpdateLatch()
+	public ViewUpdatePropagationLatch()
 	{
 		state = State.NEUTRAL;
 	}
@@ -71,7 +71,7 @@ public class ProgrammaticUpdateLatch
 			@Override
 			public boolean isPassible()
 			{
-				return true;
+				return false;
 			}
 
 			@Override
