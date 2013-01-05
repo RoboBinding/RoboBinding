@@ -295,5 +295,13 @@ class ViewInflater implements ViewCreationListener
 		{
 			errors.assertNoErrors(errorFormatter);
 		}
+
+		public void preinitializeViews(BindingContext bindingContext)
+		{
+			for (ResolvedBindingAttributes viewBindingAttributes : childViewBindingAttributesGroup)
+			{
+				viewBindingAttributes.preinitializeView(bindingContext);
+			}
+		}
 	}
 }
