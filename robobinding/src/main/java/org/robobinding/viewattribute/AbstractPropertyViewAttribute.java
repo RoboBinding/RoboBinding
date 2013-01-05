@@ -28,35 +28,19 @@ import android.view.View;
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
 public abstract class AbstractPropertyViewAttribute<ViewType extends View, PropertyType> implements PropertyViewAttribute<ViewType>
 {
-	private ValueModelAttribute attribute;
 	protected ViewType view;
-	
-	@Override
-	public void setView(ViewType view)
+	private ValueModelAttribute attribute;
+
+	protected AbstractPropertyViewAttribute(ViewType view, ValueModelAttribute attribute)
 	{
 		this.view = view;
-	}
-	
-	@Override
-	public void setAttribute(ValueModelAttribute attribute)
-	{
 		this.attribute = attribute;
-	}
-	
-	@Override
-	public void bindTo(BindingContext bindingContext)
-	{
+		
 		performValidate();
-		try
-		{
-			performBind(bindingContext);
-		}catch(RuntimeException e)
-		{
-			throw new AttributeBindingException(attribute.getName(), e);
-		}
 	}
 	
 	private void performValidate()
@@ -72,6 +56,26 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		validation.addErrorIfPropertyAttributeValueNotSet(attribute);
 	}
 
+	public void preInitializeView(BindingContext bindingContext)
+	{
+		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
+		ValueModel<PropertyType> valueModel = presentationModelAdapter.getPropertyValueModel(attribute.getPropertyName());
+		valueModel = new PropertyValueModelWrapper(valueModel);
+		valueModelUpdated(valueModel.getValue());
+	}
+	
+	@Override
+	public void bindTo(BindingContext bindingContext)
+	{
+		try
+		{
+			performBind(bindingContext);
+		}catch(RuntimeException e)
+		{
+			throw new AttributeBindingException(attribute.getName(), e);
+		}
+	}
+	
 	private void performBind(BindingContext bindingContext)
 	{
 		if (attribute.isTwoWayBinding())

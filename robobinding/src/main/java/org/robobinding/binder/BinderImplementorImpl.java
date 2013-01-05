@@ -40,13 +40,17 @@ class BinderImplementorImpl implements BinderImplementor
 {
 	private final Context context;
 	private final BindingContextCreator bindingContextCreator;
+	private final boolean preinitailizeViews;
+	
 	ErrorFormatter errorFormatter;
 	private ViewGroup parentView;
 	
-	public BinderImplementorImpl(Context context, BindingContextCreator bindingContextCreator)
+	public BinderImplementorImpl(Context context, BindingContextCreator bindingContextCreator, boolean preinitailizeViews)
 	{
 		this.context = context;
 		this.bindingContextCreator = bindingContextCreator;
+		this.preinitailizeViews = preinitailizeViews;
+		
 		errorFormatter = null;
 	}
 	
@@ -70,9 +74,15 @@ class BinderImplementorImpl implements BinderImplementor
 		InflatedView inflatedView = viewInflater.inflateView(layoutId);
 		
 		BindingContext bindingContext = bindingContextCreator.create(presentationModel);
+		
 		inflatedView.bindChildViews(bindingContext);
 		
 		inflatedView.assertNoErrors(errorFormatter);
+
+		if(preinitailizeViews)
+		{
+			inflatedView.preinitializeViews(bindingContext);
+		}
 		
 		return inflatedView.getRootView();
 	}

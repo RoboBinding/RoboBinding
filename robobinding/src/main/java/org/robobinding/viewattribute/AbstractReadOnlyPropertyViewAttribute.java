@@ -15,6 +15,7 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.property.ValueModel;
 
 import android.view.View;
@@ -27,6 +28,12 @@ import android.view.View;
  */
 public abstract class AbstractReadOnlyPropertyViewAttribute<ViewType extends View, PropertyType> extends AbstractPropertyViewAttribute<ViewType, PropertyType>
 {
+	protected AbstractReadOnlyPropertyViewAttribute(ViewType view, ValueModelAttribute attribute)
+	{
+		super(view, attribute);
+	}
+
+	
 	@Override
 	protected void observeChangesOnTheView(ValueModel<PropertyType> valueModel)
 	{

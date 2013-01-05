@@ -177,5 +177,13 @@ class BindingViewInflater implements ViewFactoryListener
 		{
 			errors.assertNoErrors(errorFormatter);
 		}
+
+		public void preinitializeViews(BindingContext bindingContext)
+		{
+			for (ResolvedBindingAttributes viewBindingAttributes : childViewBindingAttributesGroup)
+			{
+				viewBindingAttributes.preinitializeView(bindingContext);
+			}
+		}
 	}
 }
