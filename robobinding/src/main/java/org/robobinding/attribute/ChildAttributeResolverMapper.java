@@ -25,5 +25,5 @@ public interface ChildAttributeResolverMapper
 {
 	void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings);
 
-	void validateResolvedChildAttributes();
+	void validateResolvedChildAttributes(GroupedAttribute groupedAttribute);
 }

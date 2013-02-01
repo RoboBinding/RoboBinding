@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.progressbar;
 
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
+import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.widget.ProgressBar;
 
@@ -27,6 +28,11 @@ import android.widget.ProgressBar;
  */
 public class MaxAttribute extends AbstractReadOnlyPropertyViewAttribute<ProgressBar, Integer>
 {
+	public MaxAttribute(PropertyViewAttributeConfig<ProgressBar> config)
+	{
+		super(config);
+	}
+
 	@Override
 	protected void valueModelUpdated(Integer maxValue)
 	{

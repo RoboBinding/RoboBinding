@@ -74,7 +74,7 @@ public class ResolvedBindingAttributes
 	{
 		for (ViewAttribute viewAttribute : viewAttributes)
 		{
-			viewAttribute.preinitializeView();
+			viewAttribute.preinitializeView(bindingContext);
 		}
 	}
 }

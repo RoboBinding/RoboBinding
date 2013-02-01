@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Cheng Wei, Robert Taylor
+ * Copyright 2013 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,37 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.BindingContext;
-import org.robobinding.attribute.AbstractAttribute;
+import org.robobinding.attribute.CommandAttribute;
 
-
+import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface ChildViewAttribute<T extends AbstractAttribute>
+public class CommandViewAttributeConfig<T extends View> extends AbstractViewAttributeConfig<T>
 {
-	void setAttribute(T attribute);
-	void bindTo(BindingContext bindingContext);
+	private CommandAttribute attribute;
+
+	public CommandViewAttributeConfig(T view, CommandAttribute attribute)
+	{
+		super(view);
+		this.attribute = attribute;
+		
+		performValidate();
+	}
+
+	protected void doValidate(ViewAttributeValidation validation)
+	{
+		super.doValidate(validation);
+		validation.addErrorIfCommandNameNotSet(attribute);
+	}
+
+	public CommandAttribute getAttribute()
+	{
+		return attribute;
+	}
+
 }

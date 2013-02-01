@@ -35,37 +35,26 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	protected ViewType view;
 	private ValueModelAttribute attribute;
 
-	protected AbstractPropertyViewAttribute(ViewType view, ValueModelAttribute attribute)
+	public AbstractPropertyViewAttribute(PropertyViewAttributeConfig<ViewType> config)
 	{
-		this.view = view;
-		this.attribute = attribute;
-		
-		performValidate();
+		this.view = config.getView();
+		this.attribute = config.getAttribute();
 	}
 	
-	private void performValidate()
+	protected void postConstruct()
 	{
-		ViewAttributeValidation validation = new ViewAttributeValidation();
-		validate(validation);
-		validation.assertNoErrors();
 	}
 
-	protected void validate(ViewAttributeValidation validation)
-	{
-		validation.addErrorIfViewNotSet(view);
-		validation.addErrorIfPropertyAttributeValueNotSet(attribute);
-	}
-
-	public void preInitializeView(BindingContext bindingContext)
+	@Override
+	public final void preinitializeView(BindingContext bindingContext)
 	{
 		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
 		ValueModel<PropertyType> valueModel = presentationModelAdapter.getPropertyValueModel(attribute.getPropertyName());
-		valueModel = new PropertyValueModelWrapper(valueModel);
 		valueModelUpdated(valueModel.getValue());
 	}
 	
 	@Override
-	public void bindTo(BindingContext bindingContext)
+	public final void bindTo(BindingContext bindingContext)
 	{
 		try
 		{
@@ -89,20 +78,10 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	
 	abstract class AbstractPropertyBinder
 	{
-		private final BindingContext bindingContext;
 		protected final PresentationModelAdapter presentationModelAdapter;
 		public AbstractPropertyBinder(BindingContext bindingContext)
 		{
-			this.bindingContext = bindingContext;
 			this.presentationModelAdapter = bindingContext.getPresentationModelAdapter();
-		}
-		
-		protected void initializeViewIfRequired(ValueModel<PropertyType> valueModel)
-		{
-			if (bindingContext.shouldPreInitializeViews())
-			{
-				valueModelUpdated(valueModel.getValue());
-			}
 		}
 		
 		abstract void performBind();
@@ -118,7 +97,6 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		public void performBind()
 		{
 			final ValueModel<PropertyType> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(attribute.getPropertyName());
-			initializeViewIfRequired(valueModel);
 			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener(){
 				@Override
 				public void propertyChanged()
@@ -141,7 +119,6 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		{
 			ValueModel<PropertyType> valueModel = presentationModelAdapter.getPropertyValueModel(attribute.getPropertyName());
 			valueModel = new PropertyValueModelWrapper(valueModel);
-			initializeViewIfRequired(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);
 		}

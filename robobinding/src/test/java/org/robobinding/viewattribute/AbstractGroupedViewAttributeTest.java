@@ -179,11 +179,11 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 		if (childAttribute instanceof AbstractPropertyViewAttribute)
 		{
 			AbstractPropertyViewAttribute<?, ?> propertyViewAttribute = (AbstractPropertyViewAttribute<?, ?>) childAttribute;
-			propertyViewAttribute.validate(validation);
+			propertyViewAttribute.doValidate(validation);
 		} else if (childAttribute instanceof AbstractCommandViewAttribute)
 		{
 			AbstractCommandViewAttribute<?> commandViewAttribute = (AbstractCommandViewAttribute<?>) childAttribute;
-			commandViewAttribute.validate(validation);
+			commandViewAttribute.doValidate(validation);
 		}
 		validation.assertNoErrors();
 	}

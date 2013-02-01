@@ -31,44 +31,45 @@ import android.view.View;
  */
 public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> implements PropertyViewAttribute<T>
 {
-	private T view;
+	protected T view;
 	protected ValueModelAttribute attribute;
+	
 	private ViewListenersProvider viewListenersProvider;
 	
-	@Override
-	public void setView(T view)
+	private AbstractPropertyViewAttribute<T, ?> propertyViewAttribute;
+
+	public AbstractMultiTypePropertyViewAttribute(MultiTypePropertyViewAttributeConfig<T> config)
 	{
-		this.view = view;
-	}
-	@Override
-	public void setAttribute(ValueModelAttribute attribute)
-	{
-		this.attribute = attribute;
-	}
-	
-	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
-	{
-		this.viewListenersProvider = viewListenersProvider;
+		this.view = config.getView();
+		this.attribute = config.getAttribute();
+		this.viewListenersProvider = config.getViewListenersProvider();
 	}
 	
 	@Override
-	public void bindTo(BindingContext bindingContext)
+	public void preinitializeView(BindingContext bindingContext)
 	{
-		try {
-			performBind(bindingContext);
-		} catch (RuntimeException e) {
-			throw new AttributeBindingException(attribute.getName(), e);
-		}
+		initializePropertyViewAttribute(bindingContext);
 	}
 	
-	private void performBind(BindingContext bindingContext)
+	private void initializePropertyViewAttribute(BindingContext bindingContext)
 	{
-		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
-		propertyViewAttribute.setView(view);
-		propertyViewAttribute.setAttribute(attribute);
+		propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
 		setViewListenersIfRequired(propertyViewAttribute, view);
-		propertyViewAttribute.bindTo(bindingContext);
 	}
+
+	private AbstractPropertyViewAttribute<T, ?> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
+	{
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
+		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = createPropertyViewAttribute(
+				propertyType, new PropertyViewAttributeConfig<T>(view, attribute));
+		
+		if (propertyViewAttribute == null)
+			throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);
+		
+		return propertyViewAttribute;
+	}
+
+	protected abstract AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType, PropertyViewAttributeConfig<T> config);
 
 	private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
 	{
@@ -80,17 +81,24 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 			viewListenersAware.setViewListeners(viewListeners);
 		}
 	}
-	
-	protected abstract AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType);
 
-	private AbstractPropertyViewAttribute<T, ?> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
+	@Override
+	public void bindTo(BindingContext bindingContext)
 	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
-		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
+		if(propertyViewAttribute == null)
+		{
+			initializePropertyViewAttribute(bindingContext);
+		}
 		
-		if (propertyViewAttribute == null)
-			throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);
-		
-		return propertyViewAttribute;
+		try {
+			performBind(bindingContext);
+		} catch (RuntimeException e) {
+			throw new AttributeBindingException(attribute.getName(), e);
+		}
+	}
+	
+	private void performBind(BindingContext bindingContext)
+	{
+		propertyViewAttribute.bindTo(bindingContext);
 	}
 }

@@ -18,7 +18,9 @@ package org.robobinding.viewattribute.view;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
+import org.robobinding.viewattribute.MultiTypePropertyViewAttributeConfig;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
+import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -33,20 +35,25 @@ import android.view.View;
  */
 public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<View>
 {
+	public BackgroundAttribute(MultiTypePropertyViewAttributeConfig<View> config)
+	{
+		super(config);
+	}
+
 	@Override
-	protected AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
+	protected AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType, PropertyViewAttributeConfig<View> config)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
-			return new ResourceIdBackgroundAttribute();
+			return new ResourceIdBackgroundAttribute(config);
 		} 
 		else if (Bitmap.class.isAssignableFrom(propertyType))
 		{
-			return new BitmapBackgroundAttribute();
+			return new BitmapBackgroundAttribute(config);
 		}
 		else if (Drawable.class.isAssignableFrom(propertyType))
 		{
-			return new DrawableBackgroundAttribute();
+			return new DrawableBackgroundAttribute(config);
 		}
 
 		throw new RuntimeException("Could not find a suitable background attribute class for property type: " + propertyType);
@@ -54,6 +61,11 @@ public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<
 	
 	static class ResourceIdBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 	{
+		protected ResourceIdBackgroundAttribute(PropertyViewAttributeConfig<View> config)
+		{
+			super(config);
+		}
+
 		@Override
 		protected void valueModelUpdated(Integer newResourceId)
 		{
@@ -63,6 +75,11 @@ public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<
 
 	static class BitmapBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Bitmap>
 	{
+		protected BitmapBackgroundAttribute(PropertyViewAttributeConfig<View> config)
+		{
+			super(config);
+		}
+
 		@Override
 		protected void valueModelUpdated(Bitmap newBitmap)
 		{
@@ -72,6 +89,11 @@ public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<
 	
 	static class DrawableBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Drawable>
 	{
+		protected DrawableBackgroundAttribute(PropertyViewAttributeConfig<View> config)
+		{
+			super(config);
+		}
+
 		@Override
 		protected void valueModelUpdated(Drawable newDrawable)
 		{

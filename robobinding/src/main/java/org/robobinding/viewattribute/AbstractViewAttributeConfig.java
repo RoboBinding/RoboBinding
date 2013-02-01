@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Cheng Wei, Robert Taylor
+ * Copyright 2013 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,38 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.BindingContext;
-import org.robobinding.attribute.AbstractAttribute;
-
-
+import android.view.View;
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface ChildViewAttribute<T extends AbstractAttribute>
+public class AbstractViewAttributeConfig<T extends View>
 {
-	void setAttribute(T attribute);
-	void bindTo(BindingContext bindingContext);
+	private T view;
+
+	public AbstractViewAttributeConfig(T view)
+	{
+		this.view = view;
+	}
+	
+	protected final void performValidate()
+	{
+		ViewAttributeValidation validation = new ViewAttributeValidation();
+		doValidate(validation);
+		validation.assertNoErrors();
+	}
+
+	protected void doValidate(ViewAttributeValidation validation)
+	{
+		validation.addErrorIfViewNotSet(view);
+	}
+
+	public T getView()
+	{
+		return view;
+	}
+
 }
