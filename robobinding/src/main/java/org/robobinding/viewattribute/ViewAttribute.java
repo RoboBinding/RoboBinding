@@ -26,6 +26,6 @@ import org.robobinding.BindingContext;
  */
 public interface ViewAttribute
 {
+	void preinitializeView(BindingContext bindingContext);
 	void bindTo(BindingContext bindingContext);
-	void preinitializeView();
 }

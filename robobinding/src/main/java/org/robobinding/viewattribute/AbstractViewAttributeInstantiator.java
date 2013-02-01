@@ -15,6 +15,9 @@
  */
 package org.robobinding.viewattribute;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.robobinding.attribute.CommandAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.view.ViewListeners;
@@ -37,47 +40,61 @@ public abstract class AbstractViewAttributeInstantiator
 	{
 		this.viewListenersProvider = viewListenersProvider;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
 			Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttribute attribute)
 	{
-		PropertyViewAttributeType propertyViewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass);
-		return injectProperties(propertyViewAttribute, attribute);
+		if(MultiTypePropertyViewAttributeConfig.class.isAssignableFrom(propertyViewAttributeClass))
+		{
+			AbstractMultiTypePropertyViewAttribute<? extends View> viewAttribute = createMultiTypePropertyViewAttribute(
+					(Class<AbstractMultiTypePropertyViewAttribute<? extends View>>)propertyViewAttributeClass, attribute);
+			return (PropertyViewAttributeType)viewAttribute;
+		}else
+		{
+			AbstractPropertyViewAttribute<? extends View, ?> viewAttribute = createPropertyViewAttribute(
+					(Class<AbstractPropertyViewAttribute<? extends View, ?>>)propertyViewAttributeClass, attribute);
+			return (PropertyViewAttributeType)viewAttribute;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType injectProperties(
-			PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute)
+	private <PropertyViewAttributeType extends AbstractPropertyViewAttribute<? extends View, ?>> PropertyViewAttributeType createPropertyViewAttribute(
+			Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttribute attribute)
 	{
-		View view = getView();
-		((PropertyViewAttribute<View>)propertyViewAttribute).setView(view);
-		propertyViewAttribute.setAttribute(attribute);
-		
-		if (propertyViewAttribute instanceof AbstractMultiTypePropertyViewAttribute<?>)
-			((AbstractMultiTypePropertyViewAttribute<?>)propertyViewAttribute).setViewListenersProvider(viewListenersProvider);
-		
-		setViewListenersIfRequired(propertyViewAttribute, view);
-		return propertyViewAttribute;
+		PropertyViewAttributeType viewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass,
+				PropertyViewAttributeConfig.class, 
+				new PropertyViewAttributeConfig<View>(getView(), attribute));
+		setViewListenersIfRequired(viewAttribute);
+		return viewAttribute;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <PropertyViewAttributeType extends AbstractMultiTypePropertyViewAttribute<? extends View>> PropertyViewAttributeType createMultiTypePropertyViewAttribute(
+			Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttribute attribute)
+	{
+		PropertyViewAttributeType viewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass,
+				MultiTypePropertyViewAttributeConfig.class, 
+				new MultiTypePropertyViewAttributeConfig<View>(getView(), attribute, viewListenersProvider));
+		return viewAttribute;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
-			Class<CommandViewAttributeType> commandViewAttributeClass, CommandAttribute attributeValue)
+			Class<CommandViewAttributeType> commandViewAttributeClass, CommandAttribute attribute)
 	{
-		CommandViewAttributeType commandViewAttribute = (CommandViewAttributeType)newViewAttribute(commandViewAttributeClass);
-		View view = getView();
-		((AbstractCommandViewAttribute<View>)commandViewAttribute).setView(view);
-		commandViewAttribute.setAttribute(attributeValue);
-		setViewListenersIfRequired(commandViewAttribute, view);
+		CommandViewAttributeType commandViewAttribute = (CommandViewAttributeType)newViewAttribute(commandViewAttributeClass,
+				CommandViewAttributeConfig.class,
+				new CommandViewAttributeConfig<View>(getView(), attribute));
+		setViewListenersIfRequired(commandViewAttribute);
 		return commandViewAttribute;
 	}
 	
-	protected void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
+	protected void setViewListenersIfRequired(ViewAttribute viewAttribute)
 	{
 		if(viewAttribute instanceof ViewListenersAware)
 		{
-			ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(view, (ViewListenersAware<?>)viewAttribute);
+			ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(getView(), (ViewListenersAware<?>)viewAttribute);
 			@SuppressWarnings("unchecked")
 			ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)viewAttribute;
 			viewListenersAware.setViewListeners(viewListeners);
@@ -86,17 +103,23 @@ public abstract class AbstractViewAttributeInstantiator
 	
 	protected abstract View getView();
 	
-	protected ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass)
+	protected <ViewAttributeConfigType extends AbstractViewAttributeConfig<View>> ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass, Class<ViewAttributeConfigType> configClass, ViewAttributeConfigType config)
 	{
 		try
 		{
-			return viewAttributeClass.newInstance();
+			return ConstructorUtils.invokeConstructor(viewAttributeClass, new Object[]{config}, new Class[]{configClass});
 		} catch (InstantiationException e)
 		{
 			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " could not be instantiated: " + e);
 		} catch (IllegalAccessException e)
 		{
 			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " is not public");
+		} catch (NoSuchMethodException e)
+		{
+			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " does not have a public constructor with single parameter of type '" + configClass.getName()+"'");
+		} catch (InvocationTargetException e)
+		{
+			throw new RuntimeException(e);
 		}
 	}
 }

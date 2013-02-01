@@ -32,21 +32,25 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 {
 	protected T view;
 	private CommandAttribute attribute;
-
-	public void setView(T view)
+	
+	public AbstractCommandViewAttribute(CommandViewAttributeConfig<T> config)
 	{
-		this.view = view;
+		this.view = config.getView();
+		this.attribute = config.getAttribute();
 	}
-
-	public void setAttribute(CommandAttribute attribute)
+	
+	protected void postConstruct()
 	{
-		this.attribute = attribute;
 	}
-
+	
+	@Override
+	public final void preinitializeView(BindingContext bindingContext)
+	{
+	}
+	
 	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
-		performValidate();
 		try
 		{
 			performBind(bindingContext.getPresentationModelAdapter());
@@ -54,19 +58,6 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 		{
 			throw new AttributeBindingException(attribute.getName(), e);
 		}
-	}
-
-	private void performValidate()
-	{
-		ViewAttributeValidation validation = new ViewAttributeValidation();
-		validate(validation);
-		validation.assertNoErrors();
-	}
-
-	protected void validate(ViewAttributeValidation validation)
-	{
-		validation.addErrorIfViewNotSet(view);
-		validation.addErrorIfCommandNameNotSet(attribute);
 	}
 
 	private void performBind(PresentationModelAdapter presentationModelAdapter)

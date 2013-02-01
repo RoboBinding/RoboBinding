@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.view;
 
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
+import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.view.View;
 
@@ -27,6 +28,11 @@ import android.view.View;
  */
 public class BackgroundColorAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 {
+	protected BackgroundColorAttribute(PropertyViewAttributeConfig<View> config)
+	{
+		super(config);
+	}
+
 	@Override
 	protected void valueModelUpdated(Integer newColor)
 	{

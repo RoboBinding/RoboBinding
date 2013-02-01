@@ -54,7 +54,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 	{
 		itemBinder = bindingContext.createItemBinder();
 		dropDownBinder = bindingContext.createItemBinder();
-		this.preInitializeViews = bindingContext.shouldPreInitializeViews();
+		this.preInitializeViews = bindingContext.shouldPreinitializeViews();
 	}
 
 	public void observeChangesOnTheValueModel()
@@ -72,14 +72,14 @@ public class DataSetAdapter<T> extends BaseAdapter
 	public void setValueModel(DataSetValueModel<T> valueModel)
 	{
 		if (!preInitializeViews)
-			returnZeroSizeDataSetUntilPropertyChangeEvent(valueModel);
+			dataSetValueModel = wrapAsZeroSizeDataSetUntilPropertyChangeEvent(valueModel);
 		else
-			this.dataSetValueModel = valueModel;
+			dataSetValueModel = valueModel;
 	}
 
-	private void returnZeroSizeDataSetUntilPropertyChangeEvent(final DataSetValueModel<T> valueModel)
+	private DataSetValueModel<T> wrapAsZeroSizeDataSetUntilPropertyChangeEvent(final DataSetValueModel<T> valueModel)
 	{
-		this.dataSetValueModel = new DataSetValueModelWrapper<T>(valueModel){
+		return new DataSetValueModelWrapper<T>(valueModel){
 			@Override
 			public int size()
 			{

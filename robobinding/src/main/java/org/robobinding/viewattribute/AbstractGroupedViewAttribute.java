@@ -15,163 +15,93 @@
  */
 package org.robobinding.viewattribute;
 
-import java.util.Map;
-
 import org.robobinding.BindingContext;
-import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ChildAttributeResolverMapper;
 import org.robobinding.attribute.GroupedAttribute;
 import org.robobinding.attribute.GroupedAttributeDescriptor;
-import org.robobinding.attribute.ValueModelAttribute;
 
 import android.view.View;
-
-import com.google.common.collect.Maps;
 
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
 public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute, ChildAttributeResolverMapper
 {
 	private static final String[] NO_COMPULSORY_ATTRIBUTES = new String[0];
 	
 	protected T view;
-	protected GroupedAttribute groupedAttribute;
-	private ViewListenersProvider viewListenersProvider;
-	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
+	private ChildViewAttributes<T> childViewAttributes;
+	private boolean childViewAttributesNotSetup;
 	
-	public void setView(T view)
+	public AbstractGroupedViewAttribute(GroupedViewAttributeConfig<T> config)
 	{
-		this.view = view;
+		view = config.getView();
+		childViewAttributes = createChildViewAttributes(config.getDescriptor(), config.getViewListenersProvider());
+		childViewAttributesNotSetup = true;
+	}
+	
+	private ChildViewAttributes<T> createChildViewAttributes(GroupedAttributeDescriptor descriptor, ViewListenersProvider viewListenersProvider)
+	{
+		descriptor.assertAttributesArePresent(getCompulsoryAttributes());
+		GroupedAttribute groupedAttribute = new GroupedAttribute(descriptor, this);
+
+		ViewAttributeInstantiator viewAttributeInstantiator = new ViewAttributeInstantiator(viewListenersProvider);
+
+		return new ChildViewAttributes<T>(groupedAttribute, viewAttributeInstantiator);		
 	}
 
-	public void setGroupedAttributeDescriptor(GroupedAttributeDescriptor groupedAttributeDescriptor)
-	{
-		groupedAttributeDescriptor.assertAttributesArePresent(getCompulsoryAttributes());
-		groupedAttribute = new GroupedAttribute(groupedAttributeDescriptor, this);
-	}
-
-	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
-	{
-		this.viewListenersProvider = viewListenersProvider;
-	}
-	
-	protected String[] getCompulsoryAttributes()
-	{
-		return NO_COMPULSORY_ATTRIBUTES;
-	}
-	
 	@Override
-	public void validateResolvedChildAttributes() {
-		
+	public void validateResolvedChildAttributes(GroupedAttribute groupedAttribute) 
+	{
+	}
+
+	@Override
+	public final void preinitializeView(BindingContext bindingContext)
+	{
+		setupChildViewAttributesOnceOnly(childViewAttributes, bindingContext);
+		childViewAttributes.preinitializeView(bindingContext);
 	}
 	
+	private void setupChildViewAttributesOnceOnly(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext)
+	{
+		if(childViewAttributesNotSetup)
+		{
+			setupChildViewAttributes(childViewAttributes, bindingContext);
+			childViewAttributesNotSetup = false;
+		}
+	}
+	
+	protected abstract void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext);
+
 	@Override
 	public final void bindTo(BindingContext bindingContext)
 	{
-		AttributeGroupBindingException bindingErrors = new AttributeGroupBindingException();
-		preBind(bindingContext);
+		setupChildViewAttributesOnceOnly(childViewAttributes, bindingContext);
 		
-		ChildAttributeBindings binding = new ChildAttributeBindings(bindingContext, bindingErrors);
-		setupChildAttributeBindings(binding);
-		
-		binding.perform();
-		bindingErrors.assertNoErrors();
+		childViewAttributes.bindTo(bindingContext);
 		
 		postBind(bindingContext);
-		bindingErrors.assertNoErrors();
 	}
-	
-	protected void preBind(BindingContext bindingContext)
-	{
-		
-	}
-	
-	protected abstract void setupChildAttributeBindings(ChildAttributeBindings binding);
 	
 	protected void postBind(BindingContext bindingContext)
 	{
 		
 	}
-	
-	private AbstractViewAttributeInstantiator safeGetViewAttributeInstantiator()
+
+	protected String[] getCompulsoryAttributes()
 	{
-		if (viewAttributeInstantiator == null)
-		{
-			viewAttributeInstantiator = new ViewAttributeInstantiator();
-			viewAttributeInstantiator.setViewListenersIfRequired(this, view);
-		}
-		return viewAttributeInstantiator;
-	}
-	
-	protected class ChildAttributeBindings
-	{
-		private BindingContext bindingContext;
-		Map<String, ViewAttribute> childAttributeMap;
-		private AttributeGroupBindingException bindingErrors;
-		ChildAttributeBindings(BindingContext bindingContext, AttributeGroupBindingException bindingErrors)
-		{
-			this.bindingContext = bindingContext;
-			this.bindingErrors = bindingErrors;
-			childAttributeMap = Maps.newHashMap();
-		}
-		
-		public <AttributeType extends AbstractAttribute> ChildViewAttribute<AttributeType> add(ChildViewAttribute<AttributeType> childAttribute, String attributeName)
-		{
-			AttributeType attribute = groupedAttribute.attributeFor(attributeName);
-			childAttribute.setAttribute(attribute);
-			childAttributeMap.put(attributeName, childAttribute);
-			return childAttribute;
-		}
-		
-		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(
-				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
-		{
-			ValueModelAttribute attributeValue = groupedAttribute.valueModelAttributeFor(propertyAttribute);
-			PropertyViewAttributeType propertyViewAttribute = safeGetViewAttributeInstantiator().newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
-			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
-			return propertyViewAttribute;
-		}
-		
-		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(
-				PropertyViewAttributeType propertyViewAttribute, String propertyAttribute)
-		{
-			ValueModelAttribute attributeValue = groupedAttribute.valueModelAttributeFor(propertyAttribute);
-			propertyViewAttribute = safeGetViewAttributeInstantiator().injectProperties(propertyViewAttribute, attributeValue);
-			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
-			return propertyViewAttribute;
-		}
-		
-		private void perform()
-		{
-			bindChildAttributes();
-		}
-	
-		private void bindChildAttributes()
-		{
-			for(Map.Entry<String, ViewAttribute> childAttributeEntry : childAttributeMap.entrySet())
-			{
-				ViewAttribute childAttribute = childAttributeEntry.getValue();
-				
-				try
-				{
-					childAttribute.bindTo(bindingContext);
-				}catch(RuntimeException e)
-				{
-					bindingErrors.addChildAttributeError(childAttributeEntry.getKey(), e);
-				}
-			}
-		}
+		return NO_COMPULSORY_ATTRIBUTES;
 	}
 
 	private class ViewAttributeInstantiator extends AbstractViewAttributeInstantiator
 	{
-		public ViewAttributeInstantiator()
+		public ViewAttributeInstantiator(ViewListenersProvider viewListenersProvider)
 		{
-			super(AbstractGroupedViewAttribute.this.viewListenersProvider);
+			super(viewListenersProvider);
 		}
 		@Override
 		protected T getView()

@@ -20,6 +20,7 @@ import org.robobinding.attribute.AbstractPropertyAttribute;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.ChildViewAttribute;
+import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttribute;
 
 import android.widget.AdapterView;
@@ -50,9 +51,8 @@ public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyA
 			layoutAttribute = new StaticLayoutAttribute(propertyAttribute.asStaticResourceAttribute());
 		else
 		{
-			DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute();
-			dynamicLayoutAttribute.setView(adapterView);
-			dynamicLayoutAttribute.setAttribute(propertyAttribute.asValueModelAttribute());
+			DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute(
+					new PropertyViewAttributeConfig<AdapterView<?>>(adapterView, propertyAttribute.asValueModelAttribute()));
 			layoutAttribute = dynamicLayoutAttribute;
 		}
 	}
@@ -71,6 +71,11 @@ public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyA
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer>
 	{
+		public DynamicLayoutAttribute(PropertyViewAttributeConfig<AdapterView<?>> config)
+		{
+			super(config);
+		}
+
 		@Override
 		protected void valueModelUpdated(Integer newItemLayoutId)
 		{
@@ -86,6 +91,11 @@ public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyA
 		public StaticLayoutAttribute(StaticResourceAttribute attributeValue)
 		{
 			this.attributeValue = attributeValue;
+		}
+
+		@Override
+		public void preinitializeView(BindingContext bindingContext)
+		{
 		}
 
 		@Override

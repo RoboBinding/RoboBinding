@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.progressbar;
 
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
+import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.widget.ProgressBar;
 
@@ -27,6 +28,11 @@ import android.widget.ProgressBar;
  */
 public class SecondaryProgressAttribute extends AbstractReadOnlyPropertyViewAttribute<ProgressBar, Integer>
 {
+	public SecondaryProgressAttribute(PropertyViewAttributeConfig<ProgressBar> config)
+	{
+		super(config);
+	}
+
 	@Override
 	protected void valueModelUpdated(Integer secondaryProgress)
 	{

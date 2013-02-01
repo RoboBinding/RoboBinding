@@ -47,7 +47,7 @@ class BinderImplementorFactoryImpl implements BinderImplementorFactory, BindingC
 	@Override
 	public BindingContext create(Object presentationModel)
 	{
-		return new BindingContext(this, context, presentationModel);
+		return new BindingContext(this, context, presentationModel, preInitializeViews);
 	}
 	
 	public static BinderImplementor create(Context context, boolean preInitializeViews)

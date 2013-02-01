@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute.view;
 
+import org.robobinding.viewattribute.CommandViewAttributeConfig;
+
 import android.view.View;
 
 /**
@@ -25,6 +27,11 @@ import android.view.View;
  */
 public class OnFocusLostAttribute extends AbstractFocusChangeAttribute
 {
+	public OnFocusLostAttribute(CommandViewAttributeConfig<View> config)
+	{
+		super(config);
+	}
+
 	@Override
 	public Class<?> getEventType()
 	{

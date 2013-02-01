@@ -20,7 +20,9 @@ import org.robobinding.attribute.GroupedAttributeDescriptor;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.AbstractViewAttributeConfig;
 import org.robobinding.viewattribute.AbstractViewAttributeInstantiator;
+import org.robobinding.viewattribute.GroupedViewAttributeConfig;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.ViewListenersProvider;
@@ -61,12 +63,12 @@ public class ViewAttributeInstantiator
 
 	@SuppressWarnings("unchecked")
 	public <GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType newGroupedViewAttribute(
-			View view, Class<GroupedViewAttributeType> groupedViewAttributeClass, GroupedAttributeDescriptor groupedAttributeDescriptor)
+			View view, Class<GroupedViewAttributeType> groupedViewAttributeClass, GroupedAttributeDescriptor descriptor)
 	{
-		GroupedViewAttributeType groupedViewAttribute = (GroupedViewAttributeType)viewAttributeInstantiatorImplementor.newViewAttribute(groupedViewAttributeClass);
-		((AbstractGroupedViewAttribute<View>) groupedViewAttribute).setView(view);
-		groupedViewAttribute.setGroupedAttributeDescriptor(groupedAttributeDescriptor);
-		groupedViewAttribute.setViewListenersProvider(viewListenersProvider);
+		GroupedViewAttributeType groupedViewAttribute = (GroupedViewAttributeType)viewAttributeInstantiatorImplementor.newViewAttribute(
+				groupedViewAttributeClass,
+				GroupedViewAttributeConfig.class,
+				new GroupedViewAttributeConfig<View>(view, descriptor, viewListenersProvider));
 		return groupedViewAttribute;
 	}
 
@@ -90,10 +92,9 @@ public class ViewAttributeInstantiator
 			this.currentView = currentView;
 		}
 		
-		@Override
-		public ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass)
+		public <ViewAttributeConfigType extends AbstractViewAttributeConfig<View>> ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass, Class<ViewAttributeConfigType> configClass, ViewAttributeConfigType config)
 		{
-			return super.newViewAttribute(viewAttributeClass);
+			return super.newViewAttribute(viewAttributeClass, configClass, config);
 		}
 	}
 }

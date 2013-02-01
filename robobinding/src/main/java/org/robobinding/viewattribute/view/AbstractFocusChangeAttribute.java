@@ -17,6 +17,7 @@ package org.robobinding.viewattribute.view;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
+import org.robobinding.viewattribute.CommandViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 
 import android.view.View;
@@ -31,11 +32,24 @@ import android.view.View.OnFocusChangeListener;
 public abstract class AbstractFocusChangeAttribute extends AbstractCommandViewAttribute<View> implements ViewListenersAware<ViewListeners>
 {
 	private ViewListeners viewListeners;
+
+	public AbstractFocusChangeAttribute(CommandViewAttributeConfig<View> config)
+	{
+		super(config);
+	}
+	
 	@Override
 	public void setViewListeners(ViewListeners viewListeners)
 	{
 		this.viewListeners = viewListeners;
 	}
+	
+	@Override
+	protected void postConstruct()
+	{
+		ViewAttributeValidation.viewListenersNotNull(viewListeners);
+	}
+	
 	@Override
 	protected void bind(final Command command)
 	{
@@ -62,11 +76,4 @@ public abstract class AbstractFocusChangeAttribute extends AbstractCommandViewAt
 	protected abstract Class<?> getEventType();
 	protected abstract boolean firesNewEvent(boolean hasFocus);
 	protected abstract AbstractViewEvent createEvent(View view, boolean hasFocus);
-	
-	@Override
-	public void validate(ViewAttributeValidation validation)
-	{
-		super.validate(validation);
-		validation.addErrorIfViewListenersNotSet(viewListeners);
-	}
 }

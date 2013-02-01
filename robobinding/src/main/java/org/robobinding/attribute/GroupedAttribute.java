@@ -27,15 +27,13 @@ import com.google.common.collect.Maps;
  */
 public class GroupedAttribute
 {
-	private GroupedAttributeDescriptor descriptor;
 	private Map<String, AbstractAttribute> childAttributes;
 	public GroupedAttribute(GroupedAttributeDescriptor descriptor, ChildAttributeResolverMapper resolverMapper)
 	{
-		this.descriptor = descriptor;
-		resolveChildAttributes(resolverMapper);
+		resolveChildAttributes(resolverMapper, descriptor);
 	}
 
-	private void resolveChildAttributes(ChildAttributeResolverMapper resolverMapper)
+	private void resolveChildAttributes(ChildAttributeResolverMapper resolverMapper, GroupedAttributeDescriptor descriptor)
 	{
 		ChildAttributeResolverMappings resolverMappings = createResolverMappings(resolverMapper);
 		childAttributes = Maps.newHashMap();
@@ -46,7 +44,7 @@ public class GroupedAttribute
 			AbstractAttribute childAttribute = resolver.resolveChildAttribute(attribute, attributeEntry.getValue());
 			childAttributes.put(attribute, childAttribute);
 		}
-		resolverMapper.validateResolvedChildAttributes();
+		resolverMapper.validateResolvedChildAttributes(this);
 	}
 	
 	private ChildAttributeResolverMappings createResolverMappings(ChildAttributeResolverMapper resolverMapper)

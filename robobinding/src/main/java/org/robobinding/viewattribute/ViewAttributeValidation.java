@@ -18,6 +18,7 @@ package org.robobinding.viewattribute;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.robobinding.attribute.CommandAttribute;
+import org.robobinding.attribute.GroupedAttributeDescriptor;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.view.ViewListeners;
 
@@ -48,10 +49,20 @@ public class ViewAttributeValidation
 	{
 		notNull(attributeValue, "Attribute value not set");
 	}
+	
+	void addErrorIfGroupedAttributeDescriptorNotSet(GroupedAttributeDescriptor descriptor)
+	{
+		notNull(descriptor, "GroupedAttributeDescriptor not set");
+	}
 
 	public void addErrorIfViewListenersNotSet(ViewListeners viewListeners)
 	{
 		notNull(viewListeners, "ViewListeners not set");
+	}
+
+	public void addErrorIfViewListenersProviderNotSet(ViewListenersProvider viewListenersProvider)
+	{
+		notNull(viewListenersProvider, "ViewListenersProvider not set");
 	}
 
 	void notNull(Object obj, String errorMessage)
@@ -100,5 +111,10 @@ public class ViewAttributeValidation
 		{
 			throw new IllegalStateException(errorMessages.toString());
 		}
+	}
+	
+	public static void viewListenersNotNull(ViewListeners viewListeners)
+	{
+		Validate.notNull(viewListeners, "viewListeners not set");
 	}
 }

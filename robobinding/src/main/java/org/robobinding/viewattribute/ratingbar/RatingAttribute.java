@@ -18,7 +18,9 @@ package org.robobinding.viewattribute.ratingbar;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.MultiTypePropertyViewAttributeConfig;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
+import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 import android.widget.RatingBar;
@@ -32,16 +34,21 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  */
 public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<RatingBar>
 {
+	public RatingAttribute(MultiTypePropertyViewAttributeConfig<RatingBar> config)
+	{
+		super(config);
+	}
+
 	@Override
-	protected AbstractPropertyViewAttribute<RatingBar, ?> createPropertyViewAttribute(Class<?> propertyType)
+	protected AbstractPropertyViewAttribute<RatingBar, ?> createPropertyViewAttribute(Class<?> propertyType, PropertyViewAttributeConfig<RatingBar> config)
 	{
 		if (PrimitiveTypeUtils.floatIsAssignableFrom(propertyType))
 		{
-			return new FloatRatingAttribute();
+			return new FloatRatingAttribute(config);
 		} 
 		else if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
-			return new IntegerRatingAttribute();
+			return new IntegerRatingAttribute(config);
 		} 
 		else
 			throw new RuntimeException("Could not find a suitable rating attribute class for property type: " + propertyType);
@@ -51,11 +58,9 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 	{
 		protected RatingBarListeners ratingBarListeners;
 
-		@Override
-		public void validate(ViewAttributeValidation validation)
+		public AbstractRatingAttribute(PropertyViewAttributeConfig<RatingBar> config)
 		{
-			super.validate(validation);
-			validation.addErrorIfViewListenersNotSet(ratingBarListeners);
+			super(config);
 		}
 		
 		@Override
@@ -63,10 +68,21 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 		{
 			this.ratingBarListeners = ratingBarListeners;
 		}
+		
+		@Override
+		protected void postConstruct()
+		{
+			ViewAttributeValidation.viewListenersNotNull(ratingBarListeners);
+		}
 	}
 	
 	static class FloatRatingAttribute extends AbstractRatingAttribute<Float>
 	{
+		public FloatRatingAttribute(PropertyViewAttributeConfig<RatingBar> config)
+		{
+			super(config);
+		}
+
 		@Override
 		protected void valueModelUpdated(Float newRating)
 		{
@@ -89,6 +105,11 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 
 	static class IntegerRatingAttribute extends AbstractRatingAttribute<Integer>
 	{
+		public IntegerRatingAttribute(PropertyViewAttributeConfig<RatingBar> config)
+		{
+			super(config);
+		}
+
 		@Override
 		protected void valueModelUpdated(Integer newRating)
 		{

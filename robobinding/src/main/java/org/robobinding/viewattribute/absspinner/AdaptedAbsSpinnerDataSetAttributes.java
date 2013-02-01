@@ -16,7 +16,10 @@
 package org.robobinding.viewattribute.absspinner;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
+import org.robobinding.viewattribute.ChildViewAttributes;
+import org.robobinding.viewattribute.GroupedViewAttributeConfig;
 import org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes;
 import org.robobinding.viewattribute.adapterview.DropdownLayoutAttribute;
 import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
@@ -35,6 +38,11 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 	public static final String DROPDOWN_LAYOUT = "dropdownLayout";
 	public static final String DROPDOWN_MAPPING = "dropdownMapping";
 	
+	public AdaptedAbsSpinnerDataSetAttributes(GroupedViewAttributeConfig<AbsSpinner> config)
+	{
+		super(config);
+	}
+	
 	@Override
 	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
@@ -50,14 +58,14 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 	}
 
 	@Override
-	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+	protected void setupChildViewAttributes(ChildViewAttributes<AbsSpinner> childViewAttributes, BindingContext bindingContext)
 	{
-		super.setupChildAttributeBindings(binding);
+		super.setupChildViewAttributes(childViewAttributes, bindingContext);
 		
-		if (groupedAttribute.hasAttribute(DROPDOWN_LAYOUT))
-			binding.add(new DropdownLayoutAttribute(view, dataSetAdapter), DROPDOWN_LAYOUT);
+		if (childViewAttributes.hasAttribute(DROPDOWN_LAYOUT))
+			childViewAttributes.add(new DropdownLayoutAttribute(view, dataSetAdapter), DROPDOWN_LAYOUT);
 		
-		if (groupedAttribute.hasAttribute(DROPDOWN_MAPPING))
-			binding.add(new DropdownMappingAttribute(dataSetAdapter), DROPDOWN_MAPPING);
+		if (childViewAttributes.hasAttribute(DROPDOWN_MAPPING))
+			childViewAttributes.add(new DropdownMappingAttribute(dataSetAdapter), DROPDOWN_MAPPING);
 	}
 }
