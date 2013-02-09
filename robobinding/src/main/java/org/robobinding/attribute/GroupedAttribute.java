@@ -46,7 +46,6 @@ public class GroupedAttribute
 			AbstractAttribute childAttribute = resolver.resolveChildAttribute(attribute, attributeEntry.getValue());
 			childAttributes.put(attribute, childAttribute);
 		}
-		resolverMapper.validateResolvedChildAttributes();
 	}
 	
 	private ChildAttributeResolverMappings createResolverMappings(ChildAttributeResolverMapper resolverMapper)
