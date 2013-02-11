@@ -15,12 +15,17 @@
  */
 package org.robobinding.attribute;
 
+import java.util.List;
 import java.util.Map;
 
+import org.robobinding.AttributeResolutionException;
+import org.robobinding.GroupedAttributeResolutionException;
+
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -29,6 +34,7 @@ public class GroupedAttribute
 {
 	private GroupedAttributeDescriptor descriptor;
 	private Map<String, AbstractAttribute> childAttributes;
+
 	public GroupedAttribute(GroupedAttributeDescriptor descriptor, ChildAttributeResolverMapper resolverMapper)
 	{
 		this.descriptor = descriptor;
@@ -39,15 +45,25 @@ public class GroupedAttribute
 	{
 		ChildAttributeResolverMappings resolverMappings = createResolverMappings(resolverMapper);
 		childAttributes = Maps.newHashMap();
-		for(Map.Entry<String, String> attributeEntry : descriptor.presentAttributes())
+		List<AttributeResolutionException> resolutionExceptions = Lists.newArrayList();
+		for (Map.Entry<String, String> attributeEntry : descriptor.presentAttributes())
 		{
 			String attribute = attributeEntry.getKey();
 			ChildAttributeResolver resolver = resolverMappings.resolverFor(attribute);
-			AbstractAttribute childAttribute = resolver.resolveChildAttribute(attribute, attributeEntry.getValue());
-			childAttributes.put(attribute, childAttribute);
+			try
+			{
+				AbstractAttribute childAttribute = resolver.resolveChildAttribute(attribute, attributeEntry.getValue());
+				childAttributes.put(attribute, childAttribute);
+			} catch (AttributeResolutionException e)
+			{
+				resolutionExceptions.add(e);
+			}
 		}
+
+		if (!resolutionExceptions.isEmpty())
+			throw new GroupedAttributeResolutionException(resolutionExceptions);
 	}
-	
+
 	private ChildAttributeResolverMappings createResolverMappings(ChildAttributeResolverMapper resolverMapper)
 	{
 		ChildAttributeResolverMappings resolverMappings = new ChildAttributeResolverMappings();
@@ -64,12 +80,12 @@ public class GroupedAttribute
 	{
 		return attributeFor(attributeName);
 	}
-	
+
 	public <T extends Enum<T>> EnumAttribute<T> enumAttributeFor(String attributeName)
 	{
 		return attributeFor(attributeName);
 	}
-	
+
 	public boolean hasAttribute(String attributeName)
 	{
 		return childAttributes.containsKey(attributeName);
@@ -78,6 +94,6 @@ public class GroupedAttribute
 	@SuppressWarnings("unchecked")
 	public <AttributeType extends AbstractAttribute> AttributeType attributeFor(String attributeName)
 	{
-		return (AttributeType)childAttributes.get(attributeName);
+		return (AttributeType) childAttributes.get(attributeName);
 	}
 }

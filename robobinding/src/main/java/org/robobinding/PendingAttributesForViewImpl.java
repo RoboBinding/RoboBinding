@@ -106,6 +106,9 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView
 			}catch(AttributeResolutionException e)
 			{
 				resolutionErrors.addAttributeError(e);
+			}catch(GroupedAttributeResolutionException e)
+			{
+				resolutionErrors.addAttributeErrors(e.getAttributeResolutionExceptions());
 			}
 			
 			removeAttributes(presentAttributes);

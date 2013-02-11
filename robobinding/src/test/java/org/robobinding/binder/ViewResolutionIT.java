@@ -152,6 +152,8 @@ public class ViewResolutionIT
 		}
 	}
 	
+	//TODO tests for subviews? custom views
+	
 	private void assertHasAttributeError(ViewResolutionErrorsException e, String attribute)
 	{
 		Collection<AttributeResolutionException> attributeErrors = e.getAttributeErrors();

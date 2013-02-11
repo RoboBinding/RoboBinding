@@ -74,7 +74,8 @@ public class ViewBindingIT
 					.withAttribute("text", "${name}")
 					.build());
 
-		resolvedBindingAttributes.bindTo(bindingContext);
+		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
+		viewBindingErrors.assertNoErrors();
 	}
 
 	@Test(expected = ViewBindingErrors.class)
@@ -85,7 +86,8 @@ public class ViewBindingIT
 					.withAttribute("text", "${nonExistentProperties}")
 					.build());
 
-		resolvedBindingAttributes.bindTo(bindingContext);
+		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
+		viewBindingErrors.assertNoErrors();
 	}
 
 	@Test(expected = ViewBindingErrors.class)
@@ -96,7 +98,8 @@ public class ViewBindingIT
 					.withAttribute("onTextChanged", "setName")
 					.build());
 
-		resolvedBindingAttributes.bindTo(bindingContext);
+		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
+		viewBindingErrors.assertNoErrors();
 	}
 
 	@Test
@@ -110,7 +113,8 @@ public class ViewBindingIT
 		
 		try
 		{
-			resolvedBindingAttributes.bindTo(bindingContext);
+			ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
+			viewBindingErrors.assertNoErrors();
 			fail("Expected exception to be thrown");
 		} catch (ViewBindingErrors e)
 		{
@@ -131,7 +135,8 @@ public class ViewBindingIT
 		
 		try
 		{
-			resolvedBindingAttributes.bindTo(bindingContext);
+			ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
+			viewBindingErrors.assertNoErrors();
 			fail("Expected exception to be thrown");
 		} catch (ViewBindingErrors e)
 		{
@@ -144,6 +149,7 @@ public class ViewBindingIT
 	@Test (expected = ProgrammingError.class)
 	public void whenAnUnexpectedExceptionIsThrownDuringBinding_thenErrorShouldNotBeSuppressed()
 	{
+		//TODO but should it be prevent the detection of other errors?
 		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForBuggyCustomView()
 				.withAttribute(BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE, "{name}")
@@ -155,6 +161,7 @@ public class ViewBindingIT
 	@Test (expected = ProgrammingError.class)
 	public void whenAnUnexpectedExceptionIsThrownDuringGroupChildAttributeBinding_thenErrorShouldNotBeSuppressed()
 	{
+		//TODO but should it be prevent the detection of other errors?
 		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForBuggyCustomView()
 				.withAttribute(BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE, "{name}")

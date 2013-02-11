@@ -76,7 +76,12 @@ public class ViewResolutionErrorsException extends RuntimeException implements V
 
 	public void addAttributeError(AttributeResolutionException e)
 	{
-		attributeErrors.add((AttributeResolutionException)e);
+		attributeErrors.add(e);
+	}
+	
+	public void addAttributeErrors(List<AttributeResolutionException> attributeResolutionExceptions)
+	{
+		attributeErrors.addAll(attributeResolutionExceptions);
 	}
 	
 	public void addUnrecognizedAttributes(Collection<String> attributes)
