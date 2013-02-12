@@ -95,9 +95,7 @@ public class ViewHierarchyInflationErrorsException extends RuntimeException
 	
 	protected interface ErrorFormatter
 	{
-
 		String format(ViewInflationErrors error);
-		
 	}
 
 }

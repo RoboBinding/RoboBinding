@@ -40,14 +40,14 @@ class BinderImplementorImpl implements BinderImplementor
 {
 	private final Context context;
 	private final BindingContextCreator bindingContextCreator;
-	ErrorFormatter errorFormatter;
+	private ErrorFormatter errorFormatter;
 	private ViewGroup parentView;
 	
-	public BinderImplementorImpl(Context context, BindingContextCreator bindingContextCreator)
+	public BinderImplementorImpl(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter)
 	{
 		this.context = context;
 		this.bindingContextCreator = bindingContextCreator;
-		errorFormatter = null;
+		this.errorFormatter = errorFormatter;
 	}
 	
 	@Override
@@ -71,7 +71,6 @@ class BinderImplementorImpl implements BinderImplementor
 		
 		BindingContext bindingContext = bindingContextCreator.create(presentationModel);
 		inflatedView.bindChildViews(bindingContext);
-		
 		inflatedView.assertNoErrors(errorFormatter);
 		
 		return inflatedView.getRootView();

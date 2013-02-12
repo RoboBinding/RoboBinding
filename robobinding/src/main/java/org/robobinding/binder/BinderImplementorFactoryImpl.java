@@ -19,6 +19,7 @@ import org.robobinding.BinderImplementor;
 import org.robobinding.BinderImplementorFactory;
 import org.robobinding.BindingContext;
 import org.robobinding.binder.BinderImplementorImpl.BindingContextCreator;
+import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 import android.content.Context;
 
@@ -32,7 +33,8 @@ class BinderImplementorFactoryImpl implements BinderImplementorFactory, BindingC
 {
 	private Context context;
 	private boolean preInitializeViews;
-	public BinderImplementorFactoryImpl(Context context, boolean preInitializeViews)
+	private ErrorFormatter errorFormatter;
+	public BinderImplementorFactoryImpl(Context context, boolean preInitializeViews, ErrorFormatter errorFormatter)
 	{
 		this.context = context;
 		this.preInitializeViews = preInitializeViews;
@@ -41,7 +43,7 @@ class BinderImplementorFactoryImpl implements BinderImplementorFactory, BindingC
 	@Override
 	public BinderImplementor create()
 	{
-		return new BinderImplementorImpl(context, this);
+		return new BinderImplementorImpl(context, this, errorFormatter);
 	}
 
 	@Override
@@ -52,7 +54,7 @@ class BinderImplementorFactoryImpl implements BinderImplementorFactory, BindingC
 	
 	public static BinderImplementor create(Context context, boolean preInitializeViews)
 	{
-		BinderImplementorFactory binderImplementorFactory = new BinderImplementorFactoryImpl(context, preInitializeViews);
+		BinderImplementorFactory binderImplementorFactory = new BinderImplementorFactoryImpl(context, preInitializeViews, new PlainTextErrorFormatter());
 		return binderImplementorFactory.create();
 	}
 }

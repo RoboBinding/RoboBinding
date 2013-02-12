@@ -29,12 +29,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.BindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.binder.BinderImplementorImpl;
-import org.robobinding.binder.BindingViewInflater;
+import org.robobinding.binder.BinderImplementorImpl.BindingContextCreator;
 import org.robobinding.binder.BindingViewInflater.InflatedView;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -48,25 +48,33 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class BinderImplementorImplTest
 {
+	private BindingContextCreator bindingContextCreator;
+	private BindingContext bindingContext;
 	private BinderImplementorImpl binderImplementor;
 	private BindingViewInflater bindingViewInflater;
+	private ErrorFormatter errorFormatter;
+	private Object presentationModel = new Object();
+	private InflatedView inflatedView;
 	private int layoutId = 0;
 	
 	@Before
 	public void setUp()
 	{
-		binderImplementor = new BinderImplementorImplForTest();
+		bindingContext = mock(BindingContext.class);
+		bindingContextCreator = mock(BindingContextCreator.class);
+		when(bindingContextCreator.create(presentationModel)).thenReturn(bindingContext);
+		inflatedView = mock(InflatedView.class);
 		bindingViewInflater = mock(BindingViewInflater.class);
+		when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
+		errorFormatter = new PlainTextErrorFormatter();
+		binderImplementor = new BinderImplementorImplForTest(new Activity(), bindingContextCreator, errorFormatter);
 	}
 	
 	@Test
 	public void whenInflateAndBind_thenViewWithBindingShouldBeReturned()
 	{
-		Object presentationModel = new Object();
 		View viewWithBinding = mock(View.class);
-		InflatedView inflatedView = mock(InflatedView.class);
 		when(inflatedView.getRootView()).thenReturn(viewWithBinding);
-		when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
 		
 		View view = binderImplementor.inflateAndBind(layoutId, presentationModel);
 		
@@ -76,10 +84,6 @@ public class BinderImplementorImplTest
 	@Test
 	public void whenInflateAndBind_thenChildViewsShouldBeBound()
 	{
-		Object presentationModel = new Object();
-		InflatedView inflatedView = mock(InflatedView.class);
-		when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
-		
 		binderImplementor.inflateAndBind(layoutId, presentationModel);
 		
 		verify(inflatedView).bindChildViews(any(BindingContext.class));
@@ -88,21 +92,18 @@ public class BinderImplementorImplTest
 	@Test
 	public void whenInflateAndBind_thenViewInflationErrorsShouldBeAsserted()
 	{
-		Object presentationModel = new Object();
-		InflatedView inflatedView = mock(InflatedView.class);
-		when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
-		
 		binderImplementor.inflateAndBind(layoutId, presentationModel);
 		
-		verify(inflatedView).assertNoErrors(any(ErrorFormatter.class));
+		verify(inflatedView).assertNoErrors(errorFormatter);
 	}
 	
 	public class BinderImplementorImplForTest extends BinderImplementorImpl
 	{
-		public BinderImplementorImplForTest()
+		public BinderImplementorImplForTest(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter)
 		{
-			super(new Activity(), mock(BindingContextCreator.class));
+			super(context, bindingContextCreator, errorFormatter);
 		}
+
 		@Override
 		BindingViewInflater createBindingViewInflater(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
 		{

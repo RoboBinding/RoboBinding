@@ -42,16 +42,14 @@ public class BinderImplementorForTest extends BinderImplementorImpl
 			{
 				return MockBindingContext.create(new PresentationModelAdapterImpl(presentationModel), context, false);
 			}
-		});
-		errorFormatter = new ViewHierarchyInflationErrorsException.ErrorFormatter() {
+		}, new ViewHierarchyInflationErrorsException.ErrorFormatter() {
 			
 			@Override
 			public String format(ViewInflationErrors error)
 			{
 				return error.toString();
 			}
-		};
-		
+		});
 		this.bindingViewInflater = bindingViewInflater;
 	}
 	
