@@ -61,7 +61,17 @@ public class StaticResourceAttribute extends AbstractPropertyAttribute
 	
 	public int getResourceId(Context context)
 	{
+		int resourceId = context.getResources().getIdentifier(resourceName, resourceType, resourcePackage == null ? context.getPackageName() : resourcePackage);
+			
+		if (!checkValid(resourceId))
+			throw new RuntimeException("No such resource was found");
+		
 		return context.getResources().getIdentifier(resourceName, resourceType, resourcePackage == null ? context.getPackageName() : resourcePackage);
+	}
+
+	private boolean checkValid(int resourceId)
+	{
+		return resourceId != 0;
 	}
 
 	@Override

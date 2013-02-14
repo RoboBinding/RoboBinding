@@ -15,19 +15,22 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import static org.robobinding.attribute.ChildAttributeResolvers.staticResourceAttributeResolver;
+import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
+
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
-import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import static org.robobinding.attribute.ChildAttributeResolvers.*;
 
+import android.R;
 import android.content.Context;
+import android.view.InflateException;
 import android.view.View;
 import android.widget.AdapterView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -35,58 +38,85 @@ import android.widget.AdapterView;
 public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T>
 {
 	private View subView;
+	private ChildAttributeBindings childAttributeBindings;
+	private BindingContext bindingContext;
+
 	@Override
 	protected String[] getCompulsoryAttributes()
 	{
-		return new String[]{layoutAttribute()};
+		return new String[] { layoutAttribute() };
 	}
-	
+
 	@Override
 	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
 		resolverMappings.map(staticResourceAttributeResolver(), layoutAttribute());
 		resolverMappings.map(valueModelAttributeResolver(), subViewPresentationModelAttribute());
+		resolverMappings.map(valueModelAttributeResolver(), visibilityAttribute());
 	}
 
 	@Override
 	protected void preBind(BindingContext bindingContext)
 	{
-		subView = createSubView(bindingContext);
-		
-		addSubView(subView, bindingContext.getContext());
+		this.bindingContext = bindingContext;
 	}
 	
-	View createSubView(BindingContext bindingContext)
-	{
-		SubViewCreator subViewCreator = createSubViewCreator(bindingContext, groupedAttribute.staticResourceAttributeFor(layoutAttribute()));
-		
-		if(groupedAttribute.hasAttribute(subViewPresentationModelAttribute()))
-		{
-			ValueModelAttribute presentationModelAttributeValue = groupedAttribute.valueModelAttributeFor(subViewPresentationModelAttribute());
-			return subViewCreator.createAndBindTo(presentationModelAttributeValue);
-		}else
-		{
-			return subViewCreator.create();
-		}
-	}
-
-	SubViewCreator createSubViewCreator(BindingContext bindingContext, StaticResourceAttribute layoutAttributeValue)
-	{
-		return new SubViewCreator(bindingContext, layoutAttributeValue);
-	}
-
 	@Override
 	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 	{
-		if(groupedAttribute.hasAttribute(visibilityAttribute()))
+		this.childAttributeBindings = binding;
+		
+		try {
+			subView = createSubView(bindingContext);
+		} catch (InflateException e) {
+			return;
+		}
+		
+		addSubView(subView, bindingContext.getContext());
+		if (groupedAttribute.hasAttribute(visibilityAttribute()))
 		{
 			binding.add(new SubViewVisibilityAttribute(createVisibility(subView)), visibilityAttribute());
 		}
 	}
 
+	View createSubView(BindingContext bindingContext)
+	{
+		int layoutId = 0;
+		try {
+			layoutId = groupedAttribute.staticResourceAttributeFor(layoutAttribute()).getResourceId(bindingContext.getContext());
+		} catch (RuntimeException e) {
+			childAttributeBindings.addChildAttributeError(layoutAttribute(), e);
+		}
+		
+		SubViewCreator subViewCreator = new SubViewCreator(bindingContext, layoutId);
+
+		//instantiate a dummy view?
+		//or just don't register the visibility attribute?
+		//don't register the visibility attribute will be easier to understand
+		if (groupedAttribute.hasAttribute(subViewPresentationModelAttribute()))
+		{
+			try
+			{
+				ValueModelAttribute presentationModelAttributeValue = groupedAttribute.valueModelAttributeFor(subViewPresentationModelAttribute());
+				return subViewCreator.createAndBindTo(presentationModelAttributeValue);
+			} catch (RuntimeException e)
+			{
+				childAttributeBindings.addChildAttributeError(subViewPresentationModelAttribute(), e);
+				return subViewCreator.create();
+			}
+		} else
+		{
+			return subViewCreator.create();
+		}
+	}
+
 	protected abstract String layoutAttribute();
+
 	protected abstract String subViewPresentationModelAttribute();
+
 	protected abstract String visibilityAttribute();
+
 	protected abstract void addSubView(View subView, Context context);
+
 	protected abstract AbstractSubViewVisibility createVisibility(View subView);
 }

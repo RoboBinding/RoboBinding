@@ -51,6 +51,8 @@ class NonBindingViewInflater implements ViewInflater
 			return layoutInflater.inflate(layoutId, parentViewToAttach, true);
 		}else
 		{
+			//TODO does this throw an exception when layoutId is zero? Robolectric/Android? Integration test might
+			//fail in a different way
 			return layoutInflater.inflate(layoutId, null);
 		}
 	}

@@ -29,6 +29,8 @@ import org.junit.Test;
  */
 public class PlainTextErrorFormatterTest
 {
+	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+	private static final String DOUBLE_LINE_SEPARATOR = LINE_SEPARATOR+LINE_SEPARATOR;
 	private PlainTextErrorFormatter errorFormatter;
 	
 	@Before
@@ -47,9 +49,9 @@ public class PlainTextErrorFormatterTest
 				.build());
 
 		assertThat(message, 
-				equalTo("-------------------------CustomView(3 errors)-----------------------\r\n"+
-						"text: invalid syntax ${prop1\r\n\r\n"+
-						"Missing attributes: source, dropdownLayout\r\n\r\n"+
-						"visibility: unmatch presentationModel.prop2 type\r\n"));
+				equalTo("-------------------------CustomView(3 errors)-----------------------"+LINE_SEPARATOR+
+						"text: invalid syntax ${prop1"+DOUBLE_LINE_SEPARATOR+
+						"Missing attributes: source, dropdownLayout"+DOUBLE_LINE_SEPARATOR+
+						"visibility: unmatch presentationModel.prop2 type"+LINE_SEPARATOR));
 	}
 }

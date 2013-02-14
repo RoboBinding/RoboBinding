@@ -17,6 +17,9 @@ package org.robobinding.attribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.robobinding.attribute.Attributes.aStaticResourceAttribute;
 import static org.robobinding.attribute.MockResourcesBuilder.aContextOfResources;
 
@@ -25,6 +28,9 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
+
+import android.content.Context;
+import android.content.res.Resources;
 
 /**
  *
@@ -48,7 +54,7 @@ public class StaticResourceAttributeTest
 	};
 	
 	@Theory
-	public void whenCreateWithLegalAttributeValue_thenAttributePointsToSameResource(LegalStaticResourceAttributeValue legalAttributeValue)
+	public void whenCreatingWithLegalAttributeValue_thenAttributePointsToSameResource(LegalStaticResourceAttributeValue legalAttributeValue)
 	{
 		StaticResourceAttribute attribute = aStaticResourceAttribute(legalAttributeValue.value);
 
@@ -75,6 +81,19 @@ public class StaticResourceAttributeTest
 		StaticResourceAttribute attribute = aStaticResourceAttribute(resourceAttributeValue(RESOURCE_NAME, RESOURCE_TYPE));
 		
 		assertThat(attribute.getResourceId(aContextOfResources.build()), equalTo(expectedResourceId));
+	}
+	
+	@Test (expected=RuntimeException.class)
+	public void givenAResourceThatDoesNotExist_thenThrowRuntimeExceptionWhenGettingResourceId()
+	{
+		Resources resources = mock(Resources.class);
+		when(resources.getIdentifier(anyString(), anyString(), anyString())).thenReturn(0);
+		Context context = mock(Context.class);
+		when(context.getResources()).thenReturn(resources);
+		
+		StaticResourceAttribute attribute = aStaticResourceAttribute("@layout/non_existent_resource");
+		
+		attribute.getResourceId(context);
 	}
 	
 	private String resourceAttributeValue(String resourceName, String resourceType)

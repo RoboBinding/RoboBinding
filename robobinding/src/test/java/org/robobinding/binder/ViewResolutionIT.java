@@ -152,7 +152,28 @@ public class ViewResolutionIT
 		}
 	}
 	
-	//TODO tests for subviews? custom views
+	@Test
+	public void givenAViewWithSubViewAttributes_whenResolvingMultipleMalformedBindingAttributes_thenThrowExceptionReferringToEachOne()
+	{
+		try
+		{
+			resolveBindingAttributes(
+					aPendingAttributesForAdapterView()
+						.withAttribute("itemLayout", "@layout/some_resource")
+						.withAttribute("source", "{dateSource}")
+						.withAttribute("footerLayout", "invalid")
+						.withAttribute("footerVisibility", "{invalid")
+						.withAttribute("footerPresentationModel", "{invalid")
+						.build());
+			fail("Expected exception to be thrown");
+		} catch (ViewResolutionErrorsException e)
+		{
+			assertHasAttributeError(e, "footerLayout");
+			assertHasAttributeError(e, "footerVisibility");
+			assertHasAttributeError(e, "footerPresentationModel");
+			assertThat(e.numErrors(), is(3));
+		}
+	}
 	
 	private void assertHasAttributeError(ViewResolutionErrorsException e, String attribute)
 	{

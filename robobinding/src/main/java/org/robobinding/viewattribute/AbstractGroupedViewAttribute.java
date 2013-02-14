@@ -74,7 +74,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	public final void bindTo(BindingContext bindingContext)
 	{
 		AttributeGroupBindingException bindingErrors = new AttributeGroupBindingException();
-		preBind(bindingContext);
+		preBind(bindingContext); //is pre-bind necessary?
 		
 		ChildAttributeBindings binding = new ChildAttributeBindings(bindingContext, bindingErrors);
 		setupChildAttributeBindings(binding);
@@ -162,9 +162,13 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 					childAttribute.bindTo(bindingContext);
 				}catch(RuntimeException e)
 				{
-					bindingErrors.addChildAttributeError(childAttributeEntry.getKey(), e);
+					addChildAttributeError(childAttributeEntry.getKey(), e);
 				}
 			}
+		}
+		
+		public void addChildAttributeError(String attributeName, RuntimeException e) {
+			bindingErrors.addChildAttributeError(attributeName, e);
 		}
 	}
 

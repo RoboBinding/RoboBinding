@@ -33,32 +33,26 @@ import android.view.View;
 class SubViewCreator
 {
 	private final BindingContext bindingContext;
-	private final StaticResourceAttribute layoutAttributeValue;
-	public SubViewCreator(BindingContext bindingContext, StaticResourceAttribute layoutResourceAttributeValue)
+	//private final StaticResourceAttribute layoutAttributeValue;
+	private int layoutId;
+	
+	public SubViewCreator(BindingContext bindingContext, int layoutId)
 	{
 		this.bindingContext = bindingContext;
-		this.layoutAttributeValue = layoutResourceAttributeValue;
+		this.layoutId = layoutId;
 	}
 	
 	public View create()
 	{
-		int layoutId = getLayoutId();
 		ViewBinder viewBinder = bindingContext.createViewBinder();
 		return viewBinder.inflate(layoutId);
 	}
 	
 	public View createAndBindTo(ValueModelAttribute presentationModelAttributeValue)
 	{
-		int layoutId = getLayoutId();
-		
 		ViewBinder viewBinder = bindingContext.createViewBinder();
 		Object presentationModel = getPresentationModel(presentationModelAttributeValue);
 		return viewBinder.inflateAndBind(layoutId, presentationModel);
-	}
-
-	int getLayoutId()
-	{
-		return layoutAttributeValue.getResourceId(bindingContext.getContext());
 	}
 
 	Object getPresentationModel(ValueModelAttribute presentationModelAttributeValue)

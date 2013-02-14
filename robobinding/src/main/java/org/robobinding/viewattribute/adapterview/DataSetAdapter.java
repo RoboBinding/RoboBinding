@@ -92,6 +92,9 @@ public class DataSetAdapter<T> extends BaseAdapter
 	@Override
 	public int getCount()
 	{
+		if (dataSetValueModel == null)
+			return 0;
+		
 		return dataSetValueModel.size();
 	}
 

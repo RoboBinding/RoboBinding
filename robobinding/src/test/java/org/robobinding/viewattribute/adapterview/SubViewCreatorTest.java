@@ -36,27 +36,27 @@ import android.content.Context;
  */
 public class SubViewCreatorTest
 {
-	@Test
-	public void whenGetLayoutId_returnExpectedResult()
-	{
-		MockResourcesBuilder aContextOfResources = aContextOfResources();
-		int layoutId = aContextOfResources.declareLayoutResource(BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE_NAME);
-		
-		SubViewCreator subViewCreator = new SubViewCreator(MockBindingContext.create(aContextOfResources.build()), BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE);
-		
-		assertThat(subViewCreator.getLayoutId(), equalTo(layoutId));
-	}
-	
-	@Test
-	public void whenGetPresentationModel_returnExpectedResult()
-	{
-		Object presentationModel = new Object();
-		String presentationModelAttributeValue = BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME; 
-		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.createWithReadOnlyDefaultProperty(presentationModel);
-		
-		SubViewCreator subViewCreator = new SubViewCreator(MockBindingContext.create(presentationModelAdapter), null);
-	
-		assertThat(subViewCreator.getPresentationModel(presentationModelAttributeValue),
-				equalTo(presentationModel));
-	}
+//	@Test
+//	public void whenGetLayoutId_returnExpectedResult()
+//	{
+//		MockResourcesBuilder aContextOfResources = aContextOfResources();
+//		int layoutId = aContextOfResources.declareLayoutResource(BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE_NAME);
+//		
+//		SubViewCreator subViewCreator = new SubViewCreator(MockBindingContext.create(aContextOfResources.build()), BindingAttributeValues.DEFAULT_LAYOUT_RESOURCE);
+//		
+//		assertThat(subViewCreator.getLayoutId(), equalTo(layoutId));
+//	}
+//	
+//	@Test
+//	public void whenGetPresentationModel_returnExpectedResult()
+//	{
+//		Object presentationModel = new Object();
+//		String presentationModelAttributeValue = BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME; 
+//		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.createWithReadOnlyDefaultProperty(presentationModel);
+//		
+//		SubViewCreator subViewCreator = new SubViewCreator(MockBindingContext.create(presentationModelAdapter), null);
+//	
+//		assertThat(subViewCreator.getPresentationModel(presentationModelAttributeValue),
+//				equalTo(presentationModel));
+//	}
 }
