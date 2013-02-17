@@ -31,4 +31,6 @@ public interface BindingAttributeMappings<T extends View>
 	void mapCommandAttribute(Class<? extends AbstractCommandViewAttribute<T>> commandViewAttributeClass, String attributeName);
 	
 	void mapGroupedAttribute(Class<? extends AbstractGroupedViewAttribute<T>> groupedViewAttributeClass, String... attributeNames);
+
+	void mapGroupedAttribute(GroupedViewAttributeFactory groupedViewAttributeFactory, String... attributeName);
 }

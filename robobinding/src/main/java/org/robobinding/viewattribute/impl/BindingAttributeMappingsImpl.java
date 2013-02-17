@@ -23,6 +23,7 @@ import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.GroupedViewAttributeFactory;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.view.View;
@@ -71,6 +72,13 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	public void mapGroupedAttribute(Class<? extends AbstractGroupedViewAttribute<T>> groupedViewAttributeClass,	String... attributeNames)
 	{
 		addGroupedViewAttributeMapping(groupedViewAttributeClass, attributeNames);
+	}
+	
+	@Override
+	public void mapGroupedAttribute(GroupedViewAttributeFactory groupedViewAttributeFactory, String... attributeName)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 	protected void addPropertyViewAttributeMapping(Class<? extends PropertyViewAttribute<?>> propertyViewAttributeClass, String attributeName)

@@ -15,6 +15,13 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.ITEM_LAYOUT;
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.ITEM_MAPPING;
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.SOURCE;
+import static org.robobinding.viewattribute.adapterview.EmptyViewAttributes.EMPTY_VIEW_LAYOUT;
+import static org.robobinding.viewattribute.adapterview.EmptyViewAttributes.EMPTY_VIEW_PRESENTATION_MODEL;
+import static org.robobinding.viewattribute.adapterview.EmptyViewAttributes.EMPTY_VIEW_VISIBILITY;
+
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 
@@ -32,11 +39,11 @@ public class AdapterViewAttributeMapper implements BindingAttributeMapper<Adapte
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<AdapterView<?>> mappings)
 	{
-		mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, AbstractAdaptedDataSetAttributes.SOURCE, 
-				AbstractAdaptedDataSetAttributes.ITEM_LAYOUT, AbstractAdaptedDataSetAttributes.ITEM_MAPPING);
+		mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, SOURCE, 
+				ITEM_LAYOUT, ITEM_MAPPING);
 		
-		mappings.mapGroupedAttribute(EmptyViewAttributes.class, EmptyViewAttributes.EMPTY_VIEW_LAYOUT, EmptyViewAttributes.EMPTY_VIEW_PRESENTATION_MODEL,
-				EmptyViewAttributes.EMPTY_VIEW_VISIBILITY);
+		mappings.mapGroupedAttribute(EmptyViewAttributes.class, EMPTY_VIEW_LAYOUT, EMPTY_VIEW_PRESENTATION_MODEL,
+				EMPTY_VIEW_VISIBILITY);
 		
 		mappings.mapCommandAttribute(OnItemClickAttribute.class, "onItemClick");
 		mappings.mapCommandAttribute(OnItemSelectedAttribute.class, "onItemSelected");

@@ -17,6 +17,7 @@ package org.robobinding.viewattribute;
 
 import java.util.Map;
 
+import org.robobinding.AttributeResolutionException;
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ChildAttributeResolverMapper;
@@ -66,7 +67,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	}
 	
 	@Override
-	public void validateResolvedChildAttributes() {
+	public void validateResolvedChildAttributes() throws AttributeResolutionException {
 		
 	}
 	

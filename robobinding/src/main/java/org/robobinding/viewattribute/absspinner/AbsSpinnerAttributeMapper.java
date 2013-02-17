@@ -15,9 +15,14 @@
  */
 package org.robobinding.viewattribute.absspinner;
 
+import static org.robobinding.viewattribute.absspinner.AdaptedAbsSpinnerDataSetAttributes.DROPDOWN_LAYOUT;
+import static org.robobinding.viewattribute.absspinner.AdaptedAbsSpinnerDataSetAttributes.DROPDOWN_MAPPING;
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.ITEM_LAYOUT;
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.ITEM_MAPPING;
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.SOURCE;
+
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes;
 
 import android.widget.AbsSpinner;
 
@@ -32,8 +37,8 @@ public class AbsSpinnerAttributeMapper implements BindingAttributeMapper<AbsSpin
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<AbsSpinner> mappings)
 	{
-		mappings.mapGroupedAttribute(AdaptedAbsSpinnerDataSetAttributes.class, AbstractAdaptedDataSetAttributes.SOURCE, 
-				AbstractAdaptedDataSetAttributes.ITEM_LAYOUT, AbstractAdaptedDataSetAttributes.ITEM_MAPPING, 
-				AdaptedAbsSpinnerDataSetAttributes.DROPDOWN_LAYOUT, AdaptedAbsSpinnerDataSetAttributes.DROPDOWN_MAPPING);
+		mappings.mapGroupedAttribute(AdaptedAbsSpinnerDataSetAttributes.class, SOURCE, 
+				ITEM_LAYOUT, ITEM_MAPPING, 
+				DROPDOWN_LAYOUT, DROPDOWN_MAPPING);
 	}
 }
