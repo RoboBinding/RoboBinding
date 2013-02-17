@@ -23,8 +23,6 @@ import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 
-import android.R;
-import android.content.Context;
 import android.view.InflateException;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,11 +33,17 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T>
+public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T>
 {
 	private View subView;
-	private ChildAttributeBindings childAttributeBindings;
-	private BindingContext bindingContext;
+	private SubViewAttributesStrategy<T> subViewAttributesStrategy;
+	private SubViewCreator subViewCreator;
+	
+	public SubViewAttributes(SubViewAttributesStrategy<T> subViewAttributesStrategy, SubViewCreator subViewCreator)
+	{
+		this.subViewAttributesStrategy = subViewAttributesStrategy;
+		this.subViewCreator = subViewCreator;
+	}
 
 	@Override
 	protected String[] getCompulsoryAttributes()
@@ -51,35 +55,32 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
 		resolverMappings.map(staticResourceAttributeResolver(), layoutAttribute());
-		resolverMappings.map(valueModelAttributeResolver(), subViewPresentationModelAttribute());
+		resolverMappings.map(valueModelAttributeResolver(), subViewPresentationModel());
 		resolverMappings.map(valueModelAttributeResolver(), visibilityAttribute());
 	}
 
 	@Override
 	protected void preBind(BindingContext bindingContext)
 	{
-		this.bindingContext = bindingContext;
 	}
 	
 	@Override
-	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+	protected void setupChildAttributeBindings(ChildAttributeBindings childAttributeBindings, BindingContext bindingContext)
 	{
-		this.childAttributeBindings = binding;
-		
 		try {
-			subView = createSubView(bindingContext);
+			subView = createSubView(childAttributeBindings, bindingContext);
 		} catch (InflateException e) {
 			return;
 		}
 		
-		addSubView(subView, bindingContext.getContext());
+		subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
 		if (groupedAttribute.hasAttribute(visibilityAttribute()))
 		{
-			binding.add(new SubViewVisibilityAttribute(createVisibility(subView)), visibilityAttribute());
+			childAttributeBindings.add(new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)), visibilityAttribute());
 		}
 	}
 
-	View createSubView(BindingContext bindingContext)
+	View createSubView(ChildAttributeBindings childAttributeBindings, BindingContext bindingContext)
 	{
 		int layoutId = 0;
 		try {
@@ -88,20 +89,15 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 			childAttributeBindings.addChildAttributeError(layoutAttribute(), e);
 		}
 		
-		SubViewCreator subViewCreator = new SubViewCreator(bindingContext, layoutId);
-
-		//instantiate a dummy view?
-		//or just don't register the visibility attribute?
-		//don't register the visibility attribute will be easier to understand
-		if (groupedAttribute.hasAttribute(subViewPresentationModelAttribute()))
+		if (groupedAttribute.hasAttribute(subViewPresentationModel()))
 		{
 			try
 			{
-				ValueModelAttribute presentationModelAttributeValue = groupedAttribute.valueModelAttributeFor(subViewPresentationModelAttribute());
+				ValueModelAttribute presentationModelAttributeValue = groupedAttribute.valueModelAttributeFor(subViewPresentationModel());
 				return subViewCreator.createAndBindTo(presentationModelAttributeValue);
 			} catch (RuntimeException e)
 			{
-				childAttributeBindings.addChildAttributeError(subViewPresentationModelAttribute(), e);
+				childAttributeBindings.addChildAttributeError(subViewPresentationModel(), e);
 				return subViewCreator.create();
 			}
 		} else
@@ -110,13 +106,18 @@ public abstract class AbstractSubViewAttributes<T extends AdapterView<?>> extend
 		}
 	}
 
-	protected abstract String layoutAttribute();
+	private String visibilityAttribute()
+	{
+		return subViewAttributesStrategy.visibilityAttribute();
+	}
 
-	protected abstract String subViewPresentationModelAttribute();
+	private String subViewPresentationModel()
+	{
+		return subViewAttributesStrategy.subViewPresentationModelAttribute();
+	}
 
-	protected abstract String visibilityAttribute();
-
-	protected abstract void addSubView(View subView, Context context);
-
-	protected abstract AbstractSubViewVisibility createVisibility(View subView);
+	private String layoutAttribute()
+	{
+		return subViewAttributesStrategy.layoutAttribute();
+	}
 }

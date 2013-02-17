@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
 import org.robobinding.ViewBinder;
-import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
@@ -30,17 +29,17 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class SubViewCreator
+public class SubViewCreator
 {
-	private final BindingContext bindingContext;
+	private BindingContext bindingContext;
 	//private final StaticResourceAttribute layoutAttributeValue;
 	private int layoutId;
 	
-	public SubViewCreator(BindingContext bindingContext, int layoutId)
-	{
-		this.bindingContext = bindingContext;
-		this.layoutId = layoutId;
-	}
+//	public SubViewCreator(BindingContext bindingContext, int layoutId)
+//	{
+//		this.bindingContext = bindingContext;
+//		this.layoutId = layoutId;
+//	}
 	
 	public View create()
 	{

@@ -39,11 +39,9 @@ public class AdapterViewAttributeMapper implements BindingAttributeMapper<Adapte
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<AdapterView<?>> mappings)
 	{
-		mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, SOURCE, 
-				ITEM_LAYOUT, ITEM_MAPPING);
+		mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, SOURCE, ITEM_LAYOUT, ITEM_MAPPING);
 		
-		mappings.mapGroupedAttribute(EmptyViewAttributes.class, EMPTY_VIEW_LAYOUT, EMPTY_VIEW_PRESENTATION_MODEL,
-				EMPTY_VIEW_VISIBILITY);
+		mappings.mapGroupedAttribute(new EmptyViewAttributesFactory(), EMPTY_VIEW_LAYOUT, EMPTY_VIEW_PRESENTATION_MODEL, EMPTY_VIEW_VISIBILITY);
 		
 		mappings.mapCommandAttribute(OnItemClickAttribute.class, "onItemClick");
 		mappings.mapCommandAttribute(OnItemSelectedAttribute.class, "onItemSelected");

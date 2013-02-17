@@ -42,7 +42,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected T view;
 	protected GroupedAttribute groupedAttribute;
 	private ViewListenersProvider viewListenersProvider;
-	private AbstractViewAttributeInitializer viewAttributeInstantiator;
+	private AbstractViewAttributeInitializer viewAttributeInitializer;
 	
 	public void setView(T view)
 	{
@@ -78,7 +78,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		preBind(bindingContext); //is pre-bind necessary?
 		
 		ChildAttributeBindings binding = new ChildAttributeBindings(bindingContext, bindingErrors);
-		setupChildAttributeBindings(binding);
+		setupChildAttributeBindings(binding, bindingContext);
 		
 		binding.perform();
 		bindingErrors.assertNoErrors();
@@ -92,7 +92,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		
 	}
 	
-	protected abstract void setupChildAttributeBindings(ChildAttributeBindings binding);
+	protected abstract void setupChildAttributeBindings(ChildAttributeBindings binding, BindingContext bindingContext);
 	
 	protected void postBind(BindingContext bindingContext)
 	{
@@ -101,12 +101,12 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	
 	private AbstractViewAttributeInitializer safeGetViewAttributeInstantiator()
 	{
-		if (viewAttributeInstantiator == null)
+		if (viewAttributeInitializer == null)
 		{
-			viewAttributeInstantiator = new ViewAttributeInitializer();
-			viewAttributeInstantiator.setViewListenersIfRequired(this, view);
+			viewAttributeInitializer = new ViewAttributeInitializer();
+			viewAttributeInitializer.setViewListenersIfRequired(this, view);
 		}
-		return viewAttributeInstantiator;
+		return viewAttributeInitializer;
 	}
 	
 	protected class ChildAttributeBindings
@@ -127,15 +127,6 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 			childAttribute.setAttribute(attribute);
 			childAttributeMap.put(attributeName, childAttribute);
 			return childAttribute;
-		}
-		
-		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(
-				Class<PropertyViewAttributeType> propertyViewAttributeClass, String propertyAttribute)
-		{
-			ValueModelAttribute attributeValue = groupedAttribute.valueModelAttributeFor(propertyAttribute);
-			PropertyViewAttributeType propertyViewAttribute = safeGetViewAttributeInstantiator().newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
-			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
-			return propertyViewAttribute;
 		}
 		
 		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(

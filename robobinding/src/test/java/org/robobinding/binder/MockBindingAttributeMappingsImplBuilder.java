@@ -262,7 +262,7 @@ public class MockBindingAttributeMappingsImplBuilder
 		}
 
 		@Override
-		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+		protected void setupChildAttributeBindings(ChildAttributeBindings binding, BindingContext bindingContext)
 		{
 		}
 	}

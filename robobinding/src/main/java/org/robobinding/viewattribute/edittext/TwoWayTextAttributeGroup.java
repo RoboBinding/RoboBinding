@@ -18,6 +18,7 @@ package org.robobinding.viewattribute.edittext;
 import static org.robobinding.attribute.ChildAttributeResolvers.enumChildAttributeResolver;
 import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
 
+import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.EnumAttribute;
 import org.robobinding.attribute.MalformedAttributeException;
@@ -59,9 +60,9 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	}
 	
 	@Override
-	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+	protected void setupChildAttributeBindings(ChildAttributeBindings binding, BindingContext bindingContext)
 	{
-		textAttribute = binding.addProperty(TwoWayTextAttribute.class, TEXT);
+		textAttribute = binding.addProperty(new TwoWayTextAttribute(), TEXT);
 		textAttribute.setValueCommitMode(determineValueCommitMode());
 	}
 

@@ -22,7 +22,6 @@ import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractViewAttributeInitializer;
 import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.ViewListenersProvider;
 
 import android.view.View;
@@ -37,44 +36,43 @@ import android.view.View;
 public class ViewAttributeInitializer
 {
 	ViewListenersProvider viewListenersProvider;
-	ViewAttributeIninitializerImplementor viewAttributeInitializerImplementor;
+	ViewAttributeInitializerImplementor viewAttributeInitializerImplementor;
 
 	public ViewAttributeInitializer()
 	{
 		this.viewListenersProvider = new ViewListenersProviderImpl();
-		viewAttributeInitializerImplementor = new ViewAttributeIninitializerImplementor(viewListenersProvider);
+		viewAttributeInitializerImplementor = new ViewAttributeInitializerImplementor(viewListenersProvider);
 	}
 
-	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
-			View view, Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttribute attributeValue)
+	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType initializePropertyViewAttribute(
+			View view, PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attributeValue)
 	{
 		viewAttributeInitializerImplementor.setCurrentView(view);
-		return viewAttributeInitializerImplementor.newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
+		return viewAttributeInitializerImplementor.newPropertyViewAttribute(propertyViewAttribute, attributeValue);
 	}
 
-	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
-			View view, Class<CommandViewAttributeType> commandViewAttributeClass, CommandAttribute attributeValue)
+	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType initializeCommandViewAttribute(
+			View view, CommandViewAttributeType commandViewAttribute, CommandAttribute attributeValue)
 	{
 		viewAttributeInitializerImplementor.setCurrentView(view);
-		return viewAttributeInitializerImplementor.newCommandViewAttribute(commandViewAttributeClass, attributeValue);
+		return viewAttributeInitializerImplementor.newCommandViewAttribute(commandViewAttribute, attributeValue);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType newGroupedViewAttribute(
-			View view, Class<GroupedViewAttributeType> groupedViewAttributeClass, GroupedAttributeDescriptor groupedAttributeDescriptor)
+	public <GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType initializeGroupedViewAttribute(
+			View view, GroupedViewAttributeType groupedViewAttribute, GroupedAttributeDescriptor groupedAttributeDescriptor)
 	{
-		GroupedViewAttributeType groupedViewAttribute = (GroupedViewAttributeType)viewAttributeInitializerImplementor.newViewAttribute(groupedViewAttributeClass);
 		((AbstractGroupedViewAttribute<View>) groupedViewAttribute).setView(view);
 		groupedViewAttribute.setGroupedAttributeDescriptor(groupedAttributeDescriptor);
 		groupedViewAttribute.setViewListenersProvider(viewListenersProvider);
 		return groupedViewAttribute;
 	}
 
-	public static class ViewAttributeIninitializerImplementor extends AbstractViewAttributeInitializer
+	public static class ViewAttributeInitializerImplementor extends AbstractViewAttributeInitializer
 	{
 		private View currentView;
 
-		public ViewAttributeIninitializerImplementor(ViewListenersProvider viewListenersProvider)
+		public ViewAttributeInitializerImplementor(ViewListenersProvider viewListenersProvider)
 		{
 			super(viewListenersProvider);
 		}
@@ -88,11 +86,6 @@ public class ViewAttributeInitializer
 		public void setCurrentView(View currentView)
 		{
 			this.currentView = currentView;
-		}
-		
-		public ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass)
-		{
-			return super.newViewAttribute(viewAttributeClass);
 		}
 	}
 }

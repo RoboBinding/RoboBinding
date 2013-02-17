@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.BindingContext;
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ChildAttributeResolver;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
@@ -65,8 +66,8 @@ public class ViewAttributeInitializerTest
 	{
 		View view = mock(View.class);
 		
-		MockGroupedViewAttribute groupedViewAttribute = viewAttributeInitializer.newGroupedViewAttribute(
-				view, MockGroupedViewAttribute.class, newGroupedAttributeDescriptor());
+		MockGroupedViewAttribute groupedViewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(
+				view, new MockGroupedViewAttribute(), newGroupedAttributeDescriptor());
 		
 		groupedViewAttribute.assertCorrectlyInitialized(view, viewListenersProvider);
 	}
@@ -83,8 +84,8 @@ public class ViewAttributeInitializerTest
 		public ViewAttributeInitializerForTest(ViewListenersProvider viewListenersProvider)
 		{
 			this.viewListenersProvider = viewListenersProvider;
-			viewAttributeInitializerImplementor = mock(ViewAttributeIninitializerImplementor.class);
-			when(viewAttributeInitializerImplementor.newViewAttribute(MockGroupedViewAttribute.class)).thenReturn(new MockGroupedViewAttribute());
+			viewAttributeInitializerImplementor = mock(ViewAttributeInitializerImplementor.class);
+			//when(viewAttributeInitializerImplementor.newViewAttribute(new MockGroupedViewAttribute()).thenReturn(new MockGroupedViewAttribute());
 		}
 	}
 	
@@ -116,7 +117,7 @@ public class ViewAttributeInitializerTest
 		}
 
 		@Override
-		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+		protected void setupChildAttributeBindings(ChildAttributeBindings binding, BindingContext bindingContext)
 		{
 		}
 		

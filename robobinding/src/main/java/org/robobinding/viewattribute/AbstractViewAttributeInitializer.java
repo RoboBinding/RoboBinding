@@ -38,11 +38,9 @@ public abstract class AbstractViewAttributeInitializer
 		this.viewListenersProvider = viewListenersProvider;
 	}
 
-	@SuppressWarnings("unchecked")
 	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
-			Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttribute attribute)
+			PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute)
 	{
-		PropertyViewAttributeType propertyViewAttribute = (PropertyViewAttributeType)newViewAttribute(propertyViewAttributeClass);
 		return injectProperties(propertyViewAttribute, attribute);
 	}
 
@@ -60,15 +58,14 @@ public abstract class AbstractViewAttributeInitializer
 		setViewListenersIfRequired(propertyViewAttribute, view);
 		return propertyViewAttribute;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
-			Class<CommandViewAttributeType> commandViewAttributeClass, CommandAttribute attributeValue)
+			CommandViewAttributeType commandViewAttribute, CommandAttribute attribute)
 	{
-		CommandViewAttributeType commandViewAttribute = (CommandViewAttributeType)newViewAttribute(commandViewAttributeClass);
 		View view = getView();
 		((AbstractCommandViewAttribute<View>)commandViewAttribute).setView(view);
-		commandViewAttribute.setAttribute(attributeValue);
+		commandViewAttribute.setAttribute(attribute);
 		setViewListenersIfRequired(commandViewAttribute, view);
 		return commandViewAttribute;
 	}
@@ -86,17 +83,4 @@ public abstract class AbstractViewAttributeInitializer
 	
 	protected abstract View getView();
 	
-	protected ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass)
-	{
-		try
-		{
-			return viewAttributeClass.newInstance();
-		} catch (InstantiationException e)
-		{
-			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " could not be instantiated: " + e);
-		} catch (IllegalAccessException e)
-		{
-			throw new RuntimeException("Attribute class " + viewAttributeClass.getName() + " is not public");
-		}
-	}
 }

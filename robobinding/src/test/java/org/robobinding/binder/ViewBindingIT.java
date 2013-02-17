@@ -338,7 +338,7 @@ public class ViewBindingIT
 		}
 
 		@Override
-		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+		protected void setupChildAttributeBindings(ChildAttributeBindings binding, BindingContext bindingContext)
 		{
 			throw new ProgrammingError();
 		}
