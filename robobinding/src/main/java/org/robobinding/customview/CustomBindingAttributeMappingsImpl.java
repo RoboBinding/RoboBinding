@@ -20,9 +20,10 @@ import java.util.Map;
 import org.apache.commons.lang3.Validate;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.ViewAttributeFactory;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
-import org.robobinding.viewattribute.impl.ViewAttributeInstantiator;
+import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
 
 import android.view.View;
 
@@ -38,7 +39,7 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 {
 	private final Map<String, View> customAttributeViews;
 	
-	public CustomBindingAttributeMappingsImpl(ViewAttributeInstantiator viewAttributeInstantiator)
+	public CustomBindingAttributeMappingsImpl(ViewAttributeInitializer viewAttributeInstantiator)
 	{
 		super(viewAttributeInstantiator);
 		
@@ -70,6 +71,14 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 	}
 	
 	@Override
+	protected void addGroupedViewAttributeMapping(ViewAttributeFactory groupedViewAttributeFactory,	String... attributeNames)
+	{
+		Validate.notNull(attributeNames, "attribute names must not be null");
+		Validate.notNull(groupedViewAttributeFactory, "groupedViewAttributeFactory must not be null");
+		super.addGroupedViewAttributeMapping(groupedViewAttributeFactory, attributeNames);
+	}
+	
+	@Override
 	public <S extends View> void mapPropertyAttribute(S alternateView, Class<? extends PropertyViewAttribute<? extends View>> propertyViewAttributeClass,
 			String attributeName)
 	{
@@ -96,6 +105,14 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 		customAttributeViews.put(attributeNames[0], alternateView);
 	}
 
+	@Override
+	public <S extends View> void mapGroupedAttribute(S alternateView, ViewAttributeFactory groupedViewAttributeFactory, String... attributeNames)
+	{
+		Validate.notNull(alternateView, "view must not be null");
+		addGroupedViewAttributeMapping(groupedViewAttributeFactory, attributeNames);
+		customAttributeViews.put(attributeNames[0], alternateView);
+	}
+	
 	@Override
 	protected View getViewForAttribute(String attributeName, View defaultView)
 	{

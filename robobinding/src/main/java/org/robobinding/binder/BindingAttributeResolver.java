@@ -22,7 +22,7 @@ import org.robobinding.ViewResolutionErrors;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
-import org.robobinding.viewattribute.impl.ViewAttributeInstantiator;
+import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
 
 import android.view.View;
 
@@ -37,7 +37,7 @@ import android.view.View;
 public class BindingAttributeResolver
 {
 	BindingAttributeProvidersResolver providersResolver;
-	private ViewAttributeInstantiator viewAttributeInstantiator;
+	private ViewAttributeInitializer viewAttributeInstantiator;
 	private ResolvedBindingAttributes resolvedBindingAttributes;
 
 	public BindingAttributeResolver()
@@ -59,7 +59,7 @@ public class BindingAttributeResolver
 	private void initializeNewResolving(View view)
 	{
 		resolvedBindingAttributes = new ResolvedBindingAttributes(view);
-		viewAttributeInstantiator = new ViewAttributeInstantiator();
+		viewAttributeInstantiator = new ViewAttributeInitializer();
 	}
 
 	private void resolveByBindingAttributeProviders(PendingAttributesForView pendingAttributesForView)

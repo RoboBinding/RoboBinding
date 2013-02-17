@@ -36,14 +36,14 @@ import android.view.View;
 public class GroupedViewAttributeTest
 {
 	private AbstractGroupedViewAttribute<View> groupedViewAttribute;
-	private AbstractViewAttributeInstantiator mockViewAttributeInstantiator;
+	private AbstractViewAttributeInitializer mockViewAttributeInstantiator;
 	private View view;
 
 	@Before
 	public void setUp()
 	{
 		view = mock(View.class);
-		mockViewAttributeInstantiator = mock(AbstractViewAttributeInstantiator.class);
+		mockViewAttributeInstantiator = mock(AbstractViewAttributeInitializer.class);
 		groupedViewAttribute = new GroupedViewAttributeForTest();
 	}
 
@@ -68,7 +68,7 @@ public class GroupedViewAttributeTest
 
 	public class GroupedViewAttributeForTest extends AbstractGroupedViewAttribute<View>
 	{
-		protected AbstractViewAttributeInstantiator getViewAttributeInstantiator()
+		protected AbstractViewAttributeInitializer getViewAttributeInstantiator()
 		{
 			return mockViewAttributeInstantiator;
 		}

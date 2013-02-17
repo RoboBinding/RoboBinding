@@ -45,19 +45,19 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewAttributeInstantiatorTest
+public class ViewAttributeInitializerTest
 {
 	private static final String ATTRIBUTE_NAME = "name";
 	private static final String ATTRIBUTE_VALUE = "value";
 	
-	private ViewAttributeInstantiator viewAttributeInstantiator;
+	private ViewAttributeInitializer viewAttributeInitializer;
 	private ViewListenersProvider viewListenersProvider;
 	
 	@Before
 	public void setUp()
 	{
 		viewListenersProvider = mock(ViewListenersProvider.class);
-		viewAttributeInstantiator = new ViewAttributeInstantiatorForTest(viewListenersProvider);
+		viewAttributeInitializer = new ViewAttributeInitializerForTest(viewListenersProvider);
 	}
 	
 	@Test
@@ -65,7 +65,7 @@ public class ViewAttributeInstantiatorTest
 	{
 		View view = mock(View.class);
 		
-		MockGroupedViewAttribute groupedViewAttribute = viewAttributeInstantiator.newGroupedViewAttribute(
+		MockGroupedViewAttribute groupedViewAttribute = viewAttributeInitializer.newGroupedViewAttribute(
 				view, MockGroupedViewAttribute.class, newGroupedAttributeDescriptor());
 		
 		groupedViewAttribute.assertCorrectlyInitialized(view, viewListenersProvider);
@@ -78,13 +78,13 @@ public class ViewAttributeInstantiatorTest
 		return new GroupedAttributeDescriptor(presentAttributeMappings);
 	}
 	
-	private static class ViewAttributeInstantiatorForTest extends ViewAttributeInstantiator
+	private static class ViewAttributeInitializerForTest extends ViewAttributeInitializer
 	{
-		public ViewAttributeInstantiatorForTest(ViewListenersProvider viewListenersProvider)
+		public ViewAttributeInitializerForTest(ViewListenersProvider viewListenersProvider)
 		{
 			this.viewListenersProvider = viewListenersProvider;
-			viewAttributeInstantiatorImplementor = mock(ViewAttributeInstantiatorImplementor.class);
-			when(viewAttributeInstantiatorImplementor.newViewAttribute(MockGroupedViewAttribute.class)).thenReturn(new MockGroupedViewAttribute());
+			viewAttributeInitializerImplementor = mock(ViewAttributeIninitializerImplementor.class);
+			when(viewAttributeInitializerImplementor.newViewAttribute(MockGroupedViewAttribute.class)).thenReturn(new MockGroupedViewAttribute());
 		}
 	}
 	

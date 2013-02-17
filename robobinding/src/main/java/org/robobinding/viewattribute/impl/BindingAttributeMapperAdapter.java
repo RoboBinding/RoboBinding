@@ -35,7 +35,7 @@ public class BindingAttributeMapperAdapter<T extends View> implements BindingAtt
 		this.bindingAttributeMapper = bindingAttributeMapper;
 	}
 	
-	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInstantiator viewAttributeInstantiator)
+	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInitializer viewAttributeInstantiator)
 	{
 		BindingAttributeMappingsImpl<T> bindingAttributeMappings = new BindingAttributeMappingsImpl<T>(viewAttributeInstantiator);
 		bindingAttributeMapper.mapBindingAttributes(bindingAttributeMappings);

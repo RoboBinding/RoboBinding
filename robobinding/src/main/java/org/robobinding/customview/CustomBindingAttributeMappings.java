@@ -18,6 +18,7 @@ package org.robobinding.customview;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.ViewAttributeFactory;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 
 import android.view.View;
@@ -35,4 +36,6 @@ public interface CustomBindingAttributeMappings<T extends View> extends BindingA
 	<S extends View> void mapCommandAttribute(S alternateView, Class<? extends AbstractCommandViewAttribute<? extends View>> commandViewAttributeClass, String attributeName);
 	
 	<S extends View> void mapGroupedAttribute(S alternateView, Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass, String... attributeNames);
+	
+	<S extends View> void mapGroupedAttribute(S alternateView, ViewAttributeFactory groupedViewAttributeFactory, String... attributeNames);
 }

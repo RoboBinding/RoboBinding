@@ -42,7 +42,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected T view;
 	protected GroupedAttribute groupedAttribute;
 	private ViewListenersProvider viewListenersProvider;
-	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
+	private AbstractViewAttributeInitializer viewAttributeInstantiator;
 	
 	public void setView(T view)
 	{
@@ -99,11 +99,11 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		
 	}
 	
-	private AbstractViewAttributeInstantiator safeGetViewAttributeInstantiator()
+	private AbstractViewAttributeInitializer safeGetViewAttributeInstantiator()
 	{
 		if (viewAttributeInstantiator == null)
 		{
-			viewAttributeInstantiator = new ViewAttributeInstantiator();
+			viewAttributeInstantiator = new ViewAttributeInitializer();
 			viewAttributeInstantiator.setViewListenersIfRequired(this, view);
 		}
 		return viewAttributeInstantiator;
@@ -173,9 +173,9 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		}
 	}
 
-	private class ViewAttributeInstantiator extends AbstractViewAttributeInstantiator
+	private class ViewAttributeInitializer extends AbstractViewAttributeInitializer
 	{
-		public ViewAttributeInstantiator()
+		public ViewAttributeInitializer()
 		{
 			super(AbstractGroupedViewAttribute.this.viewListenersProvider);
 		}

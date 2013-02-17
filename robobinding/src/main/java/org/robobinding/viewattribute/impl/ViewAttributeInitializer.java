@@ -20,7 +20,7 @@ import org.robobinding.attribute.GroupedAttributeDescriptor;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.AbstractViewAttributeInstantiator;
+import org.robobinding.viewattribute.AbstractViewAttributeInitializer;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.ViewListenersProvider;
@@ -34,47 +34,47 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class ViewAttributeInstantiator
+public class ViewAttributeInitializer
 {
 	ViewListenersProvider viewListenersProvider;
-	ViewAttributeInstantiatorImplementor viewAttributeInstantiatorImplementor;
+	ViewAttributeIninitializerImplementor viewAttributeInitializerImplementor;
 
-	public ViewAttributeInstantiator()
+	public ViewAttributeInitializer()
 	{
 		this.viewListenersProvider = new ViewListenersProviderImpl();
-		viewAttributeInstantiatorImplementor = new ViewAttributeInstantiatorImplementor(viewListenersProvider);
+		viewAttributeInitializerImplementor = new ViewAttributeIninitializerImplementor(viewListenersProvider);
 	}
 
 	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType newPropertyViewAttribute(
 			View view, Class<PropertyViewAttributeType> propertyViewAttributeClass, ValueModelAttribute attributeValue)
 	{
-		viewAttributeInstantiatorImplementor.setCurrentView(view);
-		return viewAttributeInstantiatorImplementor.newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
+		viewAttributeInitializerImplementor.setCurrentView(view);
+		return viewAttributeInitializerImplementor.newPropertyViewAttribute(propertyViewAttributeClass, attributeValue);
 	}
 
 	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType newCommandViewAttribute(
 			View view, Class<CommandViewAttributeType> commandViewAttributeClass, CommandAttribute attributeValue)
 	{
-		viewAttributeInstantiatorImplementor.setCurrentView(view);
-		return viewAttributeInstantiatorImplementor.newCommandViewAttribute(commandViewAttributeClass, attributeValue);
+		viewAttributeInitializerImplementor.setCurrentView(view);
+		return viewAttributeInitializerImplementor.newCommandViewAttribute(commandViewAttributeClass, attributeValue);
 	}
 
 	@SuppressWarnings("unchecked")
 	public <GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType newGroupedViewAttribute(
 			View view, Class<GroupedViewAttributeType> groupedViewAttributeClass, GroupedAttributeDescriptor groupedAttributeDescriptor)
 	{
-		GroupedViewAttributeType groupedViewAttribute = (GroupedViewAttributeType)viewAttributeInstantiatorImplementor.newViewAttribute(groupedViewAttributeClass);
+		GroupedViewAttributeType groupedViewAttribute = (GroupedViewAttributeType)viewAttributeInitializerImplementor.newViewAttribute(groupedViewAttributeClass);
 		((AbstractGroupedViewAttribute<View>) groupedViewAttribute).setView(view);
 		groupedViewAttribute.setGroupedAttributeDescriptor(groupedAttributeDescriptor);
 		groupedViewAttribute.setViewListenersProvider(viewListenersProvider);
 		return groupedViewAttribute;
 	}
 
-	public static class ViewAttributeInstantiatorImplementor extends AbstractViewAttributeInstantiator
+	public static class ViewAttributeIninitializerImplementor extends AbstractViewAttributeInitializer
 	{
 		private View currentView;
 
-		public ViewAttributeInstantiatorImplementor(ViewListenersProvider viewListenersProvider)
+		public ViewAttributeIninitializerImplementor(ViewListenersProvider viewListenersProvider)
 		{
 			super(viewListenersProvider);
 		}
@@ -90,7 +90,6 @@ public class ViewAttributeInstantiator
 			this.currentView = currentView;
 		}
 		
-		@Override
 		public ViewAttribute newViewAttribute(Class<? extends ViewAttribute> viewAttributeClass)
 		{
 			return super.newViewAttribute(viewAttributeClass);

@@ -29,11 +29,11 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public abstract class AbstractViewAttributeInstantiator
+public abstract class AbstractViewAttributeInitializer
 {
 	protected final ViewListenersProvider viewListenersProvider;
 
-	protected AbstractViewAttributeInstantiator(ViewListenersProvider viewListenersProvider)
+	protected AbstractViewAttributeInitializer(ViewListenersProvider viewListenersProvider)
 	{
 		this.viewListenersProvider = viewListenersProvider;
 	}

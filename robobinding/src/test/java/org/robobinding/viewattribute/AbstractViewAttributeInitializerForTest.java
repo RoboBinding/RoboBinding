@@ -40,9 +40,9 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AbstractViewAttributeInstantiatorTest
+public class AbstractViewAttributeInitializerForTest
 {
-	private AbstractViewAttributeInstantiator viewAttributeInstantiator;
+	private AbstractViewAttributeInitializer viewAttributeInstantiator;
 	private View view;
 	private ViewListenersProvider viewListenersProvider;
 	private ViewListeners viewListeners;
@@ -55,7 +55,7 @@ public class AbstractViewAttributeInstantiatorTest
 		viewListenersProvider = mock(ViewListenersProvider.class);
 		viewListeners = new ViewListeners(view);
 		when(viewListenersProvider.forViewAndAttribute(eq(view), any(ViewListenersAware.class))).thenReturn(viewListeners);
-		viewAttributeInstantiator = new ViewAttributeInstantiatorForTest();
+		viewAttributeInstantiator = new ViewAttributeInitializerForTest();
 	}
 	
 	@Test
@@ -98,11 +98,11 @@ public class AbstractViewAttributeInstantiatorTest
 		mockCommandViewAttribute.assertAllPropertiesAssigned(view, attribute, viewListeners);
 	}
 	
-	public class ViewAttributeInstantiatorForTest extends AbstractViewAttributeInstantiator
+	public class ViewAttributeInitializerForTest extends AbstractViewAttributeInitializer
 	{
-		public ViewAttributeInstantiatorForTest()
+		public ViewAttributeInitializerForTest()
 		{
-			super(AbstractViewAttributeInstantiatorTest.this.viewListenersProvider);
+			super(AbstractViewAttributeInitializerForTest.this.viewListenersProvider);
 		}
 		
 		@Override
