@@ -24,6 +24,7 @@ import org.robobinding.attribute.ChildAttributeResolverMapper;
 import org.robobinding.attribute.GroupedAttribute;
 import org.robobinding.attribute.GroupedAttributeDescriptor;
 import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.viewattribute.adapterview.SubViewAttributes.DependentChildViewAttributes;
 
 import android.view.View;
 
@@ -78,7 +79,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		preBind(bindingContext); //is pre-bind necessary?
 		
 		ChildAttributeBindings binding = new ChildAttributeBindings(bindingContext, bindingErrors);
-		setupChildAttributeBindings(binding, bindingContext);
+		setupChildAttributeBindings(binding);
 		
 		binding.perform();
 		bindingErrors.assertNoErrors();
@@ -92,7 +93,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		
 	}
 	
-	protected abstract void setupChildAttributeBindings(ChildAttributeBindings binding, BindingContext bindingContext);
+	protected abstract void setupChildAttributeBindings(ChildAttributeBindings binding);
 	
 	protected void postBind(BindingContext bindingContext)
 	{
@@ -129,6 +130,12 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 			return childAttribute;
 		}
 		
+		public <AttributeType extends AbstractAttribute> void addDependentChildAttributes(DependentChildViewAttributes dependentChildViewAttributes)
+		{
+			dependentChildViewAttributes.setAttributes(groupedAttribute);
+			childAttributeMap.put(dependentChildViewAttributes.toString(), dependentChildViewAttributes);
+		}
+		
 		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(
 				PropertyViewAttributeType propertyViewAttribute, String propertyAttribute)
 		{
@@ -152,14 +159,18 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 				try
 				{
 					childAttribute.bindTo(bindingContext);
-				}catch(RuntimeException e)
+				} catch(DependentChildViewAttributeBindingException e) 
+				{
+					addChildAttributeError(e.getAttributeName(), e);
+				} catch(RuntimeException e)
 				{
 					addChildAttributeError(childAttributeEntry.getKey(), e);
 				}
 			}
 		}
-		
-		public void addChildAttributeError(String attributeName, RuntimeException e) {
+
+		private void addChildAttributeError(String attributeName, RuntimeException e)
+		{
 			bindingErrors.addChildAttributeError(attributeName, e);
 		}
 	}

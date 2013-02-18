@@ -115,7 +115,7 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 		attributeUnderTest.preBind(bindingContext);
 		
 		ChildAttributeBindings binding = attributeUnderTest.new ChildAttributeBindings(bindingContext, bindingErrors);
-		attributeUnderTest.setupChildAttributeBindings(binding, bindingContext);
+		attributeUnderTest.setupChildAttributeBindings(binding);
 		
 		bindingErrors.assertNoErrors();
 		

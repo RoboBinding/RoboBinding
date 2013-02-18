@@ -58,7 +58,7 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	}
 
 	@Override
-	protected void setupChildAttributeBindings(ChildAttributeBindings binding, BindingContext bindingContext)
+	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 	{
 		binding.add(new SourceAttribute(dataSetAdapter), SOURCE);
 		binding.add(new ItemLayoutAttribute(view, dataSetAdapter), ITEM_LAYOUT);

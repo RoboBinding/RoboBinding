@@ -28,7 +28,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.BindingContext;
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ChildAttributeResolver;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
@@ -117,7 +116,7 @@ public class ViewAttributeInitializerTest
 		}
 
 		@Override
-		protected void setupChildAttributeBindings(ChildAttributeBindings binding, BindingContext bindingContext)
+		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 		{
 		}
 		

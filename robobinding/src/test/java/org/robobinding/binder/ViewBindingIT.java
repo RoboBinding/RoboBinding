@@ -153,8 +153,9 @@ public class ViewBindingIT
 		}
 	}
 
+	//TODO Move test into SubViewAttributesTest
 	@Test
-	public void whenBindingMultipleInvalidResolvedSubViewAttributes_thenThrowExceptionReferringToEachOne()
+	public void whenBindingMultipleInvalidResolvedSubViewAttributes_thenThrowExceptionReferringToFirstFailure()
 	{
 		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForAdapterView()
@@ -173,9 +174,7 @@ public class ViewBindingIT
 		} catch (ViewBindingErrors e)
 		{
 			assertHasAttributeError(e, "footerLayout");
-			assertHasAttributeError(e, "footerVisibility");
-			assertHasAttributeError(e, "footerPresentationModel");
-			assertThat(e.numErrors(), is(3));
+			assertThat(e.numErrors(), is(1));
 		}
 	}
 	
@@ -338,7 +337,7 @@ public class ViewBindingIT
 		}
 
 		@Override
-		protected void setupChildAttributeBindings(ChildAttributeBindings binding, BindingContext bindingContext)
+		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 		{
 			throw new ProgrammingError();
 		}

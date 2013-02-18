@@ -15,15 +15,23 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import static com.google.common.collect.Maps.newLinkedHashMap;
 import static org.robobinding.attribute.ChildAttributeResolvers.staticResourceAttributeResolver;
 import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
 
+import java.util.Map;
+
 import org.robobinding.BindingContext;
+import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
+import org.robobinding.attribute.GroupedAttribute;
+import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.ChildViewAttribute;
+import org.robobinding.viewattribute.DependentChildViewAttributeBindingException;
+import org.robobinding.viewattribute.ViewAttribute;
 
-import android.view.InflateException;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -38,7 +46,8 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 	private View subView;
 	private SubViewAttributesStrategy<T> subViewAttributesStrategy;
 	private SubViewCreator subViewCreator;
-	
+	private int layoutId;
+
 	public SubViewAttributes(SubViewAttributesStrategy<T> subViewAttributesStrategy, SubViewCreator subViewCreator)
 	{
 		this.subViewAttributesStrategy = subViewAttributesStrategy;
@@ -60,49 +69,105 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 	}
 
 	@Override
-	protected void preBind(BindingContext bindingContext)
+	protected void setupChildAttributeBindings(ChildAttributeBindings childAttributeBindings)
 	{
-	}
-	
-	@Override
-	protected void setupChildAttributeBindings(ChildAttributeBindings childAttributeBindings, BindingContext bindingContext)
-	{
-		try {
-			subView = createSubView(childAttributeBindings, bindingContext);
-		} catch (InflateException e) {
-			return;
-		}
-		
-		subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
+		DependentChildViewAttributes dependentChildViewAttributes = new DependentChildViewAttributes();
+		dependentChildViewAttributes.add(layoutAttribute(), new SubViewLayoutAttribute());
+
+		ViewAttribute subViewAttribute = groupedAttribute.hasAttribute(subViewPresentationModel()) ? new SubViewPresentationModelAttribute()
+				: new SubViewWithoutPresentationModelAttribute();
+
+		dependentChildViewAttributes.add(subViewPresentationModel(), subViewAttribute);
+
 		if (groupedAttribute.hasAttribute(visibilityAttribute()))
 		{
-			childAttributeBindings.add(new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)), visibilityAttribute());
+			dependentChildViewAttributes.add(visibilityAttribute(), new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)));
 		}
+
+		childAttributeBindings.addDependentChildAttributes(dependentChildViewAttributes);
 	}
 
-	View createSubView(ChildAttributeBindings childAttributeBindings, BindingContext bindingContext)
+	public static class DependentChildViewAttributes implements ViewAttribute
 	{
-		int layoutId = 0;
-		try {
-			layoutId = groupedAttribute.staticResourceAttributeFor(layoutAttribute()).getResourceId(bindingContext.getContext());
-		} catch (RuntimeException e) {
-			childAttributeBindings.addChildAttributeError(layoutAttribute(), e);
+
+		private Map<String, ViewAttribute> dependentAttributeMap = newLinkedHashMap();
+
+		public void add(String attributeName, ViewAttribute viewAttribute)
+		{
+			dependentAttributeMap.put(attributeName, viewAttribute);
+		}
+
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		public void setAttributes(GroupedAttribute groupedAttribute)
+		{
+			for (Map.Entry<String, ViewAttribute> dependentAttributeEntry : dependentAttributeMap.entrySet())
+			{
+				if (dependentAttributeEntry instanceof ChildViewAttribute)
+				{
+					AbstractAttribute attribute = groupedAttribute.attributeFor(dependentAttributeEntry.getKey());
+					((ChildViewAttribute) dependentAttributeEntry).setAttribute(attribute);
+				}
+			}
+		}
+
+		@Override
+		public void bindTo(BindingContext bindingContext)
+		{
+			for (Map.Entry<String, ViewAttribute> dependentAttributeEntry : dependentAttributeMap.entrySet())
+			{
+				try
+				{
+					dependentAttributeEntry.getValue().bindTo(bindingContext);
+				} catch (RuntimeException e)
+				{
+					throw new DependentChildViewAttributeBindingException(dependentAttributeEntry.getKey());
+				}
+			}
+		}
+	}
+	
+	private class SubViewLayoutAttribute implements ChildViewAttribute<StaticResourceAttribute>
+	{
+		private StaticResourceAttribute attribute;
+		
+		@Override
+		public void bindTo(BindingContext bindingContext)
+		{
+			layoutId = attribute.getResourceId(bindingContext.getContext());
 		}
 		
-		if (groupedAttribute.hasAttribute(subViewPresentationModel()))
+		@Override
+		public void setAttribute(StaticResourceAttribute attribute)
 		{
-			try
-			{
-				ValueModelAttribute presentationModelAttributeValue = groupedAttribute.valueModelAttributeFor(subViewPresentationModel());
-				return subViewCreator.createAndBindTo(presentationModelAttributeValue);
-			} catch (RuntimeException e)
-			{
-				childAttributeBindings.addChildAttributeError(subViewPresentationModel(), e);
-				return subViewCreator.create();
-			}
-		} else
+			this.attribute = attribute;
+		}
+	}
+	
+	private class SubViewPresentationModelAttribute implements ChildViewAttribute<ValueModelAttribute>
+	{
+		private ValueModelAttribute attribute;
+		
+		@Override
+		public void bindTo(BindingContext bindingContext)
 		{
-			return subViewCreator.create();
+			subView = subViewCreator.createAndBindTo(attribute, layoutId, bindingContext);
+			subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
+		}
+		
+		@Override
+		public void setAttribute(ValueModelAttribute attribute)
+		{
+			this.attribute = attribute;
+		}
+	}
+	
+	private class SubViewWithoutPresentationModelAttribute implements ViewAttribute
+	{
+		@Override
+		public void bindTo(BindingContext bindingContext)
+		{
+			subView = subViewCreator.create(layoutId, bindingContext);
+			subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
 		}
 	}
 

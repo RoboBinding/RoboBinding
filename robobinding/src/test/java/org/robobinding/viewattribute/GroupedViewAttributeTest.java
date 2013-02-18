@@ -23,7 +23,6 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 
 import android.view.View;
@@ -80,7 +79,7 @@ public class GroupedViewAttributeTest
 		}
 
 		@Override
-		protected void setupChildAttributeBindings(ChildAttributeBindings binding, BindingContext bindingContext)
+		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 		{
 		}
 		
