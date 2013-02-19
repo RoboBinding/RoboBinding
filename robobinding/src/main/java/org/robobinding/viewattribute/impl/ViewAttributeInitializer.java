@@ -63,7 +63,6 @@ public class ViewAttributeInitializer
 			View view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes groupedAttributeDescriptor)
 	{
 		((AbstractGroupedViewAttribute<View>) groupedViewAttribute).setView(view);
-		//Set view attribute initializer?
 		groupedViewAttribute.resolvePendingGroupAttributes(groupedAttributeDescriptor);
 		groupedViewAttribute.setViewListenersProvider(viewListenersProvider);
 		return groupedViewAttribute;

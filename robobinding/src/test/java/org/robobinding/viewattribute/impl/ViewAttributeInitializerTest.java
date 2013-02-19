@@ -20,7 +20,6 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
@@ -84,7 +83,6 @@ public class ViewAttributeInitializerTest
 		{
 			this.viewListenersProvider = viewListenersProvider;
 			viewAttributeInitializerImplementor = mock(ViewAttributeInitializerImplementor.class);
-			//when(viewAttributeInitializerImplementor.newViewAttribute(new MockGroupedViewAttribute()).thenReturn(new MockGroupedViewAttribute());
 		}
 	}
 	

@@ -35,7 +35,7 @@ import org.junit.runner.RunWith;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-//@RunWith(Theories.class)
+@RunWith(Theories.class)
 public class GroupAttributesTest
 {
 	@DataPoints

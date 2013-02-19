@@ -152,7 +152,6 @@ public class ViewBindingIT
 		}
 	}
 
-	//TODO Move test into SubViewAttributesTest
 	@Test
 	public void whenBindingMultipleInvalidResolvedSubViewAttributes_thenThrowExceptionReferringToFirstFailure()
 	{
@@ -180,7 +179,6 @@ public class ViewBindingIT
 	@Test (expected = ProgrammingError.class)
 	public void whenAnUnexpectedExceptionIsThrownDuringBinding_thenErrorShouldNotBeSuppressed()
 	{
-		//TODO but should it be preventing the detection of other errors?
 		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForBuggyCustomView()
 				.withAttribute(BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE, "{name}")
@@ -192,7 +190,6 @@ public class ViewBindingIT
 	@Test (expected = ProgrammingError.class)
 	public void whenAnUnexpectedExceptionIsThrownDuringGroupChildAttributeBinding_thenErrorShouldNotBeSuppressed()
 	{
-		//TODO but should it be preventing the detection of other errors?
 		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForBuggyCustomView()
 				.withAttribute(BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE, "{name}")
@@ -200,13 +197,6 @@ public class ViewBindingIT
 		
 		resolvedBindingAttributes.bindTo(bindingContext);
 	}
-//	
-//	@Test
-//	public void testLayoutInflater()
-//	{
-//		LayoutInflater layoutInflater = LayoutInflater.from(new Activity()).cloneInContext(new Activity());
-//		layoutInflater.inflate(0, new ListView(new Activity()));
-//	}
 	
 	private PendingAttributesForViewBuilder aPendingAttributesForEditText()
 	{
