@@ -30,7 +30,7 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class GroupedAttributeDescriptorTest
+public class PendingGroupAttributesTest
 {
 	private PendingGroupAttributes groupedAttributeDescriptor;
 	private String[] attributeNames;
