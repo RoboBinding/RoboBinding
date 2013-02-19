@@ -37,7 +37,7 @@ import android.view.View;
 public class BindingAttributeResolver
 {
 	BindingAttributeProvidersResolver providersResolver;
-	private ViewAttributeInitializer viewAttributeInstantiator;
+	private ViewAttributeInitializer viewAttributeInitializer;
 	private ResolvedBindingAttributes resolvedBindingAttributes;
 
 	public BindingAttributeResolver()
@@ -59,7 +59,7 @@ public class BindingAttributeResolver
 	private void initializeNewResolving(View view)
 	{
 		resolvedBindingAttributes = new ResolvedBindingAttributes(view);
-		viewAttributeInstantiator = new ViewAttributeInitializer();
+		viewAttributeInitializer = new ViewAttributeInitializer();
 	}
 
 	private void resolveByBindingAttributeProviders(PendingAttributesForView pendingAttributesForView)
@@ -82,7 +82,7 @@ public class BindingAttributeResolver
 	Collection<ViewAttribute> resolveByBindingAttributeProvider(PendingAttributesForView pendingAttributesForView,
 			BindingAttributeProvider<View> bindingAttributeProvider)
 	{
-		BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(viewAttributeInstantiator);
+		BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(viewAttributeInitializer);
 		ByBindingAttributeMappingsResolver bindingAttributeMappingsResolver = new ByBindingAttributeMappingsResolver(bindingAttributeMappings);
 		Collection<ViewAttribute> resolvedViewAttributes = bindingAttributeMappingsResolver.resolve(pendingAttributesForView);
 		return resolvedViewAttributes;

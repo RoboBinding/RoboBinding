@@ -63,7 +63,7 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 		binding.add(new SourceAttribute(dataSetAdapter), SOURCE);
 		binding.add(new ItemLayoutAttribute(view, dataSetAdapter), ITEM_LAYOUT);
 		
-		if(groupedAttribute.hasAttribute(ITEM_MAPPING))
+		if(groupAttributes.hasAttribute(ITEM_MAPPING))
 			binding.add(new ItemMappingAttribute(dataSetAdapter),ITEM_MAPPING);
 	}
 

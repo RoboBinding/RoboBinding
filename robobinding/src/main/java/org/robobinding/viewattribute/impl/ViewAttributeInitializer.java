@@ -16,7 +16,7 @@
 package org.robobinding.viewattribute.impl;
 
 import org.robobinding.attribute.CommandAttribute;
-import org.robobinding.attribute.GroupedAttributeDescriptor;
+import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
@@ -60,10 +60,11 @@ public class ViewAttributeInitializer
 
 	@SuppressWarnings("unchecked")
 	public <GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType initializeGroupedViewAttribute(
-			View view, GroupedViewAttributeType groupedViewAttribute, GroupedAttributeDescriptor groupedAttributeDescriptor)
+			View view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes groupedAttributeDescriptor)
 	{
 		((AbstractGroupedViewAttribute<View>) groupedViewAttribute).setView(view);
-		groupedViewAttribute.setGroupedAttributeDescriptor(groupedAttributeDescriptor);
+		//Set view attribute initializer?
+		groupedViewAttribute.resolvePendingGroupAttributes(groupedAttributeDescriptor);
 		groupedViewAttribute.setViewListenersProvider(viewListenersProvider);
 		return groupedViewAttribute;
 	}

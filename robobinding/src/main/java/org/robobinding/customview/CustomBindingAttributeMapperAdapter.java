@@ -36,9 +36,9 @@ public class CustomBindingAttributeMapperAdapter<T extends View> implements Bind
 	}
 
 	@Override
-	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInitializer viewAttributeInstantiator)
+	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInitializer viewAttributeInitializer)
 	{
-		CustomBindingAttributeMappingsImpl<T> bindingAttributeMappings = new CustomBindingAttributeMappingsImpl<T>(viewAttributeInstantiator);
+		CustomBindingAttributeMappingsImpl<T> bindingAttributeMappings = new CustomBindingAttributeMappingsImpl<T>(viewAttributeInitializer);
 		bindableView.mapBindingAttributes(bindingAttributeMappings);
 		return bindingAttributeMappings;
 	}

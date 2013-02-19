@@ -32,7 +32,7 @@ import com.google.common.collect.Maps;
  */
 public class GroupedAttributeDescriptorTest
 {
-	private GroupedAttributeDescriptor groupedAttributeDescriptor;
+	private PendingGroupAttributes groupedAttributeDescriptor;
 	private String[] attributeNames;
 	@Before
 	public void setUp()
@@ -58,7 +58,7 @@ public class GroupedAttributeDescriptorTest
 	
 	private void noAttributeIsPresent()
 	{
-		groupedAttributeDescriptor = new GroupedAttributeDescriptor(Maps.<String, String>newHashMap());
+		groupedAttributeDescriptor = new PendingGroupAttributes(Maps.<String, String>newHashMap());
 	}
 	
 	private void allAttributesArePresent()
@@ -69,7 +69,7 @@ public class GroupedAttributeDescriptorTest
 			presentAttributeMappings.put(attributeName, "attributeValue");
 		}
 		
-		groupedAttributeDescriptor = new GroupedAttributeDescriptor(presentAttributeMappings);
+		groupedAttributeDescriptor = new PendingGroupAttributes(presentAttributeMappings);
 	}
 	
 	private String[] randomAttributeArray()

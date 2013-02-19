@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robobinding.BindingContext;
 import org.robobinding.MockBindingContext;
-import org.robobinding.attribute.GroupedAttributeDescriptor;
+import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute.ChildAttributeBindings;
 
 import android.app.Activity;
@@ -101,8 +101,8 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 
 	protected void performInitialization()
 	{
-		GroupedAttributeDescriptor groupedAttributeDecriptor = new GroupedAttributeDescriptor(presentAttributeMappings);
-		attributeUnderTest.setGroupedAttributeDescriptor(groupedAttributeDecriptor);
+		PendingGroupAttributes groupedAttributeDecriptor = new PendingGroupAttributes(presentAttributeMappings);
+		attributeUnderTest.resolvePendingGroupAttributes(groupedAttributeDecriptor);
 		setupChildAttributes();
 	}
 

@@ -69,7 +69,7 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	{
 		if (valueCommitModeSpecified())
 		{
-			EnumAttribute<ValueCommitMode> enumAttribute = groupedAttribute.enumAttributeFor(VALUE_COMMIT_MODE);
+			EnumAttribute<ValueCommitMode> enumAttribute = groupAttributes.enumAttributeFor(VALUE_COMMIT_MODE);
 			return enumAttribute.getValue();
 		}
 
@@ -78,11 +78,11 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 
 	private boolean valueCommitModeSpecified()
 	{
-		return groupedAttribute.hasAttribute(VALUE_COMMIT_MODE);
+		return groupAttributes.hasAttribute(VALUE_COMMIT_MODE);
 	}
 	
 	private ValueModelAttribute textAttribute()
 	{
-		return groupedAttribute.valueModelAttributeFor(TEXT);
+		return groupAttributes.valueModelAttributeFor(TEXT);
 	}
 }

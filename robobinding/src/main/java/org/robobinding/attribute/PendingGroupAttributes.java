@@ -32,11 +32,11 @@ import com.google.common.collect.Maps;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class GroupedAttributeDescriptor
+public class PendingGroupAttributes
 {
 	private final Map<String, String> presentAttributeMappings;
 
-	public GroupedAttributeDescriptor(Map<String, String> presentAttributeMappings)
+	public PendingGroupAttributes(Map<String, String> presentAttributeMappings)
 	{
 		this.presentAttributeMappings = Maps.newHashMap(presentAttributeMappings);
 	}
@@ -82,10 +82,10 @@ public class GroupedAttributeDescriptor
 	{
 		if (this == other)
 			return true;
-		if (!(other instanceof GroupedAttributeDescriptor))
+		if (!(other instanceof PendingGroupAttributes))
 			return false;
 	
-		final GroupedAttributeDescriptor that = (GroupedAttributeDescriptor) other;
+		final PendingGroupAttributes that = (PendingGroupAttributes) other;
 		return new EqualsBuilder()
 			.append(presentAttributeMappings, that.presentAttributeMappings)
 			.isEquals();

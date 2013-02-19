@@ -15,18 +15,13 @@
  */
 package org.robobinding.attribute;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
-
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -57,33 +52,24 @@ public class GroupedAttributeBuilder
 		return this;
 	}
 	
-	public GroupedAttribute build()
+	public GroupAttributes build()
 	{
-		return new GroupedAttribute(createDescriptor(), createResolverMapper());
+		return new GroupAttributes(createPendingGroupAttributes(), createResolverMappings());
 	}
 
-	private ChildAttributeResolverMapper createResolverMapper()
+	private ChildAttributeResolverMappings createResolverMappings()
 	{
-		ChildAttributeResolverMapper resolverMapper = mock(ChildAttributeResolverMapper.class);
-		doAnswer(new Answer<Void>() {
-			@Override
-			public Void answer(InvocationOnMock invocation) throws Throwable
-			{
-				ChildAttributeResolverMappings resolverMappings = (ChildAttributeResolverMappings)invocation.getArguments()[0];
-				for(AbstractAttribute childAttribute : childAttributeResolutions)
-				{
-					String attributeName = childAttribute.getName();
-					ChildAttributeResolver resolver = mock(ChildAttributeResolver.class);
-					when(resolver.resolveChildAttribute(eq(attributeName), anyString())).thenReturn(childAttribute);
-					resolverMappings.map(resolver, attributeName);
-				}
-				return null;
-			}
-		}).when(resolverMapper).mapChildAttributeResolvers(any(ChildAttributeResolverMappings.class));
-		return resolverMapper;
+		ChildAttributeResolverMappings childAttributeResolverMappings = mock(ChildAttributeResolverMappings.class);
+		ChildAttributeResolver childAttributeResolver = mock(ChildAttributeResolver.class);
+		
+		AbstractAttribute attribute = childAttributeResolutions.get(0);
+		when(childAttributeResolver.resolveChildAttribute(eq(attribute.getName()), anyString())).thenReturn(attribute);
+		when(childAttributeResolverMappings.resolverFor(attribute.getName())).thenReturn(childAttributeResolver);
+		
+		return childAttributeResolverMappings;
 	}
 
-	private GroupedAttributeDescriptor createDescriptor()
+	private PendingGroupAttributes createPendingGroupAttributes()
 	{
 		Map<String, String> presentAttributes = Maps.newHashMap();
 		for(AbstractAttribute childAttribute : childAttributeResolutions)
@@ -91,6 +77,6 @@ public class GroupedAttributeBuilder
 			presentAttributes.put(childAttribute.getName(), null);
 		}
 		
-		return new GroupedAttributeDescriptor(presentAttributes);
+		return new PendingGroupAttributes(presentAttributes);
 	}
 }

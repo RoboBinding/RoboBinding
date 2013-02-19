@@ -20,7 +20,7 @@ import static org.robobinding.viewattribute.ViewAttributeInstantiator.newViewAtt
 import java.util.Map;
 
 import org.robobinding.attribute.CommandAttribute;
-import org.robobinding.attribute.GroupedAttributeDescriptor;
+import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
@@ -148,7 +148,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		@SuppressWarnings("unchecked")
 		AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>)groupedViewAttributeMappings.get(attributeGroup).create();
 		View view = getViewForAttributeGroup(attributeGroup, defaultView);
-		GroupedAttributeDescriptor groupedAttributeDescriptor = new GroupedAttributeDescriptor(presentAttributeMappings);
+		PendingGroupAttributes groupedAttributeDescriptor = new PendingGroupAttributes(presentAttributeMappings);
 		groupedViewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(
 				view, groupedViewAttribute, groupedAttributeDescriptor);
 		return groupedViewAttribute;

@@ -35,8 +35,8 @@ import org.junit.runner.RunWith;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(Theories.class)
-public class GroupedAttributeTest
+//@RunWith(Theories.class)
+public class GroupAttributesTest
 {
 	@DataPoints
 	public static ChildAttributeExpectation[] childAttributeExpectations = {
@@ -51,7 +51,7 @@ public class GroupedAttributeTest
 	public void givenChildAttribute_whenAskForAttribute_thenReturnAttributeOfCorrectType(ChildAttributeExpectation childAttributeExpectation)
 	{
 		String attributeName = childAttributeExpectation.attributeName();
-		GroupedAttribute groupedAttribute = aGroupedAttribute()
+		GroupAttributes groupedAttribute = aGroupedAttribute()
 				.withChildAttributeResolution(childAttributeExpectation.attribute)
 				.build();
 		
@@ -64,9 +64,9 @@ public class GroupedAttributeTest
 	public void givenChildAttribute_whenAskForAttributeOfIncorrectType_thenThrowException()
 	{
 		CommandAttribute commandAttribute = aCommandAttribute("commandName");
-		GroupedAttribute groupedAttribute = aGroupedAttribute()
+		GroupAttributes groupedAttribute = aGroupedAttribute()
 				.withChildAttributeResolution(commandAttribute)
-				.build();
+					.build();
 		
 		groupedAttribute.valueModelAttributeFor(commandAttribute.getName());
 	}

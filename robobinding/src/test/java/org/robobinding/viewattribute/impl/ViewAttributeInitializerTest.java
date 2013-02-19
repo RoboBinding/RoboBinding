@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ChildAttributeResolver;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
-import org.robobinding.attribute.GroupedAttributeDescriptor;
+import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ViewListenersProvider;
 
@@ -71,11 +71,11 @@ public class ViewAttributeInitializerTest
 		groupedViewAttribute.assertCorrectlyInitialized(view, viewListenersProvider);
 	}
 	
-	private GroupedAttributeDescriptor newGroupedAttributeDescriptor()
+	private PendingGroupAttributes newGroupedAttributeDescriptor()
 	{
 		Map<String, String> presentAttributeMappings = Maps.newHashMap();
 		presentAttributeMappings.put(ATTRIBUTE_NAME, ATTRIBUTE_VALUE);
-		return new GroupedAttributeDescriptor(presentAttributeMappings);
+		return new PendingGroupAttributes(presentAttributeMappings);
 	}
 	
 	private static class ViewAttributeInitializerForTest extends ViewAttributeInitializer
@@ -109,7 +109,7 @@ public class ViewAttributeInitializerTest
 		public void assertCorrectlyInitialized(View view, ViewListenersProvider viewListenersProvider)
 		{
 			assertThat(this.view, sameInstance(view));
-			assertThat(groupedAttribute.<AttributeForTest>attributeFor(ATTRIBUTE_NAME), 
+			assertThat(groupAttributes.<AttributeForTest>attributeFor(ATTRIBUTE_NAME), 
 					equalTo(new AttributeForTest(ATTRIBUTE_NAME, ATTRIBUTE_VALUE)));
 			assertThat(this.viewListenersProvider, sameInstance(viewListenersProvider));
 			assertTrue(mapChildAttributeResolversInvoked);

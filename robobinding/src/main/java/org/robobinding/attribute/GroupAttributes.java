@@ -15,6 +15,8 @@
  */
 package org.robobinding.attribute;
 
+import static com.google.common.collect.Maps.newHashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -30,30 +32,26 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class GroupedAttribute
+public class GroupAttributes
 {
-	private GroupedAttributeDescriptor descriptor;
-	private Map<String, AbstractAttribute> childAttributes;
+	private Map<String, AbstractAttribute> resolvedChildAttributes = newHashMap();
 
-	public GroupedAttribute(GroupedAttributeDescriptor descriptor, ChildAttributeResolverMapper resolverMapper)
+	public GroupAttributes(PendingGroupAttributes pendingGroupAttributes, ChildAttributeResolverMappings resolverMappings)
 	{
-		this.descriptor = descriptor;
-		resolveChildAttributes(resolverMapper);
+		resolveChildAttributes(pendingGroupAttributes, resolverMappings);
 	}
 
-	private void resolveChildAttributes(ChildAttributeResolverMapper resolverMapper)
+	private void resolveChildAttributes(PendingGroupAttributes pendingGroupAttributes, ChildAttributeResolverMappings resolverMappings)
 	{
-		ChildAttributeResolverMappings resolverMappings = createResolverMappings(resolverMapper);
-		childAttributes = Maps.newHashMap();
 		List<AttributeResolutionException> resolutionExceptions = Lists.newArrayList();
-		for (Map.Entry<String, String> attributeEntry : descriptor.presentAttributes())
+		for (Map.Entry<String, String> attributeEntry : pendingGroupAttributes.presentAttributes())
 		{
 			String attribute = attributeEntry.getKey();
 			ChildAttributeResolver resolver = resolverMappings.resolverFor(attribute);
 			try
 			{
 				AbstractAttribute childAttribute = resolver.resolveChildAttribute(attribute, attributeEntry.getValue());
-				childAttributes.put(attribute, childAttribute);
+				resolvedChildAttributes.put(attribute, childAttribute);
 			} catch (AttributeResolutionException e)
 			{
 				resolutionExceptions.add(e);
@@ -62,13 +60,6 @@ public class GroupedAttribute
 
 		if (!resolutionExceptions.isEmpty())
 			throw new GroupedAttributeResolutionException(resolutionExceptions);
-	}
-
-	private ChildAttributeResolverMappings createResolverMappings(ChildAttributeResolverMapper resolverMapper)
-	{
-		ChildAttributeResolverMappings resolverMappings = new ChildAttributeResolverMappings();
-		resolverMapper.mapChildAttributeResolvers(resolverMappings);
-		return resolverMappings;
 	}
 
 	public ValueModelAttribute valueModelAttributeFor(String attributeName)
@@ -88,12 +79,12 @@ public class GroupedAttribute
 
 	public boolean hasAttribute(String attributeName)
 	{
-		return childAttributes.containsKey(attributeName);
+		return resolvedChildAttributes.containsKey(attributeName);
 	}
 
 	@SuppressWarnings("unchecked")
 	public <AttributeType extends AbstractAttribute> AttributeType attributeFor(String attributeName)
 	{
-		return (AttributeType) childAttributes.get(attributeName);
+		return (AttributeType) resolvedChildAttributes.get(attributeName);
 	}
 }

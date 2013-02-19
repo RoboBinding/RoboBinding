@@ -28,5 +28,5 @@ import android.view.View;
  */
 public interface BindingAttributeProvider<T extends View>
 {
-	BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInitializer viewAttributeInstantiator);
+	BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInitializer viewAttributeInitializer);
 }

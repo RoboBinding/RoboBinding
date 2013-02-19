@@ -24,7 +24,7 @@ import java.util.Map;
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
-import org.robobinding.attribute.GroupedAttribute;
+import org.robobinding.attribute.GroupAttributes;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
@@ -74,12 +74,12 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 		DependentChildViewAttributes dependentChildViewAttributes = new DependentChildViewAttributes();
 		dependentChildViewAttributes.add(layoutAttribute(), new SubViewLayoutAttribute());
 
-		ViewAttribute subViewAttribute = groupedAttribute.hasAttribute(subViewPresentationModel()) ? new SubViewPresentationModelAttribute()
+		ViewAttribute subViewAttribute = groupAttributes.hasAttribute(subViewPresentationModel()) ? new SubViewPresentationModelAttribute()
 				: new SubViewWithoutPresentationModelAttribute();
 
 		dependentChildViewAttributes.add(subViewPresentationModel(), subViewAttribute);
 
-		if (groupedAttribute.hasAttribute(visibilityAttribute()))
+		if (groupAttributes.hasAttribute(visibilityAttribute()))
 		{
 			dependentChildViewAttributes.add(visibilityAttribute(), new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)));
 		}
@@ -89,7 +89,6 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 
 	public static class DependentChildViewAttributes implements ViewAttribute
 	{
-
 		private Map<String, ViewAttribute> dependentAttributeMap = newLinkedHashMap();
 
 		public void add(String attributeName, ViewAttribute viewAttribute)
@@ -98,7 +97,7 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 		}
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		public void setAttributes(GroupedAttribute groupedAttribute)
+		public void setAttributes(GroupAttributes groupedAttribute)
 		{
 			for (Map.Entry<String, ViewAttribute> dependentAttributeEntry : dependentAttributeMap.entrySet())
 			{

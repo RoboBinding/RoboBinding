@@ -44,7 +44,7 @@ public class ChildAttributeResolverMappings
 		childAttributeResolvers.put(attribute, resolver);
 	}
 
-	ChildAttributeResolver resolverFor(String attribute)
+	public ChildAttributeResolver resolverFor(String attribute)
 	{
 		if(childAttributeResolvers.containsKey(attribute))
 		{

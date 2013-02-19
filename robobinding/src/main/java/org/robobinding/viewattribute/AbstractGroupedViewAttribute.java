@@ -21,8 +21,9 @@ import org.robobinding.AttributeResolutionException;
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ChildAttributeResolverMapper;
-import org.robobinding.attribute.GroupedAttribute;
-import org.robobinding.attribute.GroupedAttributeDescriptor;
+import org.robobinding.attribute.ChildAttributeResolverMappings;
+import org.robobinding.attribute.GroupAttributes;
+import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.adapterview.SubViewAttributes.DependentChildViewAttributes;
 
@@ -41,7 +42,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	private static final String[] NO_COMPULSORY_ATTRIBUTES = new String[0];
 	
 	protected T view;
-	protected GroupedAttribute groupedAttribute;
+	protected GroupAttributes groupAttributes;
 	private ViewListenersProvider viewListenersProvider;
 	private AbstractViewAttributeInitializer viewAttributeInitializer;
 	
@@ -49,12 +50,20 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	{
 		this.view = view;
 	}
-
-	public void setGroupedAttributeDescriptor(GroupedAttributeDescriptor groupedAttributeDescriptor)
+	
+	public void resolvePendingGroupAttributes(PendingGroupAttributes pendingGroupAttributes)
 	{
-		groupedAttributeDescriptor.assertAttributesArePresent(getCompulsoryAttributes());
-		groupedAttribute = new GroupedAttribute(groupedAttributeDescriptor, this);
+		pendingGroupAttributes.assertAttributesArePresent(getCompulsoryAttributes());
+		ChildAttributeResolverMappings resolverMappings = createResolverMappings();
+		groupAttributes = new GroupAttributes(pendingGroupAttributes, resolverMappings);
 		validateResolvedChildAttributes();
+	}
+	
+	private ChildAttributeResolverMappings createResolverMappings()
+	{
+		ChildAttributeResolverMappings resolverMappings = new ChildAttributeResolverMappings();
+		mapChildAttributeResolvers(resolverMappings);
+		return resolverMappings;
 	}
 
 	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
@@ -124,7 +133,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		
 		public <AttributeType extends AbstractAttribute> ChildViewAttribute<AttributeType> add(ChildViewAttribute<AttributeType> childAttribute, String attributeName)
 		{
-			AttributeType attribute = groupedAttribute.attributeFor(attributeName);
+			AttributeType attribute = groupAttributes.attributeFor(attributeName);
 			childAttribute.setAttribute(attribute);
 			childAttributeMap.put(attributeName, childAttribute);
 			return childAttribute;
@@ -132,14 +141,14 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		
 		public <AttributeType extends AbstractAttribute> void addDependentChildAttributes(DependentChildViewAttributes dependentChildViewAttributes)
 		{
-			dependentChildViewAttributes.setAttributes(groupedAttribute);
+			dependentChildViewAttributes.setAttributes(groupAttributes);
 			childAttributeMap.put(dependentChildViewAttributes.toString(), dependentChildViewAttributes);
 		}
 		
 		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(
 				PropertyViewAttributeType propertyViewAttribute, String propertyAttribute)
 		{
-			ValueModelAttribute attributeValue = groupedAttribute.valueModelAttributeFor(propertyAttribute);
+			ValueModelAttribute attributeValue = groupAttributes.valueModelAttributeFor(propertyAttribute);
 			propertyViewAttribute = safeGetViewAttributeInstantiator().injectProperties(propertyViewAttribute, attributeValue);
 			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
 			return propertyViewAttribute;
