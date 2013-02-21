@@ -17,14 +17,10 @@ package org.robobinding.attribute;
 
 import static com.google.common.collect.Maps.newHashMap;
 
-import java.util.List;
 import java.util.Map;
 
 import org.robobinding.AttributeResolutionException;
 import org.robobinding.GroupedAttributeResolutionException;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * 
@@ -43,7 +39,7 @@ public class GroupAttributes
 
 	private void resolveChildAttributes(PendingGroupAttributes pendingGroupAttributes, ChildAttributeResolverMappings resolverMappings)
 	{
-		List<AttributeResolutionException> resolutionExceptions = Lists.newArrayList();
+		GroupedAttributeResolutionException groupResolutionErrors = new GroupedAttributeResolutionException();
 		for (Map.Entry<String, String> attributeEntry : pendingGroupAttributes.presentAttributes())
 		{
 			String attribute = attributeEntry.getKey();
@@ -54,12 +50,11 @@ public class GroupAttributes
 				resolvedChildAttributes.put(attribute, childAttribute);
 			} catch (AttributeResolutionException e)
 			{
-				resolutionExceptions.add(e);
+				groupResolutionErrors.add(e);
 			}
 		}
 
-		if (!resolutionExceptions.isEmpty())
-			throw new GroupedAttributeResolutionException(resolutionExceptions);
+		groupResolutionErrors.assertNoErrors();
 	}
 
 	public ValueModelAttribute valueModelAttributeFor(String attributeName)
