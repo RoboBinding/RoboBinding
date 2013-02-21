@@ -22,21 +22,6 @@
 		<maven.compiler.target>1.6</maven.compiler.target>
 	</properties>
 
-	<repositories>
-		<repository>
-			<!-- This repository is required until Robolectric 1.2 is published on 
-				Central -->
-			<id>oss-sonatype-snapshots</id>
-			<url>http://oss.sonatype.org/content/repositories/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -53,7 +38,7 @@
 		<dependency>
 			<groupId>com.pivotallabs</groupId>
 			<artifactId>robolectric</artifactId>
-			<version>1.2-SNAPSHOT</version>
+			<version>1.2</version>
 			<scope>test</scope>
 		</dependency>
 
