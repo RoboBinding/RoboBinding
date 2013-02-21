@@ -21,12 +21,14 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.robobinding.BindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.binder.BinderImplementorImpl.BindingContextCreator;
@@ -48,25 +50,21 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class BinderImplementorImplTest
 {
-	private BindingContextCreator bindingContextCreator;
-	private BindingContext bindingContext;
-	private BinderImplementorImpl binderImplementor;
-	private BindingViewInflater bindingViewInflater;
-	private ErrorFormatter errorFormatter;
+	@Mock BindingContextCreator bindingContextCreator;
+	@Mock BindingContext bindingContext;
+	@Mock private BindingViewInflater bindingViewInflater;
+	@Mock private ErrorFormatter errorFormatter;
+	@Mock private InflatedView inflatedView;
 	private Object presentationModel = new Object();
-	private InflatedView inflatedView;
 	private int layoutId = 0;
+	private BinderImplementorImpl binderImplementor;
 	
 	@Before
 	public void setUp()
 	{
-		bindingContext = mock(BindingContext.class);
-		bindingContextCreator = mock(BindingContextCreator.class);
+		initMocks(this);
 		when(bindingContextCreator.create(presentationModel)).thenReturn(bindingContext);
-		inflatedView = mock(InflatedView.class);
-		bindingViewInflater = mock(BindingViewInflater.class);
 		when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
-		errorFormatter = new PlainTextErrorFormatter();
 		binderImplementor = new BinderImplementorImplForTest(new Activity(), bindingContextCreator, errorFormatter);
 	}
 	
