@@ -62,9 +62,10 @@ public class GroupedAttributeBuilder
 		ChildAttributeResolverMappings childAttributeResolverMappings = mock(ChildAttributeResolverMappings.class);
 		ChildAttributeResolver childAttributeResolver = mock(ChildAttributeResolver.class);
 		
-		AbstractAttribute attribute = childAttributeResolutions.get(0);
-		when(childAttributeResolver.resolveChildAttribute(eq(attribute.getName()), anyString())).thenReturn(attribute);
-		when(childAttributeResolverMappings.resolverFor(attribute.getName())).thenReturn(childAttributeResolver);
+		for (AbstractAttribute attribute : childAttributeResolutions) {
+			when(childAttributeResolver.resolveChildAttribute(eq(attribute.getName()), anyString())).thenReturn(attribute);
+			when(childAttributeResolverMappings.resolverFor(attribute.getName())).thenReturn(childAttributeResolver);
+		}	
 		
 		return childAttributeResolverMappings;
 	}
