@@ -125,7 +125,6 @@ public class DataSetAdapter<T> extends BaseAdapter
 	private View createViewFromResource(int position, View convertView, ViewGroup parent, ViewType viewType)
 	{
 		View view;
-
 		if (convertView == null)
 		{
 			view = newView(position, parent, viewType);
@@ -134,7 +133,6 @@ public class DataSetAdapter<T> extends BaseAdapter
 		{
 			view = convertView;
 		}
-
 		updateItemPresentationModel(view, position);
 
 		return view;
@@ -147,7 +145,8 @@ public class DataSetAdapter<T> extends BaseAdapter
 		if(viewType == ViewType.ITEM_LAYOUT)
 		{
 			view = itemBinder.inflateAndBind(itemLayoutId, itemPresentationModel);
-		}else
+		}
+		else
 		{
 			view = dropDownBinder.inflateAndBind(dropDownLayoutId, itemPresentationModel);
 		}

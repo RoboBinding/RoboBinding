@@ -15,18 +15,25 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.robobinding.BindingContext;
-import org.robobinding.MockBindingContext;
+import org.robobinding.ItemBinder;
+import org.robobinding.R;
 import org.robobinding.presentationmodel.AbstractPresentationModel;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
@@ -35,6 +42,7 @@ import org.robobinding.viewattribute.RandomValues;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.View;
 
 import com.google.common.collect.Lists;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -46,9 +54,14 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
+@SuppressWarnings(value = {"rawtypes", "unchecked"})
 public class DataSetAdapterTest
 {
-	private DataSetAdapterForTest dataSetAdapter;
+	@Mock BindingContext bindingContext;
+	@Mock ItemBinder itemBinder;
+	@Mock ItemBinder dropDownBinder;
+	private View view;
+	private DataSetAdapter dataSetAdapter;
 	private MockPresentationModel presentationModel;
 	private DataSetValueModel<Object> dataSetProperty;
 	private Context context = new Activity();
@@ -56,44 +69,46 @@ public class DataSetAdapterTest
 	@Before
 	public void setUp()
 	{
+		initMocks(this);
 		presentationModel = new MockPresentationModel();
 		dataSetProperty = ValueModelUtils.createDataSetValueModel(presentationModel, "list");
+		when(bindingContext.createItemBinder()).thenReturn(itemBinder, dropDownBinder);
+		dataSetAdapter = spy(new DataSetAdapter(bindingContext));
+		dataSetAdapter.setValueModel(dataSetProperty);
+		view = new View(context);
 	}
 
 	@Test
 	public void whenUpdatingTheValueModel_thenNotifyDataSetChanged()
 	{
-		dataSetAdapterWithViewsPreInitialized();
 		dataSetAdapter.observeChangesOnTheValueModel();
 		
 		presentationModel.update();
 		
-		assertTrue(dataSetAdapter.hasNotifiedDataSetChanged);
+		verify(dataSetAdapter).notifyDataSetChanged();
 	}
 	
-//	@Test
-//	public void givenItemLayoutId_whenGeneratingItemView_thenInflateTheCorrectView()
-//	{
-//		dataSetAdapterWithViewsPreInitialized();
-//		dataSetAdapter.setItemLayoutId(R.layout.sample_item_layout);
-//		
-//		View view = dataSetAdapter.getView(0, null, null);
-//		
-//		assertNotNull(view);
-//		assertThat(view.getId(), equalTo(R.id.sample_item_layout));
-//	}
-//	
-//	@Test
-//	public void givenDropdownLayoutId_whenGeneratingDropdownView_thenInflateTheCorrectView()
-//	{
-//		dataSetAdapterWithViewsPreInitialized();
-//		dataSetAdapter.setDropDownLayoutId(R.layout.sample_dropdown_layout);
-//		
-//		View view = dataSetAdapter.getDropDownView(0, null, null);
-//		
-//		assertNotNull(view);
-//		assertThat(view.getId(), equalTo(R.id.sample_dropdown_layout));
-//	}
+	@Test
+	public void givenItemLayoutId_whenGeneratingItemView_thenInflateTheCorrectView()
+	{
+		when(itemBinder.inflateAndBind(eq(R.layout.sample_item_layout), any(ItemPresentationModelDummy.class))).thenReturn(view);
+		dataSetAdapter.setItemLayoutId(R.layout.sample_item_layout);
+		
+		View result = dataSetAdapter.getView(0, null, null);
+		
+		assertThat(result.getTag(), instanceOf(ItemPresentationModelDummy.class));
+	}
+	
+	@Test
+	public void givenDropdownLayoutId_whenGeneratingDropdownView_thenInflateTheCorrectView()
+	{
+		when(dropDownBinder.inflateAndBind(eq(R.layout.sample_dropdown_layout), any(ItemPresentationModelDummy.class))).thenReturn(view);
+		dataSetAdapter.setDropDownLayoutId(R.layout.sample_dropdown_layout);
+		
+		View result = dataSetAdapter.getDropDownView(0, null, null);
+		
+		assertThat(result.getTag(), instanceOf(ItemPresentationModelDummy.class));
+	}
 	
 	@Test
 	public void givenPreInitializeViewsIsTrue_whenInitializing_thenDataSetAdapterCountShouldReflectPresentationModel()
@@ -126,8 +141,6 @@ public class DataSetAdapterTest
 	@Test
 	public void givenADataSetAdapterWithoutAValueModel_thenCountShouldBeZero()
 	{
-		BindingContext bindingContext = mock(BindingContext.class);
-		
 		DataSetAdapter dataSetAdapter = new DataSetAdapter(bindingContext);
 		
 		assertThat(dataSetAdapter.getCount(), is(0));
@@ -135,37 +148,21 @@ public class DataSetAdapterTest
 	
 	private void dataSetAdapterWithViewsPreInitialized()
 	{
-		dataSetAdapter = new DataSetAdapterForTest(context, true);
+		when(bindingContext.shouldPreInitializeViews()).thenReturn(true);
+		dataSetAdapter = spy(new DataSetAdapter(bindingContext));
 		dataSetAdapter.setValueModel(dataSetProperty);
 	}
 	
-	private DataSetAdapterForTest dataSetAdapterNotPreInitializingViews()
+	private void dataSetAdapterNotPreInitializingViews()
 	{
-		dataSetAdapter = new DataSetAdapterForTest(context, false);
+		when(bindingContext.shouldPreInitializeViews()).thenReturn(false);
+		dataSetAdapter = spy(new DataSetAdapter(bindingContext));
 		dataSetAdapter.setValueModel(dataSetProperty);
-		return dataSetAdapter;
-	}
-	
-	static class DataSetAdapterForTest extends DataSetAdapter<Object>
-	{
-		private boolean hasNotifiedDataSetChanged;
-
-		public DataSetAdapterForTest(Context context, boolean preInitializeViews)
-		{
-			super(MockBindingContext.create(context, preInitializeViews));
-		}
-
-		@Override
-		public void notifyDataSetChanged()
-		{
-			this.hasNotifiedDataSetChanged = true;
-		}
 	}
 
 	public static class MockPresentationModel extends AbstractPresentationModel
 	{
 		List<Object> list;
-		int listAccessCount = 0; 
 		
 		public MockPresentationModel()
 		{
@@ -183,7 +180,6 @@ public class DataSetAdapterTest
 		@ItemPresentationModel(value = ItemPresentationModelDummy.class)
 		public List<Object> getList()
 		{
-			listAccessCount++;
 			return list;
 		}
 	}
