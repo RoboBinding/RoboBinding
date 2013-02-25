@@ -69,7 +69,7 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 	}
 	
 	@Override
-	protected void addGroupedViewAttributeMapping(ViewAttributeFactory groupedViewAttributeFactory,	String... attributeNames)
+	protected void addGroupedViewAttributeMapping(ViewAttributeFactory<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeFactory,	String... attributeNames)
 	{
 		Validate.notNull(attributeNames, "attribute names must not be null");
 		Validate.notNull(groupedViewAttributeFactory, "groupedViewAttributeFactory must not be null");
@@ -104,7 +104,7 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 	}
 
 	@Override
-	public <S extends View> void mapGroupedAttribute(S alternateView, ViewAttributeFactory groupedViewAttributeFactory, String... attributeNames)
+	public <S extends View> void mapGroupedAttribute(S alternateView, ViewAttributeFactory<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeFactory, String... attributeNames)
 	{
 		Validate.notNull(alternateView, "view must not be null");
 		addGroupedViewAttributeMapping(groupedViewAttributeFactory, attributeNames);

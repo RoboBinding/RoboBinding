@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
+import static com.google.common.collect.Maps.newLinkedHashMap;
+
 import java.util.Map;
 
 import org.robobinding.AttributeResolutionException;
@@ -25,11 +27,8 @@ import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.GroupAttributes;
 import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.viewattribute.adapterview.SubViewAttributes.DependentChildViewAttributes;
 
 import android.view.View;
-
-import com.google.common.collect.Maps;
 
 /**
  * 
@@ -109,7 +108,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		
 	}
 	
-	private AbstractViewAttributeInitializer safeGetViewAttributeInstantiator()
+	private AbstractViewAttributeInitializer safeGetViewAttributeInitializer()
 	{
 		if (viewAttributeInitializer == null)
 		{
@@ -124,32 +123,31 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		private BindingContext bindingContext;
 		Map<String, ViewAttribute> childAttributeMap;
 		private AttributeGroupBindingException bindingErrors;
+		private boolean failOnFirstBindingError;
 		ChildAttributeBindings(BindingContext bindingContext, AttributeGroupBindingException bindingErrors)
 		{
 			this.bindingContext = bindingContext;
 			this.bindingErrors = bindingErrors;
-			childAttributeMap = Maps.newHashMap();
+			childAttributeMap = newLinkedHashMap();
 		}
 		
-		public <AttributeType extends AbstractAttribute> ChildViewAttribute<AttributeType> add(ChildViewAttribute<AttributeType> childAttribute, String attributeName)
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		public ViewAttribute add(String attributeName, ViewAttribute viewAttribute)
 		{
-			AttributeType attribute = groupAttributes.attributeFor(attributeName);
-			childAttribute.setAttribute(attribute);
-			childAttributeMap.put(attributeName, childAttribute);
-			return childAttribute;
-		}
-		
-		public <AttributeType extends AbstractAttribute> void addDependentChildAttributes(DependentChildViewAttributes dependentChildViewAttributes)
-		{
-			dependentChildViewAttributes.setAttributes(groupAttributes);
-			childAttributeMap.put(dependentChildViewAttributes.toString(), dependentChildViewAttributes);
+			if (viewAttribute instanceof ChildViewAttribute)
+			{
+				AbstractAttribute attribute = groupAttributes.attributeFor(attributeName);
+				((ChildViewAttribute)viewAttribute).setAttribute(attribute);
+			}
+			childAttributeMap.put(attributeName, viewAttribute);
+			return viewAttribute;
 		}
 		
 		public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType addProperty(
-				PropertyViewAttributeType propertyViewAttribute, String propertyAttribute)
+				String propertyAttribute, PropertyViewAttributeType propertyViewAttribute)
 		{
 			ValueModelAttribute attributeValue = groupAttributes.valueModelAttributeFor(propertyAttribute);
-			propertyViewAttribute = safeGetViewAttributeInstantiator().injectProperties(propertyViewAttribute, attributeValue);
+			propertyViewAttribute = safeGetViewAttributeInitializer().injectProperties(propertyViewAttribute, attributeValue);
 			childAttributeMap.put(propertyAttribute, propertyViewAttribute);
 			return propertyViewAttribute;
 		}
@@ -168,12 +166,12 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 				try
 				{
 					childAttribute.bindTo(bindingContext);
-				} catch(DependentChildViewAttributeBindingException e) 
-				{
-					addChildAttributeError(e.getAttributeName(), e);
 				} catch(RuntimeException e)
 				{
 					addChildAttributeError(childAttributeEntry.getKey(), e);
+					
+					if (failOnFirstBindingError)
+						return;
 				}
 			}
 		}
@@ -181,6 +179,11 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		private void addChildAttributeError(String attributeName, RuntimeException e)
 		{
 			bindingErrors.addChildAttributeError(attributeName, e);
+		}
+
+		public void failOnFirstBindingError()
+		{
+			failOnFirstBindingError = true;
 		}
 	}
 

@@ -55,9 +55,9 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 		super.setupChildAttributeBindings(binding);
 		
 		if (groupAttributes.hasAttribute(DROPDOWN_LAYOUT))
-			binding.add(new DropdownLayoutAttribute(view, dataSetAdapter), DROPDOWN_LAYOUT);
+			binding.add(DROPDOWN_LAYOUT, new DropdownLayoutAttribute(view, dataSetAdapter));
 		
 		if (groupAttributes.hasAttribute(DROPDOWN_MAPPING))
-			binding.add(new DropdownMappingAttribute(dataSetAdapter), DROPDOWN_MAPPING);
+			binding.add(DROPDOWN_MAPPING, new DropdownMappingAttribute(dataSetAdapter));
 	}
 }

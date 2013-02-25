@@ -60,11 +60,11 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	@Override
 	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 	{
-		binding.add(new SourceAttribute(dataSetAdapter), SOURCE);
-		binding.add(new ItemLayoutAttribute(view, dataSetAdapter), ITEM_LAYOUT);
+		binding.add(SOURCE, new SourceAttribute(dataSetAdapter));
+		binding.add(ITEM_LAYOUT, new ItemLayoutAttribute(view, dataSetAdapter));
 		
 		if(groupAttributes.hasAttribute(ITEM_MAPPING))
-			binding.add(new ItemMappingAttribute(dataSetAdapter),ITEM_MAPPING);
+			binding.add(ITEM_MAPPING,new ItemMappingAttribute(dataSetAdapter));
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

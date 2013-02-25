@@ -61,7 +61,7 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	@Override
 	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
 	{
-		textAttribute = binding.addProperty(new TwoWayTextAttribute(), TEXT);
+		textAttribute = binding.addProperty(TEXT, new TwoWayTextAttribute());
 		textAttribute.setValueCommitMode(determineValueCommitMode());
 	}
 

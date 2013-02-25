@@ -37,5 +37,5 @@ public interface CustomBindingAttributeMappings<T extends View> extends BindingA
 	
 	<S extends View> void mapGroupedAttribute(S alternateView, Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass, String... attributeNames);
 	
-	<S extends View> void mapGroupedAttribute(S alternateView, ViewAttributeFactory groupedViewAttributeFactory, String... attributeNames);
+	<S extends View> void mapGroupedAttribute(S alternateView, ViewAttributeFactory<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeFactory, String... attributeNames);
 }

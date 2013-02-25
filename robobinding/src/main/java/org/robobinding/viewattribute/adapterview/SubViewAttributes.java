@@ -15,21 +15,15 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import static com.google.common.collect.Maps.newLinkedHashMap;
 import static org.robobinding.attribute.ChildAttributeResolvers.staticResourceAttributeResolver;
 import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
 
-import java.util.Map;
-
 import org.robobinding.BindingContext;
-import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
-import org.robobinding.attribute.GroupAttributes;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ChildViewAttribute;
-import org.robobinding.viewattribute.DependentChildViewAttributeBindingException;
 import org.robobinding.viewattribute.ViewAttribute;
 
 import android.view.View;
@@ -71,57 +65,17 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 	@Override
 	protected void setupChildAttributeBindings(ChildAttributeBindings childAttributeBindings)
 	{
-		DependentChildViewAttributes dependentChildViewAttributes = new DependentChildViewAttributes();
-		dependentChildViewAttributes.add(layoutAttribute(), new SubViewLayoutAttribute());
+		childAttributeBindings.failOnFirstBindingError();
+		childAttributeBindings.add(layoutAttribute(), new SubViewLayoutAttribute());
 
 		ViewAttribute subViewAttribute = groupAttributes.hasAttribute(subViewPresentationModel()) ? new SubViewPresentationModelAttribute()
 				: new SubViewWithoutPresentationModelAttribute();
 
-		dependentChildViewAttributes.add(subViewPresentationModel(), subViewAttribute);
+		childAttributeBindings.add(subViewPresentationModel(), subViewAttribute);
 
 		if (groupAttributes.hasAttribute(visibilityAttribute()))
 		{
-			dependentChildViewAttributes.add(visibilityAttribute(), new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)));
-		}
-
-		childAttributeBindings.addDependentChildAttributes(dependentChildViewAttributes);
-	}
-
-	public static class DependentChildViewAttributes implements ViewAttribute
-	{
-		private Map<String, ViewAttribute> dependentAttributeMap = newLinkedHashMap();
-
-		public void add(String attributeName, ViewAttribute viewAttribute)
-		{
-			dependentAttributeMap.put(attributeName, viewAttribute);
-		}
-
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		public void setAttributes(GroupAttributes groupedAttribute)
-		{
-			for (Map.Entry<String, ViewAttribute> dependentAttributeEntry : dependentAttributeMap.entrySet())
-			{
-				if (dependentAttributeEntry instanceof ChildViewAttribute)
-				{
-					AbstractAttribute attribute = groupedAttribute.attributeFor(dependentAttributeEntry.getKey());
-					((ChildViewAttribute) dependentAttributeEntry).setAttribute(attribute);
-				}
-			}
-		}
-
-		@Override
-		public void bindTo(BindingContext bindingContext)
-		{
-			for (Map.Entry<String, ViewAttribute> dependentAttributeEntry : dependentAttributeMap.entrySet())
-			{
-				try
-				{
-					dependentAttributeEntry.getValue().bindTo(bindingContext);
-				} catch (RuntimeException e)
-				{
-					throw new DependentChildViewAttributeBindingException(dependentAttributeEntry.getKey());
-				}
-			}
+			childAttributeBindings.add(visibilityAttribute(), new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)));
 		}
 	}
 	
