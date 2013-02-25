@@ -60,6 +60,9 @@ public class EmptyViewAttributes implements SubViewAttributesStrategy<AdapterVie
 	@Override
 	public EmptyViewVisibility createVisibility(AdapterView<?> adapterView, View emptyView)
 	{
+		if (emptyViewVisibility == null)
+			throw new IllegalStateException("Expected addSubView() to be called first");
+		
 		return emptyViewVisibility;
 	}
 }
