@@ -15,19 +15,19 @@
  */
 package org.robobinding.customview;
 
+import static com.google.common.collect.Maps.newHashMap;
+
 import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeFactory;
 import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.ViewAttributeFactory;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
 import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
 
 import android.view.View;
-
-import com.google.common.collect.Maps;
 
 /**
  *
@@ -37,13 +37,11 @@ import com.google.common.collect.Maps;
  */
 class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttributeMappingsImpl<T> implements CustomBindingAttributeMappings<T>
 {
-	private final Map<String, View> customAttributeViews;
+	private final Map<String, View> customAttributeViews = newHashMap();
 	
-	public CustomBindingAttributeMappingsImpl(ViewAttributeInitializer viewAttributeInstantiator)
+	public CustomBindingAttributeMappingsImpl(ViewAttributeInitializer viewAttributeInitializer)
 	{
-		super(viewAttributeInstantiator);
-		
-		customAttributeViews = Maps.newHashMap();
+		super(viewAttributeInitializer);
 	}
 
 	@Override

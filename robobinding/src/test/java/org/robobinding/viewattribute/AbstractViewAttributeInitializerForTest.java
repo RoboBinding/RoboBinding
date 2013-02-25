@@ -42,7 +42,7 @@ import android.view.View;
  */
 public class AbstractViewAttributeInitializerForTest
 {
-	private AbstractViewAttributeInitializer viewAttributeInstantiator;
+	private AbstractViewAttributeInitializer viewAttributeInitializer;
 	private View view;
 	private ViewListenersProvider viewListenersProvider;
 	private ViewListeners viewListeners;
@@ -55,7 +55,7 @@ public class AbstractViewAttributeInitializerForTest
 		viewListenersProvider = mock(ViewListenersProvider.class);
 		viewListeners = new ViewListeners(view);
 		when(viewListenersProvider.forViewAndAttribute(eq(view), any(ViewListenersAware.class))).thenReturn(viewListeners);
-		viewAttributeInstantiator = new ViewAttributeInitializerForTest();
+		viewAttributeInitializer = new ViewAttributeInitializerForTest();
 	}
 	
 	@Test
@@ -63,7 +63,7 @@ public class AbstractViewAttributeInitializerForTest
 	{
 		ValueModelAttribute attribute = aValueModelAttribute();
 		
-		MockPropertyViewAttribute mockPropertyViewAttribute = viewAttributeInstantiator.newPropertyViewAttribute(new MockPropertyViewAttribute(), attribute);
+		MockPropertyViewAttribute mockPropertyViewAttribute = viewAttributeInitializer.newPropertyViewAttribute(new MockPropertyViewAttribute(), attribute);
 		
 		mockPropertyViewAttribute.assertAllPropertiesAssigned(view, attribute);
 	}
@@ -73,7 +73,7 @@ public class AbstractViewAttributeInitializerForTest
 	{
 		ValueModelAttribute attribute = aValueModelAttribute();
 		
-		MockViewListenersAwarePropertyViewAttribute mockPropertyViewAttribute = viewAttributeInstantiator.newPropertyViewAttribute(new MockViewListenersAwarePropertyViewAttribute(), attribute);
+		MockViewListenersAwarePropertyViewAttribute mockPropertyViewAttribute = viewAttributeInitializer.newPropertyViewAttribute(new MockViewListenersAwarePropertyViewAttribute(), attribute);
 		
 		mockPropertyViewAttribute.assertAllPropertiesAssigned(view, attribute, viewListeners);
 	}
@@ -83,7 +83,7 @@ public class AbstractViewAttributeInitializerForTest
 	{
 		CommandAttribute attribute = aCommandAttribute();
 		
-		MockCommandViewAttribute mockCommandViewAttribute = viewAttributeInstantiator.newCommandViewAttribute(new MockCommandViewAttribute(), attribute);
+		MockCommandViewAttribute mockCommandViewAttribute = viewAttributeInitializer.newCommandViewAttribute(new MockCommandViewAttribute(), attribute);
 		
 		mockCommandViewAttribute.assertBothPropertiesAssigned(view, attribute);
 	}
@@ -93,7 +93,7 @@ public class AbstractViewAttributeInitializerForTest
 	{
 		CommandAttribute attribute = aCommandAttribute();
 		
-		MockViewListenersAwareCommandViewAttribute mockCommandViewAttribute = viewAttributeInstantiator.newCommandViewAttribute(new MockViewListenersAwareCommandViewAttribute(), attribute);
+		MockViewListenersAwareCommandViewAttribute mockCommandViewAttribute = viewAttributeInitializer.newCommandViewAttribute(new MockViewListenersAwareCommandViewAttribute(), attribute);
 		
 		mockCommandViewAttribute.assertAllPropertiesAssigned(view, attribute, viewListeners);
 	}
