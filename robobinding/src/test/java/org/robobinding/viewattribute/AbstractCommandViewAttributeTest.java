@@ -22,11 +22,14 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.robobinding.attribute.Attributes.aCommandAttribute;
 
 import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.robobinding.MockBindingContext;
+import org.robobinding.function.MockFunction;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 import android.app.Activity;
@@ -46,7 +49,7 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
 	private final String commandName = "someCommand";
 
 	private MockFunction mockFunction;
-	private PresentationModelAdapter mockPresentationModelAdapter;
+	private PresentationModelAdapter presentationModelAdapter;
 	
 	protected ViewType view;
 	protected CommandViewAttributeType attribute;
@@ -56,8 +59,8 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
 	{
 		mockFunction = new MockFunction();
 		
-		mockPresentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(mockPresentationModelAdapter.findFunction(eq(commandName), (Class<?>)any())).thenReturn(mockFunction);
+		presentationModelAdapter = mock(PresentationModelAdapter.class);
+		when(presentationModelAdapter.findFunction(eq(commandName), (Class<?>)any())).thenReturn(mockFunction);
 		
 		createViewAndAttribute();
 		initializeAttribute();
@@ -76,12 +79,12 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
 		createViewAndAttribute();
 		
 		attribute.setView(view);
-		attribute.setCommandName(commandName);
+		attribute.setAttribute(aCommandAttribute(commandName));
 	}
 	
 	protected void bindAttribute()
 	{
-		attribute.bind(mockPresentationModelAdapter, new Activity());
+		attribute.bindTo(MockBindingContext.create(presentationModelAdapter, new Activity()));
 	}
 	
 	protected void assertEventReceived(Class<?> eventClass)

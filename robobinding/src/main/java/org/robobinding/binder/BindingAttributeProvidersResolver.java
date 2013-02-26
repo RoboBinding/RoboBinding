@@ -21,13 +21,13 @@ import java.util.Queue;
 import org.robobinding.customview.BindableView;
 import org.robobinding.customview.CustomViewUtils;
 import org.robobinding.viewattribute.BindingAttributeMapper;
-import org.robobinding.viewattribute.BindingAttributeMapperAdapter;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.absspinner.AbsSpinnerAttributeMapper;
 import org.robobinding.viewattribute.adapterview.AdapterViewAttributeMapper;
 import org.robobinding.viewattribute.compoundbutton.CompoundButtonAttributeMapper;
 import org.robobinding.viewattribute.edittext.EditTextAttributeMapper;
 import org.robobinding.viewattribute.imageview.ImageViewAttributeMapper;
+import org.robobinding.viewattribute.impl.BindingAttributeMapperAdapter;
 import org.robobinding.viewattribute.listview.ListViewAttributeMapper;
 import org.robobinding.viewattribute.progressbar.ProgressBarAttributeMapper;
 import org.robobinding.viewattribute.ratingbar.RatingBarAttributeMapper;
@@ -59,7 +59,7 @@ import com.google.common.collect.Maps;
  */
 public class BindingAttributeProvidersResolver
 {
-	private final Map<Class<?>, BindingAttributeProvider<? extends View>> bindingAttributeProvidersMap;
+	Map<Class<?>, BindingAttributeProvider<? extends View>> bindingAttributeProvidersMap;
 
 	public BindingAttributeProvidersResolver()
 	{
@@ -83,7 +83,7 @@ public class BindingAttributeProvidersResolver
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Queue<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)
+	public Iterable<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)
 	{
 		Queue<BindingAttributeProvider<? extends View>> candidateProviders = Lists.newLinkedList();
 		

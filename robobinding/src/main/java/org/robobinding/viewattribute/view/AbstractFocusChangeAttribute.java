@@ -15,8 +15,8 @@
  */
 package org.robobinding.viewattribute.view;
 
+import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.Command;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 
 import android.view.View;

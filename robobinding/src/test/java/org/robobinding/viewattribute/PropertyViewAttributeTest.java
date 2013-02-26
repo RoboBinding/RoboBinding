@@ -21,9 +21,12 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.robobinding.attribute.MockValueModelAttributeBuilder.aValueModelAttribute;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.MockBindingContext;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
@@ -37,7 +40,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public final class PropertyViewAttributeTest
+public final class PropertyViewAttributeTest extends PropertyViewAttributeContractTest<PropertyViewAttributeSpy>
 {
 	private static final String PROPERTY_NAME = "property_name";
 	private static final boolean ONE_WAY_BINDING = false;
@@ -49,30 +52,30 @@ public final class PropertyViewAttributeTest
 	private PresentationModelAdapter presentationModelAdapter;
 	private Context context;
 	private ValueModel<Integer> valueModel = ValueModelUtils.createInteger(-1);
-	private PropertyViewAttributeSpy propertyViewAttributeSpy;
 	
 	@Before
 	public void setUp()
 	{
 		presentationModelAdapter = mock(PresentationModelAdapter.class);
+		attribute.setView(mock(View.class));
 	}
 	
 	@Test
 	public void givenABoundPropertyViewAttribute_whenValueModelIsUpdated_thenNewValueShouldBePassedToThePropertyViewAttribute()
 	{
-		initializeAndBindPropertyViewAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+		bindAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
 		valueModel.setValue(A_NEW_VALUE);
 		
-		assertThat(propertyViewAttributeSpy.updatedValue, is(A_NEW_VALUE));
+		assertThat(attribute.updatedValue, is(A_NEW_VALUE));
 	}
 	
 	@Test
 	public void givenAPropertyViewAttributeWithTwoWayBinding_whenTheViewIsUpdated_thenValueModelShouldBeUpdated()
 	{
-		initializeAndBindPropertyViewAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+		bindAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
-		propertyViewAttributeSpy.simulateViewUpdate(A_NEW_VALUE);
+		attribute.simulateViewUpdate(A_NEW_VALUE);
 	
 		assertThat(valueModel.getValue(), is(A_NEW_VALUE));
 	}
@@ -80,86 +83,56 @@ public final class PropertyViewAttributeTest
 	@Test
 	public void givenAPropertyViewAttributeWithTwoWayBinding_whenTheViewIsUpdated_thenViewShouldNotReceiveAFurtherUpdate()
 	{
-		initializeAndBindPropertyViewAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+		bindAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
-		propertyViewAttributeSpy.simulateViewUpdate(A_NEW_VALUE);
+		attribute.simulateViewUpdate(A_NEW_VALUE);
 	
-		assertThat(propertyViewAttributeSpy.viewUpdateNotificationCount, is(0));
+		assertThat(attribute.viewUpdateNotificationCount, is(0));
 	}
 	
 	@Test
 	public void givenAPropertyViewAttributeWithTwoWayBinding_whenValueModelIsUpdated_thenViewShouldReceiveOnlyASingleUpdate()
 	{
-		initializeAndBindPropertyViewAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+		bindAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
 		valueModel.setValue(A_NEW_VALUE);
 	
-		assertThat(propertyViewAttributeSpy.viewUpdateNotificationCount, is(1));
+		assertThat(attribute.viewUpdateNotificationCount, is(1));
 	}
 	
 	@Test
 	public void givenPreInitializeViewFlag_thenPreInitializeTheViewToReflectTheValueModel()
 	{
-		initializeAndBindPropertyViewAttribute(ONE_WAY_BINDING, PRE_INITIALIZE_VIEW);
+		bindAttribute(ONE_WAY_BINDING, PRE_INITIALIZE_VIEW);
 		
-		assertTrue(propertyViewAttributeSpy.viewInitialized);
+		assertTrue(attribute.viewInitialized);
 	}
 	
 	@Test
 	public void givenNoPreInitializeViewFlag_thenDontPreInitializeTheView()
 	{
-		initializeAndBindPropertyViewAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+		bindAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
-		assertFalse(propertyViewAttributeSpy.viewInitialized);
+		assertFalse(attribute.viewInitialized);
 	}
 	
 	@Test (expected=IllegalStateException.class)
 	public void whenBindingWithoutSettingAllValues_thenShouldThrowException()
 	{
 		PropertyViewAttributeSpy propertyViewAttribute = new PropertyViewAttributeSpy();
-		propertyViewAttribute.bind(presentationModelAdapter, context);
+		propertyViewAttribute.bindTo(MockBindingContext.create(presentationModelAdapter, context));
 	}
 	
-	private void initializeAndBindPropertyViewAttribute(boolean twoWayBinding, boolean preInitializeView)
+	private void bindAttribute(boolean twoWayBinding, boolean preInitializeView)
 	{
-		PropertyBindingDetails propertyBindingDetails = new PropertyBindingDetails(PROPERTY_NAME, twoWayBinding);
+		ValueModelAttribute valueModelAttribute = aValueModelAttribute(PROPERTY_NAME, twoWayBinding);
 		
 		if (twoWayBinding)
 			when(presentationModelAdapter.<Integer>getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
 		else
 			when(presentationModelAdapter.<Integer>getReadOnlyPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
 		
-		propertyViewAttributeSpy = new PropertyViewAttributeSpy();
-		propertyViewAttributeSpy.setView(mock(View.class));
-		propertyViewAttributeSpy.setPropertyBindingDetails(propertyBindingDetails);
-		propertyViewAttributeSpy.setPreInitializeView(preInitializeView);
-		propertyViewAttributeSpy.bind(presentationModelAdapter, context);
-	}
-	
-	private static class PropertyViewAttributeSpy extends AbstractPropertyViewAttribute<View, Integer>
-	{
-		int viewUpdateNotificationCount;
-		int updatedValue;
-		boolean viewInitialized;
-		private ValueModel<Integer> valueModelUpdatedByView;
-		
-		public void simulateViewUpdate(int newValue)
-		{
-			valueModelUpdatedByView.setValue(newValue);
-		}
-
-		@Override
-		protected void observeChangesOnTheView(ValueModel<Integer> valueModel)
-		{
-			valueModelUpdatedByView = valueModel;
-		}
-
-		@Override
-		protected void valueModelUpdated(Integer newValue)
-		{
-			this.updatedValue = newValue;
-			viewUpdateNotificationCount++;
-			viewInitialized = true;
-		}
+		attribute.setAttribute(valueModelAttribute);
+		attribute.bindTo(MockBindingContext.create(presentationModelAdapter, context, preInitializeView));
 	}
 }

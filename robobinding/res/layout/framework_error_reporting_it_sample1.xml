@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <Button 
+        android:id="@+id/resolutionAndBindingPhaseButton"
+        bind:text="{invalidSyntax"
+        bind:nonExistentAttribute="{property}"
+        
+        bind:visibility="{inexistentProperty}"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+    
+    <!-- no source attribute -->
+   	<Spinner
+   	    android:id="@+id/resolutionAndBindingPhaseSpinner"
+   	    bind:visibility="${invalidSyntax"
+   	    
+		bind:itemLayout="{propertyPointingToInexistentLayout}"
+		android:layout_width="fill_parent"
+		android:layout_height="0px"/>
+
+</LinearLayout>

@@ -16,19 +16,11 @@
 package org.robobinding.viewattribute.adapterview;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.robobinding.binder.BindingAttributeProcessor;
-import org.robobinding.binder.BindingAttributeProcessor.ViewAttributes;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
-
-import android.content.Context;
-import android.view.View;
-
-import com.google.common.collect.Maps;
+import org.robobinding.BindingContext;
+import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.attribute.PredefinedMappingsAttribute;
+import org.robobinding.viewattribute.ChildViewAttribute;
 
 /**
  *
@@ -36,172 +28,33 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemMappingAttribute implements AdapterViewAttribute
+public class ItemMappingAttribute implements ChildViewAttribute<PredefinedMappingsAttribute>
 {
-	private static final String ITEM_MAPPING_PATTERN = "(\\w+)\\.(\\w+):($?\\{\\w+\\})";
-	private static final Pattern ITEM_MAPPING_COMPILED_PATTERN = Pattern.compile(ITEM_MAPPING_PATTERN);
-	private static final Pattern ITEM_MAPPING_ATTRIBUTE_COMPILED_PATTERN = Pattern.compile("^\\[" + ITEM_MAPPING_PATTERN + "(?:," + ITEM_MAPPING_PATTERN + ")*\\]$");
+	private PredefinedMappingsAttribute mappingsAttribute;
+	protected Collection<PredefinedPendingAttributesForView> viewMappings;
 	
-	private final String itemMappingAttributeValue;
-	private ViewMappings viewMappings;
+	private final DataSetAdapter<?> dataSetAdapter;
 	
-	public ItemMappingAttribute(String itemMappingAttributeValue)
+	public ItemMappingAttribute(DataSetAdapter<?> dataSetAdapter)
 	{
-		this.itemMappingAttributeValue = itemMappingAttributeValue;
+		this.dataSetAdapter = dataSetAdapter;
 	}
-
+	
 	@Override
-	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+	public void setAttribute(PredefinedMappingsAttribute attribute)
 	{
-		viewMappings = new ItemMappingParser().parse(itemMappingAttributeValue, context);
+		this.mappingsAttribute = attribute;
+	}
+	
+	@Override
+	public void bindTo(BindingContext bindingContext)
+	{
+		viewMappings = mappingsAttribute.getViewMappings(bindingContext.getContext());
 		updateDataSetAdapter(dataSetAdapter);
 	}
-
+	
 	protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter)
 	{
-		dataSetAdapter.setItemMappingAttribute(this);
-	}
-
-	public void bindToPredefined(BindingAttributeProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
-	{
-		for (ViewMapping viewMapping : getViewMappingsCollection())
-		{
-			viewMapping.bind(bindingAttributesProcessor, view, presentationModelAdapter, context);
-		}
-	}
-	
-	Collection<ViewMapping> getViewMappingsCollection()
-	{
-		return Collections.unmodifiableCollection(viewMappings.viewMappingsMap.values());
-	}
-	
-	static class ItemMappingParser
-	{
-		public ViewMappings parse(String attribute, Context context)
-		{
-			if (!ITEM_MAPPING_ATTRIBUTE_COMPILED_PATTERN.matcher(attribute).matches())
-				throw new RuntimeException("ItemMapping attribute value: " + attribute + " contains invalid syntax.");
-			
-			Matcher matcher = ITEM_MAPPING_COMPILED_PATTERN.matcher(attribute);
-			ViewMappings viewMappings = new ViewMappings();
-
-			while (matcher.find())
-			{
-				String viewIdString = matcher.group(1);
-				String attributeName = matcher.group(2);
-				String attributeValue = matcher.group(3);
-				
-				int viewId = context.getResources().getIdentifier(viewIdString, "id", "android");
-				
-				if (viewId == 0)
-					throw new RuntimeException("View with id name: " + viewIdString + " in package: android could not be found");
-				
-				viewMappings.add(viewId, attributeName, attributeValue);
-			}
-			
-			return viewMappings;
-		}
-	}
-	
-	static class ViewMappings
-	{
-		private Map<Integer, ViewMapping> viewMappingsMap = Maps.newHashMap();
-		
-		void add(int viewId, String attributeName, String attributeValue)
-		{
-			ViewMapping existingViewMapping = viewMappingsMap.get(viewId);
-			
-			if (existingViewMapping != null)
-			{
-				existingViewMapping.add(attributeName, attributeValue);
-			}
-			else
-			{
-				viewMappingsMap.put(viewId, new ViewMapping(viewId, attributeName, attributeValue));
-			}
-		}
-		
-		@Override
-		public int hashCode()
-		{
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((viewMappingsMap == null) ? 0 : viewMappingsMap.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj)
-		{
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ViewMappings other = (ViewMappings) obj;
-			if (viewMappingsMap == null)
-			{
-				if (other.viewMappingsMap != null)
-					return false;
-			} else if (!viewMappingsMap.equals(other.viewMappingsMap))
-				return false;
-			return true;
-		}
-	}
-	
-	static class ViewMapping
-	{
-		int viewId;
-		Map<String,String> bindingAttributes = Maps.newHashMap();
-		
-		public ViewMapping(int viewId, String attributeName, String attributeValue)
-		{
-			this.viewId = viewId;
-			this.add(attributeName, attributeValue);
-		}
-
-		public void add(String attributeName, String attributeValue)
-		{
-			this.bindingAttributes.put(attributeName, attributeValue);
-		}
-
-		public void bind(BindingAttributeProcessor bindingAttributesProcessor, View view, PresentationModelAdapter presentationModelAdapter, Context context)
-		{
-			View viewToBind = view.findViewById(viewId);
-			ViewAttributes viewBindingAttributes = bindingAttributesProcessor.process(viewToBind, Maps.newHashMap(bindingAttributes));
-			viewBindingAttributes.bind(presentationModelAdapter, context);
-		}
-
-		@Override
-		public int hashCode()
-		{
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((bindingAttributes == null) ? 0 : bindingAttributes.hashCode());
-			result = prime * result + viewId;
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj)
-		{
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ViewMapping other = (ViewMapping) obj;
-			if (bindingAttributes == null)
-			{
-				if (other.bindingAttributes != null)
-					return false;
-			} else if (!bindingAttributes.equals(other.bindingAttributes))
-				return false;
-			if (viewId != other.viewId)
-				return false;
-			return true;
-		}
+		dataSetAdapter.setItemPredefinedPendingAttributesForViewGroup(viewMappings);
 	}
 }

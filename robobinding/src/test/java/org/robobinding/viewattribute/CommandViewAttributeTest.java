@@ -22,7 +22,11 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.MockBindingContext;
+import org.robobinding.attribute.Command;
+import org.robobinding.attribute.CommandAttribute;
 import org.robobinding.function.Function;
+import org.robobinding.function.MockFunction;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.adapterview.ItemClickEvent;
 
@@ -51,7 +55,7 @@ public final class CommandViewAttributeTest
 	{
 		commandViewAttribute = new DummyCommandViewAttribute();
 		commandViewAttribute.setView(mock(View.class));
-		commandViewAttribute.setCommandName(FUNCTION_NAME);
+		commandViewAttribute.setAttribute(new CommandAttribute("name", FUNCTION_NAME));
 		presentationModelAdapter = mock(PresentationModelAdapter.class);
 	}
 	
@@ -60,9 +64,14 @@ public final class CommandViewAttributeTest
 	{
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
 		
-		commandViewAttribute.bind(presentationModelAdapter, context);
+		bindAttribute();
 
 		assertThat(commandViewAttribute.functionBound, equalTo(noArgsFunction));
+	}
+
+	private void bindAttribute()
+	{
+		commandViewAttribute.bindTo(MockBindingContext.create(presentationModelAdapter, context));
 	}
 	
 	@Test
@@ -71,7 +80,7 @@ public final class CommandViewAttributeTest
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
 		when(presentationModelAdapter.findFunction(FUNCTION_NAME, ItemClickEvent.class)).thenReturn(preferredFunction);
 		
-		commandViewAttribute.bind(presentationModelAdapter, context);
+		bindAttribute();
 		
 		assertThat(commandViewAttribute.functionBound, equalTo(preferredFunction));
 	}
@@ -79,14 +88,15 @@ public final class CommandViewAttributeTest
 	@Test (expected=RuntimeException.class)
 	public void givenAPresentationModelWithNoMatchingFunction_whenBinding_thenThrowRuntimeException()
 	{
-		commandViewAttribute.bind(presentationModelAdapter, context);
+		bindAttribute();
 	}
 	
 	@Test (expected=IllegalStateException.class)
 	public void givenAnAttributeWhosePropertiesHaveNotBeenSet_whenBinding_thenThrowException()
 	{
-		AbstractCommandViewAttribute<?> commandViewAttribute = new DummyCommandViewAttribute();
-		commandViewAttribute.bind(presentationModelAdapter, context);
+		commandViewAttribute = new DummyCommandViewAttribute();
+		
+		bindAttribute();
 	}
 	
 	public class DummyCommandViewAttribute extends AbstractCommandViewAttribute<View>

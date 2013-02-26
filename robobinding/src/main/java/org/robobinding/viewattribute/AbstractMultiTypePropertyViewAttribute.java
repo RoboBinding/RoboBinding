@@ -15,11 +15,12 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.BindingContext;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
-import android.content.Context;
 import android.view.View;
 
 /**
@@ -31,8 +32,7 @@ import android.view.View;
 public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> implements PropertyViewAttribute<T>
 {
 	private T view;
-	private PropertyBindingDetails propertyBindingDetails;
-	private boolean preInitializeViews;
+	protected ValueModelAttribute attribute;
 	private ViewListenersProvider viewListenersProvider;
 	
 	@Override
@@ -41,14 +41,9 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		this.view = view;
 	}
 	@Override
-	public void setAttributeValue(String attributeValue)
+	public void setAttribute(ValueModelAttribute attribute)
 	{
-		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue);
-	}
-	@Override
-	public void setPreInitializeView(boolean preInitializeViews)
-	{
-		this.preInitializeViews = preInitializeViews;
+		this.attribute = attribute;
 	}
 	
 	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
@@ -56,20 +51,23 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		this.viewListenersProvider = viewListenersProvider;
 	}
 	
-	public boolean isTwoWayBinding()
+	@Override
+	public void bindTo(BindingContext bindingContext)
 	{
-		return propertyBindingDetails.twoWayBinding;
+		try {
+			performBind(bindingContext);
+		} catch (RuntimeException e) {
+			throw new AttributeBindingException(attribute.getName(), e);
+		}
 	}
 	
-	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	private void performBind(BindingContext bindingContext)
 	{
-		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
+		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
 		propertyViewAttribute.setView(view);
-		propertyViewAttribute.setPropertyBindingDetails(propertyBindingDetails);
-		propertyViewAttribute.setPreInitializeView(preInitializeViews);
+		propertyViewAttribute.setAttribute(attribute);
 		setViewListenersIfRequired(propertyViewAttribute, view);
-		propertyViewAttribute.bind(presentationModelAdapter, context);
+		propertyViewAttribute.bindTo(bindingContext);
 	}
 
 	private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
@@ -87,7 +85,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 
 	private AbstractPropertyViewAttribute<T, ?> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
 	{
-		Class<?> propertyType = presentationModelAdapter.getPropertyType(propertyBindingDetails.propertyName);
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
 		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
 		
 		if (propertyViewAttribute == null)

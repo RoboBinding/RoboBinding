@@ -19,8 +19,11 @@ import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.robobinding.MockBindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
+import static org.robobinding.attribute.Attributes.*;
+import static org.robobinding.presentationmodel.MockPresentationModelAdapterBuilder.*;
 
 import android.app.Activity;
 import android.content.Context;
@@ -69,17 +72,17 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 	
 	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass)
 	{
-		attribute.setAttributeValue(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME);
-		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.<PropertyType>createWithDefaultProperty();
-		attribute.bind(presentationModelAdapter, new Activity());
+		attribute.setAttribute(aValueModelAttribute(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
+		PresentationModelAdapter presentationModelAdapter = aPresentationModelAdapterWithDefaultProperty();
+		attribute.bindTo(MockBindingContext.create(presentationModelAdapter, new Activity()));
 		return presentationModelAdapter.getPropertyValueModel(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
 	}
 	
 	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass, PropertyType initialPropertyValue)
 	{
-		attribute.setAttributeValue(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME);
-		PresentationModelAdapter presentationModelAdapter = MockPresentationModelAdapterBuilder.<PropertyType>createWithDefaultProperty(initialPropertyValue);
-		attribute.bind(presentationModelAdapter, new Activity());
+		attribute.setAttribute(aValueModelAttribute(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
+		PresentationModelAdapter presentationModelAdapter = aPresentationModelAdapterWithDefaultProperty(initialPropertyValue);
+		attribute.bindTo(MockBindingContext.create(presentationModelAdapter, new Activity()));
 		return presentationModelAdapter.getPropertyValueModel(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
 	}
 	

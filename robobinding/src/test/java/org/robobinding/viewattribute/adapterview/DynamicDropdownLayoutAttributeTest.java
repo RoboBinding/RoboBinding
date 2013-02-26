@@ -16,11 +16,11 @@
 package org.robobinding.viewattribute.adapterview;
 
 import static org.mockito.Mockito.verify;
+import static org.robobinding.attribute.Attributes.aValueModelAttribute;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.viewattribute.BindingAttributeValues;
-import org.robobinding.viewattribute.PropertyBindingDetails;
 import org.robobinding.viewattribute.RandomValues;
 
 /**
@@ -35,19 +35,19 @@ public class DynamicDropdownLayoutAttributeTest extends AbstractDynamicLayoutAtt
 	public void setUp()
 	{
 		String attributeValue = BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME;
-		dynamicLayoutAttribute = new DropdownLayoutAttribute(adapterView, attributeValue).new DynamicLayoutAttribute();
+		dynamicLayoutAttribute = new DropdownLayoutAttribute(adapterView, dataSetAdapter).new DynamicLayoutAttribute();
 		dynamicLayoutAttribute.setView(adapterView);
-		dynamicLayoutAttribute.setPropertyBindingDetails(PropertyBindingDetails.createFrom(attributeValue));
+		dynamicLayoutAttribute.setAttribute(aValueModelAttribute(attributeValue));
 	}
 	
 	@Test
 	public void givenBound_whenUpdatingValueModel_thenUpdateDropdownLayoutIdOnDataSetAdapter()
 	{
-		DynamicLayoutAttributeUtils.bindAttribute(dataSetAdapter, dynamicLayoutAttribute);
+		DynamicLayoutAttributeUtils.bindAttribute(dynamicLayoutAttribute);
 		
 		int newDropdownLayoutId = RandomValues.anyInteger();
 		dynamicLayoutAttribute.valueModelUpdated(newDropdownLayoutId);
 		
-		verify(dataSetAdapter).setDropdownLayoutId(newDropdownLayoutId);
+		verify(dataSetAdapter).setDropDownLayoutId(newDropdownLayoutId);
 	}
 }

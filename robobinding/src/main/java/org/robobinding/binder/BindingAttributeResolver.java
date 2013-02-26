@@ -16,22 +16,16 @@
 package org.robobinding.binder;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
-import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
-import org.robobinding.viewattribute.MalformedBindingAttributeException;
-import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.PendingAttributesForView;
+import org.robobinding.ViewResolutionErrors;
+import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
 
 import android.view.View;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * 
@@ -42,131 +36,55 @@ import com.google.common.collect.Maps;
  */
 public class BindingAttributeResolver
 {
-	private List<ViewAttribute> resolvedViewAttributes;
-	private Map<String, String> pendingAttributeMappings;
-	private Map<String, String> malformedBindingAttributes;
+	BindingAttributeProvidersResolver providersResolver;
+	private ViewAttributeInitializer viewAttributeInitializer;
+	private ResolvedBindingAttributes resolvedBindingAttributes;
 
-	public BindingAttributeResolver(Map<String, String> pendingAttributes)
+	public BindingAttributeResolver()
 	{
-		this.pendingAttributeMappings = pendingAttributes;
-		this.resolvedViewAttributes = Lists.newArrayList();
-		this.malformedBindingAttributes = Maps.newHashMap();
+		this.providersResolver = new BindingAttributeProvidersResolver();
 	}
 
-	void resolve(BindingAttributeMappingsImpl<View> viewAttributeMappings)
+	public ViewResolutionResult resolve(PendingAttributesForView pendingAttributesForView)
 	{
-		resolvePropertyViewAttributes(viewAttributeMappings);
-		resolveCommandViewAttributes(viewAttributeMappings);
-		resolveGroupedViewAttributes(viewAttributeMappings);
+		initializeNewResolving(pendingAttributesForView.getView());
+		
+		resolveByBindingAttributeProviders(pendingAttributesForView);
+		
+		ViewResolutionErrors errors = pendingAttributesForView.getResolutionErrors();
+		
+		return new ViewResolutionResult(resolvedBindingAttributes, errors);
 	}
 
-	private void resolvePropertyViewAttributes(BindingAttributeMappingsImpl<View> viewAttributeMappings)
+	private void initializeNewResolving(View view)
 	{
-		for (String propertyAttribute : viewAttributeMappings.getPropertyAttributes())
+		resolvedBindingAttributes = new ResolvedBindingAttributes(view);
+		viewAttributeInitializer = new ViewAttributeInitializer();
+	}
+
+	private void resolveByBindingAttributeProviders(PendingAttributesForView pendingAttributesForView)
+	{
+		Iterable<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(pendingAttributesForView.getView());
+		
+		for (BindingAttributeProvider<? extends View> provider : providers)
 		{
-			if (hasAttribute(propertyAttribute))
-			{
-				try
-				{
-					PropertyViewAttribute<View> propertyViewAttribute = viewAttributeMappings.createPropertyViewAttribute(propertyAttribute,
-							getAttributeValue(propertyAttribute));
-					resolveViewAttribute(propertyAttribute, propertyViewAttribute);
-				} catch (MalformedBindingAttributeException e)
-				{
-					malformedBindingAttributes.put(propertyAttribute, e.getMessage());
-					pendingAttributeMappings.remove(propertyAttribute);
-				}
-			}
+			@SuppressWarnings("unchecked")
+			BindingAttributeProvider<View> bindingAttributeProvider = (BindingAttributeProvider<View>)provider;
+			Collection<ViewAttribute> resolvedViewAttributes = resolveByBindingAttributeProvider(pendingAttributesForView, 
+					bindingAttributeProvider);
+			resolvedBindingAttributes.add(resolvedViewAttributes);
+			
+			if (pendingAttributesForView.isEmpty())
+				break;
 		}
 	}
 
-	private void resolveCommandViewAttributes(BindingAttributeMappingsImpl<View> viewAttributeMappings)
+	Collection<ViewAttribute> resolveByBindingAttributeProvider(PendingAttributesForView pendingAttributesForView,
+			BindingAttributeProvider<View> bindingAttributeProvider)
 	{
-		for (String commandAttribute : viewAttributeMappings.getCommandAttributes())
-		{
-			if (hasAttribute(commandAttribute))
-			{
-				AbstractCommandViewAttribute<View> commandViewAttribute = viewAttributeMappings.createCommandViewAttribute(commandAttribute,
-						getAttributeValue(commandAttribute));
-				resolveViewAttribute(commandAttribute, commandViewAttribute);
-			}
-		}
-	}
-
-	private void resolveGroupedViewAttributes(BindingAttributeMappingsImpl<View> viewAttributeMappings)
-	{
-		for (GroupedAttributeDetailsImpl groupedAttributeDetails : viewAttributeMappings.getGroupedPropertyAttributes())
-		{
-			if (hasOneOfAttributes(groupedAttributeDetails.getSupportedAttributes()))
-			{
-				for (String attribute : groupedAttributeDetails.getSupportedAttributes())
-				{
-					if (hasAttribute(attribute))
-					{
-						groupedAttributeDetails.addPresentAttribute(attribute, getAttributeValue(attribute));
-					}
-				}
-
-				AbstractGroupedViewAttribute<View> groupedViewAttribute = viewAttributeMappings.createGroupedViewAttribute(groupedAttributeDetails);
-				resolveViewAttribute(groupedAttributeDetails.getPresentAttributes(), groupedViewAttribute);
-			}
-		}
-	}
-
-	private boolean hasAttribute(String attribute)
-	{
-		return pendingAttributeMappings.containsKey(attribute);
-	}
-
-	private String getAttributeValue(String attribute)
-	{
-		return pendingAttributeMappings.get(attribute);
-	}
-
-	private void resolveViewAttribute(String attribute, ViewAttribute viewAttribute)
-	{
-		pendingAttributeMappings.remove(attribute);
-		resolvedViewAttributes.add(viewAttribute);
-	}
-
-	private void resolveViewAttribute(Collection<String> attributes, ViewAttribute viewAttribute)
-	{
-		for (String attribute : attributes)
-			pendingAttributeMappings.remove(attribute);
-
-		resolvedViewAttributes.add(viewAttribute);
-	}
-
-	private boolean hasOneOfAttributes(String[] attributes)
-	{
-		for (String attribute : attributes)
-		{
-			if (pendingAttributeMappings.containsKey(attribute))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean isDone()
-	{
-		return pendingAttributeMappings.isEmpty();
-	}
-
-	public boolean hasUnresolvedAttributes()
-	{
-		return !pendingAttributeMappings.isEmpty();
-	}
-
-	public List<ViewAttribute> getResolvedViewAttributes()
-	{
-		return Collections.unmodifiableList(resolvedViewAttributes);
-	}
-
-	public void assertAllAttributesResolvedFor(View view)
-	{
-		if (!pendingAttributeMappings.isEmpty() || !malformedBindingAttributes.isEmpty())
-			throw new BindingAttributeException(pendingAttributeMappings, malformedBindingAttributes, view);
+		BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(viewAttributeInitializer);
+		ByBindingAttributeMappingsResolver bindingAttributeMappingsResolver = new ByBindingAttributeMappingsResolver(bindingAttributeMappings);
+		Collection<ViewAttribute> resolvedViewAttributes = bindingAttributeMappingsResolver.resolve(pendingAttributesForView);
+		return resolvedViewAttributes;
 	}
 }

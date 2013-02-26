@@ -15,19 +15,19 @@
  */
 package org.robobinding.customview;
 
+import static com.google.common.collect.Maps.newHashMap;
+
 import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.BindingAttributeMappingsImpl;
-import org.robobinding.viewattribute.GroupedAttributeDetailsImpl;
 import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewListenersProvider;
+import org.robobinding.viewattribute.ViewAttributeFactory;
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
 
 import android.view.View;
-
-import com.google.common.collect.Maps;
 
 /**
  *
@@ -37,13 +37,11 @@ import com.google.common.collect.Maps;
  */
 class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttributeMappingsImpl<T> implements CustomBindingAttributeMappings<T>
 {
-	private Map<String, View> customAttributeViews;
+	private final Map<String, View> customAttributeViews = newHashMap();
 	
-	public CustomBindingAttributeMappingsImpl(T view, boolean preInitializeViews, ViewListenersProvider viewListenersProvider)
+	public CustomBindingAttributeMappingsImpl(ViewAttributeInitializer viewAttributeInitializer)
 	{
-		super(view, preInitializeViews, viewListenersProvider);
-		
-		customAttributeViews = Maps.newHashMap();
+		super(viewAttributeInitializer);
 	}
 
 	@Override
@@ -68,6 +66,14 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 		Validate.notNull(attributeNames, "attribute names must not be null");
 		Validate.notNull(groupedViewAttributeClass, "groupedViewAttributeClass must not be null");
 		super.addGroupedViewAttributeMapping(groupedViewAttributeClass, attributeNames);
+	}
+	
+	@Override
+	protected void addGroupedViewAttributeMapping(ViewAttributeFactory<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeFactory,	String... attributeNames)
+	{
+		Validate.notNull(attributeNames, "attribute names must not be null");
+		Validate.notNull(groupedViewAttributeFactory, "groupedViewAttributeFactory must not be null");
+		super.addGroupedViewAttributeMapping(groupedViewAttributeFactory, attributeNames);
 	}
 	
 	@Override
@@ -98,22 +104,30 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 	}
 
 	@Override
-	protected View getViewForAttribute(String attributeName)
+	public <S extends View> void mapGroupedAttribute(S alternateView, ViewAttributeFactory<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeFactory, String... attributeNames)
+	{
+		Validate.notNull(alternateView, "view must not be null");
+		addGroupedViewAttributeMapping(groupedViewAttributeFactory, attributeNames);
+		customAttributeViews.put(attributeNames[0], alternateView);
+	}
+	
+	@Override
+	protected View getViewForAttribute(String attributeName, View defaultView)
 	{
 		if (customAttributeViews.containsKey(attributeName))
 			return customAttributeViews.get(attributeName);
 		
-		return super.getViewForAttribute(attributeName);
+		return super.getViewForAttribute(attributeName, defaultView);
 	}
 	
 	@Override
-	protected View getViewForGroupedAttribute(GroupedAttributeDetailsImpl groupedAttributeDetails)
+	protected View getViewForAttributeGroup(String[] attributeGroup, View defaultView)
 	{
-		String identifyingAttributeName = groupedAttributeDetails.getSupportedAttributes()[0];
+		String identifyingAttributeName = attributeGroup[0];
 		
 		if (customAttributeViews.containsKey(identifyingAttributeName))
 			return customAttributeViews.get(identifyingAttributeName);
 			
-		return super.getViewForGroupedAttribute(groupedAttributeDetails);
+		return super.getViewForAttributeGroup(attributeGroup, defaultView);
 	}
 }

@@ -17,6 +17,9 @@ package org.robobinding.binder;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import org.robobinding.binder.BindingAttributeParser;
+
 import android.util.AttributeSet;
 
 /**
@@ -45,7 +48,7 @@ public class MockAttributeSet
 		{
 			String attributeName = "binding_attribute_" + i;
 			when(attributeSet.getAttributeName(i)).thenReturn(attributeName);
-			when(attributeSet.getAttributeValue(AttributeSetParser.ROBOBINDING_NAMESPACE, attributeName)).thenReturn("binding_value_" + i);
+			when(attributeSet.getAttributeValue(BindingAttributeParser.ROBOBINDING_NAMESPACE, attributeName)).thenReturn("binding_value_" + i);
 		}
 		
 		for (int i = numBindingAttributes; i < attributeCount; i++)

@@ -15,11 +15,18 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
-import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttributeTest;
+import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
+import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.BooleanSubViewVisibilityAttribute;
 import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.IntegerSubViewVisibilityAttribute;
+
+import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -30,10 +37,18 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class SubViewVisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<SubViewVisibilityAttribute>
+public class SubViewVisibilityAttributeTest
 {
-	@Override
-	protected void setTypeMappingExpectations()
+	private SubViewVisibilityAttribute attribute;
+	
+	@Before
+	public void setUp()
+	{
+		attribute = new SubViewVisibilityAttribute(null);
+	}
+	
+	@Test
+	public void givenPropertyType_whenCreatePropertyViewAttribute_thenReturnExpectedInstance()
 	{
 		forPropertyType(int.class).expectAttribute(IntegerSubViewVisibilityAttribute.class);
 		forPropertyType(Integer.class).expectAttribute(IntegerSubViewVisibilityAttribute.class);
@@ -41,9 +56,24 @@ public class SubViewVisibilityAttributeTest extends AbstractMultiTypePropertyVie
 		forPropertyType(boolean.class).expectAttribute(BooleanSubViewVisibilityAttribute.class);
 	}
 	
-	@Override
-	protected AbstractMultiTypePropertyViewAttribute<?> createAttribute()
+	protected TypeMappingBuilder forPropertyType(Class<?> propertyType)
 	{
-		return new SubViewVisibilityAttribute(null);
+		return new TypeMappingBuilder(propertyType);
+	}
+	
+	protected class TypeMappingBuilder
+	{
+		private final Class<?> propertyType;
+
+		public TypeMappingBuilder(Class<?> propertyType)
+		{
+			this.propertyType = propertyType;
+		}
+
+		public void expectAttribute(Class<? extends PropertyViewAttribute<? extends View>> attributeClass)
+		{
+			AbstractPropertyViewAttribute<View, ?> subAttribute = attribute.createPropertyViewAttribute(propertyType);
+			assertThat(subAttribute, instanceOf(attributeClass));
+		}
 	}
 }

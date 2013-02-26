@@ -15,11 +15,11 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import org.robobinding.BindingContext;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetValueModel;
-import org.robobinding.viewattribute.PropertyBindingDetails;
-
-import android.content.Context;
+import org.robobinding.viewattribute.ChildViewAttribute;
 
 /**
  * 
@@ -27,20 +27,28 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SourceAttribute implements AdapterViewAttribute
+public class SourceAttribute implements ChildViewAttribute<ValueModelAttribute>
 {
-	private final PropertyBindingDetails propertyBindingDetails;
+	private final DataSetAdapter<?> dataSetAdapter;
+	private ValueModelAttribute attribute;
 
-	public SourceAttribute(String attributeValue)
+	public SourceAttribute(final DataSetAdapter<?> dataSetAdapter)
 	{
-		this.propertyBindingDetails = PropertyBindingDetails.createFrom(attributeValue);
+		this.dataSetAdapter = dataSetAdapter;
+	}
+	
+	@Override
+	public void setAttribute(ValueModelAttribute attribute)
+	{
+		this.attribute = attribute;
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
-	public void bind(final DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bindTo(BindingContext bindingContext)
 	{
-		DataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(propertyBindingDetails.propertyName);
+		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
+		DataSetValueModel dataSetValueModel = presentationModelAdapter.getDataSetPropertyValueModel(attribute.getPropertyName());
 		dataSetAdapter.setValueModel(dataSetValueModel);
 	}
 }
