@@ -16,16 +16,12 @@
 package org.robobinding.viewattribute.adapterview;
 
 
-import java.util.Collections;
-import java.util.List;
-
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.BindingContext;
+import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import static org.robobinding.attribute.ChildAttributeResolvers.*;
 
-import android.content.Context;
 import android.widget.AdapterView;
-
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -38,8 +34,7 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	public static final String SOURCE = "source";
 	public static final String ITEM_LAYOUT = "itemLayout";
 	public static final String ITEM_MAPPING = "itemMapping";
-	
-	protected List<AdapterViewAttribute> childViewAttributes;
+	protected DataSetAdapter<?> dataSetAdapter;
 	
 	@Override
 	protected String[] getCompulsoryAttributes()
@@ -48,31 +43,35 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	}
 	
 	@Override
-	public void postInitialization()
+	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
-		childViewAttributes = Lists.newArrayList();
-		childViewAttributes.add(new SourceAttribute(groupedAttributeDetails.attributeValueFor(SOURCE)));
-		childViewAttributes.add(new ItemLayoutAttribute(view, groupedAttributeDetails.attributeValueFor(ITEM_LAYOUT)));
-		
-		if (groupedAttributeDetails.hasAttribute(ITEM_MAPPING))
-			childViewAttributes.add(new ItemMappingAttribute(groupedAttributeDetails.attributeValueFor(ITEM_MAPPING)));
+		resolverMappings.map(valueModelAttributeResolver(), SOURCE);
+		resolverMappings.map(propertyAttributeResolver(), ITEM_LAYOUT);
+		resolverMappings.map(predefinedMappingsAttributeResolver(), ITEM_MAPPING);
 	}
 	
+	@SuppressWarnings({ "rawtypes" })
+	@Override
+	protected void preBind(BindingContext bindingContext)
+	{
+		dataSetAdapter = new DataSetAdapter(bindingContext);
+	}
+
+	@Override
+	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+	{
+		binding.add(SOURCE, new SourceAttribute(dataSetAdapter));
+		binding.add(ITEM_LAYOUT, new ItemLayoutAttribute(view, dataSetAdapter));
+		
+		if(groupAttributes.hasAttribute(ITEM_MAPPING))
+			binding.add(ITEM_MAPPING,new ItemMappingAttribute(dataSetAdapter));
+	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	protected void postBind(BindingContext bindingContext)
 	{
-		DataSetAdapter dataSetAdapter = new DataSetAdapter(context, preInitializeViews);
-		
-		for (AdapterViewAttribute adapterViewAttribute : childViewAttributes)
-			adapterViewAttribute.bind(dataSetAdapter, presentationModelAdapter, context);
-		
 		dataSetAdapter.observeChangesOnTheValueModel();
 		((AdapterView)view).setAdapter(dataSetAdapter);
-	}
-	
-	List<AdapterViewAttribute> getAdapterViewAttributes()
-	{
-		return Collections.unmodifiableList(childViewAttributes);
 	}
 }

@@ -25,6 +25,7 @@ import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.BindingAttributeValues;
 import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.DynamicLayoutAttribute;
 import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.StaticLayoutAttribute;
+import static org.robobinding.attribute.Attributes.*;
 
 import android.widget.AdapterView;
 
@@ -52,7 +53,8 @@ public class ItemLayoutAttributeTest
 	{
 		String staticLayoutAttribute = "@layout/some_resource";
 		
-		ItemLayoutAttribute itemLayoutAttribute = new ItemLayoutAttribute(adapterView, staticLayoutAttribute);
+		ItemLayoutAttribute itemLayoutAttribute = newItemLayoutAttribute();
+		itemLayoutAttribute.setAttribute(aStaticResourceAttribute(staticLayoutAttribute));
 	
 		assertThat(itemLayoutAttribute.layoutAttribute, instanceOf(StaticLayoutAttribute.class));
 	}
@@ -62,15 +64,21 @@ public class ItemLayoutAttributeTest
 	{
 		String dynamicLayoutAttribute = BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME;
 		
-		ItemLayoutAttribute itemLayoutAttribute = new ItemLayoutAttribute(adapterView, dynamicLayoutAttribute);
+		ItemLayoutAttribute itemLayoutAttribute = newItemLayoutAttribute();
+		itemLayoutAttribute.setAttribute(aValueModelAttribute(dynamicLayoutAttribute));
 	
 		assertThat(itemLayoutAttribute.layoutAttribute, instanceOf(DynamicLayoutAttribute.class));
 		assertDynamicLayoutAttributeWasInitializedCorrectly((DynamicLayoutAttribute)itemLayoutAttribute.layoutAttribute);
 	}
 
+	private ItemLayoutAttribute newItemLayoutAttribute()
+	{
+		return new ItemLayoutAttribute(adapterView, mock(DataSetAdapter.class));
+	}
+	
 	private void assertDynamicLayoutAttributeWasInitializedCorrectly(DynamicLayoutAttribute layoutAttribute)
 	{
-		DynamicLayoutAttributeUtils.bindAttribute(mock(DataSetAdapter.class), layoutAttribute);
+		DynamicLayoutAttributeUtils.bindAttribute(layoutAttribute);
 	}
 	
 }

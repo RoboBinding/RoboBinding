@@ -15,13 +15,13 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.BindingContext;
+import org.robobinding.attribute.AbstractPropertyAttribute;
+import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.BindingDetailsBuilder;
-import org.robobinding.viewattribute.PropertyBindingDetails;
-import org.robobinding.viewattribute.ResourceBindingDetails;
+import org.robobinding.viewattribute.ChildViewAttribute;
+import org.robobinding.viewattribute.ViewAttribute;
 
-import android.content.Context;
 import android.widget.AdapterView;
 
 /**
@@ -30,75 +30,69 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemLayoutAttribute implements AdapterViewAttribute
+public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyAttribute>
 {
-	final AdapterViewAttribute layoutAttribute;
+	private final AdapterView<?> adapterView;
+	protected final DataSetAdapter<?> dataSetAdapter;
+	ViewAttribute layoutAttribute;
 	
-	public ItemLayoutAttribute(AdapterView<?> adapterView, String attributeValue)
+	public ItemLayoutAttribute(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter)
 	{
-		BindingDetailsBuilder bindingDetailsBuilder = new BindingDetailsBuilder(attributeValue);
-		
-		if (bindingDetailsBuilder.bindsToStaticResource())
-			layoutAttribute = new StaticLayoutAttribute(bindingDetailsBuilder.createResourceBindingDetails());
+		this.adapterView = adapterView;
+		this.dataSetAdapter = dataSetAdapter;
+	}
+
+	@Override
+	public void setAttribute(AbstractPropertyAttribute attribute)
+	{
+		AbstractPropertyAttribute propertyAttribute = attribute;
+		if (propertyAttribute.isStaticResource())
+			layoutAttribute = new StaticLayoutAttribute(propertyAttribute.asStaticResourceAttribute());
 		else
 		{
 			DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute();
 			dynamicLayoutAttribute.setView(adapterView);
-			dynamicLayoutAttribute.setPropertyBindingDetails(bindingDetailsBuilder.createPropertyBindingDetails());
+			dynamicLayoutAttribute.setAttribute(propertyAttribute.asValueModelAttribute());
 			layoutAttribute = dynamicLayoutAttribute;
 		}
 	}
-
+	
 	@Override
-	public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+	public void bindTo(BindingContext bindingContext)
 	{
-		layoutAttribute.bind(dataSetAdapter, presentationModelAdapter, context);			
+		layoutAttribute.bindTo(bindingContext);		
 	}
 	
-	protected void updateLayoutId(DataSetAdapter<?> dataSetAdapter, int layoutId)
+	protected void updateLayoutId(int layoutId)
 	{
 		dataSetAdapter.setItemLayoutId(layoutId);
 	}
 	
 	@SuppressWarnings({"rawtypes", "unchecked"})
-	class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer> implements AdapterViewAttribute
+	class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer>
 	{
-		private DataSetAdapter<?> dataSetAdapter;
-		
-		@Override
-		public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
-		{
-			this.dataSetAdapter = dataSetAdapter;
-			super.bind(presentationModelAdapter, context);
-		}
-
 		@Override
 		protected void valueModelUpdated(Integer newItemLayoutId)
 		{
-			updateLayoutId(dataSetAdapter, newItemLayoutId);
+			updateLayoutId(newItemLayoutId);
 			((AdapterView)view).setAdapter(dataSetAdapter);
-		}
-		
-		public void setPropertyBindingDetails(PropertyBindingDetails propertyBindingDetails)
-		{
-			super.setPropertyBindingDetails(propertyBindingDetails);
 		}
 	}
 	
-	class StaticLayoutAttribute implements AdapterViewAttribute
+	class StaticLayoutAttribute implements ViewAttribute
 	{
-		private ResourceBindingDetails resourceBindingDetails;
+		private StaticResourceAttribute attributeValue;
 
-		public StaticLayoutAttribute(ResourceBindingDetails resourceBindingDetails)
+		public StaticLayoutAttribute(StaticResourceAttribute attributeValue)
 		{
-			this.resourceBindingDetails = resourceBindingDetails;
+			this.attributeValue = attributeValue;
 		}
 
 		@Override
-		public void bind(DataSetAdapter<?> dataSetAdapter, PresentationModelAdapter presentationModelAdapter, Context context)
+		public void bindTo(BindingContext bindingContext)
 		{
-			int itemLayoutId = resourceBindingDetails.getResourceId(context);
-			updateLayoutId(dataSetAdapter, itemLayoutId);
+			int itemLayoutId = attributeValue.getResourceId(bindingContext.getContext());
+			updateLayoutId(itemLayoutId);
 		}
 	}
 

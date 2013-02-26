@@ -26,14 +26,14 @@ import android.widget.AdapterView;
  */
 public class DropdownLayoutAttribute extends ItemLayoutAttribute
 {
-	public DropdownLayoutAttribute(AdapterView<?> adapterView, String attributeValue)
+	public DropdownLayoutAttribute(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter)
 	{
-		super(adapterView, attributeValue);
+		super(adapterView, dataSetAdapter);
 	}
 
 	@Override
-	protected void updateLayoutId(DataSetAdapter<?> dataSetAdapter, int layoutId)
+	protected void updateLayoutId(int layoutId)
 	{
-		dataSetAdapter.setDropdownLayoutId(layoutId);
+		dataSetAdapter.setDropDownLayoutId(layoutId);
 	}
 }

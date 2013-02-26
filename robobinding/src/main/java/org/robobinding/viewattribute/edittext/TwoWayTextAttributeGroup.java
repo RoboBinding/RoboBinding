@@ -15,11 +15,15 @@
  */
 package org.robobinding.viewattribute.edittext;
 
-import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.AbstractViewAttributeInstantiator;
+import static org.robobinding.attribute.ChildAttributeResolvers.enumChildAttributeResolver;
+import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
 
-import android.content.Context;
+import org.robobinding.attribute.ChildAttributeResolverMappings;
+import org.robobinding.attribute.EnumAttribute;
+import org.robobinding.attribute.MalformedAttributeException;
+import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+
 import android.widget.EditText;
 
 /**
@@ -34,46 +38,51 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	public static final String VALUE_COMMIT_MODE = "valueCommitMode";
 
 	TwoWayTextAttribute textAttribute;
-	ValueCommitMode valueCommitMode;
 
 	@Override
 	protected String[] getCompulsoryAttributes()
 	{
 		return new String[] { TEXT };
 	}
-
+	
 	@Override
-	public void postInitialization()
+	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
-		AbstractViewAttributeInstantiator viewAttributeInstantiator = getViewAttributeInstantiator();
-		textAttribute = viewAttributeInstantiator.newPropertyViewAttribute(TwoWayTextAttribute.class, TEXT);
-
-		determineValueCommitMode();
-		textAttribute.setValueCommitMode(valueCommitMode);
+		resolverMappings.map(valueModelAttributeResolver(), TEXT);
+		resolverMappings.map(enumChildAttributeResolver(ValueCommitMode.class), VALUE_COMMIT_MODE);
+	}
+	
+	@Override
+	public void validateResolvedChildAttributes() {
+		if (valueCommitModeSpecified() && !textAttribute().isTwoWayBinding())
+			throw new MalformedAttributeException(VALUE_COMMIT_MODE, "The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
+	}
+	
+	@Override
+	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+	{
+		textAttribute = binding.addProperty(TEXT, new TwoWayTextAttribute());
+		textAttribute.setValueCommitMode(determineValueCommitMode());
 	}
 
-	private void determineValueCommitMode()
+	private ValueCommitMode determineValueCommitMode()
 	{
-		if (textAttribute.isTwoWayBinding() && valueCommitModeSpecified())
-			throw new RuntimeException("The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
+		if (valueCommitModeSpecified())
+		{
+			EnumAttribute<ValueCommitMode> enumAttribute = groupAttributes.enumAttributeFor(VALUE_COMMIT_MODE);
+			return enumAttribute.getValue();
+		}
 
-		valueCommitMode = ValueCommitMode.from(valueCommitModeAttributeValue());
-	}
-
-	private String valueCommitModeAttributeValue()
-	{
-		return groupedAttributeDetails.attributeValueFor(VALUE_COMMIT_MODE);
+		return ValueCommitMode.ON_CHANGE;
 	}
 
 	private boolean valueCommitModeSpecified()
 	{
-		return groupedAttributeDetails.hasAttribute(VALUE_COMMIT_MODE);
+		return groupAttributes.hasAttribute(VALUE_COMMIT_MODE);
 	}
-
-	@Override
-	public void bind(PresentationModelAdapter presentationModelAdapter, Context context)
+	
+	private ValueModelAttribute textAttribute()
 	{
-		textAttribute.bind(presentationModelAdapter, context);
+		return groupAttributes.valueModelAttributeFor(TEXT);
 	}
-
 }

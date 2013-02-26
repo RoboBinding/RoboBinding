@@ -15,10 +15,14 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
+import org.robobinding.BindingContext;
+import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
+import org.robobinding.viewattribute.ChildViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
+import org.robobinding.viewattribute.ViewAttributeValidation;
 
 import android.view.View;
 
@@ -28,15 +32,32 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View>
+public class SubViewVisibilityAttribute implements ChildViewAttribute<ValueModelAttribute>
 {
 	private AbstractSubViewVisibility visibility;
+	private ValueModelAttribute attribute;
+	
 	public SubViewVisibilityAttribute(AbstractSubViewVisibility subViewVisibility)
 	{
 		this.visibility = subViewVisibility;
 	}
+	
 	@Override
-	protected AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
+	public void setAttribute(ValueModelAttribute attribute)
+	{
+		this.attribute = attribute;		
+	}
+	
+	@Override
+	public void bindTo(BindingContext bindingContext)
+	{
+		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
+		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
+		AbstractPropertyViewAttribute<View, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
+		propertyViewAttribute.bindTo(bindingContext);
+	}
+	
+	AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
@@ -47,7 +68,7 @@ public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAtt
 			return new BooleanSubViewVisibilityAttribute();
 		}
 		
-		return null;
+		throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);
 	}
 	
 	class BooleanSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
@@ -63,6 +84,12 @@ public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAtt
 				visibility.makeGone();
 			}
 		}
+		
+		@Override
+		protected void validate(ViewAttributeValidation validation)
+		{
+			//No validation.
+		}
 	}
 	
 	class IntegerSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
@@ -71,6 +98,12 @@ public class SubViewVisibilityAttribute extends AbstractMultiTypePropertyViewAtt
 		protected void valueModelUpdated(Integer newValue)
 		{
 			visibility.setVisibility(newValue);
+		}
+		
+		@Override
+		protected void validate(ViewAttributeValidation validation)
+		{
+			//No validation.
 		}
 	}
 

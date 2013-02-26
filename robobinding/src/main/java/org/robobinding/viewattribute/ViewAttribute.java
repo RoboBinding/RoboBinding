@@ -15,9 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.presentationmodel.PresentationModelAdapter;
+import org.robobinding.BindingContext;
 
-import android.content.Context;
 
 /**
  * 
@@ -27,5 +26,5 @@ import android.content.Context;
  */
 public interface ViewAttribute
 {
-	void bind(PresentationModelAdapter presentationModelAdapter, Context context);
+	void bindTo(BindingContext bindingContext);
 }

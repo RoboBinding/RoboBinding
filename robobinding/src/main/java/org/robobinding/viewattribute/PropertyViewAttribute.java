@@ -16,6 +16,8 @@
 package org.robobinding.viewattribute;
 
 
+import org.robobinding.attribute.ValueModelAttribute;
+
 import android.view.View;
 
 
@@ -28,6 +30,5 @@ import android.view.View;
 public interface PropertyViewAttribute<T extends View> extends ViewAttribute
 {
 	void setView(T view);
-	void setPreInitializeView(boolean preInitializeViews);
-	void setAttributeValue(String attributeValue);
+	void setAttribute(ValueModelAttribute attribute);
 }

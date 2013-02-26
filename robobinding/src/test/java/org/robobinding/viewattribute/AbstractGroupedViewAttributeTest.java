@@ -18,15 +18,21 @@ package org.robobinding.viewattribute;
 import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.List;
+import java.util.Collection;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.robobinding.BindingContext;
+import org.robobinding.MockBindingContext;
+import org.robobinding.attribute.PendingGroupAttributes;
+import org.robobinding.viewattribute.AbstractGroupedViewAttribute.ChildAttributeBindings;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
+import com.google.common.collect.Maps;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
@@ -40,7 +46,8 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGroupedViewAttribute<?>>
 {
 	protected T attributeUnderTest;
-	protected GroupedAttributeDetailsImpl mockGroupedAttributeDetails;
+	private Map<String, String> presentAttributeMappings;
+	private Collection<ViewAttribute> childAttributes;
 
 	@Before
 	@SuppressWarnings("unchecked")
@@ -49,7 +56,7 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 		AbstractGroupedViewAttribute<View> attributeUnderTest = instantiateAttributeUnderTest();
 		instantiateView(attributeUnderTest);
 		this.attributeUnderTest = (T) attributeUnderTest;
-		mockGroupedAttributeDetails = new GroupedAttributeDetailsImpl(null);
+		presentAttributeMappings = Maps.newHashMap();
 	}
 
 	private AbstractGroupedViewAttribute<View> instantiateAttributeUnderTest()
@@ -94,8 +101,25 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 
 	protected void performInitialization()
 	{
-		attributeUnderTest.setGroupedAttributeDetails(mockGroupedAttributeDetails);
-		attributeUnderTest.postInitialization();
+		PendingGroupAttributes groupedAttributeDecriptor = new PendingGroupAttributes(presentAttributeMappings);
+		attributeUnderTest.resolvePendingGroupAttributes(groupedAttributeDecriptor);
+		setupChildAttributes();
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void setupChildAttributes()
+	{
+		AttributeGroupBindingException bindingErrors = new AttributeGroupBindingException();
+		
+		BindingContext bindingContext = MockBindingContext.create();
+		attributeUnderTest.preBind(bindingContext);
+		
+		ChildAttributeBindings binding = attributeUnderTest.new ChildAttributeBindings(bindingContext, bindingErrors);
+		attributeUnderTest.setupChildAttributeBindings(binding);
+		
+		bindingErrors.assertNoErrors();
+		
+		childAttributes = binding.childAttributeMap.values();
 	}
 
 	protected Attribute attribute(String attribute)
@@ -117,7 +141,7 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 
 	protected void givenAttribute(Attribute attribute)
 	{
-		mockGroupedAttributeDetails.addPresentAttribute(attribute.name, attribute.value);
+		presentAttributeMappings.put(attribute.name, attribute.value);
 	}
 
 	protected void assertThatAttributesWereCreated(Class<?>... attributeClasses)
@@ -138,8 +162,6 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 	
 	private Object findChildAttributeOfType(Class<?> attributeClass)
 	{
-		List<?> childAttributes = getGeneratedChildAttributes(attributeUnderTest);
-		
 		for (Object childAttribute : childAttributes)
 		{
 			if (attributeClass.isInstance(childAttribute))
@@ -165,8 +187,6 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 		}
 		validation.assertNoErrors();
 	}
-
-	protected abstract List<?> getGeneratedChildAttributes(T attributeUnderTest);
 
 	public static class Attribute
 	{
