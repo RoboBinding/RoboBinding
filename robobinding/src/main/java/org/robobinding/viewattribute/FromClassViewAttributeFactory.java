@@ -25,7 +25,7 @@ public class FromClassViewAttributeFactory<T extends ViewAttribute> implements V
 {
 	private final Class<T> viewAttributeClass;
 
-	public static <T extends ViewAttribute> FromClassViewAttributeFactory<T> viewAttributeFactoryForClass(Class<T> viewAttributeClass)
+	public static <T extends ViewAttribute> ViewAttributeFactory<T> viewAttributeFactoryForClass(Class<T> viewAttributeClass)
 	{
 		return new FromClassViewAttributeFactory<T>(viewAttributeClass);
 	}
