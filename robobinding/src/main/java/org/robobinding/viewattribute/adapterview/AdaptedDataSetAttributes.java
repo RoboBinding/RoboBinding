@@ -15,8 +15,6 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.viewattribute.GroupedViewAttributeConfig;
-
 import android.widget.AdapterView;
 
 /**
@@ -27,8 +25,4 @@ import android.widget.AdapterView;
  */
 public class AdaptedDataSetAttributes extends AbstractAdaptedDataSetAttributes<AdapterView<?>>
 {
-	public AdaptedDataSetAttributes(GroupedViewAttributeConfig<AdapterView<?>> config)
-	{
-		super(config);
-	}
 }

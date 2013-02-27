@@ -38,7 +38,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	
 	private AbstractPropertyViewAttribute<T, ?> propertyViewAttribute;
 
-	public AbstractMultiTypePropertyViewAttribute(MultiTypePropertyViewAttributeConfig<T> config)
+	public void initialize(MultiTypePropertyViewAttributeConfig<T> config)
 	{
 		this.view = config.getView();
 		this.attribute = config.getAttribute();
@@ -61,15 +61,16 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	{
 		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
 		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = createPropertyViewAttribute(
-				propertyType, new PropertyViewAttributeConfig<T>(view, attribute));
+				propertyType);
 		
 		if (propertyViewAttribute == null)
 			throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);
 		
+		propertyViewAttribute.initialize(new PropertyViewAttributeConfig<T>(view, attribute));
 		return propertyViewAttribute;
 	}
 
-	protected abstract AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType, PropertyViewAttributeConfig<T> config);
+	protected abstract AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType);
 
 	private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
 	{

@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.CommandViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
@@ -36,11 +35,6 @@ public class OnItemSelectedAttribute extends AbstractCommandViewAttribute<Adapte
 {
 	private AdapterViewListeners adapterViewListeners;
 
-	public OnItemSelectedAttribute(CommandViewAttributeConfig<AdapterView<?>> config)
-	{
-		super(config);
-	}
-
 	@Override
 	public void setViewListeners(AdapterViewListeners adapterViewListeners)
 	{
@@ -48,7 +42,7 @@ public class OnItemSelectedAttribute extends AbstractCommandViewAttribute<Adapte
 	}
 	
 	@Override
-	protected void postConstruct()
+	protected void postInitialization()
 	{
 		ViewAttributeValidation.viewListenersNotNull(adapterViewListeners);
 	}

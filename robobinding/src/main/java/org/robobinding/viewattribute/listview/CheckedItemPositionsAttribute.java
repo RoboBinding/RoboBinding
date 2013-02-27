@@ -21,8 +21,6 @@ import java.util.Set;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.MultiTypePropertyViewAttributeConfig;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.adapterview.AdapterViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
@@ -40,23 +38,18 @@ import android.widget.ListView;
  */
 public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyViewAttribute<ListView>
 {
-	public CheckedItemPositionsAttribute(MultiTypePropertyViewAttributeConfig<ListView> config)
-	{
-		super(config);
-	}
-
 	@Override
-	protected AbstractPropertyViewAttribute<ListView, ?> createPropertyViewAttribute(Class<?> propertyType, PropertyViewAttributeConfig<ListView> config)
+	protected AbstractPropertyViewAttribute<ListView, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (SparseBooleanArray.class.isAssignableFrom(propertyType))
 		{
-			return new SparseBooleanArrayCheckedItemPositionsAttribute(config);
+			return new SparseBooleanArrayCheckedItemPositionsAttribute();
 		} else if(Set.class.isAssignableFrom(propertyType))
 		{
-			return new SetCheckedItemPositionsAttribute(config);
+			return new SetCheckedItemPositionsAttribute();
 		} else if(Map.class.isAssignableFrom(propertyType))
 		{
-			return new MapCheckedItemPositionsAttribute(config);
+			return new MapCheckedItemPositionsAttribute();
 		}
 		
 		throw new RuntimeException("Could not find a suitable checkedItemPositions attribute class for property type: " + propertyType);
@@ -66,11 +59,6 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 	{
 		private AdapterViewListeners adapterViewListeners;
 
-		public AbstractCheckedItemPositionsAttribute(PropertyViewAttributeConfig<ListView> config)
-		{
-			super(config);
-		}
-
 		@Override
 		public void setViewListeners(AdapterViewListeners adapterViewListeners)
 		{
@@ -78,7 +66,7 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 		}
 
 		@Override
-		public void postConstruct()
+		public void postInitialization()
 		{
 			ViewAttributeValidation.viewListenersNotNull(adapterViewListeners);
 		}
@@ -100,11 +88,6 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 	
 	static class SparseBooleanArrayCheckedItemPositionsAttribute extends AbstractCheckedItemPositionsAttribute<SparseBooleanArray>
 	{
-		public SparseBooleanArrayCheckedItemPositionsAttribute(PropertyViewAttributeConfig<ListView> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void viewCheckedItemPositionsChanged(ValueModel<SparseBooleanArray> valueModel)
 		{
@@ -125,11 +108,6 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 	
 	static class SetCheckedItemPositionsAttribute extends AbstractCheckedItemPositionsAttribute<Set<Integer>>
 	{
-		public SetCheckedItemPositionsAttribute(PropertyViewAttributeConfig<ListView> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void viewCheckedItemPositionsChanged(ValueModel<Set<Integer>> valueModel)
 		{
@@ -150,11 +128,6 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 	
 	static class MapCheckedItemPositionsAttribute extends AbstractCheckedItemPositionsAttribute<Map<Integer, Boolean>>
 	{
-		public MapCheckedItemPositionsAttribute(PropertyViewAttributeConfig<ListView> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void viewCheckedItemPositionsChanged(ValueModel<Map<Integer, Boolean>> valueModel)
 		{

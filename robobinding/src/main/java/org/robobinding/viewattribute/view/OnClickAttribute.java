@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.view;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.CommandViewAttributeConfig;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,11 +29,6 @@ import android.view.View.OnClickListener;
  */
 public class OnClickAttribute extends AbstractCommandViewAttribute<View>
 {
-	public OnClickAttribute(CommandViewAttributeConfig<View> config)
-	{
-		super(config);
-	}
-
 	@Override
 	protected void bind(final Command command)
 	{

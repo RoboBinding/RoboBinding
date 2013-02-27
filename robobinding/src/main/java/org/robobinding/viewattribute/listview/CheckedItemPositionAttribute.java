@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.listview;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.adapterview.AdapterViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
@@ -36,11 +35,6 @@ public class CheckedItemPositionAttribute extends AbstractPropertyViewAttribute<
 {
 	private AdapterViewListeners adapterViewListeners;
 
-	public CheckedItemPositionAttribute(PropertyViewAttributeConfig<ListView> config)
-	{
-		super(config);
-	}
-
 	@Override
 	public void setViewListeners(AdapterViewListeners adapterViewListeners)
 	{
@@ -48,7 +42,7 @@ public class CheckedItemPositionAttribute extends AbstractPropertyViewAttribute<
 	}
 	
 	@Override
-	protected void postConstruct()
+	protected void postInitialization()
 	{
 		ViewAttributeValidation.viewListenersNotNull(adapterViewListeners);
 	}

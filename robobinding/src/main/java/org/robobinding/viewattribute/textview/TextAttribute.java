@@ -18,8 +18,6 @@ package org.robobinding.viewattribute.textview;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.MultiTypePropertyViewAttributeConfig;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.widget.TextView;
 
@@ -31,33 +29,24 @@ import android.widget.TextView;
  */
 public class TextAttribute extends AbstractTextAttribute<TextView>
 {
-	public TextAttribute(MultiTypePropertyViewAttributeConfig<TextView> config)
-	{
-		super(config);
-	}
 
 	@Override
-	protected AbstractPropertyViewAttribute<TextView, ?> createNewCharSequenceAttribute(PropertyViewAttributeConfig<TextView> config)
+	protected AbstractPropertyViewAttribute<TextView, ?> createNewCharSequenceAttribute()
 	{
-		CharSequenceTextAttribute charSequenceTextAttribute = new CharSequenceTextAttribute(config);
+		CharSequenceTextAttribute charSequenceTextAttribute = new CharSequenceTextAttribute();
 		return charSequenceTextAttribute;
 	}
 
 	@Override
-	protected AbstractPropertyViewAttribute<TextView, ?> createNewStringAttribute(PropertyViewAttributeConfig<TextView> config)
+	protected AbstractPropertyViewAttribute<TextView, ?> createNewStringAttribute()
 	{
-		StringTextAttribute stringTextAttribute = new StringTextAttribute(config);
+		StringTextAttribute stringTextAttribute = new StringTextAttribute();
 		return stringTextAttribute;
 	}
 	
 	private abstract static class AbstractCharSequenceTextAttribute<PropertyType extends CharSequence> extends
 			AbstractReadOnlyPropertyViewAttribute<TextView, PropertyType>
 	{
-		public AbstractCharSequenceTextAttribute(PropertyViewAttributeConfig<TextView> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void valueModelUpdated(PropertyType newValue)
 		{
@@ -69,11 +58,6 @@ public class TextAttribute extends AbstractTextAttribute<TextView>
 
 	static class StringTextAttribute extends AbstractCharSequenceTextAttribute<String>
 	{
-		public StringTextAttribute(PropertyViewAttributeConfig<TextView> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void updateValueModel(ValueModel<String> valueModel, CharSequence charSequence)
 		{
@@ -83,11 +67,6 @@ public class TextAttribute extends AbstractTextAttribute<TextView>
 
 	static class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
 	{
-		public CharSequenceTextAttribute(PropertyViewAttributeConfig<TextView> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void updateValueModel(ValueModel<CharSequence> valueModel, CharSequence charSequence)
 		{

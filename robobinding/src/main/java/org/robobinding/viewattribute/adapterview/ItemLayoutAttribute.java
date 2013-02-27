@@ -51,7 +51,8 @@ public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyA
 			layoutAttribute = new StaticLayoutAttribute(propertyAttribute.asStaticResourceAttribute());
 		else
 		{
-			DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute(
+			DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute();
+			dynamicLayoutAttribute.initialize(
 					new PropertyViewAttributeConfig<AdapterView<?>>(adapterView, propertyAttribute.asValueModelAttribute()));
 			layoutAttribute = dynamicLayoutAttribute;
 		}
@@ -71,11 +72,6 @@ public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyA
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer>
 	{
-		public DynamicLayoutAttribute(PropertyViewAttributeConfig<AdapterView<?>> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void valueModelUpdated(Integer newItemLayoutId)
 		{

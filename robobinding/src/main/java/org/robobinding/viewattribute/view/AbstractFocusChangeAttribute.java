@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.view;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.CommandViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 
 import android.view.View;
@@ -33,11 +32,6 @@ public abstract class AbstractFocusChangeAttribute extends AbstractCommandViewAt
 {
 	private ViewListeners viewListeners;
 
-	public AbstractFocusChangeAttribute(CommandViewAttributeConfig<View> config)
-	{
-		super(config);
-	}
-	
 	@Override
 	public void setViewListeners(ViewListeners viewListeners)
 	{
@@ -45,7 +39,7 @@ public abstract class AbstractFocusChangeAttribute extends AbstractCommandViewAt
 	}
 	
 	@Override
-	protected void postConstruct()
+	protected void postInitialization()
 	{
 		ViewAttributeValidation.viewListenersNotNull(viewListeners);
 	}

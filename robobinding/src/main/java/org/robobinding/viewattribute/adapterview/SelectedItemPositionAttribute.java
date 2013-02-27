@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
@@ -35,11 +34,6 @@ public class SelectedItemPositionAttribute extends AbstractPropertyViewAttribute
 {
 	private AdapterViewListeners adapterViewListeners;
 
-	public SelectedItemPositionAttribute(PropertyViewAttributeConfig<AdapterView<?>> config)
-	{
-		super(config);
-	}
-
 	@Override
 	public void setViewListeners(AdapterViewListeners adapterViewListeners)
 	{
@@ -47,7 +41,7 @@ public class SelectedItemPositionAttribute extends AbstractPropertyViewAttribute
 	}
 	
 	@Override
-	protected void postConstruct()
+	protected void postInitialization()
 	{
 		ViewAttributeValidation.viewListenersNotNull(adapterViewListeners);
 	}

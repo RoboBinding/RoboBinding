@@ -16,7 +16,6 @@
 package org.robobinding.viewattribute.view;
 
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.view.View;
 
@@ -28,11 +27,6 @@ import android.view.View;
  */
 public class EnabledAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 {
-	protected EnabledAttribute(PropertyViewAttributeConfig<View> config)
-	{
-		super(config);
-	}
-
 	@Override
 	protected void valueModelUpdated(Boolean newValue)
 	{

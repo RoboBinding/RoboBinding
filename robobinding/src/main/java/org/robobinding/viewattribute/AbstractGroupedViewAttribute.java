@@ -37,7 +37,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	private ChildViewAttributes<T> childViewAttributes;
 	private boolean childViewAttributesNotSetup;
 	
-	public AbstractGroupedViewAttribute(GroupedViewAttributeConfig<T> config)
+	public void initialize(GroupedViewAttributeConfig<T> config)
 	{
 		view = config.getView();
 		childViewAttributes = createChildViewAttributes(config.getDescriptor(), config.getViewListenersProvider());

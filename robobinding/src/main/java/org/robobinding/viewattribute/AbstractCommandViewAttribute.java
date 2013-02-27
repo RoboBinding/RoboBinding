@@ -33,13 +33,13 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	protected T view;
 	private CommandAttribute attribute;
 	
-	public AbstractCommandViewAttribute(CommandViewAttributeConfig<T> config)
+	public void initialize(CommandViewAttributeConfig<T> config)
 	{
 		this.view = config.getView();
 		this.attribute = config.getAttribute();
 	}
 	
-	protected void postConstruct()
+	protected void postInitialization()
 	{
 	}
 	

@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.compoundbutton;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
@@ -34,11 +33,6 @@ public class CheckedAttribute extends AbstractPropertyViewAttribute<CompoundButt
 {
 	private CompoundButtonListeners viewListeners;
 
-	public CheckedAttribute(PropertyViewAttributeConfig<CompoundButton> config)
-	{
-		super(config);
-	}
-
 	@Override
 	public void setViewListeners(CompoundButtonListeners viewListeners)
 	{
@@ -46,7 +40,7 @@ public class CheckedAttribute extends AbstractPropertyViewAttribute<CompoundButt
 	}
 	
 	@Override
-	protected void postConstruct()
+	protected void postInitialization()
 	{
 		ViewAttributeValidation.viewListenersNotNull(viewListeners);
 	}

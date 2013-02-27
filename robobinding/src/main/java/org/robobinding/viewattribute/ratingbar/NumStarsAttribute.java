@@ -16,7 +16,6 @@
 package org.robobinding.viewattribute.ratingbar;
 
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.widget.RatingBar;
 
@@ -28,11 +27,6 @@ import android.widget.RatingBar;
  */
 public class NumStarsAttribute extends AbstractReadOnlyPropertyViewAttribute<RatingBar, Integer>
 {
-	public NumStarsAttribute(PropertyViewAttributeConfig<RatingBar> config)
-	{
-		super(config);
-	}
-
 	@Override
 	protected void valueModelUpdated(Integer numStars)
 	{

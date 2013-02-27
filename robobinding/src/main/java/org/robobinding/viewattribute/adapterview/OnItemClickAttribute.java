@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.CommandViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
@@ -34,11 +33,6 @@ import android.widget.AdapterView.OnItemClickListener;
 public class OnItemClickAttribute extends AbstractCommandViewAttribute<AdapterView<?>> implements ViewListenersAware<AdapterViewListeners>
 {
 	private AdapterViewListeners adapterViewListeners;
-
-	public OnItemClickAttribute(CommandViewAttributeConfig<AdapterView<?>> config)
-	{
-		super(config);
-	}
 	
 	@Override
 	public void setViewListeners(AdapterViewListeners adapterViewListeners)
@@ -47,7 +41,7 @@ public class OnItemClickAttribute extends AbstractCommandViewAttribute<AdapterVi
 	}
 
 	@Override
-	protected void postConstruct()
+	protected void postInitialization()
 	{
 		ViewAttributeValidation.viewListenersNotNull(adapterViewListeners);
 	}

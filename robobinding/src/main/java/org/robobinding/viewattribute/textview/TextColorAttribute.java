@@ -16,7 +16,6 @@
 package org.robobinding.viewattribute.textview;
 
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.widget.TextView;
 
@@ -28,11 +27,6 @@ import android.widget.TextView;
  */
 public class TextColorAttribute extends AbstractReadOnlyPropertyViewAttribute<TextView, Integer>
 {
-	protected TextColorAttribute(PropertyViewAttributeConfig<TextView> config)
-	{
-		super(config);
-	}
-
 	@Override
 	protected void valueModelUpdated(Integer newColor)
 	{

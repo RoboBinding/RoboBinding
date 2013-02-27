@@ -34,14 +34,14 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 {
 	protected ViewType view;
 	private ValueModelAttribute attribute;
-
-	public AbstractPropertyViewAttribute(PropertyViewAttributeConfig<ViewType> config)
+	
+	public void initialize(PropertyViewAttributeConfig<ViewType> config)
 	{
 		this.view = config.getView();
 		this.attribute = config.getAttribute();
 	}
 	
-	protected void postConstruct()
+	protected void postInitialization()
 	{
 	}
 

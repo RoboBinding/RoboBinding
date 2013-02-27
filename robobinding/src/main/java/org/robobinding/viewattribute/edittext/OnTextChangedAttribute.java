@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.edittext;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.CommandViewAttributeConfig;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,11 +30,6 @@ import android.widget.EditText;
  */
 public class OnTextChangedAttribute extends AbstractCommandViewAttribute<EditText>
 {
-	public OnTextChangedAttribute(CommandViewAttributeConfig<EditText> config)
-	{
-		super(config);
-	}
-
 	@Override
 	protected void bind(final Command command)
 	{

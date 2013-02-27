@@ -17,8 +17,6 @@ package org.robobinding.viewattribute.edittext;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.MultiTypePropertyViewAttributeConfig;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 import org.robobinding.viewattribute.textview.AbstractTextAttribute;
 
 import android.text.Editable;
@@ -37,23 +35,18 @@ public class TwoWayTextAttribute extends AbstractTextAttribute<EditText>
 {
 	private ValueCommitMode valueCommitMode = ValueCommitMode.ON_CHANGE;
 
-	public TwoWayTextAttribute(MultiTypePropertyViewAttributeConfig<EditText> config)
-	{
-		super(config);
-	}
-
 	@Override
-	protected AbstractPropertyViewAttribute<EditText, ?> createNewStringAttribute(PropertyViewAttributeConfig<EditText> config)
+	protected AbstractPropertyViewAttribute<EditText, ?> createNewStringAttribute()
 	{
-		TwoWayStringTextAttribute stringTextAttribute = new TwoWayStringTextAttribute(config);
+		TwoWayStringTextAttribute stringTextAttribute = new TwoWayStringTextAttribute();
 		stringTextAttribute.setValueCommitMode(valueCommitMode);
 		return stringTextAttribute;
 	}
 	
 	@Override
-	protected AbstractPropertyViewAttribute<EditText, ?> createNewCharSequenceAttribute(PropertyViewAttributeConfig<EditText> config)
+	protected AbstractPropertyViewAttribute<EditText, ?> createNewCharSequenceAttribute()
 	{
-		TwoWayCharSequenceTextAttribute charSequenceTextAttribute = new TwoWayCharSequenceTextAttribute(config);
+		TwoWayCharSequenceTextAttribute charSequenceTextAttribute = new TwoWayCharSequenceTextAttribute();
 		charSequenceTextAttribute.setValueCommitMode(valueCommitMode);
 		return charSequenceTextAttribute;
 	}
@@ -72,11 +65,6 @@ public class TwoWayTextAttribute extends AbstractTextAttribute<EditText>
 			AbstractPropertyViewAttribute<EditText, PropertyType>
 	{
 		private ValueCommitMode valueCommitMode;
-
-		public AbstractTwoWayCharSequenceTextAttribute(PropertyViewAttributeConfig<EditText> config)
-		{
-			super(config);
-		}
 
 		@Override
 		protected void valueModelUpdated(PropertyType newValue)
@@ -132,11 +120,6 @@ public class TwoWayTextAttribute extends AbstractTextAttribute<EditText>
 
 	static class TwoWayStringTextAttribute extends AbstractTwoWayCharSequenceTextAttribute<String>
 	{
-		public TwoWayStringTextAttribute(PropertyViewAttributeConfig<EditText> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void updateValueModel(ValueModel<String> valueModel, CharSequence charSequence)
 		{
@@ -146,11 +129,6 @@ public class TwoWayTextAttribute extends AbstractTextAttribute<EditText>
 
 	static class TwoWayCharSequenceTextAttribute extends AbstractTwoWayCharSequenceTextAttribute<CharSequence>
 	{
-		public TwoWayCharSequenceTextAttribute(PropertyViewAttributeConfig<EditText> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void updateValueModel(ValueModel<CharSequence> valueModel, CharSequence charSequence)
 		{

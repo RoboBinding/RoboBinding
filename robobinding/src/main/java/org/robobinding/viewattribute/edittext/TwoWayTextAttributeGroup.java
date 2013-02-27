@@ -26,7 +26,6 @@ import org.robobinding.attribute.MalformedAttributeException;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ChildViewAttributes;
-import org.robobinding.viewattribute.GroupedViewAttributeConfig;
 
 import android.widget.EditText;
 
@@ -40,11 +39,6 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 {
 	public static final String TEXT = "text";
 	public static final String VALUE_COMMIT_MODE = "valueCommitMode";
-
-	public TwoWayTextAttributeGroup(GroupedViewAttributeConfig<EditText> config)
-	{
-		super(config);
-	}
 
 	@Override
 	protected String[] getCompulsoryAttributes()

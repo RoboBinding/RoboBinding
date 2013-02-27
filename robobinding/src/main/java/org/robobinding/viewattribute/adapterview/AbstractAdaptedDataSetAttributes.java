@@ -16,13 +16,14 @@
 package org.robobinding.viewattribute.adapterview;
 
 
+import static org.robobinding.attribute.ChildAttributeResolvers.predefinedMappingsAttributeResolver;
+import static org.robobinding.attribute.ChildAttributeResolvers.propertyAttributeResolver;
+import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
+
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ChildViewAttributes;
-import org.robobinding.viewattribute.GroupedViewAttributeConfig;
-
-import static org.robobinding.attribute.ChildAttributeResolvers.*;
 
 import android.widget.AdapterView;
 
@@ -38,11 +39,6 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	public static final String ITEM_LAYOUT = "itemLayout";
 	public static final String ITEM_MAPPING = "itemMapping";
 	protected DataSetAdapter<?> dataSetAdapter;
-	
-	public AbstractAdaptedDataSetAttributes(GroupedViewAttributeConfig<T> config)
-	{
-		super(config);
-	}
 	
 	@Override
 	protected String[] getCompulsoryAttributes()

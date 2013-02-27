@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.compoundbutton;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.CommandViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
@@ -34,11 +33,6 @@ public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute<Compo
 {
 	private CompoundButtonListeners viewListeners;
 
-	public OnCheckedChangeAttribute(CommandViewAttributeConfig<CompoundButton> config)
-	{
-		super(config);
-	}
-
 	@Override
 	public void setViewListeners(CompoundButtonListeners viewListeners)
 	{
@@ -46,7 +40,7 @@ public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute<Compo
 	}
 
 	@Override
-	protected void postConstruct()
+	protected void postInitialization()
 	{
 		ViewAttributeValidation.viewListenersNotNull(viewListeners);
 	}

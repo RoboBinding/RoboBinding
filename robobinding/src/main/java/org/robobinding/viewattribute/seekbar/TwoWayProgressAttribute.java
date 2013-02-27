@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.seekbar;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
@@ -34,11 +33,6 @@ public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekB
 {
 	private SeekBarListeners viewListeners;
 	
-	public TwoWayProgressAttribute(PropertyViewAttributeConfig<SeekBar> config)
-	{
-		super(config);
-	}
-	
 	@Override
 	public void setViewListeners(SeekBarListeners viewListeners)
 	{
@@ -46,7 +40,7 @@ public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekB
 	}
 
 	@Override
-	protected void postConstruct()
+	protected void postInitialization()
 	{
 		ViewAttributeValidation.viewListenersNotNull(viewListeners);
 	}

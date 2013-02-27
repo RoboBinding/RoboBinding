@@ -18,9 +18,7 @@ package org.robobinding.viewattribute.imageview;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.MultiTypePropertyViewAttributeConfig;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -34,25 +32,20 @@ import android.widget.ImageView;
  */
 public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute<ImageView>
 {
-	public ImageSourceAttribute(MultiTypePropertyViewAttributeConfig<ImageView> config)
-	{
-		super(config);
-	}
-
 	@Override
-	protected AbstractPropertyViewAttribute<ImageView, ?> createPropertyViewAttribute(Class<?> propertyType, PropertyViewAttributeConfig<ImageView> config)
+	protected AbstractPropertyViewAttribute<ImageView, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
-			return new IntegerImageSourceAttribute(config);
+			return new IntegerImageSourceAttribute();
 		}
 		else if (Drawable.class.isAssignableFrom(propertyType))
 		{
-			return new DrawableImageSourceAttribute(config);
+			return new DrawableImageSourceAttribute();
 		}
 		else if (Bitmap.class.isAssignableFrom(propertyType))
 		{
-			return new BitmapImageSourceAttribute(config);
+			return new BitmapImageSourceAttribute();
 		}
 		
 		return null;
@@ -60,11 +53,6 @@ public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute
 	
 	static class IntegerImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Integer>
 	{
-		public IntegerImageSourceAttribute(PropertyViewAttributeConfig<ImageView> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void valueModelUpdated(Integer resourceId)
 		{
@@ -74,11 +62,6 @@ public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute
 	
 	static class DrawableImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Drawable>
 	{
-		public DrawableImageSourceAttribute(PropertyViewAttributeConfig<ImageView> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void valueModelUpdated(Drawable drawable)
 		{
@@ -88,11 +71,6 @@ public class ImageSourceAttribute extends AbstractMultiTypePropertyViewAttribute
 	
 	static class BitmapImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, Bitmap>
 	{
-		public BitmapImageSourceAttribute(PropertyViewAttributeConfig<ImageView> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void valueModelUpdated(Bitmap bitmap)
 		{
