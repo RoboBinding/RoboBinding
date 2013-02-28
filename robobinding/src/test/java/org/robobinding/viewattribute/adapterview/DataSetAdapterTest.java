@@ -137,7 +137,6 @@ public class DataSetAdapterTest
 		assertThat(dataSetAdapter.getCount(), is(presentationModel.list.size()));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Test
 	public void givenADataSetAdapterWithoutAValueModel_thenCountShouldBeZero()
 	{

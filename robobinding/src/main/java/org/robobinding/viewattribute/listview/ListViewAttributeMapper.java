@@ -15,6 +15,13 @@
  */
 package org.robobinding.viewattribute.listview;
 
+import static org.robobinding.viewattribute.listview.FooterAttributes.FOOTER_LAYOUT;
+import static org.robobinding.viewattribute.listview.FooterAttributes.FOOTER_PRESENTATION_MODEL;
+import static org.robobinding.viewattribute.listview.FooterAttributes.FOOTER_VISIBILITY;
+import static org.robobinding.viewattribute.listview.HeaderAttributes.HEADER_LAYOUT;
+import static org.robobinding.viewattribute.listview.HeaderAttributes.HEADER_PRESENTATION_MODEL;
+import static org.robobinding.viewattribute.listview.HeaderAttributes.HEADER_VISIBILITY;
+
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 
@@ -33,10 +40,11 @@ public class ListViewAttributeMapper implements BindingAttributeMapper<ListView>
 	{
 		mappings.mapPropertyAttribute(CheckedItemPositionAttribute.class, "checkedItemPosition");
 		mappings.mapPropertyAttribute(CheckedItemPositionsAttribute.class, "checkedItemPositions");
+		mappings.mapPropertyAttribute(ChoiceModeAttribute.class, "choiceMode");
 		
-		mappings.mapGroupedAttribute(new HeaderAttributesFactory(), HeaderAttributes.HEADER_LAYOUT, HeaderAttributes.HEADER_PRESENTATION_MODEL,
-				HeaderAttributes.HEADER_VISIBILITY);
-		mappings.mapGroupedAttribute(new FooterAttributesFactory(), FooterAttributes.FOOTER_LAYOUT, FooterAttributes.FOOTER_PRESENTATION_MODEL, 
-				FooterAttributes.FOOTER_VISIBILITY);
+		mappings.mapGroupedAttribute(new HeaderAttributesFactory(), HEADER_LAYOUT, HEADER_PRESENTATION_MODEL,
+				HEADER_VISIBILITY);
+		mappings.mapGroupedAttribute(new FooterAttributesFactory(), FOOTER_LAYOUT, FOOTER_PRESENTATION_MODEL, 
+				FOOTER_VISIBILITY);
 	}
 }
