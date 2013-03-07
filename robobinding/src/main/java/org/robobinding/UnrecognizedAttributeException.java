@@ -25,14 +25,14 @@ package org.robobinding;
 @SuppressWarnings("serial")
 public class UnrecognizedAttributeException extends AttributeResolutionException
 {
-	public UnrecognizedAttributeException(String attribute)
+	public UnrecognizedAttributeException(String attributeName)
 	{
-		super(attribute);
+		super(attributeName);
 	}
 
 	@Override
 	public String getMessage()
 	{
-		return "Unrecognized attribute '"+getAttribute()+"'";
+		return "Unrecognized attribute '"+getAttributeName()+"'";
 	}
 }

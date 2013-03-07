@@ -180,7 +180,7 @@ public class ViewResolutionIT
 		Collection<AttributeResolutionException> attributeErrors = e.getAttributeErrors();
 		for(AttributeResolutionException attributeError : attributeErrors)
 		{
-			if(attributeError.getAttribute().equals(attribute))
+			if(attributeError.getAttributeName().equals(attribute))
 			{
 				return;
 			}

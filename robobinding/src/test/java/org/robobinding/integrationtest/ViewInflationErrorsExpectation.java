@@ -194,7 +194,7 @@ public class ViewInflationErrorsExpectation
 		
 		public void meet(AttributeResolutionException e)
 		{
-			assertThat(e.getAttribute(), is(attributeName));
+			assertThat(e.getAttributeName(), is(attributeName));
 		}
 	}
 	

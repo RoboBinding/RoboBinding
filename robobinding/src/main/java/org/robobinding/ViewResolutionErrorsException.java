@@ -16,6 +16,7 @@
 package org.robobinding;
 
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.robobinding.CollectionUtils.isNotEmpty;
 
 import java.util.Collection;
@@ -38,13 +39,12 @@ import com.google.common.collect.Lists;
 public class ViewResolutionErrorsException extends RuntimeException implements ViewResolutionErrors
 {
 	private View view;
-	private List<AttributeResolutionException> attributeErrors;
-	private List<MissingRequiredAttributesException> missingRequiredAttributeErrors;
+	private List<AttributeResolutionException> attributeErrors = newArrayList();
+	private List<MissingRequiredAttributesException> missingRequiredAttributeErrors = newArrayList();
+	
 	public ViewResolutionErrorsException(View view)
 	{
 		this.view = view;
-		attributeErrors = Lists.newArrayList();
-		missingRequiredAttributeErrors = Lists.newArrayList();
 	}
 	
 	@Override

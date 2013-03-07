@@ -24,33 +24,33 @@ package org.robobinding;
 @SuppressWarnings("serial")
 public class AttributeResolutionException extends RuntimeException
 {
-	private String attribute;
+	private String attributeName;
 
 	public AttributeResolutionException(String attributeName)
 	{
-		this.attribute = attributeName;
+		this.attributeName = attributeName;
 	}
 
 	public AttributeResolutionException(String attributeName, String message)
 	{
 		super(message);
-		this.attribute = attributeName;
+		this.attributeName = attributeName;
 	}
 
 	public AttributeResolutionException(String attributeName, String message, Throwable cause)
 	{
 		super(message, cause);
-		this.attribute = attributeName;
+		this.attributeName = attributeName;
 	}
 
-	public String getAttribute()
+	public String getAttributeName()
 	{
-		return attribute;
+		return attributeName;
 	}
 	
 	@Override
 	public String toString()
 	{
-		return attribute + ": "+getMessage();
+		return attributeName + ": "+getMessage();
 	}
 }
