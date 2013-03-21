@@ -32,21 +32,21 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class GroupedAttributeBuilder
+public class GroupAttributesBuilder
 {
 	private List<AbstractAttribute> childAttributeResolutions; 
 
-	public static GroupedAttributeBuilder aGroupedAttribute()
+	public static GroupAttributesBuilder aGroupAttributes()
 	{
-		return new GroupedAttributeBuilder();
+		return new GroupAttributesBuilder();
 	}
 	
-	private GroupedAttributeBuilder()
+	private GroupAttributesBuilder()
 	{
 		childAttributeResolutions = Lists.newArrayList();
 	}
 	
-	public GroupedAttributeBuilder withChildAttributeResolution(AbstractAttribute childAttribute)
+	public GroupAttributesBuilder withChildAttributeResolution(AbstractAttribute childAttribute)
 	{
 		childAttributeResolutions.add(childAttribute);
 		return this;

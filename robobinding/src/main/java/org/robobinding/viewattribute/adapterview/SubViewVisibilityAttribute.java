@@ -20,10 +20,9 @@ import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.ChildViewAttribute;
+import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
 import org.robobinding.viewattribute.PropertyViewAttributeConfig;
-import org.robobinding.viewattribute.ViewAttributeValidation;
 
 import android.view.View;
 
@@ -33,7 +32,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SubViewVisibilityAttribute implements ChildViewAttribute<ValueModelAttribute>
+public class SubViewVisibilityAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute>
 {
 	private AbstractSubViewVisibility visibility;
 	private ValueModelAttribute attribute;
@@ -54,20 +53,20 @@ public class SubViewVisibilityAttribute implements ChildViewAttribute<ValueModel
 	{
 		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
 		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
-		AbstractPropertyViewAttribute<View, ?> propertyViewAttribute = createPropertyViewAttribute(
-				propertyType, new PropertyViewAttributeConfig<View>(view, attribute));
+		AbstractPropertyViewAttribute<View, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
+		propertyViewAttribute.initialize(new PropertyViewAttributeConfig<View>(null, attribute));
 		propertyViewAttribute.bindTo(bindingContext);
 	}
 	
-	AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType, PropertyViewAttributeConfig<View> config)
+	AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
 	{
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
 		{
-			return new IntegerSubViewVisibilityAttribute(config);
+			return new IntegerSubViewVisibilityAttribute();
 		}
 		else if (PrimitiveTypeUtils.booleanIsAssignableFrom(propertyType))
 		{
-			return new BooleanSubViewVisibilityAttribute(config);
+			return new BooleanSubViewVisibilityAttribute();
 		}
 		
 		throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);
@@ -75,11 +74,6 @@ public class SubViewVisibilityAttribute implements ChildViewAttribute<ValueModel
 	
 	class BooleanSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
 	{
-		public BooleanSubViewVisibilityAttribute(PropertyViewAttributeConfig<View> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void valueModelUpdated(Boolean newValue)
 		{
@@ -95,11 +89,6 @@ public class SubViewVisibilityAttribute implements ChildViewAttribute<ValueModel
 	
 	class IntegerSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
 	{
-		public IntegerSubViewVisibilityAttribute(PropertyViewAttributeConfig<View> config)
-		{
-			super(config);
-		}
-
 		@Override
 		protected void valueModelUpdated(Integer newValue)
 		{

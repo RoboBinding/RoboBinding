@@ -90,9 +90,10 @@ public class MockPresentationModelAdapterBuilder
 		return this;
 	}
 
-	private <PropertyType> void declareReadOnlyProperty(String propertyName, ValueModel<PropertyType> propertyValueModel)
+	public <PropertyType> MockPresentationModelAdapterBuilder declareReadOnlyProperty(String propertyName, ValueModel<PropertyType> propertyValueModel)
 	{
 		when(mockPresentationModelAdapter.<PropertyType>getReadOnlyPropertyValueModel(propertyName)).thenReturn(propertyValueModel);
+		return this;
 	}
 
 	public <PropertyType> MockPresentationModelAdapterBuilder declareProperty(String propertyName)

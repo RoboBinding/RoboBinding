@@ -28,6 +28,15 @@ import android.view.View;
  */
 public abstract class AbstractReadOnlyPropertyViewAttribute<ViewType extends View, PropertyType> extends AbstractPropertyViewAttribute<ViewType, PropertyType>
 {
+	public AbstractReadOnlyPropertyViewAttribute()
+	{
+	}
+	
+	public AbstractReadOnlyPropertyViewAttribute(boolean withAlwaysPreInitializingView)
+	{
+		super(withAlwaysPreInitializingView);
+	}
+	
 	@Override
 	protected final void observeChangesOnTheView(ValueModel<PropertyType> valueModel)
 	{

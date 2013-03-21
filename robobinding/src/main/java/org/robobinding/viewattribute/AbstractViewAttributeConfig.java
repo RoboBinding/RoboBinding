@@ -15,6 +15,9 @@
  */
 package org.robobinding.viewattribute;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import android.view.View;
 
 /**
@@ -31,22 +34,33 @@ public class AbstractViewAttributeConfig<T extends View>
 	{
 		this.view = view;
 	}
-	
-	protected final void performValidate()
-	{
-		ViewAttributeValidation validation = new ViewAttributeValidation();
-		doValidate(validation);
-		validation.assertNoErrors();
-	}
-
-	protected void doValidate(ViewAttributeValidation validation)
-	{
-		validation.addErrorIfViewNotSet(view);
-	}
 
 	public T getView()
 	{
 		return view;
+	}
+	
+	@Override
+	public boolean equals(Object other)
+	{
+		if (this == other)
+			return true;
+		if (!(other instanceof AbstractViewAttributeConfig))
+			return false;
+	
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		final AbstractViewAttributeConfig<T> that = (AbstractViewAttributeConfig) other;
+		return new EqualsBuilder()
+			.append(view, that.view)
+			.isEquals();
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder()
+			.append(view)
+			.toHashCode();
 	}
 
 }

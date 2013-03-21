@@ -70,5 +70,8 @@ public class FromClassViewAttributeFactoryTest
 	{
 		@Override
 		public void bindTo(BindingContext bindingContext) { }
+
+		@Override
+		public void preInitializeView(BindingContext bindingContext){ }
 	}	
 }

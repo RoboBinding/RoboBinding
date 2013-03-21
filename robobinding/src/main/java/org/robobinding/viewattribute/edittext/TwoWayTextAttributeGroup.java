@@ -21,7 +21,7 @@ import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttrib
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.EnumAttribute;
-import org.robobinding.attribute.GroupedAttribute;
+import org.robobinding.attribute.GroupAttributes;
 import org.robobinding.attribute.MalformedAttributeException;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
@@ -54,27 +54,27 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 	}
 	
 	@Override
-	public void validateResolvedChildAttributes(GroupedAttribute groupedAttribute) 
+	public void validateResolvedChildAttributes(GroupAttributes groupAttributes) 
 	{
-		if (valueCommitModeSpecified(groupedAttribute) && isTextAttributeNotTwoWayBinding(groupedAttribute))
+		if (valueCommitModeSpecified(groupAttributes) && isTextAttributeNotTwoWayBinding(groupAttributes))
 			throw new MalformedAttributeException(VALUE_COMMIT_MODE, "The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
 	}
 	
-	private boolean valueCommitModeSpecified(GroupedAttribute groupedAttribute)
+	private boolean valueCommitModeSpecified(GroupAttributes groupAttributes)
 	{
-		return groupedAttribute.hasAttribute(VALUE_COMMIT_MODE);
+		return groupAttributes.hasAttribute(VALUE_COMMIT_MODE);
 	}
 
-	private boolean isTextAttributeNotTwoWayBinding(GroupedAttribute groupedAttribute)
+	private boolean isTextAttributeNotTwoWayBinding(GroupAttributes groupAttributes)
 	{
-		ValueModelAttribute textAttribute = groupedAttribute.valueModelAttributeFor(TEXT);
+		ValueModelAttribute textAttribute = groupAttributes.valueModelAttributeFor(TEXT);
 		return !textAttribute.isTwoWayBinding();
 	}
 
 	@Override
 	protected void setupChildViewAttributes(ChildViewAttributes<EditText> childViewAttributes, BindingContext bindingContext)
 	{
-		TwoWayTextAttribute textAttribute = childViewAttributes.addProperty(TEXT, new TwoWayTextAttribute());
+		TwoWayTextAttribute textAttribute = childViewAttributes.add(TEXT, new TwoWayTextAttribute());
 		textAttribute.setValueCommitMode(determineValueCommitMode(childViewAttributes));
 	}
 

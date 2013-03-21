@@ -39,12 +39,8 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 		this.attribute = config.getAttribute();
 	}
 	
-	protected void postInitialization()
-	{
-	}
-	
 	@Override
-	public final void preinitializeView(BindingContext bindingContext)
+	public final void preInitializeView(BindingContext bindingContext)
 	{
 	}
 	
@@ -80,7 +76,7 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 		{
 			String commandName = attribute.getCommandName();
 			throw new IllegalArgumentException("Could not find method " + commandName + "() or " + commandName + "(" + getAcceptedParameterTypesDescription()
-					+ ") in class " + presentationModelAdapter.getPresentationModelClass().getName());
+					+ ") in class " + presentationModelAdapter.getPresentationModelClassName());
 		}
 
 		return noArgsCommand;

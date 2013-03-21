@@ -99,7 +99,7 @@ public class BinderImplementorImplTest
 	{
 		public BinderImplementorImplForTest(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter)
 		{
-			super(context, bindingContextCreator, errorFormatter);
+			super(context, bindingContextCreator, errorFormatter, true);
 		}
 
 		@Override

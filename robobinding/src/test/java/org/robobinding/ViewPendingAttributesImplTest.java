@@ -26,11 +26,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.MalformedBindingAttributeException;
-import org.robobinding.PendingAttributesForView;
-import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PendingAttributesForView.AttributeGroupResolver;
 import org.robobinding.PendingAttributesForView.AttributeResolver;
+import org.robobinding.attribute.MalformedAttributeException;
 
 import android.view.View;
 
@@ -91,7 +89,7 @@ public class ViewPendingAttributesImplTest
 		String attribute = "existingAttribute";
 		PendingAttributesForView viewPendingAttributes = createWithPendingList(attribute);
 		AttributeResolver attributeResolver = mock(AttributeResolver.class);
-		when(attributeResolver).thenThrow(new MalformedBindingAttributeException(""));
+		when(attributeResolver).thenThrow(new MalformedAttributeException(attribute, "error message"));
 		
 		viewPendingAttributes.resolveAttributeIfExists(attribute, attributeResolver);
 

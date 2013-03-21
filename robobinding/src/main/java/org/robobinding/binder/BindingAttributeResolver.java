@@ -18,11 +18,11 @@ package org.robobinding.binder;
 import java.util.Collection;
 
 import org.robobinding.PendingAttributesForView;
-import org.robobinding.ViewResolutionError;
+import org.robobinding.ViewResolutionErrors;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
-import org.robobinding.viewattribute.impl.ViewAttributeInstantiator;
+import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
 
 import android.view.View;
 
@@ -37,7 +37,7 @@ import android.view.View;
 public class BindingAttributeResolver
 {
 	BindingAttributeProvidersResolver providersResolver;
-	ViewAttributeInstantiator viewAttributeInstantiator;
+	private ViewAttributeInitializer viewAttributeInitializer;
 	private ResolvedBindingAttributes resolvedBindingAttributes;
 
 	public BindingAttributeResolver()
@@ -51,7 +51,7 @@ public class BindingAttributeResolver
 		
 		resolveByBindingAttributeProviders(pendingAttributesForView);
 		
-		ViewResolutionError errors = pendingAttributesForView.resolveCompleted();
+		ViewResolutionErrors errors = pendingAttributesForView.getResolutionErrors();
 		
 		return new ViewResolutionResult(resolvedBindingAttributes, errors);
 	}
@@ -59,7 +59,7 @@ public class BindingAttributeResolver
 	private void initializeNewResolving(View view)
 	{
 		resolvedBindingAttributes = new ResolvedBindingAttributes(view);
-		viewAttributeInstantiator = new ViewAttributeInstantiator();
+		viewAttributeInitializer = new ViewAttributeInitializer();
 	}
 
 	private void resolveByBindingAttributeProviders(PendingAttributesForView pendingAttributesForView)
@@ -82,7 +82,7 @@ public class BindingAttributeResolver
 	Collection<ViewAttribute> resolveByBindingAttributeProvider(PendingAttributesForView pendingAttributesForView,
 			BindingAttributeProvider<View> bindingAttributeProvider)
 	{
-		BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(viewAttributeInstantiator);
+		BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(viewAttributeInitializer);
 		ByBindingAttributeMappingsResolver bindingAttributeMappingsResolver = new ByBindingAttributeMappingsResolver(bindingAttributeMappings);
 		Collection<ViewAttribute> resolvedViewAttributes = bindingAttributeMappingsResolver.resolve(pendingAttributesForView);
 		return resolvedViewAttributes;

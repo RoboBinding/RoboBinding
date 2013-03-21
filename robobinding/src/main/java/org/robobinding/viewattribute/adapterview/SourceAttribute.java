@@ -19,7 +19,7 @@ import org.robobinding.BindingContext;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetValueModel;
-import org.robobinding.viewattribute.ChildViewAttribute;
+import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
 
 /**
  * 
@@ -27,7 +27,7 @@ import org.robobinding.viewattribute.ChildViewAttribute;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SourceAttribute implements ChildViewAttribute<ValueModelAttribute>
+public class SourceAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute>
 {
 	private final DataSetAdapter<?> dataSetAdapter;
 	private ValueModelAttribute attribute;

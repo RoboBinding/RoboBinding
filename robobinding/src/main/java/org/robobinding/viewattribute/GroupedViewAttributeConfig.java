@@ -15,7 +15,9 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.attribute.GroupedAttributeDescriptor;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.robobinding.attribute.PendingGroupAttributes;
 
 import android.view.View;
 
@@ -27,33 +29,51 @@ import android.view.View;
  */
 public class GroupedViewAttributeConfig<T extends View> extends AbstractViewAttributeConfig<T>
 {
-	private GroupedAttributeDescriptor descriptor;
+	private PendingGroupAttributes pendingGroupAttributes;
 	private ViewListenersProvider viewListenersProvider;
 
-	public GroupedViewAttributeConfig(T view, GroupedAttributeDescriptor descriptor, ViewListenersProvider viewListenersProvider)
+	public GroupedViewAttributeConfig(T view, PendingGroupAttributes pendingGroupAttributes, ViewListenersProvider viewListenersProvider)
 	{
 		super(view);
-		this.descriptor = descriptor;
+		this.pendingGroupAttributes = pendingGroupAttributes;
 		this.viewListenersProvider = viewListenersProvider;
-
-		performValidate();
 	}
 
-	@Override
-	protected void doValidate(ViewAttributeValidation validation)
+	public PendingGroupAttributes getPendingGroupAttributes()
 	{
-		super.doValidate(validation);
-		validation.addErrorIfGroupedAttributeDescriptorNotSet(descriptor);
-		validation.addErrorIfViewListenersProviderNotSet(viewListenersProvider);
-	}
-
-	public GroupedAttributeDescriptor getDescriptor()
-	{
-		return descriptor;
+		return pendingGroupAttributes;
 	}
 
 	public ViewListenersProvider getViewListenersProvider()
 	{
 		return viewListenersProvider;
 	}
+	
+	@Override
+	public boolean equals(Object other)
+	{
+		if (this == other)
+			return true;
+		if (!(other instanceof GroupedViewAttributeConfig))
+			return false;
+	
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		final GroupedViewAttributeConfig<T> that = (GroupedViewAttributeConfig) other;
+		return new EqualsBuilder()
+			.appendSuper(super.equals(that))
+			.append(pendingGroupAttributes, that.pendingGroupAttributes)
+			.append(viewListenersProvider, that.viewListenersProvider)
+			.isEquals();
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder()
+			.appendSuper(super.hashCode())
+			.append(pendingGroupAttributes)
+			.append(viewListenersProvider)
+			.toHashCode();
+	}
+
 }

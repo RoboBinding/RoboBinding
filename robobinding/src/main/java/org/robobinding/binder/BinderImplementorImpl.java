@@ -65,11 +65,12 @@ class BinderImplementorImpl implements BinderImplementor
 		return inflateAndBind(layoutId, presentationModel, Lists.<PredefinedPendingAttributesForView>newArrayList());
 	}
 
-	public View inflateAndBind(int layoutId, Object presentationModel)
+	@Override
+	public View inflateAndBind(int layoutId, Object presentationModel, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
 	{
 		BindingViewInflater viewInflater = createBindingViewInflater(predefinedPendingAttributesForViewGroup);
 		InflatedView inflatedView = viewInflater.inflateView(layoutId);
-
+		
 		BindingContext bindingContext = bindingContextCreator.create(presentationModel);
 		inflatedView.bindChildViews(bindingContext);
 		inflatedView.assertNoErrors(errorFormatter);

@@ -24,7 +24,8 @@ import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ChildViewAttribute;
-import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
+import org.robobinding.viewattribute.ChildViewAttributes;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -63,23 +64,23 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 	}
 
 	@Override
-	protected void setupChildAttributeBindings(ChildAttributeBindings childAttributeBindings)
+	protected void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext)
 	{
-		childAttributeBindings.failOnFirstBindingError();
-		childAttributeBindings.add(layoutAttribute(), new SubViewLayoutAttribute());
+		childViewAttributes.failOnFirstBindingError();
+		
+		childViewAttributes.add(layoutAttribute(), new SubViewLayoutAttribute());
 
-		ViewAttribute subViewAttribute = groupAttributes.hasAttribute(subViewPresentationModel()) ? new SubViewPresentationModelAttribute()
-				: new SubViewWithoutPresentationModelAttribute();
+		ChildViewAttribute subViewAttribute = childViewAttributes.hasAttribute(subViewPresentationModel()) ? new SubViewPresentationModelAttribute() 
+			: new SubViewWithoutPresentationModelAttribute();
+		childViewAttributes.add(subViewPresentationModel(), subViewAttribute);
 
-		childAttributeBindings.add(subViewPresentationModel(), subViewAttribute);
-
-		if (groupAttributes.hasAttribute(visibilityAttribute()))
+		if (childViewAttributes.hasAttribute(visibilityAttribute()))
 		{
-			childAttributeBindings.add(visibilityAttribute(), new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)));
+			childViewAttributes.add(visibilityAttribute(), new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)));
 		}
 	}
 	
-	private class SubViewLayoutAttribute implements ChildViewAttribute<StaticResourceAttribute>
+	private class SubViewLayoutAttribute implements ChildViewAttributeWithAttribute<StaticResourceAttribute>
 	{
 		private StaticResourceAttribute attribute;
 		
@@ -96,7 +97,7 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 		}
 	}
 	
-	private class SubViewPresentationModelAttribute implements ChildViewAttribute<ValueModelAttribute>
+	private class SubViewPresentationModelAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute>
 	{
 		private ValueModelAttribute attribute;
 		
@@ -114,7 +115,7 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 		}
 	}
 	
-	private class SubViewWithoutPresentationModelAttribute implements ViewAttribute
+	private class SubViewWithoutPresentationModelAttribute implements ChildViewAttribute
 	{
 		@Override
 		public void bindTo(BindingContext bindingContext)

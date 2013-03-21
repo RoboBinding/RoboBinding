@@ -33,7 +33,7 @@ public class ValueModelAttribute extends AbstractPropertyAttribute
 	private String propertyName;
 	private boolean twoWayBinding;
 	
-	ValueModelAttribute(String name, String value)
+	public ValueModelAttribute(String name, String value)
 	{
 		super(name);
 		determinePropertyName(value);

@@ -19,14 +19,17 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.robobinding.attribute.MockValueModelAttributeBuilder.aValueModelAttribute;
+import static org.robobinding.viewattribute.MockPropertyViewAttributeConfigBuilder.aPropertyViewAttributeConfig;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.robobinding.BindingContext;
 import org.robobinding.MockBindingContext;
-import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
@@ -40,7 +43,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public final class PropertyViewAttributeTest extends PropertyViewAttributeContractTest<PropertyViewAttributeSpy>
+public final class PropertyViewAttributeTest extends ViewAttributeContractTest<PropertyViewAttributeSpy>
 {
 	private static final String PROPERTY_NAME = "property_name";
 	private static final boolean ONE_WAY_BINDING = false;
@@ -49,6 +52,7 @@ public final class PropertyViewAttributeTest extends PropertyViewAttributeContra
 	private static final boolean DONT_PRE_INITIALIZE_VIEW = false;
 	private static final int A_NEW_VALUE = 5;
 	
+	private PropertyViewAttributeSpy attribute;
 	private PresentationModelAdapter presentationModelAdapter;
 	private Context context;
 	private ValueModel<Integer> valueModel = ValueModelUtils.createInteger(-1);
@@ -57,13 +61,12 @@ public final class PropertyViewAttributeTest extends PropertyViewAttributeContra
 	public void setUp()
 	{
 		presentationModelAdapter = mock(PresentationModelAdapter.class);
-		attribute.setView(mock(View.class));
 	}
 	
 	@Test
 	public void givenABoundPropertyViewAttribute_whenValueModelIsUpdated_thenNewValueShouldBePassedToThePropertyViewAttribute()
 	{
-		bindAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+		setupAndBindAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
 		valueModel.setValue(A_NEW_VALUE);
 		
@@ -73,7 +76,7 @@ public final class PropertyViewAttributeTest extends PropertyViewAttributeContra
 	@Test
 	public void givenAPropertyViewAttributeWithTwoWayBinding_whenTheViewIsUpdated_thenValueModelShouldBeUpdated()
 	{
-		bindAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+		setupAndBindAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
 		attribute.simulateViewUpdate(A_NEW_VALUE);
 	
@@ -83,7 +86,7 @@ public final class PropertyViewAttributeTest extends PropertyViewAttributeContra
 	@Test
 	public void givenAPropertyViewAttributeWithTwoWayBinding_whenTheViewIsUpdated_thenViewShouldNotReceiveAFurtherUpdate()
 	{
-		bindAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+		setupAndBindAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
 		attribute.simulateViewUpdate(A_NEW_VALUE);
 	
@@ -93,7 +96,7 @@ public final class PropertyViewAttributeTest extends PropertyViewAttributeContra
 	@Test
 	public void givenAPropertyViewAttributeWithTwoWayBinding_whenValueModelIsUpdated_thenViewShouldReceiveOnlyASingleUpdate()
 	{
-		bindAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+		setupAndBindAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
 		valueModel.setValue(A_NEW_VALUE);
 	
@@ -103,7 +106,7 @@ public final class PropertyViewAttributeTest extends PropertyViewAttributeContra
 	@Test
 	public void givenPreInitializeViewFlag_thenPreInitializeTheViewToReflectTheValueModel()
 	{
-		bindAttribute(ONE_WAY_BINDING, PRE_INITIALIZE_VIEW);
+		setupAndBindAttribute(ONE_WAY_BINDING, PRE_INITIALIZE_VIEW);
 		
 		assertTrue(attribute.viewInitialized);
 	}
@@ -111,28 +114,89 @@ public final class PropertyViewAttributeTest extends PropertyViewAttributeContra
 	@Test
 	public void givenNoPreInitializeViewFlag_thenDontPreInitializeTheView()
 	{
-		bindAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+		setupAndBindAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
 		
 		assertFalse(attribute.viewInitialized);
 	}
 	
-	@Test (expected=IllegalStateException.class)
+	/**
+	 * TODO: Ignored by Cheng. As discussed, we remove validation and assume framework will provide a valid ViewAttributeConfig. 
+	 */
+	@Ignore@Test (expected=IllegalStateException.class)
 	public void whenBindingWithoutSettingAllValues_thenShouldThrowException()
 	{
 		PropertyViewAttributeSpy propertyViewAttribute = new PropertyViewAttributeSpy();
 		propertyViewAttribute.bindTo(MockBindingContext.create(presentationModelAdapter, context));
 	}
 	
+	private void setupAndBindAttribute(boolean twoWayBinding, boolean preInitializeView)
+	{
+		attribute = createAttribute(twoWayBinding);
+		
+		bindAttribute(twoWayBinding, preInitializeView);
+	}
+
+	private PropertyViewAttributeSpy createAttribute(boolean twoWayBinding)
+	{
+		PropertyViewAttributeSpy viewAttribute = new PropertyViewAttributeSpy();
+		viewAttribute.initialize(aPropertyViewAttributeConfig(mock(View.class), aValueModelAttribute(PROPERTY_NAME, twoWayBinding)));
+		return viewAttribute;
+	}
+
 	private void bindAttribute(boolean twoWayBinding, boolean preInitializeView)
 	{
-		ValueModelAttribute valueModelAttribute = aValueModelAttribute(PROPERTY_NAME, twoWayBinding);
-		
 		if (twoWayBinding)
 			when(presentationModelAdapter.<Integer>getPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
 		else
 			when(presentationModelAdapter.<Integer>getReadOnlyPropertyValueModel(PROPERTY_NAME)).thenReturn(valueModel);
 		
-		attribute.setAttribute(valueModelAttribute);
-		attribute.bindTo(MockBindingContext.create(presentationModelAdapter, context, preInitializeView));
+		BindingContext bindingContext = MockBindingContext.create(presentationModelAdapter, context, preInitializeView);
+		if(preInitializeView)
+		{
+			attribute.preInitializeView(bindingContext);
+		}
+		attribute.bindTo(bindingContext);
+	}
+
+	@Override
+	protected PropertyViewAttributeSpy throwsExceptionDuringPreInitializingView()
+	{
+		return createDefaultAttribute();
+	}
+	
+	private PropertyViewAttributeSpy createDefaultAttribute()
+	{
+		return createAttribute(ONE_WAY_BINDING);
+	}
+	
+	@Override
+	protected BindingContext bindingContextOfThrowingExceptionDuringBinding()
+	{
+		return bindingContextOfThrowingExceptionWhenRetrievingPropertyValueModel();
+	}
+	
+	@Override
+	protected PropertyViewAttributeSpy throwsExceptionDuringBinding()
+	{
+		return createDefaultAttribute();
+	}
+
+	@Override
+	protected BindingContext bindingContextOfThrowingExceptionDuringPreInitializingView()
+	{
+		return bindingContextOfThrowingExceptionWhenRetrievingPropertyValueModel();
+	}
+	
+	private BindingContext bindingContextOfThrowingExceptionWhenRetrievingPropertyValueModel()
+	{
+		BindingContext bindingContext = mock(BindingContext.class);
+		PresentationModelAdapter presentationModelAdapter = mock(PresentationModelAdapter.class);
+		when(bindingContext.getPresentationModelAdapter()).thenReturn(presentationModelAdapter);
+	
+		when(presentationModelAdapter.getPropertyValueModel(anyString())).thenThrow(new RuntimeException());
+		when(presentationModelAdapter.getReadOnlyPropertyValueModel(anyString())).thenThrow(new RuntimeException());
+		when(presentationModelAdapter.getDataSetPropertyValueModel(anyString())).thenThrow(new RuntimeException());
+		
+		return bindingContext;
 	}
 }

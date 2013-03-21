@@ -15,9 +15,6 @@
  */
 package org.robobinding.attribute;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 /**
  * 
  * @since 1.0
@@ -36,30 +33,5 @@ public abstract class AbstractAttribute
 	public String getName()
 	{
 		return name;
-	}
-	
-
-	@Override
-	public boolean equals(Object other)
-	{
-		if (this == other)
-			return true;
-		if (!(other instanceof PlainAttribute))
-			return false;
-	
-		final PlainAttribute that = (PlainAttribute) other;
-		return new EqualsBuilder()
-			.append(getName(), that.getName())
-			.append(value, that.value)
-			.isEquals();
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return new HashCodeBuilder()
-			.append(getName())
-			.append(value)
-			.toHashCode();
 	}
 }

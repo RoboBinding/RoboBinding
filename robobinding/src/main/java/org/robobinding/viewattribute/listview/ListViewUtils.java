@@ -34,6 +34,12 @@ public class ListViewUtils
 	public static void clearSelections(ListView listView)
 	{
 		SparseBooleanArray array = listView.getCheckedItemPositions();
+		
+		if(array == null)
+		{
+			return;
+		}
+		
 		for(int i=0; i<array.size(); i++)
 		{
 			int position = array.keyAt(i);

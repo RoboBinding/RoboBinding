@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.robobinding.attribute.ValueModelAttribute;
 
 import android.view.View;
@@ -30,21 +32,38 @@ public class MultiTypePropertyViewAttributeConfig<T extends View> extends Proper
 	private ViewListenersProvider viewListenersProvider;
 	public MultiTypePropertyViewAttributeConfig(T view, ValueModelAttribute attribute, ViewListenersProvider viewListenersProvider)
 	{
-		super(view, attribute, false);
+		super(view, attribute);
 		this.viewListenersProvider = viewListenersProvider;
 		
-		performValidate();
-	}
-	
-	@Override
-	protected void doValidate(ViewAttributeValidation validation)
-	{
-		super.doValidate(validation);
-		validation.addErrorIfViewListenersProviderNotSet(viewListenersProvider);
 	}
 
 	public ViewListenersProvider getViewListenersProvider()
 	{
 		return viewListenersProvider;
+	}
+	
+	@Override
+	public boolean equals(Object other)
+	{
+		if (this == other)
+			return true;
+		if (!(other instanceof MultiTypePropertyViewAttributeConfig))
+			return false;
+	
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		final MultiTypePropertyViewAttributeConfig<T> that = (MultiTypePropertyViewAttributeConfig) other;
+		return new EqualsBuilder()
+			.appendSuper(super.equals(that))
+			.append(viewListenersProvider, that.viewListenersProvider)
+			.isEquals();
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder()
+			.appendSuper(super.hashCode())
+			.append(viewListenersProvider)
+			.toHashCode();
 	}
 }

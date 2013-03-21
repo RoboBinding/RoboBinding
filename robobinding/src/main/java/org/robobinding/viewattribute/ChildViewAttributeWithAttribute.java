@@ -13,34 +13,20 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding.viewattribute;
 
-import org.robobinding.ViewResolutionError;
+import org.robobinding.attribute.AbstractAttribute;
+
+
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Robert Taylor
  * @author Cheng Wei
  */
-public class BindingViewInflationError
+public interface ChildViewAttributeWithAttribute<T extends AbstractAttribute> extends ChildViewAttribute
 {
-
-	public BindingViewInflationError(ViewResolutionError error)
-	{
-		// TODO Auto-generated constructor stub
-	}
-
-	public void setViewBindingError(ViewBindingError error)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean hasErrors()
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	void setAttribute(T attribute);
 }

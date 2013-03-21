@@ -15,20 +15,20 @@
  */
 package org.robobinding.viewattribute;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.robobinding.attribute.MockCommandAttributeBuilder.aCommandAttribute;
 import static org.robobinding.attribute.MockValueModelAttributeBuilder.aValueModelAttribute;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.BindingContext;
 import org.robobinding.attribute.Command;
 import org.robobinding.attribute.CommandAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
@@ -59,43 +59,61 @@ public class AbstractViewAttributeInitializerForTest
 	}
 	
 	@Test
-	public void whenInvokingOnPropertyViewAttribute_thenInjectAllPropertiesCorrectly()
+	public void whenInvokingOnPropertyViewAttribute_thenViewAttributeCorrectlyInitialized()
 	{
 		ValueModelAttribute attribute = aValueModelAttribute();
+		@SuppressWarnings("unchecked")
+		AbstractPropertyViewAttribute<View, Object> viewAttribute = mock(AbstractPropertyViewAttribute.class);
 		
-		MockPropertyViewAttribute mockPropertyViewAttribute = viewAttributeInitializer.newPropertyViewAttribute(new MockPropertyViewAttribute(), attribute);
+		viewAttribute = viewAttributeInitializer.initializePropertyViewAttribute(viewAttribute, attribute);
 		
-		mockPropertyViewAttribute.assertAllPropertiesAssigned(view, attribute);
+		verify(viewAttribute).initialize(eq(new PropertyViewAttributeConfig<View>(view, attribute)));
 	}
 	
 	@Test
-	public void whenInvokingOnViewListenersAwarePropertyViewAttribute_thenInjectAllPropertiesCorrectly()
+	public void whenInvokingOnViewListenersAwarePropertyViewAttribute_thenViewListenersCorrectlySet()
 	{
 		ValueModelAttribute attribute = aValueModelAttribute();
+		MockViewListenersAwarePropertyViewAttribute viewAttribute = mock(MockViewListenersAwarePropertyViewAttribute.class);
 		
-		MockViewListenersAwarePropertyViewAttribute mockPropertyViewAttribute = viewAttributeInitializer.newPropertyViewAttribute(new MockViewListenersAwarePropertyViewAttribute(), attribute);
+		viewAttribute = viewAttributeInitializer.initializePropertyViewAttribute(viewAttribute, attribute);
 		
-		mockPropertyViewAttribute.assertAllPropertiesAssigned(view, attribute, viewListeners);
+		verify(viewAttribute).setViewListeners(viewListeners);
 	}
 	
 	@Test
-	public void whenInvokingOnAbstractCommandViewAttribute_thenInjectAllPropertiesCorrectly()
+	public void whenInvokingOnMultiTypePropertyViewAttribute_thenViewAttributeCorrectlyInitialized()
 	{
-		CommandAttribute attribute = aCommandAttribute();
+		ValueModelAttribute attribute = aValueModelAttribute();
+		@SuppressWarnings("unchecked")
+		AbstractMultiTypePropertyViewAttribute<View> viewAttribute = mock(AbstractMultiTypePropertyViewAttribute.class);
 		
-		MockCommandViewAttribute mockCommandViewAttribute = viewAttributeInitializer.newCommandViewAttribute(new MockCommandViewAttribute(), attribute);
+		viewAttribute = viewAttributeInitializer.initializePropertyViewAttribute(viewAttribute, attribute);
 		
-		mockCommandViewAttribute.assertBothPropertiesAssigned(view, attribute);
+		verify(viewAttribute).initialize(eq(new MultiTypePropertyViewAttributeConfig<View>(view, attribute, viewListenersProvider)));
 	}
 	
 	@Test
-	public void whenInvokingOnViewListenersAwareAbstractCommandViewAttribute_thenInjectAllPropertiesCorrectly()
+	public void whenInvokingOnAbstractCommandViewAttribute_thenViewAttributeCorrectlyInitialized()
 	{
 		CommandAttribute attribute = aCommandAttribute();
+		@SuppressWarnings({ "unchecked"})
+		AbstractCommandViewAttribute<View> viewAttribute = mock(AbstractCommandViewAttribute.class);
 		
-		MockViewListenersAwareCommandViewAttribute mockCommandViewAttribute = viewAttributeInitializer.newCommandViewAttribute(new MockViewListenersAwareCommandViewAttribute(), attribute);
+		viewAttribute = viewAttributeInitializer.initializeCommandViewAttribute(viewAttribute, attribute);
 		
-		mockCommandViewAttribute.assertAllPropertiesAssigned(view, attribute, viewListeners);
+		verify(viewAttribute).initialize(new CommandViewAttributeConfig<View>(view, attribute));
+	}
+	
+	@Test
+	public void whenInvokingOnViewListenersAwareAbstractCommandViewAttribute_thenViewListenersCorrectlySet()
+	{
+		CommandAttribute attribute = aCommandAttribute();
+		MockViewListenersAwareCommandViewAttribute viewAttribute = mock(MockViewListenersAwareCommandViewAttribute.class);
+		
+		viewAttribute = viewAttributeInitializer.initializeCommandViewAttribute(viewAttribute, attribute);
+		
+		verify(viewAttribute).setViewListeners(viewListeners);
 	}
 	
 	public class ViewAttributeInitializerForTest extends AbstractViewAttributeInitializer
@@ -112,66 +130,31 @@ public class AbstractViewAttributeInitializerForTest
 		}
 	}
 	
-	public static class MockPropertyViewAttribute implements PropertyViewAttribute<View>
+	public static class MockViewListenersAwarePropertyViewAttribute extends AbstractPropertyViewAttribute<View, Object> implements ViewListenersAware<ViewListeners>
 	{
-		private ValueModelAttribute attribute;
-		private View view;
-
-		@Override
-		public void setView(View view)
-		{
-			this.view = view;
-		}
-		
-		@Override
-		public void setAttribute(ValueModelAttribute attribute)
-		{
-			this.attribute = attribute;
-		}
-		
-		public void assertAllPropertiesAssigned(View view, ValueModelAttribute attribute)
-		{
-			assertTrue((this.view == view) && (this.attribute == attribute));
-		}
-		
-		@Override
-		public void bindTo(BindingContext bindingContext)
-		{
-		}
-	}
-	
-	public static class MockViewListenersAwarePropertyViewAttribute extends MockPropertyViewAttribute implements ViewListenersAware<ViewListeners>
-	{
-		private ViewListeners viewListeners;
-
 		@Override
 		public void setViewListeners(ViewListeners viewListeners)
 		{
-			this.viewListeners = viewListeners;
 		}
 
-		public void assertAllPropertiesAssigned(View view, ValueModelAttribute attribute, ViewListeners viewListeners)
+		@Override
+		protected void valueModelUpdated(Object newValue)
 		{
-			super.assertAllPropertiesAssigned(view, attribute);
-			assertTrue(this.viewListeners == viewListeners);
+		}
+
+		@Override
+		protected void observeChangesOnTheView(ValueModel<Object> valueModel)
+		{
 		}
 	}
 	
-	public static class MockCommandViewAttribute extends AbstractCommandViewAttribute<View>
+	public static class MockViewListenersAwareCommandViewAttribute extends AbstractCommandViewAttribute<View> implements ViewListenersAware<ViewListeners>
 	{
-		private CommandAttribute attribute;
-
 		@Override
-		public void setAttribute(CommandAttribute attribute)
+		public void setViewListeners(ViewListeners viewListeners)
 		{
-			this.attribute = attribute;
 		}
 
-		public void assertBothPropertiesAssigned(View view, CommandAttribute attribute)
-		{
-			assertTrue((this.view == view) && (this.attribute == attribute));
-		}
-		
 		@Override
 		protected void bind(Command command)
 		{
@@ -181,23 +164,6 @@ public class AbstractViewAttributeInitializerForTest
 		protected Class<?> getPreferredCommandParameterType()
 		{
 			return null;
-		}
-	}
-	
-	public static class MockViewListenersAwareCommandViewAttribute extends MockCommandViewAttribute implements ViewListenersAware<ViewListeners>
-	{
-		private ViewListeners viewListeners;
-
-		@Override
-		public void setViewListeners(ViewListeners viewListeners)
-		{
-			this.viewListeners = viewListeners;
-		}
-		
-		public void assertAllPropertiesAssigned(View view, CommandAttribute attribute, ViewListeners viewListeners)
-		{
-			super.assertBothPropertiesAssigned(view, attribute);
-			assertTrue(this.viewListeners == viewListeners);
 		}
 	}
 	

@@ -46,15 +46,21 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	}
 	
 	@Override
-	public void preinitializeView(BindingContext bindingContext)
+	public void bindTo(BindingContext bindingContext)
 	{
-		initializePropertyViewAttribute(bindingContext);
+		try 
+		{
+			initializePropertyViewAttribute(bindingContext);
+			performBind(bindingContext);
+		} catch (RuntimeException e) {
+			throw new AttributeBindingException(attribute.getName(), e);
+		}
 	}
 	
 	private void initializePropertyViewAttribute(BindingContext bindingContext)
 	{
 		propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
-		setViewListenersIfRequired(propertyViewAttribute, view);
+		setViewListenersIfRequired(propertyViewAttribute);
 	}
 
 	private AbstractPropertyViewAttribute<T, ?> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
@@ -72,7 +78,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 
 	protected abstract AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType);
 
-	private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
+	private void setViewListenersIfRequired(ViewAttribute viewAttribute)
 	{
 		if(viewAttribute instanceof ViewListenersAware)
 		{
@@ -84,20 +90,17 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	}
 
 	@Override
-	public void bindTo(BindingContext bindingContext)
+	public void preInitializeView(BindingContext bindingContext)
 	{
-		if(propertyViewAttribute == null)
+		try
 		{
-			initializePropertyViewAttribute(bindingContext);
-		}
-		
-		try {
-			performBind(bindingContext);
-		} catch (RuntimeException e) {
-			throw new AttributeBindingException(attribute.getName(), e);
+			propertyViewAttribute.preInitializeView(bindingContext);
+		} catch (RuntimeException e) 
+		{
+				throw new AttributeBindingException(attribute.getName(), e);
 		}
 	}
-	
+
 	private void performBind(BindingContext bindingContext)
 	{
 		propertyViewAttribute.bindTo(bindingContext);

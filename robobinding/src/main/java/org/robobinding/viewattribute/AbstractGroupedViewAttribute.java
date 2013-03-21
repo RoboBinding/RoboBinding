@@ -16,9 +16,9 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.BindingContext;
-import org.robobinding.attribute.ChildAttributeResolverMapper;
-import org.robobinding.attribute.GroupedAttribute;
-import org.robobinding.attribute.GroupedAttributeDescriptor;
+import org.robobinding.attribute.ChildAttributeResolverMappings;
+import org.robobinding.attribute.GroupAttributes;
+import org.robobinding.attribute.PendingGroupAttributes;
 
 import android.view.View;
 
@@ -29,50 +29,55 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute, ChildAttributeResolverMapper
+public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute
 {
 	private static final String[] NO_COMPULSORY_ATTRIBUTES = new String[0];
 	
 	protected T view;
-	private ChildViewAttributes<T> childViewAttributes;
-	private boolean childViewAttributesNotSetup;
-	
+	ChildViewAttributes<T> childViewAttributes;
 	public void initialize(GroupedViewAttributeConfig<T> config)
 	{
 		view = config.getView();
-		childViewAttributes = createChildViewAttributes(config.getDescriptor(), config.getViewListenersProvider());
-		childViewAttributesNotSetup = true;
+		childViewAttributes = createChildViewAttributes(config.getPendingGroupAttributes(), config.getViewListenersProvider());
 	}
 	
-	private ChildViewAttributes<T> createChildViewAttributes(GroupedAttributeDescriptor descriptor, ViewListenersProvider viewListenersProvider)
+	private ChildViewAttributes<T> createChildViewAttributes(PendingGroupAttributes pendingGroupAttributes, ViewListenersProvider viewListenersProvider)
 	{
-		descriptor.assertAttributesArePresent(getCompulsoryAttributes());
-		GroupedAttribute groupedAttribute = new GroupedAttribute(descriptor, this);
+		GroupAttributes groupAttributes = createGroupAttributes(pendingGroupAttributes);
 
-		ViewAttributeInstantiator viewAttributeInstantiator = new ViewAttributeInstantiator(viewListenersProvider);
+		ViewAttributeInitializer viewAttributeInitializer = new ViewAttributeInitializer(viewListenersProvider);
 
-		return new ChildViewAttributes<T>(groupedAttribute, viewAttributeInstantiator);		
+		return new ChildViewAttributes<T>(groupAttributes, viewAttributeInitializer);		
+	}
+
+	private GroupAttributes createGroupAttributes(PendingGroupAttributes pendingGroupAttributes)
+	{
+		pendingGroupAttributes.assertAttributesArePresent(getCompulsoryAttributes());
+		ChildAttributeResolverMappings resolverMappings = createResolverMappings();
+		GroupAttributes groupAttributes = new GroupAttributes(pendingGroupAttributes, resolverMappings);
+		
+		validateResolvedChildAttributes(groupAttributes);
+		
+		return groupAttributes;
+	}
+
+	private ChildAttributeResolverMappings createResolverMappings()
+	{
+		ChildAttributeResolverMappings resolverMappings = new ChildAttributeResolverMappings();
+		mapChildAttributeResolvers(resolverMappings);
+		return resolverMappings;
+	}
+	
+	protected abstract void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings);
+
+	public void validateResolvedChildAttributes(GroupAttributes groupAttributes) 
+	{
 	}
 
 	@Override
-	public void validateResolvedChildAttributes(GroupedAttribute groupedAttribute) 
+	public final void preInitializeView(BindingContext bindingContext)
 	{
-	}
-
-	@Override
-	public final void preinitializeView(BindingContext bindingContext)
-	{
-		setupChildViewAttributesOnceOnly(childViewAttributes, bindingContext);
-		childViewAttributes.preinitializeView(bindingContext);
-	}
-	
-	private void setupChildViewAttributesOnceOnly(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext)
-	{
-		if(childViewAttributesNotSetup)
-		{
-			setupChildViewAttributes(childViewAttributes, bindingContext);
-			childViewAttributesNotSetup = false;
-		}
+		childViewAttributes.preInitializeView(bindingContext);
 	}
 	
 	protected abstract void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext);
@@ -80,7 +85,8 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	@Override
 	public final void bindTo(BindingContext bindingContext)
 	{
-		setupChildViewAttributesOnceOnly(childViewAttributes, bindingContext);
+		setupChildViewAttributes(childViewAttributes, bindingContext);
+		childViewAttributes.markSetupCompleted();
 		
 		childViewAttributes.bindTo(bindingContext);
 		
@@ -97,9 +103,9 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 		return NO_COMPULSORY_ATTRIBUTES;
 	}
 
-	private class ViewAttributeInstantiator extends AbstractViewAttributeInstantiator
+	private class ViewAttributeInitializer extends AbstractViewAttributeInitializer
 	{
-		public ViewAttributeInstantiator(ViewListenersProvider viewListenersProvider)
+		public ViewAttributeInitializer(ViewListenersProvider viewListenersProvider)
 		{
 			super(viewListenersProvider);
 		}

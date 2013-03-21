@@ -52,7 +52,7 @@ public class DataSetAdapter<T> extends BaseAdapter
 	{
 		itemBinder = bindingContext.createItemBinder();
 		dropDownBinder = bindingContext.createItemBinder();
-		this.preInitializeViews = bindingContext.shouldPreinitializeViews();
+		this.preInitializeViews = bindingContext.shouldPreInitializeViews();
 	}
 
 	public void observeChangesOnTheValueModel()

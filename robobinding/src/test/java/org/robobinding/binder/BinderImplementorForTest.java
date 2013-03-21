@@ -49,7 +49,7 @@ public class BinderImplementorForTest extends BinderImplementorImpl
 			{
 				return error.toString();
 			}
-		});
+		}, true);
 		this.bindingViewInflater = bindingViewInflater;
 	}
 	

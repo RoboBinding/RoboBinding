@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.seekbar;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.SeekBar;
@@ -37,12 +36,6 @@ public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekB
 	public void setViewListeners(SeekBarListeners viewListeners)
 	{
 		this.viewListeners = viewListeners;
-	}
-
-	@Override
-	protected void postInitialization()
-	{
-		ViewAttributeValidation.viewListenersNotNull(viewListeners);
 	}
 
 	@Override

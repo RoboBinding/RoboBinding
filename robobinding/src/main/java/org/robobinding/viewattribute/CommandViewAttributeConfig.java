@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.robobinding.attribute.CommandAttribute;
 
 import android.view.View;
@@ -33,14 +35,6 @@ public class CommandViewAttributeConfig<T extends View> extends AbstractViewAttr
 	{
 		super(view);
 		this.attribute = attribute;
-		
-		performValidate();
-	}
-
-	protected void doValidate(ViewAttributeValidation validation)
-	{
-		super.doValidate(validation);
-		validation.addErrorIfCommandNameNotSet(attribute);
 	}
 
 	public CommandAttribute getAttribute()
@@ -48,4 +42,29 @@ public class CommandViewAttributeConfig<T extends View> extends AbstractViewAttr
 		return attribute;
 	}
 
+	
+	@Override
+	public boolean equals(Object other)
+	{
+		if (this == other)
+			return true;
+		if (!(other instanceof CommandViewAttributeConfig))
+			return false;
+	
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		final CommandViewAttributeConfig<T> that = (CommandViewAttributeConfig) other;
+		return new EqualsBuilder()
+			.appendSuper(super.equals(that))
+			.append(attribute, that.attribute)
+			.isEquals();
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder()
+			.appendSuper(super.hashCode())
+			.append(attribute)
+			.toHashCode();
+	}
 }

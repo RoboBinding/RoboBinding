@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.robobinding.attribute.ValueModelAttribute;
 
 import android.view.View;
@@ -31,30 +33,38 @@ public class PropertyViewAttributeConfig<T extends View> extends AbstractViewAtt
 
 	public PropertyViewAttributeConfig(T view, ValueModelAttribute attribute)
 	{
-		this(view, attribute, true);
-	}
-	
-	protected PropertyViewAttributeConfig(T view, ValueModelAttribute attribute, boolean withValidation)
-	{
 		super(view);
 		this.attribute = attribute;
-		
-		if(withValidation)
-		{
-			performValidate();
-		}
-	}
-
-	@Override
-	protected void doValidate(ViewAttributeValidation validation)
-	{
-		super.doValidate(validation);
-		validation.addErrorIfPropertyAttributeValueNotSet(attribute);
 	}
 
 	public ValueModelAttribute getAttribute()
 	{
 		return attribute;
+	}
+	
+	@Override
+	public boolean equals(Object other)
+	{
+		if (this == other)
+			return true;
+		if (!(other instanceof PropertyViewAttributeConfig))
+			return false;
+	
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		final PropertyViewAttributeConfig<T> that = (PropertyViewAttributeConfig) other;
+		return new EqualsBuilder()
+			.appendSuper(super.equals(that))
+			.append(attribute, that.attribute)
+			.isEquals();
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder()
+			.appendSuper(super.hashCode())
+			.append(attribute)
+			.toHashCode();
 	}
 
 }

@@ -39,5 +39,5 @@ public interface PresentationModelAdapter
 
 	Function findFunction(String functionName, Class<?>... parameterTypes);
 	
-	Class<?> getPresentationModelClass();
+	String getPresentationModelClassName();
 }

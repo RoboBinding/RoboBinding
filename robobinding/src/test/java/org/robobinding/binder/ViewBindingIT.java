@@ -16,20 +16,27 @@
 package org.robobinding.binder;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newHashSet;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyCollection;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.robobinding.binder.PendingAttributesForViewBuilder.aPendingAttributesForView;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.robobinding.BinderImplementor;
 import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
@@ -43,7 +50,10 @@ import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AttributeBindingException;
+import org.robobinding.viewattribute.ChildViewAttributes;
+import org.robobinding.viewattribute.listview.SparseBooleanArrayUtils;
 
+import android.R;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
@@ -198,6 +208,27 @@ public class ViewBindingIT
 		resolvedBindingAttributes.bindTo(bindingContext);
 	}
 	
+	@Test
+	public void whenBindingWithPreInitializingViews_thenInitializedValueShouldNotBeErased()
+	{
+		ListView listView = new ListView(new Activity());
+		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		
+		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+				aPendingAttributesForView(listView)
+				.withAttribute("checkedItemPositions", "{checkedItemPositions}")
+				.withAttribute("itemLayout", "{layout}")
+				.withAttribute("source", "{dataSource}")
+				.build());
+		
+		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
+		viewBindingErrors.assertNoErrors();
+		resolvedBindingAttributes.preinitializeView(bindingContext);
+		viewBindingErrors.assertNoErrors();
+		
+		assertThat(SparseBooleanArrayUtils.toSet(listView.getCheckedItemPositions()), equalTo((Set<Integer>)newHashSet(0, 2)));
+	}
+	
 	private PendingAttributesForViewBuilder aPendingAttributesForEditText()
 	{
 		EditText editText = new EditText(new Activity());
@@ -237,13 +268,21 @@ public class ViewBindingIT
 		fail("Binding error for " + attribute + " was not reported");
 	}
 	
+	@SuppressWarnings("unchecked")
 	private BindingContext newBindingContext()
 	{
 		BinderImplementorFactoryImpl binderImplementorFactoryImpl = mock(BinderImplementorFactoryImpl.class);
 		BinderImplementor binderImplementor = mock(BinderImplementor.class);
 		when(binderImplementor.inflateOnly(anyInt())).thenReturn(new View(new Activity()));
+		when(binderImplementor.inflateAndBind(anyInt(), anyObject(), anyCollection())).then(new Answer<View>() {
+			@Override
+			public View answer(InvocationOnMock invocation) throws Throwable
+			{
+				return new View(new Activity());
+			}
+		});
 		when(binderImplementorFactoryImpl.create()).thenReturn(binderImplementor);
-		return new BindingContext(binderImplementorFactoryImpl, new Activity(), true, new PresentationModelForTest());
+		return new BindingContext(binderImplementorFactoryImpl, new Activity(), new PresentationModelForTest(), true);
 	}
 
 	@PresentationModel
@@ -264,11 +303,16 @@ public class ViewBindingIT
 		@ItemPresentationModel(ItemPresentationModelForTest.class)
 		public List<String> getDataSource()
 		{
-			return newArrayList();
+			return newArrayList("string1", "string2", "string3");
+		}
+		
+		public Set<Integer> getcheckedItemPositions()
+		{
+			return newHashSet(0, 2);
 		}
 		
 		public int getLayout() {
-			return 0;
+			return R.layout.simple_list_item_1;
 		}
 	}
 	
@@ -326,7 +370,7 @@ public class ViewBindingIT
 		}
 
 		@Override
-		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+		protected void setupChildViewAttributes(ChildViewAttributes<BuggyCustomView> childViewAttributes, BindingContext bindingContext)
 		{
 			throw new ProgrammingError();
 		}

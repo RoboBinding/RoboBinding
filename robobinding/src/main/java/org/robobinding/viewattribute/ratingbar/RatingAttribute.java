@@ -19,7 +19,6 @@ import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.RatingBar;
@@ -58,11 +57,6 @@ public class RatingAttribute extends AbstractMultiTypePropertyViewAttribute<Rati
 			this.ratingBarListeners = ratingBarListeners;
 		}
 		
-		@Override
-		protected void postInitialization()
-		{
-			ViewAttributeValidation.viewListenersNotNull(ratingBarListeners);
-		}
 	}
 	
 	static class FloatRatingAttribute extends AbstractRatingAttribute<Float>

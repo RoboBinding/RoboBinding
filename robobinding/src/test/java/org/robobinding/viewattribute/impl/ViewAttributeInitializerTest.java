@@ -15,23 +15,14 @@
  */
 package org.robobinding.viewattribute.impl;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import java.util.Map;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.attribute.AbstractAttribute;
-import org.robobinding.attribute.ChildAttributeResolver;
-import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.GroupedViewAttributeConfig;
 import org.robobinding.viewattribute.ViewListenersProvider;
 
 import android.view.View;
@@ -46,9 +37,6 @@ import com.google.common.collect.Maps;
  */
 public class ViewAttributeInitializerTest
 {
-	private static final String ATTRIBUTE_NAME = "name";
-	private static final String ATTRIBUTE_VALUE = "value";
-	
 	private ViewAttributeInitializer viewAttributeInitializer;
 	private ViewListenersProvider viewListenersProvider;
 	
@@ -63,18 +51,19 @@ public class ViewAttributeInitializerTest
 	public void whenNewGroupedViewAttribute_thenNewInstanceShouldBeCorrectlyInitialized()
 	{
 		View view = mock(View.class);
+		PendingGroupAttributes pendingGroupAttributes = newPendingGroupAttributes();
+		@SuppressWarnings({"unchecked" })
+		AbstractGroupedViewAttribute<View> viewAttribute = mock(AbstractGroupedViewAttribute.class);
 		
-		MockGroupedViewAttribute groupedViewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(
-				view, new MockGroupedViewAttribute(), newGroupedAttributeDescriptor());
+		viewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(
+				view, viewAttribute, pendingGroupAttributes);
 		
-		groupedViewAttribute.assertCorrectlyInitialized(view, viewListenersProvider);
+		verify(viewAttribute).initialize(new GroupedViewAttributeConfig<View>(view, pendingGroupAttributes, viewListenersProvider));
 	}
 	
-	private PendingGroupAttributes newGroupedAttributeDescriptor()
+	private PendingGroupAttributes newPendingGroupAttributes()
 	{
-		Map<String, String> presentAttributeMappings = Maps.newHashMap();
-		presentAttributeMappings.put(ATTRIBUTE_NAME, ATTRIBUTE_VALUE);
-		return new PendingGroupAttributes(presentAttributeMappings);
+		return new PendingGroupAttributes(Maps.<String, String>newHashMap());
 	}
 	
 	private static class ViewAttributeInitializerForTest extends ViewAttributeInitializer
@@ -82,88 +71,6 @@ public class ViewAttributeInitializerTest
 		public ViewAttributeInitializerForTest(ViewListenersProvider viewListenersProvider)
 		{
 			this.viewListenersProvider = viewListenersProvider;
-			viewAttributeInitializerImplementor = mock(ViewAttributeInitializerImplementor.class);
 		}
-	}
-	
-	public static class MockGroupedViewAttribute extends AbstractGroupedViewAttribute<View>
-	{
-		private ViewListenersProvider viewListenersProvider;
-		private boolean mapChildAttributeResolversInvoked = false;
-		
-		@Override
-		public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
-		{
-			this.viewListenersProvider = viewListenersProvider;
-		}
-		
-		@Override
-		public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
-		{
-			resolverMappings.map(new AttributeForTestResolver(), ATTRIBUTE_NAME);
-			mapChildAttributeResolversInvoked = true;
-		}
-		
-		public void assertCorrectlyInitialized(View view, ViewListenersProvider viewListenersProvider)
-		{
-			assertThat(this.view, sameInstance(view));
-			assertThat(groupAttributes.<AttributeForTest>attributeFor(ATTRIBUTE_NAME), 
-					equalTo(new AttributeForTest(ATTRIBUTE_NAME, ATTRIBUTE_VALUE)));
-			assertThat(this.viewListenersProvider, sameInstance(viewListenersProvider));
-			assertTrue(mapChildAttributeResolversInvoked);
-		}
-
-		@Override
-		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
-		{
-		}
-		
-	}
-	
-	private static class AttributeForTest extends AbstractAttribute
-	{
-		private String value;
-		public AttributeForTest(String name, String value)
-		{
-			super(name);
-		}
-		
-		@Override
-		public boolean equals(Object other)
-		{
-			if (this == other)
-				return true;
-			if (!(other instanceof AttributeForTest))
-				return false;
-		
-			final AttributeForTest that = (AttributeForTest) other;
-			return new EqualsBuilder()
-				.append(getName(), that.getName())
-				.append(value, that.value)
-				.isEquals();
-		}
-
-		@Override
-		public int hashCode()
-		{
-			return new HashCodeBuilder()
-				.append(getName())
-				.append(value)
-				.toHashCode();
-		}
-	}
-	
-	private static class AttributeForTestResolver implements ChildAttributeResolver
-	{
-		public AttributeForTestResolver()
-		{
-		}
-		
-		@Override
-		public AbstractAttribute resolveChildAttribute(String attribute, String attributeValue)
-		{
-			return new AttributeForTest(attribute, attributeValue);
-		}
-
 	}
 }

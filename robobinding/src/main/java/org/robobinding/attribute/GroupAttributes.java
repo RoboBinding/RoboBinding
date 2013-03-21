@@ -53,8 +53,7 @@ public class GroupAttributes
 				groupResolutionErrors.add(e);
 			}
 		}
-		resolverMapper.validateResolvedChildAttributes(this);
-
+		
 		groupResolutionErrors.assertNoErrors();
 	}
 

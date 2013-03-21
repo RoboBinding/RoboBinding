@@ -15,6 +15,9 @@
  */
 package org.robobinding.viewattribute;
 
+import static org.robobinding.presentationmodel.MockPresentationModelAdapterBuilder.aPresentationModelAdapterWithDefaultProperty;
+import static org.robobinding.viewattribute.MockPropertyViewAttributeConfigBuilder.aPropertyViewAttributeConfig;
+
 import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
@@ -22,8 +25,6 @@ import org.junit.runner.RunWith;
 import org.robobinding.MockBindingContext;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
-import static org.robobinding.attribute.Attributes.*;
-import static org.robobinding.presentationmodel.MockPresentationModelAdapterBuilder.*;
 
 import android.app.Activity;
 import android.content.Context;
@@ -62,17 +63,22 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 		try
 		{
 			attribute = ParameterizedTypeUtils.createTypeArgument(superclass, 1);
-			attribute.setView(view);
 		}
 		catch (Exception e)
 		{
 			throw new RuntimeException("Error instantiating attribute: " + e.getMessage());
 		}
+		initializeAttributeWithDefaultConfig();
 	}
 	
+	private void initializeAttributeWithDefaultConfig()
+	{
+		viewAttribute().initialize(aPropertyViewAttributeConfig(view, BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME));
+	}
+
 	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass)
 	{
-		attribute.setAttribute(aValueModelAttribute(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
+		viewAttribute().initialize(aPropertyViewAttributeConfig(view, BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
 		PresentationModelAdapter presentationModelAdapter = aPresentationModelAdapterWithDefaultProperty();
 		attribute.bindTo(MockBindingContext.create(presentationModelAdapter, new Activity()));
 		return presentationModelAdapter.getPropertyValueModel(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
@@ -80,10 +86,16 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, P
 	
 	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass, PropertyType initialPropertyValue)
 	{
-		attribute.setAttribute(aValueModelAttribute(BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
+		viewAttribute().initialize(aPropertyViewAttributeConfig(view,BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
 		PresentationModelAdapter presentationModelAdapter = aPresentationModelAdapterWithDefaultProperty(initialPropertyValue);
 		attribute.bindTo(MockBindingContext.create(presentationModelAdapter, new Activity()));
 		return presentationModelAdapter.getPropertyValueModel(BindingAttributeValues.DEFAULT_PROPERTY_NAME);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <PropertyType> AbstractPropertyViewAttribute<ViewType, PropertyType> viewAttribute()
+	{
+		return (AbstractPropertyViewAttribute<ViewType, PropertyType>)attribute;
 	}
 	
 }

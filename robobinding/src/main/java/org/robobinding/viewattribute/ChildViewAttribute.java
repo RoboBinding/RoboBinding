@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Cheng Wei, Robert Taylor
+ * Copyright 2013 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,14 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.BindingContext;
-import org.robobinding.attribute.AbstractAttribute;
-
-
 
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface ChildViewAttribute<T extends AbstractAttribute>
+public interface ChildViewAttribute
 {
-	void setAttribute(T attribute);
 	void bindTo(BindingContext bindingContext);
 }

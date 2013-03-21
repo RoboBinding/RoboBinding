@@ -19,7 +19,7 @@ import org.robobinding.BindingContext;
 import org.robobinding.attribute.AbstractPropertyAttribute;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.ChildViewAttribute;
+import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
 import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttribute;
 
@@ -31,7 +31,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyAttribute>
+public class ItemLayoutAttribute implements ChildViewAttributeWithAttribute<AbstractPropertyAttribute>
 {
 	private final AdapterView<?> adapterView;
 	protected final DataSetAdapter<?> dataSetAdapter;
@@ -72,6 +72,11 @@ public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyA
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer>
 	{
+		public DynamicLayoutAttribute()
+		{
+			super(true);
+		}
+		
 		@Override
 		protected void valueModelUpdated(Integer newItemLayoutId)
 		{
@@ -90,7 +95,7 @@ public class ItemLayoutAttribute implements ChildViewAttribute<AbstractPropertyA
 		}
 
 		@Override
-		public void preinitializeView(BindingContext bindingContext)
+		public void preInitializeView(BindingContext bindingContext)
 		{
 		}
 

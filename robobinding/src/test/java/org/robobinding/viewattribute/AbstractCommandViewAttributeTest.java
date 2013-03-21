@@ -22,7 +22,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.robobinding.attribute.Attributes.aCommandAttribute;
+import static org.robobinding.viewattribute.MockCommandViewAttributeConfigBuilder.aCommandViewAttributeConfig;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -74,12 +74,10 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
         attribute = ParameterizedTypeUtils.createTypeArgument(superclass, 1);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initializeAttribute()
 	{
-		createViewAndAttribute();
-		
-		attribute.setView(view);
-		attribute.setAttribute(aCommandAttribute(commandName));
+		attribute.initialize((CommandViewAttributeConfig)aCommandViewAttributeConfig(view, commandName));
 	}
 	
 	protected void bindAttribute()
