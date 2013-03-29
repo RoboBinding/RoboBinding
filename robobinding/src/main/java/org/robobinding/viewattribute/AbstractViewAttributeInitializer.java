@@ -17,8 +17,6 @@ package org.robobinding.viewattribute;
 
 import org.robobinding.attribute.CommandAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 
@@ -31,11 +29,11 @@ import android.view.View;
  */
 public abstract class AbstractViewAttributeInitializer
 {
-	protected final ViewListenersProvider viewListenersProvider;
+	protected final ViewListenersInjector viewListenersInjector;
 
-	protected AbstractViewAttributeInitializer(ViewListenersProvider viewListenersProvider)
+	protected AbstractViewAttributeInitializer(ViewListenersInjector viewListenersInjector)
 	{
-		this.viewListenersProvider = viewListenersProvider;
+		this.viewListenersInjector = viewListenersInjector;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -64,7 +62,7 @@ public abstract class AbstractViewAttributeInitializer
 	private <ViewType extends View, PropertyViewAttributeType extends AbstractMultiTypePropertyViewAttribute<ViewType>> PropertyViewAttributeType initializeMultiTypePropertyViewAttribute(
 			PropertyViewAttributeType viewAttribute, ValueModelAttribute attribute)
 	{
-		viewAttribute.initialize(new MultiTypePropertyViewAttributeConfig(getView(), attribute, viewListenersProvider));
+		viewAttribute.initialize(new MultiTypePropertyViewAttributeConfig(getView(), attribute, viewListenersInjector));
 		return viewAttribute;
 	}
 
@@ -77,15 +75,9 @@ public abstract class AbstractViewAttributeInitializer
 		return viewAttribute;
 	}
 	
-	protected void setViewListenersIfRequired(ViewAttribute viewAttribute)
+	private void setViewListenersIfRequired(ViewAttribute viewAttribute)
 	{
-		if(viewAttribute instanceof ViewListenersAware)
-		{
-			ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(getView(), (ViewListenersAware<?>)viewAttribute);
-			@SuppressWarnings("unchecked")
-			ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)viewAttribute;
-			viewListenersAware.setViewListeners(viewListeners);
-		}
+		viewListenersInjector.injectIfRequired(viewAttribute, getView());
 	}
 	
 	protected abstract View getView();

@@ -38,14 +38,14 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	public void initialize(GroupedViewAttributeConfig<T> config)
 	{
 		view = config.getView();
-		childViewAttributes = createChildViewAttributes(config.getPendingGroupAttributes(), config.getViewListenersProvider());
+		childViewAttributes = createChildViewAttributes(config.getPendingGroupAttributes(), config.getViewListenersInjector());
 	}
 	
-	private ChildViewAttributes<T> createChildViewAttributes(PendingGroupAttributes pendingGroupAttributes, ViewListenersProvider viewListenersProvider)
+	private ChildViewAttributes<T> createChildViewAttributes(PendingGroupAttributes pendingGroupAttributes, ViewListenersInjector viewListenersInjector)
 	{
 		GroupAttributes groupAttributes = createGroupAttributes(pendingGroupAttributes);
 
-		ViewAttributeInitializer viewAttributeInitializer = new ViewAttributeInitializer(viewListenersProvider);
+		ViewAttributeInitializer viewAttributeInitializer = new ViewAttributeInitializer(viewListenersInjector);
 
 		return new ChildViewAttributes<T>(groupAttributes, viewAttributeInitializer);		
 	}
@@ -105,9 +105,9 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 
 	private class ViewAttributeInitializer extends AbstractViewAttributeInitializer
 	{
-		public ViewAttributeInitializer(ViewListenersProvider viewListenersProvider)
+		public ViewAttributeInitializer(ViewListenersInjector viewListenersInjector)
 		{
-			super(viewListenersProvider);
+			super(viewListenersInjector);
 		}
 		@Override
 		protected T getView()

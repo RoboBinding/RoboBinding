@@ -216,7 +216,7 @@ public class ChildViewAttributesTest
 
 		protected DummyViewAttributeInitializer()
 		{
-			super(mock(ViewListenersProvider.class));
+			super(mock(ViewListenersInjector.class));
 		}
 
 		@Override

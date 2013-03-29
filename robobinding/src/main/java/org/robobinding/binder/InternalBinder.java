@@ -36,20 +36,20 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class BinderImplementorImpl implements BinderImplementor
+class InternalBinder implements BinderImplementor
 {
 	private final Context context;
 	private final BindingContextCreator bindingContextCreator;
 	private ErrorFormatter errorFormatter;
-	private final boolean preinitailizeViews;
+	private final boolean preInitailizeViews;
 	private ViewGroup parentView;
 	
-	public BinderImplementorImpl(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter, boolean preinitailizeViews)
+	public InternalBinder(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter, boolean preInitailizeViews)
 	{
 		this.context = context;
 		this.bindingContextCreator = bindingContextCreator;
 		this.errorFormatter = errorFormatter;
-		this.preinitailizeViews = preinitailizeViews;
+		this.preInitailizeViews = preInitailizeViews;
 	}
 	
 	@Override
@@ -75,7 +75,7 @@ class BinderImplementorImpl implements BinderImplementor
 		inflatedView.bindChildViews(bindingContext);
 		inflatedView.assertNoErrors(errorFormatter);
 
-		if(preinitailizeViews)
+		if(preInitailizeViews)
 		{
 			inflatedView.preinitializeViews(bindingContext);
 		}

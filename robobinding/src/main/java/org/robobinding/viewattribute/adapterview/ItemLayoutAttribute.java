@@ -95,15 +95,15 @@ public class ItemLayoutAttribute implements ChildViewAttributeWithAttribute<Abst
 		}
 
 		@Override
-		public void preInitializeView(BindingContext bindingContext)
-		{
-		}
-
-		@Override
 		public void bindTo(BindingContext bindingContext)
 		{
 			int itemLayoutId = attributeValue.getResourceId(bindingContext.getContext());
 			updateLayoutId(itemLayoutId);
+		}
+
+		@Override
+		public void preInitializeView(BindingContext bindingContext)
+		{
 		}
 	}
 

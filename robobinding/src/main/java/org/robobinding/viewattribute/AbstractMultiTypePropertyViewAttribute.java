@@ -18,8 +18,6 @@ package org.robobinding.viewattribute;
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 
@@ -31,10 +29,10 @@ import android.view.View;
  */
 public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> implements PropertyViewAttribute<T>
 {
-	protected T view;
+	private T view;
 	protected ValueModelAttribute attribute;
 	
-	private ViewListenersProvider viewListenersProvider;
+	private ViewListenersInjector viewListenersInjector;
 	
 	private AbstractPropertyViewAttribute<T, ?> propertyViewAttribute;
 
@@ -42,7 +40,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	{
 		this.view = config.getView();
 		this.attribute = config.getAttribute();
-		this.viewListenersProvider = config.getViewListenersProvider();
+		this.viewListenersInjector = config.getViewListenersInjector();
 	}
 	
 	@Override
@@ -60,7 +58,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 	private void initializePropertyViewAttribute(BindingContext bindingContext)
 	{
 		propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
-		setViewListenersIfRequired(propertyViewAttribute);
+		viewListenersInjector.injectIfRequired(propertyViewAttribute, view);
 	}
 
 	private AbstractPropertyViewAttribute<T, ?> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
@@ -78,15 +76,9 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 
 	protected abstract AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType);
 
-	private void setViewListenersIfRequired(ViewAttribute viewAttribute)
+	private void performBind(BindingContext bindingContext)
 	{
-		if(viewAttribute instanceof ViewListenersAware)
-		{
-			ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(view, (ViewListenersAware<?>)viewAttribute);
-			@SuppressWarnings("unchecked")
-			ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)viewAttribute;
-			viewListenersAware.setViewListeners(viewListeners);
-		}
+		propertyViewAttribute.bindTo(bindingContext);
 	}
 
 	@Override
@@ -99,10 +91,5 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		{
 				throw new AttributeBindingException(attribute.getName(), e);
 		}
-	}
-
-	private void performBind(BindingContext bindingContext)
-	{
-		propertyViewAttribute.bindTo(bindingContext);
 	}
 }

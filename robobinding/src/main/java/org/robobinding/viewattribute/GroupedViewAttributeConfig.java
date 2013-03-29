@@ -30,13 +30,13 @@ import android.view.View;
 public class GroupedViewAttributeConfig<T extends View> extends AbstractViewAttributeConfig<T>
 {
 	private PendingGroupAttributes pendingGroupAttributes;
-	private ViewListenersProvider viewListenersProvider;
+	private ViewListenersInjector viewListenersInjector;
 
-	public GroupedViewAttributeConfig(T view, PendingGroupAttributes pendingGroupAttributes, ViewListenersProvider viewListenersProvider)
+	public GroupedViewAttributeConfig(T view, PendingGroupAttributes pendingGroupAttributes, ViewListenersInjector viewListenersInjector)
 	{
 		super(view);
 		this.pendingGroupAttributes = pendingGroupAttributes;
-		this.viewListenersProvider = viewListenersProvider;
+		this.viewListenersInjector = viewListenersInjector;
 	}
 
 	public PendingGroupAttributes getPendingGroupAttributes()
@@ -44,9 +44,9 @@ public class GroupedViewAttributeConfig<T extends View> extends AbstractViewAttr
 		return pendingGroupAttributes;
 	}
 
-	public ViewListenersProvider getViewListenersProvider()
+	public ViewListenersInjector getViewListenersInjector()
 	{
-		return viewListenersProvider;
+		return viewListenersInjector;
 	}
 	
 	@Override
@@ -62,7 +62,7 @@ public class GroupedViewAttributeConfig<T extends View> extends AbstractViewAttr
 		return new EqualsBuilder()
 			.appendSuper(super.equals(that))
 			.append(pendingGroupAttributes, that.pendingGroupAttributes)
-			.append(viewListenersProvider, that.viewListenersProvider)
+			.append(viewListenersInjector, that.viewListenersInjector)
 			.isEquals();
 	}
 
@@ -72,7 +72,7 @@ public class GroupedViewAttributeConfig<T extends View> extends AbstractViewAttr
 		return new HashCodeBuilder()
 			.appendSuper(super.hashCode())
 			.append(pendingGroupAttributes)
-			.append(viewListenersProvider)
+			.append(viewListenersInjector)
 			.toHashCode();
 	}
 

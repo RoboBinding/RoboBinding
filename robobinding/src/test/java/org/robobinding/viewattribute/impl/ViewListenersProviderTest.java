@@ -28,8 +28,6 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.ViewListenersProvider;
-import org.robobinding.viewattribute.impl.ViewListenersProviderImpl;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
@@ -42,7 +40,7 @@ import android.view.View;
  * @author Cheng Wei
  */
 @RunWith(Theories.class)
-public class ViewListenersProviderImplTest
+public class ViewListenersProviderTest
 {
 	@DataPoints
 	public static ViewListenersAttribute[] sampleData = new ViewListenersAttribute[]{
@@ -56,7 +54,7 @@ public class ViewListenersProviderImplTest
 	@Before
 	public void setUp()
 	{
-		viewListenersProvider = new ViewListenersProviderImpl();
+		viewListenersProvider = new ViewListenersProvider();
 	}
 
 	@Theory

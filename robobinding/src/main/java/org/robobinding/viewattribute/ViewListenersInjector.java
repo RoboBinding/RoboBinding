@@ -15,10 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersAware;
-
 import android.view.View;
+
 
 /**
  *
@@ -26,7 +24,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ViewListenersProvider
+public interface ViewListenersInjector
 {
-	<T extends ViewListeners> T forViewAndAttribute(View view, ViewListenersAware<T> viewListenersAware);
+	void injectIfRequired(ViewAttribute viewAttribute, View view);
 }

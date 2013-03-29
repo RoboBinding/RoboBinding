@@ -29,17 +29,17 @@ import android.view.View;
  */
 public class MultiTypePropertyViewAttributeConfig<T extends View> extends PropertyViewAttributeConfig<T>
 {
-	private ViewListenersProvider viewListenersProvider;
-	public MultiTypePropertyViewAttributeConfig(T view, ValueModelAttribute attribute, ViewListenersProvider viewListenersProvider)
+	private ViewListenersInjector viewListenersInjector;
+	public MultiTypePropertyViewAttributeConfig(T view, ValueModelAttribute attribute, ViewListenersInjector viewListenersInjector)
 	{
 		super(view, attribute);
-		this.viewListenersProvider = viewListenersProvider;
+		this.viewListenersInjector = viewListenersInjector;
 		
 	}
 
-	public ViewListenersProvider getViewListenersProvider()
+	public ViewListenersInjector getViewListenersInjector()
 	{
-		return viewListenersProvider;
+		return viewListenersInjector;
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class MultiTypePropertyViewAttributeConfig<T extends View> extends Proper
 		final MultiTypePropertyViewAttributeConfig<T> that = (MultiTypePropertyViewAttributeConfig) other;
 		return new EqualsBuilder()
 			.appendSuper(super.equals(that))
-			.append(viewListenersProvider, that.viewListenersProvider)
+			.append(viewListenersInjector, that.viewListenersInjector)
 			.isEquals();
 	}
 
@@ -63,7 +63,7 @@ public class MultiTypePropertyViewAttributeConfig<T extends View> extends Proper
 	{
 		return new HashCodeBuilder()
 			.appendSuper(super.hashCode())
-			.append(viewListenersProvider)
+			.append(viewListenersInjector)
 			.toHashCode();
 	}
 }

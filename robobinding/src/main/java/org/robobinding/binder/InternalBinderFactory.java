@@ -18,7 +18,7 @@ package org.robobinding.binder;
 import org.robobinding.BinderImplementor;
 import org.robobinding.BinderImplementorFactory;
 import org.robobinding.BindingContext;
-import org.robobinding.binder.BinderImplementorImpl.BindingContextCreator;
+import org.robobinding.binder.InternalBinder.BindingContextCreator;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 import android.content.Context;
@@ -29,12 +29,12 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class BinderImplementorFactoryImpl implements BinderImplementorFactory, BindingContextCreator
+class InternalBinderFactory implements BinderImplementorFactory, BindingContextCreator
 {
 	private Context context;
 	private boolean preInitializeViews;
 	private ErrorFormatter errorFormatter;
-	public BinderImplementorFactoryImpl(Context context, boolean preInitializeViews, ErrorFormatter errorFormatter)
+	public InternalBinderFactory(Context context, boolean preInitializeViews, ErrorFormatter errorFormatter)
 	{
 		this.context = context;
 		this.preInitializeViews = preInitializeViews;
@@ -43,7 +43,7 @@ class BinderImplementorFactoryImpl implements BinderImplementorFactory, BindingC
 	@Override
 	public BinderImplementor create()
 	{
-		return new BinderImplementorImpl(context, this, errorFormatter, preInitializeViews);
+		return new InternalBinder(context, this, errorFormatter, preInitializeViews);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ class BinderImplementorFactoryImpl implements BinderImplementorFactory, BindingC
 	
 	public static BinderImplementor create(Context context, boolean preInitializeViews)
 	{
-		BinderImplementorFactory binderImplementorFactory = new BinderImplementorFactoryImpl(context, preInitializeViews, new PlainTextErrorFormatter());
+		BinderImplementorFactory binderImplementorFactory = new InternalBinderFactory(context, preInitializeViews, new PlainTextErrorFormatter());
 		return binderImplementorFactory.create();
 	}
 }

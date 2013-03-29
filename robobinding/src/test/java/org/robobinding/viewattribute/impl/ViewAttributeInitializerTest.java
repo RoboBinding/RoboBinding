@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.GroupedViewAttributeConfig;
-import org.robobinding.viewattribute.ViewListenersProvider;
+import org.robobinding.viewattribute.ViewListenersInjector;
 
 import android.view.View;
 
@@ -38,12 +38,12 @@ import com.google.common.collect.Maps;
 public class ViewAttributeInitializerTest
 {
 	private ViewAttributeInitializer viewAttributeInitializer;
-	private ViewListenersProvider viewListenersProvider;
+	private ViewListenersInjector viewListenersProvider;
 	
 	@Before
 	public void setUp()
 	{
-		viewListenersProvider = mock(ViewListenersProvider.class);
+		viewListenersProvider = mock(ViewListenersInjector.class);
 		viewAttributeInitializer = new ViewAttributeInitializerForTest(viewListenersProvider);
 	}
 	
@@ -68,9 +68,9 @@ public class ViewAttributeInitializerTest
 	
 	private static class ViewAttributeInitializerForTest extends ViewAttributeInitializer
 	{
-		public ViewAttributeInitializerForTest(ViewListenersProvider viewListenersProvider)
+		public ViewAttributeInitializerForTest(ViewListenersInjector viewListenersProvider)
 		{
-			this.viewListenersProvider = viewListenersProvider;
+			this.viewListenersInjector = viewListenersProvider;
 		}
 	}
 }

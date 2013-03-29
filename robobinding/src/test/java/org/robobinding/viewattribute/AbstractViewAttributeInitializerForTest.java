@@ -17,14 +17,16 @@ package org.robobinding.viewattribute;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.robobinding.attribute.MockCommandAttributeBuilder.aCommandAttribute;
 import static org.robobinding.attribute.MockValueModelAttributeBuilder.aValueModelAttribute;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.robobinding.attribute.Command;
 import org.robobinding.attribute.CommandAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
@@ -44,7 +46,7 @@ public class AbstractViewAttributeInitializerForTest
 {
 	private AbstractViewAttributeInitializer viewAttributeInitializer;
 	private View view;
-	private ViewListenersProvider viewListenersProvider;
+	private ViewListenersInjector viewListenersInjector;
 	private ViewListeners viewListeners;
 	
 	@SuppressWarnings("unchecked")
@@ -52,10 +54,20 @@ public class AbstractViewAttributeInitializerForTest
 	public void setUp()
 	{
 		view = mock(View.class);
-		viewListenersProvider = mock(ViewListenersProvider.class);
+		viewListenersInjector = mock(ViewListenersInjector.class);
 		viewListeners = new ViewListeners(view);
-		when(viewListenersProvider.forViewAndAttribute(eq(view), any(ViewListenersAware.class))).thenReturn(viewListeners);
-		viewAttributeInitializer = new ViewAttributeInitializerForTest();
+		doAnswer(new Answer<Object>(){
+			public Object answer(InvocationOnMock invocation) 
+			{
+				Object[] args = invocation.getArguments();
+				ViewAttribute viewAttribute = (ViewAttribute)args[0];
+				if(viewAttribute instanceof ViewListenersAware)
+				{
+					((ViewListenersAware<ViewListeners>)viewAttribute).setViewListeners(viewListeners);
+				}
+				return null;
+			}}).when(viewListenersInjector).injectIfRequired(any(ViewAttribute.class), eq(view));
+		viewAttributeInitializer = new ViewAttributeInitializerForTest(viewListenersInjector);
 	}
 	
 	@Test
@@ -90,7 +102,7 @@ public class AbstractViewAttributeInitializerForTest
 		
 		viewAttribute = viewAttributeInitializer.initializePropertyViewAttribute(viewAttribute, attribute);
 		
-		verify(viewAttribute).initialize(eq(new MultiTypePropertyViewAttributeConfig<View>(view, attribute, viewListenersProvider)));
+		verify(viewAttribute).initialize(eq(new MultiTypePropertyViewAttributeConfig<View>(view, attribute, viewListenersInjector)));
 	}
 	
 	@Test
@@ -118,9 +130,9 @@ public class AbstractViewAttributeInitializerForTest
 	
 	public class ViewAttributeInitializerForTest extends AbstractViewAttributeInitializer
 	{
-		public ViewAttributeInitializerForTest()
+		public ViewAttributeInitializerForTest(ViewListenersInjector viewListenersInjector)
 		{
-			super(AbstractViewAttributeInitializerForTest.this.viewListenersProvider);
+			super(viewListenersInjector);
 		}
 		
 		@Override

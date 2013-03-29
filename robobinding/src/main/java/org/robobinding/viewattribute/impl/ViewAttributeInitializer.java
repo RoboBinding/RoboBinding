@@ -23,7 +23,7 @@ import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractViewAttributeInitializer;
 import org.robobinding.viewattribute.GroupedViewAttributeConfig;
 import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewListenersProvider;
+import org.robobinding.viewattribute.ViewListenersInjector;
 
 import android.view.View;
 
@@ -36,13 +36,13 @@ import android.view.View;
  */
 public class ViewAttributeInitializer
 {
-	ViewListenersProvider viewListenersProvider;
+	ViewListenersInjector viewListenersInjector;
 	ViewAttributeInitializerDelegate delegate;
 
 	public ViewAttributeInitializer()
 	{
-		this.viewListenersProvider = new ViewListenersProviderImpl();
-		delegate = new ViewAttributeInitializerDelegate(viewListenersProvider);
+		this.viewListenersInjector = new ViewListenersProvider();
+		delegate = new ViewAttributeInitializerDelegate(viewListenersInjector);
 	}
 
 	public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> PropertyViewAttributeType initializePropertyViewAttribute(
@@ -65,7 +65,7 @@ public class ViewAttributeInitializer
 	public <ViewType extends View, GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType initializeGroupedViewAttribute(
 			ViewType view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes pendingGroupAttributes)
 	{
-		groupedViewAttribute.initialize(new GroupedViewAttributeConfig(view, pendingGroupAttributes, viewListenersProvider));
+		groupedViewAttribute.initialize(new GroupedViewAttributeConfig(view, pendingGroupAttributes, viewListenersInjector));
 		return groupedViewAttribute;
 	}
 
@@ -73,9 +73,9 @@ public class ViewAttributeInitializer
 	{
 		private View currentView;
 
-		public ViewAttributeInitializerDelegate(ViewListenersProvider viewListenersProvider)
+		public ViewAttributeInitializerDelegate(ViewListenersInjector viewListenersInjector)
 		{
-			super(viewListenersProvider);
+			super(viewListenersInjector);
 		}
 
 		@Override

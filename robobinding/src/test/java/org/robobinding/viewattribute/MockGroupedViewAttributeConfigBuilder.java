@@ -52,7 +52,7 @@ public class MockGroupedViewAttributeConfigBuilder<ViewType extends View>
 	{
 		when(config.getView()).thenReturn(view);
 		when(config.getPendingGroupAttributes()).thenReturn(pendingGroupAttributes);
-		when(config.getViewListenersProvider()).thenReturn(mock(ViewListenersProvider.class));
+		when(config.getViewListenersInjector()).thenReturn(mock(ViewListenersInjector.class));
 		return this;
 	}
 	

@@ -55,7 +55,7 @@ public class MockMultiTypePropertyViewAttributeConfigBuilder<ViewType extends Vi
 	{
 		when(config.getView()).thenReturn(view);
 		when(config.getAttribute()).thenReturn(attribute);
-		when(config.getViewListenersProvider()).thenReturn(mock(ViewListenersProvider.class));
+		when(config.getViewListenersInjector()).thenReturn(mock(ViewListenersInjector.class));
 		return this;
 	}
 	

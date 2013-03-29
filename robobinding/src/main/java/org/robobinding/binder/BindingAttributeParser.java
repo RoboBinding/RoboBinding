@@ -30,9 +30,9 @@ import com.google.common.collect.Maps;
  */
 class BindingAttributeParser
 {
-	static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/android";
+	public static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/android";
 
-	Map<String, String> parse(AttributeSet attributeSet)
+	public Map<String, String> parse(AttributeSet attributeSet)
 	{
 		Map<String, String> bindingAttributes = Maps.newHashMap();
 		
