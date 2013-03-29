@@ -119,6 +119,23 @@ public final class PropertyViewAttributeTest extends ViewAttributeContractTest<P
 		assertFalse(attribute.viewInitialized);
 	}
 	
+	@Test
+	public void whenBindAlwaysPreInitializingViewAttributeWithNoPreInitializeViewFlag_thenPreInitializeTheViewToReflectTheValueModel()
+	{
+		setupAndBindAlwaysPreInitializingViewAttribute(ONE_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+		
+		assertTrue(attribute.viewInitialized);
+	}
+	
+	@Test
+	public void whenBindAlwaysPreInitializingViewAttributeWithPreInitializeViewFlag_thenPreInitializeTheViewToReflectTheValueModelOnceOnly()
+	{
+		setupAndBindAlwaysPreInitializingViewAttribute(ONE_WAY_BINDING, PRE_INITIALIZE_VIEW);
+		
+		assertTrue(attribute.viewInitialized);
+		assertThat(attribute.viewUpdateNotificationCount, is(1));
+	}
+	
 	/**
 	 * TODO: Ignored by Cheng. As discussed, we remove validation and assume framework will provide a valid ViewAttributeConfig. 
 	 */
@@ -131,14 +148,21 @@ public final class PropertyViewAttributeTest extends ViewAttributeContractTest<P
 	
 	private void setupAndBindAttribute(boolean twoWayBinding, boolean preInitializeView)
 	{
-		attribute = createAttribute(twoWayBinding);
+		attribute = createAttribute(false, twoWayBinding);
+		
+		bindAttribute(twoWayBinding, preInitializeView);
+	}
+	
+	private void setupAndBindAlwaysPreInitializingViewAttribute(boolean twoWayBinding, boolean preInitializeView)
+	{
+		attribute = createAttribute(true, twoWayBinding);
 		
 		bindAttribute(twoWayBinding, preInitializeView);
 	}
 
-	private PropertyViewAttributeSpy createAttribute(boolean twoWayBinding)
+	private PropertyViewAttributeSpy createAttribute(boolean withAlwaysPreInitializingView, boolean twoWayBinding)
 	{
-		PropertyViewAttributeSpy viewAttribute = new PropertyViewAttributeSpy();
+		PropertyViewAttributeSpy viewAttribute = new PropertyViewAttributeSpy(withAlwaysPreInitializingView);
 		viewAttribute.initialize(aPropertyViewAttributeConfig(mock(View.class), aValueModelAttribute(PROPERTY_NAME, twoWayBinding)));
 		return viewAttribute;
 	}
@@ -166,7 +190,7 @@ public final class PropertyViewAttributeTest extends ViewAttributeContractTest<P
 	
 	private PropertyViewAttributeSpy createDefaultAttribute()
 	{
-		return createAttribute(ONE_WAY_BINDING);
+		return createAttribute(false, ONE_WAY_BINDING);
 	}
 	
 	@Override

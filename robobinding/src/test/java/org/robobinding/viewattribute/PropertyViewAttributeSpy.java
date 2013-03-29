@@ -31,6 +31,15 @@ public class PropertyViewAttributeSpy extends AbstractPropertyViewAttribute<View
 	int updatedValue;
 	boolean viewInitialized;
 	private ValueModel<Integer> valueModelUpdatedByView;
+	
+	public PropertyViewAttributeSpy()
+	{
+	}
+	
+	public PropertyViewAttributeSpy(boolean withAlwaysPreInitializingView)
+	{
+		super(withAlwaysPreInitializingView);
+	}
 
 	public void simulateViewUpdate(int newValue)
 	{
