@@ -15,7 +15,7 @@
  */
 package sample.robobinding.activity;
 
-import org.robobinding.binder.Binder;
+import org.robobinding.binder.Binders;
 
 import sample.robobinding.R;
 import sample.robobinding.presentationmodel.ViewAlbumsPresentationModel;
@@ -39,7 +39,7 @@ public class ViewAlbumsActivity extends Activity
 		super.onCreate(savedInstanceState);
 		
 		presentationModel = new ViewAlbumsPresentationModel(this);
-		Binder.bindWithoutPreInitializingViews(this, R.layout.view_albums_activity, presentationModel);
+		Binders.bindWithoutPreInitializingViews(this, R.layout.view_albums_activity, presentationModel);
 	}
 
 	@Override

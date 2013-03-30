@@ -15,7 +15,7 @@
  */
 package sample.robobinding.activity;
 
-import org.robobinding.binder.Binder;
+import org.robobinding.binder.Binders;
 
 import sample.robobinding.R;
 import sample.robobinding.model.Album;
@@ -45,7 +45,7 @@ public class ViewAlbumActivity extends Activity
 		long albumId = intent.getLongExtra(ALBUM_ID, Album.NO_ID);
 		
 		presentationModel = new ViewAlbumPresentationModel(this, albumId);
-		Binder.bindWithoutPreInitializingViews(this, R.layout.view_album_activity, presentationModel);
+		Binders.bindWithoutPreInitializingViews(this, R.layout.view_album_activity, presentationModel);
 	}
 
 	@Override
