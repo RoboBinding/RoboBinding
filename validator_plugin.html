@@ -4,7 +4,7 @@ title: Experimental features
 ---
 
 <h2>RoboBinding Validator plugin</h2>
-<p>The <a href="https://github.com/roberttaylor426/RoboBinding-validator-plugin">RoboBinding Validator plugin</a> is a tool for validating the binding attributes in your layout xml. It is currently available as a Maven plugin but should integrate well with <a href="http://eclipse.org/m2e/">M2Eclipse</a>.</p>
+<p>The <a href="https://github.com/roberttaylor426/RoboBinding-validator-plugin">RoboBinding Validator plugin</a> is a tool for providing compile-time validation of the binding attributes in your layout xml. It is currently only available as a Maven plugin, but integrates well with <a href="http://eclipse.org/m2e/">M2Eclipse</a>.</p>
 
 <img src="img/validator_plugin_screenshot.png"/>
 
@@ -24,44 +24,3 @@ title: Experimental features
 	</executions>
 </plugin>
 {% endhighlight %}
-
-<p>Although this should be rectified from M2Eclipse 1.1 onwards, when using M2Eclipse 1.0 you will see the warning <strong>"Plugin execution not covered by lifecycle configuration"</strong>. Ignore this and click the popup option to <strong>"Permanently mark goal validate-bindings in pom.xml as ignored in Eclipse build"</strong>.</p>
-
-<p>Unfortunately, this will add an ugly lifecycle-mapping section to your POM, that looks something like this:</p>
-
-{% highlight xml %}
-<plugin>
-	<groupId>org.eclipse.m2e</groupId>
-	<artifactId>lifecycle-mapping</artifactId>
-	<version>1.0.0</version>
-	<configuration>
-		<lifecycleMappingMetadata>
-			<pluginExecutions>
-				<pluginExecution>
-					<pluginExecutionFilter>
-						<groupId>
-							org.robobinding.plugins
-						</groupId>
-						<artifactId>
-							robobinding-validator
-						</artifactId>
-						<versionRange>
-							[{{ site.latest_validator_version }},)
-						</versionRange>
-						<goals>
-							<goal>
-								validate-bindings
-							</goal>
-						</goals>
-					</pluginExecutionFilter>
-					<action>
-						<ignore></ignore>
-					</action>
-				</pluginExecution>
-			</pluginExecutions>
-		</lifecycleMappingMetadata>
-	</configuration>
-</plugin>
-{% endhighlight %}
-
-<p>To get the plugin working, remove the ignore tags from inside the action block, and replace them with <strong>execute</strong> tags instead. You should now be good to go.</p>
