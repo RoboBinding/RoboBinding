@@ -15,24 +15,43 @@
  */
 package sample.robobinding.presentationmodel;
 
+import java.util.List;
+
+import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModel;
 import org.robobinding.viewattribute.adapterview.ItemClickEvent;
 
-import sample.robobinding.CreateEditAlbumActivity;
-import sample.robobinding.ViewAlbumActivity;
+import sample.robobinding.activity.CreateEditAlbumActivity;
+import sample.robobinding.activity.ViewAlbumActivity;
+import sample.robobinding.model.Album;
 import sample.robobinding.store.AlbumStore;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-@PresentationModel
-public abstract class AbstractViewAlbumsPresentationModel
-{
-	protected final Context context;
-	protected int selectedAlbumPosition;
+import com.google.common.collect.Lists;
 
-	public AbstractViewAlbumsPresentationModel(Context context)
+/**
+ * 
+ * @since 1.0
+ * @author Cheng Wei
+ * @author Robert Taylor
+ */
+@PresentationModel
+public class ViewAlbumsPresentationModel
+{
+	
+	private final Context context;
+	
+	public ViewAlbumsPresentationModel(Activity activity)
 	{
-		this.context = context;
+		this.context = activity;
+	}
+
+	@ItemPresentationModel(AlbumItemPresentationModel.class)
+	public List<Album> getAlbums()
+	{
+		return Lists.newArrayList(AlbumStore.getAll());
 	}
 
 	public void createAlbum()
@@ -40,23 +59,12 @@ public abstract class AbstractViewAlbumsPresentationModel
 		context.startActivity(new Intent(context, CreateEditAlbumActivity.class));
 	}
 
-	public void setSelectedAlbumPosition(int selectedAlbumPosition)
-	{
-		this.selectedAlbumPosition = selectedAlbumPosition;
-	}
-	
-	public void albumSelected(ItemClickEvent event)
-	{
-		setSelectedAlbumPosition(event.getPosition());
-	}
-	
 	public void viewAlbum(ItemClickEvent event)
 	{
-		setSelectedAlbumPosition(event.getPosition());
-		viewAlbum();
+		viewAlbum(event.getPosition());
 	}
-	
-	public void viewAlbum()
+
+	private void viewAlbum(int selectedAlbumPosition)
 	{
 		Intent intent = new Intent(context, ViewAlbumActivity.class);
 		intent.putExtra(ViewAlbumActivity.ALBUM_ID, AlbumStore.getByIndex(selectedAlbumPosition).getId());

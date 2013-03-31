@@ -1,25 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://robobinding.org/android"
-    xmlns:rs="http://schemas.android.com/apk/res/sample.robobinding"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <sample.robobinding.customview.NavigationBar
-        android:id="@+id/navigation_bar"
-        android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:layout_alignParentBottom="true"
-	    bind:leftButtonAction="deleteAlbum"
-	    bind:rightButtonAction="editAlbum"
-	    rs:leftButtonLabel="@string/delete"
-	    rs:rightButtonLabel="@string/edit"
-	    style="@android:style/ButtonBar" />
-    
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@id/navigation_bar" >
+        android:layout_height="wrap_content" 
+        android:layout_weight="1.0">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -77,40 +66,19 @@
                 android:layout_height="wrap_content"
                 bind:text="{composer}"
                 bind:visibility="{composerEnabled}" />
-
-            <TextView
-                style="@style/Heading"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/genre"
-                bind:visibility="{genreSpecified}" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                bind:text="{genreLabel}"
-                bind:visibility="{genreSpecified}" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/genre_icon"
-                bind:src="{genreIcon}"
-                bind:visibility="{genreSpecified}" />
-            
-            <TextView
-                style="@style/Heading"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/rating" />
-            
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:isIndicator="true"
-                style="?android:attr/ratingBarStyleSmall" 
-                bind:numStars="{numStars}"
-                bind:rating="{rating}" />
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        bind:onClick="editAlbum"
+        android:text="@string/edit" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        bind:onClick="deleteAlbum"
+        android:text="@string/delete" />
+
+</LinearLayout>

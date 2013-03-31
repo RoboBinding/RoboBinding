@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding;
+package sample.robobinding.activity;
 
-import org.robobinding.binder.Binder;
+import org.robobinding.binder.Binders;
 
-import sample.robobinding.model.PurchaseService;
-import sample.robobinding.presentationmodel.CursorBackedViewAlbumsPresentationModel;
+import sample.robobinding.R;
+import sample.robobinding.model.Album;
+import sample.robobinding.presentationmodel.ViewAlbumPresentationModel;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 /**
@@ -28,24 +30,28 @@ import android.os.Bundle;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class CursorBackedViewAlbumsActivity extends Activity
+public class ViewAlbumActivity extends Activity
 {
-	private CursorBackedViewAlbumsPresentationModel viewAlbumsPresentationModel;
-
+	public static final String ALBUM_ID = "album_id";
+	
+	private ViewAlbumPresentationModel presentationModel;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		
-		viewAlbumsPresentationModel = new CursorBackedViewAlbumsPresentationModel(this, new PurchaseService());
-		Binder.bindWithoutPreInitializingViews(this, R.layout.view_purchasable_albums_activity, viewAlbumsPresentationModel);
+		Intent intent = getIntent();
+		long albumId = intent.getLongExtra(ALBUM_ID, Album.NO_ID);
+		
+		presentationModel = new ViewAlbumPresentationModel(this, albumId);
+		Binders.bindWithoutPreInitializingViews(this, R.layout.view_album_activity, presentationModel);
 	}
-	
+
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		viewAlbumsPresentationModel.refreshPresentationModel();
+		presentationModel.refresh();
 	}
-	
 }

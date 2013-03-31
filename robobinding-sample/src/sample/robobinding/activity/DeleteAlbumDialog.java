@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding;
+package sample.robobinding.activity;
 
-import org.robobinding.binder.Binder;
+import org.robobinding.binder.Binders;
 
+import sample.robobinding.R;
 import sample.robobinding.model.Album;
 import sample.robobinding.presentationmodel.DeleteAlbumDialogPresentationModel;
 import android.app.Dialog;
@@ -36,6 +37,6 @@ public class DeleteAlbumDialog extends Dialog
 		setCancelable(true);
 		
 		DeleteAlbumDialogPresentationModel deleteAlbumDialogPresentationModel = new DeleteAlbumDialogPresentationModel(this, album);
-		Binder.bind(this, R.layout.delete_album_dialog, deleteAlbumDialogPresentationModel);
+		Binders.bind(this, R.layout.delete_album_dialog, deleteAlbumDialogPresentationModel);
 	}
 }

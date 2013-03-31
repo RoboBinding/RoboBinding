@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,18 @@
  */
 package sample.robobinding;
 
-import sample.robobinding.R;
-
-
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
-public class ListViewPredefinedViewsAlbumsTest extends AbstractListViewTest
+public class ViewAlbumsActivityTest extends AbstractAlbumsTest
 {
-	@Override
-	protected int homeButtonStringResId()
+	public void testWhenNoAlbums_thenDisplayTheEmptyView()
 	{
-		return R.string.listview_albums_with_predefined_views;
+		navigateToAlbumListScreen();
+		assertTrue(solo.searchText(getString(R.string.albums_list_empty)));
 	}
-
 }
