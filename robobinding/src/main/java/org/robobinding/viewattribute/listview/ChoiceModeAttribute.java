@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2013 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding;
+package org.robobinding.viewattribute.listview;
 
-import sample.robobinding.R;
+import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 
-
+import android.widget.ListView;
 
 /**
  *
@@ -25,12 +25,12 @@ import sample.robobinding.R;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ListViewPredefinedViewsAlbumsTest extends AbstractListViewTest
+public class ChoiceModeAttribute extends AbstractReadOnlyPropertyViewAttribute<ListView, Integer>
 {
 	@Override
-	protected int homeButtonStringResId()
+	protected void valueModelUpdated(Integer newChoiceMode)
 	{
-		return R.string.listview_albums_with_predefined_views;
+		view.setChoiceMode(newChoiceMode);
 	}
 
 }
