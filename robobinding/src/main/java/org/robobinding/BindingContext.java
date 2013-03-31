@@ -15,10 +15,13 @@
  */
 package org.robobinding;
 
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
+import org.robobinding.property.ValueModel;
 
 import android.content.Context;
+import android.view.View;
 
 /**
  * 
@@ -28,14 +31,14 @@ import android.content.Context;
  */
 public class BindingContext
 {
-	private final BinderImplementorFactory factory;
+	private final BinderImplementorFactory binderImplementorFactory;
 	private final Context context;
 	private final PresentationModelAdapter presentationModelAdapter;
 	private final boolean preInitializeViews;
 
 	public BindingContext(BinderImplementorFactory factory, Context context, Object presentationModel, boolean preInitializeViews)
 	{
-		this.factory = factory;
+		this.binderImplementorFactory = factory;
 		this.context = context;
 		this.presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 		this.preInitializeViews = preInitializeViews;
@@ -53,12 +56,32 @@ public class BindingContext
 
 	public ItemBinder createItemBinder()
 	{
-		return new ItemBinder(factory.create());
+		return new ItemBinder(binderImplementorFactory.create());
 	}
 
-	public ViewBinder createViewBinder()
+	public View inflateView(int layoutId)
 	{
-		return new ViewBinder(factory.create());
+		ViewBinder viewBinder = createViewBinder();
+		return viewBinder.inflate(layoutId);
+	}
+	
+	private ViewBinder createViewBinder()
+	{
+		return new ViewBinder(binderImplementorFactory.create());
+	}
+
+	public View inflateViewAndBindTo(int layoutId, ValueModelAttribute presentationModelAttribute)
+	{
+		ViewBinder viewBinder = createViewBinder();
+		Object presentationModel = getPresentationModel(presentationModelAttribute);
+		return viewBinder.inflateAndBind(layoutId, presentationModel);
+	}
+
+	private Object getPresentationModel(ValueModelAttribute presentationModelAttributeValue)
+	{
+		PresentationModelAdapter presentationModelAdapter = getPresentationModelAdapter();
+		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(presentationModelAttributeValue.getPropertyName());
+		return valueModel.getValue();
 	}
 
 	public boolean shouldPreInitializeViews()

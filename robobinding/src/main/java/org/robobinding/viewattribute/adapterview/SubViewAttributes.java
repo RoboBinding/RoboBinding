@@ -40,13 +40,11 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 {
 	private View subView;
 	private SubViewAttributesStrategy<T> subViewAttributesStrategy;
-	private SubViewCreator subViewCreator;
 	private int layoutId;
 
-	public SubViewAttributes(SubViewAttributesStrategy<T> subViewAttributesStrategy, SubViewCreator subViewCreator)
+	public SubViewAttributes(SubViewAttributesStrategy<T> subViewAttributesStrategy)
 	{
 		this.subViewAttributesStrategy = subViewAttributesStrategy;
-		this.subViewCreator = subViewCreator;
 	}
 
 	@Override
@@ -104,7 +102,7 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 		@Override
 		public void bindTo(BindingContext bindingContext)
 		{
-			subView = subViewCreator.createAndBindTo(attribute, layoutId, bindingContext);
+			subView = bindingContext.inflateViewAndBindTo(layoutId, attribute);
 			subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
 		}
 		
@@ -120,7 +118,7 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 		@Override
 		public void bindTo(BindingContext bindingContext)
 		{
-			subView = subViewCreator.create(layoutId, bindingContext);
+			subView = bindingContext.inflateView(layoutId);
 			subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
 		}
 	}
