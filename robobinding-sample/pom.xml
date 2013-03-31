@@ -117,7 +117,7 @@
 			<plugin>
 				<groupId>org.robobinding.plugins</groupId>
 				<artifactId>robobinding-validator</artifactId>
-				<version>0.8.3-SNAPSHOT</version>
+				<version>0.8.4-SNAPSHOT</version>
 				<executions>
 					<execution>
 						<goals>
@@ -156,29 +156,6 @@
 									</pluginExecutionFilter>
 									<action>
 										<ignore></ignore>
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.robobinding.plugins
-										</groupId>
-										<artifactId>
-											robobinding-validator
-										</artifactId>
-										<versionRange>
-											[0.8-SNAPSHOT,)
-										</versionRange>
-										<goals>
-											<goal>
-												validate-bindings
-											</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute>
-											<runOnConfiguration>false</runOnConfiguration>
-										</execute>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
