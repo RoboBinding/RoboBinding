@@ -17,10 +17,9 @@ package sample.robobinding.presentationmodel;
 
 import org.robobinding.presentationmodel.PresentationModel;
 
-import sample.robobinding.CreateEditAlbumActivity;
-import sample.robobinding.DeleteAlbumDialog;
+import sample.robobinding.activity.CreateEditAlbumActivity;
+import sample.robobinding.activity.DeleteAlbumDialog;
 import sample.robobinding.model.Album;
-import sample.robobinding.model.Genre;
 import sample.robobinding.store.AlbumStore;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -43,6 +42,11 @@ public class ViewAlbumPresentationModel
 	public ViewAlbumPresentationModel(Activity activity, long albumId)
 	{
 		this.activity = activity;
+		
+		if(albumId == Album.NO_ID)
+		{
+			throw new IllegalArgumentException("No album id is given");
+		}
 		this.albumId = albumId;
 	}
 
@@ -71,21 +75,6 @@ public class ViewAlbumPresentationModel
 		return album.isClassical() ? "Classical" : "Not classical";
 	}
 	
-	public boolean isGenreSpecified()
-	{
-		return album.getGenre() != Genre.UNSPECIFIED;
-	}
-	
-	public String getGenreLabel()
-	{
-		return album.getGenre().getLabel();
-	}
-	
-	public int getGenreIcon()
-	{
-		return album.getGenre().getIconResId();
-	}
-	
 	public void editAlbum()
 	{
 		Intent intent = new Intent(activity, CreateEditAlbumActivity.class);
@@ -104,16 +93,6 @@ public class ViewAlbumPresentationModel
 			}
 		});
 		deleteAlbumDialog.show();
-	}
-	
-	public int getNumStars()
-	{
-		return Album.MAX_RATING;
-	}
-	
-	public int getRating()
-	{
-		return album.getRating();
 	}
 	
 	public void refresh()

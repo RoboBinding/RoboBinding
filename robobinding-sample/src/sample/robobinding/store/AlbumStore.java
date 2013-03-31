@@ -111,6 +111,11 @@ public class AlbumStore
 		save(createNonClassical("Dire Straits", "Dire Straits"));
 		save(createNonClassical("Like a Virgin", "Madonna"));
 	}
+	
+	public static void emptyData()
+	{
+		albums = Lists.newArrayList();
+	}
 
 	public static Album getByIndex(int position)
 	{

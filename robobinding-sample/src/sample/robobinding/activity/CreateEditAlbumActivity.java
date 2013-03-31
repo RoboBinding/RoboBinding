@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding;
+package sample.robobinding.activity;
 
-import org.robobinding.binder.Binder;
+import org.robobinding.binder.Binders;
 
+import sample.robobinding.R;
+import sample.robobinding.model.Album;
 import sample.robobinding.presentationmodel.CreateEditAlbumPresentationModel;
 import android.app.Activity;
 import android.os.Bundle;
@@ -27,17 +29,19 @@ import android.os.Bundle;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class CreateEditAlbumActivity extends Activity {
+public class CreateEditAlbumActivity extends Activity 
+{
 
-	public static final String ALBUM_ID = "album_id";
+	public static final String ALBUM_ID = ViewAlbumActivity.ALBUM_ID;
 
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) 
+	{
         super.onCreate(savedInstanceState);
         
-        long albumId = getIntent().getLongExtra(ALBUM_ID, -1);
+        long albumId = getIntent().getLongExtra(ALBUM_ID, Album.NO_ID);
         
-        CreateEditAlbumPresentationModel createEditAlbumPresentationModel = new CreateEditAlbumPresentationModel(this, albumId);
-        Binder.bind(this, R.layout.create_edit_album_activity, createEditAlbumPresentationModel);
+        CreateEditAlbumPresentationModel presentationModel = new CreateEditAlbumPresentationModel(this, albumId);
+        Binders.bind(this, R.layout.create_edit_album_activity, presentationModel);
     }
 }
