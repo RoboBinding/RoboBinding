@@ -21,10 +21,12 @@ import static org.robobinding.attribute.Attributes.aValueModelAttribute;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
-import org.robobinding.property.DataSetValueModel;
+import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.viewattribute.ViewAttribute;
 
 /**
  *
@@ -33,24 +35,23 @@ import org.robobinding.property.DataSetValueModel;
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings({ "rawtypes", "unchecked" })
-public class SourceAttributeTest
+public class DropdownLayoutAttributeTest
 {
-	private final String attributeValue = "{property_name}";
-	private final String propertyName = "property_name";
-	@Mock DataSetAdapter<?> dataSetAdapter;
+	@Mock RowLayoutAttributeFactory rowLayoutAttributeFactory;
+	@InjectMocks DropdownLayoutAttribute itemLayoutAttribute;
 	@Mock BindingContext bindingContext;
-	@Mock DataSetValueModel dataSetValueModel;
+	@Mock ViewAttribute layoutAttribute;
 	
 	@Test
-	public void whenBinding_thenSetDataSetValueModelOnDataSetAdapter()
+	public void shouldInitializeDropdownLayoutAttributeFromFactory()
 	{
-		when(bindingContext.getDataSetPropertyValueModel(propertyName)).thenReturn(dataSetValueModel);		
-		SourceAttribute sourceAttribute = new SourceAttribute(dataSetAdapter);
-		sourceAttribute.setAttribute(aValueModelAttribute(attributeValue));
+		ValueModelAttribute propertyAttribute = aValueModelAttribute("{dropdownLayout}");
+		when(rowLayoutAttributeFactory.createDropdownLayoutAttribute(propertyAttribute)).thenReturn(layoutAttribute);
 		
-		sourceAttribute.bindTo(bindingContext);
+		itemLayoutAttribute.setAttribute(propertyAttribute);
+		itemLayoutAttribute.bindTo(bindingContext);
 		
-		verify(dataSetAdapter).setValueModel(dataSetValueModel);
+		verify(layoutAttribute).bindTo(bindingContext);
 	}
+
 }

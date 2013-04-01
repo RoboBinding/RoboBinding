@@ -19,6 +19,7 @@ import static org.robobinding.attribute.ChildAttributeResolvers.staticResourceAt
 import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
 
 import org.robobinding.BindingContext;
+import org.robobinding.ViewBinder;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
@@ -102,7 +103,8 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 		@Override
 		public void bindTo(BindingContext bindingContext)
 		{
-			subView = bindingContext.inflateViewAndBindTo(layoutId, attribute);
+			ViewBinder viewBinder = bindingContext.createViewBinder();
+			subView = viewBinder.inflateAndBind(layoutId, attribute);
 			subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
 		}
 		
@@ -118,7 +120,8 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 		@Override
 		public void bindTo(BindingContext bindingContext)
 		{
-			subView = bindingContext.inflateView(layoutId);
+			ViewBinder viewBinder = bindingContext.createViewBinder();
+			subView = viewBinder.inflate(layoutId);
 			subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
 		}
 	}

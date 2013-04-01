@@ -52,6 +52,7 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 	public void whenUpdatingValueModel_thenSelectedItemShouldBeUpdated()
 	{
 		int index = RandomValues.anyIndex(arrayAdapter.getCount());
+		
 		valueModel.setValue(index);
 		
 		assertThat(view.getSelectedItemPosition(), is(index));
@@ -61,6 +62,7 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 	public void whenUpdatingSelectedItem_thenPresentationModelShouldBeUpdated()
 	{
 		int index = RandomValues.anyIndex(arrayAdapter.getCount());
+		
 		view.setSelection(index);
 		
 		assertThat(valueModel.getValue(), is(index));
@@ -70,6 +72,7 @@ public class SelectedItemPositionAttributeTest extends AbstractPropertyViewAttri
 	public void whenAllItemsAreRemovedFromAdapter_thenSelectedItemPositionShouldEqualInvalidPosition()
 	{
 		arrayAdapter.clear();
+		
 		arrayAdapter.notifyDataSetChanged();
 		
 		assertThat(valueModel.getValue(), is(AdapterView.INVALID_POSITION));

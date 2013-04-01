@@ -52,6 +52,12 @@ public class MockPropertyViewAttributeConfigBuilder<ViewType extends View>
 		return aPropertyViewAttributeConfig(view, aValueModelAttribute(propertyName));
 	}
 
+
+	public static <ViewType extends View> PropertyViewAttributeConfig<ViewType> aPropertyViewAttributeConfig(ViewType view)
+	{
+		return aPropertyViewAttributeConfig(view, aValueModelAttribute("someproperty"));
+	}
+	
 	private MockPropertyViewAttributeConfigBuilder<ViewType> withViewAndAttribute(ViewType view, ValueModelAttribute attribute)
 	{
 		when(config.getView()).thenReturn(view);

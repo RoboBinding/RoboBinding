@@ -17,13 +17,9 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.AbstractPropertyAttribute;
-import org.robobinding.attribute.StaticResourceAttribute;
-import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 import org.robobinding.viewattribute.ViewAttribute;
 
-import android.widget.AdapterView;
 
 /**
  * 
@@ -33,29 +29,23 @@ import android.widget.AdapterView;
  */
 public class ItemLayoutAttribute implements ChildViewAttributeWithAttribute<AbstractPropertyAttribute>
 {
-	private final AdapterView<?> adapterView;
-	protected final DataSetAdapter<?> dataSetAdapter;
-	ViewAttribute layoutAttribute;
+	protected RowLayoutAttributeFactory layoutAttributeFactory;
+	private ViewAttribute layoutAttribute;
 	
-	public ItemLayoutAttribute(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter)
+	public ItemLayoutAttribute(RowLayoutAttributeFactory layoutAttributeFactory)
 	{
-		this.adapterView = adapterView;
-		this.dataSetAdapter = dataSetAdapter;
+		this.layoutAttributeFactory = layoutAttributeFactory;
 	}
 
 	@Override
 	public void setAttribute(AbstractPropertyAttribute attribute)
 	{
-		AbstractPropertyAttribute propertyAttribute = attribute;
-		if (propertyAttribute.isStaticResource())
-			layoutAttribute = new StaticLayoutAttribute(propertyAttribute.asStaticResourceAttribute());
-		else
-		{
-			DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute();
-			dynamicLayoutAttribute.initialize(
-					new PropertyViewAttributeConfig<AdapterView<?>>(adapterView, propertyAttribute.asValueModelAttribute()));
-			layoutAttribute = dynamicLayoutAttribute;
-		}
+		layoutAttribute = createLayoutAttribute(attribute);
+	}
+	
+	protected ViewAttribute createLayoutAttribute(AbstractPropertyAttribute attribute) 
+	{
+		return layoutAttributeFactory.createItemLayoutAttribute(attribute);
 	}
 	
 	@Override
@@ -63,48 +53,4 @@ public class ItemLayoutAttribute implements ChildViewAttributeWithAttribute<Abst
 	{
 		layoutAttribute.bindTo(bindingContext);		
 	}
-	
-	protected void updateLayoutId(int layoutId)
-	{
-		dataSetAdapter.setItemLayoutId(layoutId);
-	}
-	
-	@SuppressWarnings({"rawtypes", "unchecked"})
-	class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer>
-	{
-		public DynamicLayoutAttribute()
-		{
-			super(true);
-		}
-		
-		@Override
-		protected void valueModelUpdated(Integer newItemLayoutId)
-		{
-			updateLayoutId(newItemLayoutId);
-			((AdapterView)view).setAdapter(dataSetAdapter);
-		}
-	}
-	
-	class StaticLayoutAttribute implements ViewAttribute
-	{
-		private StaticResourceAttribute attributeValue;
-
-		public StaticLayoutAttribute(StaticResourceAttribute attributeValue)
-		{
-			this.attributeValue = attributeValue;
-		}
-
-		@Override
-		public void bindTo(BindingContext bindingContext)
-		{
-			int itemLayoutId = attributeValue.getResourceId(bindingContext.getContext());
-			updateLayoutId(itemLayoutId);
-		}
-
-		@Override
-		public void preInitializeView(BindingContext bindingContext)
-		{
-		}
-	}
-
 }

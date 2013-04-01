@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2013 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +15,13 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.attribute.AbstractPropertyAttribute;
-import org.robobinding.viewattribute.ViewAttribute;
-
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
+ * @author Robert
  */
-public class DropdownLayoutAttribute extends ItemLayoutAttribute
+public interface DataSetAdapterRowLayoutUpdater
 {
-	public DropdownLayoutAttribute(RowLayoutAttributeFactory rowLayoutAttributeFactory)
-	{
-		super(rowLayoutAttributeFactory);
-	}
-
-	@Override
-	protected ViewAttribute createLayoutAttribute(AbstractPropertyAttribute attribute)
-	{
-		return layoutAttributeFactory.createDropdownLayoutAttribute(attribute);
-	}
+	void updateRowLayout(int layoutId);
 }

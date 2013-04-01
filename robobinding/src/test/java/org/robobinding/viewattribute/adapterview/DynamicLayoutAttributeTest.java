@@ -15,15 +15,17 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.robobinding.viewattribute.MockPropertyViewAttributeConfigBuilder.aPropertyViewAttributeConfig;
+import static org.robobinding.viewattribute.RandomValues.anyInteger;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.BindingAttributeValues;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
-import org.robobinding.viewattribute.RandomValues;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import android.widget.AdapterView;
 
 
 /**
@@ -32,36 +34,38 @@ import org.robobinding.viewattribute.RandomValues;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class DynamicItemLayoutAttributeTest extends AbstractDynamicLayoutAttributeTest
+@RunWith(MockitoJUnitRunner.class)
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class DynamicLayoutAttributeTest
 {
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Before
-	public void setUp()
+	@Mock AdapterView adapterView;
+	@Mock DataSetAdapter<?> dataSetAdapter;
+	@Mock DataSetAdapterRowLayoutUpdater dataSetAdapterRowLayoutUpdater;
+	private DynamicLayoutAttribute dynamicLayoutAttribute;
+	
+	@Before 
+	public void setup() 
 	{
-		dynamicLayoutAttribute = new ItemLayoutAttribute(adapterView, dataSetAdapter).new DynamicLayoutAttribute();
-		dynamicLayoutAttribute.initialize((PropertyViewAttributeConfig)aPropertyViewAttributeConfig(adapterView, BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME));
+		dynamicLayoutAttribute = new DynamicLayoutAttribute(aPropertyViewAttributeConfig(adapterView), dataSetAdapter, dataSetAdapterRowLayoutUpdater);
 	}
 	
 	@Test
 	public void givenBound_whenUpdatingValueModel_thenUpdateItemLayoutIdOnDataSetAdapter()
 	{
-		DynamicLayoutAttributeUtils.bindAttribute(dynamicLayoutAttribute);
+		int newItemLayoutId = anyInteger();
 		
-		int newItemLayoutId = RandomValues.anyInteger();
 		dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
 		
-		verify(dataSetAdapter).setItemLayoutId(newItemLayoutId);
+		verify(dataSetAdapterRowLayoutUpdater).updateRowLayout(newItemLayoutId);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Test
 	public void givenBound_whenUpdatingValueModel_thenUpdateAdapterOnAdapterView()
 	{
-		DynamicLayoutAttributeUtils.bindAttribute(dynamicLayoutAttribute);
+		int newItemLayoutId = anyInteger();
 		
-		int newItemLayoutId = RandomValues.anyInteger();
 		dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
 		
-		verify(adapterView, times(2)).setAdapter(dataSetAdapter);
+		verify(adapterView).setAdapter(dataSetAdapter);
 	}
 }

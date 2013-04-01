@@ -15,13 +15,17 @@
  */
 package org.robobinding;
 
-import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.BinderImplementorFactory;
+import org.robobinding.InternalViewBinder;
+import org.robobinding.ItemBinder;
+import org.robobinding.ViewBinder;
+import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
+import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.ValueModel;
 
 import android.content.Context;
-import android.view.View;
 
 /**
  * 
@@ -29,7 +33,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BindingContext
+public class BindingContext implements PresentationModelAdapter
 {
 	private final BinderImplementorFactory binderImplementorFactory;
 	private final Context context;
@@ -44,11 +48,6 @@ public class BindingContext
 		this.preInitializeViews = preInitializeViews;
 	}
 
-	public PresentationModelAdapter getPresentationModelAdapter()
-	{
-		return presentationModelAdapter;
-	}
-
 	public Context getContext()
 	{
 		return context;
@@ -58,34 +57,45 @@ public class BindingContext
 	{
 		return new ItemBinder(binderImplementorFactory.create());
 	}
-
-	public View inflateView(int layoutId)
-	{
-		ViewBinder viewBinder = createViewBinder();
-		return viewBinder.inflate(layoutId);
-	}
 	
-	private ViewBinder createViewBinder()
+	public ViewBinder createViewBinder()
 	{
-		return new ViewBinder(binderImplementorFactory.create());
-	}
-
-	public View inflateViewAndBindTo(int layoutId, ValueModelAttribute presentationModelAttribute)
-	{
-		ViewBinder viewBinder = createViewBinder();
-		Object presentationModel = getPresentationModel(presentationModelAttribute);
-		return viewBinder.inflateAndBind(layoutId, presentationModel);
-	}
-
-	private Object getPresentationModel(ValueModelAttribute presentationModelAttributeValue)
-	{
-		PresentationModelAdapter presentationModelAdapter = getPresentationModelAdapter();
-		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(presentationModelAttributeValue.getPropertyName());
-		return valueModel.getValue();
+		InternalViewBinder internalBinder = new InternalViewBinder(binderImplementorFactory.create());
+		return new ViewBinder(internalBinder, this);
 	}
 
 	public boolean shouldPreInitializeViews()
 	{
 		return preInitializeViews;
+	}
+	
+		public DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName)
+	{
+		return presentationModelAdapter.getDataSetPropertyValueModel(propertyName);
+	}
+
+	public Class<?> getPropertyType(String propertyName)
+	{
+		return presentationModelAdapter.getPropertyType(propertyName);
+	}
+
+	public <T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName)
+	{
+		return presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
+	}
+
+	public <T> ValueModel<T> getPropertyValueModel(String propertyName)
+	{
+		return presentationModelAdapter.getPropertyValueModel(propertyName);
+	}
+
+	public Function findFunction(String functionName, Class<?>... parameterTypes)
+	{
+		return presentationModelAdapter.findFunction(functionName, parameterTypes);
+	}
+
+	public String getPresentationModelClassName()
+	{
+		return presentationModelAdapter.getClass().getName();
 	}
 }
