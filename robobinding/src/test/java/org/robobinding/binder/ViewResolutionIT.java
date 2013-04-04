@@ -59,7 +59,7 @@ public class ViewResolutionIT
 	@Test
 	public void givenASingleView_whenResolvingValidBindingAttributes_thenReturnResolvedBindingAttributes()
 	{
-		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
 					.withAttribute("text", "${name}")
 					.withAttribute("onTextChanged", "onNameChanged")
@@ -201,7 +201,7 @@ public class ViewResolutionIT
 		return aPendingAttributesForView(adapterView);
 	}
 
-	private ResolvedBindingAttributes resolveBindingAttributes(PendingAttributesForView pendingAttributesForView)
+	private ResolvedBindingAttributesForView resolveBindingAttributes(PendingAttributesForView pendingAttributesForView)
 	{
 		ViewResolutionResult resolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
 		resolutionResult.assertNoErrors();

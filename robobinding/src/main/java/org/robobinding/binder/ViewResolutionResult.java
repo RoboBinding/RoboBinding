@@ -25,16 +25,16 @@ import org.robobinding.ViewResolutionErrors;
  */
 public class ViewResolutionResult
 {
-	private ResolvedBindingAttributes resolvedBindingAttributes;
+	private ResolvedBindingAttributesForView resolvedBindingAttributes;
 	private ViewResolutionErrors error;
 
-	public ViewResolutionResult(ResolvedBindingAttributes resolvedBindingAttributes, ViewResolutionErrors error)
+	public ViewResolutionResult(ResolvedBindingAttributesForView resolvedBindingAttributes, ViewResolutionErrors error)
 	{
 		this.resolvedBindingAttributes = resolvedBindingAttributes;
 		this.error = error;
 	}
 
-	public ResolvedBindingAttributes getResolvedBindingAttributes()
+	public ResolvedBindingAttributesForView getResolvedBindingAttributes()
 	{
 		return resolvedBindingAttributes;
 	}

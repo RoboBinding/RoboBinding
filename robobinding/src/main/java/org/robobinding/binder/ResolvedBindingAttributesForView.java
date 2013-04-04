@@ -15,6 +15,8 @@
  */
 package org.robobinding.binder;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -25,8 +27,6 @@ import org.robobinding.viewattribute.ViewAttribute;
 
 import android.view.View;
 
-import com.google.common.collect.Lists;
-
 /**
  * 
  * @since 1.0
@@ -34,15 +34,15 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class ResolvedBindingAttributes
+public class ResolvedBindingAttributesForView
 {
 	private View view;
 	private final List<ViewAttribute> viewAttributes;
 	
-	ResolvedBindingAttributes(View view)
+	ResolvedBindingAttributesForView(View view)
 	{
 		this.view = view;
-		this.viewAttributes = Lists.newArrayList();
+		this.viewAttributes = newArrayList();
 	}
 	
 	void add(Collection<ViewAttribute> viewAttributes)

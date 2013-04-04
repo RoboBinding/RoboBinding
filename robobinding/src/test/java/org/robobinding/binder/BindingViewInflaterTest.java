@@ -74,7 +74,7 @@ public class BindingViewInflaterTest
 	
 	private ViewResolutionResult emptyViewResolutionResult()
 	{
-		ResolvedBindingAttributes viewBindingAttributes = mock(ResolvedBindingAttributes.class);
+		ResolvedBindingAttributesForView viewBindingAttributes = mock(ResolvedBindingAttributesForView.class);
 		ViewResolutionErrors errors = mock(ViewResolutionErrors.class);
 		return new ViewResolutionResult(viewBindingAttributes, errors);
 	}
@@ -136,7 +136,7 @@ public class BindingViewInflaterTest
 
 	private int numberOfChildViewBindingAttributes(InflatedView inflatedView)
 	{
-		List<ResolvedBindingAttributes> childViewBindingAttributesGroup = inflatedView.childViewBindingAttributesGroup;
+		List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup = inflatedView.childViewBindingAttributesGroup;
 		return childViewBindingAttributesGroup.size();
 	}
 	

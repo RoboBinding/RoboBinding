@@ -85,7 +85,7 @@ public class ViewBindingIT
 	@Test
 	public void whenBindingValidResolvedAttributes_thenShouldNotThrowException()
 	{
-		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
 					.withAttribute("text", "${name}")
 					.build());
@@ -97,7 +97,7 @@ public class ViewBindingIT
 	@Test(expected = ViewBindingErrors.class)
 	public void whenBindingInvalidResolvedPropertyAttributes_thenThrowException()
 	{
-		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
 					.withAttribute("text", "${nonExistentProperties}")
 					.build());
@@ -109,7 +109,7 @@ public class ViewBindingIT
 	@Test(expected = ViewBindingErrors.class)
 	public void whenBindingInvalidResolvedCommandAttributes_thenThrowException()
 	{
-		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
 					.withAttribute("onTextChanged", "setName")
 					.build());
@@ -121,7 +121,7 @@ public class ViewBindingIT
 	@Test
 	public void whenBindingMultipleInvalidResolvedAttributes_thenThrowExceptionReferringToEachOne()
 	{
-		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForEditText()
 				.withAttribute("visibility", "{nonExistentProperty}")
 				.withAttribute("onTextChanged", "setName")
@@ -143,7 +143,7 @@ public class ViewBindingIT
 	@Test
 	public void whenBindingMultipleInvalidResolvedGroupChildAttributes_thenThrowExceptionReferringToEachOne()
 	{
-		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForAdapterView()
 				.withAttribute("source", "{nonExistentProperty}")
 				.withAttribute("itemLayout", "@layout/non_existent_layout")
@@ -165,7 +165,7 @@ public class ViewBindingIT
 	@Test
 	public void whenBindingMultipleInvalidResolvedSubViewAttributes_thenThrowExceptionReferringToFirstFailure()
 	{
-		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForAdapterView()
 				.withAttribute("itemLayout", "{layout}")
 				.withAttribute("source", "{dataSource}")
@@ -189,7 +189,7 @@ public class ViewBindingIT
 	@Test (expected = ProgrammingError.class)
 	public void whenAnUnexpectedExceptionIsThrownDuringBinding_thenErrorShouldNotBeSuppressed()
 	{
-		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForBuggyCustomView()
 				.withAttribute(BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE, "{name}")
 				.build());
@@ -200,7 +200,7 @@ public class ViewBindingIT
 	@Test (expected = ProgrammingError.class)
 	public void whenAnUnexpectedExceptionIsThrownDuringGroupChildAttributeBinding_thenErrorShouldNotBeSuppressed()
 	{
-		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForBuggyCustomView()
 				.withAttribute(BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE, "{name}")
 				.build());
@@ -214,7 +214,7 @@ public class ViewBindingIT
 		ListView listView = new ListView(new Activity());
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		
-		ResolvedBindingAttributes resolvedBindingAttributes = resolveBindingAttributes(
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(
 				aPendingAttributesForView(listView)
 				.withAttribute("checkedItemPositions", "{checkedItemPositions}")
 				.withAttribute("itemLayout", "{layout}")
@@ -247,7 +247,7 @@ public class ViewBindingIT
 		return aPendingAttributesForView(buggyCustomView);
 	}
 	
-	private ResolvedBindingAttributes resolveBindingAttributes(PendingAttributesForView pendingAttributesForView)
+	private ResolvedBindingAttributesForView resolveBindingAttributes(PendingAttributesForView pendingAttributesForView)
 	{
 		ViewResolutionResult resolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
 		resolutionResult.assertNoErrors();

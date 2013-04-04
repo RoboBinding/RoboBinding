@@ -15,6 +15,8 @@
  */
 package org.robobinding.binder;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,7 @@ class BindingViewInflater implements ViewFactoryListener
 	BindingAttributeParser bindingAttributeParser;
 	
 	private ViewHierarchyInflationErrorsException errors;
-	private List<ResolvedBindingAttributes> childViewBindingAttributesGroup;
+	private List<ResolvedBindingAttributesForView> resolvedBindingAttributesForChildViews;
 
 	BindingViewInflater(Builder builder)
 	{
@@ -76,13 +78,13 @@ class BindingViewInflater implements ViewFactoryListener
 
 	public InflatedView inflateView(int layoutId)
 	{
-		childViewBindingAttributesGroup = Lists.newArrayList();
+		resolvedBindingAttributesForChildViews = newArrayList();
 		errors = new ViewHierarchyInflationErrorsException();
 		
 		View rootView = viewInflator.inflateView(layoutId);
 		addPredefinedPendingAttributesForViewGroup(rootView);
 		
-		return new InflatedView(rootView, childViewBindingAttributesGroup, errors);
+		return new InflatedView(rootView, resolvedBindingAttributesForChildViews, errors);
 	}
 
 	private void addPredefinedPendingAttributesForViewGroup(View rootView)
@@ -109,7 +111,7 @@ class BindingViewInflater implements ViewFactoryListener
 	{
 		ViewResolutionResult viewResolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
 		viewResolutionResult.addPotentialErrorTo(errors);
-		childViewBindingAttributesGroup.add(viewResolutionResult.getResolvedBindingAttributes());
+		resolvedBindingAttributesForChildViews.add(viewResolutionResult.getResolvedBindingAttributes());
 	}
 
 	public static class Builder
@@ -152,10 +154,10 @@ class BindingViewInflater implements ViewFactoryListener
 	static class InflatedView
 	{
 		private View rootView;
-		List<ResolvedBindingAttributes> childViewBindingAttributesGroup;
+		List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup;
 		private ViewHierarchyInflationErrorsException errors;
 
-		private InflatedView(View rootView, List<ResolvedBindingAttributes> childViewBindingAttributesGroup, ViewHierarchyInflationErrorsException errors)
+		private InflatedView(View rootView, List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup, ViewHierarchyInflationErrorsException errors)
 		{
 			this.rootView = rootView;
 			this.childViewBindingAttributesGroup = childViewBindingAttributesGroup;
@@ -169,7 +171,7 @@ class BindingViewInflater implements ViewFactoryListener
 
 		public void bindChildViews(BindingContext bindingContext)
 		{
-			for (ResolvedBindingAttributes viewBindingAttributes : childViewBindingAttributesGroup)
+			for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup)
 				errors.addViewBindingError(viewBindingAttributes.bindTo(bindingContext));
 		}
 
@@ -180,7 +182,7 @@ class BindingViewInflater implements ViewFactoryListener
 
 		public void preinitializeViews(BindingContext bindingContext)
 		{
-			for (ResolvedBindingAttributes viewBindingAttributes : childViewBindingAttributesGroup)
+			for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup)
 			{
 				viewBindingAttributes.preinitializeView(bindingContext);
 			}

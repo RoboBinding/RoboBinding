@@ -38,7 +38,7 @@ public class BindingAttributeResolver
 {
 	BindingAttributeProvidersResolver providersResolver;
 	private ViewAttributeInitializer viewAttributeInitializer;
-	private ResolvedBindingAttributes resolvedBindingAttributes;
+	private ResolvedBindingAttributesForView resolvedBindingAttributes;
 
 	public BindingAttributeResolver()
 	{
@@ -58,7 +58,7 @@ public class BindingAttributeResolver
 
 	private void initializeNewResolving(View view)
 	{
-		resolvedBindingAttributes = new ResolvedBindingAttributes(view);
+		resolvedBindingAttributes = new ResolvedBindingAttributesForView(view);
 		viewAttributeInitializer = new ViewAttributeInitializer();
 	}
 
