@@ -40,11 +40,6 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	}
 	
 	@Override
-	public final void preInitializeView(BindingContext bindingContext)
-	{
-	}
-	
-	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
 		try
@@ -98,4 +93,9 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	protected abstract void bind(Command command);
 
 	protected abstract Class<?> getPreferredCommandParameterType();
+
+	@Override
+	public final void preInitializeView(BindingContext bindingContext)
+	{
+	}
 }

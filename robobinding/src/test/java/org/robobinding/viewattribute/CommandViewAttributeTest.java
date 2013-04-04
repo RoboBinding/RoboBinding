@@ -91,17 +91,6 @@ public final class CommandViewAttributeTest extends ViewAttributeContractTest<Ab
 		bindAttribute();
 	}
 	
-	/**
-	 * TODO: Ignored by Cheng. As discussed, we remove validation and assume framework will provide a valid ViewAttributeConfig. 
-	 */
-	@Ignore@Test (expected=IllegalStateException.class)
-	public void givenAnAttributeWhosePropertiesHaveNotBeenSet_whenBinding_thenThrowException()
-	{
-		commandViewAttribute = new DummyCommandViewAttribute();
-		
-		bindAttribute();
-	}
-	
 	public class DummyCommandViewAttribute extends AbstractCommandViewAttribute<View>
 	{
 		Function functionBound;

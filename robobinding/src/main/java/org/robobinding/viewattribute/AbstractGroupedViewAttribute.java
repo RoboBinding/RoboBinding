@@ -74,12 +74,6 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	{
 	}
 
-	@Override
-	public final void preInitializeView(BindingContext bindingContext)
-	{
-		childViewAttributes.preInitializeView(bindingContext);
-	}
-	
 	protected abstract void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext);
 
 	@Override
@@ -101,6 +95,12 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 	protected String[] getCompulsoryAttributes()
 	{
 		return NO_COMPULSORY_ATTRIBUTES;
+	}
+
+	@Override
+	public final void preInitializeView(BindingContext bindingContext)
+	{
+		childViewAttributes.preInitializeView(bindingContext);
 	}
 
 	private class ViewAttributeInitializer extends AbstractViewAttributeInitializer

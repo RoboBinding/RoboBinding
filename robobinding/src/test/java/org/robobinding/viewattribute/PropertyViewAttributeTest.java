@@ -26,7 +26,6 @@ import static org.robobinding.attribute.MockValueModelAttributeBuilder.aValueMod
 import static org.robobinding.viewattribute.MockPropertyViewAttributeConfigBuilder.aPropertyViewAttributeConfig;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.BindingContext;
 import org.robobinding.MockBindingContext;
@@ -134,16 +133,6 @@ public final class PropertyViewAttributeTest extends ViewAttributeContractTest<P
 		
 		assertTrue(attribute.viewInitialized);
 		assertThat(attribute.viewUpdateNotificationCount, is(1));
-	}
-	
-	/**
-	 * TODO: Ignored by Cheng. As discussed, we remove validation and assume framework will provide a valid ViewAttributeConfig. 
-	 */
-	@Ignore@Test (expected=IllegalStateException.class)
-	public void whenBindingWithoutSettingAllValues_thenShouldThrowException()
-	{
-		PropertyViewAttributeSpy propertyViewAttribute = new PropertyViewAttributeSpy();
-		propertyViewAttribute.bindTo(MockBindingContext.create(presentationModelAdapter, context));
 	}
 	
 	private void setupAndBindAttribute(boolean twoWayBinding, boolean preInitializeView)

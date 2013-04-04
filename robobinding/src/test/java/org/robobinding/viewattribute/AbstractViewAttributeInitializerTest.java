@@ -42,7 +42,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AbstractViewAttributeInitializerForTest
+public class AbstractViewAttributeInitializerTest
 {
 	private AbstractViewAttributeInitializer viewAttributeInitializer;
 	private View view;
@@ -82,6 +82,9 @@ public class AbstractViewAttributeInitializerForTest
 		verify(viewAttribute).initialize(eq(new PropertyViewAttributeConfig<View>(view, attribute)));
 	}
 	
+	/**
+	 * TODO: to be moved to ViewListenersInjector unit test class.
+	 */
 	@Test
 	public void whenInvokingOnViewListenersAwarePropertyViewAttribute_thenViewListenersCorrectlySet()
 	{

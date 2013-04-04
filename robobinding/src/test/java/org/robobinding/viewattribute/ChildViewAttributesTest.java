@@ -183,7 +183,7 @@ public class ChildViewAttributesTest
 		}catch(AttributeGroupBindingException e)
 		{
 			propertyViewAttribute1.verifyNumCallsToBindTo(1);
-			propertyViewAttribute1.verifyNumCallsToBindTo(1);
+			propertyViewAttribute2.verifyNumCallsToBindTo(1);
 		}
 	}
 	

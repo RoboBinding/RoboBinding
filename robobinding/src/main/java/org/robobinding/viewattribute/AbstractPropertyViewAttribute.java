@@ -66,23 +66,6 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	}
 
 	@Override
-	public void preInitializeView(BindingContext bindingContext)
-	{
-		if(withAlwaysPreInitializingView)
-		{
-			return;
-		}
-		
-		try
-		{
-			bindingProperty.preInitializeView(bindingContext);
-		}catch(RuntimeException e)
-		{
-			throw new AttributeBindingException(attribute.getName(), e);
-		}
-	}
-	
-	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
 		try
@@ -101,6 +84,23 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	protected abstract void valueModelUpdated(PropertyType newValue);
 	protected abstract void observeChangesOnTheView(final ValueModel<PropertyType> valueModel);
 	
+	@Override
+	public void preInitializeView(BindingContext bindingContext)
+	{
+		if(withAlwaysPreInitializingView)
+		{
+			return;
+		}
+		
+		try
+		{
+			bindingProperty.preInitializeView(bindingContext);
+		}catch(RuntimeException e)
+		{
+			throw new AttributeBindingException(attribute.getName(), e);
+		}
+	}
+
 	private abstract class AbstractBindingProperty
 	{
 		public void preInitializeView(BindingContext bindingContext)
