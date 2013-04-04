@@ -53,7 +53,7 @@ public class GroupAttributes
 				groupResolutionErrors.add(e);
 			}
 		}
-
+		
 		groupResolutionErrors.assertNoErrors();
 	}
 

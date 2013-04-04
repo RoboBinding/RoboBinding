@@ -15,12 +15,16 @@
  */
 package org.robobinding.viewattribute.absspinner;
 
+import static org.robobinding.attribute.ChildAttributeResolvers.predefinedMappingsAttributeResolver;
+import static org.robobinding.attribute.ChildAttributeResolvers.propertyAttributeResolver;
+
 import org.apache.commons.lang3.ArrayUtils;
+import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
+import org.robobinding.viewattribute.ChildViewAttributes;
 import org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes;
 import org.robobinding.viewattribute.adapterview.DropdownLayoutAttribute;
 import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
-import static org.robobinding.attribute.ChildAttributeResolvers.*;
 
 import android.widget.AbsSpinner;
 
@@ -34,7 +38,7 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 {
 	public static final String DROPDOWN_LAYOUT = "dropdownLayout";
 	public static final String DROPDOWN_MAPPING = "dropdownMapping";
-	
+
 	@Override
 	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
 	{
@@ -50,14 +54,14 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 	}
 
 	@Override
-	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+	protected void setupChildViewAttributes(ChildViewAttributes<AbsSpinner> childViewAttributes, BindingContext bindingContext)
 	{
-		super.setupChildAttributeBindings(binding);
+		super.setupChildViewAttributes(childViewAttributes, bindingContext);
 		
-		if (groupAttributes.hasAttribute(DROPDOWN_LAYOUT))
-			binding.add(DROPDOWN_LAYOUT, new DropdownLayoutAttribute(view, dataSetAdapter));
+		if (childViewAttributes.hasAttribute(DROPDOWN_LAYOUT))
+			childViewAttributes.add(DROPDOWN_LAYOUT, new DropdownLayoutAttribute(view, dataSetAdapter));
 		
-		if (groupAttributes.hasAttribute(DROPDOWN_MAPPING))
-			binding.add(DROPDOWN_MAPPING, new DropdownMappingAttribute(dataSetAdapter));
+		if (childViewAttributes.hasAttribute(DROPDOWN_MAPPING))
+			childViewAttributes.add(DROPDOWN_MAPPING, new DropdownMappingAttribute(dataSetAdapter));
 	}
 }

@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.attribute;
+package org.robobinding.viewattribute;
+
+import android.view.View;
+
 
 /**
  *
@@ -21,9 +24,7 @@ package org.robobinding.attribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ChildAttributeResolverMapper
+public interface ViewListenersInjector
 {
-	void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings);
-
-	void validateResolvedChildAttributes();
+	void injectIfRequired(ViewAttribute viewAttribute, View view);
 }

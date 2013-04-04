@@ -18,8 +18,6 @@ package org.robobinding.viewattribute;
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 
@@ -33,64 +31,65 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 {
 	private T view;
 	protected ValueModelAttribute attribute;
-	private ViewListenersProvider viewListenersProvider;
 	
-	@Override
-	public void setView(T view)
-	{
-		this.view = view;
-	}
-	@Override
-	public void setAttribute(ValueModelAttribute attribute)
-	{
-		this.attribute = attribute;
-	}
+	private ViewListenersInjector viewListenersInjector;
 	
-	public void setViewListenersProvider(ViewListenersProvider viewListenersProvider)
+	private AbstractPropertyViewAttribute<T, ?> propertyViewAttribute;
+
+	public void initialize(MultiTypePropertyViewAttributeConfig<T> config)
 	{
-		this.viewListenersProvider = viewListenersProvider;
+		this.view = config.getView();
+		this.attribute = config.getAttribute();
+		this.viewListenersInjector = config.getViewListenersInjector();
 	}
 	
 	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
-		try {
+		try 
+		{
+			initializePropertyViewAttribute(bindingContext);
 			performBind(bindingContext);
 		} catch (RuntimeException e) {
 			throw new AttributeBindingException(attribute.getName(), e);
 		}
 	}
 	
-	private void performBind(BindingContext bindingContext)
+	private void initializePropertyViewAttribute(BindingContext bindingContext)
 	{
-		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
-		propertyViewAttribute.setView(view);
-		propertyViewAttribute.setAttribute(attribute);
-		setViewListenersIfRequired(propertyViewAttribute, view);
-		propertyViewAttribute.bindTo(bindingContext);
+		propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
+		viewListenersInjector.injectIfRequired(propertyViewAttribute, view);
 	}
-
-	private void setViewListenersIfRequired(ViewAttribute viewAttribute, View view)
-	{
-		if(viewAttribute instanceof ViewListenersAware)
-		{
-			ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(view, (ViewListenersAware<?>)viewAttribute);
-			@SuppressWarnings("unchecked")
-			ViewListenersAware<ViewListeners> viewListenersAware = (ViewListenersAware<ViewListeners>)viewAttribute;
-			viewListenersAware.setViewListeners(viewListeners);
-		}
-	}
-	
-	protected abstract AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType);
 
 	private AbstractPropertyViewAttribute<T, ?> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
 	{
 		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
-		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
+		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = createPropertyViewAttribute(
+				propertyType);
 		
 		if (propertyViewAttribute == null)
 			throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);
 		
+		propertyViewAttribute.initialize(new PropertyViewAttributeConfig<T>(view, attribute));
 		return propertyViewAttribute;
+	}
+
+	protected abstract AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType);
+
+	private void performBind(BindingContext bindingContext)
+	{
+		propertyViewAttribute.bindTo(bindingContext);
+	}
+
+	@Override
+	public void preInitializeView(BindingContext bindingContext)
+	{
+		try
+		{
+			propertyViewAttribute.preInitializeView(bindingContext);
+		} catch (RuntimeException e) 
+		{
+				throw new AttributeBindingException(attribute.getName(), e);
+		}
 	}
 }

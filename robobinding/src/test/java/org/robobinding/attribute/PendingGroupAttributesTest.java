@@ -32,7 +32,7 @@ import com.google.common.collect.Maps;
  */
 public class PendingGroupAttributesTest
 {
-	private PendingGroupAttributes groupedAttributeDescriptor;
+	private PendingGroupAttributes pendingGroupAttributes;
 	private String[] attributeNames;
 	@Before
 	public void setUp()
@@ -45,7 +45,7 @@ public class PendingGroupAttributesTest
 	{
 		allAttributesArePresent();
 		
-		groupedAttributeDescriptor.assertAttributesArePresent(attributeNames);
+		pendingGroupAttributes.assertAttributesArePresent(attributeNames);
 	}
 	
 	@Test (expected = MissingRequiredAttributesException.class)
@@ -53,12 +53,12 @@ public class PendingGroupAttributesTest
 	{
 		noAttributeIsPresent();
 		
-		groupedAttributeDescriptor.assertAttributesArePresent(attributeNames);
+		pendingGroupAttributes.assertAttributesArePresent(attributeNames);
 	}
 	
 	private void noAttributeIsPresent()
 	{
-		groupedAttributeDescriptor = new PendingGroupAttributes(Maps.<String, String>newHashMap());
+		pendingGroupAttributes = new PendingGroupAttributes(Maps.<String, String>newHashMap());
 	}
 	
 	private void allAttributesArePresent()
@@ -69,7 +69,7 @@ public class PendingGroupAttributesTest
 			presentAttributeMappings.put(attributeName, "attributeValue");
 		}
 		
-		groupedAttributeDescriptor = new PendingGroupAttributes(presentAttributeMappings);
+		pendingGroupAttributes = new PendingGroupAttributes(presentAttributeMappings);
 	}
 	
 	private String[] randomAttributeArray()

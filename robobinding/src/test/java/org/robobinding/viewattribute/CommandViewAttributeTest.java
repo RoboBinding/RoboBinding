@@ -19,12 +19,13 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.robobinding.viewattribute.MockCommandViewAttributeConfigBuilder.aCommandViewAttributeConfig;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.MockBindingContext;
 import org.robobinding.attribute.Command;
-import org.robobinding.attribute.CommandAttribute;
 import org.robobinding.function.Function;
 import org.robobinding.function.MockFunction;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
@@ -39,7 +40,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public final class CommandViewAttributeTest
+public final class CommandViewAttributeTest extends ViewAttributeContractTest<AbstractCommandViewAttribute<View>>
 {
 	private static final String FUNCTION_NAME = "functionName";
 	
@@ -54,8 +55,7 @@ public final class CommandViewAttributeTest
 	public void setUp()
 	{
 		commandViewAttribute = new DummyCommandViewAttribute();
-		commandViewAttribute.setView(mock(View.class));
-		commandViewAttribute.setAttribute(new CommandAttribute("name", FUNCTION_NAME));
+		commandViewAttribute.initialize(aCommandViewAttributeConfig(mock(View.class), FUNCTION_NAME));
 		presentationModelAdapter = mock(PresentationModelAdapter.class);
 	}
 	
@@ -91,14 +91,6 @@ public final class CommandViewAttributeTest
 		bindAttribute();
 	}
 	
-	@Test (expected=IllegalStateException.class)
-	public void givenAnAttributeWhosePropertiesHaveNotBeenSet_whenBinding_thenThrowException()
-	{
-		commandViewAttribute = new DummyCommandViewAttribute();
-		
-		bindAttribute();
-	}
-	
 	public class DummyCommandViewAttribute extends AbstractCommandViewAttribute<View>
 	{
 		Function functionBound;
@@ -115,5 +107,42 @@ public final class CommandViewAttributeTest
 			return ItemClickEvent.class;
 		}
 		
+	}
+
+	@Test@Ignore@Override
+	public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow()
+	{
+	}
+	
+	@Override
+	protected AbstractCommandViewAttribute<View> throwsExceptionDuringPreInitializingView()
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected AbstractCommandViewAttribute<View> throwsExceptionDuringBinding()
+	{
+		return new ThrowsExceptionDuringBinding();
+	}
+	
+	private static class ThrowsExceptionDuringBinding extends AbstractCommandViewAttribute<View>
+	{
+		public ThrowsExceptionDuringBinding()
+		{
+			initialize(aCommandViewAttributeConfig(mock(View.class), FUNCTION_NAME));
+		}
+		
+		@Override
+		protected void bind(Command command)
+		{
+			throw new RuntimeException();
+		}
+		
+		@Override
+		protected Class<?> getPreferredCommandParameterType()
+		{
+			return Integer.class;
+		}
 	}
 }

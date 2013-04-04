@@ -20,7 +20,7 @@ import java.util.Collection;
 import org.robobinding.BindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.attribute.PredefinedMappingsAttribute;
-import org.robobinding.viewattribute.ChildViewAttribute;
+import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
 
 /**
  *
@@ -28,7 +28,7 @@ import org.robobinding.viewattribute.ChildViewAttribute;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemMappingAttribute implements ChildViewAttribute<PredefinedMappingsAttribute>
+public class ItemMappingAttribute implements ChildViewAttributeWithAttribute<PredefinedMappingsAttribute>
 {
 	private PredefinedMappingsAttribute mappingsAttribute;
 	protected Collection<PredefinedPendingAttributesForView> viewMappings;

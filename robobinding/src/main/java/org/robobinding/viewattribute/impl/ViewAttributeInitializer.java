@@ -21,8 +21,9 @@ import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractViewAttributeInitializer;
+import org.robobinding.viewattribute.GroupedViewAttributeConfig;
 import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewListenersProvider;
+import org.robobinding.viewattribute.ViewListenersInjector;
 
 import android.view.View;
 
@@ -35,46 +36,46 @@ import android.view.View;
  */
 public class ViewAttributeInitializer
 {
-	ViewListenersProvider viewListenersProvider;
-	ViewAttributeInitializerImplementor viewAttributeInitializerImplementor;
+	ViewListenersInjector viewListenersInjector;
+	ViewAttributeInitializerDelegate delegate;
 
 	public ViewAttributeInitializer()
 	{
-		this.viewListenersProvider = new ViewListenersProviderImpl();
-		viewAttributeInitializerImplementor = new ViewAttributeInitializerImplementor(viewListenersProvider);
+		this.viewListenersInjector = new ViewListenersProvider();
+		delegate = new ViewAttributeInitializerDelegate(viewListenersInjector);
 	}
 
-	public <PropertyViewAttributeType extends PropertyViewAttribute<? extends View>> PropertyViewAttributeType initializePropertyViewAttribute(
-			View view, PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attributeValue)
+	public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> PropertyViewAttributeType initializePropertyViewAttribute(
+			ViewType view, PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute)
 	{
-		viewAttributeInitializerImplementor.setCurrentView(view);
-		return viewAttributeInitializerImplementor.newPropertyViewAttribute(propertyViewAttribute, attributeValue);
+		delegate.setCurrentView(view);
+		delegate.<ViewType, PropertyViewAttributeType>initializePropertyViewAttribute(propertyViewAttribute, attribute);
+		return propertyViewAttribute;
 	}
 
-	public <CommandViewAttributeType extends AbstractCommandViewAttribute<? extends View>> CommandViewAttributeType initializeCommandViewAttribute(
-			View view, CommandViewAttributeType commandViewAttribute, CommandAttribute attributeValue)
+	public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> CommandViewAttributeType initializeCommandViewAttribute(
+			ViewType view, CommandViewAttributeType commandViewAttribute, CommandAttribute attribute)
 	{
-		viewAttributeInitializerImplementor.setCurrentView(view);
-		return viewAttributeInitializerImplementor.newCommandViewAttribute(commandViewAttribute, attributeValue);
+		delegate.setCurrentView(view);
+		delegate.<ViewType, CommandViewAttributeType>initializeCommandViewAttribute(commandViewAttribute, attribute);
+		return commandViewAttribute;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType initializeGroupedViewAttribute(
-			View view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes groupedAttributeDescriptor)
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public <ViewType extends View, GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType initializeGroupedViewAttribute(
+			ViewType view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes pendingGroupAttributes)
 	{
-		((AbstractGroupedViewAttribute<View>) groupedViewAttribute).setView(view);
-		groupedViewAttribute.resolvePendingGroupAttributes(groupedAttributeDescriptor);
-		groupedViewAttribute.setViewListenersProvider(viewListenersProvider);
+		groupedViewAttribute.initialize(new GroupedViewAttributeConfig(view, pendingGroupAttributes, viewListenersInjector));
 		return groupedViewAttribute;
 	}
 
-	public static class ViewAttributeInitializerImplementor extends AbstractViewAttributeInitializer
+	private static class ViewAttributeInitializerDelegate extends AbstractViewAttributeInitializer
 	{
 		private View currentView;
 
-		public ViewAttributeInitializerImplementor(ViewListenersProvider viewListenersProvider)
+		public ViewAttributeInitializerDelegate(ViewListenersInjector viewListenersInjector)
 		{
-			super(viewListenersProvider);
+			super(viewListenersInjector);
 		}
 
 		@Override

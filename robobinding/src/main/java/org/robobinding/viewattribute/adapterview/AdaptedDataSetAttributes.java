@@ -25,5 +25,4 @@ import android.widget.AdapterView;
  */
 public class AdaptedDataSetAttributes extends AbstractAdaptedDataSetAttributes<AdapterView<?>>
 {
-
 }

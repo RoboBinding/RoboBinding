@@ -31,7 +31,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robobinding.BindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.binder.BinderImplementorImpl.BindingContextCreator;
+import org.robobinding.binder.InternalBinder.BindingContextCreator;
 import org.robobinding.binder.BindingViewInflater.InflatedView;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
@@ -57,7 +57,7 @@ public class BinderImplementorImplTest
 	@Mock private InflatedView inflatedView;
 	private Object presentationModel = new Object();
 	private int layoutId = 0;
-	private BinderImplementorImpl binderImplementor;
+	private InternalBinder binderImplementor;
 	
 	@Before
 	public void setUp()
@@ -95,11 +95,11 @@ public class BinderImplementorImplTest
 		verify(inflatedView).assertNoErrors(errorFormatter);
 	}
 	
-	public class BinderImplementorImplForTest extends BinderImplementorImpl
+	public class BinderImplementorImplForTest extends InternalBinder
 	{
 		public BinderImplementorImplForTest(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter)
 		{
-			super(context, bindingContextCreator, errorFormatter);
+			super(context, bindingContextCreator, errorFormatter, true);
 		}
 
 		@Override

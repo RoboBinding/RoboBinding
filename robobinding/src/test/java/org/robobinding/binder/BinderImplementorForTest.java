@@ -30,7 +30,7 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BinderImplementorForTest extends BinderImplementorImpl
+public class BinderImplementorForTest extends InternalBinder
 {
 	private BindingViewInflater bindingViewInflater;
 	public BinderImplementorForTest(final Context context, BindingViewInflater bindingViewInflater)
@@ -49,7 +49,7 @@ public class BinderImplementorForTest extends BinderImplementorImpl
 			{
 				return error.toString();
 			}
-		});
+		}, true);
 		this.bindingViewInflater = bindingViewInflater;
 	}
 	

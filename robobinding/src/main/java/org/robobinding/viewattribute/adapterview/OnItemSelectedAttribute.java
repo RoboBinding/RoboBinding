@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.database.DataSetObserver;
@@ -34,6 +33,12 @@ import android.widget.AdapterView.OnItemSelectedListener;
 public class OnItemSelectedAttribute extends AbstractCommandViewAttribute<AdapterView<?>> implements ViewListenersAware<AdapterViewListeners>
 {
 	private AdapterViewListeners adapterViewListeners;
+
+	@Override
+	public void setViewListeners(AdapterViewListeners adapterViewListeners)
+	{
+		this.adapterViewListeners = adapterViewListeners;
+	}
 
 	@Override
 	protected void bind(final Command command)
@@ -71,18 +76,5 @@ public class OnItemSelectedAttribute extends AbstractCommandViewAttribute<Adapte
 	protected Class<?> getPreferredCommandParameterType()
 	{
 		return ItemClickEvent.class;
-	}
-
-	@Override
-	public void setViewListeners(AdapterViewListeners adapterViewListeners)
-	{
-		this.adapterViewListeners = adapterViewListeners;
-	}
-	
-	@Override
-	public void validate(ViewAttributeValidation validation)
-	{
-		super.validate(validation);
-		validation.addErrorIfViewListenersNotSet(adapterViewListeners);
 	}
 }

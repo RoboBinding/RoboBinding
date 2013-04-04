@@ -69,4 +69,12 @@ public class ResolvedBindingAttributes
 		
 		return viewBindingError;
 	}
+	
+	public void preinitializeView(BindingContext bindingContext)
+	{
+		for (ViewAttribute viewAttribute : viewAttributes)
+		{
+			viewAttribute.preInitializeView(bindingContext);
+		}
+	}
 }

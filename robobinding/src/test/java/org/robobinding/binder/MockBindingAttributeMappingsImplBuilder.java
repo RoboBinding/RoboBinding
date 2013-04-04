@@ -22,9 +22,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.Command;
-import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
+import org.robobinding.viewattribute.ChildViewAttributes;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
 
@@ -179,12 +179,7 @@ public class MockBindingAttributeMappingsImplBuilder
 		}
 
 		@Override
-		public void setView(View view)
-		{
-		}
-
-		@Override
-		public void setAttribute(ValueModelAttribute attributeValue)
+		public void preInitializeView(BindingContext bindingContext)
 		{
 		}
 
@@ -262,7 +257,7 @@ public class MockBindingAttributeMappingsImplBuilder
 		}
 
 		@Override
-		protected void setupChildAttributeBindings(ChildAttributeBindings binding)
+		protected void setupChildViewAttributes(ChildViewAttributes<View> childViewAttributes, BindingContext bindingContext)
 		{
 		}
 	}

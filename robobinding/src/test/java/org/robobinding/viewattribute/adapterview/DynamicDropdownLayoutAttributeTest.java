@@ -16,11 +16,12 @@
 package org.robobinding.viewattribute.adapterview;
 
 import static org.mockito.Mockito.verify;
-import static org.robobinding.attribute.Attributes.aValueModelAttribute;
+import static org.robobinding.viewattribute.MockPropertyViewAttributeConfigBuilder.aPropertyViewAttributeConfig;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.viewattribute.BindingAttributeValues;
+import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 import org.robobinding.viewattribute.RandomValues;
 
 /**
@@ -31,13 +32,12 @@ import org.robobinding.viewattribute.RandomValues;
  */
 public class DynamicDropdownLayoutAttributeTest extends AbstractDynamicLayoutAttributeTest
 {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Before
 	public void setUp()
 	{
-		String attributeValue = BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME;
 		dynamicLayoutAttribute = new DropdownLayoutAttribute(adapterView, dataSetAdapter).new DynamicLayoutAttribute();
-		dynamicLayoutAttribute.setView(adapterView);
-		dynamicLayoutAttribute.setAttribute(aValueModelAttribute(attributeValue));
+		dynamicLayoutAttribute.initialize((PropertyViewAttributeConfig)aPropertyViewAttributeConfig(adapterView, BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME));
 	}
 	
 	@Test

@@ -67,8 +67,8 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter
 		return functions.find(functionName, parameterTypes);
 	}
 	@Override
-	public Class<?> getPresentationModelClass()
+	public String getPresentationModelClassName()
 	{
-		return presentationModelClass;
+		return presentationModelClass.getName();
 	}
 }

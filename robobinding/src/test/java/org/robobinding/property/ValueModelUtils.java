@@ -42,6 +42,10 @@ public class ValueModelUtils
 	{
 		return new GenericValueHolder<T>(o, checkIdentity);
 	}
+	public static DataSetValueModel<Object> createDataSetValueModel(Object presentationModel, String propertyName)
+	{
+		return new PropertyCreator(presentationModel).createDataSetProperty(propertyName);
+	}
 	private static class BooleanValueHolder extends AbstractValueModel<Boolean>
 	{
 		public BooleanValueHolder(boolean b)
@@ -88,11 +92,6 @@ public class ValueModelUtils
 			super(o);
 		}
 	}
-	public static DataSetValueModel<Object> createDataSetValueModel(Object presentationModel, String propertyName)
-	{
-		return new PropertyCreator(presentationModel).createDataSetProperty(propertyName);
-	}
-	
 	private abstract static class AbstractValueModel<T> implements ValueModel<T>
 	{
 		private static final String PROPERTY_VALUE = "value";

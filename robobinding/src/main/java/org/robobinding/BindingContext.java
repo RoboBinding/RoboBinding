@@ -30,20 +30,15 @@ public class BindingContext
 {
 	private final BinderImplementorFactory factory;
 	private final Context context;
-	private final boolean preInitializeViews;
 	private final PresentationModelAdapter presentationModelAdapter;
+	private final boolean preInitializeViews;
 
-	public BindingContext(BinderImplementorFactory factory, Context context, boolean preInitializeViews, Object presentationModel)
+	public BindingContext(BinderImplementorFactory factory, Context context, Object presentationModel, boolean preInitializeViews)
 	{
 		this.factory = factory;
 		this.context = context;
-		this.preInitializeViews = preInitializeViews;
 		this.presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
-	}
-
-	public boolean shouldPreInitializeViews()
-	{
-		return preInitializeViews;
+		this.preInitializeViews = preInitializeViews;
 	}
 
 	public PresentationModelAdapter getPresentationModelAdapter()
@@ -64,5 +59,10 @@ public class BindingContext
 	public ViewBinder createViewBinder()
 	{
 		return new ViewBinder(factory.create());
+	}
+
+	public boolean shouldPreInitializeViews()
+	{
+		return preInitializeViews;
 	}
 }

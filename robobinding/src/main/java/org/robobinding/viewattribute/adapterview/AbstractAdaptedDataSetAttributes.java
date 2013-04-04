@@ -16,10 +16,14 @@
 package org.robobinding.viewattribute.adapterview;
 
 
+import static org.robobinding.attribute.ChildAttributeResolvers.predefinedMappingsAttributeResolver;
+import static org.robobinding.attribute.ChildAttributeResolvers.propertyAttributeResolver;
+import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
+
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import static org.robobinding.attribute.ChildAttributeResolvers.*;
+import org.robobinding.viewattribute.ChildViewAttributes;
 
 import android.widget.AdapterView;
 
@@ -52,21 +56,17 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	
 	@SuppressWarnings({ "rawtypes" })
 	@Override
-	protected void preBind(BindingContext bindingContext)
+	protected void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext)
 	{
 		dataSetAdapter = new DataSetAdapter(bindingContext);
-	}
-
-	@Override
-	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
-	{
-		binding.add(SOURCE, new SourceAttribute(dataSetAdapter));
-		binding.add(ITEM_LAYOUT, new ItemLayoutAttribute(view, dataSetAdapter));
 		
-		if(groupAttributes.hasAttribute(ITEM_MAPPING))
-			binding.add(ITEM_MAPPING,new ItemMappingAttribute(dataSetAdapter));
+		childViewAttributes.add(SOURCE, new SourceAttribute(dataSetAdapter));
+		childViewAttributes.add(ITEM_LAYOUT, new ItemLayoutAttribute(view, dataSetAdapter));
+		
+		if(childViewAttributes.hasAttribute(ITEM_MAPPING))
+			childViewAttributes.add(ITEM_MAPPING,new ItemMappingAttribute(dataSetAdapter));
 	}
-
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void postBind(BindingContext bindingContext)

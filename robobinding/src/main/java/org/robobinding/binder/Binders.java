@@ -36,35 +36,35 @@ public class Binders
 {
 	public static void bind(Activity activity, int layoutId, Object presentationModel)
 	{
-		BinderImplementor binderImplementor = BinderImplementorFactoryImpl.create(activity, true);
+		BinderImplementor binderImplementor = InternalBinderFactory.create(activity, true);
 		ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
 		activityBinder.inflateAndBind(layoutId, presentationModel);
 	}
 	
 	public static void bindWithoutPreInitializingViews(Activity activity, int layoutId, Object presentationModel)
 	{
-		BinderImplementor binderImplementor = BinderImplementorFactoryImpl.create(activity, false);
+		BinderImplementor binderImplementor = InternalBinderFactory.create(activity, false);
 		ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
 		activityBinder.inflateAndBind(layoutId, presentationModel);
 	}
 	
 	public static void bind(Dialog dialog, int layoutId, Object presentationModel)
 	{
-		BinderImplementor binderImplementor = BinderImplementorFactoryImpl.create(dialog.getContext(), true);
+		BinderImplementor binderImplementor = InternalBinderFactory.create(dialog.getContext(), true);
 		DialogBinder dialogBinder = new DialogBinder(dialog, binderImplementor);
 		dialogBinder.inflateAndBind(layoutId, presentationModel);
 	}
 	
 	public static View bindView(Context context, int layoutId, Object presentationModel)
 	{
-		BinderImplementor binderImplementor = BinderImplementorFactoryImpl.create(context, true);
+		BinderImplementor binderImplementor = InternalBinderFactory.create(context, true);
 		ViewBinder viewBinder = new ViewBinder(binderImplementor);
 		return viewBinder.inflateAndBind(layoutId, presentationModel);
 	}
 	
 	public static View attachToRootAndBindView(ViewGroup parentView, Context context, int layoutId, Object presentationModel)
 	{
-		BinderImplementor binderImplementor = BinderImplementorFactoryImpl.create(context, true);
+		BinderImplementor binderImplementor = InternalBinderFactory.create(context, true);
 		ViewBinder viewBinder = new ViewBinder(binderImplementor);
 		viewBinder.attachToRoot(parentView);
 		return viewBinder.inflateAndBind(layoutId, presentationModel);

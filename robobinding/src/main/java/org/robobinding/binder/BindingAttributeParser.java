@@ -28,9 +28,9 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class BindingAttributeParser
+class BindingAttributeParser
 {
-	static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/android";
+	public static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/android";
 
 	public Map<String, String> parse(AttributeSet attributeSet)
 	{

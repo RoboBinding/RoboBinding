@@ -112,7 +112,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		@SuppressWarnings("unchecked")
 		PropertyViewAttribute<View> propertyViewAttribute = (PropertyViewAttribute<View>)propertyViewAttributeMappings.get(propertyAttribute).create();
 		View view = getViewForAttribute(propertyAttribute, defaultView);
-		propertyViewAttribute = viewAttributeInitializer.initializePropertyViewAttribute(
+		viewAttributeInitializer.initializePropertyViewAttribute(
 				view, propertyViewAttribute, propertyAttributeValueParser.parseAsValueModelAttribute(propertyAttribute, attributeValue));
 		return propertyViewAttribute;
 	}
@@ -127,7 +127,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		@SuppressWarnings("unchecked")
 		AbstractCommandViewAttribute<View> commandViewAttribute = (AbstractCommandViewAttribute<View>)commandViewAttributeMappings.get(commandAttribute).create();
 		View view = getViewForAttribute(commandAttribute, defaultView);
-		commandViewAttribute = viewAttributeInitializer.initializeCommandViewAttribute(
+		viewAttributeInitializer.initializeCommandViewAttribute(
 				view, commandViewAttribute, new CommandAttribute(commandAttribute, attributeValue));
 		return commandViewAttribute;
 	}
@@ -147,9 +147,9 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		@SuppressWarnings("unchecked")
 		AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>)groupedViewAttributeMappings.get(attributeGroup).create();
 		View view = getViewForAttributeGroup(attributeGroup, defaultView);
-		PendingGroupAttributes groupedAttributeDescriptor = new PendingGroupAttributes(presentAttributeMappings);
-		groupedViewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(
-				view, groupedViewAttribute, groupedAttributeDescriptor);
+		PendingGroupAttributes pendingGroupAttributes = new PendingGroupAttributes(presentAttributeMappings);
+		viewAttributeInitializer.initializeGroupedViewAttribute(
+				view, groupedViewAttribute, pendingGroupAttributes);
 		return groupedViewAttribute;
 	}
 	

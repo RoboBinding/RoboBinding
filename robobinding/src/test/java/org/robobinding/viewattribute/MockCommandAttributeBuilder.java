@@ -15,18 +15,24 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersAware;
-
-import android.view.View;
+import org.robobinding.attribute.CommandAttribute;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ViewListenersProvider
+public class MockCommandAttributeBuilder extends AbstractAttributeBuilder<CommandAttribute>
 {
-	<T extends ViewListeners> T forViewAndAttribute(View view, ViewListenersAware<T> viewListenersAware);
+	private MockCommandAttributeBuilder()
+	{
+		super(CommandAttribute.class);
+	}
+
+	public static CommandAttribute aCommandAttribute()
+	{
+		MockCommandAttributeBuilder builder = new MockCommandAttributeBuilder();
+		return builder.attribute;
+	}
 }

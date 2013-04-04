@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.seekbar;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.SeekBar;
@@ -32,13 +31,13 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekBar, Integer> implements ViewListenersAware<SeekBarListeners>
 {
 	private SeekBarListeners viewListeners;
-
+	
 	@Override
 	public void setViewListeners(SeekBarListeners viewListeners)
 	{
 		this.viewListeners = viewListeners;
 	}
-	
+
 	@Override
 	protected void valueModelUpdated(Integer progress)
 	{
@@ -66,12 +65,5 @@ public class TwoWayProgressAttribute extends AbstractPropertyViewAttribute<SeekB
 			{
 			}
 		});
-	}
-	
-	@Override
-	public void validate(ViewAttributeValidation validation)
-	{
-		super.validate(validation);
-		validation.addErrorIfViewListenersNotSet(viewListeners);
 	}
 }

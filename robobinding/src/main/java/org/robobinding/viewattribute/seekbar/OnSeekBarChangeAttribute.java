@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.seekbar;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.SeekBar;
@@ -32,7 +31,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute<SeekBar> implements ViewListenersAware<SeekBarListeners>
 {
 	private SeekBarListeners viewListeners;
-
+	
 	@Override
 	public void setViewListeners(SeekBarListeners viewListeners)
 	{
@@ -68,12 +67,5 @@ public class OnSeekBarChangeAttribute extends AbstractCommandViewAttribute<SeekB
 	protected Class<?> getPreferredCommandParameterType()
 	{
 		return SeekBarEvent.class;
-	}
-	
-	@Override
-	public void validate(ViewAttributeValidation validation)
-	{
-		super.validate(validation);
-		validation.addErrorIfViewListenersNotSet(viewListeners);
 	}
 }

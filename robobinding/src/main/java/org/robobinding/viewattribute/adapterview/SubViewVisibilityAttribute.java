@@ -20,9 +20,9 @@ import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
-import org.robobinding.viewattribute.ChildViewAttribute;
+import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
 import org.robobinding.viewattribute.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.ViewAttributeValidation;
+import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.view.View;
 
@@ -32,7 +32,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SubViewVisibilityAttribute implements ChildViewAttribute<ValueModelAttribute>
+public class SubViewVisibilityAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute>
 {
 	private AbstractSubViewVisibility visibility;
 	private ValueModelAttribute attribute;
@@ -54,6 +54,7 @@ public class SubViewVisibilityAttribute implements ChildViewAttribute<ValueModel
 		PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
 		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
 		AbstractPropertyViewAttribute<View, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
+		propertyViewAttribute.initialize(new PropertyViewAttributeConfig<View>(null, attribute));
 		propertyViewAttribute.bindTo(bindingContext);
 	}
 	
@@ -84,12 +85,6 @@ public class SubViewVisibilityAttribute implements ChildViewAttribute<ValueModel
 				visibility.makeGone();
 			}
 		}
-		
-		@Override
-		protected void validate(ViewAttributeValidation validation)
-		{
-			//No validation.
-		}
 	}
 	
 	class IntegerSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
@@ -98,12 +93,6 @@ public class SubViewVisibilityAttribute implements ChildViewAttribute<ValueModel
 		protected void valueModelUpdated(Integer newValue)
 		{
 			visibility.setVisibility(newValue);
-		}
-		
-		@Override
-		protected void validate(ViewAttributeValidation validation)
-		{
-			//No validation.
 		}
 	}
 

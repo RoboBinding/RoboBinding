@@ -32,21 +32,16 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 {
 	protected T view;
 	private CommandAttribute attribute;
-
-	public void setView(T view)
+	
+	public void initialize(CommandViewAttributeConfig<T> config)
 	{
-		this.view = view;
+		this.view = config.getView();
+		this.attribute = config.getAttribute();
 	}
-
-	public void setAttribute(CommandAttribute attribute)
-	{
-		this.attribute = attribute;
-	}
-
+	
 	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
-		performValidate();
 		try
 		{
 			performBind(bindingContext.getPresentationModelAdapter());
@@ -54,19 +49,6 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 		{
 			throw new AttributeBindingException(attribute.getName(), e);
 		}
-	}
-
-	private void performValidate()
-	{
-		ViewAttributeValidation validation = new ViewAttributeValidation();
-		validate(validation);
-		validation.assertNoErrors();
-	}
-
-	protected void validate(ViewAttributeValidation validation)
-	{
-		validation.addErrorIfViewNotSet(view);
-		validation.addErrorIfCommandNameNotSet(attribute);
 	}
 
 	private void performBind(PresentationModelAdapter presentationModelAdapter)
@@ -89,7 +71,7 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 		{
 			String commandName = attribute.getCommandName();
 			throw new IllegalArgumentException("Could not find method " + commandName + "() or " + commandName + "(" + getAcceptedParameterTypesDescription()
-					+ ") in class " + presentationModelAdapter.getPresentationModelClass().getName());
+					+ ") in class " + presentationModelAdapter.getPresentationModelClassName());
 		}
 
 		return noArgsCommand;
@@ -111,4 +93,9 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	protected abstract void bind(Command command);
 
 	protected abstract Class<?> getPreferredCommandParameterType();
+
+	@Override
+	public final void preInitializeView(BindingContext bindingContext)
+	{
+	}
 }

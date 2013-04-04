@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.compoundbutton;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.CompoundButton;
@@ -55,12 +54,5 @@ public class CheckedAttribute extends AbstractPropertyViewAttribute<CompoundButt
 				valueModel.setValue(isChecked);
 			}
 		});
-	}
-	
-	@Override
-	public void validate(ViewAttributeValidation validation)
-	{
-		super.validate(validation);
-		validation.addErrorIfViewListenersNotSet(viewListeners);
 	}
 }

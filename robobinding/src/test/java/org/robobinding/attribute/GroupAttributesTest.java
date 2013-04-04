@@ -20,7 +20,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.robobinding.attribute.Attributes.aCommandAttribute;
-import static org.robobinding.attribute.GroupedAttributeBuilder.aGroupedAttribute;
+import static org.robobinding.attribute.GroupAttributesBuilder.aGroupAttributes;
 
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
@@ -51,7 +51,7 @@ public class GroupAttributesTest
 	public void givenChildAttribute_whenAskForAttribute_thenReturnAttributeOfCorrectType(ChildAttributeExpectation childAttributeExpectation)
 	{
 		String attributeName = childAttributeExpectation.attributeName();
-		GroupAttributes groupedAttribute = aGroupedAttribute()
+		GroupAttributes groupedAttribute = aGroupAttributes()
 				.withChildAttributeResolution(childAttributeExpectation.attribute)
 				.build();
 		
@@ -64,7 +64,7 @@ public class GroupAttributesTest
 	public void givenChildAttribute_whenAskForAttributeOfIncorrectType_thenThrowException()
 	{
 		CommandAttribute commandAttribute = aCommandAttribute("commandName");
-		GroupAttributes groupedAttribute = aGroupedAttribute()
+		GroupAttributes groupedAttribute = aGroupAttributes()
 				.withChildAttributeResolution(commandAttribute)
 					.build();
 		

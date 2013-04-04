@@ -36,18 +36,20 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class BinderImplementorImpl implements BinderImplementor
+class InternalBinder implements BinderImplementor
 {
 	private final Context context;
 	private final BindingContextCreator bindingContextCreator;
 	private ErrorFormatter errorFormatter;
+	private final boolean preInitailizeViews;
 	private ViewGroup parentView;
 	
-	public BinderImplementorImpl(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter)
+	public InternalBinder(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter, boolean preInitailizeViews)
 	{
 		this.context = context;
 		this.bindingContextCreator = bindingContextCreator;
 		this.errorFormatter = errorFormatter;
+		this.preInitailizeViews = preInitailizeViews;
 	}
 	
 	@Override
@@ -62,7 +64,7 @@ class BinderImplementorImpl implements BinderImplementor
 	{
 		return inflateAndBind(layoutId, presentationModel, Lists.<PredefinedPendingAttributesForView>newArrayList());
 	}
-	
+
 	@Override
 	public View inflateAndBind(int layoutId, Object presentationModel, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
 	{
@@ -72,6 +74,11 @@ class BinderImplementorImpl implements BinderImplementor
 		BindingContext bindingContext = bindingContextCreator.create(presentationModel);
 		inflatedView.bindChildViews(bindingContext);
 		inflatedView.assertNoErrors(errorFormatter);
+
+		if(preInitailizeViews)
+		{
+			inflatedView.preinitializeViews(bindingContext);
+		}
 		
 		return inflatedView.getRootView();
 	}

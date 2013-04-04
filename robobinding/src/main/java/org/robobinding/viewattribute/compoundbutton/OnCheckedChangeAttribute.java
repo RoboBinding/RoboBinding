@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.compoundbutton;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeValidation;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.widget.CompoundButton;
@@ -38,7 +37,6 @@ public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute<Compo
 	{
 		this.viewListeners = viewListeners;
 	}
-
 	
 	@Override
 	protected void bind(final Command command)
@@ -58,12 +56,5 @@ public class OnCheckedChangeAttribute extends AbstractCommandViewAttribute<Compo
 	protected Class<?> getPreferredCommandParameterType()
 	{
 		return CheckedChangeEvent.class;
-	}
-	
-	@Override
-	public void validate(ViewAttributeValidation validation)
-	{
-		super.validate(validation);
-		validation.addErrorIfViewListenersNotSet(viewListeners);
 	}
 }

@@ -29,6 +29,7 @@ import android.widget.TextView;
  */
 public class TextAttribute extends AbstractTextAttribute<TextView>
 {
+
 	@Override
 	protected AbstractPropertyViewAttribute<TextView, ?> createNewCharSequenceAttribute()
 	{

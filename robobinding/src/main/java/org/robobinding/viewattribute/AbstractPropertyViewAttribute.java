@@ -28,93 +28,98 @@ import android.view.View;
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
 public abstract class AbstractPropertyViewAttribute<ViewType extends View, PropertyType> implements PropertyViewAttribute<ViewType>
 {
-	private ValueModelAttribute attribute;
 	protected ViewType view;
+	private ValueModelAttribute attribute;
+	private AbstractBindingProperty bindingProperty;
+	private boolean withAlwaysPreInitializingView;
 	
-	@Override
-	public void setView(ViewType view)
+	public AbstractPropertyViewAttribute()
 	{
-		this.view = view;
+		this(false);
 	}
 	
-	@Override
-	public void setAttribute(ValueModelAttribute attribute)
+	public AbstractPropertyViewAttribute(boolean withAlwaysPreInitializingView)
 	{
-		this.attribute = attribute;
+		this.withAlwaysPreInitializingView = withAlwaysPreInitializingView;
 	}
 	
+	public void initialize(PropertyViewAttributeConfig<ViewType> config)
+	{
+		this.view = config.getView();
+		this.attribute = config.getAttribute();
+		initializeProperty();
+	}
+
+	private void initializeProperty()
+	{
+		if (attribute.isTwoWayBinding())
+		{
+			bindingProperty = new TwoWayBindingProperty();
+		}else
+		{
+			bindingProperty = new OneWayBindingProperty();
+		}
+	}
+
 	@Override
 	public void bindTo(BindingContext bindingContext)
 	{
-		performValidate();
 		try
 		{
-			performBind(bindingContext);
+			bindingProperty.performBind(bindingContext);
+			if(withAlwaysPreInitializingView)
+			{
+				bindingProperty.preInitializeView(bindingContext);
+			}
 		}catch(RuntimeException e)
 		{
 			throw new AttributeBindingException(attribute.getName(), e);
 		}
 	}
 	
-	private void performValidate()
-	{
-		ViewAttributeValidation validation = new ViewAttributeValidation();
-		validate(validation);
-		validation.assertNoErrors();
-	}
-
-	protected void validate(ViewAttributeValidation validation)
-	{
-		validation.addErrorIfViewNotSet(view);
-		validation.addErrorIfPropertyAttributeValueNotSet(attribute);
-	}
-
-	private void performBind(BindingContext bindingContext)
-	{
-		if (attribute.isTwoWayBinding())
-			new TwoWayBinder(bindingContext).performBind();
-		else
-			new OneWayBinder(bindingContext).performBind();
-	}
-	
 	protected abstract void valueModelUpdated(PropertyType newValue);
 	protected abstract void observeChangesOnTheView(final ValueModel<PropertyType> valueModel);
 	
-	abstract class AbstractPropertyBinder
+	@Override
+	public void preInitializeView(BindingContext bindingContext)
 	{
-		private final BindingContext bindingContext;
-		protected final PresentationModelAdapter presentationModelAdapter;
-		public AbstractPropertyBinder(BindingContext bindingContext)
+		if(withAlwaysPreInitializingView)
 		{
-			this.bindingContext = bindingContext;
-			this.presentationModelAdapter = bindingContext.getPresentationModelAdapter();
+			return;
 		}
 		
-		protected void initializeViewIfRequired(ValueModel<PropertyType> valueModel)
+		try
 		{
-			if (bindingContext.shouldPreInitializeViews())
-			{
-				valueModelUpdated(valueModel.getValue());
-			}
+			bindingProperty.preInitializeView(bindingContext);
+		}catch(RuntimeException e)
+		{
+			throw new AttributeBindingException(attribute.getName(), e);
+		}
+	}
+
+	private abstract class AbstractBindingProperty
+	{
+		public void preInitializeView(BindingContext bindingContext)
+		{
+			ValueModel<PropertyType> valueModel = getPropertyValueModel(bindingContext);
+			valueModelUpdated(valueModel.getValue());
 		}
 		
-		abstract void performBind();
+		public abstract ValueModel<PropertyType> getPropertyValueModel(BindingContext bindingContext);
+
+		public abstract void performBind(BindingContext bindingContext);
 	}
 	
-	private class OneWayBinder extends AbstractPropertyBinder
+	private class OneWayBindingProperty extends AbstractBindingProperty
 	{
-		public OneWayBinder(BindingContext bindingContext)
-		{
-			super(bindingContext);
-		}
 		@Override
-		public void performBind()
+		public void performBind(BindingContext bindingContext)
 		{
-			final ValueModel<PropertyType> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(attribute.getPropertyName());
-			initializeViewIfRequired(valueModel);
+			final ValueModel<PropertyType> valueModel = getPropertyValueModel(bindingContext);
 			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener(){
 				@Override
 				public void propertyChanged()
@@ -123,21 +128,24 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 				}
 			});
 		}
+		
+		@Override
+		public ValueModel<PropertyType> getPropertyValueModel(BindingContext bindingContext)
+		{
+			PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
+			return presentationModelAdapter.getReadOnlyPropertyValueModel(attribute.getPropertyName());
+		}
 	}
 	
-	private class TwoWayBinder extends AbstractPropertyBinder
+	private class TwoWayBindingProperty extends AbstractBindingProperty
 	{
 		private boolean updatedProgrammatically;
-		public TwoWayBinder(BindingContext bindingContext)
-		{
-			super(bindingContext);
-		}
+		
 		@Override
-		public void performBind()
+		public void performBind(BindingContext bindingContext)
 		{
-			ValueModel<PropertyType> valueModel = presentationModelAdapter.getPropertyValueModel(attribute.getPropertyName());
+			ValueModel<PropertyType> valueModel = getPropertyValueModel(bindingContext);
 			valueModel = new PropertyValueModelWrapper(valueModel);
-			initializeViewIfRequired(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);
 		}
@@ -152,6 +160,13 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 						valueModelUpdated(valueModel.getValue());
 				}
 			});
+		}
+		
+		@Override
+		public ValueModel<PropertyType> getPropertyValueModel(BindingContext bindingContext)
+		{
+			PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
+			return presentationModelAdapter.getPropertyValueModel(attribute.getPropertyName());
 		}
 		
 		private class PropertyValueModelWrapper implements ValueModel<PropertyType>
