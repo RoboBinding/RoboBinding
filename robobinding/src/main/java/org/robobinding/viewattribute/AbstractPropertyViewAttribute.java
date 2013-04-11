@@ -141,8 +141,7 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 	{
 		private ViewUpdatePropagationLatch viewUpdatePropagationLatch;
 		
-		
-		public TwoWayBinder()
+		public TwoWayBindingProperty()
 		{
 			this.viewUpdatePropagationLatch = new ViewUpdatePropagationLatch();
 		}
