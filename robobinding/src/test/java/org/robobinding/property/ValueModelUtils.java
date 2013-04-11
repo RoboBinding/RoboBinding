@@ -38,10 +38,6 @@ public class ValueModelUtils
 	{
 		return new GenericValueHolder<T>(o);
 	}
-	public static <T> ValueModel<T> create(T o, boolean checkIdentity)
-	{
-		return new GenericValueHolder<T>(o, checkIdentity);
-	}
 	public static DataSetValueModel<Object> createDataSetValueModel(Object presentationModel, String propertyName)
 	{
 		return new PropertyCreator(presentationModel).createDataSetProperty(propertyName);
@@ -83,81 +79,9 @@ public class ValueModelUtils
 	}
 	private static class GenericValueHolder<T> extends AbstractValueModel<T>
 	{
-		public GenericValueHolder(T o, boolean checkIdentity)
-		{
-			super(o, checkIdentity);
-		}
 		public GenericValueHolder(T o)
 		{
 			super(o);
-		}
-	}
-	private abstract static class AbstractValueModel<T> implements ValueModel<T>
-	{
-		private static final String PROPERTY_VALUE = "value";
-		
-		private T value;
-		private PresentationModelPropertyChangeSupport propertyChangeSupport;
-		
-		public AbstractValueModel(T value, boolean checkIdentity)
-		{
-			this.value = value;
-			
-			propertyChangeSupport = new PresentationModelPropertyChangeSupport(this);
-		}
-		public AbstractValueModel(T value)
-		{
-			this(value, false);
-		}
-		@Override
-		public T getValue()
-		{
-			return value;
-		}
-		@Override
-		public void setValue(T newValue)
-		{
-			value = newValue;
-			fireValueChange();
-		}
-		private void fireValueChange()
-		{
-			propertyChangeSupport.firePropertyChange(PROPERTY_VALUE);
-		}
-		
-		@Override
-		public final void addPropertyChangeListener(PresentationModelPropertyChangeListener listener)
-		{
-			propertyChangeSupport.addPropertyChangeListener(PROPERTY_VALUE, listener);
-		}
-
-		@Override
-		public final void removePropertyChangeListener(PresentationModelPropertyChangeListener listener)
-		{
-			propertyChangeSupport.removePropertyChangeListener(PROPERTY_VALUE, listener);
-		}
-		
-		@Override
-		public String toString()
-		{
-			return getClass().getName() + "[" + paramString() + "]";
-		}
-
-		protected String paramString()
-		{
-			return "value=" + valueString();
-		}
-		
-		protected String valueString()
-		{
-			try
-			{
-				Object value = getValue();
-				return value == null ? "null" : value.toString();
-			} catch (Exception e)
-			{
-				return "Can't read";
-			}
 		}
 	}
 
