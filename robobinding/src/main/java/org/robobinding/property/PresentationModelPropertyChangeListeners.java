@@ -15,9 +15,9 @@
  */
 package org.robobinding.property;
 
-import java.util.List;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.apache.commons.lang3.Validate;
+import java.util.List;
 
 import com.google.common.collect.Lists;
 
@@ -38,7 +38,7 @@ class PresentationModelPropertyChangeListeners
 
 	public void add(PresentationModelPropertyChangeListener propertyChangeListener)
 	{
-		Validate.notNull(propertyChangeListener, "propertyChangeListener cannot be null");
+		checkNotNull(propertyChangeListener, "propertyChangeListener cannot be null");
 		listeners.add(propertyChangeListener);
 	}
 

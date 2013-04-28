@@ -15,9 +15,9 @@
  */
 package org.robobinding.viewattribute;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.util.EqualsBuilder;
+import org.robobinding.util.HashCodeBuilder;
 
 import android.view.View;
 

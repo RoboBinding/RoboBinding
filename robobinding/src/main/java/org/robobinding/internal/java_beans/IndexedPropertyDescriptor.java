@@ -19,7 +19,8 @@ package org.robobinding.internal.java_beans;
 
 import java.lang.reflect.Method;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.robobinding.util.EqualsBuilder;
+import org.robobinding.util.HashCodeBuilder;
 
 
 public class IndexedPropertyDescriptor extends PropertyDescriptor {
@@ -207,12 +208,11 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
         IndexedPropertyDescriptor other = (IndexedPropertyDescriptor) obj;
 
-        return (super.equals(other)
-                && (indexedPropertyType == null ? other.indexedPropertyType == null
-                        : indexedPropertyType.equals(other.indexedPropertyType))
-                && (indexedGetter == null ? other.indexedGetter == null
-                        : indexedGetter.equals(other.indexedGetter)) && (indexedSetter == null ? other.indexedSetter == null
-                : indexedSetter.equals(other.indexedSetter)));
+        return new EqualsBuilder()
+        	.append(indexedPropertyType, other.indexedPropertyType)
+        	.append(indexedGetter, other.indexedGetter)
+            .append(indexedSetter, other.indexedSetter)
+            .isEquals();
     }
 
     /**

@@ -15,7 +15,7 @@
  */
 package org.robobinding.property;
 
-import org.apache.commons.lang3.Validate;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * 
@@ -75,7 +75,7 @@ class ObservableBean implements ObservableProperties
 
 	private void checkObservable(String propertyName)
 	{
-		Validate.isTrue(
+		checkState(
 				isObservable(),
 				"You are binding to property '"+propertyName+"' but presentation model '"+bean.getClass().getName()+"' is not observable. You either have to annotate your presentation model with @PresentationModel or implement interface ObservableProperties");
 	}

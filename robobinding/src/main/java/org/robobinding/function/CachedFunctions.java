@@ -19,9 +19,9 @@ package org.robobinding.function;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.reflect.MethodUtils;
+import org.robobinding.util.EqualsBuilder;
+import org.robobinding.util.HashCodeBuilder;
+import org.robobinding.util.MethodUtils;
 
 import com.google.common.collect.Maps;
 

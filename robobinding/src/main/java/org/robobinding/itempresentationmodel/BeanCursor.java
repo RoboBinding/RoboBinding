@@ -15,12 +15,14 @@
  */
 package org.robobinding.itempresentationmodel;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang3.Validate;
 import org.robobinding.internal.java_beans.PropertyDescriptor;
 import org.robobinding.property.PropertyAccessor;
 import org.robobinding.property.PropertyUtils;
@@ -43,8 +45,8 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 	private Map<String, PropertyAccessor<?>> propertyNameToAccessors;
 	public BeanCursor(Collection<T> beans, Class<T> beanClass)
 	{
-		Validate.notNull(beans, "beans can not be null");
-		Validate.notNull(beanClass, "beanClass can not be null");
+		checkNotNull(beans, "beans can not be null");
+		checkNotNull(beanClass, "beanClass can not be null");
 		
 		this.beans = Lists.newArrayList(beans);
 		initializeProperties(beanClass);
@@ -119,7 +121,7 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 	}
 	private Object getColumnValue(int column)
 	{
-		Validate.isTrue(column < getNumColumns(), "column '"+column+"' is out of bound");
+		checkArgument(column < getNumColumns(), "column '"+column+"' is out of bound");
 		PropertyAccessor<?> propertyAccesor = mapColumnToPropertyAccessor(column);
 		return propertyAccesor.getValue(getBean());
 	}
@@ -144,7 +146,7 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T>
 	@Override
 	public T getObjectAtPosition(int position)
 	{
-		Validate.isTrue(position < getCount(), "Invalid requested position '"+position+"', as the cursor size is '"+getCount()+"'");
+		checkArgument(position < getCount(), "Invalid requested position '"+position+"', as the cursor size is '"+getCount()+"'");
 		return beans.get(position);
 	}
 }

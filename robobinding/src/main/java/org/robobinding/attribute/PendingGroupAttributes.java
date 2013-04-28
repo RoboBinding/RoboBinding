@@ -19,8 +19,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.robobinding.util.EqualsBuilder;
+import org.robobinding.util.HashCodeBuilder;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

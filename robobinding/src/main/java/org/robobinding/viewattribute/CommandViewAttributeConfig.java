@@ -15,9 +15,9 @@
  */
 package org.robobinding.viewattribute;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.robobinding.attribute.CommandAttribute;
+import org.robobinding.util.EqualsBuilder;
+import org.robobinding.util.HashCodeBuilder;
 
 import android.view.View;
 
@@ -58,7 +58,7 @@ public class CommandViewAttributeConfig<T extends View> extends AbstractViewAttr
 			.append(attribute, that.attribute)
 			.isEquals();
 	}
-
+	
 	@Override
 	public int hashCode()
 	{

@@ -18,7 +18,7 @@ package org.robobinding.attribute;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Joiner;
 
 
 
@@ -46,7 +46,7 @@ public class MissingRequiredAttributesException extends RuntimeException
 	@Override
 	public String getMessage()
 	{
-		return "Missing attributes: "+StringUtils.join(missingAttributes, ", ");
+		return "Missing attributes: "+Joiner.on(", ").join(missingAttributes);
 	}
 	
 	@Override
