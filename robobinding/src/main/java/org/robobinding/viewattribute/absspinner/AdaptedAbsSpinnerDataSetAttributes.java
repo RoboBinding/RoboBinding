@@ -18,7 +18,6 @@ package org.robobinding.viewattribute.absspinner;
 import static org.robobinding.attribute.ChildAttributeResolvers.predefinedMappingsAttributeResolver;
 import static org.robobinding.attribute.ChildAttributeResolvers.propertyAttributeResolver;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.viewattribute.ChildViewAttributes;
@@ -27,6 +26,8 @@ import org.robobinding.viewattribute.adapterview.DropdownLayoutAttribute;
 import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
 
 import android.widget.AbsSpinner;
+
+import com.google.common.collect.ObjectArrays;
 
 /**
  *
@@ -50,7 +51,7 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 	@Override
 	protected String[] getCompulsoryAttributes()
 	{
-		return ArrayUtils.addAll(super.getCompulsoryAttributes(), DROPDOWN_LAYOUT);
+		return ObjectArrays.concat(super.getCompulsoryAttributes(), DROPDOWN_LAYOUT);
 	}
 
 	@Override

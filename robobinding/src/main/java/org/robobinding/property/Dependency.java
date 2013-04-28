@@ -19,9 +19,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.robobinding.presentationmodel.DependsOnStateOf;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -72,7 +72,7 @@ class Dependency
 			List<String> nonExistingDependentProperties = Lists.newArrayList(dependentProperties);
 			nonExistingDependentProperties.removeAll(availablePropertyNames);
 			throw new RuntimeException(propertyAccessor.propertyDescription() + " depends on the following non-existent properties '"
-					+ StringUtils.join(nonExistingDependentProperties, ",") + "'");
+					+ Joiner.on(", ").join(nonExistingDependentProperties) + "'");
 		}
 	}
 
@@ -94,7 +94,7 @@ class Dependency
 
 	private String describeDependentProperties()
 	{
-		return "dependentProperties:[" + StringUtils.join(dependentProperties, ",") + "]";
+		return "dependentProperties:[" + Joiner.on(",").join(dependentProperties) + "]";
 	}
 	
 	public String decribeDependencyProperty()

@@ -20,7 +20,8 @@ package org.robobinding.internal.java_beans;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.robobinding.util.EqualsBuilder;
+import org.robobinding.util.HashCodeBuilder;
 
 
 public class PropertyDescriptor extends FeatureDescriptor {
@@ -144,31 +145,23 @@ public class PropertyDescriptor extends FeatureDescriptor {
     public Method getReadMethod() {
         return getter;
     }
-
+    
     @Override
-    public boolean equals(Object object) {
-        boolean result = object instanceof PropertyDescriptor;
-        if (result) {
-            PropertyDescriptor pd = (PropertyDescriptor) object;
-            boolean gettersAreEqual = (this.getter == null)
-                    && (pd.getReadMethod() == null) || (this.getter != null)
-                    && (this.getter.equals(pd.getReadMethod()));
-            boolean settersAreEqual = (this.setter == null)
-                    && (pd.getWriteMethod() == null) || (this.setter != null)
-                    && (this.setter.equals(pd.getWriteMethod()));
-            boolean propertyTypesAreEqual = this.getPropertyType() == pd
-                    .getPropertyType();
-            boolean propertyEditorClassesAreEqual = this
-                    .getPropertyEditorClass() == pd.getPropertyEditorClass();
-            boolean boundPropertyAreEqual = this.isBound() == pd.isBound();
-            boolean constrainedPropertyAreEqual = this.isConstrained() == pd
-                    .isConstrained();
-            result = gettersAreEqual && settersAreEqual
-                    && propertyTypesAreEqual && propertyEditorClassesAreEqual
-                    && boundPropertyAreEqual && constrainedPropertyAreEqual;
-        }
-        return result;
-    }
+	public boolean equals(Object other)
+	{
+		if (this==other) return true;
+		if (!(other instanceof PropertyDescriptor)) return false;
+		
+		final PropertyDescriptor that = (PropertyDescriptor)other;
+		return new EqualsBuilder()
+				.append(getter, that.getter)
+				.append(setter, that.setter)
+				.append(getPropertyType(), that.getPropertyType())
+				.append(getPropertyEditorClass(), that.getPropertyEditorClass())
+				.append(isBound(), that.isBound())
+				.append(isConstrained(), that.isConstrained())
+				.isEquals();
+	}
 
     @Override
     public int hashCode() {

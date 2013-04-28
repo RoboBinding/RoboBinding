@@ -20,7 +20,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import org.apache.commons.lang3.reflect.ConstructorUtils;
+import org.robobinding.util.ConstructorUtils;
+import org.robobinding.util.EqualsBuilder;
+import org.robobinding.util.HashCodeBuilder;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.ViewListenersInjector;
 import org.robobinding.viewattribute.view.ViewListeners;
@@ -189,21 +191,29 @@ class ViewListenersProvider implements ViewListenersInjector
 			this.view = view;
 			this.viewListenersClass = viewListenersClass;
 		}
-		public boolean equals(Object o)
+		
+		@Override
+		public boolean equals(Object other)
 		{
-			if (!(o instanceof ViewAndViewListenersClassPair))
+			if (this == other)
+				return true;
+			if (!(other instanceof ViewAndViewListenersClassPair))
 				return false;
-			
-			ViewAndViewListenersClassPair target = (ViewAndViewListenersClassPair)o;
-			
-			return target.view.equals(view) && target.viewListenersClass.equals(viewListenersClass);
+		
+			final ViewAndViewListenersClassPair that = (ViewAndViewListenersClassPair) other;
+			return new EqualsBuilder()
+				.append(view, that.view)
+				.append(viewListenersClass, that.viewListenersClass)
+				.isEquals();
 		}
+		
+		@Override
 		public int hashCode()
 		{
-			int result = 17;
-			result += 31 + view.hashCode();
-			result += 31 + viewListenersClass.getClass().hashCode();
-			return result;
+			return new HashCodeBuilder()
+				.append(view)
+				.append(viewListenersClass)
+				.toHashCode();
 		}
 	}
 }

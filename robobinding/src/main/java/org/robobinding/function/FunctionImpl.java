@@ -20,8 +20,7 @@ import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 
@@ -64,7 +63,7 @@ class FunctionImpl implements Function
 		return MessageFormat.format("{0}.{1}({2})", 
 				method.getDeclaringClass().getName(),
 				method.getName(),
-				StringUtils.join(parameterTypesInString, ", "));		
+				Joiner.on(", ").join(parameterTypesInString));		
 	}
 	private List<String> getParameterTypesInString()
 	{

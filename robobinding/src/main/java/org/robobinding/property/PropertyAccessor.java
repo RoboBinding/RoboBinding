@@ -15,14 +15,16 @@
  */
 package org.robobinding.property;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
 import org.robobinding.internal.java_beans.PropertyDescriptor;
+
+import com.google.common.base.Strings;
 
 
 /**
@@ -72,7 +74,7 @@ public final class PropertyAccessor<T>
 	}
 	public T getValue(Object bean)
 	{
-		Validate.notNull(bean, "The bean must not be null.");
+		checkNotNull(bean, "The bean must not be null.");
 		
 		checkReadable();
 		try
@@ -94,7 +96,7 @@ public final class PropertyAccessor<T>
 	}
 	public void setValue(Object bean, T newValue)
 	{
-		Validate.notNull(bean, "The bean must not be null.");
+		checkNotNull(bean, "The bean must not be null.");
 		checkWritable();
 		try
 		{
@@ -140,7 +142,7 @@ public final class PropertyAccessor<T>
 	public <A extends Annotation> A getAnnotation(Class<A> annotationClass)
 	{
 		A annotation = findAnnotation(annotationClass);
-		Validate.notNull(annotation, propertyDescription()+" is not annotated with '"+annotationClass.getName()+"'");
+		checkNotNull(annotation, propertyDescription()+" is not annotated with '"+annotationClass.getName()+"'");
 		return annotation;
 	}
 	private <A extends Annotation> A findAnnotation(Class<A> annotationClass)
@@ -162,7 +164,7 @@ public final class PropertyAccessor<T>
 		String beanClassName = beanClass.getName();
 		String propertyDescription = MessageFormat.format("property(name:{0}, propertyType:{1}, isReadable:{2}, isWritable:{3}, beanType:{4}", 
 				getPropertyName(), descriptor.getPropertyType(), isReadable(), isWritable(), beanClassName, additionalDescription);
-		if(StringUtils.isNotBlank(additionalDescription))
+		if(!Strings.isNullOrEmpty(additionalDescription))
 		{
 			propertyDescription += ", "+additionalDescription;
 		}

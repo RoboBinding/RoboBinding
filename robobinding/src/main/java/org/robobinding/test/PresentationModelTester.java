@@ -15,7 +15,8 @@
  */
 package org.robobinding.test;
 
-import org.apache.commons.lang3.Validate;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
 import org.robobinding.property.ValueModel;
@@ -31,7 +32,7 @@ public class PresentationModelTester
 	private PresentationModelAdapter presentationModelAdapter;
 	private PresentationModelTester(Object presentationModel)
 	{
-		Validate.notNull(presentationModel, "presentationModel should not be null");
+		checkNotNull(presentationModel, "presentationModel should not be null");
 		presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 	}
 	
