@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
 /**
- * Migrated some of methods from {@link org。apache。commons。lang3。reflect。ConstructorUtils}.
+ * Migrated some of methods from {@link org.apache.commons.lang3.reflect.ConstructorUtils}.
  * 
  * @since 1.0
  * @version $Revision: 1.0 $

@@ -18,7 +18,7 @@ package org.robobinding.util;
 
 
 /**
- * Migrated some of methods from {@link org。apache。commons。lang3。SystemUtils}.
+ * Migrated some of methods from {@link org.apache.commons.lang3.SystemUtils}.
  * 
  * @since 1.0
  * @version $Revision: 1.0 $

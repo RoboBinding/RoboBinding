@@ -17,12 +17,12 @@
 package org.robobinding.function;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Map;
 
-import org.robobinding.util.EqualsBuilder;
-import org.robobinding.util.HashCodeBuilder;
 import org.robobinding.util.MethodUtils;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 
 
@@ -92,18 +92,12 @@ public class CachedFunctions
 			if (!(other instanceof FunctionDescriptor)) return false;
 			
 			final FunctionDescriptor that = (FunctionDescriptor)other;
-			return new EqualsBuilder()
-					.append(functionName, that.functionName)
-					.append(parameterTypes, that.parameterTypes)
-					.isEquals();
+			return Objects.equal(functionName, that.functionName) && Arrays.equals(parameterTypes, that.parameterTypes);
 		}
 		@Override
 		public int hashCode()
 		{
-			return new HashCodeBuilder()
-				.append(functionName)
-				.append(parameterTypes)
-				.toHashCode();
+			return Objects.hashCode(functionName)+Arrays.hashCode(parameterTypes);
 		}
 	}
 }

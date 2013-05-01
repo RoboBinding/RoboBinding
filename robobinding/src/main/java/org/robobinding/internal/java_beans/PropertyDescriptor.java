@@ -20,8 +20,7 @@ package org.robobinding.internal.java_beans;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import org.robobinding.util.EqualsBuilder;
-import org.robobinding.util.HashCodeBuilder;
+import com.google.common.base.Objects;
 
 
 public class PropertyDescriptor extends FeatureDescriptor {
@@ -153,26 +152,17 @@ public class PropertyDescriptor extends FeatureDescriptor {
 		if (!(other instanceof PropertyDescriptor)) return false;
 		
 		final PropertyDescriptor that = (PropertyDescriptor)other;
-		return new EqualsBuilder()
-				.append(getter, that.getter)
-				.append(setter, that.setter)
-				.append(getPropertyType(), that.getPropertyType())
-				.append(getPropertyEditorClass(), that.getPropertyEditorClass())
-				.append(isBound(), that.isBound())
-				.append(isConstrained(), that.isConstrained())
-				.isEquals();
+		return Objects.equal(getter, that.getter)
+				&& Objects.equal(setter, that.setter)
+				&& Objects.equal(getPropertyType(), that.getPropertyType())
+				&& Objects.equal(getPropertyEditorClass(), that.getPropertyEditorClass())
+				&& Objects.equal(isBound(), that.isBound())
+				&& Objects.equal(isConstrained(), that.isConstrained());
 	}
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder()
-        	.append(getter)
-        	.append(setter)
-        	.append(getPropertyType())
-        	.append(getPropertyEditorClass())
-        	.append(isBound())
-        	.append(isConstrained())
-        	.toHashCode();
+        return Objects.hashCode(getter, setter, getPropertyType(), getPropertyEditorClass(), isBound(), isConstrained());
     }
 
     public void setPropertyEditorClass(Class<?> propertyEditorClass) {

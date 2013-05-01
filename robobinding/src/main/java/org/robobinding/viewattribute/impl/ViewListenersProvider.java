@@ -21,8 +21,6 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import org.robobinding.util.ConstructorUtils;
-import org.robobinding.util.EqualsBuilder;
-import org.robobinding.util.HashCodeBuilder;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.ViewListenersInjector;
 import org.robobinding.viewattribute.view.ViewListeners;
@@ -30,6 +28,7 @@ import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 
 /**
@@ -201,19 +200,13 @@ class ViewListenersProvider implements ViewListenersInjector
 				return false;
 		
 			final ViewAndViewListenersClassPair that = (ViewAndViewListenersClassPair) other;
-			return new EqualsBuilder()
-				.append(view, that.view)
-				.append(viewListenersClass, that.viewListenersClass)
-				.isEquals();
+			return Objects.equal(view, that.view) && Objects.equal(viewListenersClass, that.viewListenersClass);
 		}
 		
 		@Override
 		public int hashCode()
 		{
-			return new HashCodeBuilder()
-				.append(view)
-				.append(viewListenersClass)
-				.toHashCode();
+			return Objects.hashCode(view, viewListenersClass);
 		}
 	}
 }

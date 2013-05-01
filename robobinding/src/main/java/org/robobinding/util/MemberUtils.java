@@ -21,7 +21,7 @@ import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 
 /**
- * Migrated some of methods from {@link org。apache。commons。lang3。reflect。MemberUtils}.
+ * Migrated some of methods from {@link org.apache.commons.lang3.reflect.MemberUtils}.
  * 
  * @since 1.0
  * @version $Revision: 1.0 $

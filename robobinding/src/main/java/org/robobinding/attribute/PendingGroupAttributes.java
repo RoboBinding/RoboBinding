@@ -19,9 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.robobinding.util.EqualsBuilder;
-import org.robobinding.util.HashCodeBuilder;
-
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -86,16 +84,12 @@ public class PendingGroupAttributes
 			return false;
 	
 		final PendingGroupAttributes that = (PendingGroupAttributes) other;
-		return new EqualsBuilder()
-			.append(presentAttributeMappings, that.presentAttributeMappings)
-			.isEquals();
+		return Objects.equal(presentAttributeMappings, that.presentAttributeMappings);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return new HashCodeBuilder()
-			.append(presentAttributeMappings)
-			.toHashCode();
+		return Objects.hashCode(presentAttributeMappings);
 	}
 }

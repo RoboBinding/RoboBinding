@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
- * Migrated some of methods from {@link org。apache。commons。lang3。reflect。MethodUtils}.
+ * Migrated some of methods from {@link org.apache.commons.lang3.reflect.MethodUtils}.
  * 
  * @since 1.0
  * @version $Revision: 1.0 $

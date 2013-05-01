@@ -19,8 +19,7 @@ package org.robobinding.internal.java_beans;
 
 import java.lang.reflect.Method;
 
-import org.robobinding.util.EqualsBuilder;
-import org.robobinding.util.HashCodeBuilder;
+import com.google.common.base.Objects;
 
 
 public class IndexedPropertyDescriptor extends PropertyDescriptor {
@@ -208,11 +207,12 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
         IndexedPropertyDescriptor other = (IndexedPropertyDescriptor) obj;
 
-        return new EqualsBuilder()
-        	.append(indexedPropertyType, other.indexedPropertyType)
-        	.append(indexedGetter, other.indexedGetter)
-            .append(indexedSetter, other.indexedSetter)
-            .isEquals();
+        return (super.equals(other)
+                && (indexedPropertyType == null ? other.indexedPropertyType == null
+                        : indexedPropertyType.equals(other.indexedPropertyType))
+                && (indexedGetter == null ? other.indexedGetter == null
+                        : indexedGetter.equals(other.indexedGetter)) && (indexedSetter == null ? other.indexedSetter == null
+                : indexedSetter.equals(other.indexedSetter)));
     }
 
     /**
@@ -220,12 +220,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder()
-        	.appendSuper(super.hashCode())
-        	.append(indexedPropertyType)
-            .append(indexedGetter)
-            .append(indexedSetter)
-            .toHashCode();
+        return super.hashCode()+Objects.hashCode(indexedPropertyType , indexedGetter, indexedSetter);
     }
 
     /**

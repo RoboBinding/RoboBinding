@@ -23,12 +23,11 @@ import java.util.regex.Pattern;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.util.EqualsBuilder;
-import org.robobinding.util.HashCodeBuilder;
 
 import android.content.Context;
 import android.view.View;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -140,19 +139,13 @@ public class PredefinedMappingsAttribute extends AbstractAttribute
 				return false;
 		
 			final ViewMapping that = (ViewMapping) other;
-			return new EqualsBuilder()
-				.append(bindingAttributes, that.bindingAttributes)
-				.append(viewId, that.viewId)
-				.isEquals();
+			return Objects.equal(bindingAttributes, that.bindingAttributes) && Objects.equal(viewId, that.viewId);
 		}
 		
 		@Override
 		public int hashCode()
 		{
-			return new HashCodeBuilder()
-				.append(bindingAttributes)
-				.append(viewId)
-				.toHashCode();
+			return Objects.hashCode(bindingAttributes, viewId);
 		}
 	}
 

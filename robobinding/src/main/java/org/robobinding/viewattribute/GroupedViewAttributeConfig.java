@@ -16,10 +16,10 @@
 package org.robobinding.viewattribute;
 
 import org.robobinding.attribute.PendingGroupAttributes;
-import org.robobinding.util.EqualsBuilder;
-import org.robobinding.util.HashCodeBuilder;
 
 import android.view.View;
+
+import com.google.common.base.Objects;
 
 /**
  * 
@@ -59,21 +59,15 @@ public class GroupedViewAttributeConfig<T extends View> extends AbstractViewAttr
 	
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final GroupedViewAttributeConfig<T> that = (GroupedViewAttributeConfig) other;
-		return new EqualsBuilder()
-			.appendSuper(super.equals(that))
-			.append(pendingGroupAttributes, that.pendingGroupAttributes)
-			.append(viewListenersInjector, that.viewListenersInjector)
-			.isEquals();
+		return super.equals(that)
+				&& Objects.equal(pendingGroupAttributes, that.pendingGroupAttributes)
+				&& Objects.equal(viewListenersInjector, that.viewListenersInjector);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return new HashCodeBuilder()
-			.appendSuper(super.hashCode())
-			.append(pendingGroupAttributes)
-			.append(viewListenersInjector)
-			.toHashCode();
+		return super.hashCode() + Objects.hashCode(pendingGroupAttributes, viewListenersInjector);
 	}
 
 }

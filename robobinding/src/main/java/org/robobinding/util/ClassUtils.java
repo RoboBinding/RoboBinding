@@ -21,7 +21,7 @@ import java.util.Map;
 
 
 /**
- * Migrated some of methods from {@link org。apache。commons。lang3。ClassUtils}.
+ * Migrated some of methods from {@link org.apache.commons.lang3.ClassUtils}.
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
