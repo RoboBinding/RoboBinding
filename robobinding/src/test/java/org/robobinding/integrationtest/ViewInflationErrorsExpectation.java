@@ -222,7 +222,7 @@ public class ViewInflationErrorsExpectation
 		
 		public void meet(AttributeBindingException e)
 		{
-			assertThat(e.getAttribute(), is(attributeName));
+			assertThat(e.getAttributeName(), is(attributeName));
 		}
 	}
 }

@@ -32,7 +32,7 @@ public class AttributeBindingException extends RuntimeException
 		this.attributeName = attributeName;
 	}
 
-	public String getAttribute()
+	public String getAttributeName()
 	{
 		return attributeName;
 	}
