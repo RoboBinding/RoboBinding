@@ -15,10 +15,12 @@
  */
 package org.robobinding.property;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.robobinding.util.Preconditions.checkNotBlank;
+
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.lang3.Validate;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -37,7 +39,7 @@ public class PresentationModelPropertyChangeSupport
 	private Map<String, PresentationModelPropertyChangeListeners> propertyToItsChangeListeners;
 	public PresentationModelPropertyChangeSupport(Object bean)
 	{
-		Validate.notNull(bean);
+		checkNotNull(bean, "Bean should not be null");
 		
 		this.bean = bean;
 		initializeAvailableProperties();
@@ -93,8 +95,8 @@ public class PresentationModelPropertyChangeSupport
 
 	private void validatePropertyName(String propertyName)
 	{
-		Validate.notBlank(propertyName, "propertyName cannot be empty");
-		Validate.isTrue(availablePropertyNames.contains(propertyName), "Bean '"+getBeanClassName()+"' does not contain given property'"+propertyName+"'");
+		checkNotBlank(propertyName, "propertyName cannot be empty");
+		checkArgument(availablePropertyNames.contains(propertyName), "Bean '"+getBeanClassName()+"' does not contain given property'"+propertyName+"'");
 	}
 	
 	private String getBeanClassName()

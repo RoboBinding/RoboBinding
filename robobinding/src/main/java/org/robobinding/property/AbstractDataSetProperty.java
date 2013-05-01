@@ -17,9 +17,10 @@ package org.robobinding.property;
 
 
 
-import org.apache.commons.lang3.StringUtils;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
+
+import com.google.common.base.Strings;
 
 
 /**
@@ -51,7 +52,7 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
 		@SuppressWarnings("unchecked")
 		Class<? extends ItemPresentationModel<T>> itemPresentationModelClass = (Class<? extends ItemPresentationModel<T>>)annotation.value();
 		String factoryMethod = annotation.factoryMethod();
-		if(StringUtils.isBlank(factoryMethod))
+		if(Strings.isNullOrEmpty(factoryMethod))
 		{
 			factory = new DefaultConstructorImpl<T>(itemPresentationModelClass);
 		}else

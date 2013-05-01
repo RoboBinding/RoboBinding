@@ -15,11 +15,12 @@
  */
 package org.robobinding.customview;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Maps.newHashMap;
+import static org.robobinding.util.Preconditions.checkNotBlank;
 
 import java.util.Map;
 
-import org.apache.commons.lang3.Validate;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.PropertyViewAttribute;
@@ -47,32 +48,32 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 	@Override
 	protected void addPropertyViewAttributeMapping(Class<? extends PropertyViewAttribute<?>> propertyViewAttributeClass, String attributeName)
 	{
-		Validate.notBlank(attributeName, "attribute name must not be empty");
-		Validate.notNull(propertyViewAttributeClass, "propertyViewAttributeClass must not be null");
+		checkNotBlank(attributeName, "attribute name must not be empty");
+		checkNotNull(propertyViewAttributeClass, "propertyViewAttributeClass must not be null");
 		super.addPropertyViewAttributeMapping(propertyViewAttributeClass, attributeName);
 	}
 	
 	@Override
 	protected void addCommandViewAttributeMapping(Class<? extends AbstractCommandViewAttribute<?>> commandViewAttributeClass, String attributeName)
 	{
-		Validate.notBlank(attributeName, "attribute name must not be empty");
-		Validate.notNull(commandViewAttributeClass, "commandViewAttributeClass must not be null");
+		checkNotBlank(attributeName, "attribute name must not be empty");
+		checkNotNull(commandViewAttributeClass, "commandViewAttributeClass must not be null");
 		super.addCommandViewAttributeMapping(commandViewAttributeClass, attributeName);
 	}
 	
 	@Override
 	protected void addGroupedViewAttributeMapping(Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass,	String... attributeNames)
 	{
-		Validate.notNull(attributeNames, "attribute names must not be null");
-		Validate.notNull(groupedViewAttributeClass, "groupedViewAttributeClass must not be null");
+		checkNotNull(attributeNames, "attribute names must not be null");
+		checkNotNull(groupedViewAttributeClass, "groupedViewAttributeClass must not be null");
 		super.addGroupedViewAttributeMapping(groupedViewAttributeClass, attributeNames);
 	}
 	
 	@Override
 	protected void addGroupedViewAttributeMapping(ViewAttributeFactory<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeFactory,	String... attributeNames)
 	{
-		Validate.notNull(attributeNames, "attribute names must not be null");
-		Validate.notNull(groupedViewAttributeFactory, "groupedViewAttributeFactory must not be null");
+		checkNotNull(attributeNames, "attribute names must not be null");
+		checkNotNull(groupedViewAttributeFactory, "groupedViewAttributeFactory must not be null");
 		super.addGroupedViewAttributeMapping(groupedViewAttributeFactory, attributeNames);
 	}
 	
@@ -80,7 +81,7 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 	public <S extends View> void mapPropertyAttribute(S alternateView, Class<? extends PropertyViewAttribute<? extends View>> propertyViewAttributeClass,
 			String attributeName)
 	{
-		Validate.notNull(alternateView, "view must not be null");
+		checkNotNull(alternateView, "view must not be null");
 		addPropertyViewAttributeMapping(propertyViewAttributeClass, attributeName);
 		customAttributeViews.put(attributeName, alternateView);
 	}
@@ -89,7 +90,7 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 	public <S extends View> void mapCommandAttribute(S alternateView, Class<? extends AbstractCommandViewAttribute<? extends View>> commandViewAttributeClass,
 			String attributeName)
 	{
-		Validate.notNull(alternateView, "view must not be null");
+		checkNotNull(alternateView, "view must not be null");
 		addCommandViewAttributeMapping(commandViewAttributeClass, attributeName);
 		customAttributeViews.put(attributeName, alternateView);
 	}
@@ -98,7 +99,7 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 	public <S extends View> void mapGroupedAttribute(S alternateView, Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass,
 			String... attributeNames)
 	{
-		Validate.notNull(alternateView, "view must not be null");
+		checkNotNull(alternateView, "view must not be null");
 		addGroupedViewAttributeMapping(groupedViewAttributeClass, attributeNames);
 		customAttributeViews.put(attributeNames[0], alternateView);
 	}
@@ -106,7 +107,7 @@ class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttribut
 	@Override
 	public <S extends View> void mapGroupedAttribute(S alternateView, ViewAttributeFactory<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeFactory, String... attributeNames)
 	{
-		Validate.notNull(alternateView, "view must not be null");
+		checkNotNull(alternateView, "view must not be null");
 		addGroupedViewAttributeMapping(groupedViewAttributeFactory, attributeNames);
 		customAttributeViews.put(attributeNames[0], alternateView);
 	}

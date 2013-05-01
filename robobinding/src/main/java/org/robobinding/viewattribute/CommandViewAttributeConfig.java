@@ -15,11 +15,11 @@
  */
 package org.robobinding.viewattribute;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.robobinding.attribute.CommandAttribute;
 
 import android.view.View;
+
+import com.google.common.base.Objects;
 
 /**
  * 
@@ -53,18 +53,12 @@ public class CommandViewAttributeConfig<T extends View> extends AbstractViewAttr
 	
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		final CommandViewAttributeConfig<T> that = (CommandViewAttributeConfig) other;
-		return new EqualsBuilder()
-			.appendSuper(super.equals(that))
-			.append(attribute, that.attribute)
-			.isEquals();
+		return super.equals(that) && Objects.equal(attribute, that.attribute);
 	}
-
+	
 	@Override
 	public int hashCode()
 	{
-		return new HashCodeBuilder()
-			.appendSuper(super.hashCode())
-			.append(attribute)
-			.toHashCode();
+		return super.hashCode() + Objects.hashCode(attribute);
 	}
 }

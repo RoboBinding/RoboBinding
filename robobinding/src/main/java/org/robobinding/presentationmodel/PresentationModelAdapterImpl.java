@@ -15,7 +15,8 @@
  */
 package org.robobinding.presentationmodel;
 
-import org.apache.commons.lang3.Validate;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.robobinding.function.CachedFunctions;
 import org.robobinding.function.Function;
 import org.robobinding.property.CachedProperties;
@@ -38,7 +39,7 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter
 	
 	public PresentationModelAdapterImpl(Object presentationModel)
 	{
-		Validate.notNull(presentationModel, "presentationModel must not be null");
+		checkNotNull(presentationModel, "presentationModel must not be null");
 		
 		properties = CachedProperties.create(presentationModel);
 		functions = new CachedFunctions(presentationModel);
