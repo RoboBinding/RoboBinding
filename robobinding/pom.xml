@@ -118,9 +118,15 @@
 				<version>1.4</version>
 				<executions>
 					<execution>
-						<phase>process-sources</phase>
+						<id>aspectj-compile</id>
 						<goals>
 							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>aspectj-test-compile</id>
+						<phase>process-test-sources</phase>
+						<goals>
 							<goal>test-compile</goal>
 						</goals>
 					</execution>
@@ -130,7 +136,7 @@
 					<target>${maven.compiler.target}</target>
 				</configuration>
 			</plugin>
-
+			
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
