@@ -18,9 +18,6 @@ package org.robobinding.binder;
 import java.text.MessageFormat;
 import java.util.Collection;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.apache.commons.lang3.text.StrBuilder;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 /**
@@ -31,46 +28,75 @@ import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatt
  */
 public class PlainTextErrorFormatter implements ErrorFormatter
 {
+	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+	
 	@Override
 	public String format(ViewInflationErrors inflationError)
 	{
-		StrBuilder errorMessageBuilder = new StrBuilder();
-		
-		errorMessageBuilder.appendln(MessageFormat.format("-------------------------{0}({1} errors)-----------------------", inflationError.getViewName(), inflationError.numErrors()));
-		errorMessageBuilder.append(formatErrors(inflationError.getErrors()));
-		
-		return errorMessageBuilder.toString();
+		ErrorMessageBuilder errorMessageBuilder = new ErrorMessageBuilder(inflationError);
+		return errorMessageBuilder.build();
 	}
 	
-	private String formatErrors(Collection<Exception> errors)
+	private static class ErrorMessageBuilder
 	{
-		StrBuilder errorMessageBuilder = new StrBuilder();
-		
-		for(Exception error : errors)
+		private ViewInflationErrors inflationError;
+		private StringBuilder errorMessage;
+		public ErrorMessageBuilder(ViewInflationErrors inflationError)
 		{
-			errorMessageBuilder.appendln(error.toString());
-			errorMessageBuilder.appendNewLine();
+			this.inflationError = inflationError;
 		}
 		
-		if(!errors.isEmpty())
+		public String build()
 		{
-			removeEndNewLine(errorMessageBuilder);
+			errorMessage = new StringBuilder();
+			
+			addHeader();
+			addBody();
+			
+			return errorMessage.toString();
+		}
+
+		private void addHeader()
+		{
+			errorMessage.append(withNewLine(
+					MessageFormat.format("-------------------------{0}({1} errors)-----------------------", inflationError.getViewName(), inflationError.numErrors())));
+		}
+
+		private void addBody()
+		{
+			Collection<Exception> errors = inflationError.getErrors();
+			for(Exception error : errors)
+			{
+				errorMessage.append(withNewLine(error.toString()));
+				errorMessage.append(newLine());
+			}
+			
+			if(!errors.isEmpty())
+			{
+				removeLastNewLine();
+			}
+		}
+
+		private void removeLastNewLine()
+		{
+			int endIndex = errorMessage.length();
+			int startIndex = endIndex - lengthOfNewLineText();
+			errorMessage.delete(startIndex, endIndex);
 		}
 		
-		return errorMessageBuilder.toString();
-	}
+		private int lengthOfNewLineText()
+		{
+			return newLine().length();
+		}
 
-	private void removeEndNewLine(StrBuilder sb)
-	{
-		int endIndex = sb.length();
-		int startIndex = endIndex - lengthOfNewLineText(sb);
-		sb.delete(startIndex, endIndex);
+		private String withNewLine(String str)
+		{
+			return str+newLine();
+		}
+		
+		private String newLine()
+		{
+			return LINE_SEPARATOR;
+		}
 	}
-	
-	private int lengthOfNewLineText(StrBuilder sb)
-	{
-		String newLineText = StringUtils.defaultString(sb.getNewLineText(), SystemUtils.LINE_SEPARATOR);
-		return newLineText.length();
-	}
-
 }

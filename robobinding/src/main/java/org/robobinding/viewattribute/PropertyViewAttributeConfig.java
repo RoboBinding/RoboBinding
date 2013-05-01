@@ -15,11 +15,11 @@
  */
 package org.robobinding.viewattribute;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.robobinding.attribute.ValueModelAttribute;
 
 import android.view.View;
+
+import com.google.common.base.Objects;
 
 /**
  *
@@ -52,19 +52,12 @@ public class PropertyViewAttributeConfig<T extends View> extends AbstractViewAtt
 	
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final PropertyViewAttributeConfig<T> that = (PropertyViewAttributeConfig) other;
-		return new EqualsBuilder()
-			.appendSuper(super.equals(that))
-			.append(attribute, that.attribute)
-			.isEquals();
+		return super.equals(that) && Objects.equal(attribute, that.attribute);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return new HashCodeBuilder()
-			.appendSuper(super.hashCode())
-			.append(attribute)
-			.toHashCode();
+		return super.hashCode() + Objects.hashCode(attribute);
 	}
-
 }

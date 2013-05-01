@@ -27,6 +27,7 @@ import org.robobinding.PredefinedPendingAttributesForView;
 import android.content.Context;
 import android.view.View;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -130,34 +131,21 @@ public class PredefinedMappingsAttribute extends AbstractAttribute
 		}
 
 		@Override
+		public boolean equals(Object other)
+		{
+			if (this == other)
+				return true;
+			if (!(other instanceof ViewMapping))
+				return false;
+		
+			final ViewMapping that = (ViewMapping) other;
+			return Objects.equal(bindingAttributes, that.bindingAttributes) && Objects.equal(viewId, that.viewId);
+		}
+		
+		@Override
 		public int hashCode()
 		{
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((bindingAttributes == null) ? 0 : bindingAttributes.hashCode());
-			result = prime * result + viewId;
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj)
-		{
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ViewMapping other = (ViewMapping) obj;
-			if (bindingAttributes == null)
-			{
-				if (other.bindingAttributes != null)
-					return false;
-			} else if (!bindingAttributes.equals(other.bindingAttributes))
-				return false;
-			if (viewId != other.viewId)
-				return false;
-			return true;
+			return Objects.hashCode(bindingAttributes, viewId);
 		}
 	}
 

@@ -19,7 +19,7 @@ package org.robobinding.internal.java_beans;
 
 import java.lang.reflect.Method;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import com.google.common.base.Objects;
 
 
 public class IndexedPropertyDescriptor extends PropertyDescriptor {
@@ -220,12 +220,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder()
-        	.appendSuper(super.hashCode())
-        	.append(indexedPropertyType)
-            .append(indexedGetter)
-            .append(indexedSetter)
-            .toHashCode();
+        return super.hashCode()+Objects.hashCode(indexedPropertyType , indexedGetter, indexedSetter);
     }
 
     /**

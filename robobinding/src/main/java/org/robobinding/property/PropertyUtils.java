@@ -15,10 +15,11 @@
  */
 package org.robobinding.property;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang3.Validate;
 import org.robobinding.internal.java_beans.BeanInfo;
 import org.robobinding.internal.java_beans.IntrospectionException;
 import org.robobinding.internal.java_beans.Introspector;
@@ -40,7 +41,7 @@ public class PropertyUtils
 	//TODO:seems it accept setters with two parameters.
 	public static List<PropertyDescriptor> getPropertyDescriptors(Class<?> beanClass)
 	{
-		Validate.notNull(beanClass, "beanClass cannot be null");
+		checkNotNull(beanClass, "beanClass cannot be null");
 		try
 		{
 			BeanInfo info = Introspector.getBeanInfo(beanClass);

@@ -15,7 +15,6 @@
  */
 package org.robobinding.attribute;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 
@@ -53,12 +52,17 @@ public class CommandAttribute extends AbstractAttribute
 		Function function = presentationModelAdapter.findFunction(commandName, parameterTypes);
 		if(function != null)
 		{
-			return ArrayUtils.isNotEmpty(parameterTypes)?new Command(function, true):new Command(function, false);
+			return isArrayNotEmpty(parameterTypes)?new Command(function, true):new Command(function, false);
 		}else
 		{
 			return null;
 		}
 	}
+	
+	private static <T> boolean isArrayNotEmpty(final T[] array) 
+	{
+		 return (array != null && array.length != 0);
+ 	}
 
 	public String getCommandName()
 	{

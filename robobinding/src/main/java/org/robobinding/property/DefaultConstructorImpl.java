@@ -15,13 +15,14 @@
  */
 package org.robobinding.property;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
+import org.robobinding.util.ConstructorUtils;
 
 
 
@@ -39,7 +40,7 @@ final class DefaultConstructorImpl<T> implements ItemPresentationModelFactory<T>
 	{
 		itemPresentationModelConstructor = ConstructorUtils.getAccessibleConstructor(itemPresentationModelClass, new Class<?>[0]);
 		String className = itemPresentationModelClass.getName();
-		Validate.notNull(itemPresentationModelConstructor, "itemPresentationModelClass '"+className+"' does not have an accessible default constructor");
+		checkNotNull(itemPresentationModelConstructor, "itemPresentationModelClass '"+className+"' does not have an accessible default constructor");
 	}
 	@Override
 	public ItemPresentationModel<T> newItemPresentationModel()
