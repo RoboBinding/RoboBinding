@@ -44,6 +44,7 @@ class StaticLayoutAttribute implements ViewAttribute
 	}
 
 	@Override
-	public void preInitializeView(BindingContext bindingContext) {
+	public void preInitializeView(BindingContext bindingContext) 
+	{
 	}
 }
