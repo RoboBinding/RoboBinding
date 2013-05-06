@@ -40,13 +40,13 @@ public class DynamicLayoutAttributeTest
 {
 	@Mock AdapterView adapterView;
 	@Mock DataSetAdapter<?> dataSetAdapter;
-	@Mock DataSetAdapterRowLayoutUpdater dataSetAdapterRowLayoutUpdater;
+	@Mock RowLayoutUpdater rowLayoutUpdater;
 	private DynamicLayoutAttribute dynamicLayoutAttribute;
 	
 	@Before 
 	public void setup() 
 	{
-		dynamicLayoutAttribute = new DynamicLayoutAttribute(aPropertyViewAttributeConfig(adapterView), dataSetAdapter, dataSetAdapterRowLayoutUpdater);
+		dynamicLayoutAttribute = new DynamicLayoutAttribute(aPropertyViewAttributeConfig(adapterView), dataSetAdapter, rowLayoutUpdater);
 	}
 	
 	@Test
@@ -56,7 +56,7 @@ public class DynamicLayoutAttributeTest
 		
 		dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
 		
-		verify(dataSetAdapterRowLayoutUpdater).updateRowLayout(newItemLayoutId);
+		verify(rowLayoutUpdater).updateRowLayout(newItemLayoutId);
 	}
 	
 	@Test

@@ -21,7 +21,7 @@ package org.robobinding.viewattribute.adapterview;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-class DropdownLayoutUpdater implements DataSetAdapterRowLayoutUpdater
+class DropdownLayoutUpdater implements RowLayoutUpdater
 {
 	private DataSetAdapter<?> dataSetAdapter;
 

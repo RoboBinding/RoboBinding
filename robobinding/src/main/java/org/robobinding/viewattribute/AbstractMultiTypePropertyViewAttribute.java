@@ -69,6 +69,7 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		if (propertyViewAttribute == null)
 			throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);
 		
+		propertyViewAttribute.initialize(new PropertyViewAttributeConfig<T>(view, attribute));
 		return propertyViewAttribute;
 	}
 

@@ -30,20 +30,20 @@ import android.widget.AdapterView;
 class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView, Integer>
 {
 	private DataSetAdapter<?> dataSetAdapter;
-	private DataSetAdapterRowLayoutUpdater dataSetAdapterRowLayoutUpdater;
+	private RowLayoutUpdater rowLayoutUpdater;
 	
 	public DynamicLayoutAttribute(PropertyViewAttributeConfig<AdapterView> config,
-			DataSetAdapter<?> dataSetAdapter, DataSetAdapterRowLayoutUpdater dataSetAdapterRowLayoutUpdater)
+			DataSetAdapter<?> dataSetAdapter, RowLayoutUpdater rowLayoutUpdater)
 	{
 		super.initialize(config);
 		this.dataSetAdapter = dataSetAdapter;
-		this.dataSetAdapterRowLayoutUpdater = dataSetAdapterRowLayoutUpdater;
+		this.rowLayoutUpdater = rowLayoutUpdater;
 	}
 
 	@Override
 	protected void valueModelUpdated(Integer newItemLayoutId)
 	{
-		dataSetAdapterRowLayoutUpdater.updateRowLayout(newItemLayoutId);
+		rowLayoutUpdater.updateRowLayout(newItemLayoutId);
 		((AdapterView)view).setAdapter(dataSetAdapter);
 	}
 }

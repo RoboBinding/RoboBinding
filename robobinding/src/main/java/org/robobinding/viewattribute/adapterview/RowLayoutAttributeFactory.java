@@ -40,27 +40,27 @@ public class RowLayoutAttributeFactory
 
 	public ViewAttribute createItemLayoutAttribute(AbstractPropertyAttribute attribute)
 	{
-		return attribute.isStaticResource() ? 
-				createStaticLayoutAttribute(attribute, new ItemLayoutUpdater(dataSetAdapter)) :
+		RowLayoutUpdater rowLayoutUpdater = new ItemLayoutUpdater(dataSetAdapter);
+		return attribute.isStaticResource() ? createStaticLayoutAttribute(attribute, rowLayoutUpdater) :
 					createDynamicLayoutAttribute(attribute, new ItemLayoutUpdater(dataSetAdapter));
 	}
 
 	public ViewAttribute createDropdownLayoutAttribute(AbstractPropertyAttribute attribute)
 	{
-		return attribute.isStaticResource() ? 
-				createStaticLayoutAttribute(attribute, new DropdownLayoutUpdater(dataSetAdapter)) :
-					createDynamicLayoutAttribute(attribute, new DropdownLayoutUpdater(dataSetAdapter));
+		RowLayoutUpdater rowLayoutUpdater = new DropdownLayoutUpdater(dataSetAdapter);
+		return attribute.isStaticResource() ? createStaticLayoutAttribute(attribute, rowLayoutUpdater) :
+					createDynamicLayoutAttribute(attribute, rowLayoutUpdater);
 	}
 	
-	private ViewAttribute createStaticLayoutAttribute(AbstractPropertyAttribute attribute, DataSetAdapterRowLayoutUpdater dataSetRowLayoutUpdater)
+	private ViewAttribute createStaticLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater rowLayoutUpdater)
 	{
-		return new StaticLayoutAttribute(attribute.asStaticResourceAttribute(), dataSetRowLayoutUpdater);
+		return new StaticLayoutAttribute(attribute.asStaticResourceAttribute(), rowLayoutUpdater);
 	}
 
-	private ViewAttribute createDynamicLayoutAttribute(AbstractPropertyAttribute attribute, DataSetAdapterRowLayoutUpdater dataSetRowLayoutUpdater)
+	private ViewAttribute createDynamicLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater rowLayoutUpdater)
 	{
 		@SuppressWarnings("rawtypes")
 		PropertyViewAttributeConfig<AdapterView> attributeConfig = new PropertyViewAttributeConfig<AdapterView>(adapterView, attribute.asValueModelAttribute());
-		return new DynamicLayoutAttribute(attributeConfig, dataSetAdapter, dataSetRowLayoutUpdater);
+		return new DynamicLayoutAttribute(attributeConfig, dataSetAdapter, rowLayoutUpdater);
 	}
 }

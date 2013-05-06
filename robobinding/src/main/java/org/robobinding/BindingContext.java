@@ -69,33 +69,39 @@ public class BindingContext implements PresentationModelAdapter
 		return preInitializeViews;
 	}
 	
-		public DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName)
+	@Override
+	public DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName)
 	{
 		return presentationModelAdapter.getDataSetPropertyValueModel(propertyName);
 	}
 
+	@Override
 	public Class<?> getPropertyType(String propertyName)
 	{
 		return presentationModelAdapter.getPropertyType(propertyName);
 	}
 
+	@Override
 	public <T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName)
 	{
 		return presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
 	}
 
+	@Override
 	public <T> ValueModel<T> getPropertyValueModel(String propertyName)
 	{
 		return presentationModelAdapter.getPropertyValueModel(propertyName);
 	}
 
+	@Override
 	public Function findFunction(String functionName, Class<?>... parameterTypes)
 	{
 		return presentationModelAdapter.findFunction(functionName, parameterTypes);
 	}
 
+	@Override
 	public String getPresentationModelClassName()
 	{
-		return presentationModelAdapter.getClass().getName();
+		return presentationModelAdapter.getPresentationModelClassName();
 	}
 }

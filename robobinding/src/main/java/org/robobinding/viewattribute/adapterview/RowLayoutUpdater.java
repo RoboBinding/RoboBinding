@@ -21,7 +21,7 @@ package org.robobinding.viewattribute.adapterview;
  * @version $Revision: 1.0 $
  * @author Robert
  */
-public interface DataSetAdapterRowLayoutUpdater
+public interface RowLayoutUpdater
 {
 	void updateRowLayout(int layoutId);
 }

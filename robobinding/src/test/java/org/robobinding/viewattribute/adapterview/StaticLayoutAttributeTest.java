@@ -39,7 +39,7 @@ import android.content.Context;
 public class StaticLayoutAttributeTest 
 {
 	@Mock StaticResourceAttribute staticResourceAttribute;
-	@Mock DataSetAdapterRowLayoutUpdater dataSetAdapterRowLayoutUpdater;
+	@Mock RowLayoutUpdater rowLayoutUpdater;
 	@InjectMocks StaticLayoutAttribute staticLayoutAttribute;
 	
 	@Mock Context context;
@@ -53,6 +53,6 @@ public class StaticLayoutAttributeTest
 		
 		staticLayoutAttribute.bindTo(bindingContext);
 		
-		verify(dataSetAdapterRowLayoutUpdater).updateRowLayout(resourceId);
+		verify(rowLayoutUpdater).updateRowLayout(resourceId);
 	}
 }
