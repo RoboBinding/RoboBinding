@@ -30,7 +30,7 @@ public class EmptyViewAttributesFactory implements ViewAttributeFactory<SubViewA
 	@Override
 	public SubViewAttributes<AdapterView<?>> create()
 	{
-		return new SubViewAttributes<AdapterView<?>>(new EmptyViewAttributes(), new SubViewCreator());
+		return new SubViewAttributes<AdapterView<?>>(new EmptyViewAttributes());
 	}
 
 }

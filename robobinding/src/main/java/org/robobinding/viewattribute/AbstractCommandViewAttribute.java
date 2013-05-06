@@ -44,7 +44,7 @@ public abstract class AbstractCommandViewAttribute<T extends View> implements Vi
 	{
 		try
 		{
-			performBind(bindingContext.getPresentationModelAdapter());
+			performBind(bindingContext);
 		}catch(RuntimeException e)
 		{
 			throw new AttributeBindingException(attribute.getName(), e);

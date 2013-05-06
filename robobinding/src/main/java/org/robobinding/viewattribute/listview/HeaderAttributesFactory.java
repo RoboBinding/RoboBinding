@@ -17,7 +17,6 @@ package org.robobinding.viewattribute.listview;
 
 import org.robobinding.viewattribute.ViewAttributeFactory;
 import org.robobinding.viewattribute.adapterview.SubViewAttributes;
-import org.robobinding.viewattribute.adapterview.SubViewCreator;
 
 import android.widget.ListView;
 
@@ -32,6 +31,6 @@ public class HeaderAttributesFactory implements ViewAttributeFactory<SubViewAttr
 	@Override
 	public SubViewAttributes<ListView> create()
 	{
-		return new SubViewAttributes<ListView>(new HeaderAttributes(), new SubViewCreator());
+		return new SubViewAttributes<ListView>(new HeaderAttributes());
 	}
 }

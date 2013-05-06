@@ -103,23 +103,23 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 
 	private abstract class AbstractBindingProperty
 	{
-		public void preInitializeView(BindingContext bindingContext)
+		public void preInitializeView(BindingContext presentationModelAdapter)
 		{
-			ValueModel<PropertyType> valueModel = getPropertyValueModel(bindingContext);
+			ValueModel<PropertyType> valueModel = getPropertyValueModel(presentationModelAdapter);
 			valueModelUpdated(valueModel.getValue());
 		}
 		
-		public abstract ValueModel<PropertyType> getPropertyValueModel(BindingContext bindingContext);
+		public abstract ValueModel<PropertyType> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter);
 
-		public abstract void performBind(BindingContext bindingContext);
+		public abstract void performBind(PresentationModelAdapter presentationModelAdapter);
 	}
 	
 	private class OneWayBindingProperty extends AbstractBindingProperty
 	{
 		@Override
-		public void performBind(BindingContext bindingContext)
+		public void performBind(PresentationModelAdapter presentationModelAdapter)
 		{
-			final ValueModel<PropertyType> valueModel = getPropertyValueModel(bindingContext);
+			final ValueModel<PropertyType> valueModel = getPropertyValueModel(presentationModelAdapter);
 			valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener(){
 				@Override
 				public void propertyChanged()
@@ -130,9 +130,8 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		}
 		
 		@Override
-		public ValueModel<PropertyType> getPropertyValueModel(BindingContext bindingContext)
+		public ValueModel<PropertyType> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter)
 		{
-			PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
 			return presentationModelAdapter.getReadOnlyPropertyValueModel(attribute.getPropertyName());
 		}
 	}
@@ -142,9 +141,9 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		private boolean updatedProgrammatically;
 		
 		@Override
-		public void performBind(BindingContext bindingContext)
+		public void performBind(PresentationModelAdapter presentationModelAdapter)
 		{
-			ValueModel<PropertyType> valueModel = getPropertyValueModel(bindingContext);
+			ValueModel<PropertyType> valueModel = getPropertyValueModel(presentationModelAdapter);
 			valueModel = new PropertyValueModelWrapper(valueModel);
 			observeChangesOnTheValueModel(valueModel);
 			observeChangesOnTheView(valueModel);
@@ -163,9 +162,8 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
 		}
 		
 		@Override
-		public ValueModel<PropertyType> getPropertyValueModel(BindingContext bindingContext)
+		public ValueModel<PropertyType> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter)
 		{
-			PresentationModelAdapter presentationModelAdapter = bindingContext.getPresentationModelAdapter();
 			return presentationModelAdapter.getPropertyValueModel(attribute.getPropertyName());
 		}
 		

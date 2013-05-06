@@ -23,7 +23,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 import org.robobinding.BindingContext;
 import org.robobinding.function.Function;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.ValueModel;
 
@@ -56,13 +55,10 @@ public abstract class ViewAttributeContractTest<T extends ViewAttribute>
 	{
 		BindingContext bindingContext = mock(BindingContext.class);
 		
-		PresentationModelAdapter presentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(bindingContext.getPresentationModelAdapter()).thenReturn(presentationModelAdapter);
-	
-		when(presentationModelAdapter.getPropertyValueModel(anyString())).thenReturn(mock(ValueModel.class));
-		when(presentationModelAdapter.getReadOnlyPropertyValueModel(anyString())).thenReturn(mock(ValueModel.class));
-		when(presentationModelAdapter.getDataSetPropertyValueModel(anyString())).thenReturn(mock(DataSetValueModel.class));
-		when(presentationModelAdapter.findFunction(anyString(), (Class<?>)any())).thenReturn(mock(Function.class));
+		when(bindingContext.getPropertyValueModel(anyString())).thenReturn(mock(ValueModel.class));
+		when(bindingContext.getReadOnlyPropertyValueModel(anyString())).thenReturn(mock(ValueModel.class));
+		when(bindingContext.getDataSetPropertyValueModel(anyString())).thenReturn(mock(DataSetValueModel.class));
+		when(bindingContext.findFunction(anyString(), (Class<?>)any())).thenReturn(mock(Function.class));
 		
 		return bindingContext;
 	}

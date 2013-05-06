@@ -19,14 +19,19 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robobinding.attribute.Attributes.aCommandAttribute;
-import static org.robobinding.presentationmodel.MockPresentationModelAdapterBuilder.aPresentationModelAdapter;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.robobinding.BindingContext;
+import org.robobinding.function.Function;
 
 /**
  *
@@ -42,6 +47,15 @@ public class CommandAttributeTest
 	
 	private static final String COMMAND_NAME = "commandName";
 	
+	@Mock BindingContext bindingContext;
+	@Mock Function function;
+	private CommandAttribute attribute = aCommandAttribute(COMMAND_NAME);
+	
+	@Before
+	public void setup() {
+		initMocks(this);
+	}
+	
 	@Theory
 	@Test(expected=MalformedAttributeException.class)
 	public void whenCreateWithIllegalAttributeValue_thenThrowException(String illegalAttributeValue)
@@ -52,28 +66,20 @@ public class CommandAttributeTest
 	@Test
 	public void givenFunctionWithParameters_whenFind_thenReturnCommandWithParametersSupported()
 	{
-		CommandAttribute attribute = aCommandAttribute(COMMAND_NAME);
+		when(bindingContext.findFunction(COMMAND_NAME, withParameterTypes())).thenReturn(function);
 		
-		Command command = attribute.findCommand(
-				aPresentationModelAdapter().withFunction(COMMAND_NAME, withParameterTypes()).build(), 
-				withParameterTypes());
+		Command command = attribute.findCommand(bindingContext, withParameterTypes());
 		
 		assertNotNull(command);
 		assertTrue(command.supportsPreferredParameterType);
-	}
-	
-	private Class<?>[] withParameterTypes()
-	{
-		return new Class<?>[]{Object.class};
 	}
 
 	@Test
 	public void givenFunctionWithoutParameters_whenFind_thenReturnCommandWithoutParametersSupported()
 	{
-		CommandAttribute attribute = aCommandAttribute(COMMAND_NAME);
+		when(bindingContext.findFunction(COMMAND_NAME)).thenReturn(function);
 		
-		Command command = attribute.findCommand(
-				aPresentationModelAdapter().withFunction(COMMAND_NAME).build());
+		Command command = attribute.findCommand(bindingContext);
 		
 		assertNotNull(command);
 		assertFalse(command.supportsPreferredParameterType);
@@ -82,11 +88,13 @@ public class CommandAttributeTest
 	@Test
 	public void whenFindANonExistingCommand_thenReturnNull()
 	{
-		CommandAttribute attribute = aCommandAttribute(COMMAND_NAME);
-		
-		Command command = attribute.findCommand(
-				aPresentationModelAdapter().build());
+		Command command = attribute.findCommand(bindingContext);
 		
 		assertNull(command);
+	}
+	
+	private Class<?>[] withParameterTypes()
+	{
+		return new Class<?>[]{Object.class};
 	}
 }

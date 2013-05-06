@@ -18,7 +18,7 @@ package org.robobinding.binder;
 import org.robobinding.ActivityBinder;
 import org.robobinding.BinderImplementor;
 import org.robobinding.DialogBinder;
-import org.robobinding.ViewBinder;
+import org.robobinding.InternalViewBinder;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -58,14 +58,14 @@ public class Binders
 	public static View bindView(Context context, int layoutId, Object presentationModel)
 	{
 		BinderImplementor binderImplementor = InternalBinderFactory.create(context, true);
-		ViewBinder viewBinder = new ViewBinder(binderImplementor);
+		InternalViewBinder viewBinder = new InternalViewBinder(binderImplementor);
 		return viewBinder.inflateAndBind(layoutId, presentationModel);
 	}
 	
 	public static View attachToRootAndBindView(ViewGroup parentView, Context context, int layoutId, Object presentationModel)
 	{
 		BinderImplementor binderImplementor = InternalBinderFactory.create(context, true);
-		ViewBinder viewBinder = new ViewBinder(binderImplementor);
+		InternalViewBinder viewBinder = new InternalViewBinder(binderImplementor);
 		viewBinder.attachToRoot(parentView);
 		return viewBinder.inflateAndBind(layoutId, presentationModel);
 	}

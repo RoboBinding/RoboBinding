@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Cheng Wei, Robert Taylor
+ * Copyright 2013 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,40 +17,42 @@ package org.robobinding.viewattribute.adapterview;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.robobinding.attribute.Attributes.aValueModelAttribute;
+import static org.robobinding.viewattribute.RandomValues.anyInteger;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
-import org.robobinding.property.DataSetValueModel;
+import org.robobinding.attribute.StaticResourceAttribute;
+
+import android.content.Context;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings({ "rawtypes", "unchecked" })
-public class SourceAttributeTest
+public class StaticLayoutAttributeTest 
 {
-	private final String attributeValue = "{property_name}";
-	private final String propertyName = "property_name";
-	@Mock DataSetAdapter<?> dataSetAdapter;
+	@Mock StaticResourceAttribute staticResourceAttribute;
+	@Mock RowLayoutUpdater rowLayoutUpdater;
+	@InjectMocks StaticLayoutAttribute staticLayoutAttribute;
+	
+	@Mock Context context;
 	@Mock BindingContext bindingContext;
-	@Mock DataSetValueModel dataSetValueModel;
 	
 	@Test
-	public void whenBinding_thenSetDataSetValueModelOnDataSetAdapter()
-	{
-		when(bindingContext.getDataSetPropertyValueModel(propertyName)).thenReturn(dataSetValueModel);		
-		SourceAttribute sourceAttribute = new SourceAttribute(dataSetAdapter);
-		sourceAttribute.setAttribute(aValueModelAttribute(attributeValue));
+	public void whenBinding_thenSetRowLayout() {
+		int resourceId = anyInteger();
+		when(bindingContext.getContext()).thenReturn(context);
+		when(staticResourceAttribute.getResourceId(context)).thenReturn(resourceId);
 		
-		sourceAttribute.bindTo(bindingContext);
+		staticLayoutAttribute.bindTo(bindingContext);
 		
-		verify(dataSetAdapter).setValueModel(dataSetValueModel);
+		verify(rowLayoutUpdater).updateRowLayout(resourceId);
 	}
 }

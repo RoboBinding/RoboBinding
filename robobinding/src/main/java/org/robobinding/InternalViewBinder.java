@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Cheng Wei, Robert Taylor
+ * Copyright 2012 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,48 +15,34 @@
  */
 package org.robobinding;
 
-import org.robobinding.property.ValueModel;
-
 import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Robert Taylor
  * @author Cheng Wei
  */
-public class ViewBinder
+public class InternalViewBinder
 {
-	private InternalViewBinder internalViewBinder;
-	private BindingContext bindingContext;
-
-	public ViewBinder(InternalViewBinder internalViewBinder, BindingContext bindingContext)
+	private BinderImplementor binderImplementor;
+	public InternalViewBinder(BinderImplementor binderImplementor)
 	{
-		this.internalViewBinder = internalViewBinder;
-		this.bindingContext = bindingContext;
+		this.binderImplementor = binderImplementor;
 	}
-
 	public void attachToRoot(ViewGroup parentView)
 	{
-		internalViewBinder.attachToRoot(parentView);
+		binderImplementor.attachToRoot(parentView);
 	}
-
 	public View inflateAndBind(int layoutId, Object presentationModel)
 	{
-		return internalViewBinder.inflateAndBind(layoutId, presentationModel);
+		return binderImplementor.inflateAndBind(layoutId, presentationModel);
 	}
-
-	public View inflateAndBind(int layoutId, String presentationModelPropertyName)
-	{
-		ValueModel<Object> valueModel = bindingContext.getPropertyValueModel(presentationModelPropertyName);
-		Object presentationModel = valueModel.getValue();
-		return internalViewBinder.inflateAndBind(layoutId, presentationModel);
-	}
-
 	public View inflate(int layoutId)
 	{
-		return internalViewBinder.inflate(layoutId);
+		return binderImplementor.inflateOnly(layoutId);
 	}
 
 }

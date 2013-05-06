@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Cheng Wei, Robert Taylor
+ * Copyright 2013 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,14 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.robobinding.viewattribute.RandomValues.anyInteger;
 
-import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.DynamicLayoutAttribute;
-
-import android.widget.AdapterView;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  *
@@ -31,18 +30,19 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
-@SuppressWarnings({"rawtypes"})
-public abstract class AbstractDynamicLayoutAttributeTest
+@RunWith(MockitoJUnitRunner.class)
+public class ItemLayoutUpdaterTest 
 {
-	protected DynamicLayoutAttribute dynamicLayoutAttribute;
-	protected AdapterView adapterView;
-	protected DataSetAdapter<?> dataSetAdapter;
+	@Mock DataSetAdapter<?> dataSetAdapter;
+	@InjectMocks ItemLayoutUpdater itemLayoutUpdater;
 	
-	@Before
-	public void init()
+	@Test
+	public void whenUpdatingRowLayout_thenSetItemLayoutOnDataSetAdapter() 
 	{
-		adapterView = mock(AdapterView.class);
-		dataSetAdapter = mock(DataSetAdapter.class);
+		int layoutId = anyInteger();
+		
+		itemLayoutUpdater.updateRowLayout(layoutId);
+		
+		verify(dataSetAdapter).setItemLayoutId(layoutId);
 	}
 }

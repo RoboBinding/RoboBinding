@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2013 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.attribute.AbstractPropertyAttribute;
+import org.robobinding.BindingContext;
+import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 
 /**
@@ -24,16 +25,26 @@ import org.robobinding.viewattribute.ViewAttribute;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class DropdownLayoutAttribute extends ItemLayoutAttribute
+class StaticLayoutAttribute implements ViewAttribute
 {
-	public DropdownLayoutAttribute(RowLayoutAttributeFactory rowLayoutAttributeFactory)
+	private StaticResourceAttribute attributeValue;
+	private RowLayoutUpdater rowLayoutUpdater;
+
+	public StaticLayoutAttribute(StaticResourceAttribute attributeValue, RowLayoutUpdater rowLayoutUpdater)
 	{
-		super(rowLayoutAttributeFactory);
+		this.attributeValue = attributeValue;
+		this.rowLayoutUpdater = rowLayoutUpdater;
 	}
 
 	@Override
-	protected ViewAttribute createLayoutAttribute(AbstractPropertyAttribute attribute)
+	public void bindTo(BindingContext bindingContext)
 	{
-		return layoutAttributeFactory.createDropdownLayoutAttribute(attribute);
+		int itemLayoutId = attributeValue.getResourceId(bindingContext.getContext());
+		rowLayoutUpdater.updateRowLayout(itemLayoutId);
+	}
+
+	@Override
+	public void preInitializeView(BindingContext bindingContext) 
+	{
 	}
 }

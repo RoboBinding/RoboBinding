@@ -50,6 +50,7 @@ public class CommandAttribute extends AbstractAttribute
 	public Command findCommand(PresentationModelAdapter presentationModelAdapter, Class<?>... parameterTypes)
 	{
 		Function function = presentationModelAdapter.findFunction(commandName, parameterTypes);
+		
 		if(function != null)
 		{
 			return isArrayNotEmpty(parameterTypes)?new Command(function, true):new Command(function, false);

@@ -55,17 +55,16 @@ public abstract class AbstractMultiTypePropertyViewAttribute<T extends View> imp
 		}
 	}
 	
-	private void initializePropertyViewAttribute(BindingContext bindingContext)
+	private void initializePropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
 	{
-		propertyViewAttribute = lookupPropertyViewAttribute(bindingContext.getPresentationModelAdapter());
+		propertyViewAttribute = lookupPropertyViewAttribute(presentationModelAdapter);
 		viewListenersInjector.injectIfRequired(propertyViewAttribute, view);
 	}
-
+	
 	private AbstractPropertyViewAttribute<T, ?> lookupPropertyViewAttribute(PresentationModelAdapter presentationModelAdapter)
 	{
 		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
-		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = createPropertyViewAttribute(
-				propertyType);
+		AbstractPropertyViewAttribute<T, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
 		
 		if (propertyViewAttribute == null)
 			throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);
