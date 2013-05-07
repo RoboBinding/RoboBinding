@@ -15,12 +15,12 @@
  */
 package org.robobinding.binder;
 
+import static org.mockito.Mockito.mock;
+
 import java.util.Collection;
 
 import org.robobinding.BindingContext;
-import org.robobinding.MockBindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
 
 import android.content.Context;
 
@@ -40,7 +40,7 @@ public class BinderImplementorForTest extends InternalBinder
 			@Override
 			public BindingContext create(Object presentationModel)
 			{
-				return MockBindingContext.create(new PresentationModelAdapterImpl(presentationModel), context, false);
+				return new BindingContext(mock(InternalBinderFactory.class), context, presentationModel, false);
 			}
 		}, new ViewHierarchyInflationErrorsException.ErrorFormatter() {
 			

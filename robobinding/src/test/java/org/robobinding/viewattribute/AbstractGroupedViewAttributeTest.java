@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
 import static org.robobinding.viewattribute.MockGroupedViewAttributeConfigBuilder.aGroupedViewAttributeConfig;
 
 import java.lang.reflect.ParameterizedType;
@@ -24,7 +25,6 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robobinding.BindingContext;
-import org.robobinding.MockBindingContext;
 import org.robobinding.attribute.EnumAttribute;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
@@ -107,8 +107,7 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void setupChildViewAttributes()
 	{
-		BindingContext bindingContext = MockBindingContext.create();
-		
+		BindingContext bindingContext = mock(BindingContext.class);
 		childViewAttributes = new ChildViewAttributesWrapperForTest(attributeUnderTest.childViewAttributes);
 		attributeUnderTest.setupChildViewAttributes((ChildViewAttributes)childViewAttributes, bindingContext);
 	}

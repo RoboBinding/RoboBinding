@@ -15,21 +15,18 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.robobinding.attribute.Attributes.aValueModelAttribute;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.BindingAttributeValues;
-import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.DynamicLayoutAttribute;
-import org.robobinding.viewattribute.adapterview.ItemLayoutAttribute.StaticLayoutAttribute;
-import static org.robobinding.attribute.Attributes.*;
-
-import android.widget.AdapterView;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.robobinding.BindingContext;
+import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.viewattribute.ViewAttribute;
 
 /**
  *
@@ -37,48 +34,24 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ItemLayoutAttributeTest
 {
-	private AdapterView<?> adapterView;
-	
-	@Before
-	public void setUp()
-	{
-		adapterView = mock(AdapterView.class);
-	}
+	@Mock RowLayoutAttributeFactory rowLayoutAttributeFactory;
+	@InjectMocks ItemLayoutAttribute itemLayoutAttribute;
+	@Mock BindingContext bindingContext;
+	@Mock ViewAttribute layoutAttribute;
 	
 	@Test
-	public void whenCreatingWithAStaticLayoutValue_thenInitializeStaticLayoutAttribute()
+	public void shouldInitializeItemLayoutAttributeFromFactory()
 	{
-		String staticLayoutAttribute = "@layout/some_resource";
+		ValueModelAttribute propertyAttribute = aValueModelAttribute("{itemLayout}");
+		when(rowLayoutAttributeFactory.createItemLayoutAttribute(propertyAttribute)).thenReturn(layoutAttribute);
 		
-		ItemLayoutAttribute itemLayoutAttribute = newItemLayoutAttribute();
-		itemLayoutAttribute.setAttribute(aStaticResourceAttribute(staticLayoutAttribute));
-	
-		assertThat(itemLayoutAttribute.layoutAttribute, instanceOf(StaticLayoutAttribute.class));
-	}
-	
-	@Test
-	public void whenCreatingWithAPropertyValue_thenInitializeDynamicLayoutAttribute()
-	{
-		String dynamicLayoutAttribute = BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME;
+		itemLayoutAttribute.setAttribute(propertyAttribute);
+		itemLayoutAttribute.bindTo(bindingContext);
 		
-		ItemLayoutAttribute itemLayoutAttribute = newItemLayoutAttribute();
-		itemLayoutAttribute.setAttribute(aValueModelAttribute(dynamicLayoutAttribute));
-	
-		assertThat(itemLayoutAttribute.layoutAttribute, instanceOf(DynamicLayoutAttribute.class));
-		assertDynamicLayoutAttributeWasInitializedCorrectly((DynamicLayoutAttribute)itemLayoutAttribute.layoutAttribute);
+		verify(layoutAttribute).bindTo(bindingContext);
 	}
 
-	private ItemLayoutAttribute newItemLayoutAttribute()
-	{
-		return new ItemLayoutAttribute(adapterView, mock(DataSetAdapter.class));
-	}
-	
-	private void assertDynamicLayoutAttributeWasInitializedCorrectly(DynamicLayoutAttribute layoutAttribute)
-	{
-		DynamicLayoutAttributeUtils.bindAttribute(layoutAttribute);
-	}
-	
 }

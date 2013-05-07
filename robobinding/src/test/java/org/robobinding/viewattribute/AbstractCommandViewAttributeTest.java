@@ -28,11 +28,9 @@ import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.MockBindingContext;
+import org.robobinding.BindingContext;
 import org.robobinding.function.MockFunction;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 
-import android.app.Activity;
 import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -49,7 +47,7 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
 	private final String commandName = "someCommand";
 
 	private MockFunction mockFunction;
-	private PresentationModelAdapter presentationModelAdapter;
+	private BindingContext bindingContext;
 	
 	protected ViewType view;
 	protected CommandViewAttributeType attribute;
@@ -59,8 +57,8 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
 	{
 		mockFunction = new MockFunction();
 		
-		presentationModelAdapter = mock(PresentationModelAdapter.class);
-		when(presentationModelAdapter.findFunction(eq(commandName), (Class<?>)any())).thenReturn(mockFunction);
+		bindingContext = mock(BindingContext.class);
+		when(bindingContext.findFunction(eq(commandName), (Class<?>)any())).thenReturn(mockFunction);
 		
 		createViewAndAttribute();
 		initializeAttribute();
@@ -82,7 +80,7 @@ public abstract class AbstractCommandViewAttributeTest<ViewType extends View, Co
 	
 	protected void bindAttribute()
 	{
-		attribute.bindTo(MockBindingContext.create(presentationModelAdapter, new Activity()));
+		attribute.bindTo(bindingContext);
 	}
 	
 	protected void assertEventReceived(Class<?> eventClass)

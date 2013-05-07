@@ -15,9 +15,6 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.junit.runner.RunWith;
-
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  *
@@ -26,7 +23,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 //@RunWith(RobolectricTestRunner.class)
-public class AbstractSubViewAttributesTest
+public class SubViewAttributesTest
 {
 //	//private GroupedAttributeDetails mockGroupedAttributeDetails;
 //	private SubViewCreator mockSubViewCreator;
