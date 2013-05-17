@@ -36,23 +36,27 @@ import android.content.Context;
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-public class StaticLayoutAttributeTest 
-{
-	@Mock StaticResourceAttribute staticResourceAttribute;
-	@Mock RowLayoutUpdater rowLayoutUpdater;
-	@InjectMocks StaticLayoutAttribute staticLayoutAttribute;
-	
-	@Mock Context context;
-	@Mock BindingContext bindingContext;
-	
-	@Test
-	public void whenBinding_thenSetRowLayout() {
-		int resourceId = anyInteger();
-		when(bindingContext.getContext()).thenReturn(context);
-		when(staticResourceAttribute.getResourceId(context)).thenReturn(resourceId);
-		
-		staticLayoutAttribute.bindTo(bindingContext);
-		
-		verify(rowLayoutUpdater).updateRowLayout(resourceId);
-	}
+public class StaticLayoutAttributeTest {
+    @Mock
+    StaticResourceAttribute staticResourceAttribute;
+    @Mock
+    RowLayoutUpdater rowLayoutUpdater;
+    @InjectMocks
+    StaticLayoutAttribute staticLayoutAttribute;
+
+    @Mock
+    Context context;
+    @Mock
+    BindingContext bindingContext;
+
+    @Test
+    public void whenBinding_thenSetRowLayout() {
+	int resourceId = anyInteger();
+	when(bindingContext.getContext()).thenReturn(context);
+	when(staticResourceAttribute.getResourceId(context)).thenReturn(resourceId);
+
+	staticLayoutAttribute.bindTo(bindingContext);
+
+	verify(rowLayoutUpdater).updateRowLayout(resourceId);
+    }
 }

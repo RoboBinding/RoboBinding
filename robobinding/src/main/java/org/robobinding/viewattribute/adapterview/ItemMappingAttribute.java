@@ -23,38 +23,33 @@ import org.robobinding.attribute.PredefinedMappingsAttribute;
 import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemMappingAttribute implements ChildViewAttributeWithAttribute<PredefinedMappingsAttribute>
-{
-	private PredefinedMappingsAttribute mappingsAttribute;
-	protected Collection<PredefinedPendingAttributesForView> viewMappings;
-	
-	private final DataSetAdapter<?> dataSetAdapter;
-	
-	public ItemMappingAttribute(DataSetAdapter<?> dataSetAdapter)
-	{
-		this.dataSetAdapter = dataSetAdapter;
-	}
-	
-	@Override
-	public void setAttribute(PredefinedMappingsAttribute attribute)
-	{
-		this.mappingsAttribute = attribute;
-	}
-	
-	@Override
-	public void bindTo(BindingContext bindingContext)
-	{
-		viewMappings = mappingsAttribute.getViewMappings(bindingContext.getContext());
-		updateDataSetAdapter(dataSetAdapter);
-	}
-	
-	protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter)
-	{
-		dataSetAdapter.setItemPredefinedPendingAttributesForViewGroup(viewMappings);
-	}
+public class ItemMappingAttribute implements ChildViewAttributeWithAttribute<PredefinedMappingsAttribute> {
+    private PredefinedMappingsAttribute mappingsAttribute;
+    protected Collection<PredefinedPendingAttributesForView> viewMappings;
+
+    private final DataSetAdapter<?> dataSetAdapter;
+
+    public ItemMappingAttribute(DataSetAdapter<?> dataSetAdapter) {
+	this.dataSetAdapter = dataSetAdapter;
+    }
+
+    @Override
+    public void setAttribute(PredefinedMappingsAttribute attribute) {
+	this.mappingsAttribute = attribute;
+    }
+
+    @Override
+    public void bindTo(BindingContext bindingContext) {
+	viewMappings = mappingsAttribute.getViewMappings(bindingContext.getContext());
+	updateDataSetAdapter(dataSetAdapter);
+    }
+
+    protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter) {
+	dataSetAdapter.setItemPredefinedPendingAttributesForViewGroup(viewMappings);
+    }
 }

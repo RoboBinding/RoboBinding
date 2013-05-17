@@ -28,22 +28,20 @@ import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BackgroundColorAttributeTest extends AbstractPropertyViewAttributeTest<View, BackgroundColorAttribute>
-{
-	@Test
-	public void whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		int newColor = RandomValues.anyColor();
+public class BackgroundColorAttributeTest extends AbstractPropertyViewAttributeTest<View, BackgroundColorAttribute> {
+    @Test
+    public void whenValueModelUpdated_thenViewShouldReflectChanges() {
+	int newColor = RandomValues.anyColor();
 
-		attribute.valueModelUpdated(newColor);
+	attribute.valueModelUpdated(newColor);
 
-		ShadowView shadowView = Robolectric.shadowOf(view);
-		assertThat(shadowView.getBackgroundColor(), equalTo(newColor));
-	}
-	
+	ShadowView shadowView = Robolectric.shadowOf(view);
+	assertThat(shadowView.getBackgroundColor(), equalTo(newColor));
+    }
+
 }

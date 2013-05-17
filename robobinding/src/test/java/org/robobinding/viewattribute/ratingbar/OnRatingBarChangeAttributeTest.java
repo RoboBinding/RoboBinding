@@ -29,52 +29,47 @@ import org.robobinding.viewattribute.view.AbstractCommandViewAttributeWithViewLi
 import android.widget.RatingBar;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnRatingBarChangeAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<RatingBar, OnRatingBarChangeAttribute, MockRatingBarListeners>
-{
-	private static final int NUM_STARS_TO_SHOW = 5;
-	private int newNumStars;
+public class OnRatingBarChangeAttributeTest extends
+	AbstractCommandViewAttributeWithViewListenersAwareTest<RatingBar, OnRatingBarChangeAttribute, MockRatingBarListeners> {
+    private static final int NUM_STARS_TO_SHOW = 5;
+    private int newNumStars;
 
-	@Before
-	public void setUp()
-	{
-		view.setNumStars(NUM_STARS_TO_SHOW);
-		newNumStars = nextInt(NUM_STARS_TO_SHOW);
-	}
-	
-	@Test
-	public void givenBoundAttribute_whenChangeChecked_thenEventReceived()
-	{
-		bindAttribute();
+    @Before
+    public void setUp() {
+	view.setNumStars(NUM_STARS_TO_SHOW);
+	newNumStars = nextInt(NUM_STARS_TO_SHOW);
+    }
 
-		updateRating();
+    @Test
+    public void givenBoundAttribute_whenChangeChecked_thenEventReceived() {
+	bindAttribute();
 
-		assertEventReceived();
-	}
+	updateRating();
 
-	@Test
-	public void whenBinding_thenRegisterWithMulticastListener()
-	{
-		bindAttribute();
-		
-		assertTrue(viewListeners.addOnRatingBarChangeListenerInvoked);
-	}
-	
-	private void updateRating()
-	{
-		view.setRating(newNumStars);
-	}
+	assertEventReceived();
+    }
 
-	private void assertEventReceived()
-	{
-		assertEventReceived(RatingBarEvent.class);
-		RatingBarEvent ratingBarEvent = getEventReceived();
-		assertThat(ratingBarEvent.getRatingBar(), sameInstance(view));
-		assertThat((double)ratingBarEvent.getRating(), is(closeTo(newNumStars, 0.1f)));
-		assertTrue(ratingBarEvent.isFromUser());
-	}
+    @Test
+    public void whenBinding_thenRegisterWithMulticastListener() {
+	bindAttribute();
+
+	assertTrue(viewListeners.addOnRatingBarChangeListenerInvoked);
+    }
+
+    private void updateRating() {
+	view.setRating(newNumStars);
+    }
+
+    private void assertEventReceived() {
+	assertEventReceived(RatingBarEvent.class);
+	RatingBarEvent ratingBarEvent = getEventReceived();
+	assertThat(ratingBarEvent.getRatingBar(), sameInstance(view));
+	assertThat((double) ratingBarEvent.getRating(), is(closeTo(newNumStars, 0.1f)));
+	assertTrue(ratingBarEvent.isFromUser());
+    }
 }

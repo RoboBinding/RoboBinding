@@ -25,24 +25,24 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ItemLayoutUpdaterTest 
-{
-	@Mock DataSetAdapter<?> dataSetAdapter;
-	@InjectMocks ItemLayoutUpdater itemLayoutUpdater;
-	
-	@Test
-	public void whenUpdatingRowLayout_thenSetItemLayoutOnDataSetAdapter() 
-	{
-		int layoutId = anyInteger();
-		
-		itemLayoutUpdater.updateRowLayout(layoutId);
-		
-		verify(dataSetAdapter).setItemLayoutId(layoutId);
-	}
+public class ItemLayoutUpdaterTest {
+    @Mock
+    DataSetAdapter<?> dataSetAdapter;
+    @InjectMocks
+    ItemLayoutUpdater itemLayoutUpdater;
+
+    @Test
+    public void whenUpdatingRowLayout_thenSetItemLayoutOnDataSetAdapter() {
+	int layoutId = anyInteger();
+
+	itemLayoutUpdater.updateRowLayout(layoutId);
+
+	verify(dataSetAdapter).setItemLayoutId(layoutId);
+    }
 }

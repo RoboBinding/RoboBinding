@@ -30,39 +30,36 @@ import android.widget.ListView;
 import com.google.common.collect.Sets;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SetCheckedItemPositionsAttributeTest extends AbstractCheckedItemPositionsAttributeTest<ListView, SetCheckedItemPositionsAttribute>
-{
-	private Set<Integer> checkedItemPositions;
-	
-	@Before
-	public void setUp()
-	{
-		super.setUp();
-		
-		checkedItemPositions = SparseBooleanArrayUtils.toSet(anySparseBooleanArray());
-	}
-	@Test
-	public void whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		attribute.valueModelUpdated(checkedItemPositions);
-		
-		assertThat(SparseBooleanArrayUtils.toSet(view.getCheckedItemPositions()), equalTo(checkedItemPositions));
-	}
-	
-	@Test
-	public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly()
-	{
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		ValueModel<Set<Integer>> valueModel = (ValueModel)twoWayBindToProperty(Set.class, Sets.newHashSet());
-		
-		setItemsChecked(checkedItemPositions);
-		
-		assertThat(valueModel.getValue(), equalTo(checkedItemPositions));
-	}
+public class SetCheckedItemPositionsAttributeTest extends AbstractCheckedItemPositionsAttributeTest<ListView, SetCheckedItemPositionsAttribute> {
+    private Set<Integer> checkedItemPositions;
+
+    @Before
+    public void setUp() {
+	super.setUp();
+
+	checkedItemPositions = SparseBooleanArrayUtils.toSet(anySparseBooleanArray());
+    }
+
+    @Test
+    public void whenValueModelUpdated_thenViewShouldReflectChanges() {
+	attribute.valueModelUpdated(checkedItemPositions);
+
+	assertThat(SparseBooleanArrayUtils.toSet(view.getCheckedItemPositions()), equalTo(checkedItemPositions));
+    }
+
+    @Test
+    public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly() {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	ValueModel<Set<Integer>> valueModel = (ValueModel) twoWayBindToProperty(Set.class, Sets.newHashSet());
+
+	setItemsChecked(checkedItemPositions);
+
+	assertThat(valueModel.getValue(), equalTo(checkedItemPositions));
+    }
 
 }

@@ -35,62 +35,53 @@ import android.widget.EditText;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditText>
-{
-	public static final String TEXT = "text";
-	public static final String VALUE_COMMIT_MODE = "valueCommitMode";
+public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditText> {
+    public static final String TEXT = "text";
+    public static final String VALUE_COMMIT_MODE = "valueCommitMode";
 
-	@Override
-	protected String[] getCompulsoryAttributes()
-	{
-		return new String[] { TEXT };
-	}
-	
-	@Override
-	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
-	{
-		resolverMappings.map(valueModelAttributeResolver(), TEXT);
-		resolverMappings.map(enumChildAttributeResolver(ValueCommitMode.class), VALUE_COMMIT_MODE);
-	}
-	
-	@Override
-	public void validateResolvedChildAttributes(GroupAttributes groupAttributes) 
-	{
-		if (valueCommitModeSpecified(groupAttributes) && isTextAttributeNotTwoWayBinding(groupAttributes))
-			throw new MalformedAttributeException(VALUE_COMMIT_MODE, "The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
-	}
-	
-	private boolean valueCommitModeSpecified(GroupAttributes groupAttributes)
-	{
-		return groupAttributes.hasAttribute(VALUE_COMMIT_MODE);
-	}
+    @Override
+    protected String[] getCompulsoryAttributes() {
+	return new String[] { TEXT };
+    }
 
-	private boolean isTextAttributeNotTwoWayBinding(GroupAttributes groupAttributes)
-	{
-		ValueModelAttribute textAttribute = groupAttributes.valueModelAttributeFor(TEXT);
-		return !textAttribute.isTwoWayBinding();
-	}
+    @Override
+    public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings) {
+	resolverMappings.map(valueModelAttributeResolver(), TEXT);
+	resolverMappings.map(enumChildAttributeResolver(ValueCommitMode.class), VALUE_COMMIT_MODE);
+    }
 
-	@Override
-	protected void setupChildViewAttributes(ChildViewAttributes<EditText> childViewAttributes, BindingContext bindingContext)
-	{
-		TwoWayTextAttribute textAttribute = childViewAttributes.add(TEXT, new TwoWayTextAttribute());
-		textAttribute.setValueCommitMode(determineValueCommitMode(childViewAttributes));
-	}
+    @Override
+    public void validateResolvedChildAttributes(GroupAttributes groupAttributes) {
+	if (valueCommitModeSpecified(groupAttributes) && isTextAttributeNotTwoWayBinding(groupAttributes))
+	    throw new MalformedAttributeException(VALUE_COMMIT_MODE,
+		    "The valueCommitMode attribute can only be used when a two-way binding text attribute is specified");
+    }
 
-	private ValueCommitMode determineValueCommitMode(ChildViewAttributes<EditText> childViewAttributes)
-	{
-		if (valueCommitModeSpecified(childViewAttributes))
-		{
-			EnumAttribute<ValueCommitMode> enumAttribute = childViewAttributes.enumAttributeFor(VALUE_COMMIT_MODE);
-			return enumAttribute.getValue();
-		}
+    private boolean valueCommitModeSpecified(GroupAttributes groupAttributes) {
+	return groupAttributes.hasAttribute(VALUE_COMMIT_MODE);
+    }
 
-		return ValueCommitMode.ON_CHANGE;
+    private boolean isTextAttributeNotTwoWayBinding(GroupAttributes groupAttributes) {
+	ValueModelAttribute textAttribute = groupAttributes.valueModelAttributeFor(TEXT);
+	return !textAttribute.isTwoWayBinding();
+    }
+
+    @Override
+    protected void setupChildViewAttributes(ChildViewAttributes<EditText> childViewAttributes, BindingContext bindingContext) {
+	TwoWayTextAttribute textAttribute = childViewAttributes.add(TEXT, new TwoWayTextAttribute());
+	textAttribute.setValueCommitMode(determineValueCommitMode(childViewAttributes));
+    }
+
+    private ValueCommitMode determineValueCommitMode(ChildViewAttributes<EditText> childViewAttributes) {
+	if (valueCommitModeSpecified(childViewAttributes)) {
+	    EnumAttribute<ValueCommitMode> enumAttribute = childViewAttributes.enumAttributeFor(VALUE_COMMIT_MODE);
+	    return enumAttribute.getValue();
 	}
 
-	private boolean valueCommitModeSpecified(ChildViewAttributes<EditText> childViewAttributes)
-	{
-		return childViewAttributes.hasAttribute(VALUE_COMMIT_MODE);
-	}
+	return ValueCommitMode.ON_CHANGE;
+    }
+
+    private boolean valueCommitModeSpecified(ChildViewAttributes<EditText> childViewAttributes) {
+	return childViewAttributes.hasAttribute(VALUE_COMMIT_MODE);
+    }
 }

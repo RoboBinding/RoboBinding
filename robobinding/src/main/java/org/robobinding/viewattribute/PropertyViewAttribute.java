@@ -15,9 +15,7 @@
  */
 package org.robobinding.viewattribute;
 
-
 import android.view.View;
-
 
 /**
  * 
@@ -25,6 +23,5 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface PropertyViewAttribute<T extends View> extends ViewAttribute
-{
+public interface PropertyViewAttribute<T extends View> extends ViewAttribute {
 }

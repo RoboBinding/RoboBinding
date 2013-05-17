@@ -22,11 +22,9 @@ package sample.robobinding;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class ViewAlbumsActivityTest extends AbstractAlbumsTest
-{
-	public void testWhenNoAlbums_thenDisplayTheEmptyView()
-	{
-		navigateToAlbumListScreen();
-		assertTrue(solo.searchText(getString(R.string.albums_list_empty)));
-	}
+public class ViewAlbumsActivityTest extends AbstractAlbumsTest {
+    public void testWhenNoAlbums_thenDisplayTheEmptyView() {
+	navigateToAlbumListScreen();
+	assertTrue(solo.searchText(getString(R.string.albums_list_empty)));
+    }
 }

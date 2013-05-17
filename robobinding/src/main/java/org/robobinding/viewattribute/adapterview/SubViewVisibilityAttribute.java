@@ -31,67 +31,53 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SubViewVisibilityAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute>
-{
-	private AbstractSubViewVisibility visibility;
-	private ValueModelAttribute attribute;
-	
-	public SubViewVisibilityAttribute(AbstractSubViewVisibility subViewVisibility)
-	{
-		this.visibility = subViewVisibility;
+public class SubViewVisibilityAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute> {
+    private AbstractSubViewVisibility visibility;
+    private ValueModelAttribute attribute;
+
+    public SubViewVisibilityAttribute(AbstractSubViewVisibility subViewVisibility) {
+	this.visibility = subViewVisibility;
+    }
+
+    @Override
+    public void setAttribute(ValueModelAttribute attribute) {
+	this.attribute = attribute;
+    }
+
+    @Override
+    public void bindTo(BindingContext bindingContext) {
+	Class<?> propertyType = bindingContext.getPropertyType(attribute.getPropertyName());
+	AbstractPropertyViewAttribute<View, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
+	propertyViewAttribute.initialize(new PropertyViewAttributeConfig<View>(null, attribute));
+	propertyViewAttribute.bindTo(bindingContext);
+    }
+
+    AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType) {
+	if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType)) {
+	    return new IntegerSubViewVisibilityAttribute();
+	} else if (PrimitiveTypeUtils.booleanIsAssignableFrom(propertyType)) {
+	    return new BooleanSubViewVisibilityAttribute();
 	}
-	
+
+	throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);
+    }
+
+    class BooleanSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean> {
 	@Override
-	public void setAttribute(ValueModelAttribute attribute)
-	{
-		this.attribute = attribute;		
+	protected void valueModelUpdated(Boolean newValue) {
+	    if (newValue) {
+		visibility.makeVisible();
+	    } else {
+		visibility.makeGone();
+	    }
 	}
-	
+    }
+
+    class IntegerSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer> {
 	@Override
-	public void bindTo(BindingContext bindingContext)
-	{
-		Class<?> propertyType = bindingContext.getPropertyType(attribute.getPropertyName());
-		AbstractPropertyViewAttribute<View, ?> propertyViewAttribute = createPropertyViewAttribute(propertyType);
-		propertyViewAttribute.initialize(new PropertyViewAttributeConfig<View>(null, attribute));
-		propertyViewAttribute.bindTo(bindingContext);
+	protected void valueModelUpdated(Integer newValue) {
+	    visibility.setVisibility(newValue);
 	}
-	
-	AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
-	{
-		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
-		{
-			return new IntegerSubViewVisibilityAttribute();
-		}
-		else if (PrimitiveTypeUtils.booleanIsAssignableFrom(propertyType))
-		{
-			return new BooleanSubViewVisibilityAttribute();
-		}
-		
-		throw new RuntimeException("Could not find a suitable attribute in " + getClass().getName() + " for property type: " + propertyType);
-	}
-	
-	class BooleanSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
-	{
-		@Override
-		protected void valueModelUpdated(Boolean newValue)
-		{
-			if(newValue)
-			{
-				visibility.makeVisible();
-			}else
-			{
-				visibility.makeGone();
-			}
-		}
-	}
-	
-	class IntegerSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
-	{
-		@Override
-		protected void valueModelUpdated(Integer newValue)
-		{
-			visibility.setVisibility(newValue);
-		}
-	}
+    }
 
 }

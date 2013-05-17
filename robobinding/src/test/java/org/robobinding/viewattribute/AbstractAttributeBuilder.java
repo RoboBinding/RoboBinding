@@ -26,17 +26,14 @@ import org.robobinding.attribute.AbstractAttribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class AbstractAttributeBuilder<T extends AbstractAttribute>
-{
-	protected T attribute;
+public class AbstractAttributeBuilder<T extends AbstractAttribute> {
+    protected T attribute;
 
-	protected AbstractAttributeBuilder(Class<T> classToMock)
-	{
-		attribute = mock(classToMock);
-	}
-	
-	protected void declareAttributeName(String name)
-	{
-		when(attribute.getName()).thenReturn(name);
-	}
+    protected AbstractAttributeBuilder(Class<T> classToMock) {
+	attribute = mock(classToMock);
+    }
+
+    protected void declareAttributeName(String name) {
+	when(attribute.getName()).thenReturn(name);
+    }
 }

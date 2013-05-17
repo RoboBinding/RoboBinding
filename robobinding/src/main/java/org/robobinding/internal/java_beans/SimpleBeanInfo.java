@@ -17,26 +17,25 @@
 
 package org.robobinding.internal.java_beans;
 
-
 public class SimpleBeanInfo implements BeanInfo {
 
     public SimpleBeanInfo() {
-        // expected
+	// expected
     }
 
     public PropertyDescriptor[] getPropertyDescriptors() {
-        return null;
+	return null;
     }
 
     public BeanInfo[] getAdditionalBeanInfo() {
-        return null;
+	return null;
     }
 
     public BeanDescriptor getBeanDescriptor() {
-        return null;
+	return null;
     }
-    
+
     public int getDefaultPropertyIndex() {
-        return -1;
+	return -1;
     }
 }

@@ -42,51 +42,44 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class ViewFactoryTest
-{
-	private LayoutInflater layoutInflater;
-	private ViewFactory viewFactory;
-	
-	@Before
-	public void setUp()
-	{
-		layoutInflater = mock(LayoutInflater.class);
-		viewFactory = new ViewFactoryForTest(layoutInflater);
+public class ViewFactoryTest {
+    private LayoutInflater layoutInflater;
+    private ViewFactory viewFactory;
+
+    @Before
+    public void setUp() {
+	layoutInflater = mock(LayoutInflater.class);
+	viewFactory = new ViewFactoryForTest(layoutInflater);
+    }
+
+    @Test
+    public void whenInitialize_thenViewFactoryShouldBeSetOnLayoutInflater() {
+	verify(layoutInflater).setFactory(viewFactory);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void whenCreateAViewThrowsAClassNotFoundException_thenPropagateAsRuntimeException() throws ClassNotFoundException {
+	when(layoutInflater.createView(anyString(), anyString(), any(AttributeSet.class))).thenThrow(new ClassNotFoundException());
+	viewFactory.onCreateView(null, null, null);
+    }
+
+    @Test
+    public void givenViewFactoryListenerRegistered_whenCreateView_thenListenerShouldBeCorrectlyNotified() throws ClassNotFoundException {
+	View view = mock(View.class);
+	when(layoutInflater.createView(anyString(), anyString(), any(AttributeSet.class))).thenReturn(view);
+	AttributeSet attributeSet = mock(AttributeSet.class);
+	ViewFactoryListener listener = mock(ViewFactoryListener.class);
+	viewFactory.setListener(listener);
+
+	viewFactory.onCreateView(null, null, attributeSet);
+
+	verify(listener).onViewCreated(same(view), same(attributeSet));
+    }
+
+    private static class ViewFactoryForTest extends ViewFactory {
+	public ViewFactoryForTest(LayoutInflater layoutInflater) {
+	    super(layoutInflater);
+	    viewNameResolver = mock(ViewNameResolver.class);
 	}
-	
-	@Test
-	public void whenInitialize_thenViewFactoryShouldBeSetOnLayoutInflater()
-	{
-		verify(layoutInflater).setFactory(viewFactory);
-	}
-	
-	@Test (expected=RuntimeException.class)
-	public void whenCreateAViewThrowsAClassNotFoundException_thenPropagateAsRuntimeException() throws ClassNotFoundException
-	{
-		when(layoutInflater.createView(anyString(), anyString(), any(AttributeSet.class))).thenThrow(new ClassNotFoundException());
-		viewFactory.onCreateView(null, null, null);
-	}
-	
-	@Test
-	public void givenViewFactoryListenerRegistered_whenCreateView_thenListenerShouldBeCorrectlyNotified() throws ClassNotFoundException
-	{
-		View view = mock(View.class);
-		when(layoutInflater.createView(anyString(), anyString(), any(AttributeSet.class))).thenReturn(view);
-		AttributeSet attributeSet = mock(AttributeSet.class);
-		ViewFactoryListener listener = mock(ViewFactoryListener.class);
-		viewFactory.setListener(listener);
-		
-		viewFactory.onCreateView(null, null, attributeSet);
-		
-		verify(listener).onViewCreated(same(view), same(attributeSet));
-	}
-	
-	private static class ViewFactoryForTest extends ViewFactory
-	{
-		public ViewFactoryForTest(LayoutInflater layoutInflater)
-		{
-			super(layoutInflater);
-			viewNameResolver = mock(ViewNameResolver.class);
-		}
-	}
+    }
 }

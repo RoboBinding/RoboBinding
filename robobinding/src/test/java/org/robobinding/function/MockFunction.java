@@ -23,17 +23,15 @@ import org.robobinding.function.Function;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class MockFunction implements Function
-{
-	public boolean commandInvoked;
-	public Object[] argsPassedToInvoke;
-	public int invocationCount;
+public class MockFunction implements Function {
+    public boolean commandInvoked;
+    public Object[] argsPassedToInvoke;
+    public int invocationCount;
 
-	@Override
-	public void call(Object... args)
-	{
-		commandInvoked = true;
-		argsPassedToInvoke = args;
-		invocationCount++;
-	}
+    @Override
+    public void call(Object... args) {
+	commandInvoked = true;
+	argsPassedToInvoke = args;
+	invocationCount++;
+    }
 }

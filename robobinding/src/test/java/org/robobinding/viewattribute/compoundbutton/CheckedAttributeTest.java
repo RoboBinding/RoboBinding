@@ -27,39 +27,36 @@ import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewL
 import android.widget.CheckBox;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedAttributeTest extends AbstractPropertyViewAttributeWithViewListenersAwareTest<CheckBox, CheckedAttribute, MockCompoundButtonListeners>
-{
-	@Test
-	public void whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		boolean checked = RandomValues.trueOrFalse();
-		
-		attribute.valueModelUpdated(checked);
-		
-		assertThat(view.isChecked(), equalTo(checked));
-	}
-	
-	@Test
-	public void whenViewIsChecked_thenUpdateValueModel()
-	{
-		ValueModel<Boolean> valueModel = twoWayBindToProperty(Boolean.class);
-		
-		boolean newValue = !view.isChecked();
-		view.setChecked(newValue);
-		
-		assertThat(valueModel.getValue(), equalTo(newValue));
-	}
+public class CheckedAttributeTest extends
+	AbstractPropertyViewAttributeWithViewListenersAwareTest<CheckBox, CheckedAttribute, MockCompoundButtonListeners> {
+    @Test
+    public void whenValueModelUpdated_thenViewShouldReflectChanges() {
+	boolean checked = RandomValues.trueOrFalse();
 
-	@Test
-	public void whenTwoWayBinding_thenRegisterWithViewListeners()
-	{
-		twoWayBindToProperty(Boolean.class);
-		
-		assertTrue(viewListeners.addOnCheckedChangeListenerInvoked);
-	}
+	attribute.valueModelUpdated(checked);
+
+	assertThat(view.isChecked(), equalTo(checked));
+    }
+
+    @Test
+    public void whenViewIsChecked_thenUpdateValueModel() {
+	ValueModel<Boolean> valueModel = twoWayBindToProperty(Boolean.class);
+
+	boolean newValue = !view.isChecked();
+	view.setChecked(newValue);
+
+	assertThat(valueModel.getValue(), equalTo(newValue));
+    }
+
+    @Test
+    public void whenTwoWayBinding_thenRegisterWithViewListeners() {
+	twoWayBindToProperty(Boolean.class);
+
+	assertTrue(viewListeners.addOnCheckedChangeListenerInvoked);
+    }
 }

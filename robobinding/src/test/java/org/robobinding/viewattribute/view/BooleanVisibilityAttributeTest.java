@@ -26,20 +26,18 @@ import org.robobinding.viewattribute.view.VisibilityAttribute.BooleanVisibilityA
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class BooleanVisibilityAttributeTest extends AbstractPropertyViewAttributeTest<View, BooleanVisibilityAttribute>
-{
-	@Test
-	public void whenBindingWithABooleanProperty_thenInitializeBooleanVisibilityAttribute()
-	{
-		boolean visible = RandomValues.trueOrFalse();
-		
-		attribute.valueModelUpdated(visible);
+public class BooleanVisibilityAttributeTest extends AbstractPropertyViewAttributeTest<View, BooleanVisibilityAttribute> {
+    @Test
+    public void whenBindingWithABooleanProperty_thenInitializeBooleanVisibilityAttribute() {
+	boolean visible = RandomValues.trueOrFalse();
 
-		assertThat(view.getVisibility(), equalTo(visible ? View.VISIBLE : View.GONE));
-	}
+	attribute.valueModelUpdated(visible);
+
+	assertThat(view.getVisibility(), equalTo(visible ? View.VISIBLE : View.GONE));
+    }
 }

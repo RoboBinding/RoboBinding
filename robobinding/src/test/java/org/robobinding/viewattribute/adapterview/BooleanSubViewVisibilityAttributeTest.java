@@ -28,32 +28,29 @@ import android.view.View;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class BooleanSubViewVisibilityAttributeTest
-{
-	private BooleanSubViewVisibilityAttribute attribute;
-	private MockSubViewVisibility mockVisibility;
-	
-	@Before
-	public void setUp()
-	{
-		mockVisibility = new MockSubViewVisibility();
-		SubViewVisibilityAttribute visibilityAttribute = new SubViewVisibilityAttribute(mockVisibility);
-		attribute = visibilityAttribute.new BooleanSubViewVisibilityAttribute();
-	}
-	
-	@Test
-	public void whenValueModelUpdated_thenVisibilityStateUpdatedAccordingly()
-	{
-		boolean newValue = RandomValues.trueOrFalse();
-		
-		attribute.valueModelUpdated(newValue);
-		
-		assertEquals(newValue?View.VISIBLE:View.GONE, mockVisibility.state);
-	}
+public class BooleanSubViewVisibilityAttributeTest {
+    private BooleanSubViewVisibilityAttribute attribute;
+    private MockSubViewVisibility mockVisibility;
+
+    @Before
+    public void setUp() {
+	mockVisibility = new MockSubViewVisibility();
+	SubViewVisibilityAttribute visibilityAttribute = new SubViewVisibilityAttribute(mockVisibility);
+	attribute = visibilityAttribute.new BooleanSubViewVisibilityAttribute();
+    }
+
+    @Test
+    public void whenValueModelUpdated_thenVisibilityStateUpdatedAccordingly() {
+	boolean newValue = RandomValues.trueOrFalse();
+
+	attribute.valueModelUpdated(newValue);
+
+	assertEquals(newValue ? View.VISIBLE : View.GONE, mockVisibility.state);
+    }
 }

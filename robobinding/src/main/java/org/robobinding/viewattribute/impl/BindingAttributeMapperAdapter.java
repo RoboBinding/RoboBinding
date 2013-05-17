@@ -15,30 +15,27 @@
  */
 package org.robobinding.viewattribute.impl;
 
-
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BindingAttributeMapperAdapter<T extends View> implements BindingAttributeProvider<T>
-{
-	private BindingAttributeMapper<T> bindingAttributeMapper;
-	public BindingAttributeMapperAdapter(BindingAttributeMapper<T> bindingAttributeMapper)
-	{
-		this.bindingAttributeMapper = bindingAttributeMapper;
-	}
-	
-	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInitializer viewAttributeInitializer)
-	{
-		BindingAttributeMappingsImpl<T> bindingAttributeMappings = new BindingAttributeMappingsImpl<T>(viewAttributeInitializer);
-		bindingAttributeMapper.mapBindingAttributes(bindingAttributeMappings);
-		return bindingAttributeMappings;
-	}
+public class BindingAttributeMapperAdapter<T extends View> implements BindingAttributeProvider<T> {
+    private BindingAttributeMapper<T> bindingAttributeMapper;
+
+    public BindingAttributeMapperAdapter(BindingAttributeMapper<T> bindingAttributeMapper) {
+	this.bindingAttributeMapper = bindingAttributeMapper;
+    }
+
+    public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInitializer viewAttributeInitializer) {
+	BindingAttributeMappingsImpl<T> bindingAttributeMappings = new BindingAttributeMappingsImpl<T>(viewAttributeInitializer);
+	bindingAttributeMapper.mapBindingAttributes(bindingAttributeMappings);
+	return bindingAttributeMappings;
+    }
 }

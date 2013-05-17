@@ -28,22 +28,20 @@ import android.view.View;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class SelectedAttributeTest extends AbstractPropertyViewAttributeTest<View, SelectedAttribute>
-{
-	@Test
-	public void whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		boolean selected = RandomValues.trueOrFalse();
-		
-		attribute.valueModelUpdated(selected);
-		
-		assertThat(view.isSelected(), equalTo(selected));
-	}
+public class SelectedAttributeTest extends AbstractPropertyViewAttributeTest<View, SelectedAttribute> {
+    @Test
+    public void whenValueModelUpdated_thenViewShouldReflectChanges() {
+	boolean selected = RandomValues.trueOrFalse();
+
+	attribute.valueModelUpdated(selected);
+
+	assertThat(view.isSelected(), equalTo(selected));
+    }
 
 }

@@ -42,70 +42,67 @@ import android.view.View;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class BinderImplementorImplTest
-{
-	@Mock BindingContextCreator bindingContextCreator;
-	@Mock BindingContext bindingContext;
-	@Mock private BindingViewInflater bindingViewInflater;
-	@Mock private ErrorFormatter errorFormatter;
-	@Mock private InflatedView inflatedView;
-	private Object presentationModel = new Object();
-	private int layoutId = 0;
-	private InternalBinder binderImplementor;
-	
-	@Before
-	public void setUp()
-	{
-		initMocks(this);
-		when(bindingContextCreator.create(presentationModel)).thenReturn(bindingContext);
-		when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
-		binderImplementor = new BinderImplementorImplForTest(new Activity(), bindingContextCreator, errorFormatter);
-	}
-	
-	@Test
-	public void whenInflateAndBind_thenViewWithBindingShouldBeReturned()
-	{
-		View viewWithBinding = mock(View.class);
-		when(inflatedView.getRootView()).thenReturn(viewWithBinding);
-		
-		View view = binderImplementor.inflateAndBind(layoutId, presentationModel);
-		
-		assertThat(view, sameInstance(viewWithBinding));
-	}
-	
-	@Test
-	public void whenInflateAndBind_thenChildViewsShouldBeBound()
-	{
-		binderImplementor.inflateAndBind(layoutId, presentationModel);
-		
-		verify(inflatedView).bindChildViews(any(BindingContext.class));
-	}
-	
-	@Test
-	public void whenInflateAndBind_thenViewInflationErrorsShouldBeAsserted()
-	{
-		binderImplementor.inflateAndBind(layoutId, presentationModel);
-		
-		verify(inflatedView).assertNoErrors(errorFormatter);
-	}
-	
-	public class BinderImplementorImplForTest extends InternalBinder
-	{
-		public BinderImplementorImplForTest(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter)
-		{
-			super(context, bindingContextCreator, errorFormatter, true);
-		}
+public class BinderImplementorImplTest {
+    @Mock
+    BindingContextCreator bindingContextCreator;
+    @Mock
+    BindingContext bindingContext;
+    @Mock
+    private BindingViewInflater bindingViewInflater;
+    @Mock
+    private ErrorFormatter errorFormatter;
+    @Mock
+    private InflatedView inflatedView;
+    private Object presentationModel = new Object();
+    private int layoutId = 0;
+    private InternalBinder binderImplementor;
 
-		@Override
-		BindingViewInflater createBindingViewInflater(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
-		{
-			return bindingViewInflater;
-		}
+    @Before
+    public void setUp() {
+	initMocks(this);
+	when(bindingContextCreator.create(presentationModel)).thenReturn(bindingContext);
+	when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
+	binderImplementor = new BinderImplementorImplForTest(new Activity(), bindingContextCreator, errorFormatter);
+    }
+
+    @Test
+    public void whenInflateAndBind_thenViewWithBindingShouldBeReturned() {
+	View viewWithBinding = mock(View.class);
+	when(inflatedView.getRootView()).thenReturn(viewWithBinding);
+
+	View view = binderImplementor.inflateAndBind(layoutId, presentationModel);
+
+	assertThat(view, sameInstance(viewWithBinding));
+    }
+
+    @Test
+    public void whenInflateAndBind_thenChildViewsShouldBeBound() {
+	binderImplementor.inflateAndBind(layoutId, presentationModel);
+
+	verify(inflatedView).bindChildViews(any(BindingContext.class));
+    }
+
+    @Test
+    public void whenInflateAndBind_thenViewInflationErrorsShouldBeAsserted() {
+	binderImplementor.inflateAndBind(layoutId, presentationModel);
+
+	verify(inflatedView).assertNoErrors(errorFormatter);
+    }
+
+    public class BinderImplementorImplForTest extends InternalBinder {
+	public BinderImplementorImplForTest(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter) {
+	    super(context, bindingContextCreator, errorFormatter, true);
 	}
+
+	@Override
+	BindingViewInflater createBindingViewInflater(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
+	    return bindingViewInflater;
+	}
+    }
 }

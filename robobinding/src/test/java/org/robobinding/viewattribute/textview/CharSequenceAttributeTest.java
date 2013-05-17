@@ -26,21 +26,19 @@ import org.robobinding.viewattribute.textview.TextAttribute.CharSequenceTextAttr
 import android.widget.TextView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CharSequenceAttributeTest extends AbstractPropertyViewAttributeTest<TextView, CharSequenceTextAttribute>
-{
-	@Test
-	public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		CharSequence newText = RandomStringUtils.random(5);
-		
-		attribute.valueModelUpdated(newText);
+public class CharSequenceAttributeTest extends AbstractPropertyViewAttributeTest<TextView, CharSequenceTextAttribute> {
+    @Test
+    public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges() {
+	CharSequence newText = RandomStringUtils.random(5);
 
-		assertThat(view.getText(), equalTo(newText));
-	}
-	
+	attribute.valueModelUpdated(newText);
+
+	assertThat(view.getText(), equalTo(newText));
+    }
+
 }

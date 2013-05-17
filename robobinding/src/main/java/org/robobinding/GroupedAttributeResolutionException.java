@@ -27,25 +27,21 @@ import java.util.List;
  * @author Robert Taylor
  */
 @SuppressWarnings("serial")
-public class GroupedAttributeResolutionException extends RuntimeException
-{
-	private final List<AttributeResolutionException> resolutionExceptions = newArrayList();
-	
-	public void add(AttributeResolutionException e)
-	{
-		resolutionExceptions.add(e);
-	}
+public class GroupedAttributeResolutionException extends RuntimeException {
+    private final List<AttributeResolutionException> resolutionExceptions = newArrayList();
 
-	public void assertNoErrors()
-	{
-		if (!resolutionExceptions.isEmpty()) {
-			throw this;
-		}
+    public void add(AttributeResolutionException e) {
+	resolutionExceptions.add(e);
+    }
+
+    public void assertNoErrors() {
+	if (!resolutionExceptions.isEmpty()) {
+	    throw this;
 	}
-	
-	public List<AttributeResolutionException> getAttributeResolutionExceptions()
-	{
-		return Collections.unmodifiableList(resolutionExceptions);
-	}
+    }
+
+    public List<AttributeResolutionException> getAttributeResolutionExceptions() {
+	return Collections.unmodifiableList(resolutionExceptions);
+    }
 
 }

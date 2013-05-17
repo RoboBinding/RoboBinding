@@ -34,47 +34,37 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class ResolvedBindingAttributesForView
-{
-	private View view;
-	private final List<ViewAttribute> viewAttributes;
-	
-	ResolvedBindingAttributesForView(View view)
-	{
-		this.view = view;
-		this.viewAttributes = newArrayList();
+public class ResolvedBindingAttributesForView {
+    private View view;
+    private final List<ViewAttribute> viewAttributes;
+
+    ResolvedBindingAttributesForView(View view) {
+	this.view = view;
+	this.viewAttributes = newArrayList();
+    }
+
+    void add(Collection<ViewAttribute> viewAttributes) {
+	this.viewAttributes.addAll(viewAttributes);
+    }
+
+    public ViewBindingErrors bindTo(BindingContext bindingContext) {
+	ViewBindingErrors viewBindingError = new ViewBindingErrors(view);
+	for (ViewAttribute viewAttribute : viewAttributes) {
+	    try {
+		viewAttribute.bindTo(bindingContext);
+	    } catch (AttributeBindingException e) {
+		viewBindingError.addAttributeError(e);
+	    } catch (AttributeGroupBindingException e) {
+		viewBindingError.addAttributeGroupError(e);
+	    }
 	}
-	
-	void add(Collection<ViewAttribute> viewAttributes)
-	{
-		this.viewAttributes.addAll(viewAttributes);
+
+	return viewBindingError;
+    }
+
+    public void preinitializeView(BindingContext bindingContext) {
+	for (ViewAttribute viewAttribute : viewAttributes) {
+	    viewAttribute.preInitializeView(bindingContext);
 	}
-	
-	public ViewBindingErrors bindTo(BindingContext bindingContext)
-	{
-		ViewBindingErrors viewBindingError = new ViewBindingErrors(view);
-		for (ViewAttribute viewAttribute : viewAttributes)
-		{
-			try
-			{
-				viewAttribute.bindTo(bindingContext);
-			}catch(AttributeBindingException e)
-			{
-				viewBindingError.addAttributeError(e);
-			}catch (AttributeGroupBindingException e) 
-			{
-				viewBindingError.addAttributeGroupError(e);
-			}
-		}
-		
-		return viewBindingError;
-	}
-	
-	public void preinitializeView(BindingContext bindingContext)
-	{
-		for (ViewAttribute viewAttribute : viewAttributes)
-		{
-			viewAttribute.preInitializeView(bindingContext);
-		}
-	}
+    }
 }

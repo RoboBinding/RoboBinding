@@ -27,57 +27,49 @@ import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.ValueModel;
 
 /**
-*
-* @since 1.0
-* @version $Revision: 1.0 $
-* @author Robert Taylor
-* @author Cheng Wei
-*/
-public abstract class ViewAttributeContractTest<T extends ViewAttribute>
-{
-	@Test (expected = AttributeBindingException.class)
-	public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow()
-	{
-		T attribute = throwsExceptionDuringPreInitializingView();
-		
-		attribute.preInitializeView(bindingContextOfThrowingExceptionDuringPreInitializingView());
-	}
-	
-	protected abstract T throwsExceptionDuringPreInitializingView();
-	
-	protected BindingContext bindingContextOfThrowingExceptionDuringPreInitializingView()
-	{
-		return newDefaultBindingContext();
-	}
-	
-	@SuppressWarnings("unchecked")
-	private BindingContext newDefaultBindingContext()
-	{
-		BindingContext bindingContext = mock(BindingContext.class);
-		
-		when(bindingContext.getPropertyValueModel(anyString())).thenReturn(mock(ValueModel.class));
-		when(bindingContext.getReadOnlyPropertyValueModel(anyString())).thenReturn(mock(ValueModel.class));
-		when(bindingContext.getDataSetPropertyValueModel(anyString())).thenReturn(mock(DataSetValueModel.class));
-		when(bindingContext.findFunction(anyString(), (Class<?>)any())).thenReturn(mock(Function.class));
-		
-		return bindingContext;
-	}
+ * 
+ * @since 1.0
+ * @version $Revision: 1.0 $
+ * @author Robert Taylor
+ * @author Cheng Wei
+ */
+public abstract class ViewAttributeContractTest<T extends ViewAttribute> {
+    @Test(expected = AttributeBindingException.class)
+    public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow() {
+	T attribute = throwsExceptionDuringPreInitializingView();
 
-	@Test (expected = AttributeBindingException.class)
-	public void whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrow()
-	{
-		
-		T attribute = throwsExceptionDuringBinding();
-		
-		attribute.bindTo(bindingContextOfThrowingExceptionDuringBinding());
-	}
-	
-	
-	protected abstract T throwsExceptionDuringBinding();
-	
-	
-	protected BindingContext bindingContextOfThrowingExceptionDuringBinding()
-	{
-		return newDefaultBindingContext();
-	}
+	attribute.preInitializeView(bindingContextOfThrowingExceptionDuringPreInitializingView());
+    }
+
+    protected abstract T throwsExceptionDuringPreInitializingView();
+
+    protected BindingContext bindingContextOfThrowingExceptionDuringPreInitializingView() {
+	return newDefaultBindingContext();
+    }
+
+    @SuppressWarnings("unchecked")
+    private BindingContext newDefaultBindingContext() {
+	BindingContext bindingContext = mock(BindingContext.class);
+
+	when(bindingContext.getPropertyValueModel(anyString())).thenReturn(mock(ValueModel.class));
+	when(bindingContext.getReadOnlyPropertyValueModel(anyString())).thenReturn(mock(ValueModel.class));
+	when(bindingContext.getDataSetPropertyValueModel(anyString())).thenReturn(mock(DataSetValueModel.class));
+	when(bindingContext.findFunction(anyString(), (Class<?>) any())).thenReturn(mock(Function.class));
+
+	return bindingContext;
+    }
+
+    @Test(expected = AttributeBindingException.class)
+    public void whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrow() {
+
+	T attribute = throwsExceptionDuringBinding();
+
+	attribute.bindTo(bindingContextOfThrowingExceptionDuringBinding());
+    }
+
+    protected abstract T throwsExceptionDuringBinding();
+
+    protected BindingContext bindingContextOfThrowingExceptionDuringBinding() {
+	return newDefaultBindingContext();
+    }
 }

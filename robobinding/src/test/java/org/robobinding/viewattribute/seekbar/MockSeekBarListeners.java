@@ -24,19 +24,16 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class MockSeekBarListeners extends SeekBarListeners
-{
-	public boolean addOnSeekBarChangeListenerInvoked;
-	
-	public MockSeekBarListeners(SeekBar seekBar)
-	{
-		super(seekBar);
-	}
+public class MockSeekBarListeners extends SeekBarListeners {
+    public boolean addOnSeekBarChangeListenerInvoked;
 
-	@Override
-	public void addOnSeekBarChangeListener(OnSeekBarChangeListener listener)
-	{
-		addOnSeekBarChangeListenerInvoked = true;
-		seekBar.setOnSeekBarChangeListener(listener);
-	}
+    public MockSeekBarListeners(SeekBar seekBar) {
+	super(seekBar);
+    }
+
+    @Override
+    public void addOnSeekBarChangeListener(OnSeekBarChangeListener listener) {
+	addOnSeekBarChangeListenerInvoked = true;
+	seekBar.setOnSeekBarChangeListener(listener);
+    }
 }

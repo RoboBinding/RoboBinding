@@ -35,71 +35,59 @@ import android.view.View;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>>
-{
-	protected ViewType view;
-	protected PropertyViewAttributeType attribute;
-	
-	@Before
-	public void initializeViewAndAttribute()
-	{
-		ParameterizedType superclass = (ParameterizedType)getClass().getGenericSuperclass();
-		
-		try
-		{
-			view = ParameterizedTypeUtils.createTypeArgument(superclass, 0, Context.class, new Activity());
-		} 
-		catch (Exception e)
-		{
-			throw new RuntimeException("Error instantiating view: " + e.getMessage());
-		}
-		
-		try
-		{
-			attribute = ParameterizedTypeUtils.createTypeArgument(superclass, 1);
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException("Error instantiating attribute: " + e.getMessage());
-		}
-		initializeAttributeWithDefaultConfig();
-	}
-	
-	private void initializeAttributeWithDefaultConfig()
-	{
-		viewAttribute().initialize(aPropertyViewAttributeConfig(view, BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME));
+public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>> {
+    protected ViewType view;
+    protected PropertyViewAttributeType attribute;
+
+    @Before
+    public void initializeViewAndAttribute() {
+	ParameterizedType superclass = (ParameterizedType) getClass().getGenericSuperclass();
+
+	try {
+	    view = ParameterizedTypeUtils.createTypeArgument(superclass, 0, Context.class, new Activity());
+	} catch (Exception e) {
+	    throw new RuntimeException("Error instantiating view: " + e.getMessage());
 	}
 
-	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass)
-	{
-		viewAttribute().initialize(aPropertyViewAttributeConfig(view, BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
-		BindingContext bindingContext = mock(BindingContext.class);
-		when(bindingContext.getPropertyType(DEFAULT_PROPERTY_NAME)).thenReturn((Class)propertyClass);
-		when(bindingContext.getPropertyValueModel(DEFAULT_PROPERTY_NAME)).thenReturn((ValueModel)ValueModelUtils.create());
-		attribute.bindTo(bindingContext);
-		return bindingContext.getPropertyValueModel(DEFAULT_PROPERTY_NAME);
+	try {
+	    attribute = ParameterizedTypeUtils.createTypeArgument(superclass, 1);
+	} catch (Exception e) {
+	    throw new RuntimeException("Error instantiating attribute: " + e.getMessage());
 	}
-	
-	protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass, PropertyType initialPropertyValue)
-	{
-		viewAttribute().initialize(aPropertyViewAttributeConfig(view,BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
-		BindingContext bindingContext = mock(BindingContext.class);
-		when(bindingContext.getPropertyType(DEFAULT_PROPERTY_NAME)).thenReturn((Class)propertyClass);
-		when(bindingContext.getPropertyValueModel(DEFAULT_PROPERTY_NAME)).thenReturn((ValueModel)ValueModelUtils.create(initialPropertyValue));
-		attribute.bindTo(bindingContext);
-		return bindingContext.getPropertyValueModel(DEFAULT_PROPERTY_NAME);
-	}
-	
-	private <PropertyType> AbstractPropertyViewAttribute<ViewType, PropertyType> viewAttribute()
-	{
-		return (AbstractPropertyViewAttribute<ViewType, PropertyType>)attribute;
-	}
-	
+	initializeAttributeWithDefaultConfig();
+    }
+
+    private void initializeAttributeWithDefaultConfig() {
+	viewAttribute().initialize(aPropertyViewAttributeConfig(view, BindingAttributeValues.ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME));
+    }
+
+    protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass) {
+	viewAttribute().initialize(aPropertyViewAttributeConfig(view, BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
+	BindingContext bindingContext = mock(BindingContext.class);
+	when(bindingContext.getPropertyType(DEFAULT_PROPERTY_NAME)).thenReturn((Class) propertyClass);
+	when(bindingContext.getPropertyValueModel(DEFAULT_PROPERTY_NAME)).thenReturn((ValueModel) ValueModelUtils.create());
+	attribute.bindTo(bindingContext);
+	return bindingContext.getPropertyValueModel(DEFAULT_PROPERTY_NAME);
+    }
+
+    protected <PropertyType> ValueModel<PropertyType> twoWayBindToProperty(Class<PropertyType> propertyClass, PropertyType initialPropertyValue) {
+	viewAttribute().initialize(aPropertyViewAttributeConfig(view, BindingAttributeValues.TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME));
+	BindingContext bindingContext = mock(BindingContext.class);
+	when(bindingContext.getPropertyType(DEFAULT_PROPERTY_NAME)).thenReturn((Class) propertyClass);
+	when(bindingContext.getPropertyValueModel(DEFAULT_PROPERTY_NAME)).thenReturn((ValueModel) ValueModelUtils.create(initialPropertyValue));
+	attribute.bindTo(bindingContext);
+	return bindingContext.getPropertyValueModel(DEFAULT_PROPERTY_NAME);
+    }
+
+    private <PropertyType> AbstractPropertyViewAttribute<ViewType, PropertyType> viewAttribute() {
+	return (AbstractPropertyViewAttribute<ViewType, PropertyType>) attribute;
+    }
+
 }

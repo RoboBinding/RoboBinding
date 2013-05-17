@@ -22,25 +22,23 @@ import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CustomBindingAttributeMapperAdapter<T extends View> implements BindingAttributeProvider<T>
-{
-	private BindableView<T> bindableView;
-	public CustomBindingAttributeMapperAdapter(BindableView<T> bindableView)
-	{
-		this.bindableView = bindableView;
-	}
+public class CustomBindingAttributeMapperAdapter<T extends View> implements BindingAttributeProvider<T> {
+    private BindableView<T> bindableView;
 
-	@Override
-	public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInitializer viewAttributeInitializer)
-	{
-		CustomBindingAttributeMappingsImpl<T> bindingAttributeMappings = new CustomBindingAttributeMappingsImpl<T>(viewAttributeInitializer);
-		bindableView.mapBindingAttributes(bindingAttributeMappings);
-		return bindingAttributeMappings;
-	}
+    public CustomBindingAttributeMapperAdapter(BindableView<T> bindableView) {
+	this.bindableView = bindableView;
+    }
+
+    @Override
+    public BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInitializer viewAttributeInitializer) {
+	CustomBindingAttributeMappingsImpl<T> bindingAttributeMappings = new CustomBindingAttributeMappingsImpl<T>(viewAttributeInitializer);
+	bindableView.mapBindingAttributes(bindingAttributeMappings);
+	return bindingAttributeMappings;
+    }
 
 }

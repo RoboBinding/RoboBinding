@@ -27,24 +27,20 @@ import android.view.View.OnClickListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnClickAttribute extends AbstractCommandViewAttribute<View>
-{
-	@Override
-	protected void bind(final Command command)
-	{
-		view.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-				ClickEvent clickEvent = new ClickEvent(v);
-				command.invoke(clickEvent);
-			}
-		});
-	}
+public class OnClickAttribute extends AbstractCommandViewAttribute<View> {
+    @Override
+    protected void bind(final Command command) {
+	view.setOnClickListener(new OnClickListener() {
+	    @Override
+	    public void onClick(View v) {
+		ClickEvent clickEvent = new ClickEvent(v);
+		command.invoke(clickEvent);
+	    }
+	});
+    }
 
-	@Override
-	protected Class<?> getPreferredCommandParameterType()
-	{
-		return ClickEvent.class;
-	}
+    @Override
+    protected Class<?> getPreferredCommandParameterType() {
+	return ClickEvent.class;
+    }
 }

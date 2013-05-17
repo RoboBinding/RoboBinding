@@ -28,23 +28,19 @@ import org.robobinding.viewattribute.BindingAttributeMappings;
 import android.widget.ListView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ListViewAttributeMapper implements BindingAttributeMapper<ListView>
-{
-	@Override
-	public void mapBindingAttributes(BindingAttributeMappings<ListView> mappings)
-	{
-		mappings.mapPropertyAttribute(CheckedItemPositionAttribute.class, "checkedItemPosition");
-		mappings.mapPropertyAttribute(CheckedItemPositionsAttribute.class, "checkedItemPositions");
-		mappings.mapPropertyAttribute(ChoiceModeAttribute.class, "choiceMode");
-		
-		mappings.mapGroupedAttribute(new HeaderAttributesFactory(), HEADER_LAYOUT, HEADER_PRESENTATION_MODEL,
-				HEADER_VISIBILITY);
-		mappings.mapGroupedAttribute(new FooterAttributesFactory(), FOOTER_LAYOUT, FOOTER_PRESENTATION_MODEL, 
-				FOOTER_VISIBILITY);
-	}
+public class ListViewAttributeMapper implements BindingAttributeMapper<ListView> {
+    @Override
+    public void mapBindingAttributes(BindingAttributeMappings<ListView> mappings) {
+	mappings.mapPropertyAttribute(CheckedItemPositionAttribute.class, "checkedItemPosition");
+	mappings.mapPropertyAttribute(CheckedItemPositionsAttribute.class, "checkedItemPositions");
+	mappings.mapPropertyAttribute(ChoiceModeAttribute.class, "choiceMode");
+
+	mappings.mapGroupedAttribute(new HeaderAttributesFactory(), HEADER_LAYOUT, HEADER_PRESENTATION_MODEL, HEADER_VISIBILITY);
+	mappings.mapGroupedAttribute(new FooterAttributesFactory(), FOOTER_LAYOUT, FOOTER_PRESENTATION_MODEL, FOOTER_VISIBILITY);
+    }
 }

@@ -33,45 +33,40 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnSeekBarChangeAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<SeekBar, OnSeekBarChangeAttribute, MockSeekBarListeners>
-{
-	private int newProgressValue;
-	
-	@Before
-	public void setUp()
-	{
-		newProgressValue = RandomValues.anyInteger();
-	}
-	
-	@Test
-	public void givenBoundAttribute_whenUpdatingProgress_thenEventReceived()
-	{
-		bindAttribute();
+public class OnSeekBarChangeAttributeTest extends
+	AbstractCommandViewAttributeWithViewListenersAwareTest<SeekBar, OnSeekBarChangeAttribute, MockSeekBarListeners> {
+    private int newProgressValue;
 
-		updateProgressOnSeekBar();
+    @Before
+    public void setUp() {
+	newProgressValue = RandomValues.anyInteger();
+    }
 
-		assertEventReceived();
-	}
+    @Test
+    public void givenBoundAttribute_whenUpdatingProgress_thenEventReceived() {
+	bindAttribute();
 
-	@Test
-	public void whenBinding_thenRegisterWithViewListeners()
-	{
-		bindAttribute();
-		
-		assertTrue(viewListeners.addOnSeekBarChangeListenerInvoked);
-	}
-	
-	private void updateProgressOnSeekBar()
-	{
-		view.setProgress(newProgressValue);
-	}
+	updateProgressOnSeekBar();
 
-	private void assertEventReceived()
-	{
-		assertEventReceived(SeekBarEvent.class);
-		SeekBarEvent seekBarEvent = getEventReceived();
-		assertThat(seekBarEvent.getSeekBar(), sameInstance(view));
-		assertThat(seekBarEvent.getProgress(), is(newProgressValue));
-		assertTrue(seekBarEvent.isFromUser());
-	}
+	assertEventReceived();
+    }
+
+    @Test
+    public void whenBinding_thenRegisterWithViewListeners() {
+	bindAttribute();
+
+	assertTrue(viewListeners.addOnSeekBarChangeListenerInvoked);
+    }
+
+    private void updateProgressOnSeekBar() {
+	view.setProgress(newProgressValue);
+    }
+
+    private void assertEventReceived() {
+	assertEventReceived(SeekBarEvent.class);
+	SeekBarEvent seekBarEvent = getEventReceived();
+	assertThat(seekBarEvent.getSeekBar(), sameInstance(view));
+	assertThat(seekBarEvent.getProgress(), is(newProgressValue));
+	assertTrue(seekBarEvent.isFromUser());
+    }
 }

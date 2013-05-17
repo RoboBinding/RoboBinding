@@ -19,7 +19,6 @@ import org.robobinding.function.Function;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.ValueModel;
 
-
 /**
  * 
  * @since 1.0
@@ -27,17 +26,16 @@ import org.robobinding.property.ValueModel;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface PresentationModelAdapter
-{
-	Class<?> getPropertyType(String propertyName);
+public interface PresentationModelAdapter {
+    Class<?> getPropertyType(String propertyName);
 
-	<T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName);
+    <T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName);
 
-	<T> ValueModel<T> getPropertyValueModel(String propertyName);
+    <T> ValueModel<T> getPropertyValueModel(String propertyName);
 
-	DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName);
+    DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName);
 
-	Function findFunction(String functionName, Class<?>... parameterTypes);
-	
-	String getPresentationModelClassName();
+    Function findFunction(String functionName, Class<?>... parameterTypes);
+
+    String getPresentationModelClassName();
 }

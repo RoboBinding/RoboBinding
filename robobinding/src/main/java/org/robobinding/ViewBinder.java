@@ -26,37 +26,31 @@ import android.view.ViewGroup;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewBinder
-{
-	private InternalViewBinder internalViewBinder;
-	private BindingContext bindingContext;
+public class ViewBinder {
+    private InternalViewBinder internalViewBinder;
+    private BindingContext bindingContext;
 
-	public ViewBinder(InternalViewBinder internalViewBinder, BindingContext bindingContext)
-	{
-		this.internalViewBinder = internalViewBinder;
-		this.bindingContext = bindingContext;
-	}
+    public ViewBinder(InternalViewBinder internalViewBinder, BindingContext bindingContext) {
+	this.internalViewBinder = internalViewBinder;
+	this.bindingContext = bindingContext;
+    }
 
-	public void attachToRoot(ViewGroup parentView)
-	{
-		internalViewBinder.attachToRoot(parentView);
-	}
+    public void attachToRoot(ViewGroup parentView) {
+	internalViewBinder.attachToRoot(parentView);
+    }
 
-	public View inflateAndBind(int layoutId, Object presentationModel)
-	{
-		return internalViewBinder.inflateAndBind(layoutId, presentationModel);
-	}
+    public View inflateAndBind(int layoutId, Object presentationModel) {
+	return internalViewBinder.inflateAndBind(layoutId, presentationModel);
+    }
 
-	public View inflateAndBind(int layoutId, String presentationModelPropertyName)
-	{
-		ValueModel<Object> valueModel = bindingContext.getPropertyValueModel(presentationModelPropertyName);
-		Object presentationModel = valueModel.getValue();
-		return internalViewBinder.inflateAndBind(layoutId, presentationModel);
-	}
+    public View inflateAndBind(int layoutId, String presentationModelPropertyName) {
+	ValueModel<Object> valueModel = bindingContext.getPropertyValueModel(presentationModelPropertyName);
+	Object presentationModel = valueModel.getValue();
+	return internalViewBinder.inflateAndBind(layoutId, presentationModel);
+    }
 
-	public View inflate(int layoutId)
-	{
-		return internalViewBinder.inflate(layoutId);
-	}
+    public View inflate(int layoutId) {
+	return internalViewBinder.inflate(layoutId);
+    }
 
 }

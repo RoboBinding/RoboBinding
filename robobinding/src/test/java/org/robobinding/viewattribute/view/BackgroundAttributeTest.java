@@ -29,14 +29,12 @@ import android.graphics.drawable.Drawable;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BackgroundAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<BackgroundAttribute>
-{
-	@Override
-	protected void setTypeMappingExpectations()
-	{
-		forPropertyType(int.class).expectAttribute(ResourceIdBackgroundAttribute.class);
-		forPropertyType(Integer.class).expectAttribute(ResourceIdBackgroundAttribute.class);
-		forPropertyType(Bitmap.class).expectAttribute(BitmapBackgroundAttribute.class);
-		forPropertyType(Drawable.class).expectAttribute(DrawableBackgroundAttribute.class);
-	}
+public class BackgroundAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<BackgroundAttribute> {
+    @Override
+    protected void setTypeMappingExpectations() {
+	forPropertyType(int.class).expectAttribute(ResourceIdBackgroundAttribute.class);
+	forPropertyType(Integer.class).expectAttribute(ResourceIdBackgroundAttribute.class);
+	forPropertyType(Bitmap.class).expectAttribute(BitmapBackgroundAttribute.class);
+	forPropertyType(Drawable.class).expectAttribute(DrawableBackgroundAttribute.class);
+    }
 }

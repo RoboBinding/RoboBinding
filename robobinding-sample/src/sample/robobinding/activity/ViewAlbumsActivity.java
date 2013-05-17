@@ -22,31 +22,27 @@ import sample.robobinding.presentationmodel.ViewAlbumsPresentationModel;
 import android.app.Activity;
 import android.os.Bundle;
 
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ViewAlbumsActivity extends Activity
-{
-	protected ViewAlbumsPresentationModel presentationModel;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		
-		presentationModel = new ViewAlbumsPresentationModel(this);
-		Binders.bindWithoutPreInitializingViews(this, R.layout.view_albums_activity, presentationModel);
-	}
+public class ViewAlbumsActivity extends Activity {
+    protected ViewAlbumsPresentationModel presentationModel;
 
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		presentationModel.refreshPresentationModel();
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+
+	presentationModel = new ViewAlbumsPresentationModel(this);
+	Binders.bindWithoutPreInitializingViews(this, R.layout.view_albums_activity, presentationModel);
+    }
+
+    @Override
+    protected void onResume() {
+	super.onResume();
+	presentationModel.refreshPresentationModel();
+    }
 
 }

@@ -35,100 +35,86 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class GroupedViewAttributeTest extends ViewAttributeContractTest<AbstractGroupedViewAttribute<View>>
-{
-	/**
-	 * Ignored by Cheng. Will discuss this.
-	 */
-	@Test@Ignore
-	public void whenSettingViewListenersProvider_thenSetViewListenersOnViewAttributeInstantiator()
-	{
-		//groupedViewAttribute.setView(view);
+public class GroupedViewAttributeTest extends ViewAttributeContractTest<AbstractGroupedViewAttribute<View>> {
+    /**
+     * Ignored by Cheng. Will discuss this.
+     */
+    @Test
+    @Ignore
+    public void whenSettingViewListenersProvider_thenSetViewListenersOnViewAttributeInstantiator() {
+	// groupedViewAttribute.setView(view);
 
-		//groupedViewAttribute.setViewListenersProvider(mock(ViewListenersProvider.class));
+	// groupedViewAttribute.setViewListenersProvider(mock(ViewListenersProvider.class));
 
-		//verify(mockViewAttributeInstantiator).setViewListenersIfRequired(groupedViewAttribute, view);
-	}
+	// verify(mockViewAttributeInstantiator).setViewListenersIfRequired(groupedViewAttribute,
+	// view);
+    }
 
-	@Test
-	public void whenGettingDefaultCompulsoryAttributes_thenReturnEmptyArray()
-	{
-		AbstractGroupedViewAttribute<View> groupedViewAttribute = new GroupedViewAttributeForTest();
-		
-		assertThat(groupedViewAttribute.getCompulsoryAttributes().length, is(0));
-	}
-	
-	@Test (expected = AttributeGroupBindingException.class)
+    @Test
+    public void whenGettingDefaultCompulsoryAttributes_thenReturnEmptyArray() {
+	AbstractGroupedViewAttribute<View> groupedViewAttribute = new GroupedViewAttributeForTest();
+
+	assertThat(groupedViewAttribute.getCompulsoryAttributes().length, is(0));
+    }
+
+    @Test(expected = AttributeGroupBindingException.class)
+    @Override
+    public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow() {
+	super.whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow();
+    }
+
+    @Override
+    protected AbstractGroupedViewAttribute<View> throwsExceptionDuringPreInitializingView() {
+	return new ThrowsExceptionDuringPreInitializingView();
+    }
+
+    @Test(expected = AttributeGroupBindingException.class)
+    @Override
+    public void whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrow() {
+	super.whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrow();
+    }
+
+    @Override
+    protected AbstractGroupedViewAttribute<View> throwsExceptionDuringBinding() {
+	return new ThrowsExceptionDuringBinding();
+    }
+
+    private static class AbstractGroupedViewAttributeForTest extends AbstractGroupedViewAttribute<View> {
+	public int childViewAttributesSetupCounter = 0;
+
 	@Override
-	public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow()
-	{
-		super.whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow();
-	}
-	
-	@Override
-	protected AbstractGroupedViewAttribute<View> throwsExceptionDuringPreInitializingView()
-	{
-		return new ThrowsExceptionDuringPreInitializingView();
+	protected void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings) {
 	}
 
-	@Test (expected = AttributeGroupBindingException.class)
 	@Override
-	public void whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrow()
-	{
-		super.whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrow();
+	protected void setupChildViewAttributes(ChildViewAttributes<View> childViewAttributes, BindingContext bindingContext) {
+	    childViewAttributesSetupCounter++;
 	}
-	
-	@Override
-	protected AbstractGroupedViewAttribute<View> throwsExceptionDuringBinding()
-	{
-		return new ThrowsExceptionDuringBinding();
-	}
-	
-	private static class AbstractGroupedViewAttributeForTest extends AbstractGroupedViewAttribute<View>
-	{
-		public int childViewAttributesSetupCounter = 0;
-		@Override
-		protected void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
-		{
-		}
-		
-		@Override
-		protected void setupChildViewAttributes(ChildViewAttributes<View> childViewAttributes, BindingContext bindingContext)
-		{
-			childViewAttributesSetupCounter++;
-		}
-	}
+    }
 
-	public class GroupedViewAttributeForTest extends AbstractGroupedViewAttributeForTest
-	{
-		public GroupedViewAttributeForTest()
-		{
-			childViewAttributes = new ChildViewAttributes<View>(aGroupAttributes().build(), 
-					mock(AbstractViewAttributeInitializer.class));
-		}
+    public class GroupedViewAttributeForTest extends AbstractGroupedViewAttributeForTest {
+	public GroupedViewAttributeForTest() {
+	    childViewAttributes = new ChildViewAttributes<View>(aGroupAttributes().build(), mock(AbstractViewAttributeInitializer.class));
 	}
-	
-	private static class ThrowsExceptionDuringPreInitializingView extends AbstractGroupedViewAttributeForTest
-	{
-		@SuppressWarnings("unchecked")
-		public ThrowsExceptionDuringPreInitializingView()
-		{
-			view = mock(View.class);
-			
-			childViewAttributes = mock(ChildViewAttributes.class);
-			doThrow(new AttributeGroupBindingException()).when(childViewAttributes).preInitializeView(any(BindingContext.class));
-		}
+    }
+
+    private static class ThrowsExceptionDuringPreInitializingView extends AbstractGroupedViewAttributeForTest {
+	@SuppressWarnings("unchecked")
+	public ThrowsExceptionDuringPreInitializingView() {
+	    view = mock(View.class);
+
+	    childViewAttributes = mock(ChildViewAttributes.class);
+	    doThrow(new AttributeGroupBindingException()).when(childViewAttributes).preInitializeView(any(BindingContext.class));
 	}
-	
-	private static class ThrowsExceptionDuringBinding extends AbstractGroupedViewAttributeForTest
-	{
-		@SuppressWarnings("unchecked")
-		public ThrowsExceptionDuringBinding()
-		{
-			view = mock(View.class);
-			
-			childViewAttributes = mock(ChildViewAttributes.class);
-			doThrow(new AttributeGroupBindingException()).when(childViewAttributes).bindTo(any(BindingContext.class));
-		}
+    }
+
+    private static class ThrowsExceptionDuringBinding extends AbstractGroupedViewAttributeForTest {
+	@SuppressWarnings("unchecked")
+	public ThrowsExceptionDuringBinding() {
+	    view = mock(View.class);
+
+	    childViewAttributes = mock(ChildViewAttributes.class);
+	    doThrow(new AttributeGroupBindingException()).when(childViewAttributes).bindTo(any(BindingContext.class));
 	}
+    }
 }

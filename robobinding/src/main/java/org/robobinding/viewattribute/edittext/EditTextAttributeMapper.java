@@ -26,13 +26,11 @@ import android.widget.EditText;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class EditTextAttributeMapper implements BindingAttributeMapper<EditText>
-{
-	@Override
-	public void mapBindingAttributes(BindingAttributeMappings<EditText> mappings)
-	{
-		mappings.mapGroupedAttribute(TwoWayTextAttributeGroup.class, TwoWayTextAttributeGroup.TEXT, TwoWayTextAttributeGroup.VALUE_COMMIT_MODE);
-	
-		mappings.mapCommandAttribute(OnTextChangedAttribute.class, "onTextChanged");
-	}
+public class EditTextAttributeMapper implements BindingAttributeMapper<EditText> {
+    @Override
+    public void mapBindingAttributes(BindingAttributeMappings<EditText> mappings) {
+	mappings.mapGroupedAttribute(TwoWayTextAttributeGroup.class, TwoWayTextAttributeGroup.TEXT, TwoWayTextAttributeGroup.VALUE_COMMIT_MODE);
+
+	mappings.mapCommandAttribute(OnTextChangedAttribute.class, "onTextChanged");
+    }
 }

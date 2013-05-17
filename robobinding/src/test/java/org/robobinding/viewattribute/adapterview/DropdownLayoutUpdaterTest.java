@@ -31,18 +31,18 @@ import org.mockito.runners.MockitoJUnitRunner;
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DropdownLayoutUpdaterTest 
-{
-	@Mock DataSetAdapter<?> dataSetAdapter;
-	@InjectMocks DropdownLayoutUpdater dropdownLayoutUpdater;
+public class DropdownLayoutUpdaterTest {
+    @Mock
+    DataSetAdapter<?> dataSetAdapter;
+    @InjectMocks
+    DropdownLayoutUpdater dropdownLayoutUpdater;
 
-	@Test
-	public void whenUpdatingRowLayout_thenSetDropdownLayoutOnDataSetAdapter() 
-	{
-		int layoutId = anyInteger();
+    @Test
+    public void whenUpdatingRowLayout_thenSetDropdownLayoutOnDataSetAdapter() {
+	int layoutId = anyInteger();
 
-		dropdownLayoutUpdater.updateRowLayout(layoutId);
+	dropdownLayoutUpdater.updateRowLayout(layoutId);
 
-		verify(dataSetAdapter).setDropDownLayoutId(layoutId);
-	}
+	verify(dataSetAdapter).setDropDownLayoutId(layoutId);
+    }
 }

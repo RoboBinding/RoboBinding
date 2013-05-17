@@ -26,21 +26,19 @@ import org.robobinding.viewattribute.textview.TextAttribute.StringTextAttribute;
 import android.widget.TextView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class StringTextAttributeTest extends AbstractPropertyViewAttributeTest<TextView, StringTextAttribute>
-{
-	@Test
-	public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		String newText = RandomStringUtils.random(5);
-		
-		attribute.valueModelUpdated(newText);
+public class StringTextAttributeTest extends AbstractPropertyViewAttributeTest<TextView, StringTextAttribute> {
+    @Test
+    public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges() {
+	String newText = RandomStringUtils.random(5);
 
-		assertThat(view.getText(), sameAs(newText));
-	}
-	
+	attribute.valueModelUpdated(newText);
+
+	assertThat(view.getText(), sameAs(newText));
+    }
+
 }

@@ -41,101 +41,91 @@ import android.view.View;
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-public final class CommandViewAttributeTest extends ViewAttributeContractTest<AbstractCommandViewAttribute<View>>
-{
-	private static final String FUNCTION_NAME = "functionName";
-	
-	@Mock Function noArgsFunction;
-	@Mock Function preferredFunction;
-	@Mock BindingContext bindingContext;
-	private DummyCommandViewAttribute commandViewAttribute;
-	
-	@Before
-	public void setUp()
-	{
-		commandViewAttribute = new DummyCommandViewAttribute();
-		commandViewAttribute.initialize(aCommandViewAttributeConfig(mock(View.class), FUNCTION_NAME));
-	}
-	
-	@Test
-	public void givenAPresentationModelWithAMatchingNoArgsFunction_whenBinding_thenBindWithThatFunction()
-	{
-		when(bindingContext.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
-		
-		commandViewAttribute.bindTo(bindingContext);
+public final class CommandViewAttributeTest extends ViewAttributeContractTest<AbstractCommandViewAttribute<View>> {
+    private static final String FUNCTION_NAME = "functionName";
 
-		assertThat(commandViewAttribute.functionBound, equalTo(noArgsFunction));
-	}
+    @Mock
+    Function noArgsFunction;
+    @Mock
+    Function preferredFunction;
+    @Mock
+    BindingContext bindingContext;
+    private DummyCommandViewAttribute commandViewAttribute;
 
-	@Test
-	public void givenAPresentationModelWithAMatchingPreferredArgsFunction_whenBinding_thenBindWithThatFunctionAndParamsBuilder()
-	{
-		when(bindingContext.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
-		when(bindingContext.findFunction(FUNCTION_NAME, ItemClickEvent.class)).thenReturn(preferredFunction);
-		
-		commandViewAttribute.bindTo(bindingContext);
-		
-		assertThat(commandViewAttribute.functionBound, equalTo(preferredFunction));
-	}
-	
-	@Test (expected=RuntimeException.class)
-	public void givenAPresentationModelWithNoMatchingFunction_whenBinding_thenThrowRuntimeException()
-	{
-		commandViewAttribute.bindTo(bindingContext);
-	}
-	
-	public class DummyCommandViewAttribute extends AbstractCommandViewAttribute<View>
-	{
-		Function functionBound;
-		
-		@Override
-		protected void bind(Command parameterObject)
-		{
-			this.functionBound = parameterObject.function;
-		}
+    @Before
+    public void setUp() {
+	commandViewAttribute = new DummyCommandViewAttribute();
+	commandViewAttribute.initialize(aCommandViewAttributeConfig(mock(View.class), FUNCTION_NAME));
+    }
 
-		@Override
-		protected Class<?> getPreferredCommandParameterType()
-		{
-			return ItemClickEvent.class;
-		}
-		
-	}
+    @Test
+    public void givenAPresentationModelWithAMatchingNoArgsFunction_whenBinding_thenBindWithThatFunction() {
+	when(bindingContext.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
 
-	@Test@Ignore@Override
-	public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow()
-	{
-	}
-	
+	commandViewAttribute.bindTo(bindingContext);
+
+	assertThat(commandViewAttribute.functionBound, equalTo(noArgsFunction));
+    }
+
+    @Test
+    public void givenAPresentationModelWithAMatchingPreferredArgsFunction_whenBinding_thenBindWithThatFunctionAndParamsBuilder() {
+	when(bindingContext.findFunction(FUNCTION_NAME)).thenReturn(noArgsFunction);
+	when(bindingContext.findFunction(FUNCTION_NAME, ItemClickEvent.class)).thenReturn(preferredFunction);
+
+	commandViewAttribute.bindTo(bindingContext);
+
+	assertThat(commandViewAttribute.functionBound, equalTo(preferredFunction));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void givenAPresentationModelWithNoMatchingFunction_whenBinding_thenThrowRuntimeException() {
+	commandViewAttribute.bindTo(bindingContext);
+    }
+
+    public class DummyCommandViewAttribute extends AbstractCommandViewAttribute<View> {
+	Function functionBound;
+
 	@Override
-	protected AbstractCommandViewAttribute<View> throwsExceptionDuringPreInitializingView()
-	{
-		throw new UnsupportedOperationException();
+	protected void bind(Command parameterObject) {
+	    this.functionBound = parameterObject.function;
 	}
 
 	@Override
-	protected AbstractCommandViewAttribute<View> throwsExceptionDuringBinding()
-	{
-		return new ThrowsExceptionDuringBinding();
+	protected Class<?> getPreferredCommandParameterType() {
+	    return ItemClickEvent.class;
 	}
-	
-	private static class ThrowsExceptionDuringBinding extends AbstractCommandViewAttribute<View>
-	{
-		public ThrowsExceptionDuringBinding()
-		{
-			initialize(aCommandViewAttributeConfig(mock(View.class), FUNCTION_NAME));
-		}
-		
-		@Override
-		protected void bind(Command command)
-		{
-			throw new RuntimeException();
-		}
-		
-		@Override
-		protected Class<?> getPreferredCommandParameterType()
-		{
-			return Integer.class;
-		}
+
+    }
+
+    @Test
+    @Ignore
+    @Override
+    public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow() {
+    }
+
+    @Override
+    protected AbstractCommandViewAttribute<View> throwsExceptionDuringPreInitializingView() {
+	throw new UnsupportedOperationException();
+    }
+
+    @Override
+    protected AbstractCommandViewAttribute<View> throwsExceptionDuringBinding() {
+	return new ThrowsExceptionDuringBinding();
+    }
+
+    private static class ThrowsExceptionDuringBinding extends AbstractCommandViewAttribute<View> {
+	public ThrowsExceptionDuringBinding() {
+	    initialize(aCommandViewAttributeConfig(mock(View.class), FUNCTION_NAME));
 	}
+
+	@Override
+	protected void bind(Command command) {
+	    throw new RuntimeException();
+	}
+
+	@Override
+	protected Class<?> getPreferredCommandParameterType() {
+	    return Integer.class;
+	}
+    }
 }

@@ -28,18 +28,15 @@ import android.content.Intent;
  * @author Robert Taylor
  */
 @PresentationModel
-public class HomePresentationModel
-{
-	private Context context;
+public class HomePresentationModel {
+    private Context context;
 
-	public HomePresentationModel(Context context)
-	{
-		this.context = context;
-	}
+    public HomePresentationModel(Context context) {
+	this.context = context;
+    }
 
-	public void albums()
-	{
-		context.startActivity(new Intent(context, ViewAlbumsActivity.class));
-	}
-	
+    public void albums() {
+	context.startActivity(new Intent(context, ViewAlbumsActivity.class));
+    }
+
 }

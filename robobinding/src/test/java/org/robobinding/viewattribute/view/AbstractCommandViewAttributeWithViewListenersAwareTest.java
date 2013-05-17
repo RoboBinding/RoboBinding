@@ -36,17 +36,15 @@ import android.view.View;
  * @author Cheng Wei
  */
 public abstract class AbstractCommandViewAttributeWithViewListenersAwareTest<ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<? super ViewType>, ViewListenersType extends ViewListeners>
-		extends AbstractCommandViewAttributeTest<ViewType, CommandViewAttributeType>
-{
-	protected ViewListenersType viewListeners;
+	extends AbstractCommandViewAttributeTest<ViewType, CommandViewAttributeType> {
+    protected ViewListenersType viewListeners;
 
-	@SuppressWarnings("unchecked")
-	@Before
-	public void initializeViewListeners()
-	{
-		assertThat(attribute, instanceOf(ViewListenersAware.class));
-		ParameterizedType superclass = (ParameterizedType) getClass().getGenericSuperclass();
-		viewListeners = ParameterizedTypeUtils.createTypeArgument(superclass, 2, view.getClass(), view);
-		((ViewListenersAware<ViewListeners>) attribute).setViewListeners(viewListeners);
-	}
+    @SuppressWarnings("unchecked")
+    @Before
+    public void initializeViewListeners() {
+	assertThat(attribute, instanceOf(ViewListenersAware.class));
+	ParameterizedType superclass = (ParameterizedType) getClass().getGenericSuperclass();
+	viewListeners = ParameterizedTypeUtils.createTypeArgument(superclass, 2, view.getClass(), view);
+	((ViewListenersAware<ViewListeners>) attribute).setViewListeners(viewListeners);
+    }
 }

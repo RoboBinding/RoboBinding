@@ -57,58 +57,51 @@ import com.google.common.collect.Maps;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class BindingAttributeProvidersResolver
-{
-	Map<Class<?>, BindingAttributeProvider<? extends View>> bindingAttributeProvidersMap;
+public class BindingAttributeProvidersResolver {
+    Map<Class<?>, BindingAttributeProvider<? extends View>> bindingAttributeProvidersMap;
 
-	public BindingAttributeProvidersResolver()
-	{
-		bindingAttributeProvidersMap = Maps.newHashMap();
-		bindingAttributeProvidersMap.put(View.class, adapt(new ViewAttributeMapper()));
-		bindingAttributeProvidersMap.put(TextView.class, adapt(new TextViewAttributeMapper()));
-		bindingAttributeProvidersMap.put(EditText.class, adapt(new EditTextAttributeMapper()));
-		bindingAttributeProvidersMap.put(AdapterView.class, adapt(new AdapterViewAttributeMapper()));
-		bindingAttributeProvidersMap.put(CompoundButton.class, adapt(new CompoundButtonAttributeMapper()));
-		bindingAttributeProvidersMap.put(ImageView.class, adapt(new ImageViewAttributeMapper()));
-		bindingAttributeProvidersMap.put(ProgressBar.class, adapt(new ProgressBarAttributeMapper()));
-		bindingAttributeProvidersMap.put(SeekBar.class, adapt(new SeekBarAttributeMapper()));
-		bindingAttributeProvidersMap.put(RatingBar.class, adapt(new RatingBarAttributeMapper()));
-		bindingAttributeProvidersMap.put(ListView.class, adapt(new ListViewAttributeMapper()));
-		bindingAttributeProvidersMap.put(AbsSpinner.class, adapt(new AbsSpinnerAttributeMapper()));
-	}
-	
-	private <T extends View> BindingAttributeProvider<T> adapt(BindingAttributeMapper<T> mapper)
-	{
-		return new BindingAttributeMapperAdapter<T>(mapper);
-	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Iterable<BindingAttributeProvider<? extends View>> getCandidateProviders(View view)
-	{
-		Queue<BindingAttributeProvider<? extends View>> candidateProviders = Lists.newLinkedList();
-		
-		if (CustomViewUtils.isCustomWidget(view))
-		{
-			candidateProviders.add(CustomViewUtils.adapt((BindableView)view));
-		}
-				
-		processViewHierarchy(view.getClass(), candidateProviders);
-		return candidateProviders;
+    public BindingAttributeProvidersResolver() {
+	bindingAttributeProvidersMap = Maps.newHashMap();
+	bindingAttributeProvidersMap.put(View.class, adapt(new ViewAttributeMapper()));
+	bindingAttributeProvidersMap.put(TextView.class, adapt(new TextViewAttributeMapper()));
+	bindingAttributeProvidersMap.put(EditText.class, adapt(new EditTextAttributeMapper()));
+	bindingAttributeProvidersMap.put(AdapterView.class, adapt(new AdapterViewAttributeMapper()));
+	bindingAttributeProvidersMap.put(CompoundButton.class, adapt(new CompoundButtonAttributeMapper()));
+	bindingAttributeProvidersMap.put(ImageView.class, adapt(new ImageViewAttributeMapper()));
+	bindingAttributeProvidersMap.put(ProgressBar.class, adapt(new ProgressBarAttributeMapper()));
+	bindingAttributeProvidersMap.put(SeekBar.class, adapt(new SeekBarAttributeMapper()));
+	bindingAttributeProvidersMap.put(RatingBar.class, adapt(new RatingBarAttributeMapper()));
+	bindingAttributeProvidersMap.put(ListView.class, adapt(new ListViewAttributeMapper()));
+	bindingAttributeProvidersMap.put(AbsSpinner.class, adapt(new AbsSpinnerAttributeMapper()));
+    }
+
+    private <T extends View> BindingAttributeProvider<T> adapt(BindingAttributeMapper<T> mapper) {
+	return new BindingAttributeMapperAdapter<T>(mapper);
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Iterable<BindingAttributeProvider<? extends View>> getCandidateProviders(View view) {
+	Queue<BindingAttributeProvider<? extends View>> candidateProviders = Lists.newLinkedList();
+
+	if (CustomViewUtils.isCustomWidget(view)) {
+	    candidateProviders.add(CustomViewUtils.adapt((BindableView) view));
 	}
 
-	private void processViewHierarchy(Class<?> clazz, Queue<BindingAttributeProvider<? extends View>> candidateProviders)
-	{
-		BindingAttributeProvider<? extends View> bindingAttributeProvider = lookupProviderForViewType(clazz);
-		
-		if (bindingAttributeProvider != null)
-			candidateProviders.add(bindingAttributeProvider);
-		
-		if (clazz != View.class)
-			processViewHierarchy(clazz.getSuperclass(), candidateProviders);
-	}
+	processViewHierarchy(view.getClass(), candidateProviders);
+	return candidateProviders;
+    }
 
-	private BindingAttributeProvider<? extends View> lookupProviderForViewType(Class<?> clazz)
-	{
-		return bindingAttributeProvidersMap.get(clazz);
-	}
+    private void processViewHierarchy(Class<?> clazz, Queue<BindingAttributeProvider<? extends View>> candidateProviders) {
+	BindingAttributeProvider<? extends View> bindingAttributeProvider = lookupProviderForViewType(clazz);
+
+	if (bindingAttributeProvider != null)
+	    candidateProviders.add(bindingAttributeProvider);
+
+	if (clazz != View.class)
+	    processViewHierarchy(clazz.getSuperclass(), candidateProviders);
+    }
+
+    private BindingAttributeProvider<? extends View> lookupProviderForViewType(Class<?> clazz) {
+	return bindingAttributeProvidersMap.get(clazz);
+    }
 }

@@ -23,25 +23,21 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class MockSubViewVisibility extends AbstractSubViewVisibility
-{
-	int state;
+class MockSubViewVisibility extends AbstractSubViewVisibility {
+    int state;
 
-	@Override
-	public void makeGone()
-	{
-		state = View.GONE;
-	}
+    @Override
+    public void makeGone() {
+	state = View.GONE;
+    }
 
-	@Override
-	public void makeVisible()
-	{
-		state = View.VISIBLE;
-	}
+    @Override
+    public void makeVisible() {
+	state = View.VISIBLE;
+    }
 
-	@Override
-	protected void makeInvisible()
-	{
-		state = View.INVISIBLE;
-	}
+    @Override
+    protected void makeInvisible() {
+	state = View.INVISIBLE;
+    }
 }

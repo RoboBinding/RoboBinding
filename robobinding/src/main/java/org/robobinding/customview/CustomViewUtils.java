@@ -25,19 +25,15 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CustomViewUtils
-{
-	private CustomViewUtils()
-	{
-	}
-	
-	public static boolean isCustomWidget(View view)
-	{
-		return view instanceof BindableView;
-	}
+public class CustomViewUtils {
+    private CustomViewUtils() {
+    }
 
-	public static <T extends View> BindingAttributeProvider<T> adapt(BindableView<T> bindableView)
-	{
-		return new CustomBindingAttributeMapperAdapter<T>(bindableView);
-	}
+    public static boolean isCustomWidget(View view) {
+	return view instanceof BindableView;
+    }
+
+    public static <T extends View> BindingAttributeProvider<T> adapt(BindableView<T> bindableView) {
+	return new CustomBindingAttributeMapperAdapter<T>(bindableView);
+    }
 }

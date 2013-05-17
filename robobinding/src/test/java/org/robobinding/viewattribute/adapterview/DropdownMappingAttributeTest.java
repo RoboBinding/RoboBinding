@@ -20,21 +20,19 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class DropdownMappingAttributeTest extends ItemMappingAttributeTest
-{
-	@Test
-	public void whenBinding_thenUpdateDataSetAdapter()
-	{
-		DropdownMappingAttribute dropdownMappingAttribute = new DropdownMappingAttribute(dataSetAdapter);
-		dropdownMappingAttribute.setAttribute(predefinedMappingsAttribute);
-		
-		dropdownMappingAttribute.bindTo(bindingContext);
-		
-		verify(dataSetAdapter).setDropdownPredefinedPendingAttributesForViewGroup(predefinedMappings);
-	}
+public class DropdownMappingAttributeTest extends ItemMappingAttributeTest {
+    @Test
+    public void whenBinding_thenUpdateDataSetAdapter() {
+	DropdownMappingAttribute dropdownMappingAttribute = new DropdownMappingAttribute(dataSetAdapter);
+	dropdownMappingAttribute.setAttribute(predefinedMappingsAttribute);
+
+	dropdownMappingAttribute.bindTo(bindingContext);
+
+	verify(dataSetAdapter).setDropdownPredefinedPendingAttributesForViewGroup(predefinedMappings);
+    }
 }

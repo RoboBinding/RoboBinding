@@ -27,20 +27,18 @@ import org.robobinding.viewattribute.imageview.ImageSourceAttribute.BitmapImageS
 import android.widget.ImageView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class BitmapImageSourceAttributeTest extends AbstractPropertyViewAttributeTest<ImageView, BitmapImageSourceAttribute>
-{
-	@Test
-	public void whenUpdatingValueModel_thenViewShouldReflectChanges()
-	{
-		DrawableData drawableData = RandomValues.anyDrawableData();
-		
-		attribute.valueModelUpdated(drawableData.bitmap);
+public class BitmapImageSourceAttributeTest extends AbstractPropertyViewAttributeTest<ImageView, BitmapImageSourceAttribute> {
+    @Test
+    public void whenUpdatingValueModel_thenViewShouldReflectChanges() {
+	DrawableData drawableData = RandomValues.anyDrawableData();
 
-		assertThat(view.getDrawable(), equalTo(drawableData.drawable));
-	}
+	attribute.valueModelUpdated(drawableData.bitmap);
+
+	assertThat(view.getDrawable(), equalTo(drawableData.drawable));
+    }
 }

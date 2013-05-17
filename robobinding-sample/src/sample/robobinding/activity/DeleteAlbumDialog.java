@@ -24,19 +24,17 @@ import android.app.Dialog;
 import android.content.Context;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class DeleteAlbumDialog extends Dialog
-{
-	public DeleteAlbumDialog(Context context, Album album)
-	{
-		super(context);
-		setCancelable(true);
-		
-		DeleteAlbumDialogPresentationModel deleteAlbumDialogPresentationModel = new DeleteAlbumDialogPresentationModel(this, album);
-		Binders.bind(this, R.layout.delete_album_dialog, deleteAlbumDialogPresentationModel);
-	}
+public class DeleteAlbumDialog extends Dialog {
+    public DeleteAlbumDialog(Context context, Album album) {
+	super(context);
+	setCancelable(true);
+
+	DeleteAlbumDialogPresentationModel deleteAlbumDialogPresentationModel = new DeleteAlbumDialogPresentationModel(this, album);
+	Binders.bind(this, R.layout.delete_album_dialog, deleteAlbumDialogPresentationModel);
+    }
 }

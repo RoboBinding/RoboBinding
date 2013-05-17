@@ -32,59 +32,50 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends ListView, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>> extends AbstractPropertyViewAttributeTest<ViewType, PropertyViewAttributeType>
-{
-	private ListAdapter adapter;
-	
-	@SuppressWarnings("unchecked")
-	@Before
-	public void setUp()
-	{
-		super.initializeViewAndAttribute();
-		
-		adapter = new MockArrayAdapter(R.layout.simple_list_item_multiple_choice);
-		view.setAdapter(adapter);
-		view.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-		
-		((ViewListenersAware<AdapterViewListeners>)attribute).setViewListeners(new MockAdapterViewListeners(view));
-		preInitializeCheckedItemPositionsToRandomState();
-	}
-	
-	private void preInitializeCheckedItemPositionsToRandomState()
-	{
-		setItemsChecked(SparseBooleanArrayUtils.toSet(anySparseBooleanArray()));
-	}
+public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends ListView, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>>
+	extends AbstractPropertyViewAttributeTest<ViewType, PropertyViewAttributeType> {
+    private ListAdapter adapter;
 
-	protected void setItemsChecked(Set<Integer> checkedItemPositions)
-	{
-		ListViewUtils.clearSelections(view);
-		for(Integer checkedItemPosition : checkedItemPositions)
-		{
-			view.performItemClick(null, checkedItemPosition, 0);
-		}
+    @SuppressWarnings("unchecked")
+    @Before
+    public void setUp() {
+	super.initializeViewAndAttribute();
+
+	adapter = new MockArrayAdapter(R.layout.simple_list_item_multiple_choice);
+	view.setAdapter(adapter);
+	view.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+	((ViewListenersAware<AdapterViewListeners>) attribute).setViewListeners(new MockAdapterViewListeners(view));
+	preInitializeCheckedItemPositionsToRandomState();
+    }
+
+    private void preInitializeCheckedItemPositionsToRandomState() {
+	setItemsChecked(SparseBooleanArrayUtils.toSet(anySparseBooleanArray()));
+    }
+
+    protected void setItemsChecked(Set<Integer> checkedItemPositions) {
+	ListViewUtils.clearSelections(view);
+	for (Integer checkedItemPosition : checkedItemPositions) {
+	    view.performItemClick(null, checkedItemPosition, 0);
 	}
-	
-	protected SparseBooleanArray anySparseBooleanArray()
-	{
-		SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
-		for(int i=0; i<adapter.getCount(); i++)
-		{
-			int selector = RandomValues.nextInt(3);
-			if(selector == 0)
-			{
-				sparseBooleanArray.put(i, true);
-			}else if(selector == 1)
-			{
-				sparseBooleanArray.put(i, false);
-			}else
-			{
-			}
-		}
-		return sparseBooleanArray;
+    }
+
+    protected SparseBooleanArray anySparseBooleanArray() {
+	SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
+	for (int i = 0; i < adapter.getCount(); i++) {
+	    int selector = RandomValues.nextInt(3);
+	    if (selector == 0) {
+		sparseBooleanArray.put(i, true);
+	    } else if (selector == 1) {
+		sparseBooleanArray.put(i, false);
+	    } else {
+	    }
 	}
+	return sparseBooleanArray;
+    }
 }

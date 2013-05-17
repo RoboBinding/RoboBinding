@@ -25,37 +25,33 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CheckedItemPositionAttribute extends AbstractPropertyViewAttribute<ListView, Integer> implements ViewListenersAware<AdapterViewListeners>
-{
-	private AdapterViewListeners adapterViewListeners;
+public class CheckedItemPositionAttribute extends AbstractPropertyViewAttribute<ListView, Integer> implements
+	ViewListenersAware<AdapterViewListeners> {
+    private AdapterViewListeners adapterViewListeners;
 
-	@Override
-	public void setViewListeners(AdapterViewListeners adapterViewListeners)
-	{
-		this.adapterViewListeners = adapterViewListeners;
-	}
+    @Override
+    public void setViewListeners(AdapterViewListeners adapterViewListeners) {
+	this.adapterViewListeners = adapterViewListeners;
+    }
 
-	@Override
-	protected void observeChangesOnTheView(final ValueModel<Integer> valueModel)
-	{
-		adapterViewListeners.addOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View itemView, int position, long id)
-			{
-				int checkedItemPosition = view.getCheckedItemPosition();
-				valueModel.setValue(checkedItemPosition);
-			}
-		});
-	}
-	
-	@Override
-	protected void valueModelUpdated(Integer newValue)
-	{
-		view.setItemChecked(newValue, true);
-	}
+    @Override
+    protected void observeChangesOnTheView(final ValueModel<Integer> valueModel) {
+	adapterViewListeners.addOnItemClickListener(new AdapterView.OnItemClickListener() {
+	    @Override
+	    public void onItemClick(AdapterView<?> parent, View itemView, int position, long id) {
+		int checkedItemPosition = view.getCheckedItemPosition();
+		valueModel.setValue(checkedItemPosition);
+	    }
+	});
+    }
+
+    @Override
+    protected void valueModelUpdated(Integer newValue) {
+	view.setItemChecked(newValue, true);
+    }
 }

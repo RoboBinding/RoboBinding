@@ -22,56 +22,50 @@ import org.junit.Test;
 import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.view.VisibilityAttribute;
 
-
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class FromClassViewAttributeFactoryTest 
-{
+public class FromClassViewAttributeFactoryTest {
 
-	@Test
-	public void shouldCreateNewInstanceFromClass() 
-	{
-		ViewAttributeFactory<VisibilityAttribute> viewAttributeFactory = viewAttributeFactoryForClass(VisibilityAttribute.class);
-		
-		VisibilityAttribute visibility = viewAttributeFactory.create();
-	
-		assertNotNull(visibility);
+    @Test
+    public void shouldCreateNewInstanceFromClass() {
+	ViewAttributeFactory<VisibilityAttribute> viewAttributeFactory = viewAttributeFactoryForClass(VisibilityAttribute.class);
+
+	VisibilityAttribute visibility = viewAttributeFactory.create();
+
+	assertNotNull(visibility);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void givenSuppliedClassIsAbstract_shouldThrowRuntimeException() {
+	viewAttributeFactoryForClass(AbstractViewAttribute.class).create();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void givenSuppliedClassIsNotVisible_shouldThrowRuntimeException() {
+	viewAttributeFactoryForClass(NonVisibleViewAttribute.class).create();
+    }
+
+    public static class VisibilityAttributeFactory implements ViewAttributeFactory<VisibilityAttribute> {
+	@Override
+	public VisibilityAttribute create() {
+	    return new VisibilityAttribute();
+	}
+    }
+
+    public static abstract class AbstractViewAttribute implements ViewAttribute {
+    }
+
+    private static class NonVisibleViewAttribute implements ViewAttribute {
+	@Override
+	public void bindTo(BindingContext bindingContext) {
 	}
 
-	@Test (expected=RuntimeException.class)
-	public void givenSuppliedClassIsAbstract_shouldThrowRuntimeException() 
-	{
-		viewAttributeFactoryForClass(AbstractViewAttribute.class).create();
+	@Override
+	public void preInitializeView(BindingContext bindingContext) {
 	}
-	
-	@Test (expected=RuntimeException.class)
-	public void givenSuppliedClassIsNotVisible_shouldThrowRuntimeException() 
-	{
-		viewAttributeFactoryForClass(NonVisibleViewAttribute.class).create();
-	}
-	
-	public static class VisibilityAttributeFactory implements ViewAttributeFactory<VisibilityAttribute> 
-	{
-		@Override
-		public VisibilityAttribute create() {
-			return new VisibilityAttribute();
-		}
-	}
-	
-	public static abstract class AbstractViewAttribute implements ViewAttribute 
-	{
-	}
-	
-	private static class NonVisibleViewAttribute implements ViewAttribute 
-	{
-		@Override
-		public void bindTo(BindingContext bindingContext) { }
-
-		@Override
-		public void preInitializeView(BindingContext bindingContext){ }
-	}	
+    }
 }

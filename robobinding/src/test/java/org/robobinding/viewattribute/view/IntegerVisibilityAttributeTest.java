@@ -26,20 +26,18 @@ import org.robobinding.viewattribute.view.VisibilityAttribute.IntegerVisibilityA
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class IntegerVisibilityAttributeTest extends AbstractPropertyViewAttributeTest<View, IntegerVisibilityAttribute>
-{
-	@Test
-	public void whenUpdatingValueModel_thenViewShouldReflectChanges()
-	{
-		int visibility = RandomValues.anyVisibility();
-		
-		attribute.valueModelUpdated(visibility);
-		
-		assertThat(view.getVisibility(), equalTo(visibility));
-	}
+public class IntegerVisibilityAttributeTest extends AbstractPropertyViewAttributeTest<View, IntegerVisibilityAttribute> {
+    @Test
+    public void whenUpdatingValueModel_thenViewShouldReflectChanges() {
+	int visibility = RandomValues.anyVisibility();
+
+	attribute.valueModelUpdated(visibility);
+
+	assertThat(view.getVisibility(), equalTo(visibility));
+    }
 }
