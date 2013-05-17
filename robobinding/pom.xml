@@ -192,6 +192,15 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-checkstyle-plugin</artifactId>
+		        <version>2.10</version>
+		        <configuration>
+		          <enableRulesSummary>false</enableRulesSummary>
+		        </configuration>
+ 		     </plugin>
 		</plugins>
 
 		<pluginManagement>

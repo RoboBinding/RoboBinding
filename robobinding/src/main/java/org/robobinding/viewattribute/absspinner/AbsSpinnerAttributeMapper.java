@@ -38,3 +38,4 @@ public class AbsSpinnerAttributeMapper implements BindingAttributeMapper<AbsSpin
 	mappings.mapGroupedAttribute(AdaptedAbsSpinnerDataSetAttributes.class, SOURCE, ITEM_LAYOUT, ITEM_MAPPING, DROPDOWN_LAYOUT, DROPDOWN_MAPPING);
     }
 }
+
