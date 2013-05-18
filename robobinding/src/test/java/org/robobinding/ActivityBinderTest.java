@@ -37,36 +37,32 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class ActivityBinderTest
-{
-	private Activity activity;
-	private BinderImplementor binderImplementor;
-	private Object presentationModel;
-	private int layoutId;
+public class ActivityBinderTest {
+    private Activity activity;
+    private BinderImplementor binderImplementor;
+    private Object presentationModel;
+    private int layoutId;
 
-	@Before
-	public void setUp()
-	{
-		activity = mock(Activity.class);
-		binderImplementor = mock(BinderImplementor.class);
-		presentationModel = new Object();
-		layoutId = 0;
-	}
+    @Before
+    public void setUp() {
+	activity = mock(Activity.class);
+	binderImplementor = mock(BinderImplementor.class);
+	presentationModel = new Object();
+	layoutId = 0;
+    }
 
-	@Test
-	public void whenInflateAndBind_thenContentViewShouldBeSetToResultView()
-	{
-		View resultView = mock(View.class);
-		when(binderImplementor.inflateAndBind(layoutId, presentationModel)).thenReturn(resultView);
+    @Test
+    public void whenInflateAndBind_thenContentViewShouldBeSetToResultView() {
+	View resultView = mock(View.class);
+	when(binderImplementor.inflateAndBind(layoutId, presentationModel)).thenReturn(resultView);
 
-		inflateAndBind();
+	inflateAndBind();
 
-		verify(activity).setContentView(resultView);
-	}
+	verify(activity).setContentView(resultView);
+    }
 
-	private void inflateAndBind()
-	{
-		ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
-		activityBinder.inflateAndBind(layoutId, presentationModel);
-	}
+    private void inflateAndBind() {
+	ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
+	activityBinder.inflateAndBind(layoutId, presentationModel);
+    }
 }

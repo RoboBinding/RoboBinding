@@ -28,54 +28,48 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class NonBindingViewInflaterTest
-{
-	private LayoutInflater layoutInflater;
-	private int layoutId = 0;
-	
-	@Before
-	public void setUp()
-	{
-		layoutInflater = mock(LayoutInflater.class);
-	}
-	
-	@Test
-	public void whenInflateView_thenResultViewShouldBeReturned()
-	{
-		View resultView = mock(View.class);
-		when(layoutInflater.inflate(layoutId, null)).thenReturn(resultView);
-		
-		View view = inflateView();
-		
-		assertThat(view, sameInstance(resultView));
-	}
-	
-	@Test
-	public void givenAttachToParentView_whenInflateView_thenResultViewWithAttachingToParentViewShouldBeReturned()
-	{
-		ViewGroup parentView =  mock(ViewGroup.class);
-		View resultViewWithAttachingToParentView = mock(View.class);
-		when(layoutInflater.inflate(layoutId, parentView, true)).thenReturn(resultViewWithAttachingToParentView);
-		
-		View view = inflateViewAndAttachTo(parentView);
-		
-		assertThat(view, sameInstance(resultViewWithAttachingToParentView));
-	}
+public class NonBindingViewInflaterTest {
+    private LayoutInflater layoutInflater;
+    private int layoutId = 0;
 
-	private View inflateView()
-	{
-		return inflateViewAndAttachTo(null);
-	}
-	
-	private View inflateViewAndAttachTo(ViewGroup parentView)
-	{
-		NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater, parentView);
-		View view = viewInflater.inflateView(layoutId);
-		return view;
-	}
+    @Before
+    public void setUp() {
+	layoutInflater = mock(LayoutInflater.class);
+    }
+
+    @Test
+    public void whenInflateView_thenResultViewShouldBeReturned() {
+	View resultView = mock(View.class);
+	when(layoutInflater.inflate(layoutId, null)).thenReturn(resultView);
+
+	View view = inflateView();
+
+	assertThat(view, sameInstance(resultView));
+    }
+
+    @Test
+    public void givenAttachToParentView_whenInflateView_thenResultViewWithAttachingToParentViewShouldBeReturned() {
+	ViewGroup parentView = mock(ViewGroup.class);
+	View resultViewWithAttachingToParentView = mock(View.class);
+	when(layoutInflater.inflate(layoutId, parentView, true)).thenReturn(resultViewWithAttachingToParentView);
+
+	View view = inflateViewAndAttachTo(parentView);
+
+	assertThat(view, sameInstance(resultViewWithAttachingToParentView));
+    }
+
+    private View inflateView() {
+	return inflateViewAndAttachTo(null);
+    }
+
+    private View inflateViewAndAttachTo(ViewGroup parentView) {
+	NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater, parentView);
+	View view = viewInflater.inflateView(layoutId);
+	return view;
+    }
 }

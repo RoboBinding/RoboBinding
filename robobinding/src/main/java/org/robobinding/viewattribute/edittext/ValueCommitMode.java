@@ -16,24 +16,21 @@
 package org.robobinding.viewattribute.edittext;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public enum ValueCommitMode
-{
-	ON_FOCUS_LOST("onFocusLost"), ON_CHANGE("onChange");
-	
-	private final String asString;
+public enum ValueCommitMode {
+    ON_FOCUS_LOST("onFocusLost"), ON_CHANGE("onChange");
 
-	private ValueCommitMode(String asString)
-	{
-		this.asString = asString;
-	}
-	
-	public String toString()
-	{
-		return asString;
-	}
+    private final String asString;
+
+    private ValueCommitMode(String asString) {
+	this.asString = asString;
+    }
+
+    public String toString() {
+	return asString;
+    }
 }

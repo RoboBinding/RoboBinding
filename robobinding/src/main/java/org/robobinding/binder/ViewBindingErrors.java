@@ -29,58 +29,48 @@ import android.view.View;
 import com.google.common.collect.Lists;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @SuppressWarnings("serial")
-public class ViewBindingErrors extends RuntimeException
-{
-	private View view;
-	private List<AttributeBindingException> attributeErrors;
-	
-	public ViewBindingErrors(View view)
-	{
-		this.view = view;
-		attributeErrors = Lists.newArrayList();
-	}
-	
-	public View getView()
-	{
-		return view;
-	}
+public class ViewBindingErrors extends RuntimeException {
+    private View view;
+    private List<AttributeBindingException> attributeErrors;
 
-	public void assertNoErrors()
-	{
-		if(hasErrors())
-		{
-			throw this;
-		}
-	}
+    public ViewBindingErrors(View view) {
+	this.view = view;
+	attributeErrors = Lists.newArrayList();
+    }
 
-	public boolean hasErrors()
-	{
-		return isNotEmpty(attributeErrors);
-	}
+    public View getView() {
+	return view;
+    }
 
-	public int numErrors()
-	{
-		return attributeErrors.size();
+    public void assertNoErrors() {
+	if (hasErrors()) {
+	    throw this;
 	}
+    }
 
-	void addAttributeError(AttributeBindingException attributeError)
-	{
-		attributeErrors.add(attributeError);
-	}
-	
-	public void addAttributeGroupError(AttributeGroupBindingException e)
-	{
-		attributeErrors.addAll(e.getChildAttributeErrors());
-	}
-	
-	public Collection<AttributeBindingException> getAttributeErrors()
-	{
-		return Collections.unmodifiableCollection(attributeErrors);
-	}
+    public boolean hasErrors() {
+	return isNotEmpty(attributeErrors);
+    }
+
+    public int numErrors() {
+	return attributeErrors.size();
+    }
+
+    void addAttributeError(AttributeBindingException attributeError) {
+	attributeErrors.add(attributeError);
+    }
+
+    public void addAttributeGroupError(AttributeGroupBindingException e) {
+	attributeErrors.addAll(e.getChildAttributeErrors());
+    }
+
+    public Collection<AttributeBindingException> getAttributeErrors() {
+	return Collections.unmodifiableCollection(attributeErrors);
+    }
 }

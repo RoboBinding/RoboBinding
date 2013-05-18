@@ -27,32 +27,27 @@ import android.widget.AdapterView;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class ItemClickEvent extends ClickEvent
-{
-	private AdapterView<?> parent;
-	private int position;
-	private long id;
-	
-	ItemClickEvent(AdapterView<?> parent, View view, int position, long id)
-	{
-		super(view);
-		this.parent = parent;
-		this.position = position;
-		this.id = id;
-	}
+public class ItemClickEvent extends ClickEvent {
+    private AdapterView<?> parent;
+    private int position;
+    private long id;
 
-	public int getPosition()
-	{
-		return position;
-	}
+    ItemClickEvent(AdapterView<?> parent, View view, int position, long id) {
+	super(view);
+	this.parent = parent;
+	this.position = position;
+	this.id = id;
+    }
 
-	public long getId()
-	{
-		return id;
-	}
+    public int getPosition() {
+	return position;
+    }
 
-	public AdapterView<?> getParent()
-	{
-		return parent;
-	}
+    public long getId() {
+	return id;
+    }
+
+    public AdapterView<?> getParent() {
+	return parent;
+    }
 }

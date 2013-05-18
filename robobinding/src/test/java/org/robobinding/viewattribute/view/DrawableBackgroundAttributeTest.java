@@ -27,20 +27,18 @@ import org.robobinding.viewattribute.view.BackgroundAttribute.DrawableBackground
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class DrawableBackgroundAttributeTest extends AbstractPropertyViewAttributeTest<View, DrawableBackgroundAttribute>
-{
-	@Test
-	public void givenBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		DrawableData drawableData = RandomValues.anyDrawableData();
+public class DrawableBackgroundAttributeTest extends AbstractPropertyViewAttributeTest<View, DrawableBackgroundAttribute> {
+    @Test
+    public void givenBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges() {
+	DrawableData drawableData = RandomValues.anyDrawableData();
 
-		attribute.valueModelUpdated(drawableData.drawable);
+	attribute.valueModelUpdated(drawableData.drawable);
 
-		assertThat(view.getBackground(), equalTo(drawableData.drawable));
-	}
+	assertThat(view.getBackground(), equalTo(drawableData.drawable));
+    }
 }

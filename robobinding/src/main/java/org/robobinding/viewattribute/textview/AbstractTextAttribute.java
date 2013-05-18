@@ -21,28 +21,24 @@ import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import android.widget.TextView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractTextAttribute<T extends TextView> extends AbstractMultiTypePropertyViewAttribute<T>
-{
-	@Override
-	protected AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType)
-	{
-		if (String.class.isAssignableFrom(propertyType))
-		{
-			return createNewStringAttribute();
-		} 
-		else if (CharSequence.class.isAssignableFrom(propertyType))
-		{
-			return createNewCharSequenceAttribute();
-		}
-
-		return null;
+public abstract class AbstractTextAttribute<T extends TextView> extends AbstractMultiTypePropertyViewAttribute<T> {
+    @Override
+    protected AbstractPropertyViewAttribute<T, ?> createPropertyViewAttribute(Class<?> propertyType) {
+	if (String.class.isAssignableFrom(propertyType)) {
+	    return createNewStringAttribute();
+	} else if (CharSequence.class.isAssignableFrom(propertyType)) {
+	    return createNewCharSequenceAttribute();
 	}
 
-	protected abstract AbstractPropertyViewAttribute<T, ?> createNewStringAttribute();
-	protected abstract AbstractPropertyViewAttribute<T, ?> createNewCharSequenceAttribute();
+	return null;
+    }
+
+    protected abstract AbstractPropertyViewAttribute<T, ?> createNewStringAttribute();
+
+    protected abstract AbstractPropertyViewAttribute<T, ?> createNewCharSequenceAttribute();
 }

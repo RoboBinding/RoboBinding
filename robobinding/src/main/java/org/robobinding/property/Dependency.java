@@ -31,75 +31,61 @@ import com.google.common.collect.Sets;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class Dependency
-{
-	private ObservableBean observableBean;
-	private Set<String> dependentProperties;
-	private PropertyAccessor<?> propertyAccessor;
+class Dependency {
+    private ObservableBean observableBean;
+    private Set<String> dependentProperties;
+    private PropertyAccessor<?> propertyAccessor;
 
-	public Dependency(ObservableBean observableBean, PropertyAccessor<?> propertyAccessor, Collection<String> availablePropertyNames)
-	{
-		this.observableBean = observableBean;
-		this.propertyAccessor = propertyAccessor;
-		initializeDependentProperties();
-		validateDependentProperties(availablePropertyNames);
-	}
+    public Dependency(ObservableBean observableBean, PropertyAccessor<?> propertyAccessor, Collection<String> availablePropertyNames) {
+	this.observableBean = observableBean;
+	this.propertyAccessor = propertyAccessor;
+	initializeDependentProperties();
+	validateDependentProperties(availablePropertyNames);
+    }
 
-	private void initializeDependentProperties()
-	{
-		DependsOnStateOf dependsOn = propertyAccessor.getAnnotation(DependsOnStateOf.class);
-		dependentProperties = Sets.newHashSet(dependsOn.value());
-	}
+    private void initializeDependentProperties() {
+	DependsOnStateOf dependsOn = propertyAccessor.getAnnotation(DependsOnStateOf.class);
+	dependentProperties = Sets.newHashSet(dependsOn.value());
+    }
 
-	private void validateDependentProperties(Collection<String> availablePropertyNames)
-	{
-		validateNotDependsOnSelf();
-		validateDependsOnExistingProperties(availablePropertyNames);
-	}
+    private void validateDependentProperties(Collection<String> availablePropertyNames) {
+	validateNotDependsOnSelf();
+	validateDependsOnExistingProperties(availablePropertyNames);
+    }
 
-	private void validateNotDependsOnSelf()
-	{
-		if (dependentProperties.contains(propertyAccessor.getPropertyName()))
-		{
-			throw new RuntimeException(propertyAccessor.propertyDescription() + " cannot depend on self");
-		}
+    private void validateNotDependsOnSelf() {
+	if (dependentProperties.contains(propertyAccessor.getPropertyName())) {
+	    throw new RuntimeException(propertyAccessor.propertyDescription() + " cannot depend on self");
 	}
+    }
 
-	private void validateDependsOnExistingProperties(Collection<String> availablePropertyNames)
-	{
-		if (!availablePropertyNames.containsAll(dependentProperties))
-		{
-			List<String> nonExistingDependentProperties = Lists.newArrayList(dependentProperties);
-			nonExistingDependentProperties.removeAll(availablePropertyNames);
-			throw new RuntimeException(propertyAccessor.propertyDescription() + " depends on the following non-existent properties '"
-					+ Joiner.on(", ").join(nonExistingDependentProperties) + "'");
-		}
+    private void validateDependsOnExistingProperties(Collection<String> availablePropertyNames) {
+	if (!availablePropertyNames.containsAll(dependentProperties)) {
+	    List<String> nonExistingDependentProperties = Lists.newArrayList(dependentProperties);
+	    nonExistingDependentProperties.removeAll(availablePropertyNames);
+	    throw new RuntimeException(propertyAccessor.propertyDescription() + " depends on the following non-existent properties '"
+		    + Joiner.on(", ").join(nonExistingDependentProperties) + "'");
 	}
+    }
 
-	public void addListenerToDependentProperties(PresentationModelPropertyChangeListener listener)
-	{
-		for (String dependentProperty : dependentProperties)
-		{
-			observableBean.addPropertyChangeListener(dependentProperty, listener);
-		}
+    public void addListenerToDependentProperties(PresentationModelPropertyChangeListener listener) {
+	for (String dependentProperty : dependentProperties) {
+	    observableBean.addPropertyChangeListener(dependentProperty, listener);
 	}
+    }
 
-	public void removeListenerOffDependentProperties(PresentationModelPropertyChangeListener listener)
-	{
-		for (String dependentProperty : dependentProperties)
-		{
-			observableBean.removePropertyChangeListener(dependentProperty, listener);
-		}
+    public void removeListenerOffDependentProperties(PresentationModelPropertyChangeListener listener) {
+	for (String dependentProperty : dependentProperties) {
+	    observableBean.removePropertyChangeListener(dependentProperty, listener);
 	}
+    }
 
-	private String describeDependentProperties()
-	{
-		return "dependentProperties:[" + Joiner.on(",").join(dependentProperties) + "]";
-	}
-	
-	public String decribeDependencyProperty()
-	{
-		String dependencyDescription = describeDependentProperties();
-		return propertyAccessor.toString(dependencyDescription);
-	}
+    private String describeDependentProperties() {
+	return "dependentProperties:[" + Joiner.on(",").join(dependentProperties) + "]";
+    }
+
+    public String decribeDependencyProperty() {
+	String dependencyDescription = describeDependentProperties();
+	return propertyAccessor.toString(dependencyDescription);
+    }
 }

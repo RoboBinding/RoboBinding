@@ -24,16 +24,13 @@ import org.robobinding.viewattribute.ViewAttribute;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class DropdownLayoutAttribute extends ItemLayoutAttribute
-{
-	public DropdownLayoutAttribute(RowLayoutAttributeFactory rowLayoutAttributeFactory)
-	{
-		super(rowLayoutAttributeFactory);
-	}
+public class DropdownLayoutAttribute extends ItemLayoutAttribute {
+    public DropdownLayoutAttribute(RowLayoutAttributeFactory rowLayoutAttributeFactory) {
+	super(rowLayoutAttributeFactory);
+    }
 
-	@Override
-	protected ViewAttribute createLayoutAttribute(AbstractPropertyAttribute attribute)
-	{
-		return layoutAttributeFactory.createDropdownLayoutAttribute(attribute);
-	}
+    @Override
+    protected ViewAttribute createLayoutAttribute(AbstractPropertyAttribute attribute) {
+	return layoutAttributeFactory.createDropdownLayoutAttribute(attribute);
+    }
 }

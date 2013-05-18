@@ -39,46 +39,41 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class BindingAttributeParserTest
-{
-	private BindingAttributeParser bindingAttributeParser = new BindingAttributeParser();
+public class BindingAttributeParserTest {
+    private BindingAttributeParser bindingAttributeParser = new BindingAttributeParser();
 
-	@Test
-	public void givenAttributeSetWithNoBindingAttributes_whenLoading_thenBindingMapShouldBeEmpty()
-	{
-		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(withNoBindingAttributes());
-		assertTrue(bindingMap.isEmpty());
-	}
-	
-	@Test
-	public void givenAttributeSetWithXBindingAttributes_whenLoading_thenBindingMapShouldContainXEntries()
-	{
-		int numberOfBindingAttributes = anyNumber();
-		int numberOfNonBindingAttributes = anyNumber();
-		
-		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes));
-		assertThat(bindingMap.size(), equalTo(numberOfBindingAttributes));
-	}
-	
-	@Test
-	public void givenAttributeSetWithBindingAttributes_whenLoading_thenBindingMapKeysShouldMapToCorrectValues()
-	{
-		int numberOfBindingAttributes = anyNumber();
-		int numberOfNonBindingAttributes = anyNumber();
-		AttributeSet attributeSetWithAttributes = withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes);
-		
-		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(attributeSetWithAttributes);
-		for (String attribute : bindingMap.keySet())
-			assertThat(bindingMap.get(attribute), equalTo(attributeSetWithAttributes.getAttributeValue(BindingAttributeParser.ROBOBINDING_NAMESPACE, attribute)));
-	}
-	
-	private Map<String, String> loadBindingMapFromAttributeSet(AttributeSet attrs)
-	{
-		return bindingAttributeParser.parse(attrs);
-	}
-	
-	private int anyNumber()
-	{
-		return new Random().nextInt(100);
-	}
+    @Test
+    public void givenAttributeSetWithNoBindingAttributes_whenLoading_thenBindingMapShouldBeEmpty() {
+	Map<String, String> bindingMap = loadBindingMapFromAttributeSet(withNoBindingAttributes());
+	assertTrue(bindingMap.isEmpty());
+    }
+
+    @Test
+    public void givenAttributeSetWithXBindingAttributes_whenLoading_thenBindingMapShouldContainXEntries() {
+	int numberOfBindingAttributes = anyNumber();
+	int numberOfNonBindingAttributes = anyNumber();
+
+	Map<String, String> bindingMap = loadBindingMapFromAttributeSet(withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes));
+	assertThat(bindingMap.size(), equalTo(numberOfBindingAttributes));
+    }
+
+    @Test
+    public void givenAttributeSetWithBindingAttributes_whenLoading_thenBindingMapKeysShouldMapToCorrectValues() {
+	int numberOfBindingAttributes = anyNumber();
+	int numberOfNonBindingAttributes = anyNumber();
+	AttributeSet attributeSetWithAttributes = withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes);
+
+	Map<String, String> bindingMap = loadBindingMapFromAttributeSet(attributeSetWithAttributes);
+	for (String attribute : bindingMap.keySet())
+	    assertThat(bindingMap.get(attribute),
+		    equalTo(attributeSetWithAttributes.getAttributeValue(BindingAttributeParser.ROBOBINDING_NAMESPACE, attribute)));
+    }
+
+    private Map<String, String> loadBindingMapFromAttributeSet(AttributeSet attrs) {
+	return bindingAttributeParser.parse(attrs);
+    }
+
+    private int anyNumber() {
+	return new Random().nextInt(100);
+    }
 }

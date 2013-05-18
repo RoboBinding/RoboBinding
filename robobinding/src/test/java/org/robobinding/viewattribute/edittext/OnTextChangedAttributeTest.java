@@ -27,32 +27,28 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 import com.xtremelabs.robolectric.shadows.ShadowTextView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnTextChangedAttributeTest extends AbstractCommandViewAttributeTest<EditText, OnTextChangedAttribute>
-{
-	@Test
-	public void givenBoundAttribute_whenChangeText_thenEventReceived()
-	{
-		bindAttribute();
+public class OnTextChangedAttributeTest extends AbstractCommandViewAttributeTest<EditText, OnTextChangedAttribute> {
+    @Test
+    public void givenBoundAttribute_whenChangeText_thenEventReceived() {
+	bindAttribute();
 
-		changeText();
+	changeText();
 
-		assertEventReceived();
-	}
+	assertEventReceived();
+    }
 
-	private void changeText()
-	{
-		ShadowTextView shadowTextView = Robolectric.shadowOf(view);
-		shadowTextView.setText(RandomStringUtils.random(5));
-	}
+    private void changeText() {
+	ShadowTextView shadowTextView = Robolectric.shadowOf(view);
+	shadowTextView.setText(RandomStringUtils.random(5));
+    }
 
-	private void assertEventReceived()
-	{
-		assertEventReceived(TextChangedEvent.class);
-	}
+    private void assertEventReceived() {
+	assertEventReceived(TextChangedEvent.class);
+    }
 }

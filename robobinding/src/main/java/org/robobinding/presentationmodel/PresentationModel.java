@@ -21,15 +21,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  * @author Cheng Wei
  */
 @Retention(RetentionPolicy.CLASS)
-@Target({ElementType.METHOD, ElementType.TYPE})
-public @interface PresentationModel
-{
+@Target({ ElementType.METHOD, ElementType.TYPE })
+public @interface PresentationModel {
 
 }

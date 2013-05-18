@@ -39,12 +39,12 @@ public class BeanDescriptor extends FeatureDescriptor {
      *            The bean's customizer Class.
      */
     public BeanDescriptor(Class<?> beanClass, Class<?> customizerClass) {
-        if (beanClass == null) {
-            throw new NullPointerException();
-        }
-        setName(getShortClassName(beanClass));
-        this.beanClass = beanClass;
-        this.customizerClass = customizerClass;
+	if (beanClass == null) {
+	    throw new NullPointerException();
+	}
+	setName(getShortClassName(beanClass));
+	this.beanClass = beanClass;
+	this.customizerClass = customizerClass;
     }
 
     /**
@@ -58,7 +58,7 @@ public class BeanDescriptor extends FeatureDescriptor {
      *            The bean's Class.
      */
     public BeanDescriptor(Class<?> beanClass) {
-        this(beanClass, null);
+	this(beanClass, null);
     }
 
     /**
@@ -69,7 +69,7 @@ public class BeanDescriptor extends FeatureDescriptor {
      * @return A {@link Class} instance or <code>null</code>.
      */
     public Class<?> getCustomizerClass() {
-        return customizerClass;
+	return customizerClass;
     }
 
     /**
@@ -80,7 +80,7 @@ public class BeanDescriptor extends FeatureDescriptor {
      * @return A {@link Class} instance.
      */
     public Class<?> getBeanClass() {
-        return beanClass;
+	return beanClass;
     }
 
     /**
@@ -93,12 +93,12 @@ public class BeanDescriptor extends FeatureDescriptor {
      * @return A String instance or <code>null</code>.
      */
     private String getShortClassName(Class<?> leguminaClass) {
-        if(leguminaClass == null) {
-            return null;
-        }
-        String beanClassName = leguminaClass.getName();
-        int lastIndex = beanClassName.lastIndexOf("."); //$NON-NLS-1$
-        return (lastIndex == -1) ? beanClassName : beanClassName.substring(lastIndex + 1);
+	if (leguminaClass == null) {
+	    return null;
+	}
+	String beanClassName = leguminaClass.getName();
+	int lastIndex = beanClassName.lastIndexOf("."); //$NON-NLS-1$
+	return (lastIndex == -1) ? beanClassName : beanClassName.substring(lastIndex + 1);
     }
 
 }

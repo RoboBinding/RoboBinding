@@ -32,15 +32,13 @@ import android.widget.ImageView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class DrawableImageSourceAttributeTest extends AbstractPropertyViewAttributeTest<ImageView, DrawableImageSourceAttribute>
-{
-	@Test
-	public void whenUpdatingValueModel_thenViewShouldReflectChanges()
-	{
-		DrawableData drawableData = RandomValues.anyDrawableData();
-		
-		attribute.valueModelUpdated(drawableData.drawable);
-		
-		assertThat(view.getDrawable(), equalTo(drawableData.drawable));
-	}
+public class DrawableImageSourceAttributeTest extends AbstractPropertyViewAttributeTest<ImageView, DrawableImageSourceAttribute> {
+    @Test
+    public void whenUpdatingValueModel_thenViewShouldReflectChanges() {
+	DrawableData drawableData = RandomValues.anyDrawableData();
+
+	attribute.valueModelUpdated(drawableData.drawable);
+
+	assertThat(view.getDrawable(), equalTo(drawableData.drawable));
+    }
 }

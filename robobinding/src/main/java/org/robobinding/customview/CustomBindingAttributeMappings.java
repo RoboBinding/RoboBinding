@@ -24,18 +24,21 @@ import org.robobinding.viewattribute.PropertyViewAttribute;
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public interface CustomBindingAttributeMappings<T extends View> extends BindingAttributeMappings<T>
-{
-	<S extends View> void mapPropertyAttribute(S alternateView, Class<? extends PropertyViewAttribute<? extends View>> propertyViewAttributeClass, String attributeName);
-	
-	<S extends View> void mapCommandAttribute(S alternateView, Class<? extends AbstractCommandViewAttribute<? extends View>> commandViewAttributeClass, String attributeName);
-	
-	<S extends View> void mapGroupedAttribute(S alternateView, Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass, String... attributeNames);
-	
-	<S extends View> void mapGroupedAttribute(S alternateView, ViewAttributeFactory<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeFactory, String... attributeNames);
+public interface CustomBindingAttributeMappings<T extends View> extends BindingAttributeMappings<T> {
+    <S extends View> void mapPropertyAttribute(S alternateView, Class<? extends PropertyViewAttribute<? extends View>> propertyViewAttributeClass,
+	    String attributeName);
+
+    <S extends View> void mapCommandAttribute(S alternateView,
+	    Class<? extends AbstractCommandViewAttribute<? extends View>> commandViewAttributeClass, String attributeName);
+
+    <S extends View> void mapGroupedAttribute(S alternateView,
+	    Class<? extends AbstractGroupedViewAttribute<? extends View>> groupedViewAttributeClass, String... attributeNames);
+
+    <S extends View> void mapGroupedAttribute(S alternateView,
+	    ViewAttributeFactory<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeFactory, String... attributeNames);
 }

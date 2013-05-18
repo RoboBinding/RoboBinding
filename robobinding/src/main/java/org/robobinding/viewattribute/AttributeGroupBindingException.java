@@ -23,43 +23,35 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @SuppressWarnings("serial")
-public class AttributeGroupBindingException extends RuntimeException
-{
-	private List<AttributeBindingException> childAttributeErrors;
+public class AttributeGroupBindingException extends RuntimeException {
+    private List<AttributeBindingException> childAttributeErrors;
 
-	public AttributeGroupBindingException()
-	{
-		childAttributeErrors = Lists.newArrayList();
-	}
-	
-	void addChildAttributeError(String attributeName, Throwable cause)
-	{
-		childAttributeErrors.add(new AttributeBindingException(attributeName, cause));
-	}
-	
-	void assertNoErrors()
-	{
-		if(hasErrors())
-		{
-			throw this;
-		}
-	}
+    public AttributeGroupBindingException() {
+	childAttributeErrors = Lists.newArrayList();
+    }
 
-	private boolean hasErrors()
-	{
-		return isNotEmpty(childAttributeErrors);
-	}
+    void addChildAttributeError(String attributeName, Throwable cause) {
+	childAttributeErrors.add(new AttributeBindingException(attributeName, cause));
+    }
 
-	public Collection<AttributeBindingException> getChildAttributeErrors()
-	{
-		return Collections.unmodifiableCollection(childAttributeErrors);
+    void assertNoErrors() {
+	if (hasErrors()) {
+	    throw this;
 	}
+    }
+
+    private boolean hasErrors() {
+	return isNotEmpty(childAttributeErrors);
+    }
+
+    public Collection<AttributeBindingException> getChildAttributeErrors() {
+	return Collections.unmodifiableCollection(childAttributeErrors);
+    }
 }

@@ -33,45 +33,39 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class SeekBarListenersTest
-{
-	@Test
-	public void shouldSupportMultipleOnSeekBarChangeListeners()
-	{
-		SeekBar view = new SeekBar(null);
-		SeekBarListeners viewListeners = new SeekBarListeners(view);
+public class SeekBarListenersTest {
+    @Test
+    public void shouldSupportMultipleOnSeekBarChangeListeners() {
+	SeekBar view = new SeekBar(null);
+	SeekBarListeners viewListeners = new SeekBarListeners(view);
 
-		MockOnSeekBarChangeListener listener1 = new MockOnSeekBarChangeListener();
-		MockOnSeekBarChangeListener listener2 = new MockOnSeekBarChangeListener();
+	MockOnSeekBarChangeListener listener1 = new MockOnSeekBarChangeListener();
+	MockOnSeekBarChangeListener listener2 = new MockOnSeekBarChangeListener();
 
-		viewListeners.addOnSeekBarChangeListener(listener1);
-		viewListeners.addOnSeekBarChangeListener(listener2);
+	viewListeners.addOnSeekBarChangeListener(listener1);
+	viewListeners.addOnSeekBarChangeListener(listener2);
 
-		int newProgressValue = RandomValues.anyInteger();
-		view.setProgress(newProgressValue);
+	int newProgressValue = RandomValues.anyInteger();
+	view.setProgress(newProgressValue);
 
-		assertTrue(listener1.seekBarChangeEventFired);
-		assertTrue(listener2.seekBarChangeEventFired);
+	assertTrue(listener1.seekBarChangeEventFired);
+	assertTrue(listener2.seekBarChangeEventFired);
+    }
+
+    private static class MockOnSeekBarChangeListener implements OnSeekBarChangeListener {
+	private boolean seekBarChangeEventFired;
+
+	@Override
+	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+	    seekBarChangeEventFired = true;
 	}
 
-	private static class MockOnSeekBarChangeListener implements OnSeekBarChangeListener
-	{
-		private boolean seekBarChangeEventFired;
-
-		@Override
-		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-		{
-			seekBarChangeEventFired = true;
-		}
-
-		@Override
-		public void onStartTrackingTouch(SeekBar seekBar)
-		{
-		}
-
-		@Override
-		public void onStopTrackingTouch(SeekBar seekBar)
-		{
-		}
+	@Override
+	public void onStartTrackingTouch(SeekBar seekBar) {
 	}
+
+	@Override
+	public void onStopTrackingTouch(SeekBar seekBar) {
+	}
+    }
 }

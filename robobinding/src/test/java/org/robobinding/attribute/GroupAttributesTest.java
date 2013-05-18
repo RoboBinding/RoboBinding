@@ -28,73 +28,58 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(Theories.class)
-public class GroupAttributesTest
-{
-	@DataPoints
-	public static ChildAttributeExpectation[] childAttributeExpectations = {
-		aChildAttributeExpectation("commandAttribute", CommandAttribute.class),
-		aChildAttributeExpectation("valueModelAttribute", ValueModelAttribute.class),
-		aChildAttributeExpectation("staticResourceAttribute", StaticResourceAttribute.class),
-		aChildAttributeExpectation("predefinedMappingsAttribute", PredefinedMappingsAttribute.class),
-		aChildAttributeExpectation("enumAttribute", EnumAttribute.class)
-	};
-	
-	@Theory
-	public void givenChildAttribute_whenAskForAttribute_thenReturnAttributeOfCorrectType(ChildAttributeExpectation childAttributeExpectation)
-	{
-		String attributeName = childAttributeExpectation.attributeName();
-		GroupAttributes groupedAttribute = aGroupAttributes()
-				.withChildAttributeResolution(childAttributeExpectation.attribute)
-				.build();
-		
-		AbstractAttribute attribute = groupedAttribute.attributeFor(attributeName);
-		
-		assertThat(attribute, instanceOf(childAttributeExpectation.expectedType()));
+public class GroupAttributesTest {
+    @DataPoints
+    public static ChildAttributeExpectation[] childAttributeExpectations = { aChildAttributeExpectation("commandAttribute", CommandAttribute.class),
+	    aChildAttributeExpectation("valueModelAttribute", ValueModelAttribute.class),
+	    aChildAttributeExpectation("staticResourceAttribute", StaticResourceAttribute.class),
+	    aChildAttributeExpectation("predefinedMappingsAttribute", PredefinedMappingsAttribute.class),
+	    aChildAttributeExpectation("enumAttribute", EnumAttribute.class) };
+
+    @Theory
+    public void givenChildAttribute_whenAskForAttribute_thenReturnAttributeOfCorrectType(ChildAttributeExpectation childAttributeExpectation) {
+	String attributeName = childAttributeExpectation.attributeName();
+	GroupAttributes groupedAttribute = aGroupAttributes().withChildAttributeResolution(childAttributeExpectation.attribute).build();
+
+	AbstractAttribute attribute = groupedAttribute.attributeFor(attributeName);
+
+	assertThat(attribute, instanceOf(childAttributeExpectation.expectedType()));
+    }
+
+    @Test(expected = ClassCastException.class)
+    public void givenChildAttribute_whenAskForAttributeOfIncorrectType_thenThrowException() {
+	CommandAttribute commandAttribute = aCommandAttribute("commandName");
+	GroupAttributes groupedAttribute = aGroupAttributes().withChildAttributeResolution(commandAttribute).build();
+
+	groupedAttribute.valueModelAttributeFor(commandAttribute.getName());
+    }
+
+    private static ChildAttributeExpectation aChildAttributeExpectation(String attributeName, Class<? extends AbstractAttribute> attributeType) {
+	return new ChildAttributeExpectation(attributeName, attributeType);
+    }
+
+    private static class ChildAttributeExpectation {
+	private final AbstractAttribute attribute;
+
+	public ChildAttributeExpectation(String attributeName, Class<? extends AbstractAttribute> attributeType) {
+	    attribute = mock(attributeType);
+	    when(attribute.getName()).thenReturn(attributeName);
 	}
-	
-	@Test(expected=ClassCastException.class)
-	public void givenChildAttribute_whenAskForAttributeOfIncorrectType_thenThrowException()
-	{
-		CommandAttribute commandAttribute = aCommandAttribute("commandName");
-		GroupAttributes groupedAttribute = aGroupAttributes()
-				.withChildAttributeResolution(commandAttribute)
-					.build();
-		
-		groupedAttribute.valueModelAttributeFor(commandAttribute.getName());
+
+	public String attributeName() {
+	    return attribute.getName();
 	}
-	
-	private static ChildAttributeExpectation aChildAttributeExpectation(String attributeName, Class<? extends AbstractAttribute> attributeType)
-	{
-		return new ChildAttributeExpectation(attributeName, attributeType);
+
+	public Class<?> expectedType() {
+	    return attribute.getClass();
 	}
-	
-	private static class ChildAttributeExpectation
-	{
-		private final AbstractAttribute attribute;
-		
-		public ChildAttributeExpectation(String attributeName, Class<? extends AbstractAttribute> attributeType)
-		{
-			attribute = mock(attributeType);
-			when(attribute.getName()).thenReturn(attributeName);
-		}
-		
-		public String attributeName()
-		{
-			return attribute.getName();
-		}
-		
-		public Class<?> expectedType()
-		{
-			return attribute.getClass();
-		}
-	}
-	
+    }
+
 }

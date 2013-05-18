@@ -37,107 +37,90 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T>
-{
-	private View subView;
-	private SubViewAttributesStrategy<T> subViewAttributesStrategy;
-	private int layoutId;
+public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T> {
+    private View subView;
+    private SubViewAttributesStrategy<T> subViewAttributesStrategy;
+    private int layoutId;
 
-	public SubViewAttributes(SubViewAttributesStrategy<T> subViewAttributesStrategy)
-	{
-		this.subViewAttributesStrategy = subViewAttributesStrategy;
+    public SubViewAttributes(SubViewAttributesStrategy<T> subViewAttributesStrategy) {
+	this.subViewAttributesStrategy = subViewAttributesStrategy;
+    }
+
+    @Override
+    protected String[] getCompulsoryAttributes() {
+	return new String[] { layoutAttribute() };
+    }
+
+    @Override
+    public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings) {
+	resolverMappings.map(staticResourceAttributeResolver(), layoutAttribute());
+	resolverMappings.map(valueModelAttributeResolver(), subViewPresentationModel());
+	resolverMappings.map(valueModelAttributeResolver(), visibilityAttribute());
+    }
+
+    @Override
+    protected void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext) {
+	childViewAttributes.failOnFirstBindingError();
+
+	childViewAttributes.add(layoutAttribute(), new SubViewLayoutAttribute());
+
+	ChildViewAttribute subViewAttribute = childViewAttributes.hasAttribute(subViewPresentationModel()) ? new SubViewPresentationModelAttribute()
+		: new SubViewWithoutPresentationModelAttribute();
+	childViewAttributes.add(subViewPresentationModel(), subViewAttribute);
+
+	if (childViewAttributes.hasAttribute(visibilityAttribute())) {
+	    childViewAttributes.add(visibilityAttribute(), new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)));
+	}
+    }
+
+    private class SubViewLayoutAttribute implements ChildViewAttributeWithAttribute<StaticResourceAttribute> {
+	private StaticResourceAttribute attribute;
+
+	@Override
+	public void bindTo(BindingContext bindingContext) {
+	    layoutId = attribute.getResourceId(bindingContext.getContext());
 	}
 
 	@Override
-	protected String[] getCompulsoryAttributes()
-	{
-		return new String[] { layoutAttribute() };
+	public void setAttribute(StaticResourceAttribute attribute) {
+	    this.attribute = attribute;
+	}
+    }
+
+    private class SubViewPresentationModelAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute> {
+	private ValueModelAttribute attribute;
+
+	@Override
+	public void bindTo(BindingContext bindingContext) {
+	    ViewBinder viewBinder = bindingContext.createViewBinder();
+	    subView = viewBinder.inflateAndBind(layoutId, attribute);
+	    subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
 	}
 
 	@Override
-	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
-	{
-		resolverMappings.map(staticResourceAttributeResolver(), layoutAttribute());
-		resolverMappings.map(valueModelAttributeResolver(), subViewPresentationModel());
-		resolverMappings.map(valueModelAttributeResolver(), visibilityAttribute());
+	public void setAttribute(ValueModelAttribute attribute) {
+	    this.attribute = attribute;
 	}
+    }
 
+    private class SubViewWithoutPresentationModelAttribute implements ChildViewAttribute {
 	@Override
-	protected void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext)
-	{
-		childViewAttributes.failOnFirstBindingError();
-		
-		childViewAttributes.add(layoutAttribute(), new SubViewLayoutAttribute());
+	public void bindTo(BindingContext bindingContext) {
+	    ViewBinder viewBinder = bindingContext.createViewBinder();
+	    subView = viewBinder.inflate(layoutId);
+	    subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
+	}
+    }
 
-		ChildViewAttribute subViewAttribute = childViewAttributes.hasAttribute(subViewPresentationModel()) ? new SubViewPresentationModelAttribute() 
-			: new SubViewWithoutPresentationModelAttribute();
-		childViewAttributes.add(subViewPresentationModel(), subViewAttribute);
+    private String visibilityAttribute() {
+	return subViewAttributesStrategy.visibilityAttribute();
+    }
 
-		if (childViewAttributes.hasAttribute(visibilityAttribute()))
-		{
-			childViewAttributes.add(visibilityAttribute(), new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)));
-		}
-	}
-	
-	private class SubViewLayoutAttribute implements ChildViewAttributeWithAttribute<StaticResourceAttribute>
-	{
-		private StaticResourceAttribute attribute;
-		
-		@Override
-		public void bindTo(BindingContext bindingContext)
-		{
-			layoutId = attribute.getResourceId(bindingContext.getContext());
-		}
-		
-		@Override
-		public void setAttribute(StaticResourceAttribute attribute)
-		{
-			this.attribute = attribute;
-		}
-	}
-	
-	private class SubViewPresentationModelAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute>
-	{
-		private ValueModelAttribute attribute;
-		
-		@Override
-		public void bindTo(BindingContext bindingContext)
-		{
-			ViewBinder viewBinder = bindingContext.createViewBinder();
-			subView = viewBinder.inflateAndBind(layoutId, attribute);
-			subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
-		}
-		
-		@Override
-		public void setAttribute(ValueModelAttribute attribute)
-		{
-			this.attribute = attribute;
-		}
-	}
-	
-	private class SubViewWithoutPresentationModelAttribute implements ChildViewAttribute
-	{
-		@Override
-		public void bindTo(BindingContext bindingContext)
-		{
-			ViewBinder viewBinder = bindingContext.createViewBinder();
-			subView = viewBinder.inflate(layoutId);
-			subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
-		}
-	}
+    private String subViewPresentationModel() {
+	return subViewAttributesStrategy.subViewPresentationModelAttribute();
+    }
 
-	private String visibilityAttribute()
-	{
-		return subViewAttributesStrategy.visibilityAttribute();
-	}
-
-	private String subViewPresentationModel()
-	{
-		return subViewAttributesStrategy.subViewPresentationModelAttribute();
-	}
-
-	private String layoutAttribute()
-	{
-		return subViewAttributesStrategy.layoutAttribute();
-	}
+    private String layoutAttribute() {
+	return subViewAttributesStrategy.layoutAttribute();
+    }
 }

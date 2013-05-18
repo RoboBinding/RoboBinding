@@ -32,56 +32,51 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedItemPositionAttributeTest extends AbstractPropertyViewAttributeWithViewListenersAwareTest<ListView, CheckedItemPositionAttribute, MockAdapterViewListeners>
-{
-	private int checkedItemPosition;
-	
-	@Before
-	public void setUp()
-	{
-		super.initializeViewAndAttribute();
-		super.initializeViewListeners();
-		
-		ListAdapter adapter = new MockArrayAdapter(R.layout.simple_list_item_single_choice);
-		view.setAdapter(adapter);
-		view.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		
-		checkedItemPosition = nextInt(adapter.getCount());
-	}
-	
-	@Test
-	public void whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		attribute.valueModelUpdated(checkedItemPosition);
-		
-		assertThat(view.getCheckedItemPosition(), equalTo(checkedItemPosition));
-	}
-	
-	@Test
-	public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly()
-	{
-		ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);
-		
-		setItemChecked();
-		
-		assertThat(valueModel.getValue(), equalTo(checkedItemPosition));
-	}
+public class CheckedItemPositionAttributeTest extends
+	AbstractPropertyViewAttributeWithViewListenersAwareTest<ListView, CheckedItemPositionAttribute, MockAdapterViewListeners> {
+    private int checkedItemPosition;
 
-	private void setItemChecked()
-	{
-		view.performItemClick(view, checkedItemPosition, 0);
-	}
-	
-	@Test
-	public void whenTwoWayBinding_thenRegisterWithMulticastListener()
-	{
-		twoWayBindToProperty(Integer.class);
-		
-		assertTrue(viewListeners.addOnItemClickListenerInvoked);
-	}
+    @Before
+    public void setUp() {
+	super.initializeViewAndAttribute();
+	super.initializeViewListeners();
+
+	ListAdapter adapter = new MockArrayAdapter(R.layout.simple_list_item_single_choice);
+	view.setAdapter(adapter);
+	view.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+	checkedItemPosition = nextInt(adapter.getCount());
+    }
+
+    @Test
+    public void whenValueModelUpdated_thenViewShouldReflectChanges() {
+	attribute.valueModelUpdated(checkedItemPosition);
+
+	assertThat(view.getCheckedItemPosition(), equalTo(checkedItemPosition));
+    }
+
+    @Test
+    public void whenCheckedItemPositionChanged_thenValueModelUpdatedAccordingly() {
+	ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);
+
+	setItemChecked();
+
+	assertThat(valueModel.getValue(), equalTo(checkedItemPosition));
+    }
+
+    private void setItemChecked() {
+	view.performItemClick(view, checkedItemPosition, 0);
+    }
+
+    @Test
+    public void whenTwoWayBinding_thenRegisterWithMulticastListener() {
+	twoWayBindToProperty(Integer.class);
+
+	assertTrue(viewListeners.addOnItemClickListenerInvoked);
+    }
 }

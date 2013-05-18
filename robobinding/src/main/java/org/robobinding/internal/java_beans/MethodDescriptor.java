@@ -40,38 +40,36 @@ public class MethodDescriptor extends FeatureDescriptor {
      * @param parameterDescriptors
      *            An array of parameter descriptors.
      */
-    public MethodDescriptor(Method method,
-            ParameterDescriptor[] parameterDescriptors) {
-        super();
+    public MethodDescriptor(Method method, ParameterDescriptor[] parameterDescriptors) {
+	super();
 
-        if (method == null) {
-            throw new NullPointerException();
-        }
-        this.method = method;
-        this.parameterDescriptors = parameterDescriptors;
+	if (method == null) {
+	    throw new NullPointerException();
+	}
+	this.method = method;
+	this.parameterDescriptors = parameterDescriptors;
 
-        setName(method.getName());
+	setName(method.getName());
     }
 
     /**
      * <p>
      * Constructs an instance with the given {@link Method}. The
-     * {@link #getName()} is set as the name of the <code>method</code>
-     * passed.
+     * {@link #getName()} is set as the name of the <code>method</code> passed.
      * </p>
      * 
      * @param method
      *            The Method to set.
      */
     public MethodDescriptor(Method method) {
-        super();
+	super();
 
-        if (method == null) {
-            throw new NullPointerException();
-        }
-        this.method = method;
+	if (method == null) {
+	    throw new NullPointerException();
+	}
+	this.method = method;
 
-        setName(method.getName());
+	setName(method.getName());
     }
 
     /**
@@ -82,7 +80,7 @@ public class MethodDescriptor extends FeatureDescriptor {
      * @return A {@link Method} instance.
      */
     public Method getMethod() {
-        return method;
+	return method;
     }
 
     /**
@@ -94,16 +92,16 @@ public class MethodDescriptor extends FeatureDescriptor {
      *         <code>null</code>.
      */
     public ParameterDescriptor[] getParameterDescriptors() {
-        return parameterDescriptors;
+	return parameterDescriptors;
     }
-    
-    void merge(MethodDescriptor anotherMethod){
-        super.merge(anotherMethod);
-        if(method == null){
-            method = anotherMethod.method;
-        }
-        if(parameterDescriptors == null){
-            parameterDescriptors = anotherMethod.parameterDescriptors;
-        }
+
+    void merge(MethodDescriptor anotherMethod) {
+	super.merge(anotherMethod);
+	if (method == null) {
+	    method = anotherMethod.method;
+	}
+	if (parameterDescriptors == null) {
+	    parameterDescriptors = anotherMethod.parameterDescriptors;
+	}
     }
 }

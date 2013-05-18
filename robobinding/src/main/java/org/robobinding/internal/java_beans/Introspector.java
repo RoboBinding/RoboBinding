@@ -22,11 +22,11 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
- * The <code>Introspector</code> is a utility for developers to figure out
- * which properties, events, and methods a JavaBean supports.
+ * The <code>Introspector</code> is a utility for developers to figure out which
+ * properties, events, and methods a JavaBean supports.
  * <p>
- * The <code>Introspector</code> class walks over the class/superclass chain
- * of the target bean class. At each level it checks if there is a matching
+ * The <code>Introspector</code> class walks over the class/superclass chain of
+ * the target bean class. At each level it checks if there is a matching
  * <code>BeanInfo</code> class which provides explicit information about the
  * bean, and if so uses that explicit information. Otherwise it uses the low
  * level reflection APIs to study the target class and uses design patterns to
@@ -37,21 +37,21 @@ import java.util.WeakHashMap;
  * To look for the explicit information of a bean:
  * </p>
  * <ol>
- * <li>The <code>Introspector</code> appends "BeanInfo" to the qualified name
- * of the bean class, try to use the new class as the "BeanInfo" class. If the
+ * <li>The <code>Introspector</code> appends "BeanInfo" to the qualified name of
+ * the bean class, try to use the new class as the "BeanInfo" class. If the
  * "BeanInfo" class exsits and returns non-null value when queried for explicit
  * information, use the explicit information</li>
  * <li>If the first step fails, the <code>Introspector</code> will extract a
  * simple class name of the bean class by removing the package name from the
  * qualified name of the bean class, append "BeanInfo" to it. And look for the
  * simple class name in the packages defined in the "BeanInfo" search path (The
- * default "BeanInfo" search path is <code>sun.beans.infos</code>). If it
- * finds a "BeanInfo" class and the "BeanInfo" class returns non-null value when
+ * default "BeanInfo" search path is <code>sun.beans.infos</code>). If it finds
+ * a "BeanInfo" class and the "BeanInfo" class returns non-null value when
  * queried for explicit information, use the explicit information</li>
  * </ol>
  * 
  */
-//ScrollPane cannot be introspected correctly
+// ScrollPane cannot be introspected correctly
 public class Introspector extends java.lang.Object {
 
     // Public fields
@@ -69,7 +69,8 @@ public class Introspector extends java.lang.Object {
 
     /**
      * Constant values to indicate that the <code>Introspector</code> will use
-     * all <code>BeanInfo</code> class which have been found. This is the default one.
+     * all <code>BeanInfo</code> class which have been found. This is the
+     * default one.
      */
     public static final int USE_ALL_BEANINFO = 1;
 
@@ -83,146 +84,136 @@ public class Introspector extends java.lang.Object {
     // The cache to store Bean Info objects that have been found or created
     private static final int DEFAULT_CAPACITY = 128;
 
-    private static Map<Class<?>, StandardBeanInfo> theCache = Collections.synchronizedMap(new WeakHashMap<Class<?>, StandardBeanInfo>(DEFAULT_CAPACITY));
+    private static Map<Class<?>, StandardBeanInfo> theCache = Collections.synchronizedMap(new WeakHashMap<Class<?>, StandardBeanInfo>(
+	    DEFAULT_CAPACITY));
 
     private Introspector() {
-        super();
+	super();
     }
 
     /**
-	 * Gets the <code>BeanInfo</code> object which contains the information of
-	 * the properties, events and methods of the specified bean class.
-	 * 
-	 * <p>
-	 * The <code>Introspector</code> will cache the <code>BeanInfo</code>
-	 * object. Subsequent calls to this method will be answered with the cached
-	 * data.
-	 * </p>
-	 * 
-	 * @param beanClass
-	 *            the specified bean class.
-	 * @return the <code>BeanInfo</code> of the bean class.
-	 * @throws IntrospectionException
-	 */
-    public static BeanInfo getBeanInfo(Class<?> beanClass)
-            throws IntrospectionException {
-        StandardBeanInfo beanInfo = theCache.get(beanClass);
-        if (beanInfo == null) {
-            beanInfo = getBeanInfoImplAndInit(beanClass, null, USE_ALL_BEANINFO);
-            theCache.put(beanClass, beanInfo);
-        }
-        return beanInfo;
+     * Gets the <code>BeanInfo</code> object which contains the information of
+     * the properties, events and methods of the specified bean class.
+     * 
+     * <p>
+     * The <code>Introspector</code> will cache the <code>BeanInfo</code>
+     * object. Subsequent calls to this method will be answered with the cached
+     * data.
+     * </p>
+     * 
+     * @param beanClass
+     *            the specified bean class.
+     * @return the <code>BeanInfo</code> of the bean class.
+     * @throws IntrospectionException
+     */
+    public static BeanInfo getBeanInfo(Class<?> beanClass) throws IntrospectionException {
+	StandardBeanInfo beanInfo = theCache.get(beanClass);
+	if (beanInfo == null) {
+	    beanInfo = getBeanInfoImplAndInit(beanClass, null, USE_ALL_BEANINFO);
+	    theCache.put(beanClass, beanInfo);
+	}
+	return beanInfo;
     }
 
-    private static StandardBeanInfo getBeanInfoImpl(Class<?> beanClass, Class<?> stopClass,
-            int flags) throws IntrospectionException {
-        BeanInfo explicitInfo = null;
-        if (flags == USE_ALL_BEANINFO) {
-            explicitInfo = getExplicitBeanInfo(beanClass);
-        }
-        StandardBeanInfo beanInfo = new StandardBeanInfo(beanClass, explicitInfo, stopClass);
+    private static StandardBeanInfo getBeanInfoImpl(Class<?> beanClass, Class<?> stopClass, int flags) throws IntrospectionException {
+	BeanInfo explicitInfo = null;
+	if (flags == USE_ALL_BEANINFO) {
+	    explicitInfo = getExplicitBeanInfo(beanClass);
+	}
+	StandardBeanInfo beanInfo = new StandardBeanInfo(beanClass, explicitInfo, stopClass);
 
-        if (beanInfo.additionalBeanInfo != null) {
-            for (int i = beanInfo.additionalBeanInfo.length-1; i >=0; i--) {
-                BeanInfo info = beanInfo.additionalBeanInfo[i];
-                beanInfo.mergeBeanInfo(info, true);
-            }
-        }
-        
-        // recursive get beaninfo for super classes
-        Class<?> beanSuperClass = beanClass.getSuperclass();
-        if (beanSuperClass != stopClass) {
-            if (beanSuperClass == null)
-                throw new IntrospectionException(
-                        "Stop class is not super class of bean class"); //$NON-NLS-1$
-            int superflags = flags == IGNORE_IMMEDIATE_BEANINFO ? USE_ALL_BEANINFO
-                    : flags;
-            BeanInfo superBeanInfo = getBeanInfoImpl(beanSuperClass, stopClass,
-                    superflags);
-            if (superBeanInfo != null) {
-                beanInfo.mergeBeanInfo(superBeanInfo, false);
-            }
-        }
-        return beanInfo;
+	if (beanInfo.additionalBeanInfo != null) {
+	    for (int i = beanInfo.additionalBeanInfo.length - 1; i >= 0; i--) {
+		BeanInfo info = beanInfo.additionalBeanInfo[i];
+		beanInfo.mergeBeanInfo(info, true);
+	    }
+	}
+
+	// recursive get beaninfo for super classes
+	Class<?> beanSuperClass = beanClass.getSuperclass();
+	if (beanSuperClass != stopClass) {
+	    if (beanSuperClass == null)
+		throw new IntrospectionException("Stop class is not super class of bean class"); //$NON-NLS-1$
+	    int superflags = flags == IGNORE_IMMEDIATE_BEANINFO ? USE_ALL_BEANINFO : flags;
+	    BeanInfo superBeanInfo = getBeanInfoImpl(beanSuperClass, stopClass, superflags);
+	    if (superBeanInfo != null) {
+		beanInfo.mergeBeanInfo(superBeanInfo, false);
+	    }
+	}
+	return beanInfo;
     }
 
     private static BeanInfo getExplicitBeanInfo(Class<?> beanClass) {
-        String beanInfoClassName = beanClass.getName() + "BeanInfo"; //$NON-NLS-1$
-        try {
-            return loadBeanInfo(beanInfoClassName, beanClass);
-        } catch (Exception e) {
-            // fall through
-        }
+	String beanInfoClassName = beanClass.getName() + "BeanInfo"; //$NON-NLS-1$
+	try {
+	    return loadBeanInfo(beanInfoClassName, beanClass);
+	} catch (Exception e) {
+	    // fall through
+	}
 
-        int index = beanInfoClassName.lastIndexOf('.');
-        String beanInfoName = index >= 0 ? beanInfoClassName
-                .substring(index + 1) : beanInfoClassName;
-        BeanInfo theBeanInfo = null;
-        BeanDescriptor beanDescriptor = null;
-        for (int i = 0; i < searchPath.length; i++) {
-            beanInfoClassName = searchPath[i] + "." + beanInfoName; //$NON-NLS-1$
-            try {
-                theBeanInfo = loadBeanInfo(beanInfoClassName, beanClass);
-            } catch (Exception e) {
-                // ignore, try next one
-                continue;
-            }
-            beanDescriptor = theBeanInfo.getBeanDescriptor();
-            if (beanDescriptor != null
-                    && beanClass == beanDescriptor.getBeanClass()) {
-                return theBeanInfo;
-            }
-        }
-        if (BeanInfo.class.isAssignableFrom(beanClass)) {
-            try {
-                return loadBeanInfo(beanClass.getName(), beanClass);
-            } catch (Exception e) {
-                // fall through
-            }
-        }
-        return null;
+	int index = beanInfoClassName.lastIndexOf('.');
+	String beanInfoName = index >= 0 ? beanInfoClassName.substring(index + 1) : beanInfoClassName;
+	BeanInfo theBeanInfo = null;
+	BeanDescriptor beanDescriptor = null;
+	for (int i = 0; i < searchPath.length; i++) {
+	    beanInfoClassName = searchPath[i] + "." + beanInfoName; //$NON-NLS-1$
+	    try {
+		theBeanInfo = loadBeanInfo(beanInfoClassName, beanClass);
+	    } catch (Exception e) {
+		// ignore, try next one
+		continue;
+	    }
+	    beanDescriptor = theBeanInfo.getBeanDescriptor();
+	    if (beanDescriptor != null && beanClass == beanDescriptor.getBeanClass()) {
+		return theBeanInfo;
+	    }
+	}
+	if (BeanInfo.class.isAssignableFrom(beanClass)) {
+	    try {
+		return loadBeanInfo(beanClass.getName(), beanClass);
+	    } catch (Exception e) {
+		// fall through
+	    }
+	}
+	return null;
     }
 
     /*
      * Method which attempts to instantiate a BeanInfo object of the supplied
      * classname
      * 
-     * @param theBeanInfoClassName -
-     *            the Class Name of the class of which the BeanInfo is an
-     *            instance
+     * @param theBeanInfoClassName - the Class Name of the class of which the
+     * BeanInfo is an instance
+     * 
      * @param classLoader
+     * 
      * @return A BeanInfo object which is an instance of the Class named
-     *         theBeanInfoClassName null if the Class does not exist or if there
-     *         are problems instantiating the instance
+     * theBeanInfoClassName null if the Class does not exist or if there are
+     * problems instantiating the instance
      */
-    private static BeanInfo loadBeanInfo(String beanInfoClassName,
-        Class<?> beanClass) throws Exception{
-        try {
-            ClassLoader cl = beanClass.getClassLoader();
-            if(cl != null){
-                return (BeanInfo) Class.forName(beanInfoClassName, true,
-                    beanClass.getClassLoader()).newInstance();
-            }
-        } catch (Exception e) {
-            // fall through
-        }
-        try {
-            return (BeanInfo) Class.forName(beanInfoClassName, true,
-                    ClassLoader.getSystemClassLoader()).newInstance();
-        } catch (Exception e) {
-            // fall through
-        }
-        return (BeanInfo) Class.forName(beanInfoClassName, true,
-                Thread.currentThread().getContextClassLoader()).newInstance();
+    private static BeanInfo loadBeanInfo(String beanInfoClassName, Class<?> beanClass) throws Exception {
+	try {
+	    ClassLoader cl = beanClass.getClassLoader();
+	    if (cl != null) {
+		return (BeanInfo) Class.forName(beanInfoClassName, true, beanClass.getClassLoader()).newInstance();
+	    }
+	} catch (Exception e) {
+	    // fall through
+	}
+	try {
+	    return (BeanInfo) Class.forName(beanInfoClassName, true, ClassLoader.getSystemClassLoader()).newInstance();
+	} catch (Exception e) {
+	    // fall through
+	}
+	return (BeanInfo) Class.forName(beanInfoClassName, true, Thread.currentThread().getContextClassLoader()).newInstance();
     }
 
-    private static StandardBeanInfo getBeanInfoImplAndInit(Class<?> beanClass,
-            Class<?> stopClass, int flag) throws IntrospectionException {
-        StandardBeanInfo standardBeanInfo = getBeanInfoImpl(beanClass,
-                stopClass, flag);
-        standardBeanInfo.init();
-        return standardBeanInfo;
-    }  
+    private static StandardBeanInfo getBeanInfoImplAndInit(Class<?> beanClass, Class<?> stopClass, int flag) throws IntrospectionException {
+	StandardBeanInfo standardBeanInfo = getBeanInfoImpl(beanClass, stopClass, flag);
+	standardBeanInfo.init();
+	return standardBeanInfo;
+    }
+
     /**
      * Decapitalizes a given string according to the rule:
      * <ul>
@@ -230,27 +221,25 @@ public class Introspector extends java.lang.Object {
      * <li>UNLESS the second character is also Upper Case, when the String is
      * returned unchanged <eul>
      * 
-     * @param name -
-     *            the String to decapitalize
+     * @param name
+     *            - the String to decapitalize
      * @return the decapitalized version of the String
      */
     public static String decapitalize(String name) {
 
-        if (name == null)
-            return null;
-        // The rule for decapitalize is that:
-        // If the first letter of the string is Upper Case, make it lower case
-        // UNLESS the second letter of the string is also Upper Case, in which case no
-        // changes are made.
-        if (name.length() == 0 || (name.length() > 1 && Character.isUpperCase(name.charAt(1)))) {
-            return name;
-        }
-        
-        char[] chars = name.toCharArray();
-        chars[0] = Character.toLowerCase(chars[0]);
-        return new String(chars);
+	if (name == null)
+	    return null;
+	// The rule for decapitalize is that:
+	// If the first letter of the string is Upper Case, make it lower case
+	// UNLESS the second letter of the string is also Upper Case, in which
+	// case no
+	// changes are made.
+	if (name.length() == 0 || (name.length() > 1 && Character.isUpperCase(name.charAt(1)))) {
+	    return name;
+	}
+
+	char[] chars = name.toCharArray();
+	chars[0] = Character.toLowerCase(chars[0]);
+	return new String(chars);
     }
 }
-
-
-

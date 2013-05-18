@@ -24,20 +24,18 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ImageSourceAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<ImageSourceAttribute>
-{
-	@Override
-	protected void setTypeMappingExpectations()
-	{
-		forPropertyType(int.class).expectAttribute(IntegerImageSourceAttribute.class);
-		forPropertyType(int.class).expectAttribute(IntegerImageSourceAttribute.class);
-		forPropertyType(Bitmap.class).expectAttribute(BitmapImageSourceAttribute.class);
-		forPropertyType(Drawable.class).expectAttribute(DrawableImageSourceAttribute.class);
-	}
-	
+public class ImageSourceAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<ImageSourceAttribute> {
+    @Override
+    protected void setTypeMappingExpectations() {
+	forPropertyType(int.class).expectAttribute(IntegerImageSourceAttribute.class);
+	forPropertyType(int.class).expectAttribute(IntegerImageSourceAttribute.class);
+	forPropertyType(Bitmap.class).expectAttribute(BitmapImageSourceAttribute.class);
+	forPropertyType(Drawable.class).expectAttribute(DrawableImageSourceAttribute.class);
+    }
+
 }

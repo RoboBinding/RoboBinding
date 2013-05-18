@@ -23,60 +23,56 @@ import android.view.View;
 import android.widget.Spinner;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdaptedAbsSpinnerDataSetAttributesTest extends AbstractGroupedViewAttributeTest<AdaptedAbsSpinnerDataSetAttributes>
-{
-	private final Attribute source = attribute("source={source_property}");
-	private final Attribute itemLayout = attribute("itemLayout=@layout/itemLayout");
-	private final Attribute itemMapping = attribute("itemMapping=[text1.title:{title}]");
-	private final Attribute dropdownLayout = attribute("dropdownLayout=@layout/dropdownLayout");
-	private final Attribute dropdownMapping = attribute("dropdownMapping=[text1.title:{artist}]");
-	
-	@Test
-	public void givenSourceItemLayoutAndDropdownLayout_thenCreateAllAttributes()
-	{
-		givenAttributes(source, itemLayout, dropdownLayout);
+public class AdaptedAbsSpinnerDataSetAttributesTest extends AbstractGroupedViewAttributeTest<AdaptedAbsSpinnerDataSetAttributes> {
+    private final Attribute source = attribute("source={source_property}");
+    private final Attribute itemLayout = attribute("itemLayout=@layout/itemLayout");
+    private final Attribute itemMapping = attribute("itemMapping=[text1.title:{title}]");
+    private final Attribute dropdownLayout = attribute("dropdownLayout=@layout/dropdownLayout");
+    private final Attribute dropdownMapping = attribute("dropdownMapping=[text1.title:{artist}]");
 
-		performInitialization();
+    @Test
+    public void givenSourceItemLayoutAndDropdownLayout_thenCreateAllAttributes() {
+	givenAttributes(source, itemLayout, dropdownLayout);
 
-		assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, DropdownLayoutAttribute.class);
-	}
-	
-	@Test
-	public void givenSourceItemLayoutDropdownLayoutAndDropdownMapping_thenCreateAllAttributes()
-	{
-		givenAttributes(source, itemLayout, dropdownLayout, dropdownMapping);
+	performInitialization();
 
-		performInitialization();
+	assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, DropdownLayoutAttribute.class);
+    }
 
-		assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, DropdownLayoutAttribute.class, DropdownMappingAttribute.class);
-	}
-	
-	@Test
-	public void givenAllDataSetAttributes_thenCreateAllAttributes()
-	{
-		givenAttributes(source, itemLayout, itemMapping, dropdownLayout, dropdownMapping);
+    @Test
+    public void givenSourceItemLayoutDropdownLayoutAndDropdownMapping_thenCreateAllAttributes() {
+	givenAttributes(source, itemLayout, dropdownLayout, dropdownMapping);
 
-		performInitialization();
+	performInitialization();
 
-		assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, ItemMappingAttribute.class, DropdownLayoutAttribute.class, DropdownMappingAttribute.class);
-	}
-	
-	@Test (expected=RuntimeException.class)
-	public void givenDropdownLayoutAttributeOnly_thenReject()
-	{
-		givenAttributes(dropdownLayout);
-		
-		performInitialization();
-	}
+	assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, DropdownLayoutAttribute.class,
+		DropdownMappingAttribute.class);
+    }
 
-	@Override
-	protected Class<? extends View> overrideViewClass()
-	{
-		return Spinner.class;
-	}
+    @Test
+    public void givenAllDataSetAttributes_thenCreateAllAttributes() {
+	givenAttributes(source, itemLayout, itemMapping, dropdownLayout, dropdownMapping);
+
+	performInitialization();
+
+	assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, ItemMappingAttribute.class, DropdownLayoutAttribute.class,
+		DropdownMappingAttribute.class);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void givenDropdownLayoutAttributeOnly_thenReject() {
+	givenAttributes(dropdownLayout);
+
+	performInitialization();
+    }
+
+    @Override
+    protected Class<? extends View> overrideViewClass() {
+	return Spinner.class;
+    }
 }

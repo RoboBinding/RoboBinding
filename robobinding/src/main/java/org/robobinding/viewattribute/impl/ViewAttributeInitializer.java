@@ -34,59 +34,50 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class ViewAttributeInitializer
-{
-	ViewListenersInjector viewListenersInjector;
-	ViewAttributeInitializerDelegate delegate;
+public class ViewAttributeInitializer {
+    ViewListenersInjector viewListenersInjector;
+    ViewAttributeInitializerDelegate delegate;
 
-	public ViewAttributeInitializer()
-	{
-		this.viewListenersInjector = new ViewListenersProvider();
-		delegate = new ViewAttributeInitializerDelegate(viewListenersInjector);
+    public ViewAttributeInitializer() {
+	this.viewListenersInjector = new ViewListenersProvider();
+	delegate = new ViewAttributeInitializerDelegate(viewListenersInjector);
+    }
+
+    public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> PropertyViewAttributeType initializePropertyViewAttribute(
+	    ViewType view, PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute) {
+	delegate.setCurrentView(view);
+	delegate.<ViewType, PropertyViewAttributeType> initializePropertyViewAttribute(propertyViewAttribute, attribute);
+	return propertyViewAttribute;
+    }
+
+    public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> CommandViewAttributeType initializeCommandViewAttribute(
+	    ViewType view, CommandViewAttributeType commandViewAttribute, CommandAttribute attribute) {
+	delegate.setCurrentView(view);
+	delegate.<ViewType, CommandViewAttributeType> initializeCommandViewAttribute(commandViewAttribute, attribute);
+	return commandViewAttribute;
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public <ViewType extends View, GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType initializeGroupedViewAttribute(
+	    ViewType view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes pendingGroupAttributes) {
+	groupedViewAttribute.initialize(new GroupedViewAttributeConfig(view, pendingGroupAttributes, viewListenersInjector));
+	return groupedViewAttribute;
+    }
+
+    private static class ViewAttributeInitializerDelegate extends AbstractViewAttributeInitializer {
+	private View currentView;
+
+	public ViewAttributeInitializerDelegate(ViewListenersInjector viewListenersInjector) {
+	    super(viewListenersInjector);
 	}
 
-	public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> PropertyViewAttributeType initializePropertyViewAttribute(
-			ViewType view, PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute)
-	{
-		delegate.setCurrentView(view);
-		delegate.<ViewType, PropertyViewAttributeType>initializePropertyViewAttribute(propertyViewAttribute, attribute);
-		return propertyViewAttribute;
+	@Override
+	protected View getView() {
+	    return currentView;
 	}
 
-	public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> CommandViewAttributeType initializeCommandViewAttribute(
-			ViewType view, CommandViewAttributeType commandViewAttribute, CommandAttribute attribute)
-	{
-		delegate.setCurrentView(view);
-		delegate.<ViewType, CommandViewAttributeType>initializeCommandViewAttribute(commandViewAttribute, attribute);
-		return commandViewAttribute;
+	public void setCurrentView(View currentView) {
+	    this.currentView = currentView;
 	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <ViewType extends View, GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType initializeGroupedViewAttribute(
-			ViewType view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes pendingGroupAttributes)
-	{
-		groupedViewAttribute.initialize(new GroupedViewAttributeConfig(view, pendingGroupAttributes, viewListenersInjector));
-		return groupedViewAttribute;
-	}
-
-	private static class ViewAttributeInitializerDelegate extends AbstractViewAttributeInitializer
-	{
-		private View currentView;
-
-		public ViewAttributeInitializerDelegate(ViewListenersInjector viewListenersInjector)
-		{
-			super(viewListenersInjector);
-		}
-
-		@Override
-		protected View getView()
-		{
-			return currentView;
-		}
-
-		public void setCurrentView(View currentView)
-		{
-			this.currentView = currentView;
-		}
-	}
+    }
 }

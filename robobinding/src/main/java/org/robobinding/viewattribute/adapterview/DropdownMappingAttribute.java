@@ -15,23 +15,19 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class DropdownMappingAttribute extends ItemMappingAttribute
-{
-	public DropdownMappingAttribute(DataSetAdapter<?> dataSetAdapter)
-	{
-		super(dataSetAdapter);
-	}
+public class DropdownMappingAttribute extends ItemMappingAttribute {
+    public DropdownMappingAttribute(DataSetAdapter<?> dataSetAdapter) {
+	super(dataSetAdapter);
+    }
 
-	@Override
-	protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter)
-	{
-		dataSetAdapter.setDropdownPredefinedPendingAttributesForViewGroup(viewMappings);
-	}
+    @Override
+    protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter) {
+	dataSetAdapter.setDropdownPredefinedPendingAttributesForViewGroup(viewMappings);
+    }
 }

@@ -24,12 +24,13 @@ package org.robobinding.util;
  * @author Cheng Wei
  */
 enum JavaVersion {
-    
+
     /**
-     * The Java version reported by Android. This is not an official Java version number.
+     * The Java version reported by Android. This is not an official Java
+     * version number.
      */
     JAVA_0_9(1.5f, "0.9"),
-    
+
     /**
      * Java 1.1.
      */
@@ -81,87 +82,101 @@ enum JavaVersion {
 
     /**
      * Constructor.
-     *
-     * @param value  the float value
-     * @param name  the standard name, not null
+     * 
+     * @param value
+     *            the float value
+     * @param name
+     *            the standard name, not null
      */
     JavaVersion(final float value, final String name) {
-        this.value = value;
-        this.name = name;
+	this.value = value;
+	this.name = name;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
-     * <p>Whether this version of Java is at least the version of Java passed in.</p>
-     *
-     * <p>For example:<br />
-     *  {@code myVersion.atLeast(JavaVersion.JAVA_1_4)}<p>
-     *
-     * @param requiredVersion  the version to check against, not null
-     * @return true if this version is equal to or greater than the specified version
+     * <p>
+     * Whether this version of Java is at least the version of Java passed in.
+     * </p>
+     * 
+     * <p>
+     * For example:<br />
+     * {@code myVersion.atLeast(JavaVersion.JAVA_1_4)}
+     * <p>
+     * 
+     * @param requiredVersion
+     *            the version to check against, not null
+     * @return true if this version is equal to or greater than the specified
+     *         version
      */
     public boolean atLeast(final JavaVersion requiredVersion) {
-        return this.value >= requiredVersion.value;
+	return this.value >= requiredVersion.value;
     }
 
     /**
      * Transforms the given string with a Java version number to the
      * corresponding constant of this enumeration class. This method is used
      * internally.
-     *
-     * @param nom the Java version as string
+     * 
+     * @param nom
+     *            the Java version as string
      * @return the corresponding enumeration constant or <b>null</b> if the
-     * version is unknown
+     *         version is unknown
      */
     // helper for static importing
     static JavaVersion getJavaVersion(final String nom) {
-        return get(nom);
+	return get(nom);
     }
 
     /**
      * Transforms the given string with a Java version number to the
      * corresponding constant of this enumeration class. This method is used
      * internally.
-     *
-     * @param nom the Java version as string
+     * 
+     * @param nom
+     *            the Java version as string
      * @return the corresponding enumeration constant or <b>null</b> if the
-     * version is unknown
+     *         version is unknown
      */
     static JavaVersion get(final String nom) {
-        if ("0.9".equals(nom)) {
-            return JAVA_0_9;
-        } else if ("1.1".equals(nom)) {
-            return JAVA_1_1;
-        } else if ("1.2".equals(nom)) {
-            return JAVA_1_2;
-        } else if ("1.3".equals(nom)) {
-            return JAVA_1_3;
-        } else if ("1.4".equals(nom)) {
-            return JAVA_1_4;
-        } else if ("1.5".equals(nom)) {
-            return JAVA_1_5;
-        } else if ("1.6".equals(nom)) {
-            return JAVA_1_6;
-        } else if ("1.7".equals(nom)) {
-            return JAVA_1_7;
-        } else if ("1.8".equals(nom)) {
-            return JAVA_1_8;
-        } else {
-            return null;
-        }
+	if ("0.9".equals(nom)) {
+	    return JAVA_0_9;
+	} else if ("1.1".equals(nom)) {
+	    return JAVA_1_1;
+	} else if ("1.2".equals(nom)) {
+	    return JAVA_1_2;
+	} else if ("1.3".equals(nom)) {
+	    return JAVA_1_3;
+	} else if ("1.4".equals(nom)) {
+	    return JAVA_1_4;
+	} else if ("1.5".equals(nom)) {
+	    return JAVA_1_5;
+	} else if ("1.6".equals(nom)) {
+	    return JAVA_1_6;
+	} else if ("1.7".equals(nom)) {
+	    return JAVA_1_7;
+	} else if ("1.8".equals(nom)) {
+	    return JAVA_1_8;
+	} else {
+	    return null;
+	}
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
-     * <p>The string value is overridden to return the standard name.</p>
-     *
-     * <p>For example, <code>"1.5"</code>.</p>
-     *
+     * <p>
+     * The string value is overridden to return the standard name.
+     * </p>
+     * 
+     * <p>
+     * For example, <code>"1.5"</code>.
+     * </p>
+     * 
      * @return the name, not null
      */
     @Override
     public String toString() {
-        return name;
+	return name;
     }
 
 }

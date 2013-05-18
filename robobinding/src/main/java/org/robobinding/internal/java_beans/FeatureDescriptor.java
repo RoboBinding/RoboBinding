@@ -44,7 +44,7 @@ public class FeatureDescriptor {
      * </p>
      */
     public FeatureDescriptor() {
-        this.values = new HashMap<String, Object>();
+	this.values = new HashMap<String, Object>();
     }
 
     /**
@@ -58,10 +58,10 @@ public class FeatureDescriptor {
      *            The value to set.
      */
     public void setValue(String attributeName, Object value) {
-        if (attributeName == null || value == null) {
-            throw new NullPointerException();
-        }
-        values.put(attributeName, value);
+	if (attributeName == null || value == null) {
+	    throw new NullPointerException();
+	}
+	values.put(attributeName, value);
     }
 
     /**
@@ -74,10 +74,10 @@ public class FeatureDescriptor {
      * @return The attribute's value.
      */
     public Object getValue(String attributeName) {
-        if (attributeName != null) {
-            return values.get(attributeName);
-        }
-        return null;
+	if (attributeName != null) {
+	    return values.get(attributeName);
+	}
+	return null;
     }
 
     /**
@@ -88,8 +88,8 @@ public class FeatureDescriptor {
      * @return An instance of {@link Enumeration}.
      */
     public Enumeration<String> attributeNames() {
-        // Create a new list, so that the references are copied
-        return Collections.enumeration(new LinkedList<String>(values.keySet()));
+	// Create a new list, so that the references are copied
+	return Collections.enumeration(new LinkedList<String>(values.keySet()));
     }
 
     /**
@@ -101,7 +101,7 @@ public class FeatureDescriptor {
      *            The description to set.
      */
     public void setShortDescription(String text) {
-        this.shortDescription = text;
+	this.shortDescription = text;
     }
 
     /**
@@ -113,7 +113,7 @@ public class FeatureDescriptor {
      *            The name to set.
      */
     public void setName(String name) {
-        this.name = name;
+	this.name = name;
     }
 
     /**
@@ -125,7 +125,7 @@ public class FeatureDescriptor {
      *            The display name to set.
      */
     public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+	this.displayName = displayName;
     }
 
     /**
@@ -136,7 +136,7 @@ public class FeatureDescriptor {
      * @return The description.
      */
     public String getShortDescription() {
-        return shortDescription == null ? getDisplayName() : shortDescription;
+	return shortDescription == null ? getDisplayName() : shortDescription;
     }
 
     /**
@@ -147,7 +147,7 @@ public class FeatureDescriptor {
      * @return The name.
      */
     public String getName() {
-        return name;
+	return name;
     }
 
     /**
@@ -158,7 +158,7 @@ public class FeatureDescriptor {
      * @return The display name.
      */
     public String getDisplayName() {
-        return displayName == null ? getName() : displayName;
+	return displayName == null ? getName() : displayName;
     }
 
     /**
@@ -167,11 +167,10 @@ public class FeatureDescriptor {
      * </p>
      * 
      * @param preferred
-     *            <code>true</code> if preferred, <code>false</code>
-     *            otherwise.
+     *            <code>true</code> if preferred, <code>false</code> otherwise.
      */
     public void setPreferred(boolean preferred) {
-        this.preferred = preferred;
+	this.preferred = preferred;
     }
 
     /**
@@ -183,7 +182,7 @@ public class FeatureDescriptor {
      *            <code>true</code> if hidden, <code>false</code> otherwise.
      */
     public void setHidden(boolean hidden) {
-        this.hidden = hidden;
+	this.hidden = hidden;
     }
 
     /**
@@ -195,7 +194,7 @@ public class FeatureDescriptor {
      *            <code>true</code> if expert, <code>false</code> otherwise.
      */
     public void setExpert(boolean expert) {
-        this.expert = expert;
+	this.expert = expert;
     }
 
     /**
@@ -206,7 +205,7 @@ public class FeatureDescriptor {
      * @return <code>true</code> if preferred, <code>false</code> otherwise.
      */
     public boolean isPreferred() {
-        return preferred;
+	return preferred;
     }
 
     /**
@@ -217,7 +216,7 @@ public class FeatureDescriptor {
      * @return <code>true</code> if hidden, <code>false</code> otherwise.
      */
     public boolean isHidden() {
-        return hidden;
+	return hidden;
     }
 
     /**
@@ -228,22 +227,22 @@ public class FeatureDescriptor {
      * @return <code>true</code> if hidden, <code>false</code> otherwise.
      */
     public boolean isExpert() {
-        return expert;
+	return expert;
     }
-    
-    void merge(FeatureDescriptor feature){
-        assert(name.equals(feature.name));
-        expert |= feature.expert;
-        hidden |= feature.hidden;
-        preferred |= feature.preferred;
-        if(shortDescription == null){
-            shortDescription = feature.shortDescription;
-        }
-        if(name == null){
-            name = feature.name;
-        }
-        if(displayName == null){
-            displayName = feature.displayName;
-        }        
+
+    void merge(FeatureDescriptor feature) {
+	assert (name.equals(feature.name));
+	expert |= feature.expert;
+	hidden |= feature.hidden;
+	preferred |= feature.preferred;
+	if (shortDescription == null) {
+	    shortDescription = feature.shortDescription;
+	}
+	if (name == null) {
+	    name = feature.name;
+	}
+	if (displayName == null) {
+	    displayName = feature.displayName;
+	}
     }
 }

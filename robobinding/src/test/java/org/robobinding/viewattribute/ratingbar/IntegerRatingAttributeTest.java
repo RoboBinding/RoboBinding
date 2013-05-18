@@ -30,46 +30,42 @@ import org.robobinding.viewattribute.view.AbstractPropertyViewAttributeWithViewL
 import android.widget.RatingBar;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class IntegerRatingAttributeTest extends AbstractPropertyViewAttributeWithViewListenersAwareTest<RatingBar, IntegerRatingAttribute, MockRatingBarListeners>
-{
-	private static final int NUM_STARS_TO_SHOW = 5;
+public class IntegerRatingAttributeTest extends
+	AbstractPropertyViewAttributeWithViewListenersAwareTest<RatingBar, IntegerRatingAttribute, MockRatingBarListeners> {
+    private static final int NUM_STARS_TO_SHOW = 5;
 
-	@Before
-	public void prepareRatingBar() 
-	{
-		view.setNumStars(NUM_STARS_TO_SHOW);
-	}
-	
-	@Test
-	public void whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		int newRating = nextInt(NUM_STARS_TO_SHOW);
-		
-		attribute.valueModelUpdated(newRating);
+    @Before
+    public void prepareRatingBar() {
+	view.setNumStars(NUM_STARS_TO_SHOW);
+    }
 
-		assertThat(view.getRating(), equalTo((float)newRating));
-	}
-	
-	@Test
-	public void whenRatingIsChanged_thenUpdateValueModel()
-	{
-		ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);
-		
-		view.setRating(anyInteger());
-		
-		assertThat((float)valueModel.getValue(), equalTo(view.getRating()));
-	}
-	
-	@Test
-	public void whenTwoWayBinding_thenRegisterWithMulticastListener()
-	{
-		twoWayBindToProperty(Integer.class);
-		
-		assertTrue(viewListeners.addOnRatingBarChangeListenerInvoked);
-	}
+    @Test
+    public void whenValueModelUpdated_thenViewShouldReflectChanges() {
+	int newRating = nextInt(NUM_STARS_TO_SHOW);
+
+	attribute.valueModelUpdated(newRating);
+
+	assertThat(view.getRating(), equalTo((float) newRating));
+    }
+
+    @Test
+    public void whenRatingIsChanged_thenUpdateValueModel() {
+	ValueModel<Integer> valueModel = twoWayBindToProperty(Integer.class);
+
+	view.setRating(anyInteger());
+
+	assertThat((float) valueModel.getValue(), equalTo(view.getRating()));
+    }
+
+    @Test
+    public void whenTwoWayBinding_thenRegisterWithMulticastListener() {
+	twoWayBindToProperty(Integer.class);
+
+	assertTrue(viewListeners.addOnRatingBarChangeListenerInvoked);
+    }
 }

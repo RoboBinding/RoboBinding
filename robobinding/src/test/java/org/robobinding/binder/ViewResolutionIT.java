@@ -46,165 +46,115 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class ViewResolutionIT
-{
-	private BindingAttributeResolver bindingAttributeResolver;
+public class ViewResolutionIT {
+    private BindingAttributeResolver bindingAttributeResolver;
 
-	@Before
-	public void setUp()
-	{
-		bindingAttributeResolver = new BindingAttributeResolver();
-	}
+    @Before
+    public void setUp() {
+	bindingAttributeResolver = new BindingAttributeResolver();
+    }
 
-	@Test
-	public void givenASingleView_whenResolvingValidBindingAttributes_thenReturnResolvedBindingAttributes()
-	{
-		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(
-				aPendingAttributesForEditText()
-					.withAttribute("text", "${name}")
-					.withAttribute("onTextChanged", "onNameChanged")
-					.build());
+    @Test
+    public void givenASingleView_whenResolvingValidBindingAttributes_thenReturnResolvedBindingAttributes() {
+	ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForEditText()
+		.withAttribute("text", "${name}").withAttribute("onTextChanged", "onNameChanged").build());
 
-		assertNotNull(resolvedBindingAttributes);
-	}
+	assertNotNull(resolvedBindingAttributes);
+    }
 
-	@Test(expected = ViewResolutionErrorsException.class)
-	public void givenASingleView_whenResolvingUnsupportedBindingAttributes_thenThrowException()
-	{
-		resolveBindingAttributes(
-				aPendingAttributesForEditText()
-					.withAttribute("tex", "${name}")
-					.build());
-	}
+    @Test(expected = ViewResolutionErrorsException.class)
+    public void givenASingleView_whenResolvingUnsupportedBindingAttributes_thenThrowException() {
+	resolveBindingAttributes(aPendingAttributesForEditText().withAttribute("tex", "${name}").build());
+    }
 
-	@Test(expected = ViewResolutionErrorsException.class)
-	public void givenASingleView_whenResolvingMalformedPropertyBindingAttributes_thenThrowException()
-	{
-		resolveBindingAttributes(
-				aPendingAttributesForEditText()
-					.withAttribute("text", "${name")
-					.build());
-	}
+    @Test(expected = ViewResolutionErrorsException.class)
+    public void givenASingleView_whenResolvingMalformedPropertyBindingAttributes_thenThrowException() {
+	resolveBindingAttributes(aPendingAttributesForEditText().withAttribute("text", "${name").build());
+    }
 
-	@Test(expected = ViewResolutionErrorsException.class)
-	public void givenASingleView_whenResolvingMalformedCommandBindingAttributes_thenThrowException()
-	{
-		resolveBindingAttributes(
-				aPendingAttributesForEditText()
-					.withAttribute("onTextChanged", "{nameChanged}")
-					.build());
-	}
+    @Test(expected = ViewResolutionErrorsException.class)
+    public void givenASingleView_whenResolvingMalformedCommandBindingAttributes_thenThrowException() {
+	resolveBindingAttributes(aPendingAttributesForEditText().withAttribute("onTextChanged", "{nameChanged}").build());
+    }
 
-	@Test
-	public void givenASingleView_whenResolvingMissingGroupBindingAttributes_thenThrowExceptionReferencingView()
-	{
-		PendingAttributesForView pendingAttributesForAdapterView = aPendingAttributesForAdapterView()
-			.withAttribute("source", "{names}")
-			.build();
-		try
-		{
-			resolveBindingAttributes(pendingAttributesForAdapterView);
-			fail("Expected exception to be thrown");
-		} catch (ViewResolutionErrorsException e) 
-		{
-			assertThat(e.getView(), equalTo((View)pendingAttributesForAdapterView.getView()));
-			assertThat(e.getMissingRequiredAttributeErrors().size(), is(1));
-		}
+    @Test
+    public void givenASingleView_whenResolvingMissingGroupBindingAttributes_thenThrowExceptionReferencingView() {
+	PendingAttributesForView pendingAttributesForAdapterView = aPendingAttributesForAdapterView().withAttribute("source", "{names}").build();
+	try {
+	    resolveBindingAttributes(pendingAttributesForAdapterView);
+	    fail("Expected exception to be thrown");
+	} catch (ViewResolutionErrorsException e) {
+	    assertThat(e.getView(), equalTo((View) pendingAttributesForAdapterView.getView()));
+	    assertThat(e.getMissingRequiredAttributeErrors().size(), is(1));
 	}
-	
-	@Test
-	public void givenASingleView_whenResolvingMultipleMalformedAndUnsupportedBindingAttributes_thenThrowExceptionReferringToEachOne()
-	{
-		try
-		{
-			resolveBindingAttributes(
-					aPendingAttributesForEditText()
-						.withAttribute("text", "${name")
-						.withAttribute("onTextChanged", "{nameChanged}")
-						.withAttribute("tex", "${name}")
-						.build());
-			fail("Expected exception to be thrown");
-		} catch (ViewResolutionErrorsException e)
-		{
-			assertHasAttributeError(e, "text");
-			assertHasAttributeError(e, "onTextChanged");
-			assertHasAttributeError(e, "tex");
-			assertThat(e.numErrors(), is(3));
-		}
-	}
+    }
 
-	@Test
-	public void givenASingleView_whenResolvingMultipleMalformedAndUnsupportedBindingAttributesFromTheSameAttributeGroup_thenThrowExceptionReferringToEachOne()
-	{
-		try
-		{
-			resolveBindingAttributes(
-					aPendingAttributesForAdapterView()
-						.withAttribute("itemLayout", "invalid")
-						.withAttribute("source", "{invalid")
-						.build());
-			fail("Expected exception to be thrown");
-		} catch (ViewResolutionErrorsException e)
-		{
-			assertHasAttributeError(e, "itemLayout");
-			assertHasAttributeError(e, "source");
-			assertThat(e.numErrors(), is(2));
-		}
+    @Test
+    public void givenASingleView_whenResolvingMultipleMalformedAndUnsupportedBindingAttributes_thenThrowExceptionReferringToEachOne() {
+	try {
+	    resolveBindingAttributes(aPendingAttributesForEditText().withAttribute("text", "${name").withAttribute("onTextChanged", "{nameChanged}")
+		    .withAttribute("tex", "${name}").build());
+	    fail("Expected exception to be thrown");
+	} catch (ViewResolutionErrorsException e) {
+	    assertHasAttributeError(e, "text");
+	    assertHasAttributeError(e, "onTextChanged");
+	    assertHasAttributeError(e, "tex");
+	    assertThat(e.numErrors(), is(3));
 	}
-	
-	@Test
-	public void givenAViewWithSubViewAttributes_whenResolvingMultipleMalformedBindingAttributes_thenThrowExceptionReferringToEachOne()
-	{
-		try
-		{
-			resolveBindingAttributes(
-					aPendingAttributesForAdapterView()
-						.withAttribute("itemLayout", "@layout/some_resource")
-						.withAttribute("source", "{dateSource}")
-						.withAttribute("footerLayout", "invalid")
-						.withAttribute("footerVisibility", "{invalid")
-						.withAttribute("footerPresentationModel", "{invalid")
-						.build());
-			fail("Expected exception to be thrown");
-		} catch (ViewResolutionErrorsException e)
-		{
-			assertHasAttributeError(e, "footerLayout");
-			assertHasAttributeError(e, "footerVisibility");
-			assertHasAttributeError(e, "footerPresentationModel");
-			assertThat(e.numErrors(), is(3));
-		}
+    }
+
+    @Test
+    public void givenASingleView_whenResolvingMultipleMalformedAndUnsupportedBindingAttributesFromTheSameAttributeGroup_thenThrowExceptionReferringToEachOne() {
+	try {
+	    resolveBindingAttributes(aPendingAttributesForAdapterView().withAttribute("itemLayout", "invalid").withAttribute("source", "{invalid")
+		    .build());
+	    fail("Expected exception to be thrown");
+	} catch (ViewResolutionErrorsException e) {
+	    assertHasAttributeError(e, "itemLayout");
+	    assertHasAttributeError(e, "source");
+	    assertThat(e.numErrors(), is(2));
 	}
-	
-	private void assertHasAttributeError(ViewResolutionErrorsException e, String attribute)
-	{
-		Collection<AttributeResolutionException> attributeErrors = e.getAttributeErrors();
-		for(AttributeResolutionException attributeError : attributeErrors)
-		{
-			if(attributeError.getAttributeName().equals(attribute))
-			{
-				return;
-			}
-		}
-		
-		fail("Resolution error for " + attribute + " was not reported");
+    }
+
+    @Test
+    public void givenAViewWithSubViewAttributes_whenResolvingMultipleMalformedBindingAttributes_thenThrowExceptionReferringToEachOne() {
+	try {
+	    resolveBindingAttributes(aPendingAttributesForAdapterView().withAttribute("itemLayout", "@layout/some_resource")
+		    .withAttribute("source", "{dateSource}").withAttribute("footerLayout", "invalid").withAttribute("footerVisibility", "{invalid")
+		    .withAttribute("footerPresentationModel", "{invalid").build());
+	    fail("Expected exception to be thrown");
+	} catch (ViewResolutionErrorsException e) {
+	    assertHasAttributeError(e, "footerLayout");
+	    assertHasAttributeError(e, "footerVisibility");
+	    assertHasAttributeError(e, "footerPresentationModel");
+	    assertThat(e.numErrors(), is(3));
+	}
+    }
+
+    private void assertHasAttributeError(ViewResolutionErrorsException e, String attribute) {
+	Collection<AttributeResolutionException> attributeErrors = e.getAttributeErrors();
+	for (AttributeResolutionException attributeError : attributeErrors) {
+	    if (attributeError.getAttributeName().equals(attribute)) {
+		return;
+	    }
 	}
 
-	private PendingAttributesForViewBuilder aPendingAttributesForEditText()
-	{
-		EditText editText = new EditText(new Activity());
-		return aPendingAttributesForView(editText);
-	}
-	
-	private PendingAttributesForViewBuilder aPendingAttributesForAdapterView()
-	{
-		AdapterView<?> adapterView = new ListView(new Activity());
-		return aPendingAttributesForView(adapterView);
-	}
+	fail("Resolution error for " + attribute + " was not reported");
+    }
 
-	private ResolvedBindingAttributesForView resolveBindingAttributes(PendingAttributesForView pendingAttributesForView)
-	{
-		ViewResolutionResult resolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
-		resolutionResult.assertNoErrors();
-		return resolutionResult.getResolvedBindingAttributes();
-	}
+    private PendingAttributesForViewBuilder aPendingAttributesForEditText() {
+	EditText editText = new EditText(new Activity());
+	return aPendingAttributesForView(editText);
+    }
+
+    private PendingAttributesForViewBuilder aPendingAttributesForAdapterView() {
+	AdapterView<?> adapterView = new ListView(new Activity());
+	return aPendingAttributesForView(adapterView);
+    }
+
+    private ResolvedBindingAttributesForView resolveBindingAttributes(PendingAttributesForView pendingAttributesForView) {
+	ViewResolutionResult resolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
+	resolutionResult.assertNoErrors();
+	return resolutionResult.getResolvedBindingAttributes();
+    }
 }

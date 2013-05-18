@@ -26,32 +26,29 @@ import org.robobinding.viewattribute.adapterview.SubViewVisibilityAttribute.Inte
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class IntegerSubViewVisibilityAttributeTest
-{
-	private IntegerSubViewVisibilityAttribute attribute;
-	private MockSubViewVisibility mockVisibility;
-	
-	@Before
-	public void setUp()
-	{
-		mockVisibility = new MockSubViewVisibility();
-		SubViewVisibilityAttribute visibilityAttribute = new SubViewVisibilityAttribute(mockVisibility);
-		attribute = visibilityAttribute.new IntegerSubViewVisibilityAttribute();
-	}
-	
-	@Test
-	public void whenValueModelUpdated_thenVisibilityStateUpdatedAccordingly()
-	{
-		int visibility = RandomValues.anyVisibility();
-		
-		attribute.valueModelUpdated(visibility);
-		
-		assertEquals(visibility, mockVisibility.state);
-	}
+public class IntegerSubViewVisibilityAttributeTest {
+    private IntegerSubViewVisibilityAttribute attribute;
+    private MockSubViewVisibility mockVisibility;
+
+    @Before
+    public void setUp() {
+	mockVisibility = new MockSubViewVisibility();
+	SubViewVisibilityAttribute visibilityAttribute = new SubViewVisibilityAttribute(mockVisibility);
+	attribute = visibilityAttribute.new IntegerSubViewVisibilityAttribute();
+    }
+
+    @Test
+    public void whenValueModelUpdated_thenVisibilityStateUpdatedAccordingly() {
+	int visibility = RandomValues.anyVisibility();
+
+	attribute.valueModelUpdated(visibility);
+
+	assertEquals(visibility, mockVisibility.state);
+    }
 }

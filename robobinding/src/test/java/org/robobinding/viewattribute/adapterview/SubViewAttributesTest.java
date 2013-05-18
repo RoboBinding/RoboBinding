@@ -15,97 +15,99 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-//@RunWith(RobolectricTestRunner.class)
-public class SubViewAttributesTest
-{
-//	//private GroupedAttributeDetails mockGroupedAttributeDetails;
-//	private SubViewCreator mockSubViewCreator;
-//	
-//	@Before
-//	public void setUp()
-//	{
-//		//mockGroupedAttributeDetails = mock(GroupedAttributeDetails.class);
-//		mockSubViewCreator = mock(SubViewCreator.class);
-//	}
-//	
-//	@Test
-//	public void createAttributeWithoutPresentationModel_thenSuccessful()
-//	{
-//		when(mockSubViewCreator.create()).thenReturn(new View(null));
-//		
-//		assertNotNull(createSubView());
-//	}
-//
-//	@Test
-//	public void createAttributeWithPresentationModel_thenSuccessful()
-//	{
-//		makePresentationModelAttributeAvailable();
-//		when(mockSubViewCreator.createAndBindTo(anyString())).thenReturn(new View(null));
-//		
-//		assertNotNull(createSubView());
-//	}
-//	
-//	private void makePresentationModelAttributeAvailable()
-//	{
-//		when(mockGroupedAttributeDetails.hasAttribute(SubViewAttributes.PRESENTATION_MODEL)).thenReturn(true);
-//	}
-//	
-//	private View createSubView()
-//	{
-//		SubViewAttributes subViewAttributes = new SubViewAttributes();
-//		return subViewAttributes.createSubView(null);
-//	}
-//	
-//	private class SubViewAttributes extends AbstractSubViewAttributes<AdapterView<?>>
-//	{
-//		static final String LAYOUT = "layout";
-//		static final String PRESENTATION_MODEL = "presentationModel";
-//		public SubViewAttributes()
-//		{
-//			super.groupedAttributeDetails = mockGroupedAttributeDetails;
-//		}
-//		
-//		@Override
-//		SubViewCreator createSubViewCreator(BindingContext context, String layoutAttributeValue)
-//		{
-//			return mockSubViewCreator;
-//		}
-//		
-//		@Override
-//		protected String layoutAttribute()
-//		{
-//			return LAYOUT;
-//		}
-//
-//		@Override
-//		protected String subViewPresentationModelAttribute()
-//		{
-//			return PRESENTATION_MODEL;
-//		}
-//
-//		@Override
-//		protected String visibilityAttribute()
-//		{
-//			throw new RuntimeException();
-//		}
-//
-//		@Override
-//		protected void addSubView(View subView, Context context)
-//		{
-//			throw new RuntimeException();
-//		}
-//		
-//		@Override
-//		protected SubViewVisibilityAttribute createVisibilityAttribute(View subView)
-//		{
-//			throw new RuntimeException();
-//		}
-//	}
+// @RunWith(RobolectricTestRunner.class)
+public class SubViewAttributesTest {
+    // //private GroupedAttributeDetails mockGroupedAttributeDetails;
+    // private SubViewCreator mockSubViewCreator;
+    //
+    // @Before
+    // public void setUp()
+    // {
+    // //mockGroupedAttributeDetails = mock(GroupedAttributeDetails.class);
+    // mockSubViewCreator = mock(SubViewCreator.class);
+    // }
+    //
+    // @Test
+    // public void createAttributeWithoutPresentationModel_thenSuccessful()
+    // {
+    // when(mockSubViewCreator.create()).thenReturn(new View(null));
+    //
+    // assertNotNull(createSubView());
+    // }
+    //
+    // @Test
+    // public void createAttributeWithPresentationModel_thenSuccessful()
+    // {
+    // makePresentationModelAttributeAvailable();
+    // when(mockSubViewCreator.createAndBindTo(anyString())).thenReturn(new
+    // View(null));
+    //
+    // assertNotNull(createSubView());
+    // }
+    //
+    // private void makePresentationModelAttributeAvailable()
+    // {
+    // when(mockGroupedAttributeDetails.hasAttribute(SubViewAttributes.PRESENTATION_MODEL)).thenReturn(true);
+    // }
+    //
+    // private View createSubView()
+    // {
+    // SubViewAttributes subViewAttributes = new SubViewAttributes();
+    // return subViewAttributes.createSubView(null);
+    // }
+    //
+    // private class SubViewAttributes extends
+    // AbstractSubViewAttributes<AdapterView<?>>
+    // {
+    // static final String LAYOUT = "layout";
+    // static final String PRESENTATION_MODEL = "presentationModel";
+    // public SubViewAttributes()
+    // {
+    // super.groupedAttributeDetails = mockGroupedAttributeDetails;
+    // }
+    //
+    // @Override
+    // SubViewCreator createSubViewCreator(BindingContext context, String
+    // layoutAttributeValue)
+    // {
+    // return mockSubViewCreator;
+    // }
+    //
+    // @Override
+    // protected String layoutAttribute()
+    // {
+    // return LAYOUT;
+    // }
+    //
+    // @Override
+    // protected String subViewPresentationModelAttribute()
+    // {
+    // return PRESENTATION_MODEL;
+    // }
+    //
+    // @Override
+    // protected String visibilityAttribute()
+    // {
+    // throw new RuntimeException();
+    // }
+    //
+    // @Override
+    // protected void addSubView(View subView, Context context)
+    // {
+    // throw new RuntimeException();
+    // }
+    //
+    // @Override
+    // protected SubViewVisibilityAttribute createVisibilityAttribute(View
+    // subView)
+    // {
+    // throw new RuntimeException();
+    // }
+    // }
 }

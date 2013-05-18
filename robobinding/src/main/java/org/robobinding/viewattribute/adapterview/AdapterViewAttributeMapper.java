@@ -27,25 +27,22 @@ import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.widget.AdapterView;
 
-
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdapterViewAttributeMapper implements BindingAttributeMapper<AdapterView<?>>
-{
-	@Override
-	public void mapBindingAttributes(BindingAttributeMappings<AdapterView<?>> mappings)
-	{
-		mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, SOURCE, ITEM_LAYOUT, ITEM_MAPPING);
-		
-		mappings.mapGroupedAttribute(new EmptyViewAttributesFactory(), EMPTY_VIEW_LAYOUT, EMPTY_VIEW_PRESENTATION_MODEL, EMPTY_VIEW_VISIBILITY);
-		
-		mappings.mapCommandAttribute(OnItemClickAttribute.class, "onItemClick");
-		mappings.mapCommandAttribute(OnItemSelectedAttribute.class, "onItemSelected");
-		
-		mappings.mapPropertyAttribute(SelectedItemPositionAttribute.class, "selectedItemPosition");
-	}
+public class AdapterViewAttributeMapper implements BindingAttributeMapper<AdapterView<?>> {
+    @Override
+    public void mapBindingAttributes(BindingAttributeMappings<AdapterView<?>> mappings) {
+	mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, SOURCE, ITEM_LAYOUT, ITEM_MAPPING);
+
+	mappings.mapGroupedAttribute(new EmptyViewAttributesFactory(), EMPTY_VIEW_LAYOUT, EMPTY_VIEW_PRESENTATION_MODEL, EMPTY_VIEW_VISIBILITY);
+
+	mappings.mapCommandAttribute(OnItemClickAttribute.class, "onItemClick");
+	mappings.mapCommandAttribute(OnItemSelectedAttribute.class, "onItemSelected");
+
+	mappings.mapPropertyAttribute(SelectedItemPositionAttribute.class, "selectedItemPosition");
+    }
 }

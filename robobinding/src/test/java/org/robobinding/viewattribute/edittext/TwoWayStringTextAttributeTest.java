@@ -31,57 +31,52 @@ import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.shadows.ShadowTextView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TwoWayStringTextAttributeTest extends AbstractPropertyViewAttributeTest<EditText, TwoWayStringTextAttribute>
-{
-	@Test
-	public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		String newText = RandomStringUtils.randomAlphanumeric(5);
-		
-		attribute.valueModelUpdated(newText);
+public class TwoWayStringTextAttributeTest extends AbstractPropertyViewAttributeTest<EditText, TwoWayStringTextAttribute> {
+    @Test
+    public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges() {
+	String newText = RandomStringUtils.randomAlphanumeric(5);
 
-		assertThat(view.getText(), sameAs(newText));
-	}
-	
-	@Test
-	public void givenValueModelIsStringType_whenViewStateIsChanged_thenUpdateValueModel()
-	{
-		ValueModel<String> valueModel = twoWayBindToProperty(String.class);
-		
-		view.setText(RandomStringUtils.random(5));
+	attribute.valueModelUpdated(newText);
 
-		assertThat(valueModel.getValue(), sameAs(view.getText()));
-	}
-	
-	@Test
-	public void givenALateValueCommitAttribute_whenUpdatingView_thenDoNotImmediatelyCommitToValueModel()
-	{
-		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
-		String newText = RandomStringUtils.randomAlphanumeric(5);
-		ValueModel<String> valueModel = twoWayBindToProperty(String.class);
-		
-		view.setText(newText);
+	assertThat(view.getText(), sameAs(newText));
+    }
 
-		assertThat(valueModel.getValue(), not(sameAs(newText)));
-	}
-	
-	@Test
-	public void givenALateValueCommitAttribute_whenViewLosesFocus_thenCommitToValueModel()
-	{
-		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
-		String newText = RandomStringUtils.randomAlphanumeric(5);
-		ValueModel<String> valueModel = twoWayBindToProperty(String.class);
-		
-		view.setText(newText);
+    @Test
+    public void givenValueModelIsStringType_whenViewStateIsChanged_thenUpdateValueModel() {
+	ValueModel<String> valueModel = twoWayBindToProperty(String.class);
 
-		ShadowTextView shadowTextView = Robolectric.shadowOf(view);
-		shadowTextView.setViewFocus(false);
-		
-		assertThat(valueModel.getValue(), sameAs(newText));
-	}
+	view.setText(RandomStringUtils.random(5));
+
+	assertThat(valueModel.getValue(), sameAs(view.getText()));
+    }
+
+    @Test
+    public void givenALateValueCommitAttribute_whenUpdatingView_thenDoNotImmediatelyCommitToValueModel() {
+	attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
+	String newText = RandomStringUtils.randomAlphanumeric(5);
+	ValueModel<String> valueModel = twoWayBindToProperty(String.class);
+
+	view.setText(newText);
+
+	assertThat(valueModel.getValue(), not(sameAs(newText)));
+    }
+
+    @Test
+    public void givenALateValueCommitAttribute_whenViewLosesFocus_thenCommitToValueModel() {
+	attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
+	String newText = RandomStringUtils.randomAlphanumeric(5);
+	ValueModel<String> valueModel = twoWayBindToProperty(String.class);
+
+	view.setText(newText);
+
+	ShadowTextView shadowTextView = Robolectric.shadowOf(view);
+	shadowTextView.setViewFocus(false);
+
+	assertThat(valueModel.getValue(), sameAs(newText));
+    }
 }

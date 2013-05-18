@@ -29,29 +29,31 @@ import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DropdownLayoutAttributeTest
-{
-	@Mock RowLayoutAttributeFactory rowLayoutAttributeFactory;
-	@InjectMocks DropdownLayoutAttribute itemLayoutAttribute;
-	@Mock BindingContext bindingContext;
-	@Mock ViewAttribute layoutAttribute;
-	
-	@Test
-	public void shouldInitializeDropdownLayoutAttributeFromFactory()
-	{
-		ValueModelAttribute propertyAttribute = aValueModelAttribute("{dropdownLayout}");
-		when(rowLayoutAttributeFactory.createDropdownLayoutAttribute(propertyAttribute)).thenReturn(layoutAttribute);
-		
-		itemLayoutAttribute.setAttribute(propertyAttribute);
-		itemLayoutAttribute.bindTo(bindingContext);
-		
-		verify(layoutAttribute).bindTo(bindingContext);
-	}
+public class DropdownLayoutAttributeTest {
+    @Mock
+    RowLayoutAttributeFactory rowLayoutAttributeFactory;
+    @InjectMocks
+    DropdownLayoutAttribute itemLayoutAttribute;
+    @Mock
+    BindingContext bindingContext;
+    @Mock
+    ViewAttribute layoutAttribute;
+
+    @Test
+    public void shouldInitializeDropdownLayoutAttributeFromFactory() {
+	ValueModelAttribute propertyAttribute = aValueModelAttribute("{dropdownLayout}");
+	when(rowLayoutAttributeFactory.createDropdownLayoutAttribute(propertyAttribute)).thenReturn(layoutAttribute);
+
+	itemLayoutAttribute.setAttribute(propertyAttribute);
+	itemLayoutAttribute.bindTo(bindingContext);
+
+	verify(layoutAttribute).bindTo(bindingContext);
+    }
 
 }

@@ -26,27 +26,23 @@ import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SourceAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute>
-{
-	private final DataSetAdapter<?> dataSetAdapter;
-	private ValueModelAttribute attribute;
+public class SourceAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute> {
+    private final DataSetAdapter<?> dataSetAdapter;
+    private ValueModelAttribute attribute;
 
-	public SourceAttribute(final DataSetAdapter<?> dataSetAdapter)
-	{
-		this.dataSetAdapter = dataSetAdapter;
-	}
-	
-	@Override
-	public void setAttribute(ValueModelAttribute attribute)
-	{
-		this.attribute = attribute;
-	}
+    public SourceAttribute(final DataSetAdapter<?> dataSetAdapter) {
+	this.dataSetAdapter = dataSetAdapter;
+    }
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
-	@Override
-	public void bindTo(BindingContext bindingContext)
-	{
-		DataSetValueModel dataSetValueModel = bindingContext.getDataSetPropertyValueModel(attribute.getPropertyName());
-		dataSetAdapter.setValueModel(dataSetValueModel);
-	}
+    @Override
+    public void setAttribute(ValueModelAttribute attribute) {
+	this.attribute = attribute;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public void bindTo(BindingContext bindingContext) {
+	DataSetValueModel dataSetValueModel = bindingContext.getDataSetPropertyValueModel(attribute.getPropertyName());
+	dataSetAdapter.setValueModel(dataSetValueModel);
+    }
 }

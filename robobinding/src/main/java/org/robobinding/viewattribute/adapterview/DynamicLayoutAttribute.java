@@ -26,24 +26,20 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
-class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView, Integer>
-{
-	private DataSetAdapter<?> dataSetAdapter;
-	private RowLayoutUpdater rowLayoutUpdater;
-	
-	public DynamicLayoutAttribute(PropertyViewAttributeConfig<AdapterView> config,
-			DataSetAdapter<?> dataSetAdapter, RowLayoutUpdater rowLayoutUpdater)
-	{
-		super.initialize(config);
-		this.dataSetAdapter = dataSetAdapter;
-		this.rowLayoutUpdater = rowLayoutUpdater;
-	}
+@SuppressWarnings({ "rawtypes", "unchecked" })
+class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView, Integer> {
+    private DataSetAdapter<?> dataSetAdapter;
+    private RowLayoutUpdater rowLayoutUpdater;
 
-	@Override
-	protected void valueModelUpdated(Integer newItemLayoutId)
-	{
-		rowLayoutUpdater.updateRowLayout(newItemLayoutId);
-		((AdapterView)view).setAdapter(dataSetAdapter);
-	}
+    public DynamicLayoutAttribute(PropertyViewAttributeConfig<AdapterView> config, DataSetAdapter<?> dataSetAdapter, RowLayoutUpdater rowLayoutUpdater) {
+	super.initialize(config);
+	this.dataSetAdapter = dataSetAdapter;
+	this.rowLayoutUpdater = rowLayoutUpdater;
+    }
+
+    @Override
+    protected void valueModelUpdated(Integer newItemLayoutId) {
+	rowLayoutUpdater.updateRowLayout(newItemLayoutId);
+	((AdapterView) view).setAdapter(dataSetAdapter);
+    }
 }

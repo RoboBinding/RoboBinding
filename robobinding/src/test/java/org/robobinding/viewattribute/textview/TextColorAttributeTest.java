@@ -28,21 +28,19 @@ import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.shadows.ShadowTextView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class TextColorAttributeTest extends AbstractPropertyViewAttributeTest<TextView, TextColorAttribute>
-{
-	@Test
-	public void whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		int newColor = RandomValues.anyColor();
+public class TextColorAttributeTest extends AbstractPropertyViewAttributeTest<TextView, TextColorAttribute> {
+    @Test
+    public void whenValueModelUpdated_thenViewShouldReflectChanges() {
+	int newColor = RandomValues.anyColor();
 
-		attribute.valueModelUpdated(newColor);
+	attribute.valueModelUpdated(newColor);
 
-		ShadowTextView shadowView = Robolectric.shadowOf(view);
-		assertThat(shadowView.getTextColorHexValue(), equalTo(newColor));
-	}
+	ShadowTextView shadowView = Robolectric.shadowOf(view);
+	assertThat(shadowView.getTextColorHexValue(), equalTo(newColor));
+    }
 }

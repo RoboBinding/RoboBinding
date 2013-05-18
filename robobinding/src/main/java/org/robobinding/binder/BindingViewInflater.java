@@ -43,149 +43,127 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class BindingViewInflater implements ViewFactoryListener
-{
-	private final List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
-	ViewInflater viewInflator;
-	BindingAttributeResolver bindingAttributeResolver;
-	BindingAttributeParser bindingAttributeParser;
-	
+class BindingViewInflater implements ViewFactoryListener {
+    private final List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
+    ViewInflater viewInflator;
+    BindingAttributeResolver bindingAttributeResolver;
+    BindingAttributeParser bindingAttributeParser;
+
+    private ViewHierarchyInflationErrorsException errors;
+    private List<ResolvedBindingAttributesForView> resolvedBindingAttributesForChildViews;
+
+    BindingViewInflater(Builder builder) {
+	this.predefinedPendingAttributesForViewGroup = builder.predefinedPendingAttributesForViewGroup;
+
+	this.viewInflator = createViewInflator(builder);
+	bindingAttributeResolver = new BindingAttributeResolver();
+	bindingAttributeParser = new BindingAttributeParser();
+    }
+
+    private ViewInflater createViewInflator(Builder builder) {
+	return new NonBindingViewInflater(createLayoutInflaterWithCustomViewFactory(builder.context), builder.parentViewToAttach);
+    }
+
+    private LayoutInflater createLayoutInflaterWithCustomViewFactory(Context context) {
+	LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
+	ViewFactory viewFactory = new ViewFactory(layoutInflater);
+	viewFactory.setListener(this);
+	return layoutInflater;
+    }
+
+    public InflatedView inflateView(int layoutId) {
+	resolvedBindingAttributesForChildViews = newArrayList();
+	errors = new ViewHierarchyInflationErrorsException();
+
+	View rootView = viewInflator.inflateView(layoutId);
+	addPredefinedPendingAttributesForViewGroup(rootView);
+
+	return new InflatedView(rootView, resolvedBindingAttributesForChildViews, errors);
+    }
+
+    private void addPredefinedPendingAttributesForViewGroup(View rootView) {
+	for (PredefinedPendingAttributesForView predefinedPendingAttributesForView : predefinedPendingAttributesForViewGroup) {
+	    PendingAttributesForView pendingAttributesForView = predefinedPendingAttributesForView.createPendingAttributesForView(rootView);
+	    resolveAndAddViewBindingAttributes(pendingAttributesForView);
+	}
+    }
+
+    @Override
+    public void onViewCreated(View childView, AttributeSet attrs) {
+	Map<String, String> pendingAttributeMappings = bindingAttributeParser.parse(attrs);
+	if (!pendingAttributeMappings.isEmpty()) {
+	    PendingAttributesForView pendingAttributesForView = new PendingAttributesForViewImpl(childView, pendingAttributeMappings);
+	    resolveAndAddViewBindingAttributes(pendingAttributesForView);
+	}
+    }
+
+    private void resolveAndAddViewBindingAttributes(PendingAttributesForView pendingAttributesForView) {
+	ViewResolutionResult viewResolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
+	viewResolutionResult.addPotentialErrorTo(errors);
+	resolvedBindingAttributesForChildViews.add(viewResolutionResult.getResolvedBindingAttributes());
+    }
+
+    public static class Builder {
+	private final Context context;
+	private ViewGroup parentViewToAttach;
+	private List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
+
+	public Builder(Context context) {
+	    this.context = context;
+
+	    predefinedPendingAttributesForViewGroup = Lists.newArrayList();
+	}
+
+	public Builder setParentViewToAttach(ViewGroup parentView) {
+	    this.parentViewToAttach = parentView;
+	    return this;
+	}
+
+	public Builder setPredefinedPendingAttributesForViewGroup(
+		Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
+	    this.predefinedPendingAttributesForViewGroup = Lists.newArrayList(predefinedPendingAttributesForViewGroup);
+	    return this;
+	}
+
+	public Builder addPredefinedPendingAttributesForView(PredefinedPendingAttributesForView predefinedPendingAttributesForView) {
+	    this.predefinedPendingAttributesForViewGroup.add(predefinedPendingAttributesForView);
+	    return this;
+	}
+
+	public BindingViewInflater create() {
+	    return new BindingViewInflater(this);
+	}
+    }
+
+    static class InflatedView {
+	private View rootView;
+	List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup;
 	private ViewHierarchyInflationErrorsException errors;
-	private List<ResolvedBindingAttributesForView> resolvedBindingAttributesForChildViews;
 
-	BindingViewInflater(Builder builder)
-	{
-		this.predefinedPendingAttributesForViewGroup = builder.predefinedPendingAttributesForViewGroup;
-
-		this.viewInflator = createViewInflator(builder);
-		bindingAttributeResolver = new BindingAttributeResolver();
-		bindingAttributeParser = new BindingAttributeParser();
+	private InflatedView(View rootView, List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup,
+		ViewHierarchyInflationErrorsException errors) {
+	    this.rootView = rootView;
+	    this.childViewBindingAttributesGroup = childViewBindingAttributesGroup;
+	    this.errors = errors;
 	}
 
-	private ViewInflater createViewInflator(Builder builder)
-	{
-		return new NonBindingViewInflater(createLayoutInflaterWithCustomViewFactory(builder.context),
-				builder.parentViewToAttach);
+	public View getRootView() {
+	    return rootView;
 	}
 
-	private LayoutInflater createLayoutInflaterWithCustomViewFactory(Context context)
-	{
-		LayoutInflater layoutInflater = LayoutInflater.from(context).cloneInContext(context);
-		ViewFactory viewFactory = new ViewFactory(layoutInflater);
-		viewFactory.setListener(this);
-		return layoutInflater;
+	public void bindChildViews(BindingContext bindingContext) {
+	    for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup)
+		errors.addViewBindingError(viewBindingAttributes.bindTo(bindingContext));
 	}
 
-	public InflatedView inflateView(int layoutId)
-	{
-		resolvedBindingAttributesForChildViews = newArrayList();
-		errors = new ViewHierarchyInflationErrorsException();
-		
-		View rootView = viewInflator.inflateView(layoutId);
-		addPredefinedPendingAttributesForViewGroup(rootView);
-		
-		return new InflatedView(rootView, resolvedBindingAttributesForChildViews, errors);
+	public void assertNoErrors(ErrorFormatter errorFormatter) {
+	    errors.assertNoErrors(errorFormatter);
 	}
 
-	private void addPredefinedPendingAttributesForViewGroup(View rootView)
-	{
-		for(PredefinedPendingAttributesForView predefinedPendingAttributesForView : predefinedPendingAttributesForViewGroup)
-		{
-			PendingAttributesForView pendingAttributesForView = predefinedPendingAttributesForView.createPendingAttributesForView(rootView);
-			resolveAndAddViewBindingAttributes(pendingAttributesForView);
-		}
+	public void preinitializeViews(BindingContext bindingContext) {
+	    for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup) {
+		viewBindingAttributes.preinitializeView(bindingContext);
+	    }
 	}
-
-	@Override
-	public void onViewCreated(View childView, AttributeSet attrs)
-	{
-		Map<String, String> pendingAttributeMappings = bindingAttributeParser.parse(attrs);
-		if(!pendingAttributeMappings.isEmpty())
-		{
-			PendingAttributesForView pendingAttributesForView = new PendingAttributesForViewImpl(childView, pendingAttributeMappings);
-			resolveAndAddViewBindingAttributes(pendingAttributesForView);
-		}
-	}
-	
-	private void resolveAndAddViewBindingAttributes(PendingAttributesForView pendingAttributesForView)
-	{
-		ViewResolutionResult viewResolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
-		viewResolutionResult.addPotentialErrorTo(errors);
-		resolvedBindingAttributesForChildViews.add(viewResolutionResult.getResolvedBindingAttributes());
-	}
-
-	public static class Builder
-	{
-		private final Context context;
-		private ViewGroup parentViewToAttach;
-		private List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
-
-		public Builder(Context context)
-		{
-			this.context = context;
-
-			predefinedPendingAttributesForViewGroup = Lists.newArrayList();
-		}
-
-		public Builder setParentViewToAttach(ViewGroup parentView)
-		{
-			this.parentViewToAttach = parentView;
-			return this;
-		}
-
-		public Builder setPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
-		{
-			this.predefinedPendingAttributesForViewGroup = Lists.newArrayList(predefinedPendingAttributesForViewGroup);
-			return this;
-		}
-		
-		public Builder addPredefinedPendingAttributesForView(PredefinedPendingAttributesForView predefinedPendingAttributesForView)
-		{
-			this.predefinedPendingAttributesForViewGroup.add(predefinedPendingAttributesForView);
-			return this;
-		}
-		
-		public BindingViewInflater create()
-		{
-			return new BindingViewInflater(this);
-		}
-	}
-
-	static class InflatedView
-	{
-		private View rootView;
-		List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup;
-		private ViewHierarchyInflationErrorsException errors;
-
-		private InflatedView(View rootView, List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup, ViewHierarchyInflationErrorsException errors)
-		{
-			this.rootView = rootView;
-			this.childViewBindingAttributesGroup = childViewBindingAttributesGroup;
-			this.errors = errors;
-		}
-
-		public View getRootView()
-		{
-			return rootView;
-		}
-
-		public void bindChildViews(BindingContext bindingContext)
-		{
-			for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup)
-				errors.addViewBindingError(viewBindingAttributes.bindTo(bindingContext));
-		}
-
-		public void assertNoErrors(ErrorFormatter errorFormatter)
-		{
-			errors.assertNoErrors(errorFormatter);
-		}
-
-		public void preinitializeViews(BindingContext bindingContext)
-		{
-			for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup)
-			{
-				viewBindingAttributes.preinitializeView(bindingContext);
-			}
-		}
-	}
+    }
 }

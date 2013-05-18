@@ -26,7 +26,6 @@ import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
 
 import android.view.View;
 
-
 /**
  * 
  * @since 1.0
@@ -34,57 +33,50 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class BindingAttributeResolver
-{
-	BindingAttributeProvidersResolver providersResolver;
-	private ViewAttributeInitializer viewAttributeInitializer;
-	private ResolvedBindingAttributesForView resolvedBindingAttributes;
+public class BindingAttributeResolver {
+    BindingAttributeProvidersResolver providersResolver;
+    private ViewAttributeInitializer viewAttributeInitializer;
+    private ResolvedBindingAttributesForView resolvedBindingAttributes;
 
-	public BindingAttributeResolver()
-	{
-		this.providersResolver = new BindingAttributeProvidersResolver();
-	}
+    public BindingAttributeResolver() {
+	this.providersResolver = new BindingAttributeProvidersResolver();
+    }
 
-	public ViewResolutionResult resolve(PendingAttributesForView pendingAttributesForView)
-	{
-		initializeNewResolving(pendingAttributesForView.getView());
-		
-		resolveByBindingAttributeProviders(pendingAttributesForView);
-		
-		ViewResolutionErrors errors = pendingAttributesForView.getResolutionErrors();
-		
-		return new ViewResolutionResult(resolvedBindingAttributes, errors);
-	}
+    public ViewResolutionResult resolve(PendingAttributesForView pendingAttributesForView) {
+	initializeNewResolving(pendingAttributesForView.getView());
 
-	private void initializeNewResolving(View view)
-	{
-		resolvedBindingAttributes = new ResolvedBindingAttributesForView(view);
-		viewAttributeInitializer = new ViewAttributeInitializer();
-	}
+	resolveByBindingAttributeProviders(pendingAttributesForView);
 
-	private void resolveByBindingAttributeProviders(PendingAttributesForView pendingAttributesForView)
-	{
-		Iterable<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(pendingAttributesForView.getView());
-		
-		for (BindingAttributeProvider<? extends View> provider : providers)
-		{
-			@SuppressWarnings("unchecked")
-			BindingAttributeProvider<View> bindingAttributeProvider = (BindingAttributeProvider<View>)provider;
-			Collection<ViewAttribute> resolvedViewAttributes = resolveByBindingAttributeProvider(pendingAttributesForView, 
-					bindingAttributeProvider);
-			resolvedBindingAttributes.add(resolvedViewAttributes);
-			
-			if (pendingAttributesForView.isEmpty())
-				break;
-		}
-	}
+	ViewResolutionErrors errors = pendingAttributesForView.getResolutionErrors();
 
-	Collection<ViewAttribute> resolveByBindingAttributeProvider(PendingAttributesForView pendingAttributesForView,
-			BindingAttributeProvider<View> bindingAttributeProvider)
-	{
-		BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(viewAttributeInitializer);
-		ByBindingAttributeMappingsResolver bindingAttributeMappingsResolver = new ByBindingAttributeMappingsResolver(bindingAttributeMappings);
-		Collection<ViewAttribute> resolvedViewAttributes = bindingAttributeMappingsResolver.resolve(pendingAttributesForView);
-		return resolvedViewAttributes;
+	return new ViewResolutionResult(resolvedBindingAttributes, errors);
+    }
+
+    private void initializeNewResolving(View view) {
+	resolvedBindingAttributes = new ResolvedBindingAttributesForView(view);
+	viewAttributeInitializer = new ViewAttributeInitializer();
+    }
+
+    private void resolveByBindingAttributeProviders(PendingAttributesForView pendingAttributesForView) {
+	Iterable<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(pendingAttributesForView.getView());
+
+	for (BindingAttributeProvider<? extends View> provider : providers) {
+	    @SuppressWarnings("unchecked")
+	    BindingAttributeProvider<View> bindingAttributeProvider = (BindingAttributeProvider<View>) provider;
+	    Collection<ViewAttribute> resolvedViewAttributes = resolveByBindingAttributeProvider(pendingAttributesForView, bindingAttributeProvider);
+	    resolvedBindingAttributes.add(resolvedViewAttributes);
+
+	    if (pendingAttributesForView.isEmpty())
+		break;
 	}
+    }
+
+    Collection<ViewAttribute> resolveByBindingAttributeProvider(PendingAttributesForView pendingAttributesForView,
+	    BindingAttributeProvider<View> bindingAttributeProvider) {
+	BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider
+		.createBindingAttributeMappings(viewAttributeInitializer);
+	ByBindingAttributeMappingsResolver bindingAttributeMappingsResolver = new ByBindingAttributeMappingsResolver(bindingAttributeMappings);
+	Collection<ViewAttribute> resolvedViewAttributes = bindingAttributeMappingsResolver.resolve(pendingAttributesForView);
+	return resolvedViewAttributes;
+    }
 }

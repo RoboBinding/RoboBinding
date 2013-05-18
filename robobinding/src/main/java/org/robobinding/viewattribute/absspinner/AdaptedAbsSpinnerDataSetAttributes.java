@@ -31,39 +31,35 @@ import android.widget.AbsSpinner;
 import com.google.common.collect.ObjectArrays;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAttributes<AbsSpinner>
-{
-	public static final String DROPDOWN_LAYOUT = "dropdownLayout";
-	public static final String DROPDOWN_MAPPING = "dropdownMapping";
+public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAttributes<AbsSpinner> {
+    public static final String DROPDOWN_LAYOUT = "dropdownLayout";
+    public static final String DROPDOWN_MAPPING = "dropdownMapping";
 
-	@Override
-	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
-	{
-		super.mapChildAttributeResolvers(resolverMappings);
-		resolverMappings.map(propertyAttributeResolver(), DROPDOWN_LAYOUT);
-		resolverMappings.map(predefinedMappingsAttributeResolver(), DROPDOWN_MAPPING);
-	}
-	
-	@Override
-	protected String[] getCompulsoryAttributes()
-	{
-		return ObjectArrays.concat(super.getCompulsoryAttributes(), DROPDOWN_LAYOUT);
-	}
+    @Override
+    public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings) {
+	super.mapChildAttributeResolvers(resolverMappings);
+	resolverMappings.map(propertyAttributeResolver(), DROPDOWN_LAYOUT);
+	resolverMappings.map(predefinedMappingsAttributeResolver(), DROPDOWN_MAPPING);
+    }
 
-	@Override
-	protected void setupChildViewAttributes(ChildViewAttributes<AbsSpinner> childViewAttributes, BindingContext bindingContext)
-	{
-		super.setupChildViewAttributes(childViewAttributes, bindingContext);
-		
-		if (childViewAttributes.hasAttribute(DROPDOWN_LAYOUT))
-			childViewAttributes.add(DROPDOWN_LAYOUT, new DropdownLayoutAttribute(new RowLayoutAttributeFactory(view, dataSetAdapter)));
-		
-		if (childViewAttributes.hasAttribute(DROPDOWN_MAPPING))
-			childViewAttributes.add(DROPDOWN_MAPPING, new DropdownMappingAttribute(dataSetAdapter));
-	}
+    @Override
+    protected String[] getCompulsoryAttributes() {
+	return ObjectArrays.concat(super.getCompulsoryAttributes(), DROPDOWN_LAYOUT);
+    }
+
+    @Override
+    protected void setupChildViewAttributes(ChildViewAttributes<AbsSpinner> childViewAttributes, BindingContext bindingContext) {
+	super.setupChildViewAttributes(childViewAttributes, bindingContext);
+
+	if (childViewAttributes.hasAttribute(DROPDOWN_LAYOUT))
+	    childViewAttributes.add(DROPDOWN_LAYOUT, new DropdownLayoutAttribute(new RowLayoutAttributeFactory(view, dataSetAdapter)));
+
+	if (childViewAttributes.hasAttribute(DROPDOWN_MAPPING))
+	    childViewAttributes.add(DROPDOWN_MAPPING, new DropdownMappingAttribute(dataSetAdapter));
+    }
 }

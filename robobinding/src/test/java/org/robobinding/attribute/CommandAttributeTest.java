@@ -34,67 +34,63 @@ import org.robobinding.BindingContext;
 import org.robobinding.function.Function;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(Theories.class)
-public class CommandAttributeTest
-{
-	@DataPoints
-	public static String[] illegalAttributeValues = {"{invalid_command_name}", "{invalid_command_name", "invalid_command_name}"};
-	
-	private static final String COMMAND_NAME = "commandName";
-	
-	@Mock BindingContext bindingContext;
-	@Mock Function function;
-	private CommandAttribute attribute = aCommandAttribute(COMMAND_NAME);
-	
-	@Before
-	public void setup() {
-		initMocks(this);
-	}
-	
-	@Theory
-	@Test(expected=MalformedAttributeException.class)
-	public void whenCreateWithIllegalAttributeValue_thenThrowException(String illegalAttributeValue)
-	{
-		aCommandAttribute(illegalAttributeValue);
-	}
-	
-	@Test
-	public void givenFunctionWithParameters_whenFind_thenReturnCommandWithParametersSupported()
-	{
-		when(bindingContext.findFunction(COMMAND_NAME, withParameterTypes())).thenReturn(function);
-		
-		Command command = attribute.findCommand(bindingContext, withParameterTypes());
-		
-		assertNotNull(command);
-		assertTrue(command.supportsPreferredParameterType);
-	}
+public class CommandAttributeTest {
+    @DataPoints
+    public static String[] illegalAttributeValues = { "{invalid_command_name}", "{invalid_command_name", "invalid_command_name}" };
 
-	@Test
-	public void givenFunctionWithoutParameters_whenFind_thenReturnCommandWithoutParametersSupported()
-	{
-		when(bindingContext.findFunction(COMMAND_NAME)).thenReturn(function);
-		
-		Command command = attribute.findCommand(bindingContext);
-		
-		assertNotNull(command);
-		assertFalse(command.supportsPreferredParameterType);
-	}
-	
-	@Test
-	public void whenFindANonExistingCommand_thenReturnNull()
-	{
-		Command command = attribute.findCommand(bindingContext);
-		
-		assertNull(command);
-	}
-	
-	private Class<?>[] withParameterTypes()
-	{
-		return new Class<?>[]{Object.class};
-	}
+    private static final String COMMAND_NAME = "commandName";
+
+    @Mock
+    BindingContext bindingContext;
+    @Mock
+    Function function;
+    private CommandAttribute attribute = aCommandAttribute(COMMAND_NAME);
+
+    @Before
+    public void setup() {
+	initMocks(this);
+    }
+
+    @Theory
+    @Test(expected = MalformedAttributeException.class)
+    public void whenCreateWithIllegalAttributeValue_thenThrowException(String illegalAttributeValue) {
+	aCommandAttribute(illegalAttributeValue);
+    }
+
+    @Test
+    public void givenFunctionWithParameters_whenFind_thenReturnCommandWithParametersSupported() {
+	when(bindingContext.findFunction(COMMAND_NAME, withParameterTypes())).thenReturn(function);
+
+	Command command = attribute.findCommand(bindingContext, withParameterTypes());
+
+	assertNotNull(command);
+	assertTrue(command.supportsPreferredParameterType);
+    }
+
+    @Test
+    public void givenFunctionWithoutParameters_whenFind_thenReturnCommandWithoutParametersSupported() {
+	when(bindingContext.findFunction(COMMAND_NAME)).thenReturn(function);
+
+	Command command = attribute.findCommand(bindingContext);
+
+	assertNotNull(command);
+	assertFalse(command.supportsPreferredParameterType);
+    }
+
+    @Test
+    public void whenFindANonExistingCommand_thenReturnNull() {
+	Command command = attribute.findCommand(bindingContext);
+
+	assertNull(command);
+    }
+
+    private Class<?>[] withParameterTypes() {
+	return new Class<?>[] { Object.class };
+    }
 }

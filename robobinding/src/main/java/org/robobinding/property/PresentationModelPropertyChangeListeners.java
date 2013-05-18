@@ -27,43 +27,35 @@ import com.google.common.collect.Lists;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class PresentationModelPropertyChangeListeners
-{
-	List<PresentationModelPropertyChangeListener> listeners;
+class PresentationModelPropertyChangeListeners {
+    List<PresentationModelPropertyChangeListener> listeners;
 
-	public PresentationModelPropertyChangeListeners()
-	{
-		this.listeners = Lists.newArrayList();
+    public PresentationModelPropertyChangeListeners() {
+	this.listeners = Lists.newArrayList();
+    }
+
+    public void add(PresentationModelPropertyChangeListener propertyChangeListener) {
+	checkNotNull(propertyChangeListener, "propertyChangeListener cannot be null");
+	listeners.add(propertyChangeListener);
+    }
+
+    public boolean remove(PresentationModelPropertyChangeListener listener) {
+	return listeners.remove(listener);
+    }
+
+    public boolean contains(PresentationModelPropertyChangeListener listener) {
+	return listeners.contains(listener);
+    }
+
+    public void firePropertyChange() {
+	for (PresentationModelPropertyChangeListener listener : listeners) {
+	    listener.propertyChanged();
 	}
+    }
 
-	public void add(PresentationModelPropertyChangeListener propertyChangeListener)
-	{
-		checkNotNull(propertyChangeListener, "propertyChangeListener cannot be null");
-		listeners.add(propertyChangeListener);
-	}
+    private static PresentationModelPropertyChangeListeners EMPTY = new PresentationModelPropertyChangeListeners();
 
-	public boolean remove(PresentationModelPropertyChangeListener listener)
-	{
-		return listeners.remove(listener);
-	}
-
-	public boolean contains(PresentationModelPropertyChangeListener listener)
-	{
-		return listeners.contains(listener);
-	}
-
-	public void firePropertyChange()
-	{
-		for (PresentationModelPropertyChangeListener listener : listeners)
-		{
-			listener.propertyChanged();
-		}
-	}
-
-	private static PresentationModelPropertyChangeListeners EMPTY = new PresentationModelPropertyChangeListeners();
-
-	public static PresentationModelPropertyChangeListeners empty()
-	{
-		return EMPTY;
-	}
+    public static PresentationModelPropertyChangeListeners empty() {
+	return EMPTY;
+    }
 }

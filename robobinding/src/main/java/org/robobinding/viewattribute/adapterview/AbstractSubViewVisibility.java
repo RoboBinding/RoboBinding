@@ -23,25 +23,20 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractSubViewVisibility
-{
-	public abstract void makeVisible();
+public abstract class AbstractSubViewVisibility {
+    public abstract void makeVisible();
 
-	public abstract void makeGone();
-	
-	protected abstract void makeInvisible();
+    public abstract void makeGone();
 
-	public final void setVisibility(int visibility)
-	{
-		if(View.VISIBLE == visibility)
-		{
-			makeVisible();
-		}else if(View.INVISIBLE == visibility)
-		{
-			makeInvisible();
-		}else
-		{
-			makeGone();
-		}
+    protected abstract void makeInvisible();
+
+    public final void setVisibility(int visibility) {
+	if (View.VISIBLE == visibility) {
+	    makeVisible();
+	} else if (View.INVISIBLE == visibility) {
+	    makeInvisible();
+	} else {
+	    makeGone();
 	}
+    }
 }

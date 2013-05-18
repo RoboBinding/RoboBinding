@@ -27,46 +27,40 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class Binders
-{
-	public static void bind(Activity activity, int layoutId, Object presentationModel)
-	{
-		BinderImplementor binderImplementor = InternalBinderFactory.create(activity, true);
-		ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
-		activityBinder.inflateAndBind(layoutId, presentationModel);
-	}
-	
-	public static void bindWithoutPreInitializingViews(Activity activity, int layoutId, Object presentationModel)
-	{
-		BinderImplementor binderImplementor = InternalBinderFactory.create(activity, false);
-		ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
-		activityBinder.inflateAndBind(layoutId, presentationModel);
-	}
-	
-	public static void bind(Dialog dialog, int layoutId, Object presentationModel)
-	{
-		BinderImplementor binderImplementor = InternalBinderFactory.create(dialog.getContext(), true);
-		DialogBinder dialogBinder = new DialogBinder(dialog, binderImplementor);
-		dialogBinder.inflateAndBind(layoutId, presentationModel);
-	}
-	
-	public static View bindView(Context context, int layoutId, Object presentationModel)
-	{
-		BinderImplementor binderImplementor = InternalBinderFactory.create(context, true);
-		InternalViewBinder viewBinder = new InternalViewBinder(binderImplementor);
-		return viewBinder.inflateAndBind(layoutId, presentationModel);
-	}
-	
-	public static View attachToRootAndBindView(ViewGroup parentView, Context context, int layoutId, Object presentationModel)
-	{
-		BinderImplementor binderImplementor = InternalBinderFactory.create(context, true);
-		InternalViewBinder viewBinder = new InternalViewBinder(binderImplementor);
-		viewBinder.attachToRoot(parentView);
-		return viewBinder.inflateAndBind(layoutId, presentationModel);
-	}
+public class Binders {
+    public static void bind(Activity activity, int layoutId, Object presentationModel) {
+	BinderImplementor binderImplementor = InternalBinderFactory.create(activity, true);
+	ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
+	activityBinder.inflateAndBind(layoutId, presentationModel);
+    }
+
+    public static void bindWithoutPreInitializingViews(Activity activity, int layoutId, Object presentationModel) {
+	BinderImplementor binderImplementor = InternalBinderFactory.create(activity, false);
+	ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
+	activityBinder.inflateAndBind(layoutId, presentationModel);
+    }
+
+    public static void bind(Dialog dialog, int layoutId, Object presentationModel) {
+	BinderImplementor binderImplementor = InternalBinderFactory.create(dialog.getContext(), true);
+	DialogBinder dialogBinder = new DialogBinder(dialog, binderImplementor);
+	dialogBinder.inflateAndBind(layoutId, presentationModel);
+    }
+
+    public static View bindView(Context context, int layoutId, Object presentationModel) {
+	BinderImplementor binderImplementor = InternalBinderFactory.create(context, true);
+	InternalViewBinder viewBinder = new InternalViewBinder(binderImplementor);
+	return viewBinder.inflateAndBind(layoutId, presentationModel);
+    }
+
+    public static View attachToRootAndBindView(ViewGroup parentView, Context context, int layoutId, Object presentationModel) {
+	BinderImplementor binderImplementor = InternalBinderFactory.create(context, true);
+	InternalViewBinder viewBinder = new InternalViewBinder(binderImplementor);
+	viewBinder.attachToRoot(parentView);
+	return viewBinder.inflateAndBind(layoutId, presentationModel);
+    }
 }

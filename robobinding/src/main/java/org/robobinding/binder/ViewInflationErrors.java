@@ -25,63 +25,54 @@ import com.google.common.collect.Lists;
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewInflationErrors
-{
-	private View view;
-	private ViewResolutionErrors resolutionErrors;
-	private ViewBindingErrors bindingErrors;
-	public ViewInflationErrors(ViewResolutionErrors resolutionError)
-	{
-		this.view = resolutionError.getView();
-		this.resolutionErrors = resolutionError;
-	}
+public class ViewInflationErrors {
+    private View view;
+    private ViewResolutionErrors resolutionErrors;
+    private ViewBindingErrors bindingErrors;
 
-	void setBindingErrors(ViewBindingErrors bindingError)
-	{
-		this.bindingErrors = bindingError;
-	}
+    public ViewInflationErrors(ViewResolutionErrors resolutionError) {
+	this.view = resolutionError.getView();
+	this.resolutionErrors = resolutionError;
+    }
 
-	public boolean hasErrors()
-	{
-		return resolutionErrors.hasErrors() || bindingErrors.hasErrors();
-	}
+    void setBindingErrors(ViewBindingErrors bindingError) {
+	this.bindingErrors = bindingError;
+    }
 
-	public View getView()
-	{
-		return view;
-	}
+    public boolean hasErrors() {
+	return resolutionErrors.hasErrors() || bindingErrors.hasErrors();
+    }
 
-	public ViewResolutionErrors getResolutionErrors()
-	{
-		return resolutionErrors;
-	}
+    public View getView() {
+	return view;
+    }
 
-	public ViewBindingErrors getBindingErrors()
-	{
-		return bindingErrors;
-	}
+    public ViewResolutionErrors getResolutionErrors() {
+	return resolutionErrors;
+    }
 
-	public int numErrors()
-	{
-		return resolutionErrors.numErrors()+bindingErrors.numErrors();
-	}
+    public ViewBindingErrors getBindingErrors() {
+	return bindingErrors;
+    }
 
-	public String getViewName()
-	{
-		return view.getClass().getSimpleName();
-	}
+    public int numErrors() {
+	return resolutionErrors.numErrors() + bindingErrors.numErrors();
+    }
 
-	public Collection<Exception> getErrors()
-	{
-		List<Exception> errors = Lists.newArrayList();
-		errors.addAll(resolutionErrors.getErrors());
-		errors.addAll(bindingErrors.getAttributeErrors());
-		return errors;
-	}
+    public String getViewName() {
+	return view.getClass().getSimpleName();
+    }
+
+    public Collection<Exception> getErrors() {
+	List<Exception> errors = Lists.newArrayList();
+	errors.addAll(resolutionErrors.getErrors());
+	errors.addAll(bindingErrors.getAttributeErrors());
+	return errors;
+    }
 
 }

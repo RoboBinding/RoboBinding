@@ -29,29 +29,31 @@ import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ItemLayoutAttributeTest
-{
-	@Mock RowLayoutAttributeFactory rowLayoutAttributeFactory;
-	@InjectMocks ItemLayoutAttribute itemLayoutAttribute;
-	@Mock BindingContext bindingContext;
-	@Mock ViewAttribute layoutAttribute;
-	
-	@Test
-	public void shouldInitializeItemLayoutAttributeFromFactory()
-	{
-		ValueModelAttribute propertyAttribute = aValueModelAttribute("{itemLayout}");
-		when(rowLayoutAttributeFactory.createItemLayoutAttribute(propertyAttribute)).thenReturn(layoutAttribute);
-		
-		itemLayoutAttribute.setAttribute(propertyAttribute);
-		itemLayoutAttribute.bindTo(bindingContext);
-		
-		verify(layoutAttribute).bindTo(bindingContext);
-	}
+public class ItemLayoutAttributeTest {
+    @Mock
+    RowLayoutAttributeFactory rowLayoutAttributeFactory;
+    @InjectMocks
+    ItemLayoutAttribute itemLayoutAttribute;
+    @Mock
+    BindingContext bindingContext;
+    @Mock
+    ViewAttribute layoutAttribute;
+
+    @Test
+    public void shouldInitializeItemLayoutAttributeFromFactory() {
+	ValueModelAttribute propertyAttribute = aValueModelAttribute("{itemLayout}");
+	when(rowLayoutAttributeFactory.createItemLayoutAttribute(propertyAttribute)).thenReturn(layoutAttribute);
+
+	itemLayoutAttribute.setAttribute(propertyAttribute);
+	itemLayoutAttribute.bindTo(bindingContext);
+
+	verify(layoutAttribute).bindTo(bindingContext);
+    }
 
 }

@@ -31,52 +31,39 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<View>
-{
+public class BackgroundAttribute extends AbstractMultiTypePropertyViewAttribute<View> {
+    @Override
+    protected AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType) {
+	if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType)) {
+	    return new ResourceIdBackgroundAttribute();
+	} else if (Bitmap.class.isAssignableFrom(propertyType)) {
+	    return new BitmapBackgroundAttribute();
+	} else if (Drawable.class.isAssignableFrom(propertyType)) {
+	    return new DrawableBackgroundAttribute();
+	}
+
+	throw new RuntimeException("Could not find a suitable background attribute class for property type: " + propertyType);
+    }
+
+    static class ResourceIdBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer> {
 	@Override
-	protected AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
-	{
-		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
-		{
-			return new ResourceIdBackgroundAttribute();
-		} 
-		else if (Bitmap.class.isAssignableFrom(propertyType))
-		{
-			return new BitmapBackgroundAttribute();
-		}
-		else if (Drawable.class.isAssignableFrom(propertyType))
-		{
-			return new DrawableBackgroundAttribute();
-		}
+	protected void valueModelUpdated(Integer newResourceId) {
+	    view.setBackgroundResource(newResourceId);
+	}
+    }
 
-		throw new RuntimeException("Could not find a suitable background attribute class for property type: " + propertyType);
+    static class BitmapBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Bitmap> {
+	@Override
+	protected void valueModelUpdated(Bitmap newBitmap) {
+	    view.setBackgroundDrawable(new BitmapDrawable(newBitmap));
 	}
-	
-	static class ResourceIdBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
-	{
-		@Override
-		protected void valueModelUpdated(Integer newResourceId)
-		{
-			view.setBackgroundResource(newResourceId);
-		}
-	}
+    }
 
-	static class BitmapBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Bitmap>
-	{
-		@Override
-		protected void valueModelUpdated(Bitmap newBitmap)
-		{
-			view.setBackgroundDrawable(new BitmapDrawable(newBitmap));
-		}
+    static class DrawableBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Drawable> {
+	@Override
+	protected void valueModelUpdated(Drawable newDrawable) {
+	    view.setBackgroundDrawable(newDrawable);
 	}
-	
-	static class DrawableBackgroundAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Drawable>
-	{
-		@Override
-		protected void valueModelUpdated(Drawable newDrawable)
-		{
-			view.setBackgroundDrawable(newDrawable);
-		}
-	}
-	
+    }
+
 }

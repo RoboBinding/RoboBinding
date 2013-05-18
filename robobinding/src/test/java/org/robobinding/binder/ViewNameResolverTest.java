@@ -24,65 +24,53 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 import org.robobinding.binder.ViewNameResolver;
 
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(Theories.class)
-public class ViewNameResolverTest
-{
-	@DataPoints
-	public static ViewNameMapping[] viewNameMappings = { 
-		layoutTagName("View").shouldResolveTo("android.view.View"),
-		layoutTagName("ViewGroup").shouldResolveTo("android.view.ViewGroup"),
-		layoutTagName("EditText").shouldResolveTo("android.widget.EditText"),
-		layoutTagName("ListView").shouldResolveTo("android.widget.ListView"),
-		layoutTagName("robobinding.widget.CustomWidget").shouldResolveTo("robobinding.widget.CustomWidget")
-	};
+public class ViewNameResolverTest {
+    @DataPoints
+    public static ViewNameMapping[] viewNameMappings = { layoutTagName("View").shouldResolveTo("android.view.View"),
+	    layoutTagName("ViewGroup").shouldResolveTo("android.view.ViewGroup"),
+	    layoutTagName("EditText").shouldResolveTo("android.widget.EditText"),
+	    layoutTagName("ListView").shouldResolveTo("android.widget.ListView"),
+	    layoutTagName("robobinding.widget.CustomWidget").shouldResolveTo("robobinding.widget.CustomWidget") };
 
-	@Theory
-	public void shouldResolveViewNamesCorrectly(ViewNameMapping viewNameMapping)
-	{
-		ViewNameResolver viewNameResolver = new ViewNameResolver();
-		String viewName = viewNameResolver.getViewNameFromLayoutTag(viewNameMapping.tagName);
-		assertThat(viewName, equalTo(viewNameMapping.expectedMapping));
+    @Theory
+    public void shouldResolveViewNamesCorrectly(ViewNameMapping viewNameMapping) {
+	ViewNameResolver viewNameResolver = new ViewNameResolver();
+	String viewName = viewNameResolver.getViewNameFromLayoutTag(viewNameMapping.tagName);
+	assertThat(viewName, equalTo(viewNameMapping.expectedMapping));
+    }
+
+    private static class ViewNameMapping {
+	private final String tagName;
+	private final String expectedMapping;
+
+	public ViewNameMapping(String tagName, String expectedMapping) {
+	    this.tagName = tagName;
+	    this.expectedMapping = expectedMapping;
 	}
-	
-	
-	private static class ViewNameMapping
-	{
-		private final String tagName;
-		private final String expectedMapping;
+    }
 
-		public ViewNameMapping(String tagName, String expectedMapping)
-		{
-			this.tagName = tagName;
-			this.expectedMapping = expectedMapping;
-		}
+    private static LayoutTagName layoutTagName(String tagName) {
+	return new LayoutTagName(tagName);
+    }
+
+    private static class LayoutTagName {
+	private final String tagName;
+
+	public LayoutTagName(String tagName) {
+	    this.tagName = tagName;
 	}
 
-	private static LayoutTagName layoutTagName(String tagName)
-	{
-		return new LayoutTagName(tagName);
+	public ViewNameMapping shouldResolveTo(String mapping) {
+	    return new ViewNameMapping(tagName, mapping);
 	}
-	
-	private static class LayoutTagName
-	{
-		private final String tagName;
 
-		public LayoutTagName(String tagName)
-		{
-			this.tagName = tagName;
-		}
+    }
 
-		public ViewNameMapping shouldResolveTo(String mapping)
-		{
-			return new ViewNameMapping(tagName, mapping);
-		}
-
-	}
-	
 }

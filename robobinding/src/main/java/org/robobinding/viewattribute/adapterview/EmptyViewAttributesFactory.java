@@ -25,12 +25,10 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class EmptyViewAttributesFactory implements ViewAttributeFactory<SubViewAttributes<AdapterView<?>>>
-{
-	@Override
-	public SubViewAttributes<AdapterView<?>> create()
-	{
-		return new SubViewAttributes<AdapterView<?>>(new EmptyViewAttributes());
-	}
+public class EmptyViewAttributesFactory implements ViewAttributeFactory<SubViewAttributes<AdapterView<?>>> {
+    @Override
+    public SubViewAttributes<AdapterView<?>> create() {
+	return new SubViewAttributes<AdapterView<?>>(new EmptyViewAttributes());
+    }
 
 }

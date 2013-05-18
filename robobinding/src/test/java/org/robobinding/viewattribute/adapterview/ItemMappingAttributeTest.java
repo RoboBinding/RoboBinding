@@ -32,36 +32,38 @@ import org.robobinding.attribute.PredefinedMappingsAttribute;
 import android.content.Context;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ItemMappingAttributeTest
-{
-	@Mock BindingContext bindingContext;
-	@Mock Context context;
-	@Mock DataSetAdapter<?> dataSetAdapter;
-	@Mock PredefinedMappingsAttribute predefinedMappingsAttribute;
-	@Mock Collection<PredefinedPendingAttributesForView> predefinedMappings;
-	
-	@Before
-	public void setUp()
-	{
-		when(bindingContext.getContext()).thenReturn(context);
-		when(predefinedMappingsAttribute.getViewMappings(context)).thenReturn(predefinedMappings);
-	}
-	
-	@Test
-	public void whenBinding_thenUpdateDataSetAdapter()
-	{
-		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(dataSetAdapter);
-		itemMappingAttribute.setAttribute(predefinedMappingsAttribute);
-		
-		itemMappingAttribute.bindTo(bindingContext);
-		
-		verify(dataSetAdapter).setItemPredefinedPendingAttributesForViewGroup(predefinedMappings);
-	}
-	
+public class ItemMappingAttributeTest {
+    @Mock
+    BindingContext bindingContext;
+    @Mock
+    Context context;
+    @Mock
+    DataSetAdapter<?> dataSetAdapter;
+    @Mock
+    PredefinedMappingsAttribute predefinedMappingsAttribute;
+    @Mock
+    Collection<PredefinedPendingAttributesForView> predefinedMappings;
+
+    @Before
+    public void setUp() {
+	when(bindingContext.getContext()).thenReturn(context);
+	when(predefinedMappingsAttribute.getViewMappings(context)).thenReturn(predefinedMappings);
+    }
+
+    @Test
+    public void whenBinding_thenUpdateDataSetAdapter() {
+	ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(dataSetAdapter);
+	itemMappingAttribute.setAttribute(predefinedMappingsAttribute);
+
+	itemMappingAttribute.bindTo(bindingContext);
+
+	verify(dataSetAdapter).setItemPredefinedPendingAttributesForViewGroup(predefinedMappings);
+    }
+
 }

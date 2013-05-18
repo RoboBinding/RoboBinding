@@ -25,21 +25,19 @@ import org.robobinding.viewattribute.RandomValues;
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class FocusableAttributeTest extends AbstractPropertyViewAttributeTest<View, FocusableAttribute>
-{
-	@Test
-	public void whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		boolean focusable = RandomValues.trueOrFalse();
-		
-		attribute.valueModelUpdated(focusable);
-		
-		assertThat(view.isFocusable(), equalTo(focusable));
-	}
+public class FocusableAttributeTest extends AbstractPropertyViewAttributeTest<View, FocusableAttribute> {
+    @Test
+    public void whenValueModelUpdated_thenViewShouldReflectChanges() {
+	boolean focusable = RandomValues.trueOrFalse();
+
+	attribute.valueModelUpdated(focusable);
+
+	assertThat(view.isFocusable(), equalTo(focusable));
+    }
 
 }

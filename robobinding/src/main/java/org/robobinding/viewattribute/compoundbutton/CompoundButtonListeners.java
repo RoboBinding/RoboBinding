@@ -26,29 +26,24 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CompoundButtonListeners extends ViewListeners
-{
-	CompoundButton compoundButton;
-	private OnCheckedChangeListeners onCheckedChangeListeners;
+public class CompoundButtonListeners extends ViewListeners {
+    CompoundButton compoundButton;
+    private OnCheckedChangeListeners onCheckedChangeListeners;
 
-	public CompoundButtonListeners(CompoundButton compoundButton)
-	{
-		super(compoundButton);
-		this.compoundButton = compoundButton;
-	}
+    public CompoundButtonListeners(CompoundButton compoundButton) {
+	super(compoundButton);
+	this.compoundButton = compoundButton;
+    }
 
-	public void addOnCheckedChangeListener(OnCheckedChangeListener listener)
-	{
-		ensureOnCheckedChangeListenersInitialized();
-		onCheckedChangeListeners.addListener(listener);
-	}
+    public void addOnCheckedChangeListener(OnCheckedChangeListener listener) {
+	ensureOnCheckedChangeListenersInitialized();
+	onCheckedChangeListeners.addListener(listener);
+    }
 
-	private void ensureOnCheckedChangeListenersInitialized()
-	{
-		if (onCheckedChangeListeners == null)
-		{
-			onCheckedChangeListeners = new OnCheckedChangeListeners();
-			compoundButton.setOnCheckedChangeListener(onCheckedChangeListeners);
-		}
+    private void ensureOnCheckedChangeListenersInitialized() {
+	if (onCheckedChangeListeners == null) {
+	    onCheckedChangeListeners = new OnCheckedChangeListeners();
+	    compoundButton.setOnCheckedChangeListener(onCheckedChangeListeners);
 	}
+    }
 }

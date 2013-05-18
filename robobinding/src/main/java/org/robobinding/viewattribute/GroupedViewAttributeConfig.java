@@ -27,47 +27,40 @@ import com.google.common.base.Objects;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class GroupedViewAttributeConfig<T extends View> extends AbstractViewAttributeConfig<T>
-{
-	private PendingGroupAttributes pendingGroupAttributes;
-	private ViewListenersInjector viewListenersInjector;
+public class GroupedViewAttributeConfig<T extends View> extends AbstractViewAttributeConfig<T> {
+    private PendingGroupAttributes pendingGroupAttributes;
+    private ViewListenersInjector viewListenersInjector;
 
-	public GroupedViewAttributeConfig(T view, PendingGroupAttributes pendingGroupAttributes, ViewListenersInjector viewListenersInjector)
-	{
-		super(view);
-		this.pendingGroupAttributes = pendingGroupAttributes;
-		this.viewListenersInjector = viewListenersInjector;
-	}
+    public GroupedViewAttributeConfig(T view, PendingGroupAttributes pendingGroupAttributes, ViewListenersInjector viewListenersInjector) {
+	super(view);
+	this.pendingGroupAttributes = pendingGroupAttributes;
+	this.viewListenersInjector = viewListenersInjector;
+    }
 
-	public PendingGroupAttributes getPendingGroupAttributes()
-	{
-		return pendingGroupAttributes;
-	}
+    public PendingGroupAttributes getPendingGroupAttributes() {
+	return pendingGroupAttributes;
+    }
 
-	public ViewListenersInjector getViewListenersInjector()
-	{
-		return viewListenersInjector;
-	}
-	
-	@Override
-	public boolean equals(Object other)
-	{
-		if (this == other)
-			return true;
-		if (!(other instanceof GroupedViewAttributeConfig))
-			return false;
-	
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		final GroupedViewAttributeConfig<T> that = (GroupedViewAttributeConfig) other;
-		return super.equals(that)
-				&& Objects.equal(pendingGroupAttributes, that.pendingGroupAttributes)
-				&& Objects.equal(viewListenersInjector, that.viewListenersInjector);
-	}
+    public ViewListenersInjector getViewListenersInjector() {
+	return viewListenersInjector;
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return super.hashCode() + Objects.hashCode(pendingGroupAttributes, viewListenersInjector);
-	}
+    @Override
+    public boolean equals(Object other) {
+	if (this == other)
+	    return true;
+	if (!(other instanceof GroupedViewAttributeConfig))
+	    return false;
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	final GroupedViewAttributeConfig<T> that = (GroupedViewAttributeConfig) other;
+	return super.equals(that) && Objects.equal(pendingGroupAttributes, that.pendingGroupAttributes)
+		&& Objects.equal(viewListenersInjector, that.viewListenersInjector);
+    }
+
+    @Override
+    public int hashCode() {
+	return super.hashCode() + Objects.hashCode(pendingGroupAttributes, viewListenersInjector);
+    }
 
 }

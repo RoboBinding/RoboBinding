@@ -33,71 +33,62 @@ import org.robobinding.viewattribute.RandomValues;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class DependsOnStateOfUnitTest
-{
-	private SamplePresentationModel presentationModel;
+public class DependsOnStateOfUnitTest {
+    private SamplePresentationModel presentationModel;
 
-	@Before
-	public void setUp()
-	{
-		presentationModel = new SamplePresentationModel();
+    @Before
+    public void setUp() {
+	presentationModel = new SamplePresentationModel();
+    }
+
+    @Test
+    public void whenChangeProperty1_thenProperty2ChangeReceived() {
+	PresentationModelPropertyChangeSpy spy = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
+
+	presentationModel.changeProperty1();
+
+	assertTrue(spy.isPropertyChanged());
+    }
+
+    @Test
+    public void whenChangeProperty1_thenProperty2ChangeReceivedByBoth() {
+	PresentationModelPropertyChangeSpy spy1 = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
+	PresentationModelPropertyChangeSpy spy2 = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
+
+	presentationModel.changeProperty1();
+
+	assertTrue(spy1.isPropertyChanged());
+	assertTrue(spy2.isPropertyChanged());
+    }
+
+    @Test
+    public void whenChangeProperty1Twice_thenProperty2ChangeReceivedTwice() {
+	PresentationModelPropertyChangeSpy spy = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
+
+	presentationModel.changeProperty1();
+	presentationModel.changeProperty1();
+
+	assertThat(spy.getPropertyChangedCount(), is(2));
+    }
+
+    @PresentationModel
+    public static class SamplePresentationModel {
+	private static final String PROPERTY1 = "property1";
+	private static final String PROPERTY2 = "property2";
+	private boolean property1Value;
+
+	public boolean getProperty1() {
+	    return property1Value;
 	}
 
-	@Test
-	public void whenChangeProperty1_thenProperty2ChangeReceived()
-	{
-		PresentationModelPropertyChangeSpy spy = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
-
-		presentationModel.changeProperty1();
-
-		assertTrue(spy.isPropertyChanged());
+	public void changeProperty1() {
+	    property1Value = RandomValues.trueOrFalse();
+	    firePropertyChange(PROPERTY1);
 	}
 
-	@Test
-	public void whenChangeProperty1_thenProperty2ChangeReceivedByBoth()
-	{
-		PresentationModelPropertyChangeSpy spy1 = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
-		PresentationModelPropertyChangeSpy spy2 = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
-
-		presentationModel.changeProperty1();
-
-		assertTrue(spy1.isPropertyChanged());
-		assertTrue(spy2.isPropertyChanged());
+	@DependsOnStateOf(PROPERTY1)
+	public boolean getProperty2() {
+	    return !property1Value;
 	}
-
-	@Test
-	public void whenChangeProperty1Twice_thenProperty2ChangeReceivedTwice()
-	{
-		PresentationModelPropertyChangeSpy spy = PresentationModelTester.spyPropertyChange(presentationModel, SamplePresentationModel.PROPERTY2);
-
-		presentationModel.changeProperty1();
-		presentationModel.changeProperty1();
-
-		assertThat(spy.getPropertyChangedCount(), is(2));
-	}
-
-	@PresentationModel
-	public static class SamplePresentationModel
-	{
-		private static final String PROPERTY1 = "property1";
-		private static final String PROPERTY2 = "property2";
-		private boolean property1Value;
-
-		public boolean getProperty1()
-		{
-			return property1Value;
-		}
-
-		public void changeProperty1()
-		{
-			property1Value = RandomValues.trueOrFalse();
-			firePropertyChange(PROPERTY1);
-		}
-
-		@DependsOnStateOf(PROPERTY1)
-		public boolean getProperty2()
-		{
-			return !property1Value;
-		}
-	}
+    }
 }
