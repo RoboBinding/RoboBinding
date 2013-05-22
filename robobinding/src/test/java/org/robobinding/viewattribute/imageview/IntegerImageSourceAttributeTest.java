@@ -27,20 +27,18 @@ import org.robobinding.viewattribute.imageview.ImageSourceAttribute.IntegerImage
 import android.widget.ImageView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class IntegerImageSourceAttributeTest extends AbstractPropertyViewAttributeTest<ImageView, IntegerImageSourceAttribute>
-{
-	@Test
-	public void whenUpdatingValueModel_thenViewShouldReflectChanges()
-	{
-		DrawableData drawableData = RandomValues.anyDrawableData();
-		
-		attribute.valueModelUpdated(drawableData.resourceId);
-		
-		assertThat(view.getDrawable(), equalTo(drawableData.drawable));
-	}
+public class IntegerImageSourceAttributeTest extends AbstractPropertyViewAttributeTest<ImageView, IntegerImageSourceAttribute> {
+    @Test
+    public void whenUpdatingValueModel_thenViewShouldReflectChanges() {
+	DrawableData drawableData = RandomValues.anyDrawableData();
+
+	attribute.valueModelUpdated(drawableData.resourceId);
+
+	assertThat(view.getDrawable(), equalTo(drawableData.drawable));
+    }
 }

@@ -33,75 +33,63 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BindingContext implements PresentationModelAdapter
-{
-	private final BinderImplementorFactory binderImplementorFactory;
-	private final Context context;
-	private final PresentationModelAdapter presentationModelAdapter;
-	private final boolean preInitializeViews;
+public class BindingContext implements PresentationModelAdapter {
+    private final BinderImplementorFactory binderImplementorFactory;
+    private final Context context;
+    private final PresentationModelAdapter presentationModelAdapter;
+    private final boolean preInitializeViews;
 
-	public BindingContext(BinderImplementorFactory factory, Context context, Object presentationModel, boolean preInitializeViews)
-	{
-		this.binderImplementorFactory = factory;
-		this.context = context;
-		this.presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
-		this.preInitializeViews = preInitializeViews;
-	}
+    public BindingContext(BinderImplementorFactory factory, Context context, Object presentationModel, boolean preInitializeViews) {
+	this.binderImplementorFactory = factory;
+	this.context = context;
+	this.presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
+	this.preInitializeViews = preInitializeViews;
+    }
 
-	public Context getContext()
-	{
-		return context;
-	}
+    public Context getContext() {
+	return context;
+    }
 
-	public ItemBinder createItemBinder()
-	{
-		return new ItemBinder(binderImplementorFactory.create());
-	}
-	
-	public ViewBinder createViewBinder()
-	{
-		InternalViewBinder internalBinder = new InternalViewBinder(binderImplementorFactory.create());
-		return new ViewBinder(internalBinder, this);
-	}
+    public ItemBinder createItemBinder() {
+	return new ItemBinder(binderImplementorFactory.create());
+    }
 
-	public boolean shouldPreInitializeViews()
-	{
-		return preInitializeViews;
-	}
-	
-	@Override
-	public DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName)
-	{
-		return presentationModelAdapter.getDataSetPropertyValueModel(propertyName);
-	}
+    public ViewBinder createViewBinder() {
+	InternalViewBinder internalBinder = new InternalViewBinder(binderImplementorFactory.create());
+	return new ViewBinder(internalBinder, this);
+    }
 
-	@Override
-	public Class<?> getPropertyType(String propertyName)
-	{
-		return presentationModelAdapter.getPropertyType(propertyName);
-	}
+    public boolean shouldPreInitializeViews() {
+	return preInitializeViews;
+    }
 
-	@Override
-	public <T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName)
-	{
-		return presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
-	}
+    @Override
+    public DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName) {
+	return presentationModelAdapter.getDataSetPropertyValueModel(propertyName);
+    }
 
-	@Override
-	public <T> ValueModel<T> getPropertyValueModel(String propertyName)
-	{
-		return presentationModelAdapter.getPropertyValueModel(propertyName);
-	}
+    @Override
+    public Class<?> getPropertyType(String propertyName) {
+	return presentationModelAdapter.getPropertyType(propertyName);
+    }
 
-	@Override
-	public Function findFunction(String functionName, Class<?>... parameterTypes)
-	{
-		return presentationModelAdapter.findFunction(functionName, parameterTypes);
-	}
+    @Override
+    public <T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName) {
+	return presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
+    }
 
-	@Override
-	public String getPresentationModelClassName()
-	{
-		return presentationModelAdapter.getPresentationModelClassName();
-	}
+    @Override
+    public <T> ValueModel<T> getPropertyValueModel(String propertyName) {
+	return presentationModelAdapter.getPropertyValueModel(propertyName);
+    }
+
+    @Override
+    public Function findFunction(String functionName, Class<?>... parameterTypes) {
+	return presentationModelAdapter.findFunction(functionName, parameterTypes);
+    }
+
+    @Override
+    public String getPresentationModelClassName() {
+	return presentationModelAdapter.getPresentationModelClassName();
+    }
 }

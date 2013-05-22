@@ -22,56 +22,50 @@ import android.view.View;
 import android.widget.ListView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdaptedDataSetAttributesTest extends AbstractGroupedViewAttributeTest<AdaptedDataSetAttributes>
-{
-	private final Attribute source = attribute("source={source_property}");
-	private final Attribute itemLayout = attribute("itemLayout=@layout/itemLayout");
-	private final Attribute itemMapping = attribute("itemMapping=[text1.title:{title}]");
+public class AdaptedDataSetAttributesTest extends AbstractGroupedViewAttributeTest<AdaptedDataSetAttributes> {
+    private final Attribute source = attribute("source={source_property}");
+    private final Attribute itemLayout = attribute("itemLayout=@layout/itemLayout");
+    private final Attribute itemMapping = attribute("itemMapping=[text1.title:{title}]");
 
-	@Test
-	public void givenSourceAndItemLayoutAttributes_thenCreateInstancesOfBothAttributes()
-	{
-		givenAttributes(source, itemLayout);
+    @Test
+    public void givenSourceAndItemLayoutAttributes_thenCreateInstancesOfBothAttributes() {
+	givenAttributes(source, itemLayout);
 
-		performInitialization();
+	performInitialization();
 
-		assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class);
-	}
+	assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class);
+    }
 
-	@Test
-	public void givenASourceItemLayoutAndItemMappingAttribute_thenCreateInstancesOfAllAttributes()
-	{
-		givenAttributes(source, itemLayout, itemMapping);
+    @Test
+    public void givenASourceItemLayoutAndItemMappingAttribute_thenCreateInstancesOfAllAttributes() {
+	givenAttributes(source, itemLayout, itemMapping);
 
-		performInitialization();
+	performInitialization();
 
-		assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, ItemMappingAttribute.class);
-	}
+	assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, ItemMappingAttribute.class);
+    }
 
-	@Test (expected=RuntimeException.class)
-	public void givenASourceAttributeOnly_thenReject()
-	{
-		givenAttributes(source);
+    @Test(expected = RuntimeException.class)
+    public void givenASourceAttributeOnly_thenReject() {
+	givenAttributes(source);
 
-		performInitialization();
-	}
-	
-	@Test (expected=RuntimeException.class)
-	public void givenAnItemLayoutAttributeOnly_thenReject()
-	{
-		givenAttributes(itemLayout);
+	performInitialization();
+    }
 
-		performInitialization();
-	}
-	
-	@Override
-	protected Class<? extends View> overrideViewClass()
-	{
-		return ListView.class;
-	}
+    @Test(expected = RuntimeException.class)
+    public void givenAnItemLayoutAttributeOnly_thenReject() {
+	givenAttributes(itemLayout);
+
+	performInitialization();
+    }
+
+    @Override
+    protected Class<? extends View> overrideViewClass() {
+	return ListView.class;
+    }
 }

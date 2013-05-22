@@ -22,10 +22,9 @@ import android.database.Cursor;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  * @author Robert Taylor
- *
+ * 
  */
-public interface TypedCursor<T> extends Cursor
-{
-	//int getCount();
-	T getObjectAtPosition(int position);
+public interface TypedCursor<T> extends Cursor {
+    // int getCount();
+    T getObjectAtPosition(int position);
 }

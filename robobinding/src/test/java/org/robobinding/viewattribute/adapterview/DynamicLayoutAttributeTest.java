@@ -27,45 +27,43 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import android.widget.AdapterView;
 
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings({"rawtypes", "unchecked"})
-public class DynamicLayoutAttributeTest
-{
-	@Mock AdapterView adapterView;
-	@Mock DataSetAdapter<?> dataSetAdapter;
-	@Mock RowLayoutUpdater rowLayoutUpdater;
-	private DynamicLayoutAttribute dynamicLayoutAttribute;
-	
-	@Before 
-	public void setup() 
-	{
-		dynamicLayoutAttribute = new DynamicLayoutAttribute(aPropertyViewAttributeConfig(adapterView), dataSetAdapter, rowLayoutUpdater);
-	}
-	
-	@Test
-	public void givenBound_whenUpdatingValueModel_thenUpdateItemLayoutIdOnDataSetAdapter()
-	{
-		int newItemLayoutId = anyInteger();
-		
-		dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
-		
-		verify(rowLayoutUpdater).updateRowLayout(newItemLayoutId);
-	}
-	
-	@Test
-	public void givenBound_whenUpdatingValueModel_thenUpdateAdapterOnAdapterView()
-	{
-		int newItemLayoutId = anyInteger();
-		
-		dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
-		
-		verify(adapterView).setAdapter(dataSetAdapter);
-	}
+@SuppressWarnings({ "rawtypes", "unchecked" })
+public class DynamicLayoutAttributeTest {
+    @Mock
+    AdapterView adapterView;
+    @Mock
+    DataSetAdapter<?> dataSetAdapter;
+    @Mock
+    RowLayoutUpdater rowLayoutUpdater;
+    private DynamicLayoutAttribute dynamicLayoutAttribute;
+
+    @Before
+    public void setup() {
+	dynamicLayoutAttribute = new DynamicLayoutAttribute(aPropertyViewAttributeConfig(adapterView), dataSetAdapter, rowLayoutUpdater);
+    }
+
+    @Test
+    public void givenBound_whenUpdatingValueModel_thenUpdateItemLayoutIdOnDataSetAdapter() {
+	int newItemLayoutId = anyInteger();
+
+	dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
+
+	verify(rowLayoutUpdater).updateRowLayout(newItemLayoutId);
+    }
+
+    @Test
+    public void givenBound_whenUpdatingValueModel_thenUpdateAdapterOnAdapterView() {
+	int newItemLayoutId = anyInteger();
+
+	dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
+
+	verify(adapterView).setAdapter(dataSetAdapter);
+    }
 }

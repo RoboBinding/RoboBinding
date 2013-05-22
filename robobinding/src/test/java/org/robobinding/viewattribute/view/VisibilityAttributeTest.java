@@ -20,20 +20,18 @@ import org.robobinding.viewattribute.view.VisibilityAttribute.BooleanVisibilityA
 import org.robobinding.viewattribute.view.VisibilityAttribute.IntegerVisibilityAttribute;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class VisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<VisibilityAttribute>
-{
-	@Override
-	protected void setTypeMappingExpectations()
-	{
-		forPropertyType(int.class).expectAttribute(IntegerVisibilityAttribute.class);
-		forPropertyType(Integer.class).expectAttribute(IntegerVisibilityAttribute.class);
-		forPropertyType(boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
-		forPropertyType(Boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
-	}
-	
+public class VisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<VisibilityAttribute> {
+    @Override
+    protected void setTypeMappingExpectations() {
+	forPropertyType(int.class).expectAttribute(IntegerVisibilityAttribute.class);
+	forPropertyType(Integer.class).expectAttribute(IntegerVisibilityAttribute.class);
+	forPropertyType(boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
+	forPropertyType(Boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
+    }
+
 }

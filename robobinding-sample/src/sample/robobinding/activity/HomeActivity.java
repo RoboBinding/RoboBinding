@@ -28,15 +28,12 @@ import android.os.Bundle;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class HomeActivity extends Activity
-{
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		
-		HomePresentationModel presentationModel = new HomePresentationModel(this);
-		Binders.bind(this, R.layout.home_activity, presentationModel);
-	}
-}
+public class HomeActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
 
+	HomePresentationModel presentationModel = new HomePresentationModel(this);
+	Binders.bind(this, R.layout.home_activity, presentationModel);
+    }
+}

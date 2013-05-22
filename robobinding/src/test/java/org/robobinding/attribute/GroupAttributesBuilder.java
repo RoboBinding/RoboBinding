@@ -27,57 +27,49 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class GroupAttributesBuilder
-{
-	private List<AbstractAttribute> childAttributeResolutions; 
+public class GroupAttributesBuilder {
+    private List<AbstractAttribute> childAttributeResolutions;
 
-	public static GroupAttributesBuilder aGroupAttributes()
-	{
-		return new GroupAttributesBuilder();
-	}
-	
-	private GroupAttributesBuilder()
-	{
-		childAttributeResolutions = Lists.newArrayList();
-	}
-	
-	public GroupAttributesBuilder withChildAttributeResolution(AbstractAttribute childAttribute)
-	{
-		childAttributeResolutions.add(childAttribute);
-		return this;
-	}
-	
-	public GroupAttributes build()
-	{
-		return new GroupAttributes(createPendingGroupAttributes(), createResolverMappings());
-	}
+    public static GroupAttributesBuilder aGroupAttributes() {
+	return new GroupAttributesBuilder();
+    }
 
-	private ChildAttributeResolverMappings createResolverMappings()
-	{
-		ChildAttributeResolverMappings childAttributeResolverMappings = mock(ChildAttributeResolverMappings.class);
-		ChildAttributeResolver childAttributeResolver = mock(ChildAttributeResolver.class);
-		
-		for (AbstractAttribute attribute : childAttributeResolutions) {
-			when(childAttributeResolver.resolveChildAttribute(eq(attribute.getName()), anyString())).thenReturn(attribute);
-			when(childAttributeResolverMappings.resolverFor(attribute.getName())).thenReturn(childAttributeResolver);
-		}	
-		
-		return childAttributeResolverMappings;
+    private GroupAttributesBuilder() {
+	childAttributeResolutions = Lists.newArrayList();
+    }
+
+    public GroupAttributesBuilder withChildAttributeResolution(AbstractAttribute childAttribute) {
+	childAttributeResolutions.add(childAttribute);
+	return this;
+    }
+
+    public GroupAttributes build() {
+	return new GroupAttributes(createPendingGroupAttributes(), createResolverMappings());
+    }
+
+    private ChildAttributeResolverMappings createResolverMappings() {
+	ChildAttributeResolverMappings childAttributeResolverMappings = mock(ChildAttributeResolverMappings.class);
+	ChildAttributeResolver childAttributeResolver = mock(ChildAttributeResolver.class);
+
+	for (AbstractAttribute attribute : childAttributeResolutions) {
+	    when(childAttributeResolver.resolveChildAttribute(eq(attribute.getName()), anyString())).thenReturn(attribute);
+	    when(childAttributeResolverMappings.resolverFor(attribute.getName())).thenReturn(childAttributeResolver);
 	}
 
-	private PendingGroupAttributes createPendingGroupAttributes()
-	{
-		Map<String, String> presentAttributes = Maps.newHashMap();
-		for(AbstractAttribute childAttribute : childAttributeResolutions)
-		{
-			presentAttributes.put(childAttribute.getName(), null);
-		}
-		
-		return new PendingGroupAttributes(presentAttributes);
+	return childAttributeResolverMappings;
+    }
+
+    private PendingGroupAttributes createPendingGroupAttributes() {
+	Map<String, String> presentAttributes = Maps.newHashMap();
+	for (AbstractAttribute childAttribute : childAttributeResolutions) {
+	    presentAttributes.put(childAttribute.getName(), null);
 	}
+
+	return new PendingGroupAttributes(presentAttributes);
+    }
 }

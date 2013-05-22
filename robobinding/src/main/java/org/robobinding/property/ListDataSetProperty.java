@@ -24,25 +24,23 @@ import java.util.List;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class ListDataSetProperty<T> extends AbstractDataSetProperty<T>
-{
-	public ListDataSetProperty(ObservableBean observableBean, PropertyAccessor<Object> propertyAccessor)
-	{
-		super(observableBean, propertyAccessor);
-	}
-	@Override
-	public int size()
-	{
-		if(isDataSetNull())
-			return 0;
+class ListDataSetProperty<T> extends AbstractDataSetProperty<T> {
+    public ListDataSetProperty(ObservableBean observableBean, PropertyAccessor<Object> propertyAccessor) {
+	super(observableBean, propertyAccessor);
+    }
 
-		List<T> list = getDataSet();
-		return list.size();
-	}
-	@Override
-	public T getItem(int index)
-	{
-		List<T> list = getDataSet();
-		return list.get(index);
-	}
+    @Override
+    public int size() {
+	if (isDataSetNull())
+	    return 0;
+
+	List<T> list = getDataSet();
+	return list.size();
+    }
+
+    @Override
+    public T getItem(int index) {
+	List<T> list = getDataSet();
+	return list.get(index);
+    }
 }

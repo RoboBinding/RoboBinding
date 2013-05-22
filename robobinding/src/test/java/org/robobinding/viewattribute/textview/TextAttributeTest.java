@@ -20,18 +20,16 @@ import org.robobinding.viewattribute.textview.TextAttribute.CharSequenceTextAttr
 import org.robobinding.viewattribute.textview.TextAttribute.StringTextAttribute;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<TextAttribute>
-{
-	@Override
-	protected void setTypeMappingExpectations()
-	{
-		forPropertyType(String.class).expectAttribute(StringTextAttribute.class);
-		forPropertyType(CharSequence.class).expectAttribute(CharSequenceTextAttribute.class);
-	}
-	
+public class TextAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<TextAttribute> {
+    @Override
+    protected void setTypeMappingExpectations() {
+	forPropertyType(String.class).expectAttribute(StringTextAttribute.class);
+	forPropertyType(CharSequence.class).expectAttribute(CharSequenceTextAttribute.class);
+    }
+
 }

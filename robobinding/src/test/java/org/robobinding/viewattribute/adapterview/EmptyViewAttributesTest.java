@@ -33,51 +33,45 @@ import android.widget.ListView;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public class EmptyViewAttributesTest
-{
-	private EmptyViewAttributes emptyViewAttributes = new EmptyViewAttributes();
-	private Context context = new Activity();
-	private AdapterView<?> adapterView = new ListView(context);
-	private View emptyView = new View(context);
-	
-	@Test
-	public void testLayoutAttribute()
-	{
-		assertThat(emptyViewAttributes.layoutAttribute(), is("emptyViewLayout"));
-	}
-	
-	@Test
-	public void testSubViewPresentationModelAttribute()
-	{
-		assertThat(emptyViewAttributes.subViewPresentationModelAttribute(), is("emptyViewPresentationModel"));
-	}
-	
-	@Test
-	public void testVisibilityAttribute()
-	{
-		assertThat(emptyViewAttributes.visibilityAttribute(), is("emptyViewVisibility"));
-	}
-	
-	@Test
-	public void givenAddSubViewHasBeenCalled_thenReturnEmptyViewVisibility()
-	{
-		ViewGroup parentViewGroup = new LinearLayout(context);
-		parentViewGroup.addView(adapterView);
-		
-		emptyViewAttributes.addSubView(adapterView, emptyView, context);
-		
-		assertNotNull(emptyViewAttributes.createVisibility(adapterView, emptyView));
-	}
-	
-	@Test(expected = IllegalStateException.class)
-	public void givenSubViewHasNotBeenAdded_thenThrowIllegalStateException()
-	{
-		emptyViewAttributes.createVisibility(adapterView, emptyView);
-	}
+public class EmptyViewAttributesTest {
+    private EmptyViewAttributes emptyViewAttributes = new EmptyViewAttributes();
+    private Context context = new Activity();
+    private AdapterView<?> adapterView = new ListView(context);
+    private View emptyView = new View(context);
+
+    @Test
+    public void testLayoutAttribute() {
+	assertThat(emptyViewAttributes.layoutAttribute(), is("emptyViewLayout"));
+    }
+
+    @Test
+    public void testSubViewPresentationModelAttribute() {
+	assertThat(emptyViewAttributes.subViewPresentationModelAttribute(), is("emptyViewPresentationModel"));
+    }
+
+    @Test
+    public void testVisibilityAttribute() {
+	assertThat(emptyViewAttributes.visibilityAttribute(), is("emptyViewVisibility"));
+    }
+
+    @Test
+    public void givenAddSubViewHasBeenCalled_thenReturnEmptyViewVisibility() {
+	ViewGroup parentViewGroup = new LinearLayout(context);
+	parentViewGroup.addView(adapterView);
+
+	emptyViewAttributes.addSubView(adapterView, emptyView, context);
+
+	assertNotNull(emptyViewAttributes.createVisibility(adapterView, emptyView));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void givenSubViewHasNotBeenAdded_thenThrowIllegalStateException() {
+	emptyViewAttributes.createVisibility(adapterView, emptyView);
+    }
 }

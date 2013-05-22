@@ -48,148 +48,135 @@ import com.google.common.collect.Lists;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-@SuppressWarnings(value = {"rawtypes", "unchecked"})
-public class DataSetAdapterTest
-{
-	@Mock BindingContext bindingContext;
-	@Mock ItemBinder itemBinder;
-	@Mock ItemBinder dropDownBinder;
-	private View view;
-	private DataSetAdapter dataSetAdapter;
-	private MockPresentationModel presentationModel;
-	private DataSetValueModel<Object> dataSetProperty;
-	private Context context = new Activity();
-	
-	@Before
-	public void setUp()
-	{
-		initMocks(this);
-		presentationModel = new MockPresentationModel();
-		dataSetProperty = ValueModelUtils.createDataSetValueModel(presentationModel, "list");
-		when(bindingContext.createItemBinder()).thenReturn(itemBinder, dropDownBinder);
-		dataSetAdapter = spy(new DataSetAdapter(bindingContext));
-		dataSetAdapter.setValueModel(dataSetProperty);
-		view = new View(context);
+@SuppressWarnings(value = { "rawtypes", "unchecked" })
+public class DataSetAdapterTest {
+    @Mock
+    BindingContext bindingContext;
+    @Mock
+    ItemBinder itemBinder;
+    @Mock
+    ItemBinder dropDownBinder;
+    private View view;
+    private DataSetAdapter dataSetAdapter;
+    private MockPresentationModel presentationModel;
+    private DataSetValueModel<Object> dataSetProperty;
+    private Context context = new Activity();
+
+    @Before
+    public void setUp() {
+	initMocks(this);
+	presentationModel = new MockPresentationModel();
+	dataSetProperty = ValueModelUtils.createDataSetValueModel(presentationModel, "list");
+	when(bindingContext.createItemBinder()).thenReturn(itemBinder, dropDownBinder);
+	dataSetAdapter = spy(new DataSetAdapter(bindingContext));
+	dataSetAdapter.setValueModel(dataSetProperty);
+	view = new View(context);
+    }
+
+    @Test
+    public void whenUpdatingTheValueModel_thenNotifyDataSetChanged() {
+	dataSetAdapter.observeChangesOnTheValueModel();
+
+	presentationModel.update();
+
+	verify(dataSetAdapter).notifyDataSetChanged();
+    }
+
+    @Test
+    public void givenItemLayoutId_whenGeneratingItemView_thenInflateTheCorrectView() {
+	when(itemBinder.inflateAndBind(eq(R.layout.sample_item_layout), any(ItemPresentationModelDummy.class))).thenReturn(view);
+	dataSetAdapter.setItemLayoutId(R.layout.sample_item_layout);
+
+	View result = dataSetAdapter.getView(0, null, null);
+
+	assertThat(result.getTag(), instanceOf(ItemPresentationModelDummy.class));
+    }
+
+    @Test
+    public void givenDropdownLayoutId_whenGeneratingDropdownView_thenInflateTheCorrectView() {
+	when(dropDownBinder.inflateAndBind(eq(R.layout.sample_dropdown_layout), any(ItemPresentationModelDummy.class))).thenReturn(view);
+	dataSetAdapter.setDropDownLayoutId(R.layout.sample_dropdown_layout);
+
+	View result = dataSetAdapter.getDropDownView(0, null, null);
+
+	assertThat(result.getTag(), instanceOf(ItemPresentationModelDummy.class));
+    }
+
+    @Test
+    public void givenPreInitializeViewsIsTrue_whenInitializing_thenDataSetAdapterCountShouldReflectPresentationModel() {
+	dataSetAdapterWithViewsPreInitialized();
+
+	assertThat(dataSetAdapter.getCount(), is(presentationModel.list.size()));
+    }
+
+    @Test
+    public void givenPreInitializeViewsIsFalse_whenValueModelHasNotBeenUpdated_thenDataSetAdapterCountShouldBeZero() {
+	dataSetAdapterNotPreInitializingViews();
+
+	assertThat(dataSetAdapter.getCount(), is(0));
+    }
+
+    @Test
+    public void givenPreInitializeViewsIsFalse_whenUpdatingValueModel_thenDataSetAdapterCountShouldReflectPresentationModel() {
+	dataSetAdapterNotPreInitializingViews();
+
+	dataSetAdapter.observeChangesOnTheValueModel();
+	presentationModel.update();
+
+	assertThat(dataSetAdapter.getCount(), is(presentationModel.list.size()));
+    }
+
+    @Test
+    public void givenADataSetAdapterWithoutAValueModel_thenCountShouldBeZero() {
+	DataSetAdapter dataSetAdapter = new DataSetAdapter(bindingContext);
+
+	assertThat(dataSetAdapter.getCount(), is(0));
+    }
+
+    private void dataSetAdapterWithViewsPreInitialized() {
+	when(bindingContext.shouldPreInitializeViews()).thenReturn(true);
+	dataSetAdapter = spy(new DataSetAdapter(bindingContext));
+	dataSetAdapter.setValueModel(dataSetProperty);
+    }
+
+    private void dataSetAdapterNotPreInitializingViews() {
+	when(bindingContext.shouldPreInitializeViews()).thenReturn(false);
+	dataSetAdapter = spy(new DataSetAdapter(bindingContext));
+	dataSetAdapter.setValueModel(dataSetProperty);
+    }
+
+    public static class MockPresentationModel extends AbstractPresentationModel {
+	List<Object> list;
+
+	public MockPresentationModel() {
+	    list = Lists.newArrayList();
+
+	    for (int i = 0; i < RandomValues.anyIntegerGreaterThanZero(); i++)
+		list.add(new Object());
 	}
 
-	@Test
-	public void whenUpdatingTheValueModel_thenNotifyDataSetChanged()
-	{
-		dataSetAdapter.observeChangesOnTheValueModel();
-		
-		presentationModel.update();
-		
-		verify(dataSetAdapter).notifyDataSetChanged();
-	}
-	
-	@Test
-	public void givenItemLayoutId_whenGeneratingItemView_thenInflateTheCorrectView()
-	{
-		when(itemBinder.inflateAndBind(eq(R.layout.sample_item_layout), any(ItemPresentationModelDummy.class))).thenReturn(view);
-		dataSetAdapter.setItemLayoutId(R.layout.sample_item_layout);
-		
-		View result = dataSetAdapter.getView(0, null, null);
-		
-		assertThat(result.getTag(), instanceOf(ItemPresentationModelDummy.class));
-	}
-	
-	@Test
-	public void givenDropdownLayoutId_whenGeneratingDropdownView_thenInflateTheCorrectView()
-	{
-		when(dropDownBinder.inflateAndBind(eq(R.layout.sample_dropdown_layout), any(ItemPresentationModelDummy.class))).thenReturn(view);
-		dataSetAdapter.setDropDownLayoutId(R.layout.sample_dropdown_layout);
-		
-		View result = dataSetAdapter.getDropDownView(0, null, null);
-		
-		assertThat(result.getTag(), instanceOf(ItemPresentationModelDummy.class));
-	}
-	
-	@Test
-	public void givenPreInitializeViewsIsTrue_whenInitializing_thenDataSetAdapterCountShouldReflectPresentationModel()
-	{
-		dataSetAdapterWithViewsPreInitialized();
-		
-		assertThat(dataSetAdapter.getCount(), is(presentationModel.list.size()));
-	}
-	
-	@Test
-	public void givenPreInitializeViewsIsFalse_whenValueModelHasNotBeenUpdated_thenDataSetAdapterCountShouldBeZero()
-	{
-		dataSetAdapterNotPreInitializingViews();
-		
-		assertThat(dataSetAdapter.getCount(), is(0));
+	void update() {
+	    presentationModelChangeSupport.fireChangeAll();
 	}
 
-	@Test
-	public void givenPreInitializeViewsIsFalse_whenUpdatingValueModel_thenDataSetAdapterCountShouldReflectPresentationModel()
-	{
-		dataSetAdapterNotPreInitializingViews();
-		
-		dataSetAdapter.observeChangesOnTheValueModel();
-		presentationModel.update();
-		
-		assertThat(dataSetAdapter.getCount(), is(presentationModel.list.size()));
+	@ItemPresentationModel(value = ItemPresentationModelDummy.class)
+	public List<Object> getList() {
+	    return list;
 	}
-	
-	@Test
-	public void givenADataSetAdapterWithoutAValueModel_thenCountShouldBeZero()
-	{
-		DataSetAdapter dataSetAdapter = new DataSetAdapter(bindingContext);
-		
-		assertThat(dataSetAdapter.getCount(), is(0));
-	}
-	
-	private void dataSetAdapterWithViewsPreInitialized()
-	{
-		when(bindingContext.shouldPreInitializeViews()).thenReturn(true);
-		dataSetAdapter = spy(new DataSetAdapter(bindingContext));
-		dataSetAdapter.setValueModel(dataSetProperty);
-	}
-	
-	private void dataSetAdapterNotPreInitializingViews()
-	{
-		when(bindingContext.shouldPreInitializeViews()).thenReturn(false);
-		dataSetAdapter = spy(new DataSetAdapter(bindingContext));
-		dataSetAdapter.setValueModel(dataSetProperty);
+    }
+
+    public static class ItemPresentationModelDummy implements org.robobinding.itempresentationmodel.ItemPresentationModel<Object> {
+	public ItemPresentationModelDummy() {
 	}
 
-	public static class MockPresentationModel extends AbstractPresentationModel
-	{
-		List<Object> list;
-		
-		public MockPresentationModel()
-		{
-			list = Lists.newArrayList();
-			
-			for (int i = 0; i < RandomValues.anyIntegerGreaterThanZero(); i++)
-				list.add(new Object());
-		}
-		
-		void update()
-		{
-			presentationModelChangeSupport.fireChangeAll();
-		}
-		
-		@ItemPresentationModel(value = ItemPresentationModelDummy.class)
-		public List<Object> getList()
-		{
-			return list;
-		}
+	@Override
+	public void updateData(int index, Object bean) {
 	}
-	
-	public static class ItemPresentationModelDummy implements org.robobinding.itempresentationmodel.ItemPresentationModel<Object>
-	{
-		public ItemPresentationModelDummy(){}
-		
-		@Override
-		public void updateData(int index, Object bean)
-		{
-		}
-	}
+    }
 }

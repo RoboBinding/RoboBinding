@@ -24,37 +24,33 @@ import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatt
 import android.content.Context;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class InternalBinderFactory implements BinderImplementorFactory, BindingContextCreator
-{
-	private Context context;
-	private boolean preInitializeViews;
-	private ErrorFormatter errorFormatter;
-	public InternalBinderFactory(Context context, boolean preInitializeViews, ErrorFormatter errorFormatter)
-	{
-		this.context = context;
-		this.preInitializeViews = preInitializeViews;
-	}
-	
-	@Override
-	public BinderImplementor create()
-	{
-		return new InternalBinder(context, this, errorFormatter, preInitializeViews);
-	}
+class InternalBinderFactory implements BinderImplementorFactory, BindingContextCreator {
+    private Context context;
+    private boolean preInitializeViews;
+    private ErrorFormatter errorFormatter;
 
-	@Override
-	public BindingContext create(Object presentationModel)
-	{
-		return new BindingContext(this, context, presentationModel, preInitializeViews);
-	}
-	
-	public static BinderImplementor create(Context context, boolean preInitializeViews)
-	{
-		BinderImplementorFactory binderImplementorFactory = new InternalBinderFactory(context, preInitializeViews, new PlainTextErrorFormatter());
-		return binderImplementorFactory.create();
-	}
+    public InternalBinderFactory(Context context, boolean preInitializeViews, ErrorFormatter errorFormatter) {
+	this.context = context;
+	this.preInitializeViews = preInitializeViews;
+    }
+
+    @Override
+    public BinderImplementor create() {
+	return new InternalBinder(context, this, errorFormatter, preInitializeViews);
+    }
+
+    @Override
+    public BindingContext create(Object presentationModel) {
+	return new BindingContext(this, context, presentationModel, preInitializeViews);
+    }
+
+    public static BinderImplementor create(Context context, boolean preInitializeViews) {
+	BinderImplementorFactory binderImplementorFactory = new InternalBinderFactory(context, preInitializeViews, new PlainTextErrorFormatter());
+	return binderImplementorFactory.create();
+    }
 }

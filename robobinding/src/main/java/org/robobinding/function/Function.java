@@ -15,7 +15,6 @@
  */
 package org.robobinding.function;
 
-
 /**
  * 
  * @since 1.0
@@ -23,7 +22,6 @@ package org.robobinding.function;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface Function
-{
-	void call(Object... args);
+public interface Function {
+    void call(Object... args);
 }

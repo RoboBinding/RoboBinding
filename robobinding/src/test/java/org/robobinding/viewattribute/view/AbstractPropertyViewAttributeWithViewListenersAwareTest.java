@@ -34,18 +34,16 @@ import android.view.View;
  * @author Cheng Wei
  */
 public abstract class AbstractPropertyViewAttributeWithViewListenersAwareTest<ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>, ViewListenersType extends ViewListeners>
-		extends AbstractPropertyViewAttributeTest<ViewType, PropertyViewAttributeType>
-{
-	protected ViewListenersType viewListeners;
+	extends AbstractPropertyViewAttributeTest<ViewType, PropertyViewAttributeType> {
+    protected ViewListenersType viewListeners;
 
-	@SuppressWarnings("unchecked")
-	@Before
-	public void initializeViewListeners()
-	{
-		assertThat(attribute, instanceOf(ViewListenersAware.class));
-		ParameterizedType superclass = (ParameterizedType)getClass().getGenericSuperclass();
-		viewListeners = ParameterizedTypeUtils.createTypeArgument(superclass, 2, view.getClass(), view);
-		((ViewListenersAware<ViewListeners>) attribute).setViewListeners(viewListeners);
-	}
+    @SuppressWarnings("unchecked")
+    @Before
+    public void initializeViewListeners() {
+	assertThat(attribute, instanceOf(ViewListenersAware.class));
+	ParameterizedType superclass = (ParameterizedType) getClass().getGenericSuperclass();
+	viewListeners = ParameterizedTypeUtils.createTypeArgument(superclass, 2, view.getClass(), view);
+	((ViewListenersAware<ViewListeners>) attribute).setViewListeners(viewListeners);
+    }
 
 }

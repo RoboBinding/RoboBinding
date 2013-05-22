@@ -30,47 +30,40 @@ import android.view.View;
 import com.google.common.collect.Maps;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewAttributeInitializerTest
-{
-	private ViewAttributeInitializer viewAttributeInitializer;
-	private ViewListenersInjector viewListenersProvider;
-	
-	@Before
-	public void setUp()
-	{
-		viewListenersProvider = mock(ViewListenersInjector.class);
-		viewAttributeInitializer = new ViewAttributeInitializerForTest(viewListenersProvider);
+public class ViewAttributeInitializerTest {
+    private ViewAttributeInitializer viewAttributeInitializer;
+    private ViewListenersInjector viewListenersProvider;
+
+    @Before
+    public void setUp() {
+	viewListenersProvider = mock(ViewListenersInjector.class);
+	viewAttributeInitializer = new ViewAttributeInitializerForTest(viewListenersProvider);
+    }
+
+    @Test
+    public void whenNewGroupedViewAttribute_thenNewInstanceShouldBeCorrectlyInitialized() {
+	View view = mock(View.class);
+	PendingGroupAttributes pendingGroupAttributes = newPendingGroupAttributes();
+	@SuppressWarnings({ "unchecked" })
+	AbstractGroupedViewAttribute<View> viewAttribute = mock(AbstractGroupedViewAttribute.class);
+
+	viewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(view, viewAttribute, pendingGroupAttributes);
+
+	verify(viewAttribute).initialize(new GroupedViewAttributeConfig<View>(view, pendingGroupAttributes, viewListenersProvider));
+    }
+
+    private PendingGroupAttributes newPendingGroupAttributes() {
+	return new PendingGroupAttributes(Maps.<String, String> newHashMap());
+    }
+
+    private static class ViewAttributeInitializerForTest extends ViewAttributeInitializer {
+	public ViewAttributeInitializerForTest(ViewListenersInjector viewListenersProvider) {
+	    this.viewListenersInjector = viewListenersProvider;
 	}
-	
-	@Test
-	public void whenNewGroupedViewAttribute_thenNewInstanceShouldBeCorrectlyInitialized()
-	{
-		View view = mock(View.class);
-		PendingGroupAttributes pendingGroupAttributes = newPendingGroupAttributes();
-		@SuppressWarnings({"unchecked" })
-		AbstractGroupedViewAttribute<View> viewAttribute = mock(AbstractGroupedViewAttribute.class);
-		
-		viewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(
-				view, viewAttribute, pendingGroupAttributes);
-		
-		verify(viewAttribute).initialize(new GroupedViewAttributeConfig<View>(view, pendingGroupAttributes, viewListenersProvider));
-	}
-	
-	private PendingGroupAttributes newPendingGroupAttributes()
-	{
-		return new PendingGroupAttributes(Maps.<String, String>newHashMap());
-	}
-	
-	private static class ViewAttributeInitializerForTest extends ViewAttributeInitializer
-	{
-		public ViewAttributeInitializerForTest(ViewListenersInjector viewListenersProvider)
-		{
-			this.viewListenersInjector = viewListenersProvider;
-		}
-	}
+    }
 }

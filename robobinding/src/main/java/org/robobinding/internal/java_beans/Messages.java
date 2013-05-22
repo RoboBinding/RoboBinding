@@ -23,7 +23,6 @@
 
 package org.robobinding.internal.java_beans;
 
-
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Locale;
@@ -37,11 +36,10 @@ import java.util.ResourceBundle;
  * It is used by the system classes to provide national language support, by
  * looking up messages in the <code>
  *    org.apache.harmony.beans.internal.nls.messages
- * </code>
- * resource bundle. Note that if this file is not available, or an invalid key
- * is looked up, or resource bundle support is not available, the key itself
- * will be returned as the associated message. This means that the <em>KEY</em>
- * should a reasonable human-readable (english) string.
+ * </code> resource bundle. Note that if this file is not available, or an
+ * invalid key is looked up, or resource bundle support is not available, the
+ * key itself will be returned as the associated message. This means that the
+ * <em>KEY</em> should a reasonable human-readable (english) string.
  * 
  */
 public class Messages {
@@ -57,13 +55,13 @@ public class Messages {
      * @return String the message for that key in the system message bundle.
      */
     static public String getString(String msg) {
-        if (bundle == null)
-            return msg;
-        try {
-            return bundle.getString(msg);
-        } catch (MissingResourceException e) {
-            return "Missing message: " + msg; //$NON-NLS-1$
-        }
+	if (bundle == null)
+	    return msg;
+	try {
+	    return bundle.getString(msg);
+	} catch (MissingResourceException e) {
+	    return "Missing message: " + msg; //$NON-NLS-1$
+	}
     }
 
     /**
@@ -76,7 +74,7 @@ public class Messages {
      * @return String the message for that key in the system message bundle.
      */
     static public String getString(String msg, Object arg) {
-        return getString(msg, new Object[] { arg });
+	return getString(msg, new Object[] { arg });
     }
 
     /**
@@ -89,7 +87,7 @@ public class Messages {
      * @return String the message for that key in the system message bundle.
      */
     static public String getString(String msg, int arg) {
-        return getString(msg, new Object[] { Integer.toString(arg) });
+	return getString(msg, new Object[] { Integer.toString(arg) });
     }
 
     /**
@@ -102,7 +100,7 @@ public class Messages {
      * @return String the message for that key in the system message bundle.
      */
     static public String getString(String msg, char arg) {
-        return getString(msg, new Object[] { String.valueOf(arg) });
+	return getString(msg, new Object[] { String.valueOf(arg) });
     }
 
     /**
@@ -117,7 +115,7 @@ public class Messages {
      * @return String the message for that key in the system message bundle.
      */
     static public String getString(String msg, Object arg1, Object arg2) {
-        return getString(msg, new Object[] { arg1, arg2 });
+	return getString(msg, new Object[] { arg1, arg2 });
     }
 
     /**
@@ -130,18 +128,18 @@ public class Messages {
      * @return String the message for that key in the system message bundle.
      */
     static public String getString(String msg, Object[] args) {
-        String format = msg;
+	String format = msg;
 
-        if (bundle != null) {
-            try {
-                format = bundle.getString(msg);
-            } catch (MissingResourceException e) {
-            }
-        }
+	if (bundle != null) {
+	    try {
+		format = bundle.getString(msg);
+	    } catch (MissingResourceException e) {
+	    }
+	}
 
-        return format(format, args);
+	return format(format, args);
     }
-    
+
     /**
      * Generates a formatted text string given a source string containing
      * "argument markers" of the form "{argNum}" where each argNum must be in
@@ -159,52 +157,49 @@ public class Messages {
      * @return String the formatted message.
      */
     public static String format(String format, Object[] args) {
-        StringBuilder answer = new StringBuilder(format.length()
-                + (args.length * 20));
-        String[] argStrings = new String[args.length];
-        for (int i = 0; i < args.length; ++i) {
-            if (args[i] == null)
-                argStrings[i] = "<null>";	//$NON-NLS-1$
-            else
-                argStrings[i] = args[i].toString();
-        }
-        int lastI = 0;
-        for (int i = format.indexOf('{', 0); i >= 0; i = format.indexOf('{',
-                lastI)) {
-            if (i != 0 && format.charAt(i - 1) == '\\') {
-                // It's escaped, just print and loop.
-                if (i != 1)
-                    answer.append(format.substring(lastI, i - 1));
-                answer.append('{');
-                lastI = i + 1;
-            } else {
-                // It's a format character.
-                if (i > format.length() - 3) {
-                    // Bad format, just print and loop.
-                    answer.append(format.substring(lastI, format.length()));
-                    lastI = format.length();
-                } else {
-                    int argnum = (byte) Character.digit(format.charAt(i + 1),
-                            10);
-                    if (argnum < 0 || format.charAt(i + 2) != '}') {
-                        // Bad format, just print and loop.
-						answer.append(format.substring(lastI, i + 1));
-						lastI = i + 1;
-                    } else {
-                        // Got a good one!
-                        answer.append(format.substring(lastI, i));
-                        if (argnum >= argStrings.length)
-                            answer.append("<missing argument>");	//$NON-NLS-1$
-                        else
-                            answer.append(argStrings[argnum]);
-						lastI = i + 3;
-                    }
-                }
-            }
-        }
-        if (lastI < format.length())
-            answer.append(format.substring(lastI, format.length()));
-        return answer.toString();
+	StringBuilder answer = new StringBuilder(format.length() + (args.length * 20));
+	String[] argStrings = new String[args.length];
+	for (int i = 0; i < args.length; ++i) {
+	    if (args[i] == null)
+		argStrings[i] = "<null>"; //$NON-NLS-1$
+	    else
+		argStrings[i] = args[i].toString();
+	}
+	int lastI = 0;
+	for (int i = format.indexOf('{', 0); i >= 0; i = format.indexOf('{', lastI)) {
+	    if (i != 0 && format.charAt(i - 1) == '\\') {
+		// It's escaped, just print and loop.
+		if (i != 1)
+		    answer.append(format.substring(lastI, i - 1));
+		answer.append('{');
+		lastI = i + 1;
+	    } else {
+		// It's a format character.
+		if (i > format.length() - 3) {
+		    // Bad format, just print and loop.
+		    answer.append(format.substring(lastI, format.length()));
+		    lastI = format.length();
+		} else {
+		    int argnum = (byte) Character.digit(format.charAt(i + 1), 10);
+		    if (argnum < 0 || format.charAt(i + 2) != '}') {
+			// Bad format, just print and loop.
+			answer.append(format.substring(lastI, i + 1));
+			lastI = i + 1;
+		    } else {
+			// Got a good one!
+			answer.append(format.substring(lastI, i));
+			if (argnum >= argStrings.length)
+			    answer.append("<missing argument>"); //$NON-NLS-1$
+			else
+			    answer.append(argStrings[argnum]);
+			lastI = i + 3;
+		    }
+		}
+	    }
+	}
+	if (lastI < format.length())
+	    answer.append(format.substring(lastI, format.length()));
+	return answer.toString();
     }
 
     /**
@@ -213,29 +208,25 @@ public class Messages {
      * @param locale
      *            Locale the locale to change to.
      */
-    static public ResourceBundle setLocale(final Locale locale,
-            final String resource) {
-        try {
-            final ClassLoader loader = null;
-            return (ResourceBundle) AccessController
-                    .doPrivileged(new PrivilegedAction<Object>() {
-                        public Object run() {
-                            return ResourceBundle.getBundle(resource, locale,
-                                    loader != null ? loader : ClassLoader.getSystemClassLoader());
-                        }
-                    });
-        } catch (MissingResourceException e) {
-        }
-        return null;
+    static public ResourceBundle setLocale(final Locale locale, final String resource) {
+	try {
+	    final ClassLoader loader = null;
+	    return (ResourceBundle) AccessController.doPrivileged(new PrivilegedAction<Object>() {
+		public Object run() {
+		    return ResourceBundle.getBundle(resource, locale, loader != null ? loader : ClassLoader.getSystemClassLoader());
+		}
+	    });
+	} catch (MissingResourceException e) {
+	}
+	return null;
     }
 
     static {
-        // Attempt to load the messages.
-        try {
-            bundle = setLocale(Locale.getDefault(),
-                    "robobinding.internal.java_beans.messages"); //$NON-NLS-1$
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+	// Attempt to load the messages.
+	try {
+	    bundle = setLocale(Locale.getDefault(), "robobinding.internal.java_beans.messages"); //$NON-NLS-1$
+	} catch (Throwable e) {
+	    e.printStackTrace();
+	}
     }
 }

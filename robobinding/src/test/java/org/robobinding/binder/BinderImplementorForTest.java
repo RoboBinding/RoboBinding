@@ -25,37 +25,33 @@ import org.robobinding.PredefinedPendingAttributesForView;
 import android.content.Context;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BinderImplementorForTest extends InternalBinder
-{
-	private BindingViewInflater bindingViewInflater;
-	public BinderImplementorForTest(final Context context, BindingViewInflater bindingViewInflater)
-	{
-		super(context, new BindingContextCreator() {
-			
-			@Override
-			public BindingContext create(Object presentationModel)
-			{
-				return new BindingContext(mock(InternalBinderFactory.class), context, presentationModel, false);
-			}
-		}, new ViewHierarchyInflationErrorsException.ErrorFormatter() {
-			
-			@Override
-			public String format(ViewInflationErrors error)
-			{
-				return error.toString();
-			}
-		}, true);
-		this.bindingViewInflater = bindingViewInflater;
-	}
-	
-	@Override
-	BindingViewInflater createBindingViewInflater(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup)
-	{
-		return bindingViewInflater;
-	}
+public class BinderImplementorForTest extends InternalBinder {
+    private BindingViewInflater bindingViewInflater;
+
+    public BinderImplementorForTest(final Context context, BindingViewInflater bindingViewInflater) {
+	super(context, new BindingContextCreator() {
+
+	    @Override
+	    public BindingContext create(Object presentationModel) {
+		return new BindingContext(mock(InternalBinderFactory.class), context, presentationModel, false);
+	    }
+	}, new ViewHierarchyInflationErrorsException.ErrorFormatter() {
+
+	    @Override
+	    public String format(ViewInflationErrors error) {
+		return error.toString();
+	    }
+	}, true);
+	this.bindingViewInflater = bindingViewInflater;
+    }
+
+    @Override
+    BindingViewInflater createBindingViewInflater(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
+	return bindingViewInflater;
+    }
 }

@@ -33,34 +33,30 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class CompoundButtonListenersTest
-{
-	@Test
-	public void shouldSupportMultipleOnCheckedChangeListeners()
-	{
-		CheckBox view = new CheckBox(null);
-		CompoundButtonListeners viewListeners = new CompoundButtonListeners(view);
+public class CompoundButtonListenersTest {
+    @Test
+    public void shouldSupportMultipleOnCheckedChangeListeners() {
+	CheckBox view = new CheckBox(null);
+	CompoundButtonListeners viewListeners = new CompoundButtonListeners(view);
 
-		MockOnCheckedChangeListener listener1 = new MockOnCheckedChangeListener();
-		MockOnCheckedChangeListener listener2 = new MockOnCheckedChangeListener();
+	MockOnCheckedChangeListener listener1 = new MockOnCheckedChangeListener();
+	MockOnCheckedChangeListener listener2 = new MockOnCheckedChangeListener();
 
-		viewListeners.addOnCheckedChangeListener(listener1);
-		viewListeners.addOnCheckedChangeListener(listener2);
+	viewListeners.addOnCheckedChangeListener(listener1);
+	viewListeners.addOnCheckedChangeListener(listener2);
 
-		view.setChecked(!view.isChecked());
+	view.setChecked(!view.isChecked());
 
-		assertTrue(listener1.checkedChangeEventFired);
-		assertTrue(listener2.checkedChangeEventFired);
+	assertTrue(listener1.checkedChangeEventFired);
+	assertTrue(listener2.checkedChangeEventFired);
+    }
+
+    private static class MockOnCheckedChangeListener implements OnCheckedChangeListener {
+	private boolean checkedChangeEventFired;
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+	    checkedChangeEventFired = true;
 	}
-
-	private static class MockOnCheckedChangeListener implements OnCheckedChangeListener
-	{
-		private boolean checkedChangeEventFired;
-
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-		{
-			checkedChangeEventFired = true;
-		}
-	}
+    }
 }

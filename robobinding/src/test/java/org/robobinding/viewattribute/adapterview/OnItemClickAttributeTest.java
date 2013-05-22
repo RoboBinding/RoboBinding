@@ -38,48 +38,43 @@ import com.xtremelabs.robolectric.shadows.ShadowListView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnItemClickAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<ListView, OnItemClickAttribute, MockAdapterViewListeners>
-{
-	private int indexToClick;
-	
-	@Before
-	public void setUp()
-	{
-		ArrayAdapter<String> arrayAdapter = new MockArrayAdapter();
-		view.setAdapter(arrayAdapter);
-		indexToClick = RandomValues.anyIndex(arrayAdapter.getCount());
-	}
-	
-	@Test
-	public void givenBoundAttribute_whenClickingOnAnItem_thenEventReceived()
-	{
-		bindAttribute();
+public class OnItemClickAttributeTest extends
+	AbstractCommandViewAttributeWithViewListenersAwareTest<ListView, OnItemClickAttribute, MockAdapterViewListeners> {
+    private int indexToClick;
 
-		clickOnAnItem();
+    @Before
+    public void setUp() {
+	ArrayAdapter<String> arrayAdapter = new MockArrayAdapter();
+	view.setAdapter(arrayAdapter);
+	indexToClick = RandomValues.anyIndex(arrayAdapter.getCount());
+    }
 
-		assertEventReceived();
-	}
-	
-	@Test
-	public void whenBinding_thenRegisterWithMulticastListener()
-	{
-		bindAttribute();
-		
-		assertTrue(viewListeners.addOnItemClickListenerInvoked);
-	}
+    @Test
+    public void givenBoundAttribute_whenClickingOnAnItem_thenEventReceived() {
+	bindAttribute();
 
-	private void clickOnAnItem()
-	{
-		ShadowListView shadowListView = Robolectric.shadowOf(view);
-		shadowListView.performItemClick(indexToClick);
-	}
+	clickOnAnItem();
 
-	private void assertEventReceived()
-	{
-		assertEventReceived(ItemClickEvent.class);
-		ItemClickEvent itemClickEvent = getEventReceived();
-		assertTrue(itemClickEvent.getParent() == view);
-		assertThat(itemClickEvent.getPosition(), is(indexToClick));
-		assertThat(itemClickEvent.getView(), instanceOf(TextView.class));
-	}
+	assertEventReceived();
+    }
+
+    @Test
+    public void whenBinding_thenRegisterWithMulticastListener() {
+	bindAttribute();
+
+	assertTrue(viewListeners.addOnItemClickListenerInvoked);
+    }
+
+    private void clickOnAnItem() {
+	ShadowListView shadowListView = Robolectric.shadowOf(view);
+	shadowListView.performItemClick(indexToClick);
+    }
+
+    private void assertEventReceived() {
+	assertEventReceived(ItemClickEvent.class);
+	ItemClickEvent itemClickEvent = getEventReceived();
+	assertTrue(itemClickEvent.getParent() == view);
+	assertThat(itemClickEvent.getPosition(), is(indexToClick));
+	assertThat(itemClickEvent.getView(), instanceOf(TextView.class));
+    }
 }

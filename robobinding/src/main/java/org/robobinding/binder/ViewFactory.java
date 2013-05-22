@@ -22,60 +22,50 @@ import android.view.LayoutInflater.Factory;
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class ViewFactory implements Factory
-{
-	private final LayoutInflater layoutInflater;
-	ViewNameResolver viewNameResolver;
-	
-	private ViewFactoryListener listener;
-	
-	public ViewFactory(LayoutInflater layoutInflater)
-	{
-		this.layoutInflater = layoutInflater;
-		layoutInflater.setFactory(this);
-		viewNameResolver = new ViewNameResolver();
-	}
-	
-	public void setListener(ViewFactoryListener listener)
-	{
-		this.listener = listener;
-	}
-	
-	@Override
-	public View onCreateView(String name, Context context, AttributeSet attrs)
-	{
-		try
-		{
-			String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
-			
-			View view = layoutInflater.createView(viewFullName, null, attrs);
-			
-			notifyViewCreated(attrs, view);
-			
-			return view;
-		} 
-		catch (ClassNotFoundException e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
+class ViewFactory implements Factory {
+    private final LayoutInflater layoutInflater;
+    ViewNameResolver viewNameResolver;
 
-	private void notifyViewCreated(AttributeSet attrs, View view)
-	{
-		if(listener != null)
-		{
-			listener.onViewCreated(view, attrs);
-		}
-	}
+    private ViewFactoryListener listener;
 
-	public static interface ViewFactoryListener
-	{
-		void onViewCreated(View view, AttributeSet attrs);
+    public ViewFactory(LayoutInflater layoutInflater) {
+	this.layoutInflater = layoutInflater;
+	layoutInflater.setFactory(this);
+	viewNameResolver = new ViewNameResolver();
+    }
+
+    public void setListener(ViewFactoryListener listener) {
+	this.listener = listener;
+    }
+
+    @Override
+    public View onCreateView(String name, Context context, AttributeSet attrs) {
+	try {
+	    String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
+
+	    View view = layoutInflater.createView(viewFullName, null, attrs);
+
+	    notifyViewCreated(attrs, view);
+
+	    return view;
+	} catch (ClassNotFoundException e) {
+	    throw new RuntimeException(e);
 	}
+    }
+
+    private void notifyViewCreated(AttributeSet attrs, View view) {
+	if (listener != null) {
+	    listener.onViewCreated(view, attrs);
+	}
+    }
+
+    public static interface ViewFactoryListener {
+	void onViewCreated(View view, AttributeSet attrs);
+    }
 }

@@ -20,15 +20,13 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.Strings;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class Preconditions
-{
-	public static void checkNotBlank(String str, String errorMessage)
-	{
-		checkArgument(!Strings.isNullOrEmpty(str), errorMessage);
-	}
+public class Preconditions {
+    public static void checkNotBlank(String str, String errorMessage) {
+	checkArgument(!Strings.isNullOrEmpty(str), errorMessage);
+    }
 }

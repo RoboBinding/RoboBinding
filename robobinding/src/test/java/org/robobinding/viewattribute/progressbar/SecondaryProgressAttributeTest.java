@@ -25,21 +25,19 @@ import org.robobinding.viewattribute.RandomValues;
 import android.widget.ProgressBar;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SecondaryProgressAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, SecondaryProgressAttribute>
-{
-	@Test
-	public void whenUpdatingValueModel_thenSetSecondaryProgressOnProgressBar()
-	{
-		int newProgress = RandomValues.anyInteger();
-		
-		attribute.valueModelUpdated(newProgress);
+public class SecondaryProgressAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, SecondaryProgressAttribute> {
+    @Test
+    public void whenUpdatingValueModel_thenSetSecondaryProgressOnProgressBar() {
+	int newProgress = RandomValues.anyInteger();
 
-		assertThat(view.getSecondaryProgress(), is(newProgress));
-	}
+	attribute.valueModelUpdated(newProgress);
+
+	assertThat(view.getSecondaryProgress(), is(newProgress));
+    }
 
 }

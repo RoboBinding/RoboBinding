@@ -24,19 +24,16 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class MockCompoundButtonListeners extends CompoundButtonListeners
-{
-	public boolean addOnCheckedChangeListenerInvoked;
+public class MockCompoundButtonListeners extends CompoundButtonListeners {
+    public boolean addOnCheckedChangeListenerInvoked;
 
-	public MockCompoundButtonListeners(CompoundButton compoundButton)
-	{
-		super(compoundButton);
-	}
+    public MockCompoundButtonListeners(CompoundButton compoundButton) {
+	super(compoundButton);
+    }
 
-	@Override
-	public void addOnCheckedChangeListener(OnCheckedChangeListener listener)
-	{
-		addOnCheckedChangeListenerInvoked = true;
-		compoundButton.setOnCheckedChangeListener(listener);
-	}
+    @Override
+    public void addOnCheckedChangeListener(OnCheckedChangeListener listener) {
+	addOnCheckedChangeListenerInvoked = true;
+	compoundButton.setOnCheckedChangeListener(listener);
+    }
 }

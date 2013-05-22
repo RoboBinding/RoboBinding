@@ -15,7 +15,6 @@
  */
 package org.robobinding.itempresentationmodel;
 
-
 /**
  * 
  * @since 1.0
@@ -23,7 +22,6 @@ package org.robobinding.itempresentationmodel;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public interface ItemPresentationModel<T>
-{
-	void updateData(int index, T bean);
+public interface ItemPresentationModel<T> {
+    void updateData(int index, T bean);
 }

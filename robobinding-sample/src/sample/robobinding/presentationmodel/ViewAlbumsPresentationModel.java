@@ -38,36 +38,30 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  */
 @PresentationModel
-public class ViewAlbumsPresentationModel
-{
-	
-	private final Context context;
-	
-	public ViewAlbumsPresentationModel(Activity activity)
-	{
-		this.context = activity;
-	}
+public class ViewAlbumsPresentationModel {
 
-	@ItemPresentationModel(AlbumItemPresentationModel.class)
-	public List<Album> getAlbums()
-	{
-		return Lists.newArrayList(AlbumStore.getAll());
-	}
+    private final Context context;
 
-	public void createAlbum()
-	{
-		context.startActivity(new Intent(context, CreateEditAlbumActivity.class));
-	}
+    public ViewAlbumsPresentationModel(Activity activity) {
+	this.context = activity;
+    }
 
-	public void viewAlbum(ItemClickEvent event)
-	{
-		viewAlbum(event.getPosition());
-	}
+    @ItemPresentationModel(AlbumItemPresentationModel.class)
+    public List<Album> getAlbums() {
+	return Lists.newArrayList(AlbumStore.getAll());
+    }
 
-	private void viewAlbum(int selectedAlbumPosition)
-	{
-		Intent intent = new Intent(context, ViewAlbumActivity.class);
-		intent.putExtra(ViewAlbumActivity.ALBUM_ID, AlbumStore.getByIndex(selectedAlbumPosition).getId());
-		context.startActivity(intent);
-	}
+    public void createAlbum() {
+	context.startActivity(new Intent(context, CreateEditAlbumActivity.class));
+    }
+
+    public void viewAlbum(ItemClickEvent event) {
+	viewAlbum(event.getPosition());
+    }
+
+    private void viewAlbum(int selectedAlbumPosition) {
+	Intent intent = new Intent(context, ViewAlbumActivity.class);
+	intent.putExtra(ViewAlbumActivity.ALBUM_ID, AlbumStore.getByIndex(selectedAlbumPosition).getId());
+	context.startActivity(intent);
+    }
 }

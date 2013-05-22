@@ -21,43 +21,35 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class NonBindingViewInflater implements ViewInflater
-{
-	private LayoutInflater layoutInflater;
-	private ViewGroup parentViewToAttach;
-	
-	public NonBindingViewInflater(LayoutInflater layoutInflater, ViewGroup parentViewToAttach)
-	{
-		this.layoutInflater = layoutInflater;
-		this.parentViewToAttach = parentViewToAttach;
-	}
-	
-	public NonBindingViewInflater(Context context, ViewGroup parentViewToAttach)
-	{
-		this(LayoutInflater.from(context).cloneInContext(context),
-				parentViewToAttach);
-	}
-	
-	@Override
-	public View inflateView(int layoutId)
-	{
-		if(shouldAttachToParentView())
-		{
-			return layoutInflater.inflate(layoutId, parentViewToAttach, true);
-		}else
-		{
-			return layoutInflater.inflate(layoutId, null);
-		}
-	}
+class NonBindingViewInflater implements ViewInflater {
+    private LayoutInflater layoutInflater;
+    private ViewGroup parentViewToAttach;
 
-	private boolean shouldAttachToParentView()
-	{
-		return parentViewToAttach != null;
+    public NonBindingViewInflater(LayoutInflater layoutInflater, ViewGroup parentViewToAttach) {
+	this.layoutInflater = layoutInflater;
+	this.parentViewToAttach = parentViewToAttach;
+    }
+
+    public NonBindingViewInflater(Context context, ViewGroup parentViewToAttach) {
+	this(LayoutInflater.from(context).cloneInContext(context), parentViewToAttach);
+    }
+
+    @Override
+    public View inflateView(int layoutId) {
+	if (shouldAttachToParentView()) {
+	    return layoutInflater.inflate(layoutId, parentViewToAttach, true);
+	} else {
+	    return layoutInflater.inflate(layoutId, null);
 	}
+    }
+
+    private boolean shouldAttachToParentView() {
+	return parentViewToAttach != null;
+    }
 
 }

@@ -27,20 +27,18 @@ import org.robobinding.viewattribute.view.BackgroundAttribute.ResourceIdBackgrou
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ResourceIdBackgroundAttributeTest extends AbstractPropertyViewAttributeTest<View, ResourceIdBackgroundAttribute>
-{
-	@Test
-	public void givenBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		DrawableData drawableData = RandomValues.anyDrawableData();
+public class ResourceIdBackgroundAttributeTest extends AbstractPropertyViewAttributeTest<View, ResourceIdBackgroundAttribute> {
+    @Test
+    public void givenBoundAttribute_whenValueModelUpdated_thenViewShouldReflectChanges() {
+	DrawableData drawableData = RandomValues.anyDrawableData();
 
-		attribute.valueModelUpdated(drawableData.resourceId);
+	attribute.valueModelUpdated(drawableData.resourceId);
 
-		assertThat(view.getBackground(), equalTo(drawableData.drawable));
-	}
+	assertThat(view.getBackground(), equalTo(drawableData.drawable));
+    }
 }

@@ -39,8 +39,8 @@ public class PropertyVetoException extends Exception {
      *            The event that was vetoed.
      */
     public PropertyVetoException(String message, PropertyChangeEvent event) {
-        super(message);
-        this.evt = event;
+	super(message);
+	this.evt = event;
     }
 
     /**
@@ -51,6 +51,6 @@ public class PropertyVetoException extends Exception {
      * @return An instance of {@link PropertyChangeEvent}
      */
     public PropertyChangeEvent getPropertyChangeEvent() {
-        return evt;
+	return evt;
     }
 }

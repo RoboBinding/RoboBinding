@@ -28,69 +28,69 @@ import org.robobinding.viewattribute.AbstractGroupedViewAttributeTest;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TwoWayTextAttributeGroupTest extends AbstractGroupedViewAttributeTest<TwoWayTextAttributeGroup>
-{
-	private final Attribute oneWayBindingText = attribute("text={name}");
-	private final Attribute twoWayBindingText = attribute("text=${name}");
-	private final Attribute valueCommitMode = attribute("valueCommitMode=onChange");
+public class TwoWayTextAttributeGroupTest extends AbstractGroupedViewAttributeTest<TwoWayTextAttributeGroup> {
+    private final Attribute oneWayBindingText = attribute("text={name}");
+    private final Attribute twoWayBindingText = attribute("text=${name}");
+    private final Attribute valueCommitMode = attribute("valueCommitMode=onChange");
 
-	@Test
-	public void givenATextAttribute_thenCreateInstance()
-	{
-		givenAttribute(either(oneWayBindingText, twoWayBindingText));
+    @Test
+    public void givenATextAttribute_thenCreateInstance() {
+	givenAttribute(either(oneWayBindingText, twoWayBindingText));
 
-		performInitialization();
+	performInitialization();
 
-		assertThatAttributeWasCreated(TwoWayTextAttribute.class);
-	}
+	assertThatAttributeWasCreated(TwoWayTextAttribute.class);
+    }
 
-	//TODO This is too difficult to test at the moment
-//	@Test
-//	public void givenATextAttribute_thenValueCommitModeShouldDefaultToOnChange()
-//	{
-//		givenAttribute(either(oneWayBindingText, twoWayBindingText));
-//
-//		performInitialization();
-//
-//		assertThat(attributeUnderTest.valueCommitMode, equalTo(ValueCommitMode.ON_CHANGE));
-//	}
-	
-	@Test
-	public void givenTwoWayBindingTextAndValueCommitModeAttributes_thenCreateTextAttribute()
-	{
-		givenAttributes(twoWayBindingText, valueCommitMode);
+    // TODO This is too difficult to test at the moment
+    // @Test
+    // public void
+    // givenATextAttribute_thenValueCommitModeShouldDefaultToOnChange()
+    // {
+    // givenAttribute(either(oneWayBindingText, twoWayBindingText));
+    //
+    // performInitialization();
+    //
+    // assertThat(attributeUnderTest.valueCommitMode,
+    // equalTo(ValueCommitMode.ON_CHANGE));
+    // }
 
-		performInitialization();
+    @Test
+    public void givenTwoWayBindingTextAndValueCommitModeAttributes_thenCreateTextAttribute() {
+	givenAttributes(twoWayBindingText, valueCommitMode);
 
-		assertThatAttributeWasCreated(TwoWayTextAttribute.class);
-	}
+	performInitialization();
 
-//	@Test
-//	public void givenValueCommitModeAttribute_thenSetValueCommitModeAccordingly()
-//	{
-//		String valueCommitModeValue = either("onChange", "onFocusLost");
-//		Attribute valueCommitMode = attribute("valueCommitMode=" + valueCommitModeValue);
-//		givenAttributes(twoWayBindingText, valueCommitMode);
-//
-//		performInitialization();
-//
-//		assertTrue(attributeUnderTest.valueCommitMode == ValueCommitMode.from(valueCommitModeValue));
-//	}
+	assertThatAttributeWasCreated(TwoWayTextAttribute.class);
+    }
 
-	@Test(expected = MissingRequiredAttributesException.class)
-	public void givenValueCommitModeAttributeOnly_thenReject()
-	{
-		givenAttribute(valueCommitMode);
+    // @Test
+    // public void
+    // givenValueCommitModeAttribute_thenSetValueCommitModeAccordingly()
+    // {
+    // String valueCommitModeValue = either("onChange", "onFocusLost");
+    // Attribute valueCommitMode = attribute("valueCommitMode=" +
+    // valueCommitModeValue);
+    // givenAttributes(twoWayBindingText, valueCommitMode);
+    //
+    // performInitialization();
+    //
+    // assertTrue(attributeUnderTest.valueCommitMode ==
+    // ValueCommitMode.from(valueCommitModeValue));
+    // }
 
-		performInitialization();
-	}
+    @Test(expected = MissingRequiredAttributesException.class)
+    public void givenValueCommitModeAttributeOnly_thenReject() {
+	givenAttribute(valueCommitMode);
 
-	@Test(expected = MalformedAttributeException.class)
-	public void givenOneWayBindingTextAndValueCommitModeAttributes_thenReject()
-	{
-		givenAttributes(oneWayBindingText, valueCommitMode);
+	performInitialization();
+    }
 
-		performInitialization();
-	}
+    @Test(expected = MalformedAttributeException.class)
+    public void givenOneWayBindingTextAndValueCommitModeAttributes_thenReject() {
+	givenAttributes(oneWayBindingText, valueCommitMode);
+
+	performInitialization();
+    }
 
 }

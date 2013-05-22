@@ -26,20 +26,17 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public abstract class AbstractReadOnlyPropertyViewAttribute<ViewType extends View, PropertyType> extends AbstractPropertyViewAttribute<ViewType, PropertyType>
-{
-	public AbstractReadOnlyPropertyViewAttribute()
-	{
-	}
-	
-	public AbstractReadOnlyPropertyViewAttribute(boolean withAlwaysPreInitializingView)
-	{
-		super(withAlwaysPreInitializingView);
-	}
-	
-	@Override
-	protected final void observeChangesOnTheView(ValueModel<PropertyType> valueModel)
-	{
-		throw new UnsupportedOperationException(getClass().getName() + " only supports one-way binding");
-	}
+public abstract class AbstractReadOnlyPropertyViewAttribute<ViewType extends View, PropertyType> extends
+	AbstractPropertyViewAttribute<ViewType, PropertyType> {
+    public AbstractReadOnlyPropertyViewAttribute() {
+    }
+
+    public AbstractReadOnlyPropertyViewAttribute(boolean withAlwaysPreInitializingView) {
+	super(withAlwaysPreInitializingView);
+    }
+
+    @Override
+    protected final void observeChangesOnTheView(ValueModel<PropertyType> valueModel) {
+	throw new UnsupportedOperationException(getClass().getName() + " only supports one-way binding");
+    }
 }

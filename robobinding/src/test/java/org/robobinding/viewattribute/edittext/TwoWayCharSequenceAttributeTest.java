@@ -27,30 +27,27 @@ import org.robobinding.viewattribute.edittext.TwoWayTextAttribute.TwoWayCharSequ
 import android.widget.EditText;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TwoWayCharSequenceAttributeTest extends AbstractPropertyViewAttributeTest<EditText, TwoWayCharSequenceTextAttribute>
-{
-	@Test
-	public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges()
-	{
-		CharSequence newText = RandomStringUtils.randomAlphanumeric(5);
-		
-		attribute.valueModelUpdated(newText);
+public class TwoWayCharSequenceAttributeTest extends AbstractPropertyViewAttributeTest<EditText, TwoWayCharSequenceTextAttribute> {
+    @Test
+    public void givenValueModelIsStringType_whenValueModelUpdated_thenViewShouldReflectChanges() {
+	CharSequence newText = RandomStringUtils.randomAlphanumeric(5);
 
-		assertThat(view.getText(), sameAs(newText));
-	}
-	
-	@Test
-	public void givenValueModelIsStringType_whenViewStateIsChanged_thenUpdateValueModel()
-	{
-		ValueModel<CharSequence> valueModel = twoWayBindToProperty(CharSequence.class);
-		
-		view.setText(RandomStringUtils.random(5));
+	attribute.valueModelUpdated(newText);
 
-		assertThat(valueModel.getValue(), sameAs(view.getText()));
-	}
+	assertThat(view.getText(), sameAs(newText));
+    }
+
+    @Test
+    public void givenValueModelIsStringType_whenViewStateIsChanged_thenUpdateValueModel() {
+	ValueModel<CharSequence> valueModel = twoWayBindToProperty(CharSequence.class);
+
+	view.setText(RandomStringUtils.random(5));
+
+	assertThat(valueModel.getValue(), sameAs(view.getText()));
+    }
 }

@@ -19,19 +19,16 @@ import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
 
 import android.widget.ProgressBar;
 
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ProgressAttribute extends AbstractReadOnlyPropertyViewAttribute<ProgressBar, Integer>
-{
-	@Override
-	protected void valueModelUpdated(Integer progress)
-	{
-		view.setProgress(progress);
-	}
+public class ProgressAttribute extends AbstractReadOnlyPropertyViewAttribute<ProgressBar, Integer> {
+    @Override
+    protected void valueModelUpdated(Integer progress) {
+	view.setProgress(progress);
+    }
 
 }

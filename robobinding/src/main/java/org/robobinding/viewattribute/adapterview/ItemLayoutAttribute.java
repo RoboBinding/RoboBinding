@@ -20,37 +20,31 @@ import org.robobinding.attribute.AbstractPropertyAttribute;
 import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 
-
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ItemLayoutAttribute implements ChildViewAttributeWithAttribute<AbstractPropertyAttribute>
-{
-	protected RowLayoutAttributeFactory layoutAttributeFactory;
-	private ViewAttribute layoutAttribute;
-	
-	public ItemLayoutAttribute(RowLayoutAttributeFactory layoutAttributeFactory)
-	{
-		this.layoutAttributeFactory = layoutAttributeFactory;
-	}
+public class ItemLayoutAttribute implements ChildViewAttributeWithAttribute<AbstractPropertyAttribute> {
+    protected RowLayoutAttributeFactory layoutAttributeFactory;
+    private ViewAttribute layoutAttribute;
 
-	@Override
-	public void setAttribute(AbstractPropertyAttribute attribute)
-	{
-		layoutAttribute = createLayoutAttribute(attribute);
-	}
-	
-	protected ViewAttribute createLayoutAttribute(AbstractPropertyAttribute attribute) 
-	{
-		return layoutAttributeFactory.createItemLayoutAttribute(attribute);
-	}
-	
-	@Override
-	public void bindTo(BindingContext bindingContext)
-	{
-		layoutAttribute.bindTo(bindingContext);		
-	}
+    public ItemLayoutAttribute(RowLayoutAttributeFactory layoutAttributeFactory) {
+	this.layoutAttributeFactory = layoutAttributeFactory;
+    }
+
+    @Override
+    public void setAttribute(AbstractPropertyAttribute attribute) {
+	layoutAttribute = createLayoutAttribute(attribute);
+    }
+
+    protected ViewAttribute createLayoutAttribute(AbstractPropertyAttribute attribute) {
+	return layoutAttributeFactory.createItemLayoutAttribute(attribute);
+    }
+
+    @Override
+    public void bindTo(BindingContext bindingContext) {
+	layoutAttribute.bindTo(bindingContext);
+    }
 }

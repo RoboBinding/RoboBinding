@@ -28,39 +28,30 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class VisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View>
-{
+public class VisibilityAttribute extends AbstractMultiTypePropertyViewAttribute<View> {
+    @Override
+    protected AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType) {
+	if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType)) {
+	    return new IntegerVisibilityAttribute();
+	} else if (PrimitiveTypeUtils.booleanIsAssignableFrom(propertyType)) {
+	    return new BooleanVisibilityAttribute();
+	}
+
+	throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
+    }
+
+    static class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean> {
 	@Override
-	protected AbstractPropertyViewAttribute<View, ?> createPropertyViewAttribute(Class<?> propertyType)
-	{
-		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType))
-		{
-			return new IntegerVisibilityAttribute();
-		}
-		else if (PrimitiveTypeUtils.booleanIsAssignableFrom(propertyType))
-		{
-			return new BooleanVisibilityAttribute();
-		}
-		
-		throw new RuntimeException("Could not find a suitable visibility attribute class for property type: " + propertyType);
+	protected void valueModelUpdated(Boolean newValue) {
+	    view.setVisibility(newValue ? View.VISIBLE : View.GONE);
 	}
-	
-	static class BooleanVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean>
-	{
-		@Override
-		protected void valueModelUpdated(Boolean newValue)
-		{
-			view.setVisibility(newValue ? View.VISIBLE : View.GONE);
-		}
+    }
+
+    static class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer> {
+	@Override
+	protected void valueModelUpdated(Integer newValue) {
+	    view.setVisibility(newValue);
 	}
-	
-	static class IntegerVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Integer>
-	{
-		@Override
-		protected void valueModelUpdated(Integer newValue)
-		{
-			view.setVisibility(newValue);
-		}
-	}
-	
+    }
+
 }

@@ -34,52 +34,44 @@ import com.google.common.collect.Sets;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class ListViewUtilsTest
-{
-	private ListView listView;
-	
-	@Before
-	public void setUp()
-	{
-		listView = new ListView(new Activity());
-		listView.setAdapter(new MockArrayAdapter());
-		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-	}
-	
-	@Test
-	public void shouldSelectionsCleared()
-	{
-		setItemsChecked(anyCheckedItemPositions());
-		
-		ListViewUtils.clearSelections(listView);
-		
-		assertThat(SparseBooleanArrayUtils.toSet(listView.getCheckedItemPositions()), equalTo(Collections.<Integer>emptySet()));
-	}
+public class ListViewUtilsTest {
+    private ListView listView;
 
-	private Set<Integer> anyCheckedItemPositions()
-	{
-		Set<Integer> result = Sets.newHashSet();
-		for(int i=0; i<listView.getCount(); i++)
-		{
-			if(RandomValues.trueOrFalse())
-			{
-				result.add(i);
-			}
-		}
-		return result;
+    @Before
+    public void setUp() {
+	listView = new ListView(new Activity());
+	listView.setAdapter(new MockArrayAdapter());
+	listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+    }
+
+    @Test
+    public void shouldSelectionsCleared() {
+	setItemsChecked(anyCheckedItemPositions());
+
+	ListViewUtils.clearSelections(listView);
+
+	assertThat(SparseBooleanArrayUtils.toSet(listView.getCheckedItemPositions()), equalTo(Collections.<Integer> emptySet()));
+    }
+
+    private Set<Integer> anyCheckedItemPositions() {
+	Set<Integer> result = Sets.newHashSet();
+	for (int i = 0; i < listView.getCount(); i++) {
+	    if (RandomValues.trueOrFalse()) {
+		result.add(i);
+	    }
 	}
-	
-	private void setItemsChecked(Set<Integer> checkedItemPositions)
-	{
-		for(Integer checkedItemPosition : checkedItemPositions)
-		{
-			listView.setItemChecked(checkedItemPosition, true);
-		}
+	return result;
+    }
+
+    private void setItemsChecked(Set<Integer> checkedItemPositions) {
+	for (Integer checkedItemPosition : checkedItemPositions) {
+	    listView.setItemChecked(checkedItemPosition, true);
 	}
+    }
 }

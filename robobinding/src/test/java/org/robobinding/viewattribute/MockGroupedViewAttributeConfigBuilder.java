@@ -25,39 +25,36 @@ import org.robobinding.attribute.PendingGroupAttributes;
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class MockGroupedViewAttributeConfigBuilder<ViewType extends View>
-{
-	private GroupedViewAttributeConfig<ViewType> config;
-	
-	@SuppressWarnings("unchecked")
-	private MockGroupedViewAttributeConfigBuilder()
-	{
-		config = mock(GroupedViewAttributeConfig.class);
-	}
+public class MockGroupedViewAttributeConfigBuilder<ViewType extends View> {
+    private GroupedViewAttributeConfig<ViewType> config;
 
-	public static <ViewType extends View> GroupedViewAttributeConfig<ViewType> aGroupedViewAttributeConfig(ViewType view, Map<String, String> presentAttributeMappings)
-	{
-		MockGroupedViewAttributeConfigBuilder<ViewType> builder = new MockGroupedViewAttributeConfigBuilder<ViewType>();
-		builder.withViewAndPendingGroupAttributes(view, new PendingGroupAttributes(presentAttributeMappings));
-		return builder.build();
-		
-	}
+    @SuppressWarnings("unchecked")
+    private MockGroupedViewAttributeConfigBuilder() {
+	config = mock(GroupedViewAttributeConfig.class);
+    }
 
-	private MockGroupedViewAttributeConfigBuilder<ViewType> withViewAndPendingGroupAttributes(ViewType view, PendingGroupAttributes pendingGroupAttributes)
-	{
-		when(config.getView()).thenReturn(view);
-		when(config.getPendingGroupAttributes()).thenReturn(pendingGroupAttributes);
-		when(config.getViewListenersInjector()).thenReturn(mock(ViewListenersInjector.class));
-		return this;
-	}
-	
-	private GroupedViewAttributeConfig<ViewType> build()
-	{
-		return config;
-	}
+    public static <ViewType extends View> GroupedViewAttributeConfig<ViewType> aGroupedViewAttributeConfig(ViewType view,
+	    Map<String, String> presentAttributeMappings) {
+	MockGroupedViewAttributeConfigBuilder<ViewType> builder = new MockGroupedViewAttributeConfigBuilder<ViewType>();
+	builder.withViewAndPendingGroupAttributes(view, new PendingGroupAttributes(presentAttributeMappings));
+	return builder.build();
+
+    }
+
+    private MockGroupedViewAttributeConfigBuilder<ViewType> withViewAndPendingGroupAttributes(ViewType view,
+	    PendingGroupAttributes pendingGroupAttributes) {
+	when(config.getView()).thenReturn(view);
+	when(config.getPendingGroupAttributes()).thenReturn(pendingGroupAttributes);
+	when(config.getViewListenersInjector()).thenReturn(mock(ViewListenersInjector.class));
+	return this;
+    }
+
+    private GroupedViewAttributeConfig<ViewType> build() {
+	return config;
+    }
 }

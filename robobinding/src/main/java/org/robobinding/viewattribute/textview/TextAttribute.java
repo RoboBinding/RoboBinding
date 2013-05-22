@@ -27,50 +27,41 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TextAttribute extends AbstractTextAttribute<TextView>
-{
+public class TextAttribute extends AbstractTextAttribute<TextView> {
 
+    @Override
+    protected AbstractPropertyViewAttribute<TextView, ?> createNewCharSequenceAttribute() {
+	CharSequenceTextAttribute charSequenceTextAttribute = new CharSequenceTextAttribute();
+	return charSequenceTextAttribute;
+    }
+
+    @Override
+    protected AbstractPropertyViewAttribute<TextView, ?> createNewStringAttribute() {
+	StringTextAttribute stringTextAttribute = new StringTextAttribute();
+	return stringTextAttribute;
+    }
+
+    private abstract static class AbstractCharSequenceTextAttribute<PropertyType extends CharSequence> extends
+	    AbstractReadOnlyPropertyViewAttribute<TextView, PropertyType> {
 	@Override
-	protected AbstractPropertyViewAttribute<TextView, ?> createNewCharSequenceAttribute()
-	{
-		CharSequenceTextAttribute charSequenceTextAttribute = new CharSequenceTextAttribute();
-		return charSequenceTextAttribute;
+	protected void valueModelUpdated(PropertyType newValue) {
+	    view.setText(newValue);
 	}
 
+	protected abstract void updateValueModel(ValueModel<PropertyType> valueModel, CharSequence charSequence);
+    }
+
+    static class StringTextAttribute extends AbstractCharSequenceTextAttribute<String> {
 	@Override
-	protected AbstractPropertyViewAttribute<TextView, ?> createNewStringAttribute()
-	{
-		StringTextAttribute stringTextAttribute = new StringTextAttribute();
-		return stringTextAttribute;
+	protected void updateValueModel(ValueModel<String> valueModel, CharSequence charSequence) {
+	    valueModel.setValue(charSequence.toString());
 	}
-	
-	private abstract static class AbstractCharSequenceTextAttribute<PropertyType extends CharSequence> extends
-			AbstractReadOnlyPropertyViewAttribute<TextView, PropertyType>
-	{
-		@Override
-		protected void valueModelUpdated(PropertyType newValue)
-		{
-			view.setText(newValue);
-		}
+    }
 
-		protected abstract void updateValueModel(ValueModel<PropertyType> valueModel, CharSequence charSequence);
+    static class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence> {
+	@Override
+	protected void updateValueModel(ValueModel<CharSequence> valueModel, CharSequence charSequence) {
+	    valueModel.setValue(charSequence);
 	}
-
-	static class StringTextAttribute extends AbstractCharSequenceTextAttribute<String>
-	{
-		@Override
-		protected void updateValueModel(ValueModel<String> valueModel, CharSequence charSequence)
-		{
-			valueModel.setValue(charSequence.toString());
-		}
-	}
-
-	static class CharSequenceTextAttribute extends AbstractCharSequenceTextAttribute<CharSequence>
-	{
-		@Override
-		protected void updateValueModel(ValueModel<CharSequence> valueModel, CharSequence charSequence)
-		{
-			valueModel.setValue(charSequence);
-		}
-	}
+    }
 }

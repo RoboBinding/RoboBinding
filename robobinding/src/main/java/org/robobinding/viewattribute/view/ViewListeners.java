@@ -24,28 +24,23 @@ import android.view.View.OnFocusChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewListeners
-{
-	View view;
-	private OnFocusChangeListeners onFocusChangeListeners;
+public class ViewListeners {
+    View view;
+    private OnFocusChangeListeners onFocusChangeListeners;
 
-	public ViewListeners(View view)
-	{
-		this.view = view;
-	}
+    public ViewListeners(View view) {
+	this.view = view;
+    }
 
-	public void addOnFocusChangeListener(OnFocusChangeListener listener)
-	{
-		ensureOnFocusChangeListenersInitialized();
-		onFocusChangeListeners.addListener(listener);
-	}
+    public void addOnFocusChangeListener(OnFocusChangeListener listener) {
+	ensureOnFocusChangeListenersInitialized();
+	onFocusChangeListeners.addListener(listener);
+    }
 
-	private void ensureOnFocusChangeListenersInitialized()
-	{
-		if (onFocusChangeListeners == null)
-		{
-			onFocusChangeListeners = new OnFocusChangeListeners();
-			view.setOnFocusChangeListener(onFocusChangeListeners);
-		}
+    private void ensureOnFocusChangeListenersInitialized() {
+	if (onFocusChangeListeners == null) {
+	    onFocusChangeListeners = new OnFocusChangeListeners();
+	    view.setOnFocusChangeListener(onFocusChangeListeners);
 	}
+    }
 }

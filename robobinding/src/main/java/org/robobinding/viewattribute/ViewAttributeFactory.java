@@ -22,7 +22,7 @@ package org.robobinding.viewattribute;
  * @author Robert Taylor
  */
 public interface ViewAttributeFactory<T extends ViewAttribute> {
-	
-	T create();
+
+    T create();
 
 }

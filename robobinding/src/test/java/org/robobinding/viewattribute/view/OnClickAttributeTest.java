@@ -28,27 +28,23 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnClickAttributeTest extends AbstractCommandViewAttributeTest<View, OnClickAttribute>
-{
-	@Test
-	public void givenBoundAttribute_whenClickingOnView_thenEventReceived()
-	{
-		bindAttribute();
+public class OnClickAttributeTest extends AbstractCommandViewAttributeTest<View, OnClickAttribute> {
+    @Test
+    public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
+	bindAttribute();
 
-		clickOnView();
+	clickOnView();
 
-		assertEventReceived();
-	}
+	assertEventReceived();
+    }
 
-	private void clickOnView()
-	{
-		view.performClick();
-	}
+    private void clickOnView() {
+	view.performClick();
+    }
 
-	private void assertEventReceived()
-	{
-		assertEventReceived(ClickEvent.class);
-		ClickEvent clickEvent = getEventReceived();
-		assertTrue(clickEvent.getView() == view);
-	}
+    private void assertEventReceived() {
+	assertEventReceived(ClickEvent.class);
+	ClickEvent clickEvent = getEventReceived();
+	assertTrue(clickEvent.getView() == view);
+    }
 }

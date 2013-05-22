@@ -27,41 +27,36 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 import com.xtremelabs.robolectric.shadows.ShadowView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnFocusAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<View, OnFocusChangeAttribute, MockViewListeners>
-{
-	@Test
-	public void givenBoundAttribute_whenApplyFocus_thenEventReceived()
-	{
-		bindAttribute();
+public class OnFocusAttributeTest extends AbstractCommandViewAttributeWithViewListenersAwareTest<View, OnFocusChangeAttribute, MockViewListeners> {
+    @Test
+    public void givenBoundAttribute_whenApplyFocus_thenEventReceived() {
+	bindAttribute();
 
-		setViewFocus();
+	setViewFocus();
 
-		assertEventReceived();
-	}
+	assertEventReceived();
+    }
 
-	@Test
-	public void whenBinding_thenRegisterWithViewListeners()
-	{
-		bindAttribute();
-		
-		assertTrue(viewListeners.addOnFocusChangeListenerInvoked);
-	}
-	
-	private void setViewFocus()
-	{
-		ShadowView shadowView = Robolectric.shadowOf(view);
-		shadowView.setViewFocus(true);
-	}
+    @Test
+    public void whenBinding_thenRegisterWithViewListeners() {
+	bindAttribute();
 
-	private void assertEventReceived()
-	{
-		assertEventReceived(AbstractViewEvent.class);
-	}
+	assertTrue(viewListeners.addOnFocusChangeListenerInvoked);
+    }
+
+    private void setViewFocus() {
+	ShadowView shadowView = Robolectric.shadowOf(view);
+	shadowView.setViewFocus(true);
+    }
+
+    private void assertEventReceived() {
+	assertEventReceived(AbstractViewEvent.class);
+    }
 
 }
