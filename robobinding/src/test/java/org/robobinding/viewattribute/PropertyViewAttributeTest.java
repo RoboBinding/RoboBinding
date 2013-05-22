@@ -24,12 +24,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.robobinding.attribute.MockValueModelAttributeBuilder.aValueModelAttribute;
 import static org.robobinding.viewattribute.MockPropertyViewAttributeConfigBuilder.aPropertyViewAttributeConfig;
+import static org.robobinding.viewattribute.PropertyViewAttributeSpyBuilder.aPropertyViewAttributeSpy;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
+import org.robobinding.property.AbstractValueModel;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 
@@ -89,6 +91,22 @@ public final class PropertyViewAttributeTest extends ViewAttributeContractTest<P
 	valueModel.setValue(A_NEW_VALUE);
 
 	assertThat(attribute.viewUpdateNotificationCount, is(1));
+    }
+
+    @Test
+    public void givenATwoWayBindingViewAttributeOfAlwaysRestoreValueProperty_whenTheViewIsUpdated_thenViewShouldReceiveAnUpdateWithRestoredValue() {
+	attribute = aPropertyViewAttributeSpy()
+		.withPreInitializeView(false)
+		.withTwoWaybinding(true)
+		.withPropertyName(PROPERTY_NAME)
+		.build();
+	valueModel = new AlwaysRestoreValueModel();
+	bindAttribute(TWO_WAY_BINDING, DONT_PRE_INITIALIZE_VIEW);
+
+	attribute.simulateViewUpdate(A_NEW_VALUE);
+
+	assertThat(attribute.viewUpdateNotificationCount, is(1));
+	assertThat(attribute.updatedValue, is(AlwaysRestoreValueModel.ALWAYS_RESTORE_VALUE));
     }
 
     @Test
@@ -182,5 +200,22 @@ public final class PropertyViewAttributeTest extends ViewAttributeContractTest<P
 	when(bindingContext.getDataSetPropertyValueModel(anyString())).thenThrow(new RuntimeException());
 
 	return bindingContext;
+    }
+
+    public static class AlwaysRestoreValueModel extends AbstractValueModel<Integer> {
+	private static final int ALWAYS_RESTORE_VALUE = 888888888;
+
+	public AlwaysRestoreValueModel() {
+	    super(ALWAYS_RESTORE_VALUE);
+	}
+
+	@Override
+	public void setValue(Integer newValue) {
+	    super.setValue(newValue);
+	    if (newValue != ALWAYS_RESTORE_VALUE) {
+		this.value = ALWAYS_RESTORE_VALUE;
+		fireValueChange();
+	    }
+	}
     }
 }
