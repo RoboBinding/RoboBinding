@@ -71,6 +71,8 @@ public class ChildViewAttributesTest {
 
     @Test
     public void whenBindTo_thenTheMethodInEachChildViewAttributeIsCalled() {
+	AKindOfChildViewAttributes[] childViewAttributeSamples = { new ChildViewAttributeTester(),
+		    new ChildViewAttributeWithAttributeTester(), new PropertyViewAttributeTester() };
 	ChildViewAttributes<View> childViewAttributes = createChildViewAttributesFrom(childViewAttributeSamples);
 	addToChildViewAttributes(childViewAttributes, childViewAttributeSamples);
 	childViewAttributes.markSetupCompleted();
