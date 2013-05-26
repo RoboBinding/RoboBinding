@@ -24,8 +24,6 @@ import org.junit.Before;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractCommandViewAttributeTest;
 import org.robobinding.viewattribute.ParameterizedTypeUtils;
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersAware;
 
 import android.view.View;
 
@@ -35,7 +33,8 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractCommandViewAttributeWithViewListenersAwareTest<ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<? super ViewType>, ViewListenersType extends ViewListeners>
+public abstract class AbstractCommandViewAttributeWithViewListenersAwareTest<ViewType extends View, 
+	CommandViewAttributeType extends AbstractCommandViewAttribute<? super ViewType>, ViewListenersType extends ViewListeners>
 	extends AbstractCommandViewAttributeTest<ViewType, CommandViewAttributeType> {
     protected ViewListenersType viewListeners;
 
