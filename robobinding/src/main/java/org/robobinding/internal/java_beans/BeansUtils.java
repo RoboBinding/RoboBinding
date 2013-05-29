@@ -17,7 +17,12 @@
 
 package org.robobinding.internal.java_beans;
 
+/**
+*
+*/
 public class BeansUtils {
+    private BeansUtils() {
+    }
 
     public static String toASCIIUpperCase(String string) {
 	char[] charArray = string.toCharArray();

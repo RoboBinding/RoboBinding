@@ -31,7 +31,8 @@ class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<Adapt
     private DataSetAdapter<?> dataSetAdapter;
     private RowLayoutUpdater rowLayoutUpdater;
 
-    public DynamicLayoutAttribute(PropertyViewAttributeConfig<AdapterView> config, DataSetAdapter<?> dataSetAdapter, RowLayoutUpdater rowLayoutUpdater) {
+    public DynamicLayoutAttribute(PropertyViewAttributeConfig<AdapterView> config, DataSetAdapter<?> dataSetAdapter, 
+	    RowLayoutUpdater rowLayoutUpdater) {
 	super.initialize(config);
 	this.dataSetAdapter = dataSetAdapter;
 	this.rowLayoutUpdater = rowLayoutUpdater;

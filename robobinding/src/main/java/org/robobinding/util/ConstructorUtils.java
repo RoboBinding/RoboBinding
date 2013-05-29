@@ -30,20 +30,7 @@ import java.lang.reflect.Modifier;
  */
 public class ConstructorUtils {
 
-    /**
-     * <p>
-     * ConstructorUtils instances should NOT be constructed in standard
-     * programming. Instead, the class should be used as
-     * <code>ConstructorUtils.invokeConstructor(cls, args)</code>.
-     * </p>
-     * 
-     * <p>
-     * This constructor is public to permit tools that require a JavaBean
-     * instance to operate.
-     * </p>
-     */
-    public ConstructorUtils() {
-	super();
+    private ConstructorUtils() {
     }
 
     /**
@@ -231,7 +218,8 @@ public class ConstructorUtils {
 		ctor = getAccessibleConstructor(ctor);
 		if (ctor != null) {
 		    MemberUtils.setAccessibleWorkaround(ctor);
-		    if (result == null || MemberUtils.compareParameterTypes(ctor.getParameterTypes(), result.getParameterTypes(), parameterTypes) < 0) {
+		    if (result == null 
+			    || MemberUtils.compareParameterTypes(ctor.getParameterTypes(), result.getParameterTypes(), parameterTypes) < 0) {
 			// temporary variable for annotation, see comment above
 			// (1)
 			@SuppressWarnings("unchecked")

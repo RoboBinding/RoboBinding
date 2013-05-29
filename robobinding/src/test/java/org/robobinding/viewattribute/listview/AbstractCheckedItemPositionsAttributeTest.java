@@ -75,7 +75,7 @@ public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends
 	    } else if (selector == 1) {
 		sparseBooleanArray.put(i, false);
 	    } else {
-		System.out.print("");//Doing nothing.
+		System.out.print(""); //Doing nothing.
 	    }
 	}
 	return sparseBooleanArray;

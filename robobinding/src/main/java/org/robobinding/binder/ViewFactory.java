@@ -65,7 +65,7 @@ class ViewFactory implements Factory {
 	}
     }
 
-    public static interface ViewFactoryListener {
+    public interface ViewFactoryListener {
 	void onViewCreated(View view, AttributeSet attrs);
     }
 }

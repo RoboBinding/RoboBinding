@@ -51,8 +51,8 @@ public class PropertyAttributeParserTest {
 	    new IllegalValueModelAttributeValue("!{propertyX}", ErrorMessage.SIMPLE_ERROR_MESSAGE) };
 
     @DataPoints
-    public static IllegalStaticResourceAttributeValue[] illegalStaticResourceAttributeValues = { new IllegalStaticResourceAttributeValue(
-	    "{@layout/layoutX}", ErrorMessage.SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES) };
+    public static IllegalStaticResourceAttributeValue[] illegalStaticResourceAttributeValues = {new IllegalStaticResourceAttributeValue(
+	    "{@layout/layoutX}", ErrorMessage.SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES)};
 
     private PropertyAttributeParser parser;
 
@@ -136,7 +136,7 @@ public class PropertyAttributeParserTest {
 	SIMPLE_ERROR_MESSAGE, SUGGEST_CURLY_BRACES_ERROR_MESSAGE, SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES
     }
 
-    private static abstract class AbstractIllegalAttributeValue {
+    private abstract static class AbstractIllegalAttributeValue {
 	final String value;
 	final ErrorMessage expectedErrorMessage;
 
@@ -154,10 +154,10 @@ public class PropertyAttributeParserTest {
 	    case SUGGEST_NOT_USING_CURLY_BRACES_FOR_STATIC_RESOURCES:
 		return "Invalid binding syntax: '"
 			+ value
-			+ "'.\n\nDid you mean to omit the curly braces? (Curly braces are for binding to a property on the presentation model, not static resources)";
+			+ "'.\n\nDid you mean to omit the curly braces? (Curly braces are for binding to a property on the presentation model,"
+			+ " not static resources)";
+	    default: throw new RuntimeException("should not reach here");
 	    }
-
-	    return "";
 	}
     }
 

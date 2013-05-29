@@ -50,7 +50,8 @@ public class CheckedItemPositionsAttributeTest extends AbstractMultiTypeProperty
 
     @Test
     public void whenBinding_thenRegisterWithMulticastListener() {
-	AbstractCheckedItemPositionsAttributeForTest abstractCheckedItemPositionsAttributeForTest = new AbstractCheckedItemPositionsAttributeForTest();
+	AbstractCheckedItemPositionsAttributeForTest abstractCheckedItemPositionsAttributeForTest = 
+		new AbstractCheckedItemPositionsAttributeForTest();
 	AdapterViewListeners mockAdapterViewListeners = mock(AdapterViewListeners.class);
 	abstractCheckedItemPositionsAttributeForTest.setViewListeners(mockAdapterViewListeners);
 
@@ -59,7 +60,7 @@ public class CheckedItemPositionsAttributeTest extends AbstractMultiTypeProperty
 	verify(mockAdapterViewListeners).addOnItemClickListener(any(OnItemClickListener.class));
     }
 
-    public class AbstractCheckedItemPositionsAttributeForTest extends AbstractCheckedItemPositionsAttribute<Integer> {
+    class AbstractCheckedItemPositionsAttributeForTest extends AbstractCheckedItemPositionsAttribute<Integer> {
 	@Override
 	protected void viewCheckedItemPositionsChanged(ValueModel<Integer> valueModel) {
 	}

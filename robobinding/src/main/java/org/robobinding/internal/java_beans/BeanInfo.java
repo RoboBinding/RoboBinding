@@ -17,12 +17,15 @@
 
 package org.robobinding.internal.java_beans;
 
+/**
+ *
+ */
 public interface BeanInfo {
-    public PropertyDescriptor[] getPropertyDescriptors();
+    PropertyDescriptor[] getPropertyDescriptors();
 
-    public BeanDescriptor getBeanDescriptor();
+    BeanDescriptor getBeanDescriptor();
 
-    public BeanInfo[] getAdditionalBeanInfo();
+    BeanInfo[] getAdditionalBeanInfo();
 
-    public int getDefaultPropertyIndex();
+    int getDefaultPropertyIndex();
 }

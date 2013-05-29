@@ -20,7 +20,6 @@ import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.robobinding.function.Function;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.viewattribute.BindingAttributeValues;
@@ -82,7 +81,8 @@ public class MockPresentationModelAdapterBuilder {
 	return this;
     }
 
-    public <PropertyType> MockPresentationModelAdapterBuilder declareReadOnlyProperty(String propertyName, ValueModel<PropertyType> propertyValueModel) {
+    public <PropertyType> MockPresentationModelAdapterBuilder declareReadOnlyProperty(String propertyName, 
+	    ValueModel<PropertyType> propertyValueModel) {
 	when(mockPresentationModelAdapter.<PropertyType> getReadOnlyPropertyValueModel(propertyName)).thenReturn(propertyValueModel);
 	return this;
     }

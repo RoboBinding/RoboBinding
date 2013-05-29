@@ -4,7 +4,7 @@
   <local-check-config name="Robobinding checkstyle" location=".checkstyle.xml" type="project" description="">
     <additional-data name="protect-config-file" value="false"/>
   </local-check-config>
-  <fileset name="all" enabled="true" check-config-name="Robobinding checkstyle" local="true">
-    <file-match-pattern match-pattern="." include-pattern="true"/>
+  <fileset name="ScrFilesOnly" enabled="true" check-config-name="Robobinding checkstyle" local="true">
+    <file-match-pattern match-pattern="src" include-pattern="true"/>
   </fileset>
 </fileset-config>

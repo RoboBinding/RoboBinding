@@ -149,7 +149,8 @@ class StandardBeanInfo extends SimpleBeanInfo {
     /*
      * merge the PropertyDescriptor with superclass
      */
-    private PropertyDescriptor[] mergeProps(PropertyDescriptor[] superDescs, int superDefaultIndex) throws IntrospectionException {
+    private PropertyDescriptor[] mergeProps(PropertyDescriptor[] superDescs, 
+	    int superDefaultIndex) throws IntrospectionException {
 	// change to OO way as EventSetD and MethodD
 	HashMap<String, PropertyDescriptor> subMap = internalAsMap(properties);
 	String defaultPropertyName = null;
@@ -690,7 +691,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
      * @throws IntrospectionException
      */
     private void fixGetSet(HashMap<String, HashMap> propertyTable) throws IntrospectionException {
-
+	
 	if (propertyTable == null) {
 	    return;
 	}

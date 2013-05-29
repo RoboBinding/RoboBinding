@@ -35,7 +35,7 @@ import com.google.common.collect.Sets;
  * @author Cheng Wei
  */
 public class PropertyUtils {
-    private static Set<String> EXCLUDED_PROPERTY_NAMES = Sets.newHashSet("class");
+    private static final Set<String> EXCLUDED_PROPERTY_NAMES = Sets.newHashSet("class");
 
     // TODO:seems it accept setters with two parameters.
     public static List<PropertyDescriptor> getPropertyDescriptors(Class<?> beanClass) {

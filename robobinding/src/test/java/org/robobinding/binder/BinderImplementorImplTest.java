@@ -31,8 +31,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robobinding.BindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.binder.InternalBinder.BindingContextCreator;
 import org.robobinding.binder.BindingViewInflater.InflatedView;
+import org.robobinding.binder.InternalBinder.BindingContextCreator;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 import android.app.Activity;
@@ -95,7 +95,7 @@ public class BinderImplementorImplTest {
 	verify(inflatedView).assertNoErrors(errorFormatter);
     }
 
-    public class BinderImplementorImplForTest extends InternalBinder {
+    class BinderImplementorImplForTest extends InternalBinder {
 	public BinderImplementorImplForTest(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter) {
 	    super(context, bindingContextCreator, errorFormatter, true);
 	}

@@ -29,19 +29,22 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 class OnSeekBarChangeListeners extends AbstractListeners<OnSeekBarChangeListener> implements OnSeekBarChangeListener {
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-	for (OnSeekBarChangeListener onSeekBarChangeListener : listeners)
+	for (OnSeekBarChangeListener onSeekBarChangeListener : listeners) {
 	    onSeekBarChangeListener.onProgressChanged(seekBar, progress, fromUser);
+	}
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-	for (OnSeekBarChangeListener onSeekBarChangeListener : listeners)
+	for (OnSeekBarChangeListener onSeekBarChangeListener : listeners) {
 	    onSeekBarChangeListener.onStartTrackingTouch(seekBar);
+	}
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-	for (OnSeekBarChangeListener onSeekBarChangeListener : listeners)
+	for (OnSeekBarChangeListener onSeekBarChangeListener : listeners) {
 	    onSeekBarChangeListener.onStopTrackingTouch(seekBar);
+	}
     }
 }

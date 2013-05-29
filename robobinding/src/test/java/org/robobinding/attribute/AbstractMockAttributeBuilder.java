@@ -18,8 +18,6 @@ package org.robobinding.attribute;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.robobinding.attribute.AbstractAttribute;
-
 /**
  * 
  * @since 1.0

@@ -73,7 +73,7 @@ public class ByBindingAttributeMappingsResolverTest {
 
     @Test
     public void givenAAttributeGroup_whenResolve_thenAResolvedGroupedViewAttributeShouldBeReturned() {
-	String[] attributeGroup = { "group_attribute1", "group_attribute2" };
+	String[] attributeGroup = {"group_attribute1", "group_attribute2"};
 	ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver = newByBindingAttributeMappingsResolver(aBindingAttributeMappingsImpl()
 		.withAttributeGroup(attributeGroup).build());
 

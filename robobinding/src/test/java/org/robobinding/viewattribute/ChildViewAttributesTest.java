@@ -44,8 +44,8 @@ import android.view.View;
 @RunWith(Theories.class)
 public class ChildViewAttributesTest {
     @DataPoints
-    public static AKindOfChildViewAttributes[] childViewAttributeSamples = { new ChildViewAttributeTester(),
-	    new ChildViewAttributeWithAttributeTester(), new PropertyViewAttributeTester() };
+    public static AKindOfChildViewAttributes[] childViewAttributeSamples = {new ChildViewAttributeTester(),
+	    new ChildViewAttributeWithAttributeTester(), new PropertyViewAttributeTester()};
 
     @Theory()
     @Test(expected = RuntimeException.class)
@@ -71,8 +71,8 @@ public class ChildViewAttributesTest {
 
     @Test
     public void whenBindTo_thenTheMethodInEachChildViewAttributeIsCalled() {
-	AKindOfChildViewAttributes[] childViewAttributeSamples = { new ChildViewAttributeTester(),
-		    new ChildViewAttributeWithAttributeTester(), new PropertyViewAttributeTester() };
+	AKindOfChildViewAttributes[] childViewAttributeSamples = {new ChildViewAttributeTester(),
+		    new ChildViewAttributeWithAttributeTester(), new PropertyViewAttributeTester()};
 	ChildViewAttributes<View> childViewAttributes = createChildViewAttributesFrom(childViewAttributeSamples);
 	addToChildViewAttributes(childViewAttributes, childViewAttributeSamples);
 	childViewAttributes.markSetupCompleted();
@@ -204,20 +204,22 @@ public class ChildViewAttributesTest {
 	}
 
 	@Override
-	public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> PropertyViewAttributeType initializePropertyViewAttribute(
+	public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>>
+		PropertyViewAttributeType initializePropertyViewAttribute(
 		PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute) {
 	    return propertyViewAttribute;
 	}
 
 	@Override
-	public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> CommandViewAttributeType initializeCommandViewAttribute(
+	public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> 
+		CommandViewAttributeType initializeCommandViewAttribute(
 		CommandViewAttributeType viewAttribute, CommandAttribute attribute) {
 	    return viewAttribute;
 	}
 
     }
 
-    private static interface AKindOfChildViewAttributes {
+    private interface AKindOfChildViewAttributes {
 	void updateGroupAttributesBuilder(GroupAttributesBuilder groupAttributesBuilder);
 
 	void addTo(ChildViewAttributes<View> childViewAttributes);

@@ -56,7 +56,7 @@ public class FromClassViewAttributeFactoryTest {
 	}
     }
 
-    public static abstract class AbstractViewAttribute implements ViewAttribute {
+   public abstract static class AbstractViewAttribute implements ViewAttribute {
     }
 
     private static class NonVisibleViewAttribute implements ViewAttribute {

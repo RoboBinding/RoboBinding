@@ -17,6 +17,9 @@
 
 package org.robobinding.internal.java_beans;
 
+/**
+ * 
+ */
 public class ParameterDescriptor extends FeatureDescriptor {
 
     public ParameterDescriptor() {

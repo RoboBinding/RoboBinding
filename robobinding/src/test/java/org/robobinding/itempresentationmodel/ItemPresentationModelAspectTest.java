@@ -62,8 +62,8 @@ public class ItemPresentationModelAspectTest {
 
     @SuppressWarnings("rawtypes")
     @DataPoints
-    public static ItemPresentationModel[] manualPresentationModelImplementations = { new ItemPresentationModel_ManualImplementation1(),
-	    new ItemPresentationModel_ManualImplementation2() };
+    public static ItemPresentationModel[] manualPresentationModelImplementations = {new ItemPresentationModel_ManualImplementation1(),
+	    new ItemPresentationModel_ManualImplementation2()};
 
     @Theory
     public void whenImplementsPrensentationModelManually_thenNoAutoCodeGenerationTriggered(

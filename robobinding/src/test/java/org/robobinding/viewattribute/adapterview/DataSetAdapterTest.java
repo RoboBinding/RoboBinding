@@ -157,8 +157,9 @@ public class DataSetAdapterTest {
 	public MockPresentationModel() {
 	    list = Lists.newArrayList();
 
-	    for (int i = 0; i < RandomValues.anyIntegerGreaterThanZero(); i++)
+	    for (int i = 0; i < RandomValues.anyIntegerGreaterThanZero(); i++) {
 		list.add(new Object());
+	    }
 	}
 
 	void update() {

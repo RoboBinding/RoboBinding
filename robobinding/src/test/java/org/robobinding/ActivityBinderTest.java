@@ -22,8 +22,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.ActivityBinder;
-import org.robobinding.BinderImplementor;
 
 import android.app.Activity;
 import android.view.View;

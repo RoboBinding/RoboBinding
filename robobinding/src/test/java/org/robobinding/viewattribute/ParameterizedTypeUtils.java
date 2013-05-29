@@ -29,6 +29,9 @@ import org.apache.commons.lang3.reflect.ConstructorUtils;
  * @author Cheng Wei
  */
 public class ParameterizedTypeUtils {
+    private ParameterizedTypeUtils() {
+    }
+    
     public static <T> T createTypeArgument(ParameterizedType type, int typeArgumentIndex) {
 	return createTypeArgument(type, typeArgumentIndex, null, null);
     }

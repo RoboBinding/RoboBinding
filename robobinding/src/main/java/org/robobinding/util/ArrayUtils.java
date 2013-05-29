@@ -36,20 +36,7 @@ class ArrayUtils {
      */
     public static final Class<?>[] EMPTY_CLASS_ARRAY = new Class[0];
 
-    /**
-     * <p>
-     * ArrayUtils instances should NOT be constructed in standard programming.
-     * Instead, the class should be used as
-     * <code>ArrayUtils.clone(new int[] {2})</code>.
-     * </p>
-     * 
-     * <p>
-     * This constructor is public to permit tools that require a JavaBean
-     * instance to operate.
-     * </p>
-     */
-    public ArrayUtils() {
-	super();
+    private ArrayUtils() {
     }
 
     // NOTE: Cannot use {@code} to enclose text which includes {}, but

@@ -102,7 +102,8 @@ public class ViewListenersProviderTest {
 	public abstract Class<? extends ViewListeners> getViewListenersType();
     }
 
-    private static class MockViewListenersAwareAttribute extends AbstractMockViewListenersAwareAttribute implements ViewListenersAware<ViewListeners> {
+    private static class MockViewListenersAwareAttribute extends AbstractMockViewListenersAwareAttribute 
+    	implements ViewListenersAware<ViewListeners> {
 	@Override
 	public void setViewListeners(ViewListeners viewListeners) {
 	}

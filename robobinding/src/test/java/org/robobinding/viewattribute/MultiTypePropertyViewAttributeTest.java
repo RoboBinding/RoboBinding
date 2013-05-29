@@ -41,7 +41,7 @@ public class MultiTypePropertyViewAttributeTest extends ViewAttributeContractTes
 	return new ThrowsExceptionDuringBinding();
     }
 
-    private static abstract class AbstractMultiTypePropertyViewAttributeWithDefaultConfig extends AbstractMultiTypePropertyViewAttribute<View> {
+    private abstract static class AbstractMultiTypePropertyViewAttributeWithDefaultConfig extends AbstractMultiTypePropertyViewAttribute<View> {
 	public AbstractMultiTypePropertyViewAttributeWithDefaultConfig() {
 	    initialize(aMultiTypePropertyViewAttributeConfig(mock(View.class), "propertyName"));
 	}

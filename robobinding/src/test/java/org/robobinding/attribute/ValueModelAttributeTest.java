@@ -36,9 +36,9 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class ValueModelAttributeTest {
     @DataPoints
-    public static LegalValueModelAttributeValue[] legalAttributeValues = { new LegalValueModelAttributeValue("{propertyX}", "propertyX", ONE_WAY),
+    public static LegalValueModelAttributeValue[] legalAttributeValues = {new LegalValueModelAttributeValue("{propertyX}", "propertyX", ONE_WAY),
 	    new LegalValueModelAttributeValue("{propertyY}", "propertyY", ONE_WAY),
-	    new LegalValueModelAttributeValue("${propertyZ}", "propertyZ", TWO_WAY) };
+	    new LegalValueModelAttributeValue("${propertyZ}", "propertyZ", TWO_WAY)};
 
     @Theory
     public void whenCreateWithLegalAttributeValue_thenReturnAttributeWithCorrectContents(LegalValueModelAttributeValue legalAttributeValue) {

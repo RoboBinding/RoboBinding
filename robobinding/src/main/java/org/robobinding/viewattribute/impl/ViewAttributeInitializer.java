@@ -43,14 +43,16 @@ public class ViewAttributeInitializer {
 	delegate = new ViewAttributeInitializerDelegate(viewListenersInjector);
     }
 
-    public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> PropertyViewAttributeType initializePropertyViewAttribute(
+    public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> 
+    	PropertyViewAttributeType initializePropertyViewAttribute(
 	    ViewType view, PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute) {
 	delegate.setCurrentView(view);
 	delegate.<ViewType, PropertyViewAttributeType> initializePropertyViewAttribute(propertyViewAttribute, attribute);
 	return propertyViewAttribute;
     }
 
-    public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> CommandViewAttributeType initializeCommandViewAttribute(
+    public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> 
+    	CommandViewAttributeType initializeCommandViewAttribute(
 	    ViewType view, CommandViewAttributeType commandViewAttribute, CommandAttribute attribute) {
 	delegate.setCurrentView(view);
 	delegate.<ViewType, CommandViewAttributeType> initializeCommandViewAttribute(commandViewAttribute, attribute);
@@ -58,7 +60,8 @@ public class ViewAttributeInitializer {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public <ViewType extends View, GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> GroupedViewAttributeType initializeGroupedViewAttribute(
+    public <ViewType extends View, GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> 
+    	GroupedViewAttributeType initializeGroupedViewAttribute(
 	    ViewType view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes pendingGroupAttributes) {
 	groupedViewAttribute.initialize(new GroupedViewAttributeConfig(view, pendingGroupAttributes, viewListenersInjector));
 	return groupedViewAttribute;

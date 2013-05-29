@@ -42,7 +42,7 @@ import org.robobinding.function.Function;
 @RunWith(Theories.class)
 public class CommandAttributeTest {
     @DataPoints
-    public static String[] illegalAttributeValues = { "{invalid_command_name}", "{invalid_command_name", "invalid_command_name}" };
+    public static String[] illegalAttributeValues = {"{invalid_command_name}", "{invalid_command_name", "invalid_command_name}"};
 
     private static final String COMMAND_NAME = "commandName";
 
@@ -91,6 +91,6 @@ public class CommandAttributeTest {
     }
 
     private Class<?>[] withParameterTypes() {
-	return new Class<?>[] { Object.class };
+	return new Class<?>[] {Object.class};
     }
 }
