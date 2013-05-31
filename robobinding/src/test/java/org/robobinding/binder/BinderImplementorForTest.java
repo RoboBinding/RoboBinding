@@ -34,11 +34,11 @@ public class BinderImplementorForTest extends InternalBinder {
     private BindingViewInflater bindingViewInflater;
 
     public BinderImplementorForTest(final Context context, BindingViewInflater bindingViewInflater) {
-	super(context, new BindingContextCreator() {
+	super(context, new BindingContextFactory() {
 
 	    @Override
 	    public BindingContext create(Object presentationModel) {
-		return new BindingContext(mock(InternalBinderFactory.class), context, presentationModel, false);
+		return new BindingContext(mock(BinderFactoryImpl.class), context, presentationModel, false);
 	    }
 	}, new ViewHierarchyInflationErrorsException.ErrorFormatter() {
 

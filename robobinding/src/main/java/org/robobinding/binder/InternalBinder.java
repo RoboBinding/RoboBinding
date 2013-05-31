@@ -23,7 +23,6 @@ import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.binder.BindingViewInflater.InflatedView;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -37,17 +36,17 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 class InternalBinder implements BinderImplementor {
-    private final Context context;
-    private final BindingContextCreator bindingContextCreator;
-    private ErrorFormatter errorFormatter;
-    private final boolean preInitailizeViews;
+    private final BindingViewInflater bindingViewInflater;
+    private final ErrorFormatter errorFormatter;
+    private final BindingContextFactory bindingContextFactory;
     private ViewGroup parentView;
 
-    public InternalBinder(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter, boolean preInitailizeViews) {
-	this.context = context;
-	this.bindingContextCreator = bindingContextCreator;
+    public InternalBinder(BindingViewInflater bindingViewInflater, 
+	    BindingContextFactory bindingContextFactory, 
+	    ErrorFormatter errorFormatter) {
+	this.bindingViewInflater = bindingViewInflater;
+	this.bindingContextFactory = bindingContextFactory;
 	this.errorFormatter = errorFormatter;
-	this.preInitailizeViews = preInitailizeViews;
     }
 
     @Override
@@ -64,34 +63,21 @@ class InternalBinder implements BinderImplementor {
     @Override
     public View inflateAndBind(int layoutId, Object presentationModel,
 	    Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
-	BindingViewInflater viewInflater = createBindingViewInflater(predefinedPendingAttributesForViewGroup);
-	InflatedView inflatedView = viewInflater.inflateView(layoutId);
+	InflatedView inflatedView = bindingViewInflater.inflateView(layoutId);
 
-	BindingContext bindingContext = bindingContextCreator.create(presentationModel);
+	return bind(inflatedView, presentationModel);
+    }
+
+    private View bind(InflatedView inflatedView, Object presentationModel) {
+	BindingContext bindingContext = bindingContextFactory.create(this, presentationModel);
+	
 	inflatedView.bindChildViews(bindingContext);
 	inflatedView.assertNoErrors(errorFormatter);
 
-	if (preInitailizeViews) {
+	if (bindingContext.shouldPreInitializeViews()) {
 	    inflatedView.preinitializeViews(bindingContext);
 	}
 
 	return inflatedView.getRootView();
-    }
-
-    BindingViewInflater createBindingViewInflater(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
-	BindingViewInflater.Builder viewInflaterBuilder = new BindingViewInflater.Builder(context);
-	viewInflaterBuilder.setParentViewToAttach(parentView);
-	viewInflaterBuilder.setPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup);
-	return viewInflaterBuilder.create();
-    }
-
-    @Override
-    public View inflateOnly(int layoutId) {
-	ViewInflater viewInflater = new NonBindingViewInflater(context, parentView);
-	return viewInflater.inflateView(layoutId);
-    }
-
-    public interface BindingContextCreator {
-	BindingContext create(Object presentationModel);
     }
 }

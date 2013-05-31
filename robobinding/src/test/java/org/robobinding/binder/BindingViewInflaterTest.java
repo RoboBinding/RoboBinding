@@ -32,6 +32,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.ViewInflater;
 import org.robobinding.ViewResolutionErrors;
 import org.robobinding.binder.BindingViewInflater.InflatedView;
 

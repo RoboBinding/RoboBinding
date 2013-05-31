@@ -18,6 +18,7 @@ package org.robobinding.binder;
 import java.util.List;
 
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.ViewInflater;
 
 import android.content.Context;
 import android.util.AttributeSet;

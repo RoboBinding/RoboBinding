@@ -32,7 +32,6 @@ import org.mockito.Mock;
 import org.robobinding.BindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.binder.BindingViewInflater.InflatedView;
-import org.robobinding.binder.InternalBinder.BindingContextCreator;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 import android.app.Activity;
@@ -50,7 +49,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class BinderImplementorImplTest {
     @Mock
-    BindingContextCreator bindingContextCreator;
+    BindingContextFactory bindingContextCreator;
     @Mock
     BindingContext bindingContext;
     @Mock
@@ -95,8 +94,8 @@ public class BinderImplementorImplTest {
 	verify(inflatedView).assertNoErrors(errorFormatter);
     }
 
-    class BinderImplementorImplForTest extends InternalBinder {
-	public BinderImplementorImplForTest(Context context, BindingContextCreator bindingContextCreator, ErrorFormatter errorFormatter) {
+    public class BinderImplementorImplForTest extends InternalBinder {
+	public BinderImplementorImplForTest(Context context, BindingContextFactory bindingContextCreator, ErrorFormatter errorFormatter) {
 	    super(context, bindingContextCreator, errorFormatter, true);
 	}
 

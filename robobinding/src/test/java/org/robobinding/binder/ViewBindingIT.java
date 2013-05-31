@@ -223,7 +223,7 @@ public class ViewBindingIT {
 
     @SuppressWarnings("unchecked")
     private BindingContext newBindingContext() {
-	InternalBinderFactory binderImplementorFactoryImpl = mock(InternalBinderFactory.class);
+	BinderFactoryImpl binderImplementorFactoryImpl = mock(BinderFactoryImpl.class);
 	BinderImplementor binderImplementor = mock(BinderImplementor.class);
 	when(binderImplementor.inflateOnly(anyInt())).thenReturn(new View(new Activity()));
 	when(binderImplementor.inflateAndBind(anyInt(), anyObject(), anyCollection())).then(new Answer<View>() {

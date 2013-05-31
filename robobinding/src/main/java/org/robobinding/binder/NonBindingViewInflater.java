@@ -15,6 +15,7 @@
  */
 package org.robobinding.binder;
 
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,30 +27,38 @@ import android.view.ViewGroup;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class NonBindingViewInflater implements ViewInflater {
-    private LayoutInflater layoutInflater;
-    private ViewGroup parentViewToAttach;
+public class NonBindingViewInflater {
+    private final LayoutInflater layoutInflater;
+    private ViewGroup parentView;
 
-    public NonBindingViewInflater(LayoutInflater layoutInflater, ViewGroup parentViewToAttach) {
+    public NonBindingViewInflater(LayoutInflater layoutInflater) {
 	this.layoutInflater = layoutInflater;
-	this.parentViewToAttach = parentViewToAttach;
     }
 
-    public NonBindingViewInflater(Context context, ViewGroup parentViewToAttach) {
-	this(LayoutInflater.from(context).cloneInContext(context), parentViewToAttach);
+    public void attachToParentView(ViewGroup parentView) {
+        this.parentView = parentView;
     }
 
-    @Override
-    public View inflateView(int layoutId) {
+    public View inflate(int layoutId) {
 	if (shouldAttachToParentView()) {
-	    return layoutInflater.inflate(layoutId, parentViewToAttach, true);
+	    return layoutInflater.inflate(layoutId, parentView, true);
 	} else {
 	    return layoutInflater.inflate(layoutId, null);
 	}
     }
-
+    
     private boolean shouldAttachToParentView() {
-	return parentViewToAttach != null;
+	return parentView != null;
     }
+    
+
+    public static NonBindingViewInflater create(Context context) {
+	return new NonBindingViewInflater(createLayoutInflater(context));
+    }
+    
+    private static LayoutInflater createLayoutInflater(Context context) {
+	return LayoutInflater.from(context).cloneInContext(context);
+    }
+
 
 }
