@@ -106,8 +106,10 @@
     <module name="HideUtilityClassConstructor"/>
     <module name="InterfaceIsType"/>
     <module name="VisibilityModifier">
+      <property name="severity" value="ignore"/>
       <property name="packageAllowed" value="true"/>
       <property name="protectedAllowed" value="true"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
     <module name="ArrayTypeStyle"/>
     <module name="FinalParameters">

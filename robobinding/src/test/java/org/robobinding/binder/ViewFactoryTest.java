@@ -25,8 +25,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.ViewFactory;
-import org.robobinding.binder.ViewNameResolver;
 import org.robobinding.binder.ViewFactory.ViewFactoryListener;
 
 import android.util.AttributeSet;

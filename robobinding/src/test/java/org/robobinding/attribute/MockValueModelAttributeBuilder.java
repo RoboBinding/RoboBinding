@@ -17,7 +17,6 @@ package org.robobinding.attribute;
 
 import static org.mockito.Mockito.when;
 
-import org.robobinding.attribute.ValueModelAttribute;
 
 /**
  * 

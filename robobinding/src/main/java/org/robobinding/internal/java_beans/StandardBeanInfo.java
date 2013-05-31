@@ -149,8 +149,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
     /*
      * merge the PropertyDescriptor with superclass
      */
-    private PropertyDescriptor[] mergeProps(PropertyDescriptor[] superDescs, 
-	    int superDefaultIndex) throws IntrospectionException {
+    private PropertyDescriptor[] mergeProps(PropertyDescriptor[] superDescs, int superDefaultIndex) throws IntrospectionException {
 	// change to OO way as EventSetD and MethodD
 	HashMap<String, PropertyDescriptor> subMap = internalAsMap(properties);
 	String defaultPropertyName = null;
@@ -386,7 +385,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
 
     /**
      * Introspects the supplied class and returns a list of the public methods
-     * of the class
+     * of the class.
      * 
      * @return An array of MethodDescriptors with the public methods. null if
      *         there are no public methods
@@ -431,8 +430,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
     }
 
     /**
-     * Introspects the supplied class and returns a list of the Properties of
-     * the class
+     * Introspects the supplied class and returns a list of the Properties of the class.
      * 
      * @param stopClass
      *            - the to introspecting at
@@ -691,7 +689,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
      * @throws IntrospectionException
      */
     private void fixGetSet(HashMap<String, HashMap> propertyTable) throws IntrospectionException {
-	
+
 	if (propertyTable == null) {
 	    return;
 	}

@@ -209,9 +209,8 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 		&& (indexedSetter == null ? other.indexedSetter == null
 		    : indexedSetter.equals(other.indexedSetter)));
     }
-
     /**
-     * HashCode of the IndexedPropertyDescriptor
+     * HashCode of the IndexedPropertyDescriptor.
      */
     @Override
     public int hashCode() {

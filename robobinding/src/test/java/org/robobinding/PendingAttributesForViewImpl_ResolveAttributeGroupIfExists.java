@@ -29,8 +29,6 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.PendingAttributesForView;
-import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PendingAttributesForView.AttributeGroupResolver;
 
 import android.view.View;

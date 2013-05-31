@@ -219,7 +219,7 @@ public class Introspector extends java.lang.Object {
      * <ul>
      * <li>If the first or only character is Upper Case, it is made Lower Case
      * <li>UNLESS the second character is also Upper Case, when the String is
-     * returned unchanged </ul>
+     * returned unchanged. </ul>
      * 
      * @param name
      *            - the String to decapitalize
