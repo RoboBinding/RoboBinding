@@ -68,7 +68,7 @@ public class ConstructorUtils {
 	if (args == null) {
 	    args = ArrayUtils.EMPTY_OBJECT_ARRAY;
 	}
-	final Class<?> parameterTypes[] = ClassUtils.toClass(args);
+	final Class<?>[] parameterTypes = ClassUtils.toClass(args);
 	return invokeConstructor(cls, args, parameterTypes);
     }
 
