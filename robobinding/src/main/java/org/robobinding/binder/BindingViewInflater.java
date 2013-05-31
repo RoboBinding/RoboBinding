@@ -25,8 +25,8 @@ import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 import org.robobinding.binder.ViewFactory.ViewFactoryListener;
+import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -43,21 +43,22 @@ import com.google.common.collect.Lists;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class BindingViewInflater implements ViewFactoryListener {
+public class BindingViewInflater implements ViewFactoryListener {
     private final List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
-    ViewInflater viewInflator;
-    BindingAttributeResolver bindingAttributeResolver;
-    BindingAttributeParser bindingAttributeParser;
+    private final NonBindingViewInflater nonBindingViewInflater;
+    private final BindingAttributeResolver bindingAttributeResolver;
+    private final BindingAttributeParser bindingAttributeParser;
 
     private ViewHierarchyInflationErrorsException errors;
     private List<ResolvedBindingAttributesForView> resolvedBindingAttributesForChildViews;
 
-    BindingViewInflater(Builder builder) {
-	this.predefinedPendingAttributesForViewGroup = builder.predefinedPendingAttributesForViewGroup;
-
-	this.viewInflator = createViewInflator(builder);
-	bindingAttributeResolver = new BindingAttributeResolver();
-	bindingAttributeParser = new BindingAttributeParser();
+    public BindingViewInflater(NonBindingViewInflater nonBindingViewInflater, 
+	    BindingAttributeResolver bindingAttributeResolver,
+	    BindingAttributeParser bindingAttributeParser) {
+	this.nonBindingViewInflater = nonBindingViewInflater;
+	this.bindingAttributeResolver = bindingAttributeResolver;
+	this.bindingAttributeParser = bindingAttributeParser;
+	this.predefinedPendingAttributesForViewGroup = predefinedPendingAttributesForViewGroup;
     }
 
     private ViewInflater createViewInflator(Builder builder) {
@@ -75,7 +76,7 @@ class BindingViewInflater implements ViewFactoryListener {
 	resolvedBindingAttributesForChildViews = newArrayList();
 	errors = new ViewHierarchyInflationErrorsException();
 
-	View rootView = viewInflator.inflateView(layoutId);
+	View rootView = nonBindingViewInflater.inflateView(layoutId);
 	addPredefinedPendingAttributesForViewGroup(rootView);
 
 	return new InflatedView(rootView, resolvedBindingAttributesForChildViews, errors);

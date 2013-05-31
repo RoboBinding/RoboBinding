@@ -32,6 +32,4 @@ public interface BinderImplementor {
     View inflateAndBind(int layoutId, Object presentationModel, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup);
 
     View inflateAndBind(int layoutId, Object presentationModel);
-
-    View inflateOnly(int layoutId);
 }
