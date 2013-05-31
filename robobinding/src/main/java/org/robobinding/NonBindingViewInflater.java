@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding;
+package org.robobinding.binder;
 
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,21 +29,36 @@ import android.view.ViewGroup;
  */
 public class NonBindingViewInflater {
     private final LayoutInflater layoutInflater;
+    private ViewGroup parentView;
 
     public NonBindingViewInflater(LayoutInflater layoutInflater) {
 	this.layoutInflater = layoutInflater;
     }
 
-    public View inflate(int layoutId) {
-	return inflate(layoutId, null);
+    public void attachToParentView(ViewGroup parentView) {
+        this.parentView = parentView;
     }
-    
-    public View inflate(int layoutId, ViewGroup attachToRoot) {
-	boolean shouldAttachToRoot = attachToRoot != null;
-	if (shouldAttachToRoot) {
-	    return layoutInflater.inflate(layoutId, attachToRoot, true);
+
+    public View inflate(int layoutId) {
+	if (shouldAttachToParentView()) {
+	    return layoutInflater.inflate(layoutId, parentView, true);
 	} else {
 	    return layoutInflater.inflate(layoutId, null);
 	}
     }
+    
+    private boolean shouldAttachToParentView() {
+	return parentView != null;
+    }
+    
+
+    public static NonBindingViewInflater create(Context context) {
+	return new NonBindingViewInflater(createLayoutInflater(context));
+    }
+    
+    private static LayoutInflater createLayoutInflater(Context context) {
+	return LayoutInflater.from(context).cloneInContext(context);
+    }
+
+
 }

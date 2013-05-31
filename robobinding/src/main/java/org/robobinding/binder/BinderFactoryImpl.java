@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Cheng Wei, Robert Taylor
+ * Copyright 2013 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,8 @@ package org.robobinding.binder;
 
 import org.robobinding.BinderFactory;
 import org.robobinding.BinderImplementor;
-import org.robobinding.BindingContext;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
+import org.robobinding.InternalViewBinder;
+import org.robobinding.ItemBinder;
 
 import android.content.Context;
 
@@ -30,18 +29,23 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BindingContextFactory {
+public class BinderFactoryImpl implements BinderFactory {
+    private final BinderImplementor binderImplementor;
     private final Context context;
-    private final boolean preInitializeViews;
-
-    public BindingContextFactory(Context context, boolean preInitializeViews) {
+    
+    public BinderFactoryImpl(BinderImplementor binderImplementor, Context context) {
+	this.binderImplementor = binderImplementor;
 	this.context = context;
-	this.preInitializeViews = preInitializeViews;
     }
 
-    public BindingContext create(BinderImplementor binderImplementor, Object presentationModel){
-	PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
-	BinderFactory binderFactory = new BinderFactoryImpl(binderImplementor, context);
-	return new BindingContext(binderFactory, context, presentationModelAdapter, preInitializeViews);
+    @Override
+    public ItemBinder createItemBinder() {
+	return new ItemBinder(binderImplementor);
     }
+
+    @Override
+    public InternalViewBinder createInternalViewBinder() {
+	return new InternalViewBinder(binderImplementor, NonBindingViewInflater.create(context));
+    }
+
 }

@@ -34,6 +34,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.NonBindingViewInflater;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.ViewInflater;
 import org.robobinding.ViewResolutionErrors;
 
 import android.util.AttributeSet;

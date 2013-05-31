@@ -29,13 +29,13 @@ import android.content.Context;
  * @author Cheng Wei
  */
 public class BindingContext implements PresentationModelAdapter {
-    private final BinderProvider binderProvider;
+    private final BinderFactory binderFactory;
     private final Context context;
     private final PresentationModelAdapter presentationModelAdapter;
     private final boolean preInitializeViews;
 
-    public BindingContext(BinderProvider binderProvider, Context context, PresentationModelAdapter presentationModelAdapter, boolean preInitializeViews) {
-	this.binderProvider = binderProvider;
+    public BindingContext(BinderFactory binderFactory, Context context, PresentationModelAdapter presentationModelAdapter, boolean preInitializeViews) {
+	this.binderFactory = binderFactory;
 	this.context = context;
 	this.presentationModelAdapter = presentationModelAdapter;
 	this.preInitializeViews = preInitializeViews;
@@ -46,11 +46,11 @@ public class BindingContext implements PresentationModelAdapter {
     }
 
     public ItemBinder createItemBinder() {
-	return binderProvider.getItemBinder();
+	return binderFactory.createItemBinder();
     }
 
     public ViewBinder createViewBinder() {
-	InternalViewBinder internalBinder = binderProvider.getInternalViewBinder();
+	InternalViewBinder internalBinder = binderFactory.createInternalViewBinder();
 	return new ViewBinder(internalBinder, this);
     }
 

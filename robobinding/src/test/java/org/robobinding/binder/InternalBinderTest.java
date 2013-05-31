@@ -18,19 +18,27 @@ package org.robobinding.binder;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
+import java.util.Collection;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
+import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.binder.BindingViewInflater.InflatedView;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  * 
@@ -38,75 +46,62 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(MockitoJUnitRunner.class)
-public class InternalBinderTest {
+@RunWith(RobolectricTestRunner.class)
+public class BinderImplementorImplTest {
+    @Mock
+    BindingContextFactory bindingContextCreator;
+    @Mock
+    BindingContext bindingContext;
     @Mock
     private BindingViewInflater bindingViewInflater;
     @Mock
+    private ErrorFormatter errorFormatter;
+    @Mock
     private InflatedView inflatedView;
-
+    private Object presentationModel = new Object();
     private int layoutId = 0;
-    
+    private InternalBinder binderImplementor;
+
+    @Before
+    public void setUp() {
+	initMocks(this);
+	when(bindingContextCreator.create(presentationModel)).thenReturn(bindingContext);
+	when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
+	binderImplementor = new BinderImplementorImplForTest(new Activity(), bindingContextCreator, errorFormatter);
+    }
+
     @Test
     public void whenInflateAndBind_thenViewWithBindingShouldBeReturned() {
 	View viewWithBinding = mock(View.class);
 	when(inflatedView.getRootView()).thenReturn(viewWithBinding);
 
-	when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
-	
-	InternalBinder binder = new InternalBinder(bindingViewInflater, bindingContextFactoryWithoutPreInitializingViews(), null);
-
-	View view = binder.inflateAndBind(layoutId, null);
+	View view = binderImplementor.inflateAndBind(layoutId, presentationModel);
 
 	assertThat(view, sameInstance(viewWithBinding));
     }
 
-    private BindingContextFactory bindingContextFactoryWithoutPreInitializingViews() {
-	return createBindingContextFactory(false);
-    }
-
-    private BindingContextFactory createBindingContextFactory(boolean preInitializeViews) {
-	BindingContextFactory factory = mock(BindingContextFactory.class);
-	BindingContext bindingContext = new BindingContext(null, null, null, preInitializeViews);
-	when(factory.create(any(InternalBinder.class), anyObject())).thenReturn(bindingContext);
-	return factory;
-    }
-
     @Test
     public void whenInflateAndBind_thenChildViewsShouldBeBound() {
-	when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
-	
-	InternalBinder binder = new InternalBinder(bindingViewInflater, bindingContextFactoryWithoutPreInitializingViews(), null);
-	
-	binder.inflateAndBind(layoutId, null);
+	binderImplementor.inflateAndBind(layoutId, presentationModel);
 
 	verify(inflatedView).bindChildViews(any(BindingContext.class));
     }
 
     @Test
     public void whenInflateAndBind_thenViewInflationErrorsShouldBeAsserted() {
-	when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
-	
-	ErrorFormatter errorFormatter = mock(ErrorFormatter.class);
-	InternalBinder binder = new InternalBinder(bindingViewInflater, bindingContextFactoryWithoutPreInitializingViews(), errorFormatter);
-	
-	binder.inflateAndBind(layoutId, null);
+	binderImplementor.inflateAndBind(layoutId, presentationModel);
 
 	verify(inflatedView).assertNoErrors(errorFormatter);
     }
 
-    @Test
-    public void whenInflateAndBind_thenChildViewsShouldBePreInitialized() {
-	when(bindingViewInflater.inflateView(layoutId)).thenReturn(inflatedView);
-	
-	InternalBinder binder = new InternalBinder(bindingViewInflater, bindingContextFactoryWithPreInitializingViews(), null);
-	
-	binder.inflateAndBind(layoutId, null);
+    public class BinderImplementorImplForTest extends InternalBinder {
+	public BinderImplementorImplForTest(Context context, BindingContextFactory bindingContextCreator, ErrorFormatter errorFormatter) {
+	    super(context, bindingContextCreator, errorFormatter, true);
+	}
 
-	verify(inflatedView).preinitializeViews(any(BindingContext.class));
-    }
-    
-    private BindingContextFactory bindingContextFactoryWithPreInitializingViews() {
-	return createBindingContextFactory(true);
+	@Override
+	BindingViewInflater createBindingViewInflater(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
+	    return bindingViewInflater;
+	}
     }
 }
