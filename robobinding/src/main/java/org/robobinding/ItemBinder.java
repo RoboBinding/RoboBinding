@@ -18,9 +18,9 @@ package org.robobinding;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import android.view.View;
+
+import com.google.common.collect.Lists;
 
 /**
  * 
