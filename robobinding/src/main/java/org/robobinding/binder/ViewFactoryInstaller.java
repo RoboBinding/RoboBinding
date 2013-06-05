@@ -13,17 +13,27 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding;
+package org.robobinding.binder;
 
+import org.robobinding.binder.ViewFactory.ViewCreationListener;
+
+import android.view.LayoutInflater;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface BinderFactory {
-    ItemBinder createItemBinder();
-
-    InternalViewBinder createInternalViewBinder();
+public class ViewFactoryInstaller {
+    private final ViewCreationListener listener;
+    
+    public ViewFactoryInstaller(ViewCreationListener listener) {
+	this.listener = listener;
+    }
+    
+    public void install(LayoutInflater layoutInflater)
+    {
+	new ViewFactory(layoutInflater, new ViewNameResolver(), listener);
+    }
 }

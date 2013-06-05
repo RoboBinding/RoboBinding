@@ -28,20 +28,18 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class ViewFactory implements Factory {
+public class ViewFactory implements Factory {
     private final LayoutInflater layoutInflater;
-    ViewNameResolver viewNameResolver;
+    private final ViewNameResolver viewNameResolver;
+    private final ViewCreationListener listener;
 
-    private ViewFactoryListener listener;
-
-    public ViewFactory(LayoutInflater layoutInflater) {
+    public ViewFactory(LayoutInflater layoutInflater, ViewNameResolver viewNameResolver, 
+	    ViewCreationListener listener) {
 	this.layoutInflater = layoutInflater;
-	layoutInflater.setFactory(this);
-	viewNameResolver = new ViewNameResolver();
-    }
-
-    public void setListener(ViewFactoryListener listener) {
+	this.viewNameResolver = viewNameResolver;
 	this.listener = listener;
+
+	layoutInflater.setFactory(this);
     }
 
     @Override
@@ -60,12 +58,10 @@ class ViewFactory implements Factory {
     }
 
     private void notifyViewCreated(AttributeSet attrs, View view) {
-	if (listener != null) {
-	    listener.onViewCreated(view, attrs);
-	}
+	listener.onViewCreated(view, attrs);
     }
 
-    public interface ViewFactoryListener {
+    public static interface ViewCreationListener {
 	void onViewCreated(View view, AttributeSet attrs);
     }
 }

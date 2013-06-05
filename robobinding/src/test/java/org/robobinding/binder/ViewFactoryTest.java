@@ -25,7 +25,9 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.ViewFactory.ViewFactoryListener;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.robobinding.binder.ViewFactory.ViewCreationListener;
 
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -41,23 +43,25 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  */
 @RunWith(RobolectricTestRunner.class)
 public class ViewFactoryTest {
+    @Mock
     private LayoutInflater layoutInflater;
-    private ViewFactory viewFactory;
-
+    
     @Before
-    public void setUp() {
-	layoutInflater = mock(LayoutInflater.class);
-	viewFactory = new ViewFactoryForTest(layoutInflater);
+    public void initMocks() {
+	MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void whenInitialize_thenViewFactoryShouldBeSetOnLayoutInflater() {
+	ViewFactory viewFactory = new ViewFactory(layoutInflater, null, null);
 	verify(layoutInflater).setFactory(viewFactory);
     }
 
     @Test(expected = RuntimeException.class)
     public void whenCreateAViewThrowsAClassNotFoundException_thenPropagateAsRuntimeException() throws ClassNotFoundException {
 	when(layoutInflater.createView(anyString(), anyString(), any(AttributeSet.class))).thenThrow(new ClassNotFoundException());
+	ViewFactory viewFactory = new ViewFactory(layoutInflater, null, null);
+	
 	viewFactory.onCreateView(null, null, null);
     }
 
@@ -66,18 +70,11 @@ public class ViewFactoryTest {
 	View view = mock(View.class);
 	when(layoutInflater.createView(anyString(), anyString(), any(AttributeSet.class))).thenReturn(view);
 	AttributeSet attributeSet = mock(AttributeSet.class);
-	ViewFactoryListener listener = mock(ViewFactoryListener.class);
-	viewFactory.setListener(listener);
+	ViewCreationListener listener = mock(ViewCreationListener.class);
+	ViewFactory viewFactory = new ViewFactory(layoutInflater, mock(ViewNameResolver.class), listener);
 
 	viewFactory.onCreateView(null, null, attributeSet);
 
 	verify(listener).onViewCreated(same(view), same(attributeSet));
-    }
-
-    private static class ViewFactoryForTest extends ViewFactory {
-	public ViewFactoryForTest(LayoutInflater layoutInflater) {
-	    super(layoutInflater);
-	    viewNameResolver = mock(ViewNameResolver.class);
-	}
     }
 }

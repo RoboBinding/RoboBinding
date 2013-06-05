@@ -47,8 +47,13 @@ public class Binders {
     }
 
     private static BinderImplementor createBinderImplementor(Context context, boolean withPreInitializingViews) {
-	BindingViewInflater bindingViewInflater = new BindingViewInflater(NonBindingViewInflater.create(context), new BindingAttributeResolver(),
+	NonBindingViewInflater nonBindingViewInflater = NonBindingViewInflater.create(context);
+	ByBindingAttributeMappingsResolverFinder byBindingAttributeProviderResolverFinder = new ByBindingAttributeMappingsResolverFinder(
+		new BindingAttributeProvidersResolver());
+	BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeProviderResolverFinder);
+	BindingViewInflater bindingViewInflater = new BindingViewInflater(nonBindingViewInflater, bindingAttributeResolver,
 		new BindingAttributeParser());
+	nonBindingViewInflater.installViewFactory(new ViewFactoryInstaller(bindingViewInflater));
 	BindingContextFactory bindingContextFactory = new BindingContextFactory(context, withPreInitializingViews);
 	BinderImplementor binderImplementor = new InternalBinder(bindingViewInflater, bindingContextFactory, new PlainTextErrorFormatter());
 	return binderImplementor;
@@ -82,7 +87,6 @@ public class Binders {
     
     public static View attachToRootAndBindView(ViewGroup parentView, Context context, int layoutId, Object presentationModel) {
 	InternalViewBinder viewBinder = createInternalViewBinder(context);
-	viewBinder.attachToRoot(parentView);
-	return viewBinder.inflateAndBind(layoutId, presentationModel);
+	return viewBinder.inflateAndBind(layoutId, presentationModel, parentView);
     }
 }

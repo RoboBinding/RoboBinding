@@ -19,6 +19,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyCollection;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -90,7 +91,7 @@ public class DataSetAdapterTest {
 
     @Test
     public void givenItemLayoutId_whenGeneratingItemView_thenInflateTheCorrectView() {
-	when(itemBinder.inflateAndBind(eq(R.layout.sample_item_layout), any(ItemPresentationModelDummy.class))).thenReturn(view);
+	when(itemBinder.inflateAndBind(eq(R.layout.sample_item_layout), any(ItemPresentationModelDummy.class), anyCollection())).thenReturn(view);
 	dataSetAdapter.setItemLayoutId(R.layout.sample_item_layout);
 
 	View result = dataSetAdapter.getView(0, null, null);
@@ -100,7 +101,7 @@ public class DataSetAdapterTest {
 
     @Test
     public void givenDropdownLayoutId_whenGeneratingDropdownView_thenInflateTheCorrectView() {
-	when(dropDownBinder.inflateAndBind(eq(R.layout.sample_dropdown_layout), any(ItemPresentationModelDummy.class))).thenReturn(view);
+	when(dropDownBinder.inflateAndBind(eq(R.layout.sample_dropdown_layout), any(ItemPresentationModelDummy.class), anyCollection())).thenReturn(view);
 	dataSetAdapter.setDropDownLayoutId(R.layout.sample_dropdown_layout);
 
 	View result = dataSetAdapter.getDropDownView(0, null, null);

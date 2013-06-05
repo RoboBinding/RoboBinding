@@ -30,25 +30,22 @@ import android.view.ViewGroup;
 public class InternalViewBinder {
     private final BinderImplementor binderImplementor;
     private final NonBindingViewInflater nonBindingViewInflater;
-    private ViewGroup parentView;
 
     public InternalViewBinder(BinderImplementor binderImplementor, NonBindingViewInflater nonBindingViewInflater) {
 	this.binderImplementor = binderImplementor;
 	this.nonBindingViewInflater = nonBindingViewInflater;
     }
 
-    public void attachToRoot(ViewGroup parentView) {
-	this.parentView = parentView;
+    public View inflate(int layoutId) {
+        return nonBindingViewInflater.inflate(layoutId);
     }
 
     public View inflateAndBind(int layoutId, Object presentationModel) {
-	binderImplementor.attachToRoot(parentView);
 	return binderImplementor.inflateAndBind(layoutId, presentationModel);
     }
 
-    public View inflate(int layoutId) {
-	nonBindingViewInflater.attachToParentView(parentView);
-	return nonBindingViewInflater.inflate(layoutId);
+    public View inflateAndBind(int layoutId, Object presentationModel, ViewGroup attachToRoot) {
+	return binderImplementor.inflateAndBind(layoutId, presentationModel, attachToRoot);
     }
 
 }

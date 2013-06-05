@@ -38,13 +38,9 @@ public class ResolvedBindingAttributesForView {
     private View view;
     private final List<ViewAttribute> viewAttributes;
 
-    ResolvedBindingAttributesForView(View view) {
+    ResolvedBindingAttributesForView(View view, Collection<ViewAttribute> viewAttributes) {
 	this.view = view;
-	this.viewAttributes = newArrayList();
-    }
-
-    void add(Collection<ViewAttribute> viewAttributes) {
-	this.viewAttributes.addAll(viewAttributes);
+	this.viewAttributes = newArrayList(viewAttributes);
     }
 
     public ViewBindingErrors bindTo(BindingContext bindingContext) {
