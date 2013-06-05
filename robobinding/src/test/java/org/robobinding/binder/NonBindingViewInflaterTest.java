@@ -18,10 +18,13 @@ package org.robobinding.binder;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,43 +36,42 @@ import android.view.ViewGroup;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
+@RunWith(MockitoJUnitRunner.class)
 public class NonBindingViewInflaterTest {
+    @Mock
     private LayoutInflater layoutInflater;
     private int layoutId = 0;
-
-    @Before
-    public void setUp() {
-	layoutInflater = mock(LayoutInflater.class);
-    }
 
     @Test
     public void whenInflateView_thenResultViewShouldBeReturned() {
 	View resultView = mock(View.class);
 	when(layoutInflater.inflate(layoutId, null)).thenReturn(resultView);
-
-	View view = inflateView();
+	NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater);
+	
+	View view = viewInflater.inflate(layoutId);
 
 	assertThat(view, sameInstance(resultView));
     }
 
     @Test
-    public void givenAttachToParentView_whenInflateView_thenResultViewWithAttachingToParentViewShouldBeReturned() {
-	ViewGroup parentView = mock(ViewGroup.class);
-	View resultViewWithAttachingToParentView = mock(View.class);
-	when(layoutInflater.inflate(layoutId, parentView, true)).thenReturn(resultViewWithAttachingToParentView);
+    public void givenAttachToRoot_whenInflateView_thenResultViewWithAttachingToRootShouldBeReturned() {
+	ViewGroup rootView = mock(ViewGroup.class);
+	View resultViewWithAttachingToRoot = mock(View.class);
+	when(layoutInflater.inflate(layoutId, rootView, true)).thenReturn(resultViewWithAttachingToRoot);
+	NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater);
 
-	View view = inflateViewAndAttachTo(parentView);
+	View view = viewInflater.inflate(layoutId, rootView);
 
-	assertThat(view, sameInstance(resultViewWithAttachingToParentView));
+	assertThat(view, sameInstance(resultViewWithAttachingToRoot));
     }
-
-    private View inflateView() {
-	return inflateViewAndAttachTo(null);
-    }
-
-    private View inflateViewAndAttachTo(ViewGroup parentView) {
-	NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater, parentView);
-	View view = viewInflater.inflateView(layoutId);
-	return view;
+    
+    @Test
+    public void whenInstallViewFactory_thenInstallMethodOfInstallerShouldBeCalledWithLayoutInflater() {
+	NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater);
+	ViewFactoryInstaller installer = mock(ViewFactoryInstaller.class);	
+	
+	viewInflater.installViewFactory(installer);
+	
+	verify(installer).install(layoutInflater);
     }
 }

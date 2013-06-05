@@ -15,6 +15,8 @@
  */
 package org.robobinding.binder;
 
+import static com.google.common.collect.Maps.newHashMap;
+
 import java.util.Map;
 import java.util.Queue;
 
@@ -48,7 +50,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * 
@@ -61,7 +62,7 @@ public class BindingAttributeProvidersResolver {
     Map<Class<?>, BindingAttributeProvider<? extends View>> bindingAttributeProvidersMap;
 
     public BindingAttributeProvidersResolver() {
-	bindingAttributeProvidersMap = Maps.newHashMap();
+	bindingAttributeProvidersMap = newHashMap();
 	bindingAttributeProvidersMap.put(View.class, adapt(new ViewAttributeMapper()));
 	bindingAttributeProvidersMap.put(TextView.class, adapt(new TextViewAttributeMapper()));
 	bindingAttributeProvidersMap.put(EditText.class, adapt(new EditTextAttributeMapper()));

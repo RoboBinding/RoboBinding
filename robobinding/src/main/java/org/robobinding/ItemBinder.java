@@ -16,11 +16,8 @@
 package org.robobinding;
 
 import java.util.Collection;
-import java.util.List;
 
 import android.view.View;
-
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -31,20 +28,12 @@ import com.google.common.collect.Lists;
  */
 public class ItemBinder {
     private BinderImplementor binderImplementor;
-    private List<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
 
     public ItemBinder(BinderImplementor binderImplementor) {
 	this.binderImplementor = binderImplementor;
-	predefinedPendingAttributesForViewGroup = Lists.newArrayList();
     }
 
-    public ItemBinder setPredefinedPendingAttributesForViewGroup(
-	    Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
-	this.predefinedPendingAttributesForViewGroup = Lists.newArrayList(predefinedPendingAttributesForViewGroup);
-	return this;
-    }
-
-    public View inflateAndBind(int layoutId, Object presentationModel) {
+    public View inflateAndBind(int layoutId, Object presentationModel, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
 	return binderImplementor.inflateAndBind(layoutId, presentationModel, predefinedPendingAttributesForViewGroup);
     }
 }

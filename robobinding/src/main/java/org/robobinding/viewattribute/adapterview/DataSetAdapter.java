@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.adapterview;
 
 import java.util.Collection;
+
 import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
 import org.robobinding.PredefinedPendingAttributesForView;
@@ -23,6 +24,7 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.DataSetValueModelWrapper;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -48,6 +50,9 @@ public class DataSetAdapter<T> extends BaseAdapter {
 
     private final ItemBinder itemBinder;
     private final ItemBinder dropDownBinder;
+    
+    private Collection<PredefinedPendingAttributesForView> itemPredefinedPendingAttributesForViewGroup;
+    private Collection<PredefinedPendingAttributesForView> dropdownPredefinedPendingAttributesForViewGroup;
 
     public DataSetAdapter(BindingContext bindingContext) {
 	itemBinder = bindingContext.createItemBinder();
@@ -128,9 +133,9 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
 	View view;
 	if (viewType == ViewType.ITEM_LAYOUT) {
-	    view = itemBinder.inflateAndBind(itemLayoutId, itemPresentationModel);
+	    view = itemBinder.inflateAndBind(itemLayoutId, itemPresentationModel, itemPredefinedPendingAttributesForViewGroup);
 	} else {
-	    view = dropDownBinder.inflateAndBind(dropDownLayoutId, itemPresentationModel);
+	    view = dropDownBinder.inflateAndBind(dropDownLayoutId, itemPresentationModel, dropdownPredefinedPendingAttributesForViewGroup);
 	}
 	view.setTag(itemPresentationModel);
 	return view;
@@ -151,11 +156,11 @@ public class DataSetAdapter<T> extends BaseAdapter {
     }
 
     public void setItemPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
-	itemBinder.setPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup);
+	this.itemPredefinedPendingAttributesForViewGroup = predefinedPendingAttributesForViewGroup;
     }
 
     public void setDropdownPredefinedPendingAttributesForViewGroup(
 	    Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
-	dropDownBinder.setPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup);
+	this.dropdownPredefinedPendingAttributesForViewGroup = predefinedPendingAttributesForViewGroup;
     }
 }
