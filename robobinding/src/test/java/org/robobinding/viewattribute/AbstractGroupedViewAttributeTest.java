@@ -127,7 +127,7 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 	assertNotNull("Child attribute of type '" + attributeClass.getName() + " not found", childAttribute);
     }
 
-    protected static class Attribute {
+    public static class Attribute {
 	private final String name;
 	private final String value;
 
