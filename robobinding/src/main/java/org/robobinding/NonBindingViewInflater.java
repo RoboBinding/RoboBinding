@@ -29,29 +29,29 @@ import android.view.ViewGroup;
  */
 public class NonBindingViewInflater {
     private final LayoutInflater layoutInflater;
-    private ViewGroup parentView;
 
     public NonBindingViewInflater(LayoutInflater layoutInflater) {
 	this.layoutInflater = layoutInflater;
     }
 
-    public void attachToParentView(ViewGroup parentView) {
-        this.parentView = parentView;
-    }
-
     public View inflate(int layoutId) {
-	if (shouldAttachToParentView()) {
-	    return layoutInflater.inflate(layoutId, parentView, true);
+	return inflate(layoutId, null);
+    }
+    
+    public View inflate(int layoutId, ViewGroup attachToRoot) {
+	boolean shouldAttachToRoot = attachToRoot != null;
+	if (shouldAttachToRoot) {
+	    return layoutInflater.inflate(layoutId, attachToRoot, true);
 	} else {
 	    return layoutInflater.inflate(layoutId, null);
 	}
     }
     
-    private boolean shouldAttachToParentView() {
-	return parentView != null;
+    public void installViewFactory(ViewFactoryInstaller installer)
+    {
+	installer.install(layoutInflater);
     }
     
-
     public static NonBindingViewInflater create(Context context) {
 	return new NonBindingViewInflater(createLayoutInflater(context));
     }

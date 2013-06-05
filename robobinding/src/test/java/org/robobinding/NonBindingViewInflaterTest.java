@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding;
+package org.robobinding.binder;
 
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
@@ -62,5 +63,15 @@ public class NonBindingViewInflaterTest {
 	View view = viewInflater.inflate(layoutId, rootView);
 
 	assertThat(view, sameInstance(resultViewWithAttachingToRoot));
+    }
+    
+    @Test
+    public void whenInstallViewFactory_thenInstallMethodOfInstallerShouldBeCalledWithLayoutInflater() {
+	NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater);
+	ViewFactoryInstaller installer = mock(ViewFactoryInstaller.class);	
+	
+	viewInflater.installViewFactory(installer);
+	
+	verify(installer).install(layoutInflater);
     }
 }
