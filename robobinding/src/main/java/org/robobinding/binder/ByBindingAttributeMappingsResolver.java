@@ -38,7 +38,7 @@ import com.google.common.collect.Lists;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class ByBindingAttributeMappingsResolver {
+public class ByBindingAttributeMappingsResolver {
     private final BindingAttributeMappingsImpl<View> bindingAttributeMappings;
 
     private final PropertyViewAttributeResolver propertyViewAttributeResolver;

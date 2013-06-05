@@ -18,11 +18,10 @@ package org.robobinding.binder;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.robobinding.binder.BindingViewInflaterForTest.aBindingViewInflater;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -30,18 +29,18 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.ViewInflater;
 import org.robobinding.ViewResolutionErrors;
-import org.robobinding.binder.BindingViewInflater.InflatedView;
 
-import android.app.Activity;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
  * 
@@ -49,24 +48,25 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class BindingViewInflaterTest {
-    private BindingAttributeParser bindingAttributesParser;
-    private BindingViewInflaterForTest.Builder bindingViewInflatorBuilder;
+    @Mock
+    private BindingAttributeResolver bindingAttributeResolver;
+    @Mock
+    private BindingAttributeParser bindingAttributeParser;
+    private BindingViewInflater bindingViewInflater;
+    
+    private int layoutId = 0;
 
     @Before
     public void setUp() {
-	ViewInflater viewInflator = mock(ViewInflater.class);
-	View view = mock(View.class);
-	when(viewInflator.inflateView(anyInt())).thenReturn(view);
-	bindingAttributesParser = mock(BindingAttributeParser.class);
-
-	BindingAttributeResolver bindingAttributeResolver = mock(BindingAttributeResolver.class);
 	ViewResolutionResult viewResolutionResult = emptyViewResolutionResult();
 	when(bindingAttributeResolver.resolve(any(PendingAttributesForView.class))).thenReturn(viewResolutionResult);
-
-	bindingViewInflatorBuilder = aBindingViewInflater(new Activity()).withViewInflator(viewInflator)
-		.withBindingAttributeParser(bindingAttributesParser).withBindingAttributeResolver(bindingAttributeResolver);
+	
+	bindingViewInflater = new BindingViewInflater(
+		new NonBindingViewInflaterWithOnViewCreationCall(mock(NonBindingViewInflater.class)),
+		bindingAttributeResolver, 
+		bindingAttributeParser);
     }
 
     private ViewResolutionResult emptyViewResolutionResult() {
@@ -77,49 +77,37 @@ public class BindingViewInflaterTest {
 
     @Test
     public void givenAChildViewWithBindingAttributes_whenInflateView_thenAChildViewBindingAttributesShouldBeAdded() {
-	declareChildView(true);
+	declareAChildView();
 
-	InflatedView inflatedView = inflateView();
+	InflatedView inflatedView = bindingViewInflater.inflateView(layoutId);
 
 	assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(1));
+    }
+
+    private void declareAChildView() {
+        Map<String, String> pendingAttributeMappings = Maps.newHashMap();
+        pendingAttributeMappings.put("attribute", "attributeValue");
+        when(bindingAttributeParser.parse(any(AttributeSet.class))).thenReturn(pendingAttributeMappings);
     }
 
     @Test
     public void givenAChildViewWithoutBindingAttributes_whenInflateBindingView_thenNoChildViewBindingAttributesShouldBeAdded() {
-	declareChildView(false);
+	declareEmptyChildViews();
 
-	InflatedView inflatedView = inflateView();
+	InflatedView inflatedView = bindingViewInflater.inflateView(layoutId);
 
 	assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(0));
     }
 
-    private void declareChildView(boolean withBindingAttributes) {
-	Map<String, String> pendingAttributeMappings;
-	if (withBindingAttributes) {
-	    pendingAttributeMappings = Maps.newHashMap();
-	    pendingAttributeMappings.put("attribute", "attributeValue");
-	} else {
-	    pendingAttributeMappings = Collections.emptyMap();
-	}
-	when(bindingAttributesParser.parse(any(AttributeSet.class))).thenReturn(pendingAttributeMappings);
-
-	bindingViewInflatorBuilder.withOnViewCreatedInvocation(mock(View.class), mock(AttributeSet.class));
+    private void declareEmptyChildViews() {
+	when(bindingAttributeParser.parse(any(AttributeSet.class))).thenReturn(Collections.<String, String>emptyMap());
     }
 
     @Test
     public void givenAPredefinedPendingAttributesForView_whenInflateView_thenChildViewBindingAttributesIsAdded() {
-	declarePredefinedPendingAttributesForView();
-
-	InflatedView inflatedView = inflateView();
+	InflatedView inflatedView = bindingViewInflater.inflateView(layoutId, createAPredefinedPendingAttributesForView());
 
 	assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(1));
-    }
-
-    private InflatedView inflateView() {
-	BindingViewInflater bindingViewInflater = bindingViewInflatorBuilder.build();
-	int layoutId = 0;
-	InflatedView inflatedView = bindingViewInflater.inflateView(layoutId);
-	return inflatedView;
     }
 
     private int numberOfChildViewBindingAttributes(InflatedView inflatedView) {
@@ -127,11 +115,38 @@ public class BindingViewInflaterTest {
 	return childViewBindingAttributesGroup.size();
     }
 
-    private void declarePredefinedPendingAttributesForView() {
+    private Collection<PredefinedPendingAttributesForView> createAPredefinedPendingAttributesForView() {
 	PredefinedPendingAttributesForView predefinedPendingAttributesForView = mock(PredefinedPendingAttributesForView.class);
 	PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
 	when(predefinedPendingAttributesForView.createPendingAttributesForView(any(View.class))).thenReturn(pendingAttributesForView);
 
-	bindingViewInflatorBuilder.withPredefinedPendingAttributesForView(predefinedPendingAttributesForView);
+	return Lists.newArrayList(predefinedPendingAttributesForView);
+    }
+    
+    private class NonBindingViewInflaterWithOnViewCreationCall extends NonBindingViewInflater
+    {
+	private final NonBindingViewInflater forwardingViewInflater;
+	public NonBindingViewInflaterWithOnViewCreationCall(NonBindingViewInflater nonBindingViewInflater) {
+	    super(null);
+	    this.forwardingViewInflater = nonBindingViewInflater;
+	}
+	
+	@Override
+	public View inflate(int layoutId) {
+	    View resultView = forwardingViewInflater.inflate(layoutId);
+	    performOnViewCreationCall(resultView);
+	    return resultView;
+	}
+	
+	private void performOnViewCreationCall(View view) {
+	    bindingViewInflater.onViewCreated(view, mock(AttributeSet.class));
+	}
+
+	@Override
+	public View inflate(int layoutId, ViewGroup attachToRoot) {
+	    View resultView = forwardingViewInflater.inflate(layoutId, attachToRoot);
+	    performOnViewCreationCall(resultView);
+	    return resultView;
+	}
     }
 }

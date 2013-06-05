@@ -18,7 +18,6 @@ package org.robobinding.integrationtest;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static org.robobinding.binder.BindingViewInflaterForTest.aBindingViewInflater;
 import static org.robobinding.binder.MockBindingAttributeSetBuilder.aBindingAttributeSet;
 import static org.robobinding.integrationtest.ViewInflationErrorsExpectation.aBindingViewInflationErrorExpectationOf;
 
@@ -29,8 +28,15 @@ import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.R;
-import org.robobinding.binder.BinderImplementorForTest;
-import org.robobinding.binder.BindingViewInflaterForTest;
+import org.robobinding.binder.BindingAttributeParser;
+import org.robobinding.binder.BindingAttributeProvidersResolver;
+import org.robobinding.binder.BindingAttributeResolver;
+import org.robobinding.binder.BindingContextFactory;
+import org.robobinding.binder.BindingViewInflater;
+import org.robobinding.binder.ByBindingAttributeMappingsResolverFinder;
+import org.robobinding.binder.InternalBinder;
+import org.robobinding.binder.NonBindingViewInflater;
+import org.robobinding.binder.PlainTextErrorFormatter;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException;
 import org.robobinding.binder.ViewInflationErrors;
 import org.robobinding.presentationmodel.ItemPresentationModel;
@@ -38,6 +44,7 @@ import org.robobinding.presentationmodel.PresentationModel;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -76,7 +83,7 @@ public class FrameworkErrorReportingIT {
 	private void addButtonAndExpectations() {
 	    Button button = new Button(context);
 
-	    bindingViewInflaterBuilder.withOnViewCreatedInvocation(button, aBindingAttributeSet()
+	    withOnViewCreatedInvocation(button, aBindingAttributeSet()
 	    // resolution phase.
 		    .withAttribute("text", "{invalidSyntax").withAttribute("nonExistentAttribute", "{property}")
 		    // binding phase.
@@ -90,7 +97,7 @@ public class FrameworkErrorReportingIT {
 	private void addListViewAndExpectations() {
 	    ListView listView = new ListView(context);
 
-	    bindingViewInflaterBuilder.withOnViewCreatedInvocation(listView, aBindingAttributeSet()
+	    withOnViewCreatedInvocation(listView, aBindingAttributeSet()
 	    // resolution phase.
 		    .withAttribute("visibility", "${invalidSyntax").withAttribute("source", "{source}")
 		    // binding phase.
@@ -104,7 +111,7 @@ public class FrameworkErrorReportingIT {
 	private void addSpinnerAndExpectations() {
 	    Spinner spinner = new Spinner(context);
 
-	    bindingViewInflaterBuilder.withOnViewCreatedInvocation(spinner, aBindingAttributeSet()
+	    withOnViewCreatedInvocation(spinner, aBindingAttributeSet()
 	    // binding phase.
 		    .withAttribute("itemLayout", "{propertyPointingToNoExistentLayout}").build());
 
@@ -114,27 +121,39 @@ public class FrameworkErrorReportingIT {
 	}
     }
 
-    private abstract static class AbstractSampleAndExpectation {
+    private static abstract class AbstractSampleAndExpectation {
 	protected final Context context;
-	protected BindingViewInflaterForTest.Builder bindingViewInflaterBuilder;
 	protected List<ViewInflationErrorsExpectation> inflationErrorsExpectations;
+	private NonBindingViewInflaterWithOnViewCreationCalls nonBindingViewInflaterWithOnViewCreationCalls;
 
 	public AbstractSampleAndExpectation() {
 	    context = new Activity();
 	}
 
 	public View inflateAndBind() {
-	    bindingViewInflaterBuilder = aBindingViewInflater(context);
+	    nonBindingViewInflaterWithOnViewCreationCalls = new NonBindingViewInflaterWithOnViewCreationCalls(NonBindingViewInflater.create(context));
+	    BindingViewInflater bindingViewInflater = new BindingViewInflater(
+		    nonBindingViewInflaterWithOnViewCreationCalls, 
+		    new BindingAttributeResolver(new ByBindingAttributeMappingsResolverFinder(new BindingAttributeProvidersResolver())),
+		    new BindingAttributeParser());
+	    nonBindingViewInflaterWithOnViewCreationCalls.addViewCreationListener(bindingViewInflater);
 	    inflationErrorsExpectations = Lists.newArrayList();
 
 	    addViewAndExpectations();
 
-	    BinderImplementorForTest binder = new BinderImplementorForTest(context, bindingViewInflaterBuilder.build());
+	    InternalBinder binder = new InternalBinder(bindingViewInflater, 
+		    new BindingContextFactory(context, true), 
+		    new PlainTextErrorFormatter());
 	    return binder.inflateAndBind(R.layout.framework_error_reporting_it_sample1, new PresentationModelForTest());
 	}
 
 	protected abstract void addViewAndExpectations();
 
+	protected AbstractSampleAndExpectation withOnViewCreatedInvocation(View view, AttributeSet bindingAttributeSet) {
+	    nonBindingViewInflaterWithOnViewCreationCalls.addOnViewCreationCall(view, bindingAttributeSet);
+	    return this;
+	}
+	
 	public void meet(ViewHierarchyInflationErrorsException bindingViewInflationErrors) {
 	    Collection<ViewInflationErrors> errors = bindingViewInflationErrors.getErrors();
 	    assertThat(errors.size(), is(expectedNumInflationErrors()));
