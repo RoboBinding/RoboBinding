@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -27,7 +27,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robobinding.binder.ViewFactory.ViewCreationListener;
+import org.robobinding.ViewFactory;
+import org.robobinding.ViewNameResolver;
+import org.robobinding.ViewFactory.ViewCreationListener;
 
 import android.util.AttributeSet;
 import android.view.LayoutInflater;

@@ -21,10 +21,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.robobinding.NonBindingViewInflater;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.binder.ViewFactory.ViewCreationListener;
+import org.robobinding.ViewFactory.ViewCreationListener;
 
 import android.util.AttributeSet;
 import android.view.View;
