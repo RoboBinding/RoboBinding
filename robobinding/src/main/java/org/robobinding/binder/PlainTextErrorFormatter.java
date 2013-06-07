@@ -26,7 +26,7 @@ import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatt
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PlainTextErrorFormatter implements ErrorFormatter {
+class PlainTextErrorFormatter implements ErrorFormatter {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     @Override

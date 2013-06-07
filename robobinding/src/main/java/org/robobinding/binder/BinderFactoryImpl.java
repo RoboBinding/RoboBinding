@@ -19,6 +19,7 @@ import org.robobinding.BinderFactory;
 import org.robobinding.BinderImplementor;
 import org.robobinding.InternalViewBinder;
 import org.robobinding.ItemBinder;
+import org.robobinding.NonBindingViewInflater;
 
 import android.content.Context;
 
@@ -29,7 +30,7 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BinderFactoryImpl implements BinderFactory {
+class BinderFactoryImpl implements BinderFactory {
     private final BinderImplementor binderImplementor;
     private final Context context;
     

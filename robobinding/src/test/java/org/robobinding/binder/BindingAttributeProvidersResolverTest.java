@@ -15,19 +15,23 @@
  */
 package org.robobinding.binder;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.MockitoAnnotations.initMocks;
+
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 
 import android.content.Context;
 import android.view.View;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -38,23 +42,28 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-@SuppressWarnings("unchecked")
 public class BindingAttributeProvidersResolverTest {
     private BindingAttributeProvidersResolver bindingAttributeProvidersResolver;
 
+    @Mock
     private BindingAttributeProvider<ViewWithNoParent> providerForViewWithNoParent;
+    @Mock
     private BindingAttributeProvider<ViewWithParents> providerForViewWithParents;
+    @Mock
     private BindingAttributeProvider<GrandparentView> providerForGrandparentView;
 
     @Before
     public void setUp() {
-	providerForViewWithNoParent = mock(BindingAttributeProvider.class);
-	providerForViewWithParents = mock(BindingAttributeProvider.class);
-	providerForGrandparentView = mock(BindingAttributeProvider.class);
-
-	bindingAttributeProvidersResolver = new BindingAttributeProvidersResolverForTest();
+	initMocks(this);
+	
+	Map<Class<?>, BindingAttributeProvider<? extends View>> bindingAttributeProvidersMap = Maps.newHashMap();
+	bindingAttributeProvidersMap.put(ViewWithNoParent.class, providerForViewWithNoParent);
+	bindingAttributeProvidersMap.put(ViewWithParents.class, providerForViewWithParents);
+	bindingAttributeProvidersMap.put(GrandparentView.class, providerForGrandparentView);
+	bindingAttributeProvidersResolver = new BindingAttributeProvidersResolver(bindingAttributeProvidersMap);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void givenViewWithNoParent_whenGetCandidateProviders_thenOnlyProviderForViewShouldBeReturned() {
 	ViewWithNoParent viewWithNoParent = new ViewWithNoParent();
@@ -65,6 +74,7 @@ public class BindingAttributeProvidersResolverTest {
 	assertThat(candidateProviders, equalTo(newProvidersInOrder(providerForViewWithNoParent)));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void givenViewWithParents_whenGetCandidateProviders_thenProvidersForViewAndItsParentsShouldBeReturned() {
 	ViewWithParents viewWithParents = new ViewWithParents();
@@ -76,16 +86,7 @@ public class BindingAttributeProvidersResolverTest {
     }
 
     private Iterable<BindingAttributeProvider<? extends View>> newProvidersInOrder(BindingAttributeProvider<? extends View>... providers) {
-	return Lists.newArrayList(providers);
-    }
-
-    private class BindingAttributeProvidersResolverForTest extends BindingAttributeProvidersResolver {
-	public BindingAttributeProvidersResolverForTest() {
-	    bindingAttributeProvidersMap = Maps.newHashMap();
-	    bindingAttributeProvidersMap.put(ViewWithNoParent.class, providerForViewWithNoParent);
-	    bindingAttributeProvidersMap.put(ViewWithParents.class, providerForViewWithParents);
-	    bindingAttributeProvidersMap.put(GrandparentView.class, providerForGrandparentView);
-	}
+	return newArrayList(providers);
     }
 
     private static class ViewWithNoParent extends View {

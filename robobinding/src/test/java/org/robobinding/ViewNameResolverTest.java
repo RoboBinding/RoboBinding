@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -22,6 +22,7 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
+import org.robobinding.ViewNameResolver;
 
 /**
  * 
@@ -32,11 +33,11 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class ViewNameResolverTest {
     @DataPoints
-    public static ViewNameMapping[] viewNameMappings = {layoutTagName("View").shouldResolveTo("android.view.View"),
+    public static ViewNameMapping[] viewNameMappings = { layoutTagName("View").shouldResolveTo("android.view.View"),
 	    layoutTagName("ViewGroup").shouldResolveTo("android.view.ViewGroup"),
 	    layoutTagName("EditText").shouldResolveTo("android.widget.EditText"),
 	    layoutTagName("ListView").shouldResolveTo("android.widget.ListView"),
-	    layoutTagName("robobinding.widget.CustomWidget").shouldResolveTo("robobinding.widget.CustomWidget")};
+	    layoutTagName("robobinding.widget.CustomWidget").shouldResolveTo("robobinding.widget.CustomWidget") };
 
     @Theory
     public void shouldResolveViewNamesCorrectly(ViewNameMapping viewNameMapping) {

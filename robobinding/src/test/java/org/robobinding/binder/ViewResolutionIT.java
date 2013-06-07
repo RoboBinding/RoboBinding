@@ -51,7 +51,7 @@ public class ViewResolutionIT {
 
     @Before
     public void setUp() {
-	BindingAttributeProvidersResolver providersResolver = new BindingAttributeProvidersResolver();
+	BindingAttributeProvidersResolver providersResolver = Binders.createAttributeProvidersResolver();
 	ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(providersResolver);
 	bindingAttributeResolver = new BindingAttributeResolver(resolverFinder);
     }
