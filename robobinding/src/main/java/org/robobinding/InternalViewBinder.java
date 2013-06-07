@@ -15,7 +15,6 @@
  */
 package org.robobinding;
 
-import org.robobinding.binder.NonBindingViewInflater;
 
 import android.view.View;
 import android.view.ViewGroup;

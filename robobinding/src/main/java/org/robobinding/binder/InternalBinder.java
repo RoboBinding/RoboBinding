@@ -32,7 +32,7 @@ import android.view.ViewGroup;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class InternalBinder implements BinderImplementor {
+class InternalBinder implements BinderImplementor {
     private final BindingViewInflater bindingViewInflater;
     private final ErrorFormatter errorFormatter;
     private final BindingContextFactory bindingContextFactory;

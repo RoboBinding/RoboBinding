@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.binder;
+package org.robobinding;
 
 /**
  * 
@@ -21,7 +21,7 @@ package org.robobinding.binder;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ViewNameResolver {
+class ViewNameResolver {
     public String getViewNameFromLayoutTag(String tagName) {
 	StringBuilder nameBuilder = new StringBuilder();
 

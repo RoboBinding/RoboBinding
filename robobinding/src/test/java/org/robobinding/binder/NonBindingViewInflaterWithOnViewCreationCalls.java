@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.integrationtest;
+package org.robobinding.binder;
 
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.util.List;
 
-import org.robobinding.binder.NonBindingViewInflater;
-import org.robobinding.binder.ViewFactory.ViewCreationListener;
+import org.robobinding.NonBindingViewInflater;
+import org.robobinding.ViewFactory.ViewCreationListener;
 
 import android.util.AttributeSet;
 import android.view.View;
