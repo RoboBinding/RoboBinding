@@ -41,7 +41,8 @@ public class ChildViewAttributes<T extends View> {
 	state = new Initializing<T>(groupAttributes, viewAttributeInitializer);
     }
 
-    public <ChildViewAttributeType extends ChildViewAttribute> ChildViewAttributeType add(String attributeName, ChildViewAttributeType childAttribute) {
+    public <ChildViewAttributeType extends ChildViewAttribute> ChildViewAttributeType add(String attributeName, 
+	    ChildViewAttributeType childAttribute) {
 	return state.add(attributeName, childAttribute);
     }
 
@@ -82,7 +83,7 @@ public class ChildViewAttributes<T extends View> {
 	return state.enumAttributeFor(attributeName);
     }
 
-    private static abstract class AbstractChildViewAttributesState<T extends View> {
+    private abstract static class AbstractChildViewAttributesState<T extends View> {
 	protected GroupAttributes groupAttributes;
 
 	public AbstractChildViewAttributesState(GroupAttributes groupAttributes) {

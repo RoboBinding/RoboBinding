@@ -22,8 +22,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.BinderImplementor;
-import org.robobinding.DialogBinder;
 import org.robobinding.presentationmodel.DialogPresentationModel;
 
 import android.app.Dialog;

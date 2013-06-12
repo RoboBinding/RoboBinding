@@ -15,10 +15,6 @@
  */
 package org.robobinding;
 
-import org.robobinding.BinderImplementorFactory;
-import org.robobinding.InternalViewBinder;
-import org.robobinding.ItemBinder;
-import org.robobinding.ViewBinder;
 import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapterImpl;

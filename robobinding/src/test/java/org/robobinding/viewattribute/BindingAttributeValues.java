@@ -22,6 +22,9 @@ package org.robobinding.viewattribute;
  * @author Cheng Wei
  */
 public class BindingAttributeValues {
+    private BindingAttributeValues() {
+    }
+    
     public static final String DEFAULT_PROPERTY_NAME = "defaultPropertyName";
     public static final String ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME = "{" + DEFAULT_PROPERTY_NAME + "}";
     public static final String TWO_WAY_BINDING_DEFAULT_PROPERTY_NAME = "$" + ONE_WAY_BINDING_DEFAULT_PROPERTY_NAME;

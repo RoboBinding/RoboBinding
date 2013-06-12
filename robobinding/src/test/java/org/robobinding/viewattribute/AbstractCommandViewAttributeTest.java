@@ -42,7 +42,8 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public abstract class AbstractCommandViewAttributeTest<ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<? super ViewType>> {
+public abstract class AbstractCommandViewAttributeTest<ViewType extends View, 
+	CommandViewAttributeType extends AbstractCommandViewAttribute<? super ViewType>> {
     private final String commandName = "someCommand";
 
     private MockFunction mockFunction;

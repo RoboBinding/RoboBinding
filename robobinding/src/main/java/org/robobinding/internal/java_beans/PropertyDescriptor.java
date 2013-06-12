@@ -212,7 +212,7 @@ public class PropertyDescriptor extends FeatureDescriptor {
 	Method writeMethod = null;
 	try {
 	    if (getter != null) {
-		writeMethod = beanClass.getMethod(setterName, new Class[] { getter.getReturnType() });
+		writeMethod = beanClass.getMethod(setterName, new Class[] {getter.getReturnType()});
 	    } else {
 		Class<?> clazz = beanClass;
 		Method[] methods = null;

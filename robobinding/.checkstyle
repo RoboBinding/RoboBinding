@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fileset-config file-format-version="1.2.0" simple-config="true" sync-formatter="false">
+  <local-check-config name="Robobinding checkstyle" location=".checkstyle.xml" type="project" description="">
+    <additional-data name="protect-config-file" value="false"/>
+  </local-check-config>
+  <fileset name="ScrFilesOnly" enabled="true" check-config-name="Robobinding checkstyle" local="true">
+    <file-match-pattern match-pattern="src" include-pattern="true"/>
+  </fileset>
+</fileset-config>

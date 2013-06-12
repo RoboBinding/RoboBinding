@@ -25,8 +25,8 @@ import org.robobinding.BindingContext;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 import org.robobinding.binder.ViewFactory.ViewFactoryListener;
+import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -152,8 +152,9 @@ class BindingViewInflater implements ViewFactoryListener {
 	}
 
 	public void bindChildViews(BindingContext bindingContext) {
-	    for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup)
+	    for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup) {
 		errors.addViewBindingError(viewBindingAttributes.bindTo(bindingContext));
+	    }
 	}
 
 	public void assertNoErrors(ErrorFormatter errorFormatter) {

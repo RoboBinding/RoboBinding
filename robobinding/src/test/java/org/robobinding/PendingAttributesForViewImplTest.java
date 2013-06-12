@@ -26,8 +26,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.PendingAttributesForView;
-import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PendingAttributesForView.AttributeGroupResolver;
 import org.robobinding.PendingAttributesForView.AttributeResolver;
 import org.robobinding.attribute.MalformedAttributeException;
@@ -94,7 +92,7 @@ public class PendingAttributesForViewImplTest {
 
     @Test
     public void whenAttributeGroupResolvedSuccessfully_thenPresentAttributesShouldBeRemovedOffThePendingList() {
-	String[] presentAttributes = { "group_attribute1", "group_attribute2" };
+	String[] presentAttributes = {"group_attribute1", "group_attribute2"};
 	String[] attributeGroup = ArrayUtils.add(presentAttributes, "group_attribute3");
 	PendingAttributesForView pendingAttributesForView = createWithPendingList(presentAttributes);
 

@@ -41,7 +41,7 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
 
     @Override
     protected String[] getCompulsoryAttributes() {
-	return new String[] { TEXT };
+	return new String[] {TEXT};
     }
 
     @Override

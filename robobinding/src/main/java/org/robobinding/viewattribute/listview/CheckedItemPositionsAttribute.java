@@ -49,7 +49,7 @@ public class CheckedItemPositionsAttribute extends AbstractMultiTypePropertyView
 	throw new RuntimeException("Could not find a suitable checkedItemPositions attribute class for property type: " + propertyType);
     }
 
-    static abstract class AbstractCheckedItemPositionsAttribute<PropertyType> extends AbstractPropertyViewAttribute<ListView, PropertyType> implements
+    abstract static class AbstractCheckedItemPositionsAttribute<PropertyType> extends AbstractPropertyViewAttribute<ListView, PropertyType> implements
 	    ViewListenersAware<AdapterViewListeners> {
 	private AdapterViewListeners adapterViewListeners;
 

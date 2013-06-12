@@ -36,7 +36,7 @@ import android.widget.ListView;
 public class ChoiceModeAttributeTest extends AbstractPropertyViewAttributeTest<ListView, ChoiceModeAttribute> {
     @Test
     public void whenValueModelUpdated_thenSetChoiceMode() {
-	int[] choiceModes = { CHOICE_MODE_NONE, CHOICE_MODE_SINGLE, CHOICE_MODE_MULTIPLE, CHOICE_MODE_MULTIPLE_MODAL };
+	int[] choiceModes = {CHOICE_MODE_NONE, CHOICE_MODE_SINGLE, CHOICE_MODE_MULTIPLE, CHOICE_MODE_MULTIPLE_MODAL};
 	for (int choiceMode : choiceModes) {
 	    attribute.valueModelUpdated(choiceMode);
 

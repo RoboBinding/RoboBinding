@@ -33,6 +33,9 @@ import android.view.ViewGroup;
  * @author Robert Taylor
  */
 public class Binders {
+    private Binders() {
+    }
+    
     public static void bind(Activity activity, int layoutId, Object presentationModel) {
 	BinderImplementor binderImplementor = InternalBinderFactory.create(activity, true);
 	ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);

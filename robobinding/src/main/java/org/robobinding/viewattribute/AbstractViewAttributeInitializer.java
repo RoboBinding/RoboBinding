@@ -35,7 +35,8 @@ public abstract class AbstractViewAttributeInitializer {
     }
 
     @SuppressWarnings("unchecked")
-    public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> PropertyViewAttributeType initializePropertyViewAttribute(
+    public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> 
+    	PropertyViewAttributeType initializePropertyViewAttribute(
 	    PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute) {
 	if (propertyViewAttribute instanceof AbstractMultiTypePropertyViewAttribute<?>) {
 	    return (PropertyViewAttributeType) initializeMultiTypePropertyViewAttribute(
@@ -47,7 +48,8 @@ public abstract class AbstractViewAttributeInitializer {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private <ViewType extends View, PropertyViewAttributeType extends AbstractPropertyViewAttribute<ViewType, ?>> PropertyViewAttributeType initializePropertyViewAttribute(
+    private <ViewType extends View, PropertyViewAttributeType extends AbstractPropertyViewAttribute<ViewType, ?>> 
+    	PropertyViewAttributeType initializePropertyViewAttribute(
 	    PropertyViewAttributeType viewAttribute, ValueModelAttribute attribute) {
 	viewAttribute.initialize(new PropertyViewAttributeConfig(getView(), attribute));
 	setViewListenersIfRequired(viewAttribute);
@@ -55,14 +57,16 @@ public abstract class AbstractViewAttributeInitializer {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private <ViewType extends View, PropertyViewAttributeType extends AbstractMultiTypePropertyViewAttribute<ViewType>> PropertyViewAttributeType initializeMultiTypePropertyViewAttribute(
+    private <ViewType extends View, PropertyViewAttributeType extends AbstractMultiTypePropertyViewAttribute<ViewType>> 
+    	PropertyViewAttributeType initializeMultiTypePropertyViewAttribute(
 	    PropertyViewAttributeType viewAttribute, ValueModelAttribute attribute) {
 	viewAttribute.initialize(new MultiTypePropertyViewAttributeConfig(getView(), attribute, viewListenersInjector));
 	return viewAttribute;
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> CommandViewAttributeType initializeCommandViewAttribute(
+    public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> 
+    	CommandViewAttributeType initializeCommandViewAttribute(
 	    CommandViewAttributeType viewAttribute, CommandAttribute attribute) {
 	viewAttribute.initialize(new CommandViewAttributeConfig(getView(), attribute));
 	setViewListenersIfRequired(viewAttribute);

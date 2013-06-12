@@ -42,7 +42,8 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  */
 @RunWith(RobolectricTestRunner.class)
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>> {
+public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, 
+	PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>> {
     protected ViewType view;
     protected PropertyViewAttributeType attribute;
 

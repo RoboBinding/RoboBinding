@@ -79,7 +79,7 @@ public class Introspector extends java.lang.Object {
 
     // The search path to use to find BeanInfo classes
     // - an array of package names that are used in turn
-    private static String[] searchPath = { DEFAULT_BEANINFO_SEARCHPATH };
+    private static String[] searchPath = {DEFAULT_BEANINFO_SEARCHPATH};
 
     // The cache to store Bean Info objects that have been found or created
     private static final int DEFAULT_CAPACITY = 128;
@@ -219,7 +219,7 @@ public class Introspector extends java.lang.Object {
      * <ul>
      * <li>If the first or only character is Upper Case, it is made Lower Case
      * <li>UNLESS the second character is also Upper Case, when the String is
-     * returned unchanged <eul>
+     * returned unchanged. </ul>
      * 
      * @param name
      *            - the String to decapitalize

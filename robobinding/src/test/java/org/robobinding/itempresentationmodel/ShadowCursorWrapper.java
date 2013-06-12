@@ -95,7 +95,7 @@ public class ShadowCursorWrapper {
     }
 
     @Implementation
-    public int getColumnIndexOrThrow(String columnName) throws IllegalArgumentException {
+    public int getColumnIndexOrThrow(String columnName) {
 	return cursor.getColumnIndexOrThrow(columnName);
     }
 

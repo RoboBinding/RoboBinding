@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.adapterview;
 
 import java.util.Collection;
+
 import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
 import org.robobinding.PredefinedPendingAttributesForView;
@@ -23,6 +24,7 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.DataSetValueModelWrapper;
 import org.robobinding.property.PresentationModelPropertyChangeListener;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -150,7 +152,8 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	this.dropDownLayoutId = dropDownLayoutId;
     }
 
-    public void setItemPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
+    public void setItemPredefinedPendingAttributesForViewGroup(
+	    Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
 	itemBinder.setPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup);
     }
 

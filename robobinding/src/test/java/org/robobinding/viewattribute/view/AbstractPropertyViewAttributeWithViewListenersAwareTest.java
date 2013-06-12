@@ -33,7 +33,8 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractPropertyViewAttributeWithViewListenersAwareTest<ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>, ViewListenersType extends ViewListeners>
+public abstract class AbstractPropertyViewAttributeWithViewListenersAwareTest<ViewType extends View, 
+	PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>, ViewListenersType extends ViewListeners>
 	extends AbstractPropertyViewAttributeTest<ViewType, PropertyViewAttributeType> {
     protected ViewListenersType viewListeners;
 

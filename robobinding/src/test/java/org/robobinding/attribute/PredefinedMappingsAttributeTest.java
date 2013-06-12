@@ -46,7 +46,7 @@ import com.google.common.collect.Lists;
 @RunWith(Theories.class)
 public class PredefinedMappingsAttributeTest {
     private static final String MAPPING_ATTRIBUTE_VALUE = "[text1.text:{property}]";
-    private final static int TEXT_1_ID = 10, TEXT_2_ID = 20;
+    private static final int TEXT_1_ID = 10, TEXT_2_ID = 20;
 
     @DataPoints
     public static MappingExpectation[] mappingExpections = {
@@ -60,8 +60,8 @@ public class PredefinedMappingsAttributeTest {
 		    viewMapping("text1", TEXT_1_ID, "visibility", "{titleVisible}"), viewMapping("text2", TEXT_2_ID, "enabled", "{artistEnabled}")) };
 
     @DataPoints
-    public static String[] illegalAttributeValues = { "[text1.text: {title}", "text:{title}", "[text1.text:title]",
-	    "[text1.text:{title}, text2.text:{artist}]", "[text1.text:{title}],text2.text:{artist}]", "[text1.text:{title},text2..text:{artist}]" };
+    public static String[] illegalAttributeValues = {"[text1.text: {title}", "text:{title}", "[text1.text:title]",
+	    "[text1.text:{title}, text2.text:{artist}]", "[text1.text:{title}],text2.text:{artist}]", "[text1.text:{title},text2..text:{artist}]"};
 
     @Mock
     Context context;
@@ -83,8 +83,9 @@ public class PredefinedMappingsAttributeTest {
     @Theory
     public void shouldParseLegalAttributeValuesCorrectly(MappingExpectation mappingExpectation) {
 	PredefinedMappingsAttribute predefinedMappingsAttribute = new PredefinedMappingsAttribute(ITEM_MAPPING, mappingExpectation.attributeValue);
-	for (ViewMappingData viewMappingData : mappingExpectation.viewMappingData)
+	for (ViewMappingData viewMappingData : mappingExpectation.viewMappingData) {
 	    when(resources.getIdentifier(viewMappingData.viewName, "id", "android")).thenReturn(viewMappingData.viewId);
+	}
 
 	Collection<PredefinedPendingAttributesForView> viewMappings = predefinedMappingsAttribute.getViewMappings(context);
 
@@ -117,8 +118,9 @@ public class PredefinedMappingsAttributeTest {
 	    viewMappingData = viewMappings;
 	    this.expectedViewMappings = Lists.newArrayList();
 
-	    for (ViewMappingData viewMappingData : viewMappings)
+	    for (ViewMappingData viewMappingData : viewMappings) {
 		expectedViewMappings.add(new ViewMapping(viewMappingData.viewId, viewMappingData.attributeName, viewMappingData.attributeValue));
+	    }
 	}
     }
 

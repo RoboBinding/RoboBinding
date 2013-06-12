@@ -53,7 +53,7 @@ class PresentationModelPropertyChangeListeners {
 	}
     }
 
-    private static PresentationModelPropertyChangeListeners EMPTY = new PresentationModelPropertyChangeListeners();
+    private static final PresentationModelPropertyChangeListeners EMPTY = new PresentationModelPropertyChangeListeners();
 
     public static PresentationModelPropertyChangeListeners empty() {
 	return EMPTY;

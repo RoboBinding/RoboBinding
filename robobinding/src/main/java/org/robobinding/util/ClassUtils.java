@@ -27,51 +27,37 @@ import java.util.Map;
  * @author Cheng Wei
  */
 class ClassUtils {
-
     /**
      * Maps primitive {@code Class}es to their corresponding wrapper
      * {@code Class}.
      */
-    private static final Map<Class<?>, Class<?>> primitiveWrapperMap = new HashMap<Class<?>, Class<?>>();
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_WRAPPER_MAP = new HashMap<Class<?>, Class<?>>();
     static {
-	primitiveWrapperMap.put(Boolean.TYPE, Boolean.class);
-	primitiveWrapperMap.put(Byte.TYPE, Byte.class);
-	primitiveWrapperMap.put(Character.TYPE, Character.class);
-	primitiveWrapperMap.put(Short.TYPE, Short.class);
-	primitiveWrapperMap.put(Integer.TYPE, Integer.class);
-	primitiveWrapperMap.put(Long.TYPE, Long.class);
-	primitiveWrapperMap.put(Double.TYPE, Double.class);
-	primitiveWrapperMap.put(Float.TYPE, Float.class);
-	primitiveWrapperMap.put(Void.TYPE, Void.TYPE);
+	PRIMITIVE_WRAPPER_MAP.put(Boolean.TYPE, Boolean.class);
+	PRIMITIVE_WRAPPER_MAP.put(Byte.TYPE, Byte.class);
+	PRIMITIVE_WRAPPER_MAP.put(Character.TYPE, Character.class);
+	PRIMITIVE_WRAPPER_MAP.put(Short.TYPE, Short.class);
+	PRIMITIVE_WRAPPER_MAP.put(Integer.TYPE, Integer.class);
+	PRIMITIVE_WRAPPER_MAP.put(Long.TYPE, Long.class);
+	PRIMITIVE_WRAPPER_MAP.put(Double.TYPE, Double.class);
+	PRIMITIVE_WRAPPER_MAP.put(Float.TYPE, Float.class);
+	PRIMITIVE_WRAPPER_MAP.put(Void.TYPE, Void.TYPE);
     }
 
     /**
      * Maps wrapper {@code Class}es to their corresponding primitive types.
      */
-    private static final Map<Class<?>, Class<?>> wrapperPrimitiveMap = new HashMap<Class<?>, Class<?>>();
+    private static final Map<Class<?>, Class<?>> WRAPPER_PRIMITIVE_MAP = new HashMap<Class<?>, Class<?>>();
     static {
-	for (final Class<?> primitiveClass : primitiveWrapperMap.keySet()) {
-	    final Class<?> wrapperClass = primitiveWrapperMap.get(primitiveClass);
+	for (final Class<?> primitiveClass : PRIMITIVE_WRAPPER_MAP.keySet()) {
+	    final Class<?> wrapperClass = PRIMITIVE_WRAPPER_MAP.get(primitiveClass);
 	    if (!primitiveClass.equals(wrapperClass)) {
-		wrapperPrimitiveMap.put(wrapperClass, primitiveClass);
+		WRAPPER_PRIMITIVE_MAP.put(wrapperClass, primitiveClass);
 	    }
 	}
     }
 
-    /**
-     * <p>
-     * ClassUtils instances should NOT be constructed in standard programming.
-     * Instead, the class should be used as
-     * {@code ClassUtils.getShortClassName(cls)}.
-     * </p>
-     * 
-     * <p>
-     * This constructor is public to permit tools that require a JavaBean
-     * instance to operate.
-     * </p>
-     */
-    public ClassUtils() {
-	super();
+    private ClassUtils() {
     }
 
     /**
@@ -314,7 +300,7 @@ class ClassUtils {
     public static Class<?> primitiveToWrapper(final Class<?> cls) {
 	Class<?> convertedClass = cls;
 	if (cls != null && cls.isPrimitive()) {
-	    convertedClass = primitiveWrapperMap.get(cls);
+	    convertedClass = PRIMITIVE_WRAPPER_MAP.get(cls);
 	}
 	return convertedClass;
     }
@@ -341,7 +327,7 @@ class ClassUtils {
      * @since 2.4
      */
     public static Class<?> wrapperToPrimitive(final Class<?> cls) {
-	return wrapperPrimitiveMap.get(cls);
+	return WRAPPER_PRIMITIVE_MAP.get(cls);
     }
 
     /**

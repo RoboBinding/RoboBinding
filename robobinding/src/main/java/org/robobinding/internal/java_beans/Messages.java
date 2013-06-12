@@ -43,9 +43,11 @@ import java.util.ResourceBundle;
  * 
  */
 public class Messages {
+    private Messages() {
+    }
 
     // ResourceBundle holding the system messages.
-    static private ResourceBundle bundle = null;
+    private static ResourceBundle bundle = null;
 
     /**
      * Retrieves a message which has no arguments.
@@ -54,7 +56,7 @@ public class Messages {
      *            String the key to look up.
      * @return String the message for that key in the system message bundle.
      */
-    static public String getString(String msg) {
+    public static String getString(String msg) {
 	if (bundle == null)
 	    return msg;
 	try {
@@ -73,8 +75,8 @@ public class Messages {
      *            Object the object to insert in the formatted output.
      * @return String the message for that key in the system message bundle.
      */
-    static public String getString(String msg, Object arg) {
-	return getString(msg, new Object[] { arg });
+    public static String getString(String msg, Object arg) {
+	return getString(msg, new Object[] {arg});
     }
 
     /**
@@ -86,8 +88,8 @@ public class Messages {
      *            int the integer to insert in the formatted output.
      * @return String the message for that key in the system message bundle.
      */
-    static public String getString(String msg, int arg) {
-	return getString(msg, new Object[] { Integer.toString(arg) });
+    public static String getString(String msg, int arg) {
+	return getString(msg, new Object[] {Integer.toString(arg)});
     }
 
     /**
@@ -99,8 +101,8 @@ public class Messages {
      *            char the character to insert in the formatted output.
      * @return String the message for that key in the system message bundle.
      */
-    static public String getString(String msg, char arg) {
-	return getString(msg, new Object[] { String.valueOf(arg) });
+    public static String getString(String msg, char arg) {
+	return getString(msg, new Object[] {String.valueOf(arg)});
     }
 
     /**
@@ -114,8 +116,8 @@ public class Messages {
      *            Object another object to insert in the formatted output.
      * @return String the message for that key in the system message bundle.
      */
-    static public String getString(String msg, Object arg1, Object arg2) {
-	return getString(msg, new Object[] { arg1, arg2 });
+    public static String getString(String msg, Object arg1, Object arg2) {
+	return getString(msg, new Object[] {arg1, arg2});
     }
 
     /**
@@ -127,7 +129,7 @@ public class Messages {
      *            Object[] the objects to insert in the formatted output.
      * @return String the message for that key in the system message bundle.
      */
-    static public String getString(String msg, Object[] args) {
+    public static String getString(String msg, Object[] args) {
 	String format = msg;
 
 	if (bundle != null) {
@@ -208,7 +210,7 @@ public class Messages {
      * @param locale
      *            Locale the locale to change to.
      */
-    static public ResourceBundle setLocale(final Locale locale, final String resource) {
+    public static ResourceBundle setLocale(final Locale locale, final String resource) {
 	try {
 	    final ClassLoader loader = null;
 	    return (ResourceBundle) AccessController.doPrivileged(new PrivilegedAction<Object>() {

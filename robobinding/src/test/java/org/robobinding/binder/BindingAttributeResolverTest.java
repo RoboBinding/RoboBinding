@@ -29,8 +29,6 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.PendingAttributesForView;
-import org.robobinding.binder.BindingAttributeProvidersResolver;
-import org.robobinding.binder.BindingAttributeResolver;
 import org.robobinding.viewattribute.BindingAttributeProvider;
 import org.robobinding.viewattribute.ViewAttribute;
 
@@ -106,7 +104,8 @@ public class BindingAttributeResolverTest {
 
 	public void assertBindingAttributeProvidersInvolvedResolving(
 		BindingAttributeProvider<View>... expectedBindingAttributeProvidersInvolvedResolving) {
-	    assertThat(Sets.newHashSet(expectedBindingAttributeProvidersInvolvedResolving), equalTo(actualBindingAttributeProvidersInvolvedResolving));
+	    assertThat(Sets.newHashSet(expectedBindingAttributeProvidersInvolvedResolving), 
+		    equalTo(actualBindingAttributeProvidersInvolvedResolving));
 	}
 
     }

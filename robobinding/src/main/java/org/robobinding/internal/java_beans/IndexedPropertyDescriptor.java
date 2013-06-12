@@ -202,12 +202,12 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
 	return (super.equals(other)
 		&& (indexedPropertyType == null ? other.indexedPropertyType == null : indexedPropertyType.equals(other.indexedPropertyType))
-		&& (indexedGetter == null ? other.indexedGetter == null : indexedGetter.equals(other.indexedGetter)) && (indexedSetter == null ? other.indexedSetter == null
+		&& (indexedGetter == null ? other.indexedGetter == null : indexedGetter.equals(other.indexedGetter)) 
+		&& (indexedSetter == null ? other.indexedSetter == null
 		    : indexedSetter.equals(other.indexedSetter)));
     }
-
     /**
-     * HashCode of the IndexedPropertyDescriptor
+     * HashCode of the IndexedPropertyDescriptor.
      */
     @Override
     public int hashCode() {
@@ -226,7 +226,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
     private void setIndexedReadMethod(Class<?> beanClass, String indexedGetterName) throws IntrospectionException {
 	Method getter;
 	try {
-	    getter = beanClass.getMethod(indexedGetterName, new Class[] { Integer.TYPE });
+	    getter = beanClass.getMethod(indexedGetterName, new Class[] {Integer.TYPE});
 	} catch (NoSuchMethodException exception) {
 	    // beans.58=No such indexed read method
 	    throw new IntrospectionException(Messages.getString("beans.58")); //$NON-NLS-1$
@@ -285,7 +285,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
     private void setIndexedWriteMethod(Class<?> beanClass, String indexedSetterName) throws IntrospectionException {
 	Method setter = null;
 	try {
-	    setter = beanClass.getMethod(indexedSetterName, new Class[] { Integer.TYPE, getPropertyType().getComponentType() });
+	    setter = beanClass.getMethod(indexedSetterName, new Class[] {Integer.TYPE, getPropertyType().getComponentType()});
 	} catch (SecurityException e) {
 	    // beans.5C=Security violation accessing indexed write method
 	    throw new IntrospectionException(Messages.getString("beans.5C")); //$NON-NLS-1$
@@ -298,7 +298,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
     private void setIndexedWriteMethod(Class<?> beanClass, String indexedSetterName, Class<?> argType) throws IntrospectionException {
 	try {
-	    Method setter = beanClass.getMethod(indexedSetterName, new Class[] { Integer.TYPE, argType });
+	    Method setter = beanClass.getMethod(indexedSetterName, new Class[] {Integer.TYPE, argType});
 	    internalSetIndexedWriteMethod(setter, true);
 	} catch (NoSuchMethodException exception) {
 	    // beans.5D=No such indexed write method

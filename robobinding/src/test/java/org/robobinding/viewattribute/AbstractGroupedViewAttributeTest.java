@@ -41,7 +41,6 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
- * @param <S>
  */
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGroupedViewAttribute<?>> {
@@ -118,8 +117,9 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
     }
 
     protected void assertThatAttributesWereCreated(Class<?>... attributeClasses) {
-	for (Class<?> attributeClass : attributeClasses)
+	for (Class<?> attributeClass : attributeClasses) {
 	    assertThatAttributeWasCreated(attributeClass);
+	}
     }
 
     protected void assertThatAttributeWasCreated(Class<?> attributeClass) {

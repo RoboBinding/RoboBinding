@@ -26,8 +26,8 @@ import java.util.regex.Pattern;
  * @author Cheng Wei
  */
 public class ValueModelAttribute extends AbstractPropertyAttribute {
-    private final static Pattern PROPERTY_ATTRIBUTE_PATTERN = Pattern.compile("[$]?\\{[\\w]+\\}");
-    private final static Pattern PROPERTY_NAME_PATTERN = Pattern.compile("\\w+");
+    private static final Pattern PROPERTY_ATTRIBUTE_PATTERN = Pattern.compile("[$]?\\{[\\w]+\\}");
+    private static final Pattern PROPERTY_NAME_PATTERN = Pattern.compile("\\w+");
 
     private String propertyName;
     private boolean twoWayBinding;

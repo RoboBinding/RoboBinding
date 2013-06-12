@@ -59,10 +59,9 @@ public class ShadowAbstractCursor {
     }
 
     /**
-     * Set currentRowNumber(Int) and currentRow (Map)
+     * Set currentRowNumber(Int) and currentRow (Map).
      * 
-     * @param pos
-     *            = the position to set
+     * @param pos the position to set
      */
     private void setPosition(int pos) {
 	currentRowNumber = pos;

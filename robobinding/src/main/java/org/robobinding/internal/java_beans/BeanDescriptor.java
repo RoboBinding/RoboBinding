@@ -63,7 +63,7 @@ public class BeanDescriptor extends FeatureDescriptor {
 
     /**
      * <p>
-     * Gets the bean's customizer {@link Class}/
+     * Gets the bean's customizer {@link Class}.
      * </p>
      * 
      * @return A {@link Class} instance or <code>null</code>.
