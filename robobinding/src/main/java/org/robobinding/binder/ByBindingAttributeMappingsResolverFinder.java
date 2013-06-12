@@ -19,7 +19,7 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import java.util.List;
 
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
 import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
 
@@ -33,20 +33,20 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class ByBindingAttributeMappingsResolverFinder {
-    private final BindingAttributeProvidersResolver providersResolver;
+    private final BindingAttributeMappingsProviderResolver providerResolver;
     
-    public ByBindingAttributeMappingsResolverFinder(BindingAttributeProvidersResolver providersResolver) {
-	this.providersResolver = providersResolver;
+    public ByBindingAttributeMappingsResolverFinder(BindingAttributeMappingsProviderResolver providerResolver) {
+	this.providerResolver = providerResolver;
     }
     
     public Iterable<ByBindingAttributeMappingsResolver> findCandidateResolvers(View view) {
 	ViewAttributeInitializer viewAttributeInitializer = new ViewAttributeInitializer();
 	
 	List<ByBindingAttributeMappingsResolver> resolvers = newArrayList(); 
-	Iterable<BindingAttributeProvider<? extends View>> providers = providersResolver.getCandidateProviders(view);
-	for (BindingAttributeProvider<? extends View> provider : providers) {
+	Iterable<BindingAttributeMappingsProvider<? extends View>> providers = providerResolver.findCandidateProviders(view);
+	for (BindingAttributeMappingsProvider<? extends View> provider : providers) {
 	    @SuppressWarnings("unchecked")
-	    BindingAttributeProvider<View> bindingAttributeProvider = (BindingAttributeProvider<View>) provider;
+	    BindingAttributeMappingsProvider<View> bindingAttributeProvider = (BindingAttributeMappingsProvider<View>) provider;
 	    BindingAttributeMappingsImpl<View> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings(viewAttributeInitializer);
 	    resolvers.add(new ByBindingAttributeMappingsResolver(bindingAttributeMappings));
 	}

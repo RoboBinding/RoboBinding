@@ -16,7 +16,6 @@
 package org.robobinding;
 
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,19 +45,4 @@ public class NonBindingViewInflater {
 	    return layoutInflater.inflate(layoutId, null);
 	}
     }
-    
-    public void installViewFactory(ViewFactoryInstaller installer)
-    {
-	installer.install(layoutInflater);
-    }
-    
-    public static NonBindingViewInflater create(Context context) {
-	return new NonBindingViewInflater(createLayoutInflater(context));
-    }
-    
-    private static LayoutInflater createLayoutInflater(Context context) {
-	return LayoutInflater.from(context).cloneInContext(context);
-    }
-
-
 }

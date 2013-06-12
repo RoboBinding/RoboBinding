@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding;
+package org.robobinding.viewattribute;
+
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
+
+import android.view.View;
 
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Cheng Wei
+ * @author Robert Taylor
  */
-public interface BinderImplementorFactory {
-    BinderImplementor create();
+public interface BindingAttributeMappingsProvider<T extends View> {
+    BindingAttributeMappingsImpl<T> createBindingAttributeMappings(ViewAttributeInitializer viewAttributeInitializer);
 }
