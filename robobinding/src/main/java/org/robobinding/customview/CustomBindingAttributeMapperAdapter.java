@@ -15,7 +15,7 @@
  */
 package org.robobinding.customview;
 
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
 import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
 
@@ -27,7 +27,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CustomBindingAttributeMapperAdapter<T extends View> implements BindingAttributeProvider<T> {
+public class CustomBindingAttributeMapperAdapter<T extends View> implements BindingAttributeMappingsProvider<T> {
     private BindableView<T> bindableView;
 
     public CustomBindingAttributeMapperAdapter(BindableView<T> bindableView) {

@@ -15,7 +15,7 @@
  */
 package org.robobinding.customview;
 
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 
 import android.view.View;
 
@@ -33,7 +33,7 @@ public class CustomViewUtils {
 	return view instanceof BindableView;
     }
 
-    public static <T extends View> BindingAttributeProvider<T> adapt(BindableView<T> bindableView) {
+    public static <T extends View> BindingAttributeMappingsProvider<T> adapt(BindableView<T> bindableView) {
 	return new CustomBindingAttributeMapperAdapter<T>(bindableView);
     }
 }

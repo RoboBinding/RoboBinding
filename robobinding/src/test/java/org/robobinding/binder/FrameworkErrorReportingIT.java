@@ -35,6 +35,7 @@ import org.robobinding.presentationmodel.PresentationModel;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -121,10 +122,11 @@ public class FrameworkErrorReportingIT {
 	}
 
 	public View inflateAndBind() {
-	    nonBindingViewInflaterWithOnViewCreationCalls = new NonBindingViewInflaterWithOnViewCreationCalls(NonBindingViewInflater.create(context));
+	    nonBindingViewInflaterWithOnViewCreationCalls = new NonBindingViewInflaterWithOnViewCreationCalls(new NonBindingViewInflater(createLayoutInflater(context)));
 	    BindingViewInflater bindingViewInflater = new BindingViewInflater(
 		    nonBindingViewInflaterWithOnViewCreationCalls, 
-		    new BindingAttributeResolver(new ByBindingAttributeMappingsResolverFinder(Binders.createAttributeProvidersResolver())),
+		    new BindingAttributeResolver(new ByBindingAttributeMappingsResolverFinder(
+			    new BindingAttributeMappingsProviderResolver(Binders.createBindingAttributeMappingsProviderMap()))),
 		    new BindingAttributeParser());
 	    nonBindingViewInflaterWithOnViewCreationCalls.addViewCreationListener(bindingViewInflater);
 	    inflationErrorsExpectations = Lists.newArrayList();
@@ -132,9 +134,13 @@ public class FrameworkErrorReportingIT {
 	    addViewAndExpectations();
 
 	    InternalBinder binder = new InternalBinder(bindingViewInflater, 
-		    new BindingContextFactory(context, true), 
+		    new BindingContextFactory(context, true, new NonBindingViewInflater(createLayoutInflater(context))), 
 		    new PlainTextErrorFormatter());
 	    return binder.inflateAndBind(R.layout.framework_error_reporting_it_sample1, new PresentationModelForTest());
+	}
+	    
+	private static LayoutInflater createLayoutInflater(Context context) {
+	    return LayoutInflater.from(context).cloneInContext(context);
 	}
 
 	protected abstract void addViewAndExpectations();

@@ -22,8 +22,8 @@ package org.robobinding;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface BinderFactory {
-    ItemBinder createItemBinder();
+public interface BinderProvider {
+    ItemBinder getItemBinder();
 
-    InternalViewBinder createInternalViewBinder();
+    InternalViewBinder getInternalViewBinder();
 }

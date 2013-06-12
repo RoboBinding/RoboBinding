@@ -16,7 +16,7 @@
 package org.robobinding.viewattribute.impl;
 
 import org.robobinding.viewattribute.BindingAttributeMapper;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 
 import android.view.View;
 
@@ -26,7 +26,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BindingAttributeMapperAdapter<T extends View> implements BindingAttributeProvider<T> {
+public class BindingAttributeMapperAdapter<T extends View> implements BindingAttributeMappingsProvider<T> {
     private BindingAttributeMapper<T> bindingAttributeMapper;
 
     public BindingAttributeMapperAdapter(BindingAttributeMapper<T> bindingAttributeMapper) {

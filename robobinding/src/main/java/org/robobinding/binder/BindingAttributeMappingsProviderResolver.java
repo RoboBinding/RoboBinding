@@ -20,7 +20,7 @@ import java.util.Queue;
 
 import org.robobinding.customview.BindableView;
 import org.robobinding.customview.CustomViewUtils;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 
 import android.view.View;
 
@@ -33,16 +33,16 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class BindingAttributeProvidersResolver {
-    private final Map<Class<?>, BindingAttributeProvider<? extends View>> bindingAttributeProvidersMap;
+public class BindingAttributeMappingsProviderResolver {
+    private final Map<Class<?>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap;
 
-    public BindingAttributeProvidersResolver(Map<Class<?>, BindingAttributeProvider<? extends View>> bindingAttributeProvidersMap) {
-	this.bindingAttributeProvidersMap = bindingAttributeProvidersMap;
+    public BindingAttributeMappingsProviderResolver(Map<Class<?>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap) {
+	this.bindingAttributeMappingsProviderMap = bindingAttributeMappingsProviderMap;
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Iterable<BindingAttributeProvider<? extends View>> getCandidateProviders(View view) {
-	Queue<BindingAttributeProvider<? extends View>> candidateProviders = Lists.newLinkedList();
+    public Iterable<BindingAttributeMappingsProvider<? extends View>> findCandidateProviders(View view) {
+	Queue<BindingAttributeMappingsProvider<? extends View>> candidateProviders = Lists.newLinkedList();
 
 	if (CustomViewUtils.isCustomWidget(view)) {
 	    candidateProviders.add(CustomViewUtils.adapt((BindableView) view));
@@ -52,17 +52,17 @@ public class BindingAttributeProvidersResolver {
 	return candidateProviders;
     }
 
-    private void processViewHierarchy(Class<?> clazz, Queue<BindingAttributeProvider<? extends View>> candidateProviders) {
-	BindingAttributeProvider<? extends View> bindingAttributeProvider = lookupProviderForViewType(clazz);
+    private void processViewHierarchy(Class<?> clazz, Queue<BindingAttributeMappingsProvider<? extends View>> candidateProviders) {
+	BindingAttributeMappingsProvider<? extends View> provider = lookupProviderForViewType(clazz);
 
-	if (bindingAttributeProvider != null)
-	    candidateProviders.add(bindingAttributeProvider);
+	if (provider != null)
+	    candidateProviders.add(provider);
 
 	if (clazz != View.class)
 	    processViewHierarchy(clazz.getSuperclass(), candidateProviders);
     }
 
-    private BindingAttributeProvider<? extends View> lookupProviderForViewType(Class<?> clazz) {
-	return bindingAttributeProvidersMap.get(clazz);
+    private BindingAttributeMappingsProvider<? extends View> lookupProviderForViewType(Class<?> clazz) {
+	return bindingAttributeMappingsProviderMap.get(clazz);
     }
 }

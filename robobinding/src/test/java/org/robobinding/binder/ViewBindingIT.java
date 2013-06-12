@@ -37,7 +37,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.robobinding.BinderFactory;
+import org.robobinding.BinderProvider;
 import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
 import org.robobinding.PendingAttributesForView;
@@ -78,7 +78,7 @@ public class ViewBindingIT {
 
     @Before
     public void setUp() {
-	BindingAttributeProvidersResolver providersResolver = Binders.createAttributeProvidersResolver();
+	BindingAttributeMappingsProviderResolver providersResolver = new BindingAttributeMappingsProviderResolver(Binders.createBindingAttributeMappingsProviderMap());
 	ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(providersResolver);
 	bindingAttributeResolver = new BindingAttributeResolver(resolverFinder);
 	bindingContext = newBindingContext();
@@ -227,7 +227,7 @@ public class ViewBindingIT {
 
     @SuppressWarnings("unchecked")
     private BindingContext newBindingContext() {
-	BinderFactory binderFactory = mock(BinderFactory.class);
+	BinderProvider binderFactory = mock(BinderProvider.class);
 	ItemBinder itemBinder = mock(ItemBinder.class);
 	when(itemBinder.inflateAndBind(anyInt(), anyObject(), anyCollection())).then(new Answer<View>() {
 	    @Override
@@ -235,7 +235,7 @@ public class ViewBindingIT {
 		return new View(new Activity());
 	    }
 	});
-	when(binderFactory.createItemBinder()).thenReturn(itemBinder);
+	when(binderFactory.getItemBinder()).thenReturn(itemBinder);
 	return new BindingContext(
 		binderFactory, 
 		new Activity(), 
