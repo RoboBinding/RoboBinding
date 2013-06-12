@@ -18,15 +18,12 @@ package org.robobinding;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.robobinding.NonBindingViewInflater;
-import org.robobinding.ViewFactoryInstaller;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,15 +62,5 @@ public class NonBindingViewInflaterTest {
 	View view = viewInflater.inflate(layoutId, rootView);
 
 	assertThat(view, sameInstance(resultViewWithAttachingToRoot));
-    }
-    
-    @Test
-    public void whenInstallViewFactory_thenInstallMethodOfInstallerShouldBeCalledWithLayoutInflater() {
-	NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater);
-	ViewFactoryInstaller installer = mock(ViewFactoryInstaller.class);	
-	
-	viewInflater.installViewFactory(installer);
-	
-	verify(installer).install(layoutInflater);
     }
 }
