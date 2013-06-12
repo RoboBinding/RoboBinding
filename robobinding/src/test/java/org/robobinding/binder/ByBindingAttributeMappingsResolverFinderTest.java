@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.robobinding.viewattribute.BindingAttributeProvider;
+import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 
 import android.view.View;
 
@@ -42,15 +42,15 @@ import com.google.common.collect.Lists;
 @RunWith(MockitoJUnitRunner.class)
 public class ByBindingAttributeMappingsResolverFinderTest {
     @Mock
-    private BindingAttributeProvidersResolver providersResolver;
+    private BindingAttributeMappingsProviderResolver providersResolver;
     
     @Test
     public void givenTwoCandidateProviders_whenFindCandidateResolvers_thenTwoResolversShouldBeReturned() {
 	View view = mock(View.class);
 	@SuppressWarnings("unchecked")
-	Collection<BindingAttributeProvider<? extends View>> candiateProviders = Lists.<BindingAttributeProvider<? extends View>>newArrayList(
-		mock(BindingAttributeProvider.class), mock(BindingAttributeProvider.class));
-	when(providersResolver.getCandidateProviders(view)).thenReturn(candiateProviders);
+	Collection<BindingAttributeMappingsProvider<? extends View>> candiateProviders = Lists.<BindingAttributeMappingsProvider<? extends View>>newArrayList(
+		mock(BindingAttributeMappingsProvider.class), mock(BindingAttributeMappingsProvider.class));
+	when(providersResolver.findCandidateProviders(view)).thenReturn(candiateProviders);
 	
 	ByBindingAttributeMappingsResolverFinder finder = new ByBindingAttributeMappingsResolverFinder(providersResolver);
 	Iterable<ByBindingAttributeMappingsResolver> candidateResolvers = finder.findCandidateResolvers(view);

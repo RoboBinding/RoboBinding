@@ -15,13 +15,11 @@
  */
 package org.robobinding.binder;
 
-import org.robobinding.BinderFactory;
 import org.robobinding.BinderImplementor;
+import org.robobinding.BinderProvider;
 import org.robobinding.InternalViewBinder;
 import org.robobinding.ItemBinder;
 import org.robobinding.NonBindingViewInflater;
-
-import android.content.Context;
 
 
 /**
@@ -30,23 +28,34 @@ import android.content.Context;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class BinderFactoryImpl implements BinderFactory {
+class BinderProviderImpl implements BinderProvider {
     private final BinderImplementor binderImplementor;
-    private final Context context;
+    private final NonBindingViewInflater nonBindingViewInflater;
     
-    public BinderFactoryImpl(BinderImplementor binderImplementor, Context context) {
+    private ItemBinder itemBinder;
+    private InternalViewBinder internalViewBinder;
+    
+    public BinderProviderImpl(BinderImplementor binderImplementor, NonBindingViewInflater nonBindingViewInflater) {
 	this.binderImplementor = binderImplementor;
-	this.context = context;
+	this.nonBindingViewInflater = nonBindingViewInflater;
     }
 
     @Override
-    public ItemBinder createItemBinder() {
-	return new ItemBinder(binderImplementor);
+    public ItemBinder getItemBinder() {
+	if(itemBinder == null) {
+	    itemBinder = new ItemBinder(binderImplementor);
+	}
+	
+	return itemBinder;
     }
 
     @Override
-    public InternalViewBinder createInternalViewBinder() {
-	return new InternalViewBinder(binderImplementor, NonBindingViewInflater.create(context));
+    public InternalViewBinder getInternalViewBinder() {
+	if(internalViewBinder == null) {
+	    internalViewBinder = new InternalViewBinder(binderImplementor, nonBindingViewInflater);
+	}
+	
+	return internalViewBinder;
     }
 
 }
