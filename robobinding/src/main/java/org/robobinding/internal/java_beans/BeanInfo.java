@@ -17,9 +17,6 @@
 
 package org.robobinding.internal.java_beans;
 
-/**
- *
- */
 public interface BeanInfo {
     PropertyDescriptor[] getPropertyDescriptors();
 

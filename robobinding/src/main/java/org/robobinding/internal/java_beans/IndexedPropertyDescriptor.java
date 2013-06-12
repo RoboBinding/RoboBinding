@@ -21,9 +21,6 @@ import java.lang.reflect.Method;
 
 import com.google.common.base.Objects;
 
-/**
- * 
- */
 public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
     private Class<?> indexedPropertyType;
