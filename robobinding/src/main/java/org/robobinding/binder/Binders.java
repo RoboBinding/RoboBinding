@@ -64,34 +64,34 @@ import android.widget.TextView;
  * @author Robert Taylor
  */
 public class Binders {
-    private final Context context;
+    private final Map<Class<?>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap;
     
-    private Binders(Context context) {
-	this.context = context;
+    private Binders(Map<Class<?>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap) {
+	this.bindingAttributeMappingsProviderMap = bindingAttributeMappingsProviderMap;
     }
 
     private ActivityBinder createActivityBinder(Activity activity, boolean withPreInitializingViews) {
-	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater());
-	BinderImplementor binderImplementor = createBinderImplementor(nonBindingViewInflater, withPreInitializingViews);
+	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater(activity));
+	BinderImplementor binderImplementor = createBinderImplementor(activity, nonBindingViewInflater, withPreInitializingViews);
 	return new ActivityBinder(activity, binderImplementor);
     }
     
-    private LayoutInflater createLayoutInflater() {
+    private LayoutInflater createLayoutInflater(Context context) {
 	return LayoutInflater.from(context).cloneInContext(context);
     }
 
-    private BinderImplementor createBinderImplementor(NonBindingViewInflater nonBindingViewInflater, boolean withPreInitializingViews) {
-	BindingViewInflater bindingViewInflater = createBindingViewInflater();
+    private BinderImplementor createBinderImplementor(Context context, NonBindingViewInflater nonBindingViewInflater, boolean withPreInitializingViews) {
+	BindingViewInflater bindingViewInflater = createBindingViewInflater(context);
 	BindingContextFactory bindingContextFactory = new BindingContextFactory(context, withPreInitializingViews, nonBindingViewInflater);
 	BinderImplementor binderImplementor = new InternalBinder(bindingViewInflater, bindingContextFactory, new PlainTextErrorFormatter());
 	return binderImplementor;
     }
 
-    private BindingViewInflater createBindingViewInflater() {
-	LayoutInflater layoutInflater = createLayoutInflater();
+    private BindingViewInflater createBindingViewInflater(Context context) {
+	LayoutInflater layoutInflater = createLayoutInflater(context);
 	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(layoutInflater);
 	ByBindingAttributeMappingsResolverFinder byBindingAttributeProviderResolverFinder = new ByBindingAttributeMappingsResolverFinder(
-		new BindingAttributeMappingsProviderResolver(createBindingAttributeMappingsProviderMap()));
+		new BindingAttributeMappingsProviderResolver(bindingAttributeMappingsProviderMap));
 	BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeProviderResolverFinder);
 	BindingViewInflater bindingViewInflater = new BindingViewInflater(nonBindingViewInflater, bindingAttributeResolver,
 		new BindingAttributeParser());
@@ -123,39 +123,45 @@ public class Binders {
     }
     
     private DialogBinder createDialogBinder(Dialog dialog) {
-	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater());
-	BinderImplementor binderImplementor = createBinderImplementor(nonBindingViewInflater, true);
+	Context context = dialog.getContext();
+	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater(context));
+	BinderImplementor binderImplementor = createBinderImplementor(context, nonBindingViewInflater, true);
 	return new DialogBinder(dialog, binderImplementor);
     }
 
-    private InternalViewBinder createInternalViewBinder()
+    private InternalViewBinder createInternalViewBinder(Context context)
     {
-	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater());
-	BinderImplementor binderImplementor = createBinderImplementor(nonBindingViewInflater, true);
+	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater(context));
+	BinderImplementor binderImplementor = createBinderImplementor(context, nonBindingViewInflater, true);
 	return new InternalViewBinder(binderImplementor, nonBindingViewInflater);
     }
   
     public static void bind(Activity activity, int layoutId, Object presentationModel) {
-	ActivityBinder activityBinder = new Binders(activity).createActivityBinder(activity, true);
+	Map<Class<?>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap = createBindingAttributeMappingsProviderMap();
+	ActivityBinder activityBinder = new Binders(bindingAttributeMappingsProviderMap).createActivityBinder(activity, true);
 	activityBinder.inflateAndBind(layoutId, presentationModel);
     }
     public static void bindWithoutPreInitializingViews(Activity activity, int layoutId, Object presentationModel) {
-	ActivityBinder activityBinder = new Binders(activity).createActivityBinder(activity, false);
+	Map<Class<?>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap = createBindingAttributeMappingsProviderMap();
+	ActivityBinder activityBinder = new Binders(bindingAttributeMappingsProviderMap).createActivityBinder(activity, false);
 	activityBinder.inflateAndBind(layoutId, presentationModel);
     }
 
     public static void bind(Dialog dialog, int layoutId, Object presentationModel) {
-	DialogBinder dialogBinder = new Binders(dialog.getContext()).createDialogBinder(dialog);
+	Map<Class<?>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap = createBindingAttributeMappingsProviderMap();
+	DialogBinder dialogBinder = new Binders(bindingAttributeMappingsProviderMap).createDialogBinder(dialog);
 	dialogBinder.inflateAndBind(layoutId, presentationModel);
     }
 
     public static View bindView(Context context, int layoutId, Object presentationModel) {
-	InternalViewBinder viewBinder = new Binders(context).createInternalViewBinder();
+	Map<Class<?>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap = createBindingAttributeMappingsProviderMap();
+	InternalViewBinder viewBinder = new Binders(bindingAttributeMappingsProviderMap).createInternalViewBinder(context);
 	return viewBinder.inflateAndBind(layoutId, presentationModel);
     }
     
     public static View attachToRootAndBindView(ViewGroup parentView, Context context, int layoutId, Object presentationModel) {
-	InternalViewBinder viewBinder = new Binders(context).createInternalViewBinder();
+	Map<Class<?>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap = createBindingAttributeMappingsProviderMap();
+	InternalViewBinder viewBinder = new Binders(bindingAttributeMappingsProviderMap).createInternalViewBinder(context);
 	return viewBinder.inflateAndBind(layoutId, presentationModel, parentView);
     }
 }
