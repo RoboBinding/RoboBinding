@@ -15,11 +15,6 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import java.util.Collection;
-
-import org.robobinding.BindingContext;
-import org.robobinding.ItemBinder;
-import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.DataSetValueModelWrapper;
@@ -40,23 +35,32 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	ITEM_LAYOUT, DROPDOWN_LAYOUT
     }
 
-    private DataSetValueModel<T> dataSetValueModel;
-
-    private final ItemBinder itemBinder;
     private final boolean preInitializeViews;
+    private final DataSetValueModel<T> dataSetValueModel;
+
+    private final ItemLayoutBinder itemLayoutBinder;
+    private final ItemLayoutBinder dropdownLayoutBinder;
     
-    private boolean propertyChangeEventOccurred = false;
+    private boolean propertyChangeEventOccurred;
 
-    private int itemLayoutId;
-    private int dropDownLayoutId;
 
-    
-    private Collection<PredefinedPendingAttributesForView> itemPredefinedPendingAttributesForViewGroup;
-    private Collection<PredefinedPendingAttributesForView> dropdownPredefinedPendingAttributesForViewGroup;
+    public DataSetAdapter(DataSetValueModel<T> dataSetValueModel, ItemLayoutBinder itemLayoutBinder, 
+	    ItemLayoutBinder dropdownLayoutBinder, boolean preInitializeViews) {
+        this.preInitializeViews = preInitializeViews;
 
-    public DataSetAdapter(BindingContext bindingContext) {
-	itemBinder = bindingContext.createItemBinder();
-	this.preInitializeViews = bindingContext.shouldPreInitializeViews();
+        this.dataSetValueModel = createValueModelFrom(dataSetValueModel);
+        this.itemLayoutBinder = itemLayoutBinder;
+        this.dropdownLayoutBinder = dropdownLayoutBinder;
+        
+	propertyChangeEventOccurred = false;
+    }
+
+    private DataSetValueModel<T> createValueModelFrom(DataSetValueModel<T> valueModel) {
+        if (!preInitializeViews) {
+            return wrapAsZeroSizeDataSetUntilPropertyChangeEvent(valueModel);
+        }else {
+            return valueModel;
+        }
     }
 
     public void observeChangesOnTheValueModel() {
@@ -67,13 +71,6 @@ public class DataSetAdapter<T> extends BaseAdapter {
 		notifyDataSetChanged();
 	    }
 	});
-    }
-
-    public void setValueModel(DataSetValueModel<T> valueModel) {
-	if (!preInitializeViews)
-	    dataSetValueModel = wrapAsZeroSizeDataSetUntilPropertyChangeEvent(valueModel);
-	else
-	    dataSetValueModel = valueModel;
     }
 
     private DataSetValueModel<T> wrapAsZeroSizeDataSetUntilPropertyChangeEvent(final DataSetValueModel<T> valueModel) {
@@ -132,9 +129,9 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
 	View view;
 	if (viewType == ViewType.ITEM_LAYOUT) {
-	    view = itemBinder.inflateAndBind(itemLayoutId, itemPresentationModel, itemPredefinedPendingAttributesForViewGroup);
+	    view = itemLayoutBinder.inflateAndBindTo(itemPresentationModel);
 	} else {
-	    view = itemBinder.inflateAndBind(dropDownLayoutId, itemPresentationModel, dropdownPredefinedPendingAttributesForViewGroup);
+	    view = dropdownLayoutBinder.inflateAndBindTo(itemPresentationModel);
 	}
 	view.setTag(itemPresentationModel);
 	return view;
@@ -144,22 +141,5 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	@SuppressWarnings("unchecked")
 	ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>) view.getTag();
 	itemPresentationModel.updateData(position, getItem(position));
-    }
-
-    public void setItemLayoutId(int itemLayoutId) {
-	this.itemLayoutId = itemLayoutId;
-    }
-
-    public void setDropDownLayoutId(int dropDownLayoutId) {
-	this.dropDownLayoutId = dropDownLayoutId;
-    }
-
-    public void setItemPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
-	this.itemPredefinedPendingAttributesForViewGroup = predefinedPendingAttributesForViewGroup;
-    }
-
-    public void setDropdownPredefinedPendingAttributesForViewGroup(
-	    Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
-	this.dropdownPredefinedPendingAttributesForViewGroup = predefinedPendingAttributesForViewGroup;
     }
 }
