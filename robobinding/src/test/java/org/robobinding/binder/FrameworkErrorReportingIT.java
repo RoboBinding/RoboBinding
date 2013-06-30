@@ -125,9 +125,8 @@ public class FrameworkErrorReportingIT {
 	    nonBindingViewInflaterWithOnViewCreationCalls = new NonBindingViewInflaterWithOnViewCreationCalls(
 		    new NonBindingViewInflater(createLayoutInflater(context)));
 	    BindingViewInflater bindingViewInflater = new BindingViewInflater(
-		    nonBindingViewInflaterWithOnViewCreationCalls, 
-		    new BindingAttributeResolver(new ByBindingAttributeMappingsResolverFinder(
-			    new BindingAttributeMappingsProviderResolver(Binders.createBindingAttributeMappingsProviderMap()))),
+		    nonBindingViewInflaterWithOnViewCreationCalls,
+		    IntegrationTestUtil.createBindingAttributeResolver(),
 		    new BindingAttributeParser());
 	    nonBindingViewInflaterWithOnViewCreationCalls.addViewCreationListener(bindingViewInflater);
 	    inflationErrorsExpectations = Lists.newArrayList();

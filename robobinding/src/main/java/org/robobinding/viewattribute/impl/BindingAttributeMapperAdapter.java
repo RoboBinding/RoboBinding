@@ -27,7 +27,7 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class BindingAttributeMapperAdapter<T extends View> implements BindingAttributeMappingsProvider<T> {
-    private BindingAttributeMapper<T> bindingAttributeMapper;
+    private final BindingAttributeMapper<T> bindingAttributeMapper;
 
     public BindingAttributeMapperAdapter(BindingAttributeMapper<T> bindingAttributeMapper) {
 	this.bindingAttributeMapper = bindingAttributeMapper;
