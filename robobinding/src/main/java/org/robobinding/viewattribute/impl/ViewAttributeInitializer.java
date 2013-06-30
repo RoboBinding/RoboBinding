@@ -35,11 +35,11 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class ViewAttributeInitializer {
-    ViewListenersInjector viewListenersInjector;
+    private final ViewListenersInjector viewListenersInjector;
     ViewAttributeInitializerDelegate delegate;
 
-    public ViewAttributeInitializer() {
-	this.viewListenersInjector = new ViewListenersProvider();
+    public ViewAttributeInitializer(ViewListenersInjector viewListenersInjector) {
+	this.viewListenersInjector = viewListenersInjector;
 	delegate = new ViewAttributeInitializerDelegate(viewListenersInjector);
     }
 

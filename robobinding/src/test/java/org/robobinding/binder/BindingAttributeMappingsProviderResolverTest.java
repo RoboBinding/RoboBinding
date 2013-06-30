@@ -56,7 +56,7 @@ public class BindingAttributeMappingsProviderResolverTest {
     public void setUp() {
 	initMocks(this);
 	
-	Map<Class<?>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeProvidersMap = Maps.newHashMap();
+	Map<Class<? extends View>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeProvidersMap = Maps.newHashMap();
 	bindingAttributeProvidersMap.put(ViewWithNoParent.class, providerForViewWithNoParent);
 	bindingAttributeProvidersMap.put(ViewWithParents.class, providerForViewWithParents);
 	bindingAttributeProvidersMap.put(GrandparentView.class, providerForGrandparentView);

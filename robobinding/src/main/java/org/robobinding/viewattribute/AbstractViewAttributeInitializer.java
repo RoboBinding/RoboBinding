@@ -52,7 +52,7 @@ public abstract class AbstractViewAttributeInitializer {
     	PropertyViewAttributeType initializePropertyViewAttribute(
 	    PropertyViewAttributeType viewAttribute, ValueModelAttribute attribute) {
 	viewAttribute.initialize(new PropertyViewAttributeConfig(getView(), attribute));
-	setViewListenersIfRequired(viewAttribute);
+	viewListenersInjector.injectIfRequired(viewAttribute, getView());
 	return viewAttribute;
     }
 
@@ -69,12 +69,8 @@ public abstract class AbstractViewAttributeInitializer {
     	CommandViewAttributeType initializeCommandViewAttribute(
 	    CommandViewAttributeType viewAttribute, CommandAttribute attribute) {
 	viewAttribute.initialize(new CommandViewAttributeConfig(getView(), attribute));
-	setViewListenersIfRequired(viewAttribute);
-	return viewAttribute;
-    }
-
-    private void setViewListenersIfRequired(ViewAttribute viewAttribute) {
 	viewListenersInjector.injectIfRequired(viewAttribute, getView());
+	return viewAttribute;
     }
 
     protected abstract View getView();

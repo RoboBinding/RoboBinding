@@ -22,6 +22,7 @@ import java.util.List;
 import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
 import org.robobinding.viewattribute.impl.ViewAttributeInitializer;
+import org.robobinding.viewattribute.impl.ViewAttributeInitializerFactory;
 
 import android.view.View;
 
@@ -34,13 +35,16 @@ import android.view.View;
  */
 public class ByBindingAttributeMappingsResolverFinder {
     private final BindingAttributeMappingsProviderResolver providerResolver;
+    private final ViewAttributeInitializerFactory viewAttributeInitializerFactory;
     
-    public ByBindingAttributeMappingsResolverFinder(BindingAttributeMappingsProviderResolver providerResolver) {
+    public ByBindingAttributeMappingsResolverFinder(BindingAttributeMappingsProviderResolver providerResolver,
+	    ViewAttributeInitializerFactory viewAttributeInitializerFactory) {
 	this.providerResolver = providerResolver;
+	this.viewAttributeInitializerFactory = viewAttributeInitializerFactory;
     }
     
     public Iterable<ByBindingAttributeMappingsResolver> findCandidateResolvers(View view) {
-	ViewAttributeInitializer viewAttributeInitializer = new ViewAttributeInitializer();
+	ViewAttributeInitializer viewAttributeInitializer = viewAttributeInitializerFactory.create();
 	
 	List<ByBindingAttributeMappingsResolver> resolvers = newArrayList(); 
 	Iterable<BindingAttributeMappingsProvider<? extends View>> providers = providerResolver.findCandidateProviders(view);

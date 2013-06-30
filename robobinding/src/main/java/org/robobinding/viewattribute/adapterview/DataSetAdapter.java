@@ -42,21 +42,20 @@ public class DataSetAdapter<T> extends BaseAdapter {
 
     private DataSetValueModel<T> dataSetValueModel;
 
-    private boolean preInitializeViews;
+    private final ItemBinder itemBinder;
+    private final boolean preInitializeViews;
+    
     private boolean propertyChangeEventOccurred = false;
 
     private int itemLayoutId;
     private int dropDownLayoutId;
 
-    private final ItemBinder itemBinder;
-    private final ItemBinder dropDownBinder;
     
     private Collection<PredefinedPendingAttributesForView> itemPredefinedPendingAttributesForViewGroup;
     private Collection<PredefinedPendingAttributesForView> dropdownPredefinedPendingAttributesForViewGroup;
 
     public DataSetAdapter(BindingContext bindingContext) {
 	itemBinder = bindingContext.createItemBinder();
-	dropDownBinder = bindingContext.createItemBinder();
 	this.preInitializeViews = bindingContext.shouldPreInitializeViews();
     }
 
@@ -135,7 +134,7 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	if (viewType == ViewType.ITEM_LAYOUT) {
 	    view = itemBinder.inflateAndBind(itemLayoutId, itemPresentationModel, itemPredefinedPendingAttributesForViewGroup);
 	} else {
-	    view = dropDownBinder.inflateAndBind(dropDownLayoutId, itemPresentationModel, dropdownPredefinedPendingAttributesForViewGroup);
+	    view = itemBinder.inflateAndBind(dropDownLayoutId, itemPresentationModel, dropdownPredefinedPendingAttributesForViewGroup);
 	}
 	view.setTag(itemPresentationModel);
 	return view;

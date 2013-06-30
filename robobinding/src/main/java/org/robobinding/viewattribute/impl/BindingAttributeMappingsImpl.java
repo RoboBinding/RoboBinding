@@ -15,6 +15,7 @@
  */
 package org.robobinding.viewattribute.impl;
 
+import static com.google.common.collect.Maps.newHashMap;
 import static org.robobinding.viewattribute.FromClassViewAttributeFactory.viewAttributeFactoryForClass;
 
 import java.util.Map;
@@ -29,8 +30,6 @@ import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.ViewAttributeFactory;
 
 import android.view.View;
-
-import com.google.common.collect.Maps;
 
 /**
  * 
@@ -51,9 +50,9 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 	this.viewAttributeInitializer = viewAttributeInitializer;
 	propertyAttributeValueParser = new PropertyAttributeParser();
 
-	propertyViewAttributeMappings = Maps.newHashMap();
-	commandViewAttributeMappings = Maps.newHashMap();
-	groupedViewAttributeMappings = Maps.newHashMap();
+	propertyViewAttributeMappings = newHashMap();
+	commandViewAttributeMappings = newHashMap();
+	groupedViewAttributeMappings = newHashMap();
     }
 
     @Override

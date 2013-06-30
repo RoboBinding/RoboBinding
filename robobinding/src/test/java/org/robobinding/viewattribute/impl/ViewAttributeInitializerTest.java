@@ -42,7 +42,7 @@ public class ViewAttributeInitializerTest {
     @Before
     public void setUp() {
 	viewListenersProvider = mock(ViewListenersInjector.class);
-	viewAttributeInitializer = new ViewAttributeInitializerForTest(viewListenersProvider);
+	viewAttributeInitializer = new ViewAttributeInitializer(viewListenersProvider);
     }
 
     @Test
@@ -59,11 +59,5 @@ public class ViewAttributeInitializerTest {
 
     private PendingGroupAttributes newPendingGroupAttributes() {
 	return new PendingGroupAttributes(Maps.<String, String> newHashMap());
-    }
-
-    private static class ViewAttributeInitializerForTest extends ViewAttributeInitializer {
-	public ViewAttributeInitializerForTest(ViewListenersInjector viewListenersProvider) {
-	    this.viewListenersInjector = viewListenersProvider;
-	}
     }
 }

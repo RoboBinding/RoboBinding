@@ -15,22 +15,24 @@
  */
 package org.robobinding.viewattribute.impl;
 
+import static com.google.common.collect.Maps.newHashMap;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 
-import java.io.Serializable;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.robobinding.BindingContext;
+import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
 
+import android.content.Context;
 import android.view.View;
 
 /**
@@ -39,115 +41,150 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(Theories.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ViewListenersProviderTest {
-    @DataPoints
-    public static ViewListenersAttribute[] sampleData = new ViewListenersAttribute[] {
-	    new ViewListenersAttribute(new MockViewListenersAwareAttribute()),
-	    new ViewListenersAttribute(new MockViewListenersAwareAttributeSubClass()),
-	    new ViewListenersAttribute(new MockViewListenersAwareAttributeImplementingAnotherInterface()),
-	    new ViewListenersAttribute(new MockViewListenersAwareAttributeSubClassImplementingAnotherInterface()) };
+    @Mock
+    private ViewSubclass view;
 
     private ViewListenersProvider viewListenersProvider;
 
     @Before
     public void setUp() {
-	viewListenersProvider = new ViewListenersProvider();
-    }
-
-    @Theory
-    public void whenAskingForView_thenReturnViewListenerOfCorrectType(ViewListenersAttribute viewAndViewListenersType) {
-	ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(viewAndViewListenersType.view,
-		viewAndViewListenersType.viewListenersAware);
-
-	assertThat(viewListeners, instanceOf(viewAndViewListenersType.viewListenersType));
-    }
-
-    @Theory
-    public void whenAskingForViewListenersAgain_thenReturnTheSameInstance(ViewListenersAttribute viewAndViewListenersType) {
-	ViewListeners viewListeners1 = viewListenersProvider.forViewAndAttribute(viewAndViewListenersType.view,
-		viewAndViewListenersType.viewListenersAware);
-	ViewListeners viewListeners2 = viewListenersProvider.forViewAndAttribute(viewAndViewListenersType.view,
-		viewAndViewListenersType.viewListenersAware);
-
-	assertThat(viewListeners1, sameInstance(viewListeners2));
+	Map<Class<? extends View>, Class<? extends ViewListeners>> viewToViewListenersMap = newHashMap();
+	viewToViewListenersMap.put(ViewSubclass.class, ViewListenersSubclass.class);
+	viewListenersProvider = new ViewListenersProvider(viewToViewListenersMap);
     }
 
     @Test
-    public void whenAskingForTwoDifferentViewListenersForTheSameView_thenReturnTheCorrectInstances() {
-	View view = mock(View.class);
-	ViewListenersAware<?> mockViewListenersAware = new MockViewListenersAwareAttribute();
-	ViewListenersAware<?> mockViewListenersSubClassAware = new MockViewListenersSubclassAwareAttribute();
-
-	ViewListeners viewListeners = viewListenersProvider.forViewAndAttribute(view, mockViewListenersAware);
-	ViewListeners mockViewListeners = viewListenersProvider.forViewAndAttribute(view, mockViewListenersSubClassAware);
-
-	assertThat(viewListeners, instanceOf(ViewListeners.class));
-	assertThat(mockViewListeners, instanceOf(MockViewListenersSubclass.class));
+    public void whenInjectNonViewListenersAwareAttribute_thenSafelyIgnored() {
+	viewListenersProvider.injectIfRequired(new NonViewListenersAwareAttribute(), view);
+    }
+    
+    @Test
+    public void whenInjectViewListenersAwareAttribute_thenViewListenersSubclassIsInjected() {
+	ViewListenersAwareAttribute viewAttribute = new ViewListenersAwareAttribute();
+	
+	viewListenersProvider.injectIfRequired(viewAttribute, view);
+	
+	assertThat(viewAttribute.viewListeners, instanceOf(ViewListenersSubclass.class));
+    }
+    
+    @Test
+    public void whenInjectViewListenersSubclassAwareAttribute_thenViewListenersSubclassInjected() {
+	ViewListenersSubclassAwareAttribute viewAttribute = new ViewListenersSubclassAwareAttribute();
+	
+	viewListenersProvider.injectIfRequired(viewAttribute, view);
+	
+	assertThat(viewAttribute.viewListeners, instanceOf(ViewListenersSubclass.class));
     }
 
-    private static class ViewListenersAttribute {
-	private final ViewListenersAware<?> viewListenersAware;
-	private final View view;
-	private final Class<? extends ViewListeners> viewListenersType;
+    @Test
+    public void whenInjectViewListenersAwareAttributeAgain_thenTheSameViewListenersInstanceIsInjected() {
+	ViewListenersAwareAttribute viewAttribute = new ViewListenersAwareAttribute();
+	
+	viewListenersProvider.injectIfRequired(viewAttribute, view);
+	ViewListeners viewListeners1 = viewAttribute.viewListeners;
 
-	public ViewListenersAttribute(AbstractMockViewListenersAwareAttribute viewListenersAware) {
-	    this.viewListenersAware = (ViewListenersAware<?>) viewListenersAware;
-	    this.view = mock(View.class);
-	    this.viewListenersType = viewListenersAware.getViewListenersType();
+	viewListenersProvider.injectIfRequired(viewAttribute, view);
+	ViewListeners viewListeners2 =viewAttribute.viewListeners;
+
+	assertThat(viewListeners1, sameInstance(viewListeners2));
+    }
+    
+    @Test
+    public void whenInjectTwoDifferentViewListenersAwareAttributesWithTheSameView_thenTheSameViewListenersInstanceIsInjectedForBoth() {
+	ViewListenersAwareAttribute viewAttribute = new ViewListenersAwareAttribute();
+	viewListenersProvider.injectIfRequired(viewAttribute, view);
+
+	ViewListenersSubclassAwareAttribute viewAttributeSubclass = new ViewListenersSubclassAwareAttribute();
+	viewListenersProvider.injectIfRequired(viewAttributeSubclass, view);
+
+	assertThat(viewAttribute.viewListeners, sameInstance(viewAttributeSubclass.viewListeners));
+    }
+
+    private static class NonViewListenersAwareAttribute implements ViewAttribute  {
+	@Override
+	public void bindTo(BindingContext bindingContext) {
+	}
+	
+	@Override
+	public void preInitializeView(BindingContext bindingContext) {
 	}
     }
 
-    private abstract static class AbstractMockViewListenersAwareAttribute {
-	public abstract Class<? extends ViewListeners> getViewListenersType();
+    private static abstract class ViewAttributeWithViewListenersType implements ViewAttribute {
+        public ViewListeners viewListeners;
+        
+        @Override
+        public void bindTo(BindingContext bindingContext) {
+        }
+        
+        @Override
+        public void preInitializeView(BindingContext bindingContext) {
+        }
+        
+        public abstract Class<? extends ViewListeners> getViewListenersType();
     }
 
-    private static class MockViewListenersAwareAttribute extends AbstractMockViewListenersAwareAttribute 
-    	implements ViewListenersAware<ViewListeners> {
+    private static class ViewListenersAwareAttribute extends ViewAttributeWithViewListenersType implements ViewListenersAware<ViewListeners> {
 	@Override
 	public void setViewListeners(ViewListeners viewListeners) {
+	    this.viewListeners = viewListeners;
 	}
-
+	
+	@Override
 	public Class<? extends ViewListeners> getViewListenersType() {
 	    return ViewListeners.class;
 	}
+
     }
 
-    private static class MockViewListenersSubclassAwareAttribute extends AbstractMockViewListenersAwareAttribute implements
-	    ViewListenersAware<MockViewListenersSubclass> {
+    private static class ViewListenersSubclassAwareAttribute extends ViewAttributeWithViewListenersType implements
+	    ViewListenersAware<ViewListenersSubclass> {
 	@Override
-	public void setViewListeners(MockViewListenersSubclass viewListeners) {
+	public void setViewListeners(ViewListenersSubclass viewListeners) {
+	    this.viewListeners = viewListeners;
 	}
-
-	public Class<? extends ViewListeners> getViewListenersType() {
-	    return MockViewListenersSubclass.class;
-	}
-    }
-
-    private static class MockViewListenersAwareAttributeImplementingAnotherInterface extends AbstractMockViewListenersAwareAttribute implements
-	    Serializable, ViewListenersAware<ViewListeners> {
-	private static final long serialVersionUID = 1L;
-
+	
 	@Override
-	public void setViewListeners(ViewListeners viewListeners) {
-	}
-
 	public Class<? extends ViewListeners> getViewListenersType() {
-	    return ViewListeners.class;
+	    return ViewListenersSubclass.class;
 	}
-    }
 
-    private static class MockViewListenersAwareAttributeSubClass extends MockViewListenersAwareAttribute {
     }
+//
+//    private static class ViewListenersAwareAttributeImplementingAnotherInterface extends ViewAttributeWithViewListenersType implements
+//	    Serializable, ViewListenersAware<ViewListeners> {
+//	private static final long serialVersionUID = 1L;
+//
+//	@Override
+//	public void setViewListeners(ViewListeners viewListeners) {
+//	    this.viewListeners = viewListeners;
+//	}
+//
+//	@Override
+//	public Class<? extends ViewListeners> getViewListenersType() {
+//	    return ViewListeners.class;
+//	}
+//    }
+//
+//    private static class ViewListenersAwareAttributeSubClass extends ViewListenersAwareAttribute {
+//    }
+//
+//    private static class ViewListenersAwareAttributeSubClassImplementingAnotherInterface extends ViewListenersAwareAttribute implements
+//	    Serializable {
+//	private static final long serialVersionUID = 1L;
+//    }
 
-    private static class MockViewListenersAwareAttributeSubClassImplementingAnotherInterface extends MockViewListenersAwareAttribute implements
-	    Serializable {
-	private static final long serialVersionUID = 1L;
-    }
-
-    public static class MockViewListenersSubclass extends ViewListeners {
-	public MockViewListenersSubclass(View view) {
+    public static class ViewListenersSubclass extends ViewListeners {
+	public ViewListenersSubclass(ViewSubclass view) {
 	    super(view);
+	}
+    }
+    
+    public static class ViewSubclass extends View {
+	public ViewSubclass(Context context) {
+	    super(context);
 	}
     }
 }
