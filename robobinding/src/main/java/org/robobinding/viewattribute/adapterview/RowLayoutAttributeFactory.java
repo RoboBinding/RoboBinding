@@ -15,47 +15,73 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import org.robobinding.BindingContext;
 import org.robobinding.attribute.AbstractPropertyAttribute;
-import org.robobinding.viewattribute.PropertyViewAttributeConfig;
+import org.robobinding.viewattribute.ChildViewAttribute;
 import org.robobinding.viewattribute.ViewAttribute;
 
 import android.widget.AdapterView;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
-public class RowLayoutAttributeFactory {
-    private final AdapterView<?> adapterView;
-    private final DataSetAdapter<?> dataSetAdapter;
+public abstract class RowLayoutAttributeFactory
+{
+	private final AdapterView<?> adapterView;
+	private final DataSetAdapter<?> dataSetAdapter;
 
-    public RowLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter) {
-	this.adapterView = adapterView;
-	this.dataSetAdapter = dataSetAdapter;
-    }
+	protected RowLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter)
+	{
+		this.adapterView = adapterView;
+		this.dataSetAdapter = dataSetAdapter;
+	}
 
-    public ViewAttribute createItemLayoutAttribute(AbstractPropertyAttribute attribute) {
-	RowLayoutUpdater rowLayoutUpdater = new ItemLayoutUpdater(dataSetAdapter);
-	return attribute.isStaticResource() ? createStaticLayoutAttribute(attribute, rowLayoutUpdater) : createDynamicLayoutAttribute(attribute,
-		new ItemLayoutUpdater(dataSetAdapter));
-    }
+	public ViewAttribute createRowLayoutAttribute(AbstractPropertyAttribute attribute)
+	{
+		RowLayoutUpdater rowLayoutUpdater = createRowLayoutUpdater(dataSetAdapter);
+		return attribute.isStaticResource() ? 
+				createStaticLayoutAttribute(attribute, rowLayoutUpdater) :
+					createDynamicLayoutAttribute(attribute, rowLayoutUpdater);
+	}
+	
+	private ViewAttribute createStaticLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater dataSetRowLayoutUpdater)
+	{
+		return new StaticLayoutAttribute(attribute.asStaticResourceAttribute(), dataSetRowLayoutUpdater);
+	}
 
-    public ViewAttribute createDropdownLayoutAttribute(AbstractPropertyAttribute attribute) {
-	RowLayoutUpdater rowLayoutUpdater = new DropdownLayoutUpdater(dataSetAdapter);
-	return attribute.isStaticResource() ? createStaticLayoutAttribute(attribute, rowLayoutUpdater) : createDynamicLayoutAttribute(attribute,
-		rowLayoutUpdater);
-    }
+	private ViewAttribute createDynamicLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater dataSetRowLayoutUpdater)
+	{
+		DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute(adapterView, dataSetAdapter, dataSetRowLayoutUpdater);
+		dynamicLayoutAttribute.setAttribute(attribute.asValueModelAttribute());
+		return dynamicLayoutAttribute;
+	}
+	
+	protected abstract RowLayoutUpdater createRowLayoutUpdater(DataSetAdapter<?> dataSetAdapter);
+	
+	protected static class RowLayoutAttributeAdapter implements ChildViewAttribute<AbstractPropertyAttribute>
+	{
+		private RowLayoutAttributeFactory layoutAttributeFactory;
+		private ViewAttribute layoutAttribute;
+		
+		public RowLayoutAttributeAdapter(RowLayoutAttributeFactory layoutAttributeFactory)
+		{
+			this.layoutAttributeFactory = layoutAttributeFactory;
+		}
 
-    private ViewAttribute createStaticLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater rowLayoutUpdater) {
-	return new StaticLayoutAttribute(attribute.asStaticResourceAttribute(), rowLayoutUpdater);
-    }
-
-    private ViewAttribute createDynamicLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater rowLayoutUpdater) {
-	@SuppressWarnings("rawtypes")
-	PropertyViewAttributeConfig<AdapterView> attributeConfig = new PropertyViewAttributeConfig<AdapterView>(adapterView,
-		attribute.asValueModelAttribute());
-	return new DynamicLayoutAttribute(attributeConfig, dataSetAdapter, rowLayoutUpdater);
-    }
+		@Override
+		public void setAttribute(AbstractPropertyAttribute attribute)
+		{
+			layoutAttribute = layoutAttributeFactory.createRowLayoutAttribute(attribute);
+		}
+		
+		@Override
+		public void bindTo(BindingContext bindingContext)
+		{
+			layoutAttribute.bindTo(bindingContext);		
+		}
+	}	
 }
