@@ -37,7 +37,8 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends ListView, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>>
+public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends ListView, 
+	PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>>
 	extends AbstractPropertyViewAttributeTest<ViewType, PropertyViewAttributeType> {
     private ListAdapter adapter;
 
@@ -74,6 +75,7 @@ public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends
 	    } else if (selector == 1) {
 		sparseBooleanArray.put(i, false);
 	    } else {
+		System.out.print(""); //Doing nothing.
 	    }
 	}
 	return sparseBooleanArray;

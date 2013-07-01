@@ -23,8 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.presentationmodel.DependsOnStateOf;
 import org.robobinding.presentationmodel.PresentationModel;
-import org.robobinding.test.PresentationModelPropertyChangeSpy;
-import org.robobinding.test.PresentationModelTester;
 import org.robobinding.viewattribute.RandomValues;
 
 /**

@@ -22,15 +22,14 @@ import static org.mockito.Mockito.mock;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributeProvidersResolver;
 import org.robobinding.viewattribute.BindingAttributeProvider;
+
+import android.content.Context;
+import android.view.View;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
-
-import android.content.Context;
-import android.view.View;
 
 /**
  * 

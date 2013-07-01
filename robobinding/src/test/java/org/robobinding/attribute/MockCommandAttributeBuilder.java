@@ -15,7 +15,6 @@
  */
 package org.robobinding.attribute;
 
-import org.robobinding.attribute.CommandAttribute;
 
 /**
  * 

@@ -18,8 +18,8 @@ package org.robobinding.integrationtest;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static org.robobinding.binder.MockBindingAttributeSetBuilder.aBindingAttributeSet;
 import static org.robobinding.binder.BindingViewInflaterForTest.aBindingViewInflater;
+import static org.robobinding.binder.MockBindingAttributeSetBuilder.aBindingAttributeSet;
 import static org.robobinding.integrationtest.ViewInflationErrorsExpectation.aBindingViewInflationErrorExpectationOf;
 
 import java.util.Collection;
@@ -31,8 +31,8 @@ import org.junit.runner.RunWith;
 import org.robobinding.R;
 import org.robobinding.binder.BinderImplementorForTest;
 import org.robobinding.binder.BindingViewInflaterForTest;
-import org.robobinding.binder.ViewInflationErrors;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException;
+import org.robobinding.binder.ViewInflationErrors;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModel;
 
@@ -114,7 +114,7 @@ public class FrameworkErrorReportingIT {
 	}
     }
 
-    private static abstract class AbstractSampleAndExpectation {
+    private abstract static class AbstractSampleAndExpectation {
 	protected final Context context;
 	protected BindingViewInflaterForTest.Builder bindingViewInflaterBuilder;
 	protected List<ViewInflationErrorsExpectation> inflationErrorsExpectations;

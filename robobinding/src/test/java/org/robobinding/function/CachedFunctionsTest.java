@@ -40,9 +40,9 @@ public class CachedFunctionsTest {
 
     @Test
     public void whenFindExistingFunctionWithMatchedParameterTypes_thenReturnCorrectFunction() {
-	Function function = cachedFunctions.find(FunctionsBean.FUNCTION1, new Class<?>[] { boolean.class });
+	Function function = cachedFunctions.find(FunctionsBean.FUNCTION1, new Class<?>[] {boolean.class});
 
-	assertCorrectFunction(function, FunctionsBean.FUNCTION1, new Class<?>[] { boolean.class });
+	assertCorrectFunction(function, FunctionsBean.FUNCTION1, new Class<?>[] {boolean.class});
     }
 
     private void assertCorrectFunction(Function actualFunction, String expectedFunctionName, Class<?>[] expectedParameterTypes) {
@@ -55,7 +55,7 @@ public class CachedFunctionsTest {
 
     @Test
     public void whenFindExistingFunctioWithUnmatchedParameterTypes_thenReturnNull() {
-	Function function = cachedFunctions.find(FunctionsBean.FUNCTION1, new Class<?>[] { Boolean.class, Object.class });
+	Function function = cachedFunctions.find(FunctionsBean.FUNCTION1, new Class<?>[] {Boolean.class, Object.class});
 
 	Assert.assertNull(function);
     }

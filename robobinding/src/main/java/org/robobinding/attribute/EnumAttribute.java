@@ -30,9 +30,10 @@ public class EnumAttribute<T extends Enum<T>> extends AbstractAttribute {
     }
 
     private T determineAttributeValue(String attributeValue, Class<T> enumClass) {
-	for (T value : enumClass.getEnumConstants())
+	for (T value : enumClass.getEnumConstants()) {
 	    if (value.toString().equals(attributeValue))
 		return value;
+	}
 
 	throw new MalformedAttributeException(getName(), "Invalid " + getName() + " attribute value: " + attributeValue);
     }

@@ -48,7 +48,7 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 
     @Override
     protected String[] getCompulsoryAttributes() {
-	return new String[] { layoutAttribute() };
+	return new String[] {layoutAttribute()};
     }
 
     @Override

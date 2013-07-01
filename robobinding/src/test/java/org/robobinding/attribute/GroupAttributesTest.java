@@ -37,11 +37,11 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class GroupAttributesTest {
     @DataPoints
-    public static ChildAttributeExpectation[] childAttributeExpectations = { aChildAttributeExpectation("commandAttribute", CommandAttribute.class),
+    public static ChildAttributeExpectation[] childAttributeExpectations = {aChildAttributeExpectation("commandAttribute", CommandAttribute.class),
 	    aChildAttributeExpectation("valueModelAttribute", ValueModelAttribute.class),
 	    aChildAttributeExpectation("staticResourceAttribute", StaticResourceAttribute.class),
 	    aChildAttributeExpectation("predefinedMappingsAttribute", PredefinedMappingsAttribute.class),
-	    aChildAttributeExpectation("enumAttribute", EnumAttribute.class) };
+	    aChildAttributeExpectation("enumAttribute", EnumAttribute.class)};
 
     @Theory
     public void givenChildAttribute_whenAskForAttribute_thenReturnAttributeOfCorrectType(ChildAttributeExpectation childAttributeExpectation) {

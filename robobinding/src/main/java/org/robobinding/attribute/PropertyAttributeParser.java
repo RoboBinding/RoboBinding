@@ -15,11 +15,11 @@
  */
 package org.robobinding.attribute;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static org.robobinding.attribute.StaticResourceAttribute.isStaticResourceAttribute;
 import static org.robobinding.attribute.ValueModelAttribute.isValueModelAttribute;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 
@@ -64,7 +64,8 @@ public class PropertyAttributeParser {
 	if (!propertyBindingAttempted.matches())
 	    errorMessage += "\n\nDid you mean '{" + value + "}' or '${" + value + "}'? (one/two-way binding)\n";
 	else if (resourceBindingAttempted.matches())
-	    errorMessage += "\n\nDid you mean to omit the curly braces? (Curly braces are for binding to a property on the presentation model, not static resources)";
+	    errorMessage += "\n\nDid you mean to omit the curly braces? (Curly braces are for binding to a property on the presentation model, "
+		    		+ "not static resources)";
 
 	return errorMessage;
     }

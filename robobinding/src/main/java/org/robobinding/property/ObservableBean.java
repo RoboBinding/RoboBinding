@@ -70,6 +70,7 @@ class ObservableBean implements ObservableProperties {
 			+ propertyName
 			+ "' but presentation model '"
 			+ bean.getClass().getName()
-			+ "' is not observable. You either have to annotate your presentation model with @PresentationModel or implement interface ObservableProperties");
+			+ "' is not observable. You either have to annotate your presentation model with @PresentationModel "
+			+ "or implement interface ObservableProperties");
     }
 }

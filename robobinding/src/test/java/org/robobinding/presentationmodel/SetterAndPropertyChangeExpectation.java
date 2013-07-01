@@ -32,7 +32,7 @@ public abstract class SetterAndPropertyChangeExpectation {
 	return 0;
     }
 
-    public static SetterAndPropertyChangeExpectation PROPERTY = new SetterAndPropertyChangeExpectation() {
+    public static final SetterAndPropertyChangeExpectation PROPERTY = new SetterAndPropertyChangeExpectation() {
 
 	@Override
 	public void setProperty(PresentationModel_AutoCodeGeneration presentationModel) {
@@ -45,7 +45,7 @@ public abstract class SetterAndPropertyChangeExpectation {
 	}
     };
 
-    public static SetterAndPropertyChangeExpectation CUSTOM_PROPERTY = new SetterAndPropertyChangeExpectation() {
+    public static final SetterAndPropertyChangeExpectation CUSTOM_PROPERTY = new SetterAndPropertyChangeExpectation() {
 
 	@Override
 	public void setProperty(PresentationModel_AutoCodeGeneration presentationModel) {
@@ -53,7 +53,7 @@ public abstract class SetterAndPropertyChangeExpectation {
 	}
     };
 
-    public static SetterAndPropertyChangeExpectation PROPERTY_WITH_RETURN_VALUE = new SetterAndPropertyChangeExpectation() {
+    public static final SetterAndPropertyChangeExpectation PROPERTY_WITH_RETURN_VALUE = new SetterAndPropertyChangeExpectation() {
 
 	@Override
 	public void setProperty(PresentationModel_AutoCodeGeneration presentationModel) {
@@ -61,7 +61,7 @@ public abstract class SetterAndPropertyChangeExpectation {
 	}
     };
 
-    public static SetterAndPropertyChangeExpectation PROPERTY_WITH_MULTIPLE_PARAMETERS = new SetterAndPropertyChangeExpectation() {
+    public static final SetterAndPropertyChangeExpectation PROPERTY_WITH_MULTIPLE_PARAMETERS = new SetterAndPropertyChangeExpectation() {
 
 	@Override
 	public void setProperty(PresentationModel_AutoCodeGeneration presentationModel) {

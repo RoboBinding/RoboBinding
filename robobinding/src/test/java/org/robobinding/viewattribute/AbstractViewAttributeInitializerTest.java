@@ -123,7 +123,7 @@ public class AbstractViewAttributeInitializerTest {
 	verify(viewAttribute).setViewListeners(viewListeners);
     }
 
-    public class ViewAttributeInitializerForTest extends AbstractViewAttributeInitializer {
+    class ViewAttributeInitializerForTest extends AbstractViewAttributeInitializer {
 	public ViewAttributeInitializerForTest(ViewListenersInjector viewListenersInjector) {
 	    super(viewListenersInjector);
 	}

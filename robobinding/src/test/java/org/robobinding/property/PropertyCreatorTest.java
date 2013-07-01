@@ -79,7 +79,8 @@ public class PropertyCreatorTest {
 	public static final String ARRAY_DATA_SET_PROPERTY = "arrayDataSetProperty";
 	public static final String CURSOR_DATA_SET_PROPERTY = "cursorDataSetProperty";
 	public static final String UNSUPPORTED_DATA_SET_PROPERTY = "UnsupportedDataSetProperty";
-	public static final String DATA_SET_PROPERTY_WITHOUT_ITEM_PRESENTATION_MODEL_ANNOTATION = "DataSetPropertyWithoutItemPresentationModelAnnotation";
+	public static final String DATA_SET_PROPERTY_WITHOUT_ITEM_PRESENTATION_MODEL_ANNOTATION = 
+		"DataSetPropertyWithoutItemPresentationModelAnnotation";
 
 	@ItemPresentationModel(ItemPresentationModelImpl.class)
 	public List<Object> getListDataSetProperty() {

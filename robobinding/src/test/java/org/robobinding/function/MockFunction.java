@@ -15,7 +15,6 @@
  */
 package org.robobinding.function;
 
-import org.robobinding.function.Function;
 
 /**
  * 

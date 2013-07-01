@@ -26,6 +26,9 @@ import com.google.common.base.Strings;
  * @author Cheng Wei
  */
 public class Preconditions {
+    private Preconditions() {
+    }
+    
     public static void checkNotBlank(String str, String errorMessage) {
 	checkArgument(!Strings.isNullOrEmpty(str), errorMessage);
     }

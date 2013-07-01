@@ -91,7 +91,7 @@ class InternalBinder implements BinderImplementor {
 	return viewInflater.inflateView(layoutId);
     }
 
-    public static interface BindingContextCreator {
+    public interface BindingContextCreator {
 	BindingContext create(Object presentationModel);
     }
 }

@@ -29,19 +29,7 @@ import java.lang.reflect.Modifier;
  */
 public class MethodUtils {
 
-    /**
-     * <p>
-     * MethodUtils instances should NOT be constructed in standard programming.
-     * Instead, the class should be used as
-     * <code>MethodUtils.getAccessibleMethod(method)</code>.
-     * </p>
-     * 
-     * <p>
-     * This constructor is public to permit tools that require a JavaBean
-     * instance to operate.
-     * </p>
-     */
-    public MethodUtils() {
+    private MethodUtils() {
 	super();
     }
 

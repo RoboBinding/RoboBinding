@@ -88,7 +88,6 @@ public class AbstractDataSetPropertyTest {
 	    return (Bean) super.getBean();
 	}
     }
-
     public static class Bean implements ObservableProperties {
 	private static final String DEFAULT_CONSTRUCTOR_DATA_SET_PROPERTY = "defaultConstructorDataSetProperty";
 	private static final String FACTORY_METHOD_DATA_SET_PROPERTY = "factoryMethodDataSetProperty";

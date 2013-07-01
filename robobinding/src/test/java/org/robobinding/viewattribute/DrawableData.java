@@ -29,7 +29,7 @@ import android.graphics.drawable.Drawable;
  * @author Cheng Wei
  */
 public class DrawableData {
-    private static DrawableData[] drawableData = { new DrawableData(R.drawable.bottom_bar), new DrawableData(R.drawable.title_bar) };
+    private static DrawableData[] drawableData = {new DrawableData(R.drawable.bottom_bar), new DrawableData(R.drawable.title_bar)};
 
     public final int resourceId;
     public final Bitmap bitmap;

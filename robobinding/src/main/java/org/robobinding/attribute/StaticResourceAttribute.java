@@ -28,7 +28,7 @@ import android.content.Context;
  * @author Cheng Wei
  */
 public class StaticResourceAttribute extends AbstractPropertyAttribute {
-    private final static Pattern RESOURCE_ATTRIBUTE_PATTERN = Pattern.compile("^@([\\w\\.]+:)?(\\w+)/(\\w+)$");
+    private static final Pattern RESOURCE_ATTRIBUTE_PATTERN = Pattern.compile("^@([\\w\\.]+:)?(\\w+)/(\\w+)$");
 
     String resourceName;
     String resourceType;

@@ -385,7 +385,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
 
     /**
      * Introspects the supplied class and returns a list of the public methods
-     * of the class
+     * of the class.
      * 
      * @return An array of MethodDescriptors with the public methods. null if
      *         there are no public methods
@@ -430,8 +430,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
     }
 
     /**
-     * Introspects the supplied class and returns a list of the Properties of
-     * the class
+     * Introspects the supplied class and returns a list of the Properties of the class.
      * 
      * @param stopClass
      *            - the to introspecting at

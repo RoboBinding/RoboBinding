@@ -26,7 +26,6 @@ import java.util.Random;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.binder.BindingAttributeParser;
 
 import android.util.AttributeSet;
 
@@ -64,9 +63,10 @@ public class BindingAttributeParserTest {
 	AttributeSet attributeSetWithAttributes = withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes);
 
 	Map<String, String> bindingMap = loadBindingMapFromAttributeSet(attributeSetWithAttributes);
-	for (String attribute : bindingMap.keySet())
+	for (String attribute : bindingMap.keySet()) {
 	    assertThat(bindingMap.get(attribute),
 		    equalTo(attributeSetWithAttributes.getAttributeValue(BindingAttributeParser.ROBOBINDING_NAMESPACE, attribute)));
+	}
     }
 
     private Map<String, String> loadBindingMapFromAttributeSet(AttributeSet attrs) {

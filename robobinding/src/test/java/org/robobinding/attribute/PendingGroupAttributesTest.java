@@ -69,8 +69,9 @@ public class PendingGroupAttributesTest {
     private String[] randomAttributeArray() {
 	String[] attributeNames = new String[RandomValues.anyInteger() + 1];
 
-	for (int i = 0; i < attributeNames.length; i++)
+	for (int i = 0; i < attributeNames.length; i++) {
 	    attributeNames[i] = RandomStringUtils.random(10);
+	}
 
 	return attributeNames;
     }
