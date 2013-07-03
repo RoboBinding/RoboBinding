@@ -29,11 +29,17 @@ import org.robobinding.property.DataSetValueModel;
  * @author Cheng Wei
  */
 public class DataSetAdapterBuilder {
+    private final BindingContext bindingContext;
+    
     private int itemLayoutId;
     private int dropDownLayoutId;
     private Collection<PredefinedPendingAttributesForView> itemPredefinedPendingAttributesForViewGroup;
     private Collection<PredefinedPendingAttributesForView> dropdownPredefinedPendingAttributesForViewGroup;
-    private DataSetValueModel<?> dataSetValueModel;
+    private DataSetValueModel<?> valueModel;
+    
+    public DataSetAdapterBuilder(BindingContext bindingContext) {
+	this.bindingContext = bindingContext;
+    }
     
     public void setItemLayoutId(int itemLayoutId) {
         this.itemLayoutId = itemLayoutId;
@@ -52,15 +58,18 @@ public class DataSetAdapterBuilder {
         this.dropdownPredefinedPendingAttributesForViewGroup = dropdownPredefinedPendingAttributesForViewGroup;
     }
     
-    public void setDataSetValueModel(DataSetValueModel<?> dataSetValueModel) {
-        this.dataSetValueModel = dataSetValueModel;
+    public void setValueModel(DataSetValueModel<?> valueModel) {
+        this.valueModel = valueModel;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public DataSetAdapter<?> build(BindingContext bindingContext) {
+    public DataSetAdapter<?> build() {
 	ItemBinder itemBinder = bindingContext.createItemBinder();
 	ItemLayoutBinder itemLayoutBinder = new ItemLayoutBinder(itemBinder, itemLayoutId, itemPredefinedPendingAttributesForViewGroup);
 	ItemLayoutBinder dropdownLayoutBinder = new ItemLayoutBinder(itemBinder, dropDownLayoutId, dropdownPredefinedPendingAttributesForViewGroup);
-	return new DataSetAdapter(dataSetValueModel, itemLayoutBinder, dropdownLayoutBinder, bindingContext.shouldPreInitializeViews());
+	DataSetAdapter<?> dataSetAdapter = new DataSetAdapter(valueModel, itemLayoutBinder, dropdownLayoutBinder, bindingContext.shouldPreInitializeViews());
+	
+	dataSetAdapter.observeChangesOnTheValueModel();
+	return dataSetAdapter;
     }
 }

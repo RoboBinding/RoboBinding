@@ -48,6 +48,7 @@ public class ViewAlbumsPresentationModel {
 
     @ItemPresentationModel(AlbumItemPresentationModel.class)
     public List<Album> getAlbums() {
+	firePropertyChange("");
 	return Lists.newArrayList(AlbumStore.getAll());
     }
 

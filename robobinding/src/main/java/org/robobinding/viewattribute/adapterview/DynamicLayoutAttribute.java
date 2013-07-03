@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.adapterview;
 
 import org.robobinding.viewattribute.AbstractReadOnlyPropertyViewAttribute;
+import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.widget.AdapterView;
 
@@ -25,23 +26,16 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
-class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer>
-{
-	private DataSetAdapter<?> dataSetAdapter;
-	private RowLayoutUpdater dataSetAdapterLayoutUpdater;
-	
-	public DynamicLayoutAttribute(AdapterView adapterView, DataSetAdapter<?> dataSetAdapter, RowLayoutUpdater dataSetAdapterLayoutUpdater)
-	{
-		setView(adapterView);
-		this.dataSetAdapter = dataSetAdapter;
-		this.dataSetAdapterLayoutUpdater = dataSetAdapterLayoutUpdater;
-	}
+class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer> {
+    private final RowLayoutUpdater rowLayoutUpdater;
 
-	@Override
-	protected void valueModelUpdated(Integer newItemLayoutId)
-	{
-		dataSetAdapterLayoutUpdater.updateRowLayout(newItemLayoutId);
-		((AdapterView)view).setAdapter(dataSetAdapter);
-	}
+    public DynamicLayoutAttribute(PropertyViewAttributeConfig<AdapterView<?>> config, RowLayoutUpdater rowLayoutUpdater) {
+	super.initialize(config);
+	this.rowLayoutUpdater = rowLayoutUpdater;
+    }
+
+    @Override
+    protected void valueModelUpdated(Integer newItemLayoutId) {
+	rowLayoutUpdater.updateRowLayout(newItemLayoutId);
+    }
 }
