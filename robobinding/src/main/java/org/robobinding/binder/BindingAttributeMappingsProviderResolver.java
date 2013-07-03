@@ -36,7 +36,8 @@ import com.google.common.collect.Lists;
 public class BindingAttributeMappingsProviderResolver {
     private final Map<Class<? extends View>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap;
 
-    public BindingAttributeMappingsProviderResolver(Map<Class<? extends View>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap) {
+    public BindingAttributeMappingsProviderResolver(Map<Class<? extends View>, 
+	    BindingAttributeMappingsProvider<? extends View>> bindingAttributeMappingsProviderMap) {
 	this.bindingAttributeMappingsProviderMap = bindingAttributeMappingsProviderMap;
     }
 

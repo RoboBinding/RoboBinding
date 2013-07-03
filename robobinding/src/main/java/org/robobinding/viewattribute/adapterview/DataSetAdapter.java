@@ -58,7 +58,7 @@ public class DataSetAdapter<T> extends BaseAdapter {
     private DataSetValueModel<T> createValueModelFrom(DataSetValueModel<T> valueModel) {
         if (!preInitializeViews) {
             return wrapAsZeroSizeDataSetUntilPropertyChangeEvent(valueModel);
-        }else {
+        } else {
             return valueModel;
         }
     }

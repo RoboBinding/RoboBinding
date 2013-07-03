@@ -40,7 +40,7 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 
     @Override
     protected String[] getCompulsoryAttributes() {
-	return new String[] { SOURCE, ITEM_LAYOUT };
+	return new String[] {SOURCE, ITEM_LAYOUT};
     }
 
     @Override

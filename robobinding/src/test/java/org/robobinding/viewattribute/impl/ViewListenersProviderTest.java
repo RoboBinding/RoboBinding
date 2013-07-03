@@ -86,7 +86,7 @@ public class ViewListenersProviderTest {
 	ViewListeners viewListeners1 = viewAttribute.viewListeners;
 
 	viewListenersProvider.injectIfRequired(viewAttribute, view);
-	ViewListeners viewListeners2 =viewAttribute.viewListeners;
+	ViewListeners viewListeners2 = viewAttribute.viewListeners;
 
 	assertThat(viewListeners1, sameInstance(viewListeners2));
     }
@@ -112,7 +112,7 @@ public class ViewListenersProviderTest {
 	}
     }
 
-    private static abstract class ViewAttributeWithViewListenersType implements ViewAttribute {
+    private abstract static class ViewAttributeWithViewListenersType implements ViewAttribute {
         public ViewListeners viewListeners;
         
         @Override
@@ -152,29 +152,6 @@ public class ViewListenersProviderTest {
 	}
 
     }
-//
-//    private static class ViewListenersAwareAttributeImplementingAnotherInterface extends ViewAttributeWithViewListenersType implements
-//	    Serializable, ViewListenersAware<ViewListeners> {
-//	private static final long serialVersionUID = 1L;
-//
-//	@Override
-//	public void setViewListeners(ViewListeners viewListeners) {
-//	    this.viewListeners = viewListeners;
-//	}
-//
-//	@Override
-//	public Class<? extends ViewListeners> getViewListenersType() {
-//	    return ViewListeners.class;
-//	}
-//    }
-//
-//    private static class ViewListenersAwareAttributeSubClass extends ViewListenersAwareAttribute {
-//    }
-//
-//    private static class ViewListenersAwareAttributeSubClassImplementingAnotherInterface extends ViewListenersAwareAttribute implements
-//	    Serializable {
-//	private static final long serialVersionUID = 1L;
-//    }
 
     public static class ViewListenersSubclass extends ViewListeners {
 	public ViewListenersSubclass(ViewSubclass view) {
