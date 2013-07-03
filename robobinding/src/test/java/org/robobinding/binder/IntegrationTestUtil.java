@@ -28,9 +28,11 @@ public class IntegrationTestUtil {
     }
     
     public static BindingAttributeResolver createBindingAttributeResolver() {
-	BindingAttributeMappingsProviderResolver providersResolver = new BindingAttributeMappingsProviderResolver(Binders.createBindingAttributeMappingsProviderMap());
+	BindingAttributeMappingsProviderResolver providersResolver = new BindingAttributeMappingsProviderResolver(
+		Binders.createBindingAttributeMappingsProviderMap());
 	ViewAttributeInitializerFactory viewAttributeInitializerFactory = new ViewAttributeInitializerFactory(Binders.createViewToViewListenersMap());
-	ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(providersResolver, viewAttributeInitializerFactory);
+	ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(
+		providersResolver, viewAttributeInitializerFactory);
 	return new BindingAttributeResolver(resolverFinder);
     }
 }

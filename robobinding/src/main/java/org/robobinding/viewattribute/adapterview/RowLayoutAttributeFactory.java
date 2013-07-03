@@ -39,9 +39,12 @@ public abstract class RowLayoutAttributeFactory {
 
     public ViewAttribute createRowLayoutAttribute(AbstractPropertyAttribute attribute) {
 	RowLayoutUpdater rowLayoutUpdater = createRowLayoutUpdater(dataSetAdapterBuilder);
-	return attribute.isStaticResource() ? 
-		createStaticLayoutAttribute(attribute, rowLayoutUpdater) : 
-		createDynamicLayoutAttribute(attribute, new DynamicRowLayoutUpdater(rowLayoutUpdater, dataSetAdapterBuilder, adapterView));
+	if (attribute.isStaticResource()) {
+	    return createStaticLayoutAttribute(attribute, rowLayoutUpdater);
+	} else {
+	    return createDynamicLayoutAttribute(
+			attribute, new DynamicRowLayoutUpdater(rowLayoutUpdater, dataSetAdapterBuilder, adapterView));
+	}
     }
 
     private ViewAttribute createStaticLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater rowLayoutUpdater) {
