@@ -15,8 +15,8 @@
  */
 package org.robobinding.binder;
 
-import org.robobinding.BinderProvider;
 import org.robobinding.BinderImplementor;
+import org.robobinding.BinderProvider;
 import org.robobinding.BindingContext;
 import org.robobinding.NonBindingViewInflater;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
@@ -42,7 +42,7 @@ public class BindingContextFactory {
 	this.nonBindingViewInflater = nonBindingViewInflater;
     }
 
-    public BindingContext create(BinderImplementor binderImplementor, Object presentationModel){
+    public BindingContext create(BinderImplementor binderImplementor, Object presentationModel) {
 	PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
 	BinderProvider binderFactory = new BinderProviderImpl(binderImplementor, nonBindingViewInflater);
 	return new BindingContext(binderFactory, context, presentationModelAdapter, preInitializeViews);

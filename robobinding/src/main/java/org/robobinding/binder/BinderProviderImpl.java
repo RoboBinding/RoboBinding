@@ -42,7 +42,7 @@ class BinderProviderImpl implements BinderProvider {
 
     @Override
     public ItemBinder getItemBinder() {
-	if(itemBinder == null) {
+	if (itemBinder == null) {
 	    itemBinder = new ItemBinder(binderImplementor);
 	}
 	
@@ -51,7 +51,7 @@ class BinderProviderImpl implements BinderProvider {
 
     @Override
     public InternalViewBinder getInternalViewBinder() {
-	if(internalViewBinder == null) {
+	if (internalViewBinder == null) {
 	    internalViewBinder = new InternalViewBinder(binderImplementor, nonBindingViewInflater);
 	}
 	

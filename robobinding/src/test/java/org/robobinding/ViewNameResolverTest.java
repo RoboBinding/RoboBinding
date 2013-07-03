@@ -22,7 +22,6 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.ViewNameResolver;
 
 /**
  * 
@@ -33,11 +32,11 @@ import org.robobinding.ViewNameResolver;
 @RunWith(Theories.class)
 public class ViewNameResolverTest {
     @DataPoints
-    public static ViewNameMapping[] viewNameMappings = { layoutTagName("View").shouldResolveTo("android.view.View"),
+    public static ViewNameMapping[] viewNameMappings = {layoutTagName("View").shouldResolveTo("android.view.View"),
 	    layoutTagName("ViewGroup").shouldResolveTo("android.view.ViewGroup"),
 	    layoutTagName("EditText").shouldResolveTo("android.widget.EditText"),
 	    layoutTagName("ListView").shouldResolveTo("android.widget.ListView"),
-	    layoutTagName("robobinding.widget.CustomWidget").shouldResolveTo("robobinding.widget.CustomWidget") };
+	    layoutTagName("robobinding.widget.CustomWidget").shouldResolveTo("robobinding.widget.CustomWidget")};
 
     @Theory
     public void shouldResolveViewNamesCorrectly(ViewNameMapping viewNameMapping) {

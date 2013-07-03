@@ -41,7 +41,8 @@ public class BindingAttributeResolver {
     public ViewResolutionResult resolve(PendingAttributesForView pendingAttributesForView) {
 	List<ViewAttribute> resolvedViewAttributes = newArrayList();
 
-	Iterable<ByBindingAttributeMappingsResolver>  resolvers = byBindingAttributeMappingsResolverFinder.findCandidateResolvers(pendingAttributesForView.getView());
+	Iterable<ByBindingAttributeMappingsResolver>  resolvers = byBindingAttributeMappingsResolverFinder.findCandidateResolvers(
+		pendingAttributesForView.getView());
 	for (ByBindingAttributeMappingsResolver resolver : resolvers) {
 	    Collection<ViewAttribute> newResolvedViewAttributes = resolver.resolve(pendingAttributesForView);
 	    resolvedViewAttributes.addAll(newResolvedViewAttributes);
@@ -51,7 +52,8 @@ public class BindingAttributeResolver {
 	}
 
 	ViewResolutionErrors errors = pendingAttributesForView.getResolutionErrors();
-	ResolvedBindingAttributesForView resolvedBindingAttributes = new ResolvedBindingAttributesForView(pendingAttributesForView.getView(), resolvedViewAttributes);
+	ResolvedBindingAttributesForView resolvedBindingAttributes = new ResolvedBindingAttributesForView(
+		pendingAttributesForView.getView(), resolvedViewAttributes);
 
 	return new ViewResolutionResult(resolvedBindingAttributes, errors);
     }
