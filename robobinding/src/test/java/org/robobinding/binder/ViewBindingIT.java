@@ -78,7 +78,8 @@ public class ViewBindingIT {
 
     @Before
     public void setUp() {
-	BindingAttributeMappingsProviderResolver providersResolver = new BindingAttributeMappingsProviderResolver(Binders.createBindingAttributeMappingsProviderMap());
+	BindingAttributeMappingsProviderResolver providersResolver = new BindingAttributeMappingsProviderResolver(
+		Binders.createBindingAttributeMappingsProviderMap());
 	ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(providersResolver);
 	bindingAttributeResolver = new BindingAttributeResolver(resolverFinder);
 	bindingContext = newBindingContext();

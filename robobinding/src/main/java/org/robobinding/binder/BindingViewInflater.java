@@ -55,7 +55,7 @@ public class BindingViewInflater implements ViewCreationListener {
     }
 
     public InflatedView inflateView(int layoutId) {
-	return inflateView(layoutId, (ViewGroup)null);
+	return inflateView(layoutId, (ViewGroup) null);
     }
 
     public InflatedView inflateView(int layoutId, ViewGroup attachToRoot) {

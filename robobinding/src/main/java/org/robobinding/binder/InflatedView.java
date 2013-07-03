@@ -46,8 +46,9 @@ public class InflatedView {
     }
 
     public void bindChildViews(BindingContext bindingContext) {
-        for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup)
-    	errors.addViewBindingError(viewBindingAttributes.bindTo(bindingContext));
+        for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup) {
+            errors.addViewBindingError(viewBindingAttributes.bindTo(bindingContext));
+        }
     }
 
     public void assertNoErrors(ErrorFormatter errorFormatter) {

@@ -26,8 +26,6 @@ import java.util.Set;
 import org.robobinding.AttributeResolutionException;
 import org.robobinding.ViewResolutionErrors;
 import org.robobinding.attribute.MissingRequiredAttributesException;
-import org.robobinding.binder.ViewInflationErrors;
-import org.robobinding.binder.ViewBindingErrors;
 import org.robobinding.viewattribute.AttributeBindingException;
 
 import android.view.View;

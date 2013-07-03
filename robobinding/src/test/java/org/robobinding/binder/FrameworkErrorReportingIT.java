@@ -112,7 +112,7 @@ public class FrameworkErrorReportingIT {
 	}
     }
 
-    private static abstract class AbstractSampleAndExpectation {
+    private abstract static class AbstractSampleAndExpectation {
 	protected final Context context;
 	protected List<ViewInflationErrorsExpectation> inflationErrorsExpectations;
 	private NonBindingViewInflaterWithOnViewCreationCalls nonBindingViewInflaterWithOnViewCreationCalls;
@@ -122,7 +122,8 @@ public class FrameworkErrorReportingIT {
 	}
 
 	public View inflateAndBind() {
-	    nonBindingViewInflaterWithOnViewCreationCalls = new NonBindingViewInflaterWithOnViewCreationCalls(new NonBindingViewInflater(createLayoutInflater(context)));
+	    nonBindingViewInflaterWithOnViewCreationCalls = new NonBindingViewInflaterWithOnViewCreationCalls(
+		    new NonBindingViewInflater(createLayoutInflater(context)));
 	    BindingViewInflater bindingViewInflater = new BindingViewInflater(
 		    nonBindingViewInflaterWithOnViewCreationCalls, 
 		    new BindingAttributeResolver(new ByBindingAttributeMappingsResolverFinder(

@@ -129,8 +129,7 @@ public class Binders {
 	return new DialogBinder(dialog, binderImplementor);
     }
 
-    private InternalViewBinder createInternalViewBinder(Context context)
-    {
+    private InternalViewBinder createInternalViewBinder(Context context) {
 	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater(context));
 	BinderImplementor binderImplementor = createBinderImplementor(context, nonBindingViewInflater, true);
 	return new InternalViewBinder(binderImplementor, nonBindingViewInflater);

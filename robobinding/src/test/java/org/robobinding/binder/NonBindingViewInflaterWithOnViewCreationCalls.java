@@ -52,7 +52,7 @@ public class NonBindingViewInflaterWithOnViewCreationCalls extends NonBindingVie
     }
 
     private void performOnViewCreationCall(View view) {
-	for(OnViewCreationCall call : onViewCreationCalls) {
+	for (OnViewCreationCall call : onViewCreationCalls) {
 	    call.execute(listeners);
 	}
     }

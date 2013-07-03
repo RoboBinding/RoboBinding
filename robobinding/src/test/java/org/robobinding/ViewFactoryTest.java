@@ -27,8 +27,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robobinding.ViewFactory;
-import org.robobinding.ViewNameResolver;
 import org.robobinding.ViewFactory.ViewCreationListener;
 
 import android.util.AttributeSet;

@@ -32,8 +32,7 @@ public class ViewFactoryInstaller {
 	this.listener = listener;
     }
     
-    public void install(LayoutInflater layoutInflater)
-    {
+    public void install(LayoutInflater layoutInflater) {
 	new ViewFactory(layoutInflater, new ViewNameResolver(), listener);
     }
 }
