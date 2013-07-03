@@ -29,13 +29,11 @@ import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
  * @author Robert Taylor
  */
 public class ItemMappingAttribute implements ChildViewAttributeWithAttribute<PredefinedMappingsAttribute> {
+    private final PredefinedMappingUpdater predefinedMappingsUpdater;
     private PredefinedMappingsAttribute mappingsAttribute;
-    protected Collection<PredefinedPendingAttributesForView> viewMappings;
 
-    private final DataSetAdapter<?> dataSetAdapter;
-
-    public ItemMappingAttribute(DataSetAdapter<?> dataSetAdapter) {
-	this.dataSetAdapter = dataSetAdapter;
+    public ItemMappingAttribute(PredefinedMappingUpdater predefinedMappingsUpdater) {
+	this.predefinedMappingsUpdater = predefinedMappingsUpdater;
     }
 
     @Override
@@ -45,11 +43,7 @@ public class ItemMappingAttribute implements ChildViewAttributeWithAttribute<Pre
 
     @Override
     public void bindTo(BindingContext bindingContext) {
-	viewMappings = mappingsAttribute.getViewMappings(bindingContext.getContext());
-	updateDataSetAdapter(dataSetAdapter);
-    }
-
-    protected void updateDataSetAdapter(DataSetAdapter<?> dataSetAdapter) {
-	dataSetAdapter.setItemPredefinedPendingAttributesForViewGroup(viewMappings);
+	Collection<PredefinedPendingAttributesForView> viewMappings = mappingsAttribute.getViewMappings(bindingContext.getContext());
+	predefinedMappingsUpdater.updateViewMappings(viewMappings);
     }
 }

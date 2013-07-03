@@ -15,11 +15,14 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import static org.robobinding.attribute.ChildAttributeResolvers.predefinedMappingsAttributeResolver;
+import static org.robobinding.attribute.ChildAttributeResolvers.propertyAttributeResolver;
+import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
 
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import static org.robobinding.attribute.ChildAttributeResolvers.*;
+import org.robobinding.viewattribute.ChildViewAttributes;
 
 import android.widget.AdapterView;
 
@@ -29,49 +32,40 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T>
-{
-	public static final String SOURCE = "source";
-	public static final String ITEM_LAYOUT = "itemLayout";
-	public static final String ITEM_MAPPING = "itemMapping";
-	protected DataSetAdapter<?> dataSetAdapter;
-	
-	@Override
-	protected String[] getCompulsoryAttributes()
-	{
-		return new String[]{SOURCE, ITEM_LAYOUT};
-	}
-	
-	@Override
-	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings)
-	{
-		resolverMappings.map(valueModelAttributeResolver(), SOURCE);
-		resolverMappings.map(propertyAttributeResolver(), ITEM_LAYOUT);
-		resolverMappings.map(predefinedMappingsAttributeResolver(), ITEM_MAPPING);
-	}
-	
-	@SuppressWarnings({ "rawtypes" })
-	@Override
-	protected void preBind(BindingContext bindingContext)
-	{
-		dataSetAdapter = new DataSetAdapter(bindingContext);
-	}
+public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T> {
+    public static final String SOURCE = "source";
+    public static final String ITEM_LAYOUT = "itemLayout";
+    public static final String ITEM_MAPPING = "itemMapping";
+    protected DataSetAdapterBuilder dataSetAdapterBuilder;
 
-	@Override
-	protected void setupChildAttributeBindings(ChildAttributeBindings binding)
-	{
-		binding.add(SOURCE, new SourceAttribute(dataSetAdapter));
-		binding.add(ITEM_LAYOUT, ItemLayoutAttributeFactory.create(view, dataSetAdapter));
-		
-		if(groupAttributes.hasAttribute(ITEM_MAPPING))
-			binding.add(ITEM_MAPPING,new ItemMappingAttribute(dataSetAdapter));
-	}
+    @Override
+    protected String[] getCompulsoryAttributes() {
+	return new String[] { SOURCE, ITEM_LAYOUT };
+    }
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	protected void postBind(BindingContext bindingContext)
-	{
-		dataSetAdapter.observeChangesOnTheValueModel();
-		((AdapterView)view).setAdapter(dataSetAdapter);
-	}
+    @Override
+    public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings) {
+	resolverMappings.map(valueModelAttributeResolver(), SOURCE);
+	resolverMappings.map(propertyAttributeResolver(), ITEM_LAYOUT);
+	resolverMappings.map(predefinedMappingsAttributeResolver(), ITEM_MAPPING);
+    }
+
+    @Override
+    protected void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext) {
+	dataSetAdapterBuilder = new DataSetAdapterBuilder(bindingContext);
+
+	childViewAttributes.add(SOURCE, new SourceAttribute(dataSetAdapterBuilder));
+	childViewAttributes.add(ITEM_LAYOUT, new RowLayoutAttributeAdapter(new ItemLayoutAttributeFactory(view, dataSetAdapterBuilder)));
+
+	if (childViewAttributes.hasAttribute(ITEM_MAPPING))
+	    childViewAttributes.add(ITEM_MAPPING, new ItemMappingAttribute(new ItemMappingUpdater(dataSetAdapterBuilder)));
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    protected void postBind(BindingContext bindingContext) {
+	DataSetAdapter<?> dataSetAdapter = dataSetAdapterBuilder.build();
+	
+	((AdapterView) view).setAdapter(dataSetAdapter);
+    }
 }

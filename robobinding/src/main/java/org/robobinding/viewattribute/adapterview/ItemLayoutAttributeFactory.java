@@ -15,32 +15,21 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.attribute.AbstractPropertyAttribute;
-import org.robobinding.viewattribute.ChildViewAttribute;
-
 import android.widget.AdapterView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ItemLayoutAttributeFactory extends RowLayoutAttributeFactory
-{
-	private ItemLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter)
-	{
-		super(adapterView, dataSetAdapter);
-	}
+public class ItemLayoutAttributeFactory extends RowLayoutAttributeFactory {
+    public ItemLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapterBuilder dataSetAdapterBuilder) {
+	super(adapterView, dataSetAdapterBuilder);
+    }
 
-	@Override
-	protected RowLayoutUpdater createRowLayoutUpdater(DataSetAdapter<?> dataSetAdapter) 
-	{
-		return new ItemLayoutUpdater(dataSetAdapter);
-	}
-	
-	public static ChildViewAttribute<AbstractPropertyAttribute> create(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter)
-	{
-		return new RowLayoutAttributeAdapter(new ItemLayoutAttributeFactory(adapterView, dataSetAdapter));
-	}
+    @Override
+    protected RowLayoutUpdater createRowLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
+	return new ItemLayoutUpdater(dataSetAdapterBuilder);
+    }
 }

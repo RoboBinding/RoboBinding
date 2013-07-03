@@ -15,33 +15,21 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
-import org.robobinding.attribute.AbstractPropertyAttribute;
-import org.robobinding.viewattribute.ChildViewAttribute;
-
 import android.widget.AdapterView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class DropdownLayoutAttributeFactory extends RowLayoutAttributeFactory
-{
-	public DropdownLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter)
-	{
-		super(adapterView, dataSetAdapter);
-	}
+public class DropdownLayoutAttributeFactory extends RowLayoutAttributeFactory {
+    public DropdownLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapterBuilder dataSetAdapterBuilder) {
+	super(adapterView, dataSetAdapterBuilder);
+    }
 
-	@Override
-	protected RowLayoutUpdater createRowLayoutUpdater(DataSetAdapter<?> dataSetAdapter) 
-	{
-		return new DropdownLayoutUpdater(dataSetAdapter);
-	}
-	
-	public static ChildViewAttribute<AbstractPropertyAttribute> create(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter)
-	{
-		return new RowLayoutAttributeAdapter(new DropdownLayoutAttributeFactory(adapterView, dataSetAdapter));
-	}
-
+    @Override
+    protected RowLayoutUpdater createRowLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
+	return new DropdownLayoutUpdater(dataSetAdapterBuilder);
+    }
 }
