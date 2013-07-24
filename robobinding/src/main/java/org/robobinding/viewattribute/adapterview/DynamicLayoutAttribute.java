@@ -28,14 +28,18 @@ import android.widget.AdapterView;
  */
 class DynamicLayoutAttribute extends AbstractReadOnlyPropertyViewAttribute<AdapterView<?>, Integer> {
     private final RowLayoutUpdater rowLayoutUpdater;
+    private final DataSetAdapterUpdater dataSetAdapterUpdater;
 
-    public DynamicLayoutAttribute(PropertyViewAttributeConfig<AdapterView<?>> config, RowLayoutUpdater rowLayoutUpdater) {
+    public DynamicLayoutAttribute(PropertyViewAttributeConfig<AdapterView<?>> config, RowLayoutUpdater rowLayoutUpdater, 
+	    DataSetAdapterUpdater dataSetAdapterUpdater) {
 	super.initialize(config);
 	this.rowLayoutUpdater = rowLayoutUpdater;
+	this.dataSetAdapterUpdater = dataSetAdapterUpdater;
     }
 
     @Override
     protected void valueModelUpdated(Integer newItemLayoutId) {
 	rowLayoutUpdater.updateRowLayout(newItemLayoutId);
+	dataSetAdapterUpdater.update();
     }
 }

@@ -23,25 +23,18 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class DynamicRowLayoutUpdater implements RowLayoutUpdater {
-    private final RowLayoutUpdater rowLayoutUpdater;
+public class DataSetAdapterUpdater {
     private final DataSetAdapterBuilder dataSetAdapterBuilder;
-    private AdapterView<?> adapterView;
+    private final AdapterView<?> adapterView;
     
-    public DynamicRowLayoutUpdater(RowLayoutUpdater rowLayoutUpdater, DataSetAdapterBuilder dataSetAdapterBuilder, 
-	    AdapterView<?> adapterView) {
-	this.rowLayoutUpdater = rowLayoutUpdater;
+    public DataSetAdapterUpdater(DataSetAdapterBuilder dataSetAdapterBuilder, AdapterView<?> adapterView) {
 	this.dataSetAdapterBuilder = dataSetAdapterBuilder;
 	this.adapterView = adapterView;
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
-    public void updateRowLayout(int layoutId) {
-	rowLayoutUpdater.updateRowLayout(layoutId);
-	
+    public void update() {
 	DataSetAdapter<?> dataSetAdapter = dataSetAdapterBuilder.build();
 	((AdapterView) adapterView).setAdapter(dataSetAdapter);
     }
-
 }
