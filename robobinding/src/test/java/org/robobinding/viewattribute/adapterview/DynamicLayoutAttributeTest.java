@@ -16,14 +16,13 @@
 package org.robobinding.viewattribute.adapterview;
 
 import static org.mockito.Mockito.verify;
-import static org.robobinding.viewattribute.MockPropertyViewAttributeConfigBuilder.aPropertyViewAttributeConfig;
 import static org.robobinding.viewattribute.RandomValues.anyInteger;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.robobinding.viewattribute.PropertyViewAttributeConfig;
 
 import android.widget.AdapterView;
 
@@ -34,36 +33,31 @@ import android.widget.AdapterView;
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings({ "rawtypes", "unchecked" })
 public class DynamicLayoutAttributeTest {
     @Mock
-    AdapterView adapterView;
+    private PropertyViewAttributeConfig<AdapterView<?>> config;
     @Mock
-    DataSetAdapter<?> dataSetAdapter;
+    private RowLayoutUpdater rowLayoutUpdater;
     @Mock
-    RowLayoutUpdater rowLayoutUpdater;
-    private DynamicLayoutAttribute dynamicLayoutAttribute;
-
-    @Before
-    public void setup() {
-	dynamicLayoutAttribute = new DynamicLayoutAttribute(aPropertyViewAttributeConfig(adapterView), dataSetAdapter, rowLayoutUpdater);
-    }
+    private DataSetAdapterUpdater dataSetAdapterUpdater;
 
     @Test
-    public void givenBound_whenUpdatingValueModel_thenUpdateItemLayoutIdOnDataSetAdapter() {
+    public void givenBound_whenUpdatingValueModel_thenUpdateItemLayoutOnRowLayoutUpdater() {
 	int newItemLayoutId = anyInteger();
 
+	DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute(config, rowLayoutUpdater, dataSetAdapterUpdater);
 	dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
 
 	verify(rowLayoutUpdater).updateRowLayout(newItemLayoutId);
     }
 
     @Test
-    public void givenBound_whenUpdatingValueModel_thenUpdateAdapterOnAdapterView() {
+    public void givenBound_whenUpdatingValueModel_thenExecuteUpdateOnDataSetAdapterUpdater() {
 	int newItemLayoutId = anyInteger();
 
+	DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute(config, rowLayoutUpdater, dataSetAdapterUpdater);
 	dynamicLayoutAttribute.valueModelUpdated(newItemLayoutId);
 
-	verify(adapterView).setAdapter(dataSetAdapter);
+	verify(dataSetAdapterUpdater).update();
     }
 }

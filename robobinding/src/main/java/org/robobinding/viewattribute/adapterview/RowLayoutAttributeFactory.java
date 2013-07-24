@@ -42,8 +42,7 @@ public abstract class RowLayoutAttributeFactory {
 	if (attribute.isStaticResource()) {
 	    return createStaticLayoutAttribute(attribute, rowLayoutUpdater);
 	} else {
-	    return createDynamicLayoutAttribute(
-			attribute, new DynamicRowLayoutUpdater(rowLayoutUpdater, dataSetAdapterBuilder, adapterView));
+	    return createDynamicLayoutAttribute(attribute, rowLayoutUpdater);
 	}
     }
 
@@ -54,7 +53,8 @@ public abstract class RowLayoutAttributeFactory {
     private ViewAttribute createDynamicLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater rowLayoutUpdater) {
 	PropertyViewAttributeConfig<AdapterView<?>> attributeConfig = new PropertyViewAttributeConfig<AdapterView<?>>(adapterView,
 		attribute.asValueModelAttribute());
-	return new DynamicLayoutAttribute(attributeConfig, rowLayoutUpdater);
+	DataSetAdapterUpdater dataSetAdapterUpdater = new DataSetAdapterUpdater(dataSetAdapterBuilder, adapterView);
+	return new DynamicLayoutAttribute(attributeConfig, rowLayoutUpdater, dataSetAdapterUpdater);
     }
 
     protected abstract RowLayoutUpdater createRowLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder);

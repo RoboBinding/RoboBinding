@@ -48,7 +48,7 @@ public abstract class AbstractPropertyAttribute extends AbstractAttribute {
 	}
     }
 
-    public final boolean isStaticResource() {
+    public boolean isStaticResource() {
 	return StaticResourceAttribute.class.isInstance(this);
     }
 }
