@@ -20,9 +20,9 @@ import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.AbstractViewAttributeInitializer;
 import org.robobinding.viewattribute.GroupedViewAttributeConfig;
 import org.robobinding.viewattribute.PropertyViewAttribute;
+import org.robobinding.viewattribute.StandaloneViewAttributeInitializer;
 import org.robobinding.viewattribute.ViewListenersInjector;
 
 import android.view.View;
@@ -36,17 +36,17 @@ import android.view.View;
  */
 public class ViewAttributeInitializer {
     private final ViewListenersInjector viewListenersInjector;
-    ViewAttributeInitializerDelegate delegate;
+    private final StandaloneViewAttributeInitializer delegate;
 
-    public ViewAttributeInitializer(ViewListenersInjector viewListenersInjector) {
+    public ViewAttributeInitializer(ViewListenersInjector viewListenersInjector, StandaloneViewAttributeInitializer viewAttributeInitializer) {
 	this.viewListenersInjector = viewListenersInjector;
-	delegate = new ViewAttributeInitializerDelegate(viewListenersInjector);
+	delegate = viewAttributeInitializer;
     }
 
     public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> 
     	PropertyViewAttributeType initializePropertyViewAttribute(
 	    ViewType view, PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute) {
-	delegate.setCurrentView(view);
+	delegate.setView(view);
 	delegate.<ViewType, PropertyViewAttributeType> initializePropertyViewAttribute(propertyViewAttribute, attribute);
 	return propertyViewAttribute;
     }
@@ -54,7 +54,7 @@ public class ViewAttributeInitializer {
     public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> 
     	CommandViewAttributeType initializeCommandViewAttribute(
 	    ViewType view, CommandViewAttributeType commandViewAttribute, CommandAttribute attribute) {
-	delegate.setCurrentView(view);
+	delegate.setView(view);
 	delegate.<ViewType, CommandViewAttributeType> initializeCommandViewAttribute(commandViewAttribute, attribute);
 	return commandViewAttribute;
     }
@@ -65,22 +65,5 @@ public class ViewAttributeInitializer {
 	    ViewType view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes pendingGroupAttributes) {
 	groupedViewAttribute.initialize(new GroupedViewAttributeConfig(view, pendingGroupAttributes, viewListenersInjector));
 	return groupedViewAttribute;
-    }
-
-    private static class ViewAttributeInitializerDelegate extends AbstractViewAttributeInitializer {
-	private View currentView;
-
-	public ViewAttributeInitializerDelegate(ViewListenersInjector viewListenersInjector) {
-	    super(viewListenersInjector);
-	}
-
-	@Override
-	protected View getView() {
-	    return currentView;
-	}
-
-	public void setCurrentView(View currentView) {
-	    this.currentView = currentView;
-	}
     }
 }

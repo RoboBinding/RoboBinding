@@ -17,6 +17,8 @@ package org.robobinding.viewattribute.impl;
 
 import java.util.Map;
 
+import org.robobinding.viewattribute.StandaloneViewAttributeInitializer;
+import org.robobinding.viewattribute.ViewListenersInjector;
 import org.robobinding.viewattribute.view.ViewListeners;
 
 import android.view.View;
@@ -35,6 +37,7 @@ public class ViewAttributeInitializerFactory {
     }
     
     public ViewAttributeInitializer create() {
-	return new ViewAttributeInitializer(new ViewListenersProvider(viewToViewListenersMap));
+	ViewListenersInjector viewListenersInjector = new ViewListenersProvider(viewToViewListenersMap);
+	return new ViewAttributeInitializer(viewListenersInjector, new StandaloneViewAttributeInitializer(viewListenersInjector));
     }
 }

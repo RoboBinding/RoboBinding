@@ -16,6 +16,7 @@
 package org.robobinding.viewattribute.adapterview;
 
 import static org.mockito.Mockito.verify;
+import static org.robobinding.viewattribute.MockPropertyViewAttributeConfigBuilder.aPropertyViewAttributeConfig;
 import static org.robobinding.viewattribute.RandomValues.anyInteger;
 
 import org.junit.Test;
@@ -34,8 +35,7 @@ import android.widget.AdapterView;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DynamicLayoutAttributeTest {
-    @Mock
-    private PropertyViewAttributeConfig<AdapterView<?>> config;
+    private PropertyViewAttributeConfig<AdapterView<?>> config = aPropertyViewAttributeConfig(null);
     @Mock
     private RowLayoutUpdater rowLayoutUpdater;
     @Mock

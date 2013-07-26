@@ -18,8 +18,10 @@ package org.robobinding.viewattribute.impl;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.GroupedViewAttributeConfig;
@@ -35,26 +37,24 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ViewAttributeInitializerTest {
-    private ViewAttributeInitializer viewAttributeInitializer;
-    private ViewListenersInjector viewListenersProvider;
-
-    @Before
-    public void setUp() {
-	viewListenersProvider = mock(ViewListenersInjector.class);
-	viewAttributeInitializer = new ViewAttributeInitializer(viewListenersProvider);
-    }
+    @Mock
+    private ViewListenersInjector viewListenersInjector;
+    @Mock
+    private View view;
 
     @Test
-    public void whenNewGroupedViewAttribute_thenNewInstanceShouldBeCorrectlyInitialized() {
-	View view = mock(View.class);
+    public void whenInitializeGroupedViewAttribute_thenTheAttributeIsCorrectlyInitialized() {
 	PendingGroupAttributes pendingGroupAttributes = newPendingGroupAttributes();
 	@SuppressWarnings({ "unchecked" })
 	AbstractGroupedViewAttribute<View> viewAttribute = mock(AbstractGroupedViewAttribute.class);
 
+	ViewAttributeInitializer viewAttributeInitializer = new ViewAttributeInitializer(viewListenersInjector, null);
+	
 	viewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(view, viewAttribute, pendingGroupAttributes);
 
-	verify(viewAttribute).initialize(new GroupedViewAttributeConfig<View>(view, pendingGroupAttributes, viewListenersProvider));
+	verify(viewAttribute).initialize(new GroupedViewAttributeConfig<View>(view, pendingGroupAttributes, viewListenersInjector));
     }
 
     private PendingGroupAttributes newPendingGroupAttributes() {

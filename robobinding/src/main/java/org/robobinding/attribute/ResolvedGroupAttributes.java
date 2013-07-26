@@ -28,10 +28,10 @@ import org.robobinding.GroupedAttributeResolutionException;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class GroupAttributes {
+public class ResolvedGroupAttributes {
     private Map<String, AbstractAttribute> resolvedChildAttributes = newHashMap();
 
-    public GroupAttributes(PendingGroupAttributes pendingGroupAttributes, ChildAttributeResolverMappings resolverMappings) {
+    public ResolvedGroupAttributes(PendingGroupAttributes pendingGroupAttributes, ChildAttributeResolverMappings resolverMappings) {
 	resolveChildAttributes(pendingGroupAttributes, resolverMappings);
     }
 
