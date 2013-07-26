@@ -32,24 +32,24 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class GroupAttributesBuilder {
+public class ResolvedGroupAttributesBuilder {
     private List<AbstractAttribute> childAttributeResolutions;
 
-    public static GroupAttributesBuilder aGroupAttributes() {
-	return new GroupAttributesBuilder();
+    public static ResolvedGroupAttributesBuilder aGroupAttributes() {
+	return new ResolvedGroupAttributesBuilder();
     }
 
-    private GroupAttributesBuilder() {
+    private ResolvedGroupAttributesBuilder() {
 	childAttributeResolutions = Lists.newArrayList();
     }
 
-    public GroupAttributesBuilder withChildAttributeResolution(AbstractAttribute childAttribute) {
+    public ResolvedGroupAttributesBuilder withChildAttributeResolution(AbstractAttribute childAttribute) {
 	childAttributeResolutions.add(childAttribute);
 	return this;
     }
 
-    public GroupAttributes build() {
-	return new GroupAttributes(createPendingGroupAttributes(), createResolverMappings());
+    public ResolvedGroupAttributes build() {
+	return new ResolvedGroupAttributes(createPendingGroupAttributes(), createResolverMappings());
     }
 
     private ChildAttributeResolverMappings createResolverMappings() {

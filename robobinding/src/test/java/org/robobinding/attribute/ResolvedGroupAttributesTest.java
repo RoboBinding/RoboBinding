@@ -20,7 +20,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.robobinding.attribute.Attributes.aCommandAttribute;
-import static org.robobinding.attribute.GroupAttributesBuilder.aGroupAttributes;
+import static org.robobinding.attribute.ResolvedGroupAttributesBuilder.aGroupAttributes;
 
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
@@ -35,7 +35,7 @@ import org.junit.runner.RunWith;
  * @author Cheng Wei
  */
 @RunWith(Theories.class)
-public class GroupAttributesTest {
+public class ResolvedGroupAttributesTest {
     @DataPoints
     public static ChildAttributeExpectation[] childAttributeExpectations = {aChildAttributeExpectation("commandAttribute", CommandAttribute.class),
 	    aChildAttributeExpectation("valueModelAttribute", ValueModelAttribute.class),
@@ -46,7 +46,7 @@ public class GroupAttributesTest {
     @Theory
     public void givenChildAttribute_whenAskForAttribute_thenReturnAttributeOfCorrectType(ChildAttributeExpectation childAttributeExpectation) {
 	String attributeName = childAttributeExpectation.attributeName();
-	GroupAttributes groupedAttribute = aGroupAttributes().withChildAttributeResolution(childAttributeExpectation.attribute).build();
+	ResolvedGroupAttributes groupedAttribute = aGroupAttributes().withChildAttributeResolution(childAttributeExpectation.attribute).build();
 
 	AbstractAttribute attribute = groupedAttribute.attributeFor(attributeName);
 
@@ -56,7 +56,7 @@ public class GroupAttributesTest {
     @Test(expected = ClassCastException.class)
     public void givenChildAttribute_whenAskForAttributeOfIncorrectType_thenThrowException() {
 	CommandAttribute commandAttribute = aCommandAttribute("commandName");
-	GroupAttributes groupedAttribute = aGroupAttributes().withChildAttributeResolution(commandAttribute).build();
+	ResolvedGroupAttributes groupedAttribute = aGroupAttributes().withChildAttributeResolution(commandAttribute).build();
 
 	groupedAttribute.valueModelAttributeFor(commandAttribute.getName());
     }

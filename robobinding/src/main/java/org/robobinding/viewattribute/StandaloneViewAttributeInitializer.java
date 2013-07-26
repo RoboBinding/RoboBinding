@@ -27,11 +27,17 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public abstract class AbstractViewAttributeInitializer {
-    protected final ViewListenersInjector viewListenersInjector;
+public class StandaloneViewAttributeInitializer {
+    private final ViewListenersInjector viewListenersInjector;
+    private View view;
 
-    protected AbstractViewAttributeInitializer(ViewListenersInjector viewListenersInjector) {
+    public StandaloneViewAttributeInitializer(ViewListenersInjector viewListenersInjector) {
 	this.viewListenersInjector = viewListenersInjector;
+    }
+    
+    public StandaloneViewAttributeInitializer(ViewListenersInjector viewListenersInjector, View view) {
+	this(viewListenersInjector);
+	this.view = view;
     }
 
     @SuppressWarnings("unchecked")
@@ -51,8 +57,8 @@ public abstract class AbstractViewAttributeInitializer {
     private <ViewType extends View, PropertyViewAttributeType extends AbstractPropertyViewAttribute<ViewType, ?>> 
     	PropertyViewAttributeType initializePropertyViewAttribute(
 	    PropertyViewAttributeType viewAttribute, ValueModelAttribute attribute) {
-	viewAttribute.initialize(new PropertyViewAttributeConfig(getView(), attribute));
-	viewListenersInjector.injectIfRequired(viewAttribute, getView());
+	viewAttribute.initialize(new PropertyViewAttributeConfig(view, attribute));
+	viewListenersInjector.injectIfRequired(viewAttribute, view);
 	return viewAttribute;
     }
 
@@ -60,7 +66,7 @@ public abstract class AbstractViewAttributeInitializer {
     private <ViewType extends View, PropertyViewAttributeType extends AbstractMultiTypePropertyViewAttribute<ViewType>> 
     	PropertyViewAttributeType initializeMultiTypePropertyViewAttribute(
 	    PropertyViewAttributeType viewAttribute, ValueModelAttribute attribute) {
-	viewAttribute.initialize(new MultiTypePropertyViewAttributeConfig(getView(), attribute, viewListenersInjector));
+	viewAttribute.initialize(new MultiTypePropertyViewAttributeConfig(view, attribute, viewListenersInjector));
 	return viewAttribute;
     }
 
@@ -68,10 +74,12 @@ public abstract class AbstractViewAttributeInitializer {
     public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> 
     	CommandViewAttributeType initializeCommandViewAttribute(
 	    CommandViewAttributeType viewAttribute, CommandAttribute attribute) {
-	viewAttribute.initialize(new CommandViewAttributeConfig(getView(), attribute));
-	viewListenersInjector.injectIfRequired(viewAttribute, getView());
+	viewAttribute.initialize(new CommandViewAttributeConfig(view, attribute));
+	viewListenersInjector.injectIfRequired(viewAttribute, view);
 	return viewAttribute;
     }
 
-    protected abstract View getView();
+    public void setView(View view) {
+	this.view = view;
+    }
 }
