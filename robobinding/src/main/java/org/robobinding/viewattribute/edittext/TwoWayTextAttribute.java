@@ -32,7 +32,7 @@ import android.widget.EditText;
  * @author Robert Taylor
  */
 public class TwoWayTextAttribute extends AbstractTextAttribute<EditText> {
-    private ValueCommitMode valueCommitMode = ValueCommitMode.ON_CHANGE;
+    ValueCommitMode valueCommitMode = ValueCommitMode.ON_CHANGE;
 
     @Override
     protected AbstractPropertyViewAttribute<EditText, ?> createNewStringAttribute() {

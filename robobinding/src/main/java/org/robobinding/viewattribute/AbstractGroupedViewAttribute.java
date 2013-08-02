@@ -17,7 +17,6 @@ package org.robobinding.viewattribute;
 
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
-import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ResolvedGroupAttributes;
 
 import android.view.View;
@@ -29,53 +28,18 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute {
+public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute, ChildViewAttributesResolver {
     private static final String[] NO_COMPULSORY_ATTRIBUTES = new String[0];
 
     protected T view;
-    ChildViewAttributes<T> childViewAttributes;
+    private ChildViewAttributes<T> childViewAttributes;
     private InitializedChildViewAttributes initializedChildViewAttributes;
 
-    public void initialize(GroupedViewAttributeConfig<T> config) {
-	view = config.getView();
-	childViewAttributes = createChildViewAttributes(config.getPendingGroupAttributes(), config.getViewListenersInjector());
+    public void initialize(T view, ChildViewAttributesBuilder<T> childViewAttributesBuilder) {
+	this.view = view;
+	childViewAttributes = childViewAttributesBuilder.build(this);
     }
-
-    private ChildViewAttributes<T> createChildViewAttributes(PendingGroupAttributes pendingGroupAttributes,
-	    ViewListenersInjector viewListenersInjector) {
-	ResolvedGroupAttributes resolvedGroupAttributes = createResolvedGroupAttributes(pendingGroupAttributes);
-
-	ChildViewAttributeInitializer viewAttributeInitializer = new ChildViewAttributeInitializer(
-		new StandaloneViewAttributeInitializer(viewListenersInjector, view));
-
-	return new ChildViewAttributes<T>(resolvedGroupAttributes, viewAttributeInitializer);
-    }
-
-    private ResolvedGroupAttributes createResolvedGroupAttributes(PendingGroupAttributes pendingGroupAttributes) {
-	pendingGroupAttributes.assertAttributesArePresent(getCompulsoryAttributes());
-	ChildAttributeResolverMappings resolverMappings = createResolverMappings();
-	ResolvedGroupAttributes resolvedGroupAttributes = new ResolvedGroupAttributes(pendingGroupAttributes, resolverMappings);
-
-	validateResolvedChildAttributes(resolvedGroupAttributes);
-
-	return resolvedGroupAttributes;
-    }
-
-    protected String[] getCompulsoryAttributes() {
-        return NO_COMPULSORY_ATTRIBUTES;
-    }
-
-    private ChildAttributeResolverMappings createResolverMappings() {
-	ChildAttributeResolverMappings resolverMappings = new ChildAttributeResolverMappings();
-	mapChildAttributeResolvers(resolverMappings);
-	return resolverMappings;
-    }
-
-    protected abstract void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings);
-
-    public void validateResolvedChildAttributes(ResolvedGroupAttributes groupAttributes) {
-    }
-
+    
     @Override
     public final void bindTo(BindingContext bindingContext) {
 	initializedChildViewAttributes = initializeChildViewAttributes(bindingContext);
@@ -98,5 +62,17 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
     @Override
     public final void preInitializeView(BindingContext bindingContext) {
 	initializedChildViewAttributes.preInitializeView(bindingContext);
+    }
+
+    @Override
+    public String[] getCompulsoryAttributes() {
+        return NO_COMPULSORY_ATTRIBUTES;
+    }
+
+    @Override
+    public abstract void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings);
+
+    @Override
+    public void validateResolvedChildAttributes(ResolvedGroupAttributes groupAttributes) {
     }
 }

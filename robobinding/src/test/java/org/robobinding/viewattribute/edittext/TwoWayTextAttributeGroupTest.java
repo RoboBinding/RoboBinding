@@ -15,7 +15,10 @@
  */
 package org.robobinding.viewattribute.edittext;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 import static org.robobinding.viewattribute.RandomValues.either;
+import static org.robobinding.viewattribute.edittext.TwoWayTextAttributeGroup.TEXT;
 
 import org.junit.Test;
 import org.robobinding.attribute.MalformedAttributeException;
@@ -42,18 +45,18 @@ public class TwoWayTextAttributeGroupTest extends AbstractGroupedViewAttributeTe
 	assertThatAttributeWasCreated(TwoWayTextAttribute.class);
     }
 
-    // TODO This is too difficult to test at the moment
-    // @Test
-    // public void
-    // givenATextAttribute_thenValueCommitModeShouldDefaultToOnChange()
-    // {
-    // givenAttribute(either(oneWayBindingText, twoWayBindingText));
-    //
-    // performInitialization();
-    //
-    // assertThat(attributeUnderTest.valueCommitMode,
-    // equalTo(ValueCommitMode.ON_CHANGE));
-    // }
+    @Test
+    public void givenATextAttribute_thenValueCommitModeShouldDefaultToOnChange() {
+	givenAttribute(either(oneWayBindingText, twoWayBindingText));
+
+	performInitialization();
+
+	assertThat(currentValueCommitMode(), equalTo(ValueCommitMode.ON_CHANGE));
+    }
+
+    private ValueCommitMode currentValueCommitMode() {
+	return ((TwoWayTextAttribute) childViewAttribute(TEXT)).valueCommitMode;
+    }
 
     @Test
     public void givenTwoWayBindingTextAndValueCommitModeAttributes_thenCreateTextAttribute() {
@@ -64,20 +67,16 @@ public class TwoWayTextAttributeGroupTest extends AbstractGroupedViewAttributeTe
 	assertThatAttributeWasCreated(TwoWayTextAttribute.class);
     }
 
-    // @Test
-    // public void
-    // givenValueCommitModeAttribute_thenSetValueCommitModeAccordingly()
-    // {
-    // String valueCommitModeValue = either("onChange", "onFocusLost");
-    // Attribute valueCommitMode = attribute("valueCommitMode=" +
-    // valueCommitModeValue);
-    // givenAttributes(twoWayBindingText, valueCommitMode);
-    //
-    // performInitialization();
-    //
-    // assertTrue(attributeUnderTest.valueCommitMode ==
-    // ValueCommitMode.from(valueCommitModeValue));
-    // }
+    @Test
+    public void givenValueCommitModeAttribute_thenSetValueCommitModeAccordingly() {
+	String valueCommitModeValue = either("onChange", "onFocusLost");
+	Attribute valueCommitMode = attribute("valueCommitMode=" + valueCommitModeValue);
+	givenAttributes(twoWayBindingText, valueCommitMode);
+
+	performInitialization();
+
+	assertThat(currentValueCommitMode(), equalTo(ValueCommitMode.from(valueCommitModeValue)));
+    }
 
     @Test(expected = MissingRequiredAttributesException.class)
     public void givenValueCommitModeAttributeOnly_thenReject() {

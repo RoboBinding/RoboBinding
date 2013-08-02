@@ -26,9 +26,9 @@ import org.robobinding.BindingContext;
  * @author Robert Taylor
  */
 public class InitializedChildViewAttributes {
-    private Map<String, ViewAttribute> childAttributeMap;
-    private boolean failOnFirstBindingError;
-    private AttributeGroupBindingException bindingErrors;
+    private final Map<String, ViewAttribute> childAttributeMap;
+    private final boolean failOnFirstBindingError;
+    private final AttributeGroupBindingException bindingErrors;
 
     public InitializedChildViewAttributes(Map<String, ViewAttribute> childAttributeMap, boolean failOnFirstBindingError) {
 	this.childAttributeMap = childAttributeMap;

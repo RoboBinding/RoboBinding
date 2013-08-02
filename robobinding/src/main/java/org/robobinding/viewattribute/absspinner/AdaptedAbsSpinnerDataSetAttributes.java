@@ -49,7 +49,7 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
     }
 
     @Override
-    protected String[] getCompulsoryAttributes() {
+    public String[] getCompulsoryAttributes() {
 	return ObjectArrays.concat(super.getCompulsoryAttributes(), DROPDOWN_LAYOUT);
     }
 

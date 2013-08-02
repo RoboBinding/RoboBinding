@@ -21,8 +21,8 @@ import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttrib
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.EnumAttribute;
-import org.robobinding.attribute.ResolvedGroupAttributes;
 import org.robobinding.attribute.MalformedAttributeException;
+import org.robobinding.attribute.ResolvedGroupAttributes;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ChildViewAttributes;
@@ -40,7 +40,7 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
     public static final String VALUE_COMMIT_MODE = "valueCommitMode";
 
     @Override
-    protected String[] getCompulsoryAttributes() {
+    public String[] getCompulsoryAttributes() {
 	return new String[] {TEXT};
     }
 

@@ -34,7 +34,7 @@ public abstract class AbstractPropertyViewAttribute<ViewType extends View, Prope
     protected ViewType view;
     private ValueModelAttribute attribute;
     private AbstractBindingProperty bindingProperty;
-    private boolean withAlwaysPreInitializingView;
+    private final boolean withAlwaysPreInitializingView;
 
     public AbstractPropertyViewAttribute() {
 	this(false);
