@@ -45,6 +45,9 @@ public class EmptyViewAttributesTest {
     private AdapterView<?> adapterView = new ListView(context);
     private View emptyView = new View(context);
 
+    /**
+     * TODO: Do we need this test? - Cheng
+     */
     @Test
     public void testLayoutAttribute() {
 	assertThat(emptyViewAttributes.layoutAttribute(), is("emptyViewLayout"));

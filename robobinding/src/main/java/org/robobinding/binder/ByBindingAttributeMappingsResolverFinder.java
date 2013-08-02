@@ -44,7 +44,7 @@ public class ByBindingAttributeMappingsResolverFinder {
     }
     
     public Iterable<ByBindingAttributeMappingsResolver> findCandidateResolvers(View view) {
-	ViewAttributeInitializer viewAttributeInitializer = viewAttributeInitializerFactory.create();
+	ViewAttributeInitializer viewAttributeInitializer = viewAttributeInitializerFactory.create(view);
 	
 	List<ByBindingAttributeMappingsResolver> resolvers = newArrayList(); 
 	Iterable<BindingAttributeMappingsProvider<? extends View>> providers = providerResolver.findCandidateProviders(view);

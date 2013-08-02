@@ -34,7 +34,7 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class ChildViewAttributes<T extends View> {
-    final ResolvedGroupAttributes resolvedGroupAttributes;
+    private final ResolvedGroupAttributes resolvedGroupAttributes;
     private final ChildViewAttributeInitializer viewAttributeInitializer;
     final Map<String, ViewAttribute> childAttributeMap;
     private boolean failOnFirstBindingError;

@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.adapterview;
+package org.robobinding.viewattribute.absspinner;
+
+import static org.robobinding.viewattribute.absspinner.AdaptedAbsSpinnerDataSetAttributes.DROPDOWN_LAYOUT;
+import static org.robobinding.viewattribute.absspinner.AdaptedAbsSpinnerDataSetAttributes.DROPDOWN_MAPPING;
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.ITEM_LAYOUT;
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.ITEM_MAPPING;
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.SOURCE;
 
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractGroupedViewAttributeTest;
-import org.robobinding.viewattribute.absspinner.AdaptedAbsSpinnerDataSetAttributes;
 
 import android.view.View;
 import android.widget.Spinner;
@@ -41,7 +46,7 @@ public class AdaptedAbsSpinnerDataSetAttributesTest extends AbstractGroupedViewA
 
 	performInitialization();
 
-	assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, DropdownLayoutAttribute.class);
+	assertThatAttributesWereCreated(SOURCE, ITEM_LAYOUT, DROPDOWN_LAYOUT);
     }
 
     @Test
@@ -50,8 +55,7 @@ public class AdaptedAbsSpinnerDataSetAttributesTest extends AbstractGroupedViewA
 
 	performInitialization();
 
-	assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, DropdownLayoutAttribute.class,
-		DropdownMappingAttribute.class);
+	assertThatAttributesWereCreated(SOURCE, ITEM_LAYOUT, DROPDOWN_LAYOUT, DROPDOWN_MAPPING);
     }
 
     @Test
@@ -60,8 +64,7 @@ public class AdaptedAbsSpinnerDataSetAttributesTest extends AbstractGroupedViewA
 
 	performInitialization();
 
-	assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, ItemMappingAttribute.class, DropdownLayoutAttribute.class,
-		DropdownMappingAttribute.class);
+	assertThatAttributesWereCreated(SOURCE, ITEM_LAYOUT, ITEM_MAPPING, DROPDOWN_LAYOUT, DROPDOWN_MAPPING);
     }
 
     @Test(expected = RuntimeException.class)

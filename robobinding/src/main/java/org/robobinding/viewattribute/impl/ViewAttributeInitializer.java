@@ -20,10 +20,10 @@ import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.GroupedViewAttributeConfig;
+import org.robobinding.viewattribute.ChildViewAttributeInitializer;
+import org.robobinding.viewattribute.ChildViewAttributesBuilder;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.StandaloneViewAttributeInitializer;
-import org.robobinding.viewattribute.ViewListenersInjector;
 
 import android.view.View;
 
@@ -35,11 +35,10 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class ViewAttributeInitializer {
-    private final ViewListenersInjector viewListenersInjector;
     private final StandaloneViewAttributeInitializer delegate;
+    private ChildViewAttributeInitializer childViewAttributeInitializer;
 
-    public ViewAttributeInitializer(ViewListenersInjector viewListenersInjector, StandaloneViewAttributeInitializer viewAttributeInitializer) {
-	this.viewListenersInjector = viewListenersInjector;
+    public ViewAttributeInitializer(StandaloneViewAttributeInitializer viewAttributeInitializer) {
 	delegate = viewAttributeInitializer;
     }
 
@@ -59,11 +58,19 @@ public class ViewAttributeInitializer {
 	return commandViewAttribute;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public <ViewType extends View, GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> 
+    public <ViewType extends View, GroupedViewAttributeType extends AbstractGroupedViewAttribute<ViewType>> 
     	GroupedViewAttributeType initializeGroupedViewAttribute(
 	    ViewType view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes pendingGroupAttributes) {
-	groupedViewAttribute.initialize(new GroupedViewAttributeConfig(view, pendingGroupAttributes, viewListenersInjector));
+	ChildViewAttributesBuilder<ViewType> childViewAttributesBuilder = new ChildViewAttributesBuilder<ViewType>(
+		pendingGroupAttributes, safeGetChildViewAttributeInitializer());
+	groupedViewAttribute.initialize(view, childViewAttributesBuilder);
 	return groupedViewAttribute;
+    }
+    
+    private ChildViewAttributeInitializer safeGetChildViewAttributeInitializer() {
+	if (childViewAttributeInitializer == null) {
+	    childViewAttributeInitializer = new ChildViewAttributeInitializer(delegate);
+	}
+	return childViewAttributeInitializer;
     }
 }

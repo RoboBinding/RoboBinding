@@ -36,8 +36,8 @@ public class ViewAttributeInitializerFactory {
 	this.viewToViewListenersMap = viewToViewListenersMap;
     }
     
-    public ViewAttributeInitializer create() {
+    public ViewAttributeInitializer create(View view) {
 	ViewListenersInjector viewListenersInjector = new ViewListenersProvider(viewToViewListenersMap);
-	return new ViewAttributeInitializer(viewListenersInjector, new StandaloneViewAttributeInitializer(viewListenersInjector));
+	return new ViewAttributeInitializer(new StandaloneViewAttributeInitializer(viewListenersInjector, view));
     }
 }

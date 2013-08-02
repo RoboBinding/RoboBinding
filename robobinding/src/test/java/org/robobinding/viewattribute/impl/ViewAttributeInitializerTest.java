@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute.impl;
 
+import static org.mockito.Matchers.isA;
+import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -22,14 +24,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.GroupedViewAttributeConfig;
-import org.robobinding.viewattribute.ViewListenersInjector;
+import org.robobinding.viewattribute.ChildViewAttributesBuilder;
 
 import android.view.View;
-
-import com.google.common.collect.Maps;
 
 /**
  * 
@@ -40,24 +38,17 @@ import com.google.common.collect.Maps;
 @RunWith(MockitoJUnitRunner.class)
 public class ViewAttributeInitializerTest {
     @Mock
-    private ViewListenersInjector viewListenersInjector;
-    @Mock
     private View view;
 
+    @SuppressWarnings("unchecked")
     @Test
     public void whenInitializeGroupedViewAttribute_thenTheAttributeIsCorrectlyInitialized() {
-	PendingGroupAttributes pendingGroupAttributes = newPendingGroupAttributes();
-	@SuppressWarnings({ "unchecked" })
 	AbstractGroupedViewAttribute<View> viewAttribute = mock(AbstractGroupedViewAttribute.class);
 
-	ViewAttributeInitializer viewAttributeInitializer = new ViewAttributeInitializer(viewListenersInjector, null);
+	ViewAttributeInitializer viewAttributeInitializer = new ViewAttributeInitializer(null);
 	
-	viewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(view, viewAttribute, pendingGroupAttributes);
+	viewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(view, viewAttribute, null);
 
-	verify(viewAttribute).initialize(new GroupedViewAttributeConfig<View>(view, pendingGroupAttributes, viewListenersInjector));
-    }
-
-    private PendingGroupAttributes newPendingGroupAttributes() {
-	return new PendingGroupAttributes(Maps.<String, String> newHashMap());
+	verify(viewAttribute).initialize(same(view), isA(ChildViewAttributesBuilder.class));
     }
 }

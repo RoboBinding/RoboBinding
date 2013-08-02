@@ -18,6 +18,7 @@ package org.robobinding.viewattribute;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
@@ -38,7 +39,8 @@ public class GroupedViewAttributeTest extends ViewAttributeContractTest<Abstract
 	assertThat(groupedViewAttribute.getCompulsoryAttributes().length, is(0));
     }
 
-    //@Test(expected = AttributeGroupBindingException.class)
+    @Ignore
+    @Test(expected = AttributeGroupBindingException.class)
     @Override
     public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow() {
 	//super.whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow();
@@ -50,7 +52,8 @@ public class GroupedViewAttributeTest extends ViewAttributeContractTest<Abstract
 	return new GroupedViewAttributeForTest();
     }
 
-    //@Test(expected = AttributeGroupBindingException.class)
+    @Ignore
+    @Test(expected = AttributeGroupBindingException.class)
     @Override
     public void whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrow() {
 	//super.whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrow();
@@ -65,7 +68,7 @@ public class GroupedViewAttributeTest extends ViewAttributeContractTest<Abstract
     private static class GroupedViewAttributeForTest extends AbstractGroupedViewAttribute<View> {
 
 	@Override
-	protected void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings) {
+	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings) {
 	}
 
 	@Override
