@@ -15,9 +15,7 @@
  */
 package org.robobinding.viewattribute.impl;
 
-import org.robobinding.viewattribute.StandaloneViewAttributeInitializer;
-import org.robobinding.viewattribute.ViewListenersInjector;
-import org.robobinding.viewattribute.view.ViewListenersMap;
+import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 
 import android.view.View;
 
@@ -27,15 +25,6 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewAttributeInitializerFactory {
-    private final ViewListenersMap viewListenersMap;
-    
-    public ViewAttributeInitializerFactory(ViewListenersMap viewListenersMap) {
-	this.viewListenersMap = viewListenersMap;
-    }
-    
-    public ViewAttributeInitializer create(View view) {
-	ViewListenersInjector viewListenersInjector = new ViewListenersProvider(viewListenersMap);
-	return new ViewAttributeInitializer(new StandaloneViewAttributeInitializer(viewListenersInjector, view));
-    }
+public interface BindingAttributeMappingsProviderMap {
+    BindingAttributeMappingsProvider<? extends View> find(Class<? extends View> viewClass);
 }

@@ -73,6 +73,6 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
     public abstract void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings);
 
     @Override
-    public void validateResolvedChildAttributes(ResolvedGroupAttributes groupAttributes) {
+    public void validateResolvedChildAttributes(ResolvedGroupAttributes resolvedGroupAttributes) {
     }
 }

@@ -15,12 +15,9 @@
  */
 package org.robobinding.viewattribute.impl;
 
-import static com.google.common.collect.Maps.newHashMap;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
-
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +28,7 @@ import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
+import org.robobinding.viewattribute.view.ViewListenersMapImpl;
 
 import android.content.Context;
 import android.view.View;
@@ -44,15 +42,17 @@ import android.view.View;
 @RunWith(MockitoJUnitRunner.class)
 public class ViewListenersProviderTest {
     @Mock
-    private ViewSubclass view;
+    private View view;
+    @Mock
+    private ViewSubclass viewSubclass;
 
     private ViewListenersProvider viewListenersProvider;
 
     @Before
     public void setUp() {
-	Map<Class<? extends View>, Class<? extends ViewListeners>> viewToViewListenersMap = newHashMap();
-	viewToViewListenersMap.put(ViewSubclass.class, ViewListenersSubclass.class);
-	viewListenersProvider = new ViewListenersProvider(viewToViewListenersMap);
+	ViewListenersMapImpl viewListenersMap = new ViewListenersMapImpl();
+	viewListenersMap.put(ViewSubclass.class, ViewListenersSubclass.class);
+	viewListenersProvider = new ViewListenersProvider(viewListenersMap);
     }
 
     @Test
@@ -61,19 +61,19 @@ public class ViewListenersProviderTest {
     }
     
     @Test
-    public void whenInjectViewListenersAwareAttribute_thenViewListenersSubclassIsInjected() {
+    public void whenInjectViewListenersAwareAttribute_thenViewListenersIsInjected() {
 	ViewListenersAwareAttribute viewAttribute = new ViewListenersAwareAttribute();
 	
 	viewListenersProvider.injectIfRequired(viewAttribute, view);
 	
-	assertThat(viewAttribute.viewListeners, instanceOf(ViewListenersSubclass.class));
+	assertThat(viewAttribute.viewListeners, instanceOf(ViewListeners.class));
     }
     
     @Test
-    public void whenInjectViewListenersSubclassAwareAttribute_thenViewListenersSubclassInjected() {
+    public void whenInjectViewListenersSubclassAwareAttribute_thenViewListenersSubclassIsInjected() {
 	ViewListenersSubclassAwareAttribute viewAttribute = new ViewListenersSubclassAwareAttribute();
 	
-	viewListenersProvider.injectIfRequired(viewAttribute, view);
+	viewListenersProvider.injectIfRequired(viewAttribute, viewSubclass);
 	
 	assertThat(viewAttribute.viewListeners, instanceOf(ViewListenersSubclass.class));
     }
@@ -92,14 +92,20 @@ public class ViewListenersProviderTest {
     }
     
     @Test
-    public void whenInjectTwoDifferentViewListenersAwareAttributesWithTheSameView_thenTheSameViewListenersInstanceIsInjectedForBoth() {
+    public void whenInjectTwoDifferentViewListenersAwareAttributesThroughTheSameViewSubclass_thenTheSameViewSubclassListenersInstanceIsInjectedForBoth() {
 	ViewListenersAwareAttribute viewAttribute = new ViewListenersAwareAttribute();
-	viewListenersProvider.injectIfRequired(viewAttribute, view);
+	viewListenersProvider.injectIfRequired(viewAttribute, viewSubclass);
 
 	ViewListenersSubclassAwareAttribute viewAttributeSubclass = new ViewListenersSubclassAwareAttribute();
-	viewListenersProvider.injectIfRequired(viewAttributeSubclass, view);
+	viewListenersProvider.injectIfRequired(viewAttributeSubclass, viewSubclass);
 
 	assertThat(viewAttribute.viewListeners, sameInstance(viewAttributeSubclass.viewListeners));
+    }
+    
+    @Test(expected = RuntimeException.class)
+    public void whenInjectViewListenersSubclassAwareAttributeThroughIncorrectView_thenThrowExceptionWithDetailedMessage() {
+	ViewListenersSubclassAwareAttribute viewAttributeSubclass = new ViewListenersSubclassAwareAttribute();
+	viewListenersProvider.injectIfRequired(viewAttributeSubclass, view);
     }
 
     private static class NonViewListenersAwareAttribute implements ViewAttribute  {

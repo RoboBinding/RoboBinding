@@ -25,6 +25,7 @@ import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.ViewListenersInjector;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
+import org.robobinding.viewattribute.view.ViewListenersMap;
 
 import android.view.View;
 
@@ -35,23 +36,32 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-@SuppressWarnings("unchecked")
 class ViewListenersProvider implements ViewListenersInjector {
-    private final Map<Class<? extends View>, Class<? extends ViewListeners>> viewToViewListernersMap;
+    private final ViewListenersMap viewListernersMap;
     private final Map<View, ViewListeners> cachedViewListeners;
 
-    public ViewListenersProvider(Map<Class<? extends View>, Class<? extends ViewListeners>> viewToViewListenersMap) {
-	this.viewToViewListernersMap = viewToViewListenersMap;
+    public ViewListenersProvider(ViewListenersMap viewListernersMap) {
+	this.viewListernersMap = viewListernersMap;
 	cachedViewListeners = newHashMap();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void injectIfRequired(ViewAttribute viewAttribute, View view) {
 	if (viewAttribute instanceof ViewListenersAware) {
 	    ViewListeners viewListeners = getViewListeners(view);
 
 	    ViewListenersAware<ViewListeners> viewListenersAwareAttribute = (ViewListenersAware<ViewListeners>) viewAttribute;
+	    
+	    try {
 	    viewListenersAwareAttribute.setViewListeners(viewListeners);
+	    } catch (ClassCastException e) {
+		throw new RuntimeException(
+			"Is '" + viewAttribute.getClass().getName() + "' a view attribute of view '" + view.getClass().getName() 
+				+ "'; or forget to register viewListeners by org.robobinding.binder.BinderFactoryBuilder? Seems the closest viewListeners '" 
+				+ viewListeners.getClass().getName() + "' we found does not match the view attribute.",
+			e);
+	    }
 	}
     }
 
@@ -70,15 +80,16 @@ class ViewListenersProvider implements ViewListenersInjector {
 	return instantiateViewListenersInstance(view, viewListenersClass);
     }
 
-    private Class<? extends ViewListeners> getMostSuitableViewListenersClass(Class<?> viewClass) {
+    @SuppressWarnings("unchecked")
+    private Class<? extends ViewListeners> getMostSuitableViewListenersClass(Class<? extends View> viewClass) {
 	if (viewClass == View.class) {
 	    return ViewListeners.class;
 	}
 
-	if (viewToViewListernersMap.containsKey(viewClass)) {
-	    return viewToViewListernersMap.get(viewClass);
+	if (viewListernersMap.contains(viewClass)) {
+	    return viewListernersMap.getViewListenersClass(viewClass);
 	} else {
-	    Class<?> viewSuperClass = viewClass.getSuperclass();
+	    Class<? extends View> viewSuperClass = (Class<? extends View>) viewClass.getSuperclass();
 	    return getMostSuitableViewListenersClass(viewSuperClass);
 	}
     }
