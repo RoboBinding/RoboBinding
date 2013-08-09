@@ -90,7 +90,7 @@ public class MockBindingAttributeMappingsImplBuilder {
 	private List<String[]> attributeGroups;
 
 	private MockBindingAttributeMappingsImpl(MockBindingAttributeMappingsImplBuilder builder) {
-	    super(null);
+	    super(null, null);
 	    propertyAttributes = Lists.newArrayList(builder.propertyAttributes);
 	    commandAttributes = Lists.newArrayList(builder.commandAttributes);
 	    attributeGroups = Lists.newArrayList(builder.attributeGroups);

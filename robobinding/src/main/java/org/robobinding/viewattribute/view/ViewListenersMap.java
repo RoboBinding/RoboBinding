@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 Cheng Wei, Robert Taylor
+ * Copyright 2013 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.customview;
+package org.robobinding.viewattribute.view;
 
 import android.view.View;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CustomViewUtils {
-    private CustomViewUtils() {
-    }
-
-    public static boolean isCustomWidget(View view) {
-	return view instanceof BindableView;
-    }
+public interface ViewListenersMap {
+    boolean contains(Class<? extends View> viewClass);
+    Class<? extends ViewListeners> getViewListenersClass(Class<? extends View> viewClass);
 }

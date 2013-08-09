@@ -40,15 +40,16 @@ import android.view.View;
  */
 public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T> {
     private final ViewAttributeInitializer viewAttributeInitializer;
-    private final PropertyAttributeParser propertyAttributeValueParser;
+    private final PropertyAttributeParser propertyAttributeParser;
 
     private final Map<String, ViewAttributeFactory<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
     private final Map<String, ViewAttributeFactory<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
     private final Map<String[], ViewAttributeFactory<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
 
-    public BindingAttributeMappingsImpl(ViewAttributeInitializer viewAttributeInitializer) {
+    public BindingAttributeMappingsImpl(ViewAttributeInitializer viewAttributeInitializer, 
+	    PropertyAttributeParser propertyAttributeParser) {
 	this.viewAttributeInitializer = viewAttributeInitializer;
-	propertyAttributeValueParser = new PropertyAttributeParser();
+	this.propertyAttributeParser = propertyAttributeParser;
 
 	propertyViewAttributeMappings = newHashMap();
 	commandViewAttributeMappings = newHashMap();
@@ -104,7 +105,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		.create();
 	View view = getViewForAttribute(propertyAttribute, defaultView);
 	viewAttributeInitializer.initializePropertyViewAttribute(view, propertyViewAttribute,
-		propertyAttributeValueParser.parseAsValueModelAttribute(propertyAttribute, attributeValue));
+		propertyAttributeParser.parseAsValueModelAttribute(propertyAttribute, attributeValue));
 	return propertyViewAttribute;
     }
 

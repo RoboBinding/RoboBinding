@@ -15,6 +15,7 @@
  */
 package org.robobinding.binder;
 
+import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.impl.ViewAttributeInitializerFactory;
 
 /**
@@ -28,9 +29,11 @@ public class IntegrationTestUtil {
     }
     
     public static BindingAttributeResolver createBindingAttributeResolver() {
+	PropertyAttributeParser propertyAttributeParser = new PropertyAttributeParser();
 	BindingAttributeMappingsProviderResolver providersResolver = new BindingAttributeMappingsProviderResolver(
-		Binders.createBindingAttributeMappingsProviderMap());
-	ViewAttributeInitializerFactory viewAttributeInitializerFactory = new ViewAttributeInitializerFactory(Binders.createViewToViewListenersMap());
+		BinderFactoryBuilder.defaultBindingAttributeMappingsProviderMap(propertyAttributeParser), propertyAttributeParser);
+	ViewAttributeInitializerFactory viewAttributeInitializerFactory = new ViewAttributeInitializerFactory(
+		BinderFactoryBuilder.defaultViewListenersMap());
 	ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(
 		providersResolver, viewAttributeInitializerFactory);
 	return new BindingAttributeResolver(resolverFinder);

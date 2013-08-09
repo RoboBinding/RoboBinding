@@ -26,18 +26,18 @@ import org.robobinding.viewattribute.ViewAttribute;
  * @author Robert Taylor
  */
 class StaticLayoutAttribute implements ViewAttribute {
-    private StaticResourceAttribute attributeValue;
-    private RowLayoutUpdater dataSetAdapterRowLayoutUpdater;
+    private final StaticResourceAttribute attributeValue;
+    private final RowLayoutUpdater rowLayoutUpdater;
 
-    public StaticLayoutAttribute(StaticResourceAttribute attributeValue, RowLayoutUpdater dataSetAdapterRowLayoutUpdater) {
+    public StaticLayoutAttribute(StaticResourceAttribute attributeValue, RowLayoutUpdater rowLayoutUpdater) {
 	this.attributeValue = attributeValue;
-	this.dataSetAdapterRowLayoutUpdater = dataSetAdapterRowLayoutUpdater;
+	this.rowLayoutUpdater = rowLayoutUpdater;
     }
 
     @Override
     public void bindTo(BindingContext bindingContext) {
 	int itemLayoutId = attributeValue.getResourceId(bindingContext.getContext());
-	dataSetAdapterRowLayoutUpdater.updateRowLayout(itemLayoutId);
+	rowLayoutUpdater.updateRowLayout(itemLayoutId);
     }
 
     @Override

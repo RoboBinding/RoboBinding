@@ -21,18 +21,21 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import java.util.Map;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robobinding.attribute.PropertyAttributeParser;
+import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
+import org.robobinding.viewattribute.impl.BindingAttributeMapperAdapter;
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapImpl;
 
 import android.content.Context;
 import android.view.View;
 
-import com.google.common.collect.Maps;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
@@ -46,21 +49,23 @@ public class BindingAttributeMappingsProviderResolverTest {
     private BindingAttributeMappingsProviderResolver bindingAttributeMappingsProviderResolver;
 
     @Mock
-    private BindingAttributeMappingsProvider<ViewWithNoParent> providerForViewWithNoParent;
+    private BindingAttributeMapper<ViewWithNoParent> mapperForViewWithNoParent;
     @Mock
-    private BindingAttributeMappingsProvider<ViewWithParents> providerForViewWithParents;
+    private BindingAttributeMapper<ViewWithParents> mapperForViewWithParents;
     @Mock
-    private BindingAttributeMappingsProvider<GrandparentView> providerForGrandparentView;
+    private BindingAttributeMapper<GrandparentView> mapperForGrandparentView;
+    @Mock
+    private PropertyAttributeParser propertyAttributeParser;
 
     @Before
     public void setUp() {
 	initMocks(this);
 	
-	Map<Class<? extends View>, BindingAttributeMappingsProvider<? extends View>> bindingAttributeProvidersMap = Maps.newHashMap();
-	bindingAttributeProvidersMap.put(ViewWithNoParent.class, providerForViewWithNoParent);
-	bindingAttributeProvidersMap.put(ViewWithParents.class, providerForViewWithParents);
-	bindingAttributeProvidersMap.put(GrandparentView.class, providerForGrandparentView);
-	bindingAttributeMappingsProviderResolver = new BindingAttributeMappingsProviderResolver(bindingAttributeProvidersMap);
+	BindingAttributeMappingsProviderMapImpl bindingAttributeMappingsProviderMap = new BindingAttributeMappingsProviderMapImpl(propertyAttributeParser);
+	bindingAttributeMappingsProviderMap.put(ViewWithNoParent.class, mapperForViewWithNoParent);
+	bindingAttributeMappingsProviderMap.put(ViewWithParents.class, mapperForViewWithParents);
+	bindingAttributeMappingsProviderMap.put(GrandparentView.class, mapperForGrandparentView);
+	bindingAttributeMappingsProviderResolver = new BindingAttributeMappingsProviderResolver(bindingAttributeMappingsProviderMap, propertyAttributeParser);
     }
 
     @SuppressWarnings("unchecked")
@@ -71,7 +76,7 @@ public class BindingAttributeMappingsProviderResolverTest {
 	Iterable<BindingAttributeMappingsProvider<? extends View>> candidateProviders = bindingAttributeMappingsProviderResolver
 		.findCandidateProviders(viewWithNoParent);
 
-	assertThat(candidateProviders, equalTo(newProvidersInOrder(providerForViewWithNoParent)));
+	assertThat(candidateProviders, equalTo(newProvidersInOrder(mapperForViewWithNoParent)));
     }
 
     @SuppressWarnings("unchecked")
@@ -82,11 +87,16 @@ public class BindingAttributeMappingsProviderResolverTest {
 	Iterable<BindingAttributeMappingsProvider<? extends View>> candidateProviders = bindingAttributeMappingsProviderResolver
 		.findCandidateProviders(viewWithParents);
 
-	assertThat(candidateProviders, equalTo(newProvidersInOrder(providerForViewWithParents, providerForGrandparentView)));
+	assertThat(candidateProviders, equalTo(newProvidersInOrder(mapperForViewWithParents, mapperForGrandparentView)));
     }
 
-    private Iterable<BindingAttributeMappingsProvider<? extends View>> newProvidersInOrder(BindingAttributeMappingsProvider<? extends View>... providers) {
-	return newArrayList(providers);
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private Iterable<BindingAttributeMappingsProvider<? extends View>> newProvidersInOrder(BindingAttributeMapper<? extends View>... mappers) {
+	List<BindingAttributeMappingsProvider<? extends View>> providers = newArrayList();
+	for (BindingAttributeMapper<? extends View> mapper : mappers) {
+	    providers.add(new BindingAttributeMapperAdapter(mapper, propertyAttributeParser));
+	}
+	return providers;
     }
 
     private static class ViewWithNoParent extends View {
