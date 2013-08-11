@@ -27,32 +27,19 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewListenersMapImpl implements ViewListenersMap {
+public class ViewListenersMapBuilder {
     private final Map<Class<? extends View>, Class<? extends ViewListeners>> mappings;
     
-    public ViewListenersMapImpl() {
+    public ViewListenersMapBuilder() {
 	mappings = newHashMap();
     }
     
-    private ViewListenersMapImpl(Map<Class<? extends View>, Class<? extends ViewListeners>> mappings) {
-	this.mappings = newHashMap(mappings);
-    }
-    
-    @Override
-    public boolean contains(Class<? extends View> viewClass) {
-        return mappings.containsKey(viewClass);
-    }
-    
-    @Override
-    public Class<? extends ViewListeners> getViewListenersClass(Class<? extends View> viewClass) {
-        return mappings.get(viewClass);
-    }
-    
-    public void put(Class<? extends View> viewClass, Class<? extends ViewListeners> viewListenersClass) {
+    public ViewListenersMapBuilder put(Class<? extends View> viewClass, Class<? extends ViewListeners> viewListenersClass) {
 	mappings.put(viewClass, viewListenersClass);
+	return this;
     }
     
-    public ViewListenersMapImpl copy() {
-	return new ViewListenersMapImpl(mappings);
+    public ViewListenersMap build() {
+	return new ViewListenersMap(mappings);
     }
 }

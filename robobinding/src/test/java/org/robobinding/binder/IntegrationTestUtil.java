@@ -31,9 +31,10 @@ public class IntegrationTestUtil {
     public static BindingAttributeResolver createBindingAttributeResolver() {
 	PropertyAttributeParser propertyAttributeParser = new PropertyAttributeParser();
 	BindingAttributeMappingsProviderResolver providersResolver = new BindingAttributeMappingsProviderResolver(
-		BinderFactoryBuilder.defaultBindingAttributeMappingsProviderMap(propertyAttributeParser), propertyAttributeParser);
+		BinderFactoryBuilder.defaultBindingAttributeMappingsProviderMapBuilder(propertyAttributeParser).build(), 
+		propertyAttributeParser);
 	ViewAttributeInitializerFactory viewAttributeInitializerFactory = new ViewAttributeInitializerFactory(
-		BinderFactoryBuilder.defaultViewListenersMap());
+		BinderFactoryBuilder.defaultViewListenersMapBuilder().build());
 	ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(
 		providersResolver, viewAttributeInitializerFactory);
 	return new BindingAttributeResolver(resolverFinder);

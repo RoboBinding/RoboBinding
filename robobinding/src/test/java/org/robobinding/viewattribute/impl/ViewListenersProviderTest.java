@@ -28,7 +28,7 @@ import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.view.ViewListeners;
 import org.robobinding.viewattribute.view.ViewListenersAware;
-import org.robobinding.viewattribute.view.ViewListenersMapImpl;
+import org.robobinding.viewattribute.view.ViewListenersMapBuilder;
 
 import android.content.Context;
 import android.view.View;
@@ -50,9 +50,9 @@ public class ViewListenersProviderTest {
 
     @Before
     public void setUp() {
-	ViewListenersMapImpl viewListenersMap = new ViewListenersMapImpl();
-	viewListenersMap.put(ViewSubclass.class, ViewListenersSubclass.class);
-	viewListenersProvider = new ViewListenersProvider(viewListenersMap);
+	ViewListenersMapBuilder viewListenersMapBuilder = new ViewListenersMapBuilder();
+	viewListenersMapBuilder.put(ViewSubclass.class, ViewListenersSubclass.class);
+	viewListenersProvider = new ViewListenersProvider(viewListenersMapBuilder.build());
     }
 
     @Test
