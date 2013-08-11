@@ -31,7 +31,7 @@ import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMapperAdapter;
-import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapImpl;
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
 
 import android.content.Context;
 import android.view.View;
@@ -61,11 +61,14 @@ public class BindingAttributeMappingsProviderResolverTest {
     public void setUp() {
 	initMocks(this);
 	
-	BindingAttributeMappingsProviderMapImpl bindingAttributeMappingsProviderMap = new BindingAttributeMappingsProviderMapImpl(propertyAttributeParser);
-	bindingAttributeMappingsProviderMap.put(ViewWithNoParent.class, mapperForViewWithNoParent);
-	bindingAttributeMappingsProviderMap.put(ViewWithParents.class, mapperForViewWithParents);
-	bindingAttributeMappingsProviderMap.put(GrandparentView.class, mapperForGrandparentView);
-	bindingAttributeMappingsProviderResolver = new BindingAttributeMappingsProviderResolver(bindingAttributeMappingsProviderMap, propertyAttributeParser);
+	BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMapBuilder = new BindingAttributeMappingsProviderMapBuilder(
+		propertyAttributeParser);
+	bindingAttributeMappingsProviderMapBuilder.put(ViewWithNoParent.class, mapperForViewWithNoParent);
+	bindingAttributeMappingsProviderMapBuilder.put(ViewWithParents.class, mapperForViewWithParents);
+	bindingAttributeMappingsProviderMapBuilder.put(GrandparentView.class, mapperForGrandparentView);
+	bindingAttributeMappingsProviderResolver = new BindingAttributeMappingsProviderResolver(
+		bindingAttributeMappingsProviderMapBuilder.build(), 
+		propertyAttributeParser);
     }
 
     @SuppressWarnings("unchecked")

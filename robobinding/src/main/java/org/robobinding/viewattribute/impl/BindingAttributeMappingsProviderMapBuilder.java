@@ -31,32 +31,21 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BindingAttributeMappingsProviderMapImpl implements BindingAttributeMappingsProviderMap {
+public class BindingAttributeMappingsProviderMapBuilder {
     private final Map<Class<? extends View>, BindingAttributeMappingsProvider<? extends View>> mappings;
     private final PropertyAttributeParser propertyAttributeParser;
     
-    public BindingAttributeMappingsProviderMapImpl(PropertyAttributeParser propertyAttributeParser) {
+    public BindingAttributeMappingsProviderMapBuilder(PropertyAttributeParser propertyAttributeParser) {
 	mappings = newHashMap();
 	this.propertyAttributeParser = propertyAttributeParser;
     }
     
-    private BindingAttributeMappingsProviderMapImpl(
-	    Map<Class<? extends View>, BindingAttributeMappingsProvider<? extends View>> mappings, 
-	    PropertyAttributeParser propertyAttributeParser) {
-	this.mappings = newHashMap(mappings);
-	this.propertyAttributeParser = propertyAttributeParser;
-    }
-    
-    @Override
-    public BindingAttributeMappingsProvider<? extends View> find(Class<? extends View> viewClass) {
-        return mappings.get(viewClass);
-    }
-    
-    public <T extends View> void put(Class<T> viewClass, BindingAttributeMapper<T> bindingAttributeMapper) {
+    public <T extends View> BindingAttributeMappingsProviderMapBuilder put(Class<T> viewClass, BindingAttributeMapper<T> bindingAttributeMapper) {
 	mappings.put(viewClass, new BindingAttributeMapperAdapter<T>(bindingAttributeMapper, propertyAttributeParser));
+	return this;
     }
     
-    public BindingAttributeMappingsProviderMapImpl copy() {
-	return new BindingAttributeMappingsProviderMapImpl(mappings, propertyAttributeParser);
+    public BindingAttributeMappingsProviderMap build() {
+	return new BindingAttributeMappingsProviderMap(mappings);
     }
 }
