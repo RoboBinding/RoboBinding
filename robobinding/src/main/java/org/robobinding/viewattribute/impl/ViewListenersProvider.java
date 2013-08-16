@@ -37,11 +37,11 @@ import android.view.View;
  * @author Cheng Wei
  */
 class ViewListenersProvider implements ViewListenersInjector {
-    private final ViewListenersMap viewListernersMap;
+    private final ViewListenersMap viewListenersMap;
     private final Map<View, ViewListeners> cachedViewListeners;
 
-    public ViewListenersProvider(ViewListenersMap viewListernersMap) {
-	this.viewListernersMap = viewListernersMap;
+    public ViewListenersProvider(ViewListenersMap viewListenersMap) {
+	this.viewListenersMap = viewListenersMap;
 	cachedViewListeners = newHashMap();
     }
 
@@ -54,11 +54,11 @@ class ViewListenersProvider implements ViewListenersInjector {
 	    ViewListenersAware<ViewListeners> viewListenersAwareAttribute = (ViewListenersAware<ViewListeners>) viewAttribute;
 	    
 	    try {
-	    viewListenersAwareAttribute.setViewListeners(viewListeners);
+		viewListenersAwareAttribute.setViewListeners(viewListeners);
 	    } catch (ClassCastException e) {
 		throw new RuntimeException(
 			"Is '" + viewAttribute.getClass().getName() + "' a view attribute of view '" + view.getClass().getName() 
-				+ "'; or forget to register viewListeners by org.robobinding.binder.BinderFactoryBuilder? Seems the closest viewListeners '" 
+				+ "'; or did you forget to register viewListeners by org.robobinding.binder.BinderFactoryBuilder? The closest viewListeners '" 
 				+ viewListeners.getClass().getName() + "' we found does not match the view attribute.",
 			e);
 	    }
@@ -86,8 +86,8 @@ class ViewListenersProvider implements ViewListenersInjector {
 	    return ViewListeners.class;
 	}
 
-	if (viewListernersMap.contains(viewClass)) {
-	    return viewListernersMap.getViewListenersClass(viewClass);
+	if (viewListenersMap.contains(viewClass)) {
+	    return viewListenersMap.getViewListenersClass(viewClass);
 	} else {
 	    Class<? extends View> viewSuperClass = (Class<? extends View>) viewClass.getSuperclass();
 	    return getMostSuitableViewListenersClass(viewSuperClass);
