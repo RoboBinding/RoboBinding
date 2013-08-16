@@ -18,7 +18,6 @@ package org.robobinding;
 import org.robobinding.property.ValueModel;
 
 import android.view.View;
-import android.view.ViewGroup;
 
 /**
  * 
@@ -35,18 +34,18 @@ public class ViewBinder {
 	this.bindingContext = bindingContext;
     }
 
-    public void attachToRoot(ViewGroup parentView) {
-	internalViewBinder.attachToRoot(parentView);
-    }
-
     public View inflateAndBind(int layoutId, Object presentationModel) {
 	return internalViewBinder.inflateAndBind(layoutId, presentationModel);
     }
 
     public View inflateAndBind(int layoutId, String presentationModelPropertyName) {
-	ValueModel<Object> valueModel = bindingContext.getPropertyValueModel(presentationModelPropertyName);
-	Object presentationModel = valueModel.getValue();
+	Object presentationModel = getPresentationModel(presentationModelPropertyName);
 	return internalViewBinder.inflateAndBind(layoutId, presentationModel);
+    }
+
+    private Object getPresentationModel(String presentationModelPropertyName) {
+	ValueModel<Object> valueModel = bindingContext.getPropertyValueModel(presentationModelPropertyName);
+	return valueModel.getValue();
     }
 
     public View inflate(int layoutId) {

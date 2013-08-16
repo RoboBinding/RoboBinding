@@ -16,8 +16,8 @@
 package org.robobinding.viewattribute;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.robobinding.viewattribute.MockGroupedViewAttributeConfigBuilder.aGroupedViewAttributeConfig;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Map;
@@ -25,9 +25,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robobinding.BindingContext;
-import org.robobinding.attribute.EnumAttribute;
-import org.robobinding.attribute.StaticResourceAttribute;
-import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.attribute.PendingGroupAttributes;
 
 import android.app.Activity;
 import android.content.Context;
@@ -46,7 +44,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGroupedViewAttribute<?>> {
     protected T attributeUnderTest;
     private Map<String, String> presentAttributeMappings;
-    private ChildViewAttributesWrapperForTest childViewAttributes;
+    private ChildViewAttributes<View> childViewAttributes;
 
     @Before
     @SuppressWarnings("unchecked")
@@ -84,17 +82,21 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 	return null;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     protected void performInitialization() {
-	GroupedViewAttributeConfig<View> config = aGroupedViewAttributeConfig(createViewFor(attributeUnderTest), presentAttributeMappings);
-	attributeUnderTest.initialize((GroupedViewAttributeConfig) config);
+	PendingGroupAttributes pendingGroupAttributes = new PendingGroupAttributes(presentAttributeMappings);
+	ChildViewAttributeInitializer childViewAttributeInitializer = new ChildViewAttributeInitializer(new StandaloneViewAttributeInitializer(
+		mock(ViewListenersInjector.class)));
+	ChildViewAttributesBuilderForTest childViewAttributesBuilder = new ChildViewAttributesBuilderForTest(pendingGroupAttributes,
+		childViewAttributeInitializer);
+	((AbstractGroupedViewAttribute<View>) attributeUnderTest).initialize(createViewFor(attributeUnderTest), childViewAttributesBuilder);
+
 	setupChildViewAttributes();
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private void setupChildViewAttributes() {
 	BindingContext bindingContext = mock(BindingContext.class);
-	childViewAttributes = new ChildViewAttributesWrapperForTest(attributeUnderTest.childViewAttributes);
 	attributeUnderTest.setupChildViewAttributes((ChildViewAttributes) childViewAttributes, bindingContext);
     }
 
@@ -123,10 +125,33 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
     }
 
     protected void assertThatAttributeWasCreated(Class<?> attributeClass) {
-	Object childAttribute = childViewAttributes.findChildAttributeOfType(attributeClass);
-	assertNotNull("Child attribute of type '" + attributeClass.getName() + " not found", childAttribute);
+	ViewAttribute childAttribute = findChildAttributeOfType(attributeClass);
+	assertNotNull("Child attribute of type '" + attributeClass.getName() + "' not found", childAttribute);
     }
 
+    private ViewAttribute findChildAttributeOfType(Class<?> childViewAttributeClass) {
+	for (ViewAttribute childViewAttribute : childViewAttributes.childAttributeMap.values()) {
+	    if (childViewAttributeClass.isInstance(childViewAttribute)) {
+		return childViewAttribute;
+	    }
+	}
+	return null;
+    }
+    
+    protected void assertThatAttributesWereCreated(String... attributeNames) {
+	for (String attributeName : attributeNames) {
+	    assertThatAttributeWasCreated(attributeName);
+	}
+    }
+
+    protected void assertThatAttributeWasCreated(String attributeName) {
+	assertTrue("Child attribute of '" + attributeName + "' not found", childViewAttributes.hasAttribute(attributeName));
+    }
+    
+    protected ViewAttribute childViewAttribute(String attributeName) {
+	return childViewAttributes.childAttributeMap.get(attributeName);
+    }
+    
     public static class Attribute {
 	private final String name;
 	private final String value;
@@ -142,69 +167,15 @@ public abstract class AbstractGroupedViewAttributeTest<T extends AbstractGrouped
 	}
     }
 
-    private static class ChildViewAttributesWrapperForTest extends ChildViewAttributes<View> {
-	private Map<Class<?>, Object> childViewAttributeMappings = Maps.newHashMap();
-	private ChildViewAttributes<View> forwarding;
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ChildViewAttributesWrapperForTest(ChildViewAttributes<?> target) {
-	    super(null, null);
-	    this.forwarding = (ChildViewAttributes) target;
+    private class ChildViewAttributesBuilderForTest extends ChildViewAttributesBuilder<View> {
+	public ChildViewAttributesBuilderForTest(PendingGroupAttributes pendingGroupAttributes, ChildViewAttributeInitializer viewAttributeInitializer) {
+	    super(pendingGroupAttributes, viewAttributeInitializer);
 	}
 
 	@Override
-	public <ChildViewAttributeType extends ChildViewAttribute> ChildViewAttributeType add(String attributeName,
-		ChildViewAttributeType childAttribute) {
-	    ChildViewAttributeType childViewAttribute = forwarding.add(attributeName, childAttribute);
-	    childViewAttributeMappings.put(childViewAttribute.getClass(), childViewAttribute);
-	    return childViewAttribute;
-	}
-
-	@Override
-	public <PropertyViewAttributeType extends PropertyViewAttribute<View>> PropertyViewAttributeType add(String propertyAttribute,
-		PropertyViewAttributeType propertyViewAttribute) {
-	    PropertyViewAttributeType childViewAttribute = forwarding.add(propertyAttribute, propertyViewAttribute);
-	    childViewAttributeMappings.put(childViewAttribute.getClass(), childViewAttribute);
-	    return childViewAttribute;
-	}
-
-	public Object findChildAttributeOfType(Class<?> childViewAttributeClass) {
-	    return childViewAttributeMappings.get(childViewAttributeClass);
-	}
-
-	@Override
-	public void preInitializeView(BindingContext bindingContext) {
-	    forwarding.preInitializeView(bindingContext);
-	}
-
-	@Override
-	public void bindTo(BindingContext bindingContext) {
-	    forwarding.bindTo(bindingContext);
-	}
-
-	@Override
-	public void failOnFirstBindingError() {
-	    forwarding.failOnFirstBindingError();
-	}
-
-	@Override
-	public boolean hasAttribute(String attributeName) {
-	    return forwarding.hasAttribute(attributeName);
-	}
-
-	@Override
-	public ValueModelAttribute valueModelAttributeFor(String attributeName) {
-	    return forwarding.valueModelAttributeFor(attributeName);
-	}
-
-	@Override
-	public StaticResourceAttribute staticResourceAttributeFor(String attributeName) {
-	    return forwarding.staticResourceAttributeFor(attributeName);
-	}
-
-	@Override
-	public <E extends Enum<E>> EnumAttribute<E> enumAttributeFor(String attributeName) {
-	    return forwarding.enumAttributeFor(attributeName);
+	public ChildViewAttributes<View> build(ChildViewAttributesResolver childViewAttributesResolver) {
+	    childViewAttributes = super.build(childViewAttributesResolver);
+	    return childViewAttributes;
 	}
     }
 }

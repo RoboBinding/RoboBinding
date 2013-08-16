@@ -17,7 +17,6 @@ package org.robobinding;
 
 import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.ValueModel;
 
@@ -30,15 +29,15 @@ import android.content.Context;
  * @author Cheng Wei
  */
 public class BindingContext implements PresentationModelAdapter {
-    private final BinderImplementorFactory binderImplementorFactory;
+    private final BinderProvider binderProvider;
     private final Context context;
     private final PresentationModelAdapter presentationModelAdapter;
     private final boolean preInitializeViews;
 
-    public BindingContext(BinderImplementorFactory factory, Context context, Object presentationModel, boolean preInitializeViews) {
-	this.binderImplementorFactory = factory;
+    public BindingContext(BinderProvider binderProvider, Context context, PresentationModelAdapter presentationModelAdapter, boolean preInitializeViews) {
+	this.binderProvider = binderProvider;
 	this.context = context;
-	this.presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
+	this.presentationModelAdapter = presentationModelAdapter;
 	this.preInitializeViews = preInitializeViews;
     }
 
@@ -47,11 +46,11 @@ public class BindingContext implements PresentationModelAdapter {
     }
 
     public ItemBinder createItemBinder() {
-	return new ItemBinder(binderImplementorFactory.create());
+	return binderProvider.getItemBinder();
     }
 
     public ViewBinder createViewBinder() {
-	InternalViewBinder internalBinder = new InternalViewBinder(binderImplementorFactory.create());
+	InternalViewBinder internalBinder = binderProvider.getInternalViewBinder();
 	return new ViewBinder(internalBinder, this);
     }
 

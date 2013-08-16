@@ -15,8 +15,6 @@
  */
 package org.robobinding.customview;
 
-import org.robobinding.viewattribute.BindingAttributeProvider;
-
 import android.view.View;
 
 /**
@@ -31,9 +29,5 @@ public class CustomViewUtils {
 
     public static boolean isCustomWidget(View view) {
 	return view instanceof BindableView;
-    }
-
-    public static <T extends View> BindingAttributeProvider<T> adapt(BindableView<T> bindableView) {
-	return new CustomBindingAttributeMapperAdapter<T>(bindableView);
     }
 }

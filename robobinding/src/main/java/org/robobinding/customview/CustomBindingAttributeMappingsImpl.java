@@ -21,6 +21,7 @@ import static org.robobinding.util.Preconditions.checkNotBlank;
 
 import java.util.Map;
 
+import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.PropertyViewAttribute;
@@ -39,8 +40,9 @@ import android.view.View;
 class CustomBindingAttributeMappingsImpl<T extends View> extends BindingAttributeMappingsImpl<T> implements CustomBindingAttributeMappings<T> {
     private final Map<String, View> customAttributeViews = newHashMap();
 
-    public CustomBindingAttributeMappingsImpl(ViewAttributeInitializer viewAttributeInitializer) {
-	super(viewAttributeInitializer);
+    public CustomBindingAttributeMappingsImpl(ViewAttributeInitializer viewAttributeInitializer, 
+	    PropertyAttributeParser propertyAttributeParser) {
+	super(viewAttributeInitializer, propertyAttributeParser);
     }
 
     @Override

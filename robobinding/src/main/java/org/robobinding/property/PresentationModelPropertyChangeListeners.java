@@ -27,7 +27,7 @@ import com.google.common.collect.Lists;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class PresentationModelPropertyChangeListeners {
+public class PresentationModelPropertyChangeListeners {
     List<PresentationModelPropertyChangeListener> listeners;
 
     public PresentationModelPropertyChangeListeners() {

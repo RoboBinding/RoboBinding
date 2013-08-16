@@ -38,20 +38,20 @@ public class SourceAttributeTest {
     private final String attributeValue = "{property_name}";
     private final String propertyName = "property_name";
     @Mock
-    DataSetAdapter<?> dataSetAdapter;
+    private DataSetAdapterBuilder dataSetAdapterBuilder;
     @Mock
-    BindingContext bindingContext;
+    private BindingContext bindingContext;
     @Mock
-    DataSetValueModel dataSetValueModel;
+    private DataSetValueModel dataSetValueModel;
 
     @Test
-    public void whenBinding_thenSetDataSetValueModelOnDataSetAdapter() {
+    public void whenBinding_thenSetDataSetValueModelOnDataSetAdapterBuilder() {
 	when(bindingContext.getDataSetPropertyValueModel(propertyName)).thenReturn(dataSetValueModel);
-	SourceAttribute sourceAttribute = new SourceAttribute(dataSetAdapter);
+	SourceAttribute sourceAttribute = new SourceAttribute(dataSetAdapterBuilder);
 	sourceAttribute.setAttribute(aValueModelAttribute(attributeValue));
 
 	sourceAttribute.bindTo(bindingContext);
 
-	verify(dataSetAdapter).setValueModel(dataSetValueModel);
+	verify(dataSetAdapterBuilder).setValueModel(dataSetValueModel);
     }
 }
