@@ -42,26 +42,23 @@ public class ViewAttributeInitializer {
 	delegate = viewAttributeInitializer;
     }
 
-    public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> 
-    	PropertyViewAttributeType initializePropertyViewAttribute(
-	    ViewType view, PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute) {
+    public PropertyViewAttribute<View> initializePropertyViewAttribute(
+	    View view, PropertyViewAttribute<View> propertyViewAttribute, ValueModelAttribute attribute) {
 	delegate.setView(view);
-	delegate.<ViewType, PropertyViewAttributeType> initializePropertyViewAttribute(propertyViewAttribute, attribute);
+	delegate.initializePropertyViewAttribute(propertyViewAttribute, attribute);
 	return propertyViewAttribute;
     }
 
-    public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> 
-    	CommandViewAttributeType initializeCommandViewAttribute(
-	    ViewType view, CommandViewAttributeType commandViewAttribute, CommandAttribute attribute) {
+    public AbstractCommandViewAttribute<View> initializeCommandViewAttribute(
+	    View view, AbstractCommandViewAttribute<View> commandViewAttribute, CommandAttribute attribute) {
 	delegate.setView(view);
-	delegate.<ViewType, CommandViewAttributeType> initializeCommandViewAttribute(commandViewAttribute, attribute);
+	delegate.initializeCommandViewAttribute(commandViewAttribute, attribute);
 	return commandViewAttribute;
     }
 
-    public <ViewType extends View, GroupedViewAttributeType extends AbstractGroupedViewAttribute<ViewType>> 
-    	GroupedViewAttributeType initializeGroupedViewAttribute(
-	    ViewType view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes pendingGroupAttributes) {
-	ChildViewAttributesBuilder<ViewType> childViewAttributesBuilder = new ChildViewAttributesBuilder<ViewType>(
+    public AbstractGroupedViewAttribute<View> initializeGroupedViewAttribute(
+	    View view, AbstractGroupedViewAttribute<View> groupedViewAttribute, PendingGroupAttributes pendingGroupAttributes) {
+	ChildViewAttributesBuilder<View> childViewAttributesBuilder = new ChildViewAttributesBuilder<View>(
 		pendingGroupAttributes, safeGetChildViewAttributeInitializer());
 	groupedViewAttribute.initialize(view, childViewAttributesBuilder);
 	return groupedViewAttribute;
