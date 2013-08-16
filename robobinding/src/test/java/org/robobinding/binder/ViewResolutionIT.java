@@ -51,7 +51,7 @@ public class ViewResolutionIT {
 
     @Before
     public void setUp() {
-	bindingAttributeResolver = new BindingAttributeResolver();
+	bindingAttributeResolver = IntegrationTestUtil.createBindingAttributeResolver();
     }
 
     @Test

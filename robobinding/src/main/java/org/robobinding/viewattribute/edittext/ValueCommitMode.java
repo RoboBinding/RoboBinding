@@ -24,13 +24,23 @@ package org.robobinding.viewattribute.edittext;
 public enum ValueCommitMode {
     ON_FOCUS_LOST("onFocusLost"), ON_CHANGE("onChange");
 
-    private final String asString;
+    private final String value;
 
-    private ValueCommitMode(String asString) {
-	this.asString = asString;
+    private ValueCommitMode(String value) {
+	this.value = value;
     }
 
     public String toString() {
-	return asString;
+	return value;
+    }
+    
+    public static ValueCommitMode from(String value) {
+	for (ValueCommitMode mode : ValueCommitMode.values()) {
+	    if (mode.value.equals(value)) {
+		return mode;
+	    }
+	}
+	
+	throw new RuntimeException("no matching ValueCommitMode found for '" + value + "'");
     }
 }

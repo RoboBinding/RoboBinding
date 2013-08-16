@@ -20,10 +20,10 @@ import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.AbstractViewAttributeInitializer;
-import org.robobinding.viewattribute.GroupedViewAttributeConfig;
+import org.robobinding.viewattribute.ChildViewAttributeInitializer;
+import org.robobinding.viewattribute.ChildViewAttributesBuilder;
 import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewListenersInjector;
+import org.robobinding.viewattribute.StandaloneViewAttributeInitializer;
 
 import android.view.View;
 
@@ -35,52 +35,39 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class ViewAttributeInitializer {
-    ViewListenersInjector viewListenersInjector;
-    ViewAttributeInitializerDelegate delegate;
+    private final StandaloneViewAttributeInitializer delegate;
+    private ChildViewAttributeInitializer childViewAttributeInitializer;
 
-    public ViewAttributeInitializer() {
-	this.viewListenersInjector = new ViewListenersProvider();
-	delegate = new ViewAttributeInitializerDelegate(viewListenersInjector);
+    public ViewAttributeInitializer(StandaloneViewAttributeInitializer viewAttributeInitializer) {
+	delegate = viewAttributeInitializer;
     }
 
-    public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> 
-    	PropertyViewAttributeType initializePropertyViewAttribute(
-	    ViewType view, PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute) {
-	delegate.setCurrentView(view);
-	delegate.<ViewType, PropertyViewAttributeType> initializePropertyViewAttribute(propertyViewAttribute, attribute);
+    public PropertyViewAttribute<View> initializePropertyViewAttribute(
+	    View view, PropertyViewAttribute<View> propertyViewAttribute, ValueModelAttribute attribute) {
+	delegate.setView(view);
+	delegate.initializePropertyViewAttribute(propertyViewAttribute, attribute);
 	return propertyViewAttribute;
     }
 
-    public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> 
-    	CommandViewAttributeType initializeCommandViewAttribute(
-	    ViewType view, CommandViewAttributeType commandViewAttribute, CommandAttribute attribute) {
-	delegate.setCurrentView(view);
-	delegate.<ViewType, CommandViewAttributeType> initializeCommandViewAttribute(commandViewAttribute, attribute);
+    public AbstractCommandViewAttribute<View> initializeCommandViewAttribute(
+	    View view, AbstractCommandViewAttribute<View> commandViewAttribute, CommandAttribute attribute) {
+	delegate.setView(view);
+	delegate.initializeCommandViewAttribute(commandViewAttribute, attribute);
 	return commandViewAttribute;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public <ViewType extends View, GroupedViewAttributeType extends AbstractGroupedViewAttribute<? extends View>> 
-    	GroupedViewAttributeType initializeGroupedViewAttribute(
-	    ViewType view, GroupedViewAttributeType groupedViewAttribute, PendingGroupAttributes pendingGroupAttributes) {
-	groupedViewAttribute.initialize(new GroupedViewAttributeConfig(view, pendingGroupAttributes, viewListenersInjector));
+    public AbstractGroupedViewAttribute<View> initializeGroupedViewAttribute(
+	    View view, AbstractGroupedViewAttribute<View> groupedViewAttribute, PendingGroupAttributes pendingGroupAttributes) {
+	ChildViewAttributesBuilder<View> childViewAttributesBuilder = new ChildViewAttributesBuilder<View>(
+		pendingGroupAttributes, safeGetChildViewAttributeInitializer());
+	groupedViewAttribute.initialize(view, childViewAttributesBuilder);
 	return groupedViewAttribute;
     }
-
-    private static class ViewAttributeInitializerDelegate extends AbstractViewAttributeInitializer {
-	private View currentView;
-
-	public ViewAttributeInitializerDelegate(ViewListenersInjector viewListenersInjector) {
-	    super(viewListenersInjector);
+    
+    private ChildViewAttributeInitializer safeGetChildViewAttributeInitializer() {
+	if (childViewAttributeInitializer == null) {
+	    childViewAttributeInitializer = new ChildViewAttributeInitializer(delegate);
 	}
-
-	@Override
-	protected View getView() {
-	    return currentView;
-	}
-
-	public void setCurrentView(View currentView) {
-	    this.currentView = currentView;
-	}
+	return childViewAttributeInitializer;
     }
 }

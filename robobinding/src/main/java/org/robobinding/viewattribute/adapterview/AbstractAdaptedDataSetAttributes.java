@@ -36,10 +36,10 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
     public static final String SOURCE = "source";
     public static final String ITEM_LAYOUT = "itemLayout";
     public static final String ITEM_MAPPING = "itemMapping";
-    protected DataSetAdapter<?> dataSetAdapter;
+    protected DataSetAdapterBuilder dataSetAdapterBuilder;
 
     @Override
-    protected String[] getCompulsoryAttributes() {
+    public String[] getCompulsoryAttributes() {
 	return new String[] {SOURCE, ITEM_LAYOUT};
     }
 
@@ -50,22 +50,22 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	resolverMappings.map(predefinedMappingsAttributeResolver(), ITEM_MAPPING);
     }
 
-    @SuppressWarnings({ "rawtypes" })
     @Override
     protected void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext) {
-	dataSetAdapter = new DataSetAdapter(bindingContext);
+	dataSetAdapterBuilder = new DataSetAdapterBuilder(bindingContext);
 
-	childViewAttributes.add(SOURCE, new SourceAttribute(dataSetAdapter));
-	childViewAttributes.add(ITEM_LAYOUT, new ItemLayoutAttribute(new RowLayoutAttributeFactory(view, dataSetAdapter)));
+	childViewAttributes.add(SOURCE, new SourceAttribute(dataSetAdapterBuilder));
+	childViewAttributes.add(ITEM_LAYOUT, new RowLayoutAttributeAdapter(new ItemLayoutAttributeFactory(view, dataSetAdapterBuilder)));
 
 	if (childViewAttributes.hasAttribute(ITEM_MAPPING))
-	    childViewAttributes.add(ITEM_MAPPING, new ItemMappingAttribute(dataSetAdapter));
+	    childViewAttributes.add(ITEM_MAPPING, new ItemMappingAttribute(new ItemMappingUpdater(dataSetAdapterBuilder)));
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     protected void postBind(BindingContext bindingContext) {
-	dataSetAdapter.observeChangesOnTheValueModel();
+	DataSetAdapter<?> dataSetAdapter = dataSetAdapterBuilder.build();
+	
 	((AdapterView) view).setAdapter(dataSetAdapter);
     }
 }

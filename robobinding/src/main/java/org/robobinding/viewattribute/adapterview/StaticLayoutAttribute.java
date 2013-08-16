@@ -26,8 +26,8 @@ import org.robobinding.viewattribute.ViewAttribute;
  * @author Robert Taylor
  */
 class StaticLayoutAttribute implements ViewAttribute {
-    private StaticResourceAttribute attributeValue;
-    private RowLayoutUpdater rowLayoutUpdater;
+    private final StaticResourceAttribute attributeValue;
+    private final RowLayoutUpdater rowLayoutUpdater;
 
     public StaticLayoutAttribute(StaticResourceAttribute attributeValue, RowLayoutUpdater rowLayoutUpdater) {
 	this.attributeValue = attributeValue;

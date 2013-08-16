@@ -15,27 +15,20 @@
  */
 package org.robobinding.binder;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static com.google.common.collect.Lists.newArrayList;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.PendingAttributesForView;
-import org.robobinding.viewattribute.BindingAttributeProvider;
-import org.robobinding.viewattribute.ViewAttribute;
 
 import android.view.View;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 /**
  * 
@@ -44,69 +37,41 @@ import com.google.common.collect.Sets;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-@SuppressWarnings("unchecked")
+@RunWith(MockitoJUnitRunner.class)
 public class BindingAttributeResolverTest {
-    private BindingAttributeResolverForTest bindingAttributeResolver;
-    private List<BindingAttributeProvider<? extends View>> candidateBindingAttributeProviders;
-
-    @Before
-    public void setUp() {
-	candidateBindingAttributeProviders = Lists.newArrayList();
-	bindingAttributeResolver = new BindingAttributeResolverForTest(candidateBindingAttributeProviders);
-    }
+    @Mock
+    private ByBindingAttributeMappingsResolverFinder byBindingAttributeMappingsResolverFinder;
 
     @Test
-    public void givenTwoCandidateBindingAttributeProviders_whenResolve_thenBothProvidersShouldInvolveResolving() {
-	BindingAttributeProvider<View> bindingAttributeProvider1 = addNewCandidateBindingAttributeProvider();
-	BindingAttributeProvider<View> bindingAttributeProvider2 = addNewCandidateBindingAttributeProvider();
+    public void givenTwoCandidateResolvers_whenResolve_thenBothResolversShouldInvolveResolving() {
+	ByBindingAttributeMappingsResolver candidateResolver1 = mock(ByBindingAttributeMappingsResolver.class);
+	ByBindingAttributeMappingsResolver candidateResolver2 = mock(ByBindingAttributeMappingsResolver.class);
+	when(byBindingAttributeMappingsResolverFinder.findCandidateResolvers(any(View.class))).thenReturn(
+		newArrayList(candidateResolver1, candidateResolver2));
+
+	BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeMappingsResolverFinder);
 	PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
 	when(pendingAttributesForView.isEmpty()).thenReturn(false);
-
 	bindingAttributeResolver.resolve(pendingAttributesForView);
 
-	bindingAttributeResolver.assertBindingAttributeProvidersInvolvedResolving(bindingAttributeProvider1, bindingAttributeProvider2);
+	verify(candidateResolver1).resolve(pendingAttributesForView);
+	verify(candidateResolver2).resolve(pendingAttributesForView);
     }
 
     @Test
-    public void givenTwoCandidateBindingAttributeProviders_whenResolveCompletedAtFirstProvider_thenSecondProviderShouldBeSkipped() {
-	BindingAttributeProvider<View> bindingAttributeProvider1 = addNewCandidateBindingAttributeProvider();
-	addNewCandidateBindingAttributeProvider();
+    public void givenTwoCandidateResolvers_whenResolveCompletedAtFirstResolver_thenSecondResolverShouldBeSkipped() {
+	ByBindingAttributeMappingsResolver candidateResolver1 = mock(ByBindingAttributeMappingsResolver.class);
+	ByBindingAttributeMappingsResolver candidateResolver2 = mock(ByBindingAttributeMappingsResolver.class);
+	when(byBindingAttributeMappingsResolverFinder.findCandidateResolvers(any(View.class))).thenReturn(
+		newArrayList(candidateResolver1, candidateResolver2));
+
+	BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeMappingsResolverFinder);
 	PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
 	when(pendingAttributesForView.isEmpty()).thenReturn(true);
 
 	bindingAttributeResolver.resolve(pendingAttributesForView);
 
-	bindingAttributeResolver.assertBindingAttributeProvidersInvolvedResolving(bindingAttributeProvider1);
-    }
-
-    private BindingAttributeProvider<View> addNewCandidateBindingAttributeProvider() {
-	BindingAttributeProvider<View> bindingAttributeProvider = mock(BindingAttributeProvider.class);
-	candidateBindingAttributeProviders.add(bindingAttributeProvider);
-	return bindingAttributeProvider;
-    }
-
-    private static class BindingAttributeResolverForTest extends BindingAttributeResolver {
-	private Set<BindingAttributeProvider<View>> actualBindingAttributeProvidersInvolvedResolving;
-
-	public BindingAttributeResolverForTest(List<BindingAttributeProvider<? extends View>> candidateBindingAttributeProviders) {
-	    providersResolver = mock(BindingAttributeProvidersResolver.class);
-	    when(providersResolver.getCandidateProviders(any(View.class))).thenReturn(candidateBindingAttributeProviders);
-
-	    actualBindingAttributeProvidersInvolvedResolving = Sets.newHashSet();
-	}
-
-	@Override
-	Collection<ViewAttribute> resolveByBindingAttributeProvider(PendingAttributesForView pendingAttributesForView,
-		BindingAttributeProvider<View> bindingAttributeProvider) {
-	    actualBindingAttributeProvidersInvolvedResolving.add(bindingAttributeProvider);
-	    return Collections.emptyList();
-	}
-
-	public void assertBindingAttributeProvidersInvolvedResolving(
-		BindingAttributeProvider<View>... expectedBindingAttributeProvidersInvolvedResolving) {
-	    assertThat(Sets.newHashSet(expectedBindingAttributeProvidersInvolvedResolving), 
-		    equalTo(actualBindingAttributeProvidersInvolvedResolving));
-	}
-
+	verify(candidateResolver1).resolve(pendingAttributesForView);
+	verify(candidateResolver2, never()).resolve(pendingAttributesForView);
     }
 }

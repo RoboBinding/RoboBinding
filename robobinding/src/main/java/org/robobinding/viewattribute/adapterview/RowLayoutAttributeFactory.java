@@ -26,26 +26,24 @@ import android.widget.AdapterView;
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
-public class RowLayoutAttributeFactory {
+public abstract class RowLayoutAttributeFactory {
     private final AdapterView<?> adapterView;
-    private final DataSetAdapter<?> dataSetAdapter;
+    private final DataSetAdapterBuilder dataSetAdapterBuilder;
 
-    public RowLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapter<?> dataSetAdapter) {
+    protected RowLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapterBuilder dataSetAdapterBuilder) {
 	this.adapterView = adapterView;
-	this.dataSetAdapter = dataSetAdapter;
+	this.dataSetAdapterBuilder = dataSetAdapterBuilder;
     }
 
-    public ViewAttribute createItemLayoutAttribute(AbstractPropertyAttribute attribute) {
-	RowLayoutUpdater rowLayoutUpdater = new ItemLayoutUpdater(dataSetAdapter);
-	return attribute.isStaticResource() ? createStaticLayoutAttribute(attribute, rowLayoutUpdater) : createDynamicLayoutAttribute(attribute,
-		new ItemLayoutUpdater(dataSetAdapter));
-    }
-
-    public ViewAttribute createDropdownLayoutAttribute(AbstractPropertyAttribute attribute) {
-	RowLayoutUpdater rowLayoutUpdater = new DropdownLayoutUpdater(dataSetAdapter);
-	return attribute.isStaticResource() ? createStaticLayoutAttribute(attribute, rowLayoutUpdater) : createDynamicLayoutAttribute(attribute,
-		rowLayoutUpdater);
+    public ViewAttribute createRowLayoutAttribute(AbstractPropertyAttribute attribute) {
+	RowLayoutUpdater rowLayoutUpdater = createRowLayoutUpdater(dataSetAdapterBuilder);
+	if (attribute.isStaticResource()) {
+	    return createStaticLayoutAttribute(attribute, rowLayoutUpdater);
+	} else {
+	    return createDynamicLayoutAttribute(attribute, rowLayoutUpdater);
+	}
     }
 
     private ViewAttribute createStaticLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater rowLayoutUpdater) {
@@ -53,9 +51,11 @@ public class RowLayoutAttributeFactory {
     }
 
     private ViewAttribute createDynamicLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater rowLayoutUpdater) {
-	@SuppressWarnings("rawtypes")
-	PropertyViewAttributeConfig<AdapterView> attributeConfig = new PropertyViewAttributeConfig<AdapterView>(adapterView,
+	PropertyViewAttributeConfig<AdapterView<?>> attributeConfig = new PropertyViewAttributeConfig<AdapterView<?>>(adapterView,
 		attribute.asValueModelAttribute());
-	return new DynamicLayoutAttribute(attributeConfig, dataSetAdapter, rowLayoutUpdater);
+	DataSetAdapterUpdater dataSetAdapterUpdater = new DataSetAdapterUpdater(dataSetAdapterBuilder, adapterView);
+	return new DynamicLayoutAttribute(attributeConfig, rowLayoutUpdater, dataSetAdapterUpdater);
     }
+
+    protected abstract RowLayoutUpdater createRowLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder);
 }

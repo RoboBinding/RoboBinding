@@ -20,7 +20,6 @@ import static org.robobinding.viewattribute.RandomValues.anyInteger;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -33,16 +32,15 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class ItemLayoutUpdaterTest {
     @Mock
-    DataSetAdapter<?> dataSetAdapter;
-    @InjectMocks
-    ItemLayoutUpdater itemLayoutUpdater;
+    private DataSetAdapterBuilder dataSetAdapterBuilder;
 
     @Test
-    public void whenUpdatingRowLayout_thenSetItemLayoutOnDataSetAdapter() {
+    public void whenUpdatingRowLayout_thenSetItemLayoutOnDataSetAdapterBuilder() {
 	int layoutId = anyInteger();
+	ItemLayoutUpdater itemLayoutUpdater = new ItemLayoutUpdater(dataSetAdapterBuilder);
 
 	itemLayoutUpdater.updateRowLayout(layoutId);
 
-	verify(dataSetAdapter).setItemLayoutId(layoutId);
+	verify(dataSetAdapterBuilder).setItemLayoutId(layoutId);
     }
 }

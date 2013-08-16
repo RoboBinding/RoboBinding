@@ -22,9 +22,10 @@ import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.viewattribute.ChildViewAttributes;
 import org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes;
-import org.robobinding.viewattribute.adapterview.DropdownLayoutAttribute;
-import org.robobinding.viewattribute.adapterview.DropdownMappingAttribute;
-import org.robobinding.viewattribute.adapterview.RowLayoutAttributeFactory;
+import org.robobinding.viewattribute.adapterview.DropdownLayoutAttributeFactory;
+import org.robobinding.viewattribute.adapterview.DropdownMappingUpdater;
+import org.robobinding.viewattribute.adapterview.ItemMappingAttribute;
+import org.robobinding.viewattribute.adapterview.RowLayoutAttributeAdapter;
 
 import android.widget.AbsSpinner;
 
@@ -48,7 +49,7 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
     }
 
     @Override
-    protected String[] getCompulsoryAttributes() {
+    public String[] getCompulsoryAttributes() {
 	return ObjectArrays.concat(super.getCompulsoryAttributes(), DROPDOWN_LAYOUT);
     }
 
@@ -57,9 +58,9 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 	super.setupChildViewAttributes(childViewAttributes, bindingContext);
 
 	if (childViewAttributes.hasAttribute(DROPDOWN_LAYOUT))
-	    childViewAttributes.add(DROPDOWN_LAYOUT, new DropdownLayoutAttribute(new RowLayoutAttributeFactory(view, dataSetAdapter)));
+	    childViewAttributes.add(DROPDOWN_LAYOUT, new RowLayoutAttributeAdapter(new DropdownLayoutAttributeFactory(view, dataSetAdapterBuilder)));
 
 	if (childViewAttributes.hasAttribute(DROPDOWN_MAPPING))
-	    childViewAttributes.add(DROPDOWN_MAPPING, new DropdownMappingAttribute(dataSetAdapter));
+	    childViewAttributes.add(DROPDOWN_MAPPING, new ItemMappingAttribute(new DropdownMappingUpdater(dataSetAdapterBuilder)));
     }
 }

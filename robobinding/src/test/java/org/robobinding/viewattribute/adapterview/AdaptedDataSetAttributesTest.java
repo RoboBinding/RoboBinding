@@ -15,6 +15,10 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.ITEM_LAYOUT;
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.ITEM_MAPPING;
+import static org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes.SOURCE;
+
 import org.junit.Test;
 import org.robobinding.viewattribute.AbstractGroupedViewAttributeTest;
 
@@ -38,7 +42,7 @@ public class AdaptedDataSetAttributesTest extends AbstractGroupedViewAttributeTe
 
 	performInitialization();
 
-	assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class);
+	assertThatAttributesWereCreated(SOURCE, ITEM_LAYOUT);
     }
 
     @Test
@@ -47,7 +51,7 @@ public class AdaptedDataSetAttributesTest extends AbstractGroupedViewAttributeTe
 
 	performInitialization();
 
-	assertThatAttributesWereCreated(SourceAttribute.class, ItemLayoutAttribute.class, ItemMappingAttribute.class);
+	assertThatAttributesWereCreated(SOURCE, ITEM_LAYOUT, ITEM_MAPPING);
     }
 
     @Test(expected = RuntimeException.class)

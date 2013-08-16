@@ -15,6 +15,7 @@
  */
 package org.robobinding.viewattribute.impl;
 
+import static com.google.common.collect.Maps.newHashMap;
 import static org.robobinding.viewattribute.FromClassViewAttributeFactory.viewAttributeFactoryForClass;
 
 import java.util.Map;
@@ -30,8 +31,6 @@ import org.robobinding.viewattribute.ViewAttributeFactory;
 
 import android.view.View;
 
-import com.google.common.collect.Maps;
-
 /**
  * 
  * @since 1.0
@@ -41,19 +40,20 @@ import com.google.common.collect.Maps;
  */
 public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T> {
     private final ViewAttributeInitializer viewAttributeInitializer;
-    private final PropertyAttributeParser propertyAttributeValueParser;
+    private final PropertyAttributeParser propertyAttributeParser;
 
     private final Map<String, ViewAttributeFactory<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
     private final Map<String, ViewAttributeFactory<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
     private final Map<String[], ViewAttributeFactory<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
 
-    public BindingAttributeMappingsImpl(ViewAttributeInitializer viewAttributeInitializer) {
+    public BindingAttributeMappingsImpl(ViewAttributeInitializer viewAttributeInitializer, 
+	    PropertyAttributeParser propertyAttributeParser) {
 	this.viewAttributeInitializer = viewAttributeInitializer;
-	propertyAttributeValueParser = new PropertyAttributeParser();
+	this.propertyAttributeParser = propertyAttributeParser;
 
-	propertyViewAttributeMappings = Maps.newHashMap();
-	commandViewAttributeMappings = Maps.newHashMap();
-	groupedViewAttributeMappings = Maps.newHashMap();
+	propertyViewAttributeMappings = newHashMap();
+	commandViewAttributeMappings = newHashMap();
+	groupedViewAttributeMappings = newHashMap();
     }
 
     @Override
@@ -105,7 +105,7 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		.create();
 	View view = getViewForAttribute(propertyAttribute, defaultView);
 	viewAttributeInitializer.initializePropertyViewAttribute(view, propertyViewAttribute,
-		propertyAttributeValueParser.parseAsValueModelAttribute(propertyAttribute, attributeValue));
+		propertyAttributeParser.parseAsValueModelAttribute(propertyAttribute, attributeValue));
 	return propertyViewAttribute;
     }
 

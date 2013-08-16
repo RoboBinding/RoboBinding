@@ -26,7 +26,7 @@ import com.google.common.base.Objects;
  * @author Cheng Wei
  */
 public class AbstractViewAttributeConfig<T extends View> {
-    private T view;
+    private final T view;
 
     public AbstractViewAttributeConfig(T view) {
 	this.view = view;

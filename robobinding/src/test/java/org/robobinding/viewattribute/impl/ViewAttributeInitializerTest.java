@@ -15,19 +15,19 @@
  */
 package org.robobinding.viewattribute.impl;
 
+import static org.mockito.Matchers.isA;
+import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.attribute.PendingGroupAttributes;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.GroupedViewAttributeConfig;
-import org.robobinding.viewattribute.ViewListenersInjector;
+import org.robobinding.viewattribute.ChildViewAttributesBuilder;
 
 import android.view.View;
-
-import com.google.common.collect.Maps;
 
 /**
  * 
@@ -35,35 +35,20 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ViewAttributeInitializerTest {
-    private ViewAttributeInitializer viewAttributeInitializer;
-    private ViewListenersInjector viewListenersProvider;
+    @Mock
+    private View view;
 
-    @Before
-    public void setUp() {
-	viewListenersProvider = mock(ViewListenersInjector.class);
-	viewAttributeInitializer = new ViewAttributeInitializerForTest(viewListenersProvider);
-    }
-
+    @SuppressWarnings("unchecked")
     @Test
-    public void whenNewGroupedViewAttribute_thenNewInstanceShouldBeCorrectlyInitialized() {
-	View view = mock(View.class);
-	PendingGroupAttributes pendingGroupAttributes = newPendingGroupAttributes();
-	@SuppressWarnings({ "unchecked" })
+    public void whenInitializeGroupedViewAttribute_thenTheAttributeIsCorrectlyInitialized() {
 	AbstractGroupedViewAttribute<View> viewAttribute = mock(AbstractGroupedViewAttribute.class);
 
-	viewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(view, viewAttribute, pendingGroupAttributes);
+	ViewAttributeInitializer viewAttributeInitializer = new ViewAttributeInitializer(null);
+	
+	viewAttribute = viewAttributeInitializer.initializeGroupedViewAttribute(view, viewAttribute, null);
 
-	verify(viewAttribute).initialize(new GroupedViewAttributeConfig<View>(view, pendingGroupAttributes, viewListenersProvider));
-    }
-
-    private PendingGroupAttributes newPendingGroupAttributes() {
-	return new PendingGroupAttributes(Maps.<String, String> newHashMap());
-    }
-
-    private static class ViewAttributeInitializerForTest extends ViewAttributeInitializer {
-	public ViewAttributeInitializerForTest(ViewListenersInjector viewListenersProvider) {
-	    this.viewListenersInjector = viewListenersProvider;
-	}
+	verify(viewAttribute).initialize(same(view), isA(ChildViewAttributesBuilder.class));
     }
 }

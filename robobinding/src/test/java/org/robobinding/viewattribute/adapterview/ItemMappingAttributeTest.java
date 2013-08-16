@@ -20,7 +20,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collection;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -40,30 +39,27 @@ import android.content.Context;
 @RunWith(MockitoJUnitRunner.class)
 public class ItemMappingAttributeTest {
     @Mock
-    BindingContext bindingContext;
+    private BindingContext bindingContext;
     @Mock
-    Context context;
+    private Context context;
     @Mock
-    DataSetAdapter<?> dataSetAdapter;
+    private PredefinedMappingsAttribute predefinedMappingsAttribute;
     @Mock
-    PredefinedMappingsAttribute predefinedMappingsAttribute;
+    private Collection<PredefinedPendingAttributesForView> viewMappings;
     @Mock
-    Collection<PredefinedPendingAttributesForView> predefinedMappings;
-
-    @Before
-    public void setUp() {
-	when(bindingContext.getContext()).thenReturn(context);
-	when(predefinedMappingsAttribute.getViewMappings(context)).thenReturn(predefinedMappings);
-    }
+    private PredefinedMappingUpdater predefinedMappingUpdater;
 
     @Test
-    public void whenBinding_thenUpdateDataSetAdapter() {
-	ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(dataSetAdapter);
+    public void whenBinding_thenUpdateViewMappingsOnPredefinedMappingUpdater() {
+	when(bindingContext.getContext()).thenReturn(context);
+	when(predefinedMappingsAttribute.getViewMappings(context)).thenReturn(viewMappings);
+	
+	ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(predefinedMappingUpdater);
 	itemMappingAttribute.setAttribute(predefinedMappingsAttribute);
 
 	itemMappingAttribute.bindTo(bindingContext);
 
-	verify(dataSetAdapter).setItemPredefinedPendingAttributesForViewGroup(predefinedMappings);
+	verify(predefinedMappingUpdater).updateViewMappings(viewMappings);
     }
 
 }

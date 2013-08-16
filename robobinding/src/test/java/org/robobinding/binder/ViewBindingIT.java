@@ -37,8 +37,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.robobinding.BinderImplementor;
+import org.robobinding.BinderProvider;
 import org.robobinding.BindingContext;
+import org.robobinding.ItemBinder;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.ChildAttributeResolvers;
@@ -46,6 +47,7 @@ import org.robobinding.customview.BindableView;
 import org.robobinding.customview.CustomBindingAttributeMappings;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModel;
+import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
@@ -76,7 +78,7 @@ public class ViewBindingIT {
 
     @Before
     public void setUp() {
-	bindingAttributeResolver = new BindingAttributeResolver();
+	bindingAttributeResolver = IntegrationTestUtil.createBindingAttributeResolver();
 	bindingContext = newBindingContext();
     }
 
@@ -223,17 +225,20 @@ public class ViewBindingIT {
 
     @SuppressWarnings("unchecked")
     private BindingContext newBindingContext() {
-	InternalBinderFactory binderImplementorFactoryImpl = mock(InternalBinderFactory.class);
-	BinderImplementor binderImplementor = mock(BinderImplementor.class);
-	when(binderImplementor.inflateOnly(anyInt())).thenReturn(new View(new Activity()));
-	when(binderImplementor.inflateAndBind(anyInt(), anyObject(), anyCollection())).then(new Answer<View>() {
+	BinderProvider binderFactory = mock(BinderProvider.class);
+	ItemBinder itemBinder = mock(ItemBinder.class);
+	when(itemBinder.inflateAndBind(anyInt(), anyObject(), anyCollection())).then(new Answer<View>() {
 	    @Override
 	    public View answer(InvocationOnMock invocation) throws Throwable {
 		return new View(new Activity());
 	    }
 	});
-	when(binderImplementorFactoryImpl.create()).thenReturn(binderImplementor);
-	return new BindingContext(binderImplementorFactoryImpl, new Activity(), new PresentationModelForTest(), true);
+	when(binderFactory.getItemBinder()).thenReturn(itemBinder);
+	return new BindingContext(
+		binderFactory, 
+		new Activity(), 
+		new PresentationModelAdapterImpl(new PresentationModelForTest()),
+		true);
     }
 
     @PresentationModel

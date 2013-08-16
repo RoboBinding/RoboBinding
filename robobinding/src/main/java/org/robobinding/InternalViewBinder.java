@@ -15,6 +15,7 @@
  */
 package org.robobinding;
 
+
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,22 +27,24 @@ import android.view.ViewGroup;
  * @author Cheng Wei
  */
 public class InternalViewBinder {
-    private BinderImplementor binderImplementor;
+    private final BinderImplementor binderImplementor;
+    private final NonBindingViewInflater nonBindingViewInflater;
 
-    public InternalViewBinder(BinderImplementor binderImplementor) {
+    public InternalViewBinder(BinderImplementor binderImplementor, NonBindingViewInflater nonBindingViewInflater) {
 	this.binderImplementor = binderImplementor;
+	this.nonBindingViewInflater = nonBindingViewInflater;
     }
 
-    public void attachToRoot(ViewGroup parentView) {
-	binderImplementor.attachToRoot(parentView);
+    public View inflate(int layoutId) {
+        return nonBindingViewInflater.inflate(layoutId);
     }
 
     public View inflateAndBind(int layoutId, Object presentationModel) {
 	return binderImplementor.inflateAndBind(layoutId, presentationModel);
     }
 
-    public View inflate(int layoutId) {
-	return binderImplementor.inflateOnly(layoutId);
+    public View inflateAndBind(int layoutId, Object presentationModel, ViewGroup attachToRoot) {
+	return binderImplementor.inflateAndBind(layoutId, presentationModel, attachToRoot);
     }
 
 }

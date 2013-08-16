@@ -16,7 +16,6 @@
 package org.robobinding.binder;
 
 import org.robobinding.ActivityBinder;
-import org.robobinding.BinderImplementor;
 import org.robobinding.DialogBinder;
 import org.robobinding.InternalViewBinder;
 
@@ -33,37 +32,35 @@ import android.view.ViewGroup;
  * @author Robert Taylor
  */
 public class Binders {
-    private Binders() {
-    }
-    
     public static void bind(Activity activity, int layoutId, Object presentationModel) {
-	BinderImplementor binderImplementor = InternalBinderFactory.create(activity, true);
-	ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
+	ActivityBinder activityBinder = newBinderFactory().createActivityBinder(activity, true);
 	activityBinder.inflateAndBind(layoutId, presentationModel);
     }
 
+    private static BinderFactory newBinderFactory() {
+	return new BinderFactoryBuilder().build();
+    }
+
     public static void bindWithoutPreInitializingViews(Activity activity, int layoutId, Object presentationModel) {
-	BinderImplementor binderImplementor = InternalBinderFactory.create(activity, false);
-	ActivityBinder activityBinder = new ActivityBinder(activity, binderImplementor);
+	ActivityBinder activityBinder = newBinderFactory().createActivityBinder(activity, false);
 	activityBinder.inflateAndBind(layoutId, presentationModel);
     }
 
     public static void bind(Dialog dialog, int layoutId, Object presentationModel) {
-	BinderImplementor binderImplementor = InternalBinderFactory.create(dialog.getContext(), true);
-	DialogBinder dialogBinder = new DialogBinder(dialog, binderImplementor);
+	DialogBinder dialogBinder = newBinderFactory().createDialogBinder(dialog);
 	dialogBinder.inflateAndBind(layoutId, presentationModel);
     }
 
     public static View bindView(Context context, int layoutId, Object presentationModel) {
-	BinderImplementor binderImplementor = InternalBinderFactory.create(context, true);
-	InternalViewBinder viewBinder = new InternalViewBinder(binderImplementor);
+	InternalViewBinder viewBinder = newBinderFactory().createInternalViewBinder(context);
 	return viewBinder.inflateAndBind(layoutId, presentationModel);
     }
 
     public static View attachToRootAndBindView(ViewGroup parentView, Context context, int layoutId, Object presentationModel) {
-	BinderImplementor binderImplementor = InternalBinderFactory.create(context, true);
-	InternalViewBinder viewBinder = new InternalViewBinder(binderImplementor);
-	viewBinder.attachToRoot(parentView);
-	return viewBinder.inflateAndBind(layoutId, presentationModel);
+	InternalViewBinder viewBinder = newBinderFactory().createInternalViewBinder(context);
+	return viewBinder.inflateAndBind(layoutId, presentationModel, parentView);
+    }
+
+    private Binders() {
     }
 }
