@@ -77,7 +77,7 @@ public class BinderFactoryBuilder {
         return viewListenersMap;
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     static BindingAttributeMappingsProviderMapBuilder defaultBindingAttributeMappingsProviderMapBuilder(
 	    PropertyAttributeParser propertyAttributeParser) {
         BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMap = new BindingAttributeMappingsProviderMapBuilder(
@@ -85,7 +85,7 @@ public class BinderFactoryBuilder {
         bindingAttributeMappingsProviderMap.put(View.class, new ViewAttributeMapper());
         bindingAttributeMappingsProviderMap.put(TextView.class, new TextViewAttributeMapper());
         bindingAttributeMappingsProviderMap.put(EditText.class, new EditTextAttributeMapper());
-        bindingAttributeMappingsProviderMap.put((Class<? extends AdapterView>) AdapterView.class, new AdapterViewAttributeMapper());
+        bindingAttributeMappingsProviderMap.put(AdapterView.class, (BindingAttributeMapper) new AdapterViewAttributeMapper());
         bindingAttributeMappingsProviderMap.put(CompoundButton.class, new CompoundButtonAttributeMapper());
         bindingAttributeMappingsProviderMap.put(ImageView.class, new ImageViewAttributeMapper());
         bindingAttributeMappingsProviderMap.put(ProgressBar.class, new ProgressBarAttributeMapper());
