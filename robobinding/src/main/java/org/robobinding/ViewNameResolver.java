@@ -16,12 +16,12 @@
 package org.robobinding;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-class ViewNameResolver {
+public class ViewNameResolver {
     public String getViewNameFromLayoutTag(String tagName) {
 	StringBuilder nameBuilder = new StringBuilder();
 
