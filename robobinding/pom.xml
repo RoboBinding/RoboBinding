@@ -69,7 +69,7 @@
 			<version>1.6.11</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -138,7 +138,7 @@
 					<target>${maven.compiler.target}</target>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
@@ -192,13 +192,14 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-checkstyle-plugin</artifactId>
 		        <version>2.10</version>
 		        <configuration>
 		          	<configLocation>${basedir}/.checkstyle.xml</configLocation>
+		          	<propertyExpansion>basedir=${project.basedir}</propertyExpansion>
 		          	<consoleOutput>true</consoleOutput>
 		        </configuration>
  		     </plugin>
@@ -206,7 +207,7 @@
 
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
+				<!--This plugin's configuration is used to store Eclipse m2e settings
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
@@ -293,13 +294,13 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
 			<comments>
 				Copyright 2011 Cheng Wei, Robert Taylor
-				
+
 				Licensed under the Apache License, Version 2.0 (the "License");
 				you may not use this file except in compliance with the License.
 				You may obtain a copy of the License at
-				
+
 					http://www.apache.org/licenses/LICENSE-2.0
-				
+
 				Unless required by applicable law or agreed to in writing, software
 				distributed under the License is distributed on an "AS IS" BASIS,
 				WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

@@ -139,4 +139,7 @@
     <property name="message" value="Line has trailing spaces."/>
     <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
   </module>
+  <module name="SuppressionFilter">
+    <property name="file" value="${basedir}/suppressions.xml"/>
+  </module>
 </module>
