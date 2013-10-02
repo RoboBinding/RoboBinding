@@ -78,10 +78,10 @@
 		</dependency>
 
 		<dependency>
-		    <groupId>commons-collections</groupId>
-		    <artifactId>commons-collections</artifactId>
-		    <version>3.2.1</version>
-		    <scope>test</scope>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -179,8 +179,6 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
-					<finalName>${project.build.finalName}</finalName>
-        			<appendAssemblyId>true</appendAssemblyId>
 				</configuration>
 				<executions>
 					<execution>
@@ -194,15 +192,15 @@
 			</plugin>
 
 			<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-checkstyle-plugin</artifactId>
-		        <version>2.10</version>
-		        <configuration>
-		          	<configLocation>${basedir}/.checkstyle.xml</configLocation>
-		          	<propertyExpansion>basedir=${project.basedir}</propertyExpansion>
-		          	<consoleOutput>true</consoleOutput>
-		        </configuration>
- 		     </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.10</version>
+				<configuration>
+					<configLocation>${basedir}/.checkstyle.xml</configLocation>
+					<propertyExpansion>basedir=${project.basedir}</propertyExpansion>
+					<consoleOutput>true</consoleOutput>
+				</configuration>
+			</plugin>
 		</plugins>
 
 		<pluginManagement>
@@ -239,9 +237,12 @@
 
 	<profiles>
 		<profile>
-			<id>sign-artifacts</id>
+			<id>release-sign-artifacts</id>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
 			</activation>
 			<build>
 				<plugins>
@@ -251,7 +252,7 @@
 						<version>1.4</version>
 						<executions>
 							<execution>
-								<id>sign</id>
+								<id>sign-artifacts</id>
 								<phase>verify</phase>
 								<goals>
 									<goal>sign</goal>
@@ -265,14 +266,14 @@
 	</profiles>
 
 	<scm>
-		<connection>scm:git:git@github.com:roberttaylor426/RoboBinding.git</connection>
-		<developerConnection>scm:git:git@github.com:roberttaylor426/RoboBinding.git</developerConnection>
-		<url>https://github.com/roberttaylor426/RoboBinding</url>
+		<connection>scm:git:git@github.com:RoboBinding/RoboBinding.git</connection>
+		<developerConnection>scm:git:git@github.com:RoboBinding/RoboBinding.git</developerConnection>
+		<url>https://github.com/RoboBinding/RoboBinding</url>
 	</scm>
 
 	<ciManagement>
 		<system>Jenkins</system>
-		<url>https://robobinding.ci.cloudbees.com/</url>
+		<url>https://robobindingacc.ci.cloudbees.com/</url>
 	</ciManagement>
 
 	<developers>
@@ -280,11 +281,17 @@
 			<id>cheng</id>
 			<name>Cheng Wei</name>
 			<timezone>CST</timezone>
+			<roles>
+				<role>Founder</role>
+			</roles>
 		</developer>
 		<developer>
 			<id>robert</id>
 			<name>Robert Taylor</name>
 			<timezone>GMT/BST</timezone>
+			<roles>
+				<role>Co-founder</role>
+			</roles>
 		</developer>
 	</developers>
 
