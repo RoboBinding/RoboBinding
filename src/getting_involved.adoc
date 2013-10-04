@@ -1,0 +1,11 @@
+Getting Involved
+================
+
+Setup development environment
+-----------------------------
+
+Architecture
+------------
+
+Becoming a regular contributor
+------------------------------

@@ -1,0 +1,22 @@
+= RoboBinding
+
+A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] framework for the Android platform.
+
+'''
+
+* link:getting_started.html[Getting Started]
+
+* link:getting_involved.html[Getting Involved]
+
+* link:about.html[About]
+
+icon Download: With dependencies; Without dependencies; Documentation
+
+icon Development: http://github.com/RoboBinding/RoboBinding[GitHub]
+
+icon Discussion: http://groups.google.com/group/robobinding[Google group]
+
+icon Twitter: https://twitter.com/RoboBinding[@robobinding]
+
+icon Issues: https://github.com/RoboBinding/RoboBinding/issues[Raising an issue]
+
