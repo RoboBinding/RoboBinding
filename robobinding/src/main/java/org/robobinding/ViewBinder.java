@@ -20,7 +20,7 @@ import org.robobinding.property.ValueModel;
 import android.view.View;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -34,17 +34,13 @@ public class ViewBinder {
 	this.bindingContext = bindingContext;
     }
 
-    public View inflateAndBind(int layoutId, Object presentationModel) {
-	return internalViewBinder.inflateAndBind(layoutId, presentationModel);
-    }
-
     public View inflateAndBind(int layoutId, String presentationModelPropertyName) {
 	Object presentationModel = getPresentationModel(presentationModelPropertyName);
 	return internalViewBinder.inflateAndBind(layoutId, presentationModel);
     }
 
     private Object getPresentationModel(String presentationModelPropertyName) {
-	ValueModel<Object> valueModel = bindingContext.getPropertyValueModel(presentationModelPropertyName);
+	ValueModel<Object> valueModel = bindingContext.getReadOnlyPropertyValueModel(presentationModelPropertyName);
 	return valueModel.getValue();
     }
 

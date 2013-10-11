@@ -32,7 +32,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -69,6 +69,7 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 	childViewAttributes.add(subViewPresentationModel(), subViewAttribute);
 
 	if (childViewAttributes.hasAttribute(visibilityAttribute())) {
+	    //subView is null.
 	    childViewAttributes.add(visibilityAttribute(), new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)));
 	}
     }
@@ -93,7 +94,7 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
 	@Override
 	public void bindTo(BindingContext bindingContext) {
 	    ViewBinder viewBinder = bindingContext.createViewBinder();
-	    subView = viewBinder.inflateAndBind(layoutId, attribute);
+	    subView = viewBinder.inflateAndBind(layoutId, attribute.getPropertyName());
 	    subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
 	}
 
