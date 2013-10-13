@@ -15,6 +15,7 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.BindingContext;
 
 /**
  *
@@ -22,5 +23,7 @@ package org.robobinding.viewattribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ChildViewAttribute extends Bindable {
+public interface Bindable {
+    void bindTo(BindingContext bindingContext);
+
 }

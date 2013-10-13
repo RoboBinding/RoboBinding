@@ -21,7 +21,7 @@ import org.robobinding.viewattribute.BindingAttributeMappings;
 import android.view.View;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -29,7 +29,7 @@ import android.view.View;
 public class ViewAttributeMapper implements BindingAttributeMapper<View> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<View> mappings) {
-	mappings.mapPropertyAttribute(VisibilityAttribute.class, "visibility");
+	mappings.mapPropertyAttribute(ViewVisibilityAttribute.class, "visibility");
 	mappings.mapPropertyAttribute(EnabledAttribute.class, "enabled");
 	mappings.mapPropertyAttribute(BackgroundAttribute.class, "background");
 	mappings.mapPropertyAttribute(BackgroundColorAttribute.class, "backgroundColor");

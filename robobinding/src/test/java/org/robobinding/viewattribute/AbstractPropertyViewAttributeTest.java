@@ -35,14 +35,14 @@ import android.view.View;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public abstract class AbstractPropertyViewAttributeTest<ViewType extends View, 
+public abstract class AbstractPropertyViewAttributeTest<ViewType extends View,
 	PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType>> {
     protected ViewType view;
     protected PropertyViewAttributeType attribute;
@@ -57,12 +57,19 @@ public abstract class AbstractPropertyViewAttributeTest<ViewType extends View,
 	    throw new RuntimeException("Error instantiating view: " + e.getMessage());
 	}
 
+	attribute = createAttribute();
+
+
+	initializeAttributeWithDefaultConfig();
+    }
+
+    protected PropertyViewAttributeType createAttribute() {
+	ParameterizedType superclass = (ParameterizedType) getClass().getGenericSuperclass();
 	try {
-	    attribute = ParameterizedTypeUtils.createTypeArgument(superclass, 1);
+	    return ParameterizedTypeUtils.createTypeArgument(superclass, 1);
 	} catch (Exception e) {
 	    throw new RuntimeException("Error instantiating attribute: " + e.getMessage());
 	}
-	initializeAttributeWithDefaultConfig();
     }
 
     private void initializeAttributeWithDefaultConfig() {

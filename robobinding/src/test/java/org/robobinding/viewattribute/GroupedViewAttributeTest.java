@@ -72,7 +72,7 @@ public class GroupedViewAttributeTest extends ViewAttributeContractTest<Abstract
 	}
 
 	@Override
-	protected void setupChildViewAttributes(ChildViewAttributes<View> childViewAttributes, BindingContext bindingContext) {
+	protected void setupChildViewAttributes(ChildViewAttributesBuilder<View> childViewAttributesBuilder, BindingContext bindingContext) {
 	}
     }
 }

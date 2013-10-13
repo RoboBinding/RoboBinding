@@ -19,14 +19,12 @@ import static org.robobinding.attribute.ChildAttributeResolvers.staticResourceAt
 import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttributeResolver;
 
 import org.robobinding.BindingContext;
-import org.robobinding.ViewBinder;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
-import org.robobinding.attribute.StaticResourceAttribute;
-import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.ChildViewAttribute;
-import org.robobinding.viewattribute.ChildViewAttributeWithAttribute;
-import org.robobinding.viewattribute.ChildViewAttributes;
+import org.robobinding.viewattribute.ChildViewAttributeFactory;
+import org.robobinding.viewattribute.ChildViewAttributesBuilder;
+import org.robobinding.viewattribute.ViewAttributeFactory;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,10 +35,10 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T> {
+public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGroupedViewAttribute<T>
+	implements SubViewHolder {
     private View subView;
     private SubViewAttributesStrategy<T> subViewAttributesStrategy;
-    private int layoutId;
 
     public SubViewAttributes(SubViewAttributesStrategy<T> subViewAttributesStrategy) {
 	this.subViewAttributesStrategy = subViewAttributesStrategy;
@@ -59,58 +57,24 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
     }
 
     @Override
-    protected void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext) {
-	childViewAttributes.failOnFirstBindingError();
+    protected void setupChildViewAttributes(ChildViewAttributesBuilder<T> childViewAttributesBuilder, BindingContext bindingContext) {
+	childViewAttributesBuilder.failOnFirstBindingError();
 
-	childViewAttributes.add(layoutAttribute(), new SubViewLayoutAttribute());
+	SubViewLayoutAttribute subViewLayoutAttribute = new SubViewLayoutAttribute();
+	childViewAttributesBuilder.add(layoutAttribute(), subViewLayoutAttribute);
 
-	ChildViewAttribute subViewAttribute = childViewAttributes.hasAttribute(subViewPresentationModel()) ? new SubViewPresentationModelAttribute()
-		: new SubViewWithoutPresentationModelAttribute();
-	childViewAttributes.add(subViewPresentationModel(), subViewAttribute);
+	boolean hasSubViewPresentationModel = childViewAttributesBuilder.hasAttribute(subViewPresentationModel());
+	childViewAttributesBuilder.add(subViewPresentationModel(),
+		new SubViewAttributeFactory(subViewLayoutAttribute, hasSubViewPresentationModel));
 
-	if (childViewAttributes.hasAttribute(visibilityAttribute())) {
-	    //subView is null.
-	    childViewAttributes.add(visibilityAttribute(), new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView)));
+	if (childViewAttributesBuilder.hasAttribute(visibilityAttribute())) {
+	    childViewAttributesBuilder.add(visibilityAttribute(), new SubViewVisibilityAttributeFactory());
 	}
     }
 
-    private class SubViewLayoutAttribute implements ChildViewAttributeWithAttribute<StaticResourceAttribute> {
-	private StaticResourceAttribute attribute;
-
-	@Override
-	public void bindTo(BindingContext bindingContext) {
-	    layoutId = attribute.getResourceId(bindingContext.getContext());
-	}
-
-	@Override
-	public void setAttribute(StaticResourceAttribute attribute) {
-	    this.attribute = attribute;
-	}
-    }
-
-    private class SubViewPresentationModelAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute> {
-	private ValueModelAttribute attribute;
-
-	@Override
-	public void bindTo(BindingContext bindingContext) {
-	    ViewBinder viewBinder = bindingContext.createViewBinder();
-	    subView = viewBinder.inflateAndBind(layoutId, attribute.getPropertyName());
-	    subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
-	}
-
-	@Override
-	public void setAttribute(ValueModelAttribute attribute) {
-	    this.attribute = attribute;
-	}
-    }
-
-    private class SubViewWithoutPresentationModelAttribute implements ChildViewAttribute {
-	@Override
-	public void bindTo(BindingContext bindingContext) {
-	    ViewBinder viewBinder = bindingContext.createViewBinder();
-	    subView = viewBinder.inflate(layoutId);
-	    subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
-	}
+    @Override
+    protected void postBind(BindingContext bindingContext) {
+	subViewAttributesStrategy.addSubView(view, subView, bindingContext.getContext());
     }
 
     private String visibilityAttribute() {
@@ -124,4 +88,34 @@ public class SubViewAttributes<T extends AdapterView<?>> extends AbstractGrouped
     private String layoutAttribute() {
 	return subViewAttributesStrategy.layoutAttribute();
     }
+
+    @Override
+    public void setSubView(View subView) {
+        this.subView = subView;
+    }
+
+    private class SubViewAttributeFactory implements ChildViewAttributeFactory {
+	private final SubViewLayoutAttribute subViewLayoutAttribute;
+	private final boolean hasSubViewPresentationModel;
+
+	public SubViewAttributeFactory(SubViewLayoutAttribute subViewLayoutAttribute, boolean hasSubViewPresentationModel) {
+	    this.subViewLayoutAttribute = subViewLayoutAttribute;
+	    this.hasSubViewPresentationModel = hasSubViewPresentationModel;
+	}
+
+	@Override
+	public ChildViewAttribute create() {
+	    int layoutId = subViewLayoutAttribute.getLayoutId();
+	    return hasSubViewPresentationModel ? new SubViewPresentationModelAttribute(layoutId, SubViewAttributes.this)
+	    	: new SubViewWithoutPresentationModelAttribute(layoutId, SubViewAttributes.this);
+	}
+    }
+
+    private class SubViewVisibilityAttributeFactory implements ViewAttributeFactory<SubViewVisibilityAttribute> {
+	public SubViewVisibilityAttribute create() {
+	    return new SubViewVisibilityAttribute(subViewAttributesStrategy.createVisibility(view, subView));
+	}
+    }
+
+
 }

@@ -21,7 +21,7 @@ import org.robobinding.attribute.ValueModelAttribute;
 import android.view.View;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -34,49 +34,38 @@ public class StandaloneViewAttributeInitializer {
     public StandaloneViewAttributeInitializer(ViewListenersInjector viewListenersInjector) {
 	this.viewListenersInjector = viewListenersInjector;
     }
-    
+
     public StandaloneViewAttributeInitializer(ViewListenersInjector viewListenersInjector, View view) {
 	this(viewListenersInjector);
 	this.view = view;
     }
 
-    @SuppressWarnings("unchecked")
-    public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> 
-    	PropertyViewAttributeType initializePropertyViewAttribute(
-	    PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute) {
+    @SuppressWarnings({ "unchecked" })
+    public void initializePropertyViewAttribute(
+    		PropertyViewAttribute<? extends View> propertyViewAttribute, ValueModelAttribute attribute) {
 	if (propertyViewAttribute instanceof AbstractMultiTypePropertyViewAttribute<?>) {
-	    return (PropertyViewAttributeType) initializeMultiTypePropertyViewAttribute(
-		    (AbstractMultiTypePropertyViewAttribute<ViewType>) propertyViewAttribute, attribute);
+	    initializeMultiTypePropertyViewAttribute((AbstractMultiTypePropertyViewAttribute<View>) propertyViewAttribute, attribute);
 	} else {
-	    return (PropertyViewAttributeType) initializePropertyViewAttribute((AbstractPropertyViewAttribute<ViewType, ?>) propertyViewAttribute,
-		    attribute);
+	    initializeAbstractPropertyViewAttribute((AbstractPropertyViewAttribute<View, ?>) propertyViewAttribute, attribute);
 	}
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private <ViewType extends View, PropertyViewAttributeType extends AbstractPropertyViewAttribute<ViewType, ?>> 
-    	PropertyViewAttributeType initializePropertyViewAttribute(
-	    PropertyViewAttributeType viewAttribute, ValueModelAttribute attribute) {
+    private void initializeAbstractPropertyViewAttribute(AbstractPropertyViewAttribute<View, ?> viewAttribute, ValueModelAttribute attribute) {
 	viewAttribute.initialize(new PropertyViewAttributeConfig(view, attribute));
 	viewListenersInjector.injectIfRequired(viewAttribute, view);
-	return viewAttribute;
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private <ViewType extends View, PropertyViewAttributeType extends AbstractMultiTypePropertyViewAttribute<ViewType>> 
-    	PropertyViewAttributeType initializeMultiTypePropertyViewAttribute(
-	    PropertyViewAttributeType viewAttribute, ValueModelAttribute attribute) {
+    private void initializeMultiTypePropertyViewAttribute(AbstractMultiTypePropertyViewAttribute<? extends View> viewAttribute,
+	    ValueModelAttribute attribute) {
 	viewAttribute.initialize(new MultiTypePropertyViewAttributeConfig(view, attribute, viewListenersInjector));
-	return viewAttribute;
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public <ViewType extends View, CommandViewAttributeType extends AbstractCommandViewAttribute<ViewType>> 
-    	CommandViewAttributeType initializeCommandViewAttribute(
-	    CommandViewAttributeType viewAttribute, CommandAttribute attribute) {
+    public void initializeCommandViewAttribute(AbstractCommandViewAttribute<? extends View> viewAttribute, CommandAttribute attribute) {
 	viewAttribute.initialize(new CommandViewAttributeConfig(view, attribute));
 	viewListenersInjector.injectIfRequired(viewAttribute, view);
-	return viewAttribute;
     }
 
     public void setView(View view) {

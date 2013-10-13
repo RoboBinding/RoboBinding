@@ -32,7 +32,7 @@ import org.robobinding.attribute.ValueModelAttribute;
 import android.view.View;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -46,14 +46,14 @@ public class StandaloneViewAttributeInitializerTest {
     private ViewListenersInjector viewListenersInjector;
     @InjectMocks
     private StandaloneViewAttributeInitializer viewAttributeInitializer;
-    
+
     @Test
     public void whenInitializePropertyViewAttribute_thenTheAttributeIsCorrectlyInitialized() {
 	ValueModelAttribute attribute = aValueModelAttribute();
 	@SuppressWarnings("unchecked")
 	AbstractPropertyViewAttribute<View, Object> viewAttribute = mock(AbstractPropertyViewAttribute.class);
 
-	viewAttribute = viewAttributeInitializer.initializePropertyViewAttribute(viewAttribute, attribute);
+	viewAttributeInitializer.initializePropertyViewAttribute(viewAttribute, attribute);
 
 	verify(viewAttribute).initialize(eq(new PropertyViewAttributeConfig<View>(view, attribute)));
     }
@@ -64,7 +64,7 @@ public class StandaloneViewAttributeInitializerTest {
 	@SuppressWarnings("rawtypes")
 	AbstractPropertyViewAttribute viewAttribute = mock(AbstractPropertyViewAttribute.class);
 
-	viewAttribute = viewAttributeInitializer.initializePropertyViewAttribute(viewAttribute, null);
+	viewAttributeInitializer.initializePropertyViewAttribute(viewAttribute, null);
 
 	verify(viewListenersInjector).injectIfRequired(viewAttribute, view);
     }
@@ -75,7 +75,7 @@ public class StandaloneViewAttributeInitializerTest {
 	@SuppressWarnings("unchecked")
 	AbstractMultiTypePropertyViewAttribute<View> viewAttribute = mock(AbstractMultiTypePropertyViewAttribute.class);
 
-	viewAttribute = viewAttributeInitializer.initializePropertyViewAttribute(viewAttribute, attribute);
+	viewAttributeInitializer.initializePropertyViewAttribute(viewAttribute, attribute);
 
 	verify(viewAttribute).initialize(eq(new MultiTypePropertyViewAttributeConfig<View>(view, attribute, viewListenersInjector)));
     }
@@ -86,7 +86,7 @@ public class StandaloneViewAttributeInitializerTest {
 	@SuppressWarnings({ "unchecked" })
 	AbstractCommandViewAttribute<View> viewAttribute = mock(AbstractCommandViewAttribute.class);
 
-	viewAttribute = viewAttributeInitializer.initializeCommandViewAttribute(viewAttribute, attribute);
+	viewAttributeInitializer.initializeCommandViewAttribute(viewAttribute, attribute);
 
 	verify(viewAttribute).initialize(new CommandViewAttributeConfig<View>(view, attribute));
     }
@@ -96,7 +96,7 @@ public class StandaloneViewAttributeInitializerTest {
 	@SuppressWarnings("unchecked")
 	AbstractCommandViewAttribute<View> viewAttribute = mock(AbstractCommandViewAttribute.class);
 
-	viewAttribute = viewAttributeInitializer.initializeCommandViewAttribute(viewAttribute, null);
+	viewAttributeInitializer.initializeCommandViewAttribute(viewAttribute, null);
 
 	verify(viewListenersInjector).injectIfRequired(viewAttribute, view);
     }

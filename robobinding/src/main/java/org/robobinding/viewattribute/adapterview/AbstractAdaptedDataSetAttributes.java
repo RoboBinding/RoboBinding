@@ -22,7 +22,7 @@ import static org.robobinding.attribute.ChildAttributeResolvers.valueModelAttrib
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.ChildViewAttributes;
+import org.robobinding.viewattribute.ChildViewAttributesBuilder;
 
 import android.widget.AdapterView;
 
@@ -51,14 +51,14 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
     }
 
     @Override
-    protected void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext) {
+    protected void setupChildViewAttributes(ChildViewAttributesBuilder<T> childViewAttributesBuilder, BindingContext bindingContext) {
 	dataSetAdapterBuilder = new DataSetAdapterBuilder(bindingContext);
 
-	childViewAttributes.add(SOURCE, new SourceAttribute(dataSetAdapterBuilder));
-	childViewAttributes.add(ITEM_LAYOUT, new RowLayoutAttributeAdapter(new ItemLayoutAttributeFactory(view, dataSetAdapterBuilder)));
+	childViewAttributesBuilder.add(SOURCE, new SourceAttribute(dataSetAdapterBuilder));
+	childViewAttributesBuilder.add(ITEM_LAYOUT, new RowLayoutAttributeAdapter(new ItemLayoutAttributeFactory(view, dataSetAdapterBuilder)));
 
-	if (childViewAttributes.hasAttribute(ITEM_MAPPING))
-	    childViewAttributes.add(ITEM_MAPPING, new ItemMappingAttribute(new ItemMappingUpdater(dataSetAdapterBuilder)));
+	if (childViewAttributesBuilder.hasAttribute(ITEM_MAPPING))
+	    childViewAttributesBuilder.add(ITEM_MAPPING, new ItemMappingAttribute(new ItemMappingUpdater(dataSetAdapterBuilder)));
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
