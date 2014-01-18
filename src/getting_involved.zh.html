@@ -832,6 +832,16 @@ org.robobinding.viewattribute包 包含了主要的概念抽象类，而org.robo
 </div>
 <div class="title">Figure 5. ChildViewAttributes类关系图</div>
 </div>
+<div class="paragraph"><p>上图展示了AbstractGroupedViewAttribute复合视图属性与子属性的关系。AbstractGroupedViewAttribute包含了各种类型的子属性，目前主要有四类，即org.robobinding.viewattribute.ChildViewAttribute，
+org.robobinding.viewattribute.DependentChildViewAttribute，org.robobinding.viewattribute.PropertyViewAttribute，org.robobinding.viewattribute.DependentPropertyViewAttribute。
+ChildViewAttribute为普通的子视图属性，其下又包含了org.robobinding.viewattribute.ChildViewAttributeWithAttribute；ChildViewAttributeWithAttribute为带属性值的子视图属性，在该子属性被创建时，
+框架将赋予所需的属性值，例如：org.robobinding.viewattribute.adapterview.SourceAttribute，org.robobinding.viewattribute.adapterview.SubViewLayoutAttribute。
+DependentChildViewAttribute为依赖型子视图属性，该类型的子视图属性不能被简单的被创建，因为它们依赖于外部的一些信息，
+而由一个org.robobinding.viewattribute.ChildViewAttributeFactory工厂创建；例如org.robobinding.viewattribute.adapterview.SubViewAttributes.SubViewAttributeFactory，
+提供一个org.robobinding.viewattribute.adapterview.SubViewPresentationModelAttribute还是org.robobinding.viewattribute.adapterview.SubViewWithoutPresentationModelAttribute，
+需要一个运行时信息<code>hasSubViewPresentationModel</code>来决定。PropertyViewAttribute为简单视图属性或其子类，前面已经提到过，可能重用系统中已有的简单视图属性作为复合视图属性的子属性。
+DependentPropertyViewAttribute与DependentChildViewAttribute类似，为依赖型简单视图属性；依赖于外部的一些信息，由一个org.robobinding.viewattribute.ViewAttributeFactory工厂创建；
+例如org.robobinding.viewattribute.adapterview.SubViewAttributes.SubViewVisibilityAttributeFactory，依赖于<code>view</code>与<code>subView</code>两个外部值。</p></div>
 <div class="paragraph"><p>阶段：inflateView；bindTo； preinitializeViews</p></div>
 </div>
 <div class="sect3">
@@ -850,7 +860,7 @@ org.robobinding.presentationmodel.PresentationModel annotation标识的类。Pre
 即将SimpleProperty，DataSetProperty和Method包装为org.robobinding.property.PropertyValueModel，org.robobinding.property.DataSetValueModel
 和org.robobinding.function.Function。上图右边的例子中：windowTitle为SimpleProperty,albums为DataSetProperty，createAlbum为Method。
 DataSetProperty是一个数据集属性，其中每一个数据项又会生成一个org.robobinding.itempresentationmodel.ItemPresentationModel实例，
-上图中即为AlbumItemPresentationModel，其与对应的<code>@layout/album_row</code>配合显示相应的行。框架通过Aspectj为一些类自动的注入一些代码，以减少工作量。
+上图中即为AlbumItemPresentationModel，其与对应的<code>@layout/album_row</code>配合显示相应的行。框架通过AspectJ为一些类自动的注入一些代码，以减少工作量。
 例如为PresentationModel注入PresentationModelAspect，主要为Setter方法尾部追加属性值变更事件通知代码；
 为ItemPresentationModel注入ItemPresentationModelAspect，即为ItemPresentationModel.updateData方法的尾部加上数据项变更刷新ItemPresentationModel代码。</p></div>
 </div>
@@ -900,7 +910,7 @@ DataSetProperty是一个数据集属性，其中每一个数据项又会生成�
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-01-17 19:51:28 澳大利亚西部标准时间
+Last updated 2014-01-18 10:22:24 澳大利亚西部标准时间
 </div>
 </div>
 </body>
