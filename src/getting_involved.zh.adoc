@@ -62,6 +62,38 @@ org.robobinding.viewattribute.adapterview.SourceAttribute与org.robobinding.view
 
 org.robobinding与org.robobinding.binder包
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+image::images/developer_usecase_sequence.png[]
+如上图所示，应用开发者通过两个可能的入口点使用框架(以两种不同的颜色区分)。第一种是通过org.robobinding.binder.Binders工具类来使用框架，由于是工具类，随时随地可用，无需创建实例，方便；
+Binders内部其实每次是通过org.robobinding.binder.BinderFactoryBuilder以默认配置的创建新的org.robobinding.binder.BinderFactory实例，然后调用BinderFactory间接的完成整个绑定；
+其缺点是每次都产生新的BinderFactory实例且BinderFactoryBinder只能是默认的配置。第二种是通过BinderFactoryBuilder配置创建BinderFactory实例，
+通过配置应用开发者可以增加新的视图，视图可绑定属性映射类及其可选的视图事件监听器聚集；或者提供定制的视图可绑定属性映射类来覆盖框架的默认实现。
+通过第二种方式时，BinderFactory实例可以被重用，应用开发者可将实例保存在应用类里(即实现了android.app.Application的子类)或者通过第三方的框架如
+https://github.com/roboguice/roboguice[RoboGuice]注入BinderFactory实例。不管是选择前面两种方式的哪一种，其实真正功能的入口类都是BinderFactory。
+根据应用程序的要求，调用org.robobinding.ActivityBinder，org.robobinding.DialogBinder或org.robobinding.InternalViewBinder，
+而这三个类内部又通过调用org.robobinding.BinderImplementor的子类org.robobinding.binder.InternalBinder来实现layout的inflation以及绑定。
+前面提到过视图事件监听器聚集(即org.robobinding.viewattribute.view.ViewListeners或其子类)，这是由于android框架的事件设计而提供的一个workaround。
+因为android框架中很多事件只能注册一个事件监听器如android.view.View.setOnFocusChangeListener，但应用中有时可能需要注册多个，
+为了使之前注册过的旧的事件监听器不被新的意外覆盖而提供了事件监听器聚集ViewListeners。
+
+image::images/inflateview_sequence.png[]
+上图展示了框架对一个layout进行inflation的整个流程及其主要的参与类。接上述说到InternalBinder类，InternalBinder将layout inflation工作交给org.robobinding.binder.BindingViewInflater；
+而layout inflation工作又被转交给org.robobinding.NonBindingViewInflater。NonBindingViewInflater只做layout inflation工作，不做解析视图绑定属性的工作，
+它从layout文件创建视图集。当一个视图被创建时org.robobinding.ViewFactory回调BindingViewInflater。
+BindingViewInflater通过org.robobinding.binder.BindingAttributeParser解析出该视图的待绑定视图属性映射org.robobinding.PendingAttributesForView。
+就这样重复以上的过程，直到解析出layout中所有视图的待绑定视图属性映射PendingAttributesForView为止。
+然后待绑定视图属性映射PendingAttributesForView被放入org.robobinding.binder.BindingAttributeResolver进行解析转化构建视图的绑定属性集。
+BindingAttributeResolver通过org.robobinding.binder.ByBindingAttributeMappingResolverFinder从上至下为视图寻找匹配的绑定属性解析转化器org.robobinding.binder.ByBindingAttributeMappingResolver集
+(例如android.widget.EditText继承于android.widget.TextView，而TextView继承于android.view.View。一个EditText实例视图将匹配得到三个绑定属性解析转化器：EditText绑定属性解析转化器，TextView绑定属性解析转化器以及View绑定属性解析转化器。)。
+BindingAttributeResolver通过调用所有匹配到的绑定属性解析转化器ByBindingAttributeMappingResolver得到最后的视图绑定属性集org.robobinding.binder.ResolvedBindingAttributesForView返回给BindingViewInflater。
+BindingViewInflater接着添加所有预定义的待绑定视图属性映射org.robobinding.PredefinedPendingAttributesForView，如果有的话。然后调用BindingAttributeResolver解析转化构建视图的绑定属性集，
+过程与之前解析转化待绑定视图属性映射PendingAttributesForView一样，最后也得到视图绑定属性集ResolvedBindingAttributesForView。
+BindingViewInflater将包含所有视图绑定属性集ResolvedBindingAttributesForView的org.robobinding.binder.InflatedView返回InternalBinder。整个layout的inflation工作结束。接着是下一步的绑定。
+
+image::images/bindview_sequence.png[]
+上图展示了整个绑定的过程以及主要的参与类。InternalBinder通过调用上一步返回的InflatedView来绑定所有的视图绑定属性集ResolvedBindingAttributesForView。
+而视图绑定属性集ResolvedBindingAttributesForView内部又调用各个视图绑定属性org.robobinding.viewattribute.ViewAttribute完成绑定。
+绑定完成之后，InternalBinder校验所有绑定是否都成功，不成功就终止并报告错误。如果成功，就接着预初始化视图值(如果需要的话)。
+预初始化视图值即将PresentationModel的初值设置到视图上。
 
 org.robobinding.viewattribute与org.robobinding.viewattribute$$.*$$包
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -82,6 +114,12 @@ org.robobinding.viewattribute.listview.FooterAttributes由子属性footerLayout�
 org.robobinding.viewattribute包 包含了主要的概念抽象类，而org.robobinding.viewattribute子包对应android.widget包下的各种widget的视图属性绑定实现。
 如org.robobinding.viewattribute.textview包对应android.widget.TextView；org.robobinding.viewattribute.seekbar包对应android.widget.SeekBar。
 
+
+ViewAttribute生命周期事件：initialize->bindTo->preInitializeView。
+三种视图属性(即简单视图属性PropertyViewAttribute，命令视图属性AbstractCommandViewAttribute以及复合视图属性AbstractGroupedViewAttribute)都存在着一致的生命周期事件。
+即初始化(initialize)，绑定(bindTo)以及可选的预初始化视图(preInitializeView)。三个事件由前至后的顺序被调用。预初始化视图方法只有在被要求的情况下才会被调用。
+
+
 .ChildViewAttributes类关系图
 image::images/childviewattribute_relationship.png[]
 上图展示了AbstractGroupedViewAttribute复合视图属性与子属性的关系。AbstractGroupedViewAttribute包含了各种类型的子属性，目前主要有四类，即org.robobinding.viewattribute.ChildViewAttribute，
@@ -91,11 +129,9 @@ ChildViewAttribute为普通的子视图属性，其下又包含了org.robobindin
 DependentChildViewAttribute为依赖型子视图属性，该类型的子视图属性不能被简单的被创建，因为它们依赖于外部的一些信息，
 而由一个org.robobinding.viewattribute.ChildViewAttributeFactory工厂创建；例如org.robobinding.viewattribute.adapterview.SubViewAttributes.SubViewAttributeFactory，
 提供一个org.robobinding.viewattribute.adapterview.SubViewPresentationModelAttribute还是org.robobinding.viewattribute.adapterview.SubViewWithoutPresentationModelAttribute，
-需要一个运行时信息++hasSubViewPresentationModel++来决定。PropertyViewAttribute为简单视图属性或其子类，前面已经提到过，可能重用系统中已有的简单视图属性作为复合视图属性的子属性。
+需要一个运行时信息++hasSubViewPresentationModel++来决定。PropertyViewAttribute为简单视图属性或其子类，前面已经提到过，可以重用系统中已有的简单视图属性作为复合视图属性的子属性。
 DependentPropertyViewAttribute与DependentChildViewAttribute类似，为依赖型简单视图属性；依赖于外部的一些信息，由一个org.robobinding.viewattribute.ViewAttributeFactory工厂创建；
 例如org.robobinding.viewattribute.adapterview.SubViewAttributes.SubViewVisibilityAttributeFactory，依赖于++view++与++subView++两个外部值。
-
-阶段：inflateView；bindTo； preinitializeViews
 
 org.robobinding.presentationmodel，org.robobinding.property，org.robobinding.itempresentationmodel以及org.robobinding.function包
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
