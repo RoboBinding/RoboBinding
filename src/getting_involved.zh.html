@@ -741,9 +741,54 @@ asciidoc.install(2);
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_搭建开发环境">1. 搭建开发环境</h2>
+<h2 id="_搭建eclipse开发环境">1. 搭建Eclipse开发环境</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>aa</p></div>
+<div class="sect2">
+<h3 id="_安装工具">1.1. 安装工具</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="http://www.eclipse.org/">Eclipse</a> IDE for Java Developers或其超集
+</p>
+</li>
+<li>
+<p>
+安装<a href="http://developer.android.com/tools/sdk/eclipse-adt.html">Android Development Tools(ADT)</a> plugin
+</p>
+</li>
+<li>
+<p>
+安装<a href="http://www.eclipse.org/ajdt/">AspectJ Development Tools(AJDT)</a> plugin(由于项目的部分代码用AspcectJ编写)
+</p>
+</li>
+<li>
+<p>
+安装the m2e build-helper connector。打开Eclipse&#8594;Window&#8594;Preferences&#8594;Maven&#8594;Discovery&#8594;open catalog，安装buildhelper
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_导入项目">1.2. 导入项目</h3>
+<div class="paragraph"><p>下载项目，可以通过Eclipse Git客户端，或其它的Git客户端如TortoiseGit，git命令行等。项目地址为https://github.com/RoboBinding/RoboBinding。</p></div>
+<div class="paragraph"><p>下载完毕后按昭以下步骤将项目导入Eclipse。
+Window&#8594;Open Perspective&#8594;Other&#8594;Git Repository Exploring。点击Add an existing local Git repository(如果之前不是用eclipse git客户端下载项目的)，将本地的Git repositories加进来。
+展开RoboBinding repository，右击Working Directory&#8594;Import existing projects，选择[path to local git repository]\RoboBinding\robobinding，将项目导入Eclipse工作区。</p></div>
+<div class="paragraph"><p>导入之后项目的pom.xml会出现以下两个错误，右击他们Quick Fix&#8594;忽略他们就好了。</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:aspectj-maven-plugin:1.4:compile (execution: aspectj-compile, phase: compile)
+</p>
+</li>
+<li>
+<p>
+Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:build-helper-maven-plugin:1.4:add-test-source (execution: add-generated-R-file-to-sources, phase: generate-sources)
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>接下来右击src/test/java源代码目录&#8594;Run As&#8594;JUnit Test&#8594;Eclipse JUnit Launcher，运行所有的单元测试。如果所有的单元测试都是通过的，环境搭建完成。</p></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -954,7 +999,7 @@ DataSetProperty是一个数据集属性，其中每一个数据项又会生成�
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-02-01 17:59:02 澳大利亚西部标准时间
+Last updated 2014-02-06 17:51:08 澳大利亚西部标准时间
 </div>
 </div>
 </body>

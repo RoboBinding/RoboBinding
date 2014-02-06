@@ -4,10 +4,31 @@
 
 :numbered:
 
-搭建开发环境
-------------
+搭建Eclipse开发环境
+-------------------
+安装工具
+~~~~~~~~
+* http://www.eclipse.org/[Eclipse] IDE for Java Developers或其超集
+* 安装http://developer.android.com/tools/sdk/eclipse-adt.html[Android Development Tools(ADT)] plugin
+* 安装http://www.eclipse.org/ajdt/[AspectJ Development Tools(AJDT)] plugin(由于项目的部分代码用AspcectJ编写)
+* 安装the m2e build-helper connector。打开Eclipse->Window->Preferences->Maven->Discovery->open catalog，安装buildhelper
 
-aa
+
+导入项目
+~~~~~~~~
+下载项目，可以通过Eclipse Git客户端，或其它的Git客户端如TortoiseGit，git命令行等。项目地址为https://github.com/RoboBinding/RoboBinding。
+
+下载完毕后按昭以下步骤将项目导入Eclipse。
+Window->Open Perspective->Other->Git Repository Exploring。点击Add an existing local Git repository(如果之前不是用eclipse git客户端下载项目的)，将本地的Git repositories加进来。
+展开RoboBinding repository，右击Working Directory->Import existing projects，选择[path to local git repository]\RoboBinding\robobinding，将项目导入Eclipse工作区。
+
+导入之后项目的pom.xml会出现以下两个错误，右击他们Quick Fix->忽略他们就好了。
+
+* Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:aspectj-maven-plugin:1.4:compile (execution: aspectj-compile, phase: compile)
+* Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:build-helper-maven-plugin:1.4:add-test-source (execution: add-generated-R-file-to-sources, phase: generate-sources)
+
+接下来右击src/test/java源代码目录->Run As->JUnit Test->Eclipse JUnit Launcher，运行所有的单元测试。如果所有的单元测试都是通过的，环境搭建完成。
+
 
 :numbered:
 RoboBinding架构与实现
