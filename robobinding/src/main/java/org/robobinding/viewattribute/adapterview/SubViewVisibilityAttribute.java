@@ -65,11 +65,13 @@ public class SubViewVisibilityAttribute implements ChildViewAttributeWithAttribu
     class BooleanSubViewVisibilityAttribute extends AbstractReadOnlyPropertyViewAttribute<View, Boolean> {
 	@Override
 	protected void valueModelUpdated(Boolean newValue) {
+		if(visibility!=null){
 	    if (newValue) {
 		visibility.makeVisible();
 	    } else {
 		visibility.makeGone();
 	    }
+		}
 	}
     }
 

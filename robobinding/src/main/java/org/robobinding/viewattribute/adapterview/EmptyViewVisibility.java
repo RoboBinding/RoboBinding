@@ -27,7 +27,7 @@ import android.widget.AdapterView;
  */
 class EmptyViewVisibility extends AbstractSubViewVisibility {
     private final AdapterView<?> adapterView;
-    private final View emptyView;
+    private View emptyView;
 
     EmptyViewVisibility(AdapterView<?> adapterView, View emptyView) {
 	this.adapterView = adapterView;
@@ -57,5 +57,9 @@ class EmptyViewVisibility extends AbstractSubViewVisibility {
     @Override
     protected void makeInvisible() {
 	makeGone();
+    }
+    
+    public void setEmptyView(View emptyView){
+    	this.emptyView = emptyView;
     }
 }

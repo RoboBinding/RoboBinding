@@ -26,6 +26,7 @@ import org.robobinding.viewattribute.edittext.EditTextAttributeMapper;
 import org.robobinding.viewattribute.imageview.ImageViewAttributeMapper;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
 import org.robobinding.viewattribute.listview.ListViewAttributeMapper;
+import org.robobinding.viewattribute.listview.ListViewListeners;
 import org.robobinding.viewattribute.progressbar.ProgressBarAttributeMapper;
 import org.robobinding.viewattribute.ratingbar.RatingBarAttributeMapper;
 import org.robobinding.viewattribute.ratingbar.RatingBarListeners;
@@ -70,6 +71,7 @@ public class BinderFactoryBuilder {
         ViewListenersMapBuilder viewListenersMap = new ViewListenersMapBuilder();
         viewListenersMap.put(View.class, ViewListeners.class);
         viewListenersMap.put(AdapterView.class, AdapterViewListeners.class);
+        viewListenersMap.put(ListView.class, ListViewListeners.class);
         viewListenersMap.put(CompoundButton.class, CompoundButtonListeners.class);
         viewListenersMap.put(SeekBar.class, SeekBarListeners.class);
         viewListenersMap.put(RatingBar.class, RatingBarListeners.class);
