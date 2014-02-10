@@ -25,7 +25,5 @@ import org.robobinding.BindingContext;
  * @author Cheng Wei
  */
 public interface ViewAttribute extends Bindable {
-    //void bindTo(BindingContext bindingContext);
-
     void preInitializeView(BindingContext bindingContext);
 }
