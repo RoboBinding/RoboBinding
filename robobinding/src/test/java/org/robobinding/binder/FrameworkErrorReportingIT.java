@@ -45,7 +45,7 @@ import com.google.common.collect.Lists;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -126,19 +126,19 @@ public class FrameworkErrorReportingIT {
 		    new NonBindingViewInflater(createLayoutInflater(context)));
 	    BindingViewInflater bindingViewInflater = new BindingViewInflater(
 		    nonBindingViewInflaterWithOnViewCreationCalls,
-		    IntegrationTestUtil.createBindingAttributeResolver(),
+		    new BindingAttributeResolverBuilder().build(),
 		    new BindingAttributeParser());
 	    nonBindingViewInflaterWithOnViewCreationCalls.addViewCreationListener(bindingViewInflater);
 	    inflationErrorsExpectations = Lists.newArrayList();
 
 	    addViewAndExpectations();
 
-	    InternalBinder binder = new InternalBinder(bindingViewInflater, 
-		    new BindingContextFactory(context, true, new NonBindingViewInflater(createLayoutInflater(context))), 
+	    InternalBinder binder = new InternalBinder(bindingViewInflater,
+		    new BindingContextFactory(context, true, new NonBindingViewInflater(createLayoutInflater(context))),
 		    new PlainTextErrorFormatter());
 	    return binder.inflateAndBind(R.layout.framework_error_reporting_it_sample1, new PresentationModelForTest());
 	}
-	    
+
 	private static LayoutInflater createLayoutInflater(Context context) {
 	    return LayoutInflater.from(context).cloneInContext(context);
 	}
@@ -149,7 +149,7 @@ public class FrameworkErrorReportingIT {
 	    nonBindingViewInflaterWithOnViewCreationCalls.addOnViewCreationCall(view, bindingAttributeSet);
 	    return this;
 	}
-	
+
 	public void meet(ViewHierarchyInflationErrorsException bindingViewInflationErrors) {
 	    Collection<ViewInflationErrors> errors = bindingViewInflationErrors.getErrors();
 	    assertThat(errors.size(), is(expectedNumInflationErrors()));

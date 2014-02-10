@@ -40,7 +40,7 @@ import android.widget.ListView;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -51,7 +51,7 @@ public class ViewResolutionIT {
 
     @Before
     public void setUp() {
-	bindingAttributeResolver = IntegrationTestUtil.createBindingAttributeResolver();
+	bindingAttributeResolver = new BindingAttributeResolverBuilder().build();
     }
 
     @Test

@@ -43,8 +43,6 @@ import org.robobinding.ItemBinder;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.ChildAttributeResolvers;
-import org.robobinding.customview.BindableView;
-import org.robobinding.customview.CustomBindingAttributeMappings;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModel;
 import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
@@ -52,6 +50,8 @@ import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AttributeBindingException;
+import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.ChildViewAttributesBuilder;
 import org.robobinding.viewattribute.listview.SparseBooleanArrayUtils;
 
@@ -66,7 +66,7 @@ import android.widget.ListView;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -78,7 +78,9 @@ public class ViewBindingIT {
 
     @Before
     public void setUp() {
-	bindingAttributeResolver = IntegrationTestUtil.createBindingAttributeResolver();
+	bindingAttributeResolver = new BindingAttributeResolverBuilder()
+		.mapView(BuggyCustomView.class, new BuggyCustomViewAttributeMapper())
+		.build();
 	bindingContext = newBindingContext();
     }
 
@@ -235,8 +237,8 @@ public class ViewBindingIT {
 	});
 	when(binderFactory.getItemBinder()).thenReturn(itemBinder);
 	return new BindingContext(
-		binderFactory, 
-		new Activity(), 
+		binderFactory,
+		new Activity(),
 		new PresentationModelAdapterImpl(new PresentationModelForTest()),
 		true);
     }
@@ -273,7 +275,7 @@ public class ViewBindingIT {
 	}
     }
 
-    private static class BuggyCustomView extends View implements BindableView<BuggyCustomView> {
+    private static class BuggyCustomView extends View {
 
 	static final String BUGGY_PROPERTY_ATTRIBUTE = "buggyPropertyAttribute";
 	static final String BUGGY_GROUP_CHILD_ATTRIBUTE = "buggyGroupChildAttribute";
@@ -281,11 +283,13 @@ public class ViewBindingIT {
 	public BuggyCustomView(Context context) {
 	    super(context);
 	}
+    }
 
+    private static class BuggyCustomViewAttributeMapper implements BindingAttributeMapper<BuggyCustomView> {
 	@Override
-	public void mapBindingAttributes(CustomBindingAttributeMappings<BuggyCustomView> mappings) {
-	    mappings.mapPropertyAttribute(BuggyPropertyAttribute.class, BUGGY_PROPERTY_ATTRIBUTE);
-	    mappings.mapGroupedAttribute(BuggyGroupedAttribute.class, BUGGY_GROUP_CHILD_ATTRIBUTE);
+	public void mapBindingAttributes(BindingAttributeMappings<BuggyCustomView> mappings) {
+	    mappings.mapPropertyAttribute(BuggyPropertyAttribute.class, BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE);
+	    mappings.mapGroupedAttribute(BuggyGroupedAttribute.class, BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE);
 	}
     }
 
