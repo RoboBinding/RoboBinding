@@ -20,7 +20,7 @@ import static org.robobinding.attribute.ChildAttributeResolvers.propertyAttribut
 
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
-import org.robobinding.viewattribute.ChildViewAttributes;
+import org.robobinding.viewattribute.ChildViewAttributesBuilder;
 import org.robobinding.viewattribute.adapterview.AbstractAdaptedDataSetAttributes;
 import org.robobinding.viewattribute.adapterview.DropdownLayoutAttributeFactory;
 import org.robobinding.viewattribute.adapterview.DropdownMappingUpdater;
@@ -54,7 +54,7 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
     }
 
     @Override
-    protected void setupChildViewAttributes(ChildViewAttributes<AbsSpinner> childViewAttributes, BindingContext bindingContext) {
+    protected void setupChildViewAttributes(ChildViewAttributesBuilder<AbsSpinner> childViewAttributes, BindingContext bindingContext) {
 	super.setupChildViewAttributes(childViewAttributes, bindingContext);
 
 	if (childViewAttributes.hasAttribute(DROPDOWN_LAYOUT))

@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.listview;
 
-import org.robobinding.viewattribute.adapterview.AbstractSubViewVisibility;
+import org.robobinding.viewattribute.view.AbstractVisibility;
 
 import android.view.View;
 
@@ -25,7 +25,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class HeaderVisibility extends AbstractSubViewVisibility {
+public class HeaderVisibility extends AbstractVisibility {
     private View headerView;
 
     public HeaderVisibility(View headerView) {

@@ -15,7 +15,7 @@
  */
 package org.robobinding.viewattribute.listview;
 
-import org.robobinding.viewattribute.adapterview.AbstractSubViewVisibility;
+import org.robobinding.viewattribute.view.AbstractVisibility;
 
 import android.view.View;
 import android.widget.ListView;
@@ -26,7 +26,7 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class FooterVisibility extends AbstractSubViewVisibility {
+public class FooterVisibility extends AbstractVisibility {
     private ListView listView;
     private View footerView;
 

@@ -1,12 +1,12 @@
 /**
  * Copyright 2011 Cheng Wei, Robert Taylor
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 /**
- * 
+ *
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
@@ -40,18 +40,18 @@ public class DataSetAdapter<T> extends BaseAdapter {
 
     private final ItemLayoutBinder itemLayoutBinder;
     private final ItemLayoutBinder dropdownLayoutBinder;
-    
+
     private boolean propertyChangeEventOccurred;
 
 
-    public DataSetAdapter(DataSetValueModel<T> dataSetValueModel, ItemLayoutBinder itemLayoutBinder, 
+    public DataSetAdapter(DataSetValueModel<T> dataSetValueModel, ItemLayoutBinder itemLayoutBinder,
 	    ItemLayoutBinder dropdownLayoutBinder, boolean preInitializeViews) {
         this.preInitializeViews = preInitializeViews;
 
         this.dataSetValueModel = createValueModelFrom(dataSetValueModel);
         this.itemLayoutBinder = itemLayoutBinder;
         this.dropdownLayoutBinder = dropdownLayoutBinder;
-        
+
 	propertyChangeEventOccurred = false;
     }
 
@@ -114,32 +114,31 @@ public class DataSetAdapter<T> extends BaseAdapter {
     }
 
     private View createViewFromResource(int position, View convertView, ViewGroup parent, ViewType viewType) {
-	View view;
 	if (convertView == null) {
-	    view = newView(position, parent, viewType);
+	    return newView(position, parent, viewType);
 	} else {
-	    view = convertView;
+	    updateItemPresentationModel(convertView, position);
+	    return convertView;
 	}
-	updateItemPresentationModel(view, position);
-
-	return view;
     }
 
     private View newView(int position, ViewGroup parent, ViewType viewType) {
-	ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
-	View view;
-	if (viewType == ViewType.ITEM_LAYOUT) {
-	    view = itemLayoutBinder.inflateAndBindTo(itemPresentationModel);
-	} else {
-	    view = dropdownLayoutBinder.inflateAndBindTo(itemPresentationModel);
-	}
-	view.setTag(itemPresentationModel);
-	return view;
+        ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
+        itemPresentationModel.updateData(position, getItem(position));
+
+        View view;
+        if (viewType == ViewType.ITEM_LAYOUT) {
+            view = itemLayoutBinder.inflateAndBindTo(itemPresentationModel);
+        } else {
+            view = dropdownLayoutBinder.inflateAndBindTo(itemPresentationModel);
+        }
+        view.setTag(itemPresentationModel);
+        return view;
     }
 
     private void updateItemPresentationModel(View view, int position) {
-	@SuppressWarnings("unchecked")
-	ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>) view.getTag();
-	itemPresentationModel.updateData(position, getItem(position));
+        @SuppressWarnings("unchecked")
+        ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>) view.getTag();
+        itemPresentationModel.updateData(position, getItem(position));
     }
 }

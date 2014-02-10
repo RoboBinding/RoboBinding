@@ -15,7 +15,6 @@
  */
 package org.robobinding.viewattribute;
 
-import org.robobinding.BindingContext;
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
 
@@ -29,46 +28,21 @@ import android.view.View;
  */
 public class ChildViewAttributeInitializer {
     private final StandaloneViewAttributeInitializer standaloneViewAttributeInitializer;
-    
+
     public ChildViewAttributeInitializer(StandaloneViewAttributeInitializer standaloneViewAttributeInitializer) {
 	this.standaloneViewAttributeInitializer = standaloneViewAttributeInitializer;
     }
-    
-    public <ViewType extends View, PropertyViewAttributeType extends PropertyViewAttribute<ViewType>> 
-	PropertyViewAttributeType initializePropertyViewAttribute(
-	    PropertyViewAttributeType propertyViewAttribute, ValueModelAttribute attribute) {
-	return standaloneViewAttributeInitializer.initializePropertyViewAttribute(propertyViewAttribute, attribute);
+
+    public void initializePropertyViewAttribute(
+		PropertyViewAttribute<? extends View> propertyViewAttribute, ValueModelAttribute attribute) {
+	standaloneViewAttributeInitializer.initializePropertyViewAttribute(propertyViewAttribute, attribute);
     }
-    
+
     @SuppressWarnings("unchecked")
-    public ViewAttribute initializeChildViewAttribute(ChildViewAttribute childAttribute,
+    public void initializeChildViewAttribute(ChildViewAttribute childAttribute,
 	    AbstractAttribute attribute) {
 	if (childAttribute instanceof ChildViewAttributeWithAttribute<?>) {
 	    ((ChildViewAttributeWithAttribute<AbstractAttribute>) childAttribute).setAttribute(attribute);
-	}
-	return new ViewAttributeAdapter(childAttribute, attribute);
-    }
-    
-    private static class ViewAttributeAdapter implements ViewAttribute {
-	private final ChildViewAttribute childViewAttribute;
-	private final AbstractAttribute attribute;
-
-	public ViewAttributeAdapter(ChildViewAttribute childViewAttribute, AbstractAttribute attribute) {
-	    this.childViewAttribute = childViewAttribute;
-	    this.attribute = attribute;
-	}
-
-	@Override
-	public void preInitializeView(BindingContext bindingContext) {
-	}
-
-	@Override
-	public void bindTo(BindingContext bindingContext) {
-	    try {
-	    childViewAttribute.bindTo(bindingContext);
-	    } catch (RuntimeException e) {
-		throw new AttributeBindingException(attribute.getName(), e);
-	    }
 	}
     }
 

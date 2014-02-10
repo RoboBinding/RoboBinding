@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.view;
 
-import org.robobinding.attribute.ChildAttributeResolverMappings;
-import org.robobinding.attribute.ResolvedGroupAttributes;
+import org.robobinding.viewattribute.MultiTypePropertyViewAttributeConfig;
+
+import android.view.View;
 
 /**
  *
@@ -24,8 +25,12 @@ import org.robobinding.attribute.ResolvedGroupAttributes;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ChildViewAttributesResolver {
-    String[] getCompulsoryAttributes();
-    void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings);
-    void validateResolvedChildAttributes(ResolvedGroupAttributes groupAttributes);
+public class ViewVisibilityAttribute extends AbstractVisibilityAttribute {
+
+    @Override
+    public void initialize(MultiTypePropertyViewAttributeConfig<View> config) {
+        super.initialize(config);
+
+        this.visibility = new ViewVisibility(config.getView());
+    }
 }

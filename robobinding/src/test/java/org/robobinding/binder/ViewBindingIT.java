@@ -52,7 +52,7 @@ import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
 import org.robobinding.viewattribute.AttributeBindingException;
-import org.robobinding.viewattribute.ChildViewAttributes;
+import org.robobinding.viewattribute.ChildViewAttributesBuilder;
 import org.robobinding.viewattribute.listview.SparseBooleanArrayUtils;
 
 import android.R;
@@ -312,7 +312,7 @@ public class ViewBindingIT {
 	}
 
 	@Override
-	protected void setupChildViewAttributes(ChildViewAttributes<BuggyCustomView> childViewAttributes, BindingContext bindingContext) {
+	protected void setupChildViewAttributes(ChildViewAttributesBuilder<BuggyCustomView> childViewAttributesBuilder, BindingContext bindingContext) {
 	    throw new ProgrammingError();
 	}
     }

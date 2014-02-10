@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import org.robobinding.viewattribute.view.AbstractVisibility;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,7 +27,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-class EmptyViewVisibility extends AbstractSubViewVisibility {
+class EmptyViewVisibility extends AbstractVisibility {
     private final AdapterView<?> adapterView;
     private final View emptyView;
 

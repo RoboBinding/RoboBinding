@@ -25,12 +25,12 @@ import org.robobinding.attribute.MalformedAttributeException;
 import org.robobinding.attribute.ResolvedGroupAttributes;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.ChildViewAttributes;
+import org.robobinding.viewattribute.ChildViewAttributesBuilder;
 
 import android.widget.EditText;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -67,21 +67,22 @@ public class TwoWayTextAttributeGroup extends AbstractGroupedViewAttribute<EditT
     }
 
     @Override
-    protected void setupChildViewAttributes(ChildViewAttributes<EditText> childViewAttributes, BindingContext bindingContext) {
-	TwoWayTextAttribute textAttribute = childViewAttributes.add(TEXT, new TwoWayTextAttribute());
-	textAttribute.setValueCommitMode(determineValueCommitMode(childViewAttributes));
+    protected void setupChildViewAttributes(ChildViewAttributesBuilder<EditText> childViewAttributesBuilder, BindingContext bindingContext) {
+	TwoWayTextAttribute textAttribute = new TwoWayTextAttribute();
+	childViewAttributesBuilder.add(TEXT, textAttribute);
+	textAttribute.setValueCommitMode(determineValueCommitMode(childViewAttributesBuilder));
     }
 
-    private ValueCommitMode determineValueCommitMode(ChildViewAttributes<EditText> childViewAttributes) {
-	if (valueCommitModeSpecified(childViewAttributes)) {
-	    EnumAttribute<ValueCommitMode> enumAttribute = childViewAttributes.enumAttributeFor(VALUE_COMMIT_MODE);
+    private ValueCommitMode determineValueCommitMode(ChildViewAttributesBuilder<EditText> childViewAttributesBuilder) {
+	if (valueCommitModeSpecified(childViewAttributesBuilder)) {
+	    EnumAttribute<ValueCommitMode> enumAttribute = childViewAttributesBuilder.enumAttributeFor(VALUE_COMMIT_MODE);
 	    return enumAttribute.getValue();
 	}
 
 	return ValueCommitMode.ON_CHANGE;
     }
 
-    private boolean valueCommitModeSpecified(ChildViewAttributes<EditText> childViewAttributes) {
-	return childViewAttributes.hasAttribute(VALUE_COMMIT_MODE);
+    private boolean valueCommitModeSpecified(ChildViewAttributesBuilder<EditText> childViewAttributesBuilder) {
+	return childViewAttributesBuilder.hasAttribute(VALUE_COMMIT_MODE);
     }
 }

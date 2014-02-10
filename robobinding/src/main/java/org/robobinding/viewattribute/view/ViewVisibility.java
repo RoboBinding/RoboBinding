@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute;
+package org.robobinding.viewattribute.view;
 
+import android.view.View;
 
 /**
  *
@@ -22,5 +23,26 @@ package org.robobinding.viewattribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ChildViewAttribute extends Bindable {
+class ViewVisibility extends AbstractVisibility {
+    private final View view;
+
+    public ViewVisibility(View view) {
+	this.view = view;
+    }
+
+    @Override
+    public void makeVisible() {
+	view.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void makeGone() {
+	view.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void makeInvisible() {
+	view.setVisibility(View.VISIBLE);
+    }
+
 }

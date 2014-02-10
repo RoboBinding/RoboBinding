@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Cheng Wei, Robert Taylor
+ * Copyright 2013 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.adapterview;
-
-import android.view.View;
+package org.robobinding.viewattribute;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class MockSubViewVisibility extends AbstractSubViewVisibility {
-    int state;
-
-    @Override
-    public void makeGone() {
-	state = View.GONE;
-    }
-
-    @Override
-    public void makeVisible() {
-	state = View.VISIBLE;
-    }
-
-    @Override
-    protected void makeInvisible() {
-	state = View.INVISIBLE;
-    }
+public interface ChildViewAttributeFactory {
+    ChildViewAttribute create();
 }

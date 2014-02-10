@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.util.Collection;
 
 import org.robobinding.BindingContext;
@@ -30,34 +32,40 @@ import org.robobinding.property.DataSetValueModel;
  */
 public class DataSetAdapterBuilder {
     private final BindingContext bindingContext;
-    
+
     private int itemLayoutId;
     private int dropDownLayoutId;
     private Collection<PredefinedPendingAttributesForView> itemPredefinedPendingAttributesForViewGroup;
     private Collection<PredefinedPendingAttributesForView> dropdownPredefinedPendingAttributesForViewGroup;
     private DataSetValueModel<?> valueModel;
-    
+
     public DataSetAdapterBuilder(BindingContext bindingContext) {
 	this.bindingContext = bindingContext;
+	this.itemPredefinedPendingAttributesForViewGroup = newArrayList();
+	this.dropdownPredefinedPendingAttributesForViewGroup = newArrayList();
     }
-    
+
     public void setItemLayoutId(int itemLayoutId) {
         this.itemLayoutId = itemLayoutId;
     }
-    
+
     public void setDropDownLayoutId(int dropDownLayoutId) {
         this.dropDownLayoutId = dropDownLayoutId;
     }
-    
+
     public void setItemPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> itemPredefinedPendingAttributesForViewGroup) {
-        this.itemPredefinedPendingAttributesForViewGroup = itemPredefinedPendingAttributesForViewGroup;
+	if (itemPredefinedPendingAttributesForViewGroup != null) {
+	    this.itemPredefinedPendingAttributesForViewGroup = itemPredefinedPendingAttributesForViewGroup;
+	}
     }
-    
+
     public void setDropdownPredefinedPendingAttributesForViewGroup(
     	Collection<PredefinedPendingAttributesForView> dropdownPredefinedPendingAttributesForViewGroup) {
-        this.dropdownPredefinedPendingAttributesForViewGroup = dropdownPredefinedPendingAttributesForViewGroup;
+	if (dropdownPredefinedPendingAttributesForViewGroup != null) {
+	    this.dropdownPredefinedPendingAttributesForViewGroup = dropdownPredefinedPendingAttributesForViewGroup;
+	}
     }
-    
+
     public void setValueModel(DataSetValueModel<?> valueModel) {
         this.valueModel = valueModel;
     }
@@ -68,7 +76,7 @@ public class DataSetAdapterBuilder {
 	ItemLayoutBinder itemLayoutBinder = new ItemLayoutBinder(itemBinder, itemLayoutId, itemPredefinedPendingAttributesForViewGroup);
 	ItemLayoutBinder dropdownLayoutBinder = new ItemLayoutBinder(itemBinder, dropDownLayoutId, dropdownPredefinedPendingAttributesForViewGroup);
 	DataSetAdapter<?> dataSetAdapter = new DataSetAdapter(valueModel, itemLayoutBinder, dropdownLayoutBinder, bindingContext.shouldPreInitializeViews());
-	
+
 	dataSetAdapter.observeChangesOnTheValueModel();
 	return dataSetAdapter;
     }
