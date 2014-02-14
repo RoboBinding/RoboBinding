@@ -55,17 +55,15 @@ import android.widget.TextView;
  * @author Cheng Wei
  */
 public class BinderFactoryBuilder {
-    private final PropertyAttributeParser propertyAttributeParser;
     private final ViewListenersMapBuilder viewListenersMapBuilder;
     private final BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMapBuilder;
-    
+
     public BinderFactoryBuilder() {
-	this.propertyAttributeParser = new PropertyAttributeParser();
 	this.viewListenersMapBuilder = defaultViewListenersMapBuilder();
-	this.bindingAttributeMappingsProviderMapBuilder = defaultBindingAttributeMappingsProviderMapBuilder(propertyAttributeParser);
+	this.bindingAttributeMappingsProviderMapBuilder = defaultBindingAttributeMappingsProviderMapBuilder();
     }
-    
-    
+
+
     static ViewListenersMapBuilder defaultViewListenersMapBuilder() {
         ViewListenersMapBuilder viewListenersMap = new ViewListenersMapBuilder();
         viewListenersMap.put(View.class, ViewListeners.class);
@@ -73,15 +71,17 @@ public class BinderFactoryBuilder {
         viewListenersMap.put(CompoundButton.class, CompoundButtonListeners.class);
         viewListenersMap.put(SeekBar.class, SeekBarListeners.class);
         viewListenersMap.put(RatingBar.class, RatingBarListeners.class);
-        
+
         return viewListenersMap;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    static BindingAttributeMappingsProviderMapBuilder defaultBindingAttributeMappingsProviderMapBuilder(
-	    PropertyAttributeParser propertyAttributeParser) {
+    static BindingAttributeMappingsProviderMapBuilder defaultBindingAttributeMappingsProviderMapBuilder() {
+
+	PropertyAttributeParser propertyAttributeParser = new PropertyAttributeParser();
         BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMap = new BindingAttributeMappingsProviderMapBuilder(
         	propertyAttributeParser);
+
         bindingAttributeMappingsProviderMap.put(View.class, new ViewAttributeMapper());
         bindingAttributeMappingsProviderMap.put(TextView.class, new TextViewAttributeMapper());
         bindingAttributeMappingsProviderMap.put(EditText.class, new EditTextAttributeMapper());
@@ -93,7 +93,7 @@ public class BinderFactoryBuilder {
         bindingAttributeMappingsProviderMap.put(RatingBar.class, new RatingBarAttributeMapper());
         bindingAttributeMappingsProviderMap.put(ListView.class, new ListViewAttributeMapper());
         bindingAttributeMappingsProviderMap.put(AbsSpinner.class, new AbsSpinnerAttributeMapper());
-        
+
         return bindingAttributeMappingsProviderMap;
     }
 
@@ -101,19 +101,18 @@ public class BinderFactoryBuilder {
 	bindingAttributeMappingsProviderMapBuilder.put(viewClass, bindingAttributeMapper);
 	return this;
     }
-    
+
     public <T extends View> BinderFactoryBuilder mapView(Class<T> viewClass, BindingAttributeMapper<T> bindingAttributeMapper,
 	    Class<? extends ViewListeners> viewListenersClass) {
 	mapView(viewClass, bindingAttributeMapper);
 	viewListenersMapBuilder.put(viewClass, viewListenersClass);
 	return this;
     }
-    
+
     public BinderFactory build() {
 	return new BinderFactory(
-		viewListenersMapBuilder.build(), 
-		bindingAttributeMappingsProviderMapBuilder.build(), 
-		propertyAttributeParser);
+		viewListenersMapBuilder.build(),
+		bindingAttributeMappingsProviderMapBuilder.build());
     }
 
 }

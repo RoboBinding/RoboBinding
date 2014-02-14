@@ -21,7 +21,6 @@ import org.robobinding.DialogBinder;
 import org.robobinding.InternalViewBinder;
 import org.robobinding.NonBindingViewInflater;
 import org.robobinding.ViewFactoryInstaller;
-import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
 import org.robobinding.viewattribute.impl.ViewAttributeInitializerFactory;
 import org.robobinding.viewattribute.view.ViewListenersMap;
@@ -40,13 +39,10 @@ import android.view.LayoutInflater;
 public class BinderFactory {
     private final ViewListenersMap viewListenersMap;
     private final BindingAttributeMappingsProviderMap bindingAttributeMappingsProviderMap;
-    private final PropertyAttributeParser propertyAttributeParser;
     public BinderFactory(ViewListenersMap viewListenersMap,
-	   BindingAttributeMappingsProviderMap bindingAttributeMappingsProviderMap,
-	   PropertyAttributeParser propertyAttributeParser) {
+	   BindingAttributeMappingsProviderMap bindingAttributeMappingsProviderMap) {
 	this.viewListenersMap = viewListenersMap;
 	this.bindingAttributeMappingsProviderMap = bindingAttributeMappingsProviderMap;
-	this.propertyAttributeParser = propertyAttributeParser;
     }
 
     public ActivityBinder createActivityBinder(Activity activity, boolean withPreInitializingViews) {
@@ -54,7 +50,7 @@ public class BinderFactory {
 	BinderImplementor binderImplementor = createBinderImplementor(activity, nonBindingViewInflater, withPreInitializingViews);
 	return new ActivityBinder(activity, binderImplementor);
     }
-    
+
     private LayoutInflater createLayoutInflater(Context context) {
 	return LayoutInflater.from(context).cloneInContext(context);
     }
@@ -70,12 +66,12 @@ public class BinderFactory {
 	LayoutInflater layoutInflater = createLayoutInflater(context);
 	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(layoutInflater);
 	ByBindingAttributeMappingsResolverFinder byBindingAttributeProviderResolverFinder = new ByBindingAttributeMappingsResolverFinder(
-		new BindingAttributeMappingsProviderResolver(bindingAttributeMappingsProviderMap, propertyAttributeParser),
+		new BindingAttributeMappingsProviderResolver(bindingAttributeMappingsProviderMap),
 		new ViewAttributeInitializerFactory(viewListenersMap));
 	BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeProviderResolverFinder);
 	BindingViewInflater bindingViewInflater = new BindingViewInflater(nonBindingViewInflater, bindingAttributeResolver,
 		new BindingAttributeParser());
-	
+
 	new ViewFactoryInstaller(bindingViewInflater).install(layoutInflater);
 	return bindingViewInflater;
     }

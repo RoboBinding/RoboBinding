@@ -33,7 +33,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 
     protected T view;
     private ChildViewAttributesBuilder<T> childViewAttributesBuilder;
-    private ChildViewAttributes initializedChildViewAttributes;
+    private ChildViewAttributes childViewAttributes;
 
     public void initialize(T view, ChildViewAttributesBuilder<T> childViewAttributesBuilder) {
 	this.view = view;
@@ -42,8 +42,8 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 
     @Override
     public final void bindTo(BindingContext bindingContext) {
-	initializedChildViewAttributes = initializeChildViewAttributes(bindingContext);
-	initializedChildViewAttributes.bindTo(bindingContext);
+	childViewAttributes = initializeChildViewAttributes(bindingContext);
+	childViewAttributes.bindTo(bindingContext);
 	postBind(bindingContext);
     }
 
@@ -61,7 +61,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 
     @Override
     public final void preInitializeView(BindingContext bindingContext) {
-	initializedChildViewAttributes.preInitializeView(bindingContext);
+	childViewAttributes.preInitializeView(bindingContext);
     }
 
     @Override

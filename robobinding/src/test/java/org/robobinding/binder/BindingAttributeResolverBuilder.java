@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Cheng Wei, Robert Taylor
+ * Copyright 2014 Cheng Wei, Robert Taylor
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,11 @@
  */
 package org.robobinding.binder;
 
-import org.robobinding.attribute.PropertyAttributeParser;
+import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
 import org.robobinding.viewattribute.impl.ViewAttributeInitializerFactory;
+
+import android.view.View;
 
 /**
  *
@@ -24,19 +27,26 @@ import org.robobinding.viewattribute.impl.ViewAttributeInitializerFactory;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class IntegrationTestUtil {
-    private IntegrationTestUtil() {
+public class BindingAttributeResolverBuilder {
+    private BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMapBuilder;
+
+    public BindingAttributeResolverBuilder() {
+	bindingAttributeMappingsProviderMapBuilder = BinderFactoryBuilder.defaultBindingAttributeMappingsProviderMapBuilder();
     }
-    
-    public static BindingAttributeResolver createBindingAttributeResolver() {
-	PropertyAttributeParser propertyAttributeParser = new PropertyAttributeParser();
+
+    public <T extends View> BindingAttributeResolverBuilder mapView(Class<T> viewClass, BindingAttributeMapper<T> bindingAttributeMapper) {
+	bindingAttributeMappingsProviderMapBuilder.put(viewClass, bindingAttributeMapper);
+	return this;
+    }
+
+    public BindingAttributeResolver build() {
 	BindingAttributeMappingsProviderResolver providersResolver = new BindingAttributeMappingsProviderResolver(
-		BinderFactoryBuilder.defaultBindingAttributeMappingsProviderMapBuilder(propertyAttributeParser).build(), 
-		propertyAttributeParser);
+		bindingAttributeMappingsProviderMapBuilder.build());
 	ViewAttributeInitializerFactory viewAttributeInitializerFactory = new ViewAttributeInitializerFactory(
 		BinderFactoryBuilder.defaultViewListenersMapBuilder().build());
 	ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(
 		providersResolver, viewAttributeInitializerFactory);
 	return new BindingAttributeResolver(resolverFinder);
     }
+
 }
