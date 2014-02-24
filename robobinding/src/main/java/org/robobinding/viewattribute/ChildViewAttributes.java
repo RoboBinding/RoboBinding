@@ -15,73 +15,50 @@
  */
 package org.robobinding.viewattribute;
 
-import static com.google.common.collect.Maps.newLinkedHashMap;
-
 import java.util.Map;
 
-import org.robobinding.attribute.AbstractAttribute;
-import org.robobinding.attribute.EnumAttribute;
-import org.robobinding.attribute.ResolvedGroupAttributes;
-import org.robobinding.attribute.StaticResourceAttribute;
-import org.robobinding.attribute.ValueModelAttribute;
-
-import android.view.View;
+import org.robobinding.BindingContext;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Cheng Wei
+ * @author Robert Taylor
  */
-public class ChildViewAttributes<T extends View> {
-    private final ResolvedGroupAttributes resolvedGroupAttributes;
-    private final ChildViewAttributeInitializer viewAttributeInitializer;
-    final Map<String, ViewAttribute> childAttributeMap;
-    private boolean failOnFirstBindingError;
+public class ChildViewAttributes {
+    final Map<String, Bindable> childViewAttributeMap;
+    private final boolean failOnFirstBindingError;
+    private final AttributeGroupBindingException bindingErrors;
 
-    public ChildViewAttributes(ResolvedGroupAttributes resolvedGroupAttributes, ChildViewAttributeInitializer viewAttributeInitializer) {
-	this.resolvedGroupAttributes = resolvedGroupAttributes;
-	this.viewAttributeInitializer = viewAttributeInitializer;
-	childAttributeMap = newLinkedHashMap();
-	failOnFirstBindingError = false;
+    public ChildViewAttributes(Map<String, Bindable> childViewAttributeMap, boolean failOnFirstBindingError) {
+	this.childViewAttributeMap = childViewAttributeMap;
+	this.failOnFirstBindingError = failOnFirstBindingError;
+	this.bindingErrors = new AttributeGroupBindingException();
     }
 
-    public ViewAttribute add(String attributeName, ChildViewAttribute childAttribute) {
-	AbstractAttribute attribute = resolvedGroupAttributes.attributeFor(attributeName);
-	ViewAttribute viewAttribute = viewAttributeInitializer.initializeChildViewAttribute(childAttribute, attribute);
-	childAttributeMap.put(attributeName, viewAttribute);
-	return viewAttribute;
+    public void bindTo(BindingContext bindingContext) {
+	for (Map.Entry<String, Bindable> childViewAttributeEntry : childViewAttributeMap.entrySet()) {
+	    Bindable childViewAttribute = childViewAttributeEntry.getValue();
+
+	    try {
+		childViewAttribute.bindTo(bindingContext);
+	    } catch (RuntimeException e) {
+		bindingErrors.addChildAttributeError(childViewAttributeEntry.getKey(), e);
+
+		if (failOnFirstBindingError)
+		    break;
+	    }
+	}
+
+	bindingErrors.assertNoErrors();
     }
 
-    public <PropertyViewAttributeType extends PropertyViewAttribute<T>> PropertyViewAttributeType add(String propertyAttribute,
-	    PropertyViewAttributeType propertyViewAttribute) {
-	ValueModelAttribute attributeValue = resolvedGroupAttributes.valueModelAttributeFor(propertyAttribute);
-	viewAttributeInitializer.initializePropertyViewAttribute(propertyViewAttribute, attributeValue);
-	childAttributeMap.put(propertyAttribute, propertyViewAttribute);
-	return propertyViewAttribute;
-    }
-
-    public void failOnFirstBindingError() {
-	failOnFirstBindingError = true;
-    }
-
-    public InitializedChildViewAttributes createInitializedChildViewAttributes() {
-	return new InitializedChildViewAttributes(childAttributeMap, failOnFirstBindingError);
-    }
-
-    public final boolean hasAttribute(String attributeName) {
-	return resolvedGroupAttributes.hasAttribute(attributeName);
-    }
-
-    public final ValueModelAttribute valueModelAttributeFor(String attributeName) {
-	return resolvedGroupAttributes.valueModelAttributeFor(attributeName);
-    }
-
-    public final StaticResourceAttribute staticResourceAttributeFor(String attributeName) {
-	return resolvedGroupAttributes.staticResourceAttributeFor(attributeName);
-    }
-
-    public final <E extends Enum<E>> EnumAttribute<E> enumAttributeFor(String attributeName) {
-	return resolvedGroupAttributes.enumAttributeFor(attributeName);
+    public void preInitializeView(BindingContext bindingContext) {
+	for (Map.Entry<String, Bindable> childViewAttributeEntry : childViewAttributeMap.entrySet()) {
+	    Bindable childViewAttribute = childViewAttributeEntry.getValue();
+	    if (childViewAttribute instanceof ViewAttribute) {
+		((ViewAttribute) childViewAttribute).preInitializeView(bindingContext);
+	    }
+	}
     }
 }

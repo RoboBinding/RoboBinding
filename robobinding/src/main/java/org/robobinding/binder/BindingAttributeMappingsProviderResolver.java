@@ -17,10 +17,6 @@ package org.robobinding.binder;
 
 import java.util.Queue;
 
-import org.robobinding.attribute.PropertyAttributeParser;
-import org.robobinding.customview.BindableView;
-import org.robobinding.customview.CustomBindingAttributeMapperAdapter;
-import org.robobinding.customview.CustomViewUtils;
 import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
 
@@ -29,7 +25,7 @@ import android.view.View;
 import com.google.common.collect.Lists;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -37,24 +33,16 @@ import com.google.common.collect.Lists;
  */
 public class BindingAttributeMappingsProviderResolver {
     private final BindingAttributeMappingsProviderMap bindingAttributeMappingsProviderMap;
-    private final PropertyAttributeParser propertyAttributeParser;
 
-    public BindingAttributeMappingsProviderResolver(BindingAttributeMappingsProviderMap bindingAttributeMappingsProviderMap,
-	    PropertyAttributeParser propertyAttributeParser) {
+    public BindingAttributeMappingsProviderResolver(BindingAttributeMappingsProviderMap bindingAttributeMappingsProviderMap) {
 	this.bindingAttributeMappingsProviderMap = bindingAttributeMappingsProviderMap;
-	this.propertyAttributeParser = propertyAttributeParser;
     }
 
-    @SuppressWarnings({ "unchecked" })
     public Iterable<BindingAttributeMappingsProvider<? extends View>> findCandidateProviders(View view) {
 	Queue<BindingAttributeMappingsProvider<? extends View>> candidateProviders = Lists.newLinkedList();
 
-	if (CustomViewUtils.isCustomWidget(view)) {
-	    candidateProviders.add(
-		    new CustomBindingAttributeMapperAdapter<View>((BindableView<View>) view, propertyAttributeParser));
-	}
-
 	processViewHierarchy(view.getClass(), candidateProviders);
+
 	return candidateProviders;
     }
 

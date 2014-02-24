@@ -22,38 +22,38 @@ import org.robobinding.attribute.ResolvedGroupAttributes;
 import android.view.View;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute, ChildViewAttributesResolver {
+public abstract class AbstractGroupedViewAttribute<T extends View> implements ViewAttribute, ChildAttributesResolver {
     private static final String[] NO_COMPULSORY_ATTRIBUTES = new String[0];
 
     protected T view;
-    private ChildViewAttributes<T> childViewAttributes;
-    private InitializedChildViewAttributes initializedChildViewAttributes;
+    private ChildViewAttributesBuilder<T> childViewAttributesBuilder;
+    private ChildViewAttributes childViewAttributes;
 
     public void initialize(T view, ChildViewAttributesBuilder<T> childViewAttributesBuilder) {
 	this.view = view;
-	childViewAttributes = childViewAttributesBuilder.build(this);
-    }
-    
-    @Override
-    public final void bindTo(BindingContext bindingContext) {
-	initializedChildViewAttributes = initializeChildViewAttributes(bindingContext);
-	initializedChildViewAttributes.bindTo(bindingContext);
-	postBind(bindingContext);
-    }
-    
-    private InitializedChildViewAttributes initializeChildViewAttributes(BindingContext bindingContext)
-    {
-	setupChildViewAttributes(childViewAttributes, bindingContext);
-	return childViewAttributes.createInitializedChildViewAttributes();
+	this.childViewAttributesBuilder = childViewAttributesBuilder;
     }
 
-    protected abstract void setupChildViewAttributes(ChildViewAttributes<T> childViewAttributes, BindingContext bindingContext);
+    @Override
+    public final void bindTo(BindingContext bindingContext) {
+	childViewAttributes = initializeChildViewAttributes(bindingContext);
+	childViewAttributes.bindTo(bindingContext);
+	postBind(bindingContext);
+    }
+
+    private ChildViewAttributes initializeChildViewAttributes(BindingContext bindingContext)
+    {
+	setupChildViewAttributes(childViewAttributesBuilder, bindingContext);
+	return childViewAttributesBuilder.build();
+    }
+
+    protected abstract void setupChildViewAttributes(ChildViewAttributesBuilder<T> childViewAttributesBuilder, BindingContext bindingContext);
 
     protected void postBind(BindingContext bindingContext) {
 
@@ -61,7 +61,7 @@ public abstract class AbstractGroupedViewAttribute<T extends View> implements Vi
 
     @Override
     public final void preInitializeView(BindingContext bindingContext) {
-	initializedChildViewAttributes.preInitializeView(bindingContext);
+	childViewAttributes.preInitializeView(bindingContext);
     }
 
     @Override

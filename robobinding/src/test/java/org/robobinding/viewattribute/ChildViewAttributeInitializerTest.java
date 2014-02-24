@@ -15,7 +15,6 @@
  */
 package org.robobinding.viewattribute;
 
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -35,17 +34,15 @@ import org.robobinding.attribute.AbstractAttribute;
 public class ChildViewAttributeInitializerTest {
     @Mock
     private AbstractAttribute attribute;
-    
+
     @Test
-    public void whenInitializeChildViewAttribute_thenReturnAsWrappedViewAttribute() {
+    public void whenInitializeChildViewAttribute_thenNoThingHappens() {
 	ChildViewAttribute childViewAttribute = mock(ChildViewAttribute.class);
 
 	ChildViewAttributeInitializer viewAttributeInitializer = new ChildViewAttributeInitializer(null);
-	ViewAttribute viewAttribute = viewAttributeInitializer.initializeChildViewAttribute(childViewAttribute, attribute);
-	
-	assertNotNull(viewAttribute);
+	viewAttributeInitializer.initializeChildViewAttribute(childViewAttribute, attribute);
     }
-    
+
     @Test
     public void whenInitializeChildViewAttributeWithAttribute_thenTheAttributeIsSetOnTheChildViewAttribute() {
 	@SuppressWarnings("unchecked")
@@ -53,7 +50,7 @@ public class ChildViewAttributeInitializerTest {
 
 	ChildViewAttributeInitializer viewAttributeInitializer = new ChildViewAttributeInitializer(null);
 	viewAttributeInitializer.initializeChildViewAttribute(childViewAttribute, attribute);
-	
+
 	verify(childViewAttribute).setAttribute(attribute);
     }
 }

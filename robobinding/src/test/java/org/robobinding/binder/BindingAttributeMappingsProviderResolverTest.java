@@ -39,7 +39,7 @@ import android.view.View;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -60,15 +60,14 @@ public class BindingAttributeMappingsProviderResolverTest {
     @Before
     public void setUp() {
 	initMocks(this);
-	
+
 	BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMapBuilder = new BindingAttributeMappingsProviderMapBuilder(
 		propertyAttributeParser);
 	bindingAttributeMappingsProviderMapBuilder.put(ViewWithNoParent.class, mapperForViewWithNoParent);
 	bindingAttributeMappingsProviderMapBuilder.put(ViewWithParents.class, mapperForViewWithParents);
 	bindingAttributeMappingsProviderMapBuilder.put(GrandparentView.class, mapperForGrandparentView);
 	bindingAttributeMappingsProviderResolver = new BindingAttributeMappingsProviderResolver(
-		bindingAttributeMappingsProviderMapBuilder.build(), 
-		propertyAttributeParser);
+		bindingAttributeMappingsProviderMapBuilder.build());
     }
 
     @SuppressWarnings("unchecked")

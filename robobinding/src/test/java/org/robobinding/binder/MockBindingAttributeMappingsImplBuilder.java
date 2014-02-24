@@ -24,7 +24,7 @@ import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.AbstractCommandViewAttribute;
 import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.ChildViewAttributes;
+import org.robobinding.viewattribute.ChildViewAttributesBuilder;
 import org.robobinding.viewattribute.PropertyViewAttribute;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
 
@@ -223,7 +223,7 @@ public class MockBindingAttributeMappingsImplBuilder {
 	}
 
 	@Override
-	protected void setupChildViewAttributes(ChildViewAttributes<View> childViewAttributes, BindingContext bindingContext) {
+	protected void setupChildViewAttributes(ChildViewAttributesBuilder<View> childViewAttributesBuilder, BindingContext bindingContext) {
 	}
     }
 

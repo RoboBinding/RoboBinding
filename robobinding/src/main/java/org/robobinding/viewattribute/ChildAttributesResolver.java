@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute;
 
+import org.robobinding.attribute.ChildAttributeResolverMappings;
+import org.robobinding.attribute.ResolvedGroupAttributes;
 
 /**
  *
@@ -22,5 +24,8 @@ package org.robobinding.viewattribute;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ChildViewAttribute extends Bindable {
+public interface ChildAttributesResolver {
+    String[] getCompulsoryAttributes();
+    void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings);
+    void validateResolvedChildAttributes(ResolvedGroupAttributes groupAttributes);
 }

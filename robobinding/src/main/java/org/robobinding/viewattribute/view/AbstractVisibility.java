@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package org.robobinding.viewattribute.adapterview;
+package org.robobinding.viewattribute.view;
 
 import android.view.View;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
+ * @author Cheng Wei
  * @author Robert Taylor
  */
-public abstract class AbstractSubViewVisibility {
+public abstract class AbstractVisibility {
     public abstract void makeVisible();
 
     public abstract void makeGone();

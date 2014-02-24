@@ -16,8 +16,8 @@
 package org.robobinding.viewattribute.edittext;
 
 import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.AbstractPropertyViewAttribute;
-import org.robobinding.viewattribute.textview.AbstractTextAttribute;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,30 +26,35 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TwoWayTextAttribute extends AbstractTextAttribute<EditText> {
+public class TwoWayTextAttribute extends AbstractMultiTypePropertyViewAttribute<EditText> {
     ValueCommitMode valueCommitMode = ValueCommitMode.ON_CHANGE;
 
     @Override
-    protected AbstractPropertyViewAttribute<EditText, ?> createNewStringAttribute() {
+    protected AbstractPropertyViewAttribute<EditText, ?> createPropertyViewAttribute(Class<?> propertyType) {
+	if (String.class.isAssignableFrom(propertyType)) {
+	    return createNewStringAttribute();
+	} else if (CharSequence.class.isAssignableFrom(propertyType)) {
+	    return createNewCharSequenceAttribute();
+	}
+
+	return null;
+    }
+
+    private TwoWayStringTextAttribute createNewStringAttribute() {
 	TwoWayStringTextAttribute stringTextAttribute = new TwoWayStringTextAttribute();
 	stringTextAttribute.setValueCommitMode(valueCommitMode);
 	return stringTextAttribute;
     }
 
-    @Override
-    protected AbstractPropertyViewAttribute<EditText, ?> createNewCharSequenceAttribute() {
+    private TwoWayCharSequenceTextAttribute createNewCharSequenceAttribute() {
 	TwoWayCharSequenceTextAttribute charSequenceTextAttribute = new TwoWayCharSequenceTextAttribute();
 	charSequenceTextAttribute.setValueCommitMode(valueCommitMode);
 	return charSequenceTextAttribute;
-    }
-
-    protected boolean isTwoWayBinding() {
-	return attribute.isTwoWayBinding();
     }
 
     void setValueCommitMode(ValueCommitMode valueCommitMode) {

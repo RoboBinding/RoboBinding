@@ -15,6 +15,8 @@
  */
 package org.robobinding.viewattribute.adapterview;
 
+import org.robobinding.viewattribute.view.AbstractVisibility;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,5 +36,5 @@ public interface SubViewAttributesStrategy<T extends AdapterView<?>> {
 
     void addSubView(T adapterView, View subView, Context context);
 
-    AbstractSubViewVisibility createVisibility(T adapterView, View subView);
+    AbstractVisibility createVisibility(T adapterView, View subView);
 }

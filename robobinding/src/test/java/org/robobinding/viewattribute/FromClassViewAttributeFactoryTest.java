@@ -20,10 +20,10 @@ import static org.robobinding.viewattribute.FromClassViewAttributeFactory.viewAt
 
 import org.junit.Test;
 import org.robobinding.BindingContext;
-import org.robobinding.viewattribute.view.VisibilityAttribute;
+import org.robobinding.viewattribute.view.ViewVisibilityAttribute;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -32,9 +32,9 @@ public class FromClassViewAttributeFactoryTest {
 
     @Test
     public void shouldCreateNewInstanceFromClass() {
-	ViewAttributeFactory<VisibilityAttribute> viewAttributeFactory = viewAttributeFactoryForClass(VisibilityAttribute.class);
+	ViewAttributeFactory<ViewVisibilityAttribute> viewAttributeFactory = viewAttributeFactoryForClass(ViewVisibilityAttribute.class);
 
-	VisibilityAttribute visibility = viewAttributeFactory.create();
+	ViewVisibilityAttribute visibility = viewAttributeFactory.create();
 
 	assertNotNull(visibility);
     }
@@ -49,10 +49,10 @@ public class FromClassViewAttributeFactoryTest {
 	viewAttributeFactoryForClass(NonVisibleViewAttribute.class).create();
     }
 
-    public static class VisibilityAttributeFactory implements ViewAttributeFactory<VisibilityAttribute> {
+    public static class VisibilityAttributeFactory implements ViewAttributeFactory<ViewVisibilityAttribute> {
 	@Override
-	public VisibilityAttribute create() {
-	    return new VisibilityAttribute();
+	public ViewVisibilityAttribute create() {
+	    return new ViewVisibilityAttribute();
 	}
     }
 
