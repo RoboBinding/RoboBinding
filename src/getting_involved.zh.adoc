@@ -57,13 +57,13 @@ image::images/architecture.png[]
 
 以上为RoboBinding框架实现的概要。黄色背景的两张图(Client与PresentationModel)为应用代码，其它的三个为框架代码。图中只列举了来自一些包的核心类。
 Client(Activity，Dialog或Custom View)将Layout传递给对应的Binder(ActivityBinder, DialogBinder或ViewBinder)，
-Binder从给定的Layout文件构建起View层次结构(利用Android的内部LayoutInflater功能)以及RoboBinding绑定信息。
+Binder从给定的Layout文件构建起View层次结构(利用Android的内部android.view.LayoutInflater功能)以及RoboBinding绑定信息。
 一个根View可能包含若干个子View，子View可能包含下级View，形成一个树状的结构。每一个View中可能包含若干个视图绑定属性。
-RoboBinding中定义了三类视图绑定属性，分别是PropertyViewAttribute，CommandViewAttribute，以及GroupedViewAttribute。
+RoboBinding中定义了三类视图绑定属性，分别是PropertyViewAttribute(org.robobinding.viewattribute.PropertyViewAttribute)，CommandViewAttribute(org.robobinding.viewattribute.AbstractCommandViewAttribute)，以及GroupedViewAttribute(org.robobinding.viewattribute.AbstractGroupedViewAttribute)。
 PropertyViewAttribute实现Layout中的显示数据与PresentationModel中的属性绑定；CommandViewAttribute实现Layout中的事件与PresentationModel中的方法绑定；
 而GroupedViewAttribute由若干个PropertyViewAttribute与CommandViewAttribute组成，用于实现一个复合视图属性由多个子属性构成的情况。
-PropertyViewAttribute通过PresentationModelAdapter的PropertyValueModel(如果是简单属性)或DataSetValueModel(如果是复杂的数据集合属性)
-映射到PresentationModel的Property或DataSetProperty。CommandViewAttribute通过PresentationModelAdapter的Function映射到PresentationModel的Method。
+PropertyViewAttribute通过org.robobinding.presentationmodel.PresentationModelAdapter的org.robobinding.property.PropertyValueModel(如果是简单属性)或org.robobinding.property.DataSetValueModel(如果是复杂的数据集合属性)
+映射到PresentationModel的属性或DataSet型属性。CommandViewAttribute通过PresentationModelAdapter的org.robobinding.function.Function映射到PresentationModel的方法。
 
 .RoboBinding实现例子概要图
 image::images/architecture_sample.png[]
@@ -71,12 +71,12 @@ image::images/architecture_sample.png[]
 ViewAlbumsActivity通过框架(这里为org.robobinding.binder.Binders类)将layout与presentationModel绑定在一起。
 图中的第一个为简单视图属性的绑定例子。框架为++\{windowsTitle\}++产生一个org.robobinding.viewattribute.textview.TextAttribute实例，而TextAttribute实例通过PresentationModelAdapter的PropertyValueModel
 将++\{windowTitle\}++与ViewAlbumsPresentationModel.windowTitle绑定在一起。第二个为复合视图属性的绑定例子。ListView的source与itemLayout为复合视图属性，框架为++\{albums\}++与++@layout/album_row++
-产生一个org.robobinding.viewattribute.adapterview.AdaptedDataSetAttributes复合视图属性实例，些复合视图属性包含两个子视图属性
+产生一个org.robobinding.viewattribute.adapterview.AdaptedDataSetAttributes复合视图属性实例，此复合视图属性包含两个子视图属性
 org.robobinding.viewattribute.adapterview.SourceAttribute与org.robobinding.viewattribute.adapterview.StaticLayoutAttribute分别和++\{albums\}++及其++@layout/album_row++相对应。
 而SourceAttribute实例通过PresentationModelAdapter的DataSetValueModel将++\{albums\}++与ViewAlbumsPresentationModel.albums绑定在一起；
 而StaticLayoutAttribute通过解析++@layout/album_row++关联到外部文件album_row.xml。第三个为视图事件属性的绑定例子。
-框架为createAlbum产生一个org.robobinding.viewattribute.view.OnClickAttribute实例，而OnClickAttribute实例通过PresentationModelAdapter的Function
-将createAlbum与ViewAlbumsPresentationModel.createAlbum绑定在一起。
+框架为++createAlbum++产生一个org.robobinding.viewattribute.view.OnClickAttribute实例，而OnClickAttribute实例通过PresentationModelAdapter的Function
+将++createAlbum++与ViewAlbumsPresentationModel.createAlbum绑定在一起。
 
 从RoboBinding实现细节上看
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -87,7 +87,8 @@ image::images/developer_usecase_sequence.png[]
 如上图所示，应用开发者通过两个可能的入口点使用框架(以两种不同的颜色区分)。第一种是通过org.robobinding.binder.Binders工具类来使用框架，由于是工具类，随时随地可用，无需创建实例，方便；
 Binders内部其实每次是通过org.robobinding.binder.BinderFactoryBuilder以默认配置的创建新的org.robobinding.binder.BinderFactory实例，然后调用BinderFactory间接的完成整个绑定；
 其缺点是每次都产生新的BinderFactory实例且BinderFactoryBinder只能是默认的配置。第二种是通过BinderFactoryBuilder配置创建BinderFactory实例，
-通过配置应用开发者可以增加新的视图，视图可绑定属性映射类及其可选的视图事件监听器聚集；或者提供定制的视图可绑定属性映射类来覆盖框架的默认实现。
+通过配置应用开发者可以增加新的视图，视图可绑定属性映射类(org.robobinding.viewattribute.BindingAttributeMapper子类)及其可选的视图事件监听器聚集(org.robobinding.viewattribute.view.ViewListeners子类)；
+或者提供定制的视图可绑定属性映射类来覆盖框架的默认实现。
 通过第二种方式时，BinderFactory实例可以被重用，应用开发者可将实例保存在应用类里(即实现了android.app.Application的子类)或者通过第三方的框架如
 https://github.com/roboguice/roboguice[RoboGuice]注入BinderFactory实例。不管是选择前面两种方式的哪一种，其实真正功能的入口类都是BinderFactory。
 根据应用程序的要求，调用org.robobinding.ActivityBinder，org.robobinding.DialogBinder或org.robobinding.InternalViewBinder，
@@ -136,9 +137,9 @@ org.robobinding.viewattribute包 包含了主要的概念抽象类，而org.robo
 如org.robobinding.viewattribute.textview包对应android.widget.TextView；org.robobinding.viewattribute.seekbar包对应android.widget.SeekBar。
 
 
-ViewAttribute生命周期事件：initialize->bindTo->preInitializeView。
-三种视图属性(即简单视图属性PropertyViewAttribute，命令视图属性AbstractCommandViewAttribute以及复合视图属性AbstractGroupedViewAttribute)都存在着一致的生命周期事件。
-即初始化(initialize)，绑定(bindTo)以及可选的预初始化视图(preInitializeView)。三个事件由前至后的顺序被调用。预初始化视图方法只有在被要求的情况下才会被调用。
+ViewAttribute生命周期方法：initialize->bindTo->preInitializeView。
+三种视图属性(即简单视图属性PropertyViewAttribute，命令视图属性AbstractCommandViewAttribute以及复合视图属性AbstractGroupedViewAttribute)都存在着一致的生命周期方法。
+即初始化(initialize)，绑定(bindTo)以及可选的预初始化视图(preInitializeView)。三个方法由前至后的顺序被调用。预初始化视图方法只有在被要求的情况下才会被调用。
 
 
 .ChildViewAttributes类关系图
@@ -164,11 +165,11 @@ org.robobinding.presentationmodel，org.robobinding.property，org.robobinding.i
 即所有org.robobinding.presentationmodel.ObservableProperties/AbstractPresentationModel的子类或有
 org.robobinding.presentationmodel.PresentationModel annotation标识的类。PresentationModelAdapter主要包装应用程序PresentationModel的三类信息，
 即将SimpleProperty，DataSetProperty和Method包装为org.robobinding.property.PropertyValueModel，org.robobinding.property.DataSetValueModel
-和org.robobinding.function.Function。上图右边的例子中：windowTitle为SimpleProperty,albums为DataSetProperty，createAlbum为Method。
+和org.robobinding.function.Function。上图右边的例子中：++windowTitle++为SimpleProperty,++albums++为DataSetProperty，++createAlbum()++为Method。
 DataSetProperty是一个数据集属性，其中每一个数据项又会生成一个org.robobinding.itempresentationmodel.ItemPresentationModel实例，
 上图中即为AlbumItemPresentationModel，其与对应的++@layout/album_row++配合显示相应的行。框架通过AspectJ为一些类自动的注入一些代码，以减少工作量。
 例如为PresentationModel注入PresentationModelAspect，主要为Setter方法尾部追加属性值变更事件通知代码；
-为ItemPresentationModel注入ItemPresentationModelAspect，即为ItemPresentationModel.updateData方法的尾部加上数据项变更刷新ItemPresentationModel代码。
+为ItemPresentationModel注入ItemPresentationModelAspect，即为ItemPresentationModel.updateData方法的尾部加上数据项变更刷新ItemPresentationModel来同步视图显示代码。
 
 
 成为项目开发成员
