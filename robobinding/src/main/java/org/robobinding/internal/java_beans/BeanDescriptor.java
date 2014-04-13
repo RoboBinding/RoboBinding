@@ -1,13 +1,15 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -32,7 +34,7 @@ public class BeanDescriptor extends FeatureDescriptor {
      * {@link Class}. The descriptor's {@link #getName()} is set as the
      * unqualified name of the <code>beanClass</code>.
      * </p>
-     * 
+     *
      * @param beanClass
      *            The bean's Class.
      * @param customizerClass
@@ -53,7 +55,7 @@ public class BeanDescriptor extends FeatureDescriptor {
      * {@link #getName()} is set as the unqualified name of the
      * <code>beanClass</code>.
      * </p>
-     * 
+     *
      * @param beanClass
      *            The bean's Class.
      */
@@ -65,7 +67,7 @@ public class BeanDescriptor extends FeatureDescriptor {
      * <p>
      * Gets the bean's customizer {@link Class}.
      * </p>
-     * 
+     *
      * @return A {@link Class} instance or <code>null</code>.
      */
     public Class<?> getCustomizerClass() {
@@ -76,7 +78,7 @@ public class BeanDescriptor extends FeatureDescriptor {
      * <p>
      * Gets the bean's {@link Class}.
      * </p>
-     * 
+     *
      * @return A {@link Class} instance.
      */
     public Class<?> getBeanClass() {
@@ -87,7 +89,7 @@ public class BeanDescriptor extends FeatureDescriptor {
      * <p>
      * Utility method for getting the unqualified name of a {@link Class}.
      * </p>
-     * 
+     *
      * @param leguminaClass
      *            The Class to get the name from.
      * @return A String instance or <code>null</code>.

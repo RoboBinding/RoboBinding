@@ -1,13 +1,15 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -51,7 +53,7 @@ public class FeatureDescriptor {
      * <p>
      * Sets the value for the named attribute.
      * </p>
-     * 
+     *
      * @param attributeName
      *            The name of the attribute to set a value with.
      * @param value
@@ -68,7 +70,7 @@ public class FeatureDescriptor {
      * <p>
      * Gets the value associated with the named attribute.
      * </p>
-     * 
+     *
      * @param attributeName
      *            The name of the attribute to get a value for.
      * @return The attribute's value.
@@ -84,7 +86,7 @@ public class FeatureDescriptor {
      * <p>
      * Enumerates the attribute names.
      * </p>
-     * 
+     *
      * @return An instance of {@link Enumeration}.
      */
     public Enumeration<String> attributeNames() {
@@ -96,7 +98,7 @@ public class FeatureDescriptor {
      * <p>
      * Sets the short description.
      * </p>
-     * 
+     *
      * @param text
      *            The description to set.
      */
@@ -108,7 +110,7 @@ public class FeatureDescriptor {
      * <p>
      * Sets the name.
      * </p>
-     * 
+     *
      * @param name
      *            The name to set.
      */
@@ -120,7 +122,7 @@ public class FeatureDescriptor {
      * <p>
      * Sets the display name.
      * </p>
-     * 
+     *
      * @param displayName
      *            The display name to set.
      */
@@ -132,7 +134,7 @@ public class FeatureDescriptor {
      * <p>
      * Gets the short description or {@link #getDisplayName()} if not set.
      * </p>
-     * 
+     *
      * @return The description.
      */
     public String getShortDescription() {
@@ -143,7 +145,7 @@ public class FeatureDescriptor {
      * <p>
      * Gets the name.
      * </p>
-     * 
+     *
      * @return The name.
      */
     public String getName() {
@@ -154,7 +156,7 @@ public class FeatureDescriptor {
      * <p>
      * Gets the display name or {@link #getName()} if not set.
      * </p>
-     * 
+     *
      * @return The display name.
      */
     public String getDisplayName() {
@@ -165,7 +167,7 @@ public class FeatureDescriptor {
      * <p>
      * Sets the preferred indicator.
      * </p>
-     * 
+     *
      * @param preferred
      *            <code>true</code> if preferred, <code>false</code> otherwise.
      */
@@ -177,7 +179,7 @@ public class FeatureDescriptor {
      * <p>
      * Sets the hidden indicator.
      * </p>
-     * 
+     *
      * @param hidden
      *            <code>true</code> if hidden, <code>false</code> otherwise.
      */
@@ -189,7 +191,7 @@ public class FeatureDescriptor {
      * <p>
      * Sets the expert indicator.
      * </p>
-     * 
+     *
      * @param expert
      *            <code>true</code> if expert, <code>false</code> otherwise.
      */
@@ -201,7 +203,7 @@ public class FeatureDescriptor {
      * <p>
      * Indicates if this feature is preferred.
      * </p>
-     * 
+     *
      * @return <code>true</code> if preferred, <code>false</code> otherwise.
      */
     public boolean isPreferred() {
@@ -212,7 +214,7 @@ public class FeatureDescriptor {
      * <p>
      * Indicates if this feature is hidden.
      * </p>
-     * 
+     *
      * @return <code>true</code> if hidden, <code>false</code> otherwise.
      */
     public boolean isHidden() {
@@ -223,7 +225,7 @@ public class FeatureDescriptor {
      * <p>
      * Indicates if this feature is an expert feature.
      * </p>
-     * 
+     *
      * @return <code>true</code> if hidden, <code>false</code> otherwise.
      */
     public boolean isExpert() {

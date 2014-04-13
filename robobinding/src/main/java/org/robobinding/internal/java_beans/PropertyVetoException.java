@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  *  Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -32,7 +34,7 @@ public class PropertyVetoException extends Exception {
      * <p>
      * Constructs an instance with a message and the change event.
      * </p>
-     * 
+     *
      * @param message
      *            A description of the veto.
      * @param event
@@ -47,7 +49,7 @@ public class PropertyVetoException extends Exception {
      * <p>
      * Gets the property change event.
      * </p>
-     * 
+     *
      * @return An instance of {@link PropertyChangeEvent}
      */
     public PropertyChangeEvent getPropertyChangeEvent() {
