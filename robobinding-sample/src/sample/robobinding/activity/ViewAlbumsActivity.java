@@ -29,20 +29,14 @@ import android.os.Bundle;
  * @author Robert Taylor
  */
 public class ViewAlbumsActivity extends Activity {
-    protected ViewAlbumsPresentationModel presentationModel;
+	protected ViewAlbumsPresentationModel presentationModel;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-	presentationModel = new ViewAlbumsPresentationModel(this);
-	Binders.bindWithoutPreInitializingViews(this, R.layout.view_albums_activity, presentationModel);
-    }
-
-    @Override
-    protected void onResume() {
-	super.onResume();
-	presentationModel.refreshPresentationModel();
-    }
+		presentationModel = new ViewAlbumsPresentationModel(this);
+		Binders.bind(this, R.layout.view_albums_activity, presentationModel);
+	}
 
 }

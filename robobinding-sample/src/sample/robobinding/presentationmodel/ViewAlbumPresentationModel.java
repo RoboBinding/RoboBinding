@@ -34,58 +34,59 @@ import android.content.Intent;
  */
 @PresentationModel
 public class ViewAlbumPresentationModel {
-    private final Activity activity;
-    private final long albumId;
-    private Album album;
+	private final Activity activity;
+	private final long albumId;
+	private Album album;
 
-    public ViewAlbumPresentationModel(Activity activity, long albumId) {
-	this.activity = activity;
+	public ViewAlbumPresentationModel(Activity activity, long albumId) {
+		this.activity = activity;
 
-	if (albumId == Album.NO_ID) {
-	    throw new IllegalArgumentException("No album id is given");
+		if (albumId == Album.NO_ID) {
+			throw new IllegalArgumentException("No album id is given");
+		}
+		this.albumId = albumId;
 	}
-	this.albumId = albumId;
-    }
 
-    public String getTitle() {
-	return album.getTitle();
-    }
+	public String getTitle() {
+		return album.getTitle();
+	}
 
-    public String getArtist() {
-	return album.getArtist();
-    }
+	public String getArtist() {
+		return album.getArtist();
+	}
 
-    public String getComposer() {
-	return album.getComposer();
-    }
+	public String getComposer() {
+		return album.getComposer();
+	}
 
-    public boolean isComposerEnabled() {
-	return album.isClassical();
-    }
+	public boolean isComposerEnabled() {
+		return album.isClassical();
+	}
 
-    public String getClassicalDescription() {
-	return album.isClassical() ? "Classical" : "Not classical";
-    }
+	public String getClassicalDescription() {
+		return album.isClassical() ? "Classical" : "Not classical";
+	}
 
-    public void editAlbum() {
-	Intent intent = new Intent(activity, CreateEditAlbumActivity.class);
-	intent.putExtra(CreateEditAlbumActivity.ALBUM_ID, album.getId());
-	activity.startActivity(intent);
-    }
+	public void editAlbum() {
+		Intent intent = new Intent(activity, CreateEditAlbumActivity.class);
+		intent.putExtra(CreateEditAlbumActivity.ALBUM_ID, album.getId());
+		activity.startActivity(intent);
+	}
 
-    public void deleteAlbum() {
-	DeleteAlbumDialog deleteAlbumDialog = new DeleteAlbumDialog(activity, album);
-	deleteAlbumDialog.setOnCancelListener(new OnCancelListener() {
-	    @Override
-	    public void onCancel(DialogInterface dialog) {
-		activity.finish();
-	    }
-	});
-	deleteAlbumDialog.show();
-    }
+	public void deleteAlbum() {
+		DeleteAlbumDialog deleteAlbumDialog = new DeleteAlbumDialog(activity,
+				album);
+		deleteAlbumDialog.setOnCancelListener(new OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				activity.finish();
+			}
+		});
+		deleteAlbumDialog.show();
+	}
 
-    public void refresh() {
-	this.album = AlbumStore.get(albumId);
-	refreshPresentationModel();
-    }
+	public void refresh() {
+		this.album = AlbumStore.get(albumId);
+		refreshPresentationModel();
+	}
 }

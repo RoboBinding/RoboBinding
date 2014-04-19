@@ -29,14 +29,14 @@ import android.content.Intent;
  */
 @PresentationModel
 public class HomePresentationModel {
-    private Context context;
+	private Context context;
 
-    public HomePresentationModel(Context context) {
-	this.context = context;
-    }
+	public HomePresentationModel(Context context) {
+		this.context = context;
+	}
 
-    public void albums() {
-	context.startActivity(new Intent(context, ViewAlbumsActivity.class));
-    }
+	public void albums() {
+		context.startActivity(new Intent(context, ViewAlbumsActivity.class));
+	}
 
 }

@@ -29,60 +29,60 @@ import android.database.AbstractCursor;
  * @author Robert Taylor
  */
 public class AlbumCursor extends AbstractCursor implements TypedCursor<Album> {
-    private final List<Album> data;
+	private final List<Album> data;
 
-    public AlbumCursor(List<Album> data) {
-	this.data = data;
-    }
+	public AlbumCursor(List<Album> data) {
+		this.data = data;
+	}
 
-    @Override
-    public Album getObjectAtPosition(int position) {
-	return data.get(position);
-    }
+	@Override
+	public Album getObjectAtPosition(int position) {
+		return data.get(position);
+	}
 
-    @Override
-    public int getCount() {
-	return data.size();
-    }
+	@Override
+	public int getCount() {
+		return data.size();
+	}
 
-    @Override
-    public String[] getColumnNames() {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public String[] getColumnNames() {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public String getString(int column) {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public String getString(int column) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public short getShort(int column) {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public short getShort(int column) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public int getInt(int column) {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public int getInt(int column) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public long getLong(int column) {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public long getLong(int column) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public float getFloat(int column) {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public float getFloat(int column) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public double getDouble(int column) {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public double getDouble(int column) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public boolean isNull(int column) {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public boolean isNull(int column) {
+		throw new UnsupportedOperationException();
+	}
 
 }

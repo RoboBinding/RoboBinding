@@ -40,29 +40,29 @@ import com.google.common.collect.Lists;
 @PresentationModel
 public class ViewAlbumsPresentationModel {
 
-    private final Context context;
+	private final Context context;
 
-    public ViewAlbumsPresentationModel(Activity activity) {
-	this.context = activity;
-    }
+	public ViewAlbumsPresentationModel(Activity activity) {
+		this.context = activity;
+	}
 
-    @ItemPresentationModel(AlbumItemPresentationModel.class)
-    public List<Album> getAlbums() {
-	firePropertyChange("");
-	return Lists.newArrayList(AlbumStore.getAll());
-    }
+	@ItemPresentationModel(AlbumItemPresentationModel.class)
+	public List<Album> getAlbums() {
+		return Lists.newArrayList(AlbumStore.getAll());
+	}
 
-    public void createAlbum() {
-	context.startActivity(new Intent(context, CreateEditAlbumActivity.class));
-    }
+	public void createAlbum() {
+		context.startActivity(new Intent(context, CreateEditAlbumActivity.class));
+	}
 
-    public void viewAlbum(ItemClickEvent event) {
-	viewAlbum(event.getPosition());
-    }
+	public void viewAlbum(ItemClickEvent event) {
+		viewAlbum(event.getPosition());
+	}
 
-    private void viewAlbum(int selectedAlbumPosition) {
-	Intent intent = new Intent(context, ViewAlbumActivity.class);
-	intent.putExtra(ViewAlbumActivity.ALBUM_ID, AlbumStore.getByIndex(selectedAlbumPosition).getId());
-	context.startActivity(intent);
-    }
+	private void viewAlbum(int selectedAlbumPosition) {
+		Intent intent = new Intent(context, ViewAlbumActivity.class);
+		intent.putExtra(ViewAlbumActivity.ALBUM_ID,
+				AlbumStore.getByIndex(selectedAlbumPosition).getId());
+		context.startActivity(intent);
+	}
 }

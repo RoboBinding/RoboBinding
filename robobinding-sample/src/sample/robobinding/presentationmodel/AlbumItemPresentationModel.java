@@ -25,18 +25,18 @@ import sample.robobinding.model.Album;
  * @author Robert Taylor
  */
 public class AlbumItemPresentationModel implements ItemPresentationModel<Album> {
-    protected Album album;
+	protected Album album;
 
-    public String getTitle() {
-	return album.getTitle();
-    }
+	public String getTitle() {
+		return album.getTitle();
+	}
 
-    public String getArtist() {
-	return album.getArtist();
-    }
+	public String getArtist() {
+		return album.getArtist();
+	}
 
-    @Override
-    public void updateData(int index, Album bean) {
-	this.album = bean;
-    }
+	@Override
+	public void updateData(int index, Album bean) {
+		this.album = bean;
+	}
 }

@@ -31,15 +31,17 @@ import android.os.Bundle;
  */
 public class CreateEditAlbumActivity extends Activity {
 
-    public static final String ALBUM_ID = ViewAlbumActivity.ALBUM_ID;
+	public static final String ALBUM_ID = ViewAlbumActivity.ALBUM_ID;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-	long albumId = getIntent().getLongExtra(ALBUM_ID, Album.NO_ID);
+		long albumId = getIntent().getLongExtra(ALBUM_ID, Album.NO_ID);
 
-	CreateEditAlbumPresentationModel presentationModel = new CreateEditAlbumPresentationModel(this, albumId);
-	Binders.bind(this, R.layout.create_edit_album_activity, presentationModel);
-    }
+		CreateEditAlbumPresentationModel presentationModel = new CreateEditAlbumPresentationModel(
+				this, albumId);
+		Binders.bind(this, R.layout.create_edit_album_activity,
+				presentationModel);
+	}
 }
