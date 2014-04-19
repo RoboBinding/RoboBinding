@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  *  Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -31,7 +33,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
     /**
      * Constructs a new instance of <code>IndexedPropertyDescriptor</code>.
-     * 
+     *
      * @param propertyName
      *            the specified indexed property's name.
      * @param beanClass
@@ -95,7 +97,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
     /**
      * Constructs a new instance of <code>IndexedPropertyDescriptor</code>.
-     * 
+     *
      * @param propertyName
      *            the specified indexed property's name.
      * @param getter
@@ -128,7 +130,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
     /**
      * Constructs a new instance of <code>IndexedPropertyDescriptor</code>.
-     * 
+     *
      * @param propertyName
      *            the specified indexed property's name.
      * @param beanClass
@@ -144,7 +146,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
     /**
      * Sets the indexed getter as the specified method.
-     * 
+     *
      * @param indexedGetter
      *            the specified indexed getter.
      * @throws IntrospectionException
@@ -155,7 +157,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
     /**
      * Sets the indexed setter as the specified method.
-     * 
+     *
      * @param indexedSetter
      *            the specified indexed setter.
      * @throws IntrospectionException
@@ -166,7 +168,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
     /**
      * Obtains the indexed setter.
-     * 
+     *
      * @return the indexed setter.
      */
     public Method getIndexedWriteMethod() {
@@ -175,7 +177,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
     /**
      * Obtains the indexed getter.
-     * 
+     *
      * @return the indexed getter.
      */
     public Method getIndexedReadMethod() {
@@ -187,7 +189,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
      * specified object. Two <code>IndexedPropertyDescriptor</code> s are equal
      * if the reader, indexed reader, writer, indexed writer, property types,
      * indexed property type, property editor and flags are equal.
-     * 
+     *
      * @param obj
      * @return true if this indexed property descriptor is equal to the
      *         specified object.
@@ -202,7 +204,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
 	return (super.equals(other)
 		&& (indexedPropertyType == null ? other.indexedPropertyType == null : indexedPropertyType.equals(other.indexedPropertyType))
-		&& (indexedGetter == null ? other.indexedGetter == null : indexedGetter.equals(other.indexedGetter)) 
+		&& (indexedGetter == null ? other.indexedGetter == null : indexedGetter.equals(other.indexedGetter))
 		&& (indexedSetter == null ? other.indexedSetter == null
 		    : indexedSetter.equals(other.indexedSetter)));
     }
@@ -216,7 +218,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
 
     /**
      * Obtains the Class object of the indexed property type.
-     * 
+     *
      * @return the Class object of the indexed property type.
      */
     public Class<?> getIndexedPropertyType() {

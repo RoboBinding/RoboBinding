@@ -10,7 +10,7 @@
               lines="28-30"/>
     <suppress checks="MethodLength"
               files="StandardBeanInfo.java"
-              lines="152, 691"/>
+              lines="154, 693"/>
     <suppress checks="NoWhitespaceBefore"
               files="R.java"
               lines="9-100"/>

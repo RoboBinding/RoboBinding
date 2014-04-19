@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  *  Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -49,7 +51,7 @@ import java.util.WeakHashMap;
  * a "BeanInfo" class and the "BeanInfo" class returns non-null value when
  * queried for explicit information, use the explicit information</li>
  * </ol>
- * 
+ *
  */
 // ScrollPane cannot be introspected correctly
 public class Introspector extends java.lang.Object {
@@ -94,13 +96,13 @@ public class Introspector extends java.lang.Object {
     /**
      * Gets the <code>BeanInfo</code> object which contains the information of
      * the properties, events and methods of the specified bean class.
-     * 
+     *
      * <p>
      * The <code>Introspector</code> will cache the <code>BeanInfo</code>
      * object. Subsequent calls to this method will be answered with the cached
      * data.
      * </p>
-     * 
+     *
      * @param beanClass
      *            the specified bean class.
      * @return the <code>BeanInfo</code> of the bean class.
@@ -181,12 +183,12 @@ public class Introspector extends java.lang.Object {
     /*
      * Method which attempts to instantiate a BeanInfo object of the supplied
      * classname
-     * 
+     *
      * @param theBeanInfoClassName - the Class Name of the class of which the
      * BeanInfo is an instance
-     * 
+     *
      * @param classLoader
-     * 
+     *
      * @return A BeanInfo object which is an instance of the Class named
      * theBeanInfoClassName null if the Class does not exist or if there are
      * problems instantiating the instance
@@ -220,7 +222,7 @@ public class Introspector extends java.lang.Object {
      * <li>If the first or only character is Upper Case, it is made Lower Case
      * <li>UNLESS the second character is also Upper Case, when the String is
      * returned unchanged. </ul>
-     * 
+     *
      * @param name
      *            - the String to decapitalize
      * @return the decapitalized version of the String

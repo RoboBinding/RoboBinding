@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  *  Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -83,14 +85,14 @@ class StandardBeanInfo extends SimpleBeanInfo {
 	 * Each of these may be optionally provided in the explicitBeanInfo object relating to
 	 * this bean.  Where the explicitBeanInfo provides one of these aspects, it is used
 	 * without question and no introspection of the beanClass is performed for that aspect.
-	 * There are also 3 optional items of BeanInfo that may be provided by the 
+	 * There are also 3 optional items of BeanInfo that may be provided by the
 	 * explicitBeanInfo object:
 	 * 1) BeanDescriptor
 	 * 2) DefaultEventIndex
 	 * 3) DefaultPropertyIndex
 	 * These aspects of the beanClass cannot be derived through introspection of the class.
-	 * If they are not provided by the explicitBeanInfo, then they must be left null in the 
-	 * returned BeanInfo, otherwise they will be copied from the explicitBeanInfo 
+	 * If they are not provided by the explicitBeanInfo, then they must be left null in the
+	 * returned BeanInfo, otherwise they will be copied from the explicitBeanInfo
 	 --------------------------------------------------------------------------------------*/
 	if (explicitBeanInfo != null) {
 	    this.explicitBeanInfo = explicitBeanInfo;
@@ -386,7 +388,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
     /**
      * Introspects the supplied class and returns a list of the public methods
      * of the class.
-     * 
+     *
      * @return An array of MethodDescriptors with the public methods. null if
      *         there are no public methods
      */
@@ -431,7 +433,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
 
     /**
      * Introspects the supplied class and returns a list of the Properties of the class.
-     * 
+     *
      * @param stopClass
      *            - the to introspecting at
      * @return The list of Properties as an array of PropertyDescriptors
@@ -684,7 +686,7 @@ class StandardBeanInfo extends SimpleBeanInfo {
     /**
      * Checks and fixs all cases when several incompatible checkers / getters
      * were specified for single property.
-     * 
+     *
      * @param propertyTable
      * @throws IntrospectionException
      */

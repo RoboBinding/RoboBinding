@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  *  Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
  *  this work for additional information regarding copyright ownership.
@@ -44,7 +46,7 @@ public class PropertyDescriptor extends FeatureDescriptor {
 	this.setName(propertyName);
 	if (getterName != null) {
 	    if (getterName.length() == 0) {
-		throw new IntrospectionException("read or write method cannot be empty."); //$NON-NLS-1$    
+		throw new IntrospectionException("read or write method cannot be empty."); //$NON-NLS-1$
 	    }
 	    try {
 		setReadMethod(beanClass, getterName);
@@ -54,7 +56,7 @@ public class PropertyDescriptor extends FeatureDescriptor {
 	}
 	if (setterName != null) {
 	    if (setterName.length() == 0) {
-		throw new IntrospectionException("read or write method cannot be empty."); //$NON-NLS-1$    
+		throw new IntrospectionException("read or write method cannot be empty."); //$NON-NLS-1$
 	    }
 	    setWriteMethod(beanClass, setterName);
 	}
