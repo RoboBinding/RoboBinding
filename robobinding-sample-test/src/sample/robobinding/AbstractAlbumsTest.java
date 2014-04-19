@@ -19,7 +19,7 @@ import sample.robobinding.model.Album;
 import sample.robobinding.store.AlbumStore;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -49,6 +49,7 @@ public abstract class AbstractAlbumsTest extends AbstractSampleAppTest {
     }
 
     protected void assertNumberOfAlbums(int expectedAlbumSize) {
+	solo.waitForActivity("ViewAlbumsActivity", 2000);
 	int actualAlbumSize = solo.getCurrentListViews().get(0).getCount();
 	assertEquals(expectedAlbumSize, actualAlbumSize);
     }
