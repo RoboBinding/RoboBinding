@@ -201,6 +201,69 @@
 					<consoleOutput>true</consoleOutput>
 				</configuration>
 			</plugin>
+			<!--
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<docletArtifact>
+						<groupId>com.google.doclava</groupId>
+						<artifactId>doclava</artifactId>
+						<version>1.0.6</version>
+					</docletArtifact>
+					<doclet>com.google.doclava.Doclava</doclet>
+					<bootclasspath>${sun.boot.class.path}</bootclasspath>
+					<additionalparam>
+						-quiet
+						-federate JDK http://download.oracle.com/javase/6/docs/api/index.html?
+						-federationxml JDK
+						http://doclava.googlecode.com/svn/static/api/openjdk-6.xml
+						-hdf project.name "${project.name}"
+						-d ${project.build.directory}/apidocs
+					</additionalparam>
+					<useStandardDocletOptions>false</useStandardDocletOptions>
+					<additionalJOption>-J-Xmx1024m</additionalJOption>
+					<tagletArtifacts>
+						<tagletArtifact>
+	              			<groupId>org.robobinding</groupId>
+	              			<artifactId>doctarget</artifactId>
+	              			<version>0.0.1-SNAPSHOT</version>
+						</tagletArtifact>
+					</tagletArtifacts>
+				</configuration>
+			</plugin>
+			 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+				<taglets>
+
+            <taglet>
+              <tagletClass>org.robobinding.doctaglet.EventTaglet</tagletClass>
+            </taglet>
+
+            <taglet>
+              <tagletClass>org.robobinding.doctaglet.PropTaglet</tagletClass>
+            </taglet>
+          </taglets>
+						<tagletArtifact>
+	              			<groupId>org.robobinding</groupId>
+	              			<artifactId>doctaglet</artifactId>
+	              			<version>0.0.1-SNAPSHOT</version>
+						</tagletArtifact>
+				</configuration>
+			</plugin>
 		</plugins>
 
 		<pluginManagement>
