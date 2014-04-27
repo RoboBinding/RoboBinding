@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding.presentationmodel;
+package org.robobinding.albumsample.presentationmodel;
 
 import java.util.List;
 
+import org.robobinding.albumsample.activity.CreateEditAlbumActivity;
+import org.robobinding.albumsample.activity.ViewAlbumActivity;
+import org.robobinding.albumsample.model.Album;
+import org.robobinding.albumsample.store.AlbumStore;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModel;
 import org.robobinding.viewattribute.adapterview.ItemClickEvent;
 
-import sample.robobinding.activity.CreateEditAlbumActivity;
-import sample.robobinding.activity.ViewAlbumActivity;
-import sample.robobinding.model.Album;
-import sample.robobinding.store.AlbumStore;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding;
+package org.robobinding.albumsampletest;
 
-import sample.robobinding.activity.HomeActivity;
+import org.robobinding.albumsample.activity.HomeActivity;
+
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;

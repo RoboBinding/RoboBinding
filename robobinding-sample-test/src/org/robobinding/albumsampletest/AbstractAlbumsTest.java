@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding;
+package org.robobinding.albumsampletest;
 
-import sample.robobinding.model.Album;
-import sample.robobinding.store.AlbumStore;
+import org.robobinding.albumsample.R;
+import org.robobinding.albumsample.model.Album;
+import org.robobinding.albumsample.store.AlbumStore;
+
 
 /**
  *

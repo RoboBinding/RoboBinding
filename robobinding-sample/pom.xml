@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.robobinding</groupId>
-	<artifactId>robobinding-sample</artifactId>
-	<version>1.0.0</version>
+	<artifactId>album-sample</artifactId>
+	<version>0.8.2-SNAPSHOT</version>
 	<packaging>apk</packaging>
-	<name>RoboBinding Sample</name>
-	<description>A sample project to demonstrate the features of the RoboBinding framework.</description>
+	<name>RoboBinding Album Sample</name>
+	<description>An album sample project(an Android translation of Martin Fowler's original one) to demonstrate the features of the RoboBinding framework.</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -130,7 +130,7 @@
 
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
+				<!--This plugin's configuration is used to store Eclipse m2e settings
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>

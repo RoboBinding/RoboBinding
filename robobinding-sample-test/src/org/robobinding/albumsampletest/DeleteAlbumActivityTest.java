@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding;
+package org.robobinding.albumsampletest;
 
 import java.util.Random;
 
+import org.robobinding.albumsample.R;
+
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor

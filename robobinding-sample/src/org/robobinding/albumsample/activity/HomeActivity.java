@@ -13,35 +13,28 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding.activity;
+package org.robobinding.albumsample.activity;
 
+import org.robobinding.albumsample.R;
+import org.robobinding.albumsample.presentationmodel.HomePresentationModel;
 import org.robobinding.binder.Binders;
 
-import sample.robobinding.R;
-import sample.robobinding.presentationmodel.ViewAlbumsPresentationModel;
 import android.app.Activity;
 import android.os.Bundle;
 
 /**
  *
  * @since 1.0
- * @version $Revision: 1.0 $
+ * @author Cheng Wei
  * @author Robert Taylor
  */
-public class ViewAlbumsActivity extends Activity {
-    protected ViewAlbumsPresentationModel presentationModel;
+public class HomeActivity extends Activity {
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-
-	presentationModel = new ViewAlbumsPresentationModel(this);
-	Binders.bind(this, R.layout.view_albums_activity, presentationModel);
-    }
-
-    @Override
-    protected void onResume() {
-	super.onResume();
-	presentationModel.refreshPresentationModel();
-    }
+		HomePresentationModel presentationModel = new HomePresentationModel(
+				this);
+		Binders.bind(this, R.layout.home_activity, presentationModel);
+	}
 }

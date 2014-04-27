@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions
  * and limitations under the License.
  */
-package sample.robobinding.store;
+package org.robobinding.albumsample.store;
 
 import java.util.Collections;
 import java.util.List;
 
-import sample.robobinding.model.Album;
-import sample.robobinding.presentationmodel.AlbumCursor;
+import org.robobinding.albumsample.model.Album;
+import org.robobinding.albumsample.presentationmodel.AlbumCursor;
+
 
 import com.google.common.collect.Lists;
 
