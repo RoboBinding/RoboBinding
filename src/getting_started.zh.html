@@ -781,18 +781,18 @@ ProGuard
 <div class="title">Figure 1. Album唱片集例子原型</div>
 </div>
 <div class="paragraph"><p>以上是Album唱片集例子原型图。项目遵循RoboBinding应用的标准结构，即一个Activity由Activity主Java文件，Layout文件与PresentationModel Java文件组成。
-项目源代码中包含以下几个包：sample.robobinding.activity包含所有Activity的主Java文件，sample.robobinding.presentationmodel包含所有PresentationModel Java文件，
-sample.robobinding.model仅包含一个Album实体实现文件，sample.robobinding.store包含一个基于内存Album实体存储实现AlbumStore。
+项目源代码中包含以下几个包：org.robobinding.albumsample.activity包含所有Activity的主Java文件，org.robobinding.albumsample.presentationmodel包含所有PresentationModel Java文件，
+org.robobinding.albumsample.model仅包含一个Album实体实现文件，org.robobinding.albumsample.store包含一个基于内存Album实体存储实现AlbumStore。
 接下来列出上述五张图所对应的实现文件。
-图[Home Activity]由sample.robobinding.activity.HomeActivity，home_activity.xml与sample.robobinding.presentationmodel.HomePresentationModel组成。
-图[View Albums Activity]由sample.robobinding.activity.ViewAlbumsActivity，view_albums_activity.xml与sample.robobinding.presentationmodel.ViewAlbumsPresentationModel组成;
-其唱片集每行的唱片信息由sample.robobinding.presentationmodel.AlbumItemPresentationModel与album_row.xml组成；以及一个当唱片集为空时Layout显示文件albums_empty_view.xml。
-图[Create Album Activity]与图[Edit Album Activity]由相同的sample.robobinding.activity.CreateEditAlbumActivity，create_edit_album_activity.xml与sample.robobinding.presentationmodel.CreateEditAlbumPresentationModel组成。
-图[View Album Activity]由sample.robobinding.activity.ViewAlbumActivity，view_album_activity.xml与sample.robobinding.presentationmodel.ViewAlbumPresentationModel组成；
-其删除对话框由sample.robobinding.activity.DeleteAlbumDialog，delete_album_dialog与DeleteAlbumDialogPresentationModel组成。</p></div>
+图[Home Activity]由org.robobinding.albumsample.activity.HomeActivity，home_activity.xml与org.robobinding.albumsample.presentationmodel.HomePresentationModel组成。
+图[View Albums Activity]由org.robobinding.albumsample.activity.ViewAlbumsActivity，view_albums_activity.xml与org.robobinding.albumsample.presentationmodel.ViewAlbumsPresentationModel组成;
+其唱片集每行的唱片信息由org.robobinding.albumsample.presentationmodel.AlbumItemPresentationModel与album_row.xml组成；以及一个当唱片集为空时Layout显示文件albums_empty_view.xml。
+图[Create Album Activity]与图[Edit Album Activity]由相同的org.robobinding.albumsample.activity.CreateEditAlbumActivity，create_edit_album_activity.xml与org.robobinding.albumsample.presentationmodel.CreateEditAlbumPresentationModel组成。
+图[View Album Activity]由org.robobinding.albumsample.activity.ViewAlbumActivity，view_album_activity.xml与org.robobinding.albumsample.presentationmodel.ViewAlbumPresentationModel组成；
+其删除对话框由org.robobinding.albumsample.activity.DeleteAlbumDialog，delete_album_dialog.xml与DeleteAlbumDialogPresentationModel组成。</p></div>
 <div class="paragraph"><p>以下以[View Albums Activity]为例，对源代码做简单介绍。Activity主Java文件ViewAlbumsActivity只做了一件事，就是把Layout文件view_albums_activity.xml与ViewAlbumsPresentationModel关联起来。
 view_albums_activity.xml里包含了三个子视图按顺序为TextView, ListView与Button。TextView没有包含任何绑定信息。
-ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationModel.albums数据源属性。
+ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationModel.albums数据集属性。
 <code>bind:onItemClick="viewAlbum"</code>绑定到ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent)方法，单击某个唱片项时，该事件方法将被调用。
 <code>bind:emptyViewLayout="@layout/albums_empty_view"</code>设置了当唱片集为空时的显示内容Layout。
 <code>bind:itemLayout="@layout/album_row"</code>设置了唱片项的行显示Layout，结合在ViewAlbumsPresentationModel.albums上给出的数据项PresentationModel，即<code>@ItemPresentationModel(AlbumItemPresentationModel.class)</code>，
@@ -821,7 +821,7 @@ ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationMod
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-04-19 16:07:57 澳大利亚西部标准时间
+Last updated 2014-04-27 09:45:25 澳大利亚西部标准时间
 </div>
 </div>
 </body>

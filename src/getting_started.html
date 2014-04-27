@@ -777,15 +777,15 @@ The source code can be found underneath <a href="https://github.com/RoboBinding/
 <div class="title">Figure 1. Album Sample project prototype</div>
 </div>
 <div class="paragraph"><p>The above is the prototype of the project. The project follows the standard RoboBinding project structure, an Activity containing an Activity major Java file,
-a Layout file and a PresentationModel Java file. Inside the project, you can see the following packages: sample.robobinding.activity, which contains all Activity main Java files;
-sample.robobinding.presentationmodel, which contains all PresentationModel Java files; sample.robobinding.model, which contains a Album entity implementation;
-And sample.robobinding.store, which contains a AlbumStore implementation based on memory. In the prototype, you can see five diagrams.
-The diagram [Home Activity] consists of sample.robobinding.activity.HomeActivity, home_activity.xml and sample.robobinding.presentationmodel.HomePresentationModel.
-The diagram [View Albums Activity] consists of sample.robobinding.activity.ViewAlbumsActivity, view_albums_activity.xml and sample.robobinding.presentationmodel.ViewAlbumsPresentationModel;
-And the view of each album item is backed by sample.robobinding.presentationmodel.AlbumItemPresentationModel and album_row.xml; When the album list is empty, albums_empty_view.xml is applied.
-The diagram [Create Album Activity] and [Edit Album Activity] share the same components of sample.robobinding.activity.CreateEditAlbumActivity, create_edit_album_activity.xml and sample.robobinding.presentationmodel.CreateEditAlbumPresentationModel.
-The diagram [View Album Activity] consists of sample.robobinding.activity.ViewAlbumActivity, view_album_activity.xml and sample.robobinding.presentationmodel.ViewAlbumPresentationModel;
-And its album deletion dialog is backed by sample.robobinding.activity.DeleteAlbumDialog, delete_album_dialog.xml and DeleteAlbumDialogPresentationModel.</p></div>
+a Layout file and a PresentationModel Java file. Inside the project, you can see the following packages: org.robobinding.albumsample.activity, which contains all Activity main Java files;
+org.robobinding.albumsample.presentationmodel, which contains all PresentationModel Java files; org.robobinding.albumsample.model, which contains a Album entity implementation;
+And org.robobinding.albumsample.store, which contains a AlbumStore implementation based on memory. In the prototype, you can see five diagrams.
+The diagram [Home Activity] consists of org.robobinding.albumsample.activity.HomeActivity, home_activity.xml and org.robobinding.albumsample.presentationmodel.HomePresentationModel.
+The diagram [View Albums Activity] consists of org.robobinding.albumsample.activity.ViewAlbumsActivity, view_albums_activity.xml and org.robobinding.albumsample.presentationmodel.ViewAlbumsPresentationModel;
+And the view of each album item is backed by org.robobinding.albumsample.presentationmodel.AlbumItemPresentationModel and album_row.xml; When the album list is empty, albums_empty_view.xml is applied.
+The diagram [Create Album Activity] and [Edit Album Activity] share the same components of org.robobinding.albumsample.activity.CreateEditAlbumActivity, create_edit_album_activity.xml and org.robobinding.albumsample.presentationmodel.CreateEditAlbumPresentationModel.
+The diagram [View Album Activity] consists of org.robobinding.albumsample.activity.ViewAlbumActivity, view_album_activity.xml and org.robobinding.albumsample.presentationmodel.ViewAlbumPresentationModel;
+And its album deletion dialog is backed by org.robobinding.albumsample.activity.DeleteAlbumDialog, delete_album_dialog.xml and DeleteAlbumDialogPresentationModel.</p></div>
 <div class="paragraph"><p>Take [View Albums Activity] as an example to give a brief explanation on source code.
 The only thing the Activity major Java file, ViewAlbumsActivity, does is to link the Layout file, view_albums_activity.xml and ViewAlbumsPresentationModel together.
 view_albums_activity.xml contains three sub-views a TextView, a ListView and a Button. The TextView does not contain any binding information.
@@ -819,7 +819,7 @@ The last sub-view in view_albums_activity.xml is the Button. Its <code>bind:onCl
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-04-19 18:07:53 澳大利亚西部标准时间
+Last updated 2014-04-27 09:45:27 澳大利亚西部标准时间
 </div>
 </div>
 </body>
