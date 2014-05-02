@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -23,7 +25,7 @@ import java.lang.reflect.Modifier;
 /**
  * Migrated some of methods from
  * {@link org.apache.commons.lang3.reflect.MemberUtils}.
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -39,7 +41,7 @@ class MemberUtils {
 	    Double.TYPE};
 
     /**
-     * 
+     *
      * When a public class has a default access superclass with public members,
      * these members are accessible. Calling them from compiled code works fine.
      * Unfortunately, on some JVMs, using reflection to invoke these members
@@ -47,7 +49,7 @@ class MemberUtils {
      * Calling setAccessible(true) solves the problem but will only work from
      * sufficiently privileged code. Better workarounds would be gratefully
      * accepted.
-     * 
+     *
      * @param o
      *            the AccessibleObject to set as accessible
      */
@@ -69,7 +71,7 @@ class MemberUtils {
 
     /**
      * Returns whether a given set of modifiers implies package access.
-     * 
+     *
      * @param modifiers
      *            to test
      * @return true unless package/protected/private modifier detected
@@ -80,7 +82,7 @@ class MemberUtils {
 
     /**
      * Returns whether a Member is accessible.
-     * 
+     *
      * @param m
      *            Member to check
      * @return true if <code>m</code> is accessible
@@ -94,7 +96,7 @@ class MemberUtils {
      * matching a third set of runtime parameter types, such that a list ordered
      * by the results of the comparison would return the best match first
      * (least).
-     * 
+     *
      * @param left
      *            the "left" parameter set
      * @param right
@@ -113,7 +115,7 @@ class MemberUtils {
     /**
      * Returns the sum of the object transformation cost for each class in the
      * source argument list.
-     * 
+     *
      * @param srcArgs
      *            The source arguments
      * @param destArgs
@@ -135,7 +137,7 @@ class MemberUtils {
      * Gets the number of steps required needed to turn the source class into
      * the destination class. This represents the number of steps in the object
      * hierarchy graph.
-     * 
+     *
      * @param srcClass
      *            The source class
      * @param destClass
@@ -173,7 +175,7 @@ class MemberUtils {
     /**
      * Gets the number of steps required to promote a primitive number to
      * another type.
-     * 
+     *
      * @param srcClass
      *            the (primitive) source class
      * @param destClass

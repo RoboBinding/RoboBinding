@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -23,7 +25,7 @@ import java.lang.reflect.Modifier;
 /**
  * Migrated some of methods from
  * {@link org.apache.commons.lang3.reflect.ConstructorUtils}.
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -38,12 +40,12 @@ public class ConstructorUtils {
      * Returns a new instance of the specified class inferring the right
      * constructor from the types of the arguments.
      * </p>
-     * 
+     *
      * <p>
      * This locates and calls a constructor. The constructor signature must
      * match the argument types by assignment compatibility.
      * </p>
-     * 
+     *
      * @param <T>
      *            the type to be constructed
      * @param cls
@@ -51,7 +53,7 @@ public class ConstructorUtils {
      * @param args
      *            the array of arguments, null treated as empty
      * @return new instance of <code>cls</code>, not null
-     * 
+     *
      * @throws NoSuchMethodException
      *             if a matching constructor cannot be found
      * @throws IllegalAccessException
@@ -77,12 +79,12 @@ public class ConstructorUtils {
      * Returns a new instance of the specified class choosing the right
      * constructor from the list of parameter types.
      * </p>
-     * 
+     *
      * <p>
      * This locates and calls a constructor. The constructor signature must
      * match the parameter types by assignment compatibility.
      * </p>
-     * 
+     *
      * @param <T>
      *            the type to be constructed
      * @param cls
@@ -92,7 +94,7 @@ public class ConstructorUtils {
      * @param parameterTypes
      *            the array of parameter types, null treated as empty
      * @return new instance of <code>cls</code>, not null
-     * 
+     *
      * @throws NoSuchMethodException
      *             if a matching constructor cannot be found
      * @throws IllegalAccessException
@@ -123,12 +125,12 @@ public class ConstructorUtils {
      * <p>
      * Finds a constructor given a class and signature, checking accessibility.
      * </p>
-     * 
+     *
      * <p>
      * This finds the constructor and ensures that it is accessible. The
      * constructor signature must match the parameter types exactly.
      * </p>
-     * 
+     *
      * @param <T>
      *            the constructor type
      * @param cls
@@ -151,11 +153,11 @@ public class ConstructorUtils {
      * <p>
      * Checks if the specified constructor is accessible.
      * </p>
-     * 
+     *
      * <p>
      * This simply ensures that the constructor is accessible.
      * </p>
-     * 
+     *
      * @param <T>
      *            the constructor type
      * @param ctor
@@ -171,21 +173,21 @@ public class ConstructorUtils {
      * <p>
      * Finds an accessible constructor with compatible parameters.
      * </p>
-     * 
+     *
      * <p>
      * This checks all the constructor and finds one with compatible parameters
      * This requires that every parameter is assignable from the given parameter
      * types. This is a more flexible search than the normal exact matching
      * algorithm.
      * </p>
-     * 
+     *
      * <p>
      * First it checks if there is a constructor matching the exact signature.
      * If not then all the constructors of the class are checked to see if their
      * signatures are assignment compatible with the parameter types. The first
      * assignment compatible matching constructor is returned.
      * </p>
-     * 
+     *
      * @param <T>
      *            the constructor type
      * @param cls
@@ -218,7 +220,7 @@ public class ConstructorUtils {
 		ctor = getAccessibleConstructor(ctor);
 		if (ctor != null) {
 		    MemberUtils.setAccessibleWorkaround(ctor);
-		    if (result == null 
+		    if (result == null
 			    || MemberUtils.compareParameterTypes(ctor.getParameterTypes(), result.getParameterTypes(), parameterTypes) < 0) {
 			// temporary variable for annotation, see comment above
 			// (1)
