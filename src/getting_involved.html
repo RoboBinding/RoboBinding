@@ -804,11 +804,11 @@ The aim of the project is to reduce the workload of Android application developm
 </div>
 <div class="title">Figure 1. A RoboBinding-based Android application</div>
 </div>
-<div class="paragraph"><p>An Android application contains several Activities and other elements. In a RoboBinding-based Android application, an Activity contains an Activity major Java file, a layout file and a PresentationModel Java file
-(Whereas in an ordinary Android application, an Activity contains only an Activity major Java File and a layout file only). The display logic, which was originally sit inside the Activity major Java file, is extracted into a separate PresentationModel Java file.
-Activities will utilize RoboBinding to bind layouts to its corresponding display logic PresentationModel Java files. The display data of a layout is bound to the properties of a PresentationModel,
- while the view events of a layout are bound to the methods of a PresentationModel. RoboBinding helps to reduce or remove the UI code in original Activity major Java files through simple binding declarations in layout files.
- Ideally a PresentationModel Java file only contains UI display logic, not UI code or UI wiring code, and can be tested independently and easily.</p></div>
+<div class="paragraph"><p>An Android application contains several Activities and other elements. In a RoboBinding-based Android application, an Activity contains an Activity class, a layout xml and a PresentationModel pojo
+(Whereas in an ordinary Android application, an Activity contains only an Activity class and a layout xml). The display logic, which was originally sit inside the Activity class, is extracted into a separate PresentationModel pojo.
+Activities will utilize RoboBinding to bind layouts to its corresponding display logic PresentationModel. The display data of a layout is bound to the properties of a PresentationModel,
+ while the view events of a layout are bound to the methods of a PresentationModel. RoboBinding helps to reduce or remove the UI code in original Activity class through simple binding declarations in layout files.
+ Ideally a PresentationModel only contains UI display logic, not UI code or UI wiring code, and can be tested independently and easily.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_observing_from_the_robobinding_overall_implementation">2.2. Observing from the RoboBinding overall implementation</h3>
@@ -1030,7 +1030,7 @@ Maximum involvement and sharing. We encourage more contributors to involve in ev
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-03-16 20:51:57 澳大利亚西部标准时间
+Last updated 2014-05-04 10:01:23 澳大利亚西部标准时间
 </div>
 </div>
 </body>
