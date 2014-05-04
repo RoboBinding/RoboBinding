@@ -1,12 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.9" />
-<title><span class="image">
-<img src="images/robobinding_logo.png" alt="images/robobinding_logo.png" width="60" height="60" />
-</span> RoboBinding</title>
+<title>入门</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -729,68 +727,101 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install();
+asciidoc.install(2);
 /*]]>*/
 </script>
 </head>
 <body class="article">
 <div id="header">
-<h1><span class="image">
-<img src="images/robobinding_logo.png" alt="images/robobinding_logo.png" width="60" height="60" />
-</span> RoboBinding</h1>
+<h1>入门</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="_robobinding是什么">1. RoboBinding是什么?</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>A data-binding <a href="http://martinfowler.com/eaaDev/PresentationModel.html">Presentation Model</a> framework for the Android platform.</p></div>
-<hr />
+<div class="paragraph"><p>定义+Hello Robobinding</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setup">2. Setup</h2>
+<div class="sectionbody">
 <div class="ulist"><ul>
 <li>
 <p>
-<a href="getting_started.html">Getting Started</a>
+Maven
 </p>
 </li>
 <li>
 <p>
-<a href="getting_involved.html">Getting Involved</a>
+Eclipse
 </p>
 </li>
 <li>
 <p>
-<a href="about.html">About</a>
-</p>
-</li>
-<li>
-<p>
-<a href="old/index.html">The Old Documentations</a>
+ProGuard
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p><span class="image">
-<img src="http://www.iconpng.com/png/large-torrent/download.png" alt="http://www.iconpng.com/png/large-torrent/download.png" width="30" height="30" />
-</span> Download: <a href="http://search.maven.org/#search%7Cga%7C1%7Crobobinding">releases</a> on Maven Central and latest <a href="https://oss.sonatype.org/index.html#nexus-search;quick%7Erobobinding">snapshots</a> on Sonatype OSS Repo.</p></div>
-<div class="paragraph"><p><span class="image">
-<img src="https://raw.github.com/github/media/master/octocats/octocat.png" alt="GitHub" width="30" height="30" />
-</span> Development: <a href="http://github.com/RoboBinding/RoboBinding">GitHub</a></p></div>
-<div class="paragraph"><p><span class="image">
-<img src="https://lh3.googleusercontent.com/-YM2DGm-QreQ/Upb85v3Y-gI/AAAAAAAABt4/GIcGGykyHW8/w152-h106-no/Google+groups.png" alt="Google groups" width="43" height="30" />
-</span> Discussions: <a href="http://groups.google.com/group/robobinding">Google group</a></p></div>
-<div class="paragraph"><p><span class="image">
-<img src="https://g.twimg.com/Twitter_logo_blue.png" alt="https://g.twimg.com/Twitter_logo_blue.png" width="30" height="30" />
-</span> Twitter: <a href="https://twitter.com/RoboBinding">@robobinding</a></p></div>
-<div class="paragraph"><p><span class="image">
-<img src="https://raw.github.com/github/media/master/octocats/blacktocat-32.png" alt="GitHub" width="30" height="30" />
-</span> Issues: <a href="https://github.com/RoboBinding/RoboBinding/issues">Raising an issue</a></p></div>
-<div class="paragraph"><p><span class="image">
-<img src="http://www.cloudbees.com/sites/default/files/Button-Built-on-CB-1.png" alt="Build and tested on CloudBees DEV@cloud" />
-</span></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_album唱片集例子项目学习">3. Album唱片集例子项目学习</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>项目中所带的Album唱片集例子是将Martin Fowler的原始版本翻译成基于RoboBinding的Android版本(Martin Fowler基于.Net的<a href="http://martinfowler.com/eaaDev/PresentationModel.html">原始版本</a>)。
+可以从<a href="https://github.com/RoboBinding/RoboBinding">RoboBinding链接</a>下找到robobinding-sample项目。</p></div>
+<div class="paragraph"><p>将项目导入Eclipse。文件&#8594;导入&#8594;Android&#8594;已存在的Android代码到工作区&#8594;浏览选择robobinding-sample文件夹，导入即可。</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/album_sample_prototype.png" alt="images/album_sample_prototype.png" />
+</div>
+<div class="title">Figure 1. Album唱片集例子原型</div>
+</div>
+<div class="paragraph"><p>以上是Album唱片集例子原型图。项目遵循RoboBinding应用的标准结构，即一个Activity由Activity主Java文件，Layout文件与PresentationModel Java文件组成。
+项目源代码中包含以下几个包：org.robobinding.albumsample.activity包含所有Activity的主Java文件，org.robobinding.albumsample.presentationmodel包含所有PresentationModel Java文件，
+org.robobinding.albumsample.model仅包含一个Album实体实现文件，org.robobinding.albumsample.store包含一个基于内存Album实体存储实现AlbumStore。
+接下来列出上述五张图所对应的实现文件。
+图[Home Activity]由org.robobinding.albumsample.activity.HomeActivity，home_activity.xml与org.robobinding.albumsample.presentationmodel.HomePresentationModel组成。
+图[View Albums Activity]由org.robobinding.albumsample.activity.ViewAlbumsActivity，view_albums_activity.xml与org.robobinding.albumsample.presentationmodel.ViewAlbumsPresentationModel组成;
+其唱片集每行的唱片信息由org.robobinding.albumsample.presentationmodel.AlbumItemPresentationModel与album_row.xml组成；以及一个当唱片集为空时Layout显示文件albums_empty_view.xml。
+图[Create Album Activity]与图[Edit Album Activity]由相同的org.robobinding.albumsample.activity.CreateEditAlbumActivity，create_edit_album_activity.xml与org.robobinding.albumsample.presentationmodel.CreateEditAlbumPresentationModel组成。
+图[View Album Activity]由org.robobinding.albumsample.activity.ViewAlbumActivity，view_album_activity.xml与org.robobinding.albumsample.presentationmodel.ViewAlbumPresentationModel组成；
+其删除对话框由org.robobinding.albumsample.activity.DeleteAlbumDialog，delete_album_dialog.xml与DeleteAlbumDialogPresentationModel组成。</p></div>
+<div class="paragraph"><p>以下以[View Albums Activity]为例，对源代码做简单介绍。Activity主Java文件ViewAlbumsActivity只做了一件事，就是把Layout文件view_albums_activity.xml与ViewAlbumsPresentationModel关联起来。
+view_albums_activity.xml里包含了三个子视图按顺序为TextView, ListView与Button。TextView没有包含任何绑定信息。
+ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationModel.albums数据集属性。
+<code>bind:onItemClick="viewAlbum"</code>绑定到ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent)方法，单击某个唱片项时，该事件方法将被调用。
+<code>bind:emptyViewLayout="@layout/albums_empty_view"</code>设置了当唱片集为空时的显示内容Layout。
+<code>bind:itemLayout="@layout/album_row"</code>设置了唱片项的行显示Layout，结合在ViewAlbumsPresentationModel.albums上给出的数据项PresentationModel，即<code>@ItemPresentationModel(AlbumItemPresentationModel.class)</code>，
+来显示每一个唱片行。在album_row.xml里包含了两个简单的TextView，其<code>bind:text="{title}"</code>与<code>bind:text="{artist}"</code>分别绑定到AlbumItemPresentationModel.title/artist属性。
+在view_albums_activity.xml里的最后一个Button视图，<code>bind:onClick="createAlbum"</code>绑定到ViewAlbumsPresentationModel.createAlbum()方法。</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_目前支持的绑定属性列表">4. 目前支持的绑定属性列表</h2>
+<div class="sectionbody">
+</div>
+</div>
+<div class="sect1">
+<h2 id="_layout文件robobinding语法校验器插件">5. Layout文件Robobinding语法校验器插件</h2>
+<div class="sectionbody">
+</div>
+</div>
+<div class="sect1">
+<h2 id="_其它资源">6. 其它资源</h2>
+<div class="sectionbody">
+<div class="paragraph"><p><strong>2012年一月</strong> Robert Taylor 写了一些入门的文章在<a href="http://roberttaylor426.blogspot.com/2011/11/hello-robobinding-part-1.html">这里</a> 和 <a href="http://roberttaylor426.blogspot.com/2012/01/hello-robobinding-part-2.html">这里</a>.</p></div>
+<div class="paragraph"><p><strong>2012年二月</strong> 在London SkillsMatter，Robert Taylor作的RoboBinding介绍视频可以在<a href="http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding">这里</a>找到。</p></div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-05-04 13:43:09 澳大利亚西部标准时间
+Last updated 2014-04-27 09:45:25 澳大利亚西部标准时间
 </div>
 </div>
 </body>
