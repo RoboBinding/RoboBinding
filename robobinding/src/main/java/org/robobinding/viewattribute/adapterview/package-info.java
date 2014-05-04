@@ -6,8 +6,11 @@
  * @prop emptyViewPresentationModel; Object; no
  * @prop emptyViewVisibility; Boolean, Integer; no
  * @prop itemLayout; Integer, Static resource; no
- * @prop selectedItemPosition; Integer; no
+ * @prop itemMapping; Static string. Used for specifying binding information for the itemLayout.
+ *  Syntax: [widget1_in_itemLayout.attributeName1:{property1_of_itemPresentationModel}, ...,
+ *  widgetN_in_itemLayout.attributeNameN:{propertyN_of_itemPresentationModel}]; Not bindable
  * @prop source; Array, List, {@link org.robobinding.itempresentationmodel.TypedCursor}; no
+ * @prop selectedItemPosition; Integer; no
  *
  *
  * @event onItemClick; {@link org.robobinding.viewattribute.adapterview.ItemClickEvent}
