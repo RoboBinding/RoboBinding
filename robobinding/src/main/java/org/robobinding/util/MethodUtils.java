@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -22,7 +24,7 @@ import java.lang.reflect.Modifier;
 /**
  * Migrated some of methods from
  * {@link org.apache.commons.lang3.reflect.MethodUtils}.
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -40,7 +42,7 @@ public class MethodUtils {
      * found, return <code>null</code>. This is just a convenient wrapper for
      * {@link #getAccessibleMethod(Method method)}.
      * </p>
-     * 
+     *
      * @param cls
      *            get method from this class
      * @param methodName
@@ -63,7 +65,7 @@ public class MethodUtils {
      * reflection) that implements the specified Method. If no such method can
      * be found, return <code>null</code>.
      * </p>
-     * 
+     *
      * @param method
      *            The method that we wish to call
      * @return The accessible method
@@ -96,7 +98,7 @@ public class MethodUtils {
      * reflection) by scanning through the superclasses. If no such method can
      * be found, return <code>null</code>.
      * </p>
-     * 
+     *
      * @param cls
      *            Class to be checked
      * @param methodName
@@ -127,13 +129,13 @@ public class MethodUtils {
      * implemented interfaces and subinterfaces. If no such method can be found,
      * return <code>null</code>.
      * </p>
-     * 
+     *
      * <p>
      * There isn't any good reason why this method must be private. It is
      * because there doesn't seem any reason why other classes should call this
      * rather than the higher level methods.
      * </p>
-     * 
+     *
      * @param cls
      *            Parent class for the interfaces to be checked
      * @param methodName
@@ -184,16 +186,16 @@ public class MethodUtils {
      * assignable from the given parameters. In other words, it finds a method
      * with the given name that will take the parameters given.
      * <p>
-     * 
+     *
      * <p>
      * This method is used by
      * {@link #invokeMethod(Object object, String methodName, Object[] args, Class[] parameterTypes)}.
-     * 
+     *
      * <p>
      * This method can match primitive parameter by passing in wrapper classes.
      * For example, a <code>Boolean</code> will match a primitive
      * <code>boolean</code> parameter.
-     * 
+     *
      * @param cls
      *            find method in this class
      * @param methodName

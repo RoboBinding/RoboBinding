@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -21,7 +23,7 @@ import java.util.Map;
 
 /**
  * Migrated some of methods from {@link org.apache.commons.lang3.ClassUtils}.
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -65,32 +67,32 @@ class ClassUtils {
      * Checks if an array of Classes can be assigned to another array of
      * Classes.
      * </p>
-     * 
+     *
      * <p>
      * This method calls {@link #isAssignable(Class, Class) isAssignable} for
      * each Class pair in the input arrays. It can be used to check if a set of
      * arguments (the first parameter) are suitably compatible with a set of
      * method parameter types (the second parameter).
      * </p>
-     * 
+     *
      * <p>
      * Unlike the {@link Class#isAssignableFrom(java.lang.Class)} method, this
      * method takes into account widenings of primitive classes and {@code null}
      * s.
      * </p>
-     * 
+     *
      * <p>
      * Primitive widenings allow an int to be assigned to a {@code long},
      * {@code float} or {@code double}. This method returns the correct result
      * for these cases.
      * </p>
-     * 
+     *
      * <p>
      * {@code Null} may be assigned to any reference type. This method will
      * return {@code true} if {@code null} is passed in and the toClass is
      * non-primitive.
      * </p>
-     * 
+     *
      * <p>
      * Specifically, this method tests whether the type represented by the
      * specified {@code Class} parameter can be converted to the type
@@ -99,7 +101,7 @@ class ClassUtils {
      * <em><a href="http://docs.oracle.com/javase/specs/">The Java Language Specification</a></em>
      * , sections 5.1.1, 5.1.2 and 5.1.4 for details.
      * </p>
-     * 
+     *
      * @param classArray
      *            the array of Classes to check, may be {@code null}
      * @param toClassArray
@@ -133,24 +135,24 @@ class ClassUtils {
      * Checks if one {@code Class} can be assigned to a variable of another
      * {@code Class}.
      * </p>
-     * 
+     *
      * <p>
      * Unlike the {@link Class#isAssignableFrom(java.lang.Class)} method, this
      * method takes into account widenings of primitive classes and {@code null}
      * s.
      * </p>
-     * 
+     *
      * <p>
      * Primitive widenings allow an int to be assigned to a long, float or
      * double. This method returns the correct result for these cases.
      * </p>
-     * 
+     *
      * <p>
      * {@code Null} may be assigned to any reference type. This method will
      * return {@code true} if {@code null} is passed in and the toClass is
      * non-primitive.
      * </p>
-     * 
+     *
      * <p>
      * Specifically, this method tests whether the type represented by the
      * specified {@code Class} parameter can be converted to the type
@@ -159,7 +161,7 @@ class ClassUtils {
      * <em><a href="http://docs.oracle.com/javase/specs/">The Java Language Specification</a></em>
      * , sections 5.1.1, 5.1.2 and 5.1.4 for details.
      * </p>
-     * 
+     *
      * <p>
      * <strong>Since Lang 3.0,</strong> this method will default behavior for
      * calculating assignability between primitive and wrapper types
@@ -167,7 +169,7 @@ class ClassUtils {
      * to the running Java version</em>; i.e. autoboxing will be the default
      * behavior in VMs running Java versions >= 1.5.
      * </p>
-     * 
+     *
      * @param cls
      *            the Class to check, may be null
      * @param toClass
@@ -183,24 +185,24 @@ class ClassUtils {
      * Checks if one {@code Class} can be assigned to a variable of another
      * {@code Class}.
      * </p>
-     * 
+     *
      * <p>
      * Unlike the {@link Class#isAssignableFrom(java.lang.Class)} method, this
      * method takes into account widenings of primitive classes and {@code null}
      * s.
      * </p>
-     * 
+     *
      * <p>
      * Primitive widenings allow an int to be assigned to a long, float or
      * double. This method returns the correct result for these cases.
      * </p>
-     * 
+     *
      * <p>
      * {@code Null} may be assigned to any reference type. This method will
      * return {@code true} if {@code null} is passed in and the toClass is
      * non-primitive.
      * </p>
-     * 
+     *
      * <p>
      * Specifically, this method tests whether the type represented by the
      * specified {@code Class} parameter can be converted to the type
@@ -209,7 +211,7 @@ class ClassUtils {
      * <em><a href="http://docs.oracle.com/javase/specs/">The Java Language Specification</a></em>
      * , sections 5.1.1, 5.1.2 and 5.1.4 for details.
      * </p>
-     * 
+     *
      * @param cls
      *            the Class to check, may be null
      * @param toClass
@@ -285,12 +287,12 @@ class ClassUtils {
      * Converts the specified primitive Class object to its corresponding
      * wrapper Class object.
      * </p>
-     * 
+     *
      * <p>
      * NOTE: From v2.2, this method handles {@code Void.TYPE}, returning
      * {@code Void.TYPE}.
      * </p>
-     * 
+     *
      * @param cls
      *            the class to convert, may be null
      * @return the wrapper class for {@code cls} or {@code cls} if {@code cls}
@@ -310,7 +312,7 @@ class ClassUtils {
      * Converts the specified wrapper class to its corresponding primitive
      * class.
      * </p>
-     * 
+     *
      * <p>
      * This method is the counter part of {@code primitiveToWrapper()}. If the
      * passed in class is a wrapper class for a primitive type, this primitive
@@ -318,7 +320,7 @@ class ClassUtils {
      * {@code Integer.class}). For other classes, or if the parameter is
      * <b>null</b>, the return value is <b>null</b>.
      * </p>
-     * 
+     *
      * @param cls
      *            the class to convert, may be <b>null</b>
      * @return the corresponding primitive type if {@code cls} is a wrapper
@@ -336,11 +338,11 @@ class ClassUtils {
      * objects. If any of these objects is null, a null element will be inserted
      * into the array.
      * </p>
-     * 
+     *
      * <p>
      * This method returns {@code null} for a {@code null} input array.
      * </p>
-     * 
+     *
      * @param array
      *            an {@code Object} array
      * @return a {@code Class} array, {@code null} if null array input

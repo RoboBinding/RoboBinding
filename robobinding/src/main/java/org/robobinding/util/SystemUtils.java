@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -18,7 +20,7 @@ package org.robobinding.util;
 
 /**
  * Migrated some of methods from {@link org.apache.commons.lang3.SystemUtils}.
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -44,7 +46,7 @@ class SystemUtils {
      * {@link System#setProperties(java.util.Properties)} is called after this
      * class is loaded, the value will be out of sync with that System property.
      * </p>
-     * 
+     *
      * @since Java 1.3
      */
     public static final String JAVA_SPECIFICATION_VERSION = getSystemProperty("java.specification.version");
@@ -74,7 +76,7 @@ class SystemUtils {
      * <li>{@code 1.2f} to test for Java 1.2</li>
      * <li>{@code 1.31f} to test for Java 1.3.1</li>
      * </ul>
-     * 
+     *
      * @param requiredVersion
      *            the required version, for example 1.31f
      * @return {@code true} if the actual version is equal or greater than the
@@ -94,7 +96,7 @@ class SystemUtils {
      * If a {@code SecurityException} is caught, the return value is
      * {@code null} and a message is written to {@code System.err}.
      * </p>
-     * 
+     *
      * @param property
      *            the system property name
      * @return the system property value or {@code null} if a security problem

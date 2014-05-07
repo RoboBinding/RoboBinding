@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.robobinding.itempresentationmodel;
 
@@ -16,7 +16,7 @@ import com.xtremelabs.robolectric.internal.Implementation;
 import com.xtremelabs.robolectric.internal.Implements;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei

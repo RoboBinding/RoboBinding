@@ -1,18 +1,3 @@
-/**
- * Copyright 2011 Cheng Wei, Robert Taylor
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions
- * and limitations under the License.
- */
 package org.robobinding.presentationmodel;
 
 import org.aspectj.lang.annotation.AdviceName;
@@ -32,7 +17,7 @@ public interface PresentationModelMixin extends ObservableProperties
 	static aspect Impl
 	{
 		private PresentationModelChangeSupport PresentationModelMixin.presentationModelChangeSupport;
-		
+
 		public void PresentationModelMixin.addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener propertyChangeListener)
 		{
 			presentationModelChangeSupport.addPropertyChangeListener(propertyName, propertyChangeListener);
@@ -42,12 +27,12 @@ public interface PresentationModelMixin extends ObservableProperties
 		{
 			presentationModelChangeSupport.removePropertyChangeListener(propertyName, propertyChangeListener);
 		}
-		
+
 		public void PresentationModelMixin.refreshPresentationModel()
 		{
 			presentationModelChangeSupport.fireChangeAll();
 		}
-		
+
 		private void PresentationModelMixin.firePropertyChange(String propertyName)
 		{
 			presentationModelChangeSupport.firePropertyChange(propertyName);
@@ -55,9 +40,9 @@ public interface PresentationModelMixin extends ObservableProperties
 
 		pointcut presentationModelCreation(PresentationModelMixin presentationModel) : initialization(
 				PresentationModelMixin+.new(..)) && this(presentationModel) && within(PresentationModelMixin+);
-		
+
 		@AdviceName("initializePresentationModelChangeSupport")
-		before(PresentationModelMixin presentationModel) : presentationModelCreation(presentationModel) 
+		before(PresentationModelMixin presentationModel) : presentationModelCreation(presentationModel)
 		{
 			if(presentationModel.presentationModelChangeSupport == null)
 			{

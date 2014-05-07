@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -19,7 +21,7 @@ package org.robobinding.util;
 /**
  * Migrated some of methods from
  * {@link org.apache.commons.lang3.reflect.ClassUtils}.
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -48,11 +50,11 @@ class ArrayUtils {
      * <p>
      * Checks whether two arrays are the same length, treating {@code null}
      * arrays as length {@code 0}.
-     * 
+     *
      * <p>
      * Any multi-dimensional aspects of the arrays are ignored.
      * </p>
-     * 
+     *
      * @param array1
      *            the first array, may be {@code null}
      * @param array2

@@ -1,9 +1,3 @@
-/**
- * FooterSourceViewAttribute.java
- * Sep 6, 2011
- * Copyright 2009~2011 ESCA Mobile Ltd company, Inc. All rights reserved.
- * ESCA Mobile Ltd PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package org.robobinding.viewattribute.listview;
 
 import org.robobinding.viewattribute.adapterview.SubViewAttributesStrategy;
@@ -15,7 +9,7 @@ import android.widget.ListView;
 /**
  * @since 1.0
  * @author Cheng Wei
- * 
+ *
  */
 public class FooterAttributes implements SubViewAttributesStrategy<ListView> {
     static final String FOOTER_LAYOUT = "footerLayout";

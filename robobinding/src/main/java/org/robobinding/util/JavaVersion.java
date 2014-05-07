@@ -1,4 +1,6 @@
 /*
+ * NOTICE: THE FILE HAS BEEN MODIFIED TO SUIT THE NEEDS OF THE PROJECT.
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -18,7 +20,7 @@ package org.robobinding.util;
 
 /**
  * Migrated some of methods from {@link org.apache.commons.lang3.JavaVersion}.
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -82,7 +84,7 @@ enum JavaVersion {
 
     /**
      * Constructor.
-     * 
+     *
      * @param value
      *            the float value
      * @param name
@@ -98,12 +100,12 @@ enum JavaVersion {
      * <p>
      * Whether this version of Java is at least the version of Java passed in.
      * </p>
-     * 
+     *
      * <p>
      * For example:<br />
      * {@code myVersion.atLeast(JavaVersion.JAVA_1_4)}
      * <p>
-     * 
+     *
      * @param requiredVersion
      *            the version to check against, not null
      * @return true if this version is equal to or greater than the specified
@@ -117,7 +119,7 @@ enum JavaVersion {
      * Transforms the given string with a Java version number to the
      * corresponding constant of this enumeration class. This method is used
      * internally.
-     * 
+     *
      * @param nom
      *            the Java version as string
      * @return the corresponding enumeration constant or <b>null</b> if the
@@ -132,7 +134,7 @@ enum JavaVersion {
      * Transforms the given string with a Java version number to the
      * corresponding constant of this enumeration class. This method is used
      * internally.
-     * 
+     *
      * @param nom
      *            the Java version as string
      * @return the corresponding enumeration constant or <b>null</b> if the
@@ -167,11 +169,11 @@ enum JavaVersion {
      * <p>
      * The string value is overridden to return the standard name.
      * </p>
-     * 
+     *
      * <p>
      * For example, <code>"1.5"</code>.
      * </p>
-     * 
+     *
      * @return the name, not null
      */
     @Override
