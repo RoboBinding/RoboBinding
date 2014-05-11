@@ -2,13 +2,11 @@
 
 一个实现了数据绑定 http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] 模式的Android开源框架。
 
-'''
-
 * link:getting_started.zh.html[入门]
 
 * link:getting_involved.zh.html[参与开发]
 
-* link:https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/robobinding/robobinding/0.8.2-SNAPSHOT/robobinding-0.8.2-20140504.055736-699-javadoc.jar/!/index.html[API与支持的绑定属性JavaDocs]
+* link:https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/robobinding/robobinding/0.8.2-SNAPSHOT/robobinding-0.8.2-20140511.010100-706-javadoc.jar/!/index.html[API与支持的绑定属性JavaDocs]
 
 * link:about.zh.html[关于]
 
