@@ -1,7 +1,7 @@
-Getting Involved
+﻿Getting Involved
 ================
+:Revision: 0.8.2
 :toc:
-
 :numbered:
 
 Set up Eclipse development environment

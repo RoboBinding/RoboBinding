@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
@@ -727,24 +727,31 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install();
+asciidoc.install(2);
 /*]]>*/
 </script>
 </head>
 <body class="article">
 <div id="header">
 <h1>Getting Started</h1>
+<span id="revnumber">version 0.8.2</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_what_is_robobinding">What is RoboBinding?</h2>
+<h2 id="_what_is_robobinding">1. What is RoboBinding?</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>Updating&#8230;</p></div>
 <div class="paragraph"><p>Definition+Hello Robobinding</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_setup">Setup</h2>
+<h2 id="_setup">2. Setup</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>Updating&#8230;</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -765,7 +772,7 @@ ProGuard
 </div>
 </div>
 <div class="sect1">
-<h2 id="_a_walk_through_album_sample">A Walk through Album Sample</h2>
+<h2 id="_a_walk_through_album_sample">3. A Walk through Album Sample</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Album Sample project is a translated version of Martin Fowler&#8217;s <a href="http://martinfowler.com/eaaDev/PresentationModel.html">original one</a>.
 The source code can be found underneath <a href="https://github.com/RoboBinding/RoboBinding">RoboBinding project</a>.</p></div>
@@ -796,20 +803,21 @@ In the ListView, <code>bind:source="{albums}"</code> binds to ViewAlbumsPresenta
 as indicated by the annotation, <code>@ItemPresentationModel(AlbumItemPresentationModel.class)</code>, on top of the ViewAlbumsPresentationModel.albums property.
 Inside the row layout file album_row.xml, there are two simple TextViews. Their <code>bind:text="{title}"</code> and <code>bind:text="{artist}"</code> bind to AlbumItemPresentationModel.title/artist respectively.
 The last sub-view in view_albums_activity.xml is the Button. Its <code>bind:onClick="createAlbum"</code> binds to ViewAlbumsPresentationModel.createAlbum() method.</p></div>
+<div class="paragraph"><p>Create own BindingAttributeMapper</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>Updating...
+
+* Custom widget
+* Overriding an existing one
+
+Validator plugin</code></pre>
+</div></div>
+<div class="paragraph"><p>Updating&#8230;</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_supported_binding_attributes">Supported binding attributes</h2>
-<div class="sectionbody">
-</div>
-</div>
-<div class="sect1">
-<h2 id="_validator_plugin">Validator plugin</h2>
-<div class="sectionbody">
-</div>
-</div>
-<div class="sect1">
-<h2 id="_other_resources">Other resources</h2>
+<h2 id="_other_resources">4. Other resources</h2>
 <div class="sectionbody">
 <div class="paragraph"><p><strong>Jan 2012</strong> Robert Taylor has written a couple of introductory articles <a href="http://roberttaylor426.blogspot.com/2011/11/hello-robobinding-part-1.html">here</a> and <a href="http://roberttaylor426.blogspot.com/2012/01/hello-robobinding-part-2.html">here</a>.</p></div>
 <div class="paragraph"><p><strong>Feb 2012</strong> A video of a talk on RoboBinding at SkillsMatter, London can be found <a href="http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding">here</a>.</p></div>
@@ -819,7 +827,8 @@ The last sub-view in view_albums_activity.xml is the Button. Its <code>bind:onCl
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-05-04 09:54:45 澳大利亚西部标准时间
+Version 0.8.2<br />
+Last updated 2014-05-10 18:08:39 澳大利亚西部标准时间
 </div>
 </div>
 </body>
