@@ -1,12 +1,19 @@
-Getting Started
+﻿Getting Started
 ===============
+:Revision: 0.8.2
+:toc:
+:numbered:
 
 What is RoboBinding?
 --------------------
+Updating...
+
 Definition+Hello Robobinding
 
 Setup
 -----
+Updating...
+
 * Maven
 * Eclipse
 * ProGuard
@@ -43,11 +50,16 @@ Inside the row layout file album_row.xml, there are two simple TextViews. Their 
 The last sub-view in view_albums_activity.xml is the Button. Its ++bind:onClick="createAlbum"++ binds to ViewAlbumsPresentationModel.createAlbum() method.
 
 
-Supported binding attributes
-----------------------------
+Create own BindingAttributeMapper
+------------------------------
+Updating...
+
+* Custom widget
+* Overriding an existing one
 
 Validator plugin
 ----------------
+Updating...
 
 Other resources
 ---------------

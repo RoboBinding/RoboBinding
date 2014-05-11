@@ -1,0 +1,50 @@
+---
+layout: main
+title: Home
+---
+
+<h2>Bind the gap</h2>
+<p>RoboBinding is a data-binding <a href="http://martinfowler.com/eaaDev/PresentationModel.html">presentation model</a> framework for the Android platform. RoboBinding helps you write UI code that is easier to read, test and maintain.</p>
+<h2>Property binding</h2>
+<p>Declare a binding attribute in your layout xml:</p>
+
+{% highlight xml %}
+<EditText android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  bind:text="${superHeroName}" />
+{% endhighlight %}
+
+<p>provide a pojo presentation model class that exposes the relevant property:</p>
+
+{% highlight java %}
+public void setSuperHeroName(String superHeroName) {
+	this.superHeroName = superHeroName;
+}
+
+public String getSuperHeroName() {
+	return superHeroName;
+}
+{% endhighlight %}
+
+<p>and RoboBinding will provide fine-grained synchronization between view and presentation model.</p>
+
+<h2>Event handling</h2>
+
+<p>Declare a binding attribute in your layout xml:</p>
+
+{% highlight xml %}
+<ListView android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  bind:onItemClick="superHeroSelected" />
+{% endhighlight %}
+
+<p>provide a pojo presentation model class that exposes an appropriate event handler:</p>
+
+{% highlight java %}
+public void superHeroSelected(ItemClickEvent event) {
+	SuperHero chosenSuperHero = this.superHeroes.get(event.getPosition());
+	chosenSuperHero.summon();
+}
+{% endhighlight %}
+
+<p>and RoboBinding will delegate item click events to this method.</p>

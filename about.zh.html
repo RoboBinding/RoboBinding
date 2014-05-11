@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.9" />
-<title>Getting Started</title>
+<title></title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -727,108 +727,36 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install(2);
+asciidoc.install();
 /*]]>*/
 </script>
 </head>
 <body class="article">
 <div id="header">
-<h1>Getting Started</h1>
-<span id="revnumber">version 0.8.2</span>
-<div id="toc">
-  <div id="toctitle">Table of Contents</div>
-  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
-</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_what_is_robobinding">1. What is RoboBinding?</h2>
+<h2 id="_项目参与人">项目参与人</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Updating&#8230;</p></div>
-<div class="paragraph"><p>Definition+Hello Robobinding</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_setup">2. Setup</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Updating&#8230;</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Maven
+<a href="https://github.com/weicheng113">Cheng Wei</a>(创始人); Email:weicheng112 at gmail.com
 </p>
 </li>
 <li>
 <p>
-Eclipse
-</p>
-</li>
-<li>
-<p>
-ProGuard
+<a href="https://github.com/roberttaylor426">Robert Taylor</a> (共同创始人)
 </p>
 </li>
 </ul></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_a_walk_through_album_sample">3. A Walk through Album Sample</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Album Sample project is a translated version of Martin Fowler&#8217;s <a href="http://martinfowler.com/eaaDev/PresentationModel.html">original one</a>.
-The source code can be found underneath <a href="https://github.com/RoboBinding/RoboBinding">RoboBinding project</a>.</p></div>
-<div class="paragraph"><p>To import the project into Eclipse: File&#8594;Import&#8594;Android&#8594;Android Project from Existing Code&#8594;Browse and select robobinding-sample folder to import it.</p></div>
-<div class="imageblock">
-<div class="content">
-<img src="images/album_sample_prototype.png" alt="images/album_sample_prototype.png" />
-</div>
-<div class="title">Figure 1. Album Sample project prototype</div>
-</div>
-<div class="paragraph"><p>The above is the prototype of the project. The project follows the standard RoboBinding project structure, comprising of an Activity class, layout xml and presentation model pojo.
-Inside the project, you can see the following packages: org.robobinding.albumsample.activity, which contains all Activity classes;
-org.robobinding.albumsample.presentationmodel, which contains all presentation models; org.robobinding.albumsample.model, which contains a Album entity implementation;
-and org.robobinding.albumsample.store, which contains a AlbumStore implementation based on memory. In the prototype, you can see five diagrams.
-The diagram [Home Activity] consists of org.robobinding.albumsample.activity.HomeActivity, home_activity.xml and org.robobinding.albumsample.presentationmodel.HomePresentationModel.
-The diagram [View Albums Activity] consists of org.robobinding.albumsample.activity.ViewAlbumsActivity, view_albums_activity.xml and org.robobinding.albumsample.presentationmodel.ViewAlbumsPresentationModel;
-and the view of each album item is backed by org.robobinding.albumsample.presentationmodel.AlbumItemPresentationModel and album_row.xml; when the album list is empty, albums_empty_view.xml is applied.
-The diagram [Create Album Activity] and [Edit Album Activity] share the same components of org.robobinding.albumsample.activity.CreateEditAlbumActivity, create_edit_album_activity.xml and org.robobinding.albumsample.presentationmodel.CreateEditAlbumPresentationModel.
-The diagram [View Album Activity] consists of org.robobinding.albumsample.activity.ViewAlbumActivity, view_album_activity.xml and org.robobinding.albumsample.presentationmodel.ViewAlbumPresentationModel;
-and its album deletion dialog is backed by org.robobinding.albumsample.activity.DeleteAlbumDialog, delete_album_dialog.xml and DeleteAlbumDialogPresentationModel.</p></div>
-<div class="paragraph"><p>Take [View Albums Activity] as an example to give a brief explanation on source code.
-The only thing the Activity class, ViewAlbumsActivity, does is to link the Layout file, view_albums_activity.xml and ViewAlbumsPresentationModel together.
-view_albums_activity.xml contains three sub-views a TextView, a ListView and a Button. The TextView does not contain any binding information.
-In the ListView, <code>bind:source="{albums}"</code> binds to ViewAlbumsPresentationModel.albums dataset property.
-<code>bind:onItemClick="viewAlbum"</code> binds to ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent) method. When an album item is clicked, the method will be invoked.
-<code>bind:emptyViewLayout="@layout/albums_empty_view"</code> sets the display when album list is empty.
-<code>bind:itemLayout="@layout/album_row"</code> sets album item row layout, which will be bound to an ItemPresentationModel,
-as indicated by the annotation, <code>@ItemPresentationModel(AlbumItemPresentationModel.class)</code>, on top of the ViewAlbumsPresentationModel.albums property.
-Inside the row layout file album_row.xml, there are two simple TextViews. Their <code>bind:text="{title}"</code> and <code>bind:text="{artist}"</code> bind to AlbumItemPresentationModel.title/artist respectively.
-The last sub-view in view_albums_activity.xml is the Button. Its <code>bind:onClick="createAlbum"</code> binds to ViewAlbumsPresentationModel.createAlbum() method.</p></div>
-<div class="paragraph"><p>Create own BindingAttributeMapper</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>Updating...
-
-* Custom widget
-* Overriding an existing one
-
-Validator plugin</code></pre>
-</div></div>
-<div class="paragraph"><p>Updating&#8230;</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_other_resources">4. Other resources</h2>
-<div class="sectionbody">
-<div class="paragraph"><p><strong>Jan 2012</strong> Robert Taylor has written a couple of introductory articles <a href="http://roberttaylor426.blogspot.com/2011/11/hello-robobinding-part-1.html">here</a> and <a href="http://roberttaylor426.blogspot.com/2012/01/hello-robobinding-part-2.html">here</a>.</p></div>
-<div class="paragraph"><p><strong>Feb 2012</strong> A video of a talk on RoboBinding at SkillsMatter, London can be found <a href="http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding">here</a>.</p></div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.2<br />
-Last updated 2014-05-10 18:08:39 澳大利亚西部标准时间
+Last updated 2014-05-10 17:51:57 澳大利亚西部标准时间
 </div>
 </div>
 </body>
