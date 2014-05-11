@@ -1,0 +1,33 @@
+<project name="RoboBinding documentations" default="compile" basedir=".">
+	<property environment="env" />
+	<property name="src" location="src" />
+	<property name="dist" location="." />
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="lib/ant-contrib-1.0b3.jar" />
+		</classpath>
+	</taskdef>
+
+	<target name="compile" description="compile the documenations">
+		<!-- Compile the documentations -->
+		<for param="file">
+			<path>
+				<fileset dir="${src}" includes="*.adoc" />
+			</path>
+			<sequential>
+				<exec executable="python">
+					<arg value="${env.ASCIIDOC_HOME}/asciidoc.py" />
+					<arg value="@{file}" />
+				</exec>
+			</sequential>
+		</for>
+		<!-- Relocate the compiled documenations and its images -->
+		<move todir="${dist}">
+			<fileset dir="${src}" includes="*.html" />
+		</move>
+		<copy todir="${dist}/images">
+			<fileset dir="${src}/images" includes="*.png" />
+		</copy>
+	</target>
+</project>

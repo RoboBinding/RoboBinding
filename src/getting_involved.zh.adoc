@@ -1,7 +1,7 @@
 ﻿参与开发
 ========
+:Revision: 0.8.2
 :toc:
-
 :numbered:
 
 搭建Eclipse开发环境
@@ -29,8 +29,6 @@ Window->Open Perspective->Other->Git Repository Exploring。点击Add an existin
 
 接下来右击src/test/java源代码目录->Run As->JUnit Test->Eclipse JUnit Launcher，运行所有的单元测试。如果所有的单元测试都是通过的，环境搭建完成。
 
-
-:numbered:
 RoboBinding架构与实现
 ---------------------
 

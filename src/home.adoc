@@ -1,4 +1,4 @@
-= image:images/robobinding_logo.png[width=60, height=60] RoboBinding
+﻿= image:images/robobinding_logo.png[width=60, height=60] RoboBinding
 
 A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] framework for the Android platform.
 
@@ -8,11 +8,15 @@ A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentatio
 
 * link:getting_involved.html[Getting Involved]
 
+* link:https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/robobinding/robobinding/0.8.2-SNAPSHOT/robobinding-0.8.2-20140504.055736-699-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
+
 * link:about.html[About]
 
 * link:old/index.html[The Old Documentations]
 
-image:http://www.iconpng.com/png/large-torrent/download.png[width=30, height=30] Download: http://search.maven.org/#search%7Cga%7C1%7Crobobinding[releases] on Maven Central and latest https://oss.sonatype.org/index.html#nexus-search;quick%7Erobobinding[snapshots] on Sonatype OSS Repo.
+* link:home.zh.html[Chinese中文]
+
+image:http://www.iconpng.com/png/large-torrent/download.png[width=30, height=30] Download: http://search.maven.org/#search%7Cga%7C1%7Crobobinding[releases] on Maven Central and latest https://oss.sonatype.org/index.html#nexus-search;quick%7Erobobinding[snapshots] on Sonatype OSS Repo
 
 image:https://raw.github.com/github/media/master/octocats/octocat.png["GitHub", width=30, height=30] Development: http://github.com/RoboBinding/RoboBinding[GitHub]
 
@@ -22,4 +26,4 @@ image:https://g.twimg.com/Twitter_logo_blue.png[width=30, height=30] Twitter: ht
 
 image:https://raw.github.com/github/media/master/octocats/blacktocat-32.png["GitHub", width=30, height=30] Issues: https://github.com/RoboBinding/RoboBinding/issues[Raising an issue]
 
-image:http://www.cloudbees.com/sites/default/files/Button-Built-on-CB-1.png[Build and tested on CloudBees DEV@cloud]
+image:http://web-static-cloudfront.s3.amazonaws.com/images/badges/BuiltOnDEV.png[Build and tested on CloudBees DEV@cloud]

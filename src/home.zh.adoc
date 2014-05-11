@@ -1,0 +1,27 @@
+﻿= image:images/robobinding_logo.png[width=60, height=60] RoboBinding
+
+一个实现了数据绑定 http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] 模式的Android开源框架。
+
+'''
+
+* link:getting_started.zh.html[入门]
+
+* link:getting_involved.zh.html[参与开发]
+
+* link:https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/robobinding/robobinding/0.8.2-SNAPSHOT/robobinding-0.8.2-20140504.055736-699-javadoc.jar/!/index.html[API与支持的绑定属性JavaDocs]
+
+* link:about.zh.html[关于]
+
+* link:old/index.html[旧文档]
+
+image:http://www.iconpng.com/png/large-torrent/download.png[width=30, height=30] 下载: 在Maven Central上的 http://search.maven.org/#search%7Cga%7C1%7Crobobinding[已发布版本]或者在Sonatype OSS Repo上最新的 https://oss.sonatype.org/index.html#nexus-search;quick%7Erobobinding[snapshots开发版本]
+
+image:https://raw.github.com/github/media/master/octocats/octocat.png["GitHub", width=30, height=30] 开发与源代码: http://github.com/RoboBinding/RoboBinding[GitHub]
+
+image:https://lh3.googleusercontent.com/-YM2DGm-QreQ/Upb85v3Y-gI/AAAAAAAABt4/GIcGGykyHW8/w152-h106-no/Google+groups.png["Google groups", width=43, height=30] 论坛与讨论: http://groups.google.com/group/robobinding[Google讨论组]
+
+image:https://g.twimg.com/Twitter_logo_blue.png[width=30, height=30] Twitter: https://twitter.com/RoboBinding[@robobinding]
+
+image:https://raw.github.com/github/media/master/octocats/blacktocat-32.png["GitHub", width=30, height=30] 问题与bugs: https://github.com/RoboBinding/RoboBinding/issues[报告一个问题]
+
+image:http://web-static-cloudfront.s3.amazonaws.com/images/badges/BuiltOnDEV.png[在CloudBees DEV@cloud构建与测试过]
