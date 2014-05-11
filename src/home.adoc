@@ -2,13 +2,11 @@
 
 A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] framework for the Android platform.
 
-'''
-
 * link:getting_started.html[Getting Started]
 
 * link:getting_involved.html[Getting Involved]
 
-* link:https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/robobinding/robobinding/0.8.2-SNAPSHOT/robobinding-0.8.2-20140504.055736-699-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
+* link:https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/robobinding/robobinding/0.8.2-SNAPSHOT/robobinding-0.8.2-20140511.010100-706-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
 
 * link:about.html[About]
 
