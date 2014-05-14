@@ -6,7 +6,7 @@
 
 * link:getting_involved.zh.html[参与开发]
 
-* link:https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/robobinding/robobinding/0.8.2-SNAPSHOT/robobinding-0.8.2-20140511.010100-706-javadoc.jar/!/index.html[API与支持的绑定属性JavaDocs]
+* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.2/robobinding-0.8.2-javadoc.jar/!/index.html[API与支持的绑定属性JavaDocs]
 
 * link:about.zh.html[关于]
 

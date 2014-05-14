@@ -6,7 +6,7 @@ A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentatio
 
 * link:getting_involved.html[Getting Involved]
 
-* link:https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/robobinding/robobinding/0.8.2-SNAPSHOT/robobinding-0.8.2-20140511.010100-706-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
+* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.2/robobinding-0.8.2-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
 
 * link:about.html[About]
 
