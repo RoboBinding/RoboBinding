@@ -10,7 +10,7 @@ A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentatio
 
 * link:about.html[About]
 
-* link:old/index.html[The Old Documentations]
+* link:old/home.html[The Old Documentations]
 
 * link:home.zh.html[Chinese中文]
 
