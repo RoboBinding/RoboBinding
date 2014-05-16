@@ -1,0 +1,26 @@
+---
+layout: main
+title: Experimental features
+---
+
+<h2>RoboBinding Validator plugin</h2>
+<p>The <a href="https://github.com/roberttaylor426/RoboBinding-validator-plugin">RoboBinding Validator plugin</a> is a tool for providing compile-time validation of the binding attributes in your layout xml. It is currently only available as a Maven plugin, but integrates well with <a href="http://eclipse.org/m2e/">M2Eclipse</a>.</p>
+
+<img src="img/validator_plugin_screenshot.png"/>
+
+<p>To get started, add the following plugin declaration to your POM:</p>
+
+{% highlight xml %}
+<plugin>
+	<groupId>org.robobinding.plugins</groupId>
+	<artifactId>robobinding-validator</artifactId>
+	<version>{{ site.latest_validator_version }}</version>
+	<executions>
+		<execution>
+			<goals>
+				<goal>validate-bindings</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+{% endhighlight %}
