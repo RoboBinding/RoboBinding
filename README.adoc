@@ -11,7 +11,7 @@ A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentatio
 
 * link:http://robobinding.org/about.html[About]
 
-* link:http://robobinding.org/old/index.html[The Old Documentations]
+* link:http://robobinding.org/old_index.html[The Old Documentations]
 
 * link:http://robobinding.org/home.zh.html[Chinese中文]
 
