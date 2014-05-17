@@ -1,7 +1,7 @@
 = image:http://robobinding.org/images/robobinding_logo.png[width=60, height=60] RoboBinding
 
 A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] framework for the Android platform. 
-Similar Presentation Model/MVP/MVVP frameworks for android: https://github.com/gueei/AndroidBinding[Android-Binding],
+Similar Presentation Model/MVP/ http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVP] frameworks for android: https://github.com/gueei/AndroidBinding[Android-Binding],
 https://github.com/depoll/bindroid[Bindroid], https://github.com/MvvmCross/MvvmCross[MvvmCross].
 
 
