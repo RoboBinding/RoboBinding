@@ -1,6 +1,8 @@
 ﻿= image:images/robobinding_logo.png[width=60, height=60] RoboBinding
 
 一个实现了数据绑定 http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] 模式的Android开源框架。
+其它类似的 Presentation Model/MVP/http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVP] Android开源框架：https://github.com/gueei/AndroidBinding[Android-Binding]，
+https://github.com/depoll/bindroid[Bindroid]，https://github.com/MvvmCross/MvvmCross[MvvmCross]。
 
 * link:getting_started.zh.html[入门]
 
