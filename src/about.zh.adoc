@@ -1,4 +1,7 @@
-﻿项目参与人
+:title: About
+:keywords: presentation model, mvvm, mvp, android, binding, android binding
+
+项目参与人
 ----------
 * https://github.com/weicheng113[Cheng Wei](创始人); Email:weicheng112 at gmail.com
 * https://github.com/roberttaylor426[Robert Taylor] (共同创始人)

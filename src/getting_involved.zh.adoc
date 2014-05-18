@@ -3,6 +3,8 @@
 :Revision: 0.8.2
 :toc:
 :numbered:
+:keywords: presentation model, mvvm, mvp, android, binding, android binding
+:imagesdir: ./images
 
 搭建Eclipse开发环境
 -------------------
@@ -39,7 +41,7 @@ RoboBinding是一个实现Martin Fowler的http://martinfowler.com/eaaDev/Present
 ~~~~~~~~~~~~~~~~~~~~~
 
 .基于RoboBinding的Android应用
-image::images/robobinding_based_app.png[]
+image::robobinding_based_app.png[]
 
 一个Android应用包含了若干个Activity以及其它的元素。在基于RoboBinding的应用里一个Activity包含了Activity主文件，Layout文件以及PresentationModel文件
 (而Android普通应用一个Activity只包含了Activity主文件与Layout文件)。原先位于Activity内的显示层逻辑被提取到独立的文件PresentationModel内。
@@ -51,7 +53,7 @@ Layout中的事件与PresentationModel中的方法绑定。RoboBinding替代了�
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .RoboBinding实现概要图
-image::images/architecture.png[]
+image::architecture.png[]
 
 以上为RoboBinding框架实现的概要。黄色背景的两张图(Client与PresentationModel)为应用代码，其它的三个为框架代码。图中只列举了来自一些包的核心类。
 Client(Activity，Dialog或Custom View)将Layout传递给对应的Binder(ActivityBinder, DialogBinder或ViewBinder)，
@@ -64,7 +66,7 @@ PropertyViewAttribute通过org.robobinding.presentationmodel.PresentationModelAd
 映射到PresentationModel的属性或DataSet型属性。CommandViewAttribute通过PresentationModelAdapter的org.robobinding.function.Function映射到PresentationModel的方法。
 
 .RoboBinding实现例子概要图
-image::images/architecture_sample.png[]
+image::architecture_sample.png[]
 上图以实例解释了框架的实现概要。黄色背景的三张图摘自RoboBinding-Sample项目的源代码，其它二个为应用运行时框架产生的对应的核心代码实例。
 ViewAlbumsActivity通过框架(这里为org.robobinding.binder.Binders类)将layout与presentationModel绑定在一起。
 图中的第一个为简单视图属性的绑定例子。框架为++\{windowsTitle\}++产生一个org.robobinding.viewattribute.textview.TextAttribute实例，而TextAttribute实例通过PresentationModelAdapter的PropertyValueModel
@@ -81,7 +83,7 @@ org.robobinding.viewattribute.adapterview.SourceAttribute与org.robobinding.view
 
 org.robobinding与org.robobinding.binder包
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-image::images/developer_usecase_sequence.png[]
+image::developer_usecase_sequence.png[]
 如上图所示，应用开发者通过两个可能的入口点使用框架(以两种不同的颜色区分)。第一种是通过org.robobinding.binder.Binders工具类来使用框架，由于是工具类，随时随地可用，无需创建实例，方便；
 Binders内部其实每次是通过org.robobinding.binder.BinderFactoryBuilder以默认配置的创建新的org.robobinding.binder.BinderFactory实例，然后调用BinderFactory间接的完成整个绑定；
 其缺点是每次都产生新的BinderFactory实例且BinderFactoryBinder只能是默认的配置。第二种是通过BinderFactoryBuilder配置创建BinderFactory实例，
@@ -95,7 +97,7 @@ https://github.com/roboguice/roboguice[RoboGuice]注入BinderFactory实例。不
 因为android框架中很多事件只能注册一个事件监听器如android.view.View.setOnFocusChangeListener，但应用中有时可能需要注册多个，
 为了使之前注册过的旧的事件监听器不被新的意外覆盖而提供了事件监听器聚集ViewListeners。
 
-image::images/inflateview_sequence.png[]
+image::inflateview_sequence.png[]
 上图展示了框架对一个layout进行inflation的整个流程及其主要的参与类。接上述说到InternalBinder类，InternalBinder将layout inflation工作交给org.robobinding.binder.BindingViewInflater；
 而layout inflation工作又被转交给org.robobinding.NonBindingViewInflater。NonBindingViewInflater只做layout inflation工作，不做解析视图绑定属性的工作，
 它从layout文件创建视图集。当一个视图被创建时org.robobinding.ViewFactory回调BindingViewInflater。
@@ -109,7 +111,7 @@ BindingViewInflater接着添加所有预定义的待绑定视图属性映射org.
 过程与之前解析转化待绑定视图属性映射PendingAttributesForView一样，最后也得到视图绑定属性集ResolvedBindingAttributesForView。
 BindingViewInflater将包含所有视图绑定属性集ResolvedBindingAttributesForView的org.robobinding.binder.InflatedView返回InternalBinder。整个layout的inflation工作结束。接着是下一步的绑定。
 
-image::images/bindview_sequence.png[]
+image::bindview_sequence.png[]
 上图展示了整个绑定的过程以及主要的参与类。InternalBinder通过调用上一步返回的InflatedView来绑定所有的视图绑定属性集ResolvedBindingAttributesForView。
 而视图绑定属性集ResolvedBindingAttributesForView内部又调用各个视图绑定属性org.robobinding.viewattribute.ViewAttribute完成绑定。
 绑定完成之后，InternalBinder校验所有绑定是否都成功，不成功就终止并报告错误。如果成功，就接着预初始化视图值(如果需要的话)。
@@ -118,7 +120,7 @@ image::images/bindview_sequence.png[]
 org.robobinding.viewattribute与org.robobinding.viewattribute$$.*$$包
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .ViewAttribute类层次关系图
-image::images/viewattribute_hierarchy.png[]
+image::viewattribute_hierarchy.png[]
 视图属性主要包含三类：简单视图属性org.robobinding.viewattribute.PropertyViewAttribute，命令视图属性org.robobinding.viewattribute.AbstractCommandViewAttribute，
 以及复合视图属性org.robobinding.viewattribute.AbstractGroupedViewAttribute。PropertyViewAttribute为简单视图属性绑定提供实现，
 分为两种，即单值简单视图属性org.robobinding.viewattribute.AbstractPropertyViewAttribute与多值简单视图属性org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute。
@@ -141,7 +143,7 @@ ViewAttribute生命周期方法：initialize->bindTo->preInitializeView。
 
 
 .ChildViewAttributes类关系图
-image::images/childviewattribute_relationship.png[]
+image::childviewattribute_relationship.png[]
 上图展示了AbstractGroupedViewAttribute复合视图属性与子属性的关系。AbstractGroupedViewAttribute包含了各种类型的子属性，目前主要有四类，即org.robobinding.viewattribute.ChildViewAttribute，
 org.robobinding.viewattribute.DependentChildViewAttribute，org.robobinding.viewattribute.PropertyViewAttribute，org.robobinding.viewattribute.DependentPropertyViewAttribute。
 ChildViewAttribute为普通的子视图属性，其下又包含了org.robobinding.viewattribute.ChildViewAttributeWithAttribute；ChildViewAttributeWithAttribute为带属性值的子视图属性，在该子属性被创建时，
@@ -156,7 +158,7 @@ DependentPropertyViewAttribute与DependentChildViewAttribute类似，为依赖�
 org.robobinding.presentationmodel，org.robobinding.property，org.robobinding.itempresentationmodel以及org.robobinding.function包
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .PresentationModel类关系图
-image::images/presentationmodel_classdiagram.png[]
+image::presentationmodel_classdiagram.png[]
 org.robobinding.presentationmodel，org.robobinding.property，org.robobinding.itempresentationmodel以及org.robobinding.function
 这四个包的相关的类主要用于包装应用程序的PresentationModel。org.robobinding.presentationmodel.PresentationModelAdapter为这几个包的入口类。
 框架为每一个应用程序PresentationModel生成一个对应的PresentationModelAdapter实例。目前框架通过两种方式识别应用程序PresentationModel，

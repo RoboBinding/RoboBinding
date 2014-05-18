@@ -18,13 +18,17 @@
 			<sequential>
 				<exec executable="python">
 					<arg value="${env.ASCIIDOC_HOME}/asciidoc.py" />
+					<arg line="-a docinfo1"/>
 					<arg value="@{file}" />
 				</exec>
 			</sequential>
 		</for>
 		<!-- Relocate the compiled documenations and its images -->
 		<move todir="${dist}">
-			<fileset dir="${src}" includes="*.html" />
+			<fileset dir="${src}">
+				<include name="*.html"/>
+				<exclude name="docinfo.html"/>
+			</fileset>
 		</move>
 		<copy todir="${dist}/images">
 			<fileset dir="${src}/images" includes="*.png" />

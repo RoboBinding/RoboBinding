@@ -3,6 +3,8 @@
 :Revision: 0.8.2
 :toc:
 :numbered:
+:keywords: presentation model, mvvm, mvp, android, binding, android binding
+:imagesdir: ./images
 
 What is RoboBinding?
 --------------------
@@ -20,17 +22,17 @@ Updating...
 
 A Walk through Album Sample
 ---------------------------
-Album Sample project is a translated version of Martin Fowler's http://martinfowler.com/eaaDev/PresentationModel.html[original one]. 
+Album Sample project is a translated version of Martin Fowler's http://martinfowler.com/eaaDev/PresentationModel.html[original one].
 The source code can be found underneath https://github.com/RoboBinding/RoboBinding[RoboBinding project].
 
 To import the project into Eclipse: File->Import->Android->Android Project from Existing Code->Browse and select robobinding-sample folder to import it.
 
 .Album Sample project prototype
-image::images/album_sample_prototype.png[]
-The above is the prototype of the project. The project follows the standard RoboBinding project structure, comprising of an Activity class, layout xml and presentation model pojo. 
+image::album_sample_prototype.png[]
+The above is the prototype of the project. The project follows the standard RoboBinding project structure, comprising of an Activity class, layout xml and presentation model pojo.
 Inside the project, you can see the following packages: org.robobinding.albumsample.activity, which contains all Activity classes;
-org.robobinding.albumsample.presentationmodel, which contains all presentation models; org.robobinding.albumsample.model, which contains a Album entity implementation; 
-and org.robobinding.albumsample.store, which contains a AlbumStore implementation based on memory. In the prototype, you can see five diagrams. 
+org.robobinding.albumsample.presentationmodel, which contains all presentation models; org.robobinding.albumsample.model, which contains a Album entity implementation;
+and org.robobinding.albumsample.store, which contains a AlbumStore implementation based on memory. In the prototype, you can see five diagrams.
 The diagram [Home Activity] consists of org.robobinding.albumsample.activity.HomeActivity, home_activity.xml and org.robobinding.albumsample.presentationmodel.HomePresentationModel.
 The diagram [View Albums Activity] consists of org.robobinding.albumsample.activity.ViewAlbumsActivity, view_albums_activity.xml and org.robobinding.albumsample.presentationmodel.ViewAlbumsPresentationModel;
 and the view of each album item is backed by org.robobinding.albumsample.presentationmodel.AlbumItemPresentationModel and album_row.xml; when the album list is empty, albums_empty_view.xml is applied.
@@ -38,20 +40,20 @@ The diagram [Create Album Activity] and [Edit Album Activity] share the same com
 The diagram [View Album Activity] consists of org.robobinding.albumsample.activity.ViewAlbumActivity, view_album_activity.xml and org.robobinding.albumsample.presentationmodel.ViewAlbumPresentationModel;
 and its album deletion dialog is backed by org.robobinding.albumsample.activity.DeleteAlbumDialog, delete_album_dialog.xml and DeleteAlbumDialogPresentationModel.
 
-Take [View Albums Activity] as an example to give a brief explanation on source code. 
+Take [View Albums Activity] as an example to give a brief explanation on source code.
 The only thing the Activity class, ViewAlbumsActivity, does is to link the Layout file, view_albums_activity.xml and ViewAlbumsPresentationModel together.
 view_albums_activity.xml contains three sub-views a TextView, a ListView and a Button. The TextView does not contain any binding information.
-In the ListView, ++bind:source="\{albums\}"++ binds to ViewAlbumsPresentationModel.albums dataset property. 
+In the ListView, ++bind:source="\{albums\}"++ binds to ViewAlbumsPresentationModel.albums dataset property.
 ++bind:onItemClick="viewAlbum"++ binds to ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent) method. When an album item is clicked, the method will be invoked.
 ++bind:emptyViewLayout="@layout/albums_empty_view"++ sets the display when album list is empty.
-++bind:itemLayout="@layout/album_row"++ sets album item row layout, which will be bound to an ItemPresentationModel, 
+++bind:itemLayout="@layout/album_row"++ sets album item row layout, which will be bound to an ItemPresentationModel,
 as indicated by the annotation, ++@ItemPresentationModel(AlbumItemPresentationModel.class)++, on top of the ViewAlbumsPresentationModel.albums property.
 Inside the row layout file album_row.xml, there are two simple TextViews. Their ++bind:text="\{title\}"++ and ++bind:text="\{artist\}"++ bind to AlbumItemPresentationModel.title/artist respectively.
 The last sub-view in view_albums_activity.xml is the Button. Its ++bind:onClick="createAlbum"++ binds to ViewAlbumsPresentationModel.createAlbum() method.
 
 
 Create own BindingAttributeMapper
-------------------------------
+---------------------------------
 Updating...
 
 * Custom widget

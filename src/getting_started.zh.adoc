@@ -3,6 +3,8 @@
 :Revision: 0.8.2
 :toc:
 :numbered:
+:keywords: presentation model, mvvm, mvp, android, binding, android binding
+:imagesdir: ./images
 
 RoboBinding是什么?
 ------------------
@@ -26,7 +28,7 @@ Album唱片集例子项目学习
 将项目导入Eclipse。文件->导入->Android->已存在的Android代码到工作区->浏览选择robobinding-sample文件夹，导入即可。
 
 .Album唱片集例子原型
-image::images/album_sample_prototype.png[]
+image::album_sample_prototype.png[]
 以上是Album唱片集例子原型图。项目遵循RoboBinding应用的标准结构，即一个Activity由Activity主Java文件，Layout文件与PresentationModel Java文件组成。
 项目源代码中包含以下几个包：org.robobinding.albumsample.activity包含所有Activity的主Java文件，org.robobinding.albumsample.presentationmodel包含所有PresentationModel Java文件，
 org.robobinding.albumsample.model仅包含一个Album实体实现文件，org.robobinding.albumsample.store包含一个基于内存Album实体存储实现AlbumStore。

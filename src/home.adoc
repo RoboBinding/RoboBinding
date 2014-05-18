@@ -1,4 +1,6 @@
 ﻿= image:images/robobinding_logo.png[width=60, height=60] RoboBinding
+:title: RoboBinding
+:keywords: presentation model, mvvm, mvp, android, binding, android binding
 
 A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] framework for the Android platform.
 Similar Presentation Model/MVP/http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVP] frameworks for android: https://github.com/gueei/AndroidBinding[Android-Binding],

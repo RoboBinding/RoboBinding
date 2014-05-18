@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="keywords" content="presentation model, mvvm, mvp, android, binding, android binding" />
 <title>参与开发</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -730,6 +731,18 @@ install: function(toclevels) {
 asciidoc.install(2);
 /*]]>*/
 </script>
+<!-- google analytics start -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51108408-1', 'robobinding.github.io');
+  ga('send', 'pageview');
+
+</script>
+<!-- google analytics end -->
 </head>
 <body class="article">
 <div id="header">
@@ -801,7 +814,7 @@ Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:build
 <h3 id="_从android应用结构上看">2.1. 从Android应用结构上看</h3>
 <div class="imageblock">
 <div class="content">
-<img src="images/robobinding_based_app.png" alt="images/robobinding_based_app.png" />
+<img src="./images/robobinding_based_app.png" alt="robobinding_based_app.png" />
 </div>
 <div class="title">Figure 1. 基于RoboBinding的Android应用</div>
 </div>
@@ -815,7 +828,7 @@ Layout中的事件与PresentationModel中的方法绑定。RoboBinding替代了�
 <h3 id="_从robobinding实现概览上看">2.2. 从RoboBinding实现概览上看</h3>
 <div class="imageblock">
 <div class="content">
-<img src="images/architecture.png" alt="images/architecture.png" />
+<img src="./images/architecture.png" alt="architecture.png" />
 </div>
 <div class="title">Figure 2. RoboBinding实现概要图</div>
 </div>
@@ -830,7 +843,7 @@ PropertyViewAttribute通过org.robobinding.presentationmodel.PresentationModelAd
 映射到PresentationModel的属性或DataSet型属性。CommandViewAttribute通过PresentationModelAdapter的org.robobinding.function.Function映射到PresentationModel的方法。</p></div>
 <div class="imageblock">
 <div class="content">
-<img src="images/architecture_sample.png" alt="images/architecture_sample.png" />
+<img src="./images/architecture_sample.png" alt="architecture_sample.png" />
 </div>
 <div class="title">Figure 3. RoboBinding实现例子概要图</div>
 </div>
@@ -851,7 +864,7 @@ org.robobinding.viewattribute.adapterview.SourceAttribute与org.robobinding.view
 <h4 id="_org_robobinding与org_robobinding_binder包">2.3.1. org.robobinding与org.robobinding.binder包</h4>
 <div class="imageblock">
 <div class="content">
-<img src="images/developer_usecase_sequence.png" alt="images/developer_usecase_sequence.png" />
+<img src="./images/developer_usecase_sequence.png" alt="developer_usecase_sequence.png" />
 </div>
 </div>
 <div class="paragraph"><p>如上图所示，应用开发者通过两个可能的入口点使用框架(以两种不同的颜色区分)。第一种是通过org.robobinding.binder.Binders工具类来使用框架，由于是工具类，随时随地可用，无需创建实例，方便；
@@ -868,7 +881,7 @@ Binders内部其实每次是通过org.robobinding.binder.BinderFactoryBuilder以
 为了使之前注册过的旧的事件监听器不被新的意外覆盖而提供了事件监听器聚集ViewListeners。</p></div>
 <div class="imageblock">
 <div class="content">
-<img src="images/inflateview_sequence.png" alt="images/inflateview_sequence.png" />
+<img src="./images/inflateview_sequence.png" alt="inflateview_sequence.png" />
 </div>
 </div>
 <div class="paragraph"><p>上图展示了框架对一个layout进行inflation的整个流程及其主要的参与类。接上述说到InternalBinder类，InternalBinder将layout inflation工作交给org.robobinding.binder.BindingViewInflater；
@@ -885,7 +898,7 @@ BindingViewInflater接着添加所有预定义的待绑定视图属性映射org.
 BindingViewInflater将包含所有视图绑定属性集ResolvedBindingAttributesForView的org.robobinding.binder.InflatedView返回InternalBinder。整个layout的inflation工作结束。接着是下一步的绑定。</p></div>
 <div class="imageblock">
 <div class="content">
-<img src="images/bindview_sequence.png" alt="images/bindview_sequence.png" />
+<img src="./images/bindview_sequence.png" alt="bindview_sequence.png" />
 </div>
 </div>
 <div class="paragraph"><p>上图展示了整个绑定的过程以及主要的参与类。InternalBinder通过调用上一步返回的InflatedView来绑定所有的视图绑定属性集ResolvedBindingAttributesForView。
@@ -897,7 +910,7 @@ BindingViewInflater将包含所有视图绑定属性集ResolvedBindingAttributes
 <h4 id="_org_robobinding_viewattribute与org_robobinding_viewattribute_包">2.3.2. org.robobinding.viewattribute与org.robobinding.viewattribute.*包</h4>
 <div class="imageblock">
 <div class="content">
-<img src="images/viewattribute_hierarchy.png" alt="images/viewattribute_hierarchy.png" />
+<img src="./images/viewattribute_hierarchy.png" alt="viewattribute_hierarchy.png" />
 </div>
 <div class="title">Figure 4. ViewAttribute类层次关系图</div>
 </div>
@@ -920,7 +933,7 @@ org.robobinding.viewattribute包 包含了主要的概念抽象类，而org.robo
 即初始化(initialize)，绑定(bindTo)以及可选的预初始化视图(preInitializeView)。三个方法由前至后的顺序被调用。预初始化视图方法只有在被要求的情况下才会被调用。</p></div>
 <div class="imageblock">
 <div class="content">
-<img src="images/childviewattribute_relationship.png" alt="images/childviewattribute_relationship.png" />
+<img src="./images/childviewattribute_relationship.png" alt="childviewattribute_relationship.png" />
 </div>
 <div class="title">Figure 5. ChildViewAttributes类关系图</div>
 </div>
@@ -939,7 +952,7 @@ DependentPropertyViewAttribute与DependentChildViewAttribute类似，为依赖�
 <h4 id="_org_robobinding_presentationmodel_org_robobinding_property_org_robobinding_itempresentationmodel以及org_robobinding_function包">2.3.3. org.robobinding.presentationmodel，org.robobinding.property，org.robobinding.itempresentationmodel以及org.robobinding.function包</h4>
 <div class="imageblock">
 <div class="content">
-<img src="images/presentationmodel_classdiagram.png" alt="images/presentationmodel_classdiagram.png" />
+<img src="./images/presentationmodel_classdiagram.png" alt="presentationmodel_classdiagram.png" />
 </div>
 <div class="title">Figure 6. PresentationModel类关系图</div>
 </div>
@@ -1002,7 +1015,7 @@ DataSetProperty是一个数据集属性，其中每一个数据项又会生成�
 <div id="footer">
 <div id="footer-text">
 Version 0.8.2<br />
-Last updated 2014-05-11 14:09:17 澳大利亚西部标准时间
+Last updated 2014-05-17 22:49:28 澳大利亚西部标准时间
 </div>
 </div>
 </body>

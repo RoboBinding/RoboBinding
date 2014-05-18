@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="keywords" content="presentation model, mvvm, mvp, android, binding, android binding" />
 <title>Getting Involved</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -730,6 +731,18 @@ install: function(toclevels) {
 asciidoc.install(2);
 /*]]>*/
 </script>
+<!-- google analytics start -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51108408-1', 'robobinding.github.io');
+  ga('send', 'pageview');
+
+</script>
+<!-- google analytics end -->
 </head>
 <body class="article">
 <div id="header">
@@ -801,7 +814,7 @@ The aim of the project is to reduce the workload of Android application developm
 <h3 id="_observing_from_the_android_application_structure">2.1. Observing from the Android application structure</h3>
 <div class="imageblock">
 <div class="content">
-<img src="images/robobinding_based_app.png" alt="images/robobinding_based_app.png" />
+<img src="./images/robobinding_based_app.png" alt="robobinding_based_app.png" />
 </div>
 <div class="title">Figure 1. A RoboBinding-based Android application</div>
 </div>
@@ -815,7 +828,7 @@ Activities will utilize RoboBinding to bind layouts to its corresponding display
 <h3 id="_observing_from_the_robobinding_overall_implementation">2.2. Observing from the RoboBinding overall implementation</h3>
 <div class="imageblock">
 <div class="content">
-<img src="images/architecture.png" alt="images/architecture.png" />
+<img src="./images/architecture.png" alt="architecture.png" />
 </div>
 <div class="title">Figure 2. RoboBinding overall implementation chart</div>
 </div>
@@ -834,7 +847,7 @@ or org.robobinding.property.DataSetValueModel(when it is a complicated dataset p
 A CommandViewAttribute is mapped to a method of the PresentationModel through a org.robobinding.function.Function of the PresentationModelAdapter.</p></div>
 <div class="imageblock">
 <div class="content">
-<img src="images/architecture_sample.png" alt="images/architecture_sample.png" />
+<img src="./images/architecture_sample.png" alt="architecture_sample.png" />
 </div>
 <div class="title">Figure 3. Demonstrating RoboBinding internal running follow through an example</div>
 </div>
@@ -861,7 +874,7 @@ and then the OnClickAttribute binds <code>createAlbum</code> to ViewAlbumsPresen
 <h4 id="_org_robobinding_and_org_robobinding_binder_package">2.3.1. org.robobinding and org.robobinding.binder package</h4>
 <div class="imageblock">
 <div class="content">
-<img src="images/developer_usecase_sequence.png" alt="images/developer_usecase_sequence.png" />
+<img src="./images/developer_usecase_sequence.png" alt="developer_usecase_sequence.png" />
 </div>
 </div>
 <div class="paragraph"><p>As shown above, application developers can use the framework in two potential ways(shown in two different colours).
@@ -885,7 +898,7 @@ As an application may need to register multiple event listeners on a same event,
 to overcome the old listener not being erased by a new one accidentally, a view event listener aggregate is implemented.</p></div>
 <div class="imageblock">
 <div class="content">
-<img src="images/inflateview_sequence.png" alt="images/inflateview_sequence.png" />
+<img src="./images/inflateview_sequence.png" alt="inflateview_sequence.png" />
 </div>
 </div>
 <div class="paragraph"><p>The figure shows the layout inflation process and the core classes involved.
@@ -906,7 +919,7 @@ BindingViewInflater eventually hand a org.robobinding.binder.InflatedView contai
 The whole layout inflation work ends and the next binding stage starts.</p></div>
 <div class="imageblock">
 <div class="content">
-<img src="images/bindview_sequence.png" alt="images/bindview_sequence.png" />
+<img src="./images/bindview_sequence.png" alt="bindview_sequence.png" />
 </div>
 </div>
 <div class="paragraph"><p>The figure shows the entire binding process and the core classes involved. The InternalBinder makes a call to the returned InflatedView to bind all its ResolvedBindingAttributesForViews.
@@ -919,7 +932,7 @@ Pre-initializing views is to synchronize the values from a PresentationModel to 
 <h4 id="_org_robobinding_viewattribute_and_org_robobinding_viewattribute_package">2.3.2. org.robobinding.viewattribute and org.robobinding.viewattribute.* package</h4>
 <div class="imageblock">
 <div class="content">
-<img src="images/viewattribute_hierarchy.png" alt="images/viewattribute_hierarchy.png" />
+<img src="./images/viewattribute_hierarchy.png" alt="viewattribute_hierarchy.png" />
 </div>
 <div class="title">Figure 4. ViewAttribute class hierarchy diagram</div>
 </div>
@@ -944,7 +957,7 @@ which are initializing(initialize), binding(bindTo) and an optional pre-initiali
 The preInitializeView method is only called when specified.</p></div>
 <div class="imageblock">
 <div class="content">
-<img src="images/childviewattribute_relationship.png" alt="images/childviewattribute_relationship.png" />
+<img src="./images/childviewattribute_relationship.png" alt="childviewattribute_relationship.png" />
 </div>
 <div class="title">Figure 5. ChildViewAttributes class diagram</div>
 </div>
@@ -967,7 +980,7 @@ For example, org.robobinding.viewattribute.adapterview.SubViewAttributes.SubView
 <h4 id="_org_robobinding_presentationmodel_org_robobinding_property_org_robobinding_itempresentationmodel_and_org_robobinding_function_package">2.3.3. org.robobinding.presentationmodel, org.robobinding.property, org.robobinding.itempresentationmodel and org.robobinding.function package</h4>
 <div class="imageblock">
 <div class="content">
-<img src="images/presentationmodel_classdiagram.png" alt="images/presentationmodel_classdiagram.png" />
+<img src="./images/presentationmodel_classdiagram.png" alt="presentationmodel_classdiagram.png" />
 </div>
 <div class="title">Figure 6. PresentationModel class diagram</div>
 </div>
@@ -1032,7 +1045,7 @@ Maximum involvement and sharing. We encourage more contributors to involve in ev
 <div id="footer">
 <div id="footer-text">
 Version 0.8.2<br />
-Last updated 2014-05-11 14:09:17 澳大利亚西部标准时间
+Last updated 2014-05-17 22:50:06 澳大利亚西部标准时间
 </div>
 </div>
 </body>
