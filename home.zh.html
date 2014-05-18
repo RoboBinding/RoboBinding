@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.9" />
 <meta name="keywords" content="presentation model, mvvm, mvp, android, binding, android binding" />
-<title>RoboBinding</title>
+<title></title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -535,6 +535,24 @@ body.manpage div.sectionbody {
   body.manpage div#toc { display: none; }
 }
 
+/*
+ * Extra Custom Styles.
+ *
+ * */
+
+  #menu {
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: #d5e3aa;
+  }
+
+  .menuitem {
+    padding: 0.5em;
+  }
+
 
 </style>
 <script type="text/javascript">
@@ -745,44 +763,25 @@ asciidoc.install();
 <!-- google analytics end -->
 </head>
 <body class="article">
+        <h1><span class="image">
+        <img src="images/robobinding_logo.png" alt="RoboBinding logo" width="60" height="60" title="RoboBinding" />
+        </span> RoboBinding</h1>
+
+        <div id="menu">
+                <a href="home.zh.html" class="menuitem">首页</a>
+                <a href="getting_started.zh.html" class="menuitem">入门</a>
+                <a href="getting_involved.zh.html" class="menuitem">参与开发</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.2/robobinding-0.8.2-javadoc.jar/!/index.html" class="menuitem">API与支持的绑定属性JavaDocs</a>
+                <a href="about.zh.html" class="menuitem">关于</a>
+                <a href="old_index.html" class="menuitem">旧文档</a>
+                <a href="home.html" class="menuitem">英文首页</a>
+        </div>
 <div id="header">
-<h1><span class="image">
-<img src="images/robobinding_logo.png" alt="images/robobinding_logo.png" width="60" height="60" title="RoboBinding" />
-</span> RoboBinding</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph"><p>一个实现了数据绑定 <a href="http://martinfowler.com/eaaDev/PresentationModel.html">Presentation Model</a> 模式的Android开源框架。
 其它类似的 Presentation Model/MVP/<a href="http://en.wikipedia.org/wiki/Model_View_ViewModel">MVVP</a> Android开源框架：<a href="https://github.com/gueei/AndroidBinding">Android-Binding</a>，
 <a href="https://github.com/depoll/bindroid">Bindroid</a>，<a href="https://github.com/MvvmCross/MvvmCross">MvvmCross</a>。</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<a href="getting_started.zh.html">入门</a>
-</p>
-</li>
-<li>
-<p>
-<a href="getting_involved.zh.html">参与开发</a>
-</p>
-</li>
-<li>
-<p>
-<a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.2/robobinding-0.8.2-javadoc.jar/!/index.html">API与支持的绑定属性JavaDocs</a>
-</p>
-</li>
-<li>
-<p>
-<a href="about.zh.html">关于</a>
-</p>
-</li>
-<li>
-<p>
-<a href="old_index.html">旧文档</a>
-</p>
-</li>
-</ul></div>
 <div class="paragraph"><p><span class="image">
 <img src="http://www.iconpng.com/png/large-torrent/download.png" alt="http://www.iconpng.com/png/large-torrent/download.png" width="30" height="30" />
 </span> 下载: 在Maven Central上的 <a href="http://search.maven.org/#search%7Cga%7C1%7Crobobinding">已发布版本</a>或者在Sonatype OSS Repo上最新的 <a href="https://oss.sonatype.org/index.html#nexus-search;quick%7Erobobinding">snapshots开发版本</a></p></div>
@@ -798,16 +797,16 @@ asciidoc.install();
 <div class="paragraph"><p><span class="image">
 <img src="https://raw.github.com/github/media/master/octocats/blacktocat-32.png" alt="GitHub" width="30" height="30" />
 </span> 问题与bugs: <a href="https://github.com/RoboBinding/RoboBinding/issues">报告一个问题</a></p></div>
-<div class="paragraph"><p><span class="image">
+<div class="imageblock">
+<div class="content">
 <img src="http://web-static-cloudfront.s3.amazonaws.com/images/badges/BuiltOnDEV.png" alt="在CloudBees DEV at cloud 构建与测试过" />
-</span></p></div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-05-17 22:52:43 澳大利亚西部标准时间
+Last updated 2014-05-18 13:13:32 澳大利亚西部标准时间
 </div>
 </div>
 </body>

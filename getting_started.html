@@ -535,6 +535,24 @@ body.manpage div.sectionbody {
   body.manpage div#toc { display: none; }
 }
 
+/*
+ * Extra Custom Styles.
+ *
+ * */
+
+  #menu {
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: #d5e3aa;
+  }
+
+  .menuitem {
+    padding: 0.5em;
+  }
+
 
 </style>
 <script type="text/javascript">
@@ -745,6 +763,19 @@ asciidoc.install(2);
 <!-- google analytics end -->
 </head>
 <body class="article">
+        <h1><span class="image">
+        <img src="images/robobinding_logo.png" alt="RoboBinding logo" width="40" height="40" title="RoboBinding" />
+        </span> RoboBinding</h1>
+
+        <div id="menu">
+                <a href="home.html" class="menuitem">Home</a>
+                <a href="getting_started.html" class="menuitem">Getting Started</a>
+                <a href="getting_involved.html" class="menuitem">Getting Involved</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.2/robobinding-0.8.2-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
+                <a href="about.html" class="menuitem">About</a>
+                <a href="old_index.html" class="menuitem">Old Doc</a>
+                <a href="home.zh.html" class="menuitem">Chinese中文</a>
+        </div>
 <div id="header">
 <h1>Getting Started</h1>
 <span id="revnumber">version 0.8.2</span>
