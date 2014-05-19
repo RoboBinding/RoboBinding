@@ -5,10 +5,57 @@
 :numbered:
 :keywords: presentation model, mvvm, mvp, android, binding, android binding
 :imagesdir: ./images
+:source-highlighter: pygments
 
 RoboBinding是什么?
 ------------------
-更新中。。。 请参考link:old_index.html[旧文档]
+*Android应用的粘接剂* - RoboBinding是一个实现了数据绑定 http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] 模式的Android开源框架。RoboBinding 帮助你编写更可读，易于测试与维护的UI代码。
+
+属性绑定
+~~~~~~~~
+
+在你的layout xml里声明一个属性绑定:
+[source,xml]
+----
+<EditText android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  bind:text="${superHeroName}" />
+----
+
+增加一个 http://baike.baidu.com/view/183175.htm[pojo] presentation model 类并提供相应的属性:
+[source,java]
+----
+public void setSuperHeroName(String superHeroName) {
+	this.superHeroName = superHeroName;
+}
+
+public String getSuperHeroName() {
+	return superHeroName;
+}
+----
+RoboBinding 将自动的同步View与Presentation Model。
+
+事件处理
+~~~~~~~~
+
+在你的layout xml里声明一个事件绑定:
+[source,xml]
+----
+<ListView android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  bind:onItemClick="superHeroSelected" />
+----
+
+增加一个 http://baike.baidu.com/view/183175.htm[pojo] presentation model 类并提供相应的事件处理方法:
+[source,java]
+----
+public void superHeroSelected(ItemClickEvent event) {
+	SuperHero chosenSuperHero = this.superHeroes.get(event.getPosition());
+	chosenSuperHero.summon();
+}
+----
+当item click 事件被触发时，RoboBinding 将自动调用相应的方法。
+
 
 Setup
 -----

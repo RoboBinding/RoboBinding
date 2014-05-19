@@ -5,10 +5,55 @@
 :numbered:
 :keywords: presentation model, mvvm, mvp, android, binding, android binding
 :imagesdir: ./images
+:source-highlighter: pygments
 
 What is RoboBinding?
 --------------------
-Updating... Please refer to link:old_index.html[the old doc] for now.
+*Bind the gap* - RoboBinding is a data-binding presentation model framework for the Android platform. RoboBinding helps you write UI code that is easier to read, test and maintain.
+
+Property binding
+~~~~~~~~~~~~~~~~
+
+Declare a binding attribute in your layout xml:
+[source,xml]
+----
+<EditText android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  bind:text="${superHeroName}" />
+----
+provide a pojo presentation model class that exposes the relevant property:
+[source,java]
+----
+public void setSuperHeroName(String superHeroName) {
+	this.superHeroName = superHeroName;
+}
+
+public String getSuperHeroName() {
+	return superHeroName;
+}
+----
+and RoboBinding will provide fine-grained synchronization between view and presentation model.
+
+Event handling
+~~~~~~~~~~~~~~
+
+Declare a binding attribute in your layout xml:
+[source,xml]
+----
+<ListView android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  bind:onItemClick="superHeroSelected" />
+----
+provide a pojo presentation model class that exposes an appropriate event handler:
+
+[source,java]
+----
+public void superHeroSelected(ItemClickEvent event) {
+	SuperHero chosenSuperHero = this.superHeroes.get(event.getPosition());
+	chosenSuperHero.summon();
+}
+----
+and RoboBinding will delegate item click events to this method.
 
 Setup
 -----
