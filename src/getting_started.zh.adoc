@@ -8,13 +8,11 @@
 
 RoboBinding是什么?
 ------------------
-更新中。。。
-
-定义+Hello Robobinding
+更新中。。。 请参考link:old_index.html[旧文档]
 
 Setup
 -----
-更新中。。。
+更新中。。。  请参考link:old_index.html[旧文档]
 
 * Maven
 * Eclipse
@@ -60,7 +58,7 @@ ListView的++bind:source="\{albums\}"++绑定到ViewAlbumsPresentationModel.albu
 
 Layout文件Robobinding语法校验器插件
 -----------------------------------
-更新中。。。
+更新中。。。  请参考link:old_index.html[旧文档]
 
 其它资源
 --------

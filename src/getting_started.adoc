@@ -8,13 +8,11 @@
 
 What is RoboBinding?
 --------------------
-Updating...
-
-Definition+Hello Robobinding
+Updating... Please refer to link:old_index.html[the old doc] for now.
 
 Setup
 -----
-Updating...
+Updating... Please refer to link:old_index.html[the old doc] for now.
 
 * Maven
 * Eclipse
@@ -61,7 +59,7 @@ Updating...
 
 Validator plugin
 ----------------
-Updating...
+Updating... Please refer to link:old_index.html[the old doc] for now.
 
 Other resources
 ---------------
