@@ -55,13 +55,18 @@ public void superHeroSelected(ItemClickEvent event) {
 ----
 and RoboBinding will delegate item click events to this method.
 
-Setup
------
-Updating... Please refer to link:old_index.html[the old doc] for now.
+Hello RoboBinding
+-----------------
+Let's watch http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[a introductory video] by Robert Taylor to get started.
 
-* Maven
-* Eclipse
-* ProGuard
+Setup
+~~~~~
+Updating...
+
+* Eclipse(Updating... Please refer to link:old_eclipse.html[the old doc].
+* ProGuard(Updating... Please refer to link:old_proguard.html[the old doc].
+* Maven(Updating. Please refer to link:old_maven.html[the old doc].
+
 
 A Walk through Album Sample
 ---------------------------
@@ -104,7 +109,7 @@ Updating...
 
 Validator plugin
 ----------------
-Updating... Please refer to link:old_index.html[the old doc] for now.
+Updating... Please refer to link:old_validator_plugin.html[the old doc].
 
 Other resources
 ---------------

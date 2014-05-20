@@ -56,14 +56,15 @@ public void superHeroSelected(ItemClickEvent event) {
 ----
 当item click 事件被触发时，RoboBinding 将自动调用相应的方法。
 
+Hello RoboBinding
+-----------------
+让我们观看由Robert Taylor做的http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[框架介绍视频]。
 
 Setup
------
-更新中。。。  请参考link:old_index.html[旧文档]
-
-* Maven
-* Eclipse
-* ProGuard
+~~~~~
+* Eclipse(更新中。。。 请参考link:old_eclipse.html[旧文档])
+* ProGuard(更新中。。。 请参考link:old_proguard.html[旧文档])
+* Maven(更新中。。。 请参考link:old_maven.html[旧文档])
 
 Album唱片集例子项目学习
 -----------------------
@@ -105,7 +106,7 @@ ListView的++bind:source="\{albums\}"++绑定到ViewAlbumsPresentationModel.albu
 
 Layout文件Robobinding语法校验器插件
 -----------------------------------
-更新中。。。  请参考link:old_index.html[旧文档]
+更新中。。。  请参考link:old_validator_plugin.html[旧文档]
 
 其它资源
 --------
