@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RoboBinding-album-sample</string>
+    <string name="app_name">RoboBinding Album Sample</string>
     <string name="introduction">Album Sample - Presentation Model by Martin Fowler;\n http://martinfowler.com/eaaDev/PresentationModel.html</string>
     <string name="albums">Albums</string>
     <string name="create">Create</string>
