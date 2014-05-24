@@ -3,7 +3,6 @@
 :Revision: 0.8.2
 :toc:
 :numbered:
-:keywords: presentation model, mvvm, mvp, android, binding, android binding
 :imagesdir: ./images
 
 搭建Eclipse开发环境

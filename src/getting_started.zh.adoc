@@ -3,7 +3,6 @@
 :Revision: 0.8.2
 :toc:
 :numbered:
-:keywords: presentation model, mvvm, mvp, android, binding, android binding
 :imagesdir: ./images
 :source-highlighter: pygments
 
@@ -62,8 +61,8 @@ Hello RoboBinding
 
 Setup
 ~~~~~
-* Eclipse(更新中。。。 请参考link:old_eclipse.html[旧文档])
-* ProGuard(更新中。。。 请参考link:old_proguard.html[旧文档])
+* Eclipse(更新中。。。 请参考link:getting_started.html[英文文档])
+* ProGuard(更新中。。。 请参考link:getting_started.html[英文文档])
 * Maven(更新中。。。 请参考link:old_maven.html[旧文档])
 
 Album唱片集例子项目学习
