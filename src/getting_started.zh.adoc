@@ -251,4 +251,4 @@ Layout文件Robobinding语法校验器插件
 
 *2012年二月* 在London SkillsMatter，Robert Taylor作的RoboBinding介绍视频可以在 http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[这里]找到。
 
-*RoboBinding-Gallery* Cheng Wei 建立了https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery]项目来展示所支持绑定属性的用法。
+*RoboBinding Widget Gallery* Cheng Wei 建立了https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery]项目来展示所支持绑定属性的用法。

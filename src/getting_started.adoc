@@ -502,4 +502,4 @@ Other resources
 
 *Feb 2012* A video of a talk on RoboBinding at SkillsMatter, London can be found http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[here].
 
-*RoboBinding-Gallery* Cheng Wei set up a https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery] project to demonstrate usage of supported binding attributes.
+*RoboBinding Widget Gallery* Cheng Wei set up a https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery] project to demonstrate usage of supported binding attributes.
