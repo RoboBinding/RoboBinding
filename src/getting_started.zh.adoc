@@ -59,10 +59,10 @@ Hello RoboBinding
 -----------------
 让我们观看由Robert Taylor做的http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[框架介绍视频]。
 
-Setup
-~~~~~
-* Eclipse(更新中。。。 请参考link:getting_started.html[英文文档])
-* ProGuard(更新中。。。 请参考link:getting_started.html[英文文档])
+开发环境
+~~~~~~~~
+* Eclipse(更新中。。。 请参考link:getting_started.html#_environment_setup[英文文档])
+* ProGuard(更新中。。。 请参考link:getting_started.html#_environment_setup[英文文档])
 * Maven(更新中。。。 请参考link:old_maven.html[旧文档])
 
 Album唱片集例子项目学习
