@@ -95,12 +95,150 @@ ListView的++bind:source="\{albums\}"++绑定到ViewAlbumsPresentationModel.albu
 在view_albums_activity.xml里的最后一个Button视图，++bind:onClick="createAlbum"++绑定到ViewAlbumsPresentationModel.createAlbum()方法。
 
 
-创建自己的BindingAttributeMapper
-------------------------------
-更新中。。。
+创建自己的属性绑定实现
+----------------------
+自定义组件
+~~~~~~~~~~
+当我们开发UI界面时，经常将整个界面分块，把几个相关的小widget组合成一个大的自定义组件。这样便于重用这些自定义组件且更易于维护。RoboBinding使得自定义组件更易于使得。
 
-* 自定义widget
-* 覆盖已有的BindingAttributeMapper
+.自定义 Title Description Bar
+image::custom_component.png[]
+
+以上白色边框的view为简单自定义组件。该组件包含了标题与描述两个部分。在输入新的标题与描述后，点击'Apply'，自定义组件的内容就更新为新的内容。
+可以从https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery]找到完整的代码。
+以下为在layout xml中使用自定义组件：
+[source,xml]
+----
+<org.robobinding.gallery.model.customcomponent.TitleDescriptionBar
+	    bind:title="{title}"
+	    bind:description="{description}"/>
+----
+实现自定义组件
+^^^^^^^^^^^^^^
+以下是TitleDescriptionBar自定义组件的主要实现代码部分(如何实现自定义组件，请参考http://developer.android.com/guide/topics/ui/custom-components.html[Android文档]):
+[source,java]
+----
+public class TitleDescriptionBar extends LinearLayout {
+    private TextView title;
+    private TextView description;
+
+    public TitleDescriptionBar(Context context, AttributeSet attrs) {
+		this(context, attrs, R.layout.title_description_bar);
+    }
+
+    protected TitleDescriptionBar(Context context, AttributeSet attrs, int layoutId) {
+		super(context, attrs);
+
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(layoutId, this);
+		title = (TextView) findViewById(R.id.title);
+		description = (TextView) findViewById(R.id.description);
+		...
+    }
+
+    public void setTitle(CharSequence titleText) {
+		title.setText(titleText);
+    }
+
+    public void setDescription(CharSequence descriptionText) {
+		description.setText(descriptionText);
+    }
+}
+----
+++title_description_bar.xml++
+[source,xml]
+----
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android">
+    <TextView android:id="@+id/title"/>
+    <TextView android:text=": "/>
+  	<TextView android:id="@+id/description"/>
+----
+实现绑定属性
+^^^^^^^^^^^^
+TitleDescriptionBar有标题与描述两个绑定属性，对应的实现分别是TitleAttribute与DescriptionAttribute。最后绑定属性映射TitleDescriptionBarAttributeMapper将属性映射到相应的实现类。
+[source,java]
+----
+public class TitleAttribute extends AbstractTextAttribute {
+    @Override
+    protected void updateText(CharSequence newText) {
+        view.setTitle(newText);
+    }
+}
+
+public class DescriptionAttribute extends AbstractTextAttribute {
+    @Override
+    protected void updateText(CharSequence newText) {
+	view.setDescription(newText);
+    }
+}
+
+public class TitleDescriptionBarAttributeMapper implements BindingAttributeMapper<TitleDescriptionBar> {
+    @Override
+    public void mapBindingAttributes(BindingAttributeMappings<TitleDescriptionBar> mappings) {
+        mappings.mapPropertyAttribute(TitleAttribute.class, "title");
+        mappings.mapPropertyAttribute(DescriptionAttribute.class, "description");
+    }
+}
+----
+注册绑定属性映射类
+^^^^^^^^^^^^^^^^^^
+通过org.robobinding.binder.BinderFactoryBuilder注册绑定属性映射类。
+[source,java]
+----
+BinderFactory binderFactory = new BinderFactoryBuilder()
+        	.mapView(TitleDescriptionBar.class, new TitleDescriptionBarAttributeMapper())
+        	.build();
+ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
+activityBinder.inflateAndBind(R.layout.custom_component_activity, presentationModel);
+----
+我们可以为任何的第三方组件编写属性绑定实现，来简化第三方组件的使用。
+
+覆盖已有的属性绑定实现
+~~~~~~~~~~~~~~~~~~~~~~
+当RoboBinding框架已有的绑定属性不满足需求或没有相应的属性绑定实现时，我们有两种选择。第一种是修改框架代码，增加缺少的绑定属性(我们希望大家都参与贡献更多的绑定属性实现)。
+第二种是不更改框架，实现相应的绑定属性与绑定属性映射类，然后注册覆盖已有的框架所提供的默认实现。
+以第二种方式为例，我们来覆盖框架已有的http://developer.android.com/reference/android/widget/ImageView.html[ImageView]属性绑定实现++org.robobinding.viewattribute.imageview++。
+
+实现新的绑定属性与映射类
+^^^^^^^^^^^^^^^^^^^^^^^^
+[source,java]
+----
+public class MyImageViewAttributeMapper implements BindingAttributeMapper<ImageView> {
+    @Override
+    public void mapBindingAttributes(BindingAttributeMappings<ImageView> mappings) {
+	mappings.mapPropertyAttribute(MyImageSourceAttribute.class, "src");
+    }
+
+}
+
+public class MyImageSourceAttribute extends org.robobinding.viewattribute.imageview.ImageSourceAttribute {
+    @Override
+    protected AbstractPropertyViewAttribute<ImageView, ?> createPropertyViewAttribute(Class<?> propertyType) {
+		if (String.class.isAssignableFrom(propertyType)) {
+			return new UrlImageSourceAttribute();
+		} else {
+			return super.createPropertyViewAttribute(propertyType);
+		}
+    }
+
+    static class UrlImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, String> {
+		@Override
+		protected void valueModelUpdated(String url) {
+			Bitmap image = loadBitmapFromUrl(url);//load image from given url.
+			view.setImageBitmap(image);
+		}
+	}
+}
+----
+注册覆盖框架已有的实现
+^^^^^^^^^^^^^^^^^^^^^^
+[source,java]
+----
+BinderFactory binderFactory = new BinderFactoryBuilder()
+        	.mapView(ImageView.class, new MyImageViewAttributeMapper())
+        	.build();
+----
 
 
 Layout文件Robobinding语法校验器插件
@@ -112,3 +250,5 @@ Layout文件Robobinding语法校验器插件
 *2012年一月* Robert Taylor 写了一些入门的文章在 http://roberttaylor426.blogspot.com/2011/11/hello-robobinding-part-1.html[这里] 和 http://roberttaylor426.blogspot.com/2012/01/hello-robobinding-part-2.html[这里]。
 
 *2012年二月* 在London SkillsMatter，Robert Taylor作的RoboBinding介绍视频可以在 http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[这里]找到。
+
+*RoboBinding-Gallery* Cheng Wei 建立了https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery]项目来展示所支持绑定属性的用法。

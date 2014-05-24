@@ -91,7 +91,7 @@ To achieve this, add the following directives to your ProGuard configuration:
 [source,erlang]
 ----
 -keep class * implements org.robobinding.property.ObservableProperties {
-    public *** *(...);
+	public *** *(...);
 }
 
 -keepattributes *Annotation*,Signature
@@ -341,13 +341,156 @@ Inside the row layout file album_row.xml, there are two simple TextViews. Their 
 The last sub-view in view_albums_activity.xml is the Button. Its ++bind:onClick="createAlbum"++ binds to ViewAlbumsPresentationModel.createAlbum() method.
 
 
-Create own BindingAttributeMapper
----------------------------------
-Updating...
+Create own attribute binding implementation
+-------------------------------------------
+Custom component
+~~~~~~~~~~~~~~~~
+When developing UI, we always divide and group its widgets into bigger units - custom components. In this way, we can reuse these custom components and produce more maintainable code.
+RoboBinding promote custom components and make custom components easy to use.
 
-* Custom widget
-* Overriding an existing one
+.custom Title Description Bar
+image::custom_component.png[] 
 
+The view with white border above is a simple custom component. The component consists of a title and a description. 
+When we input new title and description, and click 'Apply', the component content will be updated accordingly.
+The complete source code can be found in https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery]. 
+Let us have a look at how we use the custom component in a layout xml below:
+[source,xml]
+----
+<org.robobinding.gallery.model.customcomponent.TitleDescriptionBar
+	    bind:title="{title}"
+	    bind:description="{description}"/>
+----
+Implementing the custom component
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The major parts of the source code for TitleDescriptionBar is shown below(for how to implement a custom component, 
+please refer to http://developer.android.com/guide/topics/ui/custom-components.html[Android Reference]):
+[source,java]
+----
+public class TitleDescriptionBar extends LinearLayout {
+    private TextView title;
+    private TextView description;
+
+    public TitleDescriptionBar(Context context, AttributeSet attrs) {
+		this(context, attrs, R.layout.title_description_bar);
+    }
+
+    protected TitleDescriptionBar(Context context, AttributeSet attrs, int layoutId) {
+		super(context, attrs);
+
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(layoutId, this);
+		title = (TextView) findViewById(R.id.title);
+		description = (TextView) findViewById(R.id.description);
+		...
+    }
+
+    public void setTitle(CharSequence titleText) {
+		title.setText(titleText);
+    }
+
+    public void setDescription(CharSequence descriptionText) {
+		description.setText(descriptionText);
+    }
+}
+----
+++title_description_bar.xml++
+[source,xml]
+----
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android">
+    <TextView android:id="@+id/title"/>
+    <TextView android:text=": "/>
+  	<TextView android:id="@+id/description"/>
+----
+Implementing the binding attributes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The component has two binding attributes, TitleAttribute for the title and DescriptionAttribute for the description. 
+And the BindingAttributeMapper, TitleDescriptionBarAttributeMapper, maps the attributes to its corresponding binding attribute implementations.
+[source,java]
+----
+public class TitleAttribute extends AbstractTextAttribute {
+    @Override
+    protected void updateText(CharSequence newText) {
+        view.setTitle(newText);
+    }
+}
+
+public class DescriptionAttribute extends AbstractTextAttribute {
+    @Override
+    protected void updateText(CharSequence newText) {
+	view.setDescription(newText);
+    }
+}
+
+public class TitleDescriptionBarAttributeMapper implements BindingAttributeMapper<TitleDescriptionBar> {
+    @Override
+    public void mapBindingAttributes(BindingAttributeMappings<TitleDescriptionBar> mappings) {
+        mappings.mapPropertyAttribute(TitleAttribute.class, "title");
+        mappings.mapPropertyAttribute(DescriptionAttribute.class, "description");
+    }
+}
+----
+Registering the BindingAttributeMapper
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The BindingAttributeMapper can be registered through org.robobinding.binder.BinderFactoryBuilder.
+[source,java]
+----
+BinderFactory binderFactory = new BinderFactoryBuilder()
+        	.mapView(TitleDescriptionBar.class, new TitleDescriptionBarAttributeMapper())
+        	.build();
+ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
+activityBinder.inflateAndBind(R.layout.custom_component_activity, presentationModel);
+----
+We can write attribute binding implementations for any third party components to simplify their use.
+
+Overriding an existing attribute binding implemenation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When an existing attribute binding implementation does not satisfy our requirement or some of binding attributes have not been implemented, we have two options. 
+Firstly, we can directly modify the framework(we hope more people make contributions to the framework and help add more binding attributes). 
+Alternatively, instead of modifying the framework, we implement new binding attributes and BindingAttributeMappers, and then register to replace the default implementations from framework.
+Take the second approach as an example, we try to replace the existing http://developer.android.com/reference/android/widget/ImageView.html[ImageView] attribute binding implementation, ++org.robobinding.viewattribute.imageview++.
+
+Implementing new binding attributes and a BindingAttributeMapper
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[source,java]
+----
+public class MyImageViewAttributeMapper implements BindingAttributeMapper<ImageView> {
+    @Override
+    public void mapBindingAttributes(BindingAttributeMappings<ImageView> mappings) {
+	mappings.mapPropertyAttribute(MyImageSourceAttribute.class, "src");
+    }
+
+}
+
+public class MyImageSourceAttribute extends org.robobinding.viewattribute.imageview.ImageSourceAttribute {
+    @Override
+    protected AbstractPropertyViewAttribute<ImageView, ?> createPropertyViewAttribute(Class<?> propertyType) {
+		if (String.class.isAssignableFrom(propertyType)) {
+			return new UrlImageSourceAttribute();
+		} else {
+			return super.createPropertyViewAttribute(propertyType);
+		}
+    }
+
+    static class UrlImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, String> {
+		@Override
+		protected void valueModelUpdated(String url) {
+			Bitmap image = loadBitmapFromUrl(url);//load image from given url.
+			view.setImageBitmap(image);
+		}
+	}
+}
+----
+
+Register to replace the existing one
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[source,java]
+----
+BinderFactory binderFactory = new BinderFactoryBuilder()
+        	.mapView(ImageView.class, new MyImageViewAttributeMapper())
+        	.build();
+----
 Validator plugin
 ----------------
 Updating... Please refer to link:old_validator_plugin.html[the old doc].
@@ -359,4 +502,4 @@ Other resources
 
 *Feb 2012* A video of a talk on RoboBinding at SkillsMatter, London can be found http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[here].
 
-*RoboBinding-Gallery* Cheng Wei wrote a https://github.com/weicheng113/robobinding-gallery[RoboBinding-Gallery] project to demonstrate supported binding attributes of widgets in the RoboBinding framework.
+*RoboBinding-Gallery* Cheng Wei set up a https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery] project to demonstrate usage of supported binding attributes.

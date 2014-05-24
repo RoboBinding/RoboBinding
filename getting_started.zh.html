@@ -856,17 +856,17 @@ asciidoc.install(2);
 <div class="paragraph"><p>在你的layout xml里声明一个属性绑定:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nt">&lt;EditText</span> <span class="na">android:layout_width=</span><span class="s">&quot;fill_parent&quot;</span>
-          <span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
-          <span class="na">bind:text=</span><span class="s">&quot;${superHeroName}&quot;</span> <span class="nt">/&gt;</span>
+      <span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+      <span class="na">bind:text=</span><span class="s">&quot;${superHeroName}&quot;</span> <span class="nt">/&gt;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>增加一个 <a href="http://baike.baidu.com/view/183175.htm">pojo</a> presentation model 类并提供相应的属性:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSuperHeroName</span><span class="o">(</span><span class="n">String</span> <span class="n">superHeroName</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">superHeroName</span> <span class="o">=</span> <span class="n">superHeroName</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">superHeroName</span> <span class="o">=</span> <span class="n">superHeroName</span><span class="o">;</span>
 <span class="o">}</span>
 
 <span class="kd">public</span> <span class="n">String</span> <span class="nf">getSuperHeroName</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">superHeroName</span><span class="o">;</span>
+    <span class="k">return</span> <span class="n">superHeroName</span><span class="o">;</span>
 <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>RoboBinding 将自动的同步View与Presentation Model。</p></div>
@@ -876,14 +876,14 @@ asciidoc.install(2);
 <div class="paragraph"><p>在你的layout xml里声明一个事件绑定:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nt">&lt;ListView</span> <span class="na">android:layout_width=</span><span class="s">&quot;fill_parent&quot;</span>
-          <span class="na">android:layout_height=</span><span class="s">&quot;fill_parent&quot;</span>
-          <span class="na">bind:onItemClick=</span><span class="s">&quot;superHeroSelected&quot;</span> <span class="nt">/&gt;</span>
+      <span class="na">android:layout_height=</span><span class="s">&quot;fill_parent&quot;</span>
+      <span class="na">bind:onItemClick=</span><span class="s">&quot;superHeroSelected&quot;</span> <span class="nt">/&gt;</span>
 </pre></div></div></div>
 <div class="paragraph"><p>增加一个 <a href="http://baike.baidu.com/view/183175.htm">pojo</a> presentation model 类并提供相应的事件处理方法:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">superHeroSelected</span><span class="o">(</span><span class="n">ItemClickEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">SuperHero</span> <span class="n">chosenSuperHero</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">superHeroes</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getPosition</span><span class="o">());</span>
-        <span class="n">chosenSuperHero</span><span class="o">.</span><span class="na">summon</span><span class="o">();</span>
+    <span class="n">SuperHero</span> <span class="n">chosenSuperHero</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">superHeroes</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getPosition</span><span class="o">());</span>
+    <span class="n">chosenSuperHero</span><span class="o">.</span><span class="na">summon</span><span class="o">();</span>
 <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>当item click 事件被触发时，RoboBinding 将自动调用相应的方法。</p></div>
@@ -949,21 +949,150 @@ ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationMod
 </div>
 </div>
 <div class="sect1">
-<h2 id="_创建自己的bindingattributemapper">4. 创建自己的BindingAttributeMapper</h2>
+<h2 id="_创建自己的属性绑定实现">4. 创建自己的属性绑定实现</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>更新中。。。</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-自定义widget
-</p>
-</li>
-<li>
-<p>
-覆盖已有的BindingAttributeMapper
-</p>
-</li>
-</ul></div>
+<div class="sect2">
+<h3 id="_自定义组件">4.1. 自定义组件</h3>
+<div class="paragraph"><p>当我们开发UI界面时，经常将整个界面分块，把几个相关的小widget组合成一个大的自定义组件。这样便于重用这些自定义组件且更易于维护。RoboBinding使得自定义组件更易于使得。</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/custom_component.png" alt="custom_component.png" />
+</div>
+<div class="title">Figure 2. 自定义 Title Description Bar</div>
+</div>
+<div class="paragraph"><p>以上白色边框的view为简单自定义组件。该组件包含了标题与描述两个部分。在输入新的标题与描述后，点击'Apply'，自定义组件的内容就更新为新的内容。
+可以从<a href="https://github.com/weicheng113/robobinding-gallery">RoboBinding Widget Gallery</a>找到完整的代码。
+以下为在layout xml中使用自定义组件：</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;org.robobinding.gallery.model.customcomponent.TitleDescriptionBar</span>
+        <span class="na">bind:title=</span><span class="s">&quot;{title}&quot;</span>
+        <span class="na">bind:description=</span><span class="s">&quot;{description}&quot;</span><span class="nt">/&gt;</span>
+</pre></div></div></div>
+<div class="sect3">
+<h4 id="_实现自定义组件">4.1.1. 实现自定义组件</h4>
+<div class="paragraph"><p>以下是TitleDescriptionBar自定义组件的主要实现代码部分(如何实现自定义组件，请参考<a href="http://developer.android.com/guide/topics/ui/custom-components.html">Android文档</a>):</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleDescriptionBar</span> <span class="kd">extends</span> <span class="n">LinearLayout</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">TextView</span> <span class="n">title</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">TextView</span> <span class="n">description</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">TitleDescriptionBar</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">title_description_bar</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">protected</span> <span class="nf">TitleDescriptionBar</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">,</span> <span class="kt">int</span> <span class="n">layoutId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">);</span>
+
+        <span class="n">LayoutInflater</span> <span class="n">inflater</span> <span class="o">=</span> <span class="o">(</span><span class="n">LayoutInflater</span><span class="o">)</span> <span class="n">context</span><span class="o">.</span><span class="na">getSystemService</span><span class="o">(</span><span class="n">Context</span><span class="o">.</span><span class="na">LAYOUT_INFLATER_SERVICE</span><span class="o">);</span>
+        <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">layoutId</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">title</span><span class="o">);</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">description</span><span class="o">);</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTitle</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">titleText</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">title</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">titleText</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setDescription</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">descriptionText</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">description</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">descriptionText</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p><code>title_description_bar.xml</code></p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;merge</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="na">xmlns:bind=</span><span class="s">&quot;http://robobinding.org/android&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;TextView</span> <span class="na">android:id=</span><span class="s">&quot;@+id/title&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;TextView</span> <span class="na">android:text=</span><span class="s">&quot;: &quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;TextView</span> <span class="na">android:id=</span><span class="s">&quot;@+id/description&quot;</span><span class="nt">/&gt;</span>
+</pre></div></div></div>
+</div>
+<div class="sect3">
+<h4 id="_实现绑定属性">4.1.2. 实现绑定属性</h4>
+<div class="paragraph"><p>TitleDescriptionBar有标题与描述两个绑定属性，对应的实现分别是TitleAttribute与DescriptionAttribute。最后绑定属性映射TitleDescriptionBarAttributeMapper将属性映射到相应的实现类。</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleAttribute</span> <span class="kd">extends</span> <span class="n">AbstractTextAttribute</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">updateText</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">newText</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">view</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">newText</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DescriptionAttribute</span> <span class="kd">extends</span> <span class="n">AbstractTextAttribute</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">updateText</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">newText</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">view</span><span class="o">.</span><span class="na">setDescription</span><span class="o">(</span><span class="n">newText</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleDescriptionBarAttributeMapper</span> <span class="kd">implements</span> <span class="n">BindingAttributeMapper</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mappings</span><span class="o">.</span><span class="na">mapPropertyAttribute</span><span class="o">(</span><span class="n">TitleAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;title&quot;</span><span class="o">);</span>
+        <span class="n">mappings</span><span class="o">.</span><span class="na">mapPropertyAttribute</span><span class="o">(</span><span class="n">DescriptionAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;description&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+</div>
+<div class="sect3">
+<h4 id="_注册绑定属性映射类">4.1.3. 注册绑定属性映射类</h4>
+<div class="paragraph"><p>通过org.robobinding.binder.BinderFactoryBuilder注册绑定属性映射类。</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">TitleDescriptionBar</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">TitleDescriptionBarAttributeMapper</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="n">ActivityBinder</span> <span class="n">activityBinder</span> <span class="o">=</span> <span class="n">binderFactory</span><span class="o">.</span><span class="na">createActivityBinder</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+<span class="n">activityBinder</span><span class="o">.</span><span class="na">inflateAndBind</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">custom_component_activity</span><span class="o">,</span> <span class="n">presentationModel</span><span class="o">);</span>
+</pre></div></div></div>
+<div class="paragraph"><p>我们可以为任何的第三方组件编写属性绑定实现，来简化第三方组件的使用。</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_覆盖已有的属性绑定实现">4.2. 覆盖已有的属性绑定实现</h3>
+<div class="paragraph"><p>当RoboBinding框架已有的绑定属性不满足需求或没有相应的属性绑定实现时，我们有两种选择。第一种是修改框架代码，增加缺少的绑定属性(我们希望大家都参与贡献更多的绑定属性实现)。
+第二种是不更改框架，实现相应的绑定属性与绑定属性映射类，然后注册覆盖已有的框架所提供的默认实现。
+以第二种方式为例，我们来覆盖框架已有的<a href="http://developer.android.com/reference/android/widget/ImageView.html">ImageView</a>属性绑定实现<code>org.robobinding.viewattribute.imageview</code>。</p></div>
+<div class="sect3">
+<h4 id="_实现新的绑定属性与映射类">4.2.1. 实现新的绑定属性与映射类</h4>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyImageViewAttributeMapper</span> <span class="kd">implements</span> <span class="n">BindingAttributeMapper</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mappings</span><span class="o">.</span><span class="na">mapPropertyAttribute</span><span class="o">(</span><span class="n">MyImageSourceAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;src&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyImageSourceAttribute</span> <span class="kd">extends</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">viewattribute</span><span class="o">.</span><span class="na">imageview</span><span class="o">.</span><span class="na">ImageSourceAttribute</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">AbstractPropertyViewAttribute</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">,</span> <span class="o">?&gt;</span> <span class="n">createPropertyViewAttribute</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">propertyType</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isAssignableFrom</span><span class="o">(</span><span class="n">propertyType</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">UrlImageSourceAttribute</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">createPropertyViewAttribute</span><span class="o">(</span><span class="n">propertyType</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">UrlImageSourceAttribute</span> <span class="kd">extends</span> <span class="n">AbstractReadOnlyPropertyViewAttribute</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">valueModelUpdated</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Bitmap</span> <span class="n">image</span> <span class="o">=</span> <span class="n">loadBitmapFromUrl</span><span class="o">(</span><span class="n">url</span><span class="o">);</span><span class="c1">//load image from given url.</span>
+            <span class="n">view</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">image</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+</div>
+<div class="sect3">
+<h4 id="_注册覆盖框架已有的实现">4.2.2. 注册覆盖框架已有的实现</h4>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">ImageView</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">MyImageViewAttributeMapper</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div></div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -977,6 +1106,7 @@ ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationMod
 <div class="sectionbody">
 <div class="paragraph"><p><strong>2012年一月</strong> Robert Taylor 写了一些入门的文章在 <a href="http://roberttaylor426.blogspot.com/2011/11/hello-robobinding-part-1.html">这里</a> 和 <a href="http://roberttaylor426.blogspot.com/2012/01/hello-robobinding-part-2.html">这里</a>。</p></div>
 <div class="paragraph"><p><strong>2012年二月</strong> 在London SkillsMatter，Robert Taylor作的RoboBinding介绍视频可以在 <a href="http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding">这里</a>找到。</p></div>
+<div class="paragraph"><p><strong>RoboBinding-Gallery</strong> Cheng Wei 建立了<a href="https://github.com/weicheng113/robobinding-gallery">RoboBinding Widget Gallery</a>项目来展示所支持绑定属性的用法。</p></div>
 </div>
 </div>
 </div>
@@ -984,7 +1114,7 @@ ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationMod
 <div id="footer">
 <div id="footer-text">
 Version 0.8.2<br />
-Last updated 2014-05-24 17:42:09 澳大利亚西部标准时间
+Last updated 2014-05-24 23:39:02 澳大利亚西部标准时间
 </div>
 </div>
 </body>

@@ -22,6 +22,7 @@
 				<exec executable="python">
 					<arg value="${env.ASCIIDOC_HOME}/asciidoc.py" />
 					<arg line="-a docinfo1" />
+					<arg line="-a tabsize=4"/>
 					<arg value="@{file}" />
 				</exec>
 			</sequential>
@@ -38,6 +39,7 @@
 				<exec executable="python">
 					<arg value="${env.ASCIIDOC_HOME}/asciidoc.py" />
 					<arg line="-a docinfo1" />
+					<arg line="-a tabsize=4"/>
 					<arg line="-f ${src}/xhtml11_zh.conf" />
 					<arg value="@{file}" />
 				</exec>
