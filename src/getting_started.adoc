@@ -94,21 +94,21 @@ To achieve this, add the following directives to your ProGuard configuration:
     public *** *(...);
 }
 
--keepattributes *Annotation*
+-keepattributes *Annotation*,Signature
 ----
 
 From 0.8.1 onwards, we have added a dependency on the guava libraries. At the moment ProGuard doesn't seem to play nicely with guava, so you'll need to the add the following additional lines:
 [source,erlang]
 ----
 -dontwarn com.google.common.collect.MinMaxPriorityQueue
--dontwarn com.google.common.primitives.UnsignedBytes**
+-dontwarn sun.misc.Unsafe
 ----
 
 And add the following lines also to keep the constructors of view listeners.
 [source,erlang]
 ----
 -keepclassmembers class * extends org.robobinding.viewattribute.view.ViewListeners {
-public <init>(...);
+	public <init>(...);
 }
 ----
 An example of proguard.cfg settings can be found underneath https://github.com/RoboBinding/RoboBinding/[RoboBinding album sample].

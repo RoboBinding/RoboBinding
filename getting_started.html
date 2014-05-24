@@ -923,17 +923,17 @@ If you&#8217;re using the jar without dependencies, you will additionally need a
     <span class="n">public</span> <span class="o">***</span> <span class="o">*</span><span class="p">(...);</span>
 <span class="p">}</span>
 
-<span class="p">-</span><span class="ni">keepattributes</span> <span class="o">*</span><span class="nv">Annotation</span><span class="o">*</span>
+<span class="p">-</span><span class="ni">keepattributes</span> <span class="o">*</span><span class="nv">Annotation</span><span class="o">*</span><span class="p">,</span><span class="nv">Signature</span>
 </pre></div></div></div>
 <div class="paragraph"><p>From 0.8.1 onwards, we have added a dependency on the guava libraries. At the moment ProGuard doesn&#8217;t seem to play nicely with guava, so you&#8217;ll need to the add the following additional lines:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="p">-</span><span class="ni">dontwarn</span> <span class="n">com</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">common</span><span class="p">.</span><span class="n">collect</span><span class="p">.</span><span class="nv">MinMaxPriorityQueue</span>
-<span class="p">-</span><span class="ni">dontwarn</span> <span class="n">com</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">common</span><span class="p">.</span><span class="n">primitives</span><span class="p">.</span><span class="nv">UnsignedBytes</span><span class="o">**</span>
+<span class="p">-</span><span class="ni">dontwarn</span> <span class="n">sun</span><span class="p">.</span><span class="n">misc</span><span class="p">.</span><span class="nv">Unsafe</span>
 </pre></div></div></div>
 <div class="paragraph"><p>And add the following lines also to keep the constructors of view listeners.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="p">-</span><span class="ni">keepclassmembers</span> <span class="n">class</span> <span class="o">*</span> <span class="n">extends</span> <span class="n">org</span><span class="p">.</span><span class="n">robobinding</span><span class="p">.</span><span class="n">viewattribute</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="nv">ViewListeners</span> <span class="p">{</span>
-<span class="n">public</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;</span><span class="p">(...);</span>
+        <span class="n">public</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;</span><span class="p">(...);</span>
 <span class="p">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>An example of proguard.cfg settings can be found underneath <a href="https://github.com/RoboBinding/RoboBinding/">RoboBinding album sample</a>.</p></div>
@@ -1184,7 +1184,7 @@ Overriding an existing one
 <div id="footer">
 <div id="footer-text">
 Version 0.8.2<br />
-Last updated 2014-05-24 17:43:28 澳大利亚西部标准时间
+Last updated 2014-05-24 18:24:52 澳大利亚西部标准时间
 </div>
 </div>
 </body>
