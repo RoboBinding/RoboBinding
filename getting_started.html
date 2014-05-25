@@ -832,7 +832,7 @@ asciidoc.install(2);
         <div id="menu">
                 <a href="home.html" class="menuitem">Home</a>
                 <a href="getting_started.html" class="menuitem">Getting Started</a>
-                <a href="getting_involved.html" class="menuitem">Getting Involved</a>
+                <a href="insight_into_framework.html" class="menuitem">Insight Into Framework</a>
                 <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.2/robobinding-0.8.2-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
                 <a href="about.html" class="menuitem">About</a>
                 <a href="old_index.html" class="menuitem">Old Doc</a>
@@ -899,13 +899,12 @@ asciidoc.install(2);
 <div class="sect3">
 <h4 id="_eclipse">2.1.1. Eclipse</h4>
 <div class="paragraph"><p>Needless to say, you will need both <a href="http://eclipse.org/">Eclipse</a> and the <a href="http://developer.android.com/tools/sdk/eclipse-adt.html">Android Development Tools</a> plugin installed.</p></div>
-<div class="paragraph"><p>Start by adding either the robobinding-[xxx].jar or the robobinding-[xxx]-jar-with-dependencies.jar to the libs folder of your project, then add it to your classpath by right-clicking on your project→Properties→Java Build Path→Libraries→Add JARs.
+<div class="paragraph"><p>Start by adding either the <em>robobinding-[xxx].jar</em> or the <em>robobinding-[xxx]-jar-with-dependencies.jar</em> to the libs folder of your project, then add it to your classpath by right-clicking on your project→Properties→Java Build Path→Libraries→Add JARs.
 If you&#8217;re using the jar without dependencies, you will additionally need add <a href="https://code.google.com/p/guava-libraries/">guava</a> 11.0.1+ jars to your classpath.</p></div>
 <div class="paragraph"><p>The RoboBinding framework incorporates AspectJ aspects to auto-generate the property-change notification code in your presentation models. If you want to take advantage of this (recommended), you&#8217;ll need to install the <a href="http://www.eclipse.org/ajdt/">AspectJ Development Tools (AJDT)</a> plugin.</p></div>
 <div class="paragraph"><p>Once you have it installed, right-click on your project→Configure→Convert to AspectJ Project. This will add the AspectJ natures to your .project file.</p></div>
 <div class="paragraph"><p>Next, make sure the AspectJ Runtime Library is included in the build by right-clicking on your project→Properties→Java Build Path→Order and Export, and ensure <em>AspectJ Runtime Library</em> is checked.</p></div>
-<div class="paragraph"><p>Finally, you&#8217;ll need to make sure the RoboBinding jar is added to your project Aspect Path.</p></div>
-<div class="paragraph"><p>Right click on your project→Properties→AspectJ Build→Aspect Path→Add JARs.</p></div>
+<div class="paragraph"><p>Finally, you&#8217;ll need to make sure the RoboBinding jar is added to your project Aspect Path. Right click on your project→Properties→AspectJ Build→Aspect Path→Add JARs.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/eclipse_project_build_settings.png" alt="Eclipse project build settings" />
@@ -916,7 +915,7 @@ If you&#8217;re using the jar without dependencies, you will additionally need a
 </div>
 <div class="sect3">
 <h4 id="_proguard">2.1.2. ProGuard</h4>
-<div class="paragraph"><p>RoboBinding requires that all classes which implement ObservableProperties (i.e. presentation models) have their names and public methods left intact. Additionally, we need to preserve all annotations.</p></div>
+<div class="paragraph"><p>RoboBinding requires that all classes which implement org.robobinding.property.ObservableProperties (i.e. presentation models) have their names and public methods left intact. Additionally, we need to preserve all annotations.</p></div>
 <div class="paragraph"><p>To achieve this, add the following directives to your ProGuard configuration:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="p">-</span><span class="ni">keep</span> <span class="n">class</span> <span class="o">*</span> <span class="n">implements</span> <span class="n">org</span><span class="p">.</span><span class="n">robobinding</span><span class="p">.</span><span class="n">property</span><span class="p">.</span><span class="nv">ObservableProperties</span> <span class="p">{</span>
@@ -1318,7 +1317,7 @@ Take the second approach as an example, we try to replace the existing <a href="
 <div id="footer">
 <div id="footer-text">
 Version 0.8.2<br />
-Last updated 2014-05-24 23:51:40 澳大利亚西部标准时间
+Last updated 2014-05-25 08:35:42 澳大利亚西部标准时间
 </div>
 </div>
 </body>

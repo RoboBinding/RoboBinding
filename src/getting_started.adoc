@@ -65,7 +65,7 @@ Eclipse
 ^^^^^^^
 Needless to say, you will need both http://eclipse.org/[Eclipse] and the http://developer.android.com/tools/sdk/eclipse-adt.html[Android Development Tools] plugin installed.
 
-Start by adding either the robobinding-[xxx].jar or the robobinding-[xxx]-jar-with-dependencies.jar to the libs folder of your project, then add it to your classpath by right-clicking on your project→Properties→Java Build Path→Libraries→Add JARs. 
+Start by adding either the 'robobinding-[xxx].jar' or the 'robobinding-[xxx]-jar-with-dependencies.jar' to the libs folder of your project, then add it to your classpath by right-clicking on your project→Properties→Java Build Path→Libraries→Add JARs. 
 If you're using the jar without dependencies, you will additionally need add https://code.google.com/p/guava-libraries/[guava] 11.0.1+ jars to your classpath.
 
 The RoboBinding framework incorporates AspectJ aspects to auto-generate the property-change notification code in your presentation models. If you want to take advantage of this (recommended), you'll need to install the http://www.eclipse.org/ajdt/[AspectJ Development Tools (AJDT)] plugin.
@@ -74,9 +74,7 @@ Once you have it installed, right-click on your project→Configure→Convert to
 
 Next, make sure the AspectJ Runtime Library is included in the build by right-clicking on your project→Properties→Java Build Path→Order and Export, and ensure 'AspectJ Runtime Library' is checked.
 
-Finally, you'll need to make sure the RoboBinding jar is added to your project Aspect Path.
-
-Right click on your project→Properties→AspectJ Build→Aspect Path→Add JARs.
+Finally, you'll need to make sure the RoboBinding jar is added to your project Aspect Path. Right click on your project→Properties→AspectJ Build→Aspect Path→Add JARs.
 
 .Eclipse project build settings
 image::eclipse_project_build_settings.png["Eclipse project build settings"]
@@ -85,7 +83,7 @@ Please feel free to take a look at https://github.com/RoboBinding/RoboBinding/[R
 
 ProGuard
 ^^^^^^^^
-RoboBinding requires that all classes which implement ObservableProperties (i.e. presentation models) have their names and public methods left intact. Additionally, we need to preserve all annotations.
+RoboBinding requires that all classes which implement org.robobinding.property.ObservableProperties (i.e. presentation models) have their names and public methods left intact. Additionally, we need to preserve all annotations.
 
 To achieve this, add the following directives to your ProGuard configuration:
 [source,erlang]

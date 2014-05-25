@@ -1,5 +1,5 @@
-﻿Getting Involved
-================
+﻿Insight Into Framework
+======================
 :Revision: 0.8.2
 :toc:
 :numbered:
@@ -206,11 +206,11 @@ Becoming a regular contributor
 ------------------------------
 The project is a free/non-profitable open source project, purely out of personal interests. we are devoting our personal time to the project development and maintenance.
 The value and purpose of the project is: By doing the project, we gain happiness(through enjoying the art of software development and smooth team cooperation), knowledge and experiences.
-If the project is successful and adopted by android users, we gain satisfactions of making contributions to the android community.
+If the project is successful and adopted by android users, we gain satisfactions of making contributions to the android community. Feel free to contact us via robobinding at gmail.com.
 
 Skills required to participate in the project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Has rich experiences in TDD(test driven development).
+* Has rich experiences in TDD(test driven development) and Agile development.
 * Has rich experiences in object-oriented programming.
 
 Teamwork practices and rules
