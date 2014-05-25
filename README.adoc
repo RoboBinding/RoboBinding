@@ -8,7 +8,7 @@ https://github.com/depoll/bindroid[Bindroid], https://github.com/MvvmCross/MvvmC
 
 * link:http://robobinding.org/getting_started.html[Getting Started]
 
-* link:http://robobinding.org/getting_involved.html[Getting Involved]
+* link:http://robobinding.org/insight_into_framework.html[Insight Into Framework]
 
 * link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.2/robobinding-0.8.2-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
 
