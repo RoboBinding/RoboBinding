@@ -31,5 +31,13 @@ public class InternalViewBinder {
     public View inflateAndBind(int layoutId, Object presentationModel, ViewGroup attachToRoot) {
 	return binderImplementor.inflateAndBind(layoutId, presentationModel, attachToRoot);
     }
+    
+    public View justBind(View view, Object presentationModel) {
+    	if (binderImplementor instanceof ViewBinderImplementor) {
+    		ViewBinderImplementor viewBinderImplementor = (ViewBinderImplementor) binderImplementor;
+    		return viewBinderImplementor.bind(view, presentationModel);
+    	}
+    	return view;
+    }
 
 }

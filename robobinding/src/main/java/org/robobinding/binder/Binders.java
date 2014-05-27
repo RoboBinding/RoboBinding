@@ -40,6 +40,11 @@ public class Binders {
 	InternalViewBinder viewBinder = newBinderFactory().createInternalViewBinder(context);
 	return viewBinder.inflateAndBind(layoutId, presentationModel);
     }
+    
+    public static View bindView(Context context, View view, Object presentationModel) {
+    	InternalViewBinder viewBinder = newBinderFactory().createInternalViewBinder2(context);
+    	return viewBinder.justBind(view, presentationModel);
+    }
 
     public static View attachToRootAndBindView(ViewGroup parentView, Context context, int layoutId, Object presentationModel) {
 	InternalViewBinder viewBinder = newBinderFactory().createInternalViewBinder(context);

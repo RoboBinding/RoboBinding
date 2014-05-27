@@ -51,6 +51,12 @@ public class BindingViewInflater implements ViewCreationListener {
 
 	return new InflatedView(rootView, resolvedBindingAttributesForChildViews, errors);
     }
+    
+    public InflatedView wrapView(View view) {
+    	resolvedBindingAttributesForChildViews = newArrayList();
+    	errors = new ViewHierarchyInflationErrorsException();
+    	return new InflatedView(view, resolvedBindingAttributesForChildViews, errors);
+    }
 
     public InflatedView inflateView(int layoutId, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
 	resolvedBindingAttributesForChildViews = newArrayList();
@@ -61,7 +67,7 @@ public class BindingViewInflater implements ViewCreationListener {
 
 	return new InflatedView(rootView, resolvedBindingAttributesForChildViews, errors);
     }
-
+    
     private void addPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup, 
 	    View rootView) {
 	for (PredefinedPendingAttributesForView predefinedPendingAttributesForView : predefinedPendingAttributesForViewGroup) {

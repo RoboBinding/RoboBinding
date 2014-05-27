@@ -18,7 +18,7 @@ import android.view.ViewGroup;
  * @author Cheng Wei
  */
 class InternalBinder implements BinderImplementor {
-    private final BindingViewInflater bindingViewInflater;
+    protected final BindingViewInflater bindingViewInflater;
     private final ErrorFormatter errorFormatter;
     private final BindingContextFactory bindingContextFactory;
 
@@ -37,7 +37,7 @@ class InternalBinder implements BinderImplementor {
 	return bind(inflatedView, presentationModel);
     }
 
-    private View bind(InflatedView inflatedView, Object presentationModel) {
+    protected View bind(InflatedView inflatedView, Object presentationModel) {
         BindingContext bindingContext = bindingContextFactory.create(this, presentationModel);
         
         inflatedView.bindChildViews(bindingContext);
