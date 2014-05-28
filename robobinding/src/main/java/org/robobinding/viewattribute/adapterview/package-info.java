@@ -10,7 +10,7 @@
  *  Syntax: [widget1_in_itemLayout.attributeName1:{property1_of_itemPresentationModel}, ...,
  *  widgetN_in_itemLayout.attributeNameN:{propertyN_of_itemPresentationModel}]; Not bindable
  * @prop source; Array, List, {@link org.robobinding.itempresentationmodel.TypedCursor}; no
- * @prop selectedItemPosition; Integer; no
+ * @prop selectedItemPosition; Integer; yes
  *
  *
  * @event onItemClick; {@link org.robobinding.viewattribute.adapterview.ItemClickEvent}
