@@ -1051,7 +1051,7 @@ RoboBinding遵循JavaBeans规范，当要暴露superHeroName属性时，我们�
 RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel annotation做到。</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nd">@ItemPresentationModel</span><span class="o">(</span><span class="n">SuperHeroPresentationModel</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">getSuperHeroes</span><span class="o">()</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">SuperHero</span><span class="o">&gt;</span> <span class="nf">getSuperHeroes</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">return</span> <span class="n">superHeroes</span><span class="o">;</span>
 <span class="o">}</span>
 </pre></div></div></div>
@@ -1114,6 +1114,56 @@ RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel a
       <span class="na">bind:source=</span><span class="s">&quot;{superHeroes}&quot;</span>
       <span class="na">bind:itemLayout=</span><span class="s">&quot;@layout/simple_super_hero_row&quot;</span> <span class="nt">/&gt;</span>
 </pre></div></div></div>
+</div>
+<div class="sect2">
+<h3 id="_羽量级关系数据与对象cursor映射">2.8. 羽量级关系数据与对象cursor映射</h3>
+<div class="paragraph"><p>AdapterViews绑定中，我们提到数据集属性类型的一种为<code>org.robobinding.itempresentationmodel.TypedCursor</code>。
+由于应用中我们通常都习惯于操作对象并尽量隔离关系数据操作的那部分代码，RoboBinding加入了羽量级对象化的Cursor - TypedCursor。
+通过org.robobinding.itempresentationmodel.RowMapper&lt;T&gt;来将一行的关系数据映射为一个对象实例。接着以上AdapterViews的例子，我们将数据集属性类型改为TypedCursor&lt;SuperHero&gt;。</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nd">@ItemPresentationModel</span><span class="o">(</span><span class="n">SuperHeroPresentationModel</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="n">TypedCursor</span><span class="o">&lt;</span><span class="n">SuperHero</span><span class="o">&gt;</span> <span class="nf">getSuperHeroes</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">allSuperHeroesQuery</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GetAllQuery</span><span class="o">&lt;</span><span class="n">SuperHero</span><span class="o">&gt;(</span><span class="n">SuperHero</span><span class="o">.</span><span class="na">TABLE_NAME</span><span class="o">,</span> <span class="k">new</span> <span class="n">SuperHeroRowMapper</span><span class="o">());</span>
+    <span class="k">return</span> <span class="n">allSuperHeroesQuery</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">db</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>GetAllQuery实现如下：</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GetAllQuery</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+<span class="o">{</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">tableName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">RowMapper</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">rowMapper</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">GetAllQuery</span><span class="o">(</span><span class="n">String</span> <span class="n">tableName</span><span class="o">,</span> <span class="n">RowMapper</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">rowMapper</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">tableName</span> <span class="o">=</span> <span class="n">tableName</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">rowMapper</span> <span class="o">=</span> <span class="n">rowMapper</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">TypedCursor</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">execute</span><span class="o">(</span><span class="n">SQLiteDatabase</span> <span class="n">db</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="n">Cursor</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">query</span><span class="o">(</span>
+                <span class="n">tableName</span><span class="o">,</span>
+                <span class="o">...,</span>
+                <span class="n">BaseColumns</span><span class="o">.</span><span class="na">_ID</span><span class="o">+</span><span class="s">&quot; ASC&quot;</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">itempresentationmodel</span><span class="o">.</span><span class="na">TypedCursorAdapter</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;(</span><span class="n">cursor</span><span class="o">,</span> <span class="n">rowMapper</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>SuperHeroRowMapper实现如下：</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SuperHeroRowMapper</span> <span class="kd">implements</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">itempresentationmodel</span><span class="o">.</span><span class="na">RowMapper</span><span class="o">&lt;</span><span class="n">SuperHero</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">SuperHero</span> <span class="nf">mapRow</span><span class="o">(</span><span class="n">Cursor</span> <span class="n">cursor</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">getColumnIndex</span><span class="o">(</span><span class="n">SuperHeroTable</span><span class="o">.</span><span class="na">NAME</span><span class="o">));</span>
+    <span class="n">String</span> <span class="n">callSign</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">getColumnIndex</span><span class="o">(</span><span class="n">SuperHeroTable</span><span class="o">.</span><span class="na">CALL_SIGN</span><span class="o">));</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">SuperHero</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">callSign</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p><a href="https://github.com/weicheng113/robobinding-gallery">RoboBinding Widget Gallery</a>下包含了一个简单的TypedCursor例子 - org.robobinding.gallery.model.typedcursor。</p></div>
 </div>
 </div>
 </div>
@@ -1315,7 +1365,7 @@ ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationMod
 <div id="footer">
 <div id="footer-text">
 Version 0.8.2<br />
-Last updated 2014-05-25 13:12:45 澳大利亚西部标准时间
+Last updated 2014-05-31 15:14:53 澳大利亚西部标准时间
 </div>
 </div>
 </body>

@@ -240,7 +240,7 @@ As well as providing the data, RoboBinding needs to know the type of presentatio
 [source,java]
 ----
 @ItemPresentationModel(SuperHeroPresentationModel.class)
-public void getSuperHeroes() {
+public List<SuperHero> getSuperHeroes() {
 	return superHeroes;
 }
 ----
@@ -306,6 +306,60 @@ The last thing to do is to declare our ListView binding attributes in the layout
 	  bind:source="{superHeroes}"
 	  bind:itemLayout="@layout/simple_super_hero_row" />
 ----
+
+Featherweight relational cursor to object cursor mapping
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In link:#_binding_with_adapterviews[Binding with AdapterViews], we mentioned a data source type - ++org.robobinding.itempresentationmodel.TypedCursor++.
+As we are so used to operating objects over relational data and tend to isolate the code that involves relational database operations, RoboBinding added a featherweight object Cursor - TypedCursor.
+Through org.robobinding.itempresentationmodel.RowMapper<T>, we translate a row of relational data into an object. 
+Continue with the example in link:#_binding_with_adapterviews[Binding with AdapterViews], we alter the data source type to TypedCursor<SuperHero>.
+[source,java]
+----
+@ItemPresentationModel(SuperHeroPresentationModel.class)
+public TypedCursor<SuperHero> getSuperHeroes() {
+	allSuperHeroesQuery = new GetAllQuery<SuperHero>(SuperHero.TABLE_NAME, new SuperHeroRowMapper());
+	return allSuperHeroesQuery.execute(db);
+}
+----
+we add the class GetAllQuery:
+[source,java]
+----
+public class GetAllQuery<T>
+{
+	private String tableName;
+	private final RowMapper<T> rowMapper;
+
+	public GetAllQuery(String tableName, RowMapper<T> rowMapper)
+	{
+	    this.tableName = tableName;
+	    this.rowMapper = rowMapper;
+	}
+
+	public TypedCursor<T> execute(SQLiteDatabase db)
+	{
+		Cursor cursor = db.query(
+				tableName,
+				...,
+				BaseColumns._ID+" ASC");
+		return new org.robobinding.itempresentationmodel.TypedCursorAdapter<T>(cursor, rowMapper);
+	}
+}
+----
+and then we add the RowMapper implementation SuperHeroRowMapper:
+[source,java]
+----
+public class SuperHeroRowMapper implements org.robobinding.itempresentationmodel.RowMapper<SuperHero> {
+
+    @Override
+    public SuperHero mapRow(Cursor cursor) {
+	String name = cursor.getString(cursor.getColumnIndex(SuperHeroTable.NAME));
+	String callSign = cursor.getString(cursor.getColumnIndex(SuperHeroTable.CALL_SIGN));
+	return new SuperHero(name, callSign);
+    }
+
+}
+----
+That is it. An simple example of TypeCursor, org.robobinding.gallery.model.typedcursor, can be found under https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery] project.
 
 A Walk through Album Sample
 ---------------------------

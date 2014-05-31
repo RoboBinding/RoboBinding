@@ -228,7 +228,7 @@ RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel a
 [source,java]
 ----
 @ItemPresentationModel(SuperHeroPresentationModel.class)
-public void getSuperHeroes() {
+public List<SuperHero> getSuperHeroes() {
 	return superHeroes;
 }
 ----
@@ -293,6 +293,59 @@ public class SuperHeroPresentationModel
 	  bind:source="{superHeroes}"
 	  bind:itemLayout="@layout/simple_super_hero_row" />
 ----
+
+羽量级关系数据与对象cursor映射
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+AdapterViews绑定中，我们提到数据集属性类型的一种为++org.robobinding.itempresentationmodel.TypedCursor++。
+由于应用中我们通常都习惯于操作对象并尽量隔离关系数据操作的那部分代码，RoboBinding加入了羽量级对象化的Cursor - TypedCursor。
+通过org.robobinding.itempresentationmodel.RowMapper<T>来将一行的关系数据映射为一个对象实例。接着以上AdapterViews的例子，我们将数据集属性类型改为TypedCursor<SuperHero>。
+[source,java]
+----
+@ItemPresentationModel(SuperHeroPresentationModel.class)
+public TypedCursor<SuperHero> getSuperHeroes() {
+	allSuperHeroesQuery = new GetAllQuery<SuperHero>(SuperHero.TABLE_NAME, new SuperHeroRowMapper());
+	return allSuperHeroesQuery.execute(db);
+}
+----
+GetAllQuery实现如下：
+[source,java]
+----
+public class GetAllQuery<T>
+{
+	private String tableName;
+	private final RowMapper<T> rowMapper;
+
+	public GetAllQuery(String tableName, RowMapper<T> rowMapper)
+	{
+	    this.tableName = tableName;
+	    this.rowMapper = rowMapper;
+	}
+
+	public TypedCursor<T> execute(SQLiteDatabase db)
+	{
+		Cursor cursor = db.query(
+				tableName,
+				...,
+				BaseColumns._ID+" ASC");
+		return new org.robobinding.itempresentationmodel.TypedCursorAdapter<T>(cursor, rowMapper);
+	}
+}
+----
+SuperHeroRowMapper实现如下：
+[source,java]
+----
+public class SuperHeroRowMapper implements org.robobinding.itempresentationmodel.RowMapper<SuperHero> {
+
+    @Override
+    public SuperHero mapRow(Cursor cursor) {
+	String name = cursor.getString(cursor.getColumnIndex(SuperHeroTable.NAME));
+	String callSign = cursor.getString(cursor.getColumnIndex(SuperHeroTable.CALL_SIGN));
+	return new SuperHero(name, callSign);
+    }
+
+}
+----
+https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery]下包含了一个简单的TypedCursor例子 - org.robobinding.gallery.model.typedcursor。
 
 Album唱片集例子项目学习
 -----------------------

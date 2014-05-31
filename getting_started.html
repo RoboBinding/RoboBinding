@@ -1051,7 +1051,7 @@ Different views support different input events (See <a href="https://oss.sonatyp
 <div class="paragraph"><p>As well as providing the data, RoboBinding needs to know the type of presentation model each child view of the AdapterView should bind onto. We declare this in our code with the @ItemPresentationModel annotation.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nd">@ItemPresentationModel</span><span class="o">(</span><span class="n">SuperHeroPresentationModel</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">getSuperHeroes</span><span class="o">()</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">SuperHero</span><span class="o">&gt;</span> <span class="nf">getSuperHeroes</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">return</span> <span class="n">superHeroes</span><span class="o">;</span>
 <span class="o">}</span>
 </pre></div></div></div>
@@ -1113,6 +1113,57 @@ Different views support different input events (See <a href="https://oss.sonatyp
       <span class="na">bind:source=</span><span class="s">&quot;{superHeroes}&quot;</span>
       <span class="na">bind:itemLayout=</span><span class="s">&quot;@layout/simple_super_hero_row&quot;</span> <span class="nt">/&gt;</span>
 </pre></div></div></div>
+</div>
+<div class="sect2">
+<h3 id="_featherweight_relational_cursor_to_object_cursor_mapping">2.8. Featherweight relational cursor to object cursor mapping</h3>
+<div class="paragraph"><p>In <a href="#_binding_with_adapterviews">Binding with AdapterViews</a>, we mentioned a data source type - <code>org.robobinding.itempresentationmodel.TypedCursor</code>.
+As we are so used to operating objects over relational data and tend to isolate the code that involves relational database operations, RoboBinding added a featherweight object Cursor - TypedCursor.
+Through org.robobinding.itempresentationmodel.RowMapper&lt;T&gt;, we translate a row of relational data into an object.
+Continue with the example in <a href="#_binding_with_adapterviews">Binding with AdapterViews</a>, we alter the data source type to TypedCursor&lt;SuperHero&gt;.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nd">@ItemPresentationModel</span><span class="o">(</span><span class="n">SuperHeroPresentationModel</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="n">TypedCursor</span><span class="o">&lt;</span><span class="n">SuperHero</span><span class="o">&gt;</span> <span class="nf">getSuperHeroes</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">allSuperHeroesQuery</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GetAllQuery</span><span class="o">&lt;</span><span class="n">SuperHero</span><span class="o">&gt;(</span><span class="n">SuperHero</span><span class="o">.</span><span class="na">TABLE_NAME</span><span class="o">,</span> <span class="k">new</span> <span class="n">SuperHeroRowMapper</span><span class="o">());</span>
+    <span class="k">return</span> <span class="n">allSuperHeroesQuery</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">db</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>we add the class GetAllQuery:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GetAllQuery</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+<span class="o">{</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">tableName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">RowMapper</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">rowMapper</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">GetAllQuery</span><span class="o">(</span><span class="n">String</span> <span class="n">tableName</span><span class="o">,</span> <span class="n">RowMapper</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">rowMapper</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">tableName</span> <span class="o">=</span> <span class="n">tableName</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">rowMapper</span> <span class="o">=</span> <span class="n">rowMapper</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">TypedCursor</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">execute</span><span class="o">(</span><span class="n">SQLiteDatabase</span> <span class="n">db</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="n">Cursor</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">query</span><span class="o">(</span>
+                <span class="n">tableName</span><span class="o">,</span>
+                <span class="o">...,</span>
+                <span class="n">BaseColumns</span><span class="o">.</span><span class="na">_ID</span><span class="o">+</span><span class="s">&quot; ASC&quot;</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">itempresentationmodel</span><span class="o">.</span><span class="na">TypedCursorAdapter</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;(</span><span class="n">cursor</span><span class="o">,</span> <span class="n">rowMapper</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>and then we add the RowMapper implementation SuperHeroRowMapper:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SuperHeroRowMapper</span> <span class="kd">implements</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">itempresentationmodel</span><span class="o">.</span><span class="na">RowMapper</span><span class="o">&lt;</span><span class="n">SuperHero</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">SuperHero</span> <span class="nf">mapRow</span><span class="o">(</span><span class="n">Cursor</span> <span class="n">cursor</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">getColumnIndex</span><span class="o">(</span><span class="n">SuperHeroTable</span><span class="o">.</span><span class="na">NAME</span><span class="o">));</span>
+    <span class="n">String</span> <span class="n">callSign</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">getColumnIndex</span><span class="o">(</span><span class="n">SuperHeroTable</span><span class="o">.</span><span class="na">CALL_SIGN</span><span class="o">));</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">SuperHero</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">callSign</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>That is it. An simple example of TypeCursor, org.robobinding.gallery.model.typedcursor, can be found under <a href="https://github.com/weicheng113/robobinding-gallery">RoboBinding Widget Gallery</a> project.</p></div>
 </div>
 </div>
 </div>
@@ -1321,7 +1372,7 @@ Take the second approach as an example, we try to replace the existing <a href="
 <div id="footer">
 <div id="footer-text">
 Version 0.8.2<br />
-Last updated 2014-05-25 08:35:42 澳大利亚西部标准时间
+Last updated 2014-05-31 15:11:57 澳大利亚西部标准时间
 </div>
 </div>
 </body>
