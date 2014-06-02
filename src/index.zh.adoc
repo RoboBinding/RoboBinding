@@ -1,8 +1,17 @@
 一个实现了数据绑定 http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] 模式的Android开源框架。
+除了帮肋实现优美的项目构结之外, RoboBinding关注并解决Android应用开发给开发者带来的不便与痛苦的几个方面: 
+
+* 通过绑定移除 - *大量不必要的代码(如addXXListener()，findViewById()等)* 。
+
+* 将 - *难于测试的Android代码以及运行过久且不切实际的Android单元测试* - 变为http://baike.baidu.com/view/183175.htm[pojo] PresentationModels及其普通的JUnit单元测试。
+
+* 提供对象类型Cursor来替换 - *关系类型Cursor，因为我们已经习惯于操作对象* 。
+
+让我们link:getting_started.html[开始]吧。
+
 其它类似的 Presentation Model/MVP/http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVP] Android开源框架：https://github.com/gueei/AndroidBinding[Android-Binding]，
 https://github.com/depoll/bindroid[Bindroid]，https://github.com/MvvmCross/MvvmCross[MvvmCross]。
 
-让我们link:getting_started.html[开始]吧。
 
 image:http://www.iconpng.com/png/large-torrent/download.png[width=30, height=30] 下载: 在Maven Central上的 http://search.maven.org/#search%7Cga%7C1%7Crobobinding[已发布版本]或者在Sonatype OSS Repo上最新的 https://oss.sonatype.org/index.html#nexus-search;quick%7Erobobinding[snapshots开发版本]
 
