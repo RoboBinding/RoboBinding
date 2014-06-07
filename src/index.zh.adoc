@@ -7,7 +7,9 @@
 
 * 提供对象类型Cursor来替换 - *关系类型Cursor，因为我们已经习惯于操作对象* 。
 
-让我们link:getting_started.html[开始]吧。
+* 可以很容易的为任何自定义组件，第三方组件或Android widget编写属性绑定实现，简化代码，使项目易于维护。
+
+让我们来看一个 http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[介绍视频]，然后从link:getting_started.html[这里]开始吧。
 
 其它类似的 Presentation Model/MVP/http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVP] Android开源框架：https://github.com/gueei/AndroidBinding[Android-Binding]，
 https://github.com/depoll/bindroid[Bindroid]，https://github.com/MvvmCross/MvvmCross[MvvmCross]。

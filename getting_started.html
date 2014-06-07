@@ -1206,26 +1206,19 @@ The last sub-view in view_albums_activity.xml is the Button. Its <code>bind:onCl
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_custom_component">4.1. Custom component</h3>
-<div class="paragraph"><p>When developing UI, we always divide and group its widgets into bigger units - custom components. In this way, we can reuse these custom components and produce more maintainable code.
-RoboBinding promote custom components and make custom components easy to use.</p></div>
+<div class="paragraph"><p>We can implement attribute bindings for any custom components, third-party components or Android widgets to make them easier for use.
+In RoboBinding, the way to create an attribute binding implementation is consistent.
+When creating an own attribute binding implementation, we can refer to an existing one in RoboBinding, e.g., <code>org.robobinding.viewattribute.imageview</code> package and its <code>ImageViewAttributeMapper</code> class.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/custom_component.png" alt="custom_component.png" />
 </div>
 <div class="title">Figure 3. custom Title Description Bar</div>
 </div>
-<div class="paragraph"><p>The view with white border above is a simple custom component. The component consists of a title and a description.
+<div class="paragraph"><p>Let us take a simple custom component, the view with white border above, as an example. The component consists of a title and a description.
 When we input new title and description, and click <em>Apply</em>, the component content will be updated accordingly.
-The complete source code can be found in <a href="https://github.com/weicheng113/robobinding-gallery">RoboBinding Widget Gallery</a>.
-Let us have a look at how we use the custom component in a layout xml below:</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;org.robobinding.gallery.model.customcomponent.TitleDescriptionBar</span>
-        <span class="na">bind:title=</span><span class="s">&quot;{title}&quot;</span>
-        <span class="na">bind:description=</span><span class="s">&quot;{description}&quot;</span><span class="nt">/&gt;</span>
-</pre></div></div></div>
-<div class="sect3">
-<h4 id="_implementing_the_custom_component">4.1.1. Implementing the custom component</h4>
-<div class="paragraph"><p>The major parts of the source code for TitleDescriptionBar is shown below(for how to implement a custom component,
+The complete source code can be found in <a href="https://github.com/weicheng113/robobinding-gallery">RoboBinding Widget Gallery</a>.</p></div>
+<div class="paragraph"><p>The major part of the source code for TitleDescriptionBar is shown below(for how to implement a custom component,
 please refer to <a href="http://developer.android.com/guide/topics/ui/custom-components.html">Android Reference</a>):</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleDescriptionBar</span> <span class="kd">extends</span> <span class="n">LinearLayout</span> <span class="o">{</span>
@@ -1255,7 +1248,7 @@ please refer to <a href="http://developer.android.com/guide/topics/ui/custom-com
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p><code>title_description_bar.xml</code></p></div>
+<div class="paragraph"><p>Its layout <code>title_description_bar.xml</code> below:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nt">&lt;merge</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
     <span class="na">xmlns:bind=</span><span class="s">&quot;http://robobinding.org/android&quot;</span><span class="nt">&gt;</span>
@@ -1263,9 +1256,14 @@ please refer to <a href="http://developer.android.com/guide/topics/ui/custom-com
     <span class="nt">&lt;TextView</span> <span class="na">android:text=</span><span class="s">&quot;: &quot;</span><span class="nt">/&gt;</span>
     <span class="nt">&lt;TextView</span> <span class="na">android:id=</span><span class="s">&quot;@+id/description&quot;</span><span class="nt">/&gt;</span>
 </pre></div></div></div>
-</div>
+<div class="paragraph"><p>We want the usage can be <em>as simple as follows</em>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;org.robobinding.gallery.model.customcomponent.TitleDescriptionBar</span>
+        <span class="na">bind:title=</span><span class="s">&quot;{title}&quot;</span>
+        <span class="na">bind:description=</span><span class="s">&quot;{description}&quot;</span><span class="nt">/&gt;</span>
+</pre></div></div></div>
 <div class="sect3">
-<h4 id="_implementing_the_binding_attributes">4.1.2. Implementing the binding attributes</h4>
+<h4 id="_implementing_the_binding_attributes">4.1.1. Implementing the binding attributes</h4>
 <div class="paragraph"><p>The component has two binding attributes, TitleAttribute for the title and DescriptionAttribute for the description.
 And the BindingAttributeMapper, TitleDescriptionBarAttributeMapper, maps the attributes to its corresponding binding attribute implementations.</p></div>
 <div class="listingblock">
@@ -1293,7 +1291,7 @@ And the BindingAttributeMapper, TitleDescriptionBarAttributeMapper, maps the att
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_registering_the_bindingattributemapper">4.1.3. Registering the BindingAttributeMapper</h4>
+<h4 id="_registering_the_bindingattributemapper">4.1.2. Registering the BindingAttributeMapper</h4>
 <div class="paragraph"><p>The BindingAttributeMapper can be registered through org.robobinding.binder.BinderFactoryBuilder.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
@@ -1302,7 +1300,7 @@ And the BindingAttributeMapper, TitleDescriptionBarAttributeMapper, maps the att
 <span class="n">ActivityBinder</span> <span class="n">activityBinder</span> <span class="o">=</span> <span class="n">binderFactory</span><span class="o">.</span><span class="na">createActivityBinder</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
 <span class="n">activityBinder</span><span class="o">.</span><span class="na">inflateAndBind</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">custom_component_activity</span><span class="o">,</span> <span class="n">presentationModel</span><span class="o">);</span>
 </pre></div></div></div>
-<div class="paragraph"><p>We can write attribute binding implementations for any third party components to simplify their use.</p></div>
+<div class="paragraph"><p>That is done. We can create attribute binding implementations for any third-party components or Android widgets in the same approach.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -1372,7 +1370,7 @@ Take the second approach as an example, we try to replace the existing <a href="
 <div id="footer">
 <div id="footer-text">
 Version 0.8.2<br />
-Last updated 2014-05-31 15:11:57 澳大利亚西部标准时间
+Last updated 2014-06-07 09:34:49 澳大利亚西部标准时间
 </div>
 </div>
 </body>

@@ -7,7 +7,9 @@ Apart from promoting well-structured projects, RoboBinding focuses the areas tha
 
 * provides the object cursor as a replacement to - *the relational cursor but we are used to operating objects*.
 
-Let's link:getting_started.html[get started].
+* it is easy to implement attribute bindings for any custom components, third-party components or Android widgets, which simplifies the code and produces more maintainable code base.
+
+Let's watch http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[an introductory video] and then get started from link:getting_started.html[here].
 
 Similar Presentation Model/MVC/MVP/http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVP] frameworks for android: https://github.com/gueei/AndroidBinding[Android-Binding],
 https://github.com/depoll/bindroid[Bindroid], https://github.com/MvvmCross/MvvmCross[MvvmCross].

@@ -379,25 +379,18 @@ ListView的++bind:source="\{albums\}"++绑定到ViewAlbumsPresentationModel.albu
 
 创建自己的属性绑定实现
 ----------------------
-自定义组件
-~~~~~~~~~~
-当我们开发UI界面时，经常将整个界面分块，把几个相关的小widget组合成一个大的自定义组件。这样便于重用这些自定义组件且更易于维护。RoboBinding使得自定义组件更易于使得。
+自定义组件或第三方组件
+~~~~~~~~~~~~~~~~~~~~~~
+通过为自定义组件，第三方组件或未实现绑定的Android widget提供属性绑定实现，使它们更易于使用。在RoboBinding中，属性绑定实现方法是一致的。
+当我们创建自己的属性绑定实现时，可以参考RoboBinding下的任何一个Android widget的属性绑定实现，如++org.robobinding.viewattribute.imageview++包与包下的++ImageViewAttributeMapper++类。
 
 .自定义 Title Description Bar
 image::custom_component.png[]
 
-以上白色边框的view为简单自定义组件。该组件包含了标题与描述两个部分。在输入新的标题与描述后，点击'Apply'，自定义组件的内容就更新为新的内容。
+我们以上图的自定义组件TitleDescriptionBar为例。该组件包含了标题与描述两个部分。在输入新的标题与描述后，点击'Apply'，自定义组件的内容就更新为新的内容。
 可以从https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery]找到完整的代码。
-以下为在layout xml中使用自定义组件：
-[source,xml]
-----
-<org.robobinding.gallery.model.customcomponent.TitleDescriptionBar
-	    bind:title="{title}"
-	    bind:description="{description}"/>
-----
-实现自定义组件
-^^^^^^^^^^^^^^
-以下是TitleDescriptionBar自定义组件的主要实现代码部分(如何实现自定义组件，请参考http://developer.android.com/guide/topics/ui/custom-components.html[Android文档]):
+
+以下是TitleDescriptionBar自定义组件的实现代码主要部分(如何实现自定义组件，请参考http://developer.android.com/guide/topics/ui/custom-components.html[Android文档]):
 [source,java]
 ----
 public class TitleDescriptionBar extends LinearLayout {
@@ -427,7 +420,7 @@ public class TitleDescriptionBar extends LinearLayout {
     }
 }
 ----
-++title_description_bar.xml++
+其Layout ++title_description_bar.xml++内容如下：
 [source,xml]
 ----
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
@@ -436,6 +429,16 @@ public class TitleDescriptionBar extends LinearLayout {
     <TextView android:text=": "/>
   	<TextView android:id="@+id/description"/>
 ----
+
+
+我们想使TitleDescriptonBar组件使用起来能像以下++示例一样简单++。
+[source,xml]
+----
+<org.robobinding.gallery.model.customcomponent.TitleDescriptionBar
+	    bind:title="{title}"
+	    bind:description="{description}"/>
+----
+
 实现绑定属性
 ^^^^^^^^^^^^
 TitleDescriptionBar有标题与描述两个绑定属性，对应的实现分别是TitleAttribute与DescriptionAttribute。最后绑定属性映射TitleDescriptionBarAttributeMapper将属性映射到相应的实现类。
@@ -474,11 +477,11 @@ BinderFactory binderFactory = new BinderFactoryBuilder()
 ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
 activityBinder.inflateAndBind(R.layout.custom_component_activity, presentationModel);
 ----
-我们可以为任何的第三方组件编写属性绑定实现，来简化第三方组件的使用。
+这样我们很容易的就完成了属性绑定实现。我们以同样的方式可以为任何第三方组件或未实现绑定的Android widget提供属性绑定实现。
 
 覆盖已有的属性绑定实现
 ~~~~~~~~~~~~~~~~~~~~~~
-当RoboBinding框架已有的绑定属性不满足需求或没有相应的属性绑定实现时，我们有两种选择。第一种是修改框架代码，增加缺少的绑定属性(我们希望大家都参与贡献更多的绑定属性实现)。
+当RoboBinding框架已有的绑定属性不满足需求或没有相应的属性绑定实现时，我们有两种选择。第一种是修改框架代码，增加缺少的绑定属性(希望大家都参与贡献更多的绑定属性实现)。
 第二种是不更改框架，实现相应的绑定属性与绑定属性映射类，然后注册覆盖已有的框架所提供的默认实现。
 以第二种方式为例，我们来覆盖框架已有的http://developer.android.com/reference/android/widget/ImageView.html[ImageView]属性绑定实现++org.robobinding.viewattribute.imageview++。
 

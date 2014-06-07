@@ -397,25 +397,18 @@ Create own attribute binding implementation
 -------------------------------------------
 Custom component
 ~~~~~~~~~~~~~~~~
-When developing UI, we always divide and group its widgets into bigger units - custom components. In this way, we can reuse these custom components and produce more maintainable code.
-RoboBinding promote custom components and make custom components easy to use.
+We can implement attribute bindings for any custom components, third-party components or Android widgets to make them easier for use. 
+In RoboBinding, the way to create an attribute binding implementation is consistent. 
+When creating an own attribute binding implementation, we can refer to an existing one in RoboBinding, e.g., ++org.robobinding.viewattribute.imageview++ package and its ++ImageViewAttributeMapper++ class.
 
 .custom Title Description Bar
 image::custom_component.png[] 
 
-The view with white border above is a simple custom component. The component consists of a title and a description. 
+Let us take a simple custom component, the view with white border above, as an example. The component consists of a title and a description. 
 When we input new title and description, and click 'Apply', the component content will be updated accordingly.
 The complete source code can be found in https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery]. 
-Let us have a look at how we use the custom component in a layout xml below:
-[source,xml]
-----
-<org.robobinding.gallery.model.customcomponent.TitleDescriptionBar
-	    bind:title="{title}"
-	    bind:description="{description}"/>
-----
-Implementing the custom component
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The major parts of the source code for TitleDescriptionBar is shown below(for how to implement a custom component, 
+
+The major part of the source code for TitleDescriptionBar is shown below(for how to implement a custom component, 
 please refer to http://developer.android.com/guide/topics/ui/custom-components.html[Android Reference]):
 [source,java]
 ----
@@ -446,7 +439,7 @@ public class TitleDescriptionBar extends LinearLayout {
     }
 }
 ----
-++title_description_bar.xml++
+Its layout ++title_description_bar.xml++ below:
 [source,xml]
 ----
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
@@ -454,6 +447,14 @@ public class TitleDescriptionBar extends LinearLayout {
     <TextView android:id="@+id/title"/>
     <TextView android:text=": "/>
   	<TextView android:id="@+id/description"/>
+----
+
+We want the usage can be 'as simple as follows':
+[source,xml]
+----
+<org.robobinding.gallery.model.customcomponent.TitleDescriptionBar
+	    bind:title="{title}"
+	    bind:description="{description}"/>
 ----
 Implementing the binding attributes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -494,7 +495,7 @@ BinderFactory binderFactory = new BinderFactoryBuilder()
 ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
 activityBinder.inflateAndBind(R.layout.custom_component_activity, presentationModel);
 ----
-We can write attribute binding implementations for any third party components to simplify their use.
+That is done. We can create attribute binding implementations for any third-party components or Android widgets in the same approach.
 
 Overriding an existing attribute binding implemenation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
