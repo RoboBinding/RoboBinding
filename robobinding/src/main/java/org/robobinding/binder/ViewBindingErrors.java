@@ -1,13 +1,13 @@
 package org.robobinding.binder;
 
-import static org.robobinding.CollectionUtils.isNotEmpty;
+import static org.robobinding.util.CollectionUtils.isNotEmpty;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import org.robobinding.viewattribute.AttributeBindingException;
-import org.robobinding.viewattribute.AttributeGroupBindingException;
+import org.robobinding.viewattribute.grouped.AttributeGroupBindingException;
 
 import android.view.View;
 

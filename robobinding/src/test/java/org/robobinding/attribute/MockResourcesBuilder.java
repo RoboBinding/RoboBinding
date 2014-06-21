@@ -2,19 +2,19 @@ package org.robobinding.attribute;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import org.robobinding.viewattribute.BindingAttributeValues;
-
 import android.content.Context;
 import android.content.res.Resources;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class MockResourcesBuilder {
+    public static final String DEFAULT_RESOURCE_PACKAGE = "android";
+    public static final String LAYOUT_RESOURCE_TYPE = "layout";
+
     private Context mockContext;
     private Resources mockResources;
 
@@ -30,7 +30,7 @@ public class MockResourcesBuilder {
     }
 
     public MockResourcesBuilder withDefaultPackage() {
-	return withDefaultPackage(BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE);
+	return withDefaultPackage(DEFAULT_RESOURCE_PACKAGE);
     }
 
     public MockResourcesBuilder withDefaultPackage(String packageName) {
@@ -39,7 +39,7 @@ public class MockResourcesBuilder {
     }
 
     public int declareLayoutResource(String resourceName) {
-	return declareResource(resourceName, BindingAttributeValues.LAYOUT_RESOURCE_TYPE, BindingAttributeValues.DEFAULT_RESOURCE_PACKAGE);
+	return declareResource(resourceName, LAYOUT_RESOURCE_TYPE, DEFAULT_RESOURCE_PACKAGE);
     }
 
     public int declareResource(String resourceName, String resourceType, String resourcePackage) {

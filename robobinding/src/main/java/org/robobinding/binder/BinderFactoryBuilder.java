@@ -1,25 +1,24 @@
 package org.robobinding.binder;
 
-import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.BindingAttributeMapper;
-import org.robobinding.viewattribute.absspinner.AbsSpinnerAttributeMapper;
-import org.robobinding.viewattribute.adapterview.AdapterViewAttributeMapper;
-import org.robobinding.viewattribute.adapterview.AdapterViewListeners;
-import org.robobinding.viewattribute.compoundbutton.CompoundButtonAttributeMapper;
-import org.robobinding.viewattribute.compoundbutton.CompoundButtonListeners;
-import org.robobinding.viewattribute.edittext.EditTextAttributeMapper;
-import org.robobinding.viewattribute.imageview.ImageViewAttributeMapper;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
-import org.robobinding.viewattribute.listview.ListViewAttributeMapper;
-import org.robobinding.viewattribute.progressbar.ProgressBarAttributeMapper;
-import org.robobinding.viewattribute.ratingbar.RatingBarAttributeMapper;
-import org.robobinding.viewattribute.ratingbar.RatingBarListeners;
-import org.robobinding.viewattribute.seekbar.SeekBarAttributeMapper;
-import org.robobinding.viewattribute.seekbar.SeekBarListeners;
-import org.robobinding.viewattribute.textview.TextViewAttributeMapper;
-import org.robobinding.viewattribute.view.ViewAttributeMapper;
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersMapBuilder;
+import org.robobinding.widget.absspinner.AbsSpinnerAttributeMapper;
+import org.robobinding.widget.adapterview.AdapterViewAttributeMapper;
+import org.robobinding.widget.adapterview.AdapterViewListeners;
+import org.robobinding.widget.compoundbutton.CompoundButtonAttributeMapper;
+import org.robobinding.widget.compoundbutton.CompoundButtonListeners;
+import org.robobinding.widget.edittext.EditTextAttributeMapper;
+import org.robobinding.widget.imageview.ImageViewAttributeMapper;
+import org.robobinding.widget.listview.ListViewAttributeMapper;
+import org.robobinding.widget.progressbar.ProgressBarAttributeMapper;
+import org.robobinding.widget.ratingbar.RatingBarAttributeMapper;
+import org.robobinding.widget.ratingbar.RatingBarListeners;
+import org.robobinding.widget.seekbar.SeekBarAttributeMapper;
+import org.robobinding.widget.seekbar.SeekBarListeners;
+import org.robobinding.widget.textview.TextViewAttributeMapper;
+import org.robobinding.widget.view.ViewAttributeMapper;
+import org.robobinding.widget.view.ViewListeners;
+import org.robobinding.widget.view.ViewListenersMapBuilder;
 
 import android.view.View;
 import android.widget.AbsSpinner;
@@ -63,9 +62,7 @@ public class BinderFactoryBuilder {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     static BindingAttributeMappingsProviderMapBuilder defaultBindingAttributeMappingsProviderMapBuilder() {
 
-	PropertyAttributeParser propertyAttributeParser = new PropertyAttributeParser();
-        BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMap = new BindingAttributeMappingsProviderMapBuilder(
-        	propertyAttributeParser);
+        BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMap = new BindingAttributeMappingsProviderMapBuilder();
 
         bindingAttributeMappingsProviderMap.put(View.class, new ViewAttributeMapper());
         bindingAttributeMappingsProviderMap.put(TextView.class, new TextViewAttributeMapper());

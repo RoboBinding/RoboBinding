@@ -7,42 +7,52 @@ import java.util.Map;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForView.AttributeGroupResolver;
 import org.robobinding.PendingAttributesForView.AttributeResolver;
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
-import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewAttribute;
-import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
+import org.robobinding.viewattribute.ViewAttributeBinder;
+import org.robobinding.viewattribute.event.EventViewAttributeBinder;
+import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinder;
+import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
+import org.robobinding.viewattribute.impl.InitailizedBindingAttributeMappings;
+import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
+import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
 
 import android.view.View;
 
 import com.google.common.collect.Lists;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class ByBindingAttributeMappingsResolver {
-    private final BindingAttributeMappingsImpl<View> bindingAttributeMappings;
+    private final InitailizedBindingAttributeMappings<View> bindingAttributeMappings;
+    private final ViewAttributeBinderFactory<View> viewAttributeBinderFactory;
 
     private final PropertyViewAttributeResolver propertyViewAttributeResolver;
-    private final CommandViewAttributeResolver commandViewAttributeResolver;
+    private final MultiTypePropertyViewAttributeResolver multiTypePropertyViewAttributeResolver;
+    private final EventViewAttributeResolver commandViewAttributeResolver;
     private final GroupedViewAttributeResolver groupedViewAttributeResolver;
 
-    private List<ViewAttribute> resolvedViewAttributes;
+    private List<ViewAttributeBinder> resolvedViewAttributes;
 
-    public ByBindingAttributeMappingsResolver(BindingAttributeMappingsImpl<View> bindingAttributeMappings) {
+    public ByBindingAttributeMappingsResolver(
+	    InitailizedBindingAttributeMappings<View> bindingAttributeMappings,
+	    ViewAttributeBinderFactory<View> viewAttributeBinderFactory) {
 	this.bindingAttributeMappings = bindingAttributeMappings;
+	this.viewAttributeBinderFactory = viewAttributeBinderFactory;
+
 	this.propertyViewAttributeResolver = new PropertyViewAttributeResolver();
-	this.commandViewAttributeResolver = new CommandViewAttributeResolver();
+	this.multiTypePropertyViewAttributeResolver = new MultiTypePropertyViewAttributeResolver();
+	this.commandViewAttributeResolver = new EventViewAttributeResolver();
 	this.groupedViewAttributeResolver = new GroupedViewAttributeResolver();
     }
 
-    public Collection<ViewAttribute> resolve(PendingAttributesForView pendingAttributesForView) {
+    public Collection<ViewAttributeBinder> resolve(PendingAttributesForView pendingAttributesForView) {
 	resolvedViewAttributes = Lists.newArrayList();
 
 	resolvePropertyViewAttributes(pendingAttributesForView);
+	resolveMultiTypePropertyViewAttributes(pendingAttributesForView);
 	resolveCommandViewAttributes(pendingAttributesForView);
 	resolveGroupedViewAttributes(pendingAttributesForView);
 
@@ -55,8 +65,14 @@ public class ByBindingAttributeMappingsResolver {
 	}
     }
 
+    private void resolveMultiTypePropertyViewAttributes(PendingAttributesForView pendingAttributesForView) {
+	for (String propertyAttribute : bindingAttributeMappings.getMultiTypePropertyAttributes()) {
+	    pendingAttributesForView.resolveAttributeIfExists(propertyAttribute, multiTypePropertyViewAttributeResolver);
+	}
+    }
+
     private void resolveCommandViewAttributes(PendingAttributesForView pendingAttributesForView) {
-	for (String commandAttribute : bindingAttributeMappings.getCommandAttributes()) {
+	for (String commandAttribute : bindingAttributeMappings.getEventAttributes()) {
 	    pendingAttributesForView.resolveAttributeIfExists(commandAttribute, commandViewAttributeResolver);
 	}
     }
@@ -70,24 +86,42 @@ public class ByBindingAttributeMappingsResolver {
     private class PropertyViewAttributeResolver implements AttributeResolver {
 	@Override
 	public void resolve(View view, String attribute, String attributeValue) {
-	    PropertyViewAttribute<View> propertyViewAttribute = bindingAttributeMappings.createPropertyViewAttribute(view, attribute, attributeValue);
-	    resolvedViewAttributes.add(propertyViewAttribute);
+	    PropertyViewAttributeBinder<View, ?> viewAttributeBinder = viewAttributeBinderFactory.createPropertyViewAttributeBinder(
+		    bindingAttributeMappings.getPropertyViewAttributeFactory(attribute),
+		    attribute,
+		    attributeValue);
+	    resolvedViewAttributes.add(viewAttributeBinder);
 	}
     }
 
-    private class CommandViewAttributeResolver implements AttributeResolver {
+    private class MultiTypePropertyViewAttributeResolver implements AttributeResolver {
 	@Override
 	public void resolve(View view, String attribute, String attributeValue) {
-	    AbstractCommandViewAttribute<View> commandViewAttribute = bindingAttributeMappings.createCommandViewAttribute(view, attribute,
+	    MultiTypePropertyViewAttributeBinder<View> viewAttributeBinder = viewAttributeBinderFactory.createMultiTypePropertyViewAttributeBinder(
+		    bindingAttributeMappings.getMultiTypePropertyViewAttributeFactory(attribute),
+		    attribute,
 		    attributeValue);
-	    resolvedViewAttributes.add(commandViewAttribute);
+	    resolvedViewAttributes.add(viewAttributeBinder);
+	}
+    }
+
+    private class EventViewAttributeResolver implements AttributeResolver {
+	@Override
+	public void resolve(View view, String attribute, String attributeValue) {
+	    EventViewAttributeBinder<View> viewAttributeBinder = viewAttributeBinderFactory.createEventViewAttributeBinder(
+		    bindingAttributeMappings.getEventViewAttributeFactory(attribute),
+		    attribute,
+		    attributeValue);
+	    resolvedViewAttributes.add(viewAttributeBinder);
 	}
     }
 
     private class GroupedViewAttributeResolver implements AttributeGroupResolver {
 	@Override
 	public void resolve(View view, String[] attributeGroup, Map<String, String> presentAttributeMappings) {
-	    AbstractGroupedViewAttribute<View> groupedViewAttribute = bindingAttributeMappings.createGroupedViewAttribute(view, attributeGroup,
+	    GroupedViewAttributeBinder<View> groupedViewAttribute = viewAttributeBinderFactory.createGroupedViewAttributeBinder(
+		    bindingAttributeMappings.getGroupedViewAttributeFactory(attributeGroup),
+		    attributeGroup,
 		    presentAttributeMappings);
 	    resolvedViewAttributes.add(groupedViewAttribute);
 	}

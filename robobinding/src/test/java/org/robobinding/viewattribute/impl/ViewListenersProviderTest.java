@@ -10,10 +10,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
-import org.robobinding.viewattribute.ViewAttribute;
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersAware;
-import org.robobinding.viewattribute.view.ViewListenersMapBuilder;
+import org.robobinding.viewattribute.ViewAttributeBinder;
+import org.robobinding.widget.view.ViewListeners;
+import org.robobinding.widget.view.ViewListenersAware;
+import org.robobinding.widget.view.ViewListenersMapBuilder;
 
 import android.content.Context;
 import android.view.View;
@@ -93,7 +93,7 @@ public class ViewListenersProviderTest {
 	viewListenersProvider.injectIfRequired(viewAttributeSubclass, view);
     }
 
-    private static class NonViewListenersAwareAttribute implements ViewAttribute  {
+    private static class NonViewListenersAwareAttribute implements ViewAttributeBinder  {
 	@Override
 	public void bindTo(BindingContext bindingContext) {
 	}
@@ -103,7 +103,7 @@ public class ViewListenersProviderTest {
 	}
     }
 
-    private abstract static class ViewAttributeWithViewListenersType implements ViewAttribute {
+    private abstract static class ViewAttributeWithViewListenersType implements ViewAttributeBinder {
         public ViewListeners viewListeners;
         
         @Override

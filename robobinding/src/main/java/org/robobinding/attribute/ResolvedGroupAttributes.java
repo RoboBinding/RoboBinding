@@ -1,39 +1,18 @@
 package org.robobinding.attribute;
 
-import static com.google.common.collect.Maps.newHashMap;
-
 import java.util.Map;
 
-import org.robobinding.AttributeResolutionException;
-import org.robobinding.GroupedAttributeResolutionException;
-
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class ResolvedGroupAttributes {
-    private Map<String, AbstractAttribute> resolvedChildAttributes = newHashMap();
+    private Map<String, AbstractAttribute> resolvedChildAttributes;
 
-    public ResolvedGroupAttributes(PendingGroupAttributes pendingGroupAttributes, ChildAttributeResolverMappings resolverMappings) {
-	resolveChildAttributes(pendingGroupAttributes, resolverMappings);
-    }
-
-    private void resolveChildAttributes(PendingGroupAttributes pendingGroupAttributes, ChildAttributeResolverMappings resolverMappings) {
-	GroupedAttributeResolutionException groupResolutionErrors = new GroupedAttributeResolutionException();
-	for (Map.Entry<String, String> attributeEntry : pendingGroupAttributes.presentAttributes()) {
-	    String attribute = attributeEntry.getKey();
-	    ChildAttributeResolver resolver = resolverMappings.resolverFor(attribute);
-	    try {
-		AbstractAttribute childAttribute = resolver.resolveChildAttribute(attribute, attributeEntry.getValue());
-		resolvedChildAttributes.put(attribute, childAttribute);
-	    } catch (AttributeResolutionException e) {
-		groupResolutionErrors.add(e);
-	    }
-	}
-
-	groupResolutionErrors.assertNoErrors();
+    public ResolvedGroupAttributes(Map<String, AbstractAttribute> resolvedChildAttributes) {
+	this.resolvedChildAttributes = resolvedChildAttributes;
     }
 
     public ValueModelAttribute valueModelAttributeFor(String attributeName) {
