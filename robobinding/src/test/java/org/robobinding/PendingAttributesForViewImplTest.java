@@ -2,8 +2,11 @@ package org.robobinding;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
@@ -20,7 +23,7 @@ import android.view.View;
 import com.google.common.collect.Maps;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
@@ -68,7 +71,8 @@ public class PendingAttributesForViewImplTest {
 	String attribute = "existingAttribute";
 	PendingAttributesForView pendingAttributesForView = createWithPendingList(attribute);
 	AttributeResolver attributeResolver = mock(AttributeResolver.class);
-	when(attributeResolver).thenThrow(new MalformedAttributeException(attribute, "error message"));
+	doThrow(new MalformedAttributeException(attribute, "error message"))
+		.when(attributeResolver).resolve(any(View.class), eq(attribute), anyString());
 
 	pendingAttributesForView.resolveAttributeIfExists(attribute, attributeResolver);
 
