@@ -28,7 +28,7 @@ https://github.com/depoll/bindroid[Bindroid], https://github.com/MvvmCross/MvvmC
 
 * link:http://robobinding.org/old_index.html[The Old Documentations]
 
-* link:http://robobinding.org/home.zh.html[Chinese中文]
+* link:http://robobinding.org/index.zh.html[Chinese中文]
 
 image:http://www.iconpng.com/png/large-torrent/download.png[width=30, height=30] Download: http://search.maven.org/#search%7Cga%7C1%7Crobobinding[releases] on Maven Central and latest https://oss.sonatype.org/index.html#nexus-search;quick%7Erobobinding[snapshots] on Sonatype OSS Repo.
 
