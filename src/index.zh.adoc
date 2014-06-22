@@ -1,5 +1,5 @@
 一个实现了数据绑定 http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] 模式的Android开源框架。
-除了帮肋实现优美的项目构结之外, RoboBinding关注并解决Android应用开发给开发者带来的不便与痛苦的几个方面: 
+除了帮肋实现优美的项目构结之外, RoboBinding关注并解决Android应用开发给开发者带来的不便与痛苦的几个方面:
 
 * 通过绑定移除 - *大量不必要的代码(如addXXListener()，findViewById()等)* 。
 
@@ -19,7 +19,7 @@ image:http://www.iconpng.com/png/large-torrent/download.png[width=30, height=30]
 
 image:https://raw.github.com/github/media/master/octocats/octocat.png["GitHub", width=30, height=30] 开发与源代码: http://github.com/RoboBinding/RoboBinding[GitHub]
 
-image:https://lh3.googleusercontent.com/-YM2DGm-QreQ/Upb85v3Y-gI/AAAAAAAABt4/GIcGGykyHW8/w152-h106-no/Google+groups.png["Google groups", width=43, height=30] 论坛与讨论: http://groups.google.com/group/robobinding[Google讨论组]
+image:https://lh3.googleusercontent.com/-YM2DGm-QreQ/Upb85v3Y-gI/AAAAAAAABt4/GIcGGykyHW8/w152-h106-no/Google+groups.png["Google groups", width=43, height=30] 论坛与讨论: http://groups.google.com/group/robobinding[Google讨论组] 及 image:http://qplus3.idqqimg.com/qun/portal/img/logo2.png["QQ群", width=60, height=25]：308303599
 
 image:https://g.twimg.com/Twitter_logo_blue.png[width=30, height=30] Twitter: https://twitter.com/RoboBinding[@robobinding]
 
