@@ -19,7 +19,7 @@ image:http://www.iconpng.com/png/large-torrent/download.png[width=30, height=30]
 
 image:https://raw.github.com/github/media/master/octocats/octocat.png["GitHub", width=30, height=30] 开发与源代码: http://github.com/RoboBinding/RoboBinding[GitHub]
 
-image:https://lh3.googleusercontent.com/-YM2DGm-QreQ/Upb85v3Y-gI/AAAAAAAABt4/GIcGGykyHW8/w152-h106-no/Google+groups.png["Google groups", width=43, height=30] 论坛与讨论: http://groups.google.com/group/robobinding[Google讨论组] 及 image:http://qplus3.idqqimg.com/qun/portal/img/logo2.png["QQ群", width=60, height=25]：308303599
+image:https://lh3.googleusercontent.com/-YM2DGm-QreQ/Upb85v3Y-gI/AAAAAAAABt4/GIcGGykyHW8/w152-h106-no/Google+groups.png["Google groups", width=43, height=30] 论坛与讨论: http://groups.google.com/group/robobinding[Google讨论组] 及 image:http://qplus3.idqqimg.com/qun/portal/img/logo2.png["QQ群", width=60, height=25]：308303599 (*20/07/2014:群里交流演讲'Presentation Model模式及在Android下应用[基于RoboBinding]'*)
 
 image:https://g.twimg.com/Twitter_logo_blue.png[width=30, height=30] Twitter: https://twitter.com/RoboBinding[@robobinding]
 

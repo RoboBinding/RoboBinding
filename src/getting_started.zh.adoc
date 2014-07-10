@@ -80,6 +80,10 @@ image::eclipse_project_build_settings.png["Eclipse project build settings"]
 
 请参考https://github.com/RoboBinding/RoboBinding/[RoboBinding album sample]环境设置。
 
+Android Studio
+^^^^^^^^^^^^^^
+Gradle的build file请参考https://github.com/weicheng113/album-sample_AndroidStudio/[这里]。
+
 ProGuard
 ^^^^^^^^
 RoboBinding需要所有实现了org.robobinding.property.ObservableProperties(如所有的presentation model)类的类名与公共方法保持不变。保留所有的annoations。

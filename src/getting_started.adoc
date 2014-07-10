@@ -81,6 +81,10 @@ image::eclipse_project_build_settings.png["Eclipse project build settings"]
 
 Please feel free to take a look at https://github.com/RoboBinding/RoboBinding/[RoboBinding album sample] as reference.
 
+Android Studio
+^^^^^^^^^^^^^^
+Please refer to the build file https://github.com/weicheng113/album-sample_AndroidStudio/[here] for now.
+
 ProGuard
 ^^^^^^^^
 RoboBinding requires that all classes which implement org.robobinding.property.ObservableProperties (i.e. presentation models) have their names and public methods left intact. Additionally, we need to preserve all annotations.
