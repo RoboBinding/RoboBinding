@@ -5,6 +5,7 @@ import org.robobinding.BinderImplementor;
 import org.robobinding.DialogBinder;
 import org.robobinding.InternalViewBinder;
 import org.robobinding.NonBindingViewInflater;
+import org.robobinding.ViewBinderImplementor;
 import org.robobinding.ViewFactoryInstaller;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
 import org.robobinding.viewattribute.impl.ViewAttributeInitializerFactory;
@@ -47,6 +48,13 @@ public class BinderFactory {
 	return binderImplementor;
     }
 
+    private ViewBinderImplementor createViewBinderImplementor(Context context, NonBindingViewInflater nonBindingViewInflater, boolean withPreInitializingViews) {
+	BindingViewInflater bindingViewInflater = createBindingViewInflater(context);
+	BindingContextFactory bindingContextFactory = new BindingContextFactory(context, withPreInitializingViews, nonBindingViewInflater);
+	ViewBinderImplementor viewBinderImplementor = new InternalViewBinder2(bindingViewInflater, bindingContextFactory, new PlainTextErrorFormatter());
+	return viewBinderImplementor;
+    }
+
     private BindingViewInflater createBindingViewInflater(Context context) {
 	LayoutInflater layoutInflater = createLayoutInflater(context);
 	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(layoutInflater);
@@ -74,4 +82,9 @@ public class BinderFactory {
 	return new InternalViewBinder(binderImplementor, nonBindingViewInflater);
     }
 
+    public InternalViewBinder createInternalViewBinder2(Context context) {
+	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater(context));
+	BinderImplementor binderImplementor = createViewBinderImplementor(context, nonBindingViewInflater, true);
+	return new InternalViewBinder(binderImplementor, nonBindingViewInflater);
+    }
 }
