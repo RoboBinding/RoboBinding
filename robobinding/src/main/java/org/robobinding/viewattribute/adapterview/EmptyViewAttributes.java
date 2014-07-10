@@ -33,14 +33,20 @@ public class EmptyViewAttributes implements SubViewAttributesStrategy<AdapterVie
 
     @Override
     public void addSubView(AdapterView<?> adapterView, View emptyView, Context context) {
-	emptyViewVisibility = new EmptyViewVisibility(adapterView, emptyView);
+    if(emptyViewVisibility == null){
+    	emptyViewVisibility = new EmptyViewVisibility(adapterView, emptyView);	
+    }
+    else {
+    	emptyViewVisibility.setEmptyView(emptyView);
+    }
 	emptyViewVisibility.makeVisible();
     }
 
     @Override
     public EmptyViewVisibility createVisibility(AdapterView<?> adapterView, View emptyView) {
-	if (emptyViewVisibility == null)
-	    throw new IllegalStateException("Expected addSubView() to be called first");
+    	if(emptyViewVisibility == null){
+    		emptyViewVisibility = new EmptyViewVisibility(adapterView, emptyView);
+    	}
 
 	return emptyViewVisibility;
     }

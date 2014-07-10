@@ -11,6 +11,7 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
+
 public class FooterVisibility extends AbstractVisibility {
     private ListView listView;
     private View footerView;
@@ -26,7 +27,7 @@ public class FooterVisibility extends AbstractVisibility {
 	    return;
 	}
 
-	if (listView.getFooterViewsCount() > 0) {
+	if (listView.getFooterViewsCount() > 0 && footerView != null) {
 	    listView.removeFooterView(footerView);
 	}
     }
@@ -34,18 +35,26 @@ public class FooterVisibility extends AbstractVisibility {
     @Override
     public void makeVisible() {
 	addFooterViewIfNotExist();
-	footerView.setVisibility(View.VISIBLE);
+	if(footerView != null){
+		footerView.setVisibility(View.VISIBLE);
+	}
     }
 
     @Override
     protected void makeInvisible() {
 	addFooterViewIfNotExist();
-	footerView.setVisibility(View.INVISIBLE);
+	if(footerView != null){
+		footerView.setVisibility(View.INVISIBLE);
+	}
     }
 
     private void addFooterViewIfNotExist() {
-	if (listView.getFooterViewsCount() == 0) {
+	if (listView.getFooterViewsCount() == 0 && footerView != null) {
 	    listView.addFooterView(footerView);
 	}
     }
+
+	public void setSubview(View subView) {
+		this.footerView = subView;		
+	}
 }

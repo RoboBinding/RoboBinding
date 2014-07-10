@@ -64,10 +64,12 @@ public class BindingViewInflater implements ViewCreationListener {
 
     private void addPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup, 
 	    View rootView) {
-	for (PredefinedPendingAttributesForView predefinedPendingAttributesForView : predefinedPendingAttributesForViewGroup) {
-	    PendingAttributesForView pendingAttributesForView = predefinedPendingAttributesForView.createPendingAttributesForView(rootView);
-	    resolveAndAddViewBindingAttributes(pendingAttributesForView);
-	}
+    	if(predefinedPendingAttributesForViewGroup != null){
+			for (PredefinedPendingAttributesForView predefinedPendingAttributesForView : predefinedPendingAttributesForViewGroup) {
+			    PendingAttributesForView pendingAttributesForView = predefinedPendingAttributesForView.createPendingAttributesForView(rootView);
+			    resolveAndAddViewBindingAttributes(pendingAttributesForView);
+			}	
+    	}
     }
 
     @Override

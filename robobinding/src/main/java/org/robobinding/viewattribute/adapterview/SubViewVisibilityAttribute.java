@@ -13,4 +13,5 @@ public class SubViewVisibilityAttribute extends AbstractVisibilityAttribute {
     public SubViewVisibilityAttribute(AbstractVisibility subViewVisibility) {
 	this.visibility = subViewVisibility;
     }
+
 }

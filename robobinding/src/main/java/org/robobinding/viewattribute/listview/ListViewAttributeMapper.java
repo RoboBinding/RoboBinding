@@ -24,8 +24,12 @@ public class ListViewAttributeMapper implements BindingAttributeMapper<ListView>
 	mappings.mapPropertyAttribute(CheckedItemPositionAttribute.class, "checkedItemPosition");
 	mappings.mapPropertyAttribute(CheckedItemPositionsAttribute.class, "checkedItemPositions");
 	mappings.mapPropertyAttribute(ChoiceModeAttribute.class, "choiceMode");
+	
 
 	mappings.mapGroupedAttribute(new HeaderAttributesFactory(), HEADER_LAYOUT, HEADER_PRESENTATION_MODEL, HEADER_VISIBILITY);
 	mappings.mapGroupedAttribute(new FooterAttributesFactory(), FOOTER_LAYOUT, FOOTER_PRESENTATION_MODEL, FOOTER_VISIBILITY);
+	
+	mappings.mapCommandAttribute(OnScrollAttribute.class, "onScroll");
+	mappings.mapCommandAttribute(OnScrollStateChangedAttribute.class, "onScrollStateChanged");
     }
 }
