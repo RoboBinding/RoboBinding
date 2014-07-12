@@ -1,6 +1,6 @@
 = image:http://robobinding.org/images/robobinding_logo.png[width=60, height=60] RoboBinding
 
-A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] framework for the Android platform. 
+A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model](MVVM) framework for the Android platform. 
 Apart from promoting well-structured projects, RoboBinding focuses the areas that Android app development suffers: 
 
 * removes - *lots of unnecessary code(e.g., addXXListener(), findViewById()...)* - by binding.
