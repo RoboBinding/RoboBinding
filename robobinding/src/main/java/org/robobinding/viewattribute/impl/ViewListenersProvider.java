@@ -6,22 +6,21 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import org.robobinding.util.ConstructorUtils;
-import org.robobinding.viewattribute.ViewAttribute;
 import org.robobinding.viewattribute.ViewListenersInjector;
-import org.robobinding.viewattribute.view.ViewListeners;
-import org.robobinding.viewattribute.view.ViewListenersAware;
-import org.robobinding.viewattribute.view.ViewListenersMap;
+import org.robobinding.widget.view.ViewListeners;
+import org.robobinding.widget.view.ViewListenersAware;
+import org.robobinding.widget.view.ViewListenersMap;
 
 import android.view.View;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class ViewListenersProvider implements ViewListenersInjector {
+public class ViewListenersProvider implements ViewListenersInjector {
     private final ViewListenersMap viewListenersMap;
     private final Map<View, ViewListeners> cachedViewListeners;
 
@@ -32,18 +31,18 @@ class ViewListenersProvider implements ViewListenersInjector {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void injectIfRequired(ViewAttribute viewAttribute, View view) {
+    public void injectIfRequired(Object viewAttribute, View view) {
 	if (viewAttribute instanceof ViewListenersAware) {
 	    ViewListeners viewListeners = getViewListeners(view);
 
 	    ViewListenersAware<ViewListeners> viewListenersAwareAttribute = (ViewListenersAware<ViewListeners>) viewAttribute;
-	    
+
 	    try {
 		viewListenersAwareAttribute.setViewListeners(viewListeners);
 	    } catch (ClassCastException e) {
 		throw new RuntimeException(
-			"Is '" + viewAttribute.getClass().getName() + "' a view attribute of view '" + view.getClass().getName() 
-				+ "'; or did you forget to register viewListeners by org.robobinding.binder.BinderFactoryBuilder? The closest viewListeners '" 
+			"Is '" + viewAttribute.getClass().getName() + "' a view attribute of view '" + view.getClass().getName()
+				+ "'; or did you forget to register viewListeners by org.robobinding.binder.BinderFactoryBuilder? The closest viewListeners '"
 				+ viewListeners.getClass().getName() + "' we found does not match the view attribute.",
 			e);
 	    }

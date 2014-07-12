@@ -1,7 +1,7 @@
 package org.robobinding;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static org.robobinding.CollectionUtils.isNotEmpty;
+import static org.robobinding.util.CollectionUtils.isNotEmpty;
 
 import java.util.Collection;
 import java.util.Collections;

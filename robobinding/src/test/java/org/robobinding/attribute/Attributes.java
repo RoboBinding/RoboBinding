@@ -14,8 +14,8 @@ public class Attributes {
 	return new ValueModelAttribute("name", value);
     }
 
-    public static CommandAttribute aCommandAttribute(String value) {
-	return new CommandAttribute("name", value);
+    public static EventAttribute anEventAttribute(String value) {
+	return new EventAttribute("name", value);
     }
 
     public static StaticResourceAttribute aStaticResourceAttribute(String value) {

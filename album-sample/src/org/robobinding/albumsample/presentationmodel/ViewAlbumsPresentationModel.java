@@ -8,7 +8,7 @@ import org.robobinding.albumsample.model.Album;
 import org.robobinding.albumsample.store.AlbumStore;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModel;
-import org.robobinding.viewattribute.adapterview.ItemClickEvent;
+import org.robobinding.widget.adapterview.ItemClickEvent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,7 +17,7 @@ import android.content.Intent;
 import com.google.common.collect.Lists;
 
 /**
- * 
+ *
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor

@@ -1,60 +1,40 @@
 package org.robobinding.viewattribute;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
-import org.robobinding.function.Function;
-import org.robobinding.property.DataSetValueModel;
-import org.robobinding.property.ValueModel;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public abstract class ViewAttributeContractTest<T extends ViewAttribute> {
+@RunWith(MockitoJUnitRunner.class)
+public abstract class ViewAttributeContractTest<T extends ViewAttributeBinder> {
+    @Mock
+    BindingContext bindingContext;
+
     @Test(expected = AttributeBindingException.class)
-    public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrow() {
+    public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrowAsBindingException() {
 	T attribute = throwsExceptionDuringPreInitializingView();
 
-	attribute.preInitializeView(bindingContextOfThrowingExceptionDuringPreInitializingView());
+	attribute.preInitializeView(bindingContext);
     }
 
     protected abstract T throwsExceptionDuringPreInitializingView();
 
-    protected BindingContext bindingContextOfThrowingExceptionDuringPreInitializingView() {
-	return newDefaultBindingContext();
-    }
-
-    @SuppressWarnings("unchecked")
-    private BindingContext newDefaultBindingContext() {
-	BindingContext bindingContext = mock(BindingContext.class);
-
-	when(bindingContext.getPropertyValueModel(anyString())).thenReturn(mock(ValueModel.class));
-	when(bindingContext.getReadOnlyPropertyValueModel(anyString())).thenReturn(mock(ValueModel.class));
-	when(bindingContext.getDataSetPropertyValueModel(anyString())).thenReturn(mock(DataSetValueModel.class));
-	when(bindingContext.findFunction(anyString(), (Class<?>) any())).thenReturn(mock(Function.class));
-
-	return bindingContext;
-    }
 
     @Test(expected = AttributeBindingException.class)
-    public void whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrow() {
+    public void whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrowAsBindingException() {
 
 	T attribute = throwsExceptionDuringBinding();
 
-	attribute.bindTo(bindingContextOfThrowingExceptionDuringBinding());
+	attribute.bindTo(bindingContext);
     }
 
     protected abstract T throwsExceptionDuringBinding();
-
-    protected BindingContext bindingContextOfThrowingExceptionDuringBinding() {
-	return newDefaultBindingContext();
-    }
 }

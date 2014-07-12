@@ -12,10 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.BindingAttributeMapper;
-import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMapperAdapter;
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
 
 import android.content.Context;
@@ -39,15 +38,12 @@ public class BindingAttributeMappingsProviderResolverTest {
     private BindingAttributeMapper<ViewWithParents> mapperForViewWithParents;
     @Mock
     private BindingAttributeMapper<GrandparentView> mapperForGrandparentView;
-    @Mock
-    private PropertyAttributeParser propertyAttributeParser;
 
     @Before
     public void setUp() {
 	initMocks(this);
 
-	BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMapBuilder = new BindingAttributeMappingsProviderMapBuilder(
-		propertyAttributeParser);
+	BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMapBuilder = new BindingAttributeMappingsProviderMapBuilder();
 	bindingAttributeMappingsProviderMapBuilder.put(ViewWithNoParent.class, mapperForViewWithNoParent);
 	bindingAttributeMappingsProviderMapBuilder.put(ViewWithParents.class, mapperForViewWithParents);
 	bindingAttributeMappingsProviderMapBuilder.put(GrandparentView.class, mapperForGrandparentView);
@@ -81,7 +77,7 @@ public class BindingAttributeMappingsProviderResolverTest {
     private Iterable<BindingAttributeMappingsProvider<? extends View>> newProvidersInOrder(BindingAttributeMapper<? extends View>... mappers) {
 	List<BindingAttributeMappingsProvider<? extends View>> providers = newArrayList();
 	for (BindingAttributeMapper<? extends View> mapper : mappers) {
-	    providers.add(new BindingAttributeMapperAdapter(mapper, propertyAttributeParser));
+	    providers.add(new BindingAttributeMapperAdapter(mapper));
 	}
 	return providers;
     }

@@ -9,7 +9,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -22,7 +22,7 @@ public class PendingGroupAttributes {
 	this.presentAttributeMappings = Maps.newHashMap(presentAttributeMappings);
     }
 
-    Iterable<Map.Entry<String, String>> presentAttributes() {
+    public Iterable<Map.Entry<String, String>> presentAttributes() {
 	return presentAttributeMappings.entrySet();
     }
 

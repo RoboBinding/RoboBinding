@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AttributeBindingException;
-import org.robobinding.viewattribute.AttributeGroupBindingException;
-import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.ViewAttributeBinder;
+import org.robobinding.viewattribute.grouped.AttributeGroupBindingException;
 
 import android.view.View;
 
@@ -21,16 +21,16 @@ import android.view.View;
  */
 public class ResolvedBindingAttributesForView {
     private View view;
-    private final List<ViewAttribute> viewAttributes;
+    private final List<ViewAttributeBinder> viewAttributes;
 
-    ResolvedBindingAttributesForView(View view, Collection<ViewAttribute> viewAttributes) {
+    ResolvedBindingAttributesForView(View view, Collection<ViewAttributeBinder> viewAttributes) {
 	this.view = view;
 	this.viewAttributes = newArrayList(viewAttributes);
     }
 
     public ViewBindingErrors bindTo(BindingContext bindingContext) {
 	ViewBindingErrors viewBindingError = new ViewBindingErrors(view);
-	for (ViewAttribute viewAttribute : viewAttributes) {
+	for (ViewAttributeBinder viewAttribute : viewAttributes) {
 	    try {
 		viewAttribute.bindTo(bindingContext);
 	    } catch (AttributeBindingException e) {
@@ -44,7 +44,7 @@ public class ResolvedBindingAttributesForView {
     }
 
     public void preinitializeView(BindingContext bindingContext) {
-	for (ViewAttribute viewAttribute : viewAttributes) {
+	for (ViewAttributeBinder viewAttribute : viewAttributes) {
 	    viewAttribute.preInitializeView(bindingContext);
 	}
     }

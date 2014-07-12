@@ -6,9 +6,10 @@ import org.robobinding.DialogBinder;
 import org.robobinding.InternalViewBinder;
 import org.robobinding.NonBindingViewInflater;
 import org.robobinding.ViewFactoryInstaller;
+import org.robobinding.attribute.PropertyAttributeParser;
+import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
-import org.robobinding.viewattribute.impl.ViewAttributeInitializerFactory;
-import org.robobinding.viewattribute.view.ViewListenersMap;
+import org.robobinding.widget.view.ViewListenersMap;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -50,9 +51,11 @@ public class BinderFactory {
     private BindingViewInflater createBindingViewInflater(Context context) {
 	LayoutInflater layoutInflater = createLayoutInflater(context);
 	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(layoutInflater);
+	ViewAttributeBinderFactoryProvider viewAttributeBinderFactoryProvider = new ViewAttributeBinderFactoryProvider(
+		new PropertyAttributeParser(), new GroupAttributesResolver(), viewListenersMap);
 	ByBindingAttributeMappingsResolverFinder byBindingAttributeProviderResolverFinder = new ByBindingAttributeMappingsResolverFinder(
 		new BindingAttributeMappingsProviderResolver(bindingAttributeMappingsProviderMap),
-		new ViewAttributeInitializerFactory(viewListenersMap));
+		viewAttributeBinderFactoryProvider);
 	BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeProviderResolverFinder);
 	BindingViewInflater bindingViewInflater = new BindingViewInflater(nonBindingViewInflater, bindingAttributeResolver,
 		new BindingAttributeParser());

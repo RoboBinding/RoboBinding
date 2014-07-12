@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.ViewResolutionErrors;
-import org.robobinding.viewattribute.ViewAttribute;
+import org.robobinding.viewattribute.ViewAttributeBinder;
 
 /**
  * 
@@ -24,12 +24,12 @@ public class BindingAttributeResolver {
     }
 
     public ViewResolutionResult resolve(PendingAttributesForView pendingAttributesForView) {
-	List<ViewAttribute> resolvedViewAttributes = newArrayList();
+	List<ViewAttributeBinder> resolvedViewAttributes = newArrayList();
 
 	Iterable<ByBindingAttributeMappingsResolver>  resolvers = byBindingAttributeMappingsResolverFinder.findCandidateResolvers(
 		pendingAttributesForView.getView());
 	for (ByBindingAttributeMappingsResolver resolver : resolvers) {
-	    Collection<ViewAttribute> newResolvedViewAttributes = resolver.resolve(pendingAttributesForView);
+	    Collection<ViewAttributeBinder> newResolvedViewAttributes = resolver.resolve(pendingAttributesForView);
 	    resolvedViewAttributes.addAll(newResolvedViewAttributes);
 
 	    if (pendingAttributesForView.isEmpty())

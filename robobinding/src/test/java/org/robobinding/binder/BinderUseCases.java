@@ -3,7 +3,7 @@ package org.robobinding.binder;
 import org.robobinding.ActivityBinder;
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.view.ViewListeners;
+import org.robobinding.widget.view.ViewListeners;
 
 import android.app.Activity;
 import android.content.Context;

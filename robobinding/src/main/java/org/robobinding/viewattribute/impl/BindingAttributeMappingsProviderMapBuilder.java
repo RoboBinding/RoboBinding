@@ -4,9 +4,7 @@ import static com.google.common.collect.Maps.newHashMap;
 
 import java.util.Map;
 
-import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.BindingAttributeMapper;
-import org.robobinding.viewattribute.BindingAttributeMappingsProvider;
 
 import android.view.View;
 
@@ -18,18 +16,16 @@ import android.view.View;
  */
 public class BindingAttributeMappingsProviderMapBuilder {
     private final Map<Class<? extends View>, BindingAttributeMappingsProvider<? extends View>> mappings;
-    private final PropertyAttributeParser propertyAttributeParser;
-    
-    public BindingAttributeMappingsProviderMapBuilder(PropertyAttributeParser propertyAttributeParser) {
+
+    public BindingAttributeMappingsProviderMapBuilder() {
 	mappings = newHashMap();
-	this.propertyAttributeParser = propertyAttributeParser;
     }
-    
+
     public <T extends View> BindingAttributeMappingsProviderMapBuilder put(Class<T> viewClass, BindingAttributeMapper<T> bindingAttributeMapper) {
-	mappings.put(viewClass, new BindingAttributeMapperAdapter<T>(bindingAttributeMapper, propertyAttributeParser));
+	mappings.put(viewClass, new BindingAttributeMapperAdapter<T>(bindingAttributeMapper));
 	return this;
     }
-    
+
     public BindingAttributeMappingsProviderMap build() {
 	return new BindingAttributeMappingsProviderMap(mappings);
     }

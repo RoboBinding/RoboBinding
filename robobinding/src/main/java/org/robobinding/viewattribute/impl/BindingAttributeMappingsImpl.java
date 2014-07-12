@@ -1,132 +1,168 @@
 package org.robobinding.viewattribute.impl;
 
 import static com.google.common.collect.Maps.newHashMap;
-import static org.robobinding.viewattribute.FromClassViewAttributeFactory.viewAttributeFactoryForClass;
+import static org.robobinding.viewattribute.grouped.FromClassViewAttributeFactories.eventViewAttributeFactoryForClass;
+import static org.robobinding.viewattribute.grouped.FromClassViewAttributeFactories.groupedViewAttributeFactoryForClass;
+import static org.robobinding.viewattribute.grouped.FromClassViewAttributeFactories.multiTypePropertyViewAttributeFactoryForClass;
+import static org.robobinding.viewattribute.grouped.FromClassViewAttributeFactories.propertyViewAttributeFactoryForClass;
 
 import java.util.Map;
 
-import org.robobinding.attribute.CommandAttribute;
-import org.robobinding.attribute.PendingGroupAttributes;
-import org.robobinding.attribute.PropertyAttributeParser;
-import org.robobinding.viewattribute.AbstractCommandViewAttribute;
-import org.robobinding.viewattribute.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.PropertyViewAttribute;
-import org.robobinding.viewattribute.ViewAttributeFactory;
+import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.viewattribute.event.EventViewAttributeFactory;
+import org.robobinding.viewattribute.grouped.GroupedViewAttribute;
+import org.robobinding.viewattribute.grouped.GroupedViewAttributeFactory;
+import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
 import android.view.View;
 
+import com.google.common.base.Preconditions;
+
 /**
- * 
+ *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T> {
-    private final ViewAttributeInitializer viewAttributeInitializer;
-    private final PropertyAttributeParser propertyAttributeParser;
+public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T>, InitailizedBindingAttributeMappings<T> {
+    private final Map<String, PropertyViewAttributeFactory<T>> propertyViewAttributeMappings;
+    private final Map<String, MultiTypePropertyViewAttributeFactory<T>> multiTypePropertyViewAttributeMappings;
+    private final Map<String, EventViewAttributeFactory<T>> eventViewAttributeMappings;
+    private final Map<String[], GroupedViewAttributeFactory<T>> groupedViewAttributeMappings;
 
-    private final Map<String, ViewAttributeFactory<? extends PropertyViewAttribute<? extends View>>> propertyViewAttributeMappings;
-    private final Map<String, ViewAttributeFactory<? extends AbstractCommandViewAttribute<? extends View>>> commandViewAttributeMappings;
-    private final Map<String[], ViewAttributeFactory<? extends AbstractGroupedViewAttribute<? extends View>>> groupedViewAttributeMappings;
-
-    public BindingAttributeMappingsImpl(ViewAttributeInitializer viewAttributeInitializer, 
-	    PropertyAttributeParser propertyAttributeParser) {
-	this.viewAttributeInitializer = viewAttributeInitializer;
-	this.propertyAttributeParser = propertyAttributeParser;
-
+    public BindingAttributeMappingsImpl() {
 	propertyViewAttributeMappings = newHashMap();
-	commandViewAttributeMappings = newHashMap();
+	multiTypePropertyViewAttributeMappings = newHashMap();
+	eventViewAttributeMappings = newHashMap();
 	groupedViewAttributeMappings = newHashMap();
     }
 
     @Override
-    public void mapPropertyAttribute(Class<? extends PropertyViewAttribute<T>> propertyViewAttributeClass, String attributeName) {
-	addPropertyViewAttributeMapping(propertyViewAttributeClass, attributeName);
+    public void mapProperty(Class<? extends PropertyViewAttribute<T, ?>> propertyViewAttributeClass, String attributeName) {
+	Preconditions.checkNotNull(propertyViewAttributeClass, "propertyViewAttributeClass cannot be null");
+	addPropertyViewAttributeMapping(propertyViewAttributeFactoryForClass(propertyViewAttributeClass), attributeName);
     }
 
     @Override
-    public void mapCommandAttribute(Class<? extends AbstractCommandViewAttribute<T>> commandViewAttributeClass, String attributeName) {
-	addCommandViewAttributeMapping(commandViewAttributeClass, attributeName);
+    public void mapProperty(PropertyViewAttributeFactory<T> propertyViewAttributeFactory,
+            String attributeName) {
+	Preconditions.checkNotNull(propertyViewAttributeFactory, "propertyViewAttributeFactory cannot be null");
+	addPropertyViewAttributeMapping(propertyViewAttributeFactory, attributeName);
+    }
+
+    private void addPropertyViewAttributeMapping(
+	    PropertyViewAttributeFactory<T> propertyViewAttributeFactory,
+	    String attributeName) {
+	checkAttributeNameNotEmpty(attributeName);
+	propertyViewAttributeMappings.put(attributeName, propertyViewAttributeFactory);
+    }
+
+    private void checkAttributeNameNotEmpty(String attributeName) {
+	org.robobinding.util.Preconditions.checkNotBlank(attributeName, "attributeName cannot be empty");
     }
 
     @Override
-    public void mapGroupedAttribute(Class<? extends AbstractGroupedViewAttribute<T>> groupedViewAttributeClass, String... attributeNames) {
-	addGroupedViewAttributeMapping(groupedViewAttributeClass, attributeNames);
+    public void mapMultiTypeProperty(Class<? extends MultiTypePropertyViewAttribute<T>> multiTypePropertyViewAttributeClass, String attributeName) {
+	Preconditions.checkNotNull(multiTypePropertyViewAttributeClass, "multiTypePropertyViewAttributeClass cannot be null");
+	addMultiTypePropertyViewAttributeMapping(multiTypePropertyViewAttributeFactoryForClass(multiTypePropertyViewAttributeClass), attributeName);
     }
 
     @Override
-    public void mapGroupedAttribute(ViewAttributeFactory<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeFactory,
+    public void mapMultiTypeProperty(
+            MultiTypePropertyViewAttributeFactory<T> multiTypePropertyViewAttributeFactory,
+            String attributeName) {
+	Preconditions.checkNotNull(multiTypePropertyViewAttributeFactory, "multiTypePropertyViewAttributeFactory cannot be null");
+	addMultiTypePropertyViewAttributeMapping(multiTypePropertyViewAttributeFactory, attributeName);
+    }
+
+    private void addMultiTypePropertyViewAttributeMapping(
+	    MultiTypePropertyViewAttributeFactory<T> multiTypePropertyViewAttributeFactory,
+	    String attributeName) {
+	checkAttributeNameNotEmpty(attributeName);
+	multiTypePropertyViewAttributeMappings.put(attributeName, multiTypePropertyViewAttributeFactory);
+    }
+
+    @Override
+    public void mapEvent(Class<? extends EventViewAttribute<T>> eventViewAttributeClass, String attributeName) {
+	Preconditions.checkNotNull(eventViewAttributeClass, "eventViewAttributeClass cannot be null");
+	addEventViewAttributeMapping(eventViewAttributeFactoryForClass(eventViewAttributeClass), attributeName);
+    }
+
+    @Override
+    public void mapEvent(EventViewAttributeFactory<T> eventViewAttributeFactory, String attributeName) {
+	Preconditions.checkNotNull(eventViewAttributeFactory, "eventViewAttributeFactory cannot be null");
+	addEventViewAttributeMapping(eventViewAttributeFactory, attributeName);
+    }
+
+    private void addEventViewAttributeMapping(EventViewAttributeFactory<T> eventViewAttributeFactory, String attributeName) {
+	checkAttributeNameNotEmpty(attributeName);
+	eventViewAttributeMappings.put(attributeName, eventViewAttributeFactory);
+    }
+
+    @Override
+    public void mapGroupedAttribute(GroupedViewAttributeFactory<T> groupedViewAttributeFactory,
 	    String... attributeNames) {
+	Preconditions.checkNotNull(groupedViewAttributeFactory, "groupedViewAttributeFactory cannot be null");
 	addGroupedViewAttributeMapping(groupedViewAttributeFactory, attributeNames);
     }
 
-    protected void addPropertyViewAttributeMapping(Class<? extends PropertyViewAttribute<?>> propertyViewAttributeClass, String attributeName) {
-	propertyViewAttributeMappings.put(attributeName, viewAttributeFactoryForClass(propertyViewAttributeClass));
-    }
-
-    protected void addCommandViewAttributeMapping(Class<? extends AbstractCommandViewAttribute<?>> commandViewAttributeClass, String attributeName) {
-	commandViewAttributeMappings.put(attributeName, viewAttributeFactoryForClass(commandViewAttributeClass));
-    }
-
-    protected void addGroupedViewAttributeMapping(Class<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeClass,
+    @Override
+    public void mapGroupedAttribute(Class<? extends GroupedViewAttribute<T>> groupedViewAttributeClass,
 	    String... attributeNames) {
-	groupedViewAttributeMappings.put(attributeNames, viewAttributeFactoryForClass(groupedViewAttributeClass));
+        Preconditions.checkNotNull(groupedViewAttributeClass, "groupedViewAttributeClass cannot be null");
+        addGroupedViewAttributeMapping(groupedViewAttributeFactoryForClass(groupedViewAttributeClass), attributeNames);
     }
 
-    protected void addGroupedViewAttributeMapping(ViewAttributeFactory<? extends AbstractGroupedViewAttribute<?>> groupedViewAttributeFactory,
+    private void addGroupedViewAttributeMapping(GroupedViewAttributeFactory<T> groupedViewAttributeFactory,
 	    String... attributeNames) {
+	org.robobinding.util.Preconditions.checkNotBlank(
+		"attributeNames cannot be empty or contain any empty attribute name", 
+		attributeNames);
 	groupedViewAttributeMappings.put(attributeNames, groupedViewAttributeFactory);
     }
 
+    @Override
     public Iterable<String> getPropertyAttributes() {
 	return propertyViewAttributeMappings.keySet();
     }
 
-    public PropertyViewAttribute<View> createPropertyViewAttribute(T defaultView, String propertyAttribute, String attributeValue) {
-	@SuppressWarnings("unchecked")
-	PropertyViewAttribute<View> propertyViewAttribute = (PropertyViewAttribute<View>) propertyViewAttributeMappings.get(propertyAttribute)
-		.create();
-	View view = getViewForAttribute(propertyAttribute, defaultView);
-	viewAttributeInitializer.initializePropertyViewAttribute(view, propertyViewAttribute,
-		propertyAttributeParser.parseAsValueModelAttribute(propertyAttribute, attributeValue));
-	return propertyViewAttribute;
+    @Override
+    public Iterable<String> getMultiTypePropertyAttributes() {
+        return multiTypePropertyViewAttributeMappings.keySet();
     }
 
-    public Iterable<String> getCommandAttributes() {
-	return commandViewAttributeMappings.keySet();
+    @Override
+    public Iterable<String> getEventAttributes() {
+	return eventViewAttributeMappings.keySet();
     }
 
-    public AbstractCommandViewAttribute<View> createCommandViewAttribute(View defaultView, String commandAttribute, String attributeValue) {
-	@SuppressWarnings("unchecked")
-	AbstractCommandViewAttribute<View> commandViewAttribute = (AbstractCommandViewAttribute<View>) commandViewAttributeMappings.get(
-		commandAttribute).create();
-	View view = getViewForAttribute(commandAttribute, defaultView);
-	viewAttributeInitializer.initializeCommandViewAttribute(view, commandViewAttribute, new CommandAttribute(commandAttribute, attributeValue));
-	return commandViewAttribute;
-    }
-
-    protected View getViewForAttribute(String attributeName, View defaultView) {
-	return defaultView;
-    }
-
+    @Override
     public Iterable<String[]> getAttributeGroups() {
 	return groupedViewAttributeMappings.keySet();
     }
 
-    public AbstractGroupedViewAttribute<View> createGroupedViewAttribute(View defaultView, String[] attributeGroup,
-	    Map<String, String> presentAttributeMappings) {
-	@SuppressWarnings("unchecked")
-	AbstractGroupedViewAttribute<View> groupedViewAttribute = (AbstractGroupedViewAttribute<View>) groupedViewAttributeMappings.get(
-		attributeGroup).create();
-	View view = getViewForAttributeGroup(attributeGroup, defaultView);
-	PendingGroupAttributes pendingGroupAttributes = new PendingGroupAttributes(presentAttributeMappings);
-	viewAttributeInitializer.initializeGroupedViewAttribute(view, groupedViewAttribute, pendingGroupAttributes);
-	return groupedViewAttribute;
+    @Override
+    public PropertyViewAttributeFactory<T> getPropertyViewAttributeFactory(String attribute) {
+        return propertyViewAttributeMappings.get(attribute);
     }
 
-    protected View getViewForAttributeGroup(String[] attributeGroup, View defaultView) {
-	return defaultView;
+    @Override
+    public MultiTypePropertyViewAttributeFactory<T> getMultiTypePropertyViewAttributeFactory(String attribute) {
+        return multiTypePropertyViewAttributeMappings.get(attribute);
+    }
+
+    @Override
+    public EventViewAttributeFactory<T> getEventViewAttributeFactory(String attribute) {
+        return eventViewAttributeMappings.get(attribute);
+    }
+
+    @Override
+    public GroupedViewAttributeFactory<T> getGroupedViewAttributeFactory(String[] attributeGroup) {
+        return groupedViewAttributeMappings.get(attributeGroup);
     }
 }

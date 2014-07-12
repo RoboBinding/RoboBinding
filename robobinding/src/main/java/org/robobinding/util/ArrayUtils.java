@@ -19,8 +19,7 @@
 package org.robobinding.util;
 
 /**
- * Migrated some of methods from
- * {@link org.apache.commons.lang3.reflect.ClassUtils}.
+ * Migrated some of methods from {@link org.apache.commons.lang3.ArrayUtils}.
  *
  * @since 1.0
  * @version $Revision: 1.0 $
@@ -41,11 +40,20 @@ class ArrayUtils {
     private ArrayUtils() {
     }
 
-    // NOTE: Cannot use {@code} to enclose text which includes {}, but
-    // <code></code> is OK
+    /**
+     * <p>
+     * Checks if an array of Objects is empty or {@code null}.
+     * </p>
+     *
+     * @param array
+     *            the array to test
+     * @return {@code true} if the array is empty or {@code null}
+     * @since 2.1
+     */
+    public static boolean isEmpty(final Object[] array) {
+	return array == null || array.length == 0;
+    }
 
-    // Is same length
-    // -----------------------------------------------------------------------
     /**
      * <p>
      * Checks whether two arrays are the same length, treating {@code null}
