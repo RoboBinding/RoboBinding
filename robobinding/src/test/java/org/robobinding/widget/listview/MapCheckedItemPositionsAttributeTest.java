@@ -14,6 +14,7 @@ import org.robobinding.widget.listview.CheckedItemPositionsAttribute.MapCheckedI
 
 import android.widget.ListView;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 /**
@@ -39,7 +40,8 @@ public class MapCheckedItemPositionsAttributeTest extends AbstractCheckedItemPos
 
     @Test
     public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-	ValueModel<Map<Integer, Boolean>> valueModel = ValueModelUtils.create();
+	Map<Integer, Boolean> emptyMap = Maps.newHashMap();
+	ValueModel<Map<Integer, Boolean>> valueModel = ValueModelUtils.create(emptyMap);
 	attribute.observeChangesOnTheView(view, valueModel);
 
 	setItemsChecked(toSet(checkedItemPositions));

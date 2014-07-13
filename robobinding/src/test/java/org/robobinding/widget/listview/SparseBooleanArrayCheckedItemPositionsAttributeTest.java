@@ -38,7 +38,8 @@ public class SparseBooleanArrayCheckedItemPositionsAttributeTest extends
 
     @Test
     public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-	ValueModel<SparseBooleanArray> valueModel = ValueModelUtils.create();
+	SparseBooleanArray emptySparseBooleanArray = new SparseBooleanArray();
+	ValueModel<SparseBooleanArray> valueModel = ValueModelUtils.create(emptySparseBooleanArray);
 	attribute.observeChangesOnTheView(view, valueModel);
 
 	setItemsChecked(SparseBooleanArrayUtils.toSet(checkedItemPositions));

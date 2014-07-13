@@ -13,6 +13,8 @@ import org.robobinding.widget.listview.CheckedItemPositionsAttribute.SetCheckedI
 
 import android.widget.ListView;
 
+import com.google.common.collect.Sets;
+
 /**
  *
  * @since 1.0
@@ -36,7 +38,8 @@ public class SetCheckedItemPositionsAttributeTest extends AbstractCheckedItemPos
 
     @Test
     public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-	ValueModel<Set<Integer>> valueModel = ValueModelUtils.create();
+	Set<Integer> emptySet = Sets.newHashSet();
+	ValueModel<Set<Integer>> valueModel = ValueModelUtils.create(emptySet);
 	attribute.observeChangesOnTheView(view, valueModel);
 
 	setItemsChecked(checkedItemPositions);
