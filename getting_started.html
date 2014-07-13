@@ -837,14 +837,14 @@ asciidoc.install(2);
                 <a href="index.html" class="menuitem">Home</a>
                 <a href="getting_started.html" class="menuitem">Getting Started</a>
                 <a href="insight_into_framework.html" class="menuitem">Insight Into Framework</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.2/robobinding-0.8.2-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.3/robobinding-0.8.3-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
                 <a href="about.html" class="menuitem">About</a>
                 <a href="old_index.html" class="menuitem">Old Doc</a>
                 <a href="index.zh.html" class="menuitem">Chinese中文</a>
         </div>
 <div id="header">
 <h1>Getting Started</h1>
-<span id="revnumber">version 0.8.2</span>
+<span id="revnumber">version 0.8.3</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -1271,25 +1271,25 @@ please refer to <a href="http://developer.android.com/guide/topics/ui/custom-com
 <div class="paragraph"><p>The component has two binding attributes, TitleAttribute for the title and DescriptionAttribute for the description.
 And the BindingAttributeMapper, TitleDescriptionBarAttributeMapper, maps the attributes to its corresponding binding attribute implementations.</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleAttribute</span> <span class="kd">extends</span> <span class="n">AbstractTextAttribute</span> <span class="o">{</span>
+<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleAttribute</span> <span class="kd">implements</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">,</span> <span class="n">CharSequence</span><span class="o">&gt;</span> <span class="o">{</span>
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">updateText</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">newText</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateView</span><span class="o">(</span><span class="n">TitleDescriptionBar</span> <span class="n">view</span><span class="o">,</span> <span class="n">CharSequence</span> <span class="n">newText</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">view</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">newText</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DescriptionAttribute</span> <span class="kd">extends</span> <span class="n">AbstractTextAttribute</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DescriptionAttribute</span> <span class="kd">implements</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">,</span> <span class="n">CharSequence</span><span class="o">&gt;</span> <span class="o">{</span>
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">updateText</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">newText</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">view</span><span class="o">.</span><span class="na">setDescription</span><span class="o">(</span><span class="n">newText</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateView</span><span class="o">(</span><span class="n">TitleDescriptionBar</span> <span class="n">view</span><span class="o">,</span> <span class="n">CharSequence</span> <span class="n">newText</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">view</span><span class="o">.</span><span class="na">setDescription</span><span class="o">(</span><span class="n">newText</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleDescriptionBarAttributeMapper</span> <span class="kd">implements</span> <span class="n">BindingAttributeMapper</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">&gt;</span> <span class="o">{</span>
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">mappings</span><span class="o">.</span><span class="na">mapPropertyAttribute</span><span class="o">(</span><span class="n">TitleAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;title&quot;</span><span class="o">);</span>
-        <span class="n">mappings</span><span class="o">.</span><span class="na">mapPropertyAttribute</span><span class="o">(</span><span class="n">DescriptionAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;description&quot;</span><span class="o">);</span>
+        <span class="n">mappings</span><span class="o">.</span><span class="na">mapProperty</span><span class="o">(</span><span class="n">TitleAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;title&quot;</span><span class="o">);</span>
+        <span class="n">mappings</span><span class="o">.</span><span class="na">mapProperty</span><span class="o">(</span><span class="n">DescriptionAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;description&quot;</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div></div></div>
@@ -1319,14 +1319,13 @@ Take the second approach as an example, we try to replace the existing <a href="
 <div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyImageViewAttributeMapper</span> <span class="kd">implements</span> <span class="n">BindingAttributeMapper</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">&gt;</span> <span class="o">{</span>
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">mappings</span><span class="o">.</span><span class="na">mapPropertyAttribute</span><span class="o">(</span><span class="n">MyImageSourceAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;src&quot;</span><span class="o">);</span>
+        <span class="n">mappings</span><span class="o">.</span><span class="na">mapProperty</span><span class="o">(</span><span class="n">MyImageSourceAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;src&quot;</span><span class="o">);</span>
     <span class="o">}</span>
-
 <span class="o">}</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyImageSourceAttribute</span> <span class="kd">extends</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">viewattribute</span><span class="o">.</span><span class="na">imageview</span><span class="o">.</span><span class="na">ImageSourceAttribute</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="n">AbstractPropertyViewAttribute</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">,</span> <span class="o">?&gt;</span> <span class="n">createPropertyViewAttribute</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">propertyType</span><span class="o">)</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyImageSourceAttribute</span> <span class="kd">extends</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">widget</span><span class="o">.</span><span class="na">imageview</span><span class="o">.</span><span class="na">ImageSourceAttribute</span> <span class="o">{</span>
+     <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">,</span> <span class="o">?&gt;</span> <span class="n">create</span><span class="o">(</span><span class="n">ImageView</span> <span class="n">view</span><span class="o">,</span> <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">propertyType</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isAssignableFrom</span><span class="o">(</span><span class="n">propertyType</span><span class="o">))</span> <span class="o">{</span>
             <span class="k">return</span> <span class="k">new</span> <span class="nf">UrlImageSourceAttribute</span><span class="o">();</span>
         <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
@@ -1334,9 +1333,9 @@ Take the second approach as an example, we try to replace the existing <a href="
         <span class="o">}</span>
     <span class="o">}</span>
 
-    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">UrlImageSourceAttribute</span> <span class="kd">extends</span> <span class="n">AbstractReadOnlyPropertyViewAttribute</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">UrlImageSourceAttribute</span> <span class="kd">implements</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="o">{</span>
         <span class="nd">@Override</span>
-        <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">valueModelUpdated</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateView</span><span class="o">(</span><span class="n">ImageView</span> <span class="n">view</span><span class="o">,</span> <span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">Bitmap</span> <span class="n">image</span> <span class="o">=</span> <span class="n">loadBitmapFromUrl</span><span class="o">(</span><span class="n">url</span><span class="o">);</span><span class="c1">//load image from given url.</span>
             <span class="n">view</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">image</span><span class="o">);</span>
         <span class="o">}</span>
@@ -1373,8 +1372,8 @@ Take the second approach as an example, we try to replace the existing <a href="
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.2<br />
-Last updated 2014-07-13 10:21:28 澳大利亚西部标准时间
+Version 0.8.3<br />
+Last updated 2014-07-13 16:38:39 澳大利亚西部标准时间
 </div>
 </div>
 </body>

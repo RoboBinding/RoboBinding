@@ -1,6 +1,6 @@
 ﻿入门
 ====
-:Revision: 0.8.2
+:Revision: 0.8.3
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -451,25 +451,25 @@ public class TitleDescriptionBar extends LinearLayout {
 TitleDescriptionBar有标题与描述两个绑定属性，对应的实现分别是TitleAttribute与DescriptionAttribute。最后绑定属性映射TitleDescriptionBarAttributeMapper将属性映射到相应的实现类。
 [source,java]
 ----
-public class TitleAttribute extends AbstractTextAttribute {
+public class TitleAttribute implements PropertyViewAttribute<TitleDescriptionBar, CharSequence> {
     @Override
-    protected void updateText(CharSequence newText) {
-        view.setTitle(newText);
+    public void updateView(TitleDescriptionBar view, CharSequence newText) {
+		view.setTitle(newText);
     }
 }
 
-public class DescriptionAttribute extends AbstractTextAttribute {
+public class DescriptionAttribute implements PropertyViewAttribute<TitleDescriptionBar, CharSequence> {
     @Override
-    protected void updateText(CharSequence newText) {
-	view.setDescription(newText);
+    public void updateView(TitleDescriptionBar view, CharSequence newText) {
+		view.setDescription(newText);
     }
 }
 
 public class TitleDescriptionBarAttributeMapper implements BindingAttributeMapper<TitleDescriptionBar> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<TitleDescriptionBar> mappings) {
-        mappings.mapPropertyAttribute(TitleAttribute.class, "title");
-        mappings.mapPropertyAttribute(DescriptionAttribute.class, "description");
+        mappings.mapProperty(TitleAttribute.class, "title");
+        mappings.mapProperty(DescriptionAttribute.class, "description");
     }
 }
 ----
@@ -499,14 +499,13 @@ activityBinder.inflateAndBind(R.layout.custom_component_activity, presentationMo
 public class MyImageViewAttributeMapper implements BindingAttributeMapper<ImageView> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<ImageView> mappings) {
-	mappings.mapPropertyAttribute(MyImageSourceAttribute.class, "src");
+		mappings.mapProperty(MyImageSourceAttribute.class, "src");
     }
-
 }
 
-public class MyImageSourceAttribute extends org.robobinding.viewattribute.imageview.ImageSourceAttribute {
-    @Override
-    protected AbstractPropertyViewAttribute<ImageView, ?> createPropertyViewAttribute(Class<?> propertyType) {
+public class MyImageSourceAttribute extends org.robobinding.widget.imageview.ImageSourceAttribute {
+     @Override
+    public PropertyViewAttribute<ImageView, ?> create(ImageView view, Class<?> propertyType) {
 		if (String.class.isAssignableFrom(propertyType)) {
 			return new UrlImageSourceAttribute();
 		} else {
@@ -514,9 +513,9 @@ public class MyImageSourceAttribute extends org.robobinding.viewattribute.imagev
 		}
     }
 
-    static class UrlImageSourceAttribute extends AbstractReadOnlyPropertyViewAttribute<ImageView, String> {
+    static class UrlImageSourceAttribute implements PropertyViewAttribute<ImageView, Integer> {
 		@Override
-		protected void valueModelUpdated(String url) {
+		public void updateView(ImageView view, String url) {
 			Bitmap image = loadBitmapFromUrl(url);//load image from given url.
 			view.setImageBitmap(image);
 		}
