@@ -225,7 +225,7 @@
 					<tagletArtifact>
 						<groupId>org.robobinding</groupId>
 						<artifactId>doctaglet</artifactId>
-						<version>0.8.2-SNAPSHOT</version>
+						<version>0.8.2</version>
 					</tagletArtifact>
 				</configuration>
 			</plugin>
