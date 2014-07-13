@@ -120,7 +120,7 @@ public class FrameworkErrorReportingIT {
 
 	    InternalBinder binder = new InternalBinder(bindingViewInflater,
 		    new BindingContextFactory(context, true, new NonBindingViewInflater(createLayoutInflater(context))),
-		    new PlainTextErrorFormatter());
+		    new ErrorFormatterWithFirstErrorStackTrace());
 	    return binder.inflateAndBind(R.layout.framework_error_reporting_it_sample1, new PresentationModelForTest());
 	}
 
