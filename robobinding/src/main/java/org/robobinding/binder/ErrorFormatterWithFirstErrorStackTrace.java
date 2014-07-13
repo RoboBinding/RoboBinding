@@ -5,13 +5,15 @@ import java.util.Collection;
 
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
+import com.google.common.base.Throwables;
+
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class PlainTextErrorFormatter implements ErrorFormatter {
+class ErrorFormatterWithFirstErrorStackTrace implements ErrorFormatter {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     @Override
@@ -30,19 +32,24 @@ class PlainTextErrorFormatter implements ErrorFormatter {
 
 	public String build() {
 	    errorMessage = new StringBuilder();
-
-	    addHeader();
-	    addBody();
+	    
+	    addBriefErrorList();
+	    addFirstErrorStackTrace();
 
 	    return errorMessage.toString();
 	}
 
-	private void addHeader() {
+	private void addBriefErrorList() {
+	    addErrorListHeader();
+	    addErrorListBody();
+	}
+
+	private void addErrorListHeader() {
 	    errorMessage.append(withNewLine(MessageFormat.format("-------------------------{0}({1} errors)-----------------------",
 		    inflationError.getViewName(), inflationError.numErrors())));
 	}
 
-	private void addBody() {
+	private void addErrorListBody() {
 	    Collection<Exception> errors = inflationError.getErrors();
 	    for (Exception error : errors) {
 		errorMessage.append(withNewLine(error.toString()));
@@ -70,6 +77,17 @@ class PlainTextErrorFormatter implements ErrorFormatter {
 
 	private String newLine() {
 	    return LINE_SEPARATOR;
+	}
+
+	private void addFirstErrorStackTrace() {
+	    errorMessage.append(withNewLine("-------------------------The first error stack trace-----------------------"));
+	    Exception firstError = getFirstError();
+	    String stackTrace = Throwables.getStackTraceAsString(firstError);
+	    errorMessage.append(withNewLine(stackTrace));
+	}
+
+	private Exception getFirstError() {
+	     return inflationError.getErrors().iterator().next();
 	}
     }
 }
