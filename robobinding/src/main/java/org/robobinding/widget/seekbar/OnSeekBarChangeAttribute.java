@@ -27,7 +27,7 @@ public class OnSeekBarChangeAttribute implements EventViewAttribute<SeekBar>, Vi
 
 	    @Override
 	    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-		SeekBarEvent seekBarEvent = new SeekBarEvent(seekBar, progress, fromUser);
+		SeekBarChangeEvent seekBarEvent = new SeekBarChangeEvent(seekBar, progress, fromUser);
 		command.invoke(seekBarEvent);
 	    }
 
@@ -43,7 +43,7 @@ public class OnSeekBarChangeAttribute implements EventViewAttribute<SeekBar>, Vi
     }
 
     @Override
-    public Class<SeekBarEvent> getEventType() {
-	return SeekBarEvent.class;
+    public Class<SeekBarChangeEvent> getEventType() {
+	return SeekBarChangeEvent.class;
     }
 }

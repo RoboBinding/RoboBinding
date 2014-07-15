@@ -4,6 +4,6 @@
  *
  * @prop progress; Integer; yes
  *
- * @event onSeekBarChange; {@link org.robobinding.widget.seekbar.SeekBarEvent}
+ * @event onSeekBarChange; {@link org.robobinding.widget.seekbar.SeekBarChangeEvent}
  */
 package org.robobinding.widget.seekbar;
