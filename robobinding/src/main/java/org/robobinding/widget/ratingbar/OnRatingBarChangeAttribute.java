@@ -21,15 +21,15 @@ public class OnRatingBarChangeAttribute implements EventViewAttribute<RatingBar>
 	ratingBarListeners.addOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 	    @Override
 	    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-		RatingBarEvent ratingBarEvent = new RatingBarEvent(ratingBar, rating, fromUser);
+		RatingBarChangeEvent ratingBarEvent = new RatingBarChangeEvent(ratingBar, rating, fromUser);
 		command.invoke(ratingBarEvent);
 	    }
 	});
     }
 
     @Override
-    public Class<RatingBarEvent> getEventType() {
-	return RatingBarEvent.class;
+    public Class<RatingBarChangeEvent> getEventType() {
+	return RatingBarChangeEvent.class;
     }
 
     @Override

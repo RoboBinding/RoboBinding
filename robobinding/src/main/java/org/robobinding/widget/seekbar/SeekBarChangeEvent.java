@@ -10,11 +10,11 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SeekBarEvent extends AbstractViewEvent {
+public class SeekBarChangeEvent extends AbstractViewEvent {
     private final int progress;
     private final boolean fromUser;
 
-    SeekBarEvent(SeekBar seekBar, int progress, boolean fromUser) {
+    SeekBarChangeEvent(SeekBar seekBar, int progress, boolean fromUser) {
 	super(seekBar);
 	this.progress = progress;
 	this.fromUser = fromUser;

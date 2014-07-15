@@ -34,8 +34,8 @@ public class OnSeekBarChangeAttributeTest extends
     }
 
     private void assertEventReceived(int newProgressValue) {
-        assertEventReceived(SeekBarEvent.class);
-        SeekBarEvent seekBarEvent = getEventReceived();
+        assertEventReceived(SeekBarChangeEvent.class);
+        SeekBarChangeEvent seekBarEvent = getEventReceived();
         assertThat(seekBarEvent.getSeekBar(), sameInstance(view));
         assertThat(seekBarEvent.getProgress(), is(newProgressValue));
         assertTrue(seekBarEvent.isFromUser());

@@ -13,7 +13,7 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  */
 public class RatingBarListeners extends ViewListeners {
     final RatingBar ratingBar;
-    private OnRatingBarChangeListeners ratingBarChangeListeners;
+    private OnRatingBarChangeListeners onRatingBarChangeListeners;
 
     public RatingBarListeners(RatingBar ratingBar) {
 	super(ratingBar);
@@ -21,14 +21,14 @@ public class RatingBarListeners extends ViewListeners {
     }
 
     public void addOnRatingBarChangeListener(OnRatingBarChangeListener listener) {
-	ensureRatingBarChangeListenersInitialized();
-	ratingBarChangeListeners.addListener(listener);
+	ensureOnRatingBarChangeListenersInitialized();
+	onRatingBarChangeListeners.addListener(listener);
     }
 
-    private void ensureRatingBarChangeListenersInitialized() {
-	if (ratingBarChangeListeners == null) {
-	    ratingBarChangeListeners = new OnRatingBarChangeListeners();
-	    ratingBar.setOnRatingBarChangeListener(ratingBarChangeListeners);
+    private void ensureOnRatingBarChangeListenersInitialized() {
+	if (onRatingBarChangeListeners == null) {
+	    onRatingBarChangeListeners = new OnRatingBarChangeListeners();
+	    ratingBar.setOnRatingBarChangeListener(onRatingBarChangeListeners);
 	}
     }
 }

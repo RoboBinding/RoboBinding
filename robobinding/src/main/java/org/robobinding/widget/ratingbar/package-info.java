@@ -5,6 +5,6 @@
  * @prop numStars; Integer, Float; no
  * @prop rating; Integer, Float; yes
  *
- * @event onRatingBarChange; {@link org.robobinding.widget.ratingbar.RatingBarEvent}
+ * @event onRatingBarChange; {@link org.robobinding.widget.ratingbar.RatingBarChangeEvent}
  */
 package org.robobinding.widget.ratingbar;
