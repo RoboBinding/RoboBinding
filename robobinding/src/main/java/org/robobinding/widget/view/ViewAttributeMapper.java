@@ -25,5 +25,6 @@ public class ViewAttributeMapper implements BindingAttributeMapper<View> {
 	mappings.mapEvent(OnFocusChangeAttribute.class, "onFocusChange");
 	mappings.mapEvent(OnFocusAttribute.class, "onFocus");
 	mappings.mapEvent(OnFocusLostAttribute.class, "onFocusLost");
+	mappings.mapEvent(OnTouchAttribute.class, "onTouch");
     }
 }
