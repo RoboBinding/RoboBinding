@@ -13,6 +13,7 @@
  * @event onFocusChange; {@link org.robobinding.widget.view.FocusChangeEvent}
  * @event onFocusLost; {@link org.robobinding.widget.view.AbstractViewEvent}
  * @event onLongClick; {@link org.robobinding.widget.view.ClickEvent}
+ * @event onTouch; {@link org.robobinding.widget.view.TouchEvent}
  *
  */
 package org.robobinding.widget.view;
