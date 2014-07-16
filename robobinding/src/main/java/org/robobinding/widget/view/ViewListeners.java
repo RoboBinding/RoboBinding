@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 
 /**
  *
@@ -16,6 +17,7 @@ public class ViewListeners {
     private OnClickListeners onClickListeners;
     private OnLongClickListeners onLongClickListeners;
     private OnFocusChangeListeners onFocusChangeListeners;
+    private OnTouchListeners onTouchListeners;
 
     public ViewListeners(View view) {
 	this.view = view;
@@ -54,6 +56,18 @@ public class ViewListeners {
 	if (onFocusChangeListeners == null) {
 	    onFocusChangeListeners = new OnFocusChangeListeners();
 	    view.setOnFocusChangeListener(onFocusChangeListeners);
+	}
+    }
+    
+    public void addOnTouchListener(OnTouchListener listener) {
+	ensureOnTouchListenersInitialized();
+	onTouchListeners.addListener(listener);
+    }
+    
+    private void ensureOnTouchListenersInitialized() {
+	if (onTouchListeners == null) {
+	    onTouchListeners = new OnTouchListeners();
+	    view.setOnTouchListener(onTouchListeners);
 	}
     }
 }

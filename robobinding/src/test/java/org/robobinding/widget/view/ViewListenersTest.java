@@ -5,10 +5,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -74,6 +76,23 @@ public class ViewListenersTest {
 	assertTrue(listener1.focusChangeEventFired);
 	assertTrue(listener2.focusChangeEventFired);
     }
+    
+    @Test
+    public void shouldSupportMultipleOnTouchListeners() {
+	View view = new View(null);
+	ViewListeners viewListeners = new ViewListeners(view);
+
+	MockOnTouchListener listener1 = new MockOnTouchListener();
+	MockOnTouchListener listener2 = new MockOnTouchListener();
+
+	viewListeners.addOnTouchListener(listener1);
+	viewListeners.addOnTouchListener(listener2);
+
+	view.dispatchTouchEvent(OnTouchAttributeTest.anyMotionEvent());
+
+	assertTrue(listener1.touchEventFired);
+	assertTrue(listener2.touchEventFired);
+    }
 
     private static class MockOnClickListener implements OnClickListener {
 	private boolean clickEventFired;
@@ -100,6 +119,16 @@ public class ViewListenersTest {
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
 	    focusChangeEventFired = true;
+	}
+    }
+    
+    private static class MockOnTouchListener implements OnTouchListener {
+	private boolean touchEventFired;
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+	    touchEventFired = true;
+	    return false;
 	}
     }
 }
