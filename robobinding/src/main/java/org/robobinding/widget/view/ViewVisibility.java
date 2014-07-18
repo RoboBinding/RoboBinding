@@ -27,7 +27,7 @@ class ViewVisibility extends AbstractVisibility {
 
     @Override
     protected void makeInvisible() {
-	view.setVisibility(View.VISIBLE);
+	view.setVisibility(View.INVISIBLE);
     }
 
 }
