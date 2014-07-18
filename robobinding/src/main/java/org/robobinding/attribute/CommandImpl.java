@@ -18,10 +18,10 @@ class CommandImpl implements Command {
     }
 
     @Override
-    public void invoke(Object arg) {
+    public Object invoke(Object arg) {
 	if (supportsPreferredParameterType)
-	    function.call(arg);
+	    return function.call(arg);
 	else
-	    function.call();
+	    return function.call();
     }
 }

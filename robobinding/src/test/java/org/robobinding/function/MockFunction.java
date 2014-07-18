@@ -13,9 +13,10 @@ public class MockFunction implements Function {
     public int invocationCount;
 
     @Override
-    public void call(Object... args) {
+    public Object call(Object... args) {
 	commandInvoked = true;
 	argsPassedToInvoke = args;
 	invocationCount++;
+	return null;
     }
 }

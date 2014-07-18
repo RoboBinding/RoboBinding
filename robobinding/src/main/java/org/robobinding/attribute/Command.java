@@ -9,5 +9,5 @@ package org.robobinding.attribute;
  * @author Cheng Wei
  */
 public interface Command {
-    void invoke(Object arg);
+    Object invoke(Object arg);
 }

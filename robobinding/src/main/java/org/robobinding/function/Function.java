@@ -8,5 +8,5 @@ package org.robobinding.function;
  * @author Cheng Wei
  */
 public interface Function {
-    void call(Object... args);
+    Object call(Object... args);
 }

@@ -1,5 +1,6 @@
 package org.robobinding.widget.view;
 
+import org.robobinding.util.BooleanDecision;
 import org.robobinding.viewattribute.AbstractListeners;
 
 import android.view.MotionEvent;
@@ -16,12 +17,11 @@ public class OnTouchListeners extends AbstractListeners<OnTouchListener> impleme
     
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-	boolean isAnyConsumed = false;
+	BooleanDecision isConsumed = new BooleanDecision();
 	for (OnTouchListener listener : listeners) {
-	    boolean isConsumed = listener.onTouch(v, event);
-	    isAnyConsumed = isAnyConsumed || isConsumed;
+	    isConsumed.or(listener.onTouch(v, event));
 	}
-	return isAnyConsumed;
+	return isConsumed.getResult();
     }
 
 }

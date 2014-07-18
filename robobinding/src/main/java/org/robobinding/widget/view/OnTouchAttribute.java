@@ -28,8 +28,8 @@ public class OnTouchAttribute implements EventViewAttribute<View>, ViewListeners
 	    @Override
 	    public boolean onTouch(View view, MotionEvent motionEvent) {
 		TouchEvent event = new TouchEvent(view, motionEvent);
-		command.invoke(event);
-		return true;
+		Object result = command.invoke(event);
+		return Boolean.TRUE.equals(result);
 	    }
 	});
     }

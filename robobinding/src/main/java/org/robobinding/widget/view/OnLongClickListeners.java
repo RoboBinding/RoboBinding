@@ -1,5 +1,6 @@
 package org.robobinding.widget.view;
 
+import org.robobinding.util.BooleanDecision;
 import org.robobinding.viewattribute.AbstractListeners;
 
 import android.view.View;
@@ -15,12 +16,11 @@ public class OnLongClickListeners extends AbstractListeners<OnLongClickListener>
 
     @Override
     public boolean onLongClick(View v) {
-	boolean isAnyConsumed = false;
+	BooleanDecision isConsumed = new BooleanDecision();
 	for (OnLongClickListener listener : listeners) {
-	    boolean isConsumed = listener.onLongClick(v);
-	    isAnyConsumed = isAnyConsumed || isConsumed;
+	    isConsumed.or(listener.onLongClick(v));
 	}
-	return isAnyConsumed;
+	return isConsumed.getResult();
     }
 
 }

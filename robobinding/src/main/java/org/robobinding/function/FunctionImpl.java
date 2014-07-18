@@ -24,9 +24,9 @@ class FunctionImpl implements Function {
     }
 
     @Override
-    public void call(Object... args) {
+    public Object call(Object... args) {
 	try {
-	    method.invoke(object, args);
+	    return method.invoke(object, args);
 	} catch (IllegalArgumentException e) {
 	    throw new RuntimeException(e);
 	} catch (IllegalAccessException e) {

@@ -27,8 +27,8 @@ public class OnLongClickAttribute implements EventViewAttribute<View>, ViewListe
 	    @Override
 	    public boolean onLongClick(View v) {
 		ClickEvent clickEvent = new ClickEvent(v);
-		command.invoke(clickEvent);
-		return true;
+		Object result  = command.invoke(clickEvent);
+		return Boolean.TRUE.equals(result);
 	    }
 	});
     }
