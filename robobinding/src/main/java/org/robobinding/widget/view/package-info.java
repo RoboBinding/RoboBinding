@@ -6,6 +6,7 @@
  * @prop backgroundColor; Integer; no
  * @prop enabled; Boolean; no
  * @prop visibility; Boolean, Integer; no
+ * @prop focusable; Boolean; no
  *
  *
  * @event onClick; {@link org.robobinding.widget.view.ClickEvent}
