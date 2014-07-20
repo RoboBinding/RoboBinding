@@ -23,6 +23,6 @@ public class ActivatedAttributeTest extends AbstractPropertyViewAttributeTest<Vi
 
         attribute.updateView(view, activated);
 
-        assertThat(view.isEnabled(), equalTo(activated));
+        assertThat(view.isActivated(), equalTo(activated));
     }
 }
