@@ -13,7 +13,7 @@ import org.robobinding.property.PresentationModelPropertyChangeSupport;
 public class PresentationModelChangeSupport {
     private PresentationModelPropertyChangeSupport propertyChangeSupport;
 
-    public PresentationModelChangeSupport(Object presentationModel) {
+    PresentationModelChangeSupport(Object presentationModel) {
 	propertyChangeSupport = new PresentationModelPropertyChangeSupport(presentationModel);
     }
 

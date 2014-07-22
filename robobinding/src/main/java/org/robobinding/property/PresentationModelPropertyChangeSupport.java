@@ -1,7 +1,6 @@
 package org.robobinding.property;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.robobinding.util.Preconditions.checkNotBlank;
 
 import java.util.Map;
@@ -22,8 +21,6 @@ public class PresentationModelPropertyChangeSupport {
     private Map<String, PresentationModelPropertyChangeListeners> propertyToItsChangeListeners;
 
     public PresentationModelPropertyChangeSupport(Object bean) {
-	checkNotNull(bean, "Bean should not be null");
-
 	this.bean = bean;
 	initializeAvailableProperties();
 

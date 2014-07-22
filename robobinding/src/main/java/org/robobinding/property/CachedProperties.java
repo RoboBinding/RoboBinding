@@ -11,11 +11,11 @@ import com.google.common.collect.Maps;
  * @author Cheng Wei
  */
 public class CachedProperties implements Properties {
-    PropertyCreator propertyCreator;
+    private PropertyCreator propertyCreator;
     private Map<String, PropertyValueModel<?>> propertyCache;
     private Map<String, DataSetPropertyValueModel<?>> dataSetPropertyCache;
 
-    CachedProperties(PropertyCreator propertyCreator) {
+    public CachedProperties(PropertyCreator propertyCreator) {
 	this.propertyCreator = propertyCreator;
 	propertyCache = Maps.newHashMap();
 	dataSetPropertyCache = Maps.newHashMap();
@@ -58,9 +58,5 @@ public class CachedProperties implements Properties {
 	}
 	dataSetProperty.checkReadWriteProperty(false);
 	return dataSetProperty;
-    }
-
-    public static Properties create(Object bean) {
-	return new CachedProperties(new PropertyCreator(bean));
     }
 }
