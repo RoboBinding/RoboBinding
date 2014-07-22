@@ -7,6 +7,7 @@
  * @prop enabled; Boolean; no
  * @prop visibility; Boolean, Integer; no
  * @prop focusable; Boolean; no
+ * @prop activated; Boolean; no
  *
  *
  * @event onClick; {@link org.robobinding.widget.view.ClickEvent}
