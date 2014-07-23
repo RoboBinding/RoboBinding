@@ -1,4 +1,4 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -11,6 +11,7 @@ import org.robobinding.R;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.viewattribute.property.AbstractPropertyViewAttributeWithViewListenersAwareTest;
+import org.robobinding.widget.abslistview.CheckedItemPositionAttribute;
 import org.robobinding.widget.adapterview.MockAdapterViewListeners;
 import org.robobinding.widget.adapterview.MockArrayAdapter;
 

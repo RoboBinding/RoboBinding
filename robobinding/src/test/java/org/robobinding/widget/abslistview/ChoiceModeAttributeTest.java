@@ -1,4 +1,4 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import static android.widget.AbsListView.CHOICE_MODE_MULTIPLE;
 import static android.widget.AbsListView.CHOICE_MODE_MULTIPLE_MODAL;
@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.robobinding.viewattribute.property.AbstractPropertyViewAttributeTest;
 
 import android.widget.ListView;
+import org.robobinding.widget.abslistview.ChoiceModeAttribute;
 
 /**
  *
