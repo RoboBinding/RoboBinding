@@ -1,7 +1,9 @@
 package org.robobinding.binder;
 
+import android.widget.*;
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
+import org.robobinding.widget.abslistview.AbsListViewAttributeMapper;
 import org.robobinding.widget.absspinner.AbsSpinnerAttributeMapper;
 import org.robobinding.widget.adapterview.AdapterViewAttributeMapper;
 import org.robobinding.widget.adapterview.AdapterViewListeners;
@@ -21,16 +23,6 @@ import org.robobinding.widget.view.ViewListeners;
 import org.robobinding.widget.view.ViewListenersMapBuilder;
 
 import android.view.View;
-import android.widget.AbsSpinner;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RatingBar;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 /**
  *
@@ -74,6 +66,7 @@ public class BinderFactoryBuilder {
         bindingAttributeMappingsProviderMap.put(SeekBar.class, new SeekBarAttributeMapper());
         bindingAttributeMappingsProviderMap.put(RatingBar.class, new RatingBarAttributeMapper());
         bindingAttributeMappingsProviderMap.put(ListView.class, new ListViewAttributeMapper());
+        bindingAttributeMappingsProviderMap.put(AbsListView.class, new AbsListViewAttributeMapper());
         bindingAttributeMappingsProviderMap.put(AbsSpinner.class, new AbsSpinnerAttributeMapper());
 
         return bindingAttributeMappingsProviderMap;

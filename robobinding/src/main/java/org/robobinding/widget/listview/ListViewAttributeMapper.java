@@ -11,6 +11,9 @@ import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.widget.ListView;
+import org.robobinding.widget.abslistview.CheckedItemPositionAttribute;
+import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute;
+import org.robobinding.widget.abslistview.ChoiceModeAttribute;
 
 /**
  *
@@ -21,9 +24,6 @@ import android.widget.ListView;
 public class ListViewAttributeMapper implements BindingAttributeMapper<ListView> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<ListView> mappings) {
-	mappings.mapProperty(CheckedItemPositionAttribute.class, "checkedItemPosition");
-	mappings.mapMultiTypeProperty(CheckedItemPositionsAttribute.class, "checkedItemPositions");
-	mappings.mapProperty(ChoiceModeAttribute.class, "choiceMode");
 
 	mappings.mapGroupedAttribute(new HeaderAttributesFactory(), HEADER_LAYOUT, HEADER_PRESENTATION_MODEL, HEADER_VISIBILITY);
 	mappings.mapGroupedAttribute(new FooterAttributesFactory(), FOOTER_LAYOUT, FOOTER_PRESENTATION_MODEL, FOOTER_VISIBILITY);
