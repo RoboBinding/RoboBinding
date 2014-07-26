@@ -37,7 +37,7 @@ public class TypedCursorAdapterTest {
 	beans = Lists.newArrayList();
 	beans.add(new Bean("bean1"));
 	beans.add(new Bean("bean2"));
-	Cursor cursor = new BeanCursor<Bean>(beans, Bean.class);
+	Cursor cursor = BeanCursor.create(beans, Bean.class);
 
 	typedCursor = new TypedCursorAdapter<Bean>(cursor, new BeanRowMapper());
     }

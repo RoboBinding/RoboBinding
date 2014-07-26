@@ -1,5 +1,7 @@
 package org.robobinding;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.robobinding.util.Preconditions.checkValidResourceId;
 import android.app.Activity;
 import android.view.View;
 
@@ -19,6 +21,9 @@ public class ActivityBinder {
     }
 
     public void inflateAndBind(int layoutId, Object presentationModel) {
+	checkValidResourceId(layoutId, "invalid layoutId '" + layoutId + "'");
+	checkNotNull(presentationModel, "presentationModel must not be null");
+	
 	View rootView = binderImplementor.inflateAndBind(layoutId, presentationModel);
 	activity.setContentView(rootView);
     }

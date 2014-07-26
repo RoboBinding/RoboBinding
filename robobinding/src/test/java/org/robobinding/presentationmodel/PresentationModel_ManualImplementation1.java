@@ -1,7 +1,7 @@
 package org.robobinding.presentationmodel;
 
-import org.robobinding.property.ObservableProperties;
-import org.robobinding.property.PresentationModelPropertyChangeListener;
+import org.robobinding.property.ObservableBean;
+import org.robobinding.property.PropertyChangeListener;
 
 /**
  * 
@@ -9,12 +9,12 @@ import org.robobinding.property.PresentationModelPropertyChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PresentationModel_ManualImplementation1 implements ObservableProperties {
+public class PresentationModel_ManualImplementation1 implements ObservableBean {
     @Override
-    public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener) {
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
     }
 
     @Override
-    public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener) {
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
     }
 }

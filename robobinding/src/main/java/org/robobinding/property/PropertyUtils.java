@@ -1,8 +1,7 @@
 package org.robobinding.property;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.List;
+import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Set;
 
 import org.robobinding.internal.java_beans.BeanInfo;
@@ -10,7 +9,7 @@ import org.robobinding.internal.java_beans.IntrospectionException;
 import org.robobinding.internal.java_beans.Introspector;
 import org.robobinding.internal.java_beans.PropertyDescriptor;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 /**
@@ -23,32 +22,31 @@ public class PropertyUtils {
     private static final Set<String> EXCLUDED_PROPERTY_NAMES = Sets.newHashSet("class");
 
     // TODO:seems it accept setters with two parameters.
-    public static List<PropertyDescriptor> getPropertyDescriptors(Class<?> beanClass) {
-	checkNotNull(beanClass, "beanClass cannot be null");
+    public static Map<String, PropertyDescriptor> getPropertyDescriptorMap(Class<?> beanClass) {
 	try {
 	    BeanInfo info = Introspector.getBeanInfo(beanClass);
 	    PropertyDescriptor[] propertyDescriptorArray = info.getPropertyDescriptors();
 
-	    List<PropertyDescriptor> propertyDescriptors = Lists.newArrayList();
+	    Map<String, PropertyDescriptor> propertyDescriptorMap = Maps.newHashMap();
 	    for (PropertyDescriptor propertyDescriptor : propertyDescriptorArray) {
 		if (EXCLUDED_PROPERTY_NAMES.contains(propertyDescriptor.getName())) {
 		    continue;
 		}
-		propertyDescriptors.add(propertyDescriptor);
+		propertyDescriptorMap.put(propertyDescriptor.getName(), propertyDescriptor);
 	    }
-	    return propertyDescriptors;
+	    return propertyDescriptorMap;
 	} catch (IntrospectionException e) {
 	    throw new RuntimeException(e);
 	}
     }
 
-    public static List<String> getPropertyNames(Class<?> beanClass) {
-	List<PropertyDescriptor> propertyDescriptors = getPropertyDescriptors(beanClass);
-	List<String> propertyNames = Lists.newArrayList();
-	for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-	    propertyNames.add(propertyDescriptor.getName());
-	}
-	return propertyNames;
+    public static Set<String> getPropertyNames(Class<?> beanClass) {
+	return getPropertyDescriptorMap(beanClass).keySet();
+    }
+
+    public static String shortDescription(Class<?> beanClass, String proeprtyName) {
+	return MessageFormat.format("{0}.{1}", beanClass.getName(), proeprtyName);
+
     }
 
     private PropertyUtils() {

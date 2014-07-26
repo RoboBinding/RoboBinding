@@ -11,8 +11,8 @@ import android.database.CursorWrapper;
  * @author Cheng Wei
  */
 public class TypedCursorAdapter<T> extends CursorWrapper implements TypedCursor<T> {
-    private RowMapper<T> rowMapper;
-    private Cursor cursor;
+    private final RowMapper<T> rowMapper;
+    private final Cursor cursor;
 
     public TypedCursorAdapter(Cursor cursor, RowMapper<T> rowMapper) {
 	super(validateCursorAndReturnIt(cursor));

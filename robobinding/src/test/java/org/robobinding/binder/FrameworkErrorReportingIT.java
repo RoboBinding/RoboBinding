@@ -16,6 +16,7 @@ import org.robobinding.NonBindingViewInflater;
 import org.robobinding.R;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModel;
+import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 
 import android.app.Activity;
 import android.content.Context;
@@ -119,7 +120,8 @@ public class FrameworkErrorReportingIT {
 	    addViewAndExpectations();
 
 	    InternalBinder binder = new InternalBinder(bindingViewInflater,
-		    new BindingContextFactory(context, true, new NonBindingViewInflater(createLayoutInflater(context))),
+		    new BindingContextFactory(context, true, 
+			    new NonBindingViewInflater(createLayoutInflater(context)), new PresentationModelAdapterFactory()),
 		    new ErrorFormatterWithFirstErrorStackTrace());
 	    return binder.inflateAndBind(R.layout.framework_error_reporting_it_sample1, new PresentationModelForTest());
 	}

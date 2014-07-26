@@ -32,7 +32,7 @@ import org.robobinding.attribute.ChildAttributeResolvers;
 import org.robobinding.attribute.ResolvedGroupAttributes;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModel;
-import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
+import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.BindingAttributeMapper;
 import org.robobinding.viewattribute.BindingAttributeMappings;
@@ -225,7 +225,7 @@ public class ViewBindingIT {
 	return new BindingContext(
 		binderFactory,
 		new Activity(),
-		new PresentationModelAdapterImpl(new PresentationModelForTest()),
+		new PresentationModelAdapterFactory().create(new PresentationModelForTest()),
 		true);
     }
 

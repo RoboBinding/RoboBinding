@@ -1,8 +1,8 @@
 package org.robobinding.presentationmodel;
 
 import org.aspectj.lang.annotation.AdviceName;
-import org.robobinding.property.ObservableProperties;
-import org.robobinding.property.PresentationModelPropertyChangeListener;
+import org.robobinding.property.ObservableBean;
+import org.robobinding.property.PropertyChangeListener;
 
 
 /**
@@ -12,25 +12,25 @@ import org.robobinding.property.PresentationModelPropertyChangeListener;
  * @author Robort Taylor
  * @author Cheng Wei
  */
-public interface PresentationModelMixin extends ObservableProperties
+public interface PresentationModelMixin extends ObservableBean
 {
 	static aspect Impl
 	{
 		private PresentationModelChangeSupport PresentationModelMixin.presentationModelChangeSupport;
 
-		public void PresentationModelMixin.addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener propertyChangeListener)
+		public void PresentationModelMixin.addPropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener)
 		{
 			presentationModelChangeSupport.addPropertyChangeListener(propertyName, propertyChangeListener);
 		}
 
-		public void PresentationModelMixin.removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener propertyChangeListener)
+		public void PresentationModelMixin.removePropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener)
 		{
 			presentationModelChangeSupport.removePropertyChangeListener(propertyName, propertyChangeListener);
 		}
 
 		public void PresentationModelMixin.refreshPresentationModel()
 		{
-			presentationModelChangeSupport.fireChangeAll();
+			presentationModelChangeSupport.refreshPresentationModel();
 		}
 
 		private void PresentationModelMixin.firePropertyChange(String propertyName)

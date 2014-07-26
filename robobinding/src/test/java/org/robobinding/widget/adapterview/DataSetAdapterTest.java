@@ -19,8 +19,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
-import org.robobinding.property.PresentationModelPropertyChangeListener;
-import org.robobinding.property.PresentationModelPropertyChangeListeners;
+import org.robobinding.property.PropertyChangeListener;
+import org.robobinding.property.PropertyChangeListeners;
 import org.robobinding.viewattribute.RandomValues;
 
 import android.app.Activity;
@@ -123,11 +123,11 @@ public class DataSetAdapterTest {
     }
     
     public static class MockDataSetValueModel implements DataSetValueModel<Object> {
-	private PresentationModelPropertyChangeListeners presentationModelPropertyChangeListeners;
+	private PropertyChangeListeners presentationModelPropertyChangeListeners;
 	private List<Object> items;
 	
 	public MockDataSetValueModel() {
-	    presentationModelPropertyChangeListeners = new PresentationModelPropertyChangeListeners();
+	    presentationModelPropertyChangeListeners = new PropertyChangeListeners();
 	    initializeItems();
 	}
 	
@@ -139,7 +139,7 @@ public class DataSetAdapterTest {
 	}
 
 	@Override
-	public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
 	    presentationModelPropertyChangeListeners.add(listener);
 	}
 	
@@ -148,7 +148,7 @@ public class DataSetAdapterTest {
 	}
 	
 	@Override
-	public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
 	}
 
 	@Override

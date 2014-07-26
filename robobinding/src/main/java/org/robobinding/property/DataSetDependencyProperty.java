@@ -6,29 +6,30 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class DataSetDependencyProperty<T> extends DataSetPropertyValueModelWrapper<T> {
-    private Dependency dependency;
+class DataSetDependencyProperty extends DataSetPropertyValueModelWrapper {
+    private final Dependency dependency;
+    private final AbstractDataSetProperty dataSetProperty;
 
-    public DataSetDependencyProperty(AbstractDataSetProperty<T> dataSetProperty, Dependency dependency) {
+    public DataSetDependencyProperty(AbstractDataSetProperty dataSetProperty, Dependency dependency) {
 	super(dataSetProperty);
+	this.dataSetProperty = dataSetProperty;
 	this.dependency = dependency;
-	dependency.addListenerToDependentProperties(dataSetProperty);
     }
 
     @Override
-    public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
 	super.addPropertyChangeListener(listener);
 	dependency.addListenerToDependentProperties(listener);
     }
 
     @Override
-    public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
 	super.removePropertyChangeListener(listener);
 	dependency.removeListenerOffDependentProperties(listener);
     }
 
     @Override
     public String toString() {
-	return dependency.decribeDependencyProperty();
+	return dataSetProperty.decriptionWithExtraInformation(dependency.getDependencyDescription());
     }
 }

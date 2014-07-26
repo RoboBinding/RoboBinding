@@ -7,6 +7,6 @@ package org.robobinding.itempresentationmodel;
  * @author Cheng Wei
  * 
  */
-public interface ItemPresentationModelFactory<T> {
-    ItemPresentationModel<T> newItemPresentationModel();
+public interface ItemPresentationModelFactory {
+    ItemPresentationModel<Object> newItemPresentationModel();
 }

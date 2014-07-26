@@ -2,7 +2,7 @@ package org.robobinding.viewattribute.property;
 
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.property.PresentationModelPropertyChangeListener;
+import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.ValueModel;
 
 import android.view.View;
@@ -23,7 +23,7 @@ public class OneWayBindingProperty<ViewType extends View, PropertyType> extends 
     @Override
     public void performBind(PresentationModelAdapter presentationModelAdapter) {
 	final ValueModel<PropertyType> valueModel = getPropertyValueModel(presentationModelAdapter);
-	valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener() {
+	valueModel.addPropertyChangeListener(new PropertyChangeListener() {
 	    @Override
 	    public void propertyChanged() {
 		updateView(valueModel);

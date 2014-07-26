@@ -7,15 +7,13 @@ package org.robobinding.property;
  * @author Cheng Wei
  */
 public abstract class AbstractValueModel<T> implements ValueModel<T> {
-    private static final String PROPERTY_VALUE = "value";
-
     protected T value;
-    private PresentationModelPropertyChangeSupport propertyChangeSupport;
+    private PropertyChangeListeners propertyChangeListeners;
 
     public AbstractValueModel(T value) {
 	this.value = value;
 
-	propertyChangeSupport = new PresentationModelPropertyChangeSupport(this);
+	propertyChangeListeners = new PropertyChangeListeners();
     }
 
     @Override
@@ -30,17 +28,17 @@ public abstract class AbstractValueModel<T> implements ValueModel<T> {
     }
 
     protected void fireValueChange() {
-	propertyChangeSupport.firePropertyChange(PROPERTY_VALUE);
+	propertyChangeListeners.firePropertyChange();
     }
 
     @Override
-    public final void addPropertyChangeListener(PresentationModelPropertyChangeListener listener) {
-	propertyChangeSupport.addPropertyChangeListener(PROPERTY_VALUE, listener);
+    public final void addPropertyChangeListener(PropertyChangeListener listener) {
+	propertyChangeListeners.add(listener);
     }
 
     @Override
-    public final void removePropertyChangeListener(PresentationModelPropertyChangeListener listener) {
-	propertyChangeSupport.removePropertyChangeListener(PROPERTY_VALUE, listener);
+    public final void removePropertyChangeListener(PropertyChangeListener listener) {
+	propertyChangeListeners.remove(listener);
     }
 
     @Override

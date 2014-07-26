@@ -14,4 +14,7 @@
     <suppress checks="NoWhitespaceBefore"
               files="R.java"
               lines="9-100"/>
+    <!-- Leave the constructor package default access so that classes can be tested.  -->
+    <suppress checks="HideUtilityClassConstructor"
+        files="PresentationModelTester.java"/>
 </suppressions>

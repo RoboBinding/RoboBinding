@@ -30,7 +30,7 @@ public class BeanCursorTest {
 	beans.add(new Bean("bean1 prop1"));
 	beans.add(new Bean("bean2 prop1"));
 
-	beanCursor = new BeanCursor<BeanCursorTest.Bean>(beans, Bean.class);
+	beanCursor = BeanCursor.create(beans, Bean.class);
     }
 
     @Test

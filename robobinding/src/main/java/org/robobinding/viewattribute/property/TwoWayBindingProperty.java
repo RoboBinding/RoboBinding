@@ -2,7 +2,7 @@ package org.robobinding.viewattribute.property;
 
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.property.PresentationModelPropertyChangeListener;
+import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.ValueModel;
 
 import android.view.View;
@@ -32,7 +32,7 @@ public class TwoWayBindingProperty<ViewType extends View, PropertyType> extends 
     }
 
     private void observeChangesOnTheValueModel(final ValueModel<PropertyType> valueModel) {
-	valueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener() {
+	valueModel.addPropertyChangeListener(new PropertyChangeListener() {
 	    @Override
 	    public void propertyChanged() {
 		if (viewUpdatePropagationLatch.tryToPass())
@@ -69,12 +69,12 @@ public class TwoWayBindingProperty<ViewType extends View, PropertyType> extends 
 	}
 
 	@Override
-	public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
 	    propertyValueModel.addPropertyChangeListener(listener);
 	}
 
 	@Override
-	public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
 	    propertyValueModel.removePropertyChangeListener(listener);
 	}
     }

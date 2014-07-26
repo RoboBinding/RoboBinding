@@ -1,10 +1,7 @@
 package org.robobinding.presentationmodel;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import org.robobinding.function.CachedFunctions;
 import org.robobinding.function.Function;
-import org.robobinding.property.CachedProperties;
+import org.robobinding.function.Functions;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.Properties;
 import org.robobinding.property.ValueModel;
@@ -15,17 +12,16 @@ import org.robobinding.property.ValueModel;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PresentationModelAdapterImpl implements PresentationModelAdapter {
-    private final CachedFunctions functions;
+class PresentationModelAdapterImpl implements PresentationModelAdapter {
+    private final Functions functions;
     private final Properties properties;
     private final Class<?> presentationModelClass;
 
-    public PresentationModelAdapterImpl(Object presentationModel) {
-	checkNotNull(presentationModel, "presentationModel must not be null");
-
-	properties = CachedProperties.create(presentationModel);
-	functions = new CachedFunctions(presentationModel);
-	presentationModelClass = presentationModel.getClass();
+    public PresentationModelAdapterImpl(Properties properties, 
+	    Functions functions, Class<?> presentationModelClass) {
+	this.properties = properties;
+	this.functions = functions;
+	this.presentationModelClass = presentationModelClass;
     }
 
     public Class<?> getPropertyType(String propertyName) {

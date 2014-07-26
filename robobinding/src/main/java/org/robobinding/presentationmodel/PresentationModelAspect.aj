@@ -2,8 +2,8 @@ package org.robobinding.presentationmodel;
 
 import org.aspectj.lang.annotation.AdviceName;
 import org.robobinding.internal.java_beans.Introspector;
-import org.robobinding.property.ObservableProperties;
-import org.robobinding.property.PresentationModelPropertyChangeSupport;
+import org.robobinding.property.ObservableBean;
+import org.robobinding.property.PropertyChangeSupport;
 
 
 /**
@@ -15,19 +15,19 @@ import org.robobinding.property.PresentationModelPropertyChangeSupport;
  */
 privileged public aspect PresentationModelAspect
 {
-	declare parents: @PresentationModel !(ObservableProperties+) implements PresentationModelMixin;
+	declare parents: @PresentationModel !(ObservableBean+) implements PresentationModelMixin;
 
-	pointcut fieldDeclarationOfPresentationModelPropertyChangeSupport() : set(PresentationModelPropertyChangeSupport *.*);
+	pointcut fieldDeclarationOfPresentationModelPropertyChangeSupport() : set(PropertyChangeSupport *.*);
 
 	declare error : fieldDeclarationOfPresentationModelPropertyChangeSupport() && !within(PresentationModelChangeSupport) && !within(org.robobinding.property.*)
-		: "PresentationModelPropertyChangeSupport is intented to be used internally by framework only. " +
+		: "PropertyChangeSupport is intented to be used internally by framework only. " +
 				"Please use robobinding.presentationmodel.PresentationModelChangeSupport instead.";
 
 
-	pointcut subclassOfObservablePropertiesWithPresentationModelAnnotation() : staticinitialization((@PresentationModel ObservableProperties+) && !(PresentationModelMixin+));
+	pointcut subclassOfObservablePropertiesWithPresentationModelAnnotation() : staticinitialization((@PresentationModel ObservableBean+) && !(PresentationModelMixin+));
 
 	declare error: subclassOfObservablePropertiesWithPresentationModelAnnotation()
-		: "You can either implement ObservableProperties manually or annotate your presentation model with @PresentationModel " +
+		: "You can either implement ObservableBean manually or annotate your presentation model with @PresentationModel " +
 				"to let weaver generate code for you. Doing both may led to unexpected change event behaviour";
 
 

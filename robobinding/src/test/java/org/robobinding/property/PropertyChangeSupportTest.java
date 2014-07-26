@@ -1,6 +1,8 @@
 package org.robobinding.property;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -12,14 +14,14 @@ import org.junit.Test;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PresentationModelPropertyChangeSupportTest {
+public class PropertyChangeSupportTest {
     private Bean bean;
-    private PresentationModelPropertyChangeSupport propertyChangeSupport;
+    private PropertyChangeSupport propertyChangeSupport;
 
     @Before
     public void setUp() {
 	bean = new Bean();
-	propertyChangeSupport = new PresentationModelPropertyChangeSupport(bean);
+	propertyChangeSupport = new PropertyChangeSupport(bean, PropertyUtils.getPropertyNames(Bean.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -29,7 +31,7 @@ public class PresentationModelPropertyChangeSupportTest {
 
     @Test
     public void givenListenerOnProperty1_whenFirePropertyChange_thenShouldReceiveNotification() {
-	MockPresentationModelPropertyChangeListener mockListener = createListenerOnProperty(Bean.PROPERTY1);
+	MockPropertyChangeListener mockListener = createListenerOnProperty(Bean.PROPERTY1);
 
 	propertyChangeSupport.firePropertyChange(Bean.PROPERTY1);
 
@@ -37,8 +39,19 @@ public class PresentationModelPropertyChangeSupportTest {
     }
 
     @Test
+    public void givenAddListenerToPropertyTwice_whenFirePropertyChange_thenShouldReceiveNotificationOnlyOnce() {
+        MockPropertyChangeListener mockListener = new MockPropertyChangeListener();
+        propertyChangeSupport.addPropertyChangeListener(Bean.PROPERTY1, mockListener);
+        propertyChangeSupport.addPropertyChangeListener(Bean.PROPERTY1, mockListener);
+        
+        propertyChangeSupport.firePropertyChange(Bean.PROPERTY1);
+        
+        assertThat(mockListener.timesNotified, is(1));
+    }
+
+    @Test
     public void givenListenerOnProperty1_whenRemoveIt_thenShouldNotReceiveNotification() {
-	MockPresentationModelPropertyChangeListener mockListener = createListenerOnProperty(Bean.PROPERTY1);
+	MockPropertyChangeListener mockListener = createListenerOnProperty(Bean.PROPERTY1);
 
 	propertyChangeSupport.removePropertyChangeListener(Bean.PROPERTY1, mockListener);
 
@@ -48,17 +61,17 @@ public class PresentationModelPropertyChangeSupportTest {
 
     @Test
     public void givenListenersOnProperty1AndProperty2_whenFireChangeAll_thenShouldAllReceiveNotifications() {
-	MockPresentationModelPropertyChangeListener listenerOnProperty1 = createListenerOnProperty(Bean.PROPERTY1);
-	MockPresentationModelPropertyChangeListener listenerOnProperty2 = createListenerOnProperty(Bean.PROPERTY2);
+	MockPropertyChangeListener listenerOnProperty1 = createListenerOnProperty(Bean.PROPERTY1);
+	MockPropertyChangeListener listenerOnProperty2 = createListenerOnProperty(Bean.PROPERTY2);
 
 	propertyChangeSupport.fireChangeAll();
 
 	assertTrue(listenerOnProperty1.propertyChangedFired);
 	assertTrue(listenerOnProperty2.propertyChangedFired);
     }
-
-    private MockPresentationModelPropertyChangeListener createListenerOnProperty(String propertyName) {
-	MockPresentationModelPropertyChangeListener mockListener = new MockPresentationModelPropertyChangeListener();
+    
+    private MockPropertyChangeListener createListenerOnProperty(String propertyName) {
+	MockPropertyChangeListener mockListener = new MockPropertyChangeListener();
 	propertyChangeSupport.addPropertyChangeListener(propertyName, mockListener);
 	return mockListener;
     }

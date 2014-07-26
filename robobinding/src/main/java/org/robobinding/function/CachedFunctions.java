@@ -15,7 +15,7 @@ import com.google.common.collect.Maps;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CachedFunctions {
+public class CachedFunctions implements Functions {
     private final Object object;
     Map<FunctionDescriptor, Function> functionCache;
 
@@ -24,6 +24,7 @@ public class CachedFunctions {
 	functionCache = Maps.newHashMap();
     }
 
+    @Override
     public Function find(String functionName, Class<?>... parameterTypes) {
 	FunctionDescriptor functionDescriptor = new FunctionDescriptor(functionName, parameterTypes);
 	Function cachedFunction = functionCache.get(functionDescriptor);

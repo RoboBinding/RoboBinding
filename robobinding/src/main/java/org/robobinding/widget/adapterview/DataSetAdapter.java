@@ -3,7 +3,7 @@ package org.robobinding.widget.adapterview;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.DataSetValueModelWrapper;
-import org.robobinding.property.PresentationModelPropertyChangeListener;
+import org.robobinding.property.PropertyChangeListener;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +49,7 @@ public class DataSetAdapter<T> extends BaseAdapter {
     }
 
     public void observeChangesOnTheValueModel() {
-	dataSetValueModel.addPropertyChangeListener(new PresentationModelPropertyChangeListener() {
+	dataSetValueModel.addPropertyChangeListener(new PropertyChangeListener() {
 	    @Override
 	    public void propertyChanged() {
 		propertyChangeEventOccurred = true;

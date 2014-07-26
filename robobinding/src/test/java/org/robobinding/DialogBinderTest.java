@@ -30,7 +30,7 @@ public class DialogBinderTest {
     @Before
     public void setUp() {
 	binderImplementor = mock(BinderImplementor.class);
-	layoutId = 0;
+	layoutId = 1;
 	dialog = mock(Dialog.class);
     }
 

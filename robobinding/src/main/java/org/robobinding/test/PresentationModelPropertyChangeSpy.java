@@ -1,6 +1,6 @@
 package org.robobinding.test;
 
-import org.robobinding.property.PresentationModelPropertyChangeListener;
+import org.robobinding.property.PropertyChangeListener;
 
 /**
  * 
@@ -8,7 +8,7 @@ import org.robobinding.property.PresentationModelPropertyChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PresentationModelPropertyChangeSpy implements PresentationModelPropertyChangeListener {
+public class PresentationModelPropertyChangeSpy implements PropertyChangeListener {
     private boolean propertyChanged;
     private int propertyChangedCount;
 

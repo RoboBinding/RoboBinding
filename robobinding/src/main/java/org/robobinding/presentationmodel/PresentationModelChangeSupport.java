@@ -1,7 +1,8 @@
 package org.robobinding.presentationmodel;
 
-import org.robobinding.property.PresentationModelPropertyChangeListener;
-import org.robobinding.property.PresentationModelPropertyChangeSupport;
+import org.robobinding.property.PropertyChangeListener;
+import org.robobinding.property.PropertyChangeSupport;
+import org.robobinding.property.PropertyUtils;
 
 /**
  * 
@@ -11,17 +12,18 @@ import org.robobinding.property.PresentationModelPropertyChangeSupport;
  * @author Cheng Wei
  */
 public class PresentationModelChangeSupport {
-    private PresentationModelPropertyChangeSupport propertyChangeSupport;
+    private final PropertyChangeSupport propertyChangeSupport;
 
-    public PresentationModelChangeSupport(Object presentationModel) {
-	propertyChangeSupport = new PresentationModelPropertyChangeSupport(presentationModel);
+    PresentationModelChangeSupport(Object presentationModel) {
+	propertyChangeSupport = new PropertyChangeSupport(presentationModel, 
+		PropertyUtils.getPropertyNames(presentationModel.getClass()));
     }
 
-    public void addPropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener) {
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 	propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
     }
 
-    public void removePropertyChangeListener(String propertyName, PresentationModelPropertyChangeListener listener) {
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 	propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
     }
 
@@ -29,7 +31,7 @@ public class PresentationModelChangeSupport {
 	propertyChangeSupport.firePropertyChange(propertyName);
     }
 
-    public void fireChangeAll() {
+    public void refreshPresentationModel() {
 	propertyChangeSupport.fireChangeAll();
     }
 }

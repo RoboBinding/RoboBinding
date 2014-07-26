@@ -6,6 +6,6 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface PropertyValueModel<T> extends Property, ValueModel<T> {
+public interface PropertyValueModel extends Property, ValueModel<Object> {
 
 }

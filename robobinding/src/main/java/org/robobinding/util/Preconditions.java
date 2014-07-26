@@ -24,4 +24,8 @@ public class Preconditions {
 	    checkNotBlank(str, errorMessage);
 	}
     }
+    
+    public static void checkValidResourceId(int resourceId, String errorMessage) {
+	checkArgument(resourceId != 0, errorMessage);
+    }
 }

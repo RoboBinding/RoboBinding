@@ -38,10 +38,6 @@ public class ValueModelUtils {
 	return new GenericValueHolder<T>(o);
     }
 
-    public static DataSetValueModel<Object> createDataSetValueModel(Object presentationModel, String propertyName) {
-	return new PropertyCreator(presentationModel).createDataSetProperty(propertyName);
-    }
-
     private static class BooleanValueHolder extends AbstractValueModel<Boolean> {
 	public BooleanValueHolder(boolean b) {
 	    super(Boolean.valueOf(b));

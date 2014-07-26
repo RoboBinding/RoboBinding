@@ -9,7 +9,7 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
  * @author Cheng Wei
  */
 public class DataSetValueModelWrapper<T> implements DataSetValueModel<T> {
-    private DataSetValueModel<T> valueModel;
+    private final DataSetValueModel<T> valueModel;
 
     public DataSetValueModelWrapper(DataSetValueModel<T> valueModel) {
 	this.valueModel = valueModel;
@@ -31,12 +31,12 @@ public class DataSetValueModelWrapper<T> implements DataSetValueModel<T> {
     }
 
     @Override
-    public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
 	valueModel.addPropertyChangeListener(listener);
     }
 
     @Override
-    public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
 	valueModel.removePropertyChangeListener(listener);
     }
 
