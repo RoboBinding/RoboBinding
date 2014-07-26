@@ -1,14 +1,18 @@
 package org.robobinding.property;
 
+import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
+
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ArrayDataSetProperty<T> extends AbstractDataSetProperty<T> {
-    public ArrayDataSetProperty(ObservableBean observableBean, PropertyAccessor<Object> propertyAccessor) {
-	super(observableBean, propertyAccessor);
+public class ArrayDataSetProperty extends AbstractDataSetProperty {
+    public ArrayDataSetProperty(ObservableBean observableBean, 
+	    PropertyAccessor propertyAccessor,
+	    ItemPresentationModelFactory factory) {
+	super(observableBean, propertyAccessor, factory);
     }
 
     @Override
@@ -16,13 +20,13 @@ public class ArrayDataSetProperty<T> extends AbstractDataSetProperty<T> {
 	if (isDataSetNull())
 	    return 0;
 
-	T[] array = getDataSet();
+	Object[] array = getDataSet();
 	return array.length;
     }
 
     @Override
-    public T getItem(int position) {
-	T[] array = getDataSet();
+    public Object getItem(int position) {
+	Object[] array = getDataSet();
 	return array[position];
     }
 }

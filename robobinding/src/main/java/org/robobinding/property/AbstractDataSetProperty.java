@@ -3,8 +3,6 @@ package org.robobinding.property;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
 
-import com.google.common.base.Strings;
-
 /**
  * 
  * @since 1.0
@@ -12,33 +10,21 @@ import com.google.common.base.Strings;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> implements DataSetPropertyValueModel<T>,
-	PresentationModelPropertyChangeListener {
-    ItemPresentationModelFactory<T> factory;
+abstract class AbstractDataSetProperty extends AbstractProperty implements DataSetPropertyValueModel,
+	PropertyChangeListener {
+    private final ItemPresentationModelFactory factory;
     private boolean isDataSetNotInitialized;
     private Object dataSet;
 
-    protected AbstractDataSetProperty(ObservableBean observableBean, PropertyAccessor<Object> propertyAccessor) {
+    protected AbstractDataSetProperty(ObservableBean observableBean, 
+	    PropertyAccessor propertyAccessor,
+	    ItemPresentationModelFactory factory) {
 	super(observableBean, propertyAccessor);
 
-	initializeFactory();
-
+	this.factory = factory;
 	isDataSetNotInitialized = true;
-	addPropertyChangeListener(this);
     }
 
-    private void initializeFactory() {
-	org.robobinding.presentationmodel.ItemPresentationModel annotation = getPropertyAccessor().getAnnotation(
-		org.robobinding.presentationmodel.ItemPresentationModel.class);
-	@SuppressWarnings("unchecked")
-	Class<? extends ItemPresentationModel<T>> itemPresentationModelClass = (Class<? extends ItemPresentationModel<T>>) annotation.value();
-	String factoryMethod = annotation.factoryMethod();
-	if (Strings.isNullOrEmpty(factoryMethod)) {
-	    factory = new DefaultConstructorImpl<T>(itemPresentationModelClass);
-	} else {
-	    factory = new FactoryMethodImpl<T>(getBean(), itemPresentationModelClass, factoryMethod);
-	}
-    }
 
     @SuppressWarnings("unchecked")
     protected <DataSetType> DataSetType getDataSet() {
@@ -58,7 +44,7 @@ abstract class AbstractDataSetProperty<T> extends AbstractProperty<Object> imple
     }
 
     @Override
-    public ItemPresentationModel<T> newItemPresentationModel() {
+    public ItemPresentationModel<Object> newItemPresentationModel() {
 	return factory.newItemPresentationModel();
     }
 

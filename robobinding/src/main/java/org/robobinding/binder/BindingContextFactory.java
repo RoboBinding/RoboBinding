@@ -23,7 +23,8 @@ public class BindingContextFactory {
     private final PresentationModelAdapterFactory presentationModelAdapterFactory;
 
     public BindingContextFactory(Context context, boolean preInitializeViews, 
-	    NonBindingViewInflater nonBindingViewInflater, PresentationModelAdapterFactory presentationModelAdapterFactory) {
+	    NonBindingViewInflater nonBindingViewInflater, 
+	    PresentationModelAdapterFactory presentationModelAdapterFactory) {
 	this.context = context;
 	this.preInitializeViews = preInitializeViews;
 	this.nonBindingViewInflater = nonBindingViewInflater;

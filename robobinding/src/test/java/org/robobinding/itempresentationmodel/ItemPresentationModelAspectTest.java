@@ -10,7 +10,7 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 import org.robobinding.presentationmodel.PresentationModelMixin;
 import org.robobinding.presentationmodel.PropertyChangeListenerTester;
-import org.robobinding.property.ObservableProperties;
+import org.robobinding.property.ObservableBean;
 
 /**
  * 
@@ -37,7 +37,7 @@ public class ItemPresentationModelAspectTest {
 	propertyChangeListenerTester.assertPropertyChangedOnce();
     }
 
-    private void observePropertyChange(ObservableProperties itemPresentationModel) {
+    private void observePropertyChange(ObservableBean itemPresentationModel) {
 	itemPresentationModel.addPropertyChangeListener(ItemPresentationModel_AutoCodeGeneration.PROPERTY, propertyChangeListenerTester);
     }
 

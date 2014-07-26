@@ -1,8 +1,12 @@
 package org.robobinding.property;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertNotNull;
+
+import java.lang.reflect.Constructor;
+
 import org.junit.Test;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
+import org.robobinding.util.ConstructorUtils;
 
 /**
  *
@@ -11,37 +15,19 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
  * @author Cheng Wei
  */
 public class DefaultConstructorImplTest {
-    @Test
-    public void whenCreateFactoryUsingItemPresentationModelWithDefaultConstructor_thenSuccessful() {
-	new DefaultConstructorImpl<Object>(ItemPresentationModelWithDefaultConstructor.class);
-    }
 
     @Test
     public void givenItemPresentationModelFactory_whenNewItemPresentationModel_thenReturnNewInstance() {
-	DefaultConstructorImpl<Object> factory = new DefaultConstructorImpl<Object>(ItemPresentationModelWithDefaultConstructor.class);
+	DefaultConstructorImpl factory = new DefaultConstructorImpl(getDefaultConstructor());
 
 	ItemPresentationModel<Object> itemPresentationModel = factory.newItemPresentationModel();
 
-	Assert.assertNotNull(itemPresentationModel);
+	assertNotNull(itemPresentationModel);
+    }
+    
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private Constructor<ItemPresentationModel<Object>> getDefaultConstructor() {
+	return (Constructor) ConstructorUtils.getAccessibleConstructor(ItemPresentationModelWithDefaultConstructor.class, new Class[0]);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void whenCreateFactoryUsingItemPresentationModelWithoutDefaultConstructor_thenThrowException() {
-	new DefaultConstructorImpl<Object>(ItemPresentationModelWithoutDefaultConstructor.class);
-    }
-
-    public static class ItemPresentationModelWithDefaultConstructor implements ItemPresentationModel<Object> {
-	@Override
-	public void updateData(int index, Object bean) {
-	}
-    }
-
-    public static class ItemPresentationModelWithoutDefaultConstructor implements ItemPresentationModel<Object> {
-	public ItemPresentationModelWithoutDefaultConstructor(boolean parameter) {
-	}
-
-	@Override
-	public void updateData(int index, Object bean) {
-	}
-    }
 }

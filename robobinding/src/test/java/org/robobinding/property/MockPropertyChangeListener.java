@@ -6,11 +6,13 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class MockPresentationModelPropertyChangeListener implements PresentationModelPropertyChangeListener {
+public class MockPropertyChangeListener implements PropertyChangeListener {
     public boolean propertyChangedFired = false;
+    public int timesNotified = 0;
 
     @Override
     public void propertyChanged() {
 	propertyChangedFired = true;
+	timesNotified++;
     }
 }

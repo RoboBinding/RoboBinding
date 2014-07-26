@@ -6,6 +6,6 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface PresentationModelPropertyChangeListener {
+public interface PropertyChangeListener {
     void propertyChanged();
 }

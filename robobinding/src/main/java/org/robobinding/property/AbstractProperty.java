@@ -6,32 +6,32 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-abstract class AbstractProperty<T> implements PropertyValueModel<T> {
+abstract class AbstractProperty implements PropertyValueModel {
     private final ObservableBean observableBean;
-    private final PropertyAccessor<T> propertyAccessor;
+    private final PropertyAccessor propertyAccessor;
 
-    protected AbstractProperty(ObservableBean observableBean, PropertyAccessor<T> propertyAccessor) {
+    protected AbstractProperty(ObservableBean observableBean, PropertyAccessor propertyAccessor) {
 	this.observableBean = observableBean;
 	this.propertyAccessor = propertyAccessor;
     }
 
     @Override
-    public T getValue() {
-	return propertyAccessor.getValue(getBean());
+    public Object getValue() {
+	return propertyAccessor.getValue();
     }
 
     @Override
-    public void setValue(T newValue) {
-	propertyAccessor.setValue(getBean(), newValue);
+    public void setValue(Object newValue) {
+	propertyAccessor.setValue(newValue);
     }
 
     @Override
-    public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
 	observableBean.addPropertyChangeListener(propertyAccessor.getPropertyName(), listener);
     }
 
     @Override
-    public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
 	observableBean.removePropertyChangeListener(propertyAccessor.getPropertyName(), listener);
     }
 
@@ -48,16 +48,12 @@ abstract class AbstractProperty<T> implements PropertyValueModel<T> {
 	}
     }
 
-    public PropertyAccessor<T> getPropertyAccessor() {
-	return propertyAccessor;
-    }
-
-    protected Object getBean() {
-	return observableBean.getBean();
-    }
-
     @Override
     public String toString() {
-	return propertyAccessor.toString();
+	return propertyAccessor.getDescription();
+    }
+    
+    public String decriptionWithExtraInformation(String extraInformation) {
+	return propertyAccessor.decriptionWithExtraInformation(extraInformation);
     }
 }

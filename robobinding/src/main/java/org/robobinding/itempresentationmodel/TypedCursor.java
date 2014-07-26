@@ -10,6 +10,5 @@ import android.database.Cursor;
  * 
  */
 public interface TypedCursor<T> extends Cursor {
-    // int getCount();
     T getObjectAtPosition(int position);
 }

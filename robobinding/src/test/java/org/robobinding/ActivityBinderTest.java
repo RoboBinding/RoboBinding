@@ -31,7 +31,7 @@ public class ActivityBinderTest {
 	activity = mock(Activity.class);
 	binderImplementor = mock(BinderImplementor.class);
 	presentationModel = new Object();
-	layoutId = 0;
+	layoutId = 1;
     }
 
     @Test

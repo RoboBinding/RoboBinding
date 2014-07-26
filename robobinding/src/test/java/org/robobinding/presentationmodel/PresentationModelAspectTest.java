@@ -10,7 +10,7 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.property.ObservableProperties;
+import org.robobinding.property.ObservableBean;
 
 /**
  * 
@@ -53,17 +53,17 @@ public class PresentationModelAspectTest {
 	propertyChangeListenerTester.assertPropertyChangedOnce();
     }
 
-    private void observePropertyChange(ObservableProperties presentationModel) {
+    private void observePropertyChange(ObservableBean presentationModel) {
 	presentationModel.addPropertyChangeListener(PresentationModel_AutoCodeGeneration.PROPERTY, propertyChangeListenerTester);
     }
 
     @DataPoints
-    public static ObservableProperties[] manualPresentationModelImplementations = {new PresentationModel_ManualImplementation1(),
+    public static ObservableBean[] manualPresentationModelImplementations = {new PresentationModel_ManualImplementation1(),
 	    new PresentationModel_ManualImplementation2()};
 
     @Theory
     public void whenImplementsPrensentationModelManually_thenNoAutoCodeGenerationTriggered(
-	    ObservableProperties manualPresentationModelImplementation) {
+	    ObservableBean manualPresentationModelImplementation) {
 	Assert.assertThat(manualPresentationModelImplementation, not(instanceOf(PresentationModelMixin.class)));
     }
 }

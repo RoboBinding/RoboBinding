@@ -1,7 +1,7 @@
 package org.robobinding.presentationmodel;
 
 import org.junit.Assert;
-import org.robobinding.property.PresentationModelPropertyChangeListener;
+import org.robobinding.property.PropertyChangeListener;
 
 /**
  * 
@@ -9,7 +9,7 @@ import org.robobinding.property.PresentationModelPropertyChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class PropertyChangeListenerTester implements PresentationModelPropertyChangeListener {
+public class PropertyChangeListenerTester implements PropertyChangeListener {
     private int timesOfPropertyChanged = 0;
 
     @Override

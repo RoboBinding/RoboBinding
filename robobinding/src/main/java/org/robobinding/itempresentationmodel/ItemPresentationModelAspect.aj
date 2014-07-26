@@ -2,7 +2,7 @@ package org.robobinding.itempresentationmodel;
 
 import org.aspectj.lang.annotation.AdviceName;
 import org.robobinding.presentationmodel.PresentationModelMixin;
-import org.robobinding.property.ObservableProperties;
+import org.robobinding.property.ObservableBean;
 
 /**
  *
@@ -13,7 +13,7 @@ import org.robobinding.property.ObservableProperties;
  */
 public aspect ItemPresentationModelAspect
 {
-	declare parents: !(ObservableProperties+) && ItemPresentationModel+ && !ItemPresentationModel implements PresentationModelMixin;
+	declare parents: !(ObservableBean+) && ItemPresentationModel+ && !ItemPresentationModel implements PresentationModelMixin;
 
 	pointcut updateData(PresentationModelMixin itemPresentationModel) : execution (* ItemPresentationModel+.updateData(int,*)) && this(itemPresentationModel) && within(PresentationModelMixin+);
 

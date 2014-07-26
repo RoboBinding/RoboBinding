@@ -11,7 +11,7 @@ public interface ValueModel<T> {
 
     void setValue(T newValue);
 
-    void addPropertyChangeListener(PresentationModelPropertyChangeListener listener);
+    void addPropertyChangeListener(PropertyChangeListener listener);
 
-    void removePropertyChangeListener(PresentationModelPropertyChangeListener listener);
+    void removePropertyChangeListener(PropertyChangeListener listener);
 }

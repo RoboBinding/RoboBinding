@@ -2,6 +2,8 @@ package org.robobinding.property;
 
 import java.util.List;
 
+import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
+
 /**
  * 
  * @since 1.0
@@ -9,9 +11,11 @@ import java.util.List;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class ListDataSetProperty<T> extends AbstractDataSetProperty<T> {
-    public ListDataSetProperty(ObservableBean observableBean, PropertyAccessor<Object> propertyAccessor) {
-	super(observableBean, propertyAccessor);
+class ListDataSetProperty extends AbstractDataSetProperty {
+    public ListDataSetProperty(ObservableBean observableBean, 
+	    PropertyAccessor propertyAccessor,
+	    ItemPresentationModelFactory factory) {
+	super(observableBean, propertyAccessor, factory);
     }
 
     @Override
@@ -19,13 +23,13 @@ class ListDataSetProperty<T> extends AbstractDataSetProperty<T> {
 	if (isDataSetNull())
 	    return 0;
 
-	List<T> list = getDataSet();
+	List<Object> list = getDataSet();
 	return list.size();
     }
 
     @Override
-    public T getItem(int index) {
-	List<T> list = getDataSet();
+    public Object getItem(int index) {
+	List<Object> list = getDataSet();
 	return list.get(index);
     }
 }

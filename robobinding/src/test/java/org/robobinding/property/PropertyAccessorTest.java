@@ -1,8 +1,19 @@
 package org.robobinding.property;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.lang.reflect.Method;
+import java.util.Map;
+
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.internal.java_beans.PropertyDescriptor;
+import org.robobinding.util.MethodUtils;
 
 /**
  *
@@ -11,132 +22,129 @@ import org.junit.Test;
  * @author Cheng Wei
  */
 public class PropertyAccessorTest {
-    private Bean bean;
-
-    @Before
-    public void setUp() {
-	bean = new Bean();
-    }
-
-    @Test
-    public void givenReadOnlyProperty_whenCheckReadable_thenPassCheck() {
-	PropertyAccessor<Boolean> readOnlyPropertyAccessor = createReadOnlyPropertyAccessor();
-
-	readOnlyPropertyAccessor.checkReadable();
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void givenReadOnlyProperty_whenCheckWritable_thenThrowException() {
-	PropertyAccessor<Boolean> readOnlyPropertyAccessor = createReadOnlyPropertyAccessor();
-
-	readOnlyPropertyAccessor.checkWritable();
-    }
-
-    @Test
-    public void givenWriteOnlyProperty_whenCheckWritable_thenPassCheck() {
-	PropertyAccessor<Boolean> writeOnlyPropertyAccessor = createWriteOnlyPropertyAccessor();
-
-	writeOnlyPropertyAccessor.checkWritable();
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void givenWriteOnlyProperty_whenCheckReadable_thenThrowException() {
-	PropertyAccessor<Boolean> writeOnlyPropertyAccessor = createWriteOnlyPropertyAccessor();
-
-	writeOnlyPropertyAccessor.checkReadable();
-    }
-
     @Test
     public void givenReadOnlyProperty_whenGetValue_thenReturnExpectedValue() {
-	PropertyAccessor<Boolean> readOnlyPropertyAccessor = createReadOnlyPropertyAccessor();
-
-	Boolean actualValue = readOnlyPropertyAccessor.getValue(bean);
-
-	Assert.assertEquals(bean.getReadOnlyProperty(), actualValue);
+	Bean bean = new Bean();
+        PropertyAccessor propertyAccessor = new PropertyAccessor(bean, getPropertyDescriptor(Bean.READ_ONLY_PROPERTY));
+    
+        Object actualValue = propertyAccessor.getValue();
+    
+        Assert.assertEquals(bean.getReadOnlyProperty(), actualValue);
     }
 
     @Test(expected = RuntimeException.class)
     public void givenReadOnlyProperty_whenSetValue_thenThrowException() {
-	PropertyAccessor<Boolean> readOnlyPropertyAccessor = createReadOnlyPropertyAccessor();
-
-	readOnlyPropertyAccessor.setValue(bean, false);
+	Bean bean = new Bean();
+        PropertyAccessor propertyAccessor = new PropertyAccessor(bean, getPropertyDescriptor(Bean.READ_ONLY_PROPERTY));
+    
+        propertyAccessor.setValue(Boolean.FALSE);
     }
 
     @Test
     public void givenWriteOnlyProperty_whenSetValue_thenValueSet() {
-	PropertyAccessor<Boolean> writeOnlyPropertyAccessor = createWriteOnlyPropertyAccessor();
-
-	writeOnlyPropertyAccessor.setValue(bean, false);
-
-	Assert.assertEquals(false, bean.writeOnlyPropertyValue);
+	Bean bean = new Bean();
+        PropertyAccessor propertyAccessor = new PropertyAccessor(bean, getPropertyDescriptor(Bean.WRITE_ONLY_PROPERTY));
+    
+        propertyAccessor.setValue(Boolean.FALSE);
+    
+        assertThat(bean.writeOnlyPropertyValue, is(Boolean.FALSE));
     }
 
     @Test(expected = RuntimeException.class)
     public void givenWriteOnlyProperty_whenGetValue_thenThrowException() {
-	PropertyAccessor<Boolean> writeOnlyPropertyAccessor = createWriteOnlyPropertyAccessor();
+	Bean bean = new Bean();
+        PropertyAccessor propertyAccessor = new PropertyAccessor(bean, getPropertyDescriptor(Bean.WRITE_ONLY_PROPERTY));
+    
+        propertyAccessor.getValue();
+    }
 
-	writeOnlyPropertyAccessor.getValue(bean);
+    @Test
+    public void givenHasReadMethod_whenCheckReadable_thenPassCheck() {
+	Method readMethod = aMockMethod();
+	PropertyDescriptor descriptor = mock(PropertyDescriptor.class);
+	when(descriptor.getReadMethod()).thenReturn(readMethod);
+	PropertyAccessor propertyAccessor = new PropertyAccessor(null, descriptor);
+
+	propertyAccessor.checkReadable();
+    }
+    
+    private Method aMockMethod() {
+	return MethodUtils.getAccessibleMethod(Bean.class, Bean.SOME_METHOD, new Class[0]);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void givenNoReadMethod_whenCheckReadable_thenThrowException() {
+	PropertyDescriptor descriptor = mock(PropertyDescriptor.class);
+	when(descriptor.getReadMethod()).thenReturn(null);
+	PropertyAccessor propertyAccessor = new PropertyAccessor(null, descriptor);
+    
+	propertyAccessor.checkReadable();
+    }
+
+    @Test
+    public void givenHasWriteMethod_whenCheckWritable_thenPassCheck() {
+	PropertyDescriptor descriptor = mock(PropertyDescriptor.class);
+	Method writeMethod = aMockMethod();
+	when(descriptor.getWriteMethod()).thenReturn(writeMethod);
+	PropertyAccessor propertyAccessor = new PropertyAccessor(null, descriptor);
+
+	propertyAccessor.checkWritable();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void givenNoWriteMethod_whenCheckWritable_thenThrowException() {
+	PropertyDescriptor descriptor = mock(PropertyDescriptor.class);
+	when(descriptor.getWriteMethod()).thenReturn(null);
+	PropertyAccessor propertyAccessor = new PropertyAccessor(null, descriptor);
+
+	propertyAccessor.checkWritable();
     }
 
     @Test
     public void givenAnnotatedProperty_whenHasAnnotation_thenReturnTrue() {
-	PropertyAccessor<Boolean> annotatedPropertyAccessor = createAnnotatedPropertyAccessor();
+	PropertyAccessor propertyAccessor = new PropertyAccessor(null, getPropertyDescriptor(Bean.ANNOTATED_PROPERTY));
+	
+	boolean result = propertyAccessor.hasAnnotation(PropertyAnnotation.class);
 
-	boolean result = annotatedPropertyAccessor.hasAnnotation(PropertyAnnotation.class);
-
-	Assert.assertTrue(result);
+	assertTrue(result);
     }
 
     @Test
     public void givenNotAnnotatedProperty_whenHasAnnotation_thenReturnFalse() {
-	PropertyAccessor<Boolean> notAnnotatedPropertyAccessor = createNotAnnotatedPropertyAccessor();
-
-	boolean result = notAnnotatedPropertyAccessor.hasAnnotation(PropertyAnnotation.class);
+	PropertyAccessor propertyAccessor = new PropertyAccessor(null, getPropertyDescriptor(Bean.NOT_ANNOTATED_PROPERTY));
+	
+	boolean result = propertyAccessor.hasAnnotation(PropertyAnnotation.class);
 
 	Assert.assertFalse(result);
     }
 
     @Test
     public void givenAnnotatedProperty_whenGetAnnotation_thenReturnAnnotationInstance() {
-	PropertyAccessor<Boolean> annotatedPropertyAccessor = createAnnotatedPropertyAccessor();
+	PropertyAccessor propertyAccessor = new PropertyAccessor(null, getPropertyDescriptor(Bean.ANNOTATED_PROPERTY));
 
-	PropertyAnnotation annotationUnderTest = annotatedPropertyAccessor.getAnnotation(PropertyAnnotation.class);
+	PropertyAnnotation annotation = propertyAccessor.getAnnotation(PropertyAnnotation.class);
 
-	Assert.assertNotNull(annotationUnderTest);
+	assertNotNull(annotation);
     }
 
     @Test(expected = RuntimeException.class)
     public void givenNotAnnotatedProperty_whenGetAnnotation_thenThrowException() {
-	PropertyAccessor<Boolean> notAnnotatedPropertyAccessor = createNotAnnotatedPropertyAccessor();
+	PropertyAccessor propertyAccessor = new PropertyAccessor(null, getPropertyDescriptor(Bean.NOT_ANNOTATED_PROPERTY));
 
-	notAnnotatedPropertyAccessor.getAnnotation(PropertyAnnotation.class);
+	propertyAccessor.getAnnotation(PropertyAnnotation.class);
+    }
+    
+    private static PropertyDescriptor getPropertyDescriptor(String propertyName) {
+	Map<String, PropertyDescriptor> propertyDescriptorMap = PropertyUtils.getPropertyDescriptorMap(Bean.class);
+	return propertyDescriptorMap.get(propertyName);
     }
 
-    private PropertyAccessor<Boolean> createReadOnlyPropertyAccessor() {
-	return createPropertyAccessor(Bean.READ_ONLY_PROPERTY);
-    }
-
-    private PropertyAccessor<Boolean> createWriteOnlyPropertyAccessor() {
-	return createPropertyAccessor(Bean.WRITE_ONLY_PROPERTY);
-    }
-
-    private PropertyAccessor<Boolean> createAnnotatedPropertyAccessor() {
-	return createPropertyAccessor(Bean.ANNOTATED_PROPERTY);
-    }
-
-    private PropertyAccessor<Boolean> createNotAnnotatedPropertyAccessor() {
-	return createPropertyAccessor(Bean.NOT_ANNOTATED_PROPERTY);
-    }
-
-    private PropertyAccessor<Boolean> createPropertyAccessor(String propertyName) {
-	return PropertyAccessorUtils.createPropertyAccessor(bean.getClass(), propertyName);
-    }
-
-    static class Bean {
+    public static class Bean {
 	public static final String READ_ONLY_PROPERTY = "readOnlyProperty";
 	public static final String WRITE_ONLY_PROPERTY = "writeOnlyProperty";
 	public static final String ANNOTATED_PROPERTY = "annotatedProperty";
 	public static final String NOT_ANNOTATED_PROPERTY = "notAnnotatedProperty";
+	public static final String SOME_METHOD = "someMethod";
 
 	private boolean writeOnlyPropertyValue;
 
@@ -155,6 +163,9 @@ public class PropertyAccessorTest {
 
 	public boolean getNotAnnotatedProperty() {
 	    return true;
+	}
+	
+	public void someMethod() {
 	}
     }
 }

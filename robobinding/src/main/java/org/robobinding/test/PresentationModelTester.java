@@ -1,9 +1,10 @@
 package org.robobinding.test;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.robobinding.util.Preconditions.checkNotBlank;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;
-import org.robobinding.presentationmodel.PresentationModelAdapterImpl;
+import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 import org.robobinding.property.ValueModel;
 
 /**
@@ -13,11 +14,10 @@ import org.robobinding.property.ValueModel;
  * @author Cheng Wei
  */
 public class PresentationModelTester {
-    private PresentationModelAdapter presentationModelAdapter;
+    private final PresentationModelAdapter presentationModelAdapter;
 
-    private PresentationModelTester(Object presentationModel) {
-	checkNotNull(presentationModel, "presentationModel should not be null");
-	presentationModelAdapter = new PresentationModelAdapterImpl(presentationModel);
+    PresentationModelTester(PresentationModelAdapter presentationModelAdapter) {
+	this.presentationModelAdapter = presentationModelAdapter;
     }
 
     private PresentationModelPropertyChangeSpy spyPropertyChange(String propertyName) {
@@ -28,7 +28,10 @@ public class PresentationModelTester {
     }
 
     public static PresentationModelPropertyChangeSpy spyPropertyChange(Object presentationModel, String propertyName) {
-	PresentationModelTester presentationModelTester = new PresentationModelTester(presentationModel);
+	checkNotNull(presentationModel, "presentationModel must not be null");
+	checkNotBlank(propertyName, "propertyName must not be empty");
+	PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterFactory().create(presentationModel);
+	PresentationModelTester presentationModelTester = new PresentationModelTester(presentationModelAdapter);
 	return presentationModelTester.spyPropertyChange(propertyName);
     }
 }

@@ -1,7 +1,5 @@
 package org.robobinding.property;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,98 +15,73 @@ import com.google.common.base.Strings;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public final class PropertyAccessor<T> {
-    private PropertyDescriptor descriptor;
-    private Class<?> beanClass;
+public class PropertyAccessor {
+    private final Object bean;
+    private final PropertyDescriptor descriptor;
 
-    /**
-     * @throws PropertyNotFoundException
-     *             when the property is not found.
-     */
-    public PropertyAccessor(PropertyDescriptor descriptor, Class<?> beanClass) {
+    public PropertyAccessor(Object bean, PropertyDescriptor descriptor) {
+	this.bean = bean;
 	this.descriptor = descriptor;
-	this.beanClass = beanClass;
-	// checkPropertyType();
     }
 
-    /*
-     * private void checkPropertyType() { Class<?> klass = getClass();
-     * ParameterizedType genericSuperclass =
-     * (ParameterizedType)klass.getGenericSuperclass();
-     * 
-     * @SuppressWarnings("unchecked") Class<T> parameterizedPropertyType
-     * =(Class<T>)genericSuperclass.getActualTypeArguments()[0];
-     * 
-     * Class<?> actualPropertyType = descriptor.getPropertyType();
-     * if(!parameterizedPropertyType.isAssignableFrom(actualPropertyType)) {
-     * throw new
-     * RuntimeException("Expected property type is '"+parameterizedPropertyType
-     * .getName()+"', but actual property type is '"+actualPropertyType+"'"); }
-     * }
-     */
-    public String getPropertyName() {
-	return descriptor.getName();
-    }
-
-    private boolean isWritable() {
-	return descriptor.getWriteMethod() != null;
-    }
-
-    private boolean isReadable() {
-	return descriptor.getReadMethod() != null;
-    }
-
-    public T getValue(Object bean) {
-	checkNotNull(bean, "The bean must not be null.");
-
-	checkReadable();
-	try {
-	    @SuppressWarnings("unchecked")
-	    T result = (T) descriptor.getReadMethod().invoke(bean, (Object[]) null);
-	    return result;
-	} catch (InvocationTargetException e) {
-	    throw createReadAccessException(e.getCause());
-	} catch (IllegalAccessException e) {
-	    throw createReadAccessException(e);
-	}
-    }
-
-    private RuntimeException createReadAccessException(Throwable cause) {
-	return new RuntimeException("error when reading property '" + propertyDescription() + "'", cause);
-    }
-
-    public void setValue(Object bean, T newValue) {
-	checkNotNull(bean, "The bean must not be null.");
-	checkWritable();
-	try {
-	    descriptor.getWriteMethod().invoke(bean, newValue);
-	} catch (InvocationTargetException e) {
-	    throw createWriteAccessException(newValue, e.getCause());
-	} catch (IllegalAccessException e) {
-	    throw createWriteAccessException(newValue, e);
-	} catch (IllegalArgumentException e) {
-	    throw createWriteAccessException(newValue, e);
-	}
-    }
-
-    private RuntimeException createWriteAccessException(T newValue, Throwable cause) {
-	return new RuntimeException("error when writing property '" + propertyDescription() + "' with newValue '" + newValue + "'", cause);
+    public Object getValue() {
+        checkReadable();
+        try {
+            return descriptor.getReadMethod().invoke(bean, (Object[]) null);
+        } catch (InvocationTargetException e) {
+            throw createReadAccessException(e.getCause());
+        } catch (IllegalAccessException e) {
+            throw createReadAccessException(e);
+        }
     }
 
     public void checkReadable() {
-	if (!isReadable()) {
-	    throw new RuntimeException("The " + propertyDescription() + " is not readable");
-	}
+        if (!isReadable()) {
+            throw new RuntimeException("The " + getShortDescription() + " is not readable");
+        }
+    }
+
+    private boolean isReadable() {
+        return descriptor.getReadMethod() != null;
+    }
+
+    private RuntimeException createReadAccessException(Throwable cause) {
+        return new RuntimeException("error when reading property '" + getShortDescription() + "'", cause);
+    }
+
+    public void setValue(Object newValue) {
+        checkWritable();
+        try {
+            descriptor.getWriteMethod().invoke(bean, newValue);
+        } catch (InvocationTargetException e) {
+            throw createWriteAccessException(newValue, e.getCause());
+        } catch (IllegalAccessException e) {
+            throw createWriteAccessException(newValue, e);
+        } catch (IllegalArgumentException e) {
+            throw createWriteAccessException(newValue, e);
+        }
     }
 
     public void checkWritable() {
-	if (!isWritable()) {
-	    throw new RuntimeException("The " + propertyDescription() + " is not writable");
-	}
+        if (!isWritable()) {
+            throw new RuntimeException("The " + getShortDescription() + " is not writable");
+        }
+    }
+
+    private boolean isWritable() {
+        return descriptor.getWriteMethod() != null;
+    }
+
+    private RuntimeException createWriteAccessException(Object newValue, Throwable cause) {
+        return new RuntimeException("error when writing property '" + getShortDescription() + "' with newValue '" + newValue + "'", cause);
     }
 
     public Class<?> getPropertyType() {
-	return descriptor.getPropertyType();
+        return descriptor.getPropertyType();
+    }
+
+    public String getPropertyName() {
+	return descriptor.getName();
     }
 
     public boolean hasAnnotation(Class<? extends Annotation> annotationClass) {
@@ -116,38 +89,42 @@ public final class PropertyAccessor<T> {
 	return annotation != null;
     }
 
+    private <A extends Annotation> A findAnnotation(Class<A> annotationClass) {
+        if (isReadable()) {
+            Method readMethod = descriptor.getReadMethod();
+            return readMethod.getAnnotation(annotationClass);
+        }
+        return null;
+    }
+
     public <A extends Annotation> A getAnnotation(Class<A> annotationClass) {
 	A annotation = findAnnotation(annotationClass);
-	checkNotNull(annotation, propertyDescription() + " is not annotated with '" + annotationClass.getName() + "'");
+	if (annotation == null) {
+	    throw new RuntimeException(getShortDescription() + " is not annotated with '" + annotationClass.getName() + "'");
+	}
 	return annotation;
     }
 
-    private <A extends Annotation> A findAnnotation(Class<A> annotationClass) {
-	if (isReadable()) {
-	    Method readMethod = descriptor.getReadMethod();
-	    return readMethod.getAnnotation(annotationClass);
-	}
-	return null;
+    public String getShortDescription() {
+	return PropertyUtils.shortDescription(bean.getClass(), getPropertyName());
+    }
+    
+    private String getBeanClassName() {
+	return bean.getClass().getName();
     }
 
-    @Override
-    public String toString() {
-	return toString(null);
+    public String getDescription() {
+        return decriptionWithExtraInformation(null);
     }
 
-    public String toString(String additionalDescription) {
-	String beanClassName = beanClass.getName();
-	String propertyDescription = MessageFormat.format("property(name:{0}, propertyType:{1}, isReadable:{2}, isWritable:{3}, beanType:{4}",
-		getPropertyName(), descriptor.getPropertyType(), isReadable(), isWritable(), beanClassName, additionalDescription);
-	if (!Strings.isNullOrEmpty(additionalDescription)) {
-	    propertyDescription += ", " + additionalDescription;
-	}
-	propertyDescription += ")";
-	return propertyDescription;
-    }
-
-    public String propertyDescription() {
-	String beanClassName = beanClass.getName();
-	return MessageFormat.format("{0}.{1}", beanClassName, getPropertyName());
+    public String decriptionWithExtraInformation(String extraInformation) {
+        String propertyDetails = MessageFormat.format("property(name:{0}, propertyType:{1}, isReadable:{2}, isWritable:{3}, beanType:{4}",
+        	getPropertyName(), getPropertyType().getName(), isReadable(), isWritable(), getBeanClassName());
+        
+        if (!Strings.isNullOrEmpty(extraInformation)) {
+            propertyDetails += ", " + extraInformation;
+        }
+        propertyDetails += ")";
+        return propertyDetails;
     }
 }

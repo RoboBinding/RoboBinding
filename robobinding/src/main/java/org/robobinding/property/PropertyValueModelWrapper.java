@@ -6,31 +6,31 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class PropertyValueModelWrapper<T> extends PropertyWrapper implements PropertyValueModel<T> {
-    private PropertyValueModel<T> propertyValueModel;
+class PropertyValueModelWrapper extends PropertyWrapper implements PropertyValueModel {
+    private final PropertyValueModel propertyValueModel;
 
-    public PropertyValueModelWrapper(PropertyValueModel<T> propertyValueModel) {
+    public PropertyValueModelWrapper(PropertyValueModel propertyValueModel) {
 	super(propertyValueModel);
 	this.propertyValueModel = propertyValueModel;
     }
 
     @Override
-    public T getValue() {
+    public Object getValue() {
 	return propertyValueModel.getValue();
     }
 
     @Override
-    public void setValue(T newValue) {
+    public void setValue(Object newValue) {
 	propertyValueModel.setValue(newValue);
     }
 
     @Override
-    public void addPropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
 	propertyValueModel.addPropertyChangeListener(listener);
     }
 
     @Override
-    public void removePropertyChangeListener(PresentationModelPropertyChangeListener listener) {
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
 	propertyValueModel.removePropertyChangeListener(listener);
     }
 }

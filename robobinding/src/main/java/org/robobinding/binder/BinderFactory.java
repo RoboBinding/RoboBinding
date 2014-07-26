@@ -9,6 +9,7 @@ import org.robobinding.InternalViewBinder;
 import org.robobinding.NonBindingViewInflater;
 import org.robobinding.ViewFactoryInstaller;
 import org.robobinding.attribute.PropertyAttributeParser;
+import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
 import org.robobinding.widget.view.ViewListenersMap;
@@ -47,7 +48,8 @@ public class BinderFactory {
 
     private BinderImplementor createBinderImplementor(Context context, NonBindingViewInflater nonBindingViewInflater, boolean withPreInitializingViews) {
 	BindingViewInflater bindingViewInflater = createBindingViewInflater(context);
-	BindingContextFactory bindingContextFactory = new BindingContextFactory(context, withPreInitializingViews, nonBindingViewInflater);
+	BindingContextFactory bindingContextFactory = new BindingContextFactory(context, withPreInitializingViews, nonBindingViewInflater, 
+		new PresentationModelAdapterFactory());
 	BinderImplementor binderImplementor = new InternalBinder(bindingViewInflater, bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
 	return binderImplementor;
     }

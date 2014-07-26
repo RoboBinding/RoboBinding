@@ -2,7 +2,7 @@ package org.robobinding.property;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -17,9 +17,9 @@ import com.google.common.collect.Sets;
 public class PropertyUtilsTest {
     @Test
     public void whenGetPropertyNames_thenReturnExpectedPropertyNames() {
-	List<String> propertyNames = PropertyUtils.getPropertyNames(Bean.class);
+	Set<String> propertyNames = PropertyUtils.getPropertyNames(Bean.class);
 
-	assertEquals(Sets.newHashSet(Bean.PROPERTY1, Bean.PROPERTY2), Sets.newHashSet(propertyNames));
+	assertEquals(Sets.newHashSet(Bean.PROPERTY1, Bean.PROPERTY2), propertyNames);
     }
 
     public static class Bean {

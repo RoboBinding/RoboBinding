@@ -1,10 +1,12 @@
 package org.robobinding.property;
 
-import org.junit.Assert;
-import org.junit.Before;
+import static org.junit.Assert.assertNotNull;
+
+import java.lang.reflect.Method;
+
 import org.junit.Test;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
-import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
+import org.robobinding.util.MethodUtils;
 
 /**
  *
@@ -13,48 +15,24 @@ import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
  * @author Cheng Wei
  */
 public class FactoryMethodImplTest {
-    private ObjectUnderTest objectUnderTest;
-
-    @Before
-    public void setUp() {
-	objectUnderTest = new ObjectUnderTest();
-    }
-
-    @Test
-    public void whenCreateUsingFactoryMethodWithValidReturnType_thenSuccessful() {
-	new FactoryMethodImpl<Object>(objectUnderTest, ItemPresentationModelImpl.class, ObjectUnderTest.FACTORY_METHOD_WITH_VALID_RETURN_TYPE);
-    }
-
     @Test
     public void givenItemPresentationModelFactory_whenNewPresentationModel_returnNewInstance() {
-	ItemPresentationModelFactory<Object> factory = new FactoryMethodImpl<Object>(objectUnderTest, ItemPresentationModelImpl.class,
-		ObjectUnderTest.FACTORY_METHOD_WITH_VALID_RETURN_TYPE);
+	Bean bean = new Bean();
+	FactoryMethodImpl factoryMethod = new FactoryMethodImpl(bean, getFactoryMethod()); 
+	ItemPresentationModel<Object> itemPresentationModel = factoryMethod.newItemPresentationModel();
 
-	ItemPresentationModel<Object> itemPresentationModel = factory.newItemPresentationModel();
-
-	Assert.assertNotNull(itemPresentationModel);
+	assertNotNull(itemPresentationModel);
+    }
+    
+    private Method getFactoryMethod() {
+	return MethodUtils.getAccessibleMethod(Bean.class, Bean.FACTORY_METHOD, new Class[0]);
     }
 
-    @Test(expected = RuntimeException.class)
-    public void whenCreateUsingFactoryMethodWithInvalidReturnType_thenThrowException() {
-	new FactoryMethodImpl<Object>(objectUnderTest, ItemPresentationModelImpl.class, ObjectUnderTest.FACTORY_METHOD_WITH_INVALID_RETURN_TYPE);
-    }
+    public static class Bean {
+	public static final String FACTORY_METHOD = "factoryMethod";
 
-    @Test(expected = RuntimeException.class)
-    public void whenCreateUsingNonExistingFactoryMethod_thenThrowException() {
-	new FactoryMethodImpl<Object>(objectUnderTest, ItemPresentationModelImpl.class, "nonExistingFactoryMethod");
-    }
-
-    public static class ObjectUnderTest {
-	public static final String FACTORY_METHOD_WITH_VALID_RETURN_TYPE = "factoryMethodWithValidReturnType";
-	public static final String FACTORY_METHOD_WITH_INVALID_RETURN_TYPE = "factoryMethodWithInvalidReturnType";
-
-	public ItemPresentationModelImpl factoryMethodWithValidReturnType() {
+	public ItemPresentationModelImpl factoryMethod() {
 	    return new ItemPresentationModelImpl();
-	}
-
-	public Object factoryMethodWithInvalidReturnType() {
-	    return new Object();
 	}
     }
 }

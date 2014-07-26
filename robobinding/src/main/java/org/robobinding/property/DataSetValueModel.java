@@ -15,7 +15,7 @@ public interface DataSetValueModel<T> {
 
     ItemPresentationModel<T> newItemPresentationModel();
 
-    void addPropertyChangeListener(PresentationModelPropertyChangeListener listener);
+    void addPropertyChangeListener(PropertyChangeListener listener);
 
-    void removePropertyChangeListener(PresentationModelPropertyChangeListener listener);
+    void removePropertyChangeListener(PropertyChangeListener listener);
 }

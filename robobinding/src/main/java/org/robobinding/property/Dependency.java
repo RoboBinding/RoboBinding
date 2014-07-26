@@ -1,14 +1,8 @@
 package org.robobinding.property;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
-import org.robobinding.presentationmodel.DependsOnStateOf;
-
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 /**
  * 
@@ -16,61 +10,29 @@ import com.google.common.collect.Sets;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class Dependency {
-    private ObservableBean observableBean;
-    private Set<String> dependentProperties;
-    private PropertyAccessor<?> propertyAccessor;
+public class Dependency {
+    private final ObservableBean observableBean;
+    private final Set<String> dependentProperties;
 
-    public Dependency(ObservableBean observableBean, PropertyAccessor<?> propertyAccessor, Collection<String> availablePropertyNames) {
+    public Dependency(ObservableBean observableBean, Set<String> dependentProperties) {
 	this.observableBean = observableBean;
-	this.propertyAccessor = propertyAccessor;
-	initializeDependentProperties();
-	validateDependentProperties(availablePropertyNames);
+	this.dependentProperties = dependentProperties;
     }
 
-    private void initializeDependentProperties() {
-	DependsOnStateOf dependsOn = propertyAccessor.getAnnotation(DependsOnStateOf.class);
-	dependentProperties = Sets.newHashSet(dependsOn.value());
-    }
-
-    private void validateDependentProperties(Collection<String> availablePropertyNames) {
-	validateNotDependsOnSelf();
-	validateDependsOnExistingProperties(availablePropertyNames);
-    }
-
-    private void validateNotDependsOnSelf() {
-	if (dependentProperties.contains(propertyAccessor.getPropertyName())) {
-	    throw new RuntimeException(propertyAccessor.propertyDescription() + " cannot depend on self");
-	}
-    }
-
-    private void validateDependsOnExistingProperties(Collection<String> availablePropertyNames) {
-	if (!availablePropertyNames.containsAll(dependentProperties)) {
-	    List<String> nonExistingDependentProperties = Lists.newArrayList(dependentProperties);
-	    nonExistingDependentProperties.removeAll(availablePropertyNames);
-	    throw new RuntimeException(propertyAccessor.propertyDescription() + " depends on the following non-existent properties '"
-		    + Joiner.on(", ").join(nonExistingDependentProperties) + "'");
-	}
-    }
-
-    public void addListenerToDependentProperties(PresentationModelPropertyChangeListener listener) {
+    public void addListenerToDependentProperties(PropertyChangeListener listener) {
 	for (String dependentProperty : dependentProperties) {
 	    observableBean.addPropertyChangeListener(dependentProperty, listener);
 	}
     }
 
-    public void removeListenerOffDependentProperties(PresentationModelPropertyChangeListener listener) {
+    public void removeListenerOffDependentProperties(PropertyChangeListener listener) {
 	for (String dependentProperty : dependentProperties) {
 	    observableBean.removePropertyChangeListener(dependentProperty, listener);
 	}
     }
 
-    private String describeDependentProperties() {
+    public String getDependencyDescription() {
 	return "dependentProperties:[" + Joiner.on(",").join(dependentProperties) + "]";
     }
 
-    public String decribeDependencyProperty() {
-	String dependencyDescription = describeDependentProperties();
-	return propertyAccessor.toString(dependencyDescription);
-    }
 }

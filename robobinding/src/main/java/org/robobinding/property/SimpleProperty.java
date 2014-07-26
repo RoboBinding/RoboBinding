@@ -6,8 +6,8 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class SimpleProperty<T> extends AbstractProperty<T> {
-    public SimpleProperty(ObservableBean observableBean, PropertyAccessor<T> propertyAccessor) {
+class SimpleProperty extends AbstractProperty {
+    public SimpleProperty(ObservableBean observableBean, PropertyAccessor propertyAccessor) {
 	super(observableBean, propertyAccessor);
     }
 }

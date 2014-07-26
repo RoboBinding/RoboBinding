@@ -7,7 +7,7 @@ package org.robobinding.property;
  * @author Cheng Wei
  */
 public class PropertyWrapper implements Property {
-    private Property property;
+    private final Property property;
 
     public PropertyWrapper(Property property) {
 	this.property = property;
