@@ -1,6 +1,6 @@
 package org.robobinding.widget.radiogroup;
 
-import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.widget.RadioGroup;
@@ -11,7 +11,7 @@ import android.widget.RadioGroup;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class RadioGroupAttributeMapper implements BindingAttributeMapper<RadioGroup> {
+public class RadioGroupBinding implements ViewBinding<RadioGroup> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<RadioGroup> mappings) {
 	mappings.mapEvent(OnCheckedChangeAttribute.class, "onCheckedChange");

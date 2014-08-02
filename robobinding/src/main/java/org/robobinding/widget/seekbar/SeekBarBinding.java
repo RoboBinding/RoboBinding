@@ -1,6 +1,6 @@
 package org.robobinding.widget.seekbar;
 
-import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.widget.SeekBar;
@@ -11,7 +11,7 @@ import android.widget.SeekBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SeekBarAttributeMapper implements BindingAttributeMapper<SeekBar> {
+public class SeekBarBinding implements ViewBinding<SeekBar> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<SeekBar> mappings) {
 	mappings.mapProperty(TwoWayProgressAttribute.class, "progress");

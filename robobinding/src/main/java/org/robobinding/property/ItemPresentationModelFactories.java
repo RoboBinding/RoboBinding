@@ -55,16 +55,15 @@ public class ItemPresentationModelFactories {
 	
 	if (factoryMethod == null) {
 	    throw new RuntimeException(
-		    MessageFormat.format("The FactoryMethod '{0}' cannot be found in the class '{1}'", 
+		    MessageFormat.format("The FactoryMethod ''{0}'' cannot be found in the class ''{1}''", 
 			    describeMethod(itemPresentationModelClass, methodName), getBeanClassName()));
 	} 
 	
 	Class<?> returnType = factoryMethod.getReturnType();
 	if (!itemPresentationModelClass.isAssignableFrom(returnType)) {
-	    String returnTypeName = returnType.getName();
 	    throw new RuntimeException(
-		    MessageFormat.format("The expected return type of FactoryMethod {0}() is '{1}[or subclass]', but was '{2}'",
-			    methodName, itemPresentationModelClass.getName(), returnTypeName));
+		    MessageFormat.format("The expected FactoryMethod return type is ''{0}[or subclass]'', but was ''{1}''",
+			    itemPresentationModelClass.getName(), factoryMethod.toString()));
 	}
 	
 	return factoryMethod;

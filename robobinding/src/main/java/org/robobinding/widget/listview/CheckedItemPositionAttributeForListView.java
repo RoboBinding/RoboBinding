@@ -1,4 +1,4 @@
-package org.robobinding.widget.abslistview;
+package org.robobinding.widget.listview;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
@@ -6,8 +6,8 @@ import org.robobinding.widget.adapterview.AdapterViewListeners;
 import org.robobinding.widget.view.ViewListenersAware;
 
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 /**
  *
@@ -15,7 +15,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CheckedItemPositionAttribute implements TwoWayPropertyViewAttribute<AbsListView, Integer>, ViewListenersAware<AdapterViewListeners> {
+public class CheckedItemPositionAttributeForListView implements TwoWayPropertyViewAttribute<ListView, Integer>, ViewListenersAware<AdapterViewListeners> {
     private AdapterViewListeners adapterViewListeners;
 
     @Override
@@ -24,12 +24,12 @@ public class CheckedItemPositionAttribute implements TwoWayPropertyViewAttribute
     }
 
     @Override
-    public void updateView(AbsListView view, Integer newValue) {
+    public void updateView(ListView view, Integer newValue) {
 	view.setItemChecked(newValue, true);
     }
 
     @Override
-    public void observeChangesOnTheView(final AbsListView view, final ValueModel<Integer> valueModel) {
+    public void observeChangesOnTheView(final ListView view, final ValueModel<Integer> valueModel) {
         adapterViewListeners.addOnItemClickListener(new AdapterView.OnItemClickListener() {
 	    @Override
 	    public void onItemClick(AdapterView<?> parent, View itemView, int position, long id) {

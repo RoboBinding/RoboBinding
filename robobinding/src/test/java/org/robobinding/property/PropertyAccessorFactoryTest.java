@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import java.util.Map;
 
 import org.junit.Test;
-import org.robobinding.internal.java_beans.PropertyDescriptor;
 
 import com.google.common.collect.Maps;
 

@@ -10,12 +10,12 @@ import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.SetCheckedItemPositionsAttribute;
+import org.robobinding.widget.listview.AbstractCheckedItemPositionsAttributeTest;
+import org.robobinding.widget.listview.SparseBooleanArrayUtils;
 
 import android.widget.ListView;
 
 import com.google.common.collect.Sets;
-import org.robobinding.widget.listview.AbstractCheckedItemPositionsAttributeTest;
-import org.robobinding.widget.listview.SparseBooleanArrayUtils;
 
 /**
  *

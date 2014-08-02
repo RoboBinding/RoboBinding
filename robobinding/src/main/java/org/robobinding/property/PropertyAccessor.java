@@ -1,11 +1,7 @@
 package org.robobinding.property;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.MessageFormat;
-
-import org.robobinding.internal.java_beans.PropertyDescriptor;
 
 import com.google.common.base.Strings;
 
@@ -25,55 +21,19 @@ public class PropertyAccessor {
     }
 
     public Object getValue() {
-        checkReadable();
-        try {
-            return descriptor.getReadMethod().invoke(bean, (Object[]) null);
-        } catch (InvocationTargetException e) {
-            throw createReadAccessException(e.getCause());
-        } catch (IllegalAccessException e) {
-            throw createReadAccessException(e);
-        }
+        return descriptor.doGet(bean);
     }
 
     public void checkReadable() {
-        if (!isReadable()) {
-            throw new RuntimeException("The " + getShortDescription() + " is not readable");
-        }
-    }
-
-    private boolean isReadable() {
-        return descriptor.getReadMethod() != null;
-    }
-
-    private RuntimeException createReadAccessException(Throwable cause) {
-        return new RuntimeException("error when reading property '" + getShortDescription() + "'", cause);
+	descriptor.checkReadable();
     }
 
     public void setValue(Object newValue) {
-        checkWritable();
-        try {
-            descriptor.getWriteMethod().invoke(bean, newValue);
-        } catch (InvocationTargetException e) {
-            throw createWriteAccessException(newValue, e.getCause());
-        } catch (IllegalAccessException e) {
-            throw createWriteAccessException(newValue, e);
-        } catch (IllegalArgumentException e) {
-            throw createWriteAccessException(newValue, e);
-        }
+        descriptor.doSet(bean, newValue);
     }
 
     public void checkWritable() {
-        if (!isWritable()) {
-            throw new RuntimeException("The " + getShortDescription() + " is not writable");
-        }
-    }
-
-    private boolean isWritable() {
-        return descriptor.getWriteMethod() != null;
-    }
-
-    private RuntimeException createWriteAccessException(Object newValue, Throwable cause) {
-        return new RuntimeException("error when writing property '" + getShortDescription() + "' with newValue '" + newValue + "'", cause);
+	descriptor.checkWritable();
     }
 
     public Class<?> getPropertyType() {
@@ -85,20 +45,12 @@ public class PropertyAccessor {
     }
 
     public boolean hasAnnotation(Class<? extends Annotation> annotationClass) {
-	Annotation annotation = findAnnotation(annotationClass);
+	Annotation annotation = descriptor.findAnnotation(annotationClass);
 	return annotation != null;
     }
 
-    private <A extends Annotation> A findAnnotation(Class<A> annotationClass) {
-        if (isReadable()) {
-            Method readMethod = descriptor.getReadMethod();
-            return readMethod.getAnnotation(annotationClass);
-        }
-        return null;
-    }
-
     public <A extends Annotation> A getAnnotation(Class<A> annotationClass) {
-	A annotation = findAnnotation(annotationClass);
+	A annotation = descriptor.findAnnotation(annotationClass);
 	if (annotation == null) {
 	    throw new RuntimeException(getShortDescription() + " is not annotated with '" + annotationClass.getName() + "'");
 	}
@@ -119,7 +71,7 @@ public class PropertyAccessor {
 
     public String decriptionWithExtraInformation(String extraInformation) {
         String propertyDetails = MessageFormat.format("property(name:{0}, propertyType:{1}, isReadable:{2}, isWritable:{3}, beanType:{4}",
-        	getPropertyName(), getPropertyType().getName(), isReadable(), isWritable(), getBeanClassName());
+        	getPropertyName(), getPropertyType().getName(), descriptor.isReadable(), descriptor.isWritable(), getBeanClassName());
         
         if (!Strings.isNullOrEmpty(extraInformation)) {
             propertyDetails += ", " + extraInformation;

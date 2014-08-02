@@ -2,8 +2,6 @@ package org.robobinding.property;
 
 import java.util.Map;
 
-import org.robobinding.internal.java_beans.PropertyDescriptor;
-
 /**
  *
  * @since 1.0

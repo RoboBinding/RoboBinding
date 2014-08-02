@@ -1,18 +1,19 @@
 package org.robobinding.presentationmodel;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.robobinding.function.CachedFunctions;
 import org.robobinding.function.Functions;
-import org.robobinding.internal.java_beans.PropertyDescriptor;
 import org.robobinding.property.CachedProperties;
 import org.robobinding.property.DependencyFactory;
 import org.robobinding.property.DependencyValidation;
 import org.robobinding.property.ItemPresentationModelFactories;
-import org.robobinding.property.ObservableBeanWrap;
+import org.robobinding.property.ObservableBean;
 import org.robobinding.property.Properties;
 import org.robobinding.property.PropertiesWithDependency;
 import org.robobinding.property.PropertyAccessorFactory;
+import org.robobinding.property.PropertyDescriptor;
 import org.robobinding.property.PropertyFactory;
 import org.robobinding.property.PropertyUtils;
 
@@ -30,7 +31,7 @@ public class PresentationModelAdapterFactory {
 	PropertyAccessorFactory propertyAccessorFactory = new PropertyAccessorFactory(
 		presentationModel, propertyDescriptorMap);
 	
-	ObservableBeanWrap observableBean = new ObservableBeanWrap(presentationModel);
+	ObservableBean observableBean = asObservableBean(presentationModel);
 	
 	DependencyFactory dependencyFactory = new DependencyFactory(observableBean, 
 		new DependencyValidation(propertyDescriptorMap.keySet()));
@@ -46,5 +47,18 @@ public class PresentationModelAdapterFactory {
 
 	return new PresentationModelAdapterImpl(properties, functions, presentationModelClass);
     }
-
+    
+    private ObservableBean asObservableBean(Object presentationModel) {
+	if (presentationModel instanceof ObservableBean) {
+            return (ObservableBean) presentationModel;
+        } else {
+            throw new RuntimeException(MessageFormat.format(
+        	    "The presentationModel ''{0}'' is not observable. PresentationModels have to be annotated with @{1}, "
+        		    + "implement the interface {2} or extend {3}", 
+        	    presentationModel.getClass().getName(), 
+        	    PresentationModel.class.getName(),
+        	    ObservableBean.class.getName(),
+        	    AbstractPresentationModel.class.getName()));
+        }
+    }
 }

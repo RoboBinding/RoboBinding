@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.robobinding.viewattribute.property.AbstractPropertyViewAttributeTest;
 
 import android.widget.ListView;
-import org.robobinding.widget.abslistview.ChoiceModeAttribute;
 
 /**
  *

@@ -25,7 +25,7 @@ package org.robobinding.util;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class ArrayUtils {
+public class ArrayUtils {
 
     /**
      * An empty immutable {@code Object} array.
@@ -52,6 +52,10 @@ class ArrayUtils {
      */
     public static boolean isEmpty(final Object[] array) {
 	return array == null || array.length == 0;
+    }
+    
+    public static boolean isNotEmpty(final Object[] array) {
+	return !isEmpty(array);
     }
 
     /**

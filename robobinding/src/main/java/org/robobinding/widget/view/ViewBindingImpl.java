@@ -1,6 +1,6 @@
 package org.robobinding.widget.view;
 
-import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.view.View;
@@ -11,7 +11,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ViewAttributeMapper implements BindingAttributeMapper<View> {
+public class ViewBindingImpl implements ViewBinding<View> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<View> mappings) {
 	mappings.mapMultiTypeProperty(new VisibilityAttributeFactory<View>(new ViewVisibilityFactory()), "visibility");

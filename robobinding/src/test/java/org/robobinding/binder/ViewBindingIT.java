@@ -34,7 +34,7 @@ import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModel;
 import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 import org.robobinding.viewattribute.AttributeBindingException;
-import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.grouped.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttributesBuilder;
@@ -271,7 +271,7 @@ public class ViewBindingIT {
 	}
     }
 
-    private static class BuggyCustomViewAttributeMapper implements BindingAttributeMapper<BuggyCustomView> {
+    private static class BuggyCustomViewAttributeMapper implements ViewBinding<BuggyCustomView> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<BuggyCustomView> mappings) {
 	    mappings.mapProperty(BuggyPropertyAttribute.class, BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE);

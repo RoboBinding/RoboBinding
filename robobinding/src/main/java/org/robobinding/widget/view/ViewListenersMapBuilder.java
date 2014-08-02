@@ -12,17 +12,18 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewListenersMapBuilder {
+public class ViewListenersMapBuilder implements ViewListenersMappings {
     private final Map<Class<? extends View>, Class<? extends ViewListeners>> mappings;
     
     public ViewListenersMapBuilder() {
 	mappings = newHashMap();
     }
     
-    public ViewListenersMapBuilder put(Class<? extends View> viewClass, Class<? extends ViewListeners> viewListenersClass) {
+    public void put(Class<? extends View> viewClass, Class<? extends ViewListeners> viewListenersClass) {
 	mappings.put(viewClass, viewListenersClass);
-	return this;
     }
+    
+    
     
     public ViewListenersMap build() {
 	return new ViewListenersMap(mappings);

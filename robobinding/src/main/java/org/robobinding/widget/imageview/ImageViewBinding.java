@@ -1,6 +1,6 @@
 package org.robobinding.widget.imageview;
 
-import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.widget.ImageView;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ImageViewAttributeMapper implements BindingAttributeMapper<ImageView> {
+public class ImageViewBinding implements ViewBinding<ImageView> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<ImageView> mappings) {
 	mappings.mapMultiTypeProperty(ImageSourceAttribute.class, "src");

@@ -31,8 +31,8 @@ public interface BindingAttributeMappings<T extends View> {
     void mapEvent(Class<? extends EventViewAttribute<T>> eventViewAttributeClass, String attributeName);
     void mapEvent(EventViewAttributeFactory<T> eventViewAttributeFactory, String attributeName);
 
-    void mapGroupedAttribute(Class<? extends GroupedViewAttribute<T>> groupedViewAttributeClass, String... attributeNames);
+    void mapGroupedAttribute(Class<? extends GroupedViewAttribute<T>> groupedViewAttributeClass, String... attributeGroup);
     void mapGroupedAttribute(
 	    GroupedViewAttributeFactory<T> groupedViewAttributeFactory,
-	    String... attributeName);
+	    String... attributeGroup);
 }
