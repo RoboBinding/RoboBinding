@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.robobinding.internal.java_beans.PropertyDescriptor;
 import org.robobinding.property.PropertyAccessor;
+import org.robobinding.property.PropertyDescriptor;
 import org.robobinding.property.PropertyUtils;
 
 import android.database.AbstractCursor;

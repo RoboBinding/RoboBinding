@@ -1,7 +1,7 @@
 package org.robobinding.binder;
 
 import org.robobinding.attribute.PropertyAttributeParser;
-import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
 
@@ -20,7 +20,7 @@ public class BindingAttributeResolverBuilder {
 	bindingAttributeMappingsProviderMapBuilder = BinderFactoryBuilder.defaultBindingAttributeMappingsProviderMapBuilder();
     }
 
-    public <T extends View> BindingAttributeResolverBuilder mapView(Class<T> viewClass, BindingAttributeMapper<T> bindingAttributeMapper) {
+    public <T extends View> BindingAttributeResolverBuilder mapView(Class<T> viewClass, ViewBinding<T> bindingAttributeMapper) {
 	bindingAttributeMappingsProviderMapBuilder.put(viewClass, bindingAttributeMapper);
 	return this;
     }

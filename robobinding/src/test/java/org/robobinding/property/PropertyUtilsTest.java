@@ -1,6 +1,8 @@
 package org.robobinding.property;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.util.Set;
 
@@ -20,6 +22,13 @@ public class PropertyUtilsTest {
 	Set<String> propertyNames = PropertyUtils.getPropertyNames(Bean.class);
 
 	assertEquals(Sets.newHashSet(Bean.PROPERTY1, Bean.PROPERTY2), propertyNames);
+    }
+    
+    @Test
+    public void whenGetPropertyNames_thenReturnZero() {
+	Set<String> propertyNames = PropertyUtils.getPropertyNames(MalformedBean.class);
+
+	assertThat(propertyNames.size(), is(0));
     }
 
     public static class Bean {
@@ -43,6 +52,17 @@ public class PropertyUtilsTest {
 
 	public boolean getNonPropertyWithParameter(String p1) {
 	    return true;
+	}
+    }
+    
+    public static class MalformedBean {
+
+	public void setMalformedSetter1() {
+	    
+	}
+	
+	public void setMalformedSetter2(Object o1, Object o2) {
+	    
 	}
     }
 }

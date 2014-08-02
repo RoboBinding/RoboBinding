@@ -1,23 +1,25 @@
 package org.robobinding.binder;
 
-import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.dynamicbinding.ViewBindingApplier;
+import org.robobinding.dynamicbinding.DynamicViewBindingDescription;
+import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
-import org.robobinding.widget.abslistview.AbsListViewAttributeMapper;
-import org.robobinding.widget.absspinner.AbsSpinnerAttributeMapper;
-import org.robobinding.widget.adapterview.AdapterViewAttributeMapper;
+import org.robobinding.widget.abslistview.AbsListViewBinding;
+import org.robobinding.widget.absspinner.AbsSpinnerBinding;
+import org.robobinding.widget.adapterview.AdapterViewBinding;
 import org.robobinding.widget.adapterview.AdapterViewListeners;
-import org.robobinding.widget.compoundbutton.CompoundButtonAttributeMapper;
+import org.robobinding.widget.compoundbutton.CompoundButtonBinding;
 import org.robobinding.widget.compoundbutton.CompoundButtonListeners;
-import org.robobinding.widget.edittext.EditTextAttributeMapper;
-import org.robobinding.widget.imageview.ImageViewAttributeMapper;
-import org.robobinding.widget.listview.ListViewAttributeMapper;
-import org.robobinding.widget.progressbar.ProgressBarAttributeMapper;
-import org.robobinding.widget.ratingbar.RatingBarAttributeMapper;
+import org.robobinding.widget.edittext.EditTextBinding;
+import org.robobinding.widget.imageview.ImageViewBinding;
+import org.robobinding.widget.listview.ListViewBinding;
+import org.robobinding.widget.progressbar.ProgressBarBinding;
+import org.robobinding.widget.ratingbar.RatingBarBinding;
 import org.robobinding.widget.ratingbar.RatingBarListeners;
-import org.robobinding.widget.seekbar.SeekBarAttributeMapper;
+import org.robobinding.widget.seekbar.SeekBarBinding;
 import org.robobinding.widget.seekbar.SeekBarListeners;
-import org.robobinding.widget.textview.TextViewAttributeMapper;
-import org.robobinding.widget.view.ViewAttributeMapper;
+import org.robobinding.widget.textview.TextViewBinding;
+import org.robobinding.widget.view.ViewBindingImpl;
 import org.robobinding.widget.view.ViewListeners;
 import org.robobinding.widget.view.ViewListenersMapBuilder;
 
@@ -51,46 +53,53 @@ public class BinderFactoryBuilder {
 
 
     static ViewListenersMapBuilder defaultViewListenersMapBuilder() {
-        ViewListenersMapBuilder viewListenersMap = new ViewListenersMapBuilder();
-        viewListenersMap.put(View.class, ViewListeners.class);
-        viewListenersMap.put(AdapterView.class, AdapterViewListeners.class);
-        viewListenersMap.put(CompoundButton.class, CompoundButtonListeners.class);
-        viewListenersMap.put(SeekBar.class, SeekBarListeners.class);
-        viewListenersMap.put(RatingBar.class, RatingBarListeners.class);
+        ViewListenersMapBuilder builder = new ViewListenersMapBuilder();
+        builder.put(View.class, ViewListeners.class);
+        builder.put(AdapterView.class, AdapterViewListeners.class);
+        builder.put(CompoundButton.class, CompoundButtonListeners.class);
+        builder.put(SeekBar.class, SeekBarListeners.class);
+        builder.put(RatingBar.class, RatingBarListeners.class);
 
-        return viewListenersMap;
+        return builder;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     static BindingAttributeMappingsProviderMapBuilder defaultBindingAttributeMappingsProviderMapBuilder() {
 
-        BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMap = new BindingAttributeMappingsProviderMapBuilder();
+        BindingAttributeMappingsProviderMapBuilder builder = new BindingAttributeMappingsProviderMapBuilder();
 
-        bindingAttributeMappingsProviderMap.put(View.class, new ViewAttributeMapper());
-        bindingAttributeMappingsProviderMap.put(TextView.class, new TextViewAttributeMapper());
-        bindingAttributeMappingsProviderMap.put(EditText.class, new EditTextAttributeMapper());
-        bindingAttributeMappingsProviderMap.put(AdapterView.class, (BindingAttributeMapper) new AdapterViewAttributeMapper());
-        bindingAttributeMappingsProviderMap.put(CompoundButton.class, new CompoundButtonAttributeMapper());
-        bindingAttributeMappingsProviderMap.put(ImageView.class, new ImageViewAttributeMapper());
-        bindingAttributeMappingsProviderMap.put(ProgressBar.class, new ProgressBarAttributeMapper());
-        bindingAttributeMappingsProviderMap.put(SeekBar.class, new SeekBarAttributeMapper());
-        bindingAttributeMappingsProviderMap.put(RatingBar.class, new RatingBarAttributeMapper());
-        bindingAttributeMappingsProviderMap.put(ListView.class, new ListViewAttributeMapper());
-        bindingAttributeMappingsProviderMap.put(AbsListView.class, new AbsListViewAttributeMapper());
-        bindingAttributeMappingsProviderMap.put(AbsSpinner.class, new AbsSpinnerAttributeMapper());
+        builder.put(View.class, new ViewBindingImpl());
+        builder.put(TextView.class, new TextViewBinding());
+        builder.put(EditText.class, new EditTextBinding());
+        builder.put(AdapterView.class, (ViewBinding) new AdapterViewBinding());
+        builder.put(CompoundButton.class, new CompoundButtonBinding());
+        builder.put(ImageView.class, new ImageViewBinding());
+        builder.put(ProgressBar.class, new ProgressBarBinding());
+        builder.put(SeekBar.class, new SeekBarBinding());
+        builder.put(RatingBar.class, new RatingBarBinding());
+        builder.put(ListView.class, new ListViewBinding());
+        builder.put(AbsListView.class, new AbsListViewBinding());
+        builder.put(AbsSpinner.class, new AbsSpinnerBinding());
 
-        return bindingAttributeMappingsProviderMap;
+        return builder;
     }
 
-    public <T extends View> BinderFactoryBuilder mapView(Class<T> viewClass, BindingAttributeMapper<T> bindingAttributeMapper) {
+    public <T extends View> BinderFactoryBuilder mapView(Class<T> viewClass, ViewBinding<T> bindingAttributeMapper) {
 	bindingAttributeMappingsProviderMapBuilder.put(viewClass, bindingAttributeMapper);
 	return this;
     }
 
-    public <T extends View> BinderFactoryBuilder mapView(Class<T> viewClass, BindingAttributeMapper<T> bindingAttributeMapper,
+    public <T extends View> BinderFactoryBuilder mapView(Class<T> viewClass, ViewBinding<T> bindingAttributeMapper,
 	    Class<? extends ViewListeners> viewListenersClass) {
 	mapView(viewClass, bindingAttributeMapper);
 	viewListenersMapBuilder.put(viewClass, viewListenersClass);
+	return this;
+    }
+    
+    public <T extends View> BinderFactoryBuilder add(DynamicViewBindingDescription<T> viewBindingDescription) {
+	ViewBindingApplier<T> viewBindingApplier = viewBindingDescription.build();
+	viewBindingApplier.applyBindingAttributeMapper(bindingAttributeMappingsProviderMapBuilder);
+	viewBindingApplier.applyViewListenersIfExists(viewListenersMapBuilder);
 	return this;
     }
 

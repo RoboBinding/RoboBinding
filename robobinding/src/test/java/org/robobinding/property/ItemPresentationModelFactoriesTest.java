@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.internal.java_beans.PropertyDescriptor;
 import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 

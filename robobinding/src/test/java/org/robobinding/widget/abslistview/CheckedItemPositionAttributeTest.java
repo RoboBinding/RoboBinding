@@ -11,7 +11,6 @@ import org.robobinding.R;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.viewattribute.property.AbstractPropertyViewAttributeWithViewListenersAwareTest;
-import org.robobinding.widget.abslistview.CheckedItemPositionAttribute;
 import org.robobinding.widget.adapterview.MockAdapterViewListeners;
 import org.robobinding.widget.adapterview.MockArrayAdapter;
 

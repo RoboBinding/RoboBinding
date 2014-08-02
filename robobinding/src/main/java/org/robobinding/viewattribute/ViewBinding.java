@@ -9,6 +9,6 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface BindingAttributeMapper<T extends View> {
+public interface ViewBinding<T extends View> {
     void mapBindingAttributes(BindingAttributeMappings<T> mappings);
 }

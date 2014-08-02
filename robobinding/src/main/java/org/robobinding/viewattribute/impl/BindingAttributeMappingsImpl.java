@@ -8,7 +8,6 @@ import static org.robobinding.viewattribute.grouped.FromClassViewAttributeFactor
 
 import java.util.Map;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.viewattribute.event.EventViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttribute;
@@ -29,7 +28,7 @@ import com.google.common.base.Preconditions;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappings<T>, InitailizedBindingAttributeMappings<T> {
+public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappingsWithCreate<T> {
     private final Map<String, PropertyViewAttributeFactory<T>> propertyViewAttributeMappings;
     private final Map<String, MultiTypePropertyViewAttributeFactory<T>> multiTypePropertyViewAttributeMappings;
     private final Map<String, EventViewAttributeFactory<T>> eventViewAttributeMappings;
@@ -125,44 +124,11 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
 		attributeNames);
 	groupedViewAttributeMappings.put(attributeNames, groupedViewAttributeFactory);
     }
-
+    
     @Override
-    public Iterable<String> getPropertyAttributes() {
-	return propertyViewAttributeMappings.keySet();
-    }
-
-    @Override
-    public Iterable<String> getMultiTypePropertyAttributes() {
-        return multiTypePropertyViewAttributeMappings.keySet();
-    }
-
-    @Override
-    public Iterable<String> getEventAttributes() {
-	return eventViewAttributeMappings.keySet();
-    }
-
-    @Override
-    public Iterable<String[]> getAttributeGroups() {
-	return groupedViewAttributeMappings.keySet();
-    }
-
-    @Override
-    public PropertyViewAttributeFactory<T> getPropertyViewAttributeFactory(String attribute) {
-        return propertyViewAttributeMappings.get(attribute);
-    }
-
-    @Override
-    public MultiTypePropertyViewAttributeFactory<T> getMultiTypePropertyViewAttributeFactory(String attribute) {
-        return multiTypePropertyViewAttributeMappings.get(attribute);
-    }
-
-    @Override
-    public EventViewAttributeFactory<T> getEventViewAttributeFactory(String attribute) {
-        return eventViewAttributeMappings.get(attribute);
-    }
-
-    @Override
-    public GroupedViewAttributeFactory<T> getGroupedViewAttributeFactory(String[] attributeGroup) {
-        return groupedViewAttributeMappings.get(attributeGroup);
+    public InitailizedBindingAttributeMappings<T> createInitailizedBindingAttributeMappings() {
+	return new InitailizedBindingAttributeMappingsImpl<T>(
+		propertyViewAttributeMappings, multiTypePropertyViewAttributeMappings, 
+		eventViewAttributeMappings, groupedViewAttributeMappings);
     }
 }

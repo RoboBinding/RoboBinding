@@ -1,7 +1,7 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import android.util.SparseBooleanArray;
-import android.widget.ListView;
+import android.widget.AbsListView;
 
 /**
  * 
@@ -17,7 +17,7 @@ public class ListViewUtils {
      * TODO:Will be replaced by listView.clearChoices(). Requires a change to
      * ShadowListView in Robolectric.
      */
-    public static void clearSelections(ListView listView) {
+    public static void clearSelections(AbsListView listView) {
 	SparseBooleanArray array = listView.getCheckedItemPositions();
 
 	if (array == null) {

@@ -6,7 +6,7 @@ import static org.robobinding.widget.adapterview.AbstractAdaptedDataSetAttribute
 import static org.robobinding.widget.adapterview.AbstractAdaptedDataSetAttributes.ITEM_MAPPING;
 import static org.robobinding.widget.adapterview.AbstractAdaptedDataSetAttributes.SOURCE;
 
-import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 
 import android.widget.AbsSpinner;
@@ -17,7 +17,7 @@ import android.widget.AbsSpinner;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AbsSpinnerAttributeMapper implements BindingAttributeMapper<AbsSpinner> {
+public class AbsSpinnerBinding implements ViewBinding<AbsSpinner> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<AbsSpinner> mappings) {
 	mappings.mapGroupedAttribute(AdaptedAbsSpinnerDataSetAttributes.class, SOURCE, ITEM_LAYOUT, ITEM_MAPPING, DROPDOWN_LAYOUT, DROPDOWN_MAPPING);

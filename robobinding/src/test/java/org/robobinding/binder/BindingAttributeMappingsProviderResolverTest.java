@@ -12,8 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robobinding.viewattribute.BindingAttributeMapper;
-import org.robobinding.viewattribute.impl.BindingAttributeMapperAdapter;
+import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewattribute.impl.ViewBindingAdapter;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
 
@@ -33,11 +33,11 @@ public class BindingAttributeMappingsProviderResolverTest {
     private BindingAttributeMappingsProviderResolver bindingAttributeMappingsProviderResolver;
 
     @Mock
-    private BindingAttributeMapper<ViewWithNoParent> mapperForViewWithNoParent;
+    private ViewBinding<ViewWithNoParent> mapperForViewWithNoParent;
     @Mock
-    private BindingAttributeMapper<ViewWithParents> mapperForViewWithParents;
+    private ViewBinding<ViewWithParents> mapperForViewWithParents;
     @Mock
-    private BindingAttributeMapper<GrandparentView> mapperForGrandparentView;
+    private ViewBinding<GrandparentView> mapperForGrandparentView;
 
     @Before
     public void setUp() {
@@ -74,10 +74,10 @@ public class BindingAttributeMappingsProviderResolverTest {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private Iterable<BindingAttributeMappingsProvider<? extends View>> newProvidersInOrder(BindingAttributeMapper<? extends View>... mappers) {
+    private Iterable<BindingAttributeMappingsProvider<? extends View>> newProvidersInOrder(ViewBinding<? extends View>... mappers) {
 	List<BindingAttributeMappingsProvider<? extends View>> providers = newArrayList();
-	for (BindingAttributeMapper<? extends View> mapper : mappers) {
-	    providers.add(new BindingAttributeMapperAdapter(mapper));
+	for (ViewBinding<? extends View> mapper : mappers) {
+	    providers.add(new ViewBindingAdapter(mapper));
 	}
 	return providers;
     }

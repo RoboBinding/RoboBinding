@@ -10,16 +10,15 @@ import java.util.Set;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.property.AbstractMultiTypePropertyViewAttributeTest;
-import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute;
-import org.robobinding.widget.adapterview.AdapterViewListeners;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.AbstractCheckedItemPositionsAttribute;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.MapCheckedItemPositionsAttribute;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.SetCheckedItemPositionsAttribute;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.SparseBooleanArrayCheckedItemPositionsAttribute;
+import org.robobinding.widget.adapterview.AdapterViewListeners;
 
 import android.util.SparseBooleanArray;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AbsListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 /**
  *

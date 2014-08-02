@@ -1,7 +1,7 @@
 package org.robobinding.binder;
 
 import org.robobinding.ActivityBinder;
-import org.robobinding.viewattribute.BindingAttributeMapper;
+import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.widget.view.ViewListeners;
 
@@ -34,7 +34,7 @@ public class BinderUseCases {
 	activityBinder.inflateAndBind(layoutId, presentationModel);
     }
     
-    private static class AlternativeBindingAttributeMapperForView implements BindingAttributeMapper<View> {
+    private static class AlternativeBindingAttributeMapperForView implements ViewBinding<View> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<View> mappings) {
 	}
@@ -46,7 +46,7 @@ public class BinderUseCases {
 	}
     }
     
-    private static class BindingAttributeMapperForCustomView implements BindingAttributeMapper<CustomView> {
+    private static class BindingAttributeMapperForCustomView implements ViewBinding<CustomView> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<CustomView> mappings) {
 	}
