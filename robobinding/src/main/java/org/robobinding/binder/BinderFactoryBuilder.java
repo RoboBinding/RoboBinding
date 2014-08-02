@@ -1,5 +1,6 @@
 package org.robobinding.binder;
 
+import android.widget.*;
 import org.robobinding.dynamicbinding.ViewBindingApplier;
 import org.robobinding.dynamicbinding.DynamicViewBindingDescription;
 import org.robobinding.viewattribute.ViewBinding;
@@ -24,17 +25,7 @@ import org.robobinding.widget.view.ViewListeners;
 import org.robobinding.widget.view.ViewListenersMapBuilder;
 
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AbsSpinner;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RatingBar;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import org.robobinding.widget.viewAnimator.ViewAnimatorBinding;
 
 /**
  *
@@ -80,6 +71,7 @@ public class BinderFactoryBuilder {
         builder.put(ListView.class, new ListViewBinding());
         builder.put(AbsListView.class, new AbsListViewBinding());
         builder.put(AbsSpinner.class, new AbsSpinnerBinding());
+		builder.put(ViewAnimator.class, new ViewAnimatorBinding());
 
         return builder;
     }
