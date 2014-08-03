@@ -1,6 +1,5 @@
 package org.robobinding.binder;
 
-import android.widget.*;
 import org.robobinding.dynamicbinding.ViewBindingApplier;
 import org.robobinding.dynamicbinding.DynamicViewBindingDescription;
 import org.robobinding.viewattribute.ViewBinding;
@@ -20,12 +19,24 @@ import org.robobinding.widget.ratingbar.RatingBarListeners;
 import org.robobinding.widget.seekbar.SeekBarBinding;
 import org.robobinding.widget.seekbar.SeekBarListeners;
 import org.robobinding.widget.textview.TextViewBinding;
+import org.robobinding.widget.viewAnimator.ViewAnimatorBinding;
 import org.robobinding.widget.view.ViewBindingImpl;
 import org.robobinding.widget.view.ViewListeners;
 import org.robobinding.widget.view.ViewListenersMapBuilder;
 
 import android.view.View;
-import org.robobinding.widget.viewAnimator.ViewAnimatorBinding;
+import android.widget.AbsListView;
+import android.widget.AbsSpinner;
+import android.widget.AdapterView;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.ViewAnimator;
 
 /**
  *
