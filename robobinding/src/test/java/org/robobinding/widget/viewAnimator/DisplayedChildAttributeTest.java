@@ -5,6 +5,7 @@ import android.widget.ViewAnimator;
 import org.junit.Test;
 import org.robobinding.viewattribute.RandomValues;
 import org.robobinding.viewattribute.property.AbstractPropertyViewAttributeTest;
+import org.robobinding.widget.viewanimator.DisplayedChildAttribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;

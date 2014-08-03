@@ -19,7 +19,7 @@ import org.robobinding.widget.ratingbar.RatingBarListeners;
 import org.robobinding.widget.seekbar.SeekBarBinding;
 import org.robobinding.widget.seekbar.SeekBarListeners;
 import org.robobinding.widget.textview.TextViewBinding;
-import org.robobinding.widget.viewAnimator.ViewAnimatorBinding;
+import org.robobinding.widget.viewanimator.ViewAnimatorBinding;
 import org.robobinding.widget.view.ViewBindingImpl;
 import org.robobinding.widget.view.ViewListeners;
 import org.robobinding.widget.view.ViewListenersMapBuilder;
