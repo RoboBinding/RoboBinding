@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.robobinding</groupId>
 	<artifactId>robobinding</artifactId>
-	<version>0.8.4</version>
+	<version>0.8.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>RoboBinding</name>
 	<description>A Presentation Model framework for the Android platform.</description>
@@ -302,7 +302,7 @@
 		<connection>scm:git:git@github.com:RoboBinding/RoboBinding.git</connection>
 		<developerConnection>scm:git:git@github.com:RoboBinding/RoboBinding.git</developerConnection>
 		<url>https://github.com/RoboBinding/RoboBinding</url>
-	  <tag>0.8.4</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<ciManagement>
