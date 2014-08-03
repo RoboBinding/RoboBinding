@@ -1,6 +1,6 @@
 ﻿入门
 ====
-:Revision: 0.8.3
+:Revision: 0.8.4
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -10,59 +10,78 @@ RoboBinding是什么?
 ------------------
 *Android应用的粘接剂* - RoboBinding是一个实现了数据绑定 http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] 模式的Android开源框架。RoboBinding 帮助你编写更可读，易于测试与维护的UI代码。
 
-属性绑定
-~~~~~~~~
+Hello AndroidMVVM(Presentation Model)
+-------------------------------------
+基于RoboBinding的应用，一个Activity通常由三个部分组成：Layout xml，Activity class 与 PresentatonModel。
+以下以最简单的https://github.com/RoboBinding/AndroidMVVM[AndroidMVVM]为例。
 
-在layout xml里声明一个属性绑定:
+Layout
+~~~~~~
+在layout中声明RoboBinding命名空间，属性与事件绑定。
+
+activity_main.xml 
 [source,xml]
 ----
-<EditText android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  bind:text="${superHeroName}" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://robobinding.org/android">
+	<TextView
+        bind:text="{hello}" />
+		...
+	<Button 
+        android:text="Say Hello"
+        bind:onClick="sayHello"/>
+</LinearLayout>		
 ----
 
-增加一个 http://baike.baidu.com/view/183175.htm[pojo] presentation model 类并提供相应的属性:
+Presentation Model
+~~~~~~~~~~~~~~~~~~
+在presentation model类中声明相应的属性与方法。
+
+org.robobinding.androidmvvm.PresentationModel.java 
 [source,java]
 ----
-public void setSuperHeroName(String superHeroName) {
-	this.superHeroName = superHeroName;
+@org.robobinding.presentationmodel.PresentationModel
+public class PresentationModel {
+    private String name;
+    public String getHello() {
+		return name + ": hello Android MVVM(Presentation Model)!";
+    }
+    ...
+    public void sayHello() {
+		firePropertyChange("hello");
+    }
 }
-
-public String getSuperHeroName() {
-	return superHeroName;
-}
-----
-RoboBinding 将自动的同步View与Presentation Model。
-
-事件处理
-~~~~~~~~
-
-在layout xml里声明一个事件绑定:
-[source,xml]
-----
-<ListView android:layout_width="fill_parent"
-	  android:layout_height="fill_parent"
-	  bind:onItemClick="superHeroSelected" />
 ----
 
-增加一个 http://baike.baidu.com/view/183175.htm[pojo] presentation model 类并提供相应的事件处理方法:
+Activity Class
+~~~~~~~~~~~~~~
+在activity类中将layout与对应的presentation model绑定在一起。
+
+org.robobinding.androidmvvm.MainActivity.java 
 [source,java]
 ----
-public void superHeroSelected(ItemClickEvent event) {
-	SuperHero chosenSuperHero = this.superHeroes.get(event.getPosition());
-	chosenSuperHero.summon();
+public class MainActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+	...
+		Binders.bindWithoutPreInitializingViews(this, R.layout.activity_main, presentationModel);
+    }
 }
 ----
-当item click 事件被触发时，RoboBinding 将自动调用相应的方法。
+最简单的AndroidMVVM就完成了。这里我们用Binders工具类。在实际的开发中，我们推荐使用org.robobinding.binder.BinderFactoryBuilder。
+然后将BinderFactory保存在Android application实例里或由第三方类库如RoboGuice来管理，以便在整个应用中共享。
 
-Hello RoboBinding
------------------
-让我们观看由Robert Taylor做的http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[框架介绍视频]。
+RoboBinding的介绍视频
+~~~~~~~~~~~~~~~~~~~~~
+* ++2014年7月++ Cheng Wei做的介绍视频可以在 https://www.youtube.com/watch?v=2sSBVaX77xA[这里]找到。
+* ++2012年2月++ Robert Taylor做的介绍视频可以在 http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[这里]找到。
+
 
 开发环境
-~~~~~~~~
+--------
 Eclipse
-^^^^^^^
+~~~~~~~
 首先安装http://eclipse.org/[Eclipse] 与 http://developer.android.com/tools/sdk/eclipse-adt.html[Android Development Tools(ADT)]插件。
 然后把'robobinding-[xxx].jar' 或 'robobinding-[xxx]-jar-with-dependencies.jar'加入项目的lib或libs目录，右击项目->Properties->Java Build Path->Libraries->Add Jars，将jar加入classpath。
 如果选择的是'robobinding-[xxx].jar'，还需要将https://code.google.com/p/guava-libraries/[guava] 11.0.1+ jar加入项目的classpath。
@@ -81,16 +100,16 @@ image::eclipse_project_build_settings.png["Eclipse project build settings"]
 请参考https://github.com/RoboBinding/RoboBinding/[RoboBinding album sample]环境设置。
 
 Android Studio
-^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~
 Gradle的build file请参考https://github.com/weicheng113/album-sample_AndroidStudio/[这里]。
 
 ProGuard
-^^^^^^^^
-RoboBinding需要所有实现了org.robobinding.property.ObservableProperties(如所有的presentation model)类的类名与公共方法保持不变。保留所有的annoations。
+~~~~~~~~
+RoboBinding需要所有实现了org.robobinding.property.ObservableBean(如所有的presentation model)类的类名与公共方法保持不变。保留所有的annoations。
 所以需要在项目的ProGuard配置里加入下面的指令：
 [source,erlang]
 ----
--keep class * implements org.robobinding.property.ObservableProperties {
+-keep class * implements org.robobinding.property.ObservableBean {
 	public *** *(...);
 }
 
@@ -103,215 +122,182 @@ RoboBinding需要所有实现了org.robobinding.property.ObservableProperties(�
 -dontwarn sun.misc.Unsafe
 ----
 
-最后增加以下的内容，使ProGuard保留view listeners的构造函数名：
+增加以下的内容，使ProGuard保留view listeners的构造函数名：
 [source,erlang]
 ----
--keepclassmembers class * extends org.robobinding.viewattribute.view.ViewListeners {
+-keepclassmembers class * extends org.robobinding.widget.view.ViewListeners {
 	public <init>(...);
 }
 ----
 
-请参考https://github.com/RoboBinding/RoboBinding/[RoboBinding album sample]下的ProGuard配置文件proguard.cfg。
+增加以下的内容，抑制Android sdk一些兼容性警告。
+[source,erlang]
+----
+-dontwarn android.widget.AbsListView, android.view.View
+----
 
-Maven
-^^^^^
-更新中。。。 请参考link:old_maven.html[旧文档]
+请参考https://github.com/RoboBinding/RoboBinding/[RoboBinding album sample]与https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery]下的ProGuard配置文件proguard.cfg。
 
-配置Activity
+
+主要概念与特性
+--------------
+以下的例子代码来自 https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery]。
+
+单向属性绑定
 ~~~~~~~~~~~~
-在大多的情况下，我们在Activity class里将layout xml与其presentation model绑定在一起。一般情况下，一个Activity对应一个presenation model。
-在Activity class的OnCreate()方法，使用++org.robobinding.binder.Binders++ 工具类或++org.robobinding.binder.BinderFactory++(由org.robobinding.binder.BinderFactoryBuilder创建。可以将BinderFactory保存在http://developer.android.com/reference/android/app/Application.html[android.app.Application] 
-或dependency injection库如https://github.com/roboguice/roboguice[RoboGuice]里，以便重用实例)将layout xml绑定到presentation model实例。 例如：
-[source,java]
-----
-@Override
-public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+单向绑定是指presentation model上的属性更新会自动的同步到相应的视图属性上。
 
-    SuperHeroPresentationModel presentationModel = new SuperHeroPresentationModel();
-    Binders.bind(this, R.layout.super_hero_activity, presentationModel);
-}
-----
-你可能注意到，不用再调用setContentView()方法，RoboBinding已经为你做了。
-
-声明RoboBinding命名空间
-~~~~~~~~~~~~~~~~~~~~~~~
-在使用RoboBonding绑定属性前，需要在每个layout xml的根结点声明RoboBinding命名空间。例如，在示例super_hero_activity.xml里，我们加入以下片段：
+activity_view.xml
 [source,xml]
 ----
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://robobinding.org/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
-    
-    ...
-    
-</RelativeLayout>
+<TextView
+    bind:visibility="{integerVisibility}"/>
 ----
-属性绑定
-~~~~~~~~
-当一个视图属性被绑定到相应presentation model的属性上时，presentation model的那个属性值的任何变更都会自动同步到视图上。
-RoboBinding遵循JavaBeans规范，当要暴露superHeroName属性时，我们提供对应的公共getters与setters。
+
+ViewPresentationModel.java
 [source,java]
 ----
-private String superHeroName;
+public int getIntegerVisibility() {
+	return integerVisibilityRotation.value();
+}
+----
 
-public String getSuperHeroName() {
-    return superHeroName;
-}
-
-public void setSuperHeroName(String superHeroName) {
-    this.superHeroName = superHeroName;
-}
-----
-然后我们将视图属性绑定到该presentation model属性，以TextView为例。
-[source,xml]
-----
-<TextView android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  bind:text="{superHeroName}" />
-----
-因为以上只是一个单向绑定，所以只要提供getter方法就好了。
-[source,java]
-----
-public String getSuperHeroName() {
-    return "Powdered Toast Man!";
-}
-----
-更多的已支持的绑定属性信息，请参考 https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.2/robobinding-0.8.2-javadoc.jar/!/index.html[API与支持的绑定属性JavaDocs]
+RoboBinding遵循Java Beans标准，当暴露属性时，我们将提供getter与setter方法。
+单向绑定时，presentation model中的属性只要求有getter。因为视图不会更新回presentation model。
+已支持的UI绑定属性，请参考++API与支持的绑定属性JavaDocs++。
 
 双向属性绑定
 ~~~~~~~~~~~~
-单向属性绑定只是将presentation model属性的变更同步到视图上，而双向绑定增加了将视图上的变更同步到presentation model属性上。
+双向绑定在单向绑定的基础上，增加了将视图上的变更同步回presentation model相应的属性上。
 
-EditText是一个支持双向绑定的例子，当用户更新EditText上的内容时，新的内容将被同步到presentation model上。
+EditText的text属性是支持双向绑定的一个例子。双向绑定的语法是在单向绑定属性的前面加一个$符号。
 
-通过在视图属性前加上++$++，声明为双向绑定，例如：
+activity_edittext.xml
+[source,xml]
+----
+<EditText 
+	bind:text="${text}"/>
+----
+
+org.robobinding.gallery.presentationmodel.EditTextPresentationModel.java
 [source,java]
 ----
-<EditText android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  bind:text="${superHeroName}" />
+@PresentationModel
+public class EditTextPresentationModel {
+    private String text;
+    
+    public String getText() {
+		return text;
+    }
+    
+    public void setText(String text) {
+		this.text = text;
+    }
+}
 ----
+
 当将属性声明为双向绑定时，presentation model的对应属性必须有setter方法，以便于视图的更新值被设置到presentation model属性上。
 
 事件处理
 ~~~~~~~~
-为了将更多视图逻辑从Activity class中剥离出来，RoboBinding推荐并支持在presentation model里处理UI事件。不同的视图有不同的UI事件，
-对于已支持的UI事件，请参考https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.2/robobinding-0.8.2-javadoc.jar/!/index.html[API与支持的绑定属性JavaDocs]。
+即将视图中的事件绑定到presentation model相应的方法上。
 
-在视图里声明事件处理器与声明视图属性绑定相似，以下在ListView里声明onItemClick事件处理(继承于AdapterView)：
+activity_gallery.xml
+[source,xml]
+----
+<Button 
+	bind:onClick="showDemo"/>
+----
+
+org.robobinding.gallery.presentationmodel.GalleryPresentationModel.java
 [source,java]
 ----
-<ListView android:layout_width="fill_parent"
-	  android:layout_height="fill_parent"
-	  bind:onItemClick="superHeroSelected" />
-----
-当onItemClick事件触发时，presentation model对应的superHeroSelected方法将被调用。相应的事件实例，这里是org.robobinding.viewattribute.adapterview.ItemClickEvent，将被作为参数传入方法。
-[source,java]
-----
-private List<SuperHero> superHeroes;
-
-public void superHeroSelected(ItemClickEvent event) {
-	SuperHero chosenSuperHero = this.superHeroes.get(event.getPosition());
-	chosenSuperHero.summon();
+@PresentationModel
+public class GalleryPresentationModel
+{
+	...
+	public void showDemo()
+	{
+		...
+	}
 }
 ----
-如果我们只对事件本身感兴趣，也可以声明一个无参数的方法。
-[source,java]
-----
-public void superHeroSelected() {
-	System.out.println("SuperHeroes being summoned!");
-}
-----
+当onClick 事件被触发时，showDemo方法被调用。showDemo方法可以带有相应的事件参数，这里为org.robobinding.widget.view.ClickEvent。
+已支持的UI事件，请参考++API与支持的绑定属性JavaDocs++。
+
 AdapterViews绑定
 ~~~~~~~~~~~~~~~~
 当我们需要绑定AdapterViews，RoboBinding需要你在presentation model上提供数据集属性。数据集属性类型可以是一个Array，List或者 ++org.robobinding.itempresentationmodel.TypedCursor++。
-继续之前的例子，我们提供一个superHeroes List。除此只外，我们还要提供ItemPresentationModel(即数据项presentation model)，以便将每个数据项的显示视图绑定到ItemPresentationModel上。
+除此之外，我们还要提供ItemPresentationModel(即数据项presentation model)，以便将每个数据项的视图绑定到ItemPresentationModel上。
 RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel annotation做到。
-[source,java]
-----
-@ItemPresentationModel(SuperHeroPresentationModel.class)
-public List<SuperHero> getSuperHeroes() {
-	return superHeroes;
-}
-----
-每个数据项presentation model需要实现org.robobinding.itempresentationmodel.ItemPresentationModel接口，并在接口上声明数据项参数化类型。
-[source,java]
-----
-public class SuperHeroPresentationModel 
-			implements ItemPresentationModel<SuperHero> {
-	
-	private SuperHero superHero;
-	
-	public void updateData(int index, SuperHero superHero) {
-		this.superHero = superHero;
-	}
-}
-----
-数据项layout xml示例 - simple_super_hero_row.xml如下：
-----
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://robobinding.org/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" />
-	  
-	  <TextView android:layout_width="fill_parent"
-	      android:layout_height="wrap_content"
-	      bind:text="{superHeroName}" />
-	      
-	  <TextView android:layout_width="fill_parent"
-	      android:layout_height="wrap_content"
-	      bind:text="{superHeroCallSign}" />
-	      
-</LinearLayout>
-----
-在数据项layout xml里声明的两个绑定属性，我们在对应的数据项presentation model里加入相应属性。
-[source,java]
-----
-public class SuperHeroPresentationModel 
-			implements ItemPresentationModel<SuperHero> {
-	
-	private SuperHero superHero;
-	
-	public String getSuperHeroName() {
-	    return superHero.getName();
-	}
-	
-	public String getSuperHeroCallSign() {
-	    return superHero.getCallSign();
-	}
-	
-	public void updateData(int index, SuperHero superHero) {
-		this.superHero = superHero;
-	}
-}
-----
-最后我们在Activity layout xml里的ListView声明绑定信息。
+
+activity_adapter_view.xml
 [source,xml]
 ----
-<ListView android:layout_width="fill_parent"
-	  android:layout_height="fill_parent"
-	  bind:onItemClick="superHeroSelected"
-	  bind:source="{superHeroes}"
-	  bind:itemLayout="@layout/simple_super_hero_row" />
+<ListView
+	bind:itemLayout="@android:layout/simple_list_item_1"
+	bind:itemMapping="[text1.text:{value}]"
+	bind:source="{dynamicStrings}"/>
 ----
+
+org.robobinding.gallery.presentationmodel.AdapterViewPresentationModel.java
+[source,java]
+----
+@PresentationModel
+public class AdapterViewPresentationModel
+{
+	...
+	@ItemPresentationModel(value=StringItemPresentationModel.class)
+	public List<String> getDynamicStrings()
+	{
+		return getSelectedSource().getSample();
+	}
+----
+
+以下提供数据项presentation model以及数据项layout。Android中Adapter实现了重用，所以数据项presentation model也会被重用，即需要实现updateData方法。
+
+org.robobinding.gallery.presentationmodel.StringItemPresentationModel.java
+[source,java]
+----
+public class StringItemPresentationModel implements ItemPresentationModel<String>
+{
+	private String value;
+
+	@Override
+	public void updateData(int index, String bean)
+	{
+		value = bean;
+	}
+
+	public String getValue()
+	{
+		return value;
+	}
+}
+----
+例子中数据项layout为android提供的simple_list_item_1.xml。通过++bind:itemMapping="[text1.text:\{value\}]"++，
+我们指定了simple_list_item_1.xml的text1.text关联到StringItemPresentationModel.value属性。
 
 羽量级关系数据与对象cursor映射
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AdapterViews绑定中，我们提到数据集属性类型的一种为++org.robobinding.itempresentationmodel.TypedCursor++。
 由于应用中我们通常都习惯于操作对象并尽量隔离关系数据操作的那部分代码，RoboBinding加入了羽量级对象化的Cursor - TypedCursor。
-通过org.robobinding.itempresentationmodel.RowMapper<T>来将一行的关系数据映射为一个对象实例。接着以上AdapterViews的例子，我们将数据集属性类型改为TypedCursor<SuperHero>。
+通过org.robobinding.itempresentationmodel.RowMapper<T>来将一行的关系数据映射为一个对象实例。
+
+org.robobinding.gallery.presentationmodel.TypedCursorPresentationModel.java
 [source,java]
 ----
-@ItemPresentationModel(SuperHeroPresentationModel.class)
-public TypedCursor<SuperHero> getSuperHeroes() {
-	allSuperHeroesQuery = new GetAllQuery<SuperHero>(SuperHero.TABLE_NAME, new SuperHeroRowMapper());
-	return allSuperHeroesQuery.execute(db);
+@PresentationModel
+public class TypedCursorPresentationModel {
+    ...
+    @ItemPresentationModel(value=ProductItemPresentationModel.class)
+    public TypedCursor<Product> getProducts() {
+		return allProductsQuery.execute(db);
+    }
 }
 ----
-GetAllQuery实现如下：
+
+org.robobinding.gallery.model.typedcursor.GetAllQuery.java
 [source,java]
 ----
 public class GetAllQuery<T>
@@ -320,8 +306,9 @@ public class GetAllQuery<T>
 	private final RowMapper<T> rowMapper;
 
 	public GetAllQuery(String tableName, RowMapper<T> rowMapper)
-	{
-	    this.tableName = tableName;
+	{   
+	    ...
+		this.tableName = tableName;
 	    this.rowMapper = rowMapper;
 	}
 
@@ -329,27 +316,31 @@ public class GetAllQuery<T>
 	{
 		Cursor cursor = db.query(
 				tableName,
-				...,
+				null,
+				null,
+				null,
+				null,
+				null,
 				BaseColumns._ID+" ASC");
-		return new org.robobinding.itempresentationmodel.TypedCursorAdapter<T>(cursor, rowMapper);
+		return new TypedCursorAdapter<T>(cursor, rowMapper);
 	}
 }
 ----
-SuperHeroRowMapper实现如下：
+
+org.robobinding.gallery.model.typedcursor.ProductRowMapper.java
 [source,java]
 ----
-public class SuperHeroRowMapper implements org.robobinding.itempresentationmodel.RowMapper<SuperHero> {
+public class ProductRowMapper implements RowMapper<Product> {
 
     @Override
-    public SuperHero mapRow(Cursor cursor) {
-	String name = cursor.getString(cursor.getColumnIndex(SuperHeroTable.NAME));
-	String callSign = cursor.getString(cursor.getColumnIndex(SuperHeroTable.CALL_SIGN));
-	return new SuperHero(name, callSign);
+    public Product mapRow(Cursor cursor) {
+		String name = cursor.getString(cursor.getColumnIndex(ProductTable.NAME));
+		String description = cursor.getString(cursor.getColumnIndex(ProductTable.DESCRIPTION));
+		return new Product(name, description);
     }
 
 }
 ----
-https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery]下包含了一个简单的TypedCursor例子 - org.robobinding.gallery.model.typedcursor。
 
 Album唱片集例子项目学习
 -----------------------
@@ -384,20 +375,36 @@ ListView的++bind:source="\{albums\}"++绑定到ViewAlbumsPresentationModel.albu
 在view_albums_activity.xml里的最后一个Button视图，++bind:onClick="createAlbum"++绑定到ViewAlbumsPresentationModel.createAlbum()方法。
 
 
-创建自己的属性绑定实现
+创建自己的视图绑定实现
 ----------------------
+以下的例子代码来自 https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery]。
+
+RoboBinding提供了两种视图绑定方式：静态绑定与动态绑定。静态绑定主要针对一些常用的属性绑定。
+而动态绑定作为一种补充方式，可以快速的实现属性绑定，当这些属性RoboBinding还不支持时。
+
 自定义组件或第三方组件
 ~~~~~~~~~~~~~~~~~~~~~~
-通过为自定义组件，第三方组件或未实现绑定的Android widget提供属性绑定实现，使它们更易于使用。在RoboBinding中，属性绑定实现方法是一致的。
-当我们创建自己的属性绑定实现时，可以参考RoboBinding下的任何一个Android widget的属性绑定实现，如++org.robobinding.viewattribute.imageview++包与包下的++ImageViewAttributeMapper++类。
+通过为自定义组件，第三方组件或未实现绑定的Android widget提供视图绑定实现，使它们更易于使用。在RoboBinding中，视图绑定实现方法是一致的。
+当我们创建自己的视图绑定实现时，可以参考RoboBinding下的任何一个Android widget的视图绑定实现，如++org.robobinding.widget.imageview++包与包下的++ImageViewBinding++类。
 
 .自定义 Title Description Bar
 image::custom_component.png[]
 
 我们以上图的自定义组件TitleDescriptionBar为例。该组件包含了标题与描述两个部分。在输入新的标题与描述后，点击'Apply'，自定义组件的内容就更新为新的内容。
-可以从https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery]找到完整的代码。
+
+我们想使TitleDescriptonBar组件使用起来能像以下++示例一样简单++。
+
+activity_custom_component.xml
+[source,xml]
+----
+<org.robobinding.gallery.model.customcomponent.TitleDescriptionBar
+	    bind:title="{title}"
+	    bind:description="{description}"/>
+----
 
 以下是TitleDescriptionBar自定义组件的实现代码主要部分(如何实现自定义组件，请参考http://developer.android.com/guide/topics/ui/custom-components.html[Android文档]):
+
+org.robobinding.gallery.model.customcomponent.TitleDescriptionBar.java
 [source,java]
 ----
 public class TitleDescriptionBar extends LinearLayout {
@@ -427,7 +434,8 @@ public class TitleDescriptionBar extends LinearLayout {
     }
 }
 ----
-其Layout ++title_description_bar.xml++内容如下：
+
+自定义组件的layout：title_description_bar.xml
 [source,xml]
 ----
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
@@ -437,18 +445,11 @@ public class TitleDescriptionBar extends LinearLayout {
   	<TextView android:id="@+id/description"/>
 ----
 
-
-我们想使TitleDescriptonBar组件使用起来能像以下++示例一样简单++。
-[source,xml]
-----
-<org.robobinding.gallery.model.customcomponent.TitleDescriptionBar
-	    bind:title="{title}"
-	    bind:description="{description}"/>
-----
-
 实现绑定属性
 ^^^^^^^^^^^^
-TitleDescriptionBar有标题与描述两个绑定属性，对应的实现分别是TitleAttribute与DescriptionAttribute。最后绑定属性映射TitleDescriptionBarAttributeMapper将属性映射到相应的实现类。
+TitleDescriptionBar有标题与描述两个绑定属性，对应的实现分别是TitleAttribute与DescriptionAttribute。最后视图绑定实现类TitleDescriptionBarBinding。
+
+org.robobinding.gallery.model.customcomponent.TitleAttribute.java/DescriptionAttribute.java/TitleDescriptionBarBinding.java
 [source,java]
 ----
 public class TitleAttribute implements PropertyViewAttribute<TitleDescriptionBar, CharSequence> {
@@ -465,7 +466,7 @@ public class DescriptionAttribute implements PropertyViewAttribute<TitleDescript
     }
 }
 
-public class TitleDescriptionBarAttributeMapper implements BindingAttributeMapper<TitleDescriptionBar> {
+public class TitleDescriptionBarBinding implements ViewBinding<TitleDescriptionBar> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<TitleDescriptionBar> mappings) {
         mappings.mapProperty(TitleAttribute.class, "title");
@@ -473,30 +474,33 @@ public class TitleDescriptionBarAttributeMapper implements BindingAttributeMappe
     }
 }
 ----
-注册绑定属性映射类
-^^^^^^^^^^^^^^^^^^
-通过org.robobinding.binder.BinderFactoryBuilder注册绑定属性映射类。
+
+注册视图绑定实现
+^^^^^^^^^^^^^^^^
+通过org.robobinding.binder.BinderFactoryBuilder注册视图绑定实现。
+
+org.robobinding.gallery.activity.CustomComponentActivity.java
 [source,java]
 ----
 BinderFactory binderFactory = new BinderFactoryBuilder()
-        	.mapView(TitleDescriptionBar.class, new TitleDescriptionBarAttributeMapper())
+        	.mapView(TitleDescriptionBar.class, new TitleDescriptionBarBinding())
         	.build();
 ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
 activityBinder.inflateAndBind(R.layout.custom_component_activity, presentationModel);
 ----
-这样我们很容易的就完成了属性绑定实现。我们以同样的方式可以为任何第三方组件或未实现绑定的Android widget提供属性绑定实现。
+这样我们很容易的就完成了视图绑定实现。我们以同样的方式可以为任何第三方组件或未实现绑定的Android widget提供视图绑定实现。
 
-覆盖已有的属性绑定实现
+覆盖已有的视图绑定实现
 ~~~~~~~~~~~~~~~~~~~~~~
 当RoboBinding框架已有的绑定属性不满足需求或没有相应的属性绑定实现时，我们有两种选择。第一种是修改框架代码，增加缺少的绑定属性(希望大家都参与贡献更多的绑定属性实现)。
-第二种是不更改框架，实现相应的绑定属性与绑定属性映射类，然后注册覆盖已有的框架所提供的默认实现。
-以第二种方式为例，我们来覆盖框架已有的http://developer.android.com/reference/android/widget/ImageView.html[ImageView]属性绑定实现++org.robobinding.viewattribute.imageview++。
+第二种是不更改框架，实现相应的视图绑定及其属性绑定，然后注册覆盖已有的框架所提供的默认实现。
+以第二种方式为例，我们来覆盖框架已有的http://developer.android.com/reference/android/widget/ImageView.html[ImageView]视图绑定实现++org.robobinding.widget.imageview++。
 
-实现新的绑定属性与映射类
-^^^^^^^^^^^^^^^^^^^^^^^^
+实现新的视图绑定与绑定属性
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 [source,java]
 ----
-public class MyImageViewAttributeMapper implements BindingAttributeMapper<ImageView> {
+public class MyImageViewBinding extends org.robobinding.widget.imageview.ImageViewBinding {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<ImageView> mappings) {
 		mappings.mapProperty(MyImageSourceAttribute.class, "src");
@@ -527,14 +531,72 @@ public class MyImageSourceAttribute extends org.robobinding.widget.imageview.Ima
 [source,java]
 ----
 BinderFactory binderFactory = new BinderFactoryBuilder()
-        	.mapView(ImageView.class, new MyImageViewAttributeMapper())
+        	.mapView(ImageView.class, new MyImageViewBinding())
         	.build();
 ----
 
+动态视图绑定
+~~~~~~~~~~~~
+当框架没有实现一些属性绑定时，我们可以通过动态视图绑定的方式快速的实现或扩展已有的视图绑定实现。动态视图绑定主要是作为以上介绍的静态视图绑定的补允。
 
-Layout文件Robobinding语法校验器插件
------------------------------------
-更新中。。。  请参考link:old_validator_plugin.html[旧文档]
+新的视图绑定实现
+^^^^^^^^^^^^^^^^
+为CustomOrThirdPartyComponent创建动态视图绑定并增加textAttribute属性绑定。
+
+activity_dynamic_binding.xml
+[source,xml]
+----
+<org.robobinding.gallery.model.dynamicbinding.CustomOrThirdPartyComponent 
+	bind:textAttribute="{textAttributeValue}"/>
+----
+
+org.robobinding.gallery.activity.DynamicBindingActivity.java
+[source,java]
+----
+public class DynamicBindingActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+		...
+		BinderFactoryBuilder binderFactoryBuilder = new BinderFactoryBuilder()
+			.add(new DynamicViewBinding().forView(CustomOrThirdPartyComponent.class)
+				.oneWayProperties("textAttribute"));
+		BinderFactory binderFactory = binderFactoryBuilder.build();
+		ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
+		activityBinder.inflateAndBind(R.layout.activity_dynamic_binding, presentationModel);
+    }
+	...
+}
+----
+
+扩展已有的视图绑定实现
+^^^^^^^^^^^^^^^^^^^^^^
+扩展已有的TextViewBinding并添加typeface属性绑定。
+
+activity_dynamic_binding.xml
+[source,xml]
+----
+<TextView
+	bind:typeface="{typeface}"/>
+----
+
+org.robobinding.gallery.activity.DynamicBindingActivity.java
+[source,java]
+----
+public class DynamicBindingActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+		...
+		BinderFactoryBuilder binderFactoryBuilder = new BinderFactoryBuilder()
+			.add(new DynamicViewBinding().extend(TextView.class, new TextViewBinding())
+				.oneWayProperties("typeface"));
+		BinderFactory binderFactory = binderFactoryBuilder.build();
+		ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
+		activityBinder.inflateAndBind(R.layout.activity_dynamic_binding, presentationModel);
+    }
+	...
+}
+----
+
 
 其它资源
 --------
@@ -542,4 +604,4 @@ Layout文件Robobinding语法校验器插件
 
 *2012年二月* 在London SkillsMatter，Robert Taylor作的RoboBinding介绍视频可以在 http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[这里]找到。
 
-*RoboBinding Widget Gallery* Cheng Wei 建立了https://github.com/weicheng113/robobinding-gallery[RoboBinding Widget Gallery]项目来展示所支持绑定属性的用法。
+*RoboBinding Gallery* https://github.com/RoboBinding/RoboBinding-gallery[RoboBinding Gallery]项目展示各功能与特性的用法。

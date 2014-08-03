@@ -9,17 +9,17 @@
 
 * 可以很容易的为任何自定义组件，第三方组件或Android widget编写属性绑定实现，简化代码，使项目易于维护。
 
-让我们来看一个 http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[介绍视频]，然后从link:getting_started.html[这里]开始吧。
+让我们来看 https://www.youtube.com/watch?v=2sSBVaX77xA[中文介绍视频]或 http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[英文介绍视频]，然后从link:getting_started.zh.html[这里]开始吧。
 
-其它类似的 Presentation Model/MVP/http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVP] Android开源框架：https://github.com/gueei/AndroidBinding[Android-Binding]，
-https://github.com/depoll/bindroid[Bindroid]，https://github.com/MvvmCross/MvvmCross[MvvmCross]。
+其它类似的 Presentation Model/http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVP] Android开源框架：https://github.com/gueei/AndroidBinding[Android-Binding]，
+https://github.com/depoll/bindroid[Bindroid]。你可能注意到，RoboBinding拥有更优 *代码质量* 。我们注重代码质量，RoboBinding目前有300多个单元测试。
 
 
 image:http://www.iconpng.com/png/large-torrent/download.png[width=30, height=30] 下载: 在Maven Central上的 http://search.maven.org/#search%7Cga%7C1%7Crobobinding[已发布版本]或者在Sonatype OSS Repo上最新的 https://oss.sonatype.org/index.html#nexus-search;quick%7Erobobinding[snapshots开发版本]
 
 image:https://raw.github.com/github/media/master/octocats/octocat.png["GitHub", width=30, height=30] 开发与源代码: http://github.com/RoboBinding/RoboBinding[GitHub]
 
-image:https://lh3.googleusercontent.com/-YM2DGm-QreQ/Upb85v3Y-gI/AAAAAAAABt4/GIcGGykyHW8/w152-h106-no/Google+groups.png["Google groups", width=43, height=30] 论坛与讨论: http://groups.google.com/group/robobinding[Google讨论组] 及 image:http://qplus3.idqqimg.com/qun/portal/img/logo2.png["QQ群", width=60, height=25]：308303599 (*20/07/2014:群里交流演讲'Presentation Model模式及在Android下应用[基于RoboBinding]'*)
+image:https://lh3.googleusercontent.com/-YM2DGm-QreQ/Upb85v3Y-gI/AAAAAAAABt4/GIcGGykyHW8/w152-h106-no/Google+groups.png["Google groups", width=43, height=30] 论坛与讨论: http://groups.google.com/group/robobinding[Google讨论组] 及 image:http://qplus3.idqqimg.com/qun/portal/img/logo2.png["QQ群", width=60, height=25]：308303599
 
 image:https://g.twimg.com/Twitter_logo_blue.png[width=30, height=30] Twitter: https://twitter.com/RoboBinding[@robobinding]
 
