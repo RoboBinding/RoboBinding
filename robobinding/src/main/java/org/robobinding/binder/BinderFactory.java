@@ -88,7 +88,7 @@ public class BinderFactory {
 	return new InternalViewBinder(binderImplementor, nonBindingViewInflater);
     }
 
-	public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, int itemLayoutId, String propertyName) {
+	public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, int itemLayoutId, int dropDownLayoutId, String propertyName) {
 		NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater(context));
 		PresentationModelAdapterFactory presentationModelAdapterFactory = new PresentationModelAdapterFactory();
 		BindingContextFactory bindingContextFactory = new BindingContextFactory(context, true, nonBindingViewInflater, presentationModelAdapterFactory);
@@ -97,6 +97,7 @@ public class BinderFactory {
 		DataSetAdapterBuilder builder = new DataSetAdapterBuilder(bindingContextFactory.create(binderImplementor, presentationModel));
 
 		builder.setItemLayoutId(itemLayoutId);
+		builder.setDropDownLayoutId(dropDownLayoutId);
 		builder.setValueModel(presentationModelAdapter.getDataSetPropertyValueModel(propertyName));
 
 		return builder.build();
