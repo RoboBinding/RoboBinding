@@ -9,9 +9,12 @@ import org.robobinding.InternalViewBinder;
 import org.robobinding.NonBindingViewInflater;
 import org.robobinding.ViewFactoryInstaller;
 import org.robobinding.attribute.PropertyAttributeParser;
+import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
+import org.robobinding.widget.adapterview.DataSetAdapter;
+import org.robobinding.widget.adapterview.DataSetAdapterBuilder;
 import org.robobinding.widget.view.ViewListenersMap;
 
 import android.app.Activity;
@@ -84,5 +87,19 @@ public class BinderFactory {
 	BinderImplementor binderImplementor = createBinderImplementor(context, nonBindingViewInflater, true);
 	return new InternalViewBinder(binderImplementor, nonBindingViewInflater);
     }
+
+	public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, int itemLayoutId, String propertyName) {
+		NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater(context));
+		PresentationModelAdapterFactory presentationModelAdapterFactory = new PresentationModelAdapterFactory();
+		BindingContextFactory bindingContextFactory = new BindingContextFactory(context, true, nonBindingViewInflater, presentationModelAdapterFactory);
+		BinderImplementor binderImplementor = createBinderImplementor(context, nonBindingViewInflater, true);
+		PresentationModelAdapter presentationModelAdapter = presentationModelAdapterFactory.create(presentationModel);
+		DataSetAdapterBuilder builder = new DataSetAdapterBuilder(bindingContextFactory.create(binderImplementor, presentationModel));
+
+		builder.setItemLayoutId(itemLayoutId);
+		builder.setValueModel(presentationModelAdapter.getDataSetPropertyValueModel(propertyName));
+
+		return builder.build();
+	}
 
 }
