@@ -616,6 +616,64 @@ public class DynamicBindingActivity extends Activity {
 }
 ----
 
+Project structure and best practices
+------------------------------------
+Involved from MVC pattern, the major motive of Presentation Model(MVVM) pattern is to make Presentation Models pure POJOs, which can be 
+easily Unit tested. Meanwhile, the dependency of View->Presentation Model->Model becomes unidirectional. 
+When applying the pattern, these are the basic rules we will follow. 
+
+Overall project structure
+~~~~~~~~~~~~~~~~~~~~~~~~~
+.Project structure
+image::project_structure.png["Project structure"]
+
+In Android app, the view layer consists of activities and their layouts and the model layer(or business model layer) consists of various services, 
+persistence layer, networking services, business services and so on.
+The diagram indicates the dependency between different layers. The view layer for example never directly accesses the business model.
+
+The solutions for some common design issues
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* When we are not using a third-party dependency injection lib, we may instantiate business model objects in Activities and then pass them into presentation models,
+ but the view layer(or any activities) will not directly access any business model objects.
+
+* Sometimes presentation models may need to call some functionalities in the view layer. We can add view interfaces in between to decouple the relationship.
+Presentation models depends on view interfaces instead of the view layer, which keeps the testability of presentation models. 
+If you prefer, you can shift view interfaces into presentation model layer or presentation model package, so that the dependency remains unidirectional.
+Let us have a look a simple example below:
+
+[source,java]
+----
+interface MainView {
+	void doSomeViewLogic();
+}
+
+class MainActivity extends Activity implements MainView {
+	...
+	@Override
+    protected void onCreate(Bundle savedInstanceState) {
+		...
+		PresentationModel presentationModel = new PresentationModel(this);
+		...
+	}
+	
+	public void doSomeViewLogic() {
+		...
+	}
+}
+
+class PresentationModel {
+	private MainView mainView;
+	
+	public PresentationModel(MainView mainView) {
+		this.mainView = mainView;
+	}
+	
+	public void someEvent() {
+		mainView.doSomeViewLogic();
+	}
+}
+----
+
 Other resources
 ---------------
 

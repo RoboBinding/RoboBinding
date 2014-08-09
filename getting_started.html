@@ -1411,7 +1411,77 @@ Dynamic view binding acts as a supplement to static view binding.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_other_resources">7. Other resources</h2>
+<h2 id="_project_structure_and_best_practices">7. Project structure and best practices</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Involved from MVC pattern, the major motive of Presentation Model(MVVM) pattern is to make Presentation Models pure POJOs, which can be
+easily Unit tested. Meanwhile, the dependency of View&#8594;Presentation Model&#8594;Model becomes unidirectional.
+When applying the pattern, these are the basic rules we will follow.</p></div>
+<div class="sect2">
+<h3 id="_overall_project_structure">7.1. Overall project structure</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/project_structure.png" alt="Project structure" />
+</div>
+<div class="title">Figure 4. Project structure</div>
+</div>
+<div class="paragraph"><p>In Android app, the view layer consists of activities and their layouts and the model layer(or business model layer) consists of various services,
+persistence layer, networking services, business services and so on.
+The diagram indicates the dependency between different layers. The view layer for example never directly accesses the business model.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_the_solutions_for_some_common_design_issues">7.2. The solutions for some common design issues</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+When we are not using a third-party dependency injection lib, we may instantiate business model objects in Activities and then pass them into presentation models,
+ but the view layer(or any activities) will not directly access any business model objects.
+</p>
+</li>
+<li>
+<p>
+Sometimes presentation models may need to call some functionalities in the view layer. We can add view interfaces in between to decouple the relationship.
+Presentation models depends on view interfaces instead of the view layer, which keeps the testability of presentation models.
+If you prefer, you can shift view interfaces into presentation model layer or presentation model package, so that the dependency remains unidirectional.
+Let us have a look a simple example below:
+</p>
+</li>
+</ul></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kd">interface</span> <span class="nc">MainView</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">doSomeViewLogic</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="kd">implements</span> <span class="n">MainView</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">...</span>
+        <span class="n">PresentationModel</span> <span class="n">presentationModel</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PresentationModel</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomeViewLogic</span><span class="o">()</span> <span class="o">{</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">PresentationModel</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">MainView</span> <span class="n">mainView</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">PresentationModel</span><span class="o">(</span><span class="n">MainView</span> <span class="n">mainView</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mainView</span> <span class="o">=</span> <span class="n">mainView</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">someEvent</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">mainView</span><span class="o">.</span><span class="na">doSomeViewLogic</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_other_resources">8. Other resources</h2>
 <div class="sectionbody">
 <div class="paragraph"><p><strong>Jan 2012</strong> Robert Taylor has written a couple of introductory articles <a href="http://roberttaylor426.blogspot.com/2011/11/hello-robobinding-part-1.html">here</a> and <a href="http://roberttaylor426.blogspot.com/2012/01/hello-robobinding-part-2.html">here</a>.</p></div>
 <div class="paragraph"><p><strong>Feb 2012</strong> A video of a talk on RoboBinding at SkillsMatter, London can be found <a href="http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding">here</a>.</p></div>
@@ -1423,7 +1493,7 @@ Dynamic view binding acts as a supplement to static view binding.</p></div>
 <div id="footer">
 <div id="footer-text">
 Version 0.8.4<br />
-Last updated 2014-08-03 20:44:41 澳大利亚西部标准时间
+Last updated 2014-08-09 16:21:14 澳大利亚西部标准时间
 </div>
 </div>
 </body>

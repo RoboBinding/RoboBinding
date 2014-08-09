@@ -597,6 +597,58 @@ public class DynamicBindingActivity extends Activity {
 }
 ----
 
+项目结构组织与最佳实践
+----------------------
+Presentation Model(MVVM)模式的初终是在MVC模式的基础之上，进一步的解耦Presentation Model层，使它们成为普通的http://baike.baidu.com/view/183175.htm[POJO]，可被很容易的独立单元测试。
+并使得View层->Presentation Model层->Model层 形成一个单向的依赖关系。当应用这个模式时，我们应该始终遵循这些基本原则。
+
+总体项目结构
+~~~~~~~~~~~~
+.Project structure
+image::project_structure.png["Project structure"]
+
+在Android项目中，View层由Activity与Layout组成，Model层即业务模型层包含了各种的Services，持久化层，网络访问服务，以及业务服务等。
+各层之间的依赖与访问关系如上图的箭头所示，View层不直接调用业务模型层。
+
+常见设计问题的解决方案
+~~~~~~~~~~~~~~~~~~~~~~
+* 当没有使用第三方依赖注入库时，业务模型层对象可以由View层的Activity实例化后传入Presentation Model。但View层不直接调用业务模型层。
+只有Presentation Model与业务模型层交互。
+* 有些时候，Presentation Model层需要调用或使用View层的功能。我们通过给View层加入一个接口，然后让Presentation Model依赖于这个View接口的方式来解耦。
+使PresentationModel能继续保持可被方便的独立单元测试。如果需要的话，我们可以将MainView接口归在Presentation Model层或Presentation Model包内，
+使得依赖关系保持View->PresentationModel->Model的单向关系。以下是一个简单的示例：
+[source,java]
+----
+interface MainView {
+	void doSomeViewLogic();
+}
+
+class MainActivity extends Activity implements MainView {
+	...
+	@Override
+    protected void onCreate(Bundle savedInstanceState) {
+		...
+		PresentationModel presentationModel = new PresentationModel(this);
+		...
+	}
+	
+	public void doSomeViewLogic() {
+		...
+	}
+}
+
+class PresentationModel {
+	private MainView mainView;
+	
+	public PresentationModel(MainView mainView) {
+		this.mainView = mainView;
+	}
+	
+	public void someEvent() {
+		mainView.doSomeViewLogic();
+	}
+}
+----
 
 其它资源
 --------
