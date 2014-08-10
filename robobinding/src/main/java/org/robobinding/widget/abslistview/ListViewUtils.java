@@ -17,8 +17,9 @@ public class ListViewUtils {
      * TODO:Will be replaced by listView.clearChoices(). Requires a change to
      * ShadowListView in Robolectric.
      */
-    public static void clearSelections(AbsListView listView) {
-	SparseBooleanArray array = listView.getCheckedItemPositions();
+    public static void clearSelections(AbsListView view) {
+	AbsListViewBackCompatible viewBackCompatible = new AbsListViewBackCompatible(view);
+	SparseBooleanArray array = viewBackCompatible.getCheckedItemPositions();
 
 	if (array == null) {
 	    return;
@@ -28,7 +29,7 @@ public class ListViewUtils {
 	    int position = array.keyAt(i);
 	    boolean checked = array.valueAt(i);
 	    if (checked) {
-		listView.setItemChecked(position, false);
+		viewBackCompatible.setItemChecked(position, false);
 	    }
 	}
     }

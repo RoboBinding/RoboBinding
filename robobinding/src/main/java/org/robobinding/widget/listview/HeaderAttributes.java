@@ -37,7 +37,7 @@ public class HeaderAttributes implements SubViewAttributesStrategy<ListView> {
     @Override
     public void addSubView(ListView listView, View subView, Context context) {
 	LinearLayout outerContainer = new LinearLayout(context);
-	AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(AbsListView.LayoutParams.FILL_PARENT,
+	AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
 		AbsListView.LayoutParams.WRAP_CONTENT);
 	outerContainer.setLayoutParams(layoutParams);
 	outerContainer.setOrientation(LinearLayout.VERTICAL);

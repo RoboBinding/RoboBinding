@@ -25,7 +25,7 @@ public class CheckedItemPositionAttribute implements TwoWayPropertyViewAttribute
 
     @Override
     public void updateView(AbsListView view, Integer newValue) {
-	view.setItemChecked(newValue, true);
+	new AbsListViewBackCompatible(view).setItemChecked(newValue, true);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class CheckedItemPositionAttribute implements TwoWayPropertyViewAttribute
         adapterViewListeners.addOnItemClickListener(new AdapterView.OnItemClickListener() {
 	    @Override
 	    public void onItemClick(AdapterView<?> parent, View itemView, int position, long id) {
-		int checkedItemPosition = view.getCheckedItemPosition();
+		int checkedItemPosition = new AbsListViewBackCompatible(view).getCheckedItemPosition();
 		valueModel.setValue(checkedItemPosition);
 	    }
 	});

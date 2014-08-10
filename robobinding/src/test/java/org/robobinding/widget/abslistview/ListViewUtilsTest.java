@@ -1,4 +1,4 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.RandomValues;
 import org.robobinding.widget.adapterview.MockArrayAdapter;
+import org.robobinding.widget.listview.SparseBooleanArrayUtils;
 
 import android.app.Activity;
 import android.widget.ListView;

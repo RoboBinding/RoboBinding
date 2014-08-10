@@ -6,7 +6,7 @@
 	<version>0.8.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>RoboBinding</name>
-	<description>A Presentation Model framework for the Android platform.</description>
+	<description>A Presentation Model(MVVM) framework for the Android platform.</description>
 	<url>http://robobinding.org</url>
 
 	<parent>
@@ -86,7 +86,7 @@
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<version>4.0.1.2</version>
+			<version>4.1.1.4</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
