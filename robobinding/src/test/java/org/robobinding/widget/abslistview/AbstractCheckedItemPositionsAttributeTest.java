@@ -1,4 +1,4 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import java.util.Set;
 
@@ -10,6 +10,7 @@ import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.widget.adapterview.AdapterViewListeners;
 import org.robobinding.widget.adapterview.MockAdapterViewListeners;
 import org.robobinding.widget.adapterview.MockArrayAdapter;
+import org.robobinding.widget.listview.SparseBooleanArrayUtils;
 import org.robobinding.widget.view.ViewListenersAware;
 
 import android.util.SparseBooleanArray;

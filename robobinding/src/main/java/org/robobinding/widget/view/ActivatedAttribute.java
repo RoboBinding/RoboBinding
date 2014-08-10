@@ -1,7 +1,9 @@
 package org.robobinding.widget.view;
 
-import android.view.View;
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
+
+import android.annotation.TargetApi;
+import android.view.View;
 
 /**
  *
@@ -10,6 +12,7 @@ import org.robobinding.viewattribute.property.PropertyViewAttribute;
  * @author Aurélien Catinon
  */
 public class ActivatedAttribute implements PropertyViewAttribute<View, Boolean> {
+    @TargetApi(11)
     @Override
     public void updateView(View view, Boolean newValue) {
         view.setActivated(newValue);

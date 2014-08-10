@@ -23,11 +23,5 @@ public class ListViewBinding implements ViewBinding<ListView> {
     public void mapBindingAttributes(BindingAttributeMappings<ListView> mappings) {
 	mappings.mapGroupedAttribute(new HeaderAttributesFactory(), HEADER_LAYOUT, HEADER_PRESENTATION_MODEL, HEADER_VISIBILITY);
 	mappings.mapGroupedAttribute(new FooterAttributesFactory(), FOOTER_LAYOUT, FOOTER_PRESENTATION_MODEL, FOOTER_VISIBILITY);
-
-	// Added the attributes(checkedItemPosition, checkedItemPositions,
-	// choiceMode) so that it is back compatible with Android 2.2.
-	mappings.mapProperty(CheckedItemPositionAttributeForListView.class, "checkedItemPosition");
-	mappings.mapMultiTypeProperty(CheckedItemPositionsAttributeForListView.class, "checkedItemPositions");
-	mappings.mapProperty(ChoiceModeAttributeForListView.class, "choiceMode");
     }
 }

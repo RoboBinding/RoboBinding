@@ -13,7 +13,7 @@ import android.widget.AbsListView;
 public class ChoiceModeAttribute implements PropertyViewAttribute<AbsListView, Integer> {
     @Override
     public void updateView(AbsListView view, Integer newChoiceMode) {
-        view.setChoiceMode(newChoiceMode);
+        new AbsListViewBackCompatible(view).setChoiceMode(newChoiceMode);
     }
 
 }
