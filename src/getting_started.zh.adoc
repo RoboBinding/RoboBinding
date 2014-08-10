@@ -141,6 +141,15 @@ RoboBinding需要所有实现了org.robobinding.property.ObservableBean(如所�
 
 主要概念与特性
 --------------
+.基于RoboBinding的Android应用
+image::robobinding_based_app.png[]
+
+一个Android应用包含了若干个Activity以及其它的元素。在基于RoboBinding的应用里一个Activity包含了Activity主文件，Layout以及PresentationModel类。
+(而Android普通应用一个Activity只包含了Activity主文件与Layout)。原先位于Activity内的显示层逻辑被提取到独立的文件PresentationModel内。
+Activity利用RoboBinding将Layout与对应的显示逻辑PresentationModel绑定在一起。把Layout中的显示数据与PresentationModel中的属性绑定；
+Layout中的事件与PresentationModel中的方法绑定。RoboBinding替代了原先在Activity中的UI关联代码，减少应用代码。
+在理想的情况下，PresentationModel只包含显示逻辑不包含UI代码，便与独立测试。
+
 以下的例子代码来自 https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery]。
 
 单向属性绑定
@@ -351,21 +360,24 @@ Album唱片集例子项目学习
 
 .Album唱片集例子原型
 image::album_sample_prototype.png[]
+
+以下"."表示相对于org.robobinding.albumsample的包路径。
+
 以上是Album唱片集例子原型图。项目遵循RoboBinding应用的标准结构，即一个Activity由Activity主文件，Layout与PresentationModel Java文件组成。
 项目源代码中包含以下几个包：org.robobinding.albumsample.activity包含所有Activity的主Java文件，org.robobinding.albumsample.presentationmodel包含所有PresentationModel Java文件，
 org.robobinding.albumsample.model仅包含一个Album实体实现文件，org.robobinding.albumsample.store包含一个基于内存Album实体存储实现AlbumStore。接下来列出上述五张图所对应的实现文件。
 
-图[Home Activity]由org.robobinding.albumsample.activity.HomeActivity，home_activity.xml与org.robobinding.albumsample.presentationmodel.HomePresentationModel组成。
+图[Home Activity]由.activity.HomeActivity，home_activity.xml与.presentationmodel.HomePresentationModel组成。
 
-图[View Albums Activity]由org.robobinding.albumsample.activity.ViewAlbumsActivity，view_albums_activity.xml与org.robobinding.albumsample.presentationmodel.ViewAlbumsPresentationModel组成;
-其唱片集每行的唱片信息由org.robobinding.albumsample.presentationmodel.AlbumItemPresentationModel与album_row.xml组成；以及一个当唱片集为空时Layout显示文件albums_empty_view.xml。
+图[View Albums Activity]由.activity.ViewAlbumsActivity，view_albums_activity.xml与.presentationmodel.ViewAlbumsPresentationModel组成;
+其唱片集每行的唱片信息由.presentationmodel.AlbumItemPresentationModel与album_row.xml组成；以及一个当唱片集为空时Layout显示文件albums_empty_view.xml。
 
-图[Create Album Activity]与图[Edit Album Activity]由相同的org.robobinding.albumsample.activity.CreateEditAlbumActivity，create_edit_album_activity.xml与org.robobinding.albumsample.presentationmodel.CreateEditAlbumPresentationModel组成。
+图[Create Album Activity]与图[Edit Album Activity]由相同的.activity.CreateEditAlbumActivity，create_edit_album_activity.xml与.presentationmodel.CreateEditAlbumPresentationModel组成。
 
-图[View Album Activity]由org.robobinding.albumsample.activity.ViewAlbumActivity，view_album_activity.xml与org.robobinding.albumsample.presentationmodel.ViewAlbumPresentationModel组成；
-其删除对话框由org.robobinding.albumsample.activity.DeleteAlbumDialog，delete_album_dialog.xml与DeleteAlbumDialogPresentationModel组成。
+图[View Album Activity]由.activity.ViewAlbumActivity，view_album_activity.xml与.presentationmodel.ViewAlbumPresentationModel组成；
+其删除对话框由.activity.DeleteAlbumDialog，delete_album_dialog.xml与.presentationmodel.DeleteAlbumDialogPresentationModel组成。
 
-以下以[View Albums Activity]为例，对源代码做简单介绍。Activity主Java文件ViewAlbumsActivity只做了一件事，就是把Layout文件view_albums_activity.xml与ViewAlbumsPresentationModel关联起来。
+以下以[View Albums Activity]为例，对源代码做简单介绍。Activity类ViewAlbumsActivity只做了一件事，就是把Layout view_albums_activity.xml与ViewAlbumsPresentationModel关联起来。
 view_albums_activity.xml里包含了三个子视图按顺序为TextView, ListView与Button。TextView没有包含任何绑定信息。
 ListView的++bind:source="\{albums\}"++绑定到ViewAlbumsPresentationModel.albums数据集属性。
 ++bind:onItemClick="viewAlbum"++绑定到ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent)方法，单击某个唱片项时，该事件方法将被调用。
@@ -601,6 +613,7 @@ public class DynamicBindingActivity extends Activity {
 ----------------------
 Presentation Model(MVVM)模式的初终是在MVC模式的基础之上，进一步的解耦Presentation Model层，使它们成为普通的http://baike.baidu.com/view/183175.htm[POJO]，可被很容易的独立单元测试。
 并使得View层->Presentation Model层->Model层 形成一个单向的依赖关系。当应用这个模式时，我们应该始终遵循这些基本原则。
+推荐阅读Martin Fowler的原始 http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model文章]。
 
 总体项目结构
 ~~~~~~~~~~~~

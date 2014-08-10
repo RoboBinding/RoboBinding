@@ -11,7 +11,7 @@
 
 让我们来看 https://www.youtube.com/watch?v=2sSBVaX77xA[中文介绍视频]或 http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[英文介绍视频]，然后从link:getting_started.zh.html[这里]开始吧。
 
-其它类似的 Presentation Model/http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVP] Android开源框架：https://github.com/gueei/AndroidBinding[Android-Binding]，
+其它类似的 Presentation Model/http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVM] Android开源框架：https://github.com/gueei/AndroidBinding[Android-Binding]，
 https://github.com/depoll/bindroid[Bindroid]。我们注重 *代码质量* ，RoboBinding目前有300多个单元测试，这使得RoboBinding与众不同。
 
 

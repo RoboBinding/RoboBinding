@@ -1,6 +1,6 @@
 ﻿Insight Into Framework
 ======================
-:Revision: 0.8.2
+:Revision: 0.8.4
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -35,21 +35,11 @@ RoboBinding architecture and implementation
 -------------------------------------------
 
 RoboBinding is a data-binding presentation model framework for the Android platform(Martin Fowler's http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model]).
-The aim of the project is to reduce the workload of Android application development, promote a clear project structure and make the project easier to test. The next figure shows the structure of RoboBinding-based Android applications.
-
-Observing from the Android application structure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.A RoboBinding-based Android application
-image::robobinding_based_app.png[]
-
-An Android application contains several Activities and other elements. In a RoboBinding-based Android application, an Activity contains an Activity class, a layout xml and a PresentationModel pojo
-(Whereas in an ordinary Android application, an Activity contains only an Activity class and a layout xml). The display logic, which was originally sit inside the Activity class, is extracted into a separate PresentationModel pojo.
-Activities will utilize RoboBinding to bind layouts to its corresponding display logic PresentationModel. The display data of a layout is bound to the properties of a PresentationModel,
- while the view events of a layout are bound to the methods of a PresentationModel. RoboBinding helps to reduce or remove the UI code in original Activity class through simple binding declarations in layout files.
- Ideally a PresentationModel only contains UI display logic, not UI code or UI wiring code, and can be tested independently and easily.
+The aim of the project is to reduce the workload of Android application development, promote a clear project structure and make the project easier to test. 
 
 Observing from the RoboBinding overall implementation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In the following section, a package start with '.' is a relative path to org.robobinding.
 
 .RoboBinding overall implementation chart
 image::architecture.png[]
@@ -59,147 +49,164 @@ and the three others are the framework code. Note that the figure only shows som
 A client(can be a Activity, a Dialog or a Custom View) passes a layout to a corresponding Binder(an ActivityBinder, a DialogBinder or a ViewBinder),
 and the Binder inflates the given layout file to construct a view hierarchy(with the assistance of android.view.LayoutInflater) and extracts RoboBinding binding information.
 A root view may contain several sub-views, and a sub-view may have its child views, forming a tree structure. Each view may contain several view binding attributes.
-RoboBinding defines three types of view binding attributes, namely PropertyViewAttribute(org.robobinding.viewattribute.PropertyViewAttribute),
-CommandViewAttribute(org.robobinding.viewattribute.AbstractCommandViewAttribute), and GroupedViewAttribute(org.robobinding.viewattribute.AbstractGroupedViewAttribute).
-A PropertyViewAttribute implements the binding between a view display and a property of a PresentationModel.
-A CommandViewAttribute implements the binding between a view event and a method of a PresentationModel.
-A GroupedViewAttribute, or a composite view attribute, consists of a number of sub-attributes, which can be PropertyViewAttributes and CommandViewAttributes.
-A PropertyViewAttribute is mapped to a property or a dataset-property of the PresentationModel through a org.robobinding.property.PropertyValueModel(when it is a simple property)
-or org.robobinding.property.DataSetValueModel(when it is a complicated dataset property) of org.robobinding.presentationmodel.PresentationModelAdapter.
-A CommandViewAttribute is mapped to a method of the PresentationModel through a org.robobinding.function.Function of the PresentationModelAdapter.
+RoboBinding defines three types of view binding attributes, namely .viewattribute.property.PropertyViewAttribute,
+.viewattribute.event.EventViewAttribute, and .viewattribute.grouped.GroupedViewAttribute.
+
+A PropertyViewAttribute implements the binding between a view attribute and a property of a PresentationModel.
+A EventViewAttribute implements the binding between a view event and a method of a PresentationModel.
+A GroupedViewAttribute, or a composite view binding attribute, consists of a number of sub-attributes, which can be PropertyViewAttributes and EventViewAttributes.
+A PropertyViewAttribute is mapped to a property or a dataset-property of the PresentationModel through a .property.PropertyValueModel(when it is a simple property)
+or a .property.DataSetValueModel(when it is a complicated dataset property) of the .presentationmodel.PresentationModelAdapter.
+A EventViewAttribute is mapped to a method of the PresentationModel through a .function.Function of the PresentationModelAdapter.
 
 .Demonstrating RoboBinding internal running follow through an example
 image::architecture_sample.png[]
 The chart above summarizes RoboBinding internal running follow through an example. The three blocks with yellow background were taken from RoboBinding-Sample project's source code with slight modification,
 while the other two were the instances of the corresponding core classes generated by the framework at runtime.
-ViewAlbumsActivity binds the layout to its presentationModel with the help of the framework(here is org.robobinding.binder.Binders class).
-The part with the numbering [1] is an example of a simple view binding attribute(namely org.robobinding.viewattribute.PropertyViewAttribute).
-The framework generates a org.robobinding.viewattribute.textview.TextAttribute instance for ++\{windowsTitle\}++,
-and then TextAttribute instance binds ++\{windowTitle\}++ to ViewAlbumsPresentationModel.windowTitle through a PropertyValueModel from the PresentationModelAdapter.
-The part with the numbering [2] is an example of a composite view binding attribute(namely org.robobinding.viewattribute.AbstractGroupedViewAttribute).
+ViewAlbumsActivity binds the layout to its presentationModel with the help of the framework(here is .binder.Binders class).
+
+The part with the numbering [1] is an example of a simple view binding attribute(namely .viewattribute.property.PropertyViewAttribute).
+The framework generates a .widget.textview.TextAttribute instance for ++\{windowsTitle\}++,
+and then the TextAttribute instance binds ++\{windowTitle\}++ to ViewAlbumsPresentationModel.windowTitle through a PropertyValueModel from the PresentationModelAdapter.
+
+The part with the numbering [2] is an example of a composite view binding attribute(namely .viewattribute.grouped.GroupedViewAttribute).
 Its child attributes of the source and the itemLayout form a composite ListView binding attribute.
-The framework generates a composite view attribute instance, a org.robobinding.viewattribute.adapterview.AdaptedDataSetAttributes, for ++\{albums\}++ and++@layout/album_row++.
-The composite view attribute contains two sub-view attributes, namely org.robobinding.viewattribute.adapterview.SourceAttribute and org.robobinding.viewattribute.adapterview.StaticLayoutAttribute,
+The framework generates a composite view attribute instance, a .widget.adapterview.AdaptedDataSetAttributes, for ++\{albums\}++ and++@layout/album_row++.
+The composite view attribute contains two sub-view attributes, namely .widget.adapterview.SourceAttribute and .widget.adapterview.StaticLayoutAttribute,
 which map to ++\{albums\}++ and ++@layout/album_row++ respectively.
 The SourceAttribute instance binds ++\{albums\}++ to ViewAlbumsPresentationModel.albums with the help of a DataSetValueModel of the PresentationModelAdapter.
 The StaticLayoutAttribute links to the external file album_row.xml by parsing ++@layout/album_row++.
-The third one is an example of event or command view binding attribute(namely org.robobinding.viewattribute.AbstractCommandViewAttribute).
-The framework generates a org.robobinding.viewattribute.view.OnClickAttribute instance for ++createAlbum++,
+
+The third one is an example of event binding attribute(namely .viewattribute.event.EventViewAttribute).
+The framework generates a .widget.view.OnClickAttribute instance for ++createAlbum++,
 and then the OnClickAttribute binds ++createAlbum++ to ViewAlbumsPresentationModel.createAlbum through a Function of the PresentationModelAdapter.
 
 Observing from RoboBinding implementation details
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-org.robobinding and org.robobinding.binder package
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Implementing view inflation and binding
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Classes that implement view inflation and binding are in org.robobinding and org.robobinding.binder packages. 
+In the following section, a package start with '.' is a relative path to org.robobinding.
+
 image::developer_usecase_sequence.png[]
-As shown above, application developers can use the framework in two potential ways(shown in two different colours).
-The first way is to use the utility class of org.robobinding.binder.Binders.
-As it is a utility class, it is convenient and can be used anywhere without having to create an instance.
-However, internally Binders will create a org.robobinding.binder.BinderFactoryBuilder with default configuration each time when it is used.
-And in turn the BinderFactoryBuilder will create a new org.robobinding.binder.BinderFactory instance, which carries out the actual binding process.
-The disadvantage with this way is that a new BinderFactory is created every time when invoked and the BinderFactoryBinder instance can only be with the default configuration.
-The second way is to use a configured BinderFactoryBuilder to a BinderFactory instance.
-In this way, it is more flexible, as an application developer can add a new view,
-its view binding attribute mapper(a subclass of org.robobinding.viewattribute.BindingAttributeMapper) and an optional view event listener aggregate(a subclass of org.robobinding.viewattribute.view.ViewListeners).
-Or a developer can provide a customized view binding attribute mapper to override the default implementation in the framework.
-With the second approach, the BinderFactory instance can be reused. A developer can store the instance in the application class(a subclass of android.app.Application).
-Or when using a third party library like https://github.com/roboguice/roboguice[RoboGuice], the BinderFactory instance can be injected.
+As shown above, application developers can use the framework in two potential ways(shown in two different colours),
+either through the utility class .binder.Binders or .binder.BinderFactoryBuilder to create a BinderFactory instance.
 In either way, the final actual entry class is the same, BinderFactory.
-With invocation from an application, one of the three classes, org.robobinding.ActivityBinder, org.robobinding.DialogBinder and org.robobinding.InternalViewBinder, will be called.
-The three classes internally call org.robobinding.BinderImplementor(an implementation of which is org.robobinding.binder.InternalBinder) to complete layout inflation and binding.
-The concept of view event listener aggregates(org.robobinding.viewattribute.view.ViewListeners or its subclasses), as mentioned earlier,
-is introduced to provide a workaround of registering multiple event listeners due to the fact that the Android framework can only allow register a single event listener in many cases(e.g., android.view.View.setOnFocusChangeListener).
-As an application may need to register multiple event listeners on a same event,
-to overcome the old listener not being erased by a new one accidentally, a view event listener aggregate is implemented.
+With invocation from an application, one of the three classes, org.robobinding.ActivityBinder/DialogBinder/InternalViewBinder, will be called.
+The three classes internally call BinderImplementor(org.robobinding.BinderImplementor, an implementation of which is .binder.InternalBinder) to complete layout inflation and binding.
 
 image::inflateview_sequence.png[]
 The figure shows the layout inflation process and the core classes involved.
-Carrying on with the class InternalBinder mentioned above, the InternalBinder further pass layout inflation work on to org.robobinding.binder.BindingViewInflater
+Carrying on with the class InternalBinder mentioned above, the InternalBinder further pass layout inflation work to .binder.BindingViewInflater
 and the latter propagate to org.robobinding.NonBindingViewInflater. The only responsibility of NonBindingViewInflater is to inflate layout, constructing the view hierarchy from the given layout.
-When a view is created during inflation, the registered org.robobinding.ViewFactory will callback to BindingViewInflater
-and BindingViewInflater builds a set of pending view binding attributes, org.robobinding.PendingAttributesForView, from the callback information with the help of org.robobinding.binder.BindingAttributeParser.
+When a view is created during inflation, a callback with view attributes to BindingViewInflater is fired
+and BindingViewInflater builds a set of pending view binding attributes, org.robobinding.PendingAttributesForView, with the help of .binder.BindingAttributeParser.
 Repeating the process, up till all PendingAttributesForViews are parsed from the layout.
-Then the PendingAttributesForViews are passed to org.robobinding.binder.BindingAttributeResolver, which further tries to resolve them.
-BindingAttributeResolver uses org.robobinding.binder.ByBindingAttributeMappingResolverFinder to find a set of matched view binding attribute mapping resolver, org.robobinding.binder.ByBindingAttributeMappingResolver, according to the view hierarchy from top to bottom
+
+Then the PendingAttributesForViews are passed to .binder.BindingAttributeResolver, which further tries to resolve them.
+BindingAttributeResolver uses .binder.ByBindingAttributeMappingResolverFinder to find a set of matched view binding attribute mapping resolver, .binder.ByBindingAttributeMappingResolver, according to the view hierarchy from top to bottom
 (e.g., android.widget.EditText inherits from android.widget.TextView, and TextView inherits from android.view.View. So a EditText instance matches three ByBindingAttributeMappingResolvers:
 A EditText ByBindingAttributeMappingResolver, a TextView ByBindingAttributeMappingResolver and a view ByBindingAttributeMappingResolver in order).
-BindingAttributeResolver calls all the matched ByBindingAttributeMappingResolvers in order to get a final set of org.robobinding.binder.ResolvedBindingAttributesForViews and then returns to BindingViewInflater.
+BindingAttributeResolver calls all the matched ByBindingAttributeMappingResolvers in order to get a final set of .binder.ResolvedBindingAttributesForViews and then returns to BindingViewInflater.
+
 Afterwards, BindingViewInflater add all the predefined pending attribute mappings, org.robobinding.PredefinedPendingAttributesForView, if there is.
 And then call BindingAttributeResolver to resolve them also, which follows the same process as resolving PendingAttributesForView above.
 Finally it gets a set of ResolvedBindingAttributesForViews as well.
-BindingViewInflater eventually hand a org.robobinding.binder.InflatedView containing all the ResolvedBindingAttributesForViews over to InternalBinder.
+
+BindingViewInflater eventually hand a .binder.InflatedView containing all the ResolvedBindingAttributesForViews over to InternalBinder.
 The whole layout inflation work ends and the next binding stage starts.
 
 image::bindview_sequence.png[]
 The figure shows the entire binding process and the core classes involved. The InternalBinder makes a call to the returned InflatedView to bind all its ResolvedBindingAttributesForViews.
-Internally the ResolvedBindingAttributesForViews invoke each of its org.robobinding.viewattribute.ViewAttributes to complete the binding.
+Internally the ResolvedBindingAttributesForViews invoke each of its binding attributes to complete the binding.
 After completion of the binding, the InternalBinder validates the result. When an error is found, the whole process is terminated and the errors are reported.
 If successful with no errors, pre-initializing the views is kicked off when specified.
 Pre-initializing views is to synchronize the values from a PresentationModel to its views.
 
-org.robobinding.viewattribute and org.robobinding.viewattribute$$.*$$ package
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Implementing view attribute bindings
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+View attribute bindings are implemented by org.robobinding.viewattribute and its sub package. In the following section, a package start with '.' is a relative path to org.robobinding.viewattribute.
+
 .ViewAttribute class hierarchy diagram
 image::viewattribute_hierarchy.png[]
-There are three types of view attributes defined in the framework, namely a simple view attribute org.robobinding.viewattribute.PropertyViewAttribute,
-a command view attribute org.robobinding.viewattribute.AbstractCommandViewAttribute and a composite view attribute org.robobinding.viewattribute.AbstractGroupedViewAttribute.
+There are three types of view attributes defined in the framework, namely a simple view attribute .property.PropertyViewAttribute,
+an event view attribute .event.EventViewAttribute and a composite view attribute .grouped.GroupedViewAttribute.
+
 A PropertyViewAttribute implements binding for a simple view attribute.
-It has two subclasses, which are single value-typed, org.robobinding.viewattribute.AbstractPropertyViewAttribute, and multiple value-typed, org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute.
-A AbstractPropertyViewAttribute(in the figure with [1.1]marked, ++\{enabledSwitch\}++ and ++\{selectedSwitch\}++)
-has only one possible value type such as org.robobinding.viewattribute.view.EnabledAttribute, having the only value type of Boolean.
-Whereas AbstractMultiTypePropertyViewAttribute(in the figure with [1.2] marked, ++\{visibilitySwitch\}++)
-has multiple value types such as org.robobinding.viewattribute.view.AbstractVisibilityAttribute, which can be a Integer or a Boolean.
-AbstractCommandViewAttribute(in the figure with [2] marked, ++onClick++ and ++onLongClick++) implements binding for a event or command view attribute,
-e.g., org.robobinding.viewattribute.view.OnClickAttribute, org.robobinding.viewattribute.view.OnLongClickAttribute and so on.
-AbstractGroupedViewAttribute(in the figure with [3.1, 3.2] marked, ++\{source\}++, ++@layout/item_row++ and ++\{[text1.text:\{name\}]\}++; ++@layout/footer_layout++, ++\{footer\}++ and ++\{footerVisibility\}++)
-implements binding for a composite view attribute such as a org.robobinding.viewattribute.adapterview.AdaptedDataSetAttributes which contains sub-attributes a source, an itemLayout and an optional itemMapping;
-a org.robobinding.viewattribute.listview.FooterAttributes, which contains sub-attributes a footerLayout and two optional attributes, a footerPresentationModel and a footerVisibility.
-org.robobinding.viewattribute package contains abstract classes of core concepts for view attributes, and its sub-packages contains various counterpart view attribute binding implementation for android.widget package.
-For example, org.robobinding.viewattribute.textview package is for android.widget.TextView and org.robobinding.viewattribute.seekbar package is for android.widget.SeekBar.
+It has two subclasses, which are single value-typed, property.PropertyViewAttribute, and multiple value-typed, property.MultiTypePropertyViewAttribute.
+A PropertyViewAttribute(in the figure with [1.1]marked, ++\{enabledSwitch\}++ and ++\{selectedSwitch\}++)
+has only one possible value type such as EnabledAttribute(org.robobinding.widget.view.EnabledAttribute), having the only value type of Boolean.
+Whereas MultiTypePropertyViewAttribute(in the figure with [1.2] marked, ++\{visibilitySwitch\}++)
+has multiple value types such as VisibilityAttribute(org.robobinding.widget.view.VisibilityAttribute), which can be a Integer or a Boolean.
+
+A EventViewAttribute(in the figure with [2] marked, ++onClick++ and ++onLongClick++) implements binding for a event view attribute,
+e.g., org.robobinding.widget.view.OnClickAttribute/OnLongClickAttribute and so on.
+
+GroupedViewAttribute(in the figure with [3.1, 3.2] marked, ++\{source\}++, ++@layout/item_row++ and ++\{[text1.text:\{name\}]\}++; ++@layout/footer_layout++, ++\{footer\}++ and ++\{footerVisibility\}++)
+implements binding for a composite view attribute such as a org.robobinding.widget.adapterview.AdaptedDataSetAttributes which contains sub-attributes a source, an itemLayout and an optional itemMapping;
+a org.robobinding.widget.listview.FooterAttributes, which contains sub-attributes a footerLayout and two optional attributes, a footerPresentationModel and a footerVisibility.
+
+org.robobinding.viewattribute package contains abstract classes of core concepts for view attributes, and org.robobinding.widget package contains various counterpart view attribute binding implementations for android.widget package.
+For example, org.robobinding.widget.textview package is for android.widget.TextView and org.robobinding.widget.seekbar package is for android.widget.SeekBar.
 
 
 ViewAttribute life-cycle methods: initialize->bindTo->preInitializeView.
-The three view attributes(namely PropertyViewAttribute, AbstractCommandViewAttribute and AbstractGroupedViewAttribute) have consistent life-cycle methods,
+The three view attributes(namely PropertyViewAttribute, EventViewAttribute and GroupedViewAttribute) have consistent life-cycle methods,
 which are initializing(initialize), binding(bindTo) and an optional pre-initializing the views(preInitializeView). The three methods are called in order.
 The preInitializeView method is only called when specified.
 
 
 .ChildViewAttributes class diagram
 image::childviewattribute_relationship.png[]
-The figure shows the relationship between a composite view attribute AbstractGroupedViewAttribute and its child view attributes.
-A AbstractGroupedViewAttribute contains various types of child view attributes. Currently there are four kinds, namely org.robobinding.viewattribute.ChildViewAttribute,
-org.robobinding.viewattribute.DependentChildViewAttribute, org.robobinding.viewattribute.PropertyViewAttribute and org.robobinding.viewattribute.DependentPropertyViewAttribute.
-A ChildViewAttribute is an ordinary child view attribute and it has a subclass of org.robobinding.viewattribute.ChildViewAttributeWithAttribute.
-A ChildViewAttributeWithAttribute is a ChildViewAttribute but with a required attribute value, which has to be set when the ChildViewAttributeWithAttribute is created,
-such as org.robobinding.viewattribute.adapterview.SourceAttribute and org.robobinding.viewattribute.adapterview.SubViewLayoutAttribute.
-DependentChildViewAttribute is a dependent child view attribute. It cannot be created in an ordinary way, as it depends on some runtime information, for example some values from other sibling child view attributes.
-It is, therefore, created via an org.robobinding.viewattribute.ChildViewAttributeFactory.
-Take org.robobinding.viewattribute.adapterview.SubViewAttributes.SubViewAttributeFactory for example.
-Whether to create a org.robobinding.viewattribute.adapterview.SubViewPresentationModelAttribute or a org.robobinding.viewattribute.adapterview.SubViewWithoutPresentationModelAttribute
-depends on a run-time value of ++hasSubViewPresentationModel++.
-PropertyViewAttribute or any of its subclasses, as mentioned earlier, can be reused here as a child view attribute.
-DependentPropertyViewAttribute is similar to DependentChildViewAttribute. it depends on some runtime information and will be created via a org.robobinding.viewattribute.ViewAttributeFactory.
-For example, org.robobinding.viewattribute.adapterview.SubViewAttributes.SubViewVisibilityAttributeFactory depends on the two runtime values, ++view++ and ++subView++.
 
-org.robobinding.presentationmodel, org.robobinding.property, org.robobinding.itempresentationmodel and org.robobinding.function package
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In the following section, a package start with '.' is a relative path to org.robobinding.viewattribute.
+
+The figure shows the relationship between a composite view attribute .grouped.GroupedViewAttribute and its child view attributes.
+A GroupedViewAttribute contains various types of child view attributes. Currently there are three kinds, namely .grouped.ChildViewAttribute,
+.grouped.DependentChildViewAttribute, .property.PropertyViewAttribute.
+
+A ChildViewAttribute is an ordinary child view attribute and it has a subclass of .grouped.ChildViewAttributeWithAttribute.
+A ChildViewAttributeWithAttribute is a ChildViewAttribute but with a required attribute value, which will be set when the ChildViewAttributeWithAttribute is created,
+such as org.robobinding.widget.adapterview.SourceAttribute/SubViewLayoutAttribute.
+
+DependentChildViewAttribute is a dependent child view attribute. It cannot be created in an ordinary way, as it depends on some information from its previous child attributes.
+It is, therefore, created via an .grouped.ChildViewAttributeFactory.
+Take org.robobinding.widget.adapterview.SubViewAttributes.SubViewAttributeFactory for example.
+It needs subViewLayoutAttribute.getLayoutId() to create a SubViewAttribute.
+
+PropertyViewAttribute or any of its subclasses, as mentioned earlier, can be reused here as a child view attribute.
+
+Implementing Presentation Model concepts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In the following section, a package start with '.' is a relative path to org.robobinding.
+
 .PresentationModel class diagram
 image::presentationmodel_classdiagram.png[]
 The four packages, org.robobinding.presentationmodel, org.robobinding.property, org.robobinding.itempresentationmodel and org.robobinding.function,
-are for wrapping a PresentationModel to ease the use by the framework.
-org.robobinding.presentationmodel.PresentationModelAdapter is the entry class of the packages.
+are for wrapping a PresentationModel as a .presentationmodel.PresentationModelAdapter, which is used by binding module.
+The PresentationModelAdapter is the entry class of the packages.
 The framework generates a PresentationModelAdapter instance for each PresentationModel.
-Currently, there are two ways for the framework to identify a PresentationModel. Either is a subclass of org.robobinding.presentationmodel.ObservableProperties or AbstractPresentationModel,
-or is annotated by org.robobinding.presentationmodel.PresentationModel annotation.
+Currently, there are two ways for the framework to identify a PresentationModel. 
+Either is a subclass of .property.ObservableBean/.presentationmodel.AbstractPresentationModel,
+or is annotated by .presentationmodel.PresentationModel.
+
 PresentationModelAdapter is mainly to wrap a PresentationModel and to expose as a provider of three kinds of information,
-namely wrapping SimpleProperty, DataSetProperty and Method and exposing as a provider of org.robobinding.property.PropertyValueModel, org.robobinding.property.DataSetValueModel
-and org.robobinding.function.Function. On the right hand side of the figure above, the property of ++windowTitle++ is a SimpleProperty, the property of ++albums++ is a DataSetProperty and ++createAlbum()++ is a Method.
-DataSetProperty is a data collection property. The framework will create a org.robobinding.itempresentationmodel.ItemPresentationModel instance for each data item in the collection.
+namely wrapping SimpleProperty, DataSetProperty and Method, and then exposing as a provider of .property.PropertyValueModel, .property.DataSetValueModel
+and .function.Function. On the right hand side of the figure above, the property of ++windowTitle++ is a SimpleProperty, the property of ++albums++ is a DataSetProperty and ++createAlbum()++ is a Method.
+DataSetProperty is a data collection property. The framework will create a .itempresentationmodel.ItemPresentationModel instance for each data item in the collection.
 In the given figure above, an AlbumItemPresentationModel will be created for each album item in albums collection and will be rendered to the screen according to the given row layout of ++@layout/album_row++.
+
 The framework utilizes http://eclipse.org/aspectj/[AspectJ] framework to auto-generate and inject some source code to reduce the workload.
 For example, a PresentationModel will be injected a PresentationModelAspect, mainly to append property value change event notification to the setters.
 A ItemPresentationModel will be injected a ItemPresentationModelAspect, appending some source code to ItemPresentationModel.updateData method to reflect data item change and to refresh the ItemPresentationModel so that the display is synchronized.
+
+View event listener aggregates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The concept of view event listener aggregates(org.robobinding.viewattribute.view.ViewListeners or its subclasses),
+is introduced to provide a workaround of registering multiple event listeners due to the fact that the Android framework can only allow register a single event listener in many cases(e.g., android.view.View.setOnFocusChangeListener).
+As an application may need to register multiple event listeners on a same event,
+to overcome the old listener not being erased by a new one accidentally, the concept of view event listener aggregate is implemented.
 
 
 Becoming a regular contributor

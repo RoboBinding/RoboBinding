@@ -782,7 +782,7 @@ asciidoc.install(2);
         </div>
 <div id="header">
 <h1>深入理解框架</h1>
-<span id="revnumber">version 0.8.2</span>
+<span id="revnumber">version 0.8.4</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -844,164 +844,166 @@ Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:build
 <h2 id="_robobinding架构与实现">2. RoboBinding架构与实现</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>RoboBinding是一个实现Martin Fowler的<a href="http://martinfowler.com/eaaDev/PresentationModel.html">Presentation Model</a>构架模式的Android框架。
-目标为减少Android应用开发工作量；促进清晰的项目结构；使项目代码更易于测试。基于RoboBinding的Android应用的结构如下图。</p></div>
+目标为减少Android应用开发工作量；促进清晰的项目结构；使项目代码更易于测试。</p></div>
 <div class="sect2">
-<h3 id="_从android应用结构上看">2.1. 从Android应用结构上看</h3>
-<div class="imageblock">
-<div class="content">
-<img src="./images/robobinding_based_app.png" alt="robobinding_based_app.png" />
-</div>
-<div class="title">Figure 1. 基于RoboBinding的Android应用</div>
-</div>
-<div class="paragraph"><p>一个Android应用包含了若干个Activity以及其它的元素。在基于RoboBinding的应用里一个Activity包含了Activity主文件，Layout文件以及PresentationModel文件
-(而Android普通应用一个Activity只包含了Activity主文件与Layout文件)。原先位于Activity内的显示层逻辑被提取到独立的文件PresentationModel内。
-Activity利用RoboBinding将Layout与对应的显示逻辑PresentationModel绑定在一起。把Layout中的显示数据与PresentationModel中的属性绑定；
-Layout中的事件与PresentationModel中的方法绑定。RoboBinding替代了原先在Activity中的UI关联代码，减少应用代码。
-在理想的情况下，PresentationModel只包含显示逻辑不包含UI代码，便与独立测试。</p></div>
-</div>
-<div class="sect2">
-<h3 id="_从robobinding实现概览上看">2.2. 从RoboBinding实现概览上看</h3>
+<h3 id="_从robobinding实现概览上看">2.1. 从RoboBinding实现概览上看</h3>
+<div class="paragraph"><p>以下"."表示相对于org.robobinding的包路径。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/architecture.png" alt="architecture.png" />
 </div>
-<div class="title">Figure 2. RoboBinding实现概要图</div>
+<div class="title">Figure 1. RoboBinding实现概要图</div>
 </div>
 <div class="paragraph"><p>以上为RoboBinding框架实现的概要。黄色背景的两张图(Client与PresentationModel)为应用代码，其它的三个为框架代码。图中只列举了来自一些包的核心类。
 Client(Activity，Dialog或Custom View)将Layout传递给对应的Binder(ActivityBinder, DialogBinder或ViewBinder)，
 Binder从给定的Layout文件构建起View层次结构(利用Android的内部android.view.LayoutInflater功能)以及RoboBinding绑定信息。
 一个根View可能包含若干个子View，子View可能包含下级View，形成一个树状的结构。每一个View中可能包含若干个视图绑定属性。
-RoboBinding中定义了三类视图绑定属性，分别是PropertyViewAttribute(org.robobinding.viewattribute.PropertyViewAttribute)，CommandViewAttribute(org.robobinding.viewattribute.AbstractCommandViewAttribute)，以及GroupedViewAttribute(org.robobinding.viewattribute.AbstractGroupedViewAttribute)。
-PropertyViewAttribute实现Layout中的显示数据与PresentationModel中的属性绑定；CommandViewAttribute实现Layout中的事件与PresentationModel中的方法绑定；
-而GroupedViewAttribute由若干个PropertyViewAttribute与CommandViewAttribute组成，用于实现一个复合视图属性由多个子属性构成的情况。
-PropertyViewAttribute通过org.robobinding.presentationmodel.PresentationModelAdapter的org.robobinding.property.PropertyValueModel(如果是简单属性)或org.robobinding.property.DataSetValueModel(如果是复杂的数据集合属性)
-映射到PresentationModel的属性或DataSet型属性。CommandViewAttribute通过PresentationModelAdapter的org.robobinding.function.Function映射到PresentationModel的方法。</p></div>
+RoboBinding中定义了三类视图绑定属性，分别是.viewattribute.property.PropertyViewAttribute，
+.viewattribute.event.EventViewAttribute，
+以及.viewattribute.grouped.GroupedViewAttribute。</p></div>
+<div class="paragraph"><p>PropertyViewAttribute实现Layout中的显示数据与PresentationModel中的属性绑定；
+EventViewAttribute实现Layout中的事件与PresentationModel中的方法绑定；
+而GroupedViewAttribute由若干个PropertyViewAttribute与EventViewAttribute组成，用于实现一个复合视图属性由多个子属性构成的情况。
+PropertyViewAttribute通过.presentationmodel.PresentationModelAdapter
+的.property.PropertyValueModel(如果是简单属性)
+或.property.DataSetValueModel(如果是复杂的数据集合属性)
+映射到PresentationModel的属性或数据集属性。
+EventViewAttribute通过PresentationModelAdapter的.function.Function映射到PresentationModel的方法。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/architecture_sample.png" alt="architecture_sample.png" />
 </div>
-<div class="title">Figure 3. RoboBinding实现例子概要图</div>
+<div class="title">Figure 2. RoboBinding实现例子概要图</div>
 </div>
 <div class="paragraph"><p>上图以实例解释了框架的实现概要。黄色背景的三张图摘自RoboBinding-Sample项目的源代码，其它二个为应用运行时框架产生的对应的核心代码实例。
-ViewAlbumsActivity通过框架(这里为org.robobinding.binder.Binders类)将layout与presentationModel绑定在一起。
-图中的第一个为简单视图属性的绑定例子。框架为<code>{windowsTitle}</code>产生一个org.robobinding.viewattribute.textview.TextAttribute实例，而TextAttribute实例通过PresentationModelAdapter的PropertyValueModel
-将<code>{windowTitle}</code>与ViewAlbumsPresentationModel.windowTitle绑定在一起。第二个为复合视图属性的绑定例子。ListView的source与itemLayout为复合视图属性，框架为<code>{albums}</code>与<code>@layout/album_row</code>
-产生一个org.robobinding.viewattribute.adapterview.AdaptedDataSetAttributes复合视图属性实例，此复合视图属性包含两个子视图属性
-org.robobinding.viewattribute.adapterview.SourceAttribute与org.robobinding.viewattribute.adapterview.StaticLayoutAttribute分别和<code>{albums}</code>及其<code>@layout/album_row</code>相对应。
+ViewAlbumsActivity通过框架(.binder.Binders类)将layout与presentationModel绑定在一起。</p></div>
+<div class="paragraph"><p>图中的第一个为简单视图属性的绑定例子。框架为<code>{windowsTitle}</code>产生一个.widget.textview.TextAttribute实例，
+而TextAttribute实例通过PresentationModelAdapter的PropertyValueModel
+将<code>{windowTitle}</code>与ViewAlbumsPresentationModel.windowTitle绑定在一起。</p></div>
+<div class="paragraph"><p>第二个为复合视图属性的绑定例子。ListView的source与itemLayout为复合视图属性，框架为<code>{albums}</code>与<code>@layout/album_row</code>
+产生一个.widget.adapterview.AdaptedDataSetAttributes复合视图属性实例，此复合视图属性包含两个子视图属性
+.widget.adapterview.SourceAttribute与.widget.adapterview.StaticLayoutAttribute分别和<code>{albums}</code>及其<code>@layout/album_row</code>相对应。
 而SourceAttribute实例通过PresentationModelAdapter的DataSetValueModel将<code>{albums}</code>与ViewAlbumsPresentationModel.albums绑定在一起；
-而StaticLayoutAttribute通过解析<code>@layout/album_row</code>关联到外部文件album_row.xml。第三个为视图事件属性的绑定例子。
-框架为<code>createAlbum</code>产生一个org.robobinding.viewattribute.view.OnClickAttribute实例，而OnClickAttribute实例通过PresentationModelAdapter的Function
+而StaticLayoutAttribute通过解析<code>@layout/album_row</code>关联到外部文件album_row.xml。</p></div>
+<div class="paragraph"><p>第三个为事件视图属性的绑定例子。
+框架为<code>createAlbum</code>产生一个.widget.view.OnClickAttribute实例，而OnClickAttribute实例通过PresentationModelAdapter的Function
 将<code>createAlbum</code>与ViewAlbumsPresentationModel.createAlbum绑定在一起。</p></div>
 </div>
 <div class="sect2">
-<h3 id="_从robobinding实现细节上看">2.3. 从RoboBinding实现细节上看</h3>
+<h3 id="_从robobinding实现细节上看">2.2. 从RoboBinding实现细节上看</h3>
 <div class="sect3">
-<h4 id="_org_robobinding与org_robobinding_binder包">2.3.1. org.robobinding与org.robobinding.binder包</h4>
+<h4 id="_视图inflation与绑定实现">2.2.1. 视图inflation与绑定实现</h4>
+<div class="paragraph"><p>视图inflation与绑定实现类来自org.robobinding与org.robobinding.binder两个包。以下"."表示相对于org.robobinding的包路径。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/developer_usecase_sequence.png" alt="developer_usecase_sequence.png" />
 </div>
 </div>
-<div class="paragraph"><p>如上图所示，应用开发者通过两个可能的入口点使用框架(以两种不同的颜色区分)。第一种是通过org.robobinding.binder.Binders工具类来使用框架，由于是工具类，随时随地可用，无需创建实例，方便；
-Binders内部其实每次是通过org.robobinding.binder.BinderFactoryBuilder以默认配置的创建新的org.robobinding.binder.BinderFactory实例，然后调用BinderFactory间接的完成整个绑定；
-其缺点是每次都产生新的BinderFactory实例且BinderFactoryBinder只能是默认的配置。第二种是通过BinderFactoryBuilder配置创建BinderFactory实例，
-通过配置应用开发者可以增加新的视图，视图可绑定属性映射类(org.robobinding.viewattribute.BindingAttributeMapper子类)及其可选的视图事件监听器聚集(org.robobinding.viewattribute.view.ViewListeners子类)；
-或者提供定制的视图可绑定属性映射类来覆盖框架的默认实现。
-通过第二种方式时，BinderFactory实例可以被重用，应用开发者可将实例保存在应用类里(即实现了android.app.Application的子类)或者通过第三方的框架如
-<a href="https://github.com/roboguice/roboguice">RoboGuice</a>注入BinderFactory实例。不管是选择前面两种方式的哪一种，其实真正功能的入口类都是BinderFactory。
-根据应用程序的要求，调用org.robobinding.ActivityBinder，org.robobinding.DialogBinder或org.robobinding.InternalViewBinder，
-而这三个类内部又通过调用org.robobinding.BinderImplementor的子类org.robobinding.binder.InternalBinder来实现layout的inflation以及绑定。
-前面提到过视图事件监听器聚集(即org.robobinding.viewattribute.view.ViewListeners或其子类)，这是由于android框架的事件设计而提供的一个workaround。
-因为android框架中很多事件只能注册一个事件监听器如android.view.View.setOnFocusChangeListener，但应用中有时可能需要注册多个，
-为了使之前注册过的旧的事件监听器不被新的意外覆盖而提供了事件监听器聚集ViewListeners。</p></div>
+<div class="paragraph"><p>如上图所示，应用开发者通过两个可能的入口点使用框架(以两种不同的颜色区分)，
+.binder.Binders工具类或者.binder.BinderFactoryBuilder。
+不管是选择哪方式，其真正功能的入口类都是BinderFactory。
+根据应用程序的要求，调用org.robobinding.ActivityBinder/DialogBinder/InternalViewBinder，
+而这三个类内部又通过调用BinderImplementor(org.robobinding.BinderImplementor)的子类.binder.InternalBinder来实现layout的inflation以及绑定。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/inflateview_sequence.png" alt="inflateview_sequence.png" />
 </div>
 </div>
-<div class="paragraph"><p>上图展示了框架对一个layout进行inflation的整个流程及其主要的参与类。接上述说到InternalBinder类，InternalBinder将layout inflation工作交给org.robobinding.binder.BindingViewInflater；
+<div class="paragraph"><p>上图展示了框架对一个layout进行inflation的整个流程及其主要的参与类。
+接上述说到InternalBinder类，InternalBinder将layout inflation工作交给.binder.BindingViewInflater；
 而layout inflation工作又被转交给org.robobinding.NonBindingViewInflater。NonBindingViewInflater只做layout inflation工作，不做解析视图绑定属性的工作，
-它从layout文件创建视图集。当一个视图被创建时org.robobinding.ViewFactory回调BindingViewInflater。
-BindingViewInflater通过org.robobinding.binder.BindingAttributeParser解析出该视图的待绑定视图属性映射org.robobinding.PendingAttributesForView。
-就这样重复以上的过程，直到解析出layout中所有视图的待绑定视图属性映射PendingAttributesForView为止。
-然后待绑定视图属性映射PendingAttributesForView被放入org.robobinding.binder.BindingAttributeResolver进行解析转化构建视图的绑定属性集。
-BindingAttributeResolver通过org.robobinding.binder.ByBindingAttributeMappingResolverFinder从上至下为视图寻找匹配的绑定属性解析转化器org.robobinding.binder.ByBindingAttributeMappingResolver集
-(例如android.widget.EditText继承于android.widget.TextView，而TextView继承于android.view.View。一个EditText实例视图将匹配得到三个绑定属性解析转化器：EditText绑定属性解析转化器，TextView绑定属性解析转化器以及View绑定属性解析转化器。)。
-BindingAttributeResolver通过调用所有匹配到的绑定属性解析转化器ByBindingAttributeMappingResolver得到最后的视图绑定属性集org.robobinding.binder.ResolvedBindingAttributesForView返回给BindingViewInflater。
-BindingViewInflater接着添加所有预定义的待绑定视图属性映射org.robobinding.PredefinedPendingAttributesForView，如果有的话。然后调用BindingAttributeResolver解析转化构建视图的绑定属性集，
-过程与之前解析转化待绑定视图属性映射PendingAttributesForView一样，最后也得到视图绑定属性集ResolvedBindingAttributesForView。
-BindingViewInflater将包含所有视图绑定属性集ResolvedBindingAttributesForView的org.robobinding.binder.InflatedView返回InternalBinder。整个layout的inflation工作结束。接着是下一步的绑定。</p></div>
+它从layout文件创建视图集。当一个视图被创建时回调BindingViewInflater。
+BindingViewInflater通过.binder.BindingAttributeParser解析出该视图的待绑定视图属性集org.robobinding.PendingAttributesForView。
+就这样重复以上的过程，直到解析出layout中所有视图的待绑定视图属性集PendingAttributesForView为止。</p></div>
+<div class="paragraph"><p>然后待绑定视图属性集PendingAttributesForView被放入.binder.BindingAttributeResolver进行解析构建视图的绑定属性集。
+BindingAttributeResolver通过.binder.ByBindingAttributeMappingResolverFinder从上至下为视图寻找匹配的绑定属性解析器集.binder.ByBindingAttributeMappingResolver
+(例如android.widget.EditText继承于android.widget.TextView，而TextView继承于android.view.View。一个EditText实例视图将匹配得到三个绑定属性解析器：EditText绑定属性解析器，TextView绑定属性解析器以及View绑定属性解析器。)。
+BindingAttributeResolver通过调用所有匹配到的绑定属性解析器ByBindingAttributeMappingResolver得到最后的视图绑定属性集.binder.ResolvedBindingAttributesForView返回给BindingViewInflater。</p></div>
+<div class="paragraph"><p>BindingViewInflater接着添加所有预定义的待绑定视图属性集org.robobinding.PredefinedPendingAttributesForView，如果有的话。然后调用BindingAttributeResolver解析转化构建视图的绑定属性集，
+过程与之前解析待绑定视图属性集PendingAttributesForView一致，最后也得到视图绑定属性集ResolvedBindingAttributesForView。</p></div>
+<div class="paragraph"><p>BindingViewInflater将包含所有视图绑定属性集ResolvedBindingAttributesForView的.binder.InflatedView返回InternalBinder。整个layout的inflation工作结束。接着是下一步的绑定。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/bindview_sequence.png" alt="bindview_sequence.png" />
 </div>
 </div>
 <div class="paragraph"><p>上图展示了整个绑定的过程以及主要的参与类。InternalBinder通过调用上一步返回的InflatedView来绑定所有的视图绑定属性集ResolvedBindingAttributesForView。
-而视图绑定属性集ResolvedBindingAttributesForView内部又调用各个视图绑定属性org.robobinding.viewattribute.ViewAttribute完成绑定。
+而视图绑定属性集ResolvedBindingAttributesForView内部又调用各个视图绑定属性完成绑定。
 绑定完成之后，InternalBinder校验所有绑定是否都成功，不成功就终止并报告错误。如果成功，就接着预初始化视图值(如果需要的话)。
 预初始化视图值即将PresentationModel的初值设置到视图上。</p></div>
 </div>
 <div class="sect3">
-<h4 id="_org_robobinding_viewattribute与org_robobinding_viewattribute_包">2.3.2. org.robobinding.viewattribute与org.robobinding.viewattribute.*包</h4>
+<h4 id="_视图绑定属性实现">2.2.2. 视图绑定属性实现</h4>
+<div class="paragraph"><p>视图绑定属性由org.robobinding.viewattribute及其子包提供实现。以下"."表示相对于org.robobinding.viewattribute的包路径。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/viewattribute_hierarchy.png" alt="viewattribute_hierarchy.png" />
 </div>
-<div class="title">Figure 4. ViewAttribute类层次关系图</div>
+<div class="title">Figure 3. ViewAttribute类层次关系图</div>
 </div>
-<div class="paragraph"><p>视图属性主要包含三类：简单视图属性org.robobinding.viewattribute.PropertyViewAttribute，命令视图属性org.robobinding.viewattribute.AbstractCommandViewAttribute，
-以及复合视图属性org.robobinding.viewattribute.AbstractGroupedViewAttribute。PropertyViewAttribute为简单视图属性绑定提供实现，
-分为两种，即单值简单视图属性org.robobinding.viewattribute.AbstractPropertyViewAttribute与多值简单视图属性org.robobinding.viewattribute.AbstractMultiTypePropertyViewAttribute。
-单值简单视图属性AbstractPropertyViewAttribute(如图[1.1]标注的<code>{enabledSwitch}</code>，<code>{selectedSwitch}</code>)
-即只有一种可能类型的值如org.robobinding.viewattribute.view.EnabledAttribute，只有Boolean类型的值。
-多值简单视图属性AbstractMultiTypePropertyViewAttribute(如图[1.2]标注的<code>{visibilitySwitch}</code>)
-即有多种可能类型的值如org.robobinding.viewattribute.view.AbstractVisibilityAttribute控制是否可视，可能有Boolean或Integer类型的值。
-AbstractCommandViewAttribute(如图[2]标注的<code>onClick</code>，<code>onLongClick</code>)为命令视图属性绑定提供实现，
-如org.robobinding.viewattribute.view.OnClickAttribute，org.robobinding.viewattribute.view.OnLongClickAttribute等。
-AbstractGroupedViewAttribute(如图[3.1，3.2]标注的<code>{source}</code>，<code>@layout/item_row</code>，<code>{[text1.text:{name}]}</code>；<code>@layout/footer_layout</code>，<code>{footer}</code>，<code>{footerVisibility}</code>)
-为复合视图属性绑定提供实现，如org.robobinding.viewattribute.adapterview.AdaptedDataSetAttributes由子属性source，itemLayout以及可选的itemMapping构成；
-org.robobinding.viewattribute.listview.FooterAttributes由子属性footerLayout以及可选的footerPresentationModel与footerVisibility构成。
-org.robobinding.viewattribute包 包含了主要的概念抽象类，而org.robobinding.viewattribute子包对应android.widget包下的各种widget的视图属性绑定实现。
-如org.robobinding.viewattribute.textview包对应android.widget.TextView；org.robobinding.viewattribute.seekbar包对应android.widget.SeekBar。</p></div>
+<div class="paragraph"><p>视图属性主要包含三类：简单视图属性.property.PropertyViewAttribute，
+事件视图属性.event.EventViewAttribute，
+以及复合视图属性.grouped.GroupedViewAttribute。</p></div>
+<div class="paragraph"><p>PropertyViewAttribute为简单视图属性绑定提供实现，
+分为两种，即单值简单视图属性.property.PropertyViewAttribute与多值简单视图属性.property.MultiTypePropertyViewAttribute。
+单值简单视图属性PropertyViewAttribute(如图[1.1]标注的<code>{enabledSwitch}</code>，<code>{selectedSwitch}</code>)
+即只有一种可能类型的值如EnabledAttribute(org.robobinding.widget.view.EnabledAttribute)，只有Boolean类型的值。
+多值简单视图属性MultiTypePropertyViewAttribute(如图[1.2]标注的<code>{visibilitySwitch}</code>)
+即有多种可能类型的值如VisibilityAttribute(org.robobinding.widget.view.VisibilityAttribute)控制是否可视，可能有Boolean或Integer类型的值。</p></div>
+<div class="paragraph"><p>EventViewAttribute(如图[2]标注的<code>onClick</code>，<code>onLongClick</code>)为事件视图属性绑定提供实现，
+如org.robobinding.widget.view.OnClickAttribute/OnLongClickAttribute等。</p></div>
+<div class="paragraph"><p>GroupedViewAttribute(如图[3.1，3.2]标注的<code>{source}</code>，<code>@layout/item_row</code>，<code>{[text1.text:{name}]}</code>；<code>@layout/footer_layout</code>，<code>{footer}</code>，<code>{footerVisibility}</code>)
+为复合视图属性绑定提供实现，如AdaptedDataSetAttributes(org.robobinding.widget.adapterview.AdaptedDataSetAttributes)由子属性source，itemLayout以及可选的itemMapping构成；
+org.robobinding.widget.listview.FooterAttributes由子属性footerLayout以及可选的footerPresentationModel与footerVisibility构成。</p></div>
+<div class="paragraph"><p>org.robobinding.viewattribute包 包含了主要的概念抽象类，而org.robobinding.widget子包对应android.widget包下的各种widget的视图属性绑定实现。
+如org.robobinding.widget.textview包对应android.widget.TextView；org.robobinding.widget.seekbar包对应android.widget.SeekBar。</p></div>
 <div class="paragraph"><p>ViewAttribute生命周期方法：initialize&#8594;bindTo&#8594;preInitializeView。
-三种视图属性(即简单视图属性PropertyViewAttribute，命令视图属性AbstractCommandViewAttribute以及复合视图属性AbstractGroupedViewAttribute)都存在着一致的生命周期方法。
+三种视图属性(即简单视图属性PropertyViewAttribute，事件视图属性EventViewAttribute以及复合视图属性GroupedViewAttribute)都存在着一致的生命周期方法。
 即初始化(initialize)，绑定(bindTo)以及可选的预初始化视图(preInitializeView)。三个方法由前至后的顺序被调用。预初始化视图方法只有在被要求的情况下才会被调用。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/childviewattribute_relationship.png" alt="childviewattribute_relationship.png" />
 </div>
-<div class="title">Figure 5. ChildViewAttributes类关系图</div>
+<div class="title">Figure 4. ChildViewAttributes类关系图</div>
 </div>
-<div class="paragraph"><p>上图展示了AbstractGroupedViewAttribute复合视图属性与子属性的关系。AbstractGroupedViewAttribute包含了各种类型的子属性，目前主要有四类，即org.robobinding.viewattribute.ChildViewAttribute，
-org.robobinding.viewattribute.DependentChildViewAttribute，org.robobinding.viewattribute.PropertyViewAttribute，org.robobinding.viewattribute.DependentPropertyViewAttribute。
-ChildViewAttribute为普通的子视图属性，其下又包含了org.robobinding.viewattribute.ChildViewAttributeWithAttribute；ChildViewAttributeWithAttribute为带属性值的子视图属性，在该子属性被创建时，
-框架将赋予所需的属性值，例如：org.robobinding.viewattribute.adapterview.SourceAttribute，org.robobinding.viewattribute.adapterview.SubViewLayoutAttribute。
-DependentChildViewAttribute为依赖型子视图属性，该类型的子视图属性不能被简单的被创建，因为它们依赖于外部的一些信息，
-而由一个org.robobinding.viewattribute.ChildViewAttributeFactory工厂创建；例如org.robobinding.viewattribute.adapterview.SubViewAttributes.SubViewAttributeFactory，
-提供一个org.robobinding.viewattribute.adapterview.SubViewPresentationModelAttribute还是org.robobinding.viewattribute.adapterview.SubViewWithoutPresentationModelAttribute，
-需要一个运行时信息<code>hasSubViewPresentationModel</code>来决定。PropertyViewAttribute为简单视图属性或其子类，前面已经提到过，可以重用系统中已有的简单视图属性作为复合视图属性的子属性。
-DependentPropertyViewAttribute与DependentChildViewAttribute类似，为依赖型简单视图属性；依赖于外部的一些信息，由一个org.robobinding.viewattribute.ViewAttributeFactory工厂创建；
-例如org.robobinding.viewattribute.adapterview.SubViewAttributes.SubViewVisibilityAttributeFactory，依赖于<code>view</code>与<code>subView</code>两个外部值。</p></div>
+<div class="paragraph"><p>以下"."表示相对于org.robobinding.viewattribute的包路径。</p></div>
+<div class="paragraph"><p>上图展示了.group.GroupedViewAttribute复合视图属性与子属性的关系。GroupedViewAttribute包含了各种类型的子属性，目前主要有三类，即.grouped.ChildViewAttribute，
+.grouped.DependentChildViewAttribute，property.PropertyViewAttribute。</p></div>
+<div class="paragraph"><p>ChildViewAttribute为普通的子视图属性，其下又包含了.grouped.ChildViewAttributeWithAttribute；ChildViewAttributeWithAttribute为带属性值的子视图属性，在该子属性被创建时，
+框架将赋予所需的属性值，例如：org.robobinding.widget.adapterview.SourceAttribute/SubViewLayoutAttribute。</p></div>
+<div class="paragraph"><p>DependentChildViewAttribute为依赖型子视图属性，该类型的子视图属性不能被简单的被创建，它们依赖于前面子属性的信息，
+而由一个.grouped.ChildViewAttributeFactory工厂创建；例如org.robobinding.widget.adapterview.SubViewAttributes.SubViewAttributeFactory，
+创建SubViewAttribute依赖于subViewLayoutAttribute.getLayoutId()。</p></div>
+<div class="paragraph"><p>PropertyViewAttribute为简单视图属性或其子类，前面已经提到过，可以重用系统中已有的简单视图属性作为复合视图属性的子属性。</p></div>
 </div>
 <div class="sect3">
-<h4 id="_org_robobinding_presentationmodel_org_robobinding_property_org_robobinding_itempresentationmodel以及org_robobinding_function包">2.3.3. org.robobinding.presentationmodel，org.robobinding.property，org.robobinding.itempresentationmodel以及org.robobinding.function包</h4>
+<h4 id="_presentation_model概念实现">2.2.3. Presentation Model概念实现</h4>
+<div class="paragraph"><p>以下"."表示相对于org.robobinding的包路径。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/presentationmodel_classdiagram.png" alt="presentationmodel_classdiagram.png" />
 </div>
-<div class="title">Figure 6. PresentationModel类关系图</div>
+<div class="title">Figure 5. PresentationModel类关系图</div>
 </div>
-<div class="paragraph"><p>org.robobinding.presentationmodel，org.robobinding.property，org.robobinding.itempresentationmodel以及org.robobinding.function
-这四个包的相关的类主要用于包装应用程序的PresentationModel。org.robobinding.presentationmodel.PresentationModelAdapter为这几个包的入口类。
+<div class="paragraph"><p>Presentation Model相关概念实现类主要来自org.robobinding.presentationmodel，org.robobinding.property，org.robobinding.itempresentationmodel以及org.robobinding.function这四个包。
+这些类主要用于包装应用程序的PresentationModel以便于绑定模块使用。.presentationmodel.PresentationModelAdapter为这几个包的入口类。
 框架为每一个应用程序PresentationModel生成一个对应的PresentationModelAdapter实例。目前框架通过两种方式识别应用程序PresentationModel，
-即所有org.robobinding.presentationmodel.ObservableProperties/AbstractPresentationModel的子类或有
-org.robobinding.presentationmodel.PresentationModel annotation标识的类。PresentationModelAdapter主要包装应用程序PresentationModel的三类信息，
-即将SimpleProperty，DataSetProperty和Method包装为org.robobinding.property.PropertyValueModel，org.robobinding.property.DataSetValueModel
-和org.robobinding.function.Function。上图右边的例子中：<code>windowTitle</code>为SimpleProperty,<code>albums</code>为DataSetProperty，<code>createAlbum()</code>为Method。
-DataSetProperty是一个数据集属性，其中每一个数据项又会生成一个org.robobinding.itempresentationmodel.ItemPresentationModel实例，
-上图中即为AlbumItemPresentationModel，其与对应的<code>@layout/album_row</code>配合显示相应的行。框架通过AspectJ为一些类自动的注入一些代码，以减少工作量。
+即所有.property.ObservableBean/.presentationmodel.AbstractPresentationModel的子类或有
+.presentationmodel.PresentationModel annotation 标识的类。</p></div>
+<div class="paragraph"><p>PresentationModelAdapter主要包装应用程序PresentationModel的三类信息，
+即将SimpleProperty，DataSetProperty和Method包装为.property.PropertyValueModel，.property.DataSetValueModel
+和.function.Function。上图右边的例子中：<code>windowTitle</code>为SimpleProperty,<code>albums</code>为DataSetProperty，<code>createAlbum()</code>为Method。
+DataSetProperty是一个数据集属性，其中每一个数据项又会生成一个.itempresentationmodel.ItemPresentationModel实例，
+上图中即为AlbumItemPresentationModel，其与对应的<code>@layout/album_row</code>配合显示相应的行。</p></div>
+<div class="paragraph"><p>框架通过AspectJ为一些类自动的注入一些代码，以减少工作量。
 例如为PresentationModel注入PresentationModelAspect，主要为Setter方法尾部追加属性值变更事件通知代码；
 为ItemPresentationModel注入ItemPresentationModelAspect，即为ItemPresentationModel.updateData方法的尾部加上数据项变更刷新ItemPresentationModel来同步视图显示代码。</p></div>
+</div>
+<div class="sect3">
+<h4 id="_视图事件监听器聚集">2.2.4. 视图事件监听器聚集</h4>
+<div class="paragraph"><p>视图事件监听器聚集(即org.robobinding.viewattribute.view.ViewListeners或其子类)，这是由于android框架的事件设计而提供的一个workaround。
+因为android框架中很多事件只能注册一个事件监听器如android.view.View.setOnFocusChangeListener，但应用中有时可能需要注册多个，
+为了使之前注册过的旧的事件监听器不被新的意外覆盖而提供了事件监听器聚集ViewListeners。</p></div>
 </div>
 </div>
 </div>
@@ -1049,8 +1051,8 @@ DataSetProperty是一个数据集属性，其中每一个数据项又会生成�
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.2<br />
-Last updated 2014-05-25 13:05:32 澳大利亚西部标准时间
+Version 0.8.4<br />
+Last updated 2014-08-10 20:14:19 澳大利亚西部标准时间
 </div>
 </div>
 </body>

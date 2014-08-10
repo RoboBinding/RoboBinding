@@ -988,6 +988,17 @@ asciidoc.install(2);
 <div class="sect1">
 <h2 id="_主要概念与特性">4. 主要概念与特性</h2>
 <div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="./images/robobinding_based_app.png" alt="robobinding_based_app.png" />
+</div>
+<div class="title">Figure 2. 基于RoboBinding的Android应用</div>
+</div>
+<div class="paragraph"><p>一个Android应用包含了若干个Activity以及其它的元素。在基于RoboBinding的应用里一个Activity包含了Activity主文件，Layout以及PresentationModel类。
+(而Android普通应用一个Activity只包含了Activity主文件与Layout)。原先位于Activity内的显示层逻辑被提取到独立的文件PresentationModel内。
+Activity利用RoboBinding将Layout与对应的显示逻辑PresentationModel绑定在一起。把Layout中的显示数据与PresentationModel中的属性绑定；
+Layout中的事件与PresentationModel中的方法绑定。RoboBinding替代了原先在Activity中的UI关联代码，减少应用代码。
+在理想的情况下，PresentationModel只包含显示逻辑不包含UI代码，便与独立测试。</p></div>
 <div class="paragraph"><p>以下的例子代码来自 <a href="https://github.com/RoboBinding/RoboBinding-gallery/">Robobinding Gallery</a>。</p></div>
 <div class="sect2">
 <h3 id="_单向属性绑定">4.1. 单向属性绑定</h3>
@@ -1172,18 +1183,19 @@ RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel a
 <div class="content">
 <img src="./images/album_sample_prototype.png" alt="album_sample_prototype.png" />
 </div>
-<div class="title">Figure 2. Album唱片集例子原型</div>
+<div class="title">Figure 3. Album唱片集例子原型</div>
 </div>
+<div class="paragraph"><p>以下"."表示相对于org.robobinding.albumsample的包路径。</p></div>
 <div class="paragraph"><p>以上是Album唱片集例子原型图。项目遵循RoboBinding应用的标准结构，即一个Activity由Activity主文件，Layout与PresentationModel Java文件组成。
 项目源代码中包含以下几个包：org.robobinding.albumsample.activity包含所有Activity的主Java文件，org.robobinding.albumsample.presentationmodel包含所有PresentationModel Java文件，
 org.robobinding.albumsample.model仅包含一个Album实体实现文件，org.robobinding.albumsample.store包含一个基于内存Album实体存储实现AlbumStore。接下来列出上述五张图所对应的实现文件。</p></div>
-<div class="paragraph"><p>图[Home Activity]由org.robobinding.albumsample.activity.HomeActivity，home_activity.xml与org.robobinding.albumsample.presentationmodel.HomePresentationModel组成。</p></div>
-<div class="paragraph"><p>图[View Albums Activity]由org.robobinding.albumsample.activity.ViewAlbumsActivity，view_albums_activity.xml与org.robobinding.albumsample.presentationmodel.ViewAlbumsPresentationModel组成;
-其唱片集每行的唱片信息由org.robobinding.albumsample.presentationmodel.AlbumItemPresentationModel与album_row.xml组成；以及一个当唱片集为空时Layout显示文件albums_empty_view.xml。</p></div>
-<div class="paragraph"><p>图[Create Album Activity]与图[Edit Album Activity]由相同的org.robobinding.albumsample.activity.CreateEditAlbumActivity，create_edit_album_activity.xml与org.robobinding.albumsample.presentationmodel.CreateEditAlbumPresentationModel组成。</p></div>
-<div class="paragraph"><p>图[View Album Activity]由org.robobinding.albumsample.activity.ViewAlbumActivity，view_album_activity.xml与org.robobinding.albumsample.presentationmodel.ViewAlbumPresentationModel组成；
-其删除对话框由org.robobinding.albumsample.activity.DeleteAlbumDialog，delete_album_dialog.xml与DeleteAlbumDialogPresentationModel组成。</p></div>
-<div class="paragraph"><p>以下以[View Albums Activity]为例，对源代码做简单介绍。Activity主Java文件ViewAlbumsActivity只做了一件事，就是把Layout文件view_albums_activity.xml与ViewAlbumsPresentationModel关联起来。
+<div class="paragraph"><p>图[Home Activity]由.activity.HomeActivity，home_activity.xml与.presentationmodel.HomePresentationModel组成。</p></div>
+<div class="paragraph"><p>图[View Albums Activity]由.activity.ViewAlbumsActivity，view_albums_activity.xml与.presentationmodel.ViewAlbumsPresentationModel组成;
+其唱片集每行的唱片信息由.presentationmodel.AlbumItemPresentationModel与album_row.xml组成；以及一个当唱片集为空时Layout显示文件albums_empty_view.xml。</p></div>
+<div class="paragraph"><p>图[Create Album Activity]与图[Edit Album Activity]由相同的.activity.CreateEditAlbumActivity，create_edit_album_activity.xml与.presentationmodel.CreateEditAlbumPresentationModel组成。</p></div>
+<div class="paragraph"><p>图[View Album Activity]由.activity.ViewAlbumActivity，view_album_activity.xml与.presentationmodel.ViewAlbumPresentationModel组成；
+其删除对话框由.activity.DeleteAlbumDialog，delete_album_dialog.xml与.presentationmodel.DeleteAlbumDialogPresentationModel组成。</p></div>
+<div class="paragraph"><p>以下以[View Albums Activity]为例，对源代码做简单介绍。Activity类ViewAlbumsActivity只做了一件事，就是把Layout view_albums_activity.xml与ViewAlbumsPresentationModel关联起来。
 view_albums_activity.xml里包含了三个子视图按顺序为TextView, ListView与Button。TextView没有包含任何绑定信息。
 ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationModel.albums数据集属性。
 <code>bind:onItemClick="viewAlbum"</code>绑定到ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent)方法，单击某个唱片项时，该事件方法将被调用。
@@ -1207,7 +1219,7 @@ ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationMod
 <div class="content">
 <img src="./images/custom_component.png" alt="custom_component.png" />
 </div>
-<div class="title">Figure 3. 自定义 Title Description Bar</div>
+<div class="title">Figure 4. 自定义 Title Description Bar</div>
 </div>
 <div class="paragraph"><p>我们以上图的自定义组件TitleDescriptionBar为例。该组件包含了标题与描述两个部分。在输入新的标题与描述后，点击'Apply'，自定义组件的内容就更新为新的内容。</p></div>
 <div class="paragraph"><p>我们想使TitleDescriptonBar组件使用起来能像以下<code>示例一样简单</code>。</p></div>
@@ -1401,14 +1413,15 @@ ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationMod
 <h2 id="_项目结构组织与最佳实践">7. 项目结构组织与最佳实践</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Presentation Model(MVVM)模式的初终是在MVC模式的基础之上，进一步的解耦Presentation Model层，使它们成为普通的<a href="http://baike.baidu.com/view/183175.htm">POJO</a>，可被很容易的独立单元测试。
-并使得View层&#8594;Presentation Model层&#8594;Model层 形成一个单向的依赖关系。当应用这个模式时，我们应该始终遵循这些基本原则。</p></div>
+并使得View层&#8594;Presentation Model层&#8594;Model层 形成一个单向的依赖关系。当应用这个模式时，我们应该始终遵循这些基本原则。
+推荐阅读Martin Fowler的原始 <a href="http://martinfowler.com/eaaDev/PresentationModel.html">Presentation Model文章</a>。</p></div>
 <div class="sect2">
 <h3 id="_总体项目结构">7.1. 总体项目结构</h3>
 <div class="imageblock">
 <div class="content">
 <img src="./images/project_structure.png" alt="Project structure" />
 </div>
-<div class="title">Figure 4. Project structure</div>
+<div class="title">Figure 5. Project structure</div>
 </div>
 <div class="paragraph"><p>在Android项目中，View层由Activity与Layout组成，Model层即业务模型层包含了各种的Services，持久化层，网络访问服务，以及业务服务等。
 各层之间的依赖与访问关系如上图的箭头所示，View层不直接调用业务模型层。</p></div>
@@ -1477,7 +1490,7 @@ ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationMod
 <div id="footer">
 <div id="footer-text">
 Version 0.8.4<br />
-Last updated 2014-08-09 16:15:06 澳大利亚西部标准时间
+Last updated 2014-08-10 18:24:34 澳大利亚西部标准时间
 </div>
 </div>
 </body>

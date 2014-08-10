@@ -989,6 +989,17 @@ If you&#8217;re using the jar without dependencies, you will additionally need a
 <div class="sect1">
 <h2 id="_concepts_and_features">4. Concepts and Features</h2>
 <div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="./images/robobinding_based_app.png" alt="robobinding_based_app.png" />
+</div>
+<div class="title">Figure 2. A RoboBinding-based Android application</div>
+</div>
+<div class="paragraph"><p>An Android application contains several Activities and other elements. In a RoboBinding-based Android application, an Activity contains an Activity class, a layout xml and a PresentationModel pojo
+(Whereas in an ordinary Android application, an Activity contains only an Activity class and a layout xml). The display logic, which was originally sit inside the Activity class, is extracted into a separate PresentationModel pojo.
+Activities will utilize RoboBinding to bind layouts to its corresponding display logic PresentationModel. The display data of a layout is bound to the properties of a PresentationModel,
+ while the view events of a layout are bound to the methods of a PresentationModel. RoboBinding helps to reduce or remove the UI code in original Activity class through simple binding declarations in layout files.
+ Ideally a PresentationModel only contains UI display logic, not UI code or UI wiring code, and can be tested independently and easily.</p></div>
 <div class="paragraph"><p>The sample code for the section is from <a href="https://github.com/RoboBinding/RoboBinding-gallery/">Robobinding Gallery</a>.</p></div>
 <div class="sect2">
 <h3 id="_one_way_property_binding">4.1. One-way property binding</h3>
@@ -1177,20 +1188,21 @@ The source code can be found underneath <a href="https://github.com/RoboBinding/
 <div class="content">
 <img src="./images/album_sample_prototype.png" alt="album_sample_prototype.png" />
 </div>
-<div class="title">Figure 2. Album Sample project prototype</div>
+<div class="title">Figure 3. Album Sample project prototype</div>
 </div>
+<div class="paragraph"><p>In the following section, a package start with <em>.</em> is a relative path to org.robobinding.albumsample.</p></div>
 <div class="paragraph"><p>The above is the prototype of the project. The project follows the standard RoboBinding project structure, comprising of an Activity class, layout xml and presentation model pojo.
 Inside the project, you can see the following packages: org.robobinding.albumsample.activity, which contains all Activity classes;
 org.robobinding.albumsample.presentationmodel, which contains all presentation models; org.robobinding.albumsample.model, which contains a Album entity implementation;
 and org.robobinding.albumsample.store, which contains a AlbumStore implementation based on memory. In the prototype, you can see five diagrams.</p></div>
-<div class="paragraph"><p>The diagram [Home Activity] consists of org.robobinding.albumsample.activity.HomeActivity, home_activity.xml and org.robobinding.albumsample.presentationmodel.HomePresentationModel.</p></div>
-<div class="paragraph"><p>The diagram [View Albums Activity] consists of org.robobinding.albumsample.activity.ViewAlbumsActivity, view_albums_activity.xml and org.robobinding.albumsample.presentationmodel.ViewAlbumsPresentationModel;
-and the view of each album item is backed by org.robobinding.albumsample.presentationmodel.AlbumItemPresentationModel and album_row.xml; when the album list is empty, albums_empty_view.xml is applied.</p></div>
-<div class="paragraph"><p>The diagram [Create Album Activity] and [Edit Album Activity] share the same components of org.robobinding.albumsample.activity.CreateEditAlbumActivity, create_edit_album_activity.xml and org.robobinding.albumsample.presentationmodel.CreateEditAlbumPresentationModel.</p></div>
-<div class="paragraph"><p>The diagram [View Album Activity] consists of org.robobinding.albumsample.activity.ViewAlbumActivity, view_album_activity.xml and org.robobinding.albumsample.presentationmodel.ViewAlbumPresentationModel;
-and its album deletion dialog is backed by org.robobinding.albumsample.activity.DeleteAlbumDialog, delete_album_dialog.xml and DeleteAlbumDialogPresentationModel.</p></div>
+<div class="paragraph"><p>The diagram [Home Activity] consists of .activity.HomeActivity, home_activity.xml and .presentationmodel.HomePresentationModel.</p></div>
+<div class="paragraph"><p>The diagram [View Albums Activity] consists of .activity.ViewAlbumsActivity, view_albums_activity.xml and .presentationmodel.ViewAlbumsPresentationModel;
+and the view of each album item is backed by .presentationmodel.AlbumItemPresentationModel and album_row.xml; when the album list is empty, albums_empty_view.xml is applied.</p></div>
+<div class="paragraph"><p>The diagram [Create Album Activity] and [Edit Album Activity] share the same components of .activity.CreateEditAlbumActivity, create_edit_album_activity.xml and .presentationmodel.CreateEditAlbumPresentationModel.</p></div>
+<div class="paragraph"><p>The diagram [View Album Activity] consists of .activity.ViewAlbumActivity, view_album_activity.xml and .presentationmodel.ViewAlbumPresentationModel;
+and its album deletion dialog is backed by .activity.DeleteAlbumDialog, delete_album_dialog.xml and .presentationmodel.DeleteAlbumDialogPresentationModel.</p></div>
 <div class="paragraph"><p>Take [View Albums Activity] as an example to give a brief explanation on source code.
-The only thing the Activity class, ViewAlbumsActivity, does is to link the Layout file, view_albums_activity.xml and ViewAlbumsPresentationModel together.
+The only thing the Activity class, ViewAlbumsActivity, does is to link the Layout view_albums_activity.xml and ViewAlbumsPresentationModel together.
 view_albums_activity.xml contains three sub-views a TextView, a ListView and a Button. The TextView does not contain any binding information.
 In the ListView, <code>bind:source="{albums}"</code> binds to ViewAlbumsPresentationModel.albums dataset property.
 <code>bind:onItemClick="viewAlbum"</code> binds to ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent) method. When an album item is clicked, the method will be invoked.
@@ -1217,7 +1229,7 @@ When creating an own view binding implementation, we can refer to an existing on
 <div class="content">
 <img src="./images/custom_component.png" alt="custom_component.png" />
 </div>
-<div class="title">Figure 3. custom Title Description Bar</div>
+<div class="title">Figure 4. custom Title Description Bar</div>
 </div>
 <div class="paragraph"><p>Let us take a simple custom component, the view with white border above, as an example. The component consists of a title and a description.
 When we input new title and description, and click <em>Apply</em>, the component content will be updated accordingly.</p></div>
@@ -1415,14 +1427,15 @@ Dynamic view binding acts as a supplement to static view binding.</p></div>
 <div class="sectionbody">
 <div class="paragraph"><p>Involved from MVC pattern, the major motive of Presentation Model(MVVM) pattern is to make Presentation Models pure POJOs, which can be
 easily Unit tested. Meanwhile, the dependency of View&#8594;Presentation Model&#8594;Model becomes unidirectional.
-When applying the pattern, these are the basic rules we will follow.</p></div>
+When applying the pattern, these are the basic rules we will follow.
+Recommend to read Martin Fowler&#8217;s original article of <a href="http://martinfowler.com/eaaDev/PresentationModel.html">Presentation Model</a>.</p></div>
 <div class="sect2">
 <h3 id="_overall_project_structure">7.1. Overall project structure</h3>
 <div class="imageblock">
 <div class="content">
 <img src="./images/project_structure.png" alt="Project structure" />
 </div>
-<div class="title">Figure 4. Project structure</div>
+<div class="title">Figure 5. Project structure</div>
 </div>
 <div class="paragraph"><p>In Android app, the view layer consists of activities and their layouts and the model layer(or business model layer) consists of various services,
 persistence layer, networking services, business services and so on.
@@ -1493,7 +1506,7 @@ Let us have a look a simple example below:
 <div id="footer">
 <div id="footer-text">
 Version 0.8.4<br />
-Last updated 2014-08-09 16:21:14 澳大利亚西部标准时间
+Last updated 2014-08-10 18:25:14 澳大利亚西部标准时间
 </div>
 </div>
 </body>

@@ -142,7 +142,7 @@ from RoboBinding-Sample project</y:NodeLabel>
               <y:Geometry height="311.0029296875" width="496.25" x="519.8548064085446" y="420.4970703125"/>
               <y:Fill color="#F5F5F5" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
-              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="22.37646484375" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="496.25" x="0.0" y="0.0">org.robobinding.viewattribute.*</y:NodeLabel>
+              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="22.37646484375" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="496.25" x="0.0" y="0.0">org.robobinding.widget.*</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
@@ -192,8 +192,8 @@ from RoboBinding-Sample project</y:NodeLabel>
               <y:Geometry height="44.25" width="201.25" x="547.3548064085446" y="642.62353515625"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="35.8525390625" modelName="custom" textColor="#000000" visible="true" width="170.841796875" x="15.2041015625" y="3.0">OnClickAttribute
-(a CommandViewAttribute)<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="35.8525390625" modelName="custom" textColor="#000000" visible="true" width="142.68359375" x="29.283203125" y="3.0">OnClickAttribute
+(a EventViewAttribute)<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>

@@ -145,6 +145,15 @@ Examples of proguard.cfg settings can be found in https://github.com/RoboBinding
 
 Concepts and Features
 ---------------------
+.A RoboBinding-based Android application
+image::robobinding_based_app.png[]
+
+An Android application contains several Activities and other elements. In a RoboBinding-based Android application, an Activity contains an Activity class, a layout xml and a PresentationModel pojo
+(Whereas in an ordinary Android application, an Activity contains only an Activity class and a layout xml). The display logic, which was originally sit inside the Activity class, is extracted into a separate PresentationModel pojo.
+Activities will utilize RoboBinding to bind layouts to its corresponding display logic PresentationModel. The display data of a layout is bound to the properties of a PresentationModel,
+ while the view events of a layout are bound to the methods of a PresentationModel. RoboBinding helps to reduce or remove the UI code in original Activity class through simple binding declarations in layout files.
+ Ideally a PresentationModel only contains UI display logic, not UI code or UI wiring code, and can be tested independently and easily.
+
 The sample code for the section is from https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery].
 
 One-way property binding
@@ -363,23 +372,26 @@ To import the project into Eclipse: File->Import->Android->Android Project from 
 
 .Album Sample project prototype
 image::album_sample_prototype.png[]
+
+In the following section, a package start with '.' is a relative path to org.robobinding.albumsample.
+
 The above is the prototype of the project. The project follows the standard RoboBinding project structure, comprising of an Activity class, layout xml and presentation model pojo.
 Inside the project, you can see the following packages: org.robobinding.albumsample.activity, which contains all Activity classes;
 org.robobinding.albumsample.presentationmodel, which contains all presentation models; org.robobinding.albumsample.model, which contains a Album entity implementation;
 and org.robobinding.albumsample.store, which contains a AlbumStore implementation based on memory. In the prototype, you can see five diagrams.
 
-The diagram [Home Activity] consists of org.robobinding.albumsample.activity.HomeActivity, home_activity.xml and org.robobinding.albumsample.presentationmodel.HomePresentationModel.
+The diagram [Home Activity] consists of .activity.HomeActivity, home_activity.xml and .presentationmodel.HomePresentationModel.
 
-The diagram [View Albums Activity] consists of org.robobinding.albumsample.activity.ViewAlbumsActivity, view_albums_activity.xml and org.robobinding.albumsample.presentationmodel.ViewAlbumsPresentationModel;
-and the view of each album item is backed by org.robobinding.albumsample.presentationmodel.AlbumItemPresentationModel and album_row.xml; when the album list is empty, albums_empty_view.xml is applied.
+The diagram [View Albums Activity] consists of .activity.ViewAlbumsActivity, view_albums_activity.xml and .presentationmodel.ViewAlbumsPresentationModel;
+and the view of each album item is backed by .presentationmodel.AlbumItemPresentationModel and album_row.xml; when the album list is empty, albums_empty_view.xml is applied.
 
-The diagram [Create Album Activity] and [Edit Album Activity] share the same components of org.robobinding.albumsample.activity.CreateEditAlbumActivity, create_edit_album_activity.xml and org.robobinding.albumsample.presentationmodel.CreateEditAlbumPresentationModel.
+The diagram [Create Album Activity] and [Edit Album Activity] share the same components of .activity.CreateEditAlbumActivity, create_edit_album_activity.xml and .presentationmodel.CreateEditAlbumPresentationModel.
 
-The diagram [View Album Activity] consists of org.robobinding.albumsample.activity.ViewAlbumActivity, view_album_activity.xml and org.robobinding.albumsample.presentationmodel.ViewAlbumPresentationModel;
-and its album deletion dialog is backed by org.robobinding.albumsample.activity.DeleteAlbumDialog, delete_album_dialog.xml and DeleteAlbumDialogPresentationModel.
+The diagram [View Album Activity] consists of .activity.ViewAlbumActivity, view_album_activity.xml and .presentationmodel.ViewAlbumPresentationModel;
+and its album deletion dialog is backed by .activity.DeleteAlbumDialog, delete_album_dialog.xml and .presentationmodel.DeleteAlbumDialogPresentationModel.
 
 Take [View Albums Activity] as an example to give a brief explanation on source code.
-The only thing the Activity class, ViewAlbumsActivity, does is to link the Layout file, view_albums_activity.xml and ViewAlbumsPresentationModel together.
+The only thing the Activity class, ViewAlbumsActivity, does is to link the Layout view_albums_activity.xml and ViewAlbumsPresentationModel together.
 view_albums_activity.xml contains three sub-views a TextView, a ListView and a Button. The TextView does not contain any binding information.
 In the ListView, ++bind:source="\{albums\}"++ binds to ViewAlbumsPresentationModel.albums dataset property.
 ++bind:onItemClick="viewAlbum"++ binds to ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent) method. When an album item is clicked, the method will be invoked.
@@ -621,6 +633,7 @@ Project structure and best practices
 Involved from MVC pattern, the major motive of Presentation Model(MVVM) pattern is to make Presentation Models pure POJOs, which can be 
 easily Unit tested. Meanwhile, the dependency of View->Presentation Model->Model becomes unidirectional. 
 When applying the pattern, these are the basic rules we will follow. 
+Recommend to read Martin Fowler's original article of http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model].
 
 Overall project structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~
