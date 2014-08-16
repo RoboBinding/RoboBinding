@@ -3,7 +3,7 @@ package org.robobinding.property;
 import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
 
-import com.google.common.base.Strings;
+import org.robobinding.internal.guava.Strings;
 
 /**
  * 

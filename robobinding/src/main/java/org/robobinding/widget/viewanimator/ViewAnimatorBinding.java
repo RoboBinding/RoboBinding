@@ -1,8 +1,9 @@
 package org.robobinding.widget.viewanimator;
 
-import android.widget.ViewAnimator;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.ViewBinding;
+
+import android.widget.ViewAnimator;
 
 /**
  *

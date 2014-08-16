@@ -2,7 +2,7 @@ package org.robobinding.property;
 
 import java.util.Map;
 
-import com.google.common.collect.Maps;
+import org.robobinding.internal.guava.Maps;
 
 /**
  * 

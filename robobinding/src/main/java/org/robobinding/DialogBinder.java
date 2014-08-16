@@ -1,8 +1,8 @@
 package org.robobinding;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.robobinding.util.Preconditions.checkValidResourceId;
 
+import org.robobinding.internal.guava.Preconditions;
 import org.robobinding.presentationmodel.DialogPresentationModel;
 
 import android.app.Dialog;
@@ -26,7 +26,7 @@ public class DialogBinder {
 
     public void inflateAndBind(int layoutId, Object presentationModel) {
 	checkValidResourceId(layoutId, "invalid layoutId '" + layoutId + "'");
-	checkNotNull(presentationModel, "presentationModel must not be null");
+	Preconditions.checkNotNull(presentationModel, "presentationModel must not be null");
 	
 	if (presentationModel instanceof DialogPresentationModel) {
 	    DialogPresentationModel dialogPresentationModel = (DialogPresentationModel) presentationModel;

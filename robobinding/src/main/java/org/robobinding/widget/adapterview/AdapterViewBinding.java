@@ -7,8 +7,8 @@ import static org.robobinding.widget.adapterview.EmptyViewAttributes.EMPTY_VIEW_
 import static org.robobinding.widget.adapterview.EmptyViewAttributes.EMPTY_VIEW_PRESENTATION_MODEL;
 import static org.robobinding.widget.adapterview.EmptyViewAttributes.EMPTY_VIEW_VISIBILITY;
 
-import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.ViewBinding;
 
 import android.widget.AdapterView;
 

@@ -1,12 +1,11 @@
 package org.robobinding.dynamicbinding;
 
+import org.robobinding.internal.guava.Preconditions;
 import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsImpl;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsWithCreate;
 
 import android.view.View;
-
-import com.google.common.base.Preconditions;
 
 /**
  *

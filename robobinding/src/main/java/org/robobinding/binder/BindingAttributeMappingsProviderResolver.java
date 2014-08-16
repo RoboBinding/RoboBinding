@@ -2,12 +2,11 @@ package org.robobinding.binder;
 
 import java.util.Queue;
 
+import org.robobinding.internal.guava.Lists;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
 
 import android.view.View;
-
-import com.google.common.collect.Lists;
 
 /**
  *

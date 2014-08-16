@@ -1,11 +1,11 @@
 package org.robobinding.attribute;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.robobinding.util.Preconditions.checkNotBlank;
 
 import java.util.Map;
 
-import com.google.common.collect.Maps;
+import org.robobinding.internal.guava.Maps;
+import org.robobinding.internal.guava.Preconditions;
 
 /**
  * 
@@ -22,7 +22,7 @@ public class ChildAttributeResolverMappings {
 
     public void map(ChildAttributeResolver resolver, String attribute) {
 	checkNotBlank(attribute, "Attribute cannot be empty");
-	checkNotNull(resolver, "Resolver cannot be null");
+	Preconditions.checkNotNull(resolver, "Resolver cannot be null");
 
 	childAttributeResolvers.put(attribute, resolver);
     }

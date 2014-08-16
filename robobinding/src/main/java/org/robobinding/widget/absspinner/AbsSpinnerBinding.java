@@ -6,8 +6,8 @@ import static org.robobinding.widget.adapterview.AbstractAdaptedDataSetAttribute
 import static org.robobinding.widget.adapterview.AbstractAdaptedDataSetAttributes.ITEM_MAPPING;
 import static org.robobinding.widget.adapterview.AbstractAdaptedDataSetAttributes.SOURCE;
 
-import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.ViewBinding;
 
 import android.widget.AbsSpinner;
 

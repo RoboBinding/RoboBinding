@@ -1,9 +1,9 @@
 package org.robobinding;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.util.Collections;
 import java.util.List;
+
+import org.robobinding.internal.guava.Lists;
 
 /**
  * 
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @SuppressWarnings("serial")
 public class GroupedAttributeResolutionException extends RuntimeException {
-    private final List<AttributeResolutionException> resolutionExceptions = newArrayList();
+    private final List<AttributeResolutionException> resolutionExceptions = Lists.newArrayList();
 
     public void add(AttributeResolutionException e) {
 	resolutionExceptions.add(e);

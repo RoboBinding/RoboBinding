@@ -1,6 +1,6 @@
 package org.robobinding.test;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static org.robobinding.internal.guava.Preconditions.checkNotNull;
 import static org.robobinding.util.Preconditions.checkNotBlank;
 
 import org.robobinding.presentationmodel.PresentationModelAdapter;

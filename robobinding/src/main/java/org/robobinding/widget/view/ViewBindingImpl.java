@@ -1,7 +1,7 @@
 package org.robobinding.widget.view;
 
-import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.ViewBinding;
 
 import android.view.View;
 
