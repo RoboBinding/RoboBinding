@@ -1,8 +1,8 @@
 package org.robobinding.util;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static org.robobinding.internal.guava.Preconditions.checkArgument;
 
-import com.google.common.base.Strings;
+import org.robobinding.internal.guava.Strings;
 
 /**
  *

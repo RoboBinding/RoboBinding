@@ -1,6 +1,6 @@
 package org.robobinding.albumsample.model;
 
-import com.google.common.base.Objects;
+import org.robobinding.internal.guava.Objects;
 
 /**
  * @since 1.0

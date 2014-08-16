@@ -1,7 +1,5 @@
 package org.robobinding.viewattribute.grouped;
 
-import static com.google.common.collect.Maps.newLinkedHashMap;
-
 import java.util.Map;
 
 import org.robobinding.attribute.AbstractAttribute;
@@ -9,6 +7,7 @@ import org.robobinding.attribute.EnumAttribute;
 import org.robobinding.attribute.ResolvedGroupAttributes;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.internal.guava.Maps;
 import org.robobinding.viewattribute.Bindable;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
@@ -38,7 +37,7 @@ class ChildViewAttributesBuilderImpl<T extends View> implements ChildViewAttribu
 	this.viewAttributeBinderFactory = viewAttributeBinderFactory;
 
 	childViewAttributeInitializer = new ChildViewAttributeInitializer();
-	childViewAttributeMap = newLinkedHashMap();
+	childViewAttributeMap = Maps.newLinkedHashMap();
 	failOnFirstBindingError = false;
     }
 

@@ -4,8 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.robobinding.albumsample.model.Album;
-
-import com.google.common.collect.Lists;
+import org.robobinding.internal.guava.Lists;
 
 /**
  *

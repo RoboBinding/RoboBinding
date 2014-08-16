@@ -2,7 +2,7 @@ package org.robobinding.viewattribute;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
+import org.robobinding.internal.guava.Lists;
 
 /**
  * 

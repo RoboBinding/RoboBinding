@@ -2,7 +2,7 @@ package org.robobinding.property;
 
 import java.util.Set;
 
-import com.google.common.base.Joiner;
+import org.robobinding.internal.guava.Joiner;
 
 /**
  * 

@@ -1,12 +1,12 @@
 package org.robobinding.property;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static org.robobinding.internal.guava.Preconditions.checkArgument;
 import static org.robobinding.util.Preconditions.checkNotBlank;
 
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Maps;
+import org.robobinding.internal.guava.Maps;
 
 /**
  * 

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForView.AttributeGroupResolver;
 import org.robobinding.PendingAttributesForView.AttributeResolver;
+import org.robobinding.internal.guava.Lists;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 import org.robobinding.viewattribute.event.EventViewAttributeBinder;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinder;
@@ -16,8 +17,6 @@ import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBind
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
 
 import android.view.View;
-
-import com.google.common.collect.Lists;
 
 /**
  *

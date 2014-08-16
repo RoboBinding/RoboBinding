@@ -3,8 +3,8 @@ package org.robobinding.property;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
+import org.robobinding.internal.guava.Joiner;
+import org.robobinding.internal.guava.Lists;
 
 /**
  *

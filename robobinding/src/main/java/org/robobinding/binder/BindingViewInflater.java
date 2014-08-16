@@ -1,7 +1,5 @@
 package org.robobinding.binder;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +9,7 @@ import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.ViewFactory.ViewCreationListener;
+import org.robobinding.internal.guava.Lists;
 
 import android.util.AttributeSet;
 import android.view.View;
@@ -44,7 +43,7 @@ public class BindingViewInflater implements ViewCreationListener {
     }
 
     public InflatedView inflateView(int layoutId, ViewGroup attachToRoot) {
-	resolvedBindingAttributesForChildViews = newArrayList();
+	resolvedBindingAttributesForChildViews = Lists.newArrayList();
 	errors = new ViewHierarchyInflationErrorsException();
 
 	View rootView = nonBindingViewInflater.inflate(layoutId, attachToRoot);
@@ -53,7 +52,7 @@ public class BindingViewInflater implements ViewCreationListener {
     }
 
     public InflatedView inflateView(int layoutId, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
-	resolvedBindingAttributesForChildViews = newArrayList();
+	resolvedBindingAttributesForChildViews = Lists.newArrayList();
 	errors = new ViewHierarchyInflationErrorsException();
 
 	View rootView = nonBindingViewInflater.inflate(layoutId);

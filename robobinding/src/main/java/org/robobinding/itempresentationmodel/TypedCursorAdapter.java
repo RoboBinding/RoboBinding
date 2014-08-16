@@ -1,6 +1,7 @@
 package org.robobinding.itempresentationmodel;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.robobinding.internal.guava.Preconditions;
+
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
@@ -17,13 +18,13 @@ public class TypedCursorAdapter<T> extends CursorWrapper implements TypedCursor<
     public TypedCursorAdapter(Cursor cursor, RowMapper<T> rowMapper) {
 	super(validateCursorAndReturnIt(cursor));
 
-	checkNotNull(rowMapper, "rowMapper cannot be null");
+	Preconditions.checkNotNull(rowMapper, "rowMapper cannot be null");
 	this.rowMapper = rowMapper;
 	this.cursor = cursor;
     }
 
     private static Cursor validateCursorAndReturnIt(Cursor cursor) {
-	checkNotNull(cursor, "cursor cannot be null");
+	Preconditions.checkNotNull(cursor, "cursor cannot be null");
 	return cursor;
     }
 

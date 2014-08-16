@@ -1,8 +1,8 @@
 package org.robobinding.widget.view;
 
-import static com.google.common.collect.Maps.newHashMap;
-
 import java.util.Map;
+
+import org.robobinding.internal.guava.Maps;
 
 import android.view.View;
 
@@ -16,7 +16,7 @@ public class ViewListenersMap {
     final Map<Class<? extends View>, Class<? extends ViewListeners>> mappings;
     
     public ViewListenersMap(Map<Class<? extends View>, Class<? extends ViewListeners>> mappings) {
-	this.mappings = newHashMap(mappings);
+	this.mappings = Maps.newHashMap(mappings);
     }
     
     public boolean contains(Class<? extends View> viewClass) {

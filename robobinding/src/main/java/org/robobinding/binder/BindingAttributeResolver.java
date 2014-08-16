@@ -1,12 +1,11 @@
 package org.robobinding.binder;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.ViewResolutionErrors;
+import org.robobinding.internal.guava.Lists;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 
 /**
@@ -24,7 +23,7 @@ public class BindingAttributeResolver {
     }
 
     public ViewResolutionResult resolve(PendingAttributesForView pendingAttributesForView) {
-	List<ViewAttributeBinder> resolvedViewAttributes = newArrayList();
+	List<ViewAttributeBinder> resolvedViewAttributes = Lists.newArrayList();
 
 	Iterable<ByBindingAttributeMappingsResolver>  resolvers = byBindingAttributeMappingsResolverFinder.findCandidateResolvers(
 		pendingAttributesForView.getView());

@@ -1,6 +1,6 @@
 package org.robobinding.viewattribute.grouped;
 
-import static com.google.common.collect.Maps.newHashMap;
+import static org.robobinding.internal.guava.Maps.newHashMap;
 
 import java.util.Map;
 

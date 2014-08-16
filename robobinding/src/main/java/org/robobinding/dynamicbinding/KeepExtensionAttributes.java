@@ -2,6 +2,7 @@ package org.robobinding.dynamicbinding;
 
 import java.util.Set;
 
+import org.robobinding.internal.guava.Sets;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.viewattribute.event.EventViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttribute;
@@ -14,8 +15,6 @@ import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
 import android.view.View;
-
-import com.google.common.collect.Sets;
 
 /**
  *

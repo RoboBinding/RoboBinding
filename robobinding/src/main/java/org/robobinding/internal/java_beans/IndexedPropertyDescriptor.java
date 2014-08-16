@@ -21,7 +21,7 @@ package org.robobinding.internal.java_beans;
 
 import java.lang.reflect.Method;
 
-import com.google.common.base.Objects;
+import org.robobinding.internal.guava.Objects;
 
 public class IndexedPropertyDescriptor extends PropertyDescriptor {
 

@@ -6,6 +6,7 @@ import org.robobinding.albumsample.activity.CreateEditAlbumActivity;
 import org.robobinding.albumsample.activity.ViewAlbumActivity;
 import org.robobinding.albumsample.model.Album;
 import org.robobinding.albumsample.store.AlbumStore;
+import org.robobinding.internal.guava.Lists;
 import org.robobinding.presentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.PresentationModel;
 import org.robobinding.widget.adapterview.ItemClickEvent;
@@ -13,8 +14,6 @@ import org.robobinding.widget.adapterview.ItemClickEvent;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-
-import com.google.common.collect.Lists;
 
 /**
  *

@@ -1,9 +1,8 @@
 package org.robobinding.viewattribute.impl;
 
-import static com.google.common.collect.Maps.newHashMap;
-
 import java.util.Map;
 
+import org.robobinding.internal.guava.Maps;
 
 import android.view.View;
 
@@ -18,7 +17,7 @@ public class BindingAttributeMappingsProviderMap {
     
     public BindingAttributeMappingsProviderMap(
 	    Map<Class<? extends View>, BindingAttributeMappingsProvider<? extends View>> mappings) {
-	this.mappings = newHashMap(mappings);
+	this.mappings = Maps.newHashMap(mappings);
     }
     
     public BindingAttributeMappingsProvider<? extends View> find(Class<? extends View> viewClass) {

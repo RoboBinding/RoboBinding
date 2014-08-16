@@ -1,9 +1,8 @@
 package org.robobinding.binder;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.util.List;
 
+import org.robobinding.internal.guava.Lists;
 import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.InitailizedBindingAttributeMappings;
@@ -31,7 +30,7 @@ public class ByBindingAttributeMappingsResolverFinder {
     public Iterable<ByBindingAttributeMappingsResolver> findCandidateResolvers(View view) {
 	ViewAttributeBinderFactory<View> viewAttributeBinderFactory = viewAttributeBinderFactoryProvider.create(view);
 
-	List<ByBindingAttributeMappingsResolver> resolvers = newArrayList();
+	List<ByBindingAttributeMappingsResolver> resolvers = Lists.newArrayList();
 	Iterable<BindingAttributeMappingsProvider<? extends View>> providers = providerResolver.findCandidateProviders(view);
 	for (BindingAttributeMappingsProvider<? extends View> provider : providers) {
 	    @SuppressWarnings("unchecked")

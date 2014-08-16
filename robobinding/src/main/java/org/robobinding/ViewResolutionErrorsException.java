@@ -1,6 +1,5 @@
 package org.robobinding;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static org.robobinding.util.CollectionUtils.isNotEmpty;
 
 import java.util.Collection;
@@ -8,10 +7,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.robobinding.attribute.MissingRequiredAttributesException;
+import org.robobinding.internal.guava.Lists;
 
 import android.view.View;
-
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -22,8 +20,8 @@ import com.google.common.collect.Lists;
 @SuppressWarnings("serial")
 public class ViewResolutionErrorsException extends RuntimeException implements ViewResolutionErrors {
     private View view;
-    private List<AttributeResolutionException> attributeErrors = newArrayList();
-    private List<MissingRequiredAttributesException> missingRequiredAttributeErrors = newArrayList();
+    private List<AttributeResolutionException> attributeErrors = Lists.newArrayList();
+    private List<MissingRequiredAttributesException> missingRequiredAttributeErrors = Lists.newArrayList();
 
     public ViewResolutionErrorsException(View view) {
 	this.view = view;

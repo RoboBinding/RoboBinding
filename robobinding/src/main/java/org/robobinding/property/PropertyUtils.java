@@ -4,12 +4,11 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Set;
 
+import org.robobinding.internal.guava.Maps;
+import org.robobinding.internal.guava.Sets;
 import org.robobinding.internal.java_beans.BeanInfo;
 import org.robobinding.internal.java_beans.IntrospectionException;
 import org.robobinding.internal.java_beans.Introspector;
-
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * 

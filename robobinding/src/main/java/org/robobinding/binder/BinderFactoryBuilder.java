@@ -1,7 +1,7 @@
 package org.robobinding.binder;
 
-import org.robobinding.dynamicbinding.ViewBindingApplier;
 import org.robobinding.dynamicbinding.DynamicViewBindingDescription;
+import org.robobinding.dynamicbinding.ViewBindingApplier;
 import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
 import org.robobinding.widget.abslistview.AbsListViewBinding;
@@ -19,10 +19,10 @@ import org.robobinding.widget.ratingbar.RatingBarListeners;
 import org.robobinding.widget.seekbar.SeekBarBinding;
 import org.robobinding.widget.seekbar.SeekBarListeners;
 import org.robobinding.widget.textview.TextViewBinding;
-import org.robobinding.widget.viewanimator.ViewAnimatorBinding;
 import org.robobinding.widget.view.ViewBindingImpl;
 import org.robobinding.widget.view.ViewListeners;
 import org.robobinding.widget.view.ViewListenersMapBuilder;
+import org.robobinding.widget.viewanimator.ViewAnimatorBinding;
 
 import android.view.View;
 import android.widget.AbsListView;

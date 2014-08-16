@@ -1,10 +1,9 @@
 package org.robobinding.viewattribute.impl;
 
+import org.robobinding.internal.guava.Objects;
 import org.robobinding.viewattribute.ViewBinding;
 
 import android.view.View;
-
-import com.google.common.base.Objects;
 
 /**
  *

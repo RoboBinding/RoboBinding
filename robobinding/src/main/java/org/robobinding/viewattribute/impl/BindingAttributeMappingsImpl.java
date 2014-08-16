@@ -1,6 +1,5 @@
 package org.robobinding.viewattribute.impl;
 
-import static com.google.common.collect.Maps.newHashMap;
 import static org.robobinding.viewattribute.grouped.FromClassViewAttributeFactories.eventViewAttributeFactoryForClass;
 import static org.robobinding.viewattribute.grouped.FromClassViewAttributeFactories.groupedViewAttributeFactoryForClass;
 import static org.robobinding.viewattribute.grouped.FromClassViewAttributeFactories.multiTypePropertyViewAttributeFactoryForClass;
@@ -8,6 +7,8 @@ import static org.robobinding.viewattribute.grouped.FromClassViewAttributeFactor
 
 import java.util.Map;
 
+import org.robobinding.internal.guava.Maps;
+import org.robobinding.internal.guava.Preconditions;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.viewattribute.event.EventViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttribute;
@@ -18,8 +19,6 @@ import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
 import android.view.View;
-
-import com.google.common.base.Preconditions;
 
 /**
  *
@@ -35,10 +34,10 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
     private final Map<String[], GroupedViewAttributeFactory<T>> groupedViewAttributeMappings;
 
     public BindingAttributeMappingsImpl() {
-	propertyViewAttributeMappings = newHashMap();
-	multiTypePropertyViewAttributeMappings = newHashMap();
-	eventViewAttributeMappings = newHashMap();
-	groupedViewAttributeMappings = newHashMap();
+	propertyViewAttributeMappings = Maps.newHashMap();
+	multiTypePropertyViewAttributeMappings = Maps.newHashMap();
+	eventViewAttributeMappings = Maps.newHashMap();
+	groupedViewAttributeMappings = Maps.newHashMap();
     }
 
     @Override

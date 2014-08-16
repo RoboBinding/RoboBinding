@@ -4,10 +4,9 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.robobinding.attribute.MissingRequiredAttributesException;
+import org.robobinding.internal.guava.Maps;
 
 import android.view.View;
-
-import com.google.common.collect.Maps;
 
 /**
  * 

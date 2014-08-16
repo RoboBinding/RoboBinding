@@ -1,10 +1,9 @@
 package org.robobinding.viewattribute.impl;
 
-import static com.google.common.collect.Maps.newHashMap;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
+import org.robobinding.internal.guava.Maps;
 import org.robobinding.util.ConstructorUtils;
 import org.robobinding.viewattribute.ViewListenersInjector;
 import org.robobinding.widget.view.ViewListeners;
@@ -26,7 +25,7 @@ public class ViewListenersProvider implements ViewListenersInjector {
 
     public ViewListenersProvider(ViewListenersMap viewListenersMap) {
 	this.viewListenersMap = viewListenersMap;
-	cachedViewListeners = newHashMap();
+	cachedViewListeners = Maps.newHashMap();
     }
 
     @SuppressWarnings("unchecked")

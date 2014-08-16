@@ -26,6 +26,7 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>11.0.1</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -66,7 +67,6 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>1.6.11</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -189,7 +189,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>

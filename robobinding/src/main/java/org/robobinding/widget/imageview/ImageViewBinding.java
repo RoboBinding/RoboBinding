@@ -1,7 +1,7 @@
 package org.robobinding.widget.imageview;
 
-import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.ViewBinding;
 
 import android.widget.ImageView;
 

@@ -1,11 +1,10 @@
 package org.robobinding.binder;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.robobinding.BindingContext;
+import org.robobinding.internal.guava.Lists;
 import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 import org.robobinding.viewattribute.grouped.AttributeGroupBindingException;
@@ -25,7 +24,7 @@ public class ResolvedBindingAttributesForView {
 
     ResolvedBindingAttributesForView(View view, Collection<ViewAttributeBinder> viewAttributes) {
 	this.view = view;
-	this.viewAttributes = newArrayList(viewAttributes);
+	this.viewAttributes = Lists.newArrayList(viewAttributes);
     }
 
     public ViewBindingErrors bindTo(BindingContext bindingContext) {

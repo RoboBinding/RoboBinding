@@ -1,12 +1,11 @@
 package org.robobinding.widget.adapterview;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.util.Collection;
 
 import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.internal.guava.Lists;
 import org.robobinding.property.DataSetValueModel;
 
 /**
@@ -26,8 +25,8 @@ public class DataSetAdapterBuilder {
 
     public DataSetAdapterBuilder(BindingContext bindingContext) {
 	this.bindingContext = bindingContext;
-	this.itemPredefinedPendingAttributesForViewGroup = newArrayList();
-	this.dropdownPredefinedPendingAttributesForViewGroup = newArrayList();
+	this.itemPredefinedPendingAttributesForViewGroup = Lists.newArrayList();
+	this.dropdownPredefinedPendingAttributesForViewGroup = Lists.newArrayList();
     }
 
     public void setItemLayoutId(int itemLayoutId) {
