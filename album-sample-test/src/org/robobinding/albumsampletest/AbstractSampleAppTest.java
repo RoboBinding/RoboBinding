@@ -16,7 +16,7 @@ public abstract class AbstractSampleAppTest extends ActivityInstrumentationTestC
     protected Solo solo;
 
     public AbstractSampleAppTest() {
-	super("sample.robobinding", HomeActivity.class);
+	super("org.robobinding.albumsample.activity", HomeActivity.class);
     }
 
     protected void setUp() throws Exception {

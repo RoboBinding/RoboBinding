@@ -1,4 +1,8 @@
-package org.robobinding.presentationmodel;
+package org.robobinding.aspects;
+
+import org.robobinding.aspects.CustomSetter;
+import org.robobinding.aspects.PresentationModel;
+
 
 /**
  * 

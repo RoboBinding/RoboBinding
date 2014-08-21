@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
-import org.robobinding.presentationmodel.ItemPresentationModel;
 
 /**
  *

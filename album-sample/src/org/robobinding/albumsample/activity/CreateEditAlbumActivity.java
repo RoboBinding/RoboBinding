@@ -3,6 +3,7 @@ package org.robobinding.albumsample.activity;
 import org.robobinding.albumsample.R;
 import org.robobinding.albumsample.model.Album;
 import org.robobinding.albumsample.presentationmodel.CreateEditAlbumPresentationModel;
+import org.robobinding.albumsample.store.AlbumStore;
 import org.robobinding.binder.Binders;
 
 import android.app.Activity;
@@ -23,8 +24,17 @@ public class CreateEditAlbumActivity extends Activity {
 	super.onCreate(savedInstanceState);
 
 	long albumId = getIntent().getLongExtra(ALBUM_ID, Album.NO_ID);
+	
+	Album.Builder albumBuilder;
+	if (Album.isNew(albumId))
+		albumBuilder = new Album.Builder();
+	else {
+		Album album = AlbumStore.get(albumId);
+		albumBuilder = album.createBuilder();
+	}
 
-	CreateEditAlbumPresentationModel presentationModel = new CreateEditAlbumPresentationModel(this, albumId);
-	Binders.bind(this, R.layout.create_edit_album_activity, presentationModel);
+
+	CreateEditAlbumPresentationModel presentationModel = new CreateEditAlbumPresentationModel(this, albumBuilder);
+	Binders.bind(this, R.layout.activity_create_edit_album, presentationModel);
     }
 }

@@ -14,7 +14,7 @@ import org.robobinding.property.PropertyUtils;
 public class PresentationModelChangeSupport {
     private final PropertyChangeSupport propertyChangeSupport;
 
-    PresentationModelChangeSupport(Object presentationModel) {
+    public PresentationModelChangeSupport(Object presentationModel) {
 	propertyChangeSupport = new PropertyChangeSupport(presentationModel, 
 		PropertyUtils.getPropertyNames(presentationModel.getClass()));
     }

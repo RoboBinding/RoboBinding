@@ -9,8 +9,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.itempresentationmodel.TypedCursor;
-import org.robobinding.presentationmodel.ItemPresentationModel;
 
 /**
  *

@@ -3,8 +3,8 @@ package org.robobinding.albumsample.presentationmodel;
 import org.robobinding.albumsample.R;
 import org.robobinding.albumsample.model.Album;
 import org.robobinding.albumsample.store.AlbumStore;
+import org.robobinding.aspects.PresentationModel;
 import org.robobinding.presentationmodel.DialogPresentationModel;
-import org.robobinding.presentationmodel.PresentationModel;
 
 import android.app.Dialog;
 

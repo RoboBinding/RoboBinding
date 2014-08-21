@@ -1,10 +1,10 @@
 package org.robobinding.albumsample.store;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.robobinding.albumsample.model.Album;
-import org.robobinding.internal.guava.Lists;
 
 /**
  *
@@ -66,7 +66,7 @@ public class AlbumStore {
 	}
 
 	public static void resetData() {
-		albums = Lists.newArrayList();
+		albums = new ArrayList<Album>();
 
 		save(createNonClassical("HQ", "Roy Harper"));
 		save(createNonClassical("The Rough Dancer and Cyclical Night",
@@ -81,7 +81,7 @@ public class AlbumStore {
 	}
 
 	public static void emptyData() {
-		albums = Lists.newArrayList();
+		albums = new ArrayList<Album>();
 	}
 
 	public static Album getByIndex(int position) {

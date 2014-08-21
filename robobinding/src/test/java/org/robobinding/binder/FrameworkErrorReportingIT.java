@@ -14,8 +14,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.NonBindingViewInflater;
 import org.robobinding.R;
-import org.robobinding.presentationmodel.ItemPresentationModel;
-import org.robobinding.presentationmodel.PresentationModel;
+import org.robobinding.annotation.ItemPresentationModel;
+import org.robobinding.aspects.PresentationModel;
 import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 
 import android.app.Activity;

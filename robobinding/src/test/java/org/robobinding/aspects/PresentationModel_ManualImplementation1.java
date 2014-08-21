@@ -1,4 +1,4 @@
-package org.robobinding.presentationmodel;
+package org.robobinding.aspects;
 
 import org.robobinding.property.ObservableBean;
 import org.robobinding.property.PropertyChangeListener;

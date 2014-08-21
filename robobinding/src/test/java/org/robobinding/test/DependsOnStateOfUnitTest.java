@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.presentationmodel.DependsOnStateOf;
-import org.robobinding.presentationmodel.PresentationModel;
+import org.robobinding.annotation.DependsOnStateOf;
+import org.robobinding.aspects.PresentationModel;
 import org.robobinding.viewattribute.RandomValues;
 
 /**

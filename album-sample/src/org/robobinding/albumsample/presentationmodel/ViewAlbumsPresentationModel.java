@@ -1,14 +1,14 @@
 package org.robobinding.albumsample.presentationmodel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.robobinding.albumsample.activity.CreateEditAlbumActivity;
 import org.robobinding.albumsample.activity.ViewAlbumActivity;
 import org.robobinding.albumsample.model.Album;
 import org.robobinding.albumsample.store.AlbumStore;
-import org.robobinding.internal.guava.Lists;
-import org.robobinding.presentationmodel.ItemPresentationModel;
-import org.robobinding.presentationmodel.PresentationModel;
+import org.robobinding.annotation.ItemPresentationModel;
+import org.robobinding.aspects.PresentationModel;
 import org.robobinding.widget.adapterview.ItemClickEvent;
 
 import android.app.Activity;
@@ -32,7 +32,11 @@ public class ViewAlbumsPresentationModel {
 
 	@ItemPresentationModel(AlbumItemPresentationModel.class)
 	public List<Album> getAlbums() {
-		return Lists.newArrayList(AlbumStore.getAll());
+		return new ArrayList<Album>(AlbumStore.getAll());
+	}
+	
+	public void refreshAlbums() {
+	    firePropertyChange("albums");
 	}
 
 	public void createAlbum() {

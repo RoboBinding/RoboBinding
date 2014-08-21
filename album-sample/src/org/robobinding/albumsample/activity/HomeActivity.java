@@ -20,6 +20,6 @@ public class HomeActivity extends Activity {
 
 		HomePresentationModel presentationModel = new HomePresentationModel(
 				this);
-		Binders.bind(this, R.layout.home_activity, presentationModel);
+		Binders.bind(this, R.layout.activity_home, presentationModel);
 	}
 }

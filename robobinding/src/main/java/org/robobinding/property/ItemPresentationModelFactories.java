@@ -24,8 +24,8 @@ public class ItemPresentationModelFactories {
     }
 
     public ItemPresentationModelFactory create(PropertyAccessor propertyAccessor) {
-	org.robobinding.presentationmodel.ItemPresentationModel annotation = propertyAccessor
-		.getAnnotation(org.robobinding.presentationmodel.ItemPresentationModel.class);
+	org.robobinding.annotation.ItemPresentationModel annotation = propertyAccessor
+		.getAnnotation(org.robobinding.annotation.ItemPresentationModel.class);
 	
 	@SuppressWarnings("unchecked")
 	Class<ItemPresentationModel<Object>> itemPresentationModelClass = (Class<ItemPresentationModel<Object>>) annotation.value();
