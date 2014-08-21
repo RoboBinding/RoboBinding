@@ -1,6 +1,7 @@
-package org.robobinding.presentationmodel;
+package org.robobinding.aspects;
 
 import org.aspectj.lang.annotation.AdviceName;
+import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.property.ObservableBean;
 import org.robobinding.property.PropertyChangeListener;
 

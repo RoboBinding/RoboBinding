@@ -1,4 +1,4 @@
-package org.robobinding.presentationmodel;
+package org.robobinding.aspects;
 
 import org.junit.Assert;
 import org.robobinding.property.PropertyChangeListener;

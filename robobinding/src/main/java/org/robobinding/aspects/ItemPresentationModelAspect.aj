@@ -1,8 +1,8 @@
-package org.robobinding.itempresentationmodel;
+package org.robobinding.aspects;
 
 import org.aspectj.lang.annotation.AdviceName;
-import org.robobinding.presentationmodel.PresentationModelMixin;
 import org.robobinding.property.ObservableBean;
+import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
 /**
  *
@@ -15,6 +15,9 @@ public aspect ItemPresentationModelAspect
 {
 	declare parents: !(ObservableBean+) && ItemPresentationModel+ && !ItemPresentationModel implements PresentationModelMixin;
 
+	/**
+	 * Fire itemPresentationModel refresh after updateData.
+	 */
 	pointcut updateData(PresentationModelMixin itemPresentationModel) : execution (* ItemPresentationModel+.updateData(int,*)) && this(itemPresentationModel) && within(PresentationModelMixin+);
 
 	@AdviceName("fireItemPresentationModelRefresh")

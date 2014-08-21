@@ -1,6 +1,6 @@
 package org.robobinding.property;
 
-import org.robobinding.presentationmodel.DependsOnStateOf;
+import org.robobinding.annotation.DependsOnStateOf;
 
 /**
  *

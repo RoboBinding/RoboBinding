@@ -21,12 +21,12 @@ public class ViewAlbumsActivity extends Activity {
 	super.onCreate(savedInstanceState);
 
 	presentationModel = new ViewAlbumsPresentationModel(this);
-	Binders.bind(this, R.layout.view_albums_activity, presentationModel);
+	Binders.bind(this, R.layout.activity_view_albums, presentationModel);
     }
 
     @Override
     protected void onResume() {
 	super.onResume();
-	presentationModel.refreshPresentationModel();
+	presentationModel.refreshAlbums();
     }
 }

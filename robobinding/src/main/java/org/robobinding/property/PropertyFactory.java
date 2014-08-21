@@ -26,7 +26,7 @@ public class PropertyFactory {
     
     public AbstractDataSetProperty createDataSetProperty(PropertyAccessor propertyAccessor) {
 	
-	if (propertyAccessor.hasAnnotation(org.robobinding.presentationmodel.ItemPresentationModel.class)) {
+	if (propertyAccessor.hasAnnotation(org.robobinding.annotation.ItemPresentationModel.class)) {
 	    ItemPresentationModelFactory factory = itemPresentationModelFactories.create(propertyAccessor);
 	    AbstractDataSetProperty dataSetProperty = null;
 	    if (List.class.isAssignableFrom(propertyAccessor.getPropertyType())) {

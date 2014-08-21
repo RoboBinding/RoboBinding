@@ -1,4 +1,6 @@
-package org.robobinding.presentationmodel;
+package org.robobinding.aspects;
+
+import org.robobinding.presentationmodel.AbstractPresentationModel;
 
 /**
  * 

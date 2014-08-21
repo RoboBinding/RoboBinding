@@ -21,7 +21,7 @@ public class DeleteAlbumDialog extends Dialog {
 
 		DeleteAlbumDialogPresentationModel deleteAlbumDialogPresentationModel = new DeleteAlbumDialogPresentationModel(
 				this, album);
-		Binders.bind(this, R.layout.delete_album_dialog,
+		Binders.bind(this, R.layout.dialog_delete_album,
 				deleteAlbumDialogPresentationModel);
 	}
 }

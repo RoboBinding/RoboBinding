@@ -3,6 +3,7 @@ package org.robobinding.albumsample.activity;
 import org.robobinding.albumsample.R;
 import org.robobinding.albumsample.model.Album;
 import org.robobinding.albumsample.presentationmodel.ViewAlbumPresentationModel;
+import org.robobinding.albumsample.store.AlbumStore;
 import org.robobinding.binder.Binders;
 
 import android.app.Activity;
@@ -27,14 +28,12 @@ public class ViewAlbumActivity extends Activity {
 		Intent intent = getIntent();
 		long albumId = intent.getLongExtra(ALBUM_ID, Album.NO_ID);
 
-		presentationModel = new ViewAlbumPresentationModel(this, albumId);
-		Binders.bindWithoutPreInitializingViews(this,
-				R.layout.view_album_activity, presentationModel);
-	}
+		if (albumId == Album.NO_ID) {
+			throw new IllegalArgumentException("No album id is given");
+		}
+		Album album = AlbumStore.get(albumId);
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		presentationModel.refresh();
+		presentationModel = new ViewAlbumPresentationModel(this, album);
+		Binders.bind(this, R.layout.activity_view_album, presentationModel);
 	}
 }

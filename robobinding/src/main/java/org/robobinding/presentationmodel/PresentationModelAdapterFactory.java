@@ -3,6 +3,7 @@ package org.robobinding.presentationmodel;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.robobinding.aspects.PresentationModel;
 import org.robobinding.function.CachedFunctions;
 import org.robobinding.function.Functions;
 import org.robobinding.property.CachedProperties;
