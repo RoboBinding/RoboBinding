@@ -23,7 +23,11 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Queues;
 
 /**
  * Static utility methods pertaining to {@link Set} instances. Also see this
@@ -134,4 +138,9 @@ public final class Sets {
     Iterators.addAll(set, elements);
     return set;
   }
+  
+  public static <E> LinkedHashSet<E> newLinkedHashSet() {
+      return new LinkedHashSet<E>();
+    }
+
 }

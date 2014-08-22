@@ -1,7 +1,7 @@
 package org.robobinding.widget.adapterview;
 
 import org.robobinding.BindingContext;
-import org.robobinding.ViewBinder;
+import org.robobinding.SubViewBinder;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttributeWithAttribute;
 
@@ -25,7 +25,7 @@ class SubViewPresentationModelAttribute implements ChildViewAttributeWithAttribu
 
     @Override
     public void bindTo(BindingContext bindingContext) {
-        ViewBinder viewBinder = bindingContext.createViewBinder();
+        SubViewBinder viewBinder = bindingContext.createSubViewBinder();
         View subView = viewBinder.inflateAndBind(layoutId, attribute.getPropertyName());
         subViewHolder.setSubView(subView);
     }

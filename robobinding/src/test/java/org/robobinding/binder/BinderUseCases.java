@@ -1,11 +1,10 @@
 package org.robobinding.binder;
 
-import org.robobinding.ActivityBinder;
-import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.ViewBinder;
 import org.robobinding.viewattribute.BindingAttributeMappings;
+import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.widget.view.ViewListeners;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
@@ -16,12 +15,12 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class BinderUseCases {
-    private Activity activity;
+    private Context context;
     private int layoutId;
     private Object presentationModel;
     
     public void staticBind() {
-	Binders.bind(activity, layoutId, presentationModel);
+	Binders.inflateAndBind(context, layoutId, presentationModel);
     }
     
     public void customBind() {
@@ -30,8 +29,8 @@ public class BinderUseCases {
 	builder.mapView(CustomView.class, new BindingAttributeMapperForCustomView(), ViewListenersForCustomView.class);
 	BinderFactory reusableBinderFactory = builder.build();
 	
-	ActivityBinder activityBinder = reusableBinderFactory.createActivityBinder(activity, false);
-	activityBinder.inflateAndBind(layoutId, presentationModel);
+	ViewBinder viewBinder = reusableBinderFactory.createViewBinder(context, false);
+	viewBinder.inflateAndBind(layoutId, presentationModel);
     }
     
     private static class AlternativeBindingAttributeMapperForView implements ViewBinding<View> {

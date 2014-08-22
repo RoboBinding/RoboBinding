@@ -34,9 +34,9 @@ public class BindingContext implements PresentationModelAdapter {
 	return binderProvider.getItemBinder();
     }
 
-    public ViewBinder createViewBinder() {
-	InternalViewBinder internalBinder = binderProvider.getInternalViewBinder();
-	return new ViewBinder(internalBinder, this);
+    public SubViewBinder createSubViewBinder() {
+	ViewBinder viewBinder = binderProvider.getViewBinder();
+	return new SubViewBinder(viewBinder, this);
     }
 
     public boolean shouldPreInitializeViews() {

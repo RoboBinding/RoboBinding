@@ -2,7 +2,7 @@ package org.robobinding.binder;
 
 import org.robobinding.BinderImplementor;
 import org.robobinding.BinderProvider;
-import org.robobinding.InternalViewBinder;
+import org.robobinding.ViewBinder;
 import org.robobinding.ItemBinder;
 import org.robobinding.NonBindingViewInflater;
 
@@ -18,7 +18,7 @@ class BinderProviderImpl implements BinderProvider {
     private final NonBindingViewInflater nonBindingViewInflater;
     
     private ItemBinder itemBinder;
-    private InternalViewBinder internalViewBinder;
+    private ViewBinder viewBinder;
     
     public BinderProviderImpl(BinderImplementor binderImplementor, NonBindingViewInflater nonBindingViewInflater) {
 	this.binderImplementor = binderImplementor;
@@ -35,12 +35,12 @@ class BinderProviderImpl implements BinderProvider {
     }
 
     @Override
-    public InternalViewBinder getInternalViewBinder() {
-	if (internalViewBinder == null) {
-	    internalViewBinder = new InternalViewBinder(binderImplementor, nonBindingViewInflater);
+    public ViewBinder getViewBinder() {
+	if (viewBinder == null) {
+	    viewBinder = new ViewBinder(binderImplementor, nonBindingViewInflater);
 	}
 	
-	return internalViewBinder;
+	return viewBinder;
     }
 
 }

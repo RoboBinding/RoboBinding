@@ -1,7 +1,7 @@
 package org.robobinding.widget.adapterview;
 
 import org.robobinding.BindingContext;
-import org.robobinding.ViewBinder;
+import org.robobinding.SubViewBinder;
 import org.robobinding.viewattribute.grouped.ChildViewAttribute;
 
 import android.view.View;
@@ -24,7 +24,7 @@ class SubViewWithoutPresentationModelAttribute implements ChildViewAttribute {
 
     @Override
     public void bindTo(BindingContext bindingContext) {
-        ViewBinder viewBinder = bindingContext.createViewBinder();
+        SubViewBinder viewBinder = bindingContext.createSubViewBinder();
         View subView = viewBinder.inflate(layoutId);
         subViewHolder.setSubView(subView);
     }

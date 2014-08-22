@@ -1,10 +1,8 @@
 package org.robobinding.binder;
 
-import org.robobinding.ActivityBinder;
 import org.robobinding.BinderImplementor;
-import org.robobinding.DialogBinder;
-import org.robobinding.InternalViewBinder;
 import org.robobinding.NonBindingViewInflater;
+import org.robobinding.ViewBinder;
 import org.robobinding.ViewFactoryInstaller;
 import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.internal.guava.Preconditions;
@@ -13,8 +11,6 @@ import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
 import org.robobinding.widget.view.ViewListenersMap;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 
@@ -32,56 +28,45 @@ public class BinderFactory {
 	this.viewListenersMap = viewListenersMap;
 	this.bindingAttributeMappingsProviderMap = bindingAttributeMappingsProviderMap;
     }
-
-    public ActivityBinder createActivityBinder(Activity activity, boolean withPreInitializingViews) {
-	Preconditions.checkNotNull(activity, "activity must not be null");
+    
+    public ViewBinder createViewBinder(Context context) {
+	return createViewBinder(context, true);
+    }
+    
+    public ViewBinder createViewBinder(Context context, boolean withPreInitializingViews) {
+	Preconditions.checkNotNull(context, "context must not be null");
 	
-	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater(activity));
-	BinderImplementor binderImplementor = createBinderImplementor(activity, nonBindingViewInflater, withPreInitializingViews);
-	return new ActivityBinder(activity, binderImplementor);
+	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater(context));
+	BinderImplementor binderImplementor = createBinderImplementor(context, nonBindingViewInflater, withPreInitializingViews);
+	return new ViewBinder(binderImplementor, nonBindingViewInflater);
     }
 
     private LayoutInflater createLayoutInflater(Context context) {
-	return LayoutInflater.from(context).cloneInContext(context);
+        return LayoutInflater.from(context).cloneInContext(context);
     }
 
     private BinderImplementor createBinderImplementor(Context context, NonBindingViewInflater nonBindingViewInflater, boolean withPreInitializingViews) {
-	BindingViewInflater bindingViewInflater = createBindingViewInflater(context);
-	BindingContextFactory bindingContextFactory = new BindingContextFactory(context, withPreInitializingViews, nonBindingViewInflater, 
-		new PresentationModelAdapterFactory());
-	BinderImplementor binderImplementor = new InternalBinder(bindingViewInflater, bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
-	return binderImplementor;
+        BindingViewInflater bindingViewInflater = createBindingViewInflater(context);
+        BindingContextFactory bindingContextFactory = new BindingContextFactory(context, withPreInitializingViews, nonBindingViewInflater, 
+        	new PresentationModelAdapterFactory());
+        BinderImplementor binderImplementor = new InternalBinder(bindingViewInflater, bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
+        return binderImplementor;
     }
 
     private BindingViewInflater createBindingViewInflater(Context context) {
-	LayoutInflater layoutInflater = createLayoutInflater(context);
-	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(layoutInflater);
-	ViewAttributeBinderFactoryProvider viewAttributeBinderFactoryProvider = new ViewAttributeBinderFactoryProvider(
-		new PropertyAttributeParser(), new GroupAttributesResolver(), viewListenersMap);
-	ByBindingAttributeMappingsResolverFinder byBindingAttributeProviderResolverFinder = new ByBindingAttributeMappingsResolverFinder(
-		new BindingAttributeMappingsProviderResolver(bindingAttributeMappingsProviderMap),
-		viewAttributeBinderFactoryProvider);
-	BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeProviderResolverFinder);
-	BindingViewInflater bindingViewInflater = new BindingViewInflater(nonBindingViewInflater, bindingAttributeResolver,
-		new BindingAttributeParser());
-
-	new ViewFactoryInstaller(bindingViewInflater).install(layoutInflater);
-	return bindingViewInflater;
-    }
-
-    public DialogBinder createDialogBinder(Dialog dialog) {
-	Preconditions.checkNotNull(dialog, "dialog must not be null");
-	
-	Context context = dialog.getContext();
-	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater(context));
-	BinderImplementor binderImplementor = createBinderImplementor(context, nonBindingViewInflater, true);
-	return new DialogBinder(dialog, binderImplementor);
-    }
-
-    public InternalViewBinder createInternalViewBinder(Context context) {
-	NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(createLayoutInflater(context));
-	BinderImplementor binderImplementor = createBinderImplementor(context, nonBindingViewInflater, true);
-	return new InternalViewBinder(binderImplementor, nonBindingViewInflater);
+        LayoutInflater layoutInflater = createLayoutInflater(context);
+        NonBindingViewInflater nonBindingViewInflater = new NonBindingViewInflater(layoutInflater);
+        ViewAttributeBinderFactoryProvider viewAttributeBinderFactoryProvider = new ViewAttributeBinderFactoryProvider(
+        	new PropertyAttributeParser(), new GroupAttributesResolver(), viewListenersMap);
+        ByBindingAttributeMappingsResolverFinder byBindingAttributeProviderResolverFinder = new ByBindingAttributeMappingsResolverFinder(
+        	new BindingAttributeMappingsProviderResolver(bindingAttributeMappingsProviderMap),
+        	viewAttributeBinderFactoryProvider);
+        BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeProviderResolverFinder);
+        BindingViewInflater bindingViewInflater = new BindingViewInflater(nonBindingViewInflater, bindingAttributeResolver,
+        	new BindingAttributeParser());
+    
+        new ViewFactoryInstaller(bindingViewInflater).install(layoutInflater);
+        return bindingViewInflater;
     }
 
 }

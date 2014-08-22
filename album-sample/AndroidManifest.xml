@@ -8,6 +8,7 @@
 
     <application
         android:icon="@drawable/icon"
+        android:name=".activity.AlbumApp"
         android:label="@string/app_name" >
         <activity
             android:name=".activity.HomeActivity"

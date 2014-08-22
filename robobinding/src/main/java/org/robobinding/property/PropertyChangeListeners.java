@@ -14,7 +14,7 @@ public class PropertyChangeListeners {
     private final Set<PropertyChangeListener> listeners;
 
     public PropertyChangeListeners() {
-	this.listeners = Sets.newHashSet();
+	this.listeners = Sets.newLinkedHashSet();
     }
 
     public void add(PropertyChangeListener listener) {
