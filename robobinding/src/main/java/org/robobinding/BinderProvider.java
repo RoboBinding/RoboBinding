@@ -10,5 +10,5 @@ package org.robobinding;
 public interface BinderProvider {
     ItemBinder getItemBinder();
 
-    InternalViewBinder getInternalViewBinder();
+    ViewBinder getViewBinder();
 }

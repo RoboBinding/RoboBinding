@@ -4,9 +4,7 @@ import org.robobinding.albumsample.R;
 import org.robobinding.albumsample.model.Album;
 import org.robobinding.albumsample.presentationmodel.ViewAlbumPresentationModel;
 import org.robobinding.albumsample.store.AlbumStore;
-import org.robobinding.binder.Binders;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -16,7 +14,7 @@ import android.os.Bundle;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-public class ViewAlbumActivity extends Activity {
+public class ViewAlbumActivity extends AbstractActivity {
 	public static final String ALBUM_ID = "album_id";
 
 	private ViewAlbumPresentationModel presentationModel;
@@ -34,6 +32,6 @@ public class ViewAlbumActivity extends Activity {
 		Album album = AlbumStore.get(albumId);
 
 		presentationModel = new ViewAlbumPresentationModel(this, album);
-		Binders.bind(this, R.layout.activity_view_album, presentationModel);
+		initializeContentView(R.layout.activity_view_album, presentationModel);
 	}
 }

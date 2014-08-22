@@ -1,10 +1,8 @@
 package org.robobinding.albumsample.presentationmodel;
 
-import org.robobinding.albumsample.R;
 import org.robobinding.albumsample.model.Album;
 import org.robobinding.albumsample.store.AlbumStore;
 import org.robobinding.aspects.PresentationModel;
-import org.robobinding.presentationmodel.DialogPresentationModel;
 
 import android.app.Dialog;
 
@@ -15,8 +13,7 @@ import android.app.Dialog;
  * @author Robert Taylor
  */
 @PresentationModel
-public class DeleteAlbumDialogPresentationModel implements
-		DialogPresentationModel {
+public class DeleteAlbumDialogPresentationModel{
 	private final Dialog dialog;
 	private final Album album;
 
@@ -40,9 +37,5 @@ public class DeleteAlbumDialogPresentationModel implements
 
 	public String getAlbumArtist() {
 		return album.getArtist();
-	}
-
-	public String getTitle() {
-		return dialog.getContext().getString(R.string.delete_album);
 	}
 }

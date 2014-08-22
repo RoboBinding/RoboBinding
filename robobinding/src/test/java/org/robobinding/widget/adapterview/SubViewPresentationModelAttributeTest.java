@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
-import org.robobinding.ViewBinder;
+import org.robobinding.SubViewBinder;
 import org.robobinding.attribute.ValueModelAttribute;
 
 import android.view.View;
@@ -35,8 +35,8 @@ public class SubViewPresentationModelAttributeTest {
     @Test
     public void whenBindTo_thenBoundSubViewIsSetOnHolder() {
 	BindingContext bindingContext = mock(BindingContext.class);
-	ViewBinder viewBinder = mock(ViewBinder.class);
-	when(bindingContext.createViewBinder()).thenReturn(viewBinder);
+	SubViewBinder viewBinder = mock(SubViewBinder.class);
+	when(bindingContext.createSubViewBinder()).thenReturn(viewBinder);
 	when(viewBinder.inflateAndBind(layoutId, presentationModelPropertyName)).thenReturn(boundSubView);
 	SubViewPresentationModelAttribute subViewAttribute = new SubViewPresentationModelAttribute(layoutId, subViewHolder);
 	subViewAttribute.setAttribute(valueModelAttribute);

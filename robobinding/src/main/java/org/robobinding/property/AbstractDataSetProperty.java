@@ -35,7 +35,7 @@ abstract class AbstractDataSetProperty extends AbstractProperty implements DataS
 	return (DataSetType) dataSet;
     }
 
-    private void updateDataSet() {
+    protected void updateDataSet() {
 	dataSet = super.getValue();
     }
 
@@ -49,7 +49,7 @@ abstract class AbstractDataSetProperty extends AbstractProperty implements DataS
     }
 
     @Override
-    public final void propertyChanged() {
+    public void propertyChanged() {
 	updateDataSet();
     }
 }

@@ -30,4 +30,16 @@ class CursorDataSetProperty extends AbstractDataSetProperty {
 	TypedCursor<Object> cursor = getDataSet();
 	return cursor.getObjectAtPosition(position);
     }
+    
+    @Override
+    public void propertyChanged() {
+	TypedCursor<Object> oldCursor = getDataSet();
+	try {
+	    updateDataSet();
+	} finally {
+	    if (oldCursor != null) {
+		oldCursor.close();
+	    }
+	}
+    }
 }

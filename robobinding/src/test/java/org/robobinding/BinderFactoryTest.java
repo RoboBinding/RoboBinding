@@ -10,11 +10,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.binder.BinderFactory;
+import org.robobinding.viewattribute.RandomValues;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
 import org.robobinding.widget.view.ViewListenersMap;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
@@ -42,30 +42,11 @@ public class BinderFactoryTest {
     }
     
     @Test
-    public void whenCreateActivityBinder_thenSuccessfullyWired() {
-	Activity activity = new Activity();
-	boolean withPreInitializingViews = false;
-	
-	ActivityBinder activityBinder = binderFactory.createActivityBinder(activity, withPreInitializingViews);
-	
-	assertNotNull(activityBinder);
-    }
-    
-    @Test
-    public void whenCreateDialogBinder_thenSuccessfullyWired() {
-	Dialog dialog = new Dialog(new Activity());
-	
-	DialogBinder dialogBinder = binderFactory.createDialogBinder(dialog);
-	
-	assertNotNull(dialogBinder);
-    }
-    
-    @Test
-    public void whenCreateInternalViewBinder_thenSuccessfullyWired() {
+    public void whenCreateViewBinder_thenSuccessfullyWired() {
 	Context context = new Activity();
 	
-	InternalViewBinder internalViewBinder = binderFactory.createInternalViewBinder(context);
+	ViewBinder viewBinder = binderFactory.createViewBinder(context, RandomValues.trueOrFalse());
 	
-	assertNotNull(internalViewBinder);
+	assertNotNull(viewBinder);
     }
 }
