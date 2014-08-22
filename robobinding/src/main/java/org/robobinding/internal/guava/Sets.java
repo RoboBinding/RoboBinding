@@ -26,12 +26,9 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Queues;
-
 /**
  * Static utility methods pertaining to {@link Set} instances. Also see this
- * class's counterparts {@link Lists}, {@link Maps} and {@link Queues}.
+ * class's counterparts {@link Lists}, {@link Maps} and {@link com.google.common.collect.Queues}.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Sets">
@@ -53,7 +50,7 @@ public final class Sets {
    * Creates a <i>mutable</i>, empty {@code HashSet} instance.
    *
    * <p><b>Note:</b> if mutability is not required, use {@link
-   * ImmutableSet#of()} instead.
+   * com.google.common.collect.ImmutableSet#of()} instead.
    *
    * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link
    * EnumSet#noneOf} instead.
@@ -69,8 +66,8 @@ public final class Sets {
    * elements in unspecified order.
    *
    * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use an overload of {@link ImmutableSet#of()} (for varargs) or
-   * {@link ImmutableSet#copyOf(Object[])} (for an array) instead.
+   * non-null, use an overload of {@link com.google.common.collect.ImmutableSet#of()} (for varargs) or
+   * {@link com.google.common.collect.ImmutableSet#copyOf(Object[])} (for an array) instead.
    *
    * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link
    * EnumSet#of(Enum, Enum[])} instead.
@@ -106,7 +103,7 @@ public final class Sets {
    * elements in unspecified order.
    *
    * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableSet#copyOf(Iterable)} instead.
+   * non-null, use {@link com.google.common.collect.ImmutableSet#copyOf(Iterable)} instead.
    *
    * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use
    * {@link #newEnumSet(Iterable, Class)} instead.
@@ -125,7 +122,7 @@ public final class Sets {
    * elements in unspecified order.
    *
    * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableSet#copyOf(Iterable)} instead.
+   * non-null, use {@link com.google.common.collect.ImmutableSet#copyOf(Iterable)} instead.
    *
    * <p><b>Note:</b> if {@code E} is an {@link Enum} type, you should create an
    * {@link EnumSet} instead.
