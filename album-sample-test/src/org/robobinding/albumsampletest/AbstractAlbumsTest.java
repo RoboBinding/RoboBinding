@@ -1,8 +1,10 @@
 package org.robobinding.albumsampletest;
 
 import org.robobinding.albumsample.R;
+import org.robobinding.albumsample.activity.ViewAlbumsActivity;
 import org.robobinding.albumsample.model.Album;
-import org.robobinding.albumsample.store.AlbumStore;
+
+import android.widget.ListView;
 
 
 /**
@@ -15,7 +17,7 @@ import org.robobinding.albumsample.store.AlbumStore;
 public abstract class AbstractAlbumsTest extends AbstractSampleAppTest {
     protected void setUp() throws Exception {
 	super.setUp();
-	AlbumStore.emptyData();
+	albumStore.clear();
     }
 
     protected void navigateToAlbumListScreen() {
@@ -23,7 +25,7 @@ public abstract class AbstractAlbumsTest extends AbstractSampleAppTest {
     }
 
     protected Album setupAlbum(Album album) {
-	AlbumStore.save(album);
+	albumStore.save(album);
 	return album;
     }
 
@@ -36,8 +38,9 @@ public abstract class AbstractAlbumsTest extends AbstractSampleAppTest {
     }
 
     protected void assertNumberOfAlbums(int expectedAlbumSize) {
-	solo.waitForActivity("ViewAlbumsActivity", 2000);
-	int actualAlbumSize = solo.getCurrentListViews().get(0).getCount();
+	solo.waitForActivity(ViewAlbumsActivity.class, 2000);
+	ListView albumListView = (ListView)solo.getView(R.id.albumListView);
+	int actualAlbumSize = albumListView.getCount();
 	assertEquals(expectedAlbumSize, actualAlbumSize);
     }
 }

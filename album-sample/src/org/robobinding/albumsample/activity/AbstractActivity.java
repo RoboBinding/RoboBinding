@@ -1,6 +1,7 @@
 package org.robobinding.albumsample.activity;
 
 import org.robobinding.ViewBinder;
+import org.robobinding.albumsample.store.AlbumStore;
 import org.robobinding.binder.BinderFactory;
 
 import android.app.Activity;
@@ -26,5 +27,9 @@ public abstract class AbstractActivity extends Activity {
     
     private AlbumApp getAlbumApp() {
 	return (AlbumApp)getApplicationContext();
+    }
+    
+    public AlbumStore getAlbumStore() {
+	return getAlbumApp().getAlbumStore();
     }
 }

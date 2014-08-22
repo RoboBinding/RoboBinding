@@ -1,10 +1,6 @@
 package org.robobinding.albumsample.presentationmodel;
 
-import org.robobinding.albumsample.activity.ViewAlbumsActivity;
 import org.robobinding.aspects.PresentationModel;
-
-import android.content.Context;
-import android.content.Intent;
 
 /**
  * 
@@ -14,14 +10,13 @@ import android.content.Intent;
  */
 @PresentationModel
 public class HomePresentationModel {
-	private Context context;
+    private final HomeView view;
 
-	public HomePresentationModel(Context context) {
-		this.context = context;
-	}
+    public HomePresentationModel(HomeView view) {
+	this.view = view;
+    }
 
-	public void albums() {
-		context.startActivity(new Intent(context, ViewAlbumsActivity.class));
-	}
-
+    public void albums() {
+	view.showAlbums();
+    }
 }
