@@ -19,7 +19,7 @@ import com.xtremelabs.robolectric.shadows.ShadowView;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class OnFocusAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<View, OnFocusChangeAttribute, MockViewListeners> {
+public class OnFocusAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<View, OnFocusChangeAttribute, MockViewListenersForView> {
     @Test
     public void givenBoundAttribute_whenApplyFocus_thenEventReceived() {
 	bindAttribute();

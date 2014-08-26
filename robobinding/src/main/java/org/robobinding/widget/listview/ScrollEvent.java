@@ -36,8 +36,9 @@ public class ScrollEvent extends AbstractViewEvent {
 	return totalItemCount;
     }
 
-    public AbsListView getListView() {
-	return (AbsListView) getView();
+    @Override
+    public AbsListView getView() {
+        return (AbsListView) super.getView();
     }
 
 }

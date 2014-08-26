@@ -10,8 +10,6 @@ import org.robobinding.internal.guava.Lists;
 import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.grouped.AttributeGroupBindingException;
 
-import android.view.View;
-
 /**
  * 
  * @since 1.0
@@ -20,15 +18,15 @@ import android.view.View;
  */
 @SuppressWarnings("serial")
 public class ViewBindingErrors extends RuntimeException {
-    private View view;
+    private Object view;
     private List<AttributeBindingException> attributeErrors;
 
-    public ViewBindingErrors(View view) {
+    public ViewBindingErrors(Object view) {
 	this.view = view;
 	attributeErrors = Lists.newArrayList();
     }
 
-    public View getView() {
+    public Object getView() {
 	return view;
     }
 

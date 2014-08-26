@@ -3,12 +3,12 @@ package org.robobinding.dynamicbinding;
 import org.robobinding.internal.guava.Preconditions;
 import org.robobinding.property.PropertyDescriptor.Setter;
 import org.robobinding.util.ArrayUtils;
+import org.robobinding.viewattribute.ViewListeners;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.viewattribute.event.EventViewAttributeFactory;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsWithCreate;
 import org.robobinding.viewattribute.impl.InitailizedBindingAttributeMappings;
-import org.robobinding.widget.view.ViewListeners;
 
 import android.view.View;
 

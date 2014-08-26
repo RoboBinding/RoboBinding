@@ -1,6 +1,5 @@
 package org.robobinding.viewattribute.property;
 
-import android.view.View;
 
 
 /**
@@ -10,7 +9,7 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface PropertyViewAttributeFactory<T extends View> {
-    PropertyViewAttribute<T, ?> create();
+public interface PropertyViewAttributeFactory<ViewType> {
+    PropertyViewAttribute<ViewType, ?> create();
 
 }

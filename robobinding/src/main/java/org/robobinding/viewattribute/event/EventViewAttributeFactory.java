@@ -1,6 +1,5 @@
 package org.robobinding.viewattribute.event;
 
-import android.view.View;
 
 
 /**
@@ -10,6 +9,6 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface EventViewAttributeFactory<T extends View> {
-    EventViewAttribute<T> create();
+public interface EventViewAttributeFactory<ViewType> {
+    EventViewAttribute<ViewType> create();
 }

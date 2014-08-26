@@ -16,8 +16,6 @@ import org.robobinding.viewattribute.impl.InitailizedBindingAttributeMappings;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
@@ -25,8 +23,8 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class ByBindingAttributeMappingsResolver {
-    private final InitailizedBindingAttributeMappings<View> bindingAttributeMappings;
-    private final ViewAttributeBinderFactory<View> viewAttributeBinderFactory;
+    private final InitailizedBindingAttributeMappings<Object> bindingAttributeMappings;
+    private final ViewAttributeBinderFactory<Object> viewAttributeBinderFactory;
 
     private final PropertyViewAttributeResolver propertyViewAttributeResolver;
     private final MultiTypePropertyViewAttributeResolver multiTypePropertyViewAttributeResolver;
@@ -36,8 +34,8 @@ public class ByBindingAttributeMappingsResolver {
     private List<ViewAttributeBinder> resolvedViewAttributes;
 
     public ByBindingAttributeMappingsResolver(
-	    InitailizedBindingAttributeMappings<View> bindingAttributeMappings,
-	    ViewAttributeBinderFactory<View> viewAttributeBinderFactory) {
+	    InitailizedBindingAttributeMappings<Object> bindingAttributeMappings,
+	    ViewAttributeBinderFactory<Object> viewAttributeBinderFactory) {
 	this.bindingAttributeMappings = bindingAttributeMappings;
 	this.viewAttributeBinderFactory = viewAttributeBinderFactory;
 
@@ -84,8 +82,8 @@ public class ByBindingAttributeMappingsResolver {
 
     private class PropertyViewAttributeResolver implements AttributeResolver {
 	@Override
-	public void resolve(View view, String attribute, String attributeValue) {
-	    PropertyViewAttributeBinder<View, ?> viewAttributeBinder = viewAttributeBinderFactory.createPropertyViewAttributeBinder(
+	public void resolve(Object view, String attribute, String attributeValue) {
+	    PropertyViewAttributeBinder<Object, ?> viewAttributeBinder = viewAttributeBinderFactory.createPropertyViewAttributeBinder(
 		    bindingAttributeMappings.getPropertyViewAttributeFactory(attribute),
 		    attribute,
 		    attributeValue);
@@ -95,8 +93,8 @@ public class ByBindingAttributeMappingsResolver {
 
     private class MultiTypePropertyViewAttributeResolver implements AttributeResolver {
 	@Override
-	public void resolve(View view, String attribute, String attributeValue) {
-	    MultiTypePropertyViewAttributeBinder<View> viewAttributeBinder = viewAttributeBinderFactory.createMultiTypePropertyViewAttributeBinder(
+	public void resolve(Object view, String attribute, String attributeValue) {
+	    MultiTypePropertyViewAttributeBinder<Object> viewAttributeBinder = viewAttributeBinderFactory.createMultiTypePropertyViewAttributeBinder(
 		    bindingAttributeMappings.getMultiTypePropertyViewAttributeFactory(attribute),
 		    attribute,
 		    attributeValue);
@@ -106,8 +104,8 @@ public class ByBindingAttributeMappingsResolver {
 
     private class EventViewAttributeResolver implements AttributeResolver {
 	@Override
-	public void resolve(View view, String attribute, String attributeValue) {
-	    EventViewAttributeBinder<View> viewAttributeBinder = viewAttributeBinderFactory.createEventViewAttributeBinder(
+	public void resolve(Object view, String attribute, String attributeValue) {
+	    EventViewAttributeBinder<Object> viewAttributeBinder = viewAttributeBinderFactory.createEventViewAttributeBinder(
 		    bindingAttributeMappings.getEventViewAttributeFactory(attribute),
 		    attribute,
 		    attributeValue);
@@ -117,8 +115,8 @@ public class ByBindingAttributeMappingsResolver {
 
     private class GroupedViewAttributeResolver implements AttributeGroupResolver {
 	@Override
-	public void resolve(View view, String[] attributeGroup, Map<String, String> presentAttributeMappings) {
-	    GroupedViewAttributeBinder<View> groupedViewAttribute = viewAttributeBinderFactory.createGroupedViewAttributeBinder(
+	public void resolve(Object view, String[] attributeGroup, Map<String, String> presentAttributeMappings) {
+	    GroupedViewAttributeBinder<Object> groupedViewAttribute = viewAttributeBinderFactory.createGroupedViewAttributeBinder(
 		    bindingAttributeMappings.getGroupedViewAttributeFactory(attributeGroup),
 		    attributeGroup,
 		    presentAttributeMappings);

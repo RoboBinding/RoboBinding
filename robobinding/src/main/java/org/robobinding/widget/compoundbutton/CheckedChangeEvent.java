@@ -17,9 +17,10 @@ public class CheckedChangeEvent extends AbstractViewEvent {
 	super(compoundButton);
 	checked = isChecked;
     }
-
-    public CompoundButton getCompoundButton() {
-	return (CompoundButton) getView();
+    
+    @Override
+    public CompoundButton getView() {
+        return (CompoundButton) super.getView();
     }
 
     public boolean isChecked() {

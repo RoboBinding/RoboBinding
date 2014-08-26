@@ -10,8 +10,6 @@ import org.robobinding.viewattribute.impl.InitailizedBindingAttributeMappings;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
@@ -55,11 +53,11 @@ public class MockInitializedBindingAttributeMappingsBuilder {
 	return this;
     }
 
-    public InitailizedBindingAttributeMappings<View> build() {
+    public InitailizedBindingAttributeMappings<Object> build() {
 	return new MockInitailizedBindingAttributeMappings(this);
     }
 
-    private static class MockInitailizedBindingAttributeMappings implements InitailizedBindingAttributeMappings<View> {
+    private static class MockInitailizedBindingAttributeMappings implements InitailizedBindingAttributeMappings<Object> {
 	private List<String> propertyAttributes;
 	private List<String> multiTypePropertyAttributes;
 	private List<String> eventAttributes;
@@ -93,22 +91,22 @@ public class MockInitializedBindingAttributeMappingsBuilder {
 	}
 
 	@Override
-	public PropertyViewAttributeFactory<View> getPropertyViewAttributeFactory(String attribute) {
+	public PropertyViewAttributeFactory<Object> getPropertyViewAttributeFactory(String attribute) {
 	    return null;
 	}
 
 	@Override
-	public MultiTypePropertyViewAttributeFactory<View> getMultiTypePropertyViewAttributeFactory(String attribute) {
+	public MultiTypePropertyViewAttributeFactory<Object> getMultiTypePropertyViewAttributeFactory(String attribute) {
 	    return null;
 	}
 
 	@Override
-	public EventViewAttributeFactory<View> getEventViewAttributeFactory(String attribute) {
+	public EventViewAttributeFactory<Object> getEventViewAttributeFactory(String attribute) {
 	    return null;
 	}
 
 	@Override
-	public GroupedViewAttributeFactory<View> getGroupedViewAttributeFactory(String[] attributeGroup) {
+	public GroupedViewAttributeFactory<Object> getGroupedViewAttributeFactory(String[] attributeGroup) {
 	    return null;
 	}
     }

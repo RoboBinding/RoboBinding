@@ -6,8 +6,6 @@ import java.util.Map;
 import org.robobinding.ViewResolutionErrors;
 import org.robobinding.internal.guava.Maps;
 
-import android.view.View;
-
 /**
  * 
  * @since 1.0
@@ -16,7 +14,7 @@ import android.view.View;
  */
 @SuppressWarnings("serial")
 public class ViewHierarchyInflationErrorsException extends RuntimeException {
-    private Map<View, ViewInflationErrors> errorMap;
+    private Map<Object, ViewInflationErrors> errorMap;
     private String errorMessage;
 
     ViewHierarchyInflationErrorsException() {

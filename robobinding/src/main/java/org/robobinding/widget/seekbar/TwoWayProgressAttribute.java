@@ -1,8 +1,8 @@
 package org.robobinding.widget.seekbar;
 
 import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
-import org.robobinding.widget.view.ViewListenersAware;
 
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;

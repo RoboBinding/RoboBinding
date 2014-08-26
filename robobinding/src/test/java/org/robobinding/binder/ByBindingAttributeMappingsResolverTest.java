@@ -30,8 +30,6 @@ import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFact
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
-import android.view.View;
-
 import com.google.common.collect.Sets;
 
 /**
@@ -43,7 +41,7 @@ import com.google.common.collect.Sets;
 @RunWith(MockitoJUnitRunner.class)
 public class ByBindingAttributeMappingsResolverTest {
     @Mock
-    private ViewAttributeBinderFactory<View> viewAttributeBinderFactory;
+    private ViewAttributeBinderFactory<Object> viewAttributeBinderFactory;
     private PendingAttributesForView pendingAttributesForView;
 
     @Before
@@ -55,8 +53,8 @@ public class ByBindingAttributeMappingsResolverTest {
     @SuppressWarnings("unchecked")
     public void givenAPropertyAttribute_whenResolve_thenAResolvedPropertyViewAttributeShouldBeReturned() {
 	String propertyAttribute = "propertyAttribute";
-	PropertyViewAttributeBinder<View, ?> viewAttributeBinder = Mockito.mock(PropertyViewAttributeBinder.class);
-	Mockito.<PropertyViewAttributeBinder<View, ?>>when(
+	PropertyViewAttributeBinder<Object, ?> viewAttributeBinder = Mockito.mock(PropertyViewAttributeBinder.class);
+	Mockito.<PropertyViewAttributeBinder<Object, ?>>when(
 		viewAttributeBinderFactory.createPropertyViewAttributeBinder(any(PropertyViewAttributeFactory.class), eq(propertyAttribute), anyString()))
 		.thenReturn(viewAttributeBinder);
 
@@ -72,8 +70,8 @@ public class ByBindingAttributeMappingsResolverTest {
     @SuppressWarnings("unchecked")
     public void givenAMultiTypePropertyAttribute_whenResolve_thenAResolvedMultiTypePropertyViewAttributeShouldBeReturned() {
         String propertyAttribute = "multiTypePropertyAttribute";
-        MultiTypePropertyViewAttributeBinder<View> viewAttributeBinder = Mockito.mock(MultiTypePropertyViewAttributeBinder.class);
-        Mockito.<MultiTypePropertyViewAttributeBinder<View>>when(
+        MultiTypePropertyViewAttributeBinder<Object> viewAttributeBinder = Mockito.mock(MultiTypePropertyViewAttributeBinder.class);
+        Mockito.<MultiTypePropertyViewAttributeBinder<Object>>when(
         	viewAttributeBinderFactory.createMultiTypePropertyViewAttributeBinder(
         		any(MultiTypePropertyViewAttributeFactory.class), eq(propertyAttribute), anyString()))
         	.thenReturn(viewAttributeBinder);
@@ -90,8 +88,8 @@ public class ByBindingAttributeMappingsResolverTest {
     @SuppressWarnings("unchecked")
     public void givenAnEventAttribute_whenResolve_thenAResolvedEventViewAttributeShouldBeReturned() {
 	String eventAttribute = "eventAttribute";
-	EventViewAttributeBinder<View> viewAttributeBinder = Mockito.mock(EventViewAttributeBinder.class);
-	Mockito.<EventViewAttributeBinder<View>>when(
+	EventViewAttributeBinder<Object> viewAttributeBinder = Mockito.mock(EventViewAttributeBinder.class);
+	Mockito.<EventViewAttributeBinder<Object>>when(
 		viewAttributeBinderFactory.createEventViewAttributeBinder(any(EventViewAttributeFactory.class), eq(eventAttribute), anyString()))
 		.thenReturn(viewAttributeBinder);
 	ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver = newByBindingAttributeMappingsResolver(aBindingAttributeMappings()
@@ -106,8 +104,8 @@ public class ByBindingAttributeMappingsResolverTest {
     @SuppressWarnings("unchecked")
     public void givenAnAttributeGroup_whenResolve_thenAResolvedGroupedViewAttributeShouldBeReturned() {
 	String[] attributeGroup = {"group_attribute1", "group_attribute2"};
-	GroupedViewAttributeBinder<View> viewAttributeBinder = Mockito.mock(GroupedViewAttributeBinder.class);
-	Mockito.<GroupedViewAttributeBinder<View>>when(
+	GroupedViewAttributeBinder<Object> viewAttributeBinder = Mockito.mock(GroupedViewAttributeBinder.class);
+	Mockito.<GroupedViewAttributeBinder<Object>>when(
 		viewAttributeBinderFactory.createGroupedViewAttributeBinder(any(GroupedViewAttributeFactory.class), eq(attributeGroup), anyMap()))
 		.thenReturn(viewAttributeBinder);
 	ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver = newByBindingAttributeMappingsResolver(aBindingAttributeMappings()
@@ -118,7 +116,7 @@ public class ByBindingAttributeMappingsResolverTest {
 	assertThat(Sets.newHashSet(viewAttributes), equalTo(Sets.<ViewAttributeBinder> newHashSet(viewAttributeBinder)));
     }
 
-    private ByBindingAttributeMappingsResolver newByBindingAttributeMappingsResolver(InitailizedBindingAttributeMappings<View> bindingAttributeMappings) {
+    private ByBindingAttributeMappingsResolver newByBindingAttributeMappingsResolver(InitailizedBindingAttributeMappings<Object> bindingAttributeMappings) {
 	return new ByBindingAttributeMappingsResolver(bindingAttributeMappings, viewAttributeBinderFactory);
     }
 
@@ -134,7 +132,7 @@ public class ByBindingAttributeMappingsResolverTest {
 	}
 
 	@Override
-	public View getView() {
+	public Object getView() {
 	    throw new UnsupportedOperationException();
 	}
 

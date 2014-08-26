@@ -3,6 +3,7 @@ package org.robobinding.binder;
 import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
 
 import android.view.View;
@@ -26,14 +27,13 @@ public class BindingAttributeResolverBuilder {
     }
 
     public BindingAttributeResolver build() {
-	BindingAttributeMappingsProviderResolver providersResolver = new BindingAttributeMappingsProviderResolver(
-		bindingAttributeMappingsProviderMapBuilder.build());
+	BindingAttributeMappingsProviderMap providerMap = bindingAttributeMappingsProviderMapBuilder.build();
 	ViewAttributeBinderFactoryProvider viewAttributeBinderFactoryProvider = new ViewAttributeBinderFactoryProvider(
 		new PropertyAttributeParser(),
 		new GroupAttributesResolver(),
 		BinderFactoryBuilder.defaultViewListenersMapBuilder().build());
 	ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(
-		providersResolver, viewAttributeBinderFactoryProvider);
+		providerMap, viewAttributeBinderFactoryProvider);
 	return new BindingAttributeResolver(resolverFinder);
     }
 

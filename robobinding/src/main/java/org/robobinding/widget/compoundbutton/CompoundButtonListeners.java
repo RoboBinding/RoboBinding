@@ -1,6 +1,6 @@
 package org.robobinding.widget.compoundbutton;
 
-import org.robobinding.widget.view.ViewListeners;
+import org.robobinding.widget.view.ViewListenersForView;
 
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -11,7 +11,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CompoundButtonListeners extends ViewListeners {
+public class CompoundButtonListeners extends ViewListenersForView {
     CompoundButton compoundButton;
     private OnCheckedChangeListeners onCheckedChangeListeners;
 

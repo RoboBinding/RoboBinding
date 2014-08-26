@@ -4,11 +4,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.widget.adapterview.AdapterViewListeners;
 import org.robobinding.widget.listview.SparseBooleanArrayUtils;
-import org.robobinding.widget.view.ViewListenersAware;
 
 import android.util.SparseBooleanArray;
 import android.view.View;

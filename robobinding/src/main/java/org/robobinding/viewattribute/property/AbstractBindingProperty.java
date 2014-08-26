@@ -4,15 +4,13 @@ import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractBindingProperty<ViewType extends View, PropertyType> {
+public abstract class AbstractBindingProperty<ViewType, PropertyType> {
     private final PropertyViewAttribute<ViewType, PropertyType> viewAttribute;
     protected final ViewType view;
     protected final ValueModelAttribute attribute;

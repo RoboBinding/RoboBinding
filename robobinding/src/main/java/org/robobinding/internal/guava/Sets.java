@@ -40,7 +40,7 @@ import java.util.Set;
  * @since 2.0 (imported from Google Collections Library)
  */
 public final class Sets {
-  private Sets() {}
+  private Sets() { }
 
   
 

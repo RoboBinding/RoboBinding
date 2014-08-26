@@ -5,12 +5,10 @@ import java.util.Map;
 
 import org.robobinding.internal.guava.Maps;
 import org.robobinding.util.ConstructorUtils;
+import org.robobinding.viewattribute.ViewListeners;
+import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.ViewListenersInjector;
-import org.robobinding.widget.view.ViewListeners;
-import org.robobinding.widget.view.ViewListenersAware;
-import org.robobinding.widget.view.ViewListenersMap;
-
-import android.view.View;
+import org.robobinding.viewattribute.ViewListenersMap;
 
 /**
  *
@@ -21,7 +19,7 @@ import android.view.View;
  */
 public class ViewListenersProvider implements ViewListenersInjector {
     private final ViewListenersMap viewListenersMap;
-    private final Map<View, ViewListeners> cachedViewListeners;
+    private final Map<Object, ViewListeners> cachedViewListeners;
 
     public ViewListenersProvider(ViewListenersMap viewListenersMap) {
 	this.viewListenersMap = viewListenersMap;
@@ -30,7 +28,7 @@ public class ViewListenersProvider implements ViewListenersInjector {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void injectIfRequired(Object viewAttribute, View view) {
+    public void injectIfRequired(Object viewAttribute, Object view) {
 	if (viewAttribute instanceof ViewListenersAware) {
 	    ViewListeners viewListeners = getViewListeners(view);
 
@@ -48,7 +46,7 @@ public class ViewListenersProvider implements ViewListenersInjector {
 	}
     }
 
-    private ViewListeners getViewListeners(View view) {
+    private ViewListeners getViewListeners(Object view) {
 	if (cachedViewListeners.containsKey(view)) {
 	    return cachedViewListeners.get(view);
 	} else {
@@ -58,26 +56,17 @@ public class ViewListenersProvider implements ViewListenersInjector {
 	}
     }
 
-    private ViewListeners createViewListeners(View view) {
-	Class<? extends ViewListeners> viewListenersClass = getMostSuitableViewListenersClass(view.getClass());
+    private ViewListeners createViewListeners(Object view) {
+	Class<?> viewClass = view.getClass();
+	Class<? extends ViewListeners> viewListenersClass = viewListenersMap.findMostSuitable(viewClass);
+	if (viewListenersClass == null) {
+	    throw new RuntimeException("no ViewListeners registered for " + viewClass.getName());
+	}
+	
 	return instantiateViewListenersInstance(view, viewListenersClass);
     }
 
-    @SuppressWarnings("unchecked")
-    private Class<? extends ViewListeners> getMostSuitableViewListenersClass(Class<? extends View> viewClass) {
-	if (viewClass == View.class) {
-	    return ViewListeners.class;
-	}
-
-	if (viewListenersMap.contains(viewClass)) {
-	    return viewListenersMap.getViewListenersClass(viewClass);
-	} else {
-	    Class<? extends View> viewSuperClass = (Class<? extends View>) viewClass.getSuperclass();
-	    return getMostSuitableViewListenersClass(viewSuperClass);
-	}
-    }
-
-    private ViewListeners instantiateViewListenersInstance(View view, Class<? extends ViewListeners> viewListenersClass) {
+    private ViewListeners instantiateViewListenersInstance(Object view, Class<? extends ViewListeners> viewListenersClass) {
 	try {
 	    ViewListeners viewListeners = ConstructorUtils.invokeConstructor(viewListenersClass, view);
 	    return viewListeners;

@@ -20,22 +20,20 @@ import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinderProviderAdapter;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewAttributeBinderFactory<T extends View> {
-    private final T view;
-    private final PropertyViewAttributeBinderFactory<T> propertyViewAttributeBinderFactory;
+public class ViewAttributeBinderFactory<ViewType> {
+    private final ViewType view;
+    private final PropertyViewAttributeBinderFactory<ViewType> propertyViewAttributeBinderFactory;
     private final PropertyAttributeParser propertyAttributeParser;
     private final GroupAttributesResolver groupAttributesResolver;
     private final ViewListenersInjector viewListenersInjector;
 
-    public ViewAttributeBinderFactory(T view, PropertyViewAttributeBinderFactory<T> propertyViewAttributeBinderFactory,
+    public ViewAttributeBinderFactory(ViewType view, PropertyViewAttributeBinderFactory<ViewType> propertyViewAttributeBinderFactory,
             PropertyAttributeParser propertyAttributeParser, GroupAttributesResolver resolvedGroupAttributesFactory,
             ViewListenersInjector viewListenersInjector) {
         this.view = view;
@@ -45,74 +43,75 @@ public class ViewAttributeBinderFactory<T extends View> {
         this.viewListenersInjector = viewListenersInjector;
     }
 
-    public PropertyViewAttributeBinder<T, ?> createPropertyViewAttributeBinder(
-	    PropertyViewAttributeFactory<T> viewAttributeFactory,
+    public PropertyViewAttributeBinder<ViewType, ?> createPropertyViewAttributeBinder(
+	    PropertyViewAttributeFactory<ViewType> viewAttributeFactory,
 	    String attributeName, String attributeValue) {
 	ValueModelAttribute attribute = propertyAttributeParser.parseAsValueModelAttribute(attributeName, attributeValue);
 
 	return createPropertyViewAttributeBinder(viewAttributeFactory, attribute);
     }
 
-    public PropertyViewAttributeBinder<T, ?> createPropertyViewAttributeBinder(
-	    PropertyViewAttributeFactory<T> viewAttributeFactory,
+    public PropertyViewAttributeBinder<ViewType, ?> createPropertyViewAttributeBinder(
+	    PropertyViewAttributeFactory<ViewType> viewAttributeFactory,
 	    ValueModelAttribute attribute) {
 	return createPropertyViewAttributeBinder(viewAttributeFactory.create(), attribute);
     }
 
-    public PropertyViewAttributeBinder<T, ?> createPropertyViewAttributeBinder(
-            PropertyViewAttribute<T, ?> viewAttribute,
+    public PropertyViewAttributeBinder<ViewType, ?> createPropertyViewAttributeBinder(
+            PropertyViewAttribute<ViewType, ?> viewAttribute,
             ValueModelAttribute attribute) {
         viewListenersInjector.injectIfRequired(viewAttribute, view);
-        PropertyViewAttributeBinder<T, ?> viewAttributeBinder = propertyViewAttributeBinderFactory.create(viewAttribute, attribute);
+        PropertyViewAttributeBinder<ViewType, ?> viewAttributeBinder = propertyViewAttributeBinderFactory.create(viewAttribute, attribute);
         return viewAttributeBinder;
     }
 
-    public MultiTypePropertyViewAttributeBinder<T> createMultiTypePropertyViewAttributeBinder(
-	    MultiTypePropertyViewAttributeFactory<T> viewAttributeFactory,
+    public MultiTypePropertyViewAttributeBinder<ViewType> createMultiTypePropertyViewAttributeBinder(
+	    MultiTypePropertyViewAttributeFactory<ViewType> viewAttributeFactory,
 	    String attributeName,
 	    String attributeValue) {
 	ValueModelAttribute attribute = propertyAttributeParser.parseAsValueModelAttribute(attributeName, attributeValue);
 	return createMultiTypePropertyViewAttributeBinder(viewAttributeFactory, attribute);
     }
 
-    public MultiTypePropertyViewAttributeBinder<T> createMultiTypePropertyViewAttributeBinder(
-	    MultiTypePropertyViewAttributeFactory<T> viewAttributeFactory,
+    public MultiTypePropertyViewAttributeBinder<ViewType> createMultiTypePropertyViewAttributeBinder(
+	    MultiTypePropertyViewAttributeFactory<ViewType> viewAttributeFactory,
 	    ValueModelAttribute attribute) {
 	return createMultiTypePropertyViewAttributeBinder(viewAttributeFactory.create(), attribute);
     }
 
-    public MultiTypePropertyViewAttributeBinder<T> createMultiTypePropertyViewAttributeBinder(
-            MultiTypePropertyViewAttribute<T> viewAttribute,
+    public MultiTypePropertyViewAttributeBinder<ViewType> createMultiTypePropertyViewAttributeBinder(
+            MultiTypePropertyViewAttribute<ViewType> viewAttribute,
             ValueModelAttribute attribute) {
-	PropertyViewAttributeBinderProviderAdapter<T> propertyViewAttributeBinderProviderAdapter = new PropertyViewAttributeBinderProviderAdapter<T>(
-		view, viewAttribute, attribute, propertyViewAttributeBinderFactory, viewListenersInjector);
-        return new MultiTypePropertyViewAttributeBinder<T>(
+	PropertyViewAttributeBinderProviderAdapter<ViewType> propertyViewAttributeBinderProviderAdapter = 
+		new PropertyViewAttributeBinderProviderAdapter<ViewType>(view, viewAttribute, 
+			attribute, propertyViewAttributeBinderFactory, viewListenersInjector);
+        return new MultiTypePropertyViewAttributeBinder<ViewType>(
         	propertyViewAttributeBinderProviderAdapter,
         	attribute);
     }
 
-    public EventViewAttributeBinder<T> createEventViewAttributeBinder(
-	    EventViewAttributeFactory<T> viewAttributeFactory,
+    public EventViewAttributeBinder<ViewType> createEventViewAttributeBinder(
+	    EventViewAttributeFactory<ViewType> viewAttributeFactory,
 	    String attributeName,
 	    String attributeValue) {
-	EventViewAttribute<T> viewAttribute = viewAttributeFactory.create();
+	EventViewAttribute<ViewType> viewAttribute = viewAttributeFactory.create();
 	viewListenersInjector.injectIfRequired(viewAttribute, view);
-	EventViewAttributeBinder<T> viewAttributeBinder = new EventViewAttributeBinder<T>(
+	EventViewAttributeBinder<ViewType> viewAttributeBinder = new EventViewAttributeBinder<ViewType>(
 		view, viewAttribute, new EventAttribute(attributeName, attributeValue));
 	return viewAttributeBinder;
     }
 
-    public GroupedViewAttributeBinder<T> createGroupedViewAttributeBinder(
-	    GroupedViewAttributeFactory<T> viewAttributeFactory,
+    public GroupedViewAttributeBinder<ViewType> createGroupedViewAttributeBinder(
+	    GroupedViewAttributeFactory<ViewType> viewAttributeFactory,
 	    String[] attributeGroup,
 	    Map<String, String> presentAttributeMappings) {
 	PendingGroupAttributes pendingGroupAttributes = new PendingGroupAttributes(presentAttributeMappings);
-	GroupedViewAttribute<T> viewAttribute = viewAttributeFactory.create();
+	GroupedViewAttribute<ViewType> viewAttribute = viewAttributeFactory.create();
 	ResolvedGroupAttributes resolvedGroupAttributes = groupAttributesResolver.resolve(
 		pendingGroupAttributes, viewAttribute);
-	ChildViewAttributesBuilderImpl<T> childViewAttributesBuilder = new ChildViewAttributesBuilderImpl<T>(
+	ChildViewAttributesBuilderImpl<ViewType> childViewAttributesBuilder = new ChildViewAttributesBuilderImpl<ViewType>(
 		resolvedGroupAttributes, this);
 
-	return new GroupedViewAttributeBinder<T>(view, viewAttribute, childViewAttributesBuilder);
+	return new GroupedViewAttributeBinder<ViewType>(view, viewAttribute, childViewAttributesBuilder);
     }
 }

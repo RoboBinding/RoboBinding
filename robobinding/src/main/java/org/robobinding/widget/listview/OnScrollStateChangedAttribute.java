@@ -1,9 +1,9 @@
 package org.robobinding.widget.listview;
 
 import org.robobinding.attribute.Command;
+import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.widget.view.AbstractViewEvent;
-import org.robobinding.widget.view.ViewListenersAware;
 
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;

@@ -7,8 +7,8 @@ import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
 import org.robobinding.viewattribute.ParameterizedTypeUtils;
-import org.robobinding.widget.view.ViewListeners;
-import org.robobinding.widget.view.ViewListenersAware;
+import org.robobinding.viewattribute.ViewListeners;
+import org.robobinding.viewattribute.ViewListenersAware;
 
 import android.view.View;
 

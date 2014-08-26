@@ -1,9 +1,6 @@
 package org.robobinding.viewattribute.event;
 
 import org.robobinding.attribute.Command;
-import org.robobinding.widget.view.AbstractViewEvent;
-
-import android.view.View;
 
 /**
  *
@@ -11,7 +8,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface EventViewAttribute<T extends View> {
-    void bind(T view, Command command);
-    Class<? extends AbstractViewEvent> getEventType();
+public interface EventViewAttribute<ViewType> {
+    void bind(ViewType view, Command command);
+    Class<?> getEventType();
 }

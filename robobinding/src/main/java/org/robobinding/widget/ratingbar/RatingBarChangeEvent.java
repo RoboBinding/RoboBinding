@@ -20,8 +20,9 @@ public class RatingBarChangeEvent extends AbstractViewEvent {
 	this.fromUser = fromUser;
     }
 
-    public RatingBar getRatingBar() {
-	return (RatingBar) getView();
+    @Override
+    public RatingBar getView() {
+        return (RatingBar) super.getView();
     }
 
     public float getRating() {

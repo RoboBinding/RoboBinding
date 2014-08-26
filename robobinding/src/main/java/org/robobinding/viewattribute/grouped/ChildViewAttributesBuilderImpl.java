@@ -16,23 +16,21 @@ import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class ChildViewAttributesBuilderImpl<T extends View> implements ChildViewAttributesBuilder<T> {
+class ChildViewAttributesBuilderImpl<ViewType> implements ChildViewAttributesBuilder<ViewType> {
     private final ResolvedGroupAttributes resolvedGroupAttributes;
-    private final ViewAttributeBinderFactory<T> viewAttributeBinderFactory;
+    private final ViewAttributeBinderFactory<ViewType> viewAttributeBinderFactory;
     private final ChildViewAttributeInitializer childViewAttributeInitializer;
     final Map<String, Bindable> childViewAttributeMap;
     private boolean failOnFirstBindingError;
 
     public ChildViewAttributesBuilderImpl(ResolvedGroupAttributes resolvedGroupAttributes,
-	    ViewAttributeBinderFactory<T> viewAttributeBinderFactory) {
+	    ViewAttributeBinderFactory<ViewType> viewAttributeBinderFactory) {
 	this.resolvedGroupAttributes = resolvedGroupAttributes;
 	this.viewAttributeBinderFactory = viewAttributeBinderFactory;
 
@@ -61,35 +59,36 @@ class ChildViewAttributesBuilderImpl<T extends View> implements ChildViewAttribu
     }
 
     @Override
-    public void add(String attributeName, PropertyViewAttribute<T, ?> viewAttribute) {
+    public void add(String attributeName, PropertyViewAttribute<ViewType, ?> viewAttribute) {
 	ValueModelAttribute attribute = resolvedGroupAttributes.valueModelAttributeFor(attributeName);
-	PropertyViewAttributeBinder<T, ?> viewAttributeBinder =
+	PropertyViewAttributeBinder<ViewType, ?> viewAttributeBinder =
 		viewAttributeBinderFactory.createPropertyViewAttributeBinder(viewAttribute, attribute);
 	childViewAttributeMap.put(attributeName, viewAttributeBinder);
     }
 
     @Override
     public void add(String propertyAttribute,
-	    PropertyViewAttributeFactory<T> factory) {
+	    PropertyViewAttributeFactory<ViewType> factory) {
 	ValueModelAttribute attribute = resolvedGroupAttributes.valueModelAttributeFor(propertyAttribute);
-	PropertyViewAttributeBinder<T, ?> viewAttributeBinder =
+	PropertyViewAttributeBinder<ViewType, ?> viewAttributeBinder =
 		viewAttributeBinderFactory.createPropertyViewAttributeBinder(factory, attribute);
 	childViewAttributeMap.put(propertyAttribute, viewAttributeBinder);
     }
 
     @Override
-    public void add(String attributeName, MultiTypePropertyViewAttribute<T> viewAttribute) {
+    public void add(String attributeName, MultiTypePropertyViewAttribute<ViewType> viewAttribute) {
 	ValueModelAttribute attribute = resolvedGroupAttributes.valueModelAttributeFor(attributeName);
-	MultiTypePropertyViewAttributeBinder<T> viewAttributeBinder =
+	MultiTypePropertyViewAttributeBinder<ViewType> viewAttributeBinder =
 		viewAttributeBinderFactory.createMultiTypePropertyViewAttributeBinder(viewAttribute, attribute);
 	childViewAttributeMap.put(attributeName, viewAttributeBinder);
     }
 
     @Override
     public void add(String propertyAttribute,
-	    MultiTypePropertyViewAttributeFactory<T> factory) {
+	    MultiTypePropertyViewAttributeFactory<ViewType> factory) {
 	ValueModelAttribute attribute = resolvedGroupAttributes.valueModelAttributeFor(propertyAttribute);
-	MultiTypePropertyViewAttributeBinder<T> viewAttributeBinder = viewAttributeBinderFactory.createMultiTypePropertyViewAttributeBinder(factory, attribute);
+	MultiTypePropertyViewAttributeBinder<ViewType> viewAttributeBinder = 
+		viewAttributeBinderFactory.createMultiTypePropertyViewAttributeBinder(factory, attribute);
 	childViewAttributeMap.put(propertyAttribute, viewAttributeBinder);
     }
 
