@@ -1,6 +1,7 @@
 package org.robobinding.widget.view;
 
 import org.robobinding.attribute.Command;
+import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 
 import android.view.MotionEvent;
@@ -13,11 +14,11 @@ import android.view.View.OnTouchListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnTouchAttribute implements EventViewAttribute<View>, ViewListenersAware<ViewListeners> {
-    private ViewListeners viewListeners;
+public class OnTouchAttribute implements EventViewAttribute<View>, ViewListenersAware<ViewListenersForView> {
+    private ViewListenersForView viewListeners;
 
     @Override
-    public void setViewListeners(ViewListeners viewListeners) {
+    public void setViewListeners(ViewListenersForView viewListeners) {
 	this.viewListeners = viewListeners;
     }
 

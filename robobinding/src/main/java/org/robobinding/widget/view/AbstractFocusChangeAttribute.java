@@ -1,6 +1,7 @@
 package org.robobinding.widget.view;
 
 import org.robobinding.attribute.Command;
+import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 
 import android.view.View;
@@ -12,11 +13,11 @@ import android.view.View.OnFocusChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public abstract class AbstractFocusChangeAttribute implements EventViewAttribute<View>, ViewListenersAware<ViewListeners> {
-    private ViewListeners viewListeners;
+public abstract class AbstractFocusChangeAttribute implements EventViewAttribute<View>, ViewListenersAware<ViewListenersForView> {
+    private ViewListenersForView viewListeners;
 
     @Override
-    public void setViewListeners(ViewListeners viewListeners) {
+    public void setViewListeners(ViewListenersForView viewListeners) {
 	this.viewListeners = viewListeners;
     }
 

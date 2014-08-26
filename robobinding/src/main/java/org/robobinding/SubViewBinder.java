@@ -11,17 +11,17 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class SubViewBinder {
-    private ViewBinder internalViewBinder;
+    private ViewBinder viewBinder;
     private BindingContext bindingContext;
 
-    public SubViewBinder(ViewBinder internalViewBinder, BindingContext bindingContext) {
-	this.internalViewBinder = internalViewBinder;
+    public SubViewBinder(ViewBinder viewBinder, BindingContext bindingContext) {
+	this.viewBinder = viewBinder;
 	this.bindingContext = bindingContext;
     }
 
     public View inflateAndBind(int layoutId, String presentationModelPropertyName) {
 	Object presentationModel = getPresentationModel(presentationModelPropertyName);
-	return internalViewBinder.inflateAndBind(layoutId, presentationModel);
+	return viewBinder.inflateAndBind(layoutId, presentationModel);
     }
 
     private Object getPresentationModel(String presentationModelPropertyName) {
@@ -30,7 +30,7 @@ public class SubViewBinder {
     }
 
     public View inflate(int layoutId) {
-	return internalViewBinder.inflate(layoutId);
+	return viewBinder.inflate(layoutId);
     }
 
 }

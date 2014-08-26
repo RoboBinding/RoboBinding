@@ -3,8 +3,6 @@ package org.robobinding.viewattribute.grouped;
 import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
@@ -12,15 +10,15 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class GroupedViewAttributeBinder<T extends View> implements ViewAttributeBinder {
-    private final T view;
-    private final InitializedGroupedViewAttribute<T> viewAttribute;
-    private final ChildViewAttributesBuilderImpl<T> childViewAttributesBuilder;
+public class GroupedViewAttributeBinder<ViewType> implements ViewAttributeBinder {
+    private final ViewType view;
+    private final InitializedGroupedViewAttribute<ViewType> viewAttribute;
+    private final ChildViewAttributesBuilderImpl<ViewType> childViewAttributesBuilder;
 
     private ChildViewAttributes childViewAttributes;
 
-    public GroupedViewAttributeBinder(T view, InitializedGroupedViewAttribute<T> viewAttribute,
-	    ChildViewAttributesBuilderImpl<T> childViewAttributesBuilder) {
+    public GroupedViewAttributeBinder(ViewType view, InitializedGroupedViewAttribute<ViewType> viewAttribute,
+	    ChildViewAttributesBuilderImpl<ViewType> childViewAttributesBuilder) {
 	this.view = view;
 	this.viewAttribute = viewAttribute;
 	this.childViewAttributesBuilder = childViewAttributesBuilder;

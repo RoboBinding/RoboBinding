@@ -3,6 +3,8 @@ package org.robobinding.binder;
 import org.robobinding.dynamicbinding.DynamicViewBindingDescription;
 import org.robobinding.dynamicbinding.ViewBindingApplier;
 import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewattribute.ViewListeners;
+import org.robobinding.viewattribute.ViewListenersMapBuilder;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
 import org.robobinding.widget.abslistview.AbsListViewBinding;
 import org.robobinding.widget.absspinner.AbsSpinnerBinding;
@@ -13,17 +15,21 @@ import org.robobinding.widget.compoundbutton.CompoundButtonListeners;
 import org.robobinding.widget.edittext.EditTextBinding;
 import org.robobinding.widget.imageview.ImageViewBinding;
 import org.robobinding.widget.listview.ListViewBinding;
+import org.robobinding.widget.menuitem.MenuItemBinding;
+import org.robobinding.widget.menuitem.MenuItemListeners;
+import org.robobinding.widget.menuitemgroup.MenuItemGroup;
+import org.robobinding.widget.menuitemgroup.MenuItemGroupBinding;
 import org.robobinding.widget.progressbar.ProgressBarBinding;
 import org.robobinding.widget.ratingbar.RatingBarBinding;
 import org.robobinding.widget.ratingbar.RatingBarListeners;
 import org.robobinding.widget.seekbar.SeekBarBinding;
 import org.robobinding.widget.seekbar.SeekBarListeners;
 import org.robobinding.widget.textview.TextViewBinding;
-import org.robobinding.widget.view.ViewBindingImpl;
-import org.robobinding.widget.view.ViewListeners;
-import org.robobinding.widget.view.ViewListenersMapBuilder;
+import org.robobinding.widget.view.ViewBindingForView;
+import org.robobinding.widget.view.ViewListenersForView;
 import org.robobinding.widget.viewanimator.ViewAnimatorBinding;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsSpinner;
@@ -56,11 +62,12 @@ public class BinderFactoryBuilder {
 
     static ViewListenersMapBuilder defaultViewListenersMapBuilder() {
         ViewListenersMapBuilder builder = new ViewListenersMapBuilder();
-        builder.put(View.class, ViewListeners.class);
+        builder.put(View.class, ViewListenersForView.class);
         builder.put(AdapterView.class, AdapterViewListeners.class);
         builder.put(CompoundButton.class, CompoundButtonListeners.class);
         builder.put(SeekBar.class, SeekBarListeners.class);
         builder.put(RatingBar.class, RatingBarListeners.class);
+        builder.put(MenuItem.class, MenuItemListeners.class);
 
         return builder;
     }
@@ -70,7 +77,7 @@ public class BinderFactoryBuilder {
 
         BindingAttributeMappingsProviderMapBuilder builder = new BindingAttributeMappingsProviderMapBuilder();
 
-        builder.put(View.class, new ViewBindingImpl());
+        builder.put(View.class, new ViewBindingForView());
         builder.put(TextView.class, new TextViewBinding());
         builder.put(EditText.class, new EditTextBinding());
         builder.put(AdapterView.class, (ViewBinding) new AdapterViewBinding());
@@ -82,7 +89,9 @@ public class BinderFactoryBuilder {
         builder.put(ListView.class, new ListViewBinding());
         builder.put(AbsListView.class, new AbsListViewBinding());
         builder.put(AbsSpinner.class, new AbsSpinnerBinding());
-		builder.put(ViewAnimator.class, new ViewAnimatorBinding());
+	builder.put(ViewAnimator.class, new ViewAnimatorBinding());
+	builder.put(MenuItem.class, new MenuItemBinding());
+	builder.put(MenuItemGroup.class, new MenuItemGroupBinding());
 
         return builder;
     }

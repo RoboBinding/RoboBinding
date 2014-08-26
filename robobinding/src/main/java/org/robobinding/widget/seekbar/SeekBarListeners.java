@@ -1,6 +1,6 @@
 package org.robobinding.widget.seekbar;
 
-import org.robobinding.widget.view.ViewListeners;
+import org.robobinding.widget.view.ViewListenersForView;
 
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -11,7 +11,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SeekBarListeners extends ViewListeners {
+public class SeekBarListeners extends ViewListenersForView {
     SeekBar seekBar;
     private OnSeekBarChangeListeners onSeekBarChangeListeners;
 

@@ -6,8 +6,6 @@ import java.util.Map;
 import org.robobinding.attribute.MissingRequiredAttributesException;
 import org.robobinding.internal.guava.Maps;
 
-import android.view.View;
-
 /**
  * 
  * @since 1.0
@@ -16,12 +14,12 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class PendingAttributesForViewImpl implements PendingAttributesForView {
-    private View view;
+    private Object view;
     Map<String, String> attributeMappings;
     private ViewResolutionErrorsException resolutionErrors;
     private boolean isUnrecognizedAttributesAppended;
 
-    public PendingAttributesForViewImpl(View view, Map<String, String> attributeMappings) {
+    public PendingAttributesForViewImpl(Object view, Map<String, String> attributeMappings) {
 	this.view = view;
 	this.attributeMappings = Maps.newHashMap(attributeMappings);
 	resolutionErrors = new ViewResolutionErrorsException(view);
@@ -29,7 +27,7 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView {
     }
 
     @Override
-    public View getView() {
+    public Object getView() {
 	return view;
     }
 

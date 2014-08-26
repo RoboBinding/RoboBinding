@@ -8,27 +8,25 @@ import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFact
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface ChildViewAttributesBuilder<T extends View> {
+public interface ChildViewAttributesBuilder<ViewType> {
     void add(String attributeName, ChildViewAttribute childAttribute);
     void add(String attributeName, ChildViewAttributeFactory factory);
     void addDependent(String attributeName,
 	    ChildViewAttributeFactory factory);
 
-    void add(String attributeName, PropertyViewAttribute<T, ?> viewAttribute);
+    void add(String attributeName, PropertyViewAttribute<ViewType, ?> viewAttribute);
     void add(String attributeName,
-	    PropertyViewAttributeFactory<T> factory);
+	    PropertyViewAttributeFactory<ViewType> factory);
 
-    void add(String attributeName, MultiTypePropertyViewAttribute<T> viewAttribute);
+    void add(String attributeName, MultiTypePropertyViewAttribute<ViewType> viewAttribute);
     void add(String attributeName,
-	    MultiTypePropertyViewAttributeFactory<T> factory);
+	    MultiTypePropertyViewAttributeFactory<ViewType> factory);
 
     void failOnFirstBindingError();
 

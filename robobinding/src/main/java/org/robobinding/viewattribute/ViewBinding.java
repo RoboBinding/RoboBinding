@@ -1,6 +1,5 @@
 package org.robobinding.viewattribute;
 
-import android.view.View;
 
 /**
  * 
@@ -9,6 +8,6 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public interface ViewBinding<T extends View> {
-    void mapBindingAttributes(BindingAttributeMappings<T> mappings);
+public interface ViewBinding<ViewType> {
+    void mapBindingAttributes(BindingAttributeMappings<ViewType> mappings);
 }

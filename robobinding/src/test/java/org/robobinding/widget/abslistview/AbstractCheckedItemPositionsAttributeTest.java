@@ -5,13 +5,13 @@ import java.util.Set;
 import org.junit.Before;
 import org.robobinding.R;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.property.AbstractPropertyViewAttributeTest;
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.widget.adapterview.AdapterViewListeners;
 import org.robobinding.widget.adapterview.MockAdapterViewListeners;
 import org.robobinding.widget.adapterview.MockArrayAdapter;
 import org.robobinding.widget.listview.SparseBooleanArrayUtils;
-import org.robobinding.widget.view.ViewListenersAware;
 
 import android.util.SparseBooleanArray;
 import android.widget.ListAdapter;

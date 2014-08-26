@@ -1,8 +1,8 @@
 package org.robobinding.widget.seekbar;
 
 import org.robobinding.attribute.Command;
+import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.event.EventViewAttribute;
-import org.robobinding.widget.view.ViewListenersAware;
 
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;

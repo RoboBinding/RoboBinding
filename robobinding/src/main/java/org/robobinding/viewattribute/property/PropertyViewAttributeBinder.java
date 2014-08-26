@@ -4,8 +4,6 @@ import org.robobinding.BindingContext;
 import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
@@ -13,7 +11,7 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class PropertyViewAttributeBinder<ViewType extends View, PropertyType> implements ViewAttributeBinder {
+public class PropertyViewAttributeBinder<ViewType, PropertyType> implements ViewAttributeBinder {
     private final boolean withAlwaysPreInitializingView;
     private AbstractBindingProperty<ViewType, PropertyType> bindingProperty;
 

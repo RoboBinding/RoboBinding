@@ -5,8 +5,6 @@ import java.util.Map;
 import org.robobinding.internal.guava.Maps;
 import org.robobinding.viewattribute.ViewBinding;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
@@ -14,19 +12,19 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class BindingAttributeMappingsProviderMapBuilder implements BindingAttributeMappingsProviderMappings {
-    private final Map<Class<? extends View>, BindingAttributeMappingsProvider<? extends View>> mappings;
+    private final Map<Class<?>, BindingAttributeMappingsProvider<?>> mappings;
 
     public BindingAttributeMappingsProviderMapBuilder() {
 	mappings = Maps.newHashMap();
     }
 
-    public <T extends View> BindingAttributeMappingsProviderMapBuilder put(Class<T> viewClass, ViewBinding<T> bindingAttributeMapper) {
-	mappings.put(viewClass, new ViewBindingAdapter<T>(bindingAttributeMapper));
+    public <ViewType> BindingAttributeMappingsProviderMapBuilder put(Class<ViewType> viewClass, ViewBinding<ViewType> bindingAttributeMapper) {
+	mappings.put(viewClass, new ViewBindingAdapter<ViewType>(bindingAttributeMapper));
 	return this;
     }
     
     @Override
-    public <T extends View> void put(Class<T> viewClass, BindingAttributeMappingsProvider<T> bindingAttributeMappingsProvider) {
+    public <ViewType> void put(Class<ViewType> viewClass, BindingAttributeMappingsProvider<ViewType> bindingAttributeMappingsProvider) {
 	mappings.put(viewClass, bindingAttributeMappingsProvider);
     }
 

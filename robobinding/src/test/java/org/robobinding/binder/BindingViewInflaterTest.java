@@ -65,7 +65,7 @@ public class BindingViewInflaterTest {
     public void givenAChildViewWithBindingAttributes_whenInflateView_thenAChildViewBindingAttributesShouldBeAdded() {
 	declareAChildView();
 
-	InflatedView inflatedView = bindingViewInflater.inflateView(layoutId);
+	InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId);
 
 	assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(1));
     }
@@ -80,7 +80,7 @@ public class BindingViewInflaterTest {
     public void givenAChildViewWithoutBindingAttributes_whenInflateBindingView_thenNoChildViewBindingAttributesShouldBeAdded() {
 	declareEmptyChildViews();
 
-	InflatedView inflatedView = bindingViewInflater.inflateView(layoutId);
+	InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId);
 
 	assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(0));
     }
@@ -91,12 +91,12 @@ public class BindingViewInflaterTest {
 
     @Test
     public void givenAPredefinedPendingAttributesForView_whenInflateView_thenChildViewBindingAttributesIsAdded() {
-	InflatedView inflatedView = bindingViewInflater.inflateView(layoutId, createAPredefinedPendingAttributesForView());
+	InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, createAPredefinedPendingAttributesForView());
 
 	assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(1));
     }
 
-    private int numberOfChildViewBindingAttributes(InflatedView inflatedView) {
+    private int numberOfChildViewBindingAttributes(InflatedViewWithRoot inflatedView) {
 	List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup = inflatedView.childViewBindingAttributesGroup;
 	return childViewBindingAttributesGroup.size();
     }

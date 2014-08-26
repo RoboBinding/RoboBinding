@@ -1,6 +1,5 @@
 package org.robobinding.viewattribute;
 
-import android.view.View;
 
 /**
  *
@@ -9,5 +8,5 @@ import android.view.View;
  * @author Cheng Wei
  */
 public interface ViewListenersInjector {
-    void injectIfRequired(Object viewAttribute, View view);
+    void injectIfRequired(Object viewAttribute, Object view);
 }

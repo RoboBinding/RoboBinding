@@ -45,7 +45,7 @@ public class OnRatingBarChangeAttributeTest extends
     private void assertEventReceived(int newNumStars) {
         assertEventReceived(RatingBarChangeEvent.class);
         RatingBarChangeEvent ratingBarEvent = getEventReceived();
-        assertThat(ratingBarEvent.getRatingBar(), sameInstance(view));
+        assertThat(ratingBarEvent.getView(), sameInstance(view));
         assertThat((double) ratingBarEvent.getRating(), is(closeTo(newNumStars, 0.1f)));
         assertTrue(ratingBarEvent.isFromUser());
     }

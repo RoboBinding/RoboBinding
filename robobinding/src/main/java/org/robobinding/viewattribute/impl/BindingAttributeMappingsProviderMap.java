@@ -1,10 +1,11 @@
 package org.robobinding.viewattribute.impl;
 
 import java.util.Map;
+import java.util.Queue;
 
+import org.robobinding.internal.guava.Lists;
 import org.robobinding.internal.guava.Maps;
-
-import android.view.View;
+import org.robobinding.util.SearchableClasses;
 
 /**
  *
@@ -13,14 +14,23 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class BindingAttributeMappingsProviderMap {
-    final Map<Class<? extends View>, BindingAttributeMappingsProvider<? extends View>> mappings;
+    private final Map<Class<?>, BindingAttributeMappingsProvider<?>> mappings;
+    private final SearchableClasses searchableViewClasses;
     
     public BindingAttributeMappingsProviderMap(
-	    Map<Class<? extends View>, BindingAttributeMappingsProvider<? extends View>> mappings) {
+	    Map<Class<?>, BindingAttributeMappingsProvider<?>> mappings) {
 	this.mappings = Maps.newHashMap(mappings);
+	searchableViewClasses = new SearchableClasses(mappings.keySet());
     }
     
-    public BindingAttributeMappingsProvider<? extends View> find(Class<? extends View> viewClass) {
-        return mappings.get(viewClass);
+    public Iterable<BindingAttributeMappingsProvider<?>> findCandidates(Class<?> viewClass) {
+	Queue<BindingAttributeMappingsProvider<?>> candidates = Lists.newLinkedList();
+
+	Queue<Class<?>> foundViewClasses = searchableViewClasses.findAssignablesInOrderFrom(viewClass);
+	for (Class<?> foundViewClass : foundViewClasses) {
+	    candidates.add(mappings.get(foundViewClass));
+	}
+	
+	return candidates;
     }
 }

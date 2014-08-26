@@ -4,8 +4,6 @@ import java.util.Collection;
 
 import org.robobinding.attribute.MissingRequiredAttributesException;
 
-import android.view.View;
-
 /**
  * 
  * @since 1.0
@@ -13,7 +11,7 @@ import android.view.View;
  * @author Cheng Wei
  */
 public interface ViewResolutionErrors {
-    View getView();
+    Object getView();
 
     int numErrors();
 

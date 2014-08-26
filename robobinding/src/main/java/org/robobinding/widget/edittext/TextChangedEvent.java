@@ -21,9 +21,10 @@ public class TextChangedEvent extends AbstractViewEvent {
 	this.before = before;
 	this.count = count;
     }
-
-    public TextView getTextView() {
-	return (TextView) getView();
+    
+    @Override
+    public TextView getView() {
+        return (TextView) super.getView();
     }
 
     public int getStart() {

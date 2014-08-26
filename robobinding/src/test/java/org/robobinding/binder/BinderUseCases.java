@@ -3,7 +3,7 @@ package org.robobinding.binder;
 import org.robobinding.ViewBinder;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.ViewBinding;
-import org.robobinding.widget.view.ViewListeners;
+import org.robobinding.viewattribute.ViewListeners;
 
 import android.content.Context;
 import android.view.View;
@@ -51,9 +51,6 @@ public class BinderUseCases {
 	}
     }
     
-    private static class ViewListenersForCustomView extends ViewListeners {
-	public ViewListenersForCustomView(CustomView view) {
-	    super(view);
-	}
+    private static class ViewListenersForCustomView implements ViewListeners {
     }
 }

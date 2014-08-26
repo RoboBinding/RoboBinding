@@ -1,6 +1,5 @@
 package org.robobinding.viewattribute.impl;
 
-import android.view.View;
 
 
 /**
@@ -10,5 +9,5 @@ import android.view.View;
  * @author Cheng Wei
  */
 public interface BindingAttributeMappingsProviderMappings {
-    <T extends View> void put(Class<T> viewClass, BindingAttributeMappingsProvider<T> bindingAttributeMappingsProvider);
+    <ViewType> void put(Class<ViewType> viewClass, BindingAttributeMappingsProvider<ViewType> bindingAttributeMappingsProvider);
 }

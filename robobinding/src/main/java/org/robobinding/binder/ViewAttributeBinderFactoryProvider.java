@@ -2,13 +2,11 @@ package org.robobinding.binder;
 
 import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.viewattribute.ViewListenersInjector;
+import org.robobinding.viewattribute.ViewListenersMap;
 import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
 import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
 import org.robobinding.viewattribute.impl.ViewListenersProvider;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
-import org.robobinding.widget.view.ViewListenersMap;
-
-import android.view.View;
 
 /**
  *
@@ -29,11 +27,11 @@ public class ViewAttributeBinderFactoryProvider {
         this.viewListenersMap = viewListenersMap;
     }
 
-    public <T extends View> ViewAttributeBinderFactory<T> create(T view) {
+    public <ViewType> ViewAttributeBinderFactory<ViewType> create(ViewType view) {
 	ViewListenersInjector viewListenersInjector = new ViewListenersProvider(viewListenersMap);
-	return new ViewAttributeBinderFactory<T>(
+	return new ViewAttributeBinderFactory<ViewType>(
 		view,
-		new PropertyViewAttributeBinderFactory<T>(view),
+		new PropertyViewAttributeBinderFactory<ViewType>(view),
 		propertyAttributeParser,
 		resolvedGroupAttributesFactory,
 		viewListenersInjector);

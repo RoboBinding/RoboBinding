@@ -1,5 +1,7 @@
 package org.robobinding.widget.view;
 
+import org.robobinding.viewattribute.ViewListeners;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -12,14 +14,14 @@ import android.view.View.OnTouchListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewListeners {
+public class ViewListenersForView implements ViewListeners {
     private final View view;
     private OnClickListeners onClickListeners;
     private OnLongClickListeners onLongClickListeners;
     private OnFocusChangeListeners onFocusChangeListeners;
     private OnTouchListeners onTouchListeners;
 
-    public ViewListeners(View view) {
+    public ViewListenersForView(View view) {
 	this.view = view;
     }
 
