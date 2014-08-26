@@ -9,30 +9,28 @@ import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFact
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface BindingAttributeMappings<T extends View> {
-    void mapProperty(Class<? extends PropertyViewAttribute<T, ?>> propertyViewAttributeClass, String attributeName);
+public interface BindingAttributeMappings<ViewType> {
+    void mapProperty(Class<? extends PropertyViewAttribute<ViewType, ?>> propertyViewAttributeClass, String attributeName);
     void mapProperty(
-	    PropertyViewAttributeFactory<T> propertyViewAttributeFactory,
+	    PropertyViewAttributeFactory<ViewType> propertyViewAttributeFactory,
 	    String attributeName);
 
-    void mapMultiTypeProperty(Class<? extends MultiTypePropertyViewAttribute<T>> multiTypePropertyViewAttributeClass, String attributeName);
+    void mapMultiTypeProperty(Class<? extends MultiTypePropertyViewAttribute<ViewType>> multiTypePropertyViewAttributeClass, String attributeName);
     void mapMultiTypeProperty(
-	    MultiTypePropertyViewAttributeFactory<T> multiTypePropertyViewAttributeFactory,
+	    MultiTypePropertyViewAttributeFactory<ViewType> multiTypePropertyViewAttributeFactory,
 	    String attributeName);
 
-    void mapEvent(Class<? extends EventViewAttribute<T>> eventViewAttributeClass, String attributeName);
-    void mapEvent(EventViewAttributeFactory<T> eventViewAttributeFactory, String attributeName);
+    void mapEvent(Class<? extends EventViewAttribute<ViewType>> eventViewAttributeClass, String attributeName);
+    void mapEvent(EventViewAttributeFactory<ViewType> eventViewAttributeFactory, String attributeName);
 
-    void mapGroupedAttribute(Class<? extends GroupedViewAttribute<T>> groupedViewAttributeClass, String... attributeGroup);
+    void mapGroupedAttribute(Class<? extends GroupedViewAttribute<ViewType>> groupedViewAttributeClass, String... attributeGroup);
     void mapGroupedAttribute(
-	    GroupedViewAttributeFactory<T> groupedViewAttributeFactory,
+	    GroupedViewAttributeFactory<ViewType> groupedViewAttributeFactory,
 	    String... attributeGroup);
 }

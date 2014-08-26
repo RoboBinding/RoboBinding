@@ -1,6 +1,6 @@
 package org.robobinding.widget.adapterview;
 
-import org.robobinding.widget.view.ViewListeners;
+import org.robobinding.widget.view.ViewListenersForView;
 
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -12,7 +12,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class AdapterViewListeners extends ViewListeners {
+public class AdapterViewListeners extends ViewListenersForView {
     private final AdapterView<?> adapterView;
     private OnItemSelectedListeners onItemSelectedListeners;
     private OnItemClickListeners onItemClickListeners;

@@ -1,4 +1,4 @@
-package org.robobinding.widget.view;
+package org.robobinding.viewattribute;
 
 /**
  * 

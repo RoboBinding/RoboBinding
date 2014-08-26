@@ -2,9 +2,9 @@ package org.robobinding.widget.ratingbar;
 
 import org.robobinding.property.ValueModel;
 import org.robobinding.util.PrimitiveTypeUtils;
+import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
-import org.robobinding.widget.view.ViewListenersAware;
 
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;

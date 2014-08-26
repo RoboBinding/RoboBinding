@@ -18,8 +18,6 @@ import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFact
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
@@ -27,11 +25,11 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class BindingAttributeMappingsImpl<T extends View> implements BindingAttributeMappingsWithCreate<T> {
-    private final Map<String, PropertyViewAttributeFactory<T>> propertyViewAttributeMappings;
-    private final Map<String, MultiTypePropertyViewAttributeFactory<T>> multiTypePropertyViewAttributeMappings;
-    private final Map<String, EventViewAttributeFactory<T>> eventViewAttributeMappings;
-    private final Map<String[], GroupedViewAttributeFactory<T>> groupedViewAttributeMappings;
+public class BindingAttributeMappingsImpl<ViewType> implements BindingAttributeMappingsWithCreate<ViewType> {
+    private final Map<String, PropertyViewAttributeFactory<ViewType>> propertyViewAttributeMappings;
+    private final Map<String, MultiTypePropertyViewAttributeFactory<ViewType>> multiTypePropertyViewAttributeMappings;
+    private final Map<String, EventViewAttributeFactory<ViewType>> eventViewAttributeMappings;
+    private final Map<String[], GroupedViewAttributeFactory<ViewType>> groupedViewAttributeMappings;
 
     public BindingAttributeMappingsImpl() {
 	propertyViewAttributeMappings = Maps.newHashMap();
@@ -41,20 +39,20 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
     }
 
     @Override
-    public void mapProperty(Class<? extends PropertyViewAttribute<T, ?>> propertyViewAttributeClass, String attributeName) {
+    public void mapProperty(Class<? extends PropertyViewAttribute<ViewType, ?>> propertyViewAttributeClass, String attributeName) {
 	Preconditions.checkNotNull(propertyViewAttributeClass, "propertyViewAttributeClass cannot be null");
 	addPropertyViewAttributeMapping(propertyViewAttributeFactoryForClass(propertyViewAttributeClass), attributeName);
     }
 
     @Override
-    public void mapProperty(PropertyViewAttributeFactory<T> propertyViewAttributeFactory,
+    public void mapProperty(PropertyViewAttributeFactory<ViewType> propertyViewAttributeFactory,
             String attributeName) {
 	Preconditions.checkNotNull(propertyViewAttributeFactory, "propertyViewAttributeFactory cannot be null");
 	addPropertyViewAttributeMapping(propertyViewAttributeFactory, attributeName);
     }
 
     private void addPropertyViewAttributeMapping(
-	    PropertyViewAttributeFactory<T> propertyViewAttributeFactory,
+	    PropertyViewAttributeFactory<ViewType> propertyViewAttributeFactory,
 	    String attributeName) {
 	checkAttributeNameNotEmpty(attributeName);
 	propertyViewAttributeMappings.put(attributeName, propertyViewAttributeFactory);
@@ -65,58 +63,58 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
     }
 
     @Override
-    public void mapMultiTypeProperty(Class<? extends MultiTypePropertyViewAttribute<T>> multiTypePropertyViewAttributeClass, String attributeName) {
+    public void mapMultiTypeProperty(Class<? extends MultiTypePropertyViewAttribute<ViewType>> multiTypePropertyViewAttributeClass, String attributeName) {
 	Preconditions.checkNotNull(multiTypePropertyViewAttributeClass, "multiTypePropertyViewAttributeClass cannot be null");
 	addMultiTypePropertyViewAttributeMapping(multiTypePropertyViewAttributeFactoryForClass(multiTypePropertyViewAttributeClass), attributeName);
     }
 
     @Override
     public void mapMultiTypeProperty(
-            MultiTypePropertyViewAttributeFactory<T> multiTypePropertyViewAttributeFactory,
+            MultiTypePropertyViewAttributeFactory<ViewType> multiTypePropertyViewAttributeFactory,
             String attributeName) {
 	Preconditions.checkNotNull(multiTypePropertyViewAttributeFactory, "multiTypePropertyViewAttributeFactory cannot be null");
 	addMultiTypePropertyViewAttributeMapping(multiTypePropertyViewAttributeFactory, attributeName);
     }
 
     private void addMultiTypePropertyViewAttributeMapping(
-	    MultiTypePropertyViewAttributeFactory<T> multiTypePropertyViewAttributeFactory,
+	    MultiTypePropertyViewAttributeFactory<ViewType> multiTypePropertyViewAttributeFactory,
 	    String attributeName) {
 	checkAttributeNameNotEmpty(attributeName);
 	multiTypePropertyViewAttributeMappings.put(attributeName, multiTypePropertyViewAttributeFactory);
     }
 
     @Override
-    public void mapEvent(Class<? extends EventViewAttribute<T>> eventViewAttributeClass, String attributeName) {
+    public void mapEvent(Class<? extends EventViewAttribute<ViewType>> eventViewAttributeClass, String attributeName) {
 	Preconditions.checkNotNull(eventViewAttributeClass, "eventViewAttributeClass cannot be null");
 	addEventViewAttributeMapping(eventViewAttributeFactoryForClass(eventViewAttributeClass), attributeName);
     }
 
     @Override
-    public void mapEvent(EventViewAttributeFactory<T> eventViewAttributeFactory, String attributeName) {
+    public void mapEvent(EventViewAttributeFactory<ViewType> eventViewAttributeFactory, String attributeName) {
 	Preconditions.checkNotNull(eventViewAttributeFactory, "eventViewAttributeFactory cannot be null");
 	addEventViewAttributeMapping(eventViewAttributeFactory, attributeName);
     }
 
-    private void addEventViewAttributeMapping(EventViewAttributeFactory<T> eventViewAttributeFactory, String attributeName) {
+    private void addEventViewAttributeMapping(EventViewAttributeFactory<ViewType> eventViewAttributeFactory, String attributeName) {
 	checkAttributeNameNotEmpty(attributeName);
 	eventViewAttributeMappings.put(attributeName, eventViewAttributeFactory);
     }
 
     @Override
-    public void mapGroupedAttribute(GroupedViewAttributeFactory<T> groupedViewAttributeFactory,
+    public void mapGroupedAttribute(GroupedViewAttributeFactory<ViewType> groupedViewAttributeFactory,
 	    String... attributeNames) {
 	Preconditions.checkNotNull(groupedViewAttributeFactory, "groupedViewAttributeFactory cannot be null");
 	addGroupedViewAttributeMapping(groupedViewAttributeFactory, attributeNames);
     }
 
     @Override
-    public void mapGroupedAttribute(Class<? extends GroupedViewAttribute<T>> groupedViewAttributeClass,
+    public void mapGroupedAttribute(Class<? extends GroupedViewAttribute<ViewType>> groupedViewAttributeClass,
 	    String... attributeNames) {
         Preconditions.checkNotNull(groupedViewAttributeClass, "groupedViewAttributeClass cannot be null");
         addGroupedViewAttributeMapping(groupedViewAttributeFactoryForClass(groupedViewAttributeClass), attributeNames);
     }
 
-    private void addGroupedViewAttributeMapping(GroupedViewAttributeFactory<T> groupedViewAttributeFactory,
+    private void addGroupedViewAttributeMapping(GroupedViewAttributeFactory<ViewType> groupedViewAttributeFactory,
 	    String... attributeNames) {
 	org.robobinding.util.Preconditions.checkNotBlank(
 		"attributeNames cannot be empty or contain any empty attribute name", 
@@ -125,8 +123,8 @@ public class BindingAttributeMappingsImpl<T extends View> implements BindingAttr
     }
     
     @Override
-    public InitailizedBindingAttributeMappings<T> createInitailizedBindingAttributeMappings() {
-	return new InitailizedBindingAttributeMappingsImpl<T>(
+    public InitailizedBindingAttributeMappings<ViewType> createInitailizedBindingAttributeMappings() {
+	return new InitailizedBindingAttributeMappingsImpl<ViewType>(
 		propertyViewAttributeMappings, multiTypePropertyViewAttributeMappings, 
 		eventViewAttributeMappings, groupedViewAttributeMappings);
     }

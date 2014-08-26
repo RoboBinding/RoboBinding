@@ -7,8 +7,6 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
@@ -16,12 +14,12 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class EventViewAttributeBinder<T extends View> implements ViewAttributeBinder {
-    private final T view;
-    private final EventViewAttribute<T> viewAttribute;
+public class EventViewAttributeBinder<ViewType> implements ViewAttributeBinder {
+    private final ViewType view;
+    private final EventViewAttribute<ViewType> viewAttribute;
     private final EventAttribute attribute;
 
-    public EventViewAttributeBinder(T view, EventViewAttribute<T> viewAttribute, EventAttribute attribute) {
+    public EventViewAttributeBinder(ViewType view, EventViewAttribute<ViewType> viewAttribute, EventAttribute attribute) {
 	this.view = view;
 	this.viewAttribute = viewAttribute;
 	this.attribute = attribute;

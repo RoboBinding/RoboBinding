@@ -5,15 +5,13 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.ValueModel;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OneWayBindingProperty<ViewType extends View, PropertyType> extends AbstractBindingProperty<ViewType, PropertyType> {
+public class OneWayBindingProperty<ViewType, PropertyType> extends AbstractBindingProperty<ViewType, PropertyType> {
     public OneWayBindingProperty(ViewType view,
 	    PropertyViewAttribute<ViewType, PropertyType> viewAttribute,
 	    ValueModelAttribute attribute) {

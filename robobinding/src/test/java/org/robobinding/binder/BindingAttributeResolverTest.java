@@ -31,7 +31,7 @@ public class BindingAttributeResolverTest {
     public void givenTwoCandidateResolvers_whenResolve_thenBothResolversShouldInvolveResolving() {
 	ByBindingAttributeMappingsResolver candidateResolver1 = mock(ByBindingAttributeMappingsResolver.class);
 	ByBindingAttributeMappingsResolver candidateResolver2 = mock(ByBindingAttributeMappingsResolver.class);
-	when(byBindingAttributeMappingsResolverFinder.findCandidateResolvers(any(View.class))).thenReturn(
+	when(byBindingAttributeMappingsResolverFinder.findCandidates(any(View.class))).thenReturn(
 		newArrayList(candidateResolver1, candidateResolver2));
 
 	BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeMappingsResolverFinder);
@@ -47,7 +47,7 @@ public class BindingAttributeResolverTest {
     public void givenTwoCandidateResolvers_whenResolveCompletedAtFirstResolver_thenSecondResolverShouldBeSkipped() {
 	ByBindingAttributeMappingsResolver candidateResolver1 = mock(ByBindingAttributeMappingsResolver.class);
 	ByBindingAttributeMappingsResolver candidateResolver2 = mock(ByBindingAttributeMappingsResolver.class);
-	when(byBindingAttributeMappingsResolverFinder.findCandidateResolvers(any(View.class))).thenReturn(
+	when(byBindingAttributeMappingsResolverFinder.findCandidates(any(View.class))).thenReturn(
 		newArrayList(candidateResolver1, candidateResolver2));
 
 	BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeMappingsResolverFinder);

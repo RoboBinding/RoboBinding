@@ -1,9 +1,9 @@
 package org.robobinding.widget.abslistview;
 
 import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.widget.adapterview.AdapterViewListeners;
-import org.robobinding.widget.view.ViewListenersAware;
 
 import android.view.View;
 import android.widget.AbsListView;

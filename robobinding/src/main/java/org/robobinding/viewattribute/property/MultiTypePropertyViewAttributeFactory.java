@@ -1,6 +1,5 @@
 package org.robobinding.viewattribute.property;
 
-import android.view.View;
 
 
 /**
@@ -9,7 +8,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface MultiTypePropertyViewAttributeFactory<T extends View> {
-    MultiTypePropertyViewAttribute<T> create();
+public interface MultiTypePropertyViewAttributeFactory<ViewType> {
+    MultiTypePropertyViewAttribute<ViewType> create();
 
 }

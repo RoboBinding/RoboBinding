@@ -1,9 +1,9 @@
 package org.robobinding.dynamicbinding;
 
+import org.robobinding.viewattribute.ViewListeners;
+import org.robobinding.viewattribute.ViewListenersMapBuilder;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProvider;
-import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMappings;
-import org.robobinding.widget.view.ViewListeners;
-import org.robobinding.widget.view.ViewListenersMappings;
+import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
 
 import android.view.View;
 
@@ -25,13 +25,13 @@ public class ViewBindingApplier<T extends View> {
 	this.bindingAttributeMappingsProvider = bindingAttributeMappingsProvider;
     }
 
-    public void applyBindingAttributeMapper(BindingAttributeMappingsProviderMappings bindingAttributeProviderMappings) {
-	bindingAttributeProviderMappings.put(viewClass, bindingAttributeMappingsProvider);
+    public void applyBindingAttributeMapper(BindingAttributeMappingsProviderMapBuilder bindingAttributeProviderMapBuilder) {
+	bindingAttributeProviderMapBuilder.put(viewClass, bindingAttributeMappingsProvider);
     }
 
-    public void applyViewListenersIfExists(ViewListenersMappings viewListenersMappings) {
+    public void applyViewListenersIfExists(ViewListenersMapBuilder viewListenersMapBuilder) {
 	if (viewListenersClass != null) {
-	    viewListenersMappings.put(viewClass, viewListenersClass);
+	    viewListenersMapBuilder.put(viewClass, viewListenersClass);
 	}
     }
 }

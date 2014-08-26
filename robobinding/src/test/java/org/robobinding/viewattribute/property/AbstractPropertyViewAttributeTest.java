@@ -8,7 +8,6 @@ import org.robobinding.viewattribute.ParameterizedTypeUtils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.View;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -19,7 +18,7 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-public abstract class AbstractPropertyViewAttributeTest<ViewType extends View,
+public abstract class AbstractPropertyViewAttributeTest<ViewType,
 	PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType, ?>> {
     protected ViewType view;
     protected PropertyViewAttributeType attribute;

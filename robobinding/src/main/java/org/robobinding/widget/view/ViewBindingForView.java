@@ -11,7 +11,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ViewBindingImpl implements ViewBinding<View> {
+public class ViewBindingForView implements ViewBinding<View> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<View> mappings) {
 	mappings.mapMultiTypeProperty(new VisibilityAttributeFactory<View>(new ViewVisibilityFactory()), "visibility");

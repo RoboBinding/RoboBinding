@@ -28,6 +28,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Queues;
+
 /**
  * Static utility methods pertaining to {@link List} instances. Also see this
  * class's counterparts {@link Sets}, {@link Maps} and {@link Queues}.
@@ -42,7 +45,7 @@ import java.util.List;
  * @since 2.0 (imported from Google Collections Library)
  */
 public final class Lists {
-  private Lists() {}
+  private Lists() { }
 
   // ArrayList
 

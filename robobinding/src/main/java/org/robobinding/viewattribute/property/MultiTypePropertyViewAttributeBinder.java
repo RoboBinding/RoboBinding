@@ -6,8 +6,6 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
@@ -15,14 +13,14 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class MultiTypePropertyViewAttributeBinder<T extends View> implements ViewAttributeBinder {
-    private final PropertyViewAttributeBinderProvider<T> viewAttributeBinderProvider;
+public class MultiTypePropertyViewAttributeBinder<ViewType> implements ViewAttributeBinder {
+    private final PropertyViewAttributeBinderProvider<ViewType> viewAttributeBinderProvider;
     private final ValueModelAttribute attribute;
 
-    private PropertyViewAttributeBinder<T, ?> viewAttributeBinder;
+    private PropertyViewAttributeBinder<ViewType, ?> viewAttributeBinder;
 
     public MultiTypePropertyViewAttributeBinder(
-	    PropertyViewAttributeBinderProvider<T> viewAttributeBinderProvider,
+	    PropertyViewAttributeBinderProvider<ViewType> viewAttributeBinderProvider,
 	    ValueModelAttribute attribute) {
 	this.viewAttributeBinderProvider = viewAttributeBinderProvider;
 	this.attribute = attribute;

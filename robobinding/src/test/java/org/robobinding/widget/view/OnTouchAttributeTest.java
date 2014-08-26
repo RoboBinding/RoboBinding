@@ -14,7 +14,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnTouchAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<View, OnTouchAttribute, MockViewListeners> {
+public class OnTouchAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<View, OnTouchAttribute, MockViewListenersForView> {
     @Test
     public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
 	bindAttribute();

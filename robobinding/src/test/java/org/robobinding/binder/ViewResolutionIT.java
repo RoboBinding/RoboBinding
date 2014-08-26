@@ -17,7 +17,6 @@ import org.robobinding.PendingAttributesForView;
 import org.robobinding.ViewResolutionErrorsException;
 
 import android.app.Activity;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -69,7 +68,7 @@ public class ViewResolutionIT {
 	    resolveBindingAttributes(pendingAttributesForAdapterView);
 	    fail("Expected exception to be thrown");
 	} catch (ViewResolutionErrorsException e) {
-	    assertThat(e.getView(), equalTo((View) pendingAttributesForAdapterView.getView()));
+	    assertThat(e.getView(), equalTo(pendingAttributesForAdapterView.getView()));
 	    assertThat(e.getMissingRequiredAttributeErrors().size(), is(1));
 	}
     }

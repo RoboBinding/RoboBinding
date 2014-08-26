@@ -25,7 +25,7 @@ import com.google.common.collect.Sets;
  * @author Cheng Wei
  */
 public class ViewInflationErrorsExpectation {
-    private View view;
+    private Object view;
     private List<AttributeResolutionErrorExpectation> attributeResolutionErrorExpectations;
     private List<MissingRequiredAttributesResolutionErrorExpectation> missingRequiredAttributesResolutionErrorExpectations;
     private List<AttributeBindingErrorExpectation> attributeBindingErrorExpectations;

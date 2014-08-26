@@ -24,11 +24,11 @@ import com.xtremelabs.robolectric.shadows.ShadowView;
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public class ViewListenersTest {
+public class ViewListenersForViewTest {
     @Test
     public void shouldSupportMultipleOnClickListeners() {
 	View view = new View(null);
-	ViewListeners viewListeners = new ViewListeners(view);
+	ViewListenersForView viewListeners = new ViewListenersForView(view);
 
 	MockOnClickListener listener1 = new MockOnClickListener();
 	MockOnClickListener listener2 = new MockOnClickListener();
@@ -45,7 +45,7 @@ public class ViewListenersTest {
     @Test
     public void shouldSupportMultipleOnLongClickListeners() {
 	View view = new View(null);
-	ViewListeners viewListeners = new ViewListeners(view);
+	ViewListenersForView viewListeners = new ViewListenersForView(view);
 
 	MockOnLongClickListener listener1 = new MockOnLongClickListener();
 	MockOnLongClickListener listener2 = new MockOnLongClickListener();
@@ -62,7 +62,7 @@ public class ViewListenersTest {
     @Test
     public void shouldSupportMultipleOnFocusChangeListeners() {
 	View view = new View(null);
-	ViewListeners viewListeners = new ViewListeners(view);
+	ViewListenersForView viewListeners = new ViewListenersForView(view);
 
 	MockOnFocusChangeListener listener1 = new MockOnFocusChangeListener();
 	MockOnFocusChangeListener listener2 = new MockOnFocusChangeListener();
@@ -80,7 +80,7 @@ public class ViewListenersTest {
     @Test
     public void shouldSupportMultipleOnTouchListeners() {
 	View view = new View(null);
-	ViewListeners viewListeners = new ViewListeners(view);
+	ViewListenersForView viewListeners = new ViewListenersForView(view);
 
 	MockOnTouchListener listener1 = new MockOnTouchListener();
 	MockOnTouchListener listener2 = new MockOnTouchListener();

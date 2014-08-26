@@ -1,6 +1,5 @@
 package org.robobinding.viewattribute.grouped;
 
-import android.view.View;
 
 
 /**
@@ -9,7 +8,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface GroupedViewAttributeFactory<T extends View> {
-    GroupedViewAttribute<T> create();
+public interface GroupedViewAttributeFactory<ViewType> {
+    GroupedViewAttribute<ViewType> create();
 
 }

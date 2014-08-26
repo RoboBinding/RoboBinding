@@ -103,7 +103,7 @@ public class PendingAttributesForViewImpl_ResolveAttributeGroupIfExists {
 	private String[] presentAttributes;
 
 	@Override
-	public void resolve(View view, String[] attributeGroup, Map<String, String> presentAttributeMappings) {
+	public void resolve(Object view, String[] attributeGroup, Map<String, String> presentAttributeMappings) {
 	    resolveInvoked = true;
 	    this.attributeGroup = attributeGroup;
 	    this.presentAttributes = presentAttributeMappings.keySet().toArray(new String[0]);

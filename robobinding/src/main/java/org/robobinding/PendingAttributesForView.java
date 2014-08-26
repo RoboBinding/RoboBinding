@@ -2,8 +2,6 @@ package org.robobinding;
 
 import java.util.Map;
 
-import android.view.View;
-
 /**
  * 
  * @since 1.0
@@ -11,7 +9,7 @@ import android.view.View;
  * @author Cheng Wei
  */
 public interface PendingAttributesForView {
-    View getView();
+    Object getView();
 
     void resolveAttributeIfExists(String attribute, AttributeResolver attributeResolver);
 
@@ -22,10 +20,10 @@ public interface PendingAttributesForView {
     ViewResolutionErrors getResolutionErrors();
 
     public interface AttributeResolver {
-	void resolve(View view, String attribute, String attributeValue);
+	void resolve(Object view, String attribute, String attributeValue);
     }
 
     public interface AttributeGroupResolver {
-	void resolve(View view, String[] attributeGroup, Map<String, String> presentAttributeMappings);
+	void resolve(Object view, String[] attributeGroup, Map<String, String> presentAttributeMappings);
     }
 }

@@ -38,27 +38,27 @@ public class BindingViewInflater implements ViewCreationListener {
 	this.bindingAttributeParser = bindingAttributeParser;
     }
 
-    public InflatedView inflateView(int layoutId) {
+    public InflatedViewWithRoot inflateView(int layoutId) {
 	return inflateView(layoutId, (ViewGroup) null);
     }
 
-    public InflatedView inflateView(int layoutId, ViewGroup attachToRoot) {
+    public InflatedViewWithRoot inflateView(int layoutId, ViewGroup attachToRoot) {
 	resolvedBindingAttributesForChildViews = Lists.newArrayList();
 	errors = new ViewHierarchyInflationErrorsException();
 
 	View rootView = nonBindingViewInflater.inflate(layoutId, attachToRoot);
 
-	return new InflatedView(rootView, resolvedBindingAttributesForChildViews, errors);
+	return new InflatedViewWithRoot(rootView, resolvedBindingAttributesForChildViews, errors);
     }
 
-    public InflatedView inflateView(int layoutId, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
+    public InflatedViewWithRoot inflateView(int layoutId, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
 	resolvedBindingAttributesForChildViews = Lists.newArrayList();
 	errors = new ViewHierarchyInflationErrorsException();
 
 	View rootView = nonBindingViewInflater.inflate(layoutId);
 	addPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup, rootView);
 
-	return new InflatedView(rootView, resolvedBindingAttributesForChildViews, errors);
+	return new InflatedViewWithRoot(rootView, resolvedBindingAttributesForChildViews, errors);
     }
 
     private void addPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup, 

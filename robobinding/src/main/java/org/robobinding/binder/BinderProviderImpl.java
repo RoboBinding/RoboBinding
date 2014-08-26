@@ -1,10 +1,8 @@
 package org.robobinding.binder;
 
-import org.robobinding.BinderImplementor;
 import org.robobinding.BinderProvider;
-import org.robobinding.ViewBinder;
 import org.robobinding.ItemBinder;
-import org.robobinding.NonBindingViewInflater;
+import org.robobinding.ViewBinder;
 
 
 /**
@@ -14,21 +12,24 @@ import org.robobinding.NonBindingViewInflater;
  * @author Cheng Wei
  */
 class BinderProviderImpl implements BinderProvider {
-    private final BinderImplementor binderImplementor;
-    private final NonBindingViewInflater nonBindingViewInflater;
+    private final BindingViewInflater bindingViewInflater;
+    private final ViewBindingLifecycle viewBindingLifecycle;
+    private final ViewBinder viewBinder;
     
     private ItemBinder itemBinder;
-    private ViewBinder viewBinder;
     
-    public BinderProviderImpl(BinderImplementor binderImplementor, NonBindingViewInflater nonBindingViewInflater) {
-	this.binderImplementor = binderImplementor;
-	this.nonBindingViewInflater = nonBindingViewInflater;
+    public BinderProviderImpl(BindingViewInflater bindingViewInflater, 
+	    ViewBindingLifecycle viewBindingLifecycle,
+	    ViewBinder viewBinder) {
+        this.bindingViewInflater = bindingViewInflater;
+        this.viewBindingLifecycle = viewBindingLifecycle;
+        this.viewBinder = viewBinder;
     }
 
     @Override
     public ItemBinder getItemBinder() {
 	if (itemBinder == null) {
-	    itemBinder = new ItemBinder(binderImplementor);
+	    itemBinder = new ItemBinder(bindingViewInflater, viewBindingLifecycle);
 	}
 	
 	return itemBinder;
@@ -36,10 +37,6 @@ class BinderProviderImpl implements BinderProvider {
 
     @Override
     public ViewBinder getViewBinder() {
-	if (viewBinder == null) {
-	    viewBinder = new ViewBinder(binderImplementor, nonBindingViewInflater);
-	}
-	
 	return viewBinder;
     }
 

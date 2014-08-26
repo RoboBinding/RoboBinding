@@ -1,7 +1,7 @@
 package org.robobinding.dynamicbinding;
 
+import org.robobinding.viewattribute.ViewListeners;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProvider;
-import org.robobinding.widget.view.ViewListeners;
 
 import android.view.View;
 

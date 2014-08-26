@@ -1,8 +1,11 @@
 package org.robobinding.binder;
 
+import org.robobinding.MenuBinder;
 import org.robobinding.ViewBinder;
 
 import android.content.Context;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -46,6 +49,19 @@ public class Binders {
     public static View inflateAndBindWithoutPreInitializingViews(Context context, int layoutId, Object presentationModel, ViewGroup attachToRoot) {
 	return inflateAndBind(context, layoutId, presentationModel, attachToRoot, false);
     }
+    
+    public static void inflateAndBindMenu(Menu menu, MenuInflater menuInflater, int menuRes, 
+	    Object presentationModel, Context context) {
+	MenuBinder menuBinder = newBinderFactory().createMenuBinder(menu, menuInflater, context);
+	menuBinder.inflateAndBind(menuRes, presentationModel);
+    }
+    
+    public static void inflateAndBindMenuWithoutPreInitializingViews(Menu menu, MenuInflater menuInflater, int menuRes, 
+	    Object presentationModel, Context context) {
+	MenuBinder menuBinder = newBinderFactory().createMenuBinder(menu, menuInflater, context, false);
+	menuBinder.inflateAndBind(menuRes, presentationModel);
+    }
+    
 
     private Binders() {
     }
