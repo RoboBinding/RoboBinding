@@ -13,7 +13,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnLongClickAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<View, OnLongClickAttribute, MockViewListeners> {
+public class OnLongClickAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<View, OnLongClickAttribute, MockViewListenersForView> {
     @Test
     public void givenBoundAttribute_whenLongClickOnView_thenEventReceived() {
 	bindAttribute();

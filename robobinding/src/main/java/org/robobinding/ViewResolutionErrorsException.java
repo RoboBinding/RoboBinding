@@ -9,8 +9,6 @@ import java.util.List;
 import org.robobinding.attribute.MissingRequiredAttributesException;
 import org.robobinding.internal.guava.Lists;
 
-import android.view.View;
-
 /**
  * 
  * @since 1.0
@@ -19,16 +17,16 @@ import android.view.View;
  */
 @SuppressWarnings("serial")
 public class ViewResolutionErrorsException extends RuntimeException implements ViewResolutionErrors {
-    private View view;
+    private Object view;
     private List<AttributeResolutionException> attributeErrors = Lists.newArrayList();
     private List<MissingRequiredAttributesException> missingRequiredAttributeErrors = Lists.newArrayList();
 
-    public ViewResolutionErrorsException(View view) {
+    public ViewResolutionErrorsException(Object view) {
 	this.view = view;
     }
 
     @Override
-    public View getView() {
+    public Object getView() {
 	return view;
     }
 

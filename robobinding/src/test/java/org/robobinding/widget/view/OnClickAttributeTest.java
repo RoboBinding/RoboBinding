@@ -13,7 +13,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnClickAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<View, OnClickAttribute, MockViewListeners> {
+public class OnClickAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<View, OnClickAttribute, MockViewListenersForView> {
     @Test
     public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
 	bindAttribute();

@@ -20,10 +20,6 @@ public class SeekBarChangeEvent extends AbstractViewEvent {
 	this.fromUser = fromUser;
     }
 
-    public SeekBar getSeekBar() {
-	return (SeekBar) getView();
-    }
-
     public int getProgress() {
 	return progress;
     }
@@ -31,4 +27,11 @@ public class SeekBarChangeEvent extends AbstractViewEvent {
     public boolean isFromUser() {
 	return fromUser;
     }
+    
+
+    @Override
+    public SeekBar getView() {
+        return (SeekBar) super.getView();
+    }
+
 }

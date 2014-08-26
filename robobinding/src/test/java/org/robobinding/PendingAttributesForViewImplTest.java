@@ -104,7 +104,7 @@ public class PendingAttributesForViewImplTest {
 	private String resolvedAttribute;
 
 	@Override
-	public void resolve(View view, String attribute, String attributeValue) {
+	public void resolve(Object view, String attribute, String attributeValue) {
 	    resolved = true;
 	    resolvedAttribute = attribute;
 	}

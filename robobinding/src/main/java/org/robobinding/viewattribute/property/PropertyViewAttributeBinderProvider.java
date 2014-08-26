@@ -1,6 +1,5 @@
 package org.robobinding.viewattribute.property;
 
-import android.view.View;
 
 /**
  *
@@ -8,6 +7,6 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface PropertyViewAttributeBinderProvider<T extends View> {
-    PropertyViewAttributeBinder<T, ?> create(Class<?> propertyType);
+public interface PropertyViewAttributeBinderProvider<ViewType> {
+    PropertyViewAttributeBinder<ViewType, ?> create(Class<?> propertyType);
 }

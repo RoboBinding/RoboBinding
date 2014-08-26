@@ -3,23 +3,21 @@ package org.robobinding.viewattribute.impl;
 import org.robobinding.internal.guava.Objects;
 import org.robobinding.viewattribute.ViewBinding;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewBindingAdapter<T extends View> implements BindingAttributeMappingsProvider<T> {
-    private final ViewBinding<T> viewBinding;
+public class ViewBindingAdapter<ViewType> implements BindingAttributeMappingsProvider<ViewType> {
+    private final ViewBinding<ViewType> viewBinding;
 
-    public ViewBindingAdapter(ViewBinding<T> viewBinding) {
+    public ViewBindingAdapter(ViewBinding<ViewType> viewBinding) {
 	this.viewBinding = viewBinding;
     }
 
-    public InitailizedBindingAttributeMappings<T> createBindingAttributeMappings() {
-	BindingAttributeMappingsImpl<T> bindingAttributeMappings = new BindingAttributeMappingsImpl<T>();
+    public InitailizedBindingAttributeMappings<ViewType> createBindingAttributeMappings() {
+	BindingAttributeMappingsImpl<ViewType> bindingAttributeMappings = new BindingAttributeMappingsImpl<ViewType>();
 	viewBinding.mapBindingAttributes(bindingAttributeMappings);
 	return bindingAttributeMappings.createInitailizedBindingAttributeMappings();
     }
@@ -32,7 +30,7 @@ public class ViewBindingAdapter<T extends View> implements BindingAttributeMappi
 	    return false;
 
 	@SuppressWarnings("unchecked")
-	final ViewBindingAdapter<T> that = (ViewBindingAdapter<T>) other;
+	final ViewBindingAdapter<ViewType> that = (ViewBindingAdapter<ViewType>) other;
 	return Objects.equal(viewBinding, that.viewBinding);
     }
 

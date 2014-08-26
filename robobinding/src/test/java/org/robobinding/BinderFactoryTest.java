@@ -11,8 +11,8 @@ import org.mockito.MockitoAnnotations;
 import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.binder.BinderFactory;
 import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.viewattribute.ViewListenersMap;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
-import org.robobinding.widget.view.ViewListenersMap;
 
 import android.app.Activity;
 import android.content.Context;

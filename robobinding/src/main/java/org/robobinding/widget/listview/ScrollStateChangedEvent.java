@@ -21,8 +21,8 @@ public class ScrollStateChangedEvent extends AbstractViewEvent {
 	return scrollState;
     }
 
-    public AbsListView getListView() {
-	return (AbsListView) getView();
+    @Override
+    public AbsListView getView() {
+        return (AbsListView) super.getView();
     }
-
 }

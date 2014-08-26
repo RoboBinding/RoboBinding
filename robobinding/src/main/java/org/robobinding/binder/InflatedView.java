@@ -5,44 +5,34 @@ import java.util.List;
 import org.robobinding.BindingContext;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
 
-import android.view.View;
-
 /**
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
  * @author Cheng Wei
  */
 public class InflatedView {
-    private View rootView;
-    List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup;
-    private ViewHierarchyInflationErrorsException errors;
+    final List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup;
+    private final ViewHierarchyInflationErrorsException errors;
 
-    InflatedView(View rootView, List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup,
-    	ViewHierarchyInflationErrorsException errors) {
-        this.rootView = rootView;
-        this.childViewBindingAttributesGroup = childViewBindingAttributesGroup;
-        this.errors = errors;
-    }
-
-    public View getRootView() {
-        return rootView;
+    public InflatedView(List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup, ViewHierarchyInflationErrorsException errors) {
+	this.childViewBindingAttributesGroup = childViewBindingAttributesGroup;
+	this.errors = errors;
     }
 
     public void bindChildViews(BindingContext bindingContext) {
-        for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup) {
-            errors.addViewBindingError(viewBindingAttributes.bindTo(bindingContext));
-        }
+	for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup) {
+	    errors.addViewBindingError(viewBindingAttributes.bindTo(bindingContext));
+	}
     }
 
     public void assertNoErrors(ErrorFormatter errorFormatter) {
-        errors.assertNoErrors(errorFormatter);
+	errors.assertNoErrors(errorFormatter);
     }
 
     public void preinitializeViews(BindingContext bindingContext) {
-        for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup) {
-    	viewBindingAttributes.preinitializeView(bindingContext);
-        }
+	for (ResolvedBindingAttributesForView viewBindingAttributes : childViewBindingAttributesGroup) {
+	    viewBindingAttributes.preinitializeView(bindingContext);
+	}
     }
 }

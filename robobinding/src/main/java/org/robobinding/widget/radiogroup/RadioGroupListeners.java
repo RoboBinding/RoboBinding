@@ -1,6 +1,6 @@
 package org.robobinding.widget.radiogroup;
 
-import org.robobinding.widget.view.ViewListeners;
+import org.robobinding.widget.view.ViewListenersForView;
 
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -11,7 +11,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class RadioGroupListeners extends ViewListeners {
+public class RadioGroupListeners extends ViewListenersForView {
     private final RadioGroup view;
     private OnCheckedChangeListeners onCheckedChangeListeners;
 

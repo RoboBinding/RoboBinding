@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.NonBindingViewInflater;
 import org.robobinding.R;
+import org.robobinding.ViewBinder;
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.aspects.PresentationModel;
 import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
@@ -119,11 +120,12 @@ public class FrameworkErrorReportingIT {
 
 	    addViewAndExpectations();
 
-	    InternalBinder binder = new InternalBinder(bindingViewInflater,
-		    new BindingContextFactory(context, true, 
-			    new NonBindingViewInflater(createLayoutInflater(context)), new PresentationModelAdapterFactory()),
-		    new ErrorFormatterWithFirstErrorStackTrace());
-	    return binder.inflateAndBind(R.layout.framework_error_reporting_it_sample1, new PresentationModelForTest());
+	    BindingContextFactory bindingContextFactory = new BindingContextFactory(context, true, new PresentationModelAdapterFactory());
+	    ViewBindingLifecycle viewBindingLifecycle = new ViewBindingLifecycle(bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
+	    ViewBinder viewBinder = new ViewBinderImpl(new NonBindingViewInflater(createLayoutInflater(context)), bindingViewInflater, viewBindingLifecycle);
+	    bindingContextFactory.setBinderProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, viewBinder));
+	    
+	    return viewBinder.inflateAndBind(R.layout.framework_error_reporting_it_sample1, new PresentationModelForTest());
 	}
 
 	private static LayoutInflater createLayoutInflater(Context context) {

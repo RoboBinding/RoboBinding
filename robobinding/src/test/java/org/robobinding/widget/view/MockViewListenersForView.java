@@ -12,14 +12,14 @@ import android.view.View.OnTouchListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class MockViewListeners extends ViewListeners {
+public class MockViewListenersForView extends ViewListenersForView {
     private final View view;
     public boolean addOnClickListenerInvoked;
     public boolean addOnLongClickListenerInvoked;
     public boolean addOnFocusChangeListenerInvoked;
     public boolean addOnTouchListenerInvoked;
 
-    public MockViewListeners(View view) {
+    public MockViewListenersForView(View view) {
 	super(view);
 	this.view = view;
     }

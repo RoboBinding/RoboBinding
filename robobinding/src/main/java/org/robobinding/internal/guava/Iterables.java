@@ -41,6 +41,8 @@ import java.util.Iterator;
  * @since 2.0 (imported from Google Collections Library)
  */
 public final class Iterables {
+    private Iterables() {
+    }
   /**
    * Adds all elements in {@code iterable} to {@code collection}.
    *

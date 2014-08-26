@@ -7,51 +7,50 @@ import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFact
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
-import android.view.View;
-
 /**
  *
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
 public class FromClassViewAttributeFactories {
 
-    public static <T extends View> PropertyViewAttributeFactory<T> propertyViewAttributeFactoryForClass(
-	    final Class<? extends PropertyViewAttribute<T, ?>> propertyViewAttributeClass) {
-	return new PropertyViewAttributeFactory<T>() {
+    public static <ViewType> PropertyViewAttributeFactory<ViewType> propertyViewAttributeFactoryForClass(
+	    final Class<? extends PropertyViewAttribute<ViewType, ?>> propertyViewAttributeClass) {
+	return new PropertyViewAttributeFactory<ViewType>() {
 	    @Override
-	    public PropertyViewAttribute<T, ?> create() {
+	    public PropertyViewAttribute<ViewType, ?> create() {
 	        return newViewAttribute(propertyViewAttributeClass);
 	    }
 	};
     }
 
-    public static <T extends View> MultiTypePropertyViewAttributeFactory<T> multiTypePropertyViewAttributeFactoryForClass(
-	    final Class<? extends MultiTypePropertyViewAttribute<T>> multiTypePropertyViewAttributeClass) {
-	return new MultiTypePropertyViewAttributeFactory<T>() {
+    public static <ViewType> MultiTypePropertyViewAttributeFactory<ViewType> multiTypePropertyViewAttributeFactoryForClass(
+	    final Class<? extends MultiTypePropertyViewAttribute<ViewType>> multiTypePropertyViewAttributeClass) {
+	return new MultiTypePropertyViewAttributeFactory<ViewType>() {
 	    @Override
-	    public MultiTypePropertyViewAttribute<T> create() {
+	    public MultiTypePropertyViewAttribute<ViewType> create() {
 	        return newViewAttribute(multiTypePropertyViewAttributeClass);
 	    }
 	};
     }
 
-    public static <T extends View> EventViewAttributeFactory<T> eventViewAttributeFactoryForClass(
-	    final Class<? extends EventViewAttribute<T>> eventViewAttributeClass) {
-	return new EventViewAttributeFactory<T>() {
+    public static <ViewType> EventViewAttributeFactory<ViewType> eventViewAttributeFactoryForClass(
+	    final Class<? extends EventViewAttribute<ViewType>> eventViewAttributeClass) {
+	return new EventViewAttributeFactory<ViewType>() {
 	    @Override
-	    public EventViewAttribute<T> create() {
+	    public EventViewAttribute<ViewType> create() {
 	        return newViewAttribute(eventViewAttributeClass);
 	    }
 	};
     }
 
-    public static <T extends View> GroupedViewAttributeFactory<T> groupedViewAttributeFactoryForClass(
-	    final Class<? extends GroupedViewAttribute<T>> groupedViewAttributeClass) {
-	return new GroupedViewAttributeFactory<T>() {
+    public static <ViewType> GroupedViewAttributeFactory<ViewType> groupedViewAttributeFactoryForClass(
+	    final Class<? extends GroupedViewAttribute<ViewType>> groupedViewAttributeClass) {
+	return new GroupedViewAttributeFactory<ViewType>() {
 	    @Override
-	    public GroupedViewAttribute<T> create() {
+	    public GroupedViewAttribute<ViewType> create() {
 	        return newViewAttribute(groupedViewAttributeClass);
 	    }
 	};

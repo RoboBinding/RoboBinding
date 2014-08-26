@@ -1,19 +1,18 @@
 package org.robobinding.viewattribute.impl;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.robobinding.BindingContext;
-import org.robobinding.viewattribute.ViewAttributeBinder;
-import org.robobinding.widget.view.ViewListeners;
-import org.robobinding.widget.view.ViewListenersAware;
-import org.robobinding.widget.view.ViewListenersMapBuilder;
+import org.robobinding.viewattribute.ViewListeners;
+import org.robobinding.viewattribute.ViewListenersAware;
+import org.robobinding.viewattribute.ViewListenersMap;
 
 import android.content.Context;
 import android.view.View;
@@ -31,42 +30,20 @@ public class ViewListenersProviderTest {
     @Mock
     private ViewSubclass viewSubclass;
 
-    private ViewListenersProvider viewListenersProvider;
-
-    @Before
-    public void setUp() {
-	ViewListenersMapBuilder viewListenersMapBuilder = new ViewListenersMapBuilder();
-	viewListenersMapBuilder.put(ViewSubclass.class, ViewListenersSubclass.class);
-	viewListenersProvider = new ViewListenersProvider(viewListenersMapBuilder.build());
-    }
-
     @Test
     public void whenInjectNonViewListenersAwareAttribute_thenSafelyIgnored() {
+	ViewListenersProvider viewListenersProvider = new ViewListenersProvider(null);
 	viewListenersProvider.injectIfRequired(new NonViewListenersAwareAttribute(), view);
     }
-    
-    @Test
-    public void whenInjectViewListenersAwareAttribute_thenViewListenersIsInjected() {
-	ViewListenersAwareAttribute viewAttribute = new ViewListenersAwareAttribute();
-	
-	viewListenersProvider.injectIfRequired(viewAttribute, view);
-	
-	assertThat(viewAttribute.viewListeners, instanceOf(ViewListeners.class));
-    }
-    
-    @Test
-    public void whenInjectViewListenersSubclassAwareAttribute_thenViewListenersSubclassIsInjected() {
-	ViewListenersSubclassAwareAttribute viewAttribute = new ViewListenersSubclassAwareAttribute();
-	
-	viewListenersProvider.injectIfRequired(viewAttribute, viewSubclass);
-	
-	assertThat(viewAttribute.viewListeners, instanceOf(ViewListenersSubclass.class));
-    }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void whenInjectViewListenersAwareAttributeAgain_thenTheSameViewListenersInstanceIsInjected() {
-	ViewListenersAwareAttribute viewAttribute = new ViewListenersAwareAttribute();
+	ViewListenersMap viewListenersMap = mock(ViewListenersMap.class);
+	when(viewListenersMap.findMostSuitable(view.getClass())).thenReturn((Class) ViewListenersForView.class);
+	ViewListenersProvider viewListenersProvider = new ViewListenersProvider(viewListenersMap);
 	
+	ViewListenersAwareAttribute viewAttribute = new ViewListenersAwareAttribute();
 	viewListenersProvider.injectIfRequired(viewAttribute, view);
 	ViewListeners viewListeners1 = viewAttribute.viewListeners;
 
@@ -76,8 +53,13 @@ public class ViewListenersProviderTest {
 	assertThat(viewListeners1, sameInstance(viewListeners2));
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void whenInjectTwoDifferentViewListenersAwareAttributesThroughTheSameViewSubclass_thenTheSameViewSubclassListenersInstanceIsInjectedForBoth() {
+	ViewListenersMap viewListenersMap = mock(ViewListenersMap.class);
+	Mockito.when(viewListenersMap.findMostSuitable(viewSubclass.getClass())).thenReturn((Class) ViewListenersSubclass.class);
+	ViewListenersProvider viewListenersProvider = new ViewListenersProvider(viewListenersMap);
+	
 	ViewListenersAwareAttribute viewAttribute = new ViewListenersAwareAttribute();
 	viewListenersProvider.injectIfRequired(viewAttribute, viewSubclass);
 
@@ -87,65 +69,44 @@ public class ViewListenersProviderTest {
 	assertThat(viewAttribute.viewListeners, sameInstance(viewAttributeSubclass.viewListeners));
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test(expected = RuntimeException.class)
     public void whenInjectViewListenersSubclassAwareAttributeThroughIncorrectView_thenThrowExceptionWithDetailedMessage() {
+	ViewListenersMap viewListenersMap = mock(ViewListenersMap.class);
+	when(viewListenersMap.findMostSuitable(view.getClass())).thenReturn((Class) ViewListenersForView.class);
+	ViewListenersProvider viewListenersProvider = new ViewListenersProvider(viewListenersMap);
+	
 	ViewListenersSubclassAwareAttribute viewAttributeSubclass = new ViewListenersSubclassAwareAttribute();
 	viewListenersProvider.injectIfRequired(viewAttributeSubclass, view);
     }
+    
+    private static class NonViewListenersAwareAttribute { }
 
-    private static class NonViewListenersAwareAttribute implements ViewAttributeBinder  {
-	@Override
-	public void bindTo(BindingContext bindingContext) {
-	}
-	
-	@Override
-	public void preInitializeView(BindingContext bindingContext) {
-	}
-    }
-
-    private abstract static class ViewAttributeWithViewListenersType implements ViewAttributeBinder {
+    private static class ViewListenersAwareAttribute implements ViewListenersAware<ViewListeners> {
         public ViewListeners viewListeners;
         
-        @Override
-        public void bindTo(BindingContext bindingContext) {
-        }
-        
-        @Override
-        public void preInitializeView(BindingContext bindingContext) {
-        }
-        
-        public abstract Class<? extends ViewListeners> getViewListenersType();
-    }
-
-    private static class ViewListenersAwareAttribute extends ViewAttributeWithViewListenersType implements ViewListenersAware<ViewListeners> {
 	@Override
 	public void setViewListeners(ViewListeners viewListeners) {
 	    this.viewListeners = viewListeners;
 	}
-	
-	@Override
-	public Class<? extends ViewListeners> getViewListenersType() {
-	    return ViewListeners.class;
-	}
-
     }
 
-    private static class ViewListenersSubclassAwareAttribute extends ViewAttributeWithViewListenersType implements
-	    ViewListenersAware<ViewListenersSubclass> {
+    private static class ViewListenersSubclassAwareAttribute implements ViewListenersAware<ViewListenersSubclass> {
+        public ViewListeners viewListeners;
+        
 	@Override
 	public void setViewListeners(ViewListenersSubclass viewListeners) {
 	    this.viewListeners = viewListeners;
 	}
-	
-	@Override
-	public Class<? extends ViewListeners> getViewListenersType() {
-	    return ViewListenersSubclass.class;
-	}
-
     }
-
-    public static class ViewListenersSubclass extends ViewListeners {
-	public ViewListenersSubclass(ViewSubclass view) {
+    
+    public static class ViewListenersForView implements ViewListeners {
+	public ViewListenersForView(Object view) {
+	}
+    }
+    
+    public static class ViewListenersSubclass extends ViewListenersForView {
+	public ViewListenersSubclass(Object view) {
 	    super(view);
 	}
     }
@@ -155,4 +116,5 @@ public class ViewListenersProviderTest {
 	    super(context);
 	}
     }
+
 }

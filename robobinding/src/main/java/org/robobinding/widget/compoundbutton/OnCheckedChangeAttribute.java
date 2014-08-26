@@ -1,8 +1,8 @@
 package org.robobinding.widget.compoundbutton;
 
 import org.robobinding.attribute.Command;
+import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.event.EventViewAttribute;
-import org.robobinding.widget.view.ViewListenersAware;
 
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;

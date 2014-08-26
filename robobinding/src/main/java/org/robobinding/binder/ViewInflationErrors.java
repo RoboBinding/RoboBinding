@@ -6,8 +6,6 @@ import java.util.List;
 import org.robobinding.ViewResolutionErrors;
 import org.robobinding.internal.guava.Lists;
 
-import android.view.View;
-
 /**
  * 
  * @since 1.0
@@ -15,7 +13,7 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class ViewInflationErrors {
-    private View view;
+    private Object view;
     private ViewResolutionErrors resolutionErrors;
     private ViewBindingErrors bindingErrors;
 
@@ -32,7 +30,7 @@ public class ViewInflationErrors {
 	return resolutionErrors.hasErrors() || bindingErrors.hasErrors();
     }
 
-    public View getView() {
+    public Object getView() {
 	return view;
     }
 

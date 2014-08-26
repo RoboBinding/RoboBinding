@@ -9,8 +9,6 @@ import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 import org.robobinding.viewattribute.grouped.AttributeGroupBindingException;
 
-import android.view.View;
-
 /**
  * 
  * @since 1.0
@@ -19,10 +17,10 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class ResolvedBindingAttributesForView {
-    private View view;
+    private Object view;
     private final List<ViewAttributeBinder> viewAttributes;
 
-    ResolvedBindingAttributesForView(View view, Collection<ViewAttributeBinder> viewAttributes) {
+    ResolvedBindingAttributesForView(Object view, Collection<ViewAttributeBinder> viewAttributes) {
 	this.view = view;
 	this.viewAttributes = Lists.newArrayList(viewAttributes);
     }

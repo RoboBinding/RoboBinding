@@ -2,6 +2,10 @@ package org.robobinding;
 
 import java.util.Collection;
 
+import org.robobinding.binder.BindingViewInflater;
+import org.robobinding.binder.InflatedViewWithRoot;
+import org.robobinding.binder.ViewBindingLifecycle;
+
 import android.view.View;
 
 /**
@@ -12,13 +16,18 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class ItemBinder {
-    private BinderImplementor binderImplementor;
+    private final BindingViewInflater bindingViewInflater;
+    private final ViewBindingLifecycle viewBindingLifecycle;
 
-    public ItemBinder(BinderImplementor binderImplementor) {
-	this.binderImplementor = binderImplementor;
+    public ItemBinder(BindingViewInflater bindingViewInflater, ViewBindingLifecycle viewBindingLifecycle) {
+        this.bindingViewInflater = bindingViewInflater;
+        this.viewBindingLifecycle = viewBindingLifecycle;
     }
 
     public View inflateAndBind(int layoutId, Object presentationModel, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
-	return binderImplementor.inflateAndBind(layoutId, presentationModel, predefinedPendingAttributesForViewGroup);
+	InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, predefinedPendingAttributesForViewGroup);
+	
+	viewBindingLifecycle.run(inflatedView, presentationModel);
+	return inflatedView.getRootView();
     }
 }
