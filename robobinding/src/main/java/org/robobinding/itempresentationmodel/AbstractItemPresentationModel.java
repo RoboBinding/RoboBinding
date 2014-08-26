@@ -14,7 +14,7 @@ public abstract class AbstractItemPresentationModel<T> extends AbstractPresentat
     @Override
     public final void updateData(int index, T bean) {
 	doUpdateData(index, bean);
-	presentationModelChangeSupport.refreshPresentationModel();
+	refreshPresentationModel();
     }
 
     protected abstract void doUpdateData(int index, T bean);

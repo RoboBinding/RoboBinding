@@ -9,7 +9,7 @@ import org.robobinding.property.PropertyChangeListener;
  * @author Cheng Wei
  */
 public abstract class AbstractPresentationModel implements ObservableBean {
-    protected final PresentationModelChangeSupport presentationModelChangeSupport;
+    private final PresentationModelChangeSupport presentationModelChangeSupport;
 
     public AbstractPresentationModel() {
 	presentationModelChangeSupport = new PresentationModelChangeSupport(this);
@@ -23,5 +23,13 @@ public abstract class AbstractPresentationModel implements ObservableBean {
     @Override
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 	presentationModelChangeSupport.removePropertyChangeListener(propertyName, listener);
+    }
+    
+    protected void firePropertyChange(String propertyName) {
+	presentationModelChangeSupport.firePropertyChange(propertyName);
+    }
+    
+    public void refreshPresentationModel() {
+	presentationModelChangeSupport.refreshPresentationModel();
     }
 }
