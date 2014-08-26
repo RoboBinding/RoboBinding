@@ -28,12 +28,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Queues;
-
 /**
  * Static utility methods pertaining to {@link List} instances. Also see this
- * class's counterparts {@link Sets}, {@link Maps} and {@link Queues}.
+ * class's counterparts {@link Sets}, {@link Maps} and {@link com.google.common.collect.Queues}.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Lists">
@@ -54,7 +51,7 @@ public final class Lists {
    * earlier).
    *
    * <p><b>Note:</b> if mutability is not required, use {@link
-   * ImmutableList#of()} instead.
+   * com.google.common.collect.ImmutableList#of()} instead.
    *
    * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and
    * should be treated as deprecated. Instead, use the {@code ArrayList}
@@ -71,8 +68,8 @@ public final class Lists {
    *
    * <p><b>Note:</b> essentially the only reason to use this method is when you
    * will need to add or remove elements later. Otherwise, for non-null elements
-   * use {@link ImmutableList#of()} (for varargs) or {@link
-   * ImmutableList#copyOf(Object[])} (for an array) instead. If any elements
+   * use {@link com.google.common.collect.ImmutableList#of()} (for varargs) or {@link
+   * com.google.common.collect.ImmutableList#copyOf(Object[])} (for an array) instead. If any elements
    * might be null, or you need support for {@link List#set(int, Object)}, use
    * {@link Arrays#asList}.
    *
@@ -104,7 +101,7 @@ public final class Lists {
    * {@link Iterables#addAll}.
    *
    * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableList#copyOf(Iterable)} instead. (Or, change
+   * non-null, use {@link com.google.common.collect.ImmutableList#copyOf(Iterable)} instead. (Or, change
    * {@code elements} to be a {@link FluentIterable} and call
    * {@code elements.toList()}.)
    *
@@ -127,7 +124,7 @@ public final class Lists {
    * {@link Iterators#addAll}.
    *
    * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableList#copyOf(Iterator)} instead.
+   * non-null, use {@link com.google.common.collect.ImmutableList#copyOf(Iterator)} instead.
    */
   public static <E> ArrayList<E> newArrayList(Iterator<? extends E> elements) {
     ArrayList<E> list = newArrayList();
@@ -144,7 +141,7 @@ public final class Lists {
    * earlier).
    *
    * <p><b>Note:</b> if you won't be adding any elements to the list, use {@link
-   * ImmutableList#of()} instead.
+   * com.google.common.collect.ImmutableList#of()} instead.
    *
    * <p><b>Performance note:</b> {@link ArrayList} and {@link
    * java.util.ArrayDeque} consistently outperform {@code LinkedList} except in
@@ -166,7 +163,7 @@ public final class Lists {
    * {@link Iterables#addAll}.
    *
    * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableList#copyOf(Iterable)} instead. (Or, change
+   * non-null, use {@link com.google.common.collect.ImmutableList#copyOf(Iterable)} instead. (Or, change
    * {@code elements} to be a {@link FluentIterable} and call
    * {@code elements.toList()}.)
    *
