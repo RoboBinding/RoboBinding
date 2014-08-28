@@ -6,6 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ *  It is for annotating a setter so that AspectJ will not do any auto weaving for the method. 
+ * 
  * 
  * @since 1.0
  * @author Cheng Wei

@@ -18,5 +18,9 @@ import java.lang.annotation.Target;
 public @interface ItemPresentationModel {
     Class<? extends org.robobinding.itempresentationmodel.ItemPresentationModel<?>> value();
 
+    /**
+     * Optional. By default, ItemPresentationModel is created using its default constructor.
+     * When factoryMethod is specified. The instance of ItemPresentationModel is created by invoking the PresentationModel.factoryMethod().
+     */
     String factoryMethod() default "";
 }
