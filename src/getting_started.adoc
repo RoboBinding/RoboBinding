@@ -1,6 +1,6 @@
 ﻿Getting Started
 ===============
-:Revision: 0.8.4
+:Revision: 0.8.5
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -41,8 +41,7 @@ In presentation models, we declare corresponding properties and methods.
 org.robobinding.androidmvvm.PresentationModel.java 
 [source,java]
 ----
-@org.robobinding.presentationmodel.PresentationModel
-public class PresentationModel {
+public class PresentationModel extends AbstractPresentationModel {
     private String name;
     public String getHello() {
 		return name + ": hello Android MVVM(Presentation Model)!";
@@ -64,11 +63,14 @@ org.robobinding.androidmvvm.MainActivity.java
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-	...
-		Binders.bindWithoutPreInitializingViews(this, R.layout.activity_main, presentationModel);
+		...
+		PresentationModel presentationModel = new PresentationModel();
+		View rootView = Binders.inflateAndBindWithoutPreInitializingViews(this, R.layout.activity_main, presentationModel);
+		setContentView(rootView);
     }
 }
 ----
+
 The simplest AndroidMVVM is done. We use the utility class ++Binders++ for simplicity here. 
 In read-world applications, we recommend using ++org.robobinding.binder.BinderFactoryBuilder++ instead.
 We can keep the BinderFactory instance in Android application or let a third-party library like https://github.com/roboguice/roboguice[RoboGuice] manage the BinderFactory instance,
@@ -84,20 +86,26 @@ Environment Setup
 
 Eclipse
 ~~~~~~~
-Needless to say, you will need both http://eclipse.org/[Eclipse] and the http://developer.android.com/tools/sdk/eclipse-adt.html[Android Development Tools] plugin installed.
+Install http://eclipse.org/[Eclipse].
 
-Start by adding either the 'robobinding-[xxx].jar' or the 'robobinding-[xxx]-jar-with-dependencies.jar' to the libs folder of your project, then add it to your classpath by right-clicking on your project→Properties→Java Build Path→Libraries→Add JARs. 
-If you're using the jar without dependencies, you will additionally need add https://code.google.com/p/guava-libraries/[guava] 11.0.1+ jars to your classpath.
+Without AspectJ
+^^^^^^^^^^^^^^^
+Add the 'robobinding-[xxx].jar' to the libs folder of your project, then add it to your classpath by right-clicking on your project→Properties→Java Build Path→Libraries→Add JARs. 
+In Order and Export tab, check the 'robobinding-[xxx].jar'.
 
-The RoboBinding framework incorporates AspectJ aspects to auto-generate the property-change notification code in your presentation models. If you want to take advantage of this (recommended), you'll need to install the http://www.eclipse.org/ajdt/[AspectJ Development Tools (AJDT)] plugin.
+With AspectJ
+^^^^^^^^^^^^
+RoboBinding aspects will reduce the work by auto weaving in some source code. 
+If we want to take the advantage, firstly get http://developer.android.com/tools/sdk/eclipse-adt.html[Android Development Tools] plugin installed.
+Once having it installed, right-click on the project→Configure→Convert to AspectJ Project. This will add the AspectJ natures to your .project file.
 
-Once you have it installed, right-click on your project→Configure→Convert to AspectJ Project. This will add the AspectJ natures to your .project file.
+Start by adding either the 'robobinding-[xxx]-jar-with-dependencies.jar' or the 'robobinding-[xxx].jar' plus AspectJ Runtime Library to the libs folder of your project, 
+then add it(or them) to your classpath by right-clicking on your project→Properties→Java Build Path→Libraries→Add JARs. 
+In Order and Export tab, check it(them).
 
-Next, make sure the AspectJ Runtime Library is included in the build by right-clicking on your project→Properties→Java Build Path→Order and Export, and ensure 'AspectJ Runtime Library' is checked.
+Finally, make sure the RoboBinding jar is added to your project Aspect Path. Right click on your project→Properties→AspectJ Build→Aspect Path→Add JARs.
 
-Finally, you'll need to make sure the RoboBinding jar is added to your project Aspect Path. Right click on your project→Properties→AspectJ Build→Aspect Path→Add JARs.
-
-.Eclipse project build settings
+.An example using robobinding-[xxx]-jar-with-dependencies.jar
 image::eclipse_project_build_settings.png["Eclipse project build settings"]
 
 Please feel free to take a look at https://github.com/RoboBinding/RoboBinding/[RoboBinding album sample] as reference.
@@ -118,13 +126,6 @@ To achieve this, add the following directives to your ProGuard configuration:
 }
 
 -keepattributes *Annotation*,Signature
-----
-
-From 0.8.1 onwards, we have added a dependency on the guava libraries. At the moment ProGuard doesn't seem to play nicely with guava, so you'll need to the add the following additional lines:
-[source,erlang]
-----
--dontwarn com.google.common.collect.MinMaxPriorityQueue
--dontwarn sun.misc.Unsafe
 ----
 
 And add the following lines also to keep the constructors of view listeners.
@@ -363,6 +364,49 @@ public class ProductRowMapper implements RowMapper<Product> {
 }
 ----
 
+Menu Binding
+~~~~~~~~~~~~
+Bind menu resources in res/menu to Presentation Models. Let us have a look at a simple example below.
+
+res/menu/context_menu.xml
+[source,xml]
+----
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="Delete Product"
+          bind:onMenuItemClick="deleteProduct"
+          android:id="@+id/deleteProduct"
+          app:showAsAction="always"/>
+
+</menu>
+----
+
+org.robobinding.gallery.presentationmodel.ContextMenuPresentationModel.java
+[source,java]
+----
+@PresentationModel
+public class ContextMenuPresentationModel {
+    ...    
+    public void deleteProduct(MenuItem menuItem) {
+		...
+    }
+}
+----
+
+Presentation Models
+~~~~~~~~~~~~~~~~~~~
+There are two way to implement Presentation Models.
+
+* Annotate Presentation Model classes with the AspectJ annotation @org.robobinding.aspects.PresentationModel.
+The advantage of the approach is that Presentation Models don't have to extend an extra super class or interface 
+and some source code will be automatically weaved in to reduce the work.
+The disadvantage is that there is a dependency on AspectJ Runtime Library.
+
+* Let Presentation Models extends org.robobinding.presentationmodel.AbstractPresentationModel or implements org.robobinding.property.ObservableBean.
+The advantage is that there is no extra dependency on AspectJ. 
+The disadvantage is that Presentation Models have to extend or implement the class/interface above, as well as having to manually type in everything, e.g., firePropertyChange("propertyName").
+
 A Walk through Album Sample
 ---------------------------
 Album Sample project is a translated version of Martin Fowler's http://martinfowler.com/eaaDev/PresentationModel.html[original one].
@@ -401,6 +445,35 @@ as indicated by the annotation, ++@ItemPresentationModel(AlbumItemPresentationMo
 Inside the row layout file album_row.xml, there are two simple TextViews. Their ++bind:text="\{title\}"++ and ++bind:text="\{artist\}"++ bind to AlbumItemPresentationModel.title/artist respectively.
 The last sub-view in view_albums_activity.xml is the Button. Its ++bind:onClick="createAlbum"++ binds to ViewAlbumsPresentationModel.createAlbum() method.
 
+Contents of Gallery Demos
+-------------------------
+The entry classes mentioned below are from the package org.robobinding.gallery.activity of https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery] project.
+
+* Binding attributes demo for View. The entry class is ViewActivity.
+
+* Binding attributes demo for EditText. The entry class is EditTextActivity.
+
+* Binding attributes demo for AdapterView. The entry class is AdapterViewActivity.
+
+* Binding attributes demo for ListView. The entry class is ListViewActivity.
+
+* Binding attributes demo for Custom Components. The entry class is CustomComponentActivity.
+
+* Demo for Object Cursor. The entry class is TypedCursorActivity.
+
+* Demo for Dynamic Binding. The entry class is DynamicBindingActivity.
+
+* Demo for PresentationModel implementation by Subclassing without AspectJ. The entry class is BySubclassNoAspectJActivity.
+
+* Demo for PresentationModel implementation by Implementing Interface without AspectJ. The entry class is ByInterfaceNoAspectJActivity.
+
+* Demo for Fragment & ViewPager Binding. The entry class is ListFragmentDemoActivity.
+
+* Demo for Options Menu Binding. The entry class is OptionsMenuActivity.
+
+* Demo for Context Menu Binding. The entry class is ContextMenuDemoActivity.
+
+* Demo for Contextual Action Mode Binding. The entry class is ContextualActionModeActivity.
 
 Create own view binding implementation
 --------------------------------------
@@ -632,7 +705,7 @@ Project structure and best practices
 ------------------------------------
 Involved from MVC pattern, the major motive of Presentation Model(MVVM) pattern is to make Presentation Models pure POJOs, which can be 
 easily Unit tested. Meanwhile, the dependency of View->Presentation Model->Model becomes unidirectional. 
-When applying the pattern, these are the basic rules we will follow. 
+When applying the pattern, these are the basic rules we will follow. https://github.com/RoboBinding/RoboBinding[Album Sample] is an example that follows the best practices.
 Recommend to read Martin Fowler's original article of http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model].
 
 Overall project structure

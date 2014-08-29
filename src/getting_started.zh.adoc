@@ -1,6 +1,6 @@
 ﻿入门
 ====
-:Revision: 0.8.4
+:Revision: 0.8.5
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -41,8 +41,7 @@ Presentation Model
 org.robobinding.androidmvvm.PresentationModel.java 
 [source,java]
 ----
-@org.robobinding.presentationmodel.PresentationModel
-public class PresentationModel {
+public class PresentationModel extends AbstractPresentationModel {
     private String name;
     public String getHello() {
 		return name + ": hello Android MVVM(Presentation Model)!";
@@ -64,8 +63,10 @@ org.robobinding.androidmvvm.MainActivity.java
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-	...
-		Binders.bindWithoutPreInitializingViews(this, R.layout.activity_main, presentationModel);
+		...
+		PresentationModel presentationModel = new PresentationModel();
+		View rootView = Binders.inflateAndBindWithoutPreInitializingViews(this, R.layout.activity_main, presentationModel);
+		setContentView(rootView);
     }
 }
 ----
@@ -82,19 +83,25 @@ RoboBinding的介绍视频
 --------
 Eclipse
 ~~~~~~~
-首先安装http://eclipse.org/[Eclipse] 与 http://developer.android.com/tools/sdk/eclipse-adt.html[Android Development Tools(ADT)]插件。
-然后把'robobinding-[xxx].jar' 或 'robobinding-[xxx]-jar-with-dependencies.jar'加入项目的lib或libs目录，右击项目->Properties->Java Build Path->Libraries->Add Jars，将jar加入classpath。
-如果选择的是'robobinding-[xxx].jar'，还需要将https://code.google.com/p/guava-libraries/[guava] 11.0.1+ jar加入项目的classpath。
+首先安装http://eclipse.org/[Eclipse]。
 
-RoboBinding通过AspectJ aspects来自动的为presentation model添加属性变更通知代码。如果想要这个功能的话(推荐的方式)，需要安装http://www.eclipse.org/ajdt/[AspectJ Development Tools (AJDT)]插件。
+不使用AspectJ
+^^^^^^^^^^^^^
+把'robobinding-[xxx].jar' 加入项目的libs目录，
+然后右击项目->Properties->Java Build Path->Libraries->Add Jars，将jar加入classpath。并在Order and Export中勾选上robobinding-[xxx].jar。
 
-当AJDT安装好后，右击项目->Configure->Convert to AspectJ Project。AspectJ natures将被添加到项目的.project文件。
+使用AspectJ
+^^^^^^^^^^^
+RoboBinding aspects可以帮你自动的产生代码，以便减少工作量。
+首先安装http://developer.android.com/tools/sdk/eclipse-adt.html[Android Development Tools(ADT)] Eclipse 插件。
+右击项目->Configure->Convert to AspectJ Project。AspectJ natures将被添加到项目的.project文件。
 
-然后确认AspectJ Runtime Library将被包含入构建包，右击项目->Properties->Java Build Path->Order and Export，确认AspectJ Runtime Library已经被勾选。
+将 'robobinding-[xxx]-jar-with-dependencies.jar' 或 'robobinding-[xxx].jar' + AspectJ Runtime Library 加入项目的classpath。
+并在Order and Export中勾选了它(或它们)。
 
 最后确认 RoboBinding jar在Aspect路径里，右击项目->Properties->AspectJ Build->Aspect Path->Add JARs。
 
-.Eclipse project build settings
+.以robobinding-[xxx]-jar-with-dependencies.jar为例
 image::eclipse_project_build_settings.png["Eclipse project build settings"]
 
 请参考https://github.com/RoboBinding/RoboBinding/[RoboBinding album sample]环境设置。
@@ -114,12 +121,6 @@ RoboBinding需要所有实现了org.robobinding.property.ObservableBean(如所�
 }
 
 -keepattributes *Annotation*,Signature
-----
-
-从版本0.8.1开始，RoboBinding依赖于guava类库。目前guava在进行ProGuard时候有些问题，所以需要增加以下的内容：
-----
--dontwarn com.google.common.collect.MinMaxPriorityQueue
--dontwarn sun.misc.Unsafe
 ----
 
 增加以下的内容，使ProGuard保留view listeners的构造函数名：
@@ -351,6 +352,46 @@ public class ProductRowMapper implements RowMapper<Product> {
 }
 ----
 
+菜单绑定
+~~~~~~~~
+将 res/menu 下的菜单资源与对应的Presentation Model绑定在一起。以下是一个简单的例子。
+
+res/menu/context_menu.xml
+[source,xml]
+----
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="Delete Product"
+          bind:onMenuItemClick="deleteProduct"
+          android:id="@+id/deleteProduct"
+          app:showAsAction="always"/>
+
+</menu>
+----
+
+org.robobinding.gallery.presentationmodel.ContextMenuPresentationModel.java
+[source,java]
+----
+@PresentationModel
+public class ContextMenuPresentationModel {
+    ...    
+    public void deleteProduct(MenuItem menuItem) {
+		...
+    }
+}
+----
+
+Presentation Model
+~~~~~~~~~~~~~~~~~~
+有两种实现Presentation Model的方式。
+
+* 使用@org.robobinding.aspects.PresentationModel AspectJ来标注你的Presentation Model类。
+其优点是Presentation Model不需要实现或扩展任何类，并且可为Presentation Model自动产生一些代码，减少工作量。缺点是必须依赖于AspectJ Runtime Library。
+
+* 让Presentation Model扩展org.robobinding.presentationmodel.AbstractPresentationModel或实现org.robobinding.property.ObservableBean。
+其优点是无需额外的AspectJ依赖。缺点是Presentation Model需要扩展或实现以上的类或接口，需要手动编写firePropertyChange("propertyName")等代码。
+
 Album唱片集例子项目学习
 -----------------------
 项目中所带的Album唱片集例子是将Martin Fowler的原始版本翻译成基于RoboBinding的Android版本(Martin Fowler基于.Net的 http://martinfowler.com/eaaDev/PresentationModel.html[原始版本] )。
@@ -386,6 +427,35 @@ ListView的++bind:source="\{albums\}"++绑定到ViewAlbumsPresentationModel.albu
 来显示每一个唱片行。在album_row.xml里包含了两个简单的TextView，其++bind:text="\{title\}"++与++bind:text="\{artist\}"++分别绑定到AlbumItemPresentationModel.title/artist属性。
 在view_albums_activity.xml里的最后一个Button视图，++bind:onClick="createAlbum"++绑定到ViewAlbumsPresentationModel.createAlbum()方法。
 
+Gallery 示例内容
+----------------
+以下的入口类都位于https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery]项目的org.robobinding.gallery.activity包下。
+
+* View绑定属性示例。入口类为ViewActivity。
+
+* EditText绑定属性示例。入口类为EditTextActivity。
+
+* AdapterView绑定属性示例。入口类为AdapterViewActivity。
+
+* ListView绑定属性示例。入口类为ListViewActivity。
+
+* 自定义组件绑定属性示例。入口类为CustomComponentActivity。
+
+* 对象化Cursor示例。入口类为TypedCursorActivity。
+
+* 动态绑定示例。入口类为DynamicBindingActivity。
+
+* 不使用AspectJ, 以扩展方式实现PresentationModel示例。入口类为BySubclassNoAspectJActivity。
+
+* 不使用AspectJ, 以接口方式实现PresentationModel示例。入口类为ByInterfaceNoAspectJActivity。
+
+* Fragment与ViewPager绑定示例。入口类为ListFragmentDemoActivity。
+
+* Options Menu绑定示例。入口类为OptionsMenuActivity。
+
+* Context Menu绑定示例。入口类为ContextMenuDemoActivity。
+
+* Contextual Action Mode绑定示例。入口类为ContextualActionModeActivity。
 
 创建自己的视图绑定实现
 ----------------------
@@ -613,6 +683,7 @@ public class DynamicBindingActivity extends Activity {
 ----------------------
 Presentation Model(MVVM)模式的初终是在MVC模式的基础之上，进一步的解耦Presentation Model层，使它们成为普通的http://baike.baidu.com/view/183175.htm[POJO]，可被很容易的独立单元测试。
 并使得View层->Presentation Model层->Model层 形成一个单向的依赖关系。当应用这个模式时，我们应该始终遵循这些基本原则。
+https://github.com/RoboBinding/RoboBinding[Album Sample] 是一个遵循最佳实践的例子。
 推荐阅读Martin Fowler的原始 http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model文章]。
 
 总体项目结构
