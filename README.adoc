@@ -5,7 +5,7 @@ Apart from promoting well-structured projects, RoboBinding focuses the areas tha
 
 * removes - *lots of unnecessary code(e.g., addXXListener(), findViewById()...)* - by binding.
 
-* turns - *hard to unit tests and Android unit tests running for ages which makes unit tests impractical* - into pojo PresentationModels with normal JUnit tests.
+* turns - *hard to unit tests and Android unit tests running for ages which makes unit tests impractical* - into *pure pojo PresentationModels* with normal JUnit tests.
 
 * provides the object cursor as a replacement to - *the relational cursor but we are used to operating objects*.
 
