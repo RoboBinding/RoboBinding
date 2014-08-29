@@ -837,14 +837,14 @@ asciidoc.install(2);
                 <a href="index.html" class="menuitem">Home</a>
                 <a href="getting_started.html" class="menuitem">Getting Started</a>
                 <a href="insight_into_framework.html" class="menuitem">Insight Into Framework</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.4/robobinding-0.8.4-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.5/robobinding-0.8.5-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
                 <a href="about.html" class="menuitem">About</a>
                 <a href="old_index.html" class="menuitem">Old Doc</a>
                 <a href="index.zh.html" class="menuitem">Chinese中文</a>
         </div>
 <div id="header">
 <h1>Getting Started</h1>
-<span id="revnumber">version 0.8.4</span>
+<span id="revnumber">version 0.8.5</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -884,8 +884,7 @@ The sample code for the section is from <a href="https://github.com/RoboBinding/
 <div class="paragraph"><p>In presentation models, we declare corresponding properties and methods.</p></div>
 <div class="paragraph"><p>org.robobinding.androidmvvm.PresentationModel.java</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nd">@org.robobinding.presentationmodel.PresentationModel</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PresentationModel</span> <span class="o">{</span>
+<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PresentationModel</span> <span class="kd">extends</span> <span class="n">AbstractPresentationModel</span> <span class="o">{</span>
     <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
     <span class="kd">public</span> <span class="n">String</span> <span class="nf">getHello</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">return</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&quot;: hello Android MVVM(Presentation Model)!&quot;</span><span class="o">;</span>
@@ -905,8 +904,10 @@ The sample code for the section is from <a href="https://github.com/RoboBinding/
 <div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
     <span class="nd">@Override</span>
     <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-    <span class="o">...</span>
-        <span class="n">Binders</span><span class="o">.</span><span class="na">bindWithoutPreInitializingViews</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">,</span> <span class="n">presentationModel</span><span class="o">);</span>
+        <span class="o">...</span>
+        <span class="n">PresentationModel</span> <span class="n">presentationModel</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PresentationModel</span><span class="o">();</span>
+        <span class="n">View</span> <span class="n">rootView</span> <span class="o">=</span> <span class="n">Binders</span><span class="o">.</span><span class="na">inflateAndBindWithoutPreInitializingViews</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">,</span> <span class="n">presentationModel</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">rootView</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div></div></div>
@@ -937,20 +938,29 @@ so that we can share and reuse the instance over the whole application.</p></div
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_eclipse">3.1. Eclipse</h3>
-<div class="paragraph"><p>Needless to say, you will need both <a href="http://eclipse.org/">Eclipse</a> and the <a href="http://developer.android.com/tools/sdk/eclipse-adt.html">Android Development Tools</a> plugin installed.</p></div>
-<div class="paragraph"><p>Start by adding either the <em>robobinding-[xxx].jar</em> or the <em>robobinding-[xxx]-jar-with-dependencies.jar</em> to the libs folder of your project, then add it to your classpath by right-clicking on your project→Properties→Java Build Path→Libraries→Add JARs.
-If you&#8217;re using the jar without dependencies, you will additionally need add <a href="https://code.google.com/p/guava-libraries/">guava</a> 11.0.1+ jars to your classpath.</p></div>
-<div class="paragraph"><p>The RoboBinding framework incorporates AspectJ aspects to auto-generate the property-change notification code in your presentation models. If you want to take advantage of this (recommended), you&#8217;ll need to install the <a href="http://www.eclipse.org/ajdt/">AspectJ Development Tools (AJDT)</a> plugin.</p></div>
-<div class="paragraph"><p>Once you have it installed, right-click on your project→Configure→Convert to AspectJ Project. This will add the AspectJ natures to your .project file.</p></div>
-<div class="paragraph"><p>Next, make sure the AspectJ Runtime Library is included in the build by right-clicking on your project→Properties→Java Build Path→Order and Export, and ensure <em>AspectJ Runtime Library</em> is checked.</p></div>
-<div class="paragraph"><p>Finally, you&#8217;ll need to make sure the RoboBinding jar is added to your project Aspect Path. Right click on your project→Properties→AspectJ Build→Aspect Path→Add JARs.</p></div>
+<div class="paragraph"><p>Install <a href="http://eclipse.org/">Eclipse</a>.</p></div>
+<div class="sect3">
+<h4 id="_without_aspectj">3.1.1. Without AspectJ</h4>
+<div class="paragraph"><p>Add the <em>robobinding-[xxx].jar</em> to the libs folder of your project, then add it to your classpath by right-clicking on your project→Properties→Java Build Path→Libraries→Add JARs.
+In Order and Export tab, check the <em>robobinding-[xxx].jar</em>.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_with_aspectj">3.1.2. With AspectJ</h4>
+<div class="paragraph"><p>RoboBinding aspects will reduce the work by auto weaving in some source code.
+If we want to take the advantage, firstly get <a href="http://developer.android.com/tools/sdk/eclipse-adt.html">Android Development Tools</a> plugin installed.
+Once having it installed, right-click on the project→Configure→Convert to AspectJ Project. This will add the AspectJ natures to your .project file.</p></div>
+<div class="paragraph"><p>Start by adding either the <em>robobinding-[xxx]-jar-with-dependencies.jar</em> or the <em>robobinding-[xxx].jar</em> plus AspectJ Runtime Library to the libs folder of your project,
+then add it(or them) to your classpath by right-clicking on your project→Properties→Java Build Path→Libraries→Add JARs.
+In Order and Export tab, check it(them).</p></div>
+<div class="paragraph"><p>Finally, make sure the RoboBinding jar is added to your project Aspect Path. Right click on your project→Properties→AspectJ Build→Aspect Path→Add JARs.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/eclipse_project_build_settings.png" alt="Eclipse project build settings" />
 </div>
-<div class="title">Figure 1. Eclipse project build settings</div>
+<div class="title">Figure 1. An example using robobinding-[xxx]-jar-with-dependencies.jar</div>
 </div>
 <div class="paragraph"><p>Please feel free to take a look at <a href="https://github.com/RoboBinding/RoboBinding/">RoboBinding album sample</a> as reference.</p></div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_android_studio">3.2. Android Studio</h3>
@@ -966,11 +976,6 @@ If you&#8217;re using the jar without dependencies, you will additionally need a
 <span class="p">}</span>
 
 <span class="p">-</span><span class="ni">keepattributes</span> <span class="o">*</span><span class="nv">Annotation</span><span class="o">*</span><span class="p">,</span><span class="nv">Signature</span>
-</pre></div></div></div>
-<div class="paragraph"><p>From 0.8.1 onwards, we have added a dependency on the guava libraries. At the moment ProGuard doesn&#8217;t seem to play nicely with guava, so you&#8217;ll need to the add the following additional lines:</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="p">-</span><span class="ni">dontwarn</span> <span class="n">com</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">common</span><span class="p">.</span><span class="n">collect</span><span class="p">.</span><span class="nv">MinMaxPriorityQueue</span>
-<span class="p">-</span><span class="ni">dontwarn</span> <span class="n">sun</span><span class="p">.</span><span class="n">misc</span><span class="p">.</span><span class="nv">Unsafe</span>
 </pre></div></div></div>
 <div class="paragraph"><p>And add the following lines also to keep the constructors of view listeners.</p></div>
 <div class="listingblock">
@@ -1176,6 +1181,53 @@ Through org.robobinding.itempresentationmodel.RowMapper&lt;T&gt;, we translate a
 <span class="o">}</span>
 </pre></div></div></div>
 </div>
+<div class="sect2">
+<h3 id="_menu_binding">4.6. Menu Binding</h3>
+<div class="paragraph"><p>Bind menu resources in res/menu to Presentation Models. Let us have a look at a simple example below.</p></div>
+<div class="paragraph"><p>res/menu/context_menu.xml</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nt">&lt;menu</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="na">xmlns:bind=</span><span class="s">&quot;http://robobinding.org/android&quot;</span>
+    <span class="na">xmlns:app=</span><span class="s">&quot;http://schemas.android.com/apk/res-auto&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:title=</span><span class="s">&quot;Delete Product&quot;</span>
+          <span class="na">bind:onMenuItemClick=</span><span class="s">&quot;deleteProduct&quot;</span>
+          <span class="na">android:id=</span><span class="s">&quot;@+id/deleteProduct&quot;</span>
+          <span class="na">app:showAsAction=</span><span class="s">&quot;always&quot;</span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/menu&gt;</span>
+</pre></div></div></div>
+<div class="paragraph"><p>org.robobinding.gallery.presentationmodel.ContextMenuPresentationModel.java</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nd">@PresentationModel</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ContextMenuPresentationModel</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteProduct</span><span class="o">(</span><span class="n">MenuItem</span> <span class="n">menuItem</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+</div>
+<div class="sect2">
+<h3 id="_presentation_models">4.7. Presentation Models</h3>
+<div class="paragraph"><p>There are two way to implement Presentation Models.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Annotate Presentation Model classes with the AspectJ annotation @org.robobinding.aspects.PresentationModel.
+The advantage of the approach is that Presentation Models don&#8217;t have to extend an extra super class or interface
+and some source code will be automatically weaved in to reduce the work.
+The disadvantage is that there is a dependency on AspectJ Runtime Library.
+</p>
+</li>
+<li>
+<p>
+Let Presentation Models extends org.robobinding.presentationmodel.AbstractPresentationModel or implements org.robobinding.property.ObservableBean.
+The advantage is that there is no extra dependency on AspectJ.
+The disadvantage is that Presentation Models have to extend or implement the class/interface above, as well as having to manually type in everything, e.g., firePropertyChange("propertyName").
+</p>
+</li>
+</ul></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1214,14 +1266,87 @@ The last sub-view in view_albums_activity.xml is the Button. Its <code>bind:onCl
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_own_view_binding_implementation">6. Create own view binding implementation</h2>
+<h2 id="_contents_of_gallery_demos">6. Contents of Gallery Demos</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The entry classes mentioned below are from the package org.robobinding.gallery.activity of <a href="https://github.com/RoboBinding/RoboBinding-gallery/">Robobinding Gallery</a> project.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Binding attributes demo for View. The entry class is ViewActivity.
+</p>
+</li>
+<li>
+<p>
+Binding attributes demo for EditText. The entry class is EditTextActivity.
+</p>
+</li>
+<li>
+<p>
+Binding attributes demo for AdapterView. The entry class is AdapterViewActivity.
+</p>
+</li>
+<li>
+<p>
+Binding attributes demo for ListView. The entry class is ListViewActivity.
+</p>
+</li>
+<li>
+<p>
+Binding attributes demo for Custom Components. The entry class is CustomComponentActivity.
+</p>
+</li>
+<li>
+<p>
+Demo for Object Cursor. The entry class is TypedCursorActivity.
+</p>
+</li>
+<li>
+<p>
+Demo for Dynamic Binding. The entry class is DynamicBindingActivity.
+</p>
+</li>
+<li>
+<p>
+Demo for PresentationModel implementation by Subclassing without AspectJ. The entry class is BySubclassNoAspectJActivity.
+</p>
+</li>
+<li>
+<p>
+Demo for PresentationModel implementation by Implementing Interface without AspectJ. The entry class is ByInterfaceNoAspectJActivity.
+</p>
+</li>
+<li>
+<p>
+Demo for Fragment &amp; ViewPager Binding. The entry class is ListFragmentDemoActivity.
+</p>
+</li>
+<li>
+<p>
+Demo for Options Menu Binding. The entry class is OptionsMenuActivity.
+</p>
+</li>
+<li>
+<p>
+Demo for Context Menu Binding. The entry class is ContextMenuDemoActivity.
+</p>
+</li>
+<li>
+<p>
+Demo for Contextual Action Mode Binding. The entry class is ContextualActionModeActivity.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_own_view_binding_implementation">7. Create own view binding implementation</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>The sample code for the section is from <a href="https://github.com/RoboBinding/RoboBinding-gallery/">Robobinding Gallery</a>.</p></div>
 <div class="paragraph"><p>There are two ways available to implement a view binding, <code>Static</code> view binding and <code>Dynamic</code> view binding.
 Static view binding approach targets for commonly-used view attributes,
 whereas dynamic view binding acts as a supplement to quickly create attribute bindings when they are not implemented by RoboBinding.</p></div>
 <div class="sect2">
-<h3 id="_custom_component_or_third_party_component">6.1. Custom component or third-party component</h3>
+<h3 id="_custom_component_or_third_party_component">7.1. Custom component or third-party component</h3>
 <div class="paragraph"><p>We can create view bindings for any custom components, third-party components or Android widgets to make them easier for use.
 In RoboBinding, the way to create an view binding implementation is consistent.
 When creating an own view binding implementation, we can refer to an existing one in RoboBinding, e.g., <code>org.robobinding.widget.imageview</code> package and its <code>ImageViewBinding</code> class.</p></div>
@@ -1279,7 +1404,7 @@ please refer to <a href="http://developer.android.com/guide/topics/ui/custom-com
     <span class="nt">&lt;TextView</span> <span class="na">android:id=</span><span class="s">&quot;@+id/description&quot;</span><span class="nt">/&gt;</span>
 </pre></div></div></div>
 <div class="sect3">
-<h4 id="_implementing_the_binding_attributes">6.1.1. Implementing the binding attributes</h4>
+<h4 id="_implementing_the_binding_attributes">7.1.1. Implementing the binding attributes</h4>
 <div class="paragraph"><p>The component has two binding attributes, TitleAttribute for the title and DescriptionAttribute for the description.
 And the ViewBinding, TitleDescriptionBarBinding, maps the attributes to its corresponding binding attribute implementations.</p></div>
 <div class="listingblock">
@@ -1307,7 +1432,7 @@ And the ViewBinding, TitleDescriptionBarBinding, maps the attributes to its corr
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_registering_viewbindings">6.1.2. Registering ViewBindings</h4>
+<h4 id="_registering_viewbindings">7.1.2. Registering ViewBindings</h4>
 <div class="paragraph"><p>ViewBindings can be registered through org.robobinding.binder.BinderFactoryBuilder.</p></div>
 <div class="paragraph"><p>org.robobinding.gallery.activity.CustomComponentActivity.java</p></div>
 <div class="listingblock">
@@ -1321,13 +1446,13 @@ And the ViewBinding, TitleDescriptionBarBinding, maps the attributes to its corr
 </div>
 </div>
 <div class="sect2">
-<h3 id="_overriding_an_existing_view_binding_implemenation">6.2. Overriding an existing view binding implemenation</h3>
+<h3 id="_overriding_an_existing_view_binding_implemenation">7.2. Overriding an existing view binding implemenation</h3>
 <div class="paragraph"><p>When an existing view binding implementation does not satisfy our requirement or some of binding attributes have not been implemented, we have two options.
 Firstly, we can directly modify the framework(we hope more people make contributions to the framework and help add more binding attributes).
 Alternatively, instead of modifying the framework, we implement new ViewBindings and their binding attributes, and then register to replace the default implementations from framework.
 Take the second approach as an example, we try to replace the existing <a href="http://developer.android.com/reference/android/widget/ImageView.html">ImageView</a> view binding implementation, <code>org.robobinding.widget.imageview</code>.</p></div>
 <div class="sect3">
-<h4 id="_implementing_new_viewbinding_and_binding_attributes">6.2.1. Implementing new ViewBinding and binding attributes</h4>
+<h4 id="_implementing_new_viewbinding_and_binding_attributes">7.2.1. Implementing new ViewBinding and binding attributes</h4>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyImageViewBinding</span> <span class="kd">extends</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">widget</span><span class="o">.</span><span class="na">imageview</span><span class="o">.</span><span class="na">ImageViewBinding</span> <span class="o">{</span>
     <span class="nd">@Override</span>
@@ -1357,7 +1482,7 @@ Take the second approach as an example, we try to replace the existing <a href="
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_register_to_replace_the_existing_one">6.2.2. Register to replace the existing one</h4>
+<h4 id="_register_to_replace_the_existing_one">7.2.2. Register to replace the existing one</h4>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
             <span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">ImageView</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">MyImageViewBinding</span><span class="o">())</span>
@@ -1366,11 +1491,11 @@ Take the second approach as an example, we try to replace the existing <a href="
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dynamic_view_binding">6.3. Dynamic view binding</h3>
+<h3 id="_dynamic_view_binding">7.3. Dynamic view binding</h3>
 <div class="paragraph"><p>When RoboBinding has not implemented some attribute bindings, with dynamic view binding we can quickly implement new or extend existing view bindings.
 Dynamic view binding acts as a supplement to static view binding.</p></div>
 <div class="sect3">
-<h4 id="_create_a_new_view_binding">6.3.1. Create a new view binding</h4>
+<h4 id="_create_a_new_view_binding">7.3.1. Create a new view binding</h4>
 <div class="paragraph"><p>Create a new dynamic view binding for CustomOrThirdPartyComponent and add the attribute binding for textAttribute.</p></div>
 <div class="paragraph"><p>activity_dynamic_binding.xml</p></div>
 <div class="listingblock">
@@ -1395,7 +1520,7 @@ Dynamic view binding acts as a supplement to static view binding.</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_extend_an_existing_view_binding">6.3.2. Extend an existing view binding</h4>
+<h4 id="_extend_an_existing_view_binding">7.3.2. Extend an existing view binding</h4>
 <div class="paragraph"><p>Extend the existing TextViewBinding and add the attribute binding for typeface.</p></div>
 <div class="paragraph"><p>activity_dynamic_binding.xml</p></div>
 <div class="listingblock">
@@ -1423,14 +1548,14 @@ Dynamic view binding acts as a supplement to static view binding.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_project_structure_and_best_practices">7. Project structure and best practices</h2>
+<h2 id="_project_structure_and_best_practices">8. Project structure and best practices</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Involved from MVC pattern, the major motive of Presentation Model(MVVM) pattern is to make Presentation Models pure POJOs, which can be
 easily Unit tested. Meanwhile, the dependency of View&#8594;Presentation Model&#8594;Model becomes unidirectional.
-When applying the pattern, these are the basic rules we will follow.
+When applying the pattern, these are the basic rules we will follow. <a href="https://github.com/RoboBinding/RoboBinding">Album Sample</a> is an example that follows the best practices.
 Recommend to read Martin Fowler&#8217;s original article of <a href="http://martinfowler.com/eaaDev/PresentationModel.html">Presentation Model</a>.</p></div>
 <div class="sect2">
-<h3 id="_overall_project_structure">7.1. Overall project structure</h3>
+<h3 id="_overall_project_structure">8.1. Overall project structure</h3>
 <div class="imageblock">
 <div class="content">
 <img src="./images/project_structure.png" alt="Project structure" />
@@ -1442,7 +1567,7 @@ persistence layer, networking services, business services and so on.
 The diagram indicates the dependency between different layers. The view layer for example never directly accesses the business model.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_the_solutions_for_some_common_design_issues">7.2. The solutions for some common design issues</h3>
+<h3 id="_the_solutions_for_some_common_design_issues">8.2. The solutions for some common design issues</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1494,7 +1619,7 @@ Let us have a look a simple example below:
 </div>
 </div>
 <div class="sect1">
-<h2 id="_other_resources">8. Other resources</h2>
+<h2 id="_other_resources">9. Other resources</h2>
 <div class="sectionbody">
 <div class="paragraph"><p><strong>Jan 2012</strong> Robert Taylor has written a couple of introductory articles <a href="http://roberttaylor426.blogspot.com/2011/11/hello-robobinding-part-1.html">here</a> and <a href="http://roberttaylor426.blogspot.com/2012/01/hello-robobinding-part-2.html">here</a>.</p></div>
 <div class="paragraph"><p><strong>Feb 2012</strong> A video of a talk on RoboBinding at SkillsMatter, London can be found <a href="http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding">here</a>.</p></div>
@@ -1505,8 +1630,8 @@ Let us have a look a simple example below:
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.4<br />
-Last updated 2014-08-10 18:25:14 澳大利亚西部标准时间
+Version 0.8.5<br />
+Last updated 2014-08-29 10:41:52 澳大利亚西部标准时间
 </div>
 </div>
 </body>
