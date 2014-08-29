@@ -22,7 +22,7 @@ https://github.com/depoll/bindroid[Bindroid]. We value *code quality* and RoboBi
 
 * link:http://robobinding.org/insight_into_framework.html[Insight Into Framework]
 
-* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.4/robobinding-0.8.4-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
+* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.5/robobinding-0.8.5-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
 
 * link:http://robobinding.org/about.html[About]
 
