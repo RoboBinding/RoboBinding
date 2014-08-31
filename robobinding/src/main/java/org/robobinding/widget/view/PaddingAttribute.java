@@ -4,7 +4,10 @@ import android.view.View;
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
 
 /**
- * Created by aurel on 31/08/14.
+ *
+ * @since 1.0
+ * @version $Revision: 1.0 $
+ * @author Aurélien Catinon
  */
 public class PaddingAttribute implements PropertyViewAttribute<View, Integer> {
     @Override

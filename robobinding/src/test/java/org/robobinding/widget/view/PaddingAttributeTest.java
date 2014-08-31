@@ -9,7 +9,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created by aurel on 31/08/14.
+ *
+ * @since 1.0
+ * @version $Revision: 1.0 $
+ * @author Aurélien Catinon
  */
 public class PaddingAttributeTest extends AbstractPropertyViewAttributeTest<View, PaddingAttribute> {
     @Test
