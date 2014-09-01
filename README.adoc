@@ -14,7 +14,7 @@ Apart from promoting well-structured projects, RoboBinding focuses the areas tha
 Let's watch http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[an introductory video] and then get started from link:http://robobinding.org/getting_started.html[here].
 
 Similar Presentation Model/ http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVM] frameworks for android: https://github.com/gueei/AndroidBinding[Android-Binding],
-https://github.com/depoll/bindroid[Bindroid]. We value *code quality* and RoboBinding comes with more than 300 unit tests, which makes difference.
+https://github.com/depoll/bindroid[Bindroid]. We value *code quality* and RoboBinding comes with more than 300 unit tests, which makes difference. We value and highly welcome *any voices(negtive or positive), suggestions* posted into our http://groups.google.com/group/robobinding[Google group].
 
 
 
