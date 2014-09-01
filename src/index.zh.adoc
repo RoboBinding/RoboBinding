@@ -13,7 +13,7 @@
 
 其它类似的 Presentation Model/http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVM] Android开源框架：https://github.com/gueei/AndroidBinding[Android-Binding]，
 https://github.com/depoll/bindroid[Bindroid]。我们注重 *代码质量* ，RoboBinding目前有300多个单元测试，这使得RoboBinding与众不同。
-如果你对RoboBinding有不同的看法或建议，请发到我们的 http://groups.google.com/group/robobinding[Google group]，我们将不胜感激。
+我们喜欢听到你对RoboBinding *不同的看法或建议* ，并邀请你发贴到我们的 http://groups.google.com/group/robobinding[Google group]。
 
 
 image:http://www.iconpng.com/png/large-torrent/download.png[width=30, height=30] 下载: 在Maven Central上的 http://search.maven.org/#search%7Cga%7C1%7Crobobinding[已发布版本]或者在Sonatype OSS Repo上最新的 https://oss.sonatype.org/index.html#nexus-search;quick%7Erobobinding[snapshots开发版本]
