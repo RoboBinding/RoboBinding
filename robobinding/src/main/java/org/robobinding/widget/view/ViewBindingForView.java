@@ -20,6 +20,8 @@ public class ViewBindingForView implements ViewBinding<View> {
 	mappings.mapMultiTypeProperty(BackgroundAttribute.class, "background");
 	mappings.mapProperty(BackgroundColorAttribute.class, "backgroundColor");
 	mappings.mapProperty(FocusableAttribute.class, "focusable");
+	mappings.mapProperty(LayoutMarginAttribute.class, "layoutMargin");
+	mappings.mapProperty(PaddingAttribute.class, "padding");
 
 	mappings.mapEvent(OnClickAttribute.class, "onClick");
 	mappings.mapEvent(OnLongClickAttribute.class, "onLongClick");

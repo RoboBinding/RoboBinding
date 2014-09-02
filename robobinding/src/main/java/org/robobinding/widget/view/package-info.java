@@ -8,7 +8,8 @@
  * @prop visibility; Boolean, Integer; no
  * @prop focusable; Boolean; no
  * @prop activated; Boolean; no
- *
+ * @prop layouMargin; Integer; no
+ * @prop padding; Integer; no
  *
  * @event onClick; {@link org.robobinding.widget.view.ClickEvent}
  * @event onFocus; {@link org.robobinding.widget.view.AbstractViewEvent}
