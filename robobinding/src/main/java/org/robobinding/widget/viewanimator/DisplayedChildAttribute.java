@@ -14,6 +14,8 @@ public class DisplayedChildAttribute implements PropertyViewAttribute<ViewAnimat
     
     @Override
     public void updateView(ViewAnimator view, Integer newValue) {
-	view.setDisplayedChild(newValue);
+        if (view.getDisplayedChild() != newValue) {
+            view.setDisplayedChild(newValue);
+        }
     }
 }
