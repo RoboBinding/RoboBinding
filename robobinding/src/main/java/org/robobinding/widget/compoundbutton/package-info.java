@@ -4,7 +4,7 @@
  *
  * @prop checked; Boolean; no
  *
- * @event onCheckedChanged; {@link CheckedChangeEvent}
+ * @event onCheckedChange; {@link CheckedChangeEvent}
  *
  */
 package org.robobinding.widget.compoundbutton;
