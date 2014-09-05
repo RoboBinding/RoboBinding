@@ -9,7 +9,7 @@ import android.view.View;
  * @author Robert Taylor
  */
 public class ClickEvent extends AbstractViewEvent {
-    protected ClickEvent(View view) {
+    public ClickEvent(View view) {
 	super(view);
     }
 }

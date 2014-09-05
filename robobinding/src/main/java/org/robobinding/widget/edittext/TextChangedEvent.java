@@ -15,7 +15,7 @@ public class TextChangedEvent extends AbstractViewEvent {
     private int before;
     private int count;
 
-    TextChangedEvent(TextView textView, int start, int before, int count) {
+    public TextChangedEvent(TextView textView, int start, int before, int count) {
 	super(textView);
 	this.start = start;
 	this.before = before;

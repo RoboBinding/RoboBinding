@@ -9,7 +9,7 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class FocusEvent extends AbstractViewEvent {
-    FocusEvent(View view) {
+    public FocusEvent(View view) {
 	super(view);
     }
 }
