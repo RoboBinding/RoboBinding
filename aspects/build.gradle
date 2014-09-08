@@ -1,0 +1,42 @@
+archivesBaseName = 'robobinding'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+	aspectjVersion = '1.6.11'
+}
+
+dependencies {
+	compile "org.aspectj:aspectjrt:$aspectjVersion"
+	compile project(':framework')
+}
+
+
+apply plugin: 'eclipse'
+
+eclipse {
+	project {
+		name = 'RoboBinding-aspects'
+		comment = 'The RoboBinding aspects'
+		
+		natures 'org.springsource.ide.eclipse.gradle.core.nature'
+		natures 'org.eclipse.ajdt.ui.ajnature'
+		
+		buildCommands.clear()
+		buildCommand 'org.eclipse.ajdt.core.ajbuilder'
+	}
+	
+	classpath {
+		containers 'org.springsource.ide.eclipse.gradle.classpathcontainer'
+		/*
+		file.withXml {
+			def node = it.asNode()
+			
+			node.appendNode('classpathentry kind="src" path="src/main/java"')
+			node.appendNode('classpathentry kind="src" path="src/test/java"')
+		}*/
+	}
+}
+  
