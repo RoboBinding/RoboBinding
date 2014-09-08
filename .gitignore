@@ -17,3 +17,6 @@
 /framework/build
 /framework/tmp
 /framework/bin
+/aspects/bin
+/framework/.classpath
+/framework/.project
