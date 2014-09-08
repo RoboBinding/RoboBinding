@@ -10,18 +10,18 @@ import org.robobinding.property.PropertyChangeListener;
  * @author Cheng Wei
  */
 public class PropertyChangeListenerTester implements PropertyChangeListener {
-    private int timesOfPropertyChanged = 0;
+	private int timesOfPropertyChanged = 0;
 
-    @Override
-    public void propertyChanged() {
-	timesOfPropertyChanged++;
-    }
+	@Override
+	public void propertyChanged() {
+		timesOfPropertyChanged++;
+	}
 
-    public void assertPropertyChangedOnce() {
-	assertTimesOfPropertyChanged(1);
-    }
+	public void assertPropertyChangedOnce() {
+		assertTimesOfPropertyChanged(1);
+	}
 
-    public void assertTimesOfPropertyChanged(int expectedTimes) {
-	Assert.assertEquals(expectedTimes, timesOfPropertyChanged);
-    }
+	public void assertTimesOfPropertyChanged(int expectedTimes) {
+		Assert.assertEquals(expectedTimes, timesOfPropertyChanged);
+	}
 }

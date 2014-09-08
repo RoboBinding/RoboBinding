@@ -17,39 +17,57 @@ public interface PresentationModelMixin extends ObservableBean
 {
 	static aspect Impl
 	{
-		private PresentationModelChangeSupport PresentationModelMixin.presentationModelChangeSupport;
+		private PresentationModelChangeSupport PresentationModelMixin.__presentationModelChangeSupport;
 
 		public void PresentationModelMixin.addPropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener)
 		{
-			presentationModelChangeSupport.addPropertyChangeListener(propertyName, propertyChangeListener);
+			__presentationModelChangeSupport.addPropertyChangeListener(propertyName, propertyChangeListener);
 		}
 
 		public void PresentationModelMixin.removePropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener)
 		{
-			presentationModelChangeSupport.removePropertyChangeListener(propertyName, propertyChangeListener);
+			__presentationModelChangeSupport.removePropertyChangeListener(propertyName, propertyChangeListener);
 		}
-
-		public void PresentationModelMixin.refreshPresentationModel()
+		
+		private void PresentationModelMixin.__firePropertyChange(String propertyName)
 		{
-			presentationModelChangeSupport.refreshPresentationModel();
+			__presentationModelChangeSupport.firePropertyChange(propertyName);
+		}
+		
+		void PresentationModelMixin.__refreshPresentationModel() {
+			__presentationModelChangeSupport.refreshPresentationModel();
 		}
 
-		private void PresentationModelMixin.firePropertyChange(String propertyName)
-		{
-			presentationModelChangeSupport.firePropertyChange(propertyName);
-		}
-
-		pointcut presentationModelCreation(PresentationModelMixin presentationModel) : initialization(
+		pointcut presentationModelCreation(PresentationModelMixin presentationModel) : execution(
 				PresentationModelMixin+.new(..)) && this(presentationModel) && within(PresentationModelMixin+);
 
 		@AdviceName("initializePresentationModelChangeSupport")
-		after(PresentationModelMixin presentationModel) returning : presentationModelCreation(presentationModel)
+		after(PresentationModelMixin presentationModel) : presentationModelCreation(presentationModel)
 		{
-			if(presentationModel.presentationModelChangeSupport == null)
+			if(presentationModel.__presentationModelChangeSupport == null)
 			{
-				presentationModel.presentationModelChangeSupport = new PresentationModelChangeSupport(presentationModel);
+				presentationModel.__presentationModelChangeSupport = new PresentationModelChangeSupport(presentationModel);
 			}
 		}
+		
+		/**
+		 * Reuse user-defined PresentationModelChangeSupport if found.
+		 */
+		pointcut setPresentationModelChangeSupport(PresentationModelMixin presentationModel, PresentationModelChangeSupport userDefinedChangeSupport) : set(
+				PresentationModelChangeSupport PresentationModelMixin+.*) && target(presentationModel) && args(userDefinedChangeSupport);
+			
+
+		@AdviceName("reuseUserDefindedPresentationModelChangeSupport")
+        after(PresentationModelMixin presentationModel, PresentationModelChangeSupport userDefinedChangeSupport) : setPresentationModelChangeSupport(presentationModel, userDefinedChangeSupport){
+        	if((userDefinedChangeSupport != null) && 
+        			(presentationModel.__presentationModelChangeSupport != userDefinedChangeSupport)) {
+        		
+        		if(presentationModel.__presentationModelChangeSupport != null) {
+        			throw new RuntimeException("A presentation model can only have one '" + PresentationModelChangeSupport.class.getSimpleName()+"'");
+        		}
+        		presentationModel.__presentationModelChangeSupport = userDefinedChangeSupport;
+        	}
+        }
 	}
 
 }

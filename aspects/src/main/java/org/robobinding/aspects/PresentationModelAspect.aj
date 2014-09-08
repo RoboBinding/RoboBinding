@@ -21,12 +21,11 @@ privileged public aspect PresentationModelAspect
 	/**
 	 * Raise an error to prevent using {@link PropertyChangeSupport} outside the framework.
 	 */
-	pointcut fieldDeclarationOfPresentationModelChangeSupport() : set(PropertyChangeSupport *.*);
+	pointcut fieldDeclarationOfPropertyChangeSupport() : set(PropertyChangeSupport *.*);
 
-	declare error : fieldDeclarationOfPresentationModelChangeSupport() && !within(PresentationModelChangeSupport) && !within(org.robobinding.property.*)
+	declare error : fieldDeclarationOfPropertyChangeSupport() && !within(PresentationModelChangeSupport) && !within(org.robobinding.property.*)
 		: "PropertyChangeSupport is intented to be used internally by framework only. " +
 				"Please use org.robobinding.presentationmodel.PresentationModelChangeSupport instead.";
-
 
 	/**
 	 * Raise an error to prevent using {@link ObservableBean} with {@link PresentationModel} annotation.
@@ -48,6 +47,6 @@ privileged public aspect PresentationModelAspect
 	{
 		String methodName = thisJoinPointStaticPart.getSignature().getName();
 		String propertyName = Introspector.decapitalize(methodName.substring(3));
-		presentationModel.firePropertyChange(propertyName);
+		presentationModel.__firePropertyChange(propertyName);
 	}
 }

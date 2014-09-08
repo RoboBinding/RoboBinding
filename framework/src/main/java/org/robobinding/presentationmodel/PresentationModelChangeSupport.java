@@ -1,5 +1,6 @@
 package org.robobinding.presentationmodel;
 
+import org.robobinding.internal.guava.Preconditions;
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.PropertyChangeSupport;
 import org.robobinding.property.PropertyUtils;
@@ -15,6 +16,7 @@ public class PresentationModelChangeSupport {
     private final PropertyChangeSupport propertyChangeSupport;
 
     public PresentationModelChangeSupport(Object presentationModel) {
+    	Preconditions.checkNotNull(presentationModel, "presentationModel must not be null");
 	propertyChangeSupport = new PropertyChangeSupport(presentationModel, 
 		PropertyUtils.getPropertyNames(presentationModel.getClass()));
     }

@@ -23,7 +23,7 @@ public aspect ItemPresentationModelAspect
 	@AdviceName("fireItemPresentationModelRefresh")
 	after(PresentationModelMixin itemPresentationModel) : updateData(itemPresentationModel)
 	{
-		itemPresentationModel.refreshPresentationModel();
+		itemPresentationModel.__refreshPresentationModel();
 	}
 
 }
