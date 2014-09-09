@@ -28,6 +28,10 @@ dependencies {
 	testCompile "commons-collections:commons-collections:$commonsCollectionsVersion"
 }
 
+javadoc {
+	enabled = false
+}
+
 task lintCheck(type:Exec) {
 	description = 'Run Android lint to check if there are any violations'
 	group = 'other'

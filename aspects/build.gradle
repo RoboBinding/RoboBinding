@@ -1,16 +1,92 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		maven() {
+			name 'RoboBinding AspectJPlugin Maven Repository'
+			url "file://D:/git/RoboBinding-aspectj-plugin/mavenRepo"
+		}
+	}
+
+	dependencies {
+		classpath 'org.robobinding:aspectj-plugin:0.8.+'
+	}
+}
+
+apply plugin: 'org.robobinding.aspectj'
+
+
 archivesBaseName = 'robobinding'
 
 repositories {
     mavenCentral()
 }
 
+configurations {
+	javadocTaglet
+}
+
 ext {
-	aspectjVersion = '1.6.11'
+	aspectjVersion = '1.8.2'
+	hamcrestVersion = '1.3'	
 }
 
 dependencies {
 	compile "org.aspectj:aspectjrt:$aspectjVersion"
 	compile project(':framework')
+	
+	testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
+	testCompile ("junit:junit:$junitVersion") {
+		exclude group: 'org.hamcrest', module: 'hamcrest-core'
+	}
+	
+	javadocTaglet project(':javadoc-taglet')
+}
+
+javadoc {
+	source = sourceSets.main.allJava + project(':framework').sourceSets.main.allJava
+	
+	options.taglets = ['org.robobinding.doctaglet.EventTaglet', 'org.robobinding.doctaglet.PropTaglet']
+	options.addStringOption "tagletpath", configurations.javadocTaglet.asPath
+	
+	include 'org/robobinding/*Exception.*'
+	include 'org/robobinding/*Errors.*'
+	include 'org/robobinding/**/package-info.java'
+	
+	include 'org/robobinding/BindingContext.java'
+	include 'org/robobinding/ItemBinder.java'
+	include 'org/robobinding/MenuBinder.java'
+	include 'org/robobinding/PredefinedPendingAttributesForView.java'
+	include 'org/robobinding/SubViewBinder.java'
+	include 'org/robobinding/ViewBinder.java'
+	exclude 'org/robobinding/ViewResolutionErrors.java'
+	
+	include 'org/robobinding/annotation/*.java'
+	
+	include 'org/robobinding/attribute/*.java'
+	
+	include 'org/robobinding/binder/BinderFactory.java'
+	include 'org/robobinding/binder/BinderFactoryBuilder.java'
+	include 'org/robobinding/binder/Binders.java'
+	
+	include 'org/robobinding/dynamicbinding/DynamicViewBinding.java'
+	include 'org/robobinding/dynamicbinding/DynamicViewBindingDescription.java'
+	
+	include 'org/robobinding/itempresentationmodel/*.java'
+	exclude 'org/robobinding/itempresentationmodel/ItemPresentationModelFactory.java'
+	
+	include 'org/robobinding/presentationmodel/AbstractPresentationModel.java'
+	include 'org/robobinding/presentationmodel/PresentationModelAdapter.java'
+	include 'org/robobinding/presentationmodel/PresentationModelChangeSupport.java'
+	
+	include 'org/robobinding/test/*.java'
+	
+	include 'org/robobinding/viewattribute/**/*.java'
+	exclude 'org/robobinding/viewattribute/impl/**'
+	
+	include 'org/robobinding/widget/**/*Event.java'
+	include 'org/robobinding/widget/**/*Binding*.java'
+	
+	include 'org/robobinding/aspects/*.java'
 }
 
 

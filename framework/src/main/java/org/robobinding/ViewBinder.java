@@ -4,7 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * It is for inflating and binding a layout to a presentation model in Activity, Fragment, Dialog and so on.
+ * Inflate and bind a layout to a presentation model. It is used for Activity, Fragment, Dialog and so on.
  * 
  * @since 1.0
  * @version $Revision: 1.0 $

@@ -4,6 +4,8 @@ import org.robobinding.property.ObservableBean;
 import org.robobinding.property.PropertyChangeListener;
 
 /**
+ * Used to implement a presentation model by extending this class instead of AspectJ annotation approach.
+ * 
  * @since 1.0
  * @author Robert Taylor
  * @author Cheng Wei

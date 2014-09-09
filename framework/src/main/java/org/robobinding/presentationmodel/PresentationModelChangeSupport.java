@@ -6,6 +6,7 @@ import org.robobinding.property.PropertyChangeSupport;
 import org.robobinding.property.PropertyUtils;
 
 /**
+ * To notify presentation model changes.
  * 
  * @since 1.0
  * @version $Revision: 1.0 $

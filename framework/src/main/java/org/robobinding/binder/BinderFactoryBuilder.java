@@ -1,5 +1,6 @@
 package org.robobinding.binder;
 
+import org.robobinding.dynamicbinding.DynamicViewBinding;
 import org.robobinding.dynamicbinding.DynamicViewBindingDescription;
 import org.robobinding.dynamicbinding.ViewBindingApplier;
 import org.robobinding.viewattribute.ViewBinding;
@@ -45,6 +46,8 @@ import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 /**
+ * The builder class allows customizing {@link BinderFactory} by adding new, 
+ * overriding or extending existing {@link ViewBinding}s and {@link DynamicViewBinding}s.
  *
  * @since 1.0
  * @version $Revision: 1.0 $

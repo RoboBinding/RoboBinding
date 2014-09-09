@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
+ * Binding entry utility class. In real-world application development, consider using {@link BinderFactoryBuilder} instead, 
+ * so that we can reuse {@link BinderFactory} instance.
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
