@@ -2,8 +2,9 @@ package org.robobinding.viewattribute;
 
 import java.util.Map;
 
-import org.robobinding.internal.guava.Maps;
 import org.robobinding.util.SearchableClasses;
+
+import com.google.common.collect.Maps;
 
 /**
  *

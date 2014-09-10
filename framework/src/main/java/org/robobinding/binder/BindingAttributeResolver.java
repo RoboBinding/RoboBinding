@@ -5,8 +5,9 @@ import java.util.List;
 
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.ViewResolutionErrors;
-import org.robobinding.internal.guava.Lists;
 import org.robobinding.viewattribute.ViewAttributeBinder;
+
+import com.google.common.collect.Lists;
 
 /**
  * 

@@ -1,7 +1,8 @@
 package org.robobinding.viewattribute.impl;
 
-import org.robobinding.internal.guava.Objects;
 import org.robobinding.viewattribute.ViewBinding;
+
+import com.google.common.base.Objects;
 
 /**
  *

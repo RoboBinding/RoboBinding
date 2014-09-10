@@ -5,7 +5,6 @@ import static org.robobinding.attribute.ChildAttributeResolvers.propertyAttribut
 
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
-import org.robobinding.internal.guava.ObjectArrays;
 import org.robobinding.viewattribute.grouped.ChildViewAttributesBuilder;
 import org.robobinding.widget.adapterview.AbstractAdaptedDataSetAttributes;
 import org.robobinding.widget.adapterview.DropdownLayoutAttributeFactory;
@@ -14,6 +13,8 @@ import org.robobinding.widget.adapterview.ItemMappingAttribute;
 import org.robobinding.widget.adapterview.RowLayoutAttributeAdapter;
 
 import android.widget.AbsSpinner;
+
+import com.google.common.collect.ObjectArrays;
 
 /**
  *

@@ -4,7 +4,8 @@ import java.text.MessageFormat;
 import java.util.Collection;
 
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
-import org.robobinding.internal.guava.Throwables;
+
+import com.google.common.base.Throwables;
 
 /**
  * 

@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.robobinding.internal.guava.Lists;
-import org.robobinding.internal.guava.Preconditions;
 import org.robobinding.property.PropertyAccessor;
 import org.robobinding.property.PropertyDescriptor;
 import org.robobinding.property.PropertyUtils;
 
 import android.database.AbstractCursor;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 /**
  * 

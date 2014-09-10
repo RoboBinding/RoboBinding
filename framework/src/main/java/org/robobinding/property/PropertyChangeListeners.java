@@ -2,7 +2,7 @@ package org.robobinding.property;
 
 import java.util.Set;
 
-import org.robobinding.internal.guava.Sets;
+import com.google.common.collect.Sets;
 
 /**
  * 

@@ -4,8 +4,8 @@ import static org.robobinding.util.Preconditions.checkNotBlank;
 
 import java.util.Map;
 
-import org.robobinding.internal.guava.Maps;
-import org.robobinding.internal.guava.Preconditions;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 
 /**
  * 

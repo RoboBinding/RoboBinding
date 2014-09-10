@@ -5,8 +5,9 @@ import java.util.Collection;
 import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.internal.guava.Lists;
 import org.robobinding.property.DataSetValueModel;
+
+import com.google.common.collect.Lists;
 
 /**
  *

@@ -20,3 +20,5 @@
 /aspects/bin
 /framework/.classpath
 /framework/.project
+/framework/mavenRepo
+/aspects/mavenRepo

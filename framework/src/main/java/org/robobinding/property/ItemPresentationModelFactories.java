@@ -4,11 +4,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
-import org.robobinding.internal.guava.Strings;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
 import org.robobinding.util.ConstructorUtils;
 import org.robobinding.util.MethodUtils;
+
+import com.google.common.base.Strings;
 
 /**
  * 

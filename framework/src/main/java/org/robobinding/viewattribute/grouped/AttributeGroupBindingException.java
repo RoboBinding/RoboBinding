@@ -6,8 +6,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.robobinding.internal.guava.Lists;
 import org.robobinding.viewattribute.AttributeBindingException;
+
+import com.google.common.collect.Lists;
 
 /**
  * 

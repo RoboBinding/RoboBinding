@@ -3,12 +3,13 @@ package org.robobinding.viewattribute.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import org.robobinding.internal.guava.Maps;
 import org.robobinding.util.ConstructorUtils;
 import org.robobinding.viewattribute.ViewListeners;
 import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.ViewListenersInjector;
 import org.robobinding.viewattribute.ViewListenersMap;
+
+import com.google.common.collect.Maps;
 
 /**
  *

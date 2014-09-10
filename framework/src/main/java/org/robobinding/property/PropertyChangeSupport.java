@@ -1,12 +1,12 @@
 package org.robobinding.property;
 
-import static org.robobinding.internal.guava.Preconditions.checkArgument;
 import static org.robobinding.util.Preconditions.checkNotBlank;
 
 import java.util.Map;
 import java.util.Set;
 
-import org.robobinding.internal.guava.Maps;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class PropertyChangeSupport {
 
     private void validatePropertyName(String propertyName) {
         checkNotBlank(propertyName, "propertyName cannot be empty");
-        checkArgument(existingPropertyNames.contains(propertyName), "Bean '" + getBeanClassName() + "' does not contain given property'"
+        Preconditions.checkArgument(existingPropertyNames.contains(propertyName), "Bean '" + getBeanClassName() + "' does not contain given property'"
         	+ propertyName + "'");
     }
 

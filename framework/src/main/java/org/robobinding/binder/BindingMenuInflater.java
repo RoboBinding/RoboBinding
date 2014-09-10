@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
-import org.robobinding.internal.guava.Lists;
 import org.robobinding.widget.menuitemgroup.MenuItemGroup;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -18,6 +17,8 @@ import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import com.google.common.collect.Lists;
 
 
 /**

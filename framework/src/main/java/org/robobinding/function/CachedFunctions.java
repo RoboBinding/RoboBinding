@@ -4,9 +4,10 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.robobinding.internal.guava.Maps;
-import org.robobinding.internal.guava.Objects;
 import org.robobinding.util.MethodUtils;
+
+import com.google.common.base.Objects;
+import com.google.common.collect.Maps;
 
 /**
  * 

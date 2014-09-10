@@ -1,7 +1,5 @@
 package org.robobinding.viewattribute.grouped;
 
-import static org.robobinding.internal.guava.Maps.newHashMap;
-
 import java.util.Map;
 
 import org.robobinding.AttributeResolutionException;
@@ -11,6 +9,8 @@ import org.robobinding.attribute.ChildAttributeResolver;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ResolvedGroupAttributes;
+
+import com.google.common.collect.Maps;
 
 /**
  *
@@ -40,7 +40,7 @@ public class GroupAttributesResolver {
     private Map<String, AbstractAttribute> resolveChildAttributes(PendingGroupAttributes pendingGroupAttributes,
 	    ChildAttributeResolverMappings resolverMappings) {
 	GroupedAttributeResolutionException groupResolutionErrors = new GroupedAttributeResolutionException();
-	Map<String, AbstractAttribute> resolvedChildAttributes = newHashMap();
+	Map<String, AbstractAttribute> resolvedChildAttributes = Maps.newHashMap();
 	for (Map.Entry<String, String> attributeEntry : pendingGroupAttributes.presentAttributes()) {
 	    String attribute = attributeEntry.getKey();
 	    ChildAttributeResolver resolver = resolverMappings.resolverFor(attribute);

@@ -4,10 +4,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.robobinding.BindingContext;
-import org.robobinding.internal.guava.Lists;
 import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 import org.robobinding.viewattribute.grouped.AttributeGroupBindingException;
+
+import com.google.common.collect.Lists;
 
 /**
  * 

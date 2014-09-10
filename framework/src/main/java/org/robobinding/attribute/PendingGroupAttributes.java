@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.robobinding.internal.guava.Lists;
-import org.robobinding.internal.guava.Maps;
-import org.robobinding.internal.guava.Objects;
+import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  *

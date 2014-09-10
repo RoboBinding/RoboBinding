@@ -3,7 +3,7 @@ package org.robobinding;
 import java.util.Collections;
 import java.util.List;
 
-import org.robobinding.internal.guava.Lists;
+import com.google.common.collect.Lists;
 
 /**
  * 

@@ -3,9 +3,10 @@ package org.robobinding.viewattribute.impl;
 import java.util.Map;
 import java.util.Queue;
 
-import org.robobinding.internal.guava.Lists;
-import org.robobinding.internal.guava.Maps;
 import org.robobinding.util.SearchableClasses;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  *

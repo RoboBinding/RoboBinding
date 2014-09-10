@@ -7,7 +7,6 @@ import org.robobinding.attribute.EnumAttribute;
 import org.robobinding.attribute.ResolvedGroupAttributes;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.internal.guava.Maps;
 import org.robobinding.viewattribute.Bindable;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
@@ -15,6 +14,8 @@ import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFact
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
+
+import com.google.common.collect.Maps;
 
 /**
  *

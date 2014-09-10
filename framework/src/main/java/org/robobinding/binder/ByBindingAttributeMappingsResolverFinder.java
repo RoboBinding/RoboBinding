@@ -2,11 +2,12 @@ package org.robobinding.binder;
 
 import java.util.List;
 
-import org.robobinding.internal.guava.Lists;
 import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
 import org.robobinding.viewattribute.impl.InitailizedBindingAttributeMappings;
+
+import com.google.common.collect.Lists;
 
 
 /**

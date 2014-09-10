@@ -5,11 +5,12 @@ import org.robobinding.NonBindingViewInflater;
 import org.robobinding.ViewBinder;
 import org.robobinding.ViewFactoryInstaller;
 import org.robobinding.attribute.PropertyAttributeParser;
-import org.robobinding.internal.guava.Preconditions;
 import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 import org.robobinding.viewattribute.ViewListenersMap;
 import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
+
+import com.google.common.base.Preconditions;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -4,7 +4,8 @@ import static org.robobinding.util.Preconditions.checkValidResourceId;
 
 import org.robobinding.NonBindingViewInflater;
 import org.robobinding.ViewBinder;
-import org.robobinding.internal.guava.Preconditions;
+
+import com.google.common.base.Preconditions;
 
 import android.view.View;
 import android.view.ViewGroup;

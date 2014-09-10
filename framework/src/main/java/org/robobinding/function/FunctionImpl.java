@@ -5,8 +5,8 @@ import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.robobinding.internal.guava.Joiner;
-import org.robobinding.internal.guava.Lists;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 
 /**
  * 

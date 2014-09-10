@@ -1,8 +1,9 @@
 package org.robobinding.widget.view;
 
+import org.robobinding.viewattribute.property.PropertyViewAttribute;
+
 import android.view.View;
 import android.view.ViewGroup;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
 
 /**
  *

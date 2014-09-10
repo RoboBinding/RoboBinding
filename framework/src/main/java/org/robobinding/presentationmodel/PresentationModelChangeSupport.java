@@ -1,9 +1,10 @@
 package org.robobinding.presentationmodel;
 
-import org.robobinding.internal.guava.Preconditions;
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.PropertyChangeSupport;
 import org.robobinding.property.PropertyUtils;
+
+import com.google.common.base.Preconditions;
 
 /**
  * To notify presentation model changes.

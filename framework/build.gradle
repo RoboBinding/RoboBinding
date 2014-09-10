@@ -1,7 +1,22 @@
-archivesBaseName = 'robobinding_no_aop'
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath 'net.sf.proguard:proguard-gradle:5.0'
+	}
+}
+
+archivesBaseName = 'robobinding'
 
 repositories {
     mavenCentral()
+}
+
+configurations {
+	dependencyJar
+	proguardArchives
 }
 
 ext {
@@ -26,11 +41,148 @@ dependencies {
 	}
 	testCompile "org.apache.commons:commons-lang3:$commonsLangVersion"
 	testCompile "commons-collections:commons-collections:$commonsCollectionsVersion"
+	
+	dependencyJar "com.google.guava:guava:$guavaVersion"
 }
 
 javadoc {
 	enabled = false
 }
+
+jar {
+	classifier = 'raw'
+}
+
+task proguardJar(type: proguard.gradle.ProGuardTask, dependsOn: jar) {
+	ext{
+		oldClassifier = jar.classifier;
+		jar.classifier = ''
+		outJar = jar.archivePath
+		jar.classifier = oldClassifier;
+	}
+	
+    configuration 'proguard-rules.pro'
+	injars files(jar.archivePath)
+	outjars  outJar
+	libraryjars files("${System.properties['java.home']}/lib/rt.jar")
+	libraryjars configurations.runtime	
+}
+
+task proguardJarWithDependencies(type: proguard.gradle.ProGuardTask, dependsOn: proguardJar) {
+	ext{
+		oldClassifier = jar.classifier;
+		jar.classifier = 'with-dependencies'
+		outJar = jar.archivePath
+		jar.classifier = oldClassifier;
+	}
+	
+    configuration 'proguard-rules.pro'
+	injars files(jar.archivePath)
+	injars configurations.dependencyJar, filter: '!META-INF/MANIFEST.MF,!javax/annotation/**'
+	outjars  outJar
+	libraryjars files("${System.properties['java.home']}/lib/rt.jar")
+	libraryjars configurations.runtime - configurations.dependencyJar	
+}
+
+artifacts {
+	proguardArchives proguardJar.outJarFileCollection.singleFile
+	proguardArchives proguardJarWithDependencies.outJarFileCollection.singleFile
+}
+
+apply plugin: 'maven'
+uploadProguardArchives {
+	repositories {
+		mavenDeployer {
+			repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+			}
+			
+			snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+			}
+			
+			repository(url: "file://$projectDir/mavenRepo")
+			pom.project {
+				name 'RoboBinding'
+				description 'A Presentation Model(MVVM) framework for the Android platform'
+				url 'http://robobinding.org'
+				
+				scm {
+					url 'https://github.com/RoboBinding/RoboBinding'
+					connection 'scm:git:git@github.com:RoboBinding/RoboBinding.git'
+					developerConnection 'scm:git:git@github.com:RoboBinding/RoboBinding.git'
+				}
+				
+				ciManagement {
+					system 'Cloudbees Jenkins'
+					url 'https://robobindingacc.ci.cloudbees.com/'
+				}
+
+				licenses {
+					license {
+						name 'Apache License Version 2.0'
+						url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+						distribution 'repo'
+						comments """
+						Copyright 2012-2014 Cheng Wei, Robert Taylor and RoboBinding Contributors
+						
+						Licensed under the Apache License, Version 2.0 (the "License");
+						you may not use this file except in compliance with the License.
+						You may obtain a copy of the License at
+						
+						  http://www.apache.org/licenses/LICENSE-2.0
+						
+						Unless required by applicable law or agreed to in writing, software
+						distributed under the License is distributed on an "AS IS" BASIS,
+						WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+						See the License for the specific language governing permissions
+						and limitations under the License.
+						"""
+					}
+				}
+
+				developers {
+					developer {
+						name 'Cheng Wei'
+						email 'weicheng112@gmail.com'
+						organization = 'RoboBinding Open Source'
+						organizationUrl 'http://robobinding.org'
+						roles {
+							role 'Developer'
+						}
+					}
+					developer {
+						name 'Robert Taylor'
+						roles {
+							role 'Co-founder'
+						}
+					}
+				}
+			}
+			pom.withXml {
+				//remove android sdk dependency node.
+				def dependenciesNode = it.asNode().dependencies[0];
+				def androidDependencyNode = dependenciesNode.dependency.find{ it.groupId.text() == 'com.google.android' }
+				dependenciesNode.remove androidDependencyNode
+			}
+		}
+	}
+}
+
+String getRepositoryUsername() {
+	if(hasProperty('repositoryUserName')) {
+		throw new GradleException("repositoryUserName must be specified");
+	}
+	return {repositoryUserName};
+}
+
+String getRepositoryPassword() {
+	if(hasProperty('repositoryPassword')) {
+		throw new GradleException("repositoryPassword must be specified");
+	}
+	return {repositoryPassword};
+}
+
 
 task lintCheck(type:Exec) {
 	description = 'Run Android lint to check if there are any violations'
@@ -55,6 +207,10 @@ eclipse {
 	
 	classpath {
 		containers 'org.springsource.ide.eclipse.gradle.classpathcontainer'
+		 file.withXml {
+			 def node = it.asNode()
+			 node.appendNode('classpathentry kind="src" path="src/main/resources"')
+		 }
 		/*
 		file.withXml {
 			def node = it.asNode()

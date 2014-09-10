@@ -22,7 +22,7 @@ package org.robobinding.internal.java_beans;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import org.robobinding.internal.guava.Objects;
+import com.google.common.base.Objects;
 
 public class PropertyDescriptor extends FeatureDescriptor {
     private Method getter;

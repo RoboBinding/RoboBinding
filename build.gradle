@@ -2,9 +2,9 @@ subprojects {
 	apply plugin: 'java'
 	
 	group = 'org.robobinding'
-	version = '0.8.6-SNAPSHOT'
-	sourceCompatibility = 1.7
-	targetCompatibility = 1.7
+	//version = $version
+	sourceCompatibility = 1.6
+	targetCompatibility = 1.6
 	
 	ext {
 		junitVersion = '4.11+'
@@ -14,7 +14,7 @@ subprojects {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.1-rc-4'
+	gradleVersion = '2.1'
 	description = 'Produces Gradle Wrapper for the project.'
 	group = 'other'
 }

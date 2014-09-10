@@ -3,12 +3,14 @@ buildscript {
 		mavenCentral()
 		maven() {
 			name 'RoboBinding AspectJPlugin Maven Repository'
-			url "file://D:/git/RoboBinding-aspectj-plugin/mavenRepo"
+			url "https://github.com/RoboBinding/RoboBinding-aspectj-plugin/raw/master/mavenRepo"
+			//url "file://D:/git/RoboBinding-aspectj-plugin/mavenRepo"
 		}
 	}
 
 	dependencies {
 		classpath 'org.robobinding:aspectj-plugin:0.8.+'
+		classpath 'com.github.townsfolk:gradle-release:1.2'
 	}
 }
 
@@ -23,6 +25,8 @@ repositories {
 
 configurations {
 	javadocTaglet
+	dependencyJar
+	proguardArchives
 }
 
 ext {
@@ -40,6 +44,8 @@ dependencies {
 	}
 	
 	javadocTaglet project(':javadoc-taglet')
+	
+	dependencyJar "org.aspectj:aspectjrt:$aspectjVersion"
 }
 
 javadoc {
@@ -88,6 +94,57 @@ javadoc {
 	
 	include 'org/robobinding/aspects/*.java'
 }
+
+jar {
+	classifier = 'raw-with-aop'
+}
+
+task proguardJar(type: Jar, dependsOn: jar) {
+	classifier = 'with-aop'
+	from(sourceSets.main.output) {
+        exclude "**/package-info.class"
+    }
+	from project(':framework').proguardJar.outputs.files.collect{ it.isDirectory() ? it : zipTree(it) }
+}
+
+task proguardJarWithDependencies(type: Jar, dependsOn: jar) {
+	classifier = 'with-aop-and-dependencies'
+	from(sourceSets.main.output) {
+        exclude "**/package-info.class"
+    }
+	from project(':framework').proguardJarWithDependencies.outputs.files.collect{ it.isDirectory() ? it : zipTree(it) }
+	from configurations.dependencyJar.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource + project(':framework').sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+	proguardArchives proguardJar
+	proguardArchives proguardJarWithDependencies
+	proguardArchives sourcesJar
+	proguardArchives javadocJar
+}
+
+apply plugin: 'maven'
+uploadProguardArchives {
+	repositories {
+		mavenDeployer {
+			repository(url: "file://$projectDir/mavenRepo")
+		}
+	}
+}
+
+
+apply plugin: 'release'
+createReleaseTag.dependsOn project(':framework').uploadProguardArchives, uploadProguardArchives
 
 
 apply plugin: 'eclipse'

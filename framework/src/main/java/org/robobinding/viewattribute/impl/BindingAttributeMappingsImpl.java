@@ -7,8 +7,6 @@ import static org.robobinding.viewattribute.grouped.FromClassViewAttributeFactor
 
 import java.util.Map;
 
-import org.robobinding.internal.guava.Maps;
-import org.robobinding.internal.guava.Preconditions;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.viewattribute.event.EventViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttribute;
@@ -17,6 +15,9 @@ import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 
 /**
  *

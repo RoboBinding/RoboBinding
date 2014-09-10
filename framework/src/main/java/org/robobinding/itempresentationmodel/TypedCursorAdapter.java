@@ -1,6 +1,6 @@
 package org.robobinding.itempresentationmodel;
 
-import org.robobinding.internal.guava.Preconditions;
+import com.google.common.base.Preconditions;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
