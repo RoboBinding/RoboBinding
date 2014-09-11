@@ -3,8 +3,8 @@ buildscript {
 		mavenCentral()
 		maven() {
 			name 'RoboBinding AspectJPlugin Maven Repository'
-			//url "https://github.com/RoboBinding/RoboBinding-aspectj-plugin/raw/master/mavenRepo"
-			url "file://D:/git/RoboBinding-aspectj-plugin/mavenRepo"
+			url "https://github.com/RoboBinding/RoboBinding-aspectj-plugin/raw/master/mavenRepo"
+			//url "file://D:/git/RoboBinding-aspectj-plugin/mavenRepo"
 		}
 	}
 
