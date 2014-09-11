@@ -22,7 +22,7 @@
 -dontskipnonpubliclibraryclasses
 -dontpreverify
 -verbose
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!field/removal/writeonly,!code/allocation/variable
 
 -keep class org.robobinding.** { *; }
 -keep enum org.robobinding.* { *; }
