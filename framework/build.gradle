@@ -61,6 +61,7 @@ dependencies {
 }
 
 javadoc {
+	dependsOn project(':javadoc-taglet').jar
 	source = sourceSets.main.allJava
 	
 	options.taglets = ['org.robobinding.doctaglet.EventTaglet', 'org.robobinding.doctaglet.PropTaglet']
@@ -264,17 +265,11 @@ uploadProguardArchives {
 }
 
 String getRepositoryUsername() {
-	if(!project.hasProperty('repositoryUserName')) {
-		throw new GradleException("repositoryUserName must be specified");
-	}
-	return project.property('repositoryUserName');
+	return project.hasProperty('repositoryUserName')?project.property('repositoryUserName'):'noUserName';
 }
 
 String getRepositoryPassword() {
-	if(!project.hasProperty('repositoryPassword')) {
-		throw new GradleException("repositoryPassword must be specified");
-	}
-	return project.property('repositoryPassword');
+	return project.hasProperty('repositoryPassword')?project.property('repositoryPassword'):'noPassword';
 }
 
 
