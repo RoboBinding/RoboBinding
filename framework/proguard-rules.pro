@@ -17,16 +17,13 @@
 #}
 
 -dontobfuscate
--optimizationpasses 5
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--dontpreverify
--verbose
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+-dontoptimize
 
 -keep class org.robobinding.** { *; }
--keep enum org.robobinding.* { *; }
--keepattributes *Annotation,Signature,Exceptions,InnerClasses,EnclosingMethod
+-keep interface org.robobinding.** { *; }
+-keep enum org.robobinding.** { *; }
+-keepparameternames
+-keepattributes *Annotation,Signature,Exceptions,InnerClasses,EnclosingMethod,SourceFile,LineNumberTable,Deprecated
 
 -dontwarn com.google.common.collect.MinMaxPriorityQueue
 -dontwarn com.google.common.**
