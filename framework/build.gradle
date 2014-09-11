@@ -1,12 +1,19 @@
 buildscript {
 	repositories {
 		mavenCentral()
+		maven() {
+			name 'RoboBinding AspectJPlugin Maven Repository'
+			//url "https://github.com/RoboBinding/RoboBinding-aspectj-plugin/raw/master/mavenRepo"
+			url "file://D:/git/RoboBinding-aspectj-plugin/mavenRepo"
+		}
 	}
 
 	dependencies {
 		classpath 'net.sf.proguard:proguard-gradle:5.0'
+		classpath 'org.robobinding:aspectj-plugin:0.8.+'
 	}
 }
+apply plugin: 'org.robobinding.aspectj'
 
 archivesBaseName = 'robobinding'
 
@@ -15,21 +22,26 @@ repositories {
 }
 
 configurations {
+	javadocTaglet
 	dependencyJar
+	aopDependencyJar
 	proguardArchives
 }
 
 ext {
 	guavaVersion = '11.0.1'
+	androidVersion = '4.1.1.4'
+	aspectjVersion = '1.8.2'
+	
 	robolectricVersion = '1.2'
 	hamcrestVersion = '1.3'	
-	androidVersion = '4.1.1.4'
 	commonsCollectionsVersion = '3.2.1'
 }
 
 dependencies {
 	compile "com.google.guava:guava:$guavaVersion"
 	compile "com.google.android:android:$androidVersion"
+	compile "org.aspectj:aspectjrt:$aspectjVersion"
 	
 	testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
 	//testCompile "com.pivotallabs:robolectric:$robolectricVersion"
@@ -42,15 +54,62 @@ dependencies {
 	testCompile "org.apache.commons:commons-lang3:$commonsLangVersion"
 	testCompile "commons-collections:commons-collections:$commonsCollectionsVersion"
 	
+	javadocTaglet project(':javadoc-taglet')
+	
 	dependencyJar "com.google.guava:guava:$guavaVersion"
+	aopDependencyJar "org.aspectj:aspectjrt:$aspectjVersion"
 }
 
 javadoc {
-	enabled = false
+	source = sourceSets.main.allJava
+	
+	options.taglets = ['org.robobinding.doctaglet.EventTaglet', 'org.robobinding.doctaglet.PropTaglet']
+	options.addStringOption "tagletpath", configurations.javadocTaglet.asPath
+	
+	include 'org/robobinding/*Exception.*'
+	include 'org/robobinding/*Errors.*'
+	include 'org/robobinding/**/package-info.java'
+	
+	include 'org/robobinding/BindingContext.java'
+	include 'org/robobinding/ItemBinder.java'
+	include 'org/robobinding/MenuBinder.java'
+	include 'org/robobinding/PredefinedPendingAttributesForView.java'
+	include 'org/robobinding/SubViewBinder.java'
+	include 'org/robobinding/ViewBinder.java'
+	exclude 'org/robobinding/ViewResolutionErrors.java'
+	
+	include 'org/robobinding/annotation/*.java'
+	
+	include 'org/robobinding/attribute/*.java'
+	
+	include 'org/robobinding/binder/BinderFactory.java'
+	include 'org/robobinding/binder/BinderFactoryBuilder.java'
+	include 'org/robobinding/binder/Binders.java'
+	
+	include 'org/robobinding/dynamicbinding/DynamicViewBinding.java'
+	include 'org/robobinding/dynamicbinding/DynamicViewBindingDescription.java'
+	
+	include 'org/robobinding/itempresentationmodel/*.java'
+	exclude 'org/robobinding/itempresentationmodel/ItemPresentationModelFactory.java'
+	
+	include 'org/robobinding/presentationmodel/AbstractPresentationModel.java'
+	include 'org/robobinding/presentationmodel/PresentationModelAdapter.java'
+	include 'org/robobinding/presentationmodel/PresentationModelChangeSupport.java'
+	
+	include 'org/robobinding/test/*.java'
+	
+	include 'org/robobinding/viewattribute/**/*.java'
+	exclude 'org/robobinding/viewattribute/impl/**'
+	
+	include 'org/robobinding/widget/**/*Event.java'
+	include 'org/robobinding/widget/**/*Binding*.java'
+	
+	include 'org/robobinding/aspects/*.java'
 }
 
 jar {
 	classifier = 'raw'
+	exclude('**/package-info.class')
 }
 
 task proguardJar(type: proguard.gradle.ProGuardTask, dependsOn: jar) {
@@ -62,7 +121,7 @@ task proguardJar(type: proguard.gradle.ProGuardTask, dependsOn: jar) {
 	}
 	
     configuration 'proguard-rules.pro'
-	injars files(jar.archivePath)
+	injars files(jar.archivePath), filter: '!org/robobinding/aspects/**'
 	outjars  outJar
 	libraryjars files("${System.properties['java.home']}/lib/rt.jar")
 	libraryjars configurations.runtime	
@@ -77,16 +136,51 @@ task proguardJarWithDependencies(type: proguard.gradle.ProGuardTask, dependsOn: 
 	}
 	
     configuration 'proguard-rules.pro'
-	injars files(jar.archivePath)
+	injars files(jar.archivePath), filter: '!org/robobinding/aspects/**'
 	injars configurations.dependencyJar, filter: '!META-INF/MANIFEST.MF,!javax/annotation/**'
 	outjars  outJar
 	libraryjars files("${System.properties['java.home']}/lib/rt.jar")
 	libraryjars configurations.runtime - configurations.dependencyJar	
 }
 
+task proguardJarWithAop(type: Jar, dependsOn: proguardJar) {
+	classifier = 'with-aop'
+	from(sourceSets.main.output) {
+		include('org/robobinding/aspects/**') 
+		exclude('org/robobinding/aspects/package-info.class')
+	}
+	from proguardJar.outputs.files.collect{ it.isDirectory() ? it : zipTree(it) }
+	from configurations.aopDependencyJar.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+task proguardJarWithAopAndDependencies(type: Jar, dependsOn: proguardJarWithDependencies) {
+	classifier = 'with-aop-and-dependencies'
+	from(sourceSets.main.output) {
+		include('org/robobinding/aspects/**') 
+		exclude('org/robobinding/aspects/package-info.java')
+	}
+	from proguardJarWithDependencies.outputs.files.collect{ it.isDirectory() ? it : zipTree(it) }
+	from configurations.aopDependencyJar.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
+
 artifacts {
 	proguardArchives proguardJar.outJarFileCollection.singleFile
 	proguardArchives proguardJarWithDependencies.outJarFileCollection.singleFile
+	proguardArchives proguardJarWithAop
+	proguardArchives proguardJarWithAopAndDependencies
+
+	proguardArchives sourcesJar
+	proguardArchives javadocJar
 }
 
 apply plugin: 'maven'
@@ -101,7 +195,7 @@ uploadProguardArchives {
 				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
 			}
 			
-			repository(url: "file://$projectDir/mavenRepo")
+			//repository(url: "file://$projectDir/mavenRepo")
 			pom.project {
 				name 'RoboBinding'
 				description 'A Presentation Model(MVVM) framework for the Android platform'
@@ -203,14 +297,21 @@ eclipse {
 		comment = 'The RoboBinding framework'
 		
 		natures 'org.springsource.ide.eclipse.gradle.core.nature'
+		natures 'org.eclipse.ajdt.ui.ajnature'
+		
+		buildCommands.clear()
+		buildCommand 'org.eclipse.ajdt.core.ajbuilder'
 	}
 	
 	classpath {
 		containers 'org.springsource.ide.eclipse.gradle.classpathcontainer'
-		 file.withXml {
-			 def node = it.asNode()
-			 node.appendNode('classpathentry kind="src" path="src/main/resources"')
-		 }
+		file {
+			whenMerged { classpath ->
+				classpath.entries.removeAll { entry ->
+					entry.kind == 'lib'
+				}
+			}
+		}
 		/*
 		file.withXml {
 			def node = it.asNode()

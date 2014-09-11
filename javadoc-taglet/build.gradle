@@ -30,6 +30,13 @@ eclipse {
 	
 	classpath {
 		containers 'org.springsource.ide.eclipse.gradle.classpathcontainer'
+		file {
+			whenMerged { classpath ->
+				classpath.entries.removeAll { entry ->
+					entry.kind == 'lib'
+				}
+			}
+		}
 		/*
 		file.withXml {
 			def node = it.asNode()

@@ -1,1 +1,1 @@
-include ':framework', 'aspects', 'javadoc-taglet'
+include 'framework', 'javadoc-taglet'
