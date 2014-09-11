@@ -264,17 +264,17 @@ uploadProguardArchives {
 }
 
 String getRepositoryUsername() {
-	if(hasProperty('repositoryUserName')) {
+	if(!project.hasProperty('repositoryUserName')) {
 		throw new GradleException("repositoryUserName must be specified");
 	}
-	return {repositoryUserName};
+	return project.property('repositoryUserName');
 }
 
 String getRepositoryPassword() {
-	if(hasProperty('repositoryPassword')) {
+	if(!project.hasProperty('repositoryPassword')) {
 		throw new GradleException("repositoryPassword must be specified");
 	}
-	return {repositoryPassword};
+	return project.property('repositoryPassword');
 }
 
 
@@ -321,4 +321,3 @@ eclipse {
 		}*/
 	}
 }
-  
