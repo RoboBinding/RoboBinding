@@ -11,7 +11,7 @@ import android.view.View;
 public class FocusChangeEvent extends AbstractViewEvent {
     private boolean hasFocus;
 
-    FocusChangeEvent(View view, boolean hasFocus) {
+    public FocusChangeEvent(View view, boolean hasFocus) {
 	super(view);
 	this.hasFocus = hasFocus;
     }

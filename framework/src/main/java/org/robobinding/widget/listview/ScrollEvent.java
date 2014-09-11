@@ -15,7 +15,7 @@ public class ScrollEvent extends AbstractViewEvent {
     private int visibleItemCount;
     private int totalItemCount;
 
-    ScrollEvent(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+    public ScrollEvent(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 	super(view);
 
 	this.firstVisibleItem = firstVisibleItem;

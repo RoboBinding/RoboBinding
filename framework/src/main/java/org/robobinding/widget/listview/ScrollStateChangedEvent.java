@@ -12,7 +12,7 @@ import android.widget.AbsListView;
 public class ScrollStateChangedEvent extends AbstractViewEvent {
     private int scrollState;
 
-    ScrollStateChangedEvent(AbsListView view, int scrollState) {
+    public ScrollStateChangedEvent(AbsListView view, int scrollState) {
 	super(view);
 	this.scrollState = scrollState;
     }

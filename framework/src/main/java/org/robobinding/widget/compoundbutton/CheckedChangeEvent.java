@@ -13,7 +13,7 @@ import android.widget.CompoundButton;
 public class CheckedChangeEvent extends AbstractViewEvent {
     private boolean checked;
 
-    CheckedChangeEvent(CompoundButton compoundButton, boolean isChecked) {
+    public CheckedChangeEvent(CompoundButton compoundButton, boolean isChecked) {
 	super(compoundButton);
 	checked = isChecked;
     }

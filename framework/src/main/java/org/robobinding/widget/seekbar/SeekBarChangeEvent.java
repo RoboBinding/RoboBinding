@@ -14,7 +14,7 @@ public class SeekBarChangeEvent extends AbstractViewEvent {
     private final int progress;
     private final boolean fromUser;
 
-    SeekBarChangeEvent(SeekBar seekBar, int progress, boolean fromUser) {
+    public SeekBarChangeEvent(SeekBar seekBar, int progress, boolean fromUser) {
 	super(seekBar);
 	this.progress = progress;
 	this.fromUser = fromUser;

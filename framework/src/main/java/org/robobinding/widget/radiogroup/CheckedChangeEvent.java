@@ -13,7 +13,7 @@ import android.widget.RadioGroup;
 public class CheckedChangeEvent extends AbstractViewEvent {
     private int checkedId;
     
-    CheckedChangeEvent(RadioGroup view, int checkedId) {
+    public CheckedChangeEvent(RadioGroup view, int checkedId) {
 	super(view);
 	this.checkedId = checkedId;
     }

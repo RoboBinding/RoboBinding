@@ -9,7 +9,7 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class FocusLostEvent extends AbstractViewEvent {
-    FocusLostEvent(View view) {
+	public FocusLostEvent(View view) {
 	super(view);
     }
 }

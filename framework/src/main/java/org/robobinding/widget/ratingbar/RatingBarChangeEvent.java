@@ -14,7 +14,7 @@ public class RatingBarChangeEvent extends AbstractViewEvent {
     private float rating;
     private boolean fromUser;
 
-    RatingBarChangeEvent(RatingBar ratingBar, float rating, boolean fromUser) {
+    public RatingBarChangeEvent(RatingBar ratingBar, float rating, boolean fromUser) {
 	super(ratingBar);
 	this.rating = rating;
 	this.fromUser = fromUser;
