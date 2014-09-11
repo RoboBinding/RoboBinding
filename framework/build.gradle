@@ -9,7 +9,7 @@ buildscript {
 	}
 
 	dependencies {
-		classpath 'net.sf.proguard:proguard-gradle:5.0'
+		classpath 'net.sf.proguard:proguard-gradle:4.11'
 		classpath 'org.robobinding:aspectj-plugin:0.8.+'
 	}
 }
