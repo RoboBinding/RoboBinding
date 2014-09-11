@@ -255,10 +255,13 @@ uploadProguardArchives {
 				}
 			}
 			pom.withXml {
-				//remove android sdk dependency node.
 				def dependenciesNode = it.asNode().dependencies[0];
+				//remove android sdk dependency node.
 				def androidDependencyNode = dependenciesNode.dependency.find{ it.groupId.text() == 'com.google.android' }
 				dependenciesNode.remove androidDependencyNode
+				//remove aspectjrt dependency node.
+				def aspectjDependencyNode = dependenciesNode.dependency.find{ it.groupId.text() == 'org.aspectj' }
+				dependenciesNode.remove aspectjDependencyNode
 			}
 		}
 	}
