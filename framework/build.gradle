@@ -1,0 +1,324 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		maven() {
+			name 'RoboBinding AspectJPlugin Maven Repository'
+			url "https://github.com/RoboBinding/RoboBinding-aspectj-plugin/raw/master/mavenRepo"
+			//url "file://D:/git/RoboBinding-aspectj-plugin/mavenRepo"
+		}
+	}
+
+	dependencies {
+		classpath 'net.sf.proguard:proguard-gradle:5.0'
+		classpath 'org.robobinding:aspectj-plugin:0.8.+'
+	}
+}
+apply plugin: 'org.robobinding.aspectj'
+
+archivesBaseName = 'robobinding'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+	javadocTaglet
+	dependencyJar
+	aopDependencyJar
+	proguardArchives
+}
+
+ext {
+	guavaVersion = '11.0.1'
+	androidVersion = '4.1.1.4'
+	aspectjVersion = '1.8.2'
+	
+	robolectricVersion = '1.2'
+	hamcrestVersion = '1.3'	
+	commonsCollectionsVersion = '3.2.1'
+}
+
+dependencies {
+	compile "com.google.guava:guava:$guavaVersion"
+	compile "com.google.android:android:$androidVersion"
+	compile "org.aspectj:aspectjrt:$aspectjVersion"
+	
+	testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
+	//testCompile "com.pivotallabs:robolectric:$robolectricVersion"
+	testCompile ("junit:junit:$junitVersion") {
+		exclude group: 'org.hamcrest', module: 'hamcrest-core'
+	}
+	testCompile("org.mockito:mockito-core:$mockitoVersion") {
+		exclude group: 'org.hamcrest', module: 'hamcrest-core'
+	}
+	testCompile "org.apache.commons:commons-lang3:$commonsLangVersion"
+	testCompile "commons-collections:commons-collections:$commonsCollectionsVersion"
+	
+	javadocTaglet project(':javadoc-taglet')
+	
+	dependencyJar "com.google.guava:guava:$guavaVersion"
+	aopDependencyJar "org.aspectj:aspectjrt:$aspectjVersion"
+}
+
+javadoc {
+	source = sourceSets.main.allJava
+	
+	options.taglets = ['org.robobinding.doctaglet.EventTaglet', 'org.robobinding.doctaglet.PropTaglet']
+	options.addStringOption "tagletpath", configurations.javadocTaglet.asPath
+	
+	include 'org/robobinding/*Exception.*'
+	include 'org/robobinding/*Errors.*'
+	include 'org/robobinding/**/package-info.java'
+	
+	include 'org/robobinding/BindingContext.java'
+	include 'org/robobinding/ItemBinder.java'
+	include 'org/robobinding/MenuBinder.java'
+	include 'org/robobinding/PredefinedPendingAttributesForView.java'
+	include 'org/robobinding/SubViewBinder.java'
+	include 'org/robobinding/ViewBinder.java'
+	exclude 'org/robobinding/ViewResolutionErrors.java'
+	
+	include 'org/robobinding/annotation/*.java'
+	
+	include 'org/robobinding/attribute/*.java'
+	
+	include 'org/robobinding/binder/BinderFactory.java'
+	include 'org/robobinding/binder/BinderFactoryBuilder.java'
+	include 'org/robobinding/binder/Binders.java'
+	
+	include 'org/robobinding/dynamicbinding/DynamicViewBinding.java'
+	include 'org/robobinding/dynamicbinding/DynamicViewBindingDescription.java'
+	
+	include 'org/robobinding/itempresentationmodel/*.java'
+	exclude 'org/robobinding/itempresentationmodel/ItemPresentationModelFactory.java'
+	
+	include 'org/robobinding/presentationmodel/AbstractPresentationModel.java'
+	include 'org/robobinding/presentationmodel/PresentationModelAdapter.java'
+	include 'org/robobinding/presentationmodel/PresentationModelChangeSupport.java'
+	
+	include 'org/robobinding/test/*.java'
+	
+	include 'org/robobinding/viewattribute/**/*.java'
+	exclude 'org/robobinding/viewattribute/impl/**'
+	
+	include 'org/robobinding/widget/**/*Event.java'
+	include 'org/robobinding/widget/**/*Binding*.java'
+	
+	include 'org/robobinding/aspects/*.java'
+}
+
+jar {
+	classifier = 'raw'
+	exclude('**/package-info.class')
+}
+
+task proguardJar(type: proguard.gradle.ProGuardTask, dependsOn: jar) {
+	ext{
+		oldClassifier = jar.classifier;
+		jar.classifier = ''
+		outJar = jar.archivePath
+		jar.classifier = oldClassifier;
+	}
+	
+    configuration 'proguard-rules.pro'
+	injars files(jar.archivePath), filter: '!org/robobinding/aspects/**'
+	outjars  outJar
+	libraryjars files("${System.properties['java.home']}/lib/rt.jar")
+	libraryjars configurations.runtime	
+}
+
+task proguardJarWithDependencies(type: proguard.gradle.ProGuardTask, dependsOn: proguardJar) {
+	ext{
+		oldClassifier = jar.classifier;
+		jar.classifier = 'with-dependencies'
+		outJar = jar.archivePath
+		jar.classifier = oldClassifier;
+	}
+	
+    configuration 'proguard-rules.pro'
+	injars files(jar.archivePath), filter: '!org/robobinding/aspects/**'
+	injars configurations.dependencyJar, filter: '!META-INF/MANIFEST.MF,!javax/annotation/**'
+	outjars  outJar
+	libraryjars files("${System.properties['java.home']}/lib/rt.jar")
+	libraryjars configurations.runtime - configurations.dependencyJar	
+}
+
+task proguardJarWithAop(type: Jar, dependsOn: proguardJar) {
+	classifier = 'with-aop'
+	from(sourceSets.main.output) {
+		include('org/robobinding/aspects/**') 
+		exclude('org/robobinding/aspects/package-info.class')
+	}
+	from proguardJar.outputs.files.collect{ it.isDirectory() ? it : zipTree(it) }
+	from configurations.aopDependencyJar.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+task proguardJarWithAopAndDependencies(type: Jar, dependsOn: proguardJarWithDependencies) {
+	classifier = 'with-aop-and-dependencies'
+	from(sourceSets.main.output) {
+		include('org/robobinding/aspects/**') 
+		exclude('org/robobinding/aspects/package-info.java')
+	}
+	from proguardJarWithDependencies.outputs.files.collect{ it.isDirectory() ? it : zipTree(it) }
+	from configurations.aopDependencyJar.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
+
+artifacts {
+	proguardArchives proguardJar.outJarFileCollection.singleFile
+	proguardArchives proguardJarWithDependencies.outJarFileCollection.singleFile
+	proguardArchives proguardJarWithAop
+	proguardArchives proguardJarWithAopAndDependencies
+
+	proguardArchives sourcesJar
+	proguardArchives javadocJar
+}
+
+apply plugin: 'maven'
+uploadProguardArchives {
+	repositories {
+		mavenDeployer {
+			repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+			}
+			
+			snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+			}
+			
+			//repository(url: "file://$projectDir/mavenRepo")
+			pom.project {
+				name 'RoboBinding'
+				description 'A Presentation Model(MVVM) framework for the Android platform'
+				url 'http://robobinding.org'
+				
+				scm {
+					url 'https://github.com/RoboBinding/RoboBinding'
+					connection 'scm:git:git@github.com:RoboBinding/RoboBinding.git'
+					developerConnection 'scm:git:git@github.com:RoboBinding/RoboBinding.git'
+				}
+				
+				ciManagement {
+					system 'Cloudbees Jenkins'
+					url 'https://robobindingacc.ci.cloudbees.com/'
+				}
+
+				licenses {
+					license {
+						name 'Apache License Version 2.0'
+						url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+						distribution 'repo'
+						comments """
+						Copyright 2012-2014 Cheng Wei, Robert Taylor and RoboBinding Contributors
+						
+						Licensed under the Apache License, Version 2.0 (the "License");
+						you may not use this file except in compliance with the License.
+						You may obtain a copy of the License at
+						
+						  http://www.apache.org/licenses/LICENSE-2.0
+						
+						Unless required by applicable law or agreed to in writing, software
+						distributed under the License is distributed on an "AS IS" BASIS,
+						WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+						See the License for the specific language governing permissions
+						and limitations under the License.
+						"""
+					}
+				}
+
+				developers {
+					developer {
+						name 'Cheng Wei'
+						email 'weicheng112@gmail.com'
+						organization = 'RoboBinding Open Source'
+						organizationUrl 'http://robobinding.org'
+						roles {
+							role 'Developer'
+						}
+					}
+					developer {
+						name 'Robert Taylor'
+						roles {
+							role 'Co-founder'
+						}
+					}
+				}
+			}
+			pom.withXml {
+				//remove android sdk dependency node.
+				def dependenciesNode = it.asNode().dependencies[0];
+				def androidDependencyNode = dependenciesNode.dependency.find{ it.groupId.text() == 'com.google.android' }
+				dependenciesNode.remove androidDependencyNode
+			}
+		}
+	}
+}
+
+String getRepositoryUsername() {
+	if(hasProperty('repositoryUserName')) {
+		throw new GradleException("repositoryUserName must be specified");
+	}
+	return {repositoryUserName};
+}
+
+String getRepositoryPassword() {
+	if(hasProperty('repositoryPassword')) {
+		throw new GradleException("repositoryPassword must be specified");
+	}
+	return {repositoryPassword};
+}
+
+
+task lintCheck(type:Exec) {
+	description = 'Run Android lint to check if there are any violations'
+	group = 'other'
+	
+	commandLine 'cmd', '/c', '${env.ANDROID_HOME}/tools/lint.bat'
+	standardOutput = new ByteArrayOutputStream()
+	ext.output = {
+	  return standardOutput.toString()
+	}
+}
+
+apply plugin: 'eclipse'
+
+eclipse {
+	project {
+		name = 'RoboBinding-framework'
+		comment = 'The RoboBinding framework'
+		
+		natures 'org.springsource.ide.eclipse.gradle.core.nature'
+		natures 'org.eclipse.ajdt.ui.ajnature'
+		
+		buildCommands.clear()
+		buildCommand 'org.eclipse.ajdt.core.ajbuilder'
+	}
+	
+	classpath {
+		containers 'org.springsource.ide.eclipse.gradle.classpathcontainer'
+		file {
+			whenMerged { classpath ->
+				classpath.entries.removeAll { entry ->
+					entry.kind == 'lib'
+				}
+			}
+		}
+		/*
+		file.withXml {
+			def node = it.asNode()
+			
+			node.appendNode('classpathentry kind="src" path="src/main/java"')
+			node.appendNode('classpathentry kind="src" path="src/test/java"')
+		}*/
+	}
+}
+  

@@ -1,0 +1,20 @@
+subprojects {
+	apply plugin: 'java'
+	
+	group = 'org.robobinding'
+	//version = $version
+	sourceCompatibility = 1.6
+	targetCompatibility = 1.6
+	
+	ext {
+		junitVersion = '4.11+'
+		mockitoVersion = '1.9.+'
+		commonsLangVersion = '3.+'
+	}
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.1'
+	description = 'Produces Gradle Wrapper for the project.'
+	group = 'other'
+}
