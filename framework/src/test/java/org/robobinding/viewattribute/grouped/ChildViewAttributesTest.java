@@ -5,7 +5,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.robobinding.viewattribute.RandomValues.trueOrFalse;
+import static org.robobinding.util.RandomValues.trueOrFalse;
 
 import java.util.Map;
 

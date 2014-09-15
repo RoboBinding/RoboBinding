@@ -13,19 +13,26 @@ import com.google.common.collect.Maps;
  * @author Robert Taylor
  */
 public class BindingAttributeParser {
-    public static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/android";
+	public static final String ROBOBINDING_NAMESPACE = "http://robobinding.org/android";
 
-    public Map<String, String> parse(AttributeSet attributeSet) {
-	Map<String, String> bindingAttributes = Maps.newHashMap();
+	public Map<String, String> parse(AttributeSet attributeSet) {
+		Map<String, String> bindingAttributes = Maps.newHashMap();
 
-	for (int i = 0; i < attributeSet.getAttributeCount(); i++) {
-	    String attributeName = attributeSet.getAttributeName(i);
-	    String attributeValue = attributeSet.getAttributeValue(ROBOBINDING_NAMESPACE, attributeName);
+		for (int i = 0; i < attributeSet.getAttributeCount(); i++) {
+			String attributeName = attributeSet.getAttributeName(i);
+			//TODO:Robolectric bug.
+			if(attributeName.startsWith("bind:")) {
+				attributeName = attributeName.substring(5);
+			}
 
-	    if (attributeValue != null)
-		bindingAttributes.put(attributeName, attributeValue);
+			String attributeValue = attributeSet.getAttributeValue(
+					ROBOBINDING_NAMESPACE, attributeName);
+			
+
+			if (attributeValue != null)
+				bindingAttributes.put(attributeName, attributeValue);
+		}
+
+		return bindingAttributes;
 	}
-
-	return bindingAttributes;
-    }
 }

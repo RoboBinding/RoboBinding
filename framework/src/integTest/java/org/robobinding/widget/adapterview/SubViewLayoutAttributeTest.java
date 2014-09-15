@@ -15,27 +15,27 @@ import org.robobinding.attribute.StaticResourceAttribute;
 import android.content.Context;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SubViewLayoutAttributeTest {
-    @Mock
-    private BindingContext bindingContext;
-    @Mock
-    private StaticResourceAttribute attribute;
-    private int layoutId = 1;
+	@Mock
+	private BindingContext bindingContext;
+	@Mock
+	private StaticResourceAttribute attribute;
+	private int layoutId = 1;
 
-    @Test
-    public void givenAttribute_whenBindTo_thenLayoutIdIsCorrectlySet() {
-	when(attribute.getResourceId(any(Context.class))).thenReturn(layoutId);
-	SubViewLayoutAttribute subViewLayoutAttribute = new SubViewLayoutAttribute();
-	subViewLayoutAttribute.setAttribute(attribute);
+	@Test
+	public void givenAttribute_whenBindTo_thenLayoutIdIsCorrectlySet() {
+		when(attribute.getResourceId(any(Context.class))).thenReturn(layoutId);
+		SubViewLayoutAttribute subViewLayoutAttribute = new SubViewLayoutAttribute();
+		subViewLayoutAttribute.setAttribute(attribute);
 
-	subViewLayoutAttribute.bindTo(bindingContext);
+		subViewLayoutAttribute.bindTo(bindingContext);
 
-	assertThat(subViewLayoutAttribute.getLayoutId(), is(layoutId));
-    }
+		assertThat(subViewLayoutAttribute.getLayoutId(), is(layoutId));
+	}
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.util.RandomValues;
 
 import com.google.common.collect.Maps;
 

@@ -1,6 +1,9 @@
-package org.robobinding.binder;
+package org.robobinding;
 
 import org.robobinding.ViewBinder;
+import org.robobinding.binder.BinderFactory;
+import org.robobinding.binder.BinderFactoryBuilder;
+import org.robobinding.binder.Binders;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.ViewListeners;

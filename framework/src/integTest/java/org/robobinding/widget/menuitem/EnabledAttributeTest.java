@@ -5,8 +5,9 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.util.RandomValues;
 import org.robobinding.widget.AbstractPropertyViewAttributeTest;
+import org.robolectric.annotation.Config;
 
 import android.view.MenuItem;
 
@@ -16,15 +17,16 @@ import android.view.MenuItem;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
+@Config(manifest=Config.NONE)
 public class EnabledAttributeTest extends AbstractPropertyViewAttributeTest<MenuItem, EnabledAttribute> {
     @Ignore//TODO: cannot test at the moment, will try to test it when Robolectric is upgraded.
     @Test
     public void whenUpdateView_thenViewShouldReflectChanges() {
-	boolean enabled = RandomValues.trueOrFalse();
+		boolean enabled = RandomValues.trueOrFalse();
 
-	attribute.updateView(view, enabled);
+		attribute.updateView(view, enabled);
 
-	assertThat(view.isEnabled(), equalTo(enabled));
+		assertThat(view.isEnabled(), equalTo(enabled));
     }
 
 }

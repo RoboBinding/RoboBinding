@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 public class SecondaryProgressAttribute implements PropertyViewAttribute<ProgressBar, Integer> {
     @Override
     public void updateView(ProgressBar view, Integer newSecondaryProgress) {
-	view.setSecondaryProgress(newSecondaryProgress);
+    	view.setSecondaryProgress(newSecondaryProgress);
     }
 
 }

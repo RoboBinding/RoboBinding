@@ -13,30 +13,34 @@ import org.robobinding.viewattribute.grouped.ChildViewAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttributeAdapter;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class RowLayoutAttributeFactoryTest {
-    @Test
-    public void whenCreateWithStaticResourceAttribute_thenReturnStaticLayoutAttribute() {
-	StaticResourceAttribute staticResourceAttribute = mock(StaticResourceAttribute.class);
-	when(staticResourceAttribute.isStaticResource()).thenReturn(true);
+	@Test
+	public void whenCreateWithStaticResourceAttribute_thenReturnStaticLayoutAttribute() {
+		StaticResourceAttribute staticResourceAttribute = mock(StaticResourceAttribute.class);
+		when(staticResourceAttribute.isStaticResource()).thenReturn(true);
 
-	RowLayoutAttributeFactory rowLayoutAttributeFactory = new ItemLayoutAttributeFactory(null, null);
-	ChildViewAttribute viewAttribute = rowLayoutAttributeFactory.createRowLayoutAttribute(staticResourceAttribute);
+		RowLayoutAttributeFactory rowLayoutAttributeFactory = new ItemLayoutAttributeFactory(
+				null, null);
+		ChildViewAttribute viewAttribute = rowLayoutAttributeFactory
+				.createRowLayoutAttribute(staticResourceAttribute);
 
-	assertThat(viewAttribute, instanceOf(StaticLayoutAttribute.class));
-    }
+		assertThat(viewAttribute, instanceOf(StaticLayoutAttribute.class));
+	}
 
-    @Test
-    public void whenCreateWithValueModelAttribute_thenReturnDynamicLayoutAttribute() {
-	ValueModelAttribute valueModelAttribute = aValueModelAttribute("{itemLayout}");
+	@Test
+	public void whenCreateWithValueModelAttribute_thenReturnDynamicLayoutAttribute() {
+		ValueModelAttribute valueModelAttribute = aValueModelAttribute("{itemLayout}");
 
-	RowLayoutAttributeFactory rowLayoutAttributeFactory = new ItemLayoutAttributeFactory(null, null);
-	ChildViewAttribute viewAttribute = rowLayoutAttributeFactory.createRowLayoutAttribute(valueModelAttribute);
+		RowLayoutAttributeFactory rowLayoutAttributeFactory = new ItemLayoutAttributeFactory(
+				null, null);
+		ChildViewAttribute viewAttribute = rowLayoutAttributeFactory
+				.createRowLayoutAttribute(valueModelAttribute);
 
-	assertThat(viewAttribute, instanceOf(ChildViewAttributeAdapter.class));
-    }
+		assertThat(viewAttribute, instanceOf(ChildViewAttributeAdapter.class));
+	}
 }

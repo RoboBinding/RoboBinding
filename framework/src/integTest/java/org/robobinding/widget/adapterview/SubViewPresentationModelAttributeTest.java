@@ -16,33 +16,35 @@ import org.robobinding.attribute.ValueModelAttribute;
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SubViewPresentationModelAttributeTest {
-    @Mock
-    private SubViewHolder subViewHolder;
-    @Mock
-    private View boundSubView;
+	@Mock
+	private SubViewHolder subViewHolder;
+	@Mock
+	private View boundSubView;
 
-    private int layoutId = 2;
-    private String presentationModelPropertyName = "propertyName";
-    private ValueModelAttribute valueModelAttribute = aValueModelAttribute(presentationModelPropertyName);
+	private int layoutId = 2;
+	private String presentationModelPropertyName = "propertyName";
+	private ValueModelAttribute valueModelAttribute = aValueModelAttribute(presentationModelPropertyName);
 
-    @Test
-    public void whenBindTo_thenBoundSubViewIsSetOnHolder() {
-	BindingContext bindingContext = mock(BindingContext.class);
-	SubViewBinder viewBinder = mock(SubViewBinder.class);
-	when(bindingContext.createSubViewBinder()).thenReturn(viewBinder);
-	when(viewBinder.inflateAndBind(layoutId, presentationModelPropertyName)).thenReturn(boundSubView);
-	SubViewPresentationModelAttribute subViewAttribute = new SubViewPresentationModelAttribute(layoutId, subViewHolder);
-	subViewAttribute.setAttribute(valueModelAttribute);
+	@Test
+	public void whenBindTo_thenBoundSubViewIsSetOnHolder() {
+		BindingContext bindingContext = mock(BindingContext.class);
+		SubViewBinder viewBinder = mock(SubViewBinder.class);
+		when(bindingContext.createSubViewBinder()).thenReturn(viewBinder);
+		when(viewBinder.inflateAndBind(layoutId, presentationModelPropertyName))
+				.thenReturn(boundSubView);
+		SubViewPresentationModelAttribute subViewAttribute = new SubViewPresentationModelAttribute(
+				layoutId, subViewHolder);
+		subViewAttribute.setAttribute(valueModelAttribute);
 
-	subViewAttribute.bindTo(bindingContext);
+		subViewAttribute.bindTo(bindingContext);
 
-	verify(subViewHolder).setSubView(boundSubView);
-    }
+		verify(subViewHolder).setSubView(boundSubView);
+	}
 }

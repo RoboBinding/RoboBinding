@@ -23,28 +23,30 @@ import android.content.Context;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ItemMappingAttributeTest {
-    @Mock
-    private BindingContext bindingContext;
-    @Mock
-    private Context context;
-    @Mock
-    private PredefinedMappingsAttribute predefinedMappingsAttribute;
-    @Mock
-    private Collection<PredefinedPendingAttributesForView> viewMappings;
-    @Mock
-    private PredefinedMappingUpdater predefinedMappingUpdater;
+	@Mock
+	private BindingContext bindingContext;
+	@Mock
+	private Context context;
+	@Mock
+	private PredefinedMappingsAttribute predefinedMappingsAttribute;
+	@Mock
+	private Collection<PredefinedPendingAttributesForView> viewMappings;
+	@Mock
+	private PredefinedMappingUpdater predefinedMappingUpdater;
 
-    @Test
-    public void whenBinding_thenUpdateViewMappingsOnPredefinedMappingUpdater() {
-	when(bindingContext.getContext()).thenReturn(context);
-	when(predefinedMappingsAttribute.getViewMappings(context)).thenReturn(viewMappings);
-	
-	ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(predefinedMappingUpdater);
-	itemMappingAttribute.setAttribute(predefinedMappingsAttribute);
+	@Test
+	public void whenBinding_thenUpdateViewMappingsOnPredefinedMappingUpdater() {
+		when(bindingContext.getContext()).thenReturn(context);
+		when(predefinedMappingsAttribute.getViewMappings(context)).thenReturn(
+				viewMappings);
 
-	itemMappingAttribute.bindTo(bindingContext);
+		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(
+				predefinedMappingUpdater);
+		itemMappingAttribute.setAttribute(predefinedMappingsAttribute);
 
-	verify(predefinedMappingUpdater).updateViewMappings(viewMappings);
-    }
+		itemMappingAttribute.bindTo(bindingContext);
+
+		verify(predefinedMappingUpdater).updateViewMappings(viewMappings);
+	}
 
 }

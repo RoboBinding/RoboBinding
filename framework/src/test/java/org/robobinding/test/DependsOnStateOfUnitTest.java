@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.annotation.DependsOnStateOf;
 import org.robobinding.presentationmodel.AbstractPresentationModel;
-import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.util.RandomValues;
 
 /**
  * 

@@ -1,7 +1,7 @@
 package org.robobinding.widget.adapterview;
 
 import static org.mockito.Mockito.verify;
-import static org.robobinding.viewattribute.RandomValues.anyInteger;
+import static org.robobinding.util.RandomValues.anyInteger;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,16 +16,17 @@ import org.mockito.runners.MockitoJUnitRunner;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ItemLayoutUpdaterTest {
-    @Mock
-    private DataSetAdapterBuilder dataSetAdapterBuilder;
+	@Mock
+	private DataSetAdapterBuilder dataSetAdapterBuilder;
 
-    @Test
-    public void whenUpdatingRowLayout_thenSetItemLayoutOnDataSetAdapterBuilder() {
-	int layoutId = anyInteger();
-	ItemLayoutUpdater itemLayoutUpdater = new ItemLayoutUpdater(dataSetAdapterBuilder);
+	@Test
+	public void whenUpdatingRowLayout_thenSetItemLayoutOnDataSetAdapterBuilder() {
+		int layoutId = anyInteger();
+		ItemLayoutUpdater itemLayoutUpdater = new ItemLayoutUpdater(
+				dataSetAdapterBuilder);
 
-	itemLayoutUpdater.updateRowLayout(layoutId);
+		itemLayoutUpdater.updateRowLayout(layoutId);
 
-	verify(dataSetAdapterBuilder).setItemLayoutId(layoutId);
-    }
+		verify(dataSetAdapterBuilder).setItemLayoutId(layoutId);
+	}
 }

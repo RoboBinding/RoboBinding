@@ -13,6 +13,6 @@ import android.widget.TextView;
 public class TextColorAttribute implements PropertyViewAttribute<TextView, Integer> {
     @Override
     public void updateView(TextView view, Integer newColor) {
-	view.setTextColor(newColor);
+    	view.setTextColor(newColor);
     }
 }

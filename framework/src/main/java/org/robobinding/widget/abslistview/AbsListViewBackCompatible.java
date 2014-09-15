@@ -14,42 +14,50 @@ import android.widget.ListView;
  */
 @TargetApi(11)
 public class AbsListViewBackCompatible {
-    private AbsListView view;
+	private AbsListView view;
 
-    public AbsListViewBackCompatible(AbsListView view) {
-	this.view = view;
-    }
-
-    public void setItemChecked(int position, boolean value) {
-	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-	    view.setItemChecked(position, value);
-	} else {
-	    ((ListView) view).setItemChecked(position, value);
-	}
-    }
-
-    public int getCheckedItemPosition() {
-	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-	    return view.getCheckedItemPosition();
-	} else {
-	    return ((ListView) view).getCheckedItemPosition();
+	public AbsListViewBackCompatible(AbsListView view) {
+		this.view = view;
 	}
 
-    }
-
-    public void setChoiceMode(int choiceMode) {
-	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-	    view.setChoiceMode(choiceMode);
-	} else {
-	    ((ListView) view).setChoiceMode(choiceMode);
+	public void setItemChecked(int position, boolean value) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			view.setItemChecked(position, value);
+		} else {
+			((ListView) view).setItemChecked(position, value);
+		}
 	}
-    }
 
-    public SparseBooleanArray getCheckedItemPositions() {
-	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-	    return view.getCheckedItemPositions();
-	} else {
-	    return ((ListView) view).getCheckedItemPositions();
+	public int getCheckedItemPosition() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			return view.getCheckedItemPosition();
+		} else {
+			return ((ListView) view).getCheckedItemPosition();
+		}
+
 	}
-    }
+
+	public void setChoiceMode(int choiceMode) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			view.setChoiceMode(choiceMode);
+		} else {
+			((ListView) view).setChoiceMode(choiceMode);
+		}
+	}
+
+	public SparseBooleanArray getCheckedItemPositions() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			return view.getCheckedItemPositions();
+		} else {
+			return ((ListView) view).getCheckedItemPositions();
+		}
+	}
+	
+	public void clearChoices() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			view.clearChoices();
+		} else {
+			((ListView) view).clearChoices();
+		}
+	}
 }

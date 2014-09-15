@@ -15,7 +15,7 @@ import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.AbstractValueModel;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
-import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.util.RandomValues;
 
 import android.view.View;
 

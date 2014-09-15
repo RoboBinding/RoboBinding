@@ -67,7 +67,7 @@
         android:scrollbarTrackVertical="@drawable/icon"
         android:scrollbars="horizontal"
         android:soundEffectsEnabled="true"
-        android:tag="@string/app_name"
+        android:tag="@string/text"
         android:visibility="visible" >
 
         <!--

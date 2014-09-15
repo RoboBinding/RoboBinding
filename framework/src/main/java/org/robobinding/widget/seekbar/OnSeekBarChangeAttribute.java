@@ -18,7 +18,7 @@ public class OnSeekBarChangeAttribute implements EventViewAttribute<SeekBar>, Vi
 
     @Override
     public void setViewListeners(SeekBarListeners viewListeners) {
-	this.viewListeners = viewListeners;
+    	this.viewListeners = viewListeners;
     }
 
     @Override
@@ -27,8 +27,8 @@ public class OnSeekBarChangeAttribute implements EventViewAttribute<SeekBar>, Vi
 
 	    @Override
 	    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-		SeekBarChangeEvent seekBarEvent = new SeekBarChangeEvent(seekBar, progress, fromUser);
-		command.invoke(seekBarEvent);
+			SeekBarChangeEvent seekBarEvent = new SeekBarChangeEvent(seekBar, progress, fromUser);
+			command.invoke(seekBarEvent);
 	    }
 
 	    @Override

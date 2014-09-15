@@ -1,5 +1,6 @@
-package org.robobinding.binder;
+package org.robobinding;
 
+import org.robobinding.binder.BinderFactoryBuilder;
 import org.robobinding.dynamicbinding.DynamicViewBinding;
 import org.robobinding.widget.imageview.ImageViewBinding;
 

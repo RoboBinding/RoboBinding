@@ -1,4 +1,4 @@
-package org.robobinding.viewattribute;
+package org.robobinding.widget;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;

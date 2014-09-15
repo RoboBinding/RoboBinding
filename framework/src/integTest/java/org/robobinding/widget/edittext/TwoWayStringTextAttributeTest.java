@@ -10,62 +10,64 @@ import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.widget.AbstractPropertyViewAttributeTest;
 import org.robobinding.widget.edittext.TwoWayTextAttribute.TwoWayStringTextAttribute;
+import org.robolectric.Robolectric;
+import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowTextView;
 
 import android.widget.EditText;
 
-import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.shadows.ShadowTextView;
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class TwoWayStringTextAttributeTest extends AbstractPropertyViewAttributeTest<EditText, TwoWayStringTextAttribute> {
-    @Test
-    public void whenUpdateView_thenViewShouldReflectChanges() {
-	String newText = RandomStringUtils.randomAlphanumeric(5);
+@Config(manifest=Config.NONE)
+public class TwoWayStringTextAttributeTest extends
+		AbstractPropertyViewAttributeTest<EditText, TwoWayStringTextAttribute> {
+	@Test
+	public void whenUpdateView_thenViewShouldReflectChanges() {
+		String newText = RandomStringUtils.randomAlphanumeric(5);
 
-	attribute.updateView(view, newText);
+		attribute.updateView(view, newText);
 
-	assertThat(view.getText(), sameAs(newText));
-    }
+		assertThat(view.getText(), sameAs(newText));
+	}
 
-    @Test
-    public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-	ValueModel<String> valueModel = ValueModelUtils.create();
-	attribute.observeChangesOnTheView(view, valueModel);
+	@Test
+	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
+		ValueModel<String> valueModel = ValueModelUtils.create();
+		attribute.observeChangesOnTheView(view, valueModel);
 
-	view.setText(RandomStringUtils.random(5));
+		view.setText(RandomStringUtils.random(5));
 
-	assertThat(valueModel.getValue(), sameAs(view.getText()));
-    }
+		assertThat(valueModel.getValue(), sameAs(view.getText()));
+	}
 
-    @Test
-    public void givenALateValueCommitAttribute_whenUpdatingView_thenDoNotImmediatelyCommitToValueModel() {
-	attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
-	String newText = RandomStringUtils.randomAlphanumeric(5);
-	ValueModel<String> valueModel = ValueModelUtils.create();
-	attribute.observeChangesOnTheView(view, valueModel);
+	@Test
+	public void givenALateValueCommitAttribute_whenUpdatingView_thenDoNotImmediatelyCommitToValueModel() {
+		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
+		String newText = RandomStringUtils.randomAlphanumeric(5);
+		ValueModel<String> valueModel = ValueModelUtils.create();
+		attribute.observeChangesOnTheView(view, valueModel);
 
-	view.setText(newText);
+		view.setText(newText);
 
-	assertThat(valueModel.getValue(), not(sameAs(newText)));
-    }
+		assertThat(valueModel.getValue(), not(sameAs(newText)));
+	}
 
-    @Test
-    public void givenALateValueCommitAttribute_whenViewLosesFocus_thenCommitToValueModel() {
-	attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
-	String newText = RandomStringUtils.randomAlphanumeric(5);
-	ValueModel<String> valueModel = ValueModelUtils.create();
-	attribute.observeChangesOnTheView(view, valueModel);
+	@Test
+	public void givenALateValueCommitAttribute_whenViewLosesFocus_thenCommitToValueModel() {
+		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
+		String newText = RandomStringUtils.randomAlphanumeric(5);
+		ValueModel<String> valueModel = ValueModelUtils.create();
+		attribute.observeChangesOnTheView(view, valueModel);
 
-	view.setText(newText);
+		view.setText(newText);
 
-	ShadowTextView shadowTextView = Robolectric.shadowOf(view);
-	shadowTextView.setViewFocus(false);
+		ShadowTextView shadowTextView = Robolectric.shadowOf(view);
+		shadowTextView.setViewFocus(false);
 
-	assertThat(valueModel.getValue(), sameAs(newText));
-    }
+		assertThat(valueModel.getValue(), sameAs(newText));
+	}
 }

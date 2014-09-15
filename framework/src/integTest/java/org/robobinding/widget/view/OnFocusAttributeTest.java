@@ -3,46 +3,46 @@ package org.robobinding.widget.view;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
+import org.robolectric.Robolectric;
+import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowView;
 
 import android.view.View;
 
-import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-import com.xtremelabs.robolectric.shadows.ShadowView;
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(RobolectricTestRunner.class)
-public class OnFocusAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<View, OnFocusChangeAttribute, MockViewListenersForView> {
-    @Test
-    public void givenBoundAttribute_whenApplyFocus_thenEventReceived() {
-	bindAttribute();
+@Config(manifest=Config.NONE)
+public class OnFocusAttributeTest
+		extends
+		AbstractEventViewAttributeWithViewListenersAwareTest<View, OnFocusChangeAttribute, MockViewListenersForView> {
+	@Test
+	public void givenBoundAttribute_whenApplyFocus_thenEventReceived() {
+		bindAttribute();
 
-	setViewFocus();
+		setViewFocus();
 
-	assertEventReceived();
-    }
+		assertEventReceived();
+	}
 
-    private void setViewFocus() {
-        ShadowView shadowView = Robolectric.shadowOf(view);
-        shadowView.setViewFocus(true);
-    }
+	private void setViewFocus() {
+		ShadowView shadowView = Robolectric.shadowOf(view);
+		shadowView.setViewFocus(true);
+	}
 
-    private void assertEventReceived() {
-        assertEventReceived(AbstractViewEvent.class);
-    }
+	private void assertEventReceived() {
+		assertEventReceived(AbstractViewEvent.class);
+	}
 
-    @Test
-    public void whenBinding_thenRegisterWithViewListeners() {
-	bindAttribute();
+	@Test
+	public void whenBinding_thenRegisterWithViewListeners() {
+		bindAttribute();
 
-	assertTrue(viewListeners.addOnFocusChangeListenerInvoked);
-    }
+		assertTrue(viewListeners.addOnFocusChangeListenerInvoked);
+	}
 
 }

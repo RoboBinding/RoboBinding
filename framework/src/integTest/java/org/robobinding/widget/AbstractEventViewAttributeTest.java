@@ -9,52 +9,55 @@ import java.lang.reflect.ParameterizedType;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.ParameterizedTypeUtils;
 import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 
+import android.content.Context;
 import android.view.View;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(RobolectricTestRunner.class)
-public abstract class AbstractEventViewAttributeTest<ViewType extends View,
-	EventViewAttributeType extends EventViewAttribute<? super ViewType>> {
+public abstract class AbstractEventViewAttributeTest<ViewType extends View, EventViewAttributeType extends EventViewAttribute<? super ViewType>> {
 
-    protected ViewType view;
-    protected EventViewAttributeType attribute;
+	protected ViewType view;
+	protected EventViewAttributeType attribute;
 
-    private MockCommand command;
-    @Before
-    public void initializeViewAndAttribute() {
-	ParameterizedType superclass = (ParameterizedType) getClass().getGenericSuperclass();
+	private MockCommand command;
 
-	view = ParameterizedTypeUtils.createTypeArgument(superclass, 0);
-	attribute = ParameterizedTypeUtils.createTypeArgument(superclass, 1);
+	@Before
+	public void initializeViewAndAttribute() {
+		ParameterizedType superclass = (ParameterizedType) getClass()
+				.getGenericSuperclass();
 
-	command = new MockCommand();
-    }
+		view = ParameterizedTypeUtils.createTypeArgument(superclass, 0,
+				Context.class, Robolectric.application);
+		attribute = ParameterizedTypeUtils.createTypeArgument(superclass, 1);
 
-    protected void bindAttribute() {
-	attribute.bind(view, command);
-    }
+		command = new MockCommand();
+	}
 
-    protected void assertEventReceived(Class<?> expectedEventClass) {
-	assertTrue("No event has been received yet", command.invocationCount >= 1);
-	assertThat(command.lastArg, instanceOf(expectedEventClass));
-    }
+	protected void bindAttribute() {
+		attribute.bind(view, command);
+	}
 
-    @SuppressWarnings("unchecked")
-    protected <T> T getEventReceived() {
-	return (T) command.lastArg;
-    }
+	protected void assertEventReceived(Class<?> expectedEventClass) {
+		assertTrue("No event has been received yet",
+				command.invocationCount >= 1);
+		assertThat(command.lastArg, instanceOf(expectedEventClass));
+	}
 
-    protected void assertTimesOfEventReceived(int expectedTimes) {
-	assertThat(command.invocationCount, is(expectedTimes));
-    }
+	@SuppressWarnings("unchecked")
+	protected <T> T getEventReceived() {
+		return (T) command.lastArg;
+	}
+
+	protected void assertTimesOfEventReceived(int expectedTimes) {
+		assertThat(command.invocationCount, is(expectedTimes));
+	}
 }

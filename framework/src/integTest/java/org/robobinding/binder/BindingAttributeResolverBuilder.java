@@ -18,23 +18,23 @@ public class BindingAttributeResolverBuilder {
     private BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMapBuilder;
 
     public BindingAttributeResolverBuilder() {
-	bindingAttributeMappingsProviderMapBuilder = BinderFactoryBuilder.defaultBindingAttributeMappingsProviderMapBuilder();
+    	bindingAttributeMappingsProviderMapBuilder = BinderFactoryBuilder.defaultBindingAttributeMappingsProviderMapBuilder();
     }
 
     public <T extends View> BindingAttributeResolverBuilder mapView(Class<T> viewClass, ViewBinding<T> bindingAttributeMapper) {
-	bindingAttributeMappingsProviderMapBuilder.put(viewClass, bindingAttributeMapper);
-	return this;
+    	bindingAttributeMappingsProviderMapBuilder.put(viewClass, bindingAttributeMapper);
+    	return this;
     }
 
     public BindingAttributeResolver build() {
-	BindingAttributeMappingsProviderMap providerMap = bindingAttributeMappingsProviderMapBuilder.build();
-	ViewAttributeBinderFactoryProvider viewAttributeBinderFactoryProvider = new ViewAttributeBinderFactoryProvider(
-		new PropertyAttributeParser(),
-		new GroupAttributesResolver(),
-		BinderFactoryBuilder.defaultViewListenersMapBuilder().build());
-	ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(
-		providerMap, viewAttributeBinderFactoryProvider);
-	return new BindingAttributeResolver(resolverFinder);
+		BindingAttributeMappingsProviderMap providerMap = bindingAttributeMappingsProviderMapBuilder.build();
+		ViewAttributeBinderFactoryProvider viewAttributeBinderFactoryProvider = new ViewAttributeBinderFactoryProvider(
+			new PropertyAttributeParser(),
+			new GroupAttributesResolver(),
+			BinderFactoryBuilder.defaultViewListenersMapBuilder().build());
+		ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(
+			providerMap, viewAttributeBinderFactoryProvider);
+		return new BindingAttributeResolver(resolverFinder);
     }
 
 }

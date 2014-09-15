@@ -6,28 +6,30 @@ import org.robobinding.viewattribute.AttributeBindingException;
 
 /**
  * @author Cheng Wei
- *
+ * 
  */
 class AttributeGroupBindingExceptionMatcher extends TypeSafeMatcher<AttributeGroupBindingException> {
 
-private final String attributeName;
+	private final String attributeName;
 
-public AttributeGroupBindingExceptionMatcher(String attributeName) {
-    this.attributeName = attributeName;
-}
+	public AttributeGroupBindingExceptionMatcher(String attributeName) {
+		this.attributeName = attributeName;
+	}
 
-@Override
-protected boolean matchesSafely(final AttributeGroupBindingException exception) {
-    for (AttributeBindingException e : exception.getChildAttributeErrors()) {
-	if (e.getAttributeName().equals(attributeName))
-	    return true;
-    }
+	@Override
+	protected boolean matchesSafely(
+			final AttributeGroupBindingException exception) {
+		for (AttributeBindingException e : exception.getChildAttributeErrors()) {
+			if (e.getAttributeName().equals(attributeName))
+				return true;
+		}
 
-    return false;
-}
+		return false;
+	}
 
-@Override
-public void describeTo(Description description) {
-    description.appendText("Error for attribute '").appendValue(attributeName).appendText("' was not thrown.");
-}
+	@Override
+	public void describeTo(Description description) {
+		description.appendText("Error for attribute '")
+				.appendValue(attributeName).appendText("' was not thrown.");
+	}
 }
