@@ -8,7 +8,6 @@ import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.widget.adapterview.AdapterViewListeners;
-import org.robobinding.widget.listview.SparseBooleanArrayUtils;
 
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -40,8 +39,7 @@ public class CheckedItemPositionsAttribute implements MultiTypePropertyViewAttri
 	}
 
 	abstract static class AbstractCheckedItemPositionsAttribute<PropertyType>
-			implements TwoWayPropertyViewAttribute<AbsListView, PropertyType>,
-			ViewListenersAware<AdapterViewListeners> {
+			implements TwoWayPropertyViewAttribute<AbsListView, PropertyType>, ViewListenersAware<AdapterViewListeners> {
 		private AdapterViewListeners adapterViewListeners;
 
 		@Override
@@ -67,8 +65,7 @@ public class CheckedItemPositionsAttribute implements MultiTypePropertyViewAttri
 		
 		@Override
 		public void updateView(AbsListView view, PropertyType newValue) {
-			AbsListViewBackCompatible viewBackCompatible = new AbsListViewBackCompatible(
-					view);
+			AbsListViewBackCompatible viewBackCompatible = new AbsListViewBackCompatible(view);
 			viewBackCompatible.clearChoices();
 			updateView(viewBackCompatible, newValue);
 		}
@@ -81,8 +78,7 @@ public class CheckedItemPositionsAttribute implements MultiTypePropertyViewAttri
 		@Override
 		protected void viewCheckedItemPositionsChanged(AbsListView view,
 				ValueModel<SparseBooleanArray> valueModel) {
-			SparseBooleanArray checkedItemPositions = new AbsListViewBackCompatible(
-					view).getCheckedItemPositions();
+			SparseBooleanArray checkedItemPositions = new AbsListViewBackCompatible(view).getCheckedItemPositions();
 			valueModel.setValue(checkedItemPositions);
 		}
 
@@ -101,10 +97,8 @@ public class CheckedItemPositionsAttribute implements MultiTypePropertyViewAttri
 		@Override
 		protected void viewCheckedItemPositionsChanged(AbsListView view,
 				ValueModel<Set<Integer>> valueModel) {
-			SparseBooleanArray checkedItemPositions = new AbsListViewBackCompatible(
-					view).getCheckedItemPositions();
-			valueModel.setValue(SparseBooleanArrayUtils
-					.toSet(checkedItemPositions));
+			SparseBooleanArray checkedItemPositions = new AbsListViewBackCompatible(view).getCheckedItemPositions();
+			valueModel.setValue(SparseBooleanArrayUtils.toSet(checkedItemPositions));
 		}
 
 		@Override
@@ -120,10 +114,8 @@ public class CheckedItemPositionsAttribute implements MultiTypePropertyViewAttri
 		@Override
 		protected void viewCheckedItemPositionsChanged(AbsListView view,
 				ValueModel<Map<Integer, Boolean>> valueModel) {
-			SparseBooleanArray checkedItemPositions = new AbsListViewBackCompatible(
-					view).getCheckedItemPositions();
-			valueModel.setValue(SparseBooleanArrayUtils
-					.toMap(checkedItemPositions));
+			SparseBooleanArray checkedItemPositions = new AbsListViewBackCompatible(view).getCheckedItemPositions();
+			valueModel.setValue(SparseBooleanArrayUtils.toMap(checkedItemPositions));
 		}
 
 		@Override

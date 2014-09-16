@@ -4,8 +4,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.widget.ProgressBar;
@@ -17,9 +19,12 @@ import android.widget.ProgressBar;
  * @author Robert Taylor
  */
 @Config(manifest = Config.NONE)
-public class MaxAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, MaxAttribute> {
+@RunWith(RobolectricTestRunner.class)
+public class MaxAttributeTest {
 	@Test
 	public void whenUpdateView_thenSetMaxOnProgressBar() {
+		ProgressBar view = new ProgressBar(Robolectric.application);
+		MaxAttribute attribute = new MaxAttribute();
 		int newMaxValue = RandomValues.anyInteger();
 
 		attribute.updateView(view, newMaxValue);

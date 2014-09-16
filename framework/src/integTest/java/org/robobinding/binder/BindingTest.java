@@ -40,7 +40,7 @@ import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.grouped.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttributesBuilder;
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
-import org.robobinding.widget.listview.SparseBooleanArrayUtils;
+import org.robobinding.widget.abslistview.SparseBooleanArrayUtils;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 

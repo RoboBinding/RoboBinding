@@ -14,8 +14,8 @@ import org.robobinding.binder.BinderFactoryBuilder;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException;
 import org.robobinding.itempresentationmodel.AbstractItemPresentationModel;
 import org.robobinding.presentationmodel.AbstractPresentationModel;
+import org.robobinding.robolectric.DefaultTestRunner;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 
 import android.widget.Button;
 import android.widget.ListView;
@@ -29,7 +29,7 @@ import com.google.common.collect.Lists;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(RobolectricTestRunner.class)
+@RunWith(DefaultTestRunner.class)
 public class ErrorReportingTest {
 	private BinderFactory binderFactory;
 	
@@ -44,7 +44,7 @@ public class ErrorReportingTest {
 	public void whenInflateAndBindSample1_thenThrowsExpectedErrors() {
 		ViewBinder viewBinder = binderFactory.createViewBinder(Robolectric.application);
 		try{
-			viewBinder.inflateAndBind(R.layout.test_error_reporting_sample1, new Sample1PresentationModel());
+			viewBinder.inflateAndBind(R.layout.error_reporting_sample1, new Sample1PresentationModel());
 			fail("Expect an exception thrown");
 		}catch(ViewHierarchyInflationErrorsException bindingViewInflationErrors) {
 			ViewInflationErrorsExpectations expectations = createSample1ErrorsExpectations();

@@ -2,11 +2,10 @@ package org.robobinding.widget.view;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
+import org.robobinding.widget.EventCommand;
 import org.robolectric.annotation.Config;
-
-import android.view.View;
 
 /**
  * 
@@ -15,12 +14,19 @@ import android.view.View;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class OnClickAttributeTest
-		extends
-		AbstractEventViewAttributeWithViewListenersAwareTest<View, OnClickAttribute, MockViewListenersForView> {
+public class OnClickAttributeTest extends AbstractViewEventAttributeTest {
+	private OnClickAttribute attribute;
+	private EventCommand eventCommand;
+	
+	@Before
+	public void setUp() {
+		attribute = withListenersSet(new OnClickAttribute());
+		eventCommand = new EventCommand();
+	}
+	
 	@Test
 	public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		clickOnView();
 
@@ -32,14 +38,14 @@ public class OnClickAttributeTest
 	}
 
 	private void assertEventReceived() {
-		assertEventReceived(ClickEvent.class);
-		ClickEvent clickEvent = getEventReceived();
+		eventCommand.assertEventReceived(ClickEvent.class);
+		ClickEvent clickEvent = eventCommand.getEventReceived();
 		assertTrue(clickEvent.getView() == view);
 	}
 
 	@Test
 	public void whenBinding_thenRegisterWithViewListeners() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		assertTrue(viewListeners.addOnClickListenerInvoked);
 	}

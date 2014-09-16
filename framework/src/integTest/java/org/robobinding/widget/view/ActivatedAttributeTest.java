@@ -3,10 +3,11 @@ package org.robobinding.widget.view;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.view.View;
@@ -18,13 +19,12 @@ import android.view.View;
  * @author Aurélien Catinon
  */
 @Config(manifest=Config.NONE)
-public class ActivatedAttributeTest extends
-		AbstractPropertyViewAttributeTest<View, ActivatedAttribute> {
-	@Ignore
-	// View.activated property is not supported by Robolectric 1.2. The test
-	// will be enabled once Robolectric is upgraded.
+@RunWith(RobolectricTestRunner.class)
+public class ActivatedAttributeTest {
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		View view = new View(Robolectric.application);
+		ActivatedAttribute attribute = new ActivatedAttribute();
 		boolean activated = RandomValues.trueOrFalse();
 
 		view.setActivated(!activated);

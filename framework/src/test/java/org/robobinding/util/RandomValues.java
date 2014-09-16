@@ -95,6 +95,10 @@ public class RandomValues {
 	public static int nextInt(int n) {
 		return random.nextInt(n);
 	}
+	
+	public static int nextIntegerGreaterThanZero(int n) {
+		return random.nextInt(n-1) + 1;
+	}
 
 	public static float nextFloat(int n) {
 		return random.nextFloat() * nextInt(n);

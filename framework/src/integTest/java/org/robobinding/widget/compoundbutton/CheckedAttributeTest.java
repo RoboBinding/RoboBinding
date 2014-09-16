@@ -8,10 +8,7 @@ import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 import org.robolectric.annotation.Config;
-
-import android.widget.CheckBox;
 
 /**
  * 
@@ -20,10 +17,10 @@ import android.widget.CheckBox;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class CheckedAttributeTest extends
-		AbstractPropertyViewAttributeWithViewListenersAwareTest<CheckBox, CheckedAttribute, MockCompoundButtonListeners> {
+public class CheckedAttributeTest extends AbstractCompoundButtonAttributeTest {
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		CheckedAttribute attribute = new CheckedAttribute();
 		boolean checked = RandomValues.trueOrFalse();
 
 		attribute.updateView(view, checked);
@@ -33,6 +30,7 @@ public class CheckedAttributeTest extends
 
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
+		CheckedAttribute attribute = withListenersSet(new CheckedAttribute());
 		ValueModel<Boolean> valueModel = ValueModelUtils.create();
 		attribute.observeChangesOnTheView(view, valueModel);
 
@@ -44,6 +42,7 @@ public class CheckedAttributeTest extends
 
 	@Test
 	public void whenObserveChangesOnTheView_thenRegisterWithViewListeners() {
+		CheckedAttribute attribute = withListenersSet(new CheckedAttribute());
 		attribute.observeChangesOnTheView(view, null);
 
 		assertTrue(viewListeners.addOnCheckedChangeListenerInvoked);

@@ -3,9 +3,12 @@ package org.robobinding.widget.view;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
+import org.junit.runner.RunWith;
 import org.robobinding.widget.view.VisibilityAttribute.BooleanVisibilityAttribute;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.view.View;
@@ -18,10 +21,18 @@ import android.view.View;
  * @author Cheng Wei
  */
 @Config(manifest=Config.NONE)
-public class BooleanVisibilityAttributeTest
-		extends
-		AbstractPropertyViewAttributeTest<View, BooleanVisibilityAttribute<View>> {
+@RunWith(RobolectricTestRunner.class)
+public class BooleanVisibilityAttributeTest {
 	private AbstractVisibility visibility;
+	private View view;
+	private BooleanVisibilityAttribute<View> attribute;
+	
+	@Before
+	public void setUp() {
+		view = new View(Robolectric.application);
+		visibility = mock(AbstractVisibility.class);
+		attribute = new BooleanVisibilityAttribute<View>(visibility);
+	}
 
 	@Test
 	public void whenUpdateToVisible_thenMakeVisibleIsCalled() {
@@ -39,11 +50,5 @@ public class BooleanVisibilityAttributeTest
 		attribute.updateView(view, gone);
 
 		verify(visibility).makeGone();
-	}
-
-	@Override
-	protected BooleanVisibilityAttribute<View> createAttribute() {
-		visibility = mock(AbstractVisibility.class);
-		return new BooleanVisibilityAttribute<View>(visibility);
 	}
 }

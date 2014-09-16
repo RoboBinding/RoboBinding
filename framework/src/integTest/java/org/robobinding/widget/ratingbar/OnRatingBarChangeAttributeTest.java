@@ -9,10 +9,8 @@ import static org.robobinding.util.RandomValues.nextInt;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
+import org.robobinding.widget.EventCommand;
 import org.robolectric.annotation.Config;
-
-import android.widget.RatingBar;
 
 /**
  * 
@@ -21,17 +19,21 @@ import android.widget.RatingBar;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class OnRatingBarChangeAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<RatingBar, OnRatingBarChangeAttribute, MockRatingBarListeners> {
+public class OnRatingBarChangeAttributeTest extends AbstractRatingBarAttributeTest {
 	private static final int NUM_STARS_TO_SHOW = 5;
+	private OnRatingBarChangeAttribute attribute;
+	private EventCommand eventCommand;
 
 	@Before
 	public void setUp() {
 		view.setNumStars(NUM_STARS_TO_SHOW);
+		attribute = withListenersSet(new OnRatingBarChangeAttribute());
+		eventCommand = new EventCommand();
 	}
 
 	@Test
 	public void givenBoundAttribute_whenChangeChecked_thenEventReceived() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		int newNumStars = nextInt(NUM_STARS_TO_SHOW);
 		updateRating(newNumStars);
@@ -44,8 +46,8 @@ public class OnRatingBarChangeAttributeTest extends AbstractEventViewAttributeWi
 	}
 
 	private void assertEventReceived(int newNumStars) {
-		assertEventReceived(RatingBarChangeEvent.class);
-		RatingBarChangeEvent ratingBarEvent = getEventReceived();
+		eventCommand.assertEventReceived(RatingBarChangeEvent.class);
+		RatingBarChangeEvent ratingBarEvent = eventCommand.getEventReceived();
 		assertThat(ratingBarEvent.getView(), sameInstance(view));
 		assertThat((double) ratingBarEvent.getRating(),
 				is(closeTo(newNumStars, 0.1f)));
@@ -54,7 +56,7 @@ public class OnRatingBarChangeAttributeTest extends AbstractEventViewAttributeWi
 
 	@Test
 	public void whenBinding_thenRegisterWithMulticastListener() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		assertTrue(viewListeners.addOnRatingBarChangeListenerInvoked);
 	}

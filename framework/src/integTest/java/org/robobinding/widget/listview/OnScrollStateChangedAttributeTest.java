@@ -2,12 +2,11 @@ package org.robobinding.widget.listview;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
+import org.robobinding.widget.EventCommand;
 import org.robolectric.annotation.Config;
-
-import android.widget.ListView;
 
 /**
  * 
@@ -16,12 +15,20 @@ import android.widget.ListView;
  * @author Cheng Wei
  */
 @Config(manifest=Config.NONE)
-public class OnScrollStateChangedAttributeTest extends
-		AbstractEventViewAttributeWithViewListenersAwareTest<ListView, OnScrollStateChangedAttribute, MockListViewListeners> {
+public class OnScrollStateChangedAttributeTest extends AbstractListViewAttributeTest {
+	private OnScrollStateChangedAttribute attribute;
+	private EventCommand eventCommand;
+	
+	@Before
+	public void setUp() {
+		attribute = withListenersSet(new OnScrollStateChangedAttribute());
+		eventCommand = new EventCommand();
+	}
+	
 	@Test
 	@Ignore
 	public void givenBoundAttribute_whenChangeScrollState_thenEventReceived() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		changeScrollState();
 
@@ -33,12 +40,12 @@ public class OnScrollStateChangedAttributeTest extends
 	}
 
 	private void assertEventReceived() {
-		assertEventReceived(ScrollStateChangedEvent.class);
+		eventCommand.assertEventReceived(ScrollStateChangedEvent.class);
 	}
 
 	@Test
 	public void whenBinding_thenRegisterWithViewListeners() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		assertTrue(viewListeners.addOnScrollListenerInvoked);
 	}

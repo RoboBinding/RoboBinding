@@ -2,13 +2,12 @@ package org.robobinding.widget.view;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
+import org.robobinding.widget.EventCommand;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowView;
-
-import android.view.View;
 
 /**
  * 
@@ -17,12 +16,19 @@ import android.view.View;
  * @author Cheng Wei
  */
 @Config(manifest=Config.NONE)
-public class OnFocusLostAttributeTest
-		extends
-		AbstractEventViewAttributeWithViewListenersAwareTest<View, OnFocusChangeAttribute, MockViewListenersForView> {
+public class OnFocusLostAttributeTest extends AbstractViewEventAttributeTest {
+	private OnFocusLostAttribute attribute;
+	private EventCommand eventCommand;
+	
+	@Before
+	public void setUp() {
+		attribute = withListenersSet(new OnFocusLostAttribute());
+		eventCommand = new EventCommand();
+	}
+	
 	@Test
 	public void givenBoundAttribute_whenClearFocus_thenEventReceived() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		clearViewFocus();
 
@@ -35,12 +41,12 @@ public class OnFocusLostAttributeTest
 	}
 
 	private void assertEventReceived() {
-		assertEventReceived(AbstractViewEvent.class);
+		eventCommand.assertEventReceived(AbstractViewEvent.class);
 	}
 
 	@Test
 	public void whenBinding_thenRegisterWithViewListeners() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		assertTrue(viewListeners.addOnFocusChangeListenerInvoked);
 	}

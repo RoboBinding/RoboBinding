@@ -45,7 +45,7 @@ public class ViewListenersForViewTest {
 
 	@Test
 	public void shouldSupportMultipleOnLongClickListeners() {
-		View view = new View(null);
+		View view = new View(Robolectric.application);
 		ViewListenersForView viewListeners = new ViewListenersForView(view);
 
 		MockOnLongClickListener listener1 = new MockOnLongClickListener();
@@ -62,7 +62,7 @@ public class ViewListenersForViewTest {
 
 	@Test
 	public void shouldSupportMultipleOnFocusChangeListeners() {
-		View view = new View(null);
+		View view = new View(Robolectric.application);
 		ViewListenersForView viewListeners = new ViewListenersForView(view);
 
 		MockOnFocusChangeListener listener1 = new MockOnFocusChangeListener();
@@ -80,7 +80,7 @@ public class ViewListenersForViewTest {
 
 	@Test
 	public void shouldSupportMultipleOnTouchListeners() {
-		View view = new View(null);
+		View view = new View(Robolectric.application);
 		ViewListenersForView viewListeners = new ViewListenersForView(view);
 
 		MockOnTouchListener listener1 = new MockOnTouchListener();

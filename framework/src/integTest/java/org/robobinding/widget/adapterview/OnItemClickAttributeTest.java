@@ -8,13 +8,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
+import org.robobinding.widget.EventCommand;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowListView;
 
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -24,31 +23,29 @@ import android.widget.TextView;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class OnItemClickAttributeTest extends
-		AbstractEventViewAttributeWithViewListenersAwareTest<ListView, OnItemClickAttribute, MockAdapterViewListeners> {
+public class OnItemClickAttributeTest extends AbstractAdapterViewAttributeTest {
+	private OnItemClickAttribute attribute;
+	private EventCommand eventCommand;
 	private int indexToClick;
 
 	@Before
 	public void setUp() {
+		attribute = withListenersSet(new OnItemClickAttribute());
+		eventCommand = new EventCommand();
+
 		ArrayAdapter<String> arrayAdapter = new MockArrayAdapter(Robolectric.application);
 		view.setAdapter(arrayAdapter);
+		
 		indexToClick = RandomValues.anyIndex(arrayAdapter.getCount());
 	}
 
 	@Test
 	public void givenBoundAttribute_whenClickingOnAnItem_thenEventReceived() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		clickOnAnItem();
 
 		assertEventReceived();
-	}
-
-	@Test
-	public void whenBinding_thenRegisterWithMulticastListener() {
-		bindAttribute();
-
-		assertTrue(viewListeners.addOnItemClickListenerInvoked);
 	}
 
 	private void clickOnAnItem() {
@@ -57,10 +54,17 @@ public class OnItemClickAttributeTest extends
 	}
 
 	private void assertEventReceived() {
-		assertEventReceived(ItemClickEvent.class);
-		ItemClickEvent itemClickEvent = getEventReceived();
+		eventCommand.assertEventReceived(ItemClickEvent.class);
+		ItemClickEvent itemClickEvent = eventCommand.getEventReceived();
 		assertTrue(itemClickEvent.getParent() == view);
 		assertThat(itemClickEvent.getPosition(), is(indexToClick));
 		assertThat(itemClickEvent.getView(), instanceOf(TextView.class));
+	}
+
+	@Test
+	public void whenBinding_thenRegisterWithMulticastListener() {
+		attribute.bind(view, eventCommand);
+
+		assertTrue(viewListeners.addOnItemClickListenerInvoked);
 	}
 }

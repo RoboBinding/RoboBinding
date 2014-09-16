@@ -5,7 +5,9 @@ import static org.robobinding.widget.textview.CharSequenceMatcher.sameAs;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.widget.TextView;
@@ -17,10 +19,12 @@ import android.widget.TextView;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class TextAttributeTest extends
-		AbstractPropertyViewAttributeTest<TextView, TextAttribute> {
+@RunWith(RobolectricTestRunner.class)
+public class TextAttributeTest {
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		TextView view = new TextView(Robolectric.application);
+		TextAttribute attribute = new TextAttribute();
 		String newText = RandomStringUtils.random(5);
 
 		attribute.updateView(view, newText);

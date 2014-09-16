@@ -30,7 +30,7 @@ configurations {
 
 ext {
 	guavaVersion = '11.0.1'
-	androidVersion = '4.1.1.4'
+	androidVersion = '4.4_r1-robolectric-0'
 	aspectjVersion = '1.8.2'
 	
 	robolectricVersion = '2.3'
@@ -40,7 +40,8 @@ ext {
 
 dependencies {
 	compile "com.google.guava:guava:$guavaVersion"
-	compile "com.google.android:android:$androidVersion"
+	compile "org.robolectric:android-all:$androidVersion"
+	//compile "com.google.android:android:$androidVersion"
 	compile "org.aspectj:aspectjrt:$aspectjVersion"
 	
 	testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
@@ -299,30 +300,34 @@ eclipse {
 		
 		natures 'org.springsource.ide.eclipse.gradle.core.nature'
 		natures 'org.eclipse.ajdt.ui.ajnature'
-		natures 'com.android.ide.eclipse.adt.AndroidNature'
 		
 		buildCommands.clear()
-		buildCommand 'com.android.ide.eclipse.adt.ResourceManagerBuilder'
-		buildCommand 'com.android.ide.eclipse.adt.PreCompilerBuilder'
 		buildCommand 'org.eclipse.ajdt.core.ajbuilder'
-		buildCommand 'com.android.ide.eclipse.adt.ApkBuilder'
 	}
 	
 	classpath {
-		containers 'org.springsource.ide.eclipse.gradle.classpathcontainer'
 		file {
 			whenMerged { classpath ->
 				classpath.entries.removeAll { entry ->
-					entry.kind == 'lib'
+					return true
 				}
 			}
 		}
 		file.withXml {
 			def node = it.asNode()
-			
+
+			node.appendNode('classpathentry kind="src" path="src/main/java"')
+			node.appendNode('classpathentry kind="src" path="src/main/resources"')
+			node.appendNode('classpathentry kind="src" path="src/test/java"')
+			node.appendNode('classpathentry excluding="**" kind="src" path="src/test/resources"')
+		
 			node.appendNode('classpathentry kind="src" path="src/integTest/java"')
 			node.appendNode('classpathentry kind="src" path="src/funcTest/java"')
-			node.appendNode('classpathentry kind="src" path="gen"')
+			
+			node.appendNode('classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"')
+			node.appendNode('classpathentry kind="con" path="org.springsource.ide.eclipse.gradle.classpathcontainer" exported="true"')
+			
+			node.appendNode('classpathentry kind="output" path="build/bin"')
 		}
 	}
 }

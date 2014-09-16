@@ -4,8 +4,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.view.View;
@@ -17,10 +19,12 @@ import android.view.View;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class EnabledAttributeTest extends
-		AbstractPropertyViewAttributeTest<View, EnabledAttribute> {
+@RunWith(RobolectricTestRunner.class)
+public class EnabledAttributeTest {
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		View view = new View(Robolectric.application);
+		EnabledAttribute attribute = new EnabledAttribute();
 		boolean enabled = RandomValues.trueOrFalse();
 
 		attribute.updateView(view, enabled);

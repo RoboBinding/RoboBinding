@@ -5,10 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
 import org.robolectric.annotation.Config;
-
-import android.widget.ProgressBar;
 
 /**
  * 
@@ -17,9 +14,10 @@ import android.widget.ProgressBar;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class ProgressAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, ProgressAttribute> {
+public class ProgressAttributeTest extends AbstractProgressBarAttributeTest {
 	@Test
 	public void whenUpdateView_thenSetProgressOnProgressBar() {
+		ProgressAttribute attribute = new ProgressAttribute();
 		int newProgress = RandomValues.anyInteger();
 
 		attribute.updateView(view, newProgress);

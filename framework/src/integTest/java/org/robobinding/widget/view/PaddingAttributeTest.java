@@ -1,14 +1,16 @@
 package org.robobinding.widget.view;
 
-import android.view.View;
-
-import org.junit.Test;
-import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
-import org.robolectric.annotation.Config;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robobinding.util.RandomValues;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+
+import android.view.View;
 
 /**
  * 
@@ -17,10 +19,12 @@ import static org.junit.Assert.assertThat;
  * @author Aurélien Catinon
  */
 @Config(manifest=Config.NONE)
-public class PaddingAttributeTest extends
-		AbstractPropertyViewAttributeTest<View, PaddingAttribute> {
+@RunWith(RobolectricTestRunner.class)
+public class PaddingAttributeTest {
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		View view = new View(Robolectric.application);
+		PaddingAttribute attribute = new PaddingAttribute();
 		int padding = RandomValues.anyIntegerGreaterThanZero();
 
 		attribute.updateView(view, padding);

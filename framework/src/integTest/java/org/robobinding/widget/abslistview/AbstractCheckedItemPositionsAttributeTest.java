@@ -4,12 +4,7 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.robobinding.util.RandomValues;
-import org.robobinding.viewattribute.ViewListenersAware;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
-import org.robobinding.widget.adapterview.AdapterViewListeners;
-import org.robobinding.widget.adapterview.MockAdapterViewListeners;
-import org.robobinding.widget.listview.SparseBooleanArrayUtils;
+import org.robobinding.widget.adapterview.AbstractAdapterViewAttributeTest;
 
 import android.util.SparseBooleanArray;
 import android.widget.ListAdapter;
@@ -21,22 +16,15 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractCheckedItemPositionsAttributeTest<ViewType extends ListView, PropertyViewAttributeType extends PropertyViewAttribute<? super ViewType, ?>>
-		extends AbstractPropertyViewAttributeTest<ViewType, PropertyViewAttributeType> {
+public abstract class AbstractCheckedItemPositionsAttributeTest extends AbstractAdapterViewAttributeTest {
 	private ListAdapter adapter;
 
-	@SuppressWarnings("unchecked")
 	@Before
 	public void initializeAdapterAndViewListeners() {
-
-		/*adapter = new MockArrayAdapter(
-				R.layout.simple_list_item_multiple_choice);*/
 		adapter = new MultipleChoiceAdapter();
 		view.setAdapter(adapter);
 		view.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-		((ViewListenersAware<AdapterViewListeners>) attribute)
-				.setViewListeners(new MockAdapterViewListeners(view));
 		preInitializeCheckedItemPositionsToRandomState();
 	}
 

@@ -18,30 +18,30 @@ public class TwoWayProgressAttribute implements TwoWayPropertyViewAttribute<Seek
 
     @Override
     public void setViewListeners(SeekBarListeners viewListeners) {
-	this.viewListeners = viewListeners;
+    	this.viewListeners = viewListeners;
     }
 
     @Override
     public void updateView(SeekBar view, Integer progress) {
-	view.setProgress(progress);
+    	view.setProgress(progress);
     }
 
     @Override
     public void observeChangesOnTheView(SeekBar view, final ValueModel<Integer> valueModel) {
-	viewListeners.addOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
-	    @Override
-	    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-		valueModel.setValue(progress);
-	    }
-
-	    @Override
-	    public void onStopTrackingTouch(SeekBar seekBar) {
-	    }
-
-	    @Override
-	    public void onStartTrackingTouch(SeekBar seekBar) {
-	    }
-	});
+		viewListeners.addOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+	
+		    @Override
+		    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+			valueModel.setValue(progress);
+		    }
+	
+		    @Override
+		    public void onStopTrackingTouch(SeekBar seekBar) {
+		    }
+	
+		    @Override
+		    public void onStartTrackingTouch(SeekBar seekBar) {
+		    }
+		});
     }
 }

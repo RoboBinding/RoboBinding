@@ -4,9 +4,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
-import org.robobinding.widget.viewanimator.DisplayedChildAttribute;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.widget.TextView;
@@ -19,19 +20,22 @@ import android.widget.ViewAnimator;
  * @author Aurélien Catinon
  */
 @Config(manifest=Config.NONE)
-public class DisplayedChildAttributeTest extends
-		AbstractPropertyViewAttributeTest<ViewAnimator, DisplayedChildAttribute> {
+@RunWith(RobolectricTestRunner.class)
+public class DisplayedChildAttributeTest{
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
-		Integer newInteger = RandomValues.nextInt(5);
+		ViewAnimator view = new ViewAnimator(Robolectric.application);
+		DisplayedChildAttribute attribute = new DisplayedChildAttribute();
+		int numChilds = 5;
+		int displayedChild = RandomValues.nextInt(numChilds);
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < numChilds; i++) {
 			view.addView(new TextView(view.getContext()));
 		}
 
-		attribute.updateView(view, newInteger);
+		attribute.updateView(view, displayedChild);
 
-		assertThat(view.getDisplayedChild(), equalTo(newInteger));
+		assertThat(view.getDisplayedChild(), equalTo(displayedChild));
 	}
 }

@@ -11,10 +11,7 @@ import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.MapCheckedItemPositionsAttribute;
-import org.robobinding.widget.listview.SparseBooleanArrayUtils;
 import org.robolectric.annotation.Config;
-
-import android.widget.ListView;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -26,19 +23,17 @@ import com.google.common.collect.Sets;
  * @author Cheng Wei
  */
 @Config(manifest=Config.NONE)
-public class MapCheckedItemPositionsAttributeTest
-		extends
-		AbstractCheckedItemPositionsAttributeTest<ListView, MapCheckedItemPositionsAttribute> {
+public class MapCheckedItemPositionsAttributeTest extends AbstractCheckedItemPositionsAttributeTest {
 	private Map<Integer, Boolean> checkedItemPositions;
 
 	@Before
-	public void setUp() {
-		checkedItemPositions = SparseBooleanArrayUtils
-				.toMap(anySparseBooleanArray());
+	public void setUpTestData() {
+		checkedItemPositions = SparseBooleanArrayUtils.toMap(anySparseBooleanArray());
 	}
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		MapCheckedItemPositionsAttribute attribute = new MapCheckedItemPositionsAttribute();
 		attribute.updateView(view, checkedItemPositions);
 
 		assertMapEquals(checkedItemPositions,
@@ -47,9 +42,9 @@ public class MapCheckedItemPositionsAttributeTest
 
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
+		MapCheckedItemPositionsAttribute attribute = withListenersSet(new MapCheckedItemPositionsAttribute());
 		Map<Integer, Boolean> emptyMap = Maps.newHashMap();
-		ValueModel<Map<Integer, Boolean>> valueModel = ValueModelUtils
-				.create(emptyMap);
+		ValueModel<Map<Integer, Boolean>> valueModel = ValueModelUtils.create(emptyMap);
 		attribute.observeChangesOnTheView(view, valueModel);
 
 		setItemsChecked(toSet(checkedItemPositions));

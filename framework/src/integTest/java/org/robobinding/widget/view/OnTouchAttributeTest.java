@@ -2,12 +2,12 @@ package org.robobinding.widget.view;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
+import org.robobinding.widget.EventCommand;
 import org.robolectric.annotation.Config;
 
 import android.view.MotionEvent;
-import android.view.View;
 
 /**
  * 
@@ -16,12 +16,19 @@ import android.view.View;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class OnTouchAttributeTest
-		extends
-		AbstractEventViewAttributeWithViewListenersAwareTest<View, OnTouchAttribute, MockViewListenersForView> {
+public class OnTouchAttributeTest extends AbstractViewEventAttributeTest {
+	private OnTouchAttribute attribute;
+	private EventCommand eventCommand;
+	
+	@Before
+	public void setUp() {
+		attribute = withListenersSet(new OnTouchAttribute());
+		eventCommand = new EventCommand();
+	}
+	
 	@Test
 	public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		touchView();
 
@@ -39,14 +46,14 @@ public class OnTouchAttributeTest
 	}
 
 	private void assertEventReceived() {
-		assertEventReceived(TouchEvent.class);
-		TouchEvent event = getEventReceived();
+		eventCommand.assertEventReceived(TouchEvent.class);
+		TouchEvent event = eventCommand.getEventReceived();
 		assertTrue(event.getView() == view);
 	}
 
 	@Test
 	public void whenBinding_thenRegisterWithViewListeners() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		assertTrue(viewListeners.addOnTouchListenerInvoked);
 	}

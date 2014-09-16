@@ -4,8 +4,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.widget.TextView;
@@ -17,10 +19,12 @@ import android.widget.TextView;
  * @author Cheng Wei
  */
 @Config(manifest=Config.NONE)
-public class TextColorAttributeTest extends
-		AbstractPropertyViewAttributeTest<TextView, TextColorAttribute> {
+@RunWith(RobolectricTestRunner.class)
+public class TextColorAttributeTest {
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		TextView view = new TextView(Robolectric.application);
+		TextColorAttribute attribute = new TextColorAttribute();
 		int newColor = RandomValues.anyColor();
 
 		attribute.updateView(view, newColor);

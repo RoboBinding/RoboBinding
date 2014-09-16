@@ -4,11 +4,12 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robobinding.util.BitmapDrawableData;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
 import org.robobinding.widget.view.BackgroundAttribute.BitmapBackgroundAttribute;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.view.View;
@@ -20,9 +21,12 @@ import android.view.View;
  * @author Cheng Wei
  */
 @Config(manifest=Config.NONE)
-public class BitmapBackgroundAttributeTest extends AbstractPropertyViewAttributeTest<View, BitmapBackgroundAttribute> {
+@RunWith(RobolectricTestRunner.class)
+public class BitmapBackgroundAttributeTest {
 	@Test
 	public void givenBoundAttribute_whenUpdateView_thenViewShouldReflectChanges() {
+		View view = new View(Robolectric.application);
+		BitmapBackgroundAttribute attribute = new BitmapBackgroundAttribute();
 		BitmapDrawableData drawableData = RandomValues.anyBitmapDrawableData(Robolectric.application);
 
 		attribute.updateView(view, drawableData.bitmap);

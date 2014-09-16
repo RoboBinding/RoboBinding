@@ -4,7 +4,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
+import org.junit.runner.RunWith;
+import org.robobinding.util.RandomValues;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.widget.RatingBar;
@@ -16,11 +19,13 @@ import android.widget.RatingBar;
  * @author Robert Taylor
  */
 @Config(manifest = Config.NONE)
-public class NumStarsAttributeTest extends
-		AbstractPropertyViewAttributeTest<RatingBar, NumStarsAttribute> {
+@RunWith(RobolectricTestRunner.class)
+public class NumStarsAttributeTest {
 	@Test
 	public void whenUpdateView_thenSetNumStarsOnRatingBar() {
-		int newNumStars = 10;
+		RatingBar view = new RatingBar(Robolectric.application);
+		NumStarsAttribute attribute = new NumStarsAttribute();
+		int newNumStars = RandomValues.nextInt(10);
 
 		attribute.updateView(view, newNumStars);
 

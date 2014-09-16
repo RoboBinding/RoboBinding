@@ -10,11 +10,9 @@ import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.SparseBooleanArrayCheckedItemPositionsAttribute;
-import org.robobinding.widget.listview.SparseBooleanArrayUtils;
 import org.robolectric.annotation.Config;
 
 import android.util.SparseBooleanArray;
-import android.widget.ListView;
 
 /**
  * 
@@ -23,17 +21,17 @@ import android.widget.ListView;
  * @author Cheng Wei
  */
 @Config(manifest=Config.NONE)
-public class SparseBooleanArrayCheckedItemPositionsAttributeTest extends
-		AbstractCheckedItemPositionsAttributeTest<ListView, SparseBooleanArrayCheckedItemPositionsAttribute> {
+public class SparseBooleanArrayCheckedItemPositionsAttributeTest extends AbstractCheckedItemPositionsAttributeTest {
 	private SparseBooleanArray checkedItemPositions;
 
 	@Before
-	public void setUp() {
+	public void setUpTestData() {
 		checkedItemPositions = anySparseBooleanArray();
 	}
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		SparseBooleanArrayCheckedItemPositionsAttribute attribute = new SparseBooleanArrayCheckedItemPositionsAttribute();
 		attribute.updateView(view, checkedItemPositions);
 
 		assertSparseBooleanArrayEquals(checkedItemPositions,
@@ -42,15 +40,14 @@ public class SparseBooleanArrayCheckedItemPositionsAttributeTest extends
 
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
+		SparseBooleanArrayCheckedItemPositionsAttribute attribute = withListenersSet(new SparseBooleanArrayCheckedItemPositionsAttribute());
 		SparseBooleanArray emptySparseBooleanArray = new SparseBooleanArray();
-		ValueModel<SparseBooleanArray> valueModel = ValueModelUtils
-				.create(emptySparseBooleanArray);
+		ValueModel<SparseBooleanArray> valueModel = ValueModelUtils.create(emptySparseBooleanArray);
 		attribute.observeChangesOnTheView(view, valueModel);
 
 		setItemsChecked(SparseBooleanArrayUtils.toSet(checkedItemPositions));
 
-		assertSparseBooleanArrayEquals(checkedItemPositions,
-				valueModel.getValue());
+		assertSparseBooleanArrayEquals(checkedItemPositions, valueModel.getValue());
 	}
 
 	private void assertSparseBooleanArrayEquals(SparseBooleanArray expected,

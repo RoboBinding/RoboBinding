@@ -8,12 +8,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
+import org.robobinding.widget.EventCommand;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -23,21 +22,26 @@ import android.widget.TextView;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class OnItemSelectedAttributeTest extends
-		AbstractEventViewAttributeWithViewListenersAwareTest<ListView, OnItemSelectedAttribute, MockAdapterViewListeners> {
+public class OnItemSelectedAttributeTest extends AbstractAdapterViewAttributeTest {
+	private OnItemSelectedAttribute attribute;
+	private EventCommand eventCommand;
 	private int indexToSelect;
 	private MockArrayAdapter arrayAdapter;
 
 	@Before
 	public void setUp() {
+		attribute = withListenersSet(new OnItemSelectedAttribute());
+		eventCommand = new EventCommand();
+		
 		arrayAdapter = new MockArrayAdapter(Robolectric.application);
 		view.setAdapter(arrayAdapter);
+		
 		indexToSelect = RandomValues.anyIndex(arrayAdapter.getCount());
 	}
 
 	@Test
 	public void givenBoundAttribute_whenSelectingAnItem_thenEventReceived() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		selectAnItem();
 
@@ -46,7 +50,7 @@ public class OnItemSelectedAttributeTest extends
 
 	@Test
 	public void whenBinding_thenRegisterWithMulticastListener() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		assertTrue(viewListeners.addOnItemSelectedListenerInvoked);
 	}
@@ -60,8 +64,8 @@ public class OnItemSelectedAttributeTest extends
 	}
 
 	private void assertEventReceivedWithIndex(int index) {
-		assertEventReceived(ItemClickEvent.class);
-		ItemClickEvent itemClickEvent = getEventReceived();
+		eventCommand.assertEventReceived(ItemClickEvent.class);
+		ItemClickEvent itemClickEvent = eventCommand.getEventReceived();
 		assertTrue(itemClickEvent.getParent() == view);
 		assertThat(itemClickEvent.getPosition(), is(index));
 		assertThat(itemClickEvent.getView(), instanceOf(TextView.class));
@@ -69,20 +73,20 @@ public class OnItemSelectedAttributeTest extends
 
 	@Test
 	public void whenAllItemsAreRemovedFromAdapter_thenInvokeCommandPassingClickEventWithPositionAsInvalidPosition() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		arrayAdapter.clear();
 		arrayAdapter.notifyDataSetChanged();
 
-		assertEventReceived(ItemClickEvent.class);
-		ItemClickEvent itemClickEvent = getEventReceived();
+		eventCommand.assertEventReceived(ItemClickEvent.class);
+		ItemClickEvent itemClickEvent = eventCommand.getEventReceived();
 		assertThat(itemClickEvent.getPosition(),
 				is(AdapterView.INVALID_POSITION));
 	}
 
 	@Test
 	public void whenAdapterDataSetIsChanged_andSelectedItemPositionHasNotChanged_thenInvokeEvent() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		arrayAdapter.notifyDataSetChanged();
 
@@ -91,13 +95,13 @@ public class OnItemSelectedAttributeTest extends
 
 	@Test
 	public void whenAdapterDataSetIsChanged_andSelectedItemPositionHasChanged_thenOnlyInvokeEventOnce() {
-		bindAttribute();
+		attribute.bind(view, eventCommand);
 
 		selectLastItem();
 		arrayAdapter.removeLastElement();
 		arrayAdapter.notifyDataSetChanged();
 
-		assertTimesOfEventReceived(1);
+		eventCommand.assertTimesOfEventReceived(1);
 	}
 
 	private void selectLastItem() {

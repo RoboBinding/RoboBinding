@@ -1,16 +1,18 @@
 package org.robobinding.widget.view;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robobinding.util.RandomValues;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
-import org.junit.Test;
-import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
-import org.robolectric.annotation.Config;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
 
 /**
  * 
@@ -19,11 +21,13 @@ import static org.junit.Assert.assertThat;
  * @author Aurélien Catinon
  */
 @Config(manifest=Config.NONE)
-public class LayoutMarginAttributeTest extends
-		AbstractPropertyViewAttributeTest<View, LayoutMarginAttribute> {
+@RunWith(RobolectricTestRunner.class)
+public class LayoutMarginAttributeTest {
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		View view = new View(Robolectric.application);
+		LayoutMarginAttribute attribute = new LayoutMarginAttribute();
 		int margin = RandomValues.anyIntegerGreaterThanZero();
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,

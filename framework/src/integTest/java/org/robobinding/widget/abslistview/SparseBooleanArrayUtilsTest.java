@@ -1,4 +1,4 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -9,6 +9,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robobinding.widget.abslistview.SparseBooleanArrayUtils;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 

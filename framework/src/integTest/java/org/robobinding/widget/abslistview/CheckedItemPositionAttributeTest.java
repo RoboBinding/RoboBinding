@@ -9,8 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
-import org.robobinding.widget.AbstractPropertyViewAttributeWithViewListenersAwareTest;
-import org.robobinding.widget.adapterview.MockAdapterViewListeners;
+import org.robobinding.widget.adapterview.AbstractAdapterViewAttributeTest;
 import org.robolectric.annotation.Config;
 
 import android.widget.ListAdapter;
@@ -23,14 +22,11 @@ import android.widget.ListView;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class CheckedItemPositionAttributeTest
-		extends
-		AbstractPropertyViewAttributeWithViewListenersAwareTest<ListView, CheckedItemPositionAttribute, MockAdapterViewListeners> {
+public class CheckedItemPositionAttributeTest extends AbstractAdapterViewAttributeTest {
 	private int checkedItemPosition;
 
 	@Before
-	public void setUp() {
-
+	public void setUpAdapter() {
 		ListAdapter adapter = new SingleChoiceAdapter();
 		view.setAdapter(adapter);
 		view.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -40,6 +36,7 @@ public class CheckedItemPositionAttributeTest
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		CheckedItemPositionAttribute attribute = new CheckedItemPositionAttribute();
 		attribute.updateView(view, checkedItemPosition);
 
 		assertThat(view.getCheckedItemPosition(), equalTo(checkedItemPosition));
@@ -47,6 +44,7 @@ public class CheckedItemPositionAttributeTest
 
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
+		CheckedItemPositionAttribute attribute = withListenersSet(new CheckedItemPositionAttribute());
 		ValueModel<Integer> valueModel = ValueModelUtils.create();
 		attribute.observeChangesOnTheView(view, valueModel);
 
@@ -61,6 +59,7 @@ public class CheckedItemPositionAttributeTest
 
 	@Test
 	public void whenObserveChangesOnTheView_thenRegisterWithMulticastListener() {
+		CheckedItemPositionAttribute attribute = withListenersSet(new CheckedItemPositionAttribute());
 		attribute.observeChangesOnTheView(view, null);
 
 		assertTrue(viewListeners.addOnItemClickListenerInvoked);

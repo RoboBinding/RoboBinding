@@ -9,10 +9,7 @@ import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeWithViewListenersAwareTest;
 import org.robolectric.annotation.Config;
-
-import android.widget.SeekBar;
 
 /**
  * 
@@ -21,10 +18,10 @@ import android.widget.SeekBar;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class TwoWayProgressAttributeTest extends
-		AbstractPropertyViewAttributeWithViewListenersAwareTest<SeekBar, TwoWayProgressAttribute, MockSeekBarListeners> {
+public class TwoWayProgressAttributeTest extends AbstractSeekBarAttributeTest{
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		TwoWayProgressAttribute attribute = new TwoWayProgressAttribute();
 		int newProgressValue = RandomValues.anyInteger();
 
 		attribute.updateView(view, newProgressValue);
@@ -34,7 +31,7 @@ public class TwoWayProgressAttributeTest extends
 
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-
+		TwoWayProgressAttribute attribute = withListenersSet(new TwoWayProgressAttribute());
 		ValueModel<Integer> valueModel = ValueModelUtils.create();
 		attribute.observeChangesOnTheView(view, valueModel);
 
@@ -46,6 +43,7 @@ public class TwoWayProgressAttributeTest extends
 
 	@Test
 	public void whenObserveChangesOnTheView_thenRegisterWithViewListeners() {
+		TwoWayProgressAttribute attribute = withListenersSet(new TwoWayProgressAttribute());
 		attribute.observeChangesOnTheView(null, null);
 
 		assertTrue(viewListeners.addOnSeekBarChangeListenerInvoked);

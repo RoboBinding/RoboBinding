@@ -4,9 +4,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
 import org.robobinding.widget.view.VisibilityAttribute.IntegerVisibilityAttribute;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.view.View;
@@ -19,13 +21,14 @@ import android.view.View;
  * @author Cheng Wei
  */
 @Config(manifest=Config.NONE)
-public class IntegerVisibilityAttributeTest
-		extends
-		AbstractPropertyViewAttributeTest<View, IntegerVisibilityAttribute<View>> {
+@RunWith(RobolectricTestRunner.class)
+public class IntegerVisibilityAttributeTest {
 	private AbstractVisibility visibility;
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		View view = new View(Robolectric.application);
+		IntegerVisibilityAttribute<View> attribute = createAttribute();
 		int visibilityValue = RandomValues.anyVisibility();
 
 		attribute.updateView(view, visibilityValue);
@@ -33,8 +36,7 @@ public class IntegerVisibilityAttributeTest
 		verify(visibility).setVisibility(visibilityValue);
 	}
 
-	@Override
-	protected IntegerVisibilityAttribute<View> createAttribute() {
+	private IntegerVisibilityAttribute<View> createAttribute() {
 		visibility = mock(AbstractVisibility.class);
 		return new IntegerVisibilityAttribute<View>(visibility);
 	}

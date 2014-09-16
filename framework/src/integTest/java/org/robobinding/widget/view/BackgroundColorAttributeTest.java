@@ -3,8 +3,10 @@ package org.robobinding.widget.view;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.graphics.drawable.ColorDrawable;
@@ -17,10 +19,12 @@ import android.view.View;
  * @author Cheng Wei
  */
 @Config(manifest=Config.NONE)
-public class BackgroundColorAttributeTest extends
-		AbstractPropertyViewAttributeTest<View, BackgroundColorAttribute> {
+@RunWith(RobolectricTestRunner.class)
+public class BackgroundColorAttributeTest {
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
+		View view = new View(Robolectric.application);
+		BackgroundColorAttribute attribute = new BackgroundColorAttribute();
 		int newColor = RandomValues.anyColor();
 
 		attribute.updateView(view, newColor);

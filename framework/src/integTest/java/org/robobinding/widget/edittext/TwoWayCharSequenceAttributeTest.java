@@ -4,11 +4,14 @@ import static org.junit.Assert.assertThat;
 import static org.robobinding.widget.textview.CharSequenceMatcher.sameAs;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
 import org.robobinding.widget.edittext.TwoWayTextAttribute.TwoWayCharSequenceTextAttribute;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.widget.EditText;
@@ -20,8 +23,17 @@ import android.widget.EditText;
  * @author Robert Taylor
  */
 @Config(manifest=Config.NONE)
-public class TwoWayCharSequenceAttributeTest extends
-		AbstractPropertyViewAttributeTest<EditText, TwoWayCharSequenceTextAttribute> {
+@RunWith(RobolectricTestRunner.class)
+public class TwoWayCharSequenceAttributeTest {
+	private EditText view;
+	private TwoWayCharSequenceTextAttribute attribute;
+	
+	@Before
+	public void setUp() {
+		view = new EditText(Robolectric.application);
+		attribute = new TwoWayCharSequenceTextAttribute();
+	}
+	
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
 		CharSequence newText = RandomStringUtils.randomAlphanumeric(5);
