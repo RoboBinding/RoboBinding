@@ -9,35 +9,35 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
  * @author Cheng Wei
  */
 public class DataSetValueModelWrapper<T> implements DataSetValueModel<T> {
-    private final DataSetValueModel<T> valueModel;
+	private final DataSetValueModel<T> valueModel;
 
-    public DataSetValueModelWrapper(DataSetValueModel<T> valueModel) {
-	this.valueModel = valueModel;
-    }
+	public DataSetValueModelWrapper(DataSetValueModel<T> valueModel) {
+		this.valueModel = valueModel;
+	}
 
-    @Override
-    public int size() {
-	return valueModel.size();
-    }
+	@Override
+	public int size() {
+		return valueModel.size();
+	}
 
-    @Override
-    public T getItem(int position) {
-	return valueModel.getItem(position);
-    }
+	@Override
+	public T getItem(int position) {
+		return valueModel.getItem(position);
+	}
 
-    @Override
-    public ItemPresentationModel<T> newItemPresentationModel() {
-	return valueModel.newItemPresentationModel();
-    }
+	@Override
+	public ItemPresentationModel<T> newItemPresentationModel() {
+		return valueModel.newItemPresentationModel();
+	}
 
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-	valueModel.addPropertyChangeListener(listener);
-    }
+	@Override
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		valueModel.addPropertyChangeListener(listener);
+	}
 
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-	valueModel.removePropertyChangeListener(listener);
-    }
+	@Override
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		valueModel.removePropertyChangeListener(listener);
+	}
 
 }

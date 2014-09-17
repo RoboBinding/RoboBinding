@@ -3,65 +3,66 @@ package org.robobinding.widget.abslistview;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.robobinding.viewattribute.RandomValues.nextInt;
+import static org.robobinding.util.RandomValues.nextInt;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.R;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
-import org.robobinding.widget.AbstractPropertyViewAttributeWithViewListenersAwareTest;
-import org.robobinding.widget.adapterview.MockAdapterViewListeners;
-import org.robobinding.widget.adapterview.MockArrayAdapter;
+import org.robobinding.widget.adapterview.AbstractAdapterViewAttributeTest;
+import org.robolectric.Robolectric;
+import org.robolectric.annotation.Config;
 
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class CheckedItemPositionAttributeTest extends
-	AbstractPropertyViewAttributeWithViewListenersAwareTest<ListView, CheckedItemPositionAttribute, MockAdapterViewListeners> {
-    private int checkedItemPosition;
+@Config(manifest = Config.NONE)
+public class CheckedItemPositionAttributeTest extends AbstractAdapterViewAttributeTest {
+	private int checkedItemPosition;
 
-    @Before
-    public void setUp() {
+	@Before
+	public void setUpAdapter() {
+		ListAdapter adapter = new SingleChoiceAdapter(Robolectric.application);
+		view.setAdapter(adapter);
+		view.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-	ListAdapter adapter = new MockArrayAdapter(R.layout.simple_list_item_single_choice);
-	view.setAdapter(adapter);
-	view.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		checkedItemPosition = nextInt(adapter.getCount());
+	}
 
-	checkedItemPosition = nextInt(adapter.getCount());
-    }
+	@Test
+	public void whenUpdateView_thenViewShouldReflectChanges() {
+		CheckedItemPositionAttribute attribute = new CheckedItemPositionAttribute();
+		attribute.updateView(view, checkedItemPosition);
 
-    @Test
-    public void whenUpdateView_thenViewShouldReflectChanges() {
-	attribute.updateView(view, checkedItemPosition);
+		assertThat(view.getCheckedItemPosition(), equalTo(checkedItemPosition));
+	}
 
-	assertThat(view.getCheckedItemPosition(), equalTo(checkedItemPosition));
-    }
+	@Test
+	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
+		CheckedItemPositionAttribute attribute = withListenersSet(new CheckedItemPositionAttribute());
+		ValueModel<Integer> valueModel = ValueModelUtils.create();
+		attribute.observeChangesOnTheView(view, valueModel);
 
-    @Test
-    public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-	ValueModel<Integer> valueModel = ValueModelUtils.create();
-	attribute.observeChangesOnTheView(view, valueModel);
+		setItemChecked();
 
-	setItemChecked();
+		assertThat(valueModel.getValue(), equalTo(checkedItemPosition));
+	}
 
-	assertThat(valueModel.getValue(), equalTo(checkedItemPosition));
-    }
+	private void setItemChecked() {
+		view.performItemClick(view, checkedItemPosition, 0);
+	}
 
-    private void setItemChecked() {
-	view.performItemClick(view, checkedItemPosition, 0);
-    }
+	@Test
+	public void whenObserveChangesOnTheView_thenRegisterWithMulticastListener() {
+		CheckedItemPositionAttribute attribute = withListenersSet(new CheckedItemPositionAttribute());
+		attribute.observeChangesOnTheView(view, null);
 
-    @Test
-    public void whenObserveChangesOnTheView_thenRegisterWithMulticastListener() {
-	attribute.observeChangesOnTheView(view, null);
-
-	assertTrue(viewListeners.addOnItemClickListenerInvoked);
-    }
+		assertTrue(viewListeners.addOnItemClickListenerInvoked);
+	}
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView 
+        android:id="@+id/supportedAttributesOfTextView"
+        android:text="String(to support 'int, double, long, float' where they are easy)"
+        android:textColor="@android:color/background_light">
+        <!-- 
+        bind:onTextChange="onTextChange()"
+         -->
+    </TextView>
+	<TextView 
+	    android:id="@+id/allAttributesOfTextView"
+	    android:autoLink="web"
+	    android:autoText="true"
+	    android:bufferType="spannable"
+	    android:capitalize="sentences"
+	    android:cursorVisible="true"
+	    android:digits="@string/text"
+	    android:drawableBottom="@drawable/icon"
+	    android:drawableLeft="@drawable/icon"
+	    android:drawableRight="@drawable/icon"
+	    android:drawableTop="@drawable/icon"
+	    android:editable="true"
+	    android:editorExtras="@string/text"
+	    android:ellipsize="start"
+	    android:ems="5"
+	    android:freezesText="true"
+	    android:gravity="top"
+	    android:height="100sp"
+	    android:hint="aaa"
+	    android:imeActionId="100"
+	    android:imeActionLabel="aa"
+	    android:imeOptions="normal"
+	    android:includeFontPadding="true"
+	    android:inputMethod="full.qualified.class.name"
+	    android:inputType="textCapCharacters"
+	    android:lineSpacingExtra="14.5sp"
+	    android:lineSpacingMultiplier="1.2"
+	    android:lines="100"
+	    android:linksClickable="true"
+	    android:marqueeRepeatLimit="100"
+	    android:maxEms="100"
+	    android:maxHeight="14.5sp"
+	    android:maxLength="100"
+	    android:maxLines="100"
+	    android:maxWidth="14.5sp"
+	    android:minEms="100"
+	    android:minHeight="14.5sp"
+	    android:minLines="100"
+	    android:minWidth="14.5sp"
+	    android:numeric="decimal"
+	    android:password="true"
+	    android:phoneNumber="true"
+	    android:privateImeOptions="@string/text"
+	    android:scrollHorizontally="true"
+	    android:selectAllOnFocus="true"
+	    android:shadowColor="@android:color/background_dark"
+	    android:shadowDx="1.2"
+	    android:shadowDy="1.2"
+	    android:shadowRadius="1.2"
+	    android:singleLine="true"
+	    android:text="aaa bbb"
+	    android:textAppearance="@android:style/TextAppearance.Medium"
+	    android:textColor="@android:color/black"
+	    android:textColorHighlight="@android:color/black"
+	    android:textColorHint="@android:color/black"
+	    android:textColorLink="@android:color/black"
+	    android:textScaleX="1.2"
+	    android:textSize="10sp"
+	    android:textStyle="bold"
+	    android:typeface="sans"
+	    android:width="100sp"
+	    >
+	    <!-- 
+	    android:drawablePadding="@android:drawable/alert_dark_frame"
+	     -->
+	   </TextView>
+    
+
+</LinearLayout>

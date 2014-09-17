@@ -1,6 +1,5 @@
 package org.robobinding;
 
-
 /**
  * 
  * @since 1.0
@@ -8,7 +7,7 @@ package org.robobinding;
  * @author Cheng Wei
  */
 public interface BinderProvider {
-    ItemBinder getItemBinder();
+	ItemBinder getItemBinder();
 
-    ViewBinder getViewBinder();
+	ViewBinder getViewBinder();
 }

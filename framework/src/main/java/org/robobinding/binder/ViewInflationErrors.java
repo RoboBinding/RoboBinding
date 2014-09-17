@@ -14,48 +14,48 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 public class ViewInflationErrors {
-    private Object view;
-    private ViewResolutionErrors resolutionErrors;
-    private ViewBindingErrors bindingErrors;
+	private Object view;
+	private ViewResolutionErrors resolutionErrors;
+	private ViewBindingErrors bindingErrors;
 
-    public ViewInflationErrors(ViewResolutionErrors resolutionError) {
-	this.view = resolutionError.getView();
-	this.resolutionErrors = resolutionError;
-    }
+	public ViewInflationErrors(ViewResolutionErrors resolutionError) {
+		this.view = resolutionError.getView();
+		this.resolutionErrors = resolutionError;
+	}
 
-    void setBindingErrors(ViewBindingErrors bindingError) {
-	this.bindingErrors = bindingError;
-    }
+	void setBindingErrors(ViewBindingErrors bindingError) {
+		this.bindingErrors = bindingError;
+	}
 
-    public boolean hasErrors() {
-	return resolutionErrors.hasErrors() || bindingErrors.hasErrors();
-    }
+	public boolean hasErrors() {
+		return resolutionErrors.hasErrors() || bindingErrors.hasErrors();
+	}
 
-    public Object getView() {
-	return view;
-    }
+	public Object getView() {
+		return view;
+	}
 
-    public ViewResolutionErrors getResolutionErrors() {
-	return resolutionErrors;
-    }
+	public ViewResolutionErrors getResolutionErrors() {
+		return resolutionErrors;
+	}
 
-    public ViewBindingErrors getBindingErrors() {
-	return bindingErrors;
-    }
+	public ViewBindingErrors getBindingErrors() {
+		return bindingErrors;
+	}
 
-    public int numErrors() {
-	return resolutionErrors.numErrors() + bindingErrors.numErrors();
-    }
+	public int numErrors() {
+		return resolutionErrors.numErrors() + bindingErrors.numErrors();
+	}
 
-    public String getViewName() {
-	return view.getClass().getSimpleName();
-    }
+	public String getViewName() {
+		return view.getClass().getSimpleName();
+	}
 
-    public Collection<Exception> getErrors() {
-	List<Exception> errors = Lists.newArrayList();
-	errors.addAll(resolutionErrors.getErrors());
-	errors.addAll(bindingErrors.getAttributeErrors());
-	return errors;
-    }
+	public Collection<Exception> getErrors() {
+		List<Exception> errors = Lists.newArrayList();
+		errors.addAll(resolutionErrors.getErrors());
+		errors.addAll(bindingErrors.getAttributeErrors());
+		return errors;
+	}
 
 }

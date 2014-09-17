@@ -13,20 +13,20 @@ import com.google.common.collect.Lists;
  */
 @SuppressWarnings("serial")
 public class GroupedAttributeResolutionException extends RuntimeException {
-    private final List<AttributeResolutionException> resolutionExceptions = Lists.newArrayList();
+	private final List<AttributeResolutionException> resolutionExceptions = Lists.newArrayList();
 
-    public void add(AttributeResolutionException e) {
-	resolutionExceptions.add(e);
-    }
-
-    public void assertNoErrors() {
-	if (!resolutionExceptions.isEmpty()) {
-	    throw this;
+	public void add(AttributeResolutionException e) {
+		resolutionExceptions.add(e);
 	}
-    }
 
-    public List<AttributeResolutionException> getAttributeResolutionExceptions() {
-	return Collections.unmodifiableList(resolutionExceptions);
-    }
+	public void assertNoErrors() {
+		if (!resolutionExceptions.isEmpty()) {
+			throw this;
+		}
+	}
+
+	public List<AttributeResolutionException> getAttributeResolutionExceptions() {
+		return Collections.unmodifiableList(resolutionExceptions);
+	}
 
 }

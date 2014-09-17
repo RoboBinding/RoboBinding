@@ -19,41 +19,41 @@ import com.google.common.collect.Lists;
  */
 @SuppressWarnings("serial")
 public class ViewBindingErrors extends RuntimeException {
-    private Object view;
-    private List<AttributeBindingException> attributeErrors;
+	private Object view;
+	private List<AttributeBindingException> attributeErrors;
 
-    public ViewBindingErrors(Object view) {
-	this.view = view;
-	attributeErrors = Lists.newArrayList();
-    }
-
-    public Object getView() {
-	return view;
-    }
-
-    public void assertNoErrors() {
-	if (hasErrors()) {
-	    throw this;
+	public ViewBindingErrors(Object view) {
+		this.view = view;
+		attributeErrors = Lists.newArrayList();
 	}
-    }
 
-    public boolean hasErrors() {
-	return isNotEmpty(attributeErrors);
-    }
+	public Object getView() {
+		return view;
+	}
 
-    public int numErrors() {
-	return attributeErrors.size();
-    }
+	public void assertNoErrors() {
+		if (hasErrors()) {
+			throw this;
+		}
+	}
 
-    void addAttributeError(AttributeBindingException attributeError) {
-	attributeErrors.add(attributeError);
-    }
+	public boolean hasErrors() {
+		return isNotEmpty(attributeErrors);
+	}
 
-    public void addAttributeGroupError(AttributeGroupBindingException e) {
-	attributeErrors.addAll(e.getChildAttributeErrors());
-    }
+	public int numErrors() {
+		return attributeErrors.size();
+	}
 
-    public Collection<AttributeBindingException> getAttributeErrors() {
-	return Collections.unmodifiableCollection(attributeErrors);
-    }
+	void addAttributeError(AttributeBindingException attributeError) {
+		attributeErrors.add(attributeError);
+	}
+
+	public void addAttributeGroupError(AttributeGroupBindingException e) {
+		attributeErrors.addAll(e.getChildAttributeErrors());
+	}
+
+	public Collection<AttributeBindingException> getAttributeErrors() {
+		return Collections.unmodifiableCollection(attributeErrors);
+	}
 }

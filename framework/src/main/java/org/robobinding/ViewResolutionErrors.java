@@ -11,17 +11,17 @@ import org.robobinding.attribute.MissingRequiredAttributesException;
  * @author Cheng Wei
  */
 public interface ViewResolutionErrors {
-    Object getView();
+	Object getView();
 
-    int numErrors();
+	int numErrors();
 
-    void assertNoErrors();
+	void assertNoErrors();
 
-    boolean hasErrors();
+	boolean hasErrors();
 
-    Collection<AttributeResolutionException> getAttributeErrors();
+	Collection<AttributeResolutionException> getAttributeErrors();
 
-    Collection<MissingRequiredAttributesException> getMissingRequiredAttributeErrors();
+	Collection<MissingRequiredAttributesException> getMissingRequiredAttributeErrors();
 
-    Collection<Exception> getErrors();
+	Collection<Exception> getErrors();
 }

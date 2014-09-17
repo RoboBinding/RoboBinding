@@ -7,7 +7,6 @@ import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 
 import android.content.Context;
 
-
 /**
  * 
  * @since 1.0
@@ -15,24 +14,23 @@ import android.content.Context;
  * @author Cheng Wei
  */
 public class BindingContextFactory {
-    private final Context context;
-    private final boolean preInitializeViews;
-    private final PresentationModelAdapterFactory presentationModelAdapterFactory;
-    private BinderProvider binderProvider;
+	private final Context context;
+	private final boolean preInitializeViews;
+	private final PresentationModelAdapterFactory presentationModelAdapterFactory;
+	private BinderProvider binderProvider;
 
-    public BindingContextFactory(Context context, boolean preInitializeViews, 
-	    PresentationModelAdapterFactory presentationModelAdapterFactory) {
-	this.context = context;
-	this.preInitializeViews = preInitializeViews;
-	this.presentationModelAdapterFactory = presentationModelAdapterFactory;
-    }
+	public BindingContextFactory(Context context, boolean preInitializeViews, PresentationModelAdapterFactory presentationModelAdapterFactory) {
+		this.context = context;
+		this.preInitializeViews = preInitializeViews;
+		this.presentationModelAdapterFactory = presentationModelAdapterFactory;
+	}
 
-    public void setBinderProvider(BinderProvider binderProvider) {
-        this.binderProvider = binderProvider;
-    }
+	public void setBinderProvider(BinderProvider binderProvider) {
+		this.binderProvider = binderProvider;
+	}
 
-    public BindingContext create(Object presentationModel) {
-	PresentationModelAdapter presentationModelAdapter = presentationModelAdapterFactory.create(presentationModel);
-	return new BindingContext(binderProvider, context, presentationModelAdapter, preInitializeViews);
-    }
+	public BindingContext create(Object presentationModel) {
+		PresentationModelAdapter presentationModelAdapter = presentationModelAdapterFactory.create(presentationModel);
+		return new BindingContext(binderProvider, context, presentationModelAdapter, preInitializeViews);
+	}
 }

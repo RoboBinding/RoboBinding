@@ -18,8 +18,8 @@ import android.widget.AbsSpinner;
  * @author Robert Taylor
  */
 public class AbsSpinnerBinding implements ViewBinding<AbsSpinner> {
-    @Override
-    public void mapBindingAttributes(BindingAttributeMappings<AbsSpinner> mappings) {
-	mappings.mapGroupedAttribute(AdaptedAbsSpinnerDataSetAttributes.class, SOURCE, ITEM_LAYOUT, ITEM_MAPPING, DROPDOWN_LAYOUT, DROPDOWN_MAPPING);
-    }
+	@Override
+	public void mapBindingAttributes(BindingAttributeMappings<AbsSpinner> mappings) {
+		mappings.mapGroupedAttribute(AdaptedAbsSpinnerDataSetAttributes.class, SOURCE, ITEM_LAYOUT, ITEM_MAPPING, DROPDOWN_LAYOUT, DROPDOWN_MAPPING);
+	}
 }

@@ -9,14 +9,14 @@ import android.view.View;
  * @author Cheng Wei
  */
 public abstract class AbstractViewEvent {
-    private View view;
+	private View view;
 
-    protected AbstractViewEvent(View view) {
-	this.view = view;
-    }
+	protected AbstractViewEvent(View view) {
+		this.view = view;
+	}
 
-    public View getView() {
-	return view;
-    }
+	public View getView() {
+		return view;
+	}
 
 }

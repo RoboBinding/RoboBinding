@@ -15,44 +15,45 @@ import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.MapCheck
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.SetCheckedItemPositionsAttribute;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.SparseBooleanArrayCheckedItemPositionsAttribute;
 import org.robobinding.widget.adapterview.AdapterViewListeners;
+import org.robolectric.annotation.Config;
 
 import android.util.SparseBooleanArray;
 import android.widget.AbsListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
+@Config(manifest = Config.NONE)
 public class CheckedItemPositionsAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<CheckedItemPositionsAttribute> {
-    @Override
-    protected void setTypeMappingExpectations() {
-	forPropertyType(SparseBooleanArray.class).expectAttribute(SparseBooleanArrayCheckedItemPositionsAttribute.class);
-	forPropertyType(Set.class).expectAttribute(SetCheckedItemPositionsAttribute.class);
-	forPropertyType(Map.class).expectAttribute(MapCheckedItemPositionsAttribute.class);
-    }
-
-    @Test
-    public void whenBinding_thenRegisterWithMulticastListener() {
-	CheckedItemPositionsAttributeForTest attribute =
-		new CheckedItemPositionsAttributeForTest();
-	AdapterViewListeners mockAdapterViewListeners = mock(AdapterViewListeners.class);
-	attribute.setViewListeners(mockAdapterViewListeners);
-
-	attribute.observeChangesOnTheView(null, null);
-
-	verify(mockAdapterViewListeners).addOnItemClickListener(any(OnItemClickListener.class));
-    }
-
-    class CheckedItemPositionsAttributeForTest extends AbstractCheckedItemPositionsAttribute<Integer> {
 	@Override
-	public void updateView(AbsListView view, Integer newValue) {
+	protected void setTypeMappingExpectations() {
+		forPropertyType(SparseBooleanArray.class).expectAttribute(SparseBooleanArrayCheckedItemPositionsAttribute.class);
+		forPropertyType(Set.class).expectAttribute(SetCheckedItemPositionsAttribute.class);
+		forPropertyType(Map.class).expectAttribute(MapCheckedItemPositionsAttribute.class);
 	}
 
-	@Override
-	protected void viewCheckedItemPositionsChanged(AbsListView view, ValueModel<Integer> valueModel) {
+	@Test
+	public void whenBinding_thenRegisterWithMulticastListener() {
+		CheckedItemPositionsAttributeForTest attribute = new CheckedItemPositionsAttributeForTest();
+		AdapterViewListeners mockAdapterViewListeners = mock(AdapterViewListeners.class);
+		attribute.setViewListeners(mockAdapterViewListeners);
+
+		attribute.observeChangesOnTheView(null, null);
+
+		verify(mockAdapterViewListeners).addOnItemClickListener(any(OnItemClickListener.class));
 	}
-    }
+
+	class CheckedItemPositionsAttributeForTest extends AbstractCheckedItemPositionsAttribute<Integer> {
+		@Override
+		protected void updateView(AbsListViewBackCompatible view, Integer newValue) {
+		}
+
+		@Override
+		protected void viewCheckedItemPositionsChanged(AbsListView view, ValueModel<Integer> valueModel) {
+		}
+	}
 }

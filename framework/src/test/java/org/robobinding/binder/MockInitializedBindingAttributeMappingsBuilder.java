@@ -11,103 +11,103 @@ import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFact
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class MockInitializedBindingAttributeMappingsBuilder {
-    private final List<String> propertyAttributes;
-    private final List<String> multiTypePropertyAttributes;
-    private final List<String> eventAttributes;
-    private final List<String[]> attributeGroups;
+	private final List<String> propertyAttributes;
+	private final List<String> multiTypePropertyAttributes;
+	private final List<String> eventAttributes;
+	private final List<String[]> attributeGroups;
 
-    private MockInitializedBindingAttributeMappingsBuilder() {
-	propertyAttributes = newArrayList();
-	multiTypePropertyAttributes = newArrayList();
-	eventAttributes = newArrayList();
-	attributeGroups = newArrayList();
-    }
-
-    public static MockInitializedBindingAttributeMappingsBuilder aBindingAttributeMappings() {
-	return new MockInitializedBindingAttributeMappingsBuilder();
-    }
-
-    public MockInitializedBindingAttributeMappingsBuilder withPropertyAttribute(String attribute) {
-	propertyAttributes.add(attribute);
-	return this;
-    }
-
-    public MockInitializedBindingAttributeMappingsBuilder withMultiTypePropertyAttribute(String attribute) {
-	multiTypePropertyAttributes.add(attribute);
-	return this;
-    }
-
-    public MockInitializedBindingAttributeMappingsBuilder withEventAttribute(String attribute) {
-	eventAttributes.add(attribute);
-	return this;
-    }
-
-    public MockInitializedBindingAttributeMappingsBuilder withAttributeGroup(String[] attributeGroup) {
-	attributeGroups.add(attributeGroup);
-	return this;
-    }
-
-    public InitailizedBindingAttributeMappings<Object> build() {
-	return new MockInitailizedBindingAttributeMappings(this);
-    }
-
-    private static class MockInitailizedBindingAttributeMappings implements InitailizedBindingAttributeMappings<Object> {
-	private List<String> propertyAttributes;
-	private List<String> multiTypePropertyAttributes;
-	private List<String> eventAttributes;
-	private List<String[]> attributeGroups;
-
-	private MockInitailizedBindingAttributeMappings(MockInitializedBindingAttributeMappingsBuilder builder) {
-	    propertyAttributes = newArrayList(builder.propertyAttributes);
-	    multiTypePropertyAttributes = newArrayList(builder.multiTypePropertyAttributes);
-	    eventAttributes = newArrayList(builder.eventAttributes);
-	    attributeGroups = newArrayList(builder.attributeGroups);
+	private MockInitializedBindingAttributeMappingsBuilder() {
+		propertyAttributes = newArrayList();
+		multiTypePropertyAttributes = newArrayList();
+		eventAttributes = newArrayList();
+		attributeGroups = newArrayList();
 	}
 
-	@Override
-	public Iterable<String> getPropertyAttributes() {
-	    return propertyAttributes;
+	public static MockInitializedBindingAttributeMappingsBuilder aBindingAttributeMappings() {
+		return new MockInitializedBindingAttributeMappingsBuilder();
 	}
 
-	@Override
-	public Iterable<String> getMultiTypePropertyAttributes() {
-	    return multiTypePropertyAttributes;
+	public MockInitializedBindingAttributeMappingsBuilder withPropertyAttribute(String attribute) {
+		propertyAttributes.add(attribute);
+		return this;
 	}
 
-	@Override
-	public Iterable<String> getEventAttributes() {
-	    return eventAttributes;
+	public MockInitializedBindingAttributeMappingsBuilder withMultiTypePropertyAttribute(String attribute) {
+		multiTypePropertyAttributes.add(attribute);
+		return this;
 	}
 
-	@Override
-	public Iterable<String[]> getAttributeGroups() {
-	    return attributeGroups;
+	public MockInitializedBindingAttributeMappingsBuilder withEventAttribute(String attribute) {
+		eventAttributes.add(attribute);
+		return this;
 	}
 
-	@Override
-	public PropertyViewAttributeFactory<Object> getPropertyViewAttributeFactory(String attribute) {
-	    return null;
+	public MockInitializedBindingAttributeMappingsBuilder withAttributeGroup(String[] attributeGroup) {
+		attributeGroups.add(attributeGroup);
+		return this;
 	}
 
-	@Override
-	public MultiTypePropertyViewAttributeFactory<Object> getMultiTypePropertyViewAttributeFactory(String attribute) {
-	    return null;
+	public InitailizedBindingAttributeMappings<Object> build() {
+		return new MockInitailizedBindingAttributeMappings(this);
 	}
 
-	@Override
-	public EventViewAttributeFactory<Object> getEventViewAttributeFactory(String attribute) {
-	    return null;
-	}
+	private static class MockInitailizedBindingAttributeMappings implements InitailizedBindingAttributeMappings<Object> {
+		private List<String> propertyAttributes;
+		private List<String> multiTypePropertyAttributes;
+		private List<String> eventAttributes;
+		private List<String[]> attributeGroups;
 
-	@Override
-	public GroupedViewAttributeFactory<Object> getGroupedViewAttributeFactory(String[] attributeGroup) {
-	    return null;
+		private MockInitailizedBindingAttributeMappings(MockInitializedBindingAttributeMappingsBuilder builder) {
+			propertyAttributes = newArrayList(builder.propertyAttributes);
+			multiTypePropertyAttributes = newArrayList(builder.multiTypePropertyAttributes);
+			eventAttributes = newArrayList(builder.eventAttributes);
+			attributeGroups = newArrayList(builder.attributeGroups);
+		}
+
+		@Override
+		public Iterable<String> getPropertyAttributes() {
+			return propertyAttributes;
+		}
+
+		@Override
+		public Iterable<String> getMultiTypePropertyAttributes() {
+			return multiTypePropertyAttributes;
+		}
+
+		@Override
+		public Iterable<String> getEventAttributes() {
+			return eventAttributes;
+		}
+
+		@Override
+		public Iterable<String[]> getAttributeGroups() {
+			return attributeGroups;
+		}
+
+		@Override
+		public PropertyViewAttributeFactory<Object> getPropertyViewAttributeFactory(String attribute) {
+			return null;
+		}
+
+		@Override
+		public MultiTypePropertyViewAttributeFactory<Object> getMultiTypePropertyViewAttributeFactory(String attribute) {
+			return null;
+		}
+
+		@Override
+		public EventViewAttributeFactory<Object> getEventViewAttributeFactory(String attribute) {
+			return null;
+		}
+
+		@Override
+		public GroupedViewAttributeFactory<Object> getGroupedViewAttributeFactory(String[] attributeGroup) {
+			return null;
+		}
 	}
-    }
 }

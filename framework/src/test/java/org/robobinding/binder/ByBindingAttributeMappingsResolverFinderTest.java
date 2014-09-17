@@ -20,28 +20,28 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ByBindingAttributeMappingsResolverFinderTest {
-    @Mock
-    private BindingAttributeMappingsProviderMap providerMap;
-    @Mock
-    private ViewAttributeBinderFactoryProvider viewAttributeBinderFactoryProvider;
+	@Mock
+	private BindingAttributeMappingsProviderMap providerMap;
+	@Mock
+	private ViewAttributeBinderFactoryProvider viewAttributeBinderFactoryProvider;
 
-    @Test
-    public void givenTwoCandidateProviders_whenFindCandidateResolvers_thenTwoResolversShouldBeReturned() {
-	View view = mock(View.class);
-	Collection<BindingAttributeMappingsProvider<?>> candiateProviders = Lists.<BindingAttributeMappingsProvider<?>>newArrayList(
-		mock(BindingAttributeMappingsProvider.class), mock(BindingAttributeMappingsProvider.class));
-	when(providerMap.findCandidates(view.getClass())).thenReturn(candiateProviders);
+	@Test
+	public void givenTwoCandidateProviders_whenFindCandidateResolvers_thenTwoResolversShouldBeReturned() {
+		View view = mock(View.class);
+		Collection<BindingAttributeMappingsProvider<?>> candiateProviders = Lists.<BindingAttributeMappingsProvider<?>> newArrayList(
+				mock(BindingAttributeMappingsProvider.class), mock(BindingAttributeMappingsProvider.class));
+		when(providerMap.findCandidates(view.getClass())).thenReturn(candiateProviders);
 
-	ByBindingAttributeMappingsResolverFinder finder = new ByBindingAttributeMappingsResolverFinder(providerMap, viewAttributeBinderFactoryProvider);
-	Iterable<ByBindingAttributeMappingsResolver> candidateResolvers = finder.findCandidates(view);
+		ByBindingAttributeMappingsResolverFinder finder = new ByBindingAttributeMappingsResolverFinder(providerMap, viewAttributeBinderFactoryProvider);
+		Iterable<ByBindingAttributeMappingsResolver> candidateResolvers = finder.findCandidates(view);
 
-	assertThat(Iterables.size(candidateResolvers), is(2));
-    }
+		assertThat(Iterables.size(candidateResolvers), is(2));
+	}
 }

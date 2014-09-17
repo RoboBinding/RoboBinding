@@ -13,23 +13,23 @@ import com.google.common.base.Joiner;
  */
 @SuppressWarnings("serial")
 public class MissingRequiredAttributesException extends RuntimeException {
-    private final Collection<String> missingAttributes;
+	private final Collection<String> missingAttributes;
 
-    public MissingRequiredAttributesException(Collection<String> missingAttributes) {
-	this.missingAttributes = missingAttributes;
-    }
+	public MissingRequiredAttributesException(Collection<String> missingAttributes) {
+		this.missingAttributes = missingAttributes;
+	}
 
-    public Collection<String> getMissingAttributes() {
-	return Collections.unmodifiableCollection(missingAttributes);
-    }
+	public Collection<String> getMissingAttributes() {
+		return Collections.unmodifiableCollection(missingAttributes);
+	}
 
-    @Override
-    public String getMessage() {
-	return "Missing attributes: " + Joiner.on(", ").join(missingAttributes);
-    }
+	@Override
+	public String getMessage() {
+		return "Missing attributes: " + Joiner.on(", ").join(missingAttributes);
+	}
 
-    @Override
-    public String toString() {
-	return getMessage();
-    }
+	@Override
+	public String toString() {
+		return getMessage();
+	}
 }

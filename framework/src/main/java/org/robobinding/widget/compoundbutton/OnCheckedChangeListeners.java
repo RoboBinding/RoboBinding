@@ -12,11 +12,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @author Cheng Wei
  */
 class OnCheckedChangeListeners extends AbstractListeners<OnCheckedChangeListener> implements OnCheckedChangeListener {
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-	for (OnCheckedChangeListener listener : listeners) {
-	    listener.onCheckedChanged(buttonView, isChecked);
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		for (OnCheckedChangeListener listener : listeners) {
+			listener.onCheckedChanged(buttonView, isChecked);
+		}
 	}
-    }
 
 }

@@ -9,35 +9,35 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
  * @author Cheng Wei
  */
 class DataSetPropertyValueModelWrapper extends PropertyWrapper implements DataSetPropertyValueModel {
-    private final DataSetPropertyValueModel dataSetPropertyValueModel;
+	private final DataSetPropertyValueModel dataSetPropertyValueModel;
 
-    public DataSetPropertyValueModelWrapper(DataSetPropertyValueModel dataSetPropertyValueModel) {
-	super(dataSetPropertyValueModel);
-	this.dataSetPropertyValueModel = dataSetPropertyValueModel;
-    }
+	public DataSetPropertyValueModelWrapper(DataSetPropertyValueModel dataSetPropertyValueModel) {
+		super(dataSetPropertyValueModel);
+		this.dataSetPropertyValueModel = dataSetPropertyValueModel;
+	}
 
-    @Override
-    public int size() {
-	return dataSetPropertyValueModel.size();
-    }
+	@Override
+	public int size() {
+		return dataSetPropertyValueModel.size();
+	}
 
-    @Override
-    public Object getItem(int position) {
-	return dataSetPropertyValueModel.getItem(position);
-    }
+	@Override
+	public Object getItem(int position) {
+		return dataSetPropertyValueModel.getItem(position);
+	}
 
-    @Override
-    public ItemPresentationModel<Object> newItemPresentationModel() {
-	return dataSetPropertyValueModel.newItemPresentationModel();
-    }
+	@Override
+	public ItemPresentationModel<Object> newItemPresentationModel() {
+		return dataSetPropertyValueModel.newItemPresentationModel();
+	}
 
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-	dataSetPropertyValueModel.addPropertyChangeListener(listener);
-    }
+	@Override
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		dataSetPropertyValueModel.addPropertyChangeListener(listener);
+	}
 
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-	dataSetPropertyValueModel.removePropertyChangeListener(listener);
-    }
+	@Override
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		dataSetPropertyValueModel.removePropertyChangeListener(listener);
+	}
 }

@@ -4,25 +4,26 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
-
-import android.widget.ProgressBar;
+import org.robobinding.util.RandomValues;
+import org.robolectric.annotation.Config;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class SecondaryProgressAttributeTest extends AbstractPropertyViewAttributeTest<ProgressBar, SecondaryProgressAttribute> {
-    @Test
-    public void whenUpdateView_thenSetSecondaryProgressOnProgressBar() {
-	int newProgress = RandomValues.anyInteger();
+@Config(manifest = Config.NONE)
+public class SecondaryProgressAttributeTest extends AbstractProgressBarAttributeTest {
 
-	attribute.updateView(view, newProgress);
+	@Test
+	public void whenUpdateView_thenSetSecondaryProgressOnProgressBar() {
+		SecondaryProgressAttribute attribute = new SecondaryProgressAttribute();
+		int newProgress = RandomValues.anyInteger();
 
-	assertThat(view.getSecondaryProgress(), is(newProgress));
-    }
+		attribute.updateView(view, newProgress);
+
+		assertThat(view.getSecondaryProgress(), is(newProgress));
+	}
 
 }

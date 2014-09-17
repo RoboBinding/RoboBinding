@@ -12,10 +12,10 @@ import android.widget.AbsListView;
  * @author Aurélien Catinon
  */
 public class AbsListViewBinding implements ViewBinding<AbsListView> {
-    @Override
-    public void mapBindingAttributes(BindingAttributeMappings<AbsListView> mappings) {
-	mappings.mapProperty(CheckedItemPositionAttribute.class, "checkedItemPosition");
-	mappings.mapMultiTypeProperty(CheckedItemPositionsAttribute.class, "checkedItemPositions");
-	mappings.mapProperty(ChoiceModeAttribute.class, "choiceMode");
-    }
+	@Override
+	public void mapBindingAttributes(BindingAttributeMappings<AbsListView> mappings) {
+		mappings.mapProperty(CheckedItemPositionAttribute.class, "checkedItemPosition");
+		mappings.mapMultiTypeProperty(CheckedItemPositionsAttribute.class, "checkedItemPositions");
+		mappings.mapProperty(ChoiceModeAttribute.class, "choiceMode");
+	}
 }

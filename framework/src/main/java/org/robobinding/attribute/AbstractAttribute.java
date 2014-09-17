@@ -7,13 +7,13 @@ package org.robobinding.attribute;
  * @author Cheng Wei
  */
 public abstract class AbstractAttribute {
-    private final String name;
+	private final String name;
 
-    public AbstractAttribute(String name) {
-	this.name = name;
-    }
+	public AbstractAttribute(String name) {
+		this.name = name;
+	}
 
-    public String getName() {
-	return name;
-    }
+	public String getName() {
+		return name;
+	}
 }

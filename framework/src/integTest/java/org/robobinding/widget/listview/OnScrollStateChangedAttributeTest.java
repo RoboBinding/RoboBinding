@@ -2,42 +2,55 @@ package org.robobinding.widget.listview;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
-
-import android.widget.ListView;
+import org.robobinding.widget.EventCommand;
+import org.robolectric.annotation.Config;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnScrollStateChangedAttributeTest 
-	extends AbstractEventViewAttributeWithViewListenersAwareTest<ListView, OnScrollStateChangedAttribute, MockListViewListeners> {
-    @Test@Ignore
-    public void givenBoundAttribute_whenChangeScrollState_thenEventReceived() {
-	bindAttribute();
+@Config(manifest = Config.NONE)
+public class OnScrollStateChangedAttributeTest extends AbstractListViewAttributeTest {
+	private OnScrollStateChangedAttribute attribute;
+	private EventCommand eventCommand;
 
-	changeScrollState();
+	@Before
+	public void setUp() {
+		attribute = withListenersSet(new OnScrollStateChangedAttribute());
+		eventCommand = new EventCommand();
+	}
 
-	assertEventReceived();
-    }
+	/**
+	 * TODO: Not supported by Robolectric 2.x yet.
+	 */
+	@Ignore
+	@Test
+	public void givenBoundAttribute_whenChangeScrollState_thenEventReceived() {
+		attribute.bind(view, eventCommand);
 
-    private void changeScrollState() {
-        view.smoothScrollToPositionFromTop(1, 0, 500);
-    }
+		changeScrollState();
 
-    private void assertEventReceived() {
-        assertEventReceived(ScrollStateChangedEvent.class);
-    }
+		assertEventReceived();
+	}
 
-    @Test
-    public void whenBinding_thenRegisterWithViewListeners() {
-	bindAttribute();
+	private void changeScrollState() {
+		view.smoothScrollToPositionFromTop(1, 0, 500);
+	}
 
-	assertTrue(viewListeners.addOnScrollListenerInvoked);
-    }
+	private void assertEventReceived() {
+		eventCommand.assertEventReceived(ScrollStateChangedEvent.class);
+	}
+
+	@Test
+	public void whenBinding_thenRegisterWithViewListeners() {
+		attribute.bind(view, eventCommand);
+
+		assertTrue(viewListeners.addOnScrollListenerInvoked);
+	}
 
 }

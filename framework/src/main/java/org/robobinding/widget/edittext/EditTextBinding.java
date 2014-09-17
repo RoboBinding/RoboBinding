@@ -12,10 +12,10 @@ import android.widget.EditText;
  * @author Robert Taylor
  */
 public class EditTextBinding implements ViewBinding<EditText> {
-    @Override
-    public void mapBindingAttributes(BindingAttributeMappings<EditText> mappings) {
-	mappings.mapGroupedAttribute(TwoWayTextAttributeGroup.class, TwoWayTextAttributeGroup.TEXT, TwoWayTextAttributeGroup.VALUE_COMMIT_MODE);
+	@Override
+	public void mapBindingAttributes(BindingAttributeMappings<EditText> mappings) {
+		mappings.mapGroupedAttribute(TwoWayTextAttributeGroup.class, TwoWayTextAttributeGroup.TEXT, TwoWayTextAttributeGroup.VALUE_COMMIT_MODE);
 
-	mappings.mapEvent(OnTextChangedAttribute.class, "onTextChanged");
-    }
+		mappings.mapEvent(OnTextChangedAttribute.class, "onTextChanged");
+	}
 }

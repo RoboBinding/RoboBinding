@@ -24,39 +24,37 @@ import android.view.View;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BindingAttributeResolverTest {
-    @Mock
-    private ByBindingAttributeMappingsResolverFinder byBindingAttributeMappingsResolverFinder;
+	@Mock
+	private ByBindingAttributeMappingsResolverFinder byBindingAttributeMappingsResolverFinder;
 
-    @Test
-    public void givenTwoCandidateResolvers_whenResolve_thenBothResolversShouldInvolveResolving() {
-	ByBindingAttributeMappingsResolver candidateResolver1 = mock(ByBindingAttributeMappingsResolver.class);
-	ByBindingAttributeMappingsResolver candidateResolver2 = mock(ByBindingAttributeMappingsResolver.class);
-	when(byBindingAttributeMappingsResolverFinder.findCandidates(any(View.class))).thenReturn(
-		newArrayList(candidateResolver1, candidateResolver2));
+	@Test
+	public void givenTwoCandidateResolvers_whenResolve_thenBothResolversShouldInvolveResolving() {
+		ByBindingAttributeMappingsResolver candidateResolver1 = mock(ByBindingAttributeMappingsResolver.class);
+		ByBindingAttributeMappingsResolver candidateResolver2 = mock(ByBindingAttributeMappingsResolver.class);
+		when(byBindingAttributeMappingsResolverFinder.findCandidates(any(View.class))).thenReturn(newArrayList(candidateResolver1, candidateResolver2));
 
-	BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeMappingsResolverFinder);
-	PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
-	when(pendingAttributesForView.isEmpty()).thenReturn(false);
-	bindingAttributeResolver.resolve(pendingAttributesForView);
+		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeMappingsResolverFinder);
+		PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
+		when(pendingAttributesForView.isEmpty()).thenReturn(false);
+		bindingAttributeResolver.resolve(pendingAttributesForView);
 
-	verify(candidateResolver1).resolve(pendingAttributesForView);
-	verify(candidateResolver2).resolve(pendingAttributesForView);
-    }
+		verify(candidateResolver1).resolve(pendingAttributesForView);
+		verify(candidateResolver2).resolve(pendingAttributesForView);
+	}
 
-    @Test
-    public void givenTwoCandidateResolvers_whenResolveCompletedAtFirstResolver_thenSecondResolverShouldBeSkipped() {
-	ByBindingAttributeMappingsResolver candidateResolver1 = mock(ByBindingAttributeMappingsResolver.class);
-	ByBindingAttributeMappingsResolver candidateResolver2 = mock(ByBindingAttributeMappingsResolver.class);
-	when(byBindingAttributeMappingsResolverFinder.findCandidates(any(View.class))).thenReturn(
-		newArrayList(candidateResolver1, candidateResolver2));
+	@Test
+	public void givenTwoCandidateResolvers_whenResolveCompletedAtFirstResolver_thenSecondResolverShouldBeSkipped() {
+		ByBindingAttributeMappingsResolver candidateResolver1 = mock(ByBindingAttributeMappingsResolver.class);
+		ByBindingAttributeMappingsResolver candidateResolver2 = mock(ByBindingAttributeMappingsResolver.class);
+		when(byBindingAttributeMappingsResolverFinder.findCandidates(any(View.class))).thenReturn(newArrayList(candidateResolver1, candidateResolver2));
 
-	BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeMappingsResolverFinder);
-	PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
-	when(pendingAttributesForView.isEmpty()).thenReturn(true);
+		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeMappingsResolverFinder);
+		PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
+		when(pendingAttributesForView.isEmpty()).thenReturn(true);
 
-	bindingAttributeResolver.resolve(pendingAttributesForView);
+		bindingAttributeResolver.resolve(pendingAttributesForView);
 
-	verify(candidateResolver1).resolve(pendingAttributesForView);
-	verify(candidateResolver2, never()).resolve(pendingAttributesForView);
-    }
+		verify(candidateResolver1).resolve(pendingAttributesForView);
+		verify(candidateResolver2, never()).resolve(pendingAttributesForView);
+	}
 }

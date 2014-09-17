@@ -14,32 +14,32 @@ import org.junit.Test;
  * @author Cheng Wei
  */
 public class ChildAttributeResolverMappingsTest {
-    private static final String ATTRIBUTE = "attribute";
+	private static final String ATTRIBUTE = "attribute";
 
-    private ChildAttributeResolverMappings mappings;
+	private ChildAttributeResolverMappings mappings;
 
-    @Before
-    public void setUp() {
-	mappings = new ChildAttributeResolverMappings();
-    }
+	@Before
+	public void setUp() {
+		mappings = new ChildAttributeResolverMappings();
+	}
 
-    @Test
-    public void givenResolverForAttribute_whenAskResolverForAttribute_thenReturnExpectedResolver() {
-	ChildAttributeResolver expectedResolver = givenResolverForAttribute();
+	@Test
+	public void givenResolverForAttribute_whenAskResolverForAttribute_thenReturnExpectedResolver() {
+		ChildAttributeResolver expectedResolver = givenResolverForAttribute();
 
-	ChildAttributeResolver actualResolver = mappings.resolverFor(ATTRIBUTE);
+		ChildAttributeResolver actualResolver = mappings.resolverFor(ATTRIBUTE);
 
-	assertThat(actualResolver, sameInstance(expectedResolver));
-    }
+		assertThat(actualResolver, sameInstance(expectedResolver));
+	}
 
-    private ChildAttributeResolver givenResolverForAttribute() {
-	ChildAttributeResolver resolver = mock(ChildAttributeResolver.class);
-	mappings.map(resolver, ATTRIBUTE);
-	return resolver;
-    }
+	private ChildAttributeResolver givenResolverForAttribute() {
+		ChildAttributeResolver resolver = mock(ChildAttributeResolver.class);
+		mappings.map(resolver, ATTRIBUTE);
+		return resolver;
+	}
 
-    @Test(expected = RuntimeException.class)
-    public void givenNoResolverForAttribute_whenAskResolverForAttribute_thenThrowException() {
-	mappings.resolverFor(ATTRIBUTE);
-    }
+	@Test(expected = RuntimeException.class)
+	public void givenNoResolverForAttribute_whenAskResolverForAttribute_thenThrowException() {
+		mappings.resolverFor(ATTRIBUTE);
+	}
 }

@@ -5,46 +5,54 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
-
-import android.widget.SeekBar;
+import org.robobinding.util.RandomValues;
+import org.robobinding.widget.EventCommand;
+import org.robolectric.annotation.Config;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnSeekBarChangeAttributeTest extends
-	AbstractEventViewAttributeWithViewListenersAwareTest<SeekBar, OnSeekBarChangeAttribute, MockSeekBarListeners> {
-    @Test
-    public void givenBoundAttribute_whenUpdatingProgress_thenEventReceived() {
-	bindAttribute();
+@Config(manifest = Config.NONE)
+public class OnSeekBarChangeAttributeTest extends AbstractSeekBarAttributeTest {
+	private OnSeekBarChangeAttribute attribute;
+	private EventCommand eventCommand;
 
-	int newProgressValue = RandomValues.anyInteger();
-	updateProgressOnSeekBar(newProgressValue);
+	@Before
+	public void setUp() {
+		attribute = withListenersSet(new OnSeekBarChangeAttribute());
+		eventCommand = new EventCommand();
+	}
 
-	assertEventReceived(newProgressValue);
-    }
+	@Test
+	public void givenBoundAttribute_whenUpdatingProgress_thenEventReceived() {
+		attribute.bind(view, eventCommand);
 
-    private void updateProgressOnSeekBar(int newProgressValue) {
-        view.setProgress(newProgressValue);
-    }
+		int newProgressValue = RandomValues.anyInteger();
+		updateProgressOnSeekBar(newProgressValue);
 
-    private void assertEventReceived(int newProgressValue) {
-        assertEventReceived(SeekBarChangeEvent.class);
-        SeekBarChangeEvent seekBarEvent = getEventReceived();
-        assertThat(seekBarEvent.getView(), sameInstance(view));
-        assertThat(seekBarEvent.getProgress(), is(newProgressValue));
-        assertTrue(seekBarEvent.isFromUser());
-    }
+		assertEventReceived(newProgressValue);
+	}
 
-    @Test
-    public void whenBinding_thenRegisterWithViewListeners() {
-	bindAttribute();
+	private void updateProgressOnSeekBar(int newProgressValue) {
+		view.setProgress(newProgressValue);
+	}
 
-	assertTrue(viewListeners.addOnSeekBarChangeListenerInvoked);
-    }
+	private void assertEventReceived(int newProgressValue) {
+		eventCommand.assertEventReceived(SeekBarChangeEvent.class);
+		SeekBarChangeEvent seekBarEvent = eventCommand.getEventReceived();
+		assertThat(seekBarEvent.getView(), sameInstance(view));
+		assertThat(seekBarEvent.getProgress(), is(newProgressValue));
+	}
+
+	@Test
+	public void whenBinding_thenRegisterWithViewListeners() {
+		attribute.bind(view, eventCommand);
+
+		assertTrue(viewListeners.addOnSeekBarChangeListenerInvoked);
+	}
 }

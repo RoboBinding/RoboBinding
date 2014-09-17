@@ -12,24 +12,22 @@ import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
  * @author Cheng Wei
  */
 class ListDataSetProperty extends AbstractDataSetProperty {
-    public ListDataSetProperty(ObservableBean observableBean, 
-	    PropertyAccessor propertyAccessor,
-	    ItemPresentationModelFactory factory) {
-	super(observableBean, propertyAccessor, factory);
-    }
+	public ListDataSetProperty(ObservableBean observableBean, PropertyAccessor propertyAccessor, ItemPresentationModelFactory factory) {
+		super(observableBean, propertyAccessor, factory);
+	}
 
-    @Override
-    public int size() {
-	if (isDataSetNull())
-	    return 0;
+	@Override
+	public int size() {
+		if (isDataSetNull())
+			return 0;
 
-	List<Object> list = getDataSet();
-	return list.size();
-    }
+		List<Object> list = getDataSet();
+		return list.size();
+	}
 
-    @Override
-    public Object getItem(int index) {
-	List<Object> list = getDataSet();
-	return list.get(index);
-    }
+	@Override
+	public Object getItem(int index) {
+		List<Object> list = getDataSet();
+		return list.get(index);
+	}
 }

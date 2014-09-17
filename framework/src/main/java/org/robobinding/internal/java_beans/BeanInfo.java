@@ -20,11 +20,11 @@
 package org.robobinding.internal.java_beans;
 
 public interface BeanInfo {
-    PropertyDescriptor[] getPropertyDescriptors();
+	PropertyDescriptor[] getPropertyDescriptors();
 
-    BeanDescriptor getBeanDescriptor();
+	BeanDescriptor getBeanDescriptor();
 
-    BeanInfo[] getAdditionalBeanInfo();
+	BeanInfo[] getAdditionalBeanInfo();
 
-    int getDefaultPropertyIndex();
+	int getDefaultPropertyIndex();
 }

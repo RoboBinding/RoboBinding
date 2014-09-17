@@ -5,20 +5,20 @@ import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFact
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class VisibilityAttributeFactory<T extends View> implements MultiTypePropertyViewAttributeFactory<T> {
-    private VisibilityFactory<T> visibilityFactory;
+	private VisibilityFactory<T> visibilityFactory;
 
-    public VisibilityAttributeFactory(VisibilityFactory<T> visibilityFactory) {
-	this.visibilityFactory = visibilityFactory;
-    }
+	public VisibilityAttributeFactory(VisibilityFactory<T> visibilityFactory) {
+		this.visibilityFactory = visibilityFactory;
+	}
 
-    @Override
-    public VisibilityAttribute<T> create() {
-	return new VisibilityAttribute<T>(visibilityFactory);
-    }
+	@Override
+	public VisibilityAttribute<T> create() {
+		return new VisibilityAttribute<T>(visibilityFactory);
+	}
 }

@@ -18,32 +18,32 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 public class ResolvedBindingAttributesForView {
-    private Object view;
-    private final List<ViewAttributeBinder> viewAttributes;
+	private Object view;
+	private final List<ViewAttributeBinder> viewAttributes;
 
-    ResolvedBindingAttributesForView(Object view, Collection<ViewAttributeBinder> viewAttributes) {
-	this.view = view;
-	this.viewAttributes = Lists.newArrayList(viewAttributes);
-    }
-
-    public ViewBindingErrors bindTo(BindingContext bindingContext) {
-	ViewBindingErrors viewBindingError = new ViewBindingErrors(view);
-	for (ViewAttributeBinder viewAttribute : viewAttributes) {
-	    try {
-		viewAttribute.bindTo(bindingContext);
-	    } catch (AttributeBindingException e) {
-		viewBindingError.addAttributeError(e);
-	    } catch (AttributeGroupBindingException e) {
-		viewBindingError.addAttributeGroupError(e);
-	    }
+	ResolvedBindingAttributesForView(Object view, Collection<ViewAttributeBinder> viewAttributes) {
+		this.view = view;
+		this.viewAttributes = Lists.newArrayList(viewAttributes);
 	}
 
-	return viewBindingError;
-    }
+	public ViewBindingErrors bindTo(BindingContext bindingContext) {
+		ViewBindingErrors viewBindingError = new ViewBindingErrors(view);
+		for (ViewAttributeBinder viewAttribute : viewAttributes) {
+			try {
+				viewAttribute.bindTo(bindingContext);
+			} catch (AttributeBindingException e) {
+				viewBindingError.addAttributeError(e);
+			} catch (AttributeGroupBindingException e) {
+				viewBindingError.addAttributeGroupError(e);
+			}
+		}
 
-    public void preinitializeView(BindingContext bindingContext) {
-	for (ViewAttributeBinder viewAttribute : viewAttributes) {
-	    viewAttribute.preInitializeView(bindingContext);
+		return viewBindingError;
 	}
-    }
+
+	public void preinitializeView(BindingContext bindingContext) {
+		for (ViewAttributeBinder viewAttribute : viewAttributes) {
+			viewAttribute.preInitializeView(bindingContext);
+		}
+	}
 }

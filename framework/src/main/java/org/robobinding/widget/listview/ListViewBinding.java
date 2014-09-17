@@ -19,9 +19,9 @@ import android.widget.ListView;
  * @author Cheng Wei
  */
 public class ListViewBinding implements ViewBinding<ListView> {
-    @Override
-    public void mapBindingAttributes(BindingAttributeMappings<ListView> mappings) {
-	mappings.mapGroupedAttribute(new HeaderAttributesFactory(), HEADER_LAYOUT, HEADER_PRESENTATION_MODEL, HEADER_VISIBILITY);
-	mappings.mapGroupedAttribute(new FooterAttributesFactory(), FOOTER_LAYOUT, FOOTER_PRESENTATION_MODEL, FOOTER_VISIBILITY);
-    }
+	@Override
+	public void mapBindingAttributes(BindingAttributeMappings<ListView> mappings) {
+		mappings.mapGroupedAttribute(new HeaderAttributesFactory(), HEADER_LAYOUT, HEADER_PRESENTATION_MODEL, HEADER_VISIBILITY);
+		mappings.mapGroupedAttribute(new FooterAttributesFactory(), FOOTER_LAYOUT, FOOTER_PRESENTATION_MODEL, FOOTER_VISIBILITY);
+	}
 }

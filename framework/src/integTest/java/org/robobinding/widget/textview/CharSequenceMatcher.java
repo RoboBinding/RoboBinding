@@ -12,24 +12,24 @@ import org.hamcrest.TypeSafeMatcher;
  * @author Robert Taylor
  */
 public class CharSequenceMatcher extends TypeSafeMatcher<CharSequence> {
-    private final CharSequence value;
+	private final CharSequence value;
 
-    public CharSequenceMatcher(CharSequence value) {
-	this.value = value;
-    }
+	public CharSequenceMatcher(CharSequence value) {
+		this.value = value;
+	}
 
-    @Override
-    public boolean matchesSafely(CharSequence item) {
-	return value.toString().equals(item.toString());
-    }
+	@Override
+	public boolean matchesSafely(CharSequence item) {
+		return value.toString().equals(item.toString());
+	}
 
-    @Override
-    public void describeTo(Description description) {
-	description.appendText("equivalent text value to '").appendText(value.toString()).appendText("'");
-    }
+	@Override
+	public void describeTo(Description description) {
+		description.appendText("equivalent text value to '").appendText(value.toString()).appendText("'");
+	}
 
-    @Factory
-    public static Matcher<CharSequence> sameAs(CharSequence value) {
-	return new CharSequenceMatcher(value);
-    }
+	@Factory
+	public static Matcher<CharSequence> sameAs(CharSequence value) {
+		return new CharSequenceMatcher(value);
+	}
 }

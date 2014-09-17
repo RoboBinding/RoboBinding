@@ -13,40 +13,33 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class ViewFactory implements Factory {
-    private final LayoutInflater layoutInflater;
-    private final ViewNameResolver viewNameResolver;
-    private final ViewCreationListener listener;
+class ViewFactory implements Factory {
+	private final LayoutInflater layoutInflater;
+	private final ViewNameResolver viewNameResolver;
+	private final ViewCreationListener listener;
 
-    public ViewFactory(LayoutInflater layoutInflater, ViewNameResolver viewNameResolver, 
-	    ViewCreationListener listener) {
-	this.layoutInflater = layoutInflater;
-	this.viewNameResolver = viewNameResolver;
-	this.listener = listener;
-
-	layoutInflater.setFactory(this);
-    }
-
-    @Override
-    public View onCreateView(String name, Context context, AttributeSet attrs) {
-	try {
-	    String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
-
-	    View view = layoutInflater.createView(viewFullName, null, attrs);
-
-	    notifyViewCreated(attrs, view);
-
-	    return view;
-	} catch (ClassNotFoundException e) {
-	    throw new RuntimeException(e);
+	public ViewFactory(LayoutInflater layoutInflater, ViewNameResolver viewNameResolver, ViewCreationListener listener) {
+		this.layoutInflater = layoutInflater;
+		this.viewNameResolver = viewNameResolver;
+		this.listener = listener;
 	}
-    }
 
-    private void notifyViewCreated(AttributeSet attrs, View view) {
-	listener.onViewCreated(view, attrs);
-    }
+	@Override
+	public View onCreateView(String name, Context context, AttributeSet attrs) {
+		try {
+			String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
 
-    public interface ViewCreationListener {
-	void onViewCreated(View view, AttributeSet attrs);
-    }
+			View view = layoutInflater.createView(viewFullName, null, attrs);
+
+			notifyViewCreated(attrs, view);
+
+			return view;
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void notifyViewCreated(AttributeSet attrs, View view) {
+		listener.onViewCreated(view, attrs);
+	}
 }

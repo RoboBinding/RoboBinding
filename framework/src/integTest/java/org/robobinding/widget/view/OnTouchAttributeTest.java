@@ -2,53 +2,57 @@ package org.robobinding.widget.view;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
+import org.robobinding.widget.EventCommand;
+import org.robolectric.annotation.Config;
 
 import android.view.MotionEvent;
-import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnTouchAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<View, OnTouchAttribute, MockViewListenersForView> {
-    @Test
-    public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
-	bindAttribute();
+@Config(manifest = Config.NONE)
+public class OnTouchAttributeTest extends AbstractViewEventAttributeTest {
+	private OnTouchAttribute attribute;
+	private EventCommand eventCommand;
 
-	touchView();
+	@Before
+	public void setUp() {
+		attribute = withListenersSet(new OnTouchAttribute());
+		eventCommand = new EventCommand();
+	}
 
-	assertEventReceived();
-    }
+	@Test
+	public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
+		attribute.bind(view, eventCommand);
 
-    private void touchView() {
-	view.dispatchTouchEvent(
-		anyMotionEvent());
-    }
+		touchView();
 
-    public static MotionEvent anyMotionEvent() {
-	return MotionEvent.obtain(
-		System.currentTimeMillis(), 
-		System.currentTimeMillis() + 1000, 
-		MotionEvent.ACTION_DOWN, 
-		5, 
-		5, 
-		1);
-    }
+		assertEventReceived();
+	}
 
-    private void assertEventReceived() {
-	assertEventReceived(TouchEvent.class);
-	TouchEvent event = getEventReceived();
-	assertTrue(event.getView() == view);
-    }
+	private void touchView() {
+		view.dispatchTouchEvent(anyMotionEvent());
+	}
 
-    @Test
-    public void whenBinding_thenRegisterWithViewListeners() {
-	bindAttribute();
+	public static MotionEvent anyMotionEvent() {
+		return MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis() + 1000, MotionEvent.ACTION_DOWN, 5, 5, 1);
+	}
 
-	assertTrue(viewListeners.addOnTouchListenerInvoked);
-    }
+	private void assertEventReceived() {
+		eventCommand.assertEventReceived(TouchEvent.class);
+		TouchEvent event = eventCommand.getEventReceived();
+		assertTrue(event.getView() == view);
+	}
+
+	@Test
+	public void whenBinding_thenRegisterWithViewListeners() {
+		attribute.bind(view, eventCommand);
+
+		assertTrue(viewListeners.addOnTouchListenerInvoked);
+	}
 }

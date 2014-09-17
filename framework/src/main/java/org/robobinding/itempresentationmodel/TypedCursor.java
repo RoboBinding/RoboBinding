@@ -10,5 +10,5 @@ import android.database.Cursor;
  * 
  */
 public interface TypedCursor<T> extends Cursor {
-    T getObjectAtPosition(int position);
+	T getObjectAtPosition(int position);
 }

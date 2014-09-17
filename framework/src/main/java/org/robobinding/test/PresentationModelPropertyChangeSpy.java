@@ -9,24 +9,24 @@ import org.robobinding.property.PropertyChangeListener;
  * @author Cheng Wei
  */
 public class PresentationModelPropertyChangeSpy implements PropertyChangeListener {
-    private boolean propertyChanged;
-    private int propertyChangedCount;
+	private boolean propertyChanged;
+	private int propertyChangedCount;
 
-    PresentationModelPropertyChangeSpy() {
-    }
+	PresentationModelPropertyChangeSpy() {
+	}
 
-    @Override
-    public void propertyChanged() {
-	propertyChanged = true;
-	propertyChangedCount++;
-    }
+	@Override
+	public void propertyChanged() {
+		propertyChanged = true;
+		propertyChangedCount++;
+	}
 
-    public boolean isPropertyChanged() {
-	return propertyChanged;
-    }
+	public boolean isPropertyChanged() {
+		return propertyChanged;
+	}
 
-    public int getPropertyChangedCount() {
-	return propertyChangedCount;
-    }
+	public int getPropertyChangedCount() {
+		return propertyChangedCount;
+	}
 
 }

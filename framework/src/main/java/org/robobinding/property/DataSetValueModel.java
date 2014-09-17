@@ -9,13 +9,13 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
  * @author Cheng Wei
  */
 public interface DataSetValueModel<T> {
-    int size();
+	int size();
 
-    T getItem(int position);
+	T getItem(int position);
 
-    ItemPresentationModel<T> newItemPresentationModel();
+	ItemPresentationModel<T> newItemPresentationModel();
 
-    void addPropertyChangeListener(PropertyChangeListener listener);
+	void addPropertyChangeListener(PropertyChangeListener listener);
 
-    void removePropertyChangeListener(PropertyChangeListener listener);
+	void removePropertyChangeListener(PropertyChangeListener listener);
 }

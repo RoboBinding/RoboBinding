@@ -9,7 +9,7 @@ import org.robobinding.property.ObservableBean;
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
- *
+ * 
  */
 public class PresentationModel_AutoGenerationTest {
 	private PropertyChangeListenerTester propertyChangeListenerTester;
@@ -23,25 +23,23 @@ public class PresentationModel_AutoGenerationTest {
 	public void whenSetProperty_thenReceivedChangeNotification() {
 		AutoDefinedChangeSupport presentationModel = new AutoDefinedChangeSupport();
 		observePropertyChange(presentationModel, AutoDefinedChangeSupport.PROPERTY);
-		
+
 		presentationModel.setProperty(true);
-		
+
 		propertyChangeListenerTester.assertPropertyChangedOnce();
 	}
-	
+
 	private void observePropertyChange(ObservableBean presentationModel, String propertyName) {
-		presentationModel.addPropertyChangeListener(
-				propertyName,
-				propertyChangeListenerTester);
+		presentationModel.addPropertyChangeListener(propertyName, propertyChangeListenerTester);
 	}
 
 	@Test
 	public void whenSetCustomProperty_thenReceivedNoNotification() {
 		AutoDefinedChangeSupport presentationModel = new AutoDefinedChangeSupport();
 		observePropertyChange(presentationModel, AutoDefinedChangeSupport.CUSTOM_PROPERTY);
-		
+
 		presentationModel.setCustomProperty(true);
-		
+
 		propertyChangeListenerTester.assertTimesOfPropertyChanged(0);
 	}
 
@@ -54,8 +52,8 @@ public class PresentationModel_AutoGenerationTest {
 
 		propertyChangeListenerTester.assertPropertyChangedOnce();
 	}
-	
-	@Test(expected=RuntimeException.class)
+
+	@Test(expected = RuntimeException.class)
 	public void whenUserDefinePresentationModelChangeSupportTwice_thenThrowsException() {
 		new DoubleUserDefinedChangeSupport();
 	}
@@ -72,29 +70,29 @@ public class PresentationModel_AutoGenerationTest {
 		public void setCustomProperty(boolean b) {
 		}
 	}
-	
+
 	@PresentationModel
 	public static class UserDefinedChangeSupport {
 		public static final String PROPERTY = "property";
 		private final PresentationModelChangeSupport presentationModelChangeSupport;
-		
+
 		public UserDefinedChangeSupport() {
 			presentationModelChangeSupport = new PresentationModelChangeSupport(this);
 		}
-		
+
 		public void refresh() {
 			presentationModelChangeSupport.refreshPresentationModel();
 		}
-		
+
 		public void setProperty(boolean value) {
-			
+
 		}
 	}
-	
+
 	@PresentationModel
 	public static class DoubleUserDefinedChangeSupport {
 		PresentationModelChangeSupport presentationModelChangeSupport;
-		
+
 		public DoubleUserDefinedChangeSupport() {
 			presentationModelChangeSupport = new PresentationModelChangeSupport(this);
 			presentationModelChangeSupport = new PresentationModelChangeSupport(this);

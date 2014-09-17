@@ -10,39 +10,36 @@ import org.junit.Test;
 import com.google.common.collect.Sets;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class DependencyValidationTest {
-    private static final String PROPERTY_NAME = "property0";
-    
-    private Set<String> existingPropertyNames; 
-    private DependencyValidation validation;
-    
-    @Before
-    public void setUp() {
-	existingPropertyNames = Sets.newHashSet(PROPERTY_NAME, "property1", "property2", "property3");
-	validation = new DependencyValidation(existingPropertyNames);
-    }
-    
-    @Test
-    public void givenValidDependentProperties_thenSuccessful() {
-	validation.validate(aPropertyAccessor().withPropertyName(PROPERTY_NAME).build(), 
-		Sets.newHashSet("property1", "property2"));
-    }
+	private static final String PROPERTY_NAME = "property0";
 
-    @Test(expected = RuntimeException.class)
-    public void givenDependingOnSelf_thenThrowException() {
-	validation.validate(aPropertyAccessor().withPropertyName(PROPERTY_NAME).build(), 
-		Sets.newHashSet("property1", PROPERTY_NAME, "property2"));
-    }
+	private Set<String> existingPropertyNames;
+	private DependencyValidation validation;
 
-    @Test(expected = RuntimeException.class)
-    public void whenCreateWithSomeNonExistingDependentProperties_thenThrowException() {
-	validation.validate(aPropertyAccessor().withPropertyName(PROPERTY_NAME).build(), 
-		Sets.newHashSet("property1", "nonExistingProperty", "property2"));
-    }
+	@Before
+	public void setUp() {
+		existingPropertyNames = Sets.newHashSet(PROPERTY_NAME, "property1", "property2", "property3");
+		validation = new DependencyValidation(existingPropertyNames);
+	}
+
+	@Test
+	public void givenValidDependentProperties_thenSuccessful() {
+		validation.validate(aPropertyAccessor().withPropertyName(PROPERTY_NAME).build(), Sets.newHashSet("property1", "property2"));
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void givenDependingOnSelf_thenThrowException() {
+		validation.validate(aPropertyAccessor().withPropertyName(PROPERTY_NAME).build(), Sets.newHashSet("property1", PROPERTY_NAME, "property2"));
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void whenCreateWithSomeNonExistingDependentProperties_thenThrowException() {
+		validation.validate(aPropertyAccessor().withPropertyName(PROPERTY_NAME).build(), Sets.newHashSet("property1", "nonExistingProperty", "property2"));
+	}
 
 }

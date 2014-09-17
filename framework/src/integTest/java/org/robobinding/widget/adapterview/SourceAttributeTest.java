@@ -20,23 +20,23 @@ import org.robobinding.property.DataSetValueModel;
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class SourceAttributeTest {
-    private final String attributeValue = "{property_name}";
-    private final String propertyName = "property_name";
-    @Mock
-    private DataSetAdapterBuilder dataSetAdapterBuilder;
-    @Mock
-    private BindingContext bindingContext;
-    @Mock
-    private DataSetValueModel dataSetValueModel;
+	private final String attributeValue = "{property_name}";
+	private final String propertyName = "property_name";
+	@Mock
+	private DataSetAdapterBuilder dataSetAdapterBuilder;
+	@Mock
+	private BindingContext bindingContext;
+	@Mock
+	private DataSetValueModel dataSetValueModel;
 
-    @Test
-    public void whenBinding_thenSetDataSetValueModelOnDataSetAdapterBuilder() {
-	when(bindingContext.getDataSetPropertyValueModel(propertyName)).thenReturn(dataSetValueModel);
-	SourceAttribute sourceAttribute = new SourceAttribute(dataSetAdapterBuilder);
-	sourceAttribute.setAttribute(aValueModelAttribute(attributeValue));
+	@Test
+	public void whenBinding_thenSetDataSetValueModelOnDataSetAdapterBuilder() {
+		when(bindingContext.getDataSetPropertyValueModel(propertyName)).thenReturn(dataSetValueModel);
+		SourceAttribute sourceAttribute = new SourceAttribute(dataSetAdapterBuilder);
+		sourceAttribute.setAttribute(aValueModelAttribute(attributeValue));
 
-	sourceAttribute.bindTo(bindingContext);
+		sourceAttribute.bindTo(bindingContext);
 
-	verify(dataSetAdapterBuilder).setValueModel(dataSetValueModel);
-    }
+		verify(dataSetAdapterBuilder).setValueModel(dataSetValueModel);
+	}
 }

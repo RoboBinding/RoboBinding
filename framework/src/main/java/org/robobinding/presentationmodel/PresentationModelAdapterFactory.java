@@ -18,47 +18,41 @@ import org.robobinding.property.PropertyFactory;
 import org.robobinding.property.PropertyUtils;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class PresentationModelAdapterFactory {
 
-    public PresentationModelAdapter create(Object presentationModel) {
-	Map<String, PropertyDescriptor> propertyDescriptorMap = PropertyUtils.getPropertyDescriptorMap(presentationModel.getClass());
-	
-	PropertyAccessorFactory propertyAccessorFactory = new PropertyAccessorFactory(
-		presentationModel, propertyDescriptorMap);
-	
-	ObservableBean observableBean = asObservableBean(presentationModel);
-	
-	DependencyFactory dependencyFactory = new DependencyFactory(observableBean, 
-		new DependencyValidation(propertyDescriptorMap.keySet()));
-	
-	PropertyFactory propertyFactory = new PropertyFactory(observableBean, 
-		new ItemPresentationModelFactories(presentationModel));
-	
-	PropertiesWithDependency propertiesWithDependency = new PropertiesWithDependency(propertyAccessorFactory, dependencyFactory, propertyFactory);
-	
-	Properties properties = new CachedProperties(propertiesWithDependency);
-	Functions functions = new CachedFunctions(presentationModel);
-	Class<?> presentationModelClass = presentationModel.getClass();
+	public PresentationModelAdapter create(Object presentationModel) {
+		Map<String, PropertyDescriptor> propertyDescriptorMap = PropertyUtils.getPropertyDescriptorMap(presentationModel.getClass());
 
-	return new PresentationModelAdapterImpl(properties, functions, presentationModelClass);
-    }
-    
-    private ObservableBean asObservableBean(Object presentationModel) {
-	if (presentationModel instanceof ObservableBean) {
-            return (ObservableBean) presentationModel;
-        } else {
-            throw new RuntimeException(MessageFormat.format(
-        	    "The presentationModel ''{0}'' is not observable. PresentationModels have to be annotated with @{1}, "
-        		    + "implement the interface {2} or extend {3}", 
-        	    presentationModel.getClass().getName(), 
-        	    "org.robobinding.aspects.PresentationModel",
-        	    ObservableBean.class.getName(),
-        	    AbstractPresentationModel.class.getName()));
-        }
-    }
+		PropertyAccessorFactory propertyAccessorFactory = new PropertyAccessorFactory(presentationModel, propertyDescriptorMap);
+
+		ObservableBean observableBean = asObservableBean(presentationModel);
+
+		DependencyFactory dependencyFactory = new DependencyFactory(observableBean, new DependencyValidation(propertyDescriptorMap.keySet()));
+
+		PropertyFactory propertyFactory = new PropertyFactory(observableBean, new ItemPresentationModelFactories(presentationModel));
+
+		PropertiesWithDependency propertiesWithDependency = new PropertiesWithDependency(propertyAccessorFactory, dependencyFactory, propertyFactory);
+
+		Properties properties = new CachedProperties(propertiesWithDependency);
+		Functions functions = new CachedFunctions(presentationModel);
+		Class<?> presentationModelClass = presentationModel.getClass();
+
+		return new PresentationModelAdapterImpl(properties, functions, presentationModelClass);
+	}
+
+	private ObservableBean asObservableBean(Object presentationModel) {
+		if (presentationModel instanceof ObservableBean) {
+			return (ObservableBean) presentationModel;
+		} else {
+			throw new RuntimeException(MessageFormat.format(
+					"The presentationModel ''{0}'' is not observable. PresentationModels have to be annotated with @{1}, "
+							+ "implement the interface {2} or extend {3}", presentationModel.getClass().getName(), "org.robobinding.aspects.PresentationModel",
+					ObservableBean.class.getName(), AbstractPresentationModel.class.getName()));
+		}
+	}
 }

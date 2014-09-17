@@ -18,17 +18,17 @@ import org.robobinding.PredefinedPendingAttributesForView;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ItemMappingUpdaterTest {
-    @Mock
-    private DataSetAdapterBuilder dataSetAdapterBuilder;
-    @Mock
-    private Collection<PredefinedPendingAttributesForView> viewMappings;
+	@Mock
+	private DataSetAdapterBuilder dataSetAdapterBuilder;
+	@Mock
+	private Collection<PredefinedPendingAttributesForView> viewMappings;
 
-    @Test
-    public void whenUpdateViewMappings_thenSetItemPredefinedPendingAttributesForViewGroupOnDataSetAdapterBuilder() {
-	ItemMappingUpdater updater = new ItemMappingUpdater(dataSetAdapterBuilder);
+	@Test
+	public void whenUpdateViewMappings_thenSetItemPredefinedPendingAttributesForViewGroupOnDataSetAdapterBuilder() {
+		ItemMappingUpdater updater = new ItemMappingUpdater(dataSetAdapterBuilder);
 
-	updater.updateViewMappings(viewMappings);
+		updater.updateViewMappings(viewMappings);
 
-	verify(dataSetAdapterBuilder).setItemPredefinedPendingAttributesForViewGroup(viewMappings);
-    }
+		verify(dataSetAdapterBuilder).setItemPredefinedPendingAttributesForViewGroup(viewMappings);
+	}
 }

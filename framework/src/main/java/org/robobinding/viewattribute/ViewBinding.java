@@ -1,6 +1,5 @@
 package org.robobinding.viewattribute;
 
-
 /**
  * 
  * @since 1.0
@@ -9,5 +8,5 @@ package org.robobinding.viewattribute;
  * @author Cheng Wei
  */
 public interface ViewBinding<ViewType> {
-    void mapBindingAttributes(BindingAttributeMappings<ViewType> mappings);
+	void mapBindingAttributes(BindingAttributeMappings<ViewType> mappings);
 }

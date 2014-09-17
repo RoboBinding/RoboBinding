@@ -11,13 +11,13 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 public abstract class AbstractListeners<T> {
-    protected final List<T> listeners;
+	protected final List<T> listeners;
 
-    public AbstractListeners() {
-	listeners = Lists.newArrayList();
-    }
+	public AbstractListeners() {
+		listeners = Lists.newArrayList();
+	}
 
-    public void addListener(T listener) {
-	listeners.add(listener);
-    }
+	public void addListener(T listener) {
+		listeners.add(listener);
+	}
 }

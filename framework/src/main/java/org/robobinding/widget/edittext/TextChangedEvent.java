@@ -11,31 +11,31 @@ import android.widget.TextView;
  * @author Cheng Wei
  */
 public class TextChangedEvent extends AbstractViewEvent {
-    private int start;
-    private int before;
-    private int count;
+	private int start;
+	private int before;
+	private int count;
 
-    public TextChangedEvent(TextView textView, int start, int before, int count) {
-	super(textView);
-	this.start = start;
-	this.before = before;
-	this.count = count;
-    }
-    
-    @Override
-    public TextView getView() {
-        return (TextView) super.getView();
-    }
+	public TextChangedEvent(TextView textView, int start, int before, int count) {
+		super(textView);
+		this.start = start;
+		this.before = before;
+		this.count = count;
+	}
 
-    public int getStart() {
-	return start;
-    }
+	@Override
+	public TextView getView() {
+		return (TextView) super.getView();
+	}
 
-    public int getBefore() {
-	return before;
-    }
+	public int getStart() {
+		return start;
+	}
 
-    public int getCount() {
-	return count;
-    }
+	public int getBefore() {
+		return before;
+	}
+
+	public int getCount() {
+		return count;
+	}
 }

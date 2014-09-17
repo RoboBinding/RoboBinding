@@ -15,55 +15,55 @@ import com.google.common.collect.Maps;
  * @author Cheng Wei
  */
 public class PropertyChangeSupport {
-    private final Object bean;
-    private final Set<String> existingPropertyNames;
-    private final Map<String, PropertyChangeListeners> propertyChangeListenerMap;
+	private final Object bean;
+	private final Set<String> existingPropertyNames;
+	private final Map<String, PropertyChangeListeners> propertyChangeListenerMap;
 
-    public PropertyChangeSupport(Object bean, Set<String> existingPropertyNames) {
-	this.bean = bean;
-	this.existingPropertyNames = existingPropertyNames;
+	public PropertyChangeSupport(Object bean, Set<String> existingPropertyNames) {
+		this.bean = bean;
+		this.existingPropertyNames = existingPropertyNames;
 
-	propertyChangeListenerMap = Maps.newHashMap();
-    }
-
-    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-	validatePropertyName(propertyName);
-	if (!propertyChangeListenerMap.containsKey(propertyName)) {
-	    propertyChangeListenerMap.put(propertyName, new PropertyChangeListeners());
+		propertyChangeListenerMap = Maps.newHashMap();
 	}
 
-	PropertyChangeListeners listeners = propertyChangeListenerMap.get(propertyName);
-	listeners.add(listener);
-    }
+	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+		validatePropertyName(propertyName);
+		if (!propertyChangeListenerMap.containsKey(propertyName)) {
+			propertyChangeListenerMap.put(propertyName, new PropertyChangeListeners());
+		}
 
-    private void validatePropertyName(String propertyName) {
-        checkNotBlank(propertyName, "propertyName cannot be empty");
-        Preconditions.checkArgument(existingPropertyNames.contains(propertyName), "Bean '" + getBeanClassName() + "' does not contain given property'"
-        	+ propertyName + "'");
-    }
-
-    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-	if (propertyChangeListenerMap.containsKey(propertyName)) {
-	    PropertyChangeListeners listeners = propertyChangeListenerMap.get(propertyName);
-	    listeners.remove(listener);
+		PropertyChangeListeners listeners = propertyChangeListenerMap.get(propertyName);
+		listeners.add(listener);
 	}
-    }
 
-    public void firePropertyChange(String propertyName) {
-	validatePropertyName(propertyName);
-	PropertyChangeListeners propertyChangeListeners = propertyChangeListenerMap.get(propertyName);
-	if (propertyChangeListeners != null) {
-	    propertyChangeListeners.firePropertyChange();
+	private void validatePropertyName(String propertyName) {
+		checkNotBlank(propertyName, "propertyName cannot be empty");
+		Preconditions.checkArgument(existingPropertyNames.contains(propertyName), "Bean '" + getBeanClassName() + "' does not contain given property'"
+				+ propertyName + "'");
 	}
-    }
 
-    private String getBeanClassName() {
-	return bean.getClass().getName();
-    }
-
-    public void fireChangeAll() {
-	for (PropertyChangeListeners propertyChangeListeners : propertyChangeListenerMap.values()) {
-	    propertyChangeListeners.firePropertyChange();
+	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+		if (propertyChangeListenerMap.containsKey(propertyName)) {
+			PropertyChangeListeners listeners = propertyChangeListenerMap.get(propertyName);
+			listeners.remove(listener);
+		}
 	}
-    }
+
+	public void firePropertyChange(String propertyName) {
+		validatePropertyName(propertyName);
+		PropertyChangeListeners propertyChangeListeners = propertyChangeListenerMap.get(propertyName);
+		if (propertyChangeListeners != null) {
+			propertyChangeListeners.firePropertyChange();
+		}
+	}
+
+	private String getBeanClassName() {
+		return bean.getClass().getName();
+	}
+
+	public void fireChangeAll() {
+		for (PropertyChangeListeners propertyChangeListeners : propertyChangeListenerMap.values()) {
+			propertyChangeListeners.firePropertyChange();
+		}
+	}
 }

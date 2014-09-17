@@ -4,25 +4,32 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.widget.AbstractPropertyViewAttributeTest;
+import org.junit.runner.RunWith;
+import org.robobinding.util.RandomValues;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class FocusableAttributeTest extends AbstractPropertyViewAttributeTest<View, FocusableAttribute> {
-    @Test
-    public void whenUpdateView_thenViewShouldReflectChanges() {
-	boolean focusable = RandomValues.trueOrFalse();
+@Config(manifest = Config.NONE)
+@RunWith(RobolectricTestRunner.class)
+public class FocusableAttributeTest {
+	@Test
+	public void whenUpdateView_thenViewShouldReflectChanges() {
+		View view = new View(Robolectric.application);
+		FocusableAttribute attribute = new FocusableAttribute();
+		boolean focusable = RandomValues.trueOrFalse();
 
-	attribute.updateView(view, focusable);
+		attribute.updateView(view, focusable);
 
-	assertThat(view.isFocusable(), equalTo(focusable));
-    }
+		assertThat(view.isFocusable(), equalTo(focusable));
+	}
 
 }

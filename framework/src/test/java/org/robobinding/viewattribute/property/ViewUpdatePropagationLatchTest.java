@@ -4,44 +4,44 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.robobinding.viewattribute.RandomValues;
+import org.robobinding.util.RandomValues;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class ViewUpdatePropagationLatchTest {
-    private ViewUpdatePropagationLatch latch = new ViewUpdatePropagationLatch();
+	private ViewUpdatePropagationLatch latch = new ViewUpdatePropagationLatch();
 
-    @Test
-    public void givenLatchIsOn_whenTryToPass_thenFailed() {
-	latch.turnOn();
+	@Test
+	public void givenLatchIsOn_whenTryToPass_thenFailed() {
+		latch.turnOn();
 
-	assertFalse(latch.tryToPass());
-    }
+		assertFalse(latch.tryToPass());
+	}
 
-    @Test
-    public void givenLatchIsOn_whenTryToPassAfterFirstAttempt_thenAllAreSuccessful() {
-	latch.turnOn();
+	@Test
+	public void givenLatchIsOn_whenTryToPassAfterFirstAttempt_thenAllAreSuccessful() {
+		latch.turnOn();
 
-	latch.tryToPass();
-	assertAllTryToPassAttemptsAreSuccessful(anyNumAttempts());
-    }
+		latch.tryToPass();
+		assertAllTryToPassAttemptsAreSuccessful(anyNumAttempts());
+	}
 
-    private void assertAllTryToPassAttemptsAreSuccessful(int times) {
-	assertTrue(latch.tryToPass());
-    }
+	private void assertAllTryToPassAttemptsAreSuccessful(int times) {
+		assertTrue(latch.tryToPass());
+	}
 
-    private int anyNumAttempts() {
-	return RandomValues.nextInt(10);
-    }
+	private int anyNumAttempts() {
+		return RandomValues.nextInt(10);
+	}
 
-    @Test
-    public void givenLatchIsOff_whenTryToPass_thenAllAreSuccessful() {
-	latch.turnOff();
+	@Test
+	public void givenLatchIsOff_whenTryToPass_thenAllAreSuccessful() {
+		latch.turnOff();
 
-	assertAllTryToPassAttemptsAreSuccessful(anyNumAttempts());
-    }
+		assertAllTryToPassAttemptsAreSuccessful(anyNumAttempts());
+	}
 }

@@ -13,31 +13,30 @@ import org.robobinding.SubViewBinder;
 
 import android.view.View;
 
-
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SubViewWithoutPresentationModelAttributeTest {
-    @Mock
-    private SubViewHolder subViewHolder;
-    @Mock
-    private View staticSubView;
-    private int layoutId = 2;
+	@Mock
+	private SubViewHolder subViewHolder;
+	@Mock
+	private View staticSubView;
+	private int layoutId = 2;
 
-    @Test
-    public void whenBindTo_thenStaticSubViewIsSetOnHolder() {
-	BindingContext bindingContext = mock(BindingContext.class);
-	SubViewBinder viewBinder = mock(SubViewBinder.class);
-	when(bindingContext.createSubViewBinder()).thenReturn(viewBinder);
-	when(viewBinder.inflate(layoutId)).thenReturn(staticSubView);
-	SubViewWithoutPresentationModelAttribute attribute = new SubViewWithoutPresentationModelAttribute(layoutId, subViewHolder);
+	@Test
+	public void whenBindTo_thenStaticSubViewIsSetOnHolder() {
+		BindingContext bindingContext = mock(BindingContext.class);
+		SubViewBinder viewBinder = mock(SubViewBinder.class);
+		when(bindingContext.createSubViewBinder()).thenReturn(viewBinder);
+		when(viewBinder.inflate(layoutId)).thenReturn(staticSubView);
+		SubViewWithoutPresentationModelAttribute attribute = new SubViewWithoutPresentationModelAttribute(layoutId, subViewHolder);
 
-	attribute.bindTo(bindingContext);
+		attribute.bindTo(bindingContext);
 
-	verify(subViewHolder).setSubView(staticSubView);
-    }
+		verify(subViewHolder).setSubView(staticSubView);
+	}
 }

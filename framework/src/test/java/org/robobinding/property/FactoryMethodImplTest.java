@@ -9,30 +9,30 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.util.MethodUtils;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class FactoryMethodImplTest {
-    @Test
-    public void givenItemPresentationModelFactory_whenNewPresentationModel_returnNewInstance() {
-	Bean bean = new Bean();
-	FactoryMethodImpl factoryMethod = new FactoryMethodImpl(bean, getFactoryMethod()); 
-	ItemPresentationModel<Object> itemPresentationModel = factoryMethod.newItemPresentationModel();
+	@Test
+	public void givenItemPresentationModelFactory_whenNewPresentationModel_returnNewInstance() {
+		Bean bean = new Bean();
+		FactoryMethodImpl factoryMethod = new FactoryMethodImpl(bean, getFactoryMethod());
+		ItemPresentationModel<Object> itemPresentationModel = factoryMethod.newItemPresentationModel();
 
-	assertNotNull(itemPresentationModel);
-    }
-    
-    private Method getFactoryMethod() {
-	return MethodUtils.getAccessibleMethod(Bean.class, Bean.FACTORY_METHOD, new Class[0]);
-    }
-
-    public static class Bean {
-	public static final String FACTORY_METHOD = "factoryMethod";
-
-	public ItemPresentationModelImpl factoryMethod() {
-	    return new ItemPresentationModelImpl();
+		assertNotNull(itemPresentationModel);
 	}
-    }
+
+	private Method getFactoryMethod() {
+		return MethodUtils.getAccessibleMethod(Bean.class, Bean.FACTORY_METHOD, new Class[0]);
+	}
+
+	public static class Bean {
+		public static final String FACTORY_METHOD = "factoryMethod";
+
+		public ItemPresentationModelImpl factoryMethod() {
+			return new ItemPresentationModelImpl();
+		}
+	}
 }

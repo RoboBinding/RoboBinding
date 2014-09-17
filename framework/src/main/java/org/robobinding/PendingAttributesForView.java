@@ -9,21 +9,21 @@ import java.util.Map;
  * @author Cheng Wei
  */
 public interface PendingAttributesForView {
-    Object getView();
+	Object getView();
 
-    void resolveAttributeIfExists(String attribute, AttributeResolver attributeResolver);
+	void resolveAttributeIfExists(String attribute, AttributeResolver attributeResolver);
 
-    void resolveAttributeGroupIfExists(String[] attributeGroup, AttributeGroupResolver attributeGroupResolver);
+	void resolveAttributeGroupIfExists(String[] attributeGroup, AttributeGroupResolver attributeGroupResolver);
 
-    boolean isEmpty();
+	boolean isEmpty();
 
-    ViewResolutionErrors getResolutionErrors();
+	ViewResolutionErrors getResolutionErrors();
 
-    public interface AttributeResolver {
-	void resolve(Object view, String attribute, String attributeValue);
-    }
+	public interface AttributeResolver {
+		void resolve(Object view, String attribute, String attributeValue);
+	}
 
-    public interface AttributeGroupResolver {
-	void resolve(Object view, String[] attributeGroup, Map<String, String> presentAttributeMappings);
-    }
+	public interface AttributeGroupResolver {
+		void resolve(Object view, String[] attributeGroup, Map<String, String> presentAttributeMappings);
+	}
 }

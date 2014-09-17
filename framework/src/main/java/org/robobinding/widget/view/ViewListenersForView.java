@@ -9,67 +9,67 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class ViewListenersForView implements ViewListeners {
-    private final View view;
-    private OnClickListeners onClickListeners;
-    private OnLongClickListeners onLongClickListeners;
-    private OnFocusChangeListeners onFocusChangeListeners;
-    private OnTouchListeners onTouchListeners;
+	private final View view;
+	private OnClickListeners onClickListeners;
+	private OnLongClickListeners onLongClickListeners;
+	private OnFocusChangeListeners onFocusChangeListeners;
+	private OnTouchListeners onTouchListeners;
 
-    public ViewListenersForView(View view) {
-	this.view = view;
-    }
-
-    public void addOnClickListener(OnClickListener listener) {
-	ensureOnClickListenersInitialized();
-	onClickListeners.addListener(listener);
-    }
-
-    private void ensureOnClickListenersInitialized() {
-	if (onClickListeners == null) {
-	    onClickListeners = new OnClickListeners();
-	    view.setOnClickListener(onClickListeners);
+	public ViewListenersForView(View view) {
+		this.view = view;
 	}
-    }
 
-    public void addOnLongClickListener(OnLongClickListener listener) {
-	ensureOnLongClickListenersInitialized();
-	onLongClickListeners.addListener(listener);
-    }
-
-    private void ensureOnLongClickListenersInitialized() {
-	if (onLongClickListeners == null) {
-	    onLongClickListeners = new OnLongClickListeners();
-	    view.setOnLongClickListener(onLongClickListeners);
+	public void addOnClickListener(OnClickListener listener) {
+		ensureOnClickListenersInitialized();
+		onClickListeners.addListener(listener);
 	}
-    }
 
-    public void addOnFocusChangeListener(OnFocusChangeListener listener) {
-	ensureOnFocusChangeListenersInitialized();
-	onFocusChangeListeners.addListener(listener);
-    }
+	private void ensureOnClickListenersInitialized() {
+		if (onClickListeners == null) {
+			onClickListeners = new OnClickListeners();
+			view.setOnClickListener(onClickListeners);
+		}
+	}
 
-    private void ensureOnFocusChangeListenersInitialized() {
-	if (onFocusChangeListeners == null) {
-	    onFocusChangeListeners = new OnFocusChangeListeners();
-	    view.setOnFocusChangeListener(onFocusChangeListeners);
+	public void addOnLongClickListener(OnLongClickListener listener) {
+		ensureOnLongClickListenersInitialized();
+		onLongClickListeners.addListener(listener);
 	}
-    }
-    
-    public void addOnTouchListener(OnTouchListener listener) {
-	ensureOnTouchListenersInitialized();
-	onTouchListeners.addListener(listener);
-    }
-    
-    private void ensureOnTouchListenersInitialized() {
-	if (onTouchListeners == null) {
-	    onTouchListeners = new OnTouchListeners();
-	    view.setOnTouchListener(onTouchListeners);
+
+	private void ensureOnLongClickListenersInitialized() {
+		if (onLongClickListeners == null) {
+			onLongClickListeners = new OnLongClickListeners();
+			view.setOnLongClickListener(onLongClickListeners);
+		}
 	}
-    }
+
+	public void addOnFocusChangeListener(OnFocusChangeListener listener) {
+		ensureOnFocusChangeListenersInitialized();
+		onFocusChangeListeners.addListener(listener);
+	}
+
+	private void ensureOnFocusChangeListenersInitialized() {
+		if (onFocusChangeListeners == null) {
+			onFocusChangeListeners = new OnFocusChangeListeners();
+			view.setOnFocusChangeListener(onFocusChangeListeners);
+		}
+	}
+
+	public void addOnTouchListener(OnTouchListener listener) {
+		ensureOnTouchListenersInitialized();
+		onTouchListeners.addListener(listener);
+	}
+
+	private void ensureOnTouchListenersInitialized() {
+		if (onTouchListeners == null) {
+			onTouchListeners = new OnTouchListeners();
+			view.setOnTouchListener(onTouchListeners);
+		}
+	}
 }

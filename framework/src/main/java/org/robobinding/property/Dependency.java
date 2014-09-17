@@ -11,28 +11,28 @@ import com.google.common.base.Joiner;
  * @author Cheng Wei
  */
 public class Dependency {
-    private final ObservableBean observableBean;
-    private final Set<String> dependentProperties;
+	private final ObservableBean observableBean;
+	private final Set<String> dependentProperties;
 
-    public Dependency(ObservableBean observableBean, Set<String> dependentProperties) {
-	this.observableBean = observableBean;
-	this.dependentProperties = dependentProperties;
-    }
-
-    public void addListenerToDependentProperties(PropertyChangeListener listener) {
-	for (String dependentProperty : dependentProperties) {
-	    observableBean.addPropertyChangeListener(dependentProperty, listener);
+	public Dependency(ObservableBean observableBean, Set<String> dependentProperties) {
+		this.observableBean = observableBean;
+		this.dependentProperties = dependentProperties;
 	}
-    }
 
-    public void removeListenerOffDependentProperties(PropertyChangeListener listener) {
-	for (String dependentProperty : dependentProperties) {
-	    observableBean.removePropertyChangeListener(dependentProperty, listener);
+	public void addListenerToDependentProperties(PropertyChangeListener listener) {
+		for (String dependentProperty : dependentProperties) {
+			observableBean.addPropertyChangeListener(dependentProperty, listener);
+		}
 	}
-    }
 
-    public String getDependencyDescription() {
-	return "dependentProperties:[" + Joiner.on(",").join(dependentProperties) + "]";
-    }
+	public void removeListenerOffDependentProperties(PropertyChangeListener listener) {
+		for (String dependentProperty : dependentProperties) {
+			observableBean.removePropertyChangeListener(dependentProperty, listener);
+		}
+	}
+
+	public String getDependencyDescription() {
+		return "dependentProperties:[" + Joiner.on(",").join(dependentProperties) + "]";
+	}
 
 }

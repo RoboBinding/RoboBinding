@@ -19,63 +19,63 @@ import org.robobinding.BindingContext;
 import org.robobinding.function.Function;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(Theories.class)
 public class EventAttributeTest {
-    @DataPoints
-    public static String[] illegalAttributeValues = {"{invalid_command_name}", "{invalid_command_name", "invalid_command_name}"};
+	@DataPoints
+	public static String[] illegalAttributeValues = { "{invalid_command_name}", "{invalid_command_name", "invalid_command_name}" };
 
-    private static final String COMMAND_NAME = "commandName";
+	private static final String COMMAND_NAME = "commandName";
 
-    @Mock
-    BindingContext bindingContext;
-    @Mock
-    Function function;
-    private EventAttribute attribute = anEventAttribute(COMMAND_NAME);
+	@Mock
+	BindingContext bindingContext;
+	@Mock
+	Function function;
+	private EventAttribute attribute = anEventAttribute(COMMAND_NAME);
 
-    @Before
-    public void setup() {
-	initMocks(this);
-    }
+	@Before
+	public void setup() {
+		initMocks(this);
+	}
 
-    @Theory
-    @Test(expected = MalformedAttributeException.class)
-    public void whenCreateWithIllegalAttributeValue_thenThrowException(String illegalAttributeValue) {
-	anEventAttribute(illegalAttributeValue);
-    }
+	@Theory
+	@Test(expected = MalformedAttributeException.class)
+	public void whenCreateWithIllegalAttributeValue_thenThrowException(String illegalAttributeValue) {
+		anEventAttribute(illegalAttributeValue);
+	}
 
-    @Test
-    public void givenFunctionWithParameters_whenFind_thenReturnCommandWithParametersSupported() {
-	when(bindingContext.findFunction(COMMAND_NAME, withParameterTypes())).thenReturn(function);
+	@Test
+	public void givenFunctionWithParameters_whenFind_thenReturnCommandWithParametersSupported() {
+		when(bindingContext.findFunction(COMMAND_NAME, withParameterTypes())).thenReturn(function);
 
-	CommandImpl command = (CommandImpl) attribute.findCommand(bindingContext, withParameterTypes());
+		CommandImpl command = (CommandImpl) attribute.findCommand(bindingContext, withParameterTypes());
 
-	assertNotNull(command);
-	assertTrue(command.supportsPreferredParameterType);
-    }
+		assertNotNull(command);
+		assertTrue(command.supportsPreferredParameterType);
+	}
 
-    @Test
-    public void givenFunctionWithoutParameters_whenFind_thenReturnCommandWithoutParametersSupported() {
-	when(bindingContext.findFunction(COMMAND_NAME)).thenReturn(function);
+	@Test
+	public void givenFunctionWithoutParameters_whenFind_thenReturnCommandWithoutParametersSupported() {
+		when(bindingContext.findFunction(COMMAND_NAME)).thenReturn(function);
 
-	CommandImpl command = (CommandImpl) attribute.findCommand(bindingContext);
+		CommandImpl command = (CommandImpl) attribute.findCommand(bindingContext);
 
-	assertNotNull(command);
-	assertFalse(command.supportsPreferredParameterType);
-    }
+		assertNotNull(command);
+		assertFalse(command.supportsPreferredParameterType);
+	}
 
-    @Test
-    public void whenFindANonExistingCommand_thenReturnNull() {
-	Command command = attribute.findCommand(bindingContext);
+	@Test
+	public void whenFindANonExistingCommand_thenReturnNull() {
+		Command command = attribute.findCommand(bindingContext);
 
-	assertNull(command);
-    }
+		assertNull(command);
+	}
 
-    private Class<?>[] withParameterTypes() {
-	return new Class<?>[] {Object.class};
-    }
+	private Class<?>[] withParameterTypes() {
+		return new Class<?>[] { Object.class };
+	}
 }

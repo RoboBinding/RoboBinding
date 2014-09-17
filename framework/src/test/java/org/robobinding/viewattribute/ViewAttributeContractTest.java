@@ -7,7 +7,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -15,26 +15,25 @@ import org.robobinding.BindingContext;
  */
 @RunWith(MockitoJUnitRunner.class)
 public abstract class ViewAttributeContractTest<T extends ViewAttributeBinder> {
-    @Mock
-    BindingContext bindingContext;
+	@Mock
+	BindingContext bindingContext;
 
-    @Test(expected = AttributeBindingException.class)
-    public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrowAsBindingException() {
-	T attribute = throwsExceptionDuringPreInitializingView();
+	@Test(expected = AttributeBindingException.class)
+	public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrowAsBindingException() {
+		T attribute = throwsExceptionDuringPreInitializingView();
 
-	attribute.preInitializeView(bindingContext);
-    }
+		attribute.preInitializeView(bindingContext);
+	}
 
-    protected abstract T throwsExceptionDuringPreInitializingView();
+	protected abstract T throwsExceptionDuringPreInitializingView();
 
+	@Test(expected = AttributeBindingException.class)
+	public void whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrowAsBindingException() {
 
-    @Test(expected = AttributeBindingException.class)
-    public void whenAnExceptionIsThrownDuringBinding_thenCatchAndRethrowAsBindingException() {
+		T attribute = throwsExceptionDuringBinding();
 
-	T attribute = throwsExceptionDuringBinding();
+		attribute.bindTo(bindingContext);
+	}
 
-	attribute.bindTo(bindingContext);
-    }
-
-    protected abstract T throwsExceptionDuringBinding();
+	protected abstract T throwsExceptionDuringBinding();
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <!-- 
+    	1.invalid syntax on :text attribute.
+    	2.non-existing property on :visibility attribute.
+    	3.non-existing attribute of :nonExistingAttribute.
+    -->
+    <Button 
+        android:id="@+id/resolutionAndBindingPhaseButton"
+        bind:text="{invalidSyntax"
+        bind:nonExistingAttribute="{property}"
+        
+        bind:visibility="{nonExistingProperty}"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+    
+   <!-- 
+    	1.invalid syntax on :visibility attribute.
+    	2.non-existing layout property on :itemLayout attribute.
+    -->
+    <ListView
+   	    android:id="@+id/resolutionAndBindingPhaseListView"
+   	    bind:visibility="${invalidSyntax"
+   	    bind:source="{source}"
+		bind:itemLayout="{nonExistingLayoutProperty}"
+		android:layout_width="fill_parent"
+		android:layout_height="0px"/>
+    
+    <!-- 
+    	1.invalid syntax on :visibility attribute.
+    	2.missing compulsory attributes :source and :dropdownLayout.
+    	
+    	Error detected later time:
+    	1.non-existing layout property on :itemLayout attribute.
+    -->
+   	<Spinner
+   	    android:id="@+id/resolutionAndBindingPhaseSpinner"
+   	    bind:visibility="${invalidSyntax"
+		bind:itemLayout="{nonExistingLayoutProperty}"
+		android:layout_width="fill_parent"
+		android:layout_height="0px"/>
+
+</LinearLayout>

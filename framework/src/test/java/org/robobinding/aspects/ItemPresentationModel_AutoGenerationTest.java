@@ -30,9 +30,7 @@ public class ItemPresentationModel_AutoGenerationTest {
 	}
 
 	private void observePropertyChange(ObservableBean itemPresentationModel) {
-		itemPresentationModel.addPropertyChangeListener(
-				AutoCodeGeneration.PROPERTY,
-				propertyChangeListenerTester);
+		itemPresentationModel.addPropertyChangeListener(AutoCodeGeneration.PROPERTY, propertyChangeListenerTester);
 	}
 
 	private void updateData(ItemPresentationModel<Object> itemPresentationModel) {

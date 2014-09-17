@@ -7,33 +7,33 @@ package org.robobinding.attribute;
  * @author Cheng Wei
  */
 public abstract class AbstractPropertyAttribute extends AbstractAttribute {
-    public AbstractPropertyAttribute(String name) {
-	super(name);
-    }
-
-    public abstract boolean isTwoWayBinding();
-
-    public final ValueModelAttribute asValueModelAttribute() {
-	if (isValueModel()) {
-	    return (ValueModelAttribute) this;
-	} else {
-	    throw new RuntimeException("Not a value model attribute");
+	public AbstractPropertyAttribute(String name) {
+		super(name);
 	}
-    }
 
-    boolean isValueModel() {
-	return ValueModelAttribute.class.isInstance(this);
-    }
+	public abstract boolean isTwoWayBinding();
 
-    public final StaticResourceAttribute asStaticResourceAttribute() {
-	if (isStaticResource()) {
-	    return (StaticResourceAttribute) this;
-	} else {
-	    throw new RuntimeException("Not a static resource attribute value");
+	public final ValueModelAttribute asValueModelAttribute() {
+		if (isValueModel()) {
+			return (ValueModelAttribute) this;
+		} else {
+			throw new RuntimeException("Not a value model attribute");
+		}
 	}
-    }
 
-    public boolean isStaticResource() {
-	return StaticResourceAttribute.class.isInstance(this);
-    }
+	boolean isValueModel() {
+		return ValueModelAttribute.class.isInstance(this);
+	}
+
+	public final StaticResourceAttribute asStaticResourceAttribute() {
+		if (isStaticResource()) {
+			return (StaticResourceAttribute) this;
+		} else {
+			throw new RuntimeException("Not a static resource attribute value");
+		}
+	}
+
+	public boolean isStaticResource() {
+		return StaticResourceAttribute.class.isInstance(this);
+	}
 }

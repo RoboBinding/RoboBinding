@@ -12,43 +12,44 @@ import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ResolvedGroupAttributes;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class GroupAttributesResolverTest {
-    private static final String ATTRIBUTE_NAME = "attributeName";
-    @Test
-    public void givenAllCorrectParameters_thenReturnResolvedGroupAttributes() {
-	PendingGroupAttributes pendingGroupAttributes = newPendingGroupAttributes();
+	private static final String ATTRIBUTE_NAME = "attributeName";
 
-	GroupAttributesResolver factory = new GroupAttributesResolver();
-	ResolvedGroupAttributes resolvedGroupAttributes = factory.resolve(pendingGroupAttributes, new ChildAttributesResolverForTest());
+	@Test
+	public void givenAllCorrectParameters_thenReturnResolvedGroupAttributes() {
+		PendingGroupAttributes pendingGroupAttributes = newPendingGroupAttributes();
 
-	assertTrue(resolvedGroupAttributes.hasAttribute(ATTRIBUTE_NAME));
-    }
+		GroupAttributesResolver factory = new GroupAttributesResolver();
+		ResolvedGroupAttributes resolvedGroupAttributes = factory.resolve(pendingGroupAttributes, new ChildAttributesResolverForTest());
 
-    private PendingGroupAttributes newPendingGroupAttributes() {
-	Map<String, String> attributeMappings = newHashMap();
-	attributeMappings.put(ATTRIBUTE_NAME, "${propertyName}");
-	return new PendingGroupAttributes(attributeMappings);
-    }
-
-    private class ChildAttributesResolverForTest implements ChildAttributesResolver {
-	@Override
-	public String[] getCompulsoryAttributes() {
-	    return new String[0];
+		assertTrue(resolvedGroupAttributes.hasAttribute(ATTRIBUTE_NAME));
 	}
 
-	@Override
-	public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings) {
-	    resolverMappings.map(ChildAttributeResolvers.valueModelAttributeResolver(), ATTRIBUTE_NAME);
-
+	private PendingGroupAttributes newPendingGroupAttributes() {
+		Map<String, String> attributeMappings = newHashMap();
+		attributeMappings.put(ATTRIBUTE_NAME, "${propertyName}");
+		return new PendingGroupAttributes(attributeMappings);
 	}
 
-	@Override
-	public void validateResolvedChildAttributes(ResolvedGroupAttributes groupAttributes) {
+	private class ChildAttributesResolverForTest implements ChildAttributesResolver {
+		@Override
+		public String[] getCompulsoryAttributes() {
+			return new String[0];
+		}
+
+		@Override
+		public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings) {
+			resolverMappings.map(ChildAttributeResolvers.valueModelAttributeResolver(), ATTRIBUTE_NAME);
+
+		}
+
+		@Override
+		public void validateResolvedChildAttributes(ResolvedGroupAttributes groupAttributes) {
+		}
 	}
-    }
 }

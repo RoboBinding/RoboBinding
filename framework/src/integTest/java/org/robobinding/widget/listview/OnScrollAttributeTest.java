@@ -2,41 +2,55 @@ package org.robobinding.widget.listview;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
-
-import android.widget.ListView;
+import org.robobinding.widget.EventCommand;
+import org.robolectric.annotation.Config;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnScrollAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<ListView, OnScrollAttribute, MockListViewListeners> {
-    @Test@Ignore
-    public void givenBoundAttribute_whenScrollView_thenEventReceived() {
-	bindAttribute();
+@Config(manifest = Config.NONE)
+public class OnScrollAttributeTest extends AbstractListViewAttributeTest {
+	private OnScrollAttribute attribute;
+	private EventCommand eventCommand;
 
-	scrollView();
+	@Before
+	public void setUp() {
+		attribute = withListenersSet(new OnScrollAttribute());
+		eventCommand = new EventCommand();
+	}
 
-	assertEventReceived();
-    }
+	/**
+	 * TODO: Not supported by Robolectric 2.x yet.
+	 */
+	@Ignore
+	@Test
+	public void givenBoundAttribute_whenScrollView_thenEventReceived() {
+		attribute.bind(view, eventCommand);
 
-    private void scrollView() {
-        view.smoothScrollToPositionFromTop(1, 0, 500);
-    }
+		scrollView();
 
-    private void assertEventReceived() {
-        assertEventReceived(ScrollEvent.class);
-    }
+		assertEventReceived();
+	}
 
-    @Test
-    public void whenBinding_thenRegisterWithViewListeners() {
-	bindAttribute();
+	private void scrollView() {
+		view.smoothScrollToPositionFromTop(1, 0, 500);
+	}
 
-	assertTrue(viewListeners.addOnScrollListenerInvoked);
-    }
+	private void assertEventReceived() {
+		eventCommand.assertEventReceived(ScrollEvent.class);
+	}
+
+	@Test
+	public void whenBinding_thenRegisterWithViewListeners() {
+		attribute.bind(view, eventCommand);
+
+		assertTrue(viewListeners.addOnScrollListenerInvoked);
+	}
 
 }

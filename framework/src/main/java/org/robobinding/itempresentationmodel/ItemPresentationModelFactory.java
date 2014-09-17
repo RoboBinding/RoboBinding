@@ -8,5 +8,5 @@ package org.robobinding.itempresentationmodel;
  * 
  */
 public interface ItemPresentationModelFactory {
-    ItemPresentationModel<Object> newItemPresentationModel();
+	ItemPresentationModel<Object> newItemPresentationModel();
 }

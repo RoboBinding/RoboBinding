@@ -9,5 +9,5 @@ import android.database.Cursor;
  * @author Cheng Wei
  */
 public interface RowMapper<T> {
-    T mapRow(Cursor cursor);
+	T mapRow(Cursor cursor);
 }

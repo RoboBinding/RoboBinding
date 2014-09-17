@@ -2,41 +2,50 @@ package org.robobinding.widget.radiogroup;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.viewattribute.RandomValues;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
-
-import android.widget.RadioGroup;
+import org.robobinding.util.RandomValues;
+import org.robobinding.widget.EventCommand;
+import org.robolectric.annotation.Config;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnCheckedChangeAttributeTest  extends
-	AbstractEventViewAttributeWithViewListenersAwareTest<RadioGroup, OnCheckedChangeAttribute, MockRadioGroupListeners> {
-    @Test
-    public void givenBoundAttribute_whenChangeChecked_thenEventReceived() {
-	bindAttribute();
+@Config(manifest = Config.NONE)
+public class OnCheckedChangeAttributeTest extends AbstractRadioGroupAttributeTest {
+	private OnCheckedChangeAttribute attribute;
+	private EventCommand eventCommand;
 
-	changeCheckedId();
+	@Before
+	public void setUp() {
+		attribute = withListenersSet(new OnCheckedChangeAttribute());
+		eventCommand = new EventCommand();
+	}
 
-	assertEventReceived();
-    }
+	@Test
+	public void givenBoundAttribute_whenChangeChecked_thenEventReceived() {
+		attribute.bind(view, eventCommand);
 
-    private void changeCheckedId() {
-        view.check(RandomValues.anyIntegerGreaterThanZero());
-    }
+		changeCheckedId();
 
-    private void assertEventReceived() {
-        assertEventReceived(CheckedChangeEvent.class);
-    }
+		assertEventReceived();
+	}
 
-    @Test
-    public void whenBinding_thenRegisterWithViewListeners() {
-	bindAttribute();
+	private void changeCheckedId() {
+		view.check(RandomValues.anyIntegerGreaterThanZero());
+	}
 
-	assertTrue(viewListeners.addOnCheckedChangeListenerInvoked);
-    }
+	private void assertEventReceived() {
+		eventCommand.assertEventReceived(CheckedChangeEvent.class);
+	}
+
+	@Test
+	public void whenBinding_thenRegisterWithViewListeners() {
+		attribute.bind(view, eventCommand);
+
+		assertTrue(viewListeners.addOnCheckedChangeListenerInvoked);
+	}
 }

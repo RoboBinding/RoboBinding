@@ -11,11 +11,11 @@ import android.widget.ViewAnimator;
  * @author Aurélien Catinon
  */
 public class DisplayedChildAttribute implements PropertyViewAttribute<ViewAnimator, Integer> {
-    
-    @Override
-    public void updateView(ViewAnimator view, Integer newValue) {
-        if (view.getDisplayedChild() != newValue) {
-            view.setDisplayedChild(newValue);
-        }
-    }
+
+	@Override
+	public void updateView(ViewAnimator view, Integer newValue) {
+		if (view.getDisplayedChild() != newValue) {
+			view.setDisplayedChild(newValue);
+		}
+	}
 }

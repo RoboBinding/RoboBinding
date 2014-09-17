@@ -2,41 +2,51 @@ package org.robobinding.widget.view;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.widget.AbstractEventViewAttributeWithViewListenersAwareTest;
-
-import android.view.View;
+import org.robobinding.widget.EventCommand;
+import org.robolectric.annotation.Config;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnClickAttributeTest extends AbstractEventViewAttributeWithViewListenersAwareTest<View, OnClickAttribute, MockViewListenersForView> {
-    @Test
-    public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
-	bindAttribute();
+@Config(manifest = Config.NONE)
+public class OnClickAttributeTest extends AbstractViewEventAttributeTest {
+	private OnClickAttribute attribute;
+	private EventCommand eventCommand;
 
-	clickOnView();
+	@Before
+	public void setUp() {
+		attribute = withListenersSet(new OnClickAttribute());
+		eventCommand = new EventCommand();
+	}
 
-	assertEventReceived();
-    }
+	@Test
+	public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
+		attribute.bind(view, eventCommand);
 
-    private void clickOnView() {
-	view.performClick();
-    }
+		clickOnView();
 
-    private void assertEventReceived() {
-	assertEventReceived(ClickEvent.class);
-	ClickEvent clickEvent = getEventReceived();
-	assertTrue(clickEvent.getView() == view);
-    }
+		assertEventReceived();
+	}
 
-    @Test
-    public void whenBinding_thenRegisterWithViewListeners() {
-	bindAttribute();
+	private void clickOnView() {
+		view.performClick();
+	}
 
-	assertTrue(viewListeners.addOnClickListenerInvoked);
-    }
+	private void assertEventReceived() {
+		eventCommand.assertEventReceived(ClickEvent.class);
+		ClickEvent clickEvent = eventCommand.getEventReceived();
+		assertTrue(clickEvent.getView() == view);
+	}
+
+	@Test
+	public void whenBinding_thenRegisterWithViewListeners() {
+		attribute.bind(view, eventCommand);
+
+		assertTrue(viewListeners.addOnClickListenerInvoked);
+	}
 }

@@ -16,18 +16,18 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class ItemBinder {
-    private final BindingViewInflater bindingViewInflater;
-    private final ViewBindingLifecycle viewBindingLifecycle;
+	private final BindingViewInflater bindingViewInflater;
+	private final ViewBindingLifecycle viewBindingLifecycle;
 
-    public ItemBinder(BindingViewInflater bindingViewInflater, ViewBindingLifecycle viewBindingLifecycle) {
-        this.bindingViewInflater = bindingViewInflater;
-        this.viewBindingLifecycle = viewBindingLifecycle;
-    }
+	public ItemBinder(BindingViewInflater bindingViewInflater, ViewBindingLifecycle viewBindingLifecycle) {
+		this.bindingViewInflater = bindingViewInflater;
+		this.viewBindingLifecycle = viewBindingLifecycle;
+	}
 
-    public View inflateAndBind(int layoutId, Object presentationModel, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
-	InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, predefinedPendingAttributesForViewGroup);
-	
-	viewBindingLifecycle.run(inflatedView, presentationModel);
-	return inflatedView.getRootView();
-    }
+	public View inflateAndBind(int layoutId, Object presentationModel, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
+		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, predefinedPendingAttributesForViewGroup);
+
+		viewBindingLifecycle.run(inflatedView, presentationModel);
+		return inflatedView.getRootView();
+	}
 }

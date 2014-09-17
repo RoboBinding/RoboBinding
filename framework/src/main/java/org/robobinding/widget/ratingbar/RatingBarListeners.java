@@ -12,23 +12,23 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  * @author Cheng Wei
  */
 public class RatingBarListeners extends ViewListenersForView {
-    final RatingBar ratingBar;
-    private OnRatingBarChangeListeners onRatingBarChangeListeners;
+	final RatingBar ratingBar;
+	private OnRatingBarChangeListeners onRatingBarChangeListeners;
 
-    public RatingBarListeners(RatingBar ratingBar) {
-	super(ratingBar);
-	this.ratingBar = ratingBar;
-    }
-
-    public void addOnRatingBarChangeListener(OnRatingBarChangeListener listener) {
-	ensureOnRatingBarChangeListenersInitialized();
-	onRatingBarChangeListeners.addListener(listener);
-    }
-
-    private void ensureOnRatingBarChangeListenersInitialized() {
-	if (onRatingBarChangeListeners == null) {
-	    onRatingBarChangeListeners = new OnRatingBarChangeListeners();
-	    ratingBar.setOnRatingBarChangeListener(onRatingBarChangeListeners);
+	public RatingBarListeners(RatingBar ratingBar) {
+		super(ratingBar);
+		this.ratingBar = ratingBar;
 	}
-    }
+
+	public void addOnRatingBarChangeListener(OnRatingBarChangeListener listener) {
+		ensureOnRatingBarChangeListenersInitialized();
+		onRatingBarChangeListeners.addListener(listener);
+	}
+
+	private void ensureOnRatingBarChangeListenersInitialized() {
+		if (onRatingBarChangeListeners == null) {
+			onRatingBarChangeListeners = new OnRatingBarChangeListeners();
+			ratingBar.setOnRatingBarChangeListener(onRatingBarChangeListeners);
+		}
+	}
 }

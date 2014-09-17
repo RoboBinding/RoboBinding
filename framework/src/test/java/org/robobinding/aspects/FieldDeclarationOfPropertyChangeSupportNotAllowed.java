@@ -7,8 +7,9 @@ package org.robobinding.aspects;
  * @author Cheng Wei
  */
 public class FieldDeclarationOfPropertyChangeSupportNotAllowed {
-	
-/*	 org.robobinding.property.PropertyChangeSupport propertyChangeSupport =
-			 new org.robobinding.property.PropertyChangeSupport(this, null);
-*/	 
+
+	/*
+	 * org.robobinding.property.PropertyChangeSupport propertyChangeSupport =
+	 * new org.robobinding.property.PropertyChangeSupport(this, null);
+	 */
 }

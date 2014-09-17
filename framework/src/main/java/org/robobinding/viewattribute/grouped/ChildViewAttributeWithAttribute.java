@@ -10,5 +10,5 @@ import org.robobinding.attribute.AbstractAttribute;
  * @author Cheng Wei
  */
 public interface ChildViewAttributeWithAttribute<T extends AbstractAttribute> extends ChildViewAttribute {
-    void setAttribute(T attribute);
+	void setAttribute(T attribute);
 }

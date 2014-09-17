@@ -24,28 +24,21 @@ public class ItemPresentationModel_ManualImplementationTest {
 
 	@SuppressWarnings("rawtypes")
 	@DataPoints
-	public static ItemPresentationModel[] manualPresentationModelImplementations = {
-			new ByInterface(), new BySubclassing() };
+	public static ItemPresentationModel[] manualPresentationModelImplementations = { new ByInterface(), new BySubclassing() };
 
 	@Theory
 	public void whenImplementsPrensentationModelManually_thenNoAutoCodeGenerationTriggered(
 			@SuppressWarnings("rawtypes") ItemPresentationModel manualItemPresentationModelImplementation) {
-		Assert.assertThat(
-				manualItemPresentationModelImplementation,
-				not(instanceOf(PresentationModelMixin.class)));
+		Assert.assertThat(manualItemPresentationModelImplementation, not(instanceOf(PresentationModelMixin.class)));
 	}
 
-	
-	public static class ByInterface implements ItemPresentationModel<Object>,
-			ObservableBean {
+	public static class ByInterface implements ItemPresentationModel<Object>, ObservableBean {
 		@Override
-		public void addPropertyChangeListener(String propertyName,
-				PropertyChangeListener listener) {
+		public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 		}
 
 		@Override
-		public void removePropertyChangeListener(String propertyName,
-				PropertyChangeListener listener) {
+		public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 		}
 
 		@Override
@@ -53,8 +46,7 @@ public class ItemPresentationModel_ManualImplementationTest {
 		}
 	}
 
-	public static class BySubclassing extends AbstractPresentationModel
-			implements ItemPresentationModel<Object> {
+	public static class BySubclassing extends AbstractPresentationModel implements ItemPresentationModel<Object> {
 		@Override
 		public void updateData(int index, Object bean) {
 		}

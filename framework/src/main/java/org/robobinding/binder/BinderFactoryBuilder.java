@@ -46,82 +46,80 @@ import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 /**
- * The builder class allows customizing {@link BinderFactory} by adding new, 
- * overriding or extending existing {@link ViewBinding}s and {@link DynamicViewBinding}s.
- *
+ * The builder class allows customizing {@link BinderFactory} by adding new,
+ * overriding or extending existing {@link ViewBinding}s and
+ * {@link DynamicViewBinding}s.
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class BinderFactoryBuilder {
-    private final ViewListenersMapBuilder viewListenersMapBuilder;
-    private final BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMapBuilder;
+	private final ViewListenersMapBuilder viewListenersMapBuilder;
+	private final BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMapBuilder;
 
-    public BinderFactoryBuilder() {
-	this.viewListenersMapBuilder = defaultViewListenersMapBuilder();
-	this.bindingAttributeMappingsProviderMapBuilder = defaultBindingAttributeMappingsProviderMapBuilder();
-    }
+	public BinderFactoryBuilder() {
+		this.viewListenersMapBuilder = defaultViewListenersMapBuilder();
+		this.bindingAttributeMappingsProviderMapBuilder = defaultBindingAttributeMappingsProviderMapBuilder();
+	}
 
+	static ViewListenersMapBuilder defaultViewListenersMapBuilder() {
+		ViewListenersMapBuilder builder = new ViewListenersMapBuilder();
+		builder.put(View.class, ViewListenersForView.class);
+		builder.put(AdapterView.class, AdapterViewListeners.class);
+		builder.put(CompoundButton.class, CompoundButtonListeners.class);
+		builder.put(SeekBar.class, SeekBarListeners.class);
+		builder.put(RatingBar.class, RatingBarListeners.class);
+		builder.put(MenuItem.class, MenuItemListeners.class);
 
-    static ViewListenersMapBuilder defaultViewListenersMapBuilder() {
-        ViewListenersMapBuilder builder = new ViewListenersMapBuilder();
-        builder.put(View.class, ViewListenersForView.class);
-        builder.put(AdapterView.class, AdapterViewListeners.class);
-        builder.put(CompoundButton.class, CompoundButtonListeners.class);
-        builder.put(SeekBar.class, SeekBarListeners.class);
-        builder.put(RatingBar.class, RatingBarListeners.class);
-        builder.put(MenuItem.class, MenuItemListeners.class);
+		return builder;
+	}
 
-        return builder;
-    }
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	static BindingAttributeMappingsProviderMapBuilder defaultBindingAttributeMappingsProviderMapBuilder() {
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    static BindingAttributeMappingsProviderMapBuilder defaultBindingAttributeMappingsProviderMapBuilder() {
+		BindingAttributeMappingsProviderMapBuilder builder = new BindingAttributeMappingsProviderMapBuilder();
 
-        BindingAttributeMappingsProviderMapBuilder builder = new BindingAttributeMappingsProviderMapBuilder();
+		builder.put(View.class, new ViewBindingForView());
+		builder.put(TextView.class, new TextViewBinding());
+		builder.put(EditText.class, new EditTextBinding());
+		builder.put(AdapterView.class, (ViewBinding) new AdapterViewBinding());
+		builder.put(CompoundButton.class, new CompoundButtonBinding());
+		builder.put(ImageView.class, new ImageViewBinding());
+		builder.put(ProgressBar.class, new ProgressBarBinding());
+		builder.put(SeekBar.class, new SeekBarBinding());
+		builder.put(RatingBar.class, new RatingBarBinding());
+		builder.put(ListView.class, new ListViewBinding());
+		builder.put(AbsListView.class, new AbsListViewBinding());
+		builder.put(AbsSpinner.class, new AbsSpinnerBinding());
+		builder.put(ViewAnimator.class, new ViewAnimatorBinding());
+		builder.put(MenuItem.class, new MenuItemBinding());
+		builder.put(MenuItemGroup.class, new MenuItemGroupBinding());
 
-        builder.put(View.class, new ViewBindingForView());
-        builder.put(TextView.class, new TextViewBinding());
-        builder.put(EditText.class, new EditTextBinding());
-        builder.put(AdapterView.class, (ViewBinding) new AdapterViewBinding());
-        builder.put(CompoundButton.class, new CompoundButtonBinding());
-        builder.put(ImageView.class, new ImageViewBinding());
-        builder.put(ProgressBar.class, new ProgressBarBinding());
-        builder.put(SeekBar.class, new SeekBarBinding());
-        builder.put(RatingBar.class, new RatingBarBinding());
-        builder.put(ListView.class, new ListViewBinding());
-        builder.put(AbsListView.class, new AbsListViewBinding());
-        builder.put(AbsSpinner.class, new AbsSpinnerBinding());
-	builder.put(ViewAnimator.class, new ViewAnimatorBinding());
-	builder.put(MenuItem.class, new MenuItemBinding());
-	builder.put(MenuItemGroup.class, new MenuItemGroupBinding());
+		return builder;
+	}
 
-        return builder;
-    }
+	public <T extends View> BinderFactoryBuilder mapView(Class<T> viewClass, ViewBinding<T> bindingAttributeMapper) {
+		bindingAttributeMappingsProviderMapBuilder.put(viewClass, bindingAttributeMapper);
+		return this;
+	}
 
-    public <T extends View> BinderFactoryBuilder mapView(Class<T> viewClass, ViewBinding<T> bindingAttributeMapper) {
-	bindingAttributeMappingsProviderMapBuilder.put(viewClass, bindingAttributeMapper);
-	return this;
-    }
+	public <T extends View> BinderFactoryBuilder mapView(Class<T> viewClass, ViewBinding<T> bindingAttributeMapper,
+			Class<? extends ViewListeners> viewListenersClass) {
+		mapView(viewClass, bindingAttributeMapper);
+		viewListenersMapBuilder.put(viewClass, viewListenersClass);
+		return this;
+	}
 
-    public <T extends View> BinderFactoryBuilder mapView(Class<T> viewClass, ViewBinding<T> bindingAttributeMapper,
-	    Class<? extends ViewListeners> viewListenersClass) {
-	mapView(viewClass, bindingAttributeMapper);
-	viewListenersMapBuilder.put(viewClass, viewListenersClass);
-	return this;
-    }
-    
-    public <T extends View> BinderFactoryBuilder add(DynamicViewBindingDescription<T> viewBindingDescription) {
-	ViewBindingApplier<T> viewBindingApplier = viewBindingDescription.build();
-	viewBindingApplier.applyBindingAttributeMapper(bindingAttributeMappingsProviderMapBuilder);
-	viewBindingApplier.applyViewListenersIfExists(viewListenersMapBuilder);
-	return this;
-    }
+	public <T extends View> BinderFactoryBuilder add(DynamicViewBindingDescription<T> viewBindingDescription) {
+		ViewBindingApplier<T> viewBindingApplier = viewBindingDescription.build();
+		viewBindingApplier.applyBindingAttributeMapper(bindingAttributeMappingsProviderMapBuilder);
+		viewBindingApplier.applyViewListenersIfExists(viewListenersMapBuilder);
+		return this;
+	}
 
-    public BinderFactory build() {
-	return new BinderFactory(
-		viewListenersMapBuilder.build(),
-		bindingAttributeMappingsProviderMapBuilder.build());
-    }
+	public BinderFactory build() {
+		return new BinderFactory(viewListenersMapBuilder.build(), bindingAttributeMappingsProviderMapBuilder.build());
+	}
 
 }

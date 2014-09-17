@@ -11,25 +11,25 @@ import android.widget.AdapterView.OnItemSelectedListener;
  * @author Robert Taylor
  */
 public class MockAdapterViewListeners extends AdapterViewListeners {
-    private final AdapterView<?> adapterView;
-    public boolean addOnItemSelectedListenerInvoked;
-    public boolean addOnItemClickListenerInvoked;
+	private final AdapterView<?> adapterView;
+	public boolean addOnItemSelectedListenerInvoked;
+	public boolean addOnItemClickListenerInvoked;
 
-    public MockAdapterViewListeners(AdapterView<?> adapterView) {
-	super(adapterView);
-	this.adapterView = adapterView;
-    }
+	public MockAdapterViewListeners(AdapterView<?> adapterView) {
+		super(adapterView);
+		this.adapterView = adapterView;
+	}
 
-    @Override
-    public void addOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
-	adapterView.setOnItemSelectedListener(onItemSelectedListener);
-	addOnItemSelectedListenerInvoked = true;
-    }
+	@Override
+	public void addOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
+		adapterView.setOnItemSelectedListener(onItemSelectedListener);
+		addOnItemSelectedListenerInvoked = true;
+	}
 
-    @Override
-    public void addOnItemClickListener(OnItemClickListener onItemClickListener) {
-	adapterView.setOnItemClickListener(onItemClickListener);
-	addOnItemClickListenerInvoked = true;
-    }
+	@Override
+	public void addOnItemClickListener(OnItemClickListener onItemClickListener) {
+		adapterView.setOnItemClickListener(onItemClickListener);
+		addOnItemClickListenerInvoked = true;
+	}
 
 }

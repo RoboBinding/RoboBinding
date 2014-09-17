@@ -12,15 +12,15 @@ import org.robobinding.property.ValueModel;
  * @author Cheng Wei
  */
 public interface PresentationModelAdapter {
-    Class<?> getPropertyType(String propertyName);
+	Class<?> getPropertyType(String propertyName);
 
-    <T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName);
+	<T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName);
 
-    <T> ValueModel<T> getPropertyValueModel(String propertyName);
+	<T> ValueModel<T> getPropertyValueModel(String propertyName);
 
-    DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName);
+	DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName);
 
-    Function findFunction(String functionName, Class<?>... parameterTypes);
+	Function findFunction(String functionName, Class<?>... parameterTypes);
 
-    String getPresentationModelClassName();
+	String getPresentationModelClassName();
 }

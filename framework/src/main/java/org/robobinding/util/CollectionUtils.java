@@ -10,20 +10,20 @@ import java.util.Map;
  * @author Cheng Wei
  */
 public class CollectionUtils {
-    private CollectionUtils() {
-    }
-
-    public static boolean isNotEmpty(Collection<?> c) {
-	if (c == null) {
-	    return false;
+	private CollectionUtils() {
 	}
-	return !c.isEmpty();
-    }
 
-    public static boolean isNotEmpty(Map<?, ?> map) {
-	if (map == null) {
-	    return false;
+	public static boolean isNotEmpty(Collection<?> c) {
+		if (c == null) {
+			return false;
+		}
+		return !c.isEmpty();
 	}
-	return !map.isEmpty();
-    }
+
+	public static boolean isNotEmpty(Map<?, ?> map) {
+		if (map == null) {
+			return false;
+		}
+		return !map.isEmpty();
+	}
 }

@@ -12,33 +12,33 @@ import android.database.CursorWrapper;
  * @author Cheng Wei
  */
 public class TypedCursorAdapter<T> extends CursorWrapper implements TypedCursor<T> {
-    private final RowMapper<T> rowMapper;
-    private final Cursor cursor;
+	private final RowMapper<T> rowMapper;
+	private final Cursor cursor;
 
-    public TypedCursorAdapter(Cursor cursor, RowMapper<T> rowMapper) {
-	super(validateCursorAndReturnIt(cursor));
+	public TypedCursorAdapter(Cursor cursor, RowMapper<T> rowMapper) {
+		super(validateCursorAndReturnIt(cursor));
 
-	Preconditions.checkNotNull(rowMapper, "rowMapper cannot be null");
-	this.rowMapper = rowMapper;
-	this.cursor = cursor;
-    }
-
-    private static Cursor validateCursorAndReturnIt(Cursor cursor) {
-	Preconditions.checkNotNull(cursor, "cursor cannot be null");
-	return cursor;
-    }
-
-    @Override
-    public T getObjectAtPosition(int position) {
-	int oldPosition = cursor.getPosition();
-	if (!cursor.moveToPosition(position)) {
-	    throw new RuntimeException("invalid position '" + position + "'");
+		Preconditions.checkNotNull(rowMapper, "rowMapper cannot be null");
+		this.rowMapper = rowMapper;
+		this.cursor = cursor;
 	}
-	try {
-	    return rowMapper.mapRow(cursor);
-	} finally {
-	    cursor.moveToPosition(oldPosition);
+
+	private static Cursor validateCursorAndReturnIt(Cursor cursor) {
+		Preconditions.checkNotNull(cursor, "cursor cannot be null");
+		return cursor;
 	}
-    }
+
+	@Override
+	public T getObjectAtPosition(int position) {
+		int oldPosition = cursor.getPosition();
+		if (!cursor.moveToPosition(position)) {
+			throw new RuntimeException("invalid position '" + position + "'");
+		}
+		try {
+			return rowMapper.mapRow(cursor);
+		} finally {
+			cursor.moveToPosition(oldPosition);
+		}
+	}
 
 }

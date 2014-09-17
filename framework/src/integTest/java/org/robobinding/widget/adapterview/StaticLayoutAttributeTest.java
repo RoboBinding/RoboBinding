@@ -2,7 +2,7 @@ package org.robobinding.widget.adapterview;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.robobinding.viewattribute.RandomValues.anyInteger;
+import static org.robobinding.util.RandomValues.anyInteger;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,26 +22,26 @@ import android.content.Context;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class StaticLayoutAttributeTest {
-    @Mock
-    StaticResourceAttribute staticResourceAttribute;
-    @Mock
-    RowLayoutUpdater rowLayoutUpdater;
-    @InjectMocks
-    StaticLayoutAttribute staticLayoutAttribute;
+	@Mock
+	StaticResourceAttribute staticResourceAttribute;
+	@Mock
+	RowLayoutUpdater rowLayoutUpdater;
+	@InjectMocks
+	StaticLayoutAttribute staticLayoutAttribute;
 
-    @Mock
-    Context context;
-    @Mock
-    BindingContext bindingContext;
+	@Mock
+	Context context;
+	@Mock
+	BindingContext bindingContext;
 
-    @Test
-    public void whenBinding_thenSetRowLayout() {
-	int resourceId = anyInteger();
-	when(bindingContext.getContext()).thenReturn(context);
-	when(staticResourceAttribute.getResourceId(context)).thenReturn(resourceId);
+	@Test
+	public void whenBinding_thenSetRowLayout() {
+		int resourceId = anyInteger();
+		when(bindingContext.getContext()).thenReturn(context);
+		when(staticResourceAttribute.getResourceId(context)).thenReturn(resourceId);
 
-	staticLayoutAttribute.bindTo(bindingContext);
+		staticLayoutAttribute.bindTo(bindingContext);
 
-	verify(rowLayoutUpdater).updateRowLayout(resourceId);
-    }
+		verify(rowLayoutUpdater).updateRowLayout(resourceId);
+	}
 }
