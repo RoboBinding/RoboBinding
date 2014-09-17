@@ -22,7 +22,7 @@ import com.google.common.collect.Sets;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class MapCheckedItemPositionsAttributeTest extends AbstractCheckedItemPositionsAttributeTest {
 	private Map<Integer, Boolean> checkedItemPositions;
 
@@ -36,8 +36,7 @@ public class MapCheckedItemPositionsAttributeTest extends AbstractCheckedItemPos
 		MapCheckedItemPositionsAttribute attribute = new MapCheckedItemPositionsAttribute();
 		attribute.updateView(view, checkedItemPositions);
 
-		assertMapEquals(checkedItemPositions,
-				SparseBooleanArrayUtils.toMap(view.getCheckedItemPositions()));
+		assertMapEquals(checkedItemPositions, SparseBooleanArrayUtils.toMap(view.getCheckedItemPositions()));
 	}
 
 	@Test
@@ -52,8 +51,7 @@ public class MapCheckedItemPositionsAttributeTest extends AbstractCheckedItemPos
 		assertMapEquals(checkedItemPositions, valueModel.getValue());
 	}
 
-	private void assertMapEquals(Map<Integer, Boolean> expected,
-			Map<Integer, Boolean> actual) {
+	private void assertMapEquals(Map<Integer, Boolean> expected, Map<Integer, Boolean> actual) {
 		Set<Integer> expectedSet = toSet(expected);
 		Set<Integer> actualSet = toSet(actual);
 		assertThat(actualSet, equalTo(expectedSet));

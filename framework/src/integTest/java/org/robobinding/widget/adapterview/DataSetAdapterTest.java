@@ -35,7 +35,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class DataSetAdapterTest {
 	@Mock
@@ -53,8 +53,7 @@ public class DataSetAdapterTest {
 
 	@Test
 	public void whenUpdateTheValueModel_thenNotifyDataSetChanged() {
-		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(
-				valueModel, null, null, true);
+		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(valueModel, null, null, true);
 		dataSetAdapter.observeChangesOnTheValueModel();
 
 		DataSetObserver dataSetObserver = mock(DataSetObserver.class);
@@ -69,13 +68,9 @@ public class DataSetAdapterTest {
 	public void whenGenerateItemView_thenInflateTheCorrectViewWithItemPresentationModelAttached() {
 		View view = new View(new Activity());
 
-		when(
-				itemLayoutBinder
-						.inflateAndBindTo(any(ItemPresentationModel.class)))
-				.thenReturn(view);
+		when(itemLayoutBinder.inflateAndBindTo(any(ItemPresentationModel.class))).thenReturn(view);
 
-		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(
-				valueModel, itemLayoutBinder, null, true);
+		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(valueModel, itemLayoutBinder, null, true);
 
 		View result = dataSetAdapter.getView(0, null, null);
 
@@ -87,13 +82,9 @@ public class DataSetAdapterTest {
 	public void whenGenerateDropdownView_thenInflateTheCorrectViewWithItemPresentationModelAttached() {
 		View view = new View(new Activity());
 
-		when(
-				dropdownLayoutBinder
-						.inflateAndBindTo(any(ItemPresentationModel.class)))
-				.thenReturn(view);
+		when(dropdownLayoutBinder.inflateAndBindTo(any(ItemPresentationModel.class))).thenReturn(view);
 
-		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(
-				valueModel, null, dropdownLayoutBinder, true);
+		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(valueModel, null, dropdownLayoutBinder, true);
 
 		View result = dataSetAdapter.getDropDownView(0, null, null);
 
@@ -103,24 +94,21 @@ public class DataSetAdapterTest {
 
 	@Test
 	public void givenPreInitializeViewsIsTrue_whenInitialize_thenDataSetAdapterCountShouldReflectValueModel() {
-		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(
-				valueModel, null, null, true);
+		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(valueModel, null, null, true);
 
 		assertThat(dataSetAdapter.getCount(), is(valueModel.size()));
 	}
 
 	@Test
 	public void givenPreInitializeViewsIsFalse_whenValueModelHasNotBeenUpdated_thenDataSetAdapterCountShouldBeZero() {
-		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(
-				valueModel, null, null, false);
+		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(valueModel, null, null, false);
 
 		assertThat(dataSetAdapter.getCount(), is(0));
 	}
 
 	@Test
 	public void givenPreInitializeViewsIsFalse_whenValueModelFireChange_thenDataSetAdapterCountShouldReflectValueModel() {
-		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(
-				valueModel, null, null, false);
+		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(valueModel, null, null, false);
 		dataSetAdapter.observeChangesOnTheValueModel();
 
 		valueModel.update();
@@ -130,14 +118,12 @@ public class DataSetAdapterTest {
 
 	@Test
 	public void givenValueModelIsNull_thenCountShouldBeZero() {
-		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(
-				null, null, null, false);
+		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(null, null, null, false);
 
 		assertThat(dataSetAdapter.getCount(), is(0));
 	}
 
-	public static class MockDataSetValueModel implements
-			DataSetValueModel<Object> {
+	public static class MockDataSetValueModel implements DataSetValueModel<Object> {
 		private PropertyChangeListeners presentationModelPropertyChangeListeners;
 		private List<Object> items;
 

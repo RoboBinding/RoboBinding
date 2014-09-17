@@ -26,33 +26,33 @@ import java.beans.PropertyChangeEvent;
  */
 public class PropertyVetoException extends Exception {
 
-    private static final long serialVersionUID = 129596057694162164L;
+	private static final long serialVersionUID = 129596057694162164L;
 
-    private final PropertyChangeEvent evt;
+	private final PropertyChangeEvent evt;
 
-    /**
-     * <p>
-     * Constructs an instance with a message and the change event.
-     * </p>
-     *
-     * @param message
-     *            A description of the veto.
-     * @param event
-     *            The event that was vetoed.
-     */
-    public PropertyVetoException(String message, PropertyChangeEvent event) {
-	super(message);
-	this.evt = event;
-    }
+	/**
+	 * <p>
+	 * Constructs an instance with a message and the change event.
+	 * </p>
+	 * 
+	 * @param message
+	 *            A description of the veto.
+	 * @param event
+	 *            The event that was vetoed.
+	 */
+	public PropertyVetoException(String message, PropertyChangeEvent event) {
+		super(message);
+		this.evt = event;
+	}
 
-    /**
-     * <p>
-     * Gets the property change event.
-     * </p>
-     *
-     * @return An instance of {@link PropertyChangeEvent}
-     */
-    public PropertyChangeEvent getPropertyChangeEvent() {
-	return evt;
-    }
+	/**
+	 * <p>
+	 * Gets the property change event.
+	 * </p>
+	 * 
+	 * @return An instance of {@link PropertyChangeEvent}
+	 */
+	public PropertyChangeEvent getPropertyChangeEvent() {
+		return evt;
+	}
 }

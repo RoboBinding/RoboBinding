@@ -12,15 +12,14 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class InflatedViewWithRoot extends InflatedView {
-    private final View rootView;
+	private final View rootView;
 
-    InflatedViewWithRoot(View rootView, List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup,
-    	ViewHierarchyInflationErrorsException errors) {
-	super(childViewBindingAttributesGroup, errors);
-        this.rootView = rootView;
-    }
+	InflatedViewWithRoot(View rootView, List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup, ViewHierarchyInflationErrorsException errors) {
+		super(childViewBindingAttributesGroup, errors);
+		this.rootView = rootView;
+	}
 
-    public View getRootView() {
-        return rootView;
-    }
+	public View getRootView() {
+		return rootView;
+	}
 }

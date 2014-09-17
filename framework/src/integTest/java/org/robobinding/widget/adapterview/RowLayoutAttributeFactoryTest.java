@@ -24,10 +24,8 @@ public class RowLayoutAttributeFactoryTest {
 		StaticResourceAttribute staticResourceAttribute = mock(StaticResourceAttribute.class);
 		when(staticResourceAttribute.isStaticResource()).thenReturn(true);
 
-		RowLayoutAttributeFactory rowLayoutAttributeFactory = new ItemLayoutAttributeFactory(
-				null, null);
-		ChildViewAttribute viewAttribute = rowLayoutAttributeFactory
-				.createRowLayoutAttribute(staticResourceAttribute);
+		RowLayoutAttributeFactory rowLayoutAttributeFactory = new ItemLayoutAttributeFactory(null, null);
+		ChildViewAttribute viewAttribute = rowLayoutAttributeFactory.createRowLayoutAttribute(staticResourceAttribute);
 
 		assertThat(viewAttribute, instanceOf(StaticLayoutAttribute.class));
 	}
@@ -36,10 +34,8 @@ public class RowLayoutAttributeFactoryTest {
 	public void whenCreateWithValueModelAttribute_thenReturnDynamicLayoutAttribute() {
 		ValueModelAttribute valueModelAttribute = aValueModelAttribute("{itemLayout}");
 
-		RowLayoutAttributeFactory rowLayoutAttributeFactory = new ItemLayoutAttributeFactory(
-				null, null);
-		ChildViewAttribute viewAttribute = rowLayoutAttributeFactory
-				.createRowLayoutAttribute(valueModelAttribute);
+		RowLayoutAttributeFactory rowLayoutAttributeFactory = new ItemLayoutAttributeFactory(null, null);
+		ChildViewAttribute viewAttribute = rowLayoutAttributeFactory.createRowLayoutAttribute(valueModelAttribute);
 
 		assertThat(viewAttribute, instanceOf(ChildViewAttributeAdapter.class));
 	}

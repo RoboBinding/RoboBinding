@@ -11,19 +11,19 @@ import android.widget.CompoundButton;
  * @author Cheng Wei
  */
 public class CheckedChangeEvent extends AbstractViewEvent {
-    private boolean checked;
+	private boolean checked;
 
-    public CheckedChangeEvent(CompoundButton compoundButton, boolean isChecked) {
-	super(compoundButton);
-	checked = isChecked;
-    }
-    
-    @Override
-    public CompoundButton getView() {
-        return (CompoundButton) super.getView();
-    }
+	public CheckedChangeEvent(CompoundButton compoundButton, boolean isChecked) {
+		super(compoundButton);
+		checked = isChecked;
+	}
 
-    public boolean isChecked() {
-	return checked;
-    }
+	@Override
+	public CompoundButton getView() {
+		return (CompoundButton) super.getView();
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
 }

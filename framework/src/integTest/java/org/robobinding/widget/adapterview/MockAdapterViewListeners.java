@@ -21,8 +21,7 @@ public class MockAdapterViewListeners extends AdapterViewListeners {
 	}
 
 	@Override
-	public void addOnItemSelectedListener(
-			OnItemSelectedListener onItemSelectedListener) {
+	public void addOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
 		adapterView.setOnItemSelectedListener(onItemSelectedListener);
 		addOnItemSelectedListenerInvoked = true;
 	}

@@ -18,7 +18,7 @@ import org.robolectric.annotation.Config;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class OnRatingBarChangeAttributeTest extends AbstractRatingBarAttributeTest {
 	private static final int NUM_STARS_TO_SHOW = 5;
 	private OnRatingBarChangeAttribute attribute;
@@ -49,9 +49,8 @@ public class OnRatingBarChangeAttributeTest extends AbstractRatingBarAttributeTe
 		eventCommand.assertEventReceived(RatingBarChangeEvent.class);
 		RatingBarChangeEvent ratingBarEvent = eventCommand.getEventReceived();
 		assertThat(ratingBarEvent.getView(), sameInstance(view));
-		assertThat((double) ratingBarEvent.getRating(),
-				is(closeTo(newNumStars, 0.1f)));
-		//assertTrue(ratingBarEvent.isFromUser());
+		assertThat((double) ratingBarEvent.getRating(), is(closeTo(newNumStars, 0.1f)));
+		// assertTrue(ratingBarEvent.isFromUser());
 	}
 
 	@Test

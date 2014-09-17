@@ -7,29 +7,29 @@ package org.robobinding.property;
  * @author Cheng Wei
  */
 class DependencyProperty extends PropertyValueModelWrapper {
-    private final AbstractProperty property;
-    private final Dependency dependency;
+	private final AbstractProperty property;
+	private final Dependency dependency;
 
-    public DependencyProperty(AbstractProperty property, Dependency dependency) {
-	super(property);
-	this.property = property;
-	this.dependency = dependency;
-    }
+	public DependencyProperty(AbstractProperty property, Dependency dependency) {
+		super(property);
+		this.property = property;
+		this.dependency = dependency;
+	}
 
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-	super.addPropertyChangeListener(listener);
-	dependency.addListenerToDependentProperties(listener);
-    }
+	@Override
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		super.addPropertyChangeListener(listener);
+		dependency.addListenerToDependentProperties(listener);
+	}
 
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-	super.removePropertyChangeListener(listener);
-	dependency.removeListenerOffDependentProperties(listener);
-    }
+	@Override
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		super.removePropertyChangeListener(listener);
+		dependency.removeListenerOffDependentProperties(listener);
+	}
 
-    @Override
-    public String toString() {
-	return property.decriptionWithExtraInformation(dependency.getDependencyDescription());
-    }
+	@Override
+	public String toString() {
+		return property.decriptionWithExtraInformation(dependency.getDependencyDescription());
+	}
 }

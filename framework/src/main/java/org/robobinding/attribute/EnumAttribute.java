@@ -7,24 +7,24 @@ package org.robobinding.attribute;
  * @author Robert Taylor
  */
 public class EnumAttribute<T extends Enum<T>> extends AbstractAttribute {
-    private T enumeratedValue;
+	private T enumeratedValue;
 
-    public EnumAttribute(String attribute, String attributeValue, Class<T> enumClass) {
-	super(attribute);
-	enumeratedValue = determineAttributeValue(attributeValue, enumClass);
-    }
-
-    private T determineAttributeValue(String attributeValue, Class<T> enumClass) {
-	for (T value : enumClass.getEnumConstants()) {
-	    if (value.toString().equals(attributeValue))
-		return value;
+	public EnumAttribute(String attribute, String attributeValue, Class<T> enumClass) {
+		super(attribute);
+		enumeratedValue = determineAttributeValue(attributeValue, enumClass);
 	}
 
-	throw new MalformedAttributeException(getName(), "Invalid " + getName() + " attribute value: " + attributeValue);
-    }
+	private T determineAttributeValue(String attributeValue, Class<T> enumClass) {
+		for (T value : enumClass.getEnumConstants()) {
+			if (value.toString().equals(attributeValue))
+				return value;
+		}
 
-    public T getValue() {
-	return enumeratedValue;
-    }
+		throw new MalformedAttributeException(getName(), "Invalid " + getName() + " attribute value: " + attributeValue);
+	}
+
+	public T getValue() {
+		return enumeratedValue;
+	}
 
 }

@@ -22,8 +22,7 @@ public class DropdownLayoutUpdaterTest {
 	@Test
 	public void whenUpdatingRowLayout_thenSetDropdownLayoutOnDataSetAdapterBuilder() {
 		int layoutId = anyInteger();
-		DropdownLayoutUpdater dropdownLayoutUpdater = new DropdownLayoutUpdater(
-				dataSetAdapterBuilder);
+		DropdownLayoutUpdater dropdownLayoutUpdater = new DropdownLayoutUpdater(dataSetAdapterBuilder);
 
 		dropdownLayoutUpdater.updateRowLayout(layoutId);
 

@@ -9,60 +9,60 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  * @author Cheng Wei
  */
 public class PendingGroupAttributes {
-    private final Map<String, String> presentAttributeMappings;
+	private final Map<String, String> presentAttributeMappings;
 
-    public PendingGroupAttributes(Map<String, String> presentAttributeMappings) {
-	this.presentAttributeMappings = Maps.newHashMap(presentAttributeMappings);
-    }
-
-    public Iterable<Map.Entry<String, String>> presentAttributes() {
-	return presentAttributeMappings.entrySet();
-    }
-
-    public void assertAttributesArePresent(String... attributeNames) {
-	if (!hasAttributes(attributeNames))
-	    throw new MissingRequiredAttributesException(findAbsentAttributes(attributeNames));
-    }
-
-    private boolean hasAttributes(String... attributes) {
-	for (String attribute : attributes) {
-	    if (!presentAttributeMappings.containsKey(attribute)) {
-		return false;
-	    }
+	public PendingGroupAttributes(Map<String, String> presentAttributeMappings) {
+		this.presentAttributeMappings = Maps.newHashMap(presentAttributeMappings);
 	}
-	return true;
-    }
 
-    private Collection<String> findAbsentAttributes(String... attributeNames) {
-	List<String> absentAttributes = Lists.newArrayList();
-	for (String attributeName : attributeNames) {
-	    if (!presentAttributeMappings.containsKey(attributeName)) {
-		absentAttributes.add(attributeName);
-	    }
+	public Iterable<Map.Entry<String, String>> presentAttributes() {
+		return presentAttributeMappings.entrySet();
 	}
-	return absentAttributes;
-    }
 
-    @Override
-    public boolean equals(Object other) {
-	if (this == other)
-	    return true;
-	if (!(other instanceof PendingGroupAttributes))
-	    return false;
+	public void assertAttributesArePresent(String... attributeNames) {
+		if (!hasAttributes(attributeNames))
+			throw new MissingRequiredAttributesException(findAbsentAttributes(attributeNames));
+	}
 
-	final PendingGroupAttributes that = (PendingGroupAttributes) other;
-	return Objects.equal(presentAttributeMappings, that.presentAttributeMappings);
-    }
+	private boolean hasAttributes(String... attributes) {
+		for (String attribute : attributes) {
+			if (!presentAttributeMappings.containsKey(attribute)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    @Override
-    public int hashCode() {
-	return Objects.hashCode(presentAttributeMappings);
-    }
+	private Collection<String> findAbsentAttributes(String... attributeNames) {
+		List<String> absentAttributes = Lists.newArrayList();
+		for (String attributeName : attributeNames) {
+			if (!presentAttributeMappings.containsKey(attributeName)) {
+				absentAttributes.add(attributeName);
+			}
+		}
+		return absentAttributes;
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		if (!(other instanceof PendingGroupAttributes))
+			return false;
+
+		final PendingGroupAttributes that = (PendingGroupAttributes) other;
+		return Objects.equal(presentAttributeMappings, that.presentAttributeMappings);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(presentAttributeMappings);
+	}
 }

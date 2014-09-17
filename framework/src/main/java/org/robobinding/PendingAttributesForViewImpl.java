@@ -20,8 +20,7 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView {
 	private ViewResolutionErrorsException resolutionErrors;
 	private boolean isUnrecognizedAttributesAppended;
 
-	public PendingAttributesForViewImpl(Object view,
-			Map<String, String> attributeMappings) {
+	public PendingAttributesForViewImpl(Object view, Map<String, String> attributeMappings) {
 		this.view = view;
 		this.attributeMappings = Maps.newHashMap(attributeMappings);
 		resolutionErrors = new ViewResolutionErrorsException(view);
@@ -48,8 +47,7 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView {
 	}
 
 	@Override
-	public void resolveAttributeIfExists(String attribute,
-			AttributeResolver attributeResolver) {
+	public void resolveAttributeIfExists(String attribute, AttributeResolver attributeResolver) {
 		if (attributeMappings.containsKey(attribute)) {
 			String attributeValue = attributeMappings.get(attribute);
 			try {
@@ -63,8 +61,7 @@ public class PendingAttributesForViewImpl implements PendingAttributesForView {
 	}
 
 	@Override
-	public void resolveAttributeGroupIfExists(String[] attributeGroup,
-			AttributeGroupResolver attributeGroupResolver) {
+	public void resolveAttributeGroupIfExists(String[] attributeGroup, AttributeGroupResolver attributeGroupResolver) {
 		if (hasOneOfAttributes(attributeGroup)) {
 			Map<String, String> presentAttributeMappings = findPresentAttributeMappings(attributeGroup);
 			Collection<String> presentAttributes = presentAttributeMappings.keySet();

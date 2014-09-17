@@ -20,13 +20,13 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class BooleanVisibilityAttributeTest {
 	private AbstractVisibility visibility;
 	private View view;
 	private BooleanVisibilityAttribute<View> attribute;
-	
+
 	@Before
 	public void setUp() {
 		view = new View(Robolectric.application);

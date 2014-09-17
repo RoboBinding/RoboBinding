@@ -1,38 +1,36 @@
 package org.robobinding.widget.abslistview;
 
+import android.content.Context;
 import android.widget.BaseAdapter;
 
 /**
  * @since 1.0
- * @version 
+ * @version
  * @author Cheng Wei
- *
+ * 
  */
 public abstract class AbstractAdapter extends BaseAdapter {
-	  private int itemCount;
+	protected final Context context;
+	private final int itemCount;
 
-	  public AbstractAdapter(int itemCount) {
-	    this.itemCount = itemCount;
-	  }
-
-	  public void setCount(int itemCount) {
-	    this.itemCount = itemCount;
-	    notifyDataSetChanged();
-	  }
-
-	  @Override
-	  public int getCount() {
-	    return itemCount;
-	  }
-
-	  @Override
-	  public Object getItem(int position) {
-	    return null;
-	  }
-
-	  @Override
-	  public long getItemId(int position) {
-	    return 0;
-	  }
-
+	public AbstractAdapter(Context context, int itemCount) {
+		this.context = context;
+		this.itemCount = itemCount;
 	}
+
+	@Override
+	public int getCount() {
+		return itemCount;
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return null;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return 0;
+	}
+
+}

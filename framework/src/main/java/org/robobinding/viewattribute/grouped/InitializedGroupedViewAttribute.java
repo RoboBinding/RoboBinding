@@ -3,12 +3,13 @@ package org.robobinding.viewattribute.grouped;
 import org.robobinding.BindingContext;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public interface InitializedGroupedViewAttribute<ViewType> {
-    void setupChildViewAttributes(ViewType view, ChildViewAttributesBuilder<ViewType> childViewAttributesBuilder, BindingContext bindingContext);
-    void postBind(ViewType view, BindingContext bindingContext);
+	void setupChildViewAttributes(ViewType view, ChildViewAttributesBuilder<ViewType> childViewAttributesBuilder, BindingContext bindingContext);
+
+	void postBind(ViewType view, BindingContext bindingContext);
 }

@@ -36,103 +36,101 @@ import com.google.common.collect.Maps;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BindingViewInflaterTest {
-    @Mock
-    private BindingAttributeResolver bindingAttributeResolver;
-    @Mock
-    private BindingAttributeParser bindingAttributeParser;
-    private BindingViewInflater bindingViewInflater;
-    
-    private int layoutId = 0;
+	@Mock
+	private BindingAttributeResolver bindingAttributeResolver;
+	@Mock
+	private BindingAttributeParser bindingAttributeParser;
+	private BindingViewInflater bindingViewInflater;
 
-    @Before
-    public void setUp() {
-	ViewResolutionResult viewResolutionResult = emptyViewResolutionResult();
-	when(bindingAttributeResolver.resolve(any(PendingAttributesForView.class))).thenReturn(viewResolutionResult);
-	
-	bindingViewInflater = new BindingViewInflater(
-		new NonBindingViewInflaterWithOnViewCreationCall(mock(NonBindingViewInflater.class)),
-		bindingAttributeResolver, 
-		bindingAttributeParser);
-    }
+	private int layoutId = 0;
 
-    private ViewResolutionResult emptyViewResolutionResult() {
-	ResolvedBindingAttributesForView viewBindingAttributes = mock(ResolvedBindingAttributesForView.class);
-	ViewResolutionErrors errors = mock(ViewResolutionErrors.class);
-	return new ViewResolutionResult(viewBindingAttributes, errors);
-    }
+	@Before
+	public void setUp() {
+		ViewResolutionResult viewResolutionResult = emptyViewResolutionResult();
+		when(bindingAttributeResolver.resolve(any(PendingAttributesForView.class))).thenReturn(viewResolutionResult);
 
-    @Test
-    public void givenAChildViewWithBindingAttributes_whenInflateView_thenAChildViewBindingAttributesShouldBeAdded() {
-	declareAChildView();
-
-	InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId);
-
-	assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(1));
-    }
-
-    private void declareAChildView() {
-        Map<String, String> pendingAttributeMappings = Maps.newHashMap();
-        pendingAttributeMappings.put("attribute", "attributeValue");
-        when(bindingAttributeParser.parse(any(AttributeSet.class))).thenReturn(pendingAttributeMappings);
-    }
-
-    @Test
-    public void givenAChildViewWithoutBindingAttributes_whenInflateBindingView_thenNoChildViewBindingAttributesShouldBeAdded() {
-	declareEmptyChildViews();
-
-	InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId);
-
-	assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(0));
-    }
-
-    private void declareEmptyChildViews() {
-	when(bindingAttributeParser.parse(any(AttributeSet.class))).thenReturn(Collections.<String, String>emptyMap());
-    }
-
-    @Test
-    public void givenAPredefinedPendingAttributesForView_whenInflateView_thenChildViewBindingAttributesIsAdded() {
-	InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, createAPredefinedPendingAttributesForView());
-
-	assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(1));
-    }
-
-    private int numberOfChildViewBindingAttributes(InflatedViewWithRoot inflatedView) {
-	List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup = inflatedView.childViewBindingAttributesGroup;
-	return childViewBindingAttributesGroup.size();
-    }
-
-    private Collection<PredefinedPendingAttributesForView> createAPredefinedPendingAttributesForView() {
-	PredefinedPendingAttributesForView predefinedPendingAttributesForView = mock(PredefinedPendingAttributesForView.class);
-	PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
-	when(predefinedPendingAttributesForView.createPendingAttributesForView(any(View.class))).thenReturn(pendingAttributesForView);
-
-	return Lists.newArrayList(predefinedPendingAttributesForView);
-    }
-    
-    private class NonBindingViewInflaterWithOnViewCreationCall extends NonBindingViewInflater
-    {
-	private final NonBindingViewInflater forwardingViewInflater;
-	public NonBindingViewInflaterWithOnViewCreationCall(NonBindingViewInflater nonBindingViewInflater) {
-	    super(null);
-	    this.forwardingViewInflater = nonBindingViewInflater;
-	}
-	
-	@Override
-	public View inflate(int layoutId) {
-	    View resultView = forwardingViewInflater.inflate(layoutId);
-	    performOnViewCreationCall(resultView);
-	    return resultView;
-	}
-	
-	private void performOnViewCreationCall(View view) {
-	    bindingViewInflater.onViewCreated(view, mock(AttributeSet.class));
+		bindingViewInflater = new BindingViewInflater(new NonBindingViewInflaterWithOnViewCreationCall(mock(NonBindingViewInflater.class)),
+				bindingAttributeResolver, bindingAttributeParser);
 	}
 
-	@Override
-	public View inflate(int layoutId, ViewGroup attachToRoot) {
-	    View resultView = forwardingViewInflater.inflate(layoutId, attachToRoot);
-	    performOnViewCreationCall(resultView);
-	    return resultView;
+	private ViewResolutionResult emptyViewResolutionResult() {
+		ResolvedBindingAttributesForView viewBindingAttributes = mock(ResolvedBindingAttributesForView.class);
+		ViewResolutionErrors errors = mock(ViewResolutionErrors.class);
+		return new ViewResolutionResult(viewBindingAttributes, errors);
 	}
-    }
+
+	@Test
+	public void givenAChildViewWithBindingAttributes_whenInflateView_thenAChildViewBindingAttributesShouldBeAdded() {
+		declareAChildView();
+
+		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId);
+
+		assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(1));
+	}
+
+	private void declareAChildView() {
+		Map<String, String> pendingAttributeMappings = Maps.newHashMap();
+		pendingAttributeMappings.put("attribute", "attributeValue");
+		when(bindingAttributeParser.parse(any(AttributeSet.class))).thenReturn(pendingAttributeMappings);
+	}
+
+	@Test
+	public void givenAChildViewWithoutBindingAttributes_whenInflateBindingView_thenNoChildViewBindingAttributesShouldBeAdded() {
+		declareEmptyChildViews();
+
+		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId);
+
+		assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(0));
+	}
+
+	private void declareEmptyChildViews() {
+		when(bindingAttributeParser.parse(any(AttributeSet.class))).thenReturn(Collections.<String, String> emptyMap());
+	}
+
+	@Test
+	public void givenAPredefinedPendingAttributesForView_whenInflateView_thenChildViewBindingAttributesIsAdded() {
+		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, createAPredefinedPendingAttributesForView());
+
+		assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(1));
+	}
+
+	private int numberOfChildViewBindingAttributes(InflatedViewWithRoot inflatedView) {
+		List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup = inflatedView.childViewBindingAttributesGroup;
+		return childViewBindingAttributesGroup.size();
+	}
+
+	private Collection<PredefinedPendingAttributesForView> createAPredefinedPendingAttributesForView() {
+		PredefinedPendingAttributesForView predefinedPendingAttributesForView = mock(PredefinedPendingAttributesForView.class);
+		PendingAttributesForView pendingAttributesForView = mock(PendingAttributesForView.class);
+		when(predefinedPendingAttributesForView.createPendingAttributesForView(any(View.class))).thenReturn(pendingAttributesForView);
+
+		return Lists.newArrayList(predefinedPendingAttributesForView);
+	}
+
+	private class NonBindingViewInflaterWithOnViewCreationCall extends NonBindingViewInflater {
+		private final NonBindingViewInflater forwardingViewInflater;
+
+		public NonBindingViewInflaterWithOnViewCreationCall(NonBindingViewInflater nonBindingViewInflater) {
+			super(null);
+			this.forwardingViewInflater = nonBindingViewInflater;
+		}
+
+		@Override
+		public View inflate(int layoutId) {
+			View resultView = forwardingViewInflater.inflate(layoutId);
+			performOnViewCreationCall(resultView);
+			return resultView;
+		}
+
+		private void performOnViewCreationCall(View view) {
+			bindingViewInflater.onViewCreated(view, mock(AttributeSet.class));
+		}
+
+		@Override
+		public View inflate(int layoutId, ViewGroup attachToRoot) {
+			View resultView = forwardingViewInflater.inflate(layoutId, attachToRoot);
+			performOnViewCreationCall(resultView);
+			return resultView;
+		}
+	}
 }

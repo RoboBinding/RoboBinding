@@ -22,8 +22,7 @@ public class ItemLayoutUpdaterTest {
 	@Test
 	public void whenUpdatingRowLayout_thenSetItemLayoutOnDataSetAdapterBuilder() {
 		int layoutId = anyInteger();
-		ItemLayoutUpdater itemLayoutUpdater = new ItemLayoutUpdater(
-				dataSetAdapterBuilder);
+		ItemLayoutUpdater itemLayoutUpdater = new ItemLayoutUpdater(dataSetAdapterBuilder);
 
 		itemLayoutUpdater.updateRowLayout(layoutId);
 

@@ -15,27 +15,26 @@ import com.google.common.base.Preconditions;
  * @author Cheng Wei
  */
 public class PresentationModelChangeSupport {
-    private final PropertyChangeSupport propertyChangeSupport;
+	private final PropertyChangeSupport propertyChangeSupport;
 
-    public PresentationModelChangeSupport(Object presentationModel) {
-    	Preconditions.checkNotNull(presentationModel, "presentationModel must not be null");
-	propertyChangeSupport = new PropertyChangeSupport(presentationModel, 
-		PropertyUtils.getPropertyNames(presentationModel.getClass()));
-    }
+	public PresentationModelChangeSupport(Object presentationModel) {
+		Preconditions.checkNotNull(presentationModel, "presentationModel must not be null");
+		propertyChangeSupport = new PropertyChangeSupport(presentationModel, PropertyUtils.getPropertyNames(presentationModel.getClass()));
+	}
 
-    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-	propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
-    }
+	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+	}
 
-    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-	propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
-    }
+	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+	}
 
-    public void firePropertyChange(String propertyName) {
-	propertyChangeSupport.firePropertyChange(propertyName);
-    }
+	public void firePropertyChange(String propertyName) {
+		propertyChangeSupport.firePropertyChange(propertyName);
+	}
 
-    public void refreshPresentationModel() {
-	propertyChangeSupport.fireChangeAll();
-    }
+	public void refreshPresentationModel() {
+		propertyChangeSupport.fireChangeAll();
+	}
 }

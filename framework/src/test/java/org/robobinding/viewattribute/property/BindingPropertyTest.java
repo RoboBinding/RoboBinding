@@ -15,41 +15,41 @@ import org.robobinding.util.RandomValues;
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BindingPropertyTest {
-    @Mock
-    PropertyViewAttribute<View, Integer> viewAttribute;
-    @Mock
-    View view;
-    private Integer newValue;
-    @Test
-    public void whenPreInitializeView_thenViewIsSynchronizedWithNewValueFromValueModel() {
-	newValue = RandomValues.anyInteger();
-	BindingPropertyForTest bindingProperty = new BindingPropertyForTest(view, viewAttribute, null);
+	@Mock
+	PropertyViewAttribute<View, Integer> viewAttribute;
+	@Mock
+	View view;
+	private Integer newValue;
 
-	bindingProperty.preInitializeView(null);
+	@Test
+	public void whenPreInitializeView_thenViewIsSynchronizedWithNewValueFromValueModel() {
+		newValue = RandomValues.anyInteger();
+		BindingPropertyForTest bindingProperty = new BindingPropertyForTest(view, viewAttribute, null);
 
-	verify(viewAttribute).updateView(view, newValue);
-    }
+		bindingProperty.preInitializeView(null);
 
-    private class BindingPropertyForTest extends AbstractBindingProperty<View, Integer> {
-	public BindingPropertyForTest(View view,
-		    PropertyViewAttribute<View, Integer> viewAttribute,
-		    ValueModelAttribute attribute) {
-	    super(view, viewAttribute, attribute);
-	}
-	@Override
-	public ValueModel<Integer> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter) {
-	    return ValueModelUtils.createInteger(newValue);
+		verify(viewAttribute).updateView(view, newValue);
 	}
 
-	@Override
-	public void performBind(PresentationModelAdapter presentationModelAdapter) {
+	private class BindingPropertyForTest extends AbstractBindingProperty<View, Integer> {
+		public BindingPropertyForTest(View view, PropertyViewAttribute<View, Integer> viewAttribute, ValueModelAttribute attribute) {
+			super(view, viewAttribute, attribute);
+		}
+
+		@Override
+		public ValueModel<Integer> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter) {
+			return ValueModelUtils.createInteger(newValue);
+		}
+
+		@Override
+		public void performBind(PresentationModelAdapter presentationModelAdapter) {
+		}
 	}
-    }
 }

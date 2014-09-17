@@ -19,9 +19,8 @@ import android.widget.EditText;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
-public class TwoWayTextAttributeGroupTest extends
-		AbstractGroupedViewAttributeTest<EditText, TwoWayTextAttributeGroup> {
+@Config(manifest = Config.NONE)
+public class TwoWayTextAttributeGroupTest extends AbstractGroupedViewAttributeTest<EditText, TwoWayTextAttributeGroup> {
 	private final Attribute oneWayBindingText = attribute("text={name}");
 	private final Attribute twoWayBindingText = attribute("text=${name}");
 	private final Attribute valueCommitMode = attribute("valueCommitMode=onChange");
@@ -60,14 +59,12 @@ public class TwoWayTextAttributeGroupTest extends
 	@Test
 	public void givenValueCommitModeAttribute_thenSetValueCommitModeAccordingly() {
 		String valueCommitModeValue = either("onChange", "onFocusLost");
-		Attribute valueCommitMode = attribute("valueCommitMode="
-				+ valueCommitModeValue);
+		Attribute valueCommitMode = attribute("valueCommitMode=" + valueCommitModeValue);
 		givenAttributes(twoWayBindingText, valueCommitMode);
 
 		performInitialization();
 
-		assertThat(currentValueCommitMode(),
-				equalTo(ValueCommitMode.from(valueCommitModeValue)));
+		assertThat(currentValueCommitMode(), equalTo(ValueCommitMode.from(valueCommitModeValue)));
 	}
 
 	@Test(expected = MissingRequiredAttributesException.class)

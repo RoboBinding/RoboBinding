@@ -7,11 +7,11 @@ package org.robobinding.property;
  * @author Cheng Wei
  */
 public interface Properties {
-    Class<?> getPropertyType(String propertyName);
+	Class<?> getPropertyType(String propertyName);
 
-    <T> ValueModel<T> getReadWriteProperty(String propertyName);
+	<T> ValueModel<T> getReadWriteProperty(String propertyName);
 
-    <T> ValueModel<T> getReadOnlyProperty(String propertyName);
+	<T> ValueModel<T> getReadOnlyProperty(String propertyName);
 
-    <T> DataSetValueModel<T> getDataSetProperty(String propertyName);
+	<T> DataSetValueModel<T> getDataSetProperty(String propertyName);
 }

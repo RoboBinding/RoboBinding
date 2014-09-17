@@ -10,21 +10,21 @@ import android.widget.ListView;
 
 /**
  * @since 1.0
- * @version 
+ * @version
  * @author Cheng Wei
- *
+ * 
  */
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractAdapterViewAttributeTest {
 	protected ListView view;
 	protected MockAdapterViewListeners viewListeners;
-	
+
 	@Before
 	public void initializeViewAndListeners() {
 		view = new ListView(Robolectric.application);
 		viewListeners = new MockAdapterViewListeners(view);
 	}
-	
+
 	public <T extends ViewListenersAware<AdapterViewListeners>> T withListenersSet(T attribute) {
 		attribute.setViewListeners(viewListeners);
 		return attribute;

@@ -4,9 +4,9 @@ import android.widget.ListView;
 
 /**
  * @since 1.0
- * @version 
+ * @version
  * @author Cheng Wei
- *
+ * 
  */
 class SubViewAttributesForTest extends SubViewAttributes<ListView> {
 	public SubViewAttributesForTest(SubViewAttributesStrategy<ListView> strategy) {

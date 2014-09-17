@@ -7,5 +7,5 @@ package org.robobinding.attribute;
  * @author Cheng Wei
  */
 public interface ChildAttributeResolver {
-    AbstractAttribute resolveChildAttribute(String attribute, String attributeValue);
+	AbstractAttribute resolveChildAttribute(String attribute, String attributeValue);
 }

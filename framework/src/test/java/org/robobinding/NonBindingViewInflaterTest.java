@@ -22,30 +22,30 @@ import android.view.ViewGroup;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class NonBindingViewInflaterTest {
-    @Mock
-    private LayoutInflater layoutInflater;
-    private int layoutId = 0;
+	@Mock
+	private LayoutInflater layoutInflater;
+	private int layoutId = 0;
 
-    @Test
-    public void whenInflateView_thenResultViewShouldBeReturned() {
-	View resultView = mock(View.class);
-	when(layoutInflater.inflate(layoutId, null)).thenReturn(resultView);
-	NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater);
-	
-	View view = viewInflater.inflate(layoutId);
+	@Test
+	public void whenInflateView_thenResultViewShouldBeReturned() {
+		View resultView = mock(View.class);
+		when(layoutInflater.inflate(layoutId, null)).thenReturn(resultView);
+		NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater);
 
-	assertThat(view, sameInstance(resultView));
-    }
+		View view = viewInflater.inflate(layoutId);
 
-    @Test
-    public void givenAttachToRoot_whenInflateView_thenResultViewWithAttachingToRootShouldBeReturned() {
-	ViewGroup rootView = mock(ViewGroup.class);
-	View resultViewWithAttachingToRoot = mock(View.class);
-	when(layoutInflater.inflate(layoutId, rootView, true)).thenReturn(resultViewWithAttachingToRoot);
-	NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater);
+		assertThat(view, sameInstance(resultView));
+	}
 
-	View view = viewInflater.inflate(layoutId, rootView);
+	@Test
+	public void givenAttachToRoot_whenInflateView_thenResultViewWithAttachingToRootShouldBeReturned() {
+		ViewGroup rootView = mock(ViewGroup.class);
+		View resultViewWithAttachingToRoot = mock(View.class);
+		when(layoutInflater.inflate(layoutId, rootView, true)).thenReturn(resultViewWithAttachingToRoot);
+		NonBindingViewInflater viewInflater = new NonBindingViewInflater(layoutInflater);
 
-	assertThat(view, sameInstance(resultViewWithAttachingToRoot));
-    }
+		View view = viewInflater.inflate(layoutId, rootView);
+
+		assertThat(view, sameInstance(resultViewWithAttachingToRoot));
+	}
 }

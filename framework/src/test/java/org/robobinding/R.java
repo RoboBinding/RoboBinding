@@ -8,18 +8,22 @@
 package org.robobinding;
 
 public final class R {
-    public static final class attr {
-    }
-    public static final class drawable {
-    }
-    public static final class id {
-        public static final int resolutionAndBindingPhaseButton=0x7f050011;
-        public static final int resolutionAndBindingPhaseListView=0x7f050012;
-        public static final int resolutionAndBindingPhaseSpinner=0x7f050013;
-    }
-    public static final class layout {
-        public static final int error_reporting_sample1=0x7f03000a;
-    }
-    public static final class string {
-    }
+	public static final class attr {
+	}
+
+	public static final class drawable {
+	}
+
+	public static final class id {
+		public static final int resolutionAndBindingPhaseButton = 0x7f050011;
+		public static final int resolutionAndBindingPhaseListView = 0x7f050012;
+		public static final int resolutionAndBindingPhaseSpinner = 0x7f050013;
+	}
+
+	public static final class layout {
+		public static final int error_reporting_sample1 = 0x7f03000a;
+	}
+
+	public static final class string {
+	}
 }

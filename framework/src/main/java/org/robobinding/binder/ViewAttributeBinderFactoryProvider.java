@@ -9,31 +9,26 @@ import org.robobinding.viewattribute.impl.ViewListenersProvider;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class ViewAttributeBinderFactoryProvider {
-    private final ViewListenersMap viewListenersMap;
-    private final PropertyAttributeParser propertyAttributeParser;
-    private final GroupAttributesResolver resolvedGroupAttributesFactory;
+	private final ViewListenersMap viewListenersMap;
+	private final PropertyAttributeParser propertyAttributeParser;
+	private final GroupAttributesResolver resolvedGroupAttributesFactory;
 
-    public ViewAttributeBinderFactoryProvider(PropertyAttributeParser propertyAttributeParser,
-            GroupAttributesResolver resolvedGroupAttributesFactory,
-            ViewListenersMap viewListenersMap) {
-        this.propertyAttributeParser = propertyAttributeParser;
-        this.resolvedGroupAttributesFactory = resolvedGroupAttributesFactory;
-        this.viewListenersMap = viewListenersMap;
-    }
+	public ViewAttributeBinderFactoryProvider(PropertyAttributeParser propertyAttributeParser, GroupAttributesResolver resolvedGroupAttributesFactory,
+			ViewListenersMap viewListenersMap) {
+		this.propertyAttributeParser = propertyAttributeParser;
+		this.resolvedGroupAttributesFactory = resolvedGroupAttributesFactory;
+		this.viewListenersMap = viewListenersMap;
+	}
 
-    public <ViewType> ViewAttributeBinderFactory<ViewType> create(ViewType view) {
-	ViewListenersInjector viewListenersInjector = new ViewListenersProvider(viewListenersMap);
-	return new ViewAttributeBinderFactory<ViewType>(
-		view,
-		new PropertyViewAttributeBinderFactory<ViewType>(view),
-		propertyAttributeParser,
-		resolvedGroupAttributesFactory,
-		viewListenersInjector);
-    }
+	public <ViewType> ViewAttributeBinderFactory<ViewType> create(ViewType view) {
+		ViewListenersInjector viewListenersInjector = new ViewListenersProvider(viewListenersMap);
+		return new ViewAttributeBinderFactory<ViewType>(view, new PropertyViewAttributeBinderFactory<ViewType>(view), propertyAttributeParser,
+				resolvedGroupAttributesFactory, viewListenersInjector);
+	}
 }

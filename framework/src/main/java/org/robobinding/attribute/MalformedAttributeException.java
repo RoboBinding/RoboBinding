@@ -10,7 +10,7 @@ import org.robobinding.AttributeResolutionException;
  */
 @SuppressWarnings("serial")
 public class MalformedAttributeException extends AttributeResolutionException {
-    public MalformedAttributeException(String attributeName, String message) {
-	super(attributeName, message);
-    }
+	public MalformedAttributeException(String attributeName, String message) {
+		super(attributeName, message);
+	}
 }

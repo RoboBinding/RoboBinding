@@ -18,69 +18,69 @@ import com.google.common.collect.Lists;
  */
 @SuppressWarnings("serial")
 public class ViewResolutionErrorsException extends RuntimeException implements ViewResolutionErrors {
-    private Object view;
-    private List<AttributeResolutionException> attributeErrors = Lists.newArrayList();
-    private List<MissingRequiredAttributesException> missingRequiredAttributeErrors = Lists.newArrayList();
+	private Object view;
+	private List<AttributeResolutionException> attributeErrors = Lists.newArrayList();
+	private List<MissingRequiredAttributesException> missingRequiredAttributeErrors = Lists.newArrayList();
 
-    public ViewResolutionErrorsException(Object view) {
-	this.view = view;
-    }
-
-    @Override
-    public Object getView() {
-	return view;
-    }
-
-    @Override
-    public int numErrors() {
-	return attributeErrors.size() + missingRequiredAttributeErrors.size();
-    }
-
-    @Override
-    public void assertNoErrors() {
-	if (hasErrors()) {
-	    throw this;
+	public ViewResolutionErrorsException(Object view) {
+		this.view = view;
 	}
-    }
 
-    @Override
-    public boolean hasErrors() {
-	return isNotEmpty(attributeErrors) || isNotEmpty(missingRequiredAttributeErrors);
-    }
-
-    public void addAttributeError(AttributeResolutionException e) {
-	attributeErrors.add(e);
-    }
-
-    public void addGroupedAttributeError(GroupedAttributeResolutionException e) {
-	attributeErrors.addAll(e.getAttributeResolutionExceptions());
-    }
-
-    public void addUnrecognizedAttributes(Collection<String> attributes) {
-	for (String attribute : attributes) {
-	    addAttributeError(new UnrecognizedAttributeException(attribute));
+	@Override
+	public Object getView() {
+		return view;
 	}
-    }
 
-    public void addMissingRequiredAttributeError(MissingRequiredAttributesException e) {
-	missingRequiredAttributeErrors.add(e);
-    }
+	@Override
+	public int numErrors() {
+		return attributeErrors.size() + missingRequiredAttributeErrors.size();
+	}
 
-    @Override
-    public Collection<AttributeResolutionException> getAttributeErrors() {
-	return Collections.unmodifiableCollection(attributeErrors);
-    }
+	@Override
+	public void assertNoErrors() {
+		if (hasErrors()) {
+			throw this;
+		}
+	}
 
-    @Override
-    public Collection<MissingRequiredAttributesException> getMissingRequiredAttributeErrors() {
-	return Collections.unmodifiableCollection(missingRequiredAttributeErrors);
-    }
+	@Override
+	public boolean hasErrors() {
+		return isNotEmpty(attributeErrors) || isNotEmpty(missingRequiredAttributeErrors);
+	}
 
-    @Override
-    public Collection<Exception> getErrors() {
-	List<Exception> errors = Lists.newArrayList();
-	errors.addAll(attributeErrors);
-	errors.addAll(missingRequiredAttributeErrors);
-	return errors;
-    }
+	public void addAttributeError(AttributeResolutionException e) {
+		attributeErrors.add(e);
+	}
+
+	public void addGroupedAttributeError(GroupedAttributeResolutionException e) {
+		attributeErrors.addAll(e.getAttributeResolutionExceptions());
+	}
+
+	public void addUnrecognizedAttributes(Collection<String> attributes) {
+		for (String attribute : attributes) {
+			addAttributeError(new UnrecognizedAttributeException(attribute));
+		}
+	}
+
+	public void addMissingRequiredAttributeError(MissingRequiredAttributesException e) {
+		missingRequiredAttributeErrors.add(e);
+	}
+
+	@Override
+	public Collection<AttributeResolutionException> getAttributeErrors() {
+		return Collections.unmodifiableCollection(attributeErrors);
+	}
+
+	@Override
+	public Collection<MissingRequiredAttributesException> getMissingRequiredAttributeErrors() {
+		return Collections.unmodifiableCollection(missingRequiredAttributeErrors);
+	}
+
+	@Override
+	public Collection<Exception> getErrors() {
+		List<Exception> errors = Lists.newArrayList();
+		errors.addAll(attributeErrors);
+		errors.addAll(missingRequiredAttributeErrors);
+		return errors;
+	}
 }

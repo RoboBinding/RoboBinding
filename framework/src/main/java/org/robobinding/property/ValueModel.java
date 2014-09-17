@@ -7,11 +7,11 @@ package org.robobinding.property;
  * 
  */
 public interface ValueModel<T> {
-    T getValue();
+	T getValue();
 
-    void setValue(T newValue);
+	void setValue(T newValue);
 
-    void addPropertyChangeListener(PropertyChangeListener listener);
+	void addPropertyChangeListener(PropertyChangeListener listener);
 
-    void removePropertyChangeListener(PropertyChangeListener listener);
+	void removePropertyChangeListener(PropertyChangeListener listener);
 }

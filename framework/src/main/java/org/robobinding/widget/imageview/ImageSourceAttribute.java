@@ -16,8 +16,7 @@ import android.widget.ImageView;
  */
 public class ImageSourceAttribute implements MultiTypePropertyViewAttribute<ImageView> {
 	@Override
-	public PropertyViewAttribute<ImageView, ?> create(ImageView view,
-			Class<?> propertyType) {
+	public PropertyViewAttribute<ImageView, ?> create(ImageView view, Class<?> propertyType) {
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType)) {
 			return new IntegerImageSourceAttribute();
 		} else if (Drawable.class.isAssignableFrom(propertyType)) {

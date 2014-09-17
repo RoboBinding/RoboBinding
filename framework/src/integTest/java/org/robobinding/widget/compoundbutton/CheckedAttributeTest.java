@@ -16,7 +16,7 @@ import org.robolectric.annotation.Config;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class CheckedAttributeTest extends AbstractCompoundButtonAttributeTest {
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {

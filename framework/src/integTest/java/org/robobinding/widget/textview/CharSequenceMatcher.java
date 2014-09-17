@@ -25,8 +25,7 @@ public class CharSequenceMatcher extends TypeSafeMatcher<CharSequence> {
 
 	@Override
 	public void describeTo(Description description) {
-		description.appendText("equivalent text value to '")
-				.appendText(value.toString()).appendText("'");
+		description.appendText("equivalent text value to '").appendText(value.toString()).appendText("'");
 	}
 
 	@Factory

@@ -12,23 +12,23 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @author Cheng Wei
  */
 public class CompoundButtonListeners extends ViewListenersForView {
-    CompoundButton compoundButton;
-    private OnCheckedChangeListeners onCheckedChangeListeners;
+	CompoundButton compoundButton;
+	private OnCheckedChangeListeners onCheckedChangeListeners;
 
-    public CompoundButtonListeners(CompoundButton compoundButton) {
-	super(compoundButton);
-	this.compoundButton = compoundButton;
-    }
-
-    public void addOnCheckedChangeListener(OnCheckedChangeListener listener) {
-	ensureOnCheckedChangeListenersInitialized();
-	onCheckedChangeListeners.addListener(listener);
-    }
-
-    private void ensureOnCheckedChangeListenersInitialized() {
-	if (onCheckedChangeListeners == null) {
-	    onCheckedChangeListeners = new OnCheckedChangeListeners();
-	    compoundButton.setOnCheckedChangeListener(onCheckedChangeListeners);
+	public CompoundButtonListeners(CompoundButton compoundButton) {
+		super(compoundButton);
+		this.compoundButton = compoundButton;
 	}
-    }
+
+	public void addOnCheckedChangeListener(OnCheckedChangeListener listener) {
+		ensureOnCheckedChangeListenersInitialized();
+		onCheckedChangeListeners.addListener(listener);
+	}
+
+	private void ensureOnCheckedChangeListenersInitialized() {
+		if (onCheckedChangeListeners == null) {
+			onCheckedChangeListeners = new OnCheckedChangeListeners();
+			compoundButton.setOnCheckedChangeListener(onCheckedChangeListeners);
+		}
+	}
 }

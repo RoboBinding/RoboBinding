@@ -23,7 +23,7 @@ import org.robobinding.viewattribute.Bindable;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
@@ -31,119 +31,120 @@ import org.robobinding.viewattribute.ViewAttributeBinder;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ChildViewAttributesTest {
-    @Mock
-    private BindingContext bindingContext;
-    @Mock
-    private ViewAttributeBinder viewAttribute1, viewAttribute2;
-    private String viewAttributeName1 = "viewAttribute1";
-    private String viewAttributeName2 = "viewAttribute2";
-    @Rule
-    public ExpectedException thrownException = ExpectedException.none();
+	@Mock
+	private BindingContext bindingContext;
+	@Mock
+	private ViewAttributeBinder viewAttribute1, viewAttribute2;
+	private String viewAttributeName1 = "viewAttribute1";
+	private String viewAttributeName2 = "viewAttribute2";
+	@Rule
+	public ExpectedException thrownException = ExpectedException.none();
 
-    @Test
-    public void whenBindTo_thenTheMethodInEachChildViewAttributeIsCalled() {
-	ChildViewAttributes childViewAttributes = childViewAttributes();
-	childViewAttributes.bindTo(bindingContext);
+	@Test
+	public void whenBindTo_thenTheMethodInEachChildViewAttributeIsCalled() {
+		ChildViewAttributes childViewAttributes = childViewAttributes();
+		childViewAttributes.bindTo(bindingContext);
 
-	verify(viewAttribute1).bindTo(bindingContext);
-	verify(viewAttribute2).bindTo(bindingContext);
-    }
+		verify(viewAttribute1).bindTo(bindingContext);
+		verify(viewAttribute2).bindTo(bindingContext);
+	}
 
-    private ChildViewAttributes childViewAttributes() {
-	return new ChildViewAttributes(childAttributeMap(), trueOrFalse());
-    }
+	private ChildViewAttributes childViewAttributes() {
+		return new ChildViewAttributes(childAttributeMap(), trueOrFalse());
+	}
 
-    private Map<String, Bindable> childAttributeMap() {
-	Map<String, Bindable> childAttributeMap = newLinkedHashMap();
-	childAttributeMap.put(viewAttributeName1, viewAttribute1);
-	childAttributeMap.put(viewAttributeName2, viewAttribute2);
-	return childAttributeMap;
-    }
+	private Map<String, Bindable> childAttributeMap() {
+		Map<String, Bindable> childAttributeMap = newLinkedHashMap();
+		childAttributeMap.put(viewAttributeName1, viewAttribute1);
+		childAttributeMap.put(viewAttributeName2, viewAttribute2);
+		return childAttributeMap;
+	}
 
-    @Test
-    public void whenPreInitializeView_thenTheMethodOfChildPropertyViewAttributeIsCalled() {
-	ChildViewAttributes childViewAttributes = childViewAttributes();
-	childViewAttributes.preInitializeView(bindingContext);
+	@Test
+	public void whenPreInitializeView_thenTheMethodOfChildPropertyViewAttributeIsCalled() {
+		ChildViewAttributes childViewAttributes = childViewAttributes();
+		childViewAttributes.preInitializeView(bindingContext);
 
-	verify(viewAttribute1).preInitializeView(bindingContext);
-	verify(viewAttribute2).preInitializeView(bindingContext);
-    }
+		verify(viewAttribute1).preInitializeView(bindingContext);
+		verify(viewAttribute2).preInitializeView(bindingContext);
+	}
 
-    @Test
-    public void whenErrorsOccurDuringBindingWithReportAllErrors_thenAllErrorsAreReported() {
-	throwAttributeBindingExceptionWhenBinding(viewAttribute1);
-	throwAttributeBindingExceptionWhenBinding(viewAttribute2);
+	@Test
+	public void whenErrorsOccurDuringBindingWithReportAllErrors_thenAllErrorsAreReported() {
+		throwAttributeBindingExceptionWhenBinding(viewAttribute1);
+		throwAttributeBindingExceptionWhenBinding(viewAttribute2);
 
-	thrownException.expect(AttributeGroupBindingException.class);
-	thrownException.expect(hasChildAttributeError(viewAttributeName1));
-	thrownException.expect(hasChildAttributeError(viewAttributeName2));
+		thrownException.expect(AttributeGroupBindingException.class);
+		thrownException.expect(hasChildAttributeError(viewAttributeName1));
+		thrownException.expect(hasChildAttributeError(viewAttributeName2));
 
-	ChildViewAttributes childViewAttributes = childViewAttributesWithReportAllErrors();
-	childViewAttributes.bindTo(bindingContext);
-    }
-    
-    public static AttributeGroupBindingExceptionMatcher hasChildAttributeError(String attributeName) {
-        return new AttributeGroupBindingExceptionMatcher(attributeName);
-    }
+		ChildViewAttributes childViewAttributes = childViewAttributesWithReportAllErrors();
+		childViewAttributes.bindTo(bindingContext);
+	}
 
-    private void throwAttributeBindingExceptionWhenBinding(ViewAttributeBinder viewAttribute) {
-        doThrow(new AttributeBindingException("", new MalformedAttributeException("", ""))).when(viewAttribute).bindTo(bindingContext);
-    }
+	public static AttributeGroupBindingExceptionMatcher hasChildAttributeError(String attributeName) {
+		return new AttributeGroupBindingExceptionMatcher(attributeName);
+	}
 
-    private ChildViewAttributes childViewAttributesWithReportAllErrors() {
-	return new ChildViewAttributes(childAttributeMap(), false);
-    }
+	private void throwAttributeBindingExceptionWhenBinding(ViewAttributeBinder viewAttribute) {
+		doThrow(new AttributeBindingException("", new MalformedAttributeException("", ""))).when(viewAttribute).bindTo(bindingContext);
+	}
 
-    @Test
-    public void whenErrorsOccurDuringBindingWithFailOnFirstBindingError_thenOnlyTheFirstErrorIsReported() {
-	throwAttributeBindingExceptionWhenBinding(viewAttribute1);
-	throwAttributeBindingExceptionWhenBinding(viewAttribute2);
+	private ChildViewAttributes childViewAttributesWithReportAllErrors() {
+		return new ChildViewAttributes(childAttributeMap(), false);
+	}
 
-	thrownException.expect(AttributeGroupBindingException.class);
-	thrownException.expect(hasChildAttributeError(viewAttributeName1));
-	thrownException.expect(not(hasChildAttributeError(viewAttributeName2)));
+	@Test
+	public void whenErrorsOccurDuringBindingWithFailOnFirstBindingError_thenOnlyTheFirstErrorIsReported() {
+		throwAttributeBindingExceptionWhenBinding(viewAttribute1);
+		throwAttributeBindingExceptionWhenBinding(viewAttribute2);
 
-	ChildViewAttributes childViewAttributes = childViewAttributesWithFailOnFirstError();
-	childViewAttributes.bindTo(bindingContext);
-    }
+		thrownException.expect(AttributeGroupBindingException.class);
+		thrownException.expect(hasChildAttributeError(viewAttributeName1));
+		thrownException.expect(not(hasChildAttributeError(viewAttributeName2)));
 
-    private ChildViewAttributes childViewAttributesWithFailOnFirstError() {
-	return new ChildViewAttributes(childAttributeMap(), true);
-    }
+		ChildViewAttributes childViewAttributes = childViewAttributesWithFailOnFirstError();
+		childViewAttributes.bindTo(bindingContext);
+	}
 
-    @Test@Ignore
-    public void whenAProgrammingErrorOccursDuringBinding_thenRethrow() {
-	doThrow(new ProgrammingError()).when(viewAttribute1).bindTo(bindingContext);
+	private ChildViewAttributes childViewAttributesWithFailOnFirstError() {
+		return new ChildViewAttributes(childAttributeMap(), true);
+	}
 
-	thrownException.expect(ProgrammingError.class);
+	@Test
+	@Ignore
+	public void whenAProgrammingErrorOccursDuringBinding_thenRethrow() {
+		doThrow(new ProgrammingError()).when(viewAttribute1).bindTo(bindingContext);
 
-	ChildViewAttributes childViewAttributes = childViewAttributes();
-	childViewAttributes.bindTo(bindingContext);
-    }
+		thrownException.expect(ProgrammingError.class);
 
-    @Test(expected = AttributeGroupBindingException.class)
-    public void whenErrorsOccurDuringBindingWithFailOnFirstBindingError_thenOnlyTheMethodInTheFirstChildViewAttributeIsCalled() {
-	throwAttributeBindingExceptionWhenBinding(viewAttribute1);
+		ChildViewAttributes childViewAttributes = childViewAttributes();
+		childViewAttributes.bindTo(bindingContext);
+	}
 
-	ChildViewAttributes childViewAttributes = childViewAttributesWithFailOnFirstError();
-	childViewAttributes.bindTo(bindingContext);
+	@Test(expected = AttributeGroupBindingException.class)
+	public void whenErrorsOccurDuringBindingWithFailOnFirstBindingError_thenOnlyTheMethodInTheFirstChildViewAttributeIsCalled() {
+		throwAttributeBindingExceptionWhenBinding(viewAttribute1);
 
-	verify(viewAttribute1).bindTo(bindingContext);
-	verify(viewAttribute2, never()).bindTo(bindingContext);
-    }
+		ChildViewAttributes childViewAttributes = childViewAttributesWithFailOnFirstError();
+		childViewAttributes.bindTo(bindingContext);
 
-    @Test(expected = AttributeGroupBindingException.class)
-    public void whenErrorsOccurDuringBindingWithReportAllErrors_thenAllTheMethodInEachChildViewAttributeIsCalled() {
-	throwAttributeBindingExceptionWhenBinding(viewAttribute1);
+		verify(viewAttribute1).bindTo(bindingContext);
+		verify(viewAttribute2, never()).bindTo(bindingContext);
+	}
 
-	ChildViewAttributes childViewAttributes = childViewAttributesWithReportAllErrors();
-	childViewAttributes.bindTo(bindingContext);
+	@Test(expected = AttributeGroupBindingException.class)
+	public void whenErrorsOccurDuringBindingWithReportAllErrors_thenAllTheMethodInEachChildViewAttributeIsCalled() {
+		throwAttributeBindingExceptionWhenBinding(viewAttribute1);
 
-	verify(viewAttribute1).bindTo(bindingContext);
-	verify(viewAttribute2).bindTo(bindingContext);
-    }
+		ChildViewAttributes childViewAttributes = childViewAttributesWithReportAllErrors();
+		childViewAttributes.bindTo(bindingContext);
 
-    @SuppressWarnings("serial")
-    private static class ProgrammingError extends RuntimeException {
-    }
+		verify(viewAttribute1).bindTo(bindingContext);
+		verify(viewAttribute2).bindTo(bindingContext);
+	}
+
+	@SuppressWarnings("serial")
+	private static class ProgrammingError extends RuntimeException {
+	}
 }

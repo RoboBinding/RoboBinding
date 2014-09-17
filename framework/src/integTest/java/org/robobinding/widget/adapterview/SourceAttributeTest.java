@@ -31,10 +31,8 @@ public class SourceAttributeTest {
 
 	@Test
 	public void whenBinding_thenSetDataSetValueModelOnDataSetAdapterBuilder() {
-		when(bindingContext.getDataSetPropertyValueModel(propertyName))
-				.thenReturn(dataSetValueModel);
-		SourceAttribute sourceAttribute = new SourceAttribute(
-				dataSetAdapterBuilder);
+		when(bindingContext.getDataSetPropertyValueModel(propertyName)).thenReturn(dataSetValueModel);
+		SourceAttribute sourceAttribute = new SourceAttribute(dataSetAdapterBuilder);
 		sourceAttribute.setAttribute(aValueModelAttribute(attributeValue));
 
 		sourceAttribute.bindTo(bindingContext);

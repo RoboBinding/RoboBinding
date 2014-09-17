@@ -19,9 +19,12 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class ListViewListenersTest {
+	/**
+	 * TODO: Not supported by Robolectric 2.x yet.
+	 */
 	@Test
 	@Ignore
 	public void shouldSupportMultipleOnOnScrollListeners() {
@@ -47,8 +50,7 @@ public class ListViewListenersTest {
 		private boolean scrollStateChangedEventFired;
 
 		@Override
-		public void onScroll(AbsListView view, int firstVisibleItem,
-				int visibleItemCount, int totalItemCount) {
+		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 			scrollEventFired = true;
 		}
 

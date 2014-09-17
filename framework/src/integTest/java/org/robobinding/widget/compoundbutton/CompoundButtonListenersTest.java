@@ -18,7 +18,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class CompoundButtonListenersTest {
 	@Test
@@ -38,13 +38,11 @@ public class CompoundButtonListenersTest {
 		assertTrue(listener2.checkedChangeEventFired);
 	}
 
-	private static class MockOnCheckedChangeListener implements
-			OnCheckedChangeListener {
+	private static class MockOnCheckedChangeListener implements OnCheckedChangeListener {
 		private boolean checkedChangeEventFired;
 
 		@Override
-		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) {
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			checkedChangeEventFired = true;
 		}
 	}

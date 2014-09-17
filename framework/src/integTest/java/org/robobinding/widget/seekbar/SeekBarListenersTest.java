@@ -18,7 +18,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class SeekBarListenersTest {
 	@Test
@@ -39,13 +39,11 @@ public class SeekBarListenersTest {
 		assertTrue(listener2.seekBarChangeEventFired);
 	}
 
-	private static class MockOnSeekBarChangeListener implements
-			OnSeekBarChangeListener {
+	private static class MockOnSeekBarChangeListener implements OnSeekBarChangeListener {
 		private boolean seekBarChangeEventFired;
 
 		@Override
-		public void onProgressChanged(SeekBar seekBar, int progress,
-				boolean fromUser) {
+		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 			seekBarChangeEventFired = true;
 		}
 

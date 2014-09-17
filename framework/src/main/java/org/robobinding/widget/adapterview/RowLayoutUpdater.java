@@ -7,5 +7,5 @@ package org.robobinding.widget.adapterview;
  * @author Robert
  */
 public interface RowLayoutUpdater {
-    void updateRowLayout(int layoutId);
+	void updateRowLayout(int layoutId);
 }

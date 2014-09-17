@@ -17,8 +17,7 @@ class AttributeGroupBindingExceptionMatcher extends TypeSafeMatcher<AttributeGro
 	}
 
 	@Override
-	protected boolean matchesSafely(
-			final AttributeGroupBindingException exception) {
+	protected boolean matchesSafely(final AttributeGroupBindingException exception) {
 		for (AttributeBindingException e : exception.getChildAttributeErrors()) {
 			if (e.getAttributeName().equals(attributeName))
 				return true;
@@ -29,7 +28,6 @@ class AttributeGroupBindingExceptionMatcher extends TypeSafeMatcher<AttributeGro
 
 	@Override
 	public void describeTo(Description description) {
-		description.appendText("Error for attribute '")
-				.appendValue(attributeName).appendText("' was not thrown.");
+		description.appendText("Error for attribute '").appendValue(attributeName).appendText("' was not thrown.");
 	}
 }

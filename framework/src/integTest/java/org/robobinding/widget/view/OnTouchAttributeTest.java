@@ -15,17 +15,17 @@ import android.view.MotionEvent;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class OnTouchAttributeTest extends AbstractViewEventAttributeTest {
 	private OnTouchAttribute attribute;
 	private EventCommand eventCommand;
-	
+
 	@Before
 	public void setUp() {
 		attribute = withListenersSet(new OnTouchAttribute());
 		eventCommand = new EventCommand();
 	}
-	
+
 	@Test
 	public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
 		attribute.bind(view, eventCommand);
@@ -40,9 +40,7 @@ public class OnTouchAttributeTest extends AbstractViewEventAttributeTest {
 	}
 
 	public static MotionEvent anyMotionEvent() {
-		return MotionEvent.obtain(System.currentTimeMillis(),
-				System.currentTimeMillis() + 1000, MotionEvent.ACTION_DOWN, 5,
-				5, 1);
+		return MotionEvent.obtain(System.currentTimeMillis(), System.currentTimeMillis() + 1000, MotionEvent.ACTION_DOWN, 5, 5, 1);
 	}
 
 	private void assertEventReceived() {

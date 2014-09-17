@@ -17,35 +17,35 @@ import com.google.common.collect.Maps;
  * @author Cheng Wei
  */
 public class MockBindingAttributeSetBuilder {
-    private Map<String, String> attributeMap;
+	private Map<String, String> attributeMap;
 
-    private MockBindingAttributeSetBuilder() {
-	attributeMap = Maps.newLinkedHashMap();
-    }
-
-    public static MockBindingAttributeSetBuilder aBindingAttributeSet() {
-	return new MockBindingAttributeSetBuilder();
-    }
-
-    public MockBindingAttributeSetBuilder withAttribute(String name, String value) {
-	attributeMap.put(name, value);
-	return this;
-    }
-
-    public AttributeSet build() {
-	AttributeSet attributeSet = mock(AttributeSet.class);
-
-	when(attributeSet.getAttributeCount()).thenReturn(attributeMap.size());
-
-	int i = 0;
-	for (Map.Entry<String, String> attributeEntry : attributeMap.entrySet()) {
-	    String name = attributeEntry.getKey();
-	    String value = attributeEntry.getValue();
-	    when(attributeSet.getAttributeName(i)).thenReturn(name);
-	    when(attributeSet.getAttributeValue(eq(BindingAttributeParser.ROBOBINDING_NAMESPACE), eq(name))).thenReturn(value);
-	    i++;
+	private MockBindingAttributeSetBuilder() {
+		attributeMap = Maps.newLinkedHashMap();
 	}
 
-	return attributeSet;
-    }
+	public static MockBindingAttributeSetBuilder aBindingAttributeSet() {
+		return new MockBindingAttributeSetBuilder();
+	}
+
+	public MockBindingAttributeSetBuilder withAttribute(String name, String value) {
+		attributeMap.put(name, value);
+		return this;
+	}
+
+	public AttributeSet build() {
+		AttributeSet attributeSet = mock(AttributeSet.class);
+
+		when(attributeSet.getAttributeCount()).thenReturn(attributeMap.size());
+
+		int i = 0;
+		for (Map.Entry<String, String> attributeEntry : attributeMap.entrySet()) {
+			String name = attributeEntry.getKey();
+			String value = attributeEntry.getValue();
+			when(attributeSet.getAttributeName(i)).thenReturn(name);
+			when(attributeSet.getAttributeValue(eq(BindingAttributeParser.ROBOBINDING_NAMESPACE), eq(name))).thenReturn(value);
+			i++;
+		}
+
+		return attributeSet;
+	}
 }

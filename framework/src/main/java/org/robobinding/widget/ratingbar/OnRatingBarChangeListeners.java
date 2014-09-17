@@ -12,11 +12,11 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  * @author Robert Taylor
  */
 public class OnRatingBarChangeListeners extends AbstractListeners<OnRatingBarChangeListener> implements OnRatingBarChangeListener {
-    @Override
-    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-	for (OnRatingBarChangeListener listener : listeners) {
-	    listener.onRatingChanged(ratingBar, rating, fromUser);
+	@Override
+	public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+		for (OnRatingBarChangeListener listener : listeners) {
+			listener.onRatingChanged(ratingBar, rating, fromUser);
+		}
 	}
-    }
 
 }

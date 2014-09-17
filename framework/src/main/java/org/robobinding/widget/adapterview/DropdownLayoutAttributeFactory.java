@@ -9,12 +9,12 @@ import android.widget.AdapterView;
  * @author Cheng Wei
  */
 public class DropdownLayoutAttributeFactory extends RowLayoutAttributeFactory {
-    public DropdownLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapterBuilder dataSetAdapterBuilder) {
-	super(adapterView, dataSetAdapterBuilder);
-    }
+	public DropdownLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapterBuilder dataSetAdapterBuilder) {
+		super(adapterView, dataSetAdapterBuilder);
+	}
 
-    @Override
-    protected RowLayoutUpdater createRowLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
-	return new DropdownLayoutUpdater(dataSetAdapterBuilder);
-    }
+	@Override
+	protected RowLayoutUpdater createRowLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
+		return new DropdownLayoutUpdater(dataSetAdapterBuilder);
+	}
 }

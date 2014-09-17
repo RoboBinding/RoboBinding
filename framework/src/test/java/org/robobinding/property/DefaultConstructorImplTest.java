@@ -9,25 +9,25 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.util.ConstructorUtils;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class DefaultConstructorImplTest {
 
-    @Test
-    public void givenItemPresentationModelFactory_whenNewItemPresentationModel_thenReturnNewInstance() {
-	DefaultConstructorImpl factory = new DefaultConstructorImpl(getDefaultConstructor());
+	@Test
+	public void givenItemPresentationModelFactory_whenNewItemPresentationModel_thenReturnNewInstance() {
+		DefaultConstructorImpl factory = new DefaultConstructorImpl(getDefaultConstructor());
 
-	ItemPresentationModel<Object> itemPresentationModel = factory.newItemPresentationModel();
+		ItemPresentationModel<Object> itemPresentationModel = factory.newItemPresentationModel();
 
-	assertNotNull(itemPresentationModel);
-    }
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private Constructor<ItemPresentationModel<Object>> getDefaultConstructor() {
-	return (Constructor) ConstructorUtils.getAccessibleConstructor(ItemPresentationModelWithDefaultConstructor.class, new Class[0]);
-    }
+		assertNotNull(itemPresentationModel);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private Constructor<ItemPresentationModel<Object>> getDefaultConstructor() {
+		return (Constructor) ConstructorUtils.getAccessibleConstructor(ItemPresentationModelWithDefaultConstructor.class, new Class[0]);
+	}
 
 }

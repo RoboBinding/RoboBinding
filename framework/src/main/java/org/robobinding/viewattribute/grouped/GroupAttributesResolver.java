@@ -13,47 +13,46 @@ import org.robobinding.attribute.ResolvedGroupAttributes;
 import com.google.common.collect.Maps;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public class GroupAttributesResolver {
 
-    public ResolvedGroupAttributes resolve(PendingGroupAttributes pendingGroupAttributes, ChildAttributesResolver childAttributesResolver) {
-	pendingGroupAttributes.assertAttributesArePresent(childAttributesResolver.getCompulsoryAttributes());
-	ChildAttributeResolverMappings resolverMappings = createResolverMappings(childAttributesResolver);
-	Map<String, AbstractAttribute> resolvedChildAttributes = resolveChildAttributes(pendingGroupAttributes, resolverMappings);
+	public ResolvedGroupAttributes resolve(PendingGroupAttributes pendingGroupAttributes, ChildAttributesResolver childAttributesResolver) {
+		pendingGroupAttributes.assertAttributesArePresent(childAttributesResolver.getCompulsoryAttributes());
+		ChildAttributeResolverMappings resolverMappings = createResolverMappings(childAttributesResolver);
+		Map<String, AbstractAttribute> resolvedChildAttributes = resolveChildAttributes(pendingGroupAttributes, resolverMappings);
 
-	ResolvedGroupAttributes resolvedGroupAttributes = new ResolvedGroupAttributes(resolvedChildAttributes);
-	childAttributesResolver.validateResolvedChildAttributes(resolvedGroupAttributes);
+		ResolvedGroupAttributes resolvedGroupAttributes = new ResolvedGroupAttributes(resolvedChildAttributes);
+		childAttributesResolver.validateResolvedChildAttributes(resolvedGroupAttributes);
 
-	return resolvedGroupAttributes;
-    }
-
-    private ChildAttributeResolverMappings createResolverMappings(ChildAttributesResolver childViewAttributesResolver) {
-	ChildAttributeResolverMappings resolverMappings = new ChildAttributeResolverMappings();
-	childViewAttributesResolver.mapChildAttributeResolvers(resolverMappings);
-	return resolverMappings;
-    }
-
-    private Map<String, AbstractAttribute> resolveChildAttributes(PendingGroupAttributes pendingGroupAttributes,
-	    ChildAttributeResolverMappings resolverMappings) {
-	GroupedAttributeResolutionException groupResolutionErrors = new GroupedAttributeResolutionException();
-	Map<String, AbstractAttribute> resolvedChildAttributes = Maps.newHashMap();
-	for (Map.Entry<String, String> attributeEntry : pendingGroupAttributes.presentAttributes()) {
-	    String attribute = attributeEntry.getKey();
-	    ChildAttributeResolver resolver = resolverMappings.resolverFor(attribute);
-	    try {
-		AbstractAttribute childAttribute = resolver.resolveChildAttribute(attribute, attributeEntry.getValue());
-		resolvedChildAttributes.put(attribute, childAttribute);
-	    } catch (AttributeResolutionException e) {
-		groupResolutionErrors.add(e);
-	    }
+		return resolvedGroupAttributes;
 	}
 
-	groupResolutionErrors.assertNoErrors();
-	return resolvedChildAttributes;
-    }
+	private ChildAttributeResolverMappings createResolverMappings(ChildAttributesResolver childViewAttributesResolver) {
+		ChildAttributeResolverMappings resolverMappings = new ChildAttributeResolverMappings();
+		childViewAttributesResolver.mapChildAttributeResolvers(resolverMappings);
+		return resolverMappings;
+	}
+
+	private Map<String, AbstractAttribute> resolveChildAttributes(PendingGroupAttributes pendingGroupAttributes, ChildAttributeResolverMappings resolverMappings) {
+		GroupedAttributeResolutionException groupResolutionErrors = new GroupedAttributeResolutionException();
+		Map<String, AbstractAttribute> resolvedChildAttributes = Maps.newHashMap();
+		for (Map.Entry<String, String> attributeEntry : pendingGroupAttributes.presentAttributes()) {
+			String attribute = attributeEntry.getKey();
+			ChildAttributeResolver resolver = resolverMappings.resolverFor(attribute);
+			try {
+				AbstractAttribute childAttribute = resolver.resolveChildAttribute(attribute, attributeEntry.getValue());
+				resolvedChildAttributes.put(attribute, childAttribute);
+			} catch (AttributeResolutionException e) {
+				groupResolutionErrors.add(e);
+			}
+		}
+
+		groupResolutionErrors.assertNoErrors();
+		return resolvedChildAttributes;
+	}
 
 }

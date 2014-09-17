@@ -7,5 +7,5 @@ package org.robobinding.viewattribute;
  * @author Cheng Wei
  */
 public interface ViewListenersAware<T extends ViewListeners> {
-    void setViewListeners(T viewListeners);
+	void setViewListeners(T viewListeners);
 }

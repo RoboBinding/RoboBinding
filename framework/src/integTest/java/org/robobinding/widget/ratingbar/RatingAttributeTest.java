@@ -1,10 +1,8 @@
 package org.robobinding.widget.ratingbar;
 
-import org.junit.runner.RunWith;
 import org.robobinding.widget.AbstractMultiTypePropertyViewAttributeTest;
 import org.robobinding.widget.ratingbar.RatingAttribute.FloatRatingAttribute;
 import org.robobinding.widget.ratingbar.RatingAttribute.IntegerRatingAttribute;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
@@ -13,8 +11,7 @@ import org.robolectric.annotation.Config;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
-@RunWith(RobolectricTestRunner.class)
+@Config(manifest = Config.NONE)
 public class RatingAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<RatingAttribute> {
 	@Override
 	protected void setTypeMappingExpectations() {

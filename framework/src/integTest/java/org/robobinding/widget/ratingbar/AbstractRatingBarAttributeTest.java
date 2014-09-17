@@ -10,21 +10,21 @@ import android.widget.RatingBar;
 
 /**
  * @since 1.0
- * @version 
+ * @version
  * @author Cheng Wei
- *
+ * 
  */
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractRatingBarAttributeTest {
 	protected RatingBar view;
 	protected MockRatingBarListeners viewListeners;
-	
+
 	@Before
 	public void initializeViewAndListeners() {
 		view = new RatingBar(Robolectric.application);
 		viewListeners = new MockRatingBarListeners(view);
 	}
-	
+
 	public <T extends ViewListenersAware<RatingBarListeners>> T withListenersSet(T attribute) {
 		attribute.setViewListeners(viewListeners);
 		return attribute;

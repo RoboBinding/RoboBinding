@@ -21,16 +21,15 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class ChoiceModeAttributeTest {
 	@Test
 	public void whenUpdateView_thenSetChoiceMode() {
 		ListView view = new ListView(Robolectric.application);
 		ChoiceModeAttribute attribute = new ChoiceModeAttribute();
-		int[] choiceModes = { CHOICE_MODE_NONE, CHOICE_MODE_SINGLE,
-				CHOICE_MODE_MULTIPLE, CHOICE_MODE_MULTIPLE_MODAL };
-		
+		int[] choiceModes = { CHOICE_MODE_NONE, CHOICE_MODE_SINGLE, CHOICE_MODE_MULTIPLE, CHOICE_MODE_MULTIPLE_MODAL };
+
 		for (int choiceMode : choiceModes) {
 			attribute.updateView(view, choiceMode);
 

@@ -19,8 +19,7 @@ import android.widget.Spinner;
  * @author Robert Taylor
  */
 @Config(manifest = Config.NONE)
-public class AdaptedAbsSpinnerDataSetAttributesTest extends
-		AbstractGroupedViewAttributeTest<Spinner, AdaptedAbsSpinnerDataSetAttributes> {
+public class AdaptedAbsSpinnerDataSetAttributesTest extends AbstractGroupedViewAttributeTest<Spinner, AdaptedAbsSpinnerDataSetAttributes> {
 	private final Attribute source = attribute("source={source_property}");
 	private final Attribute itemLayout = attribute("itemLayout=@layout/itemLayout");
 	private final Attribute itemMapping = attribute("itemMapping=[text1.title:{title}]");
@@ -42,19 +41,16 @@ public class AdaptedAbsSpinnerDataSetAttributesTest extends
 
 		performInitialization();
 
-		assertThatAttributesWereCreated(SOURCE, ITEM_LAYOUT, DROPDOWN_LAYOUT,
-				DROPDOWN_MAPPING);
+		assertThatAttributesWereCreated(SOURCE, ITEM_LAYOUT, DROPDOWN_LAYOUT, DROPDOWN_MAPPING);
 	}
 
 	@Test
 	public void givenAllDataSetAttributes_thenCreateAllAttributes() {
-		givenAttributes(source, itemLayout, itemMapping, dropdownLayout,
-				dropdownMapping);
+		givenAttributes(source, itemLayout, itemMapping, dropdownLayout, dropdownMapping);
 
 		performInitialization();
 
-		assertThatAttributesWereCreated(SOURCE, ITEM_LAYOUT, ITEM_MAPPING,
-				DROPDOWN_LAYOUT, DROPDOWN_MAPPING);
+		assertThatAttributesWereCreated(SOURCE, ITEM_LAYOUT, ITEM_MAPPING, DROPDOWN_LAYOUT, DROPDOWN_MAPPING);
 	}
 
 	@Test(expected = RuntimeException.class)

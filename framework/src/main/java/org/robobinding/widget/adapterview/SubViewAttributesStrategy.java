@@ -13,13 +13,13 @@ import android.widget.AdapterView;
  * @author Robert Taylor
  */
 public interface SubViewAttributesStrategy<T extends AdapterView<?>> {
-    String layoutAttribute();
+	String layoutAttribute();
 
-    String subViewPresentationModelAttribute();
+	String subViewPresentationModelAttribute();
 
-    String visibilityAttribute();
+	String visibilityAttribute();
 
-    void addSubView(T adapterView, View subView, Context context);
+	void addSubView(T adapterView, View subView, Context context);
 
-    AbstractVisibility createVisibility(T adapterView, View subView);
+	AbstractVisibility createVisibility(T adapterView, View subView);
 }

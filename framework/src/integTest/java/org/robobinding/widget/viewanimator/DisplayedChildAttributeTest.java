@@ -19,9 +19,9 @@ import android.widget.ViewAnimator;
  * @version $Revision: 1.0 $
  * @author Aurélien Catinon
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
-public class DisplayedChildAttributeTest{
+public class DisplayedChildAttributeTest {
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {

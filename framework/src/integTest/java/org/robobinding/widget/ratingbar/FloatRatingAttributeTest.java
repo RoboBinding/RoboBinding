@@ -32,7 +32,7 @@ public class FloatRatingAttributeTest extends AbstractRatingBarAttributeTest {
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
 		FloatRatingAttribute attribute = new FloatRatingAttribute();
-		
+
 		attribute.updateView(view, newRating);
 
 		assertThat((double) view.getRating(), closeTo(newRating, 0.1));
@@ -46,8 +46,7 @@ public class FloatRatingAttributeTest extends AbstractRatingBarAttributeTest {
 
 		view.setRating(newRating);
 
-		assertThat((double) valueModel.getValue(),
-				closeTo(view.getRating(), 0.1));
+		assertThat((double) valueModel.getValue(), closeTo(view.getRating(), 0.1));
 	}
 
 	@Test

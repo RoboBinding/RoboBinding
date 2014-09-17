@@ -11,14 +11,11 @@ import org.robolectric.annotation.Config;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
-public class TwoWayTextAttributeTest extends
-		AbstractMultiTypePropertyViewAttributeTest<TwoWayTextAttribute> {
+@Config(manifest = Config.NONE)
+public class TwoWayTextAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<TwoWayTextAttribute> {
 	@Override
 	protected void setTypeMappingExpectations() {
-		forPropertyType(CharSequence.class).expectAttribute(
-				TwoWayCharSequenceTextAttribute.class);
-		forPropertyType(String.class).expectAttribute(
-				TwoWayStringTextAttribute.class);
+		forPropertyType(CharSequence.class).expectAttribute(TwoWayCharSequenceTextAttribute.class);
+		forPropertyType(String.class).expectAttribute(TwoWayStringTextAttribute.class);
 	}
 }

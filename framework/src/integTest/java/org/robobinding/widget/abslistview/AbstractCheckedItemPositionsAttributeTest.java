@@ -5,6 +5,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.robobinding.util.RandomValues;
 import org.robobinding.widget.adapterview.AbstractAdapterViewAttributeTest;
+import org.robolectric.Robolectric;
 
 import android.util.SparseBooleanArray;
 import android.widget.ListAdapter;
@@ -21,7 +22,7 @@ public abstract class AbstractCheckedItemPositionsAttributeTest extends Abstract
 
 	@Before
 	public void initializeAdapterAndViewListeners() {
-		adapter = new MultipleChoiceAdapter();
+		adapter = new MultipleChoiceAdapter(Robolectric.application);
 		view.setAdapter(adapter);
 		view.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 

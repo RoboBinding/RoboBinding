@@ -17,18 +17,18 @@ import android.widget.EditText;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class OnTextChangedAttributeTest {
 	private EditText view;
 	private EventCommand eventCommand;
-	
+
 	@Before
 	public void setUp() {
 		view = new EditText(Robolectric.application);
 		eventCommand = new EventCommand();
 	}
-	
+
 	@Test
 	public void givenBoundAttribute_whenChangeText_thenEventReceived() {
 		OnTextChangedAttribute attribute = new OnTextChangedAttribute();

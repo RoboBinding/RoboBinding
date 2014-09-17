@@ -15,9 +15,7 @@ public class InflatedView {
 	final List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup;
 	private final ViewHierarchyInflationErrorsException errors;
 
-	public InflatedView(
-			List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup,
-			ViewHierarchyInflationErrorsException errors) {
+	public InflatedView(List<ResolvedBindingAttributesForView> childViewBindingAttributesGroup, ViewHierarchyInflationErrorsException errors) {
 		this.childViewBindingAttributesGroup = childViewBindingAttributesGroup;
 		this.errors = errors;
 	}

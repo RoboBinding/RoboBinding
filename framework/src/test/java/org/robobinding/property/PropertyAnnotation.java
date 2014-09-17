@@ -6,11 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
-*
-* @since 1.0
-* @version $Revision: 1.0 $
-* @author Cheng Wei
-*/
+ * 
+ * @since 1.0
+ * @version $Revision: 1.0 $
+ * @author Cheng Wei
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface PropertyAnnotation {

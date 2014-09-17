@@ -30,119 +30,118 @@ import com.google.common.collect.Sets;
  */
 @RunWith(Theories.class)
 public class PendingAttributesForViewImpl_ResolveAttributeGroupIfExists {
-    @DataPoints
-    public static AttributeGroupAndPresentAttributes[] samples = {
-	    attributeGroup("group1_attribute1", "group1_attribute2").andPresentAttributes("group1_attribute1"),
-	    attributeGroup("group2_attribute1", "group2_attribute2", "group2_attribute3").andPresentAttributes("group2_attribute1",
-		    "group2_attribute3"), attributeGroup("group3_attribute1") };
+	@DataPoints
+	public static AttributeGroupAndPresentAttributes[] samples = {
+			attributeGroup("group1_attribute1", "group1_attribute2").andPresentAttributes("group1_attribute1"),
+			attributeGroup("group2_attribute1", "group2_attribute2", "group2_attribute3").andPresentAttributes("group2_attribute1", "group2_attribute3"),
+			attributeGroup("group3_attribute1") };
 
-    private PendingAttributesForView pendingAttributesForView;
-    private AttributeGroupResolverImpl attributeGroupResolver;
+	private PendingAttributesForView pendingAttributesForView;
+	private AttributeGroupResolverImpl attributeGroupResolver;
 
-    @Before
-    public void setUp() {
-	Map<String, String> presentAttributeMappings = createPresentAttributeMappings();
-	pendingAttributesForView = new PendingAttributesForViewImpl(mock(View.class), presentAttributeMappings);
+	@Before
+	public void setUp() {
+		Map<String, String> presentAttributeMappings = createPresentAttributeMappings();
+		pendingAttributesForView = new PendingAttributesForViewImpl(mock(View.class), presentAttributeMappings);
 
-	attributeGroupResolver = new AttributeGroupResolverImpl();
-    }
-
-    private Map<String, String> createPresentAttributeMappings() {
-	Map<String, String> presentAttributeMappings = Maps.newHashMap();
-	for (AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes : samples) {
-	    for (String presentAttribute : attributeGroupAndPresentAttributes.presentAttributes) {
-		presentAttributeMappings.put(presentAttribute, "attributeValue");
-	    }
-	}
-	return presentAttributeMappings;
-    }
-
-    @Theory
-    public void whenResolveAttributeGroupIfExists_thenResolutionExpectationShouldMeet(
-	    AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes) {
-	resolveAttributeGroupIfExists(attributeGroupAndPresentAttributes);
-
-	resolutionExpectation(attributeGroupAndPresentAttributes).assertMeet();
-    }
-
-    private void resolveAttributeGroupIfExists(AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes) {
-	pendingAttributesForView.resolveAttributeGroupIfExists(attributeGroupAndPresentAttributes.attributeGroup, attributeGroupResolver);
-    }
-
-    private ResolutionExpectation resolutionExpectation(AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes) {
-	return new ResolutionExpectation(attributeGroupAndPresentAttributes);
-    }
-
-    private static AttributeGroupAndPresentAttributes attributeGroup(String... attributeGroup) {
-	return new AttributeGroupAndPresentAttributes(attributeGroup);
-    }
-
-    private static class AttributeGroupAndPresentAttributes {
-	private String[] attributeGroup;
-	private String[] presentAttributes;
-
-	public AttributeGroupAndPresentAttributes(String... attributeGroup) {
-	    this.attributeGroup = attributeGroup;
-	    this.presentAttributes = new String[0];
+		attributeGroupResolver = new AttributeGroupResolverImpl();
 	}
 
-	public AttributeGroupAndPresentAttributes andPresentAttributes(String... presentAttributes) {
-	    assertTrue(inAttributeGroup(presentAttributes));
-	    this.presentAttributes = presentAttributes;
-	    return this;
+	private Map<String, String> createPresentAttributeMappings() {
+		Map<String, String> presentAttributeMappings = Maps.newHashMap();
+		for (AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes : samples) {
+			for (String presentAttribute : attributeGroupAndPresentAttributes.presentAttributes) {
+				presentAttributeMappings.put(presentAttribute, "attributeValue");
+			}
+		}
+		return presentAttributeMappings;
 	}
 
-	private boolean inAttributeGroup(String[] attributes) {
-	    return Lists.newArrayList(attributeGroup).containsAll(Lists.newArrayList(attributes));
-	}
-    }
+	@Theory
+	public void whenResolveAttributeGroupIfExists_thenResolutionExpectationShouldMeet(AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes) {
+		resolveAttributeGroupIfExists(attributeGroupAndPresentAttributes);
 
-    private class AttributeGroupResolverImpl implements AttributeGroupResolver {
-	private boolean resolveInvoked;
-	private String[] attributeGroup;
-	private String[] presentAttributes;
-
-	@Override
-	public void resolve(Object view, String[] attributeGroup, Map<String, String> presentAttributeMappings) {
-	    resolveInvoked = true;
-	    this.attributeGroup = attributeGroup;
-	    this.presentAttributes = presentAttributeMappings.keySet().toArray(new String[0]);
-	}
-    }
-
-    private class ResolutionExpectation {
-	private AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes;
-
-	public ResolutionExpectation(AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes) {
-	    this.attributeGroupAndPresentAttributes = attributeGroupAndPresentAttributes;
+		resolutionExpectation(attributeGroupAndPresentAttributes).assertMeet();
 	}
 
-	public void assertMeet() {
-	    if (shouldResolveExpected()) {
-		assertResolveInvoked();
-		assertCorrectParameters();
-	    } else {
-		assertNoResolveInvoked();
-	    }
+	private void resolveAttributeGroupIfExists(AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes) {
+		pendingAttributesForView.resolveAttributeGroupIfExists(attributeGroupAndPresentAttributes.attributeGroup, attributeGroupResolver);
 	}
 
-	private boolean shouldResolveExpected() {
-	    return !ArrayUtils.isEmpty(attributeGroupAndPresentAttributes.presentAttributes);
+	private ResolutionExpectation resolutionExpectation(AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes) {
+		return new ResolutionExpectation(attributeGroupAndPresentAttributes);
 	}
 
-	private void assertResolveInvoked() {
-	    assertTrue(attributeGroupResolver.resolveInvoked);
+	private static AttributeGroupAndPresentAttributes attributeGroup(String... attributeGroup) {
+		return new AttributeGroupAndPresentAttributes(attributeGroup);
 	}
 
-	private void assertCorrectParameters() {
-	    assertThat(attributeGroupResolver.attributeGroup, equalTo(attributeGroupAndPresentAttributes.attributeGroup));
-	    assertThat(Sets.newHashSet(attributeGroupResolver.presentAttributes),
-		    equalTo(Sets.newHashSet(attributeGroupAndPresentAttributes.presentAttributes)));
+	private static class AttributeGroupAndPresentAttributes {
+		private String[] attributeGroup;
+		private String[] presentAttributes;
+
+		public AttributeGroupAndPresentAttributes(String... attributeGroup) {
+			this.attributeGroup = attributeGroup;
+			this.presentAttributes = new String[0];
+		}
+
+		public AttributeGroupAndPresentAttributes andPresentAttributes(String... presentAttributes) {
+			assertTrue(inAttributeGroup(presentAttributes));
+			this.presentAttributes = presentAttributes;
+			return this;
+		}
+
+		private boolean inAttributeGroup(String[] attributes) {
+			return Lists.newArrayList(attributeGroup).containsAll(Lists.newArrayList(attributes));
+		}
 	}
 
-	private void assertNoResolveInvoked() {
-	    assertFalse(attributeGroupResolver.resolveInvoked);
+	private class AttributeGroupResolverImpl implements AttributeGroupResolver {
+		private boolean resolveInvoked;
+		private String[] attributeGroup;
+		private String[] presentAttributes;
+
+		@Override
+		public void resolve(Object view, String[] attributeGroup, Map<String, String> presentAttributeMappings) {
+			resolveInvoked = true;
+			this.attributeGroup = attributeGroup;
+			this.presentAttributes = presentAttributeMappings.keySet().toArray(new String[0]);
+		}
 	}
-    }
+
+	private class ResolutionExpectation {
+		private AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes;
+
+		public ResolutionExpectation(AttributeGroupAndPresentAttributes attributeGroupAndPresentAttributes) {
+			this.attributeGroupAndPresentAttributes = attributeGroupAndPresentAttributes;
+		}
+
+		public void assertMeet() {
+			if (shouldResolveExpected()) {
+				assertResolveInvoked();
+				assertCorrectParameters();
+			} else {
+				assertNoResolveInvoked();
+			}
+		}
+
+		private boolean shouldResolveExpected() {
+			return !ArrayUtils.isEmpty(attributeGroupAndPresentAttributes.presentAttributes);
+		}
+
+		private void assertResolveInvoked() {
+			assertTrue(attributeGroupResolver.resolveInvoked);
+		}
+
+		private void assertCorrectParameters() {
+			assertThat(attributeGroupResolver.attributeGroup, equalTo(attributeGroupAndPresentAttributes.attributeGroup));
+			assertThat(Sets.newHashSet(attributeGroupResolver.presentAttributes),
+					equalTo(Sets.newHashSet(attributeGroupAndPresentAttributes.presentAttributes)));
+		}
+
+		private void assertNoResolveInvoked() {
+			assertFalse(attributeGroupResolver.resolveInvoked);
+		}
+	}
 
 }

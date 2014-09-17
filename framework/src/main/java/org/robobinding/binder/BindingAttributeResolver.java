@@ -17,29 +17,28 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 public class BindingAttributeResolver {
-    private final ByBindingAttributeMappingsResolverFinder byBindingAttributeMappingsResolverFinder;
+	private final ByBindingAttributeMappingsResolverFinder byBindingAttributeMappingsResolverFinder;
 
-    public BindingAttributeResolver(ByBindingAttributeMappingsResolverFinder byBindingAttributeMappingsResolverFinder) {
-	this.byBindingAttributeMappingsResolverFinder = byBindingAttributeMappingsResolverFinder;
-    }
-
-    public ViewResolutionResult resolve(PendingAttributesForView pendingAttributesForView) {
-	List<ViewAttributeBinder> resolvedViewAttributes = Lists.newArrayList();
-
-	Iterable<ByBindingAttributeMappingsResolver>  resolvers = byBindingAttributeMappingsResolverFinder.findCandidates(
-		pendingAttributesForView.getView());
-	for (ByBindingAttributeMappingsResolver resolver : resolvers) {
-	    Collection<ViewAttributeBinder> newResolvedViewAttributes = resolver.resolve(pendingAttributesForView);
-	    resolvedViewAttributes.addAll(newResolvedViewAttributes);
-
-	    if (pendingAttributesForView.isEmpty())
-		break;
+	public BindingAttributeResolver(ByBindingAttributeMappingsResolverFinder byBindingAttributeMappingsResolverFinder) {
+		this.byBindingAttributeMappingsResolverFinder = byBindingAttributeMappingsResolverFinder;
 	}
 
-	ViewResolutionErrors errors = pendingAttributesForView.getResolutionErrors();
-	ResolvedBindingAttributesForView resolvedBindingAttributes = new ResolvedBindingAttributesForView(
-		pendingAttributesForView.getView(), resolvedViewAttributes);
+	public ViewResolutionResult resolve(PendingAttributesForView pendingAttributesForView) {
+		List<ViewAttributeBinder> resolvedViewAttributes = Lists.newArrayList();
 
-	return new ViewResolutionResult(resolvedBindingAttributes, errors);
-    }
+		Iterable<ByBindingAttributeMappingsResolver> resolvers = byBindingAttributeMappingsResolverFinder.findCandidates(pendingAttributesForView.getView());
+		for (ByBindingAttributeMappingsResolver resolver : resolvers) {
+			Collection<ViewAttributeBinder> newResolvedViewAttributes = resolver.resolve(pendingAttributesForView);
+			resolvedViewAttributes.addAll(newResolvedViewAttributes);
+
+			if (pendingAttributesForView.isEmpty())
+				break;
+		}
+
+		ViewResolutionErrors errors = pendingAttributesForView.getResolutionErrors();
+		ResolvedBindingAttributesForView resolvedBindingAttributes = new ResolvedBindingAttributesForView(pendingAttributesForView.getView(),
+				resolvedViewAttributes);
+
+		return new ViewResolutionResult(resolvedBindingAttributes, errors);
+	}
 }

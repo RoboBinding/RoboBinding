@@ -20,7 +20,7 @@ import com.google.common.collect.Sets;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class SetCheckedItemPositionsAttributeTest extends AbstractCheckedItemPositionsAttributeTest {
 	private Set<Integer> checkedItemPositions;
 
@@ -34,8 +34,7 @@ public class SetCheckedItemPositionsAttributeTest extends AbstractCheckedItemPos
 		SetCheckedItemPositionsAttribute attribute = new SetCheckedItemPositionsAttribute();
 		attribute.updateView(view, checkedItemPositions);
 
-		assertThat(SparseBooleanArrayUtils.toSet(view.getCheckedItemPositions()),
-				equalTo(checkedItemPositions));
+		assertThat(SparseBooleanArrayUtils.toSet(view.getCheckedItemPositions()), equalTo(checkedItemPositions));
 	}
 
 	@Test

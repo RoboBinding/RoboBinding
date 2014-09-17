@@ -18,7 +18,7 @@ import android.widget.TextView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class TextColorAttributeTest {
 	@Test

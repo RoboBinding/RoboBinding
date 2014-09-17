@@ -10,6 +10,6 @@ import android.view.View;
  */
 public class FocusLostEvent extends AbstractViewEvent {
 	public FocusLostEvent(View view) {
-	super(view);
-    }
+		super(view);
+	}
 }

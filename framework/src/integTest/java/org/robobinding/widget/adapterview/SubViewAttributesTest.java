@@ -4,9 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.robobinding.widget.AbstractGroupedViewAttributeTest;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.widget.ListView;
@@ -17,10 +15,8 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
-@RunWith(RobolectricTestRunner.class)
-public class SubViewAttributesTest extends
-		AbstractGroupedViewAttributeTest<ListView, SubViewAttributes<ListView>> {
+@Config(manifest = Config.NONE)
+public class SubViewAttributesTest extends AbstractGroupedViewAttributeTest<ListView, SubViewAttributes<ListView>> {
 	private final String presentationModelAttribute = "source";
 	private final Attribute presentationModel = attribute("source={presentationModel_property}");
 
@@ -36,8 +32,7 @@ public class SubViewAttributesTest extends
 
 		performInitialization();
 
-		assertThatAttributesWereCreated(layoutAttribute,
-				presentationModelAttribute);
+		assertThatAttributesWereCreated(layoutAttribute, presentationModelAttribute);
 	}
 
 	@Test
@@ -46,8 +41,7 @@ public class SubViewAttributesTest extends
 
 		performInitialization();
 
-		assertThatAttributesWereCreated(layoutAttribute,
-				presentationModelAttribute);
+		assertThatAttributesWereCreated(layoutAttribute, presentationModelAttribute);
 	}
 
 	@Test
@@ -56,8 +50,7 @@ public class SubViewAttributesTest extends
 
 		performInitialization();
 
-		assertThatAttributesWereCreated(layoutAttribute,
-				presentationModelAttribute, visibilityAttribute);
+		assertThatAttributesWereCreated(layoutAttribute, presentationModelAttribute, visibilityAttribute);
 	}
 
 	@Override
@@ -65,12 +58,9 @@ public class SubViewAttributesTest extends
 		@SuppressWarnings("unchecked")
 		SubViewAttributesStrategy<ListView> subViewAttributesStrategy = mock(SubViewAttributesStrategy.class);
 
-		when(subViewAttributesStrategy.layoutAttribute()).thenReturn(
-				layoutAttribute);
-		when(subViewAttributesStrategy.subViewPresentationModelAttribute())
-				.thenReturn(presentationModelAttribute);
-		when(subViewAttributesStrategy.visibilityAttribute()).thenReturn(
-				visibilityAttribute);
+		when(subViewAttributesStrategy.layoutAttribute()).thenReturn(layoutAttribute);
+		when(subViewAttributesStrategy.subViewPresentationModelAttribute()).thenReturn(presentationModelAttribute);
+		when(subViewAttributesStrategy.visibilityAttribute()).thenReturn(visibilityAttribute);
 
 		return new SubViewAttributesForTest(subViewAttributesStrategy);
 	}

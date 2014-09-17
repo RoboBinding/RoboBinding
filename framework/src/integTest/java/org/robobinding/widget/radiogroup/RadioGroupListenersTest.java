@@ -38,8 +38,7 @@ public class RadioGroupListenersTest {
 		assertTrue(listener2.checkedChangeEventFired);
 	}
 
-	private static class MockOnCheckedChangeListener implements
-			OnCheckedChangeListener {
+	private static class MockOnCheckedChangeListener implements OnCheckedChangeListener {
 		private boolean checkedChangeEventFired;
 
 		@Override

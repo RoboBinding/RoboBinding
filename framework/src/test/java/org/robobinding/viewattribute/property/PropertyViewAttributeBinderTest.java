@@ -17,61 +17,62 @@ import org.robobinding.viewattribute.ViewAttributeContractTest;
 import android.view.View;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
 public final class PropertyViewAttributeBinderTest extends ViewAttributeContractTest<PropertyViewAttributeBinder<View, Object>> {
-    @Mock
-    BindingContext bindingContext;
-    @Mock
-    AbstractBindingProperty<View, Integer> bindingProperty;
-    private PropertyViewAttributeBinder<View, Integer> viewAttributeBinder;
+	@Mock
+	BindingContext bindingContext;
+	@Mock
+	AbstractBindingProperty<View, Integer> bindingProperty;
+	private PropertyViewAttributeBinder<View, Integer> viewAttributeBinder;
 
-    public void whenBindTo_thenBindingIsPerformed() {
-	viewAttributeBinder = new PropertyViewAttributeBinder<View, Integer>(bindingProperty, false);
+	public void whenBindTo_thenBindingIsPerformed() {
+		viewAttributeBinder = new PropertyViewAttributeBinder<View, Integer>(bindingProperty, false);
 
-	viewAttributeBinder.bindTo(bindingContext);
+		viewAttributeBinder.bindTo(bindingContext);
 
-	verify(bindingProperty).performBind(bindingContext);
-    }
-    @Test
-    public void givenAlwaysPreInitializingView_whenBindTo_thenPreInitializeTheViewToReflectTheValueModel() {
-	viewAttributeBinder = new PropertyViewAttributeBinder<View, Integer>(bindingProperty, true);
+		verify(bindingProperty).performBind(bindingContext);
+	}
 
-	viewAttributeBinder.bindTo(bindingContext);
+	@Test
+	public void givenAlwaysPreInitializingView_whenBindTo_thenPreInitializeTheViewToReflectTheValueModel() {
+		viewAttributeBinder = new PropertyViewAttributeBinder<View, Integer>(bindingProperty, true);
 
-	verify(bindingProperty).preInitializeView(bindingContext);
-    }
+		viewAttributeBinder.bindTo(bindingContext);
 
-    @Test
-    public void givenAlwaysPreInitializingView_whenPreInitializeViewAfterBindTo_thenPreInitializingViewHappensOnceOnly() {
-	viewAttributeBinder = new PropertyViewAttributeBinder<View, Integer>(bindingProperty, true);
+		verify(bindingProperty).preInitializeView(bindingContext);
+	}
 
-	viewAttributeBinder.bindTo(bindingContext);
-	viewAttributeBinder.preInitializeView(bindingContext);
+	@Test
+	public void givenAlwaysPreInitializingView_whenPreInitializeViewAfterBindTo_thenPreInitializingViewHappensOnceOnly() {
+		viewAttributeBinder = new PropertyViewAttributeBinder<View, Integer>(bindingProperty, true);
 
-	verify(bindingProperty, times(1)).preInitializeView(bindingContext);
-    }
+		viewAttributeBinder.bindTo(bindingContext);
+		viewAttributeBinder.preInitializeView(bindingContext);
 
-    @Override
-    protected PropertyViewAttributeBinder<View, Object> throwsExceptionDuringPreInitializingView() {
-	@SuppressWarnings("unchecked")
-	AbstractBindingProperty<View, Object> bindingProperty = mock(AbstractBindingProperty.class);
-	doThrow(new RuntimeException()).when(bindingProperty).preInitializeView(any(PresentationModelAdapter.class));
-	PropertyViewAttributeBinder<View, Object> viewAttributeBinder = new PropertyViewAttributeBinder<View, Object>(bindingProperty, false);
-	return viewAttributeBinder;
-    }
+		verify(bindingProperty, times(1)).preInitializeView(bindingContext);
+	}
 
-    @Override
-    protected PropertyViewAttributeBinder<View, Object> throwsExceptionDuringBinding() {
-	@SuppressWarnings("unchecked")
-	AbstractBindingProperty<View, Object> bindingProperty = mock(AbstractBindingProperty.class);
-	doThrow(new RuntimeException()).when(bindingProperty).performBind(any(PresentationModelAdapter.class));
-	PropertyViewAttributeBinder<View, Object> viewAttributeBinder = new PropertyViewAttributeBinder<View, Object>(bindingProperty, false);
-	return viewAttributeBinder;
-    }
+	@Override
+	protected PropertyViewAttributeBinder<View, Object> throwsExceptionDuringPreInitializingView() {
+		@SuppressWarnings("unchecked")
+		AbstractBindingProperty<View, Object> bindingProperty = mock(AbstractBindingProperty.class);
+		doThrow(new RuntimeException()).when(bindingProperty).preInitializeView(any(PresentationModelAdapter.class));
+		PropertyViewAttributeBinder<View, Object> viewAttributeBinder = new PropertyViewAttributeBinder<View, Object>(bindingProperty, false);
+		return viewAttributeBinder;
+	}
+
+	@Override
+	protected PropertyViewAttributeBinder<View, Object> throwsExceptionDuringBinding() {
+		@SuppressWarnings("unchecked")
+		AbstractBindingProperty<View, Object> bindingProperty = mock(AbstractBindingProperty.class);
+		doThrow(new RuntimeException()).when(bindingProperty).performBind(any(PresentationModelAdapter.class));
+		PropertyViewAttributeBinder<View, Object> viewAttributeBinder = new PropertyViewAttributeBinder<View, Object>(bindingProperty, false);
+		return viewAttributeBinder;
+	}
 
 }

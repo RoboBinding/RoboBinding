@@ -18,8 +18,7 @@ public class MockAttributeSet {
 		return mock(AttributeSet.class);
 	}
 
-	public static AttributeSet withAttributes(int numBindingAttributes,
-			int numNonBindingAttributes) {
+	public static AttributeSet withAttributes(int numBindingAttributes, int numNonBindingAttributes) {
 		AttributeSet attributeSet = mock(AttributeSet.class);
 
 		int attributeCount = numBindingAttributes + numNonBindingAttributes;
@@ -28,9 +27,7 @@ public class MockAttributeSet {
 		for (int i = 0; i < numBindingAttributes; i++) {
 			String attributeName = "binding_attribute_" + i;
 			when(attributeSet.getAttributeName(i)).thenReturn(attributeName);
-			when(attributeSet.getAttributeValue(
-					BindingAttributeParser.ROBOBINDING_NAMESPACE,
-					attributeName)).thenReturn("binding_value_" + i);
+			when(attributeSet.getAttributeValue(BindingAttributeParser.ROBOBINDING_NAMESPACE, attributeName)).thenReturn("binding_value_" + i);
 		}
 
 		for (int i = numBindingAttributes; i < attributeCount; i++) {

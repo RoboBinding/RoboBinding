@@ -20,7 +20,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class EmptyViewVisibilityTest {
 	private View view;
@@ -37,8 +37,7 @@ public class EmptyViewVisibilityTest {
 
 	@Test
 	public void givenViewIsNotEmptyView_whenMakingVisible_thenViewShouldBecomeSiblingOfAdapterView() {
-		EmptyViewVisibility emptyViewVisibility = new EmptyViewVisibility(
-				adapterView, view);
+		EmptyViewVisibility emptyViewVisibility = new EmptyViewVisibility(adapterView, view);
 
 		emptyViewVisibility.makeVisible();
 
@@ -47,8 +46,7 @@ public class EmptyViewVisibilityTest {
 
 	@Test
 	public void givenViewIsNotEmptyView_whenMakingVisible_thenViewShouldBecomeEmptyView() {
-		EmptyViewVisibility emptyViewVisibility = new EmptyViewVisibility(
-				adapterView, view);
+		EmptyViewVisibility emptyViewVisibility = new EmptyViewVisibility(adapterView, view);
 
 		emptyViewVisibility.makeVisible();
 
@@ -58,8 +56,7 @@ public class EmptyViewVisibilityTest {
 	@Test
 	public void givenViewIsEmptyView_whenMakingGone_thenViewShouldBeRemovedAsSiblingOfAdapterView() {
 		when(adapterView.getEmptyView()).thenReturn(view);
-		EmptyViewVisibility emptyViewVisibility = new EmptyViewVisibility(
-				adapterView, view);
+		EmptyViewVisibility emptyViewVisibility = new EmptyViewVisibility(adapterView, view);
 
 		emptyViewVisibility.makeGone();
 
@@ -69,8 +66,7 @@ public class EmptyViewVisibilityTest {
 	@Test
 	public void givenViewIsEmptyView_whenMakingGone_thenEmptyViewShouldBeSetToNull() {
 		when(adapterView.getEmptyView()).thenReturn(view);
-		EmptyViewVisibility emptyViewVisibility = new EmptyViewVisibility(
-				adapterView, view);
+		EmptyViewVisibility emptyViewVisibility = new EmptyViewVisibility(adapterView, view);
 
 		emptyViewVisibility.makeGone();
 

@@ -8,19 +8,19 @@ package org.robobinding.viewattribute;
  */
 @SuppressWarnings("serial")
 public class AttributeBindingException extends RuntimeException {
-    private String attributeName;
+	private String attributeName;
 
-    public AttributeBindingException(String attributeName, Throwable cause) {
-	super(cause.getMessage(), cause);
-	this.attributeName = attributeName;
-    }
+	public AttributeBindingException(String attributeName, Throwable cause) {
+		super(cause.getMessage(), cause);
+		this.attributeName = attributeName;
+	}
 
-    public String getAttributeName() {
-	return attributeName;
-    }
+	public String getAttributeName() {
+		return attributeName;
+	}
 
-    @Override
-    public String toString() {
-	return attributeName + ": " + getMessage();
-    }
+	@Override
+	public String toString() {
+		return attributeName + ": " + getMessage();
+	}
 }

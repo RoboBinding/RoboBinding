@@ -14,21 +14,21 @@ import org.robobinding.viewattribute.grouped.ChildViewAttributeWithAttribute;
  * @author Robert Taylor
  */
 public class ItemMappingAttribute implements ChildViewAttributeWithAttribute<PredefinedMappingsAttribute> {
-    private final PredefinedMappingUpdater predefinedMappingsUpdater;
-    private PredefinedMappingsAttribute mappingsAttribute;
+	private final PredefinedMappingUpdater predefinedMappingsUpdater;
+	private PredefinedMappingsAttribute mappingsAttribute;
 
-    public ItemMappingAttribute(PredefinedMappingUpdater predefinedMappingsUpdater) {
-	this.predefinedMappingsUpdater = predefinedMappingsUpdater;
-    }
+	public ItemMappingAttribute(PredefinedMappingUpdater predefinedMappingsUpdater) {
+		this.predefinedMappingsUpdater = predefinedMappingsUpdater;
+	}
 
-    @Override
-    public void setAttribute(PredefinedMappingsAttribute attribute) {
-	this.mappingsAttribute = attribute;
-    }
+	@Override
+	public void setAttribute(PredefinedMappingsAttribute attribute) {
+		this.mappingsAttribute = attribute;
+	}
 
-    @Override
-    public void bindTo(BindingContext bindingContext) {
-	Collection<PredefinedPendingAttributesForView> viewMappings = mappingsAttribute.getViewMappings(bindingContext.getContext());
-	predefinedMappingsUpdater.updateViewMappings(viewMappings);
-    }
+	@Override
+	public void bindTo(BindingContext bindingContext) {
+		Collection<PredefinedPendingAttributesForView> viewMappings = mappingsAttribute.getViewMappings(bindingContext.getContext());
+		predefinedMappingsUpdater.updateViewMappings(viewMappings);
+	}
 }

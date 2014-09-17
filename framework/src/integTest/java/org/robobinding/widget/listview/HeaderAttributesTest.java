@@ -23,7 +23,7 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class HeaderAttributesTest {
 	private HeaderAttributes headerAttributes = new HeaderAttributes();
@@ -35,7 +35,7 @@ public class HeaderAttributesTest {
 		View subView = new View(context);
 
 		headerAttributes.addSubView(listView, subView, context);
-		listView.setAdapter(new SingleChoiceAdapter());
+		listView.setAdapter(new SingleChoiceAdapter(context));
 
 		List<View> headerViews = Robolectric.shadowOf(listView).getHeaderViews();
 		assertThat(headerViews.size(), is(1));

@@ -9,29 +9,33 @@ import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
 public interface ChildViewAttributesBuilder<ViewType> {
-    void add(String attributeName, ChildViewAttribute childAttribute);
-    void add(String attributeName, ChildViewAttributeFactory factory);
-    void addDependent(String attributeName,
-	    ChildViewAttributeFactory factory);
+	void add(String attributeName, ChildViewAttribute childAttribute);
 
-    void add(String attributeName, PropertyViewAttribute<ViewType, ?> viewAttribute);
-    void add(String attributeName,
-	    PropertyViewAttributeFactory<ViewType> factory);
+	void add(String attributeName, ChildViewAttributeFactory factory);
 
-    void add(String attributeName, MultiTypePropertyViewAttribute<ViewType> viewAttribute);
-    void add(String attributeName,
-	    MultiTypePropertyViewAttributeFactory<ViewType> factory);
+	void addDependent(String attributeName, ChildViewAttributeFactory factory);
 
-    void failOnFirstBindingError();
+	void add(String attributeName, PropertyViewAttribute<ViewType, ?> viewAttribute);
 
-    boolean hasAttribute(String attributeName);
-    ValueModelAttribute valueModelAttributeFor(String attributeName);
-    StaticResourceAttribute staticResourceAttributeFor(String attributeName);
-    <E extends Enum<E>> EnumAttribute<E> enumAttributeFor(String attributeName);
+	void add(String attributeName, PropertyViewAttributeFactory<ViewType> factory);
+
+	void add(String attributeName, MultiTypePropertyViewAttribute<ViewType> viewAttribute);
+
+	void add(String attributeName, MultiTypePropertyViewAttributeFactory<ViewType> factory);
+
+	void failOnFirstBindingError();
+
+	boolean hasAttribute(String attributeName);
+
+	ValueModelAttribute valueModelAttributeFor(String attributeName);
+
+	StaticResourceAttribute staticResourceAttributeFor(String attributeName);
+
+	<E extends Enum<E>> EnumAttribute<E> enumAttributeFor(String attributeName);
 }

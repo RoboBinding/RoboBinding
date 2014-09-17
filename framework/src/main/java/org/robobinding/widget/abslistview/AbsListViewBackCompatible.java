@@ -52,7 +52,7 @@ public class AbsListViewBackCompatible {
 			return ((ListView) view).getCheckedItemPositions();
 		}
 	}
-	
+
 	public void clearChoices() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			view.clearChoices();

@@ -46,8 +46,7 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 
 	@Before
 	public void initialize() {
-		ParameterizedType superclass = (ParameterizedType) getClass()
-				.getGenericSuperclass();
+		ParameterizedType superclass = (ParameterizedType) getClass().getGenericSuperclass();
 
 		view = ParameterizedTypeUtils.createTypeArgument(superclass, 0);
 		attribute = createAttributeUnderTest();
@@ -59,36 +58,28 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 
 	protected ViewAttributeType createAttributeUnderTest() {
 		try {
-			ParameterizedType superclass = (ParameterizedType) getClass()
-					.getGenericSuperclass();
+			ParameterizedType superclass = (ParameterizedType) getClass().getGenericSuperclass();
 			return ParameterizedTypeUtils.createTypeArgument(superclass, 1);
 		} catch (Exception e) {
-			throw new RuntimeException(
-					"Error instantiating grouped attribute class: "
-							+ e.getMessage());
+			throw new RuntimeException("Error instantiating grouped attribute class: " + e.getMessage());
 		}
 	}
 
 	@SuppressWarnings({ "unchecked" })
 	protected void performInitialization() {
-		PendingGroupAttributes pendingGroupAttributes = new PendingGroupAttributes(
-				presentAttributeMappings);
+		PendingGroupAttributes pendingGroupAttributes = new PendingGroupAttributes(presentAttributeMappings);
 		GroupAttributesResolver resolvedGroupAttributesFactory = new GroupAttributesResolver();
-		ResolvedGroupAttributes resolvedGroupAttributes = resolvedGroupAttributesFactory
-				.resolve(pendingGroupAttributes, attribute);
-		ChildViewAttributesBuilder<View> childViewAttributesBuilder = new ChildViewAttributesBuilderForTest(
-				childViewAttributeMap, resolvedGroupAttributes);
+		ResolvedGroupAttributes resolvedGroupAttributes = resolvedGroupAttributesFactory.resolve(pendingGroupAttributes, attribute);
+		ChildViewAttributesBuilder<View> childViewAttributesBuilder = new ChildViewAttributesBuilderForTest(childViewAttributeMap, resolvedGroupAttributes);
 
 		BindingContext bindingContext = mock(BindingContext.class);
 
-		((GroupedViewAttribute<View>) attribute).setupChildViewAttributes(view,
-				childViewAttributesBuilder, bindingContext);
+		((GroupedViewAttribute<View>) attribute).setupChildViewAttributes(view, childViewAttributesBuilder, bindingContext);
 	}
 
 	protected Attribute attribute(String attribute) {
 		if (attribute.indexOf('=') == -1)
-			throw new IllegalArgumentException(
-					"Expected attribute in the form '[attributeName]=[attributeValue]'");
+			throw new IllegalArgumentException("Expected attribute in the form '[attributeName]=[attributeValue]'");
 
 		String[] components = attribute.split("=");
 		return new Attribute(components[0], components[1]);
@@ -112,8 +103,7 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 
 	protected void assertThatAttributeWasCreated(Class<?> attributeClass) {
 		Object childAttribute = findChildAttributeOfType(attributeClass);
-		assertNotNull("Child attribute of type '" + attributeClass.getName()
-				+ "' not found", childAttribute);
+		assertNotNull("Child attribute of type '" + attributeClass.getName() + "' not found", childAttribute);
 	}
 
 	private Object findChildAttributeOfType(Class<?> childViewAttributeClass) {
@@ -132,8 +122,7 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 	}
 
 	protected void assertThatAttributeWasCreated(String attributeName) {
-		assertTrue("Child attribute of '" + attributeName + "' not found",
-				hasAttribute(attributeName));
+		assertTrue("Child attribute of '" + attributeName + "' not found", hasAttribute(attributeName));
 	}
 
 	private boolean hasAttribute(String attributeName) {
@@ -159,14 +148,11 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 		}
 	}
 
-	private static class ChildViewAttributesBuilderForTest implements
-			ChildViewAttributesBuilder<View> {
+	private static class ChildViewAttributesBuilderForTest implements ChildViewAttributesBuilder<View> {
 		private final Map<String, Object> childViewAttributeMap;
 		private final ResolvedGroupAttributes resolvedGroupAttributes;
 
-		public ChildViewAttributesBuilderForTest(
-				Map<String, Object> childViewAttributeMap,
-				ResolvedGroupAttributes resolvedGroupAttributes) {
+		public ChildViewAttributesBuilderForTest(Map<String, Object> childViewAttributeMap, ResolvedGroupAttributes resolvedGroupAttributes) {
 			this.childViewAttributeMap = childViewAttributeMap;
 			this.resolvedGroupAttributes = resolvedGroupAttributes;
 		}
@@ -182,33 +168,27 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 		}
 
 		@Override
-		public void addDependent(String attributeName,
-				ChildViewAttributeFactory factory) {
+		public void addDependent(String attributeName, ChildViewAttributeFactory factory) {
 			add(attributeName, factory);
 		}
 
 		@Override
-		public void add(String attributeName,
-				MultiTypePropertyViewAttribute<View> viewAttribute) {
+		public void add(String attributeName, MultiTypePropertyViewAttribute<View> viewAttribute) {
 			childViewAttributeMap.put(attributeName, viewAttribute);
 		}
 
 		@Override
-		public void add(String attributeName,
-				MultiTypePropertyViewAttributeFactory<View> factory) {
-			childViewAttributeMap.put(attributeName,
-					mock(MultiTypePropertyViewAttributeBinder.class));
+		public void add(String attributeName, MultiTypePropertyViewAttributeFactory<View> factory) {
+			childViewAttributeMap.put(attributeName, mock(MultiTypePropertyViewAttributeBinder.class));
 		}
 
 		@Override
-		public void add(String attributeName,
-				PropertyViewAttribute<View, ?> viewAttribute) {
+		public void add(String attributeName, PropertyViewAttribute<View, ?> viewAttribute) {
 			childViewAttributeMap.put(attributeName, viewAttribute);
 		}
 
 		@Override
-		public void add(String attributeName,
-				PropertyViewAttributeFactory<View> factory) {
+		public void add(String attributeName, PropertyViewAttributeFactory<View> factory) {
 			childViewAttributeMap.put(attributeName, factory.create());
 		}
 
@@ -223,20 +203,16 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 
 		@Override
 		public ValueModelAttribute valueModelAttributeFor(String attributeName) {
-			return resolvedGroupAttributes
-					.valueModelAttributeFor(attributeName);
+			return resolvedGroupAttributes.valueModelAttributeFor(attributeName);
 		}
 
 		@Override
-		public StaticResourceAttribute staticResourceAttributeFor(
-				String attributeName) {
-			return resolvedGroupAttributes
-					.staticResourceAttributeFor(attributeName);
+		public StaticResourceAttribute staticResourceAttributeFor(String attributeName) {
+			return resolvedGroupAttributes.staticResourceAttributeFor(attributeName);
 		}
 
 		@Override
-		public <E extends Enum<E>> EnumAttribute<E> enumAttributeFor(
-				String attributeName) {
+		public <E extends Enum<E>> EnumAttribute<E> enumAttributeFor(String attributeName) {
 			return resolvedGroupAttributes.enumAttributeFor(attributeName);
 		}
 

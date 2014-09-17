@@ -15,24 +15,24 @@ import com.google.common.base.Preconditions;
  * @author Cheng Wei
  */
 public class PresentationModelTester {
-    private final PresentationModelAdapter presentationModelAdapter;
+	private final PresentationModelAdapter presentationModelAdapter;
 
-    PresentationModelTester(PresentationModelAdapter presentationModelAdapter) {
-	this.presentationModelAdapter = presentationModelAdapter;
-    }
+	PresentationModelTester(PresentationModelAdapter presentationModelAdapter) {
+		this.presentationModelAdapter = presentationModelAdapter;
+	}
 
-    private PresentationModelPropertyChangeSpy spyPropertyChange(String propertyName) {
-	ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
-	PresentationModelPropertyChangeSpy spy = new PresentationModelPropertyChangeSpy();
-	valueModel.addPropertyChangeListener(spy);
-	return spy;
-    }
+	private PresentationModelPropertyChangeSpy spyPropertyChange(String propertyName) {
+		ValueModel<Object> valueModel = presentationModelAdapter.getReadOnlyPropertyValueModel(propertyName);
+		PresentationModelPropertyChangeSpy spy = new PresentationModelPropertyChangeSpy();
+		valueModel.addPropertyChangeListener(spy);
+		return spy;
+	}
 
-    public static PresentationModelPropertyChangeSpy spyPropertyChange(Object presentationModel, String propertyName) {
-	Preconditions.checkNotNull(presentationModel, "presentationModel must not be null");
-	checkNotBlank(propertyName, "propertyName must not be empty");
-	PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterFactory().create(presentationModel);
-	PresentationModelTester presentationModelTester = new PresentationModelTester(presentationModelAdapter);
-	return presentationModelTester.spyPropertyChange(propertyName);
-    }
+	public static PresentationModelPropertyChangeSpy spyPropertyChange(Object presentationModel, String propertyName) {
+		Preconditions.checkNotNull(presentationModel, "presentationModel must not be null");
+		checkNotBlank(propertyName, "propertyName must not be empty");
+		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterFactory().create(presentationModel);
+		PresentationModelTester presentationModelTester = new PresentationModelTester(presentationModelAdapter);
+		return presentationModelTester.spyPropertyChange(propertyName);
+	}
 }

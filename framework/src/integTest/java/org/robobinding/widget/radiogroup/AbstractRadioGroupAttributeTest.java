@@ -10,22 +10,21 @@ import android.widget.RadioGroup;
 
 /**
  * @since 1.0
- * @version 
+ * @version
  * @author Cheng Wei
- *
+ * 
  */
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractRadioGroupAttributeTest {
 	protected RadioGroup view;
 	protected MockRadioGroupListeners viewListeners;
-	
+
 	@Before
 	public void initializeViewAndListeners() {
 		view = new RadioGroup(Robolectric.application);
 		viewListeners = new MockRadioGroupListeners(view);
 	}
-	
-	
+
 	public <T extends ViewListenersAware<RadioGroupListeners>> T withListenersSet(T attribute) {
 		attribute.setViewListeners(viewListeners);
 		return attribute;

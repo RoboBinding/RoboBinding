@@ -13,7 +13,7 @@ import org.robolectric.annotation.Config;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class ProgressAttributeTest extends AbstractProgressBarAttributeTest {
 	@Test
 	public void whenUpdateView_thenSetProgressOnProgressBar() {

@@ -28,6 +28,29 @@ configurations {
 	proguardArchives
 }
 
+sourceSets {
+	integTest {
+		java.srcDir file('src/integTest/java')
+		resources.srcDir file('src/integTest/resources')
+	}
+	funcTest {
+		java.srcDir file('src/funcTest/java')
+		resources.srcDir file('src/funcTest/resources')
+	}
+}
+
+task integTest(type: Test) {
+	testClassesDir = sourceSets.test.output.classesDir
+	classpath = sourceSets.test.runtimeClasspath
+}
+
+task funcTest(type: Test) {
+	testClassesDir = sourceSets.test.output.classesDir
+	classpath = sourceSets.test.runtimeClasspath
+}
+
+check.dependsOn integTest, funcTest
+
 ext {
 	guavaVersion = '11.0.1'
 	androidVersion = '4.4_r1-robolectric-0'
@@ -45,7 +68,10 @@ dependencies {
 	compile "org.aspectj:aspectjrt:$aspectjVersion"
 	
 	testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
-	testCompile "org.robolectric:robolectric:$robolectricVersion"
+	testCompile ("org.robolectric:robolectric:$robolectricVersion") {
+		exclude group: 'com.google.android.maps', module: 'maps'
+		exclude group: 'com.android.support', module: 'support-v4'
+	}
 	testCompile ("junit:junit:$junitVersion") {
 		exclude group: 'org.hamcrest', module: 'hamcrest-core'
 	}

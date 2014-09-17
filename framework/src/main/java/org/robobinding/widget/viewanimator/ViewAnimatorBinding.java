@@ -6,7 +6,7 @@ import org.robobinding.viewattribute.ViewBinding;
 import android.widget.ViewAnimator;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Aurélien Catinon

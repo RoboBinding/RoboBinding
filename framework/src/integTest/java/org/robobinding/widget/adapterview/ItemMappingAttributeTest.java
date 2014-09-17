@@ -37,11 +37,9 @@ public class ItemMappingAttributeTest {
 	@Test
 	public void whenBinding_thenUpdateViewMappingsOnPredefinedMappingUpdater() {
 		when(bindingContext.getContext()).thenReturn(context);
-		when(predefinedMappingsAttribute.getViewMappings(context)).thenReturn(
-				viewMappings);
+		when(predefinedMappingsAttribute.getViewMappings(context)).thenReturn(viewMappings);
 
-		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(
-				predefinedMappingUpdater);
+		ItemMappingAttribute itemMappingAttribute = new ItemMappingAttribute(predefinedMappingUpdater);
 		itemMappingAttribute.setAttribute(predefinedMappingsAttribute);
 
 		itemMappingAttribute.bindTo(bindingContext);

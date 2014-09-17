@@ -7,25 +7,25 @@ package org.robobinding.widget.edittext;
  * @author Robert Taylor
  */
 public enum ValueCommitMode {
-    ON_FOCUS_LOST("onFocusLost"), ON_CHANGE("onChange");
+	ON_FOCUS_LOST("onFocusLost"), ON_CHANGE("onChange");
 
-    private final String value;
+	private final String value;
 
-    private ValueCommitMode(String value) {
-	this.value = value;
-    }
-
-    public String toString() {
-	return value;
-    }
-    
-    public static ValueCommitMode from(String value) {
-	for (ValueCommitMode mode : ValueCommitMode.values()) {
-	    if (mode.value.equals(value)) {
-		return mode;
-	    }
+	private ValueCommitMode(String value) {
+		this.value = value;
 	}
-	
-	throw new RuntimeException("no matching ValueCommitMode found for '" + value + "'");
-    }
+
+	public String toString() {
+		return value;
+	}
+
+	public static ValueCommitMode from(String value) {
+		for (ValueCommitMode mode : ValueCommitMode.values()) {
+			if (mode.value.equals(value)) {
+				return mode;
+			}
+		}
+
+		throw new RuntimeException("no matching ValueCommitMode found for '" + value + "'");
+	}
 }

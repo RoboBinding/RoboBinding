@@ -17,8 +17,8 @@ import org.robolectric.annotation.Config;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
-public class TwoWayProgressAttributeTest extends AbstractSeekBarAttributeTest{
+@Config(manifest = Config.NONE)
+public class TwoWayProgressAttributeTest extends AbstractSeekBarAttributeTest {
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
 		TwoWayProgressAttribute attribute = new TwoWayProgressAttribute();

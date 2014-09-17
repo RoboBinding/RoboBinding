@@ -20,7 +20,7 @@ import android.widget.LinearLayout;
  * @version $Revision: 1.0 $
  * @author Aurélien Catinon
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class LayoutMarginAttributeTest {
 
@@ -29,9 +29,7 @@ public class LayoutMarginAttributeTest {
 		View view = new View(Robolectric.application);
 		LayoutMarginAttribute attribute = new LayoutMarginAttribute();
 		int margin = RandomValues.anyIntegerGreaterThanZero();
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.MATCH_PARENT);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
 		view.setLayoutParams(params);
 

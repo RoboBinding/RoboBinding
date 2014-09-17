@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used in presentation models to list any properties this property is
- * dependent on.
+ * Used in presentation models to list any properties this property is dependent
+ * on.
  * 
  * @since 1.0
  * @author Cheng Wei
@@ -16,5 +16,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface DependsOnStateOf {
-    String[] value();
+	String[] value();
 }

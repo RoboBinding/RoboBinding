@@ -25,13 +25,10 @@ public class DropdownMappingUpdaterTest {
 
 	@Test
 	public void whenUpdateViewMappings_thenSetDropdownPredefinedPendingAttributesForViewGroupOnDataSetAdapterBuilder() {
-		DropdownMappingUpdater updater = new DropdownMappingUpdater(
-				dataSetAdapterBuilder);
+		DropdownMappingUpdater updater = new DropdownMappingUpdater(dataSetAdapterBuilder);
 
 		updater.updateViewMappings(viewMappings);
 
-		verify(dataSetAdapterBuilder)
-				.setDropdownPredefinedPendingAttributesForViewGroup(
-						viewMappings);
+		verify(dataSetAdapterBuilder).setDropdownPredefinedPendingAttributesForViewGroup(viewMappings);
 	}
 }

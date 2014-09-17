@@ -7,14 +7,14 @@ package org.robobinding.widget.adapterview;
  * @author Robert Taylor
  */
 class ItemLayoutUpdater implements RowLayoutUpdater {
-    private final DataSetAdapterBuilder dataSetAdapterBuilder;
+	private final DataSetAdapterBuilder dataSetAdapterBuilder;
 
-    public ItemLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
-	this.dataSetAdapterBuilder = dataSetAdapterBuilder;
-    }
+	public ItemLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
+		this.dataSetAdapterBuilder = dataSetAdapterBuilder;
+	}
 
-    @Override
-    public void updateRowLayout(int itemLayoutId) {
-	dataSetAdapterBuilder.setItemLayoutId(itemLayoutId);
-    }
+	@Override
+	public void updateRowLayout(int itemLayoutId) {
+		dataSetAdapterBuilder.setItemLayoutId(itemLayoutId);
+	}
 }

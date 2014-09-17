@@ -25,12 +25,10 @@ public class ItemMappingUpdaterTest {
 
 	@Test
 	public void whenUpdateViewMappings_thenSetItemPredefinedPendingAttributesForViewGroupOnDataSetAdapterBuilder() {
-		ItemMappingUpdater updater = new ItemMappingUpdater(
-				dataSetAdapterBuilder);
+		ItemMappingUpdater updater = new ItemMappingUpdater(dataSetAdapterBuilder);
 
 		updater.updateViewMappings(viewMappings);
 
-		verify(dataSetAdapterBuilder)
-				.setItemPredefinedPendingAttributesForViewGroup(viewMappings);
+		verify(dataSetAdapterBuilder).setItemPredefinedPendingAttributesForViewGroup(viewMappings);
 	}
 }

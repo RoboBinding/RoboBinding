@@ -13,27 +13,27 @@ import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
  * @author Cheng Wei
  */
 class FactoryMethodImpl implements ItemPresentationModelFactory {
-    private final Object owner;
-    private final Method factoryMethod;
+	private final Object owner;
+	private final Method factoryMethod;
 
-    public FactoryMethodImpl(Object owner, Method factoryMethod) {
-	this.owner = owner;
-	this.factoryMethod = factoryMethod;
-    }
-
-    @Override
-    public ItemPresentationModel<Object> newItemPresentationModel() {
-	try {
-	    @SuppressWarnings("unchecked")
-	    ItemPresentationModel<Object> itemPresentationModel = (ItemPresentationModel<Object>) factoryMethod.invoke(owner, new Object[0]);
-	    return itemPresentationModel;
-	} catch (IllegalArgumentException e) {
-	    throw new RuntimeException(e);
-	} catch (IllegalAccessException e) {
-	    throw new RuntimeException(e);
-	} catch (InvocationTargetException e) {
-	    throw new RuntimeException(e);
+	public FactoryMethodImpl(Object owner, Method factoryMethod) {
+		this.owner = owner;
+		this.factoryMethod = factoryMethod;
 	}
-    }
+
+	@Override
+	public ItemPresentationModel<Object> newItemPresentationModel() {
+		try {
+			@SuppressWarnings("unchecked")
+			ItemPresentationModel<Object> itemPresentationModel = (ItemPresentationModel<Object>) factoryMethod.invoke(owner, new Object[0]);
+			return itemPresentationModel;
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 }

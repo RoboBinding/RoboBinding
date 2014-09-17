@@ -12,44 +12,42 @@ import org.junit.Test;
  * @author Cheng Wei
  */
 public class AbstractDataSetPropertyTest {
-    @Test
-    public void givenGetDataSet_whenGetDataSetAgain_thenReturnSameInstance() {
-	DataSetProperty dataSetProperty = new DataSetProperty(
-		aPropertyAccessor().withValue(new Object()).build());
+	@Test
+	public void givenGetDataSet_whenGetDataSetAgain_thenReturnSameInstance() {
+		DataSetProperty dataSetProperty = new DataSetProperty(aPropertyAccessor().withValue(new Object()).build());
 
-	Object dataSetFirstTime = dataSetProperty.getDataSet();
+		Object dataSetFirstTime = dataSetProperty.getDataSet();
 
-	Object dataSetSecondTime = dataSetProperty.getDataSet();
+		Object dataSetSecondTime = dataSetProperty.getDataSet();
 
-	assertSame(dataSetSecondTime, dataSetFirstTime);
-    }
-
-    @Test
-    public void whenUpdateDataSet_thenDataSetPropertyReflectsChanges() {
-	MockPropertyAccessorBuilder propertyAccessorBuilder = aPropertyAccessor().withValue(new Object());
-	DataSetProperty dataSetProperty = new DataSetProperty(
-		propertyAccessorBuilder.build());
-
-	Object newValue = new Object();
-	propertyAccessorBuilder.withValue(newValue);
-	dataSetProperty.propertyChanged();
-
-	assertSame(newValue, dataSetProperty.getDataSet());
-    }
-
-    static class DataSetProperty extends AbstractDataSetProperty {
-	public DataSetProperty(PropertyAccessor propertyAccessor) {
-	    super(null, propertyAccessor, null);
+		assertSame(dataSetSecondTime, dataSetFirstTime);
 	}
 
-	@Override
-	public int size() {
-	    return 0;
+	@Test
+	public void whenUpdateDataSet_thenDataSetPropertyReflectsChanges() {
+		MockPropertyAccessorBuilder propertyAccessorBuilder = aPropertyAccessor().withValue(new Object());
+		DataSetProperty dataSetProperty = new DataSetProperty(propertyAccessorBuilder.build());
+
+		Object newValue = new Object();
+		propertyAccessorBuilder.withValue(newValue);
+		dataSetProperty.propertyChanged();
+
+		assertSame(newValue, dataSetProperty.getDataSet());
 	}
 
-	@Override
-	public Object getItem(int position) {
-	    return null;
+	static class DataSetProperty extends AbstractDataSetProperty {
+		public DataSetProperty(PropertyAccessor propertyAccessor) {
+			super(null, propertyAccessor, null);
+		}
+
+		@Override
+		public int size() {
+			return 0;
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
 	}
-    }
 }

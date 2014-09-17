@@ -25,7 +25,7 @@ public class NumStarsAttributeTest {
 	public void whenUpdateView_thenSetNumStarsOnRatingBar() {
 		RatingBar view = new RatingBar(Robolectric.application);
 		NumStarsAttribute attribute = new NumStarsAttribute();
-		int newNumStars = RandomValues.nextInt(10);
+		int newNumStars = RandomValues.nextIntegerGreaterThanZero(10);
 
 		attribute.updateView(view, newNumStars);
 

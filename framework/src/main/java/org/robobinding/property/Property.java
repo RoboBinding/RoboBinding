@@ -7,7 +7,7 @@ package org.robobinding.property;
  * @author Cheng Wei
  */
 interface Property {
-    Class<?> getPropertyType();
+	Class<?> getPropertyType();
 
-    void checkReadWriteProperty(boolean isReadWriteProperty);
+	void checkReadWriteProperty(boolean isReadWriteProperty);
 }

@@ -38,8 +38,7 @@ public class StaticLayoutAttributeTest {
 	public void whenBinding_thenSetRowLayout() {
 		int resourceId = anyInteger();
 		when(bindingContext.getContext()).thenReturn(context);
-		when(staticResourceAttribute.getResourceId(context)).thenReturn(
-				resourceId);
+		when(staticResourceAttribute.getResourceId(context)).thenReturn(resourceId);
 
 		staticLayoutAttribute.bindTo(bindingContext);
 

@@ -33,8 +33,7 @@ public class SubViewWithoutPresentationModelAttributeTest {
 		SubViewBinder viewBinder = mock(SubViewBinder.class);
 		when(bindingContext.createSubViewBinder()).thenReturn(viewBinder);
 		when(viewBinder.inflate(layoutId)).thenReturn(staticSubView);
-		SubViewWithoutPresentationModelAttribute attribute = new SubViewWithoutPresentationModelAttribute(
-				layoutId, subViewHolder);
+		SubViewWithoutPresentationModelAttribute attribute = new SubViewWithoutPresentationModelAttribute(layoutId, subViewHolder);
 
 		attribute.bindTo(bindingContext);
 

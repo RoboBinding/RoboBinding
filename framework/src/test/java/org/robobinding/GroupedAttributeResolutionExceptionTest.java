@@ -13,24 +13,24 @@ import org.junit.Test;
  * @author Robert Taylor
  */
 public class GroupedAttributeResolutionExceptionTest {
-    @Test
-    public void byDefaultShouldNotHaveErrors() {
-	GroupedAttributeResolutionException exception = new GroupedAttributeResolutionException();
+	@Test
+	public void byDefaultShouldNotHaveErrors() {
+		GroupedAttributeResolutionException exception = new GroupedAttributeResolutionException();
 
-	exception.assertNoErrors();
-	assertThat(exception.getAttributeResolutionExceptions(), hasSize(0));
-    }
-
-    @Test
-    public void givenErrorsHaveBeenAddedShouldThrowExceptionOnAssert() {
-	GroupedAttributeResolutionException exception = new GroupedAttributeResolutionException();
-	exception.add(new AttributeResolutionException("attribute"));
-
-	try {
-	    exception.assertNoErrors();
-	    fail();
-	} catch (GroupedAttributeResolutionException e) {
-	    assertThat(e.getAttributeResolutionExceptions(), hasSize(1));
+		exception.assertNoErrors();
+		assertThat(exception.getAttributeResolutionExceptions(), hasSize(0));
 	}
-    }
+
+	@Test
+	public void givenErrorsHaveBeenAddedShouldThrowExceptionOnAssert() {
+		GroupedAttributeResolutionException exception = new GroupedAttributeResolutionException();
+		exception.add(new AttributeResolutionException("attribute"));
+
+		try {
+			exception.assertNoErrors();
+			fail();
+		} catch (GroupedAttributeResolutionException e) {
+			assertThat(e.getAttributeResolutionExceptions(), hasSize(1));
+		}
+	}
 }

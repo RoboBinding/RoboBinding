@@ -33,8 +33,7 @@ public class BindingAttributeParserTest {
 		int numberOfBindingAttributes = anyNumber();
 		int numberOfNonBindingAttributes = anyNumber();
 
-		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(
-				withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes));
+		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes));
 		assertThat(bindingMap.size(), equalTo(numberOfBindingAttributes));
 	}
 
@@ -42,20 +41,16 @@ public class BindingAttributeParserTest {
 	public void givenAttributeSetWithBindingAttributes_whenLoading_thenBindingMapKeysShouldMapToCorrectValues() {
 		int numberOfBindingAttributes = anyNumber();
 		int numberOfNonBindingAttributes = anyNumber();
-		AttributeSet attributeSetWithAttributes = withAttributes(
-				numberOfBindingAttributes, numberOfNonBindingAttributes);
+		AttributeSet attributeSetWithAttributes = withAttributes(numberOfBindingAttributes, numberOfNonBindingAttributes);
 
 		Map<String, String> bindingMap = loadBindingMapFromAttributeSet(attributeSetWithAttributes);
 		for (String attribute : bindingMap.keySet()) {
 			assertThat(bindingMap.get(attribute),
-					equalTo(attributeSetWithAttributes.getAttributeValue(
-							BindingAttributeParser.ROBOBINDING_NAMESPACE,
-							attribute)));
+					equalTo(attributeSetWithAttributes.getAttributeValue(BindingAttributeParser.ROBOBINDING_NAMESPACE, attribute)));
 		}
 	}
 
-	private Map<String, String> loadBindingMapFromAttributeSet(
-			AttributeSet attrs) {
+	private Map<String, String> loadBindingMapFromAttributeSet(AttributeSet attrs) {
 		return bindingAttributeParser.parse(attrs);
 	}
 

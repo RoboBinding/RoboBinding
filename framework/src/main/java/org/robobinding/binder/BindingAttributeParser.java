@@ -20,14 +20,12 @@ public class BindingAttributeParser {
 
 		for (int i = 0; i < attributeSet.getAttributeCount(); i++) {
 			String attributeName = attributeSet.getAttributeName(i);
-			//TODO:Robolectric bug.
-			if(attributeName.startsWith("bind:")) {
+			// TODO:Robolectric bug.
+			if (attributeName.startsWith("bind:")) {
 				attributeName = attributeName.substring(5);
 			}
 
-			String attributeValue = attributeSet.getAttributeValue(
-					ROBOBINDING_NAMESPACE, attributeName);
-			
+			String attributeValue = attributeSet.getAttributeValue(ROBOBINDING_NAMESPACE, attributeName);
 
 			if (attributeValue != null)
 				bindingAttributes.put(attributeName, attributeValue);

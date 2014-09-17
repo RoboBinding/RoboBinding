@@ -10,36 +10,34 @@ import org.robobinding.itempresentationmodel.TypedCursor;
  * @author Robert Taylor
  */
 class CursorDataSetProperty extends AbstractDataSetProperty {
-    public CursorDataSetProperty(ObservableBean observableBean, 
-	    PropertyAccessor propertyAccessor,
-	    ItemPresentationModelFactory factory) {
-	super(observableBean, propertyAccessor, factory);
-    }
-
-    @Override
-    public int size() {
-	if (isDataSetNull()) {
-	    return 0;
+	public CursorDataSetProperty(ObservableBean observableBean, PropertyAccessor propertyAccessor, ItemPresentationModelFactory factory) {
+		super(observableBean, propertyAccessor, factory);
 	}
-	TypedCursor<Object> cursor = getDataSet();
-	return cursor.getCount();
-    }
 
-    @Override
-    public Object getItem(int position) {
-	TypedCursor<Object> cursor = getDataSet();
-	return cursor.getObjectAtPosition(position);
-    }
-    
-    @Override
-    public void propertyChanged() {
-	TypedCursor<Object> oldCursor = getDataSet();
-	try {
-	    updateDataSet();
-	} finally {
-	    if (oldCursor != null) {
-		oldCursor.close();
-	    }
+	@Override
+	public int size() {
+		if (isDataSetNull()) {
+			return 0;
+		}
+		TypedCursor<Object> cursor = getDataSet();
+		return cursor.getCount();
 	}
-    }
+
+	@Override
+	public Object getItem(int position) {
+		TypedCursor<Object> cursor = getDataSet();
+		return cursor.getObjectAtPosition(position);
+	}
+
+	@Override
+	public void propertyChanged() {
+		TypedCursor<Object> oldCursor = getDataSet();
+		try {
+			updateDataSet();
+		} finally {
+			if (oldCursor != null) {
+				oldCursor.close();
+			}
+		}
+	}
 }

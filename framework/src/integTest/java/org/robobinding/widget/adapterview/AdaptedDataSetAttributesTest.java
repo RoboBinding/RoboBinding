@@ -16,9 +16,8 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
-public class AdaptedDataSetAttributesTest extends
-		AbstractGroupedViewAttributeTest<ListView, AdaptedDataSetAttributes> {
+@Config(manifest = Config.NONE)
+public class AdaptedDataSetAttributesTest extends AbstractGroupedViewAttributeTest<ListView, AdaptedDataSetAttributes> {
 	private final Attribute source = attribute("source={source_property}");
 	private final Attribute itemLayout = attribute("itemLayout=@layout/itemLayout");
 	private final Attribute itemMapping = attribute("itemMapping=[text1.title:{title}]");

@@ -37,10 +37,8 @@ public class SubViewPresentationModelAttributeTest {
 		BindingContext bindingContext = mock(BindingContext.class);
 		SubViewBinder viewBinder = mock(SubViewBinder.class);
 		when(bindingContext.createSubViewBinder()).thenReturn(viewBinder);
-		when(viewBinder.inflateAndBind(layoutId, presentationModelPropertyName))
-				.thenReturn(boundSubView);
-		SubViewPresentationModelAttribute subViewAttribute = new SubViewPresentationModelAttribute(
-				layoutId, subViewHolder);
+		when(viewBinder.inflateAndBind(layoutId, presentationModelPropertyName)).thenReturn(boundSubView);
+		SubViewPresentationModelAttribute subViewAttribute = new SubViewPresentationModelAttribute(layoutId, subViewHolder);
 		subViewAttribute.setAttribute(valueModelAttribute);
 
 		subViewAttribute.bindTo(bindingContext);

@@ -7,5 +7,5 @@ package org.robobinding.property;
  * @author Cheng Wei
  */
 public interface PropertyChangeListener {
-    void propertyChanged();
+	void propertyChanged();
 }

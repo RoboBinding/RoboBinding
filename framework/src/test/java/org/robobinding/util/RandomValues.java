@@ -24,17 +24,13 @@ public class RandomValues {
 	private RandomValues() {
 	}
 
-	private static int[] bitmapDrawableResourceIds = {
-		R.drawable.bottom_bar,R.drawable.title_bar};
+	private static int[] bitmapDrawableResourceIds = { R.drawable.bottom_bar, R.drawable.title_bar };
 
 	public static BitmapDrawableData anyBitmapDrawableData(Context context) {
 		int select = random.nextInt(bitmapDrawableResourceIds.length);
 		int resourceId = bitmapDrawableResourceIds[select];
 		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
-		return new BitmapDrawableData(
-				resourceId, 
-				bitmap,
-				new BitmapDrawable(context.getResources(), bitmap));
+		return new BitmapDrawableData(resourceId, bitmap, new BitmapDrawable(context.getResources(), bitmap));
 	}
 
 	public static int anyColor() {
@@ -95,9 +91,9 @@ public class RandomValues {
 	public static int nextInt(int n) {
 		return random.nextInt(n);
 	}
-	
+
 	public static int nextIntegerGreaterThanZero(int n) {
-		return random.nextInt(n-1) + 1;
+		return random.nextInt(n - 1) + 1;
 	}
 
 	public static float nextFloat(int n) {

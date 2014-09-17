@@ -23,7 +23,7 @@ import android.widget.ListView;
  * @author Robert Taylor
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class FooterAttributesTest {
 	private FooterAttributes footerAttributes = new FooterAttributes();
 	private Context context = Robolectric.application;
@@ -33,7 +33,7 @@ public class FooterAttributesTest {
 	@Test
 	public void shouldAddSubViewToListView() {
 		footerAttributes.addSubView(listView, subView, context);
-		listView.setAdapter(new SingleChoiceAdapter());
+		listView.setAdapter(new SingleChoiceAdapter(context));
 
 		List<View> footerViews = Robolectric.shadowOf(listView).getFooterViews();
 		assertThat(footerViews.size(), is(1));

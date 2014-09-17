@@ -10,21 +10,21 @@ import android.widget.SeekBar;
 
 /**
  * @since 1.0
- * @version 
+ * @version
  * @author Cheng Wei
- *
+ * 
  */
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractSeekBarAttributeTest {
 	protected SeekBar view;
 	protected MockSeekBarListeners viewListeners;
-	
+
 	@Before
 	public void initializeViewAndListeners() {
 		view = new SeekBar(Robolectric.application);
 		viewListeners = new MockSeekBarListeners(view);
 	}
-	
+
 	public <T extends ViewListenersAware<SeekBarListeners>> T withListenersSet(T attribute) {
 		attribute.setViewListeners(viewListeners);
 		return attribute;

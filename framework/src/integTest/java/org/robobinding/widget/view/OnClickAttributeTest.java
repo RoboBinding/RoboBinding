@@ -13,17 +13,17 @@ import org.robolectric.annotation.Config;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class OnClickAttributeTest extends AbstractViewEventAttributeTest {
 	private OnClickAttribute attribute;
 	private EventCommand eventCommand;
-	
+
 	@Before
 	public void setUp() {
 		attribute = withListenersSet(new OnClickAttribute());
 		eventCommand = new EventCommand();
 	}
-	
+
 	@Test
 	public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
 		attribute.bind(view, eventCommand);

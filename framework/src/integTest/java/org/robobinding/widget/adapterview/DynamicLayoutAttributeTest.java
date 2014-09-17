@@ -30,8 +30,7 @@ public class DynamicLayoutAttributeTest {
 	public void whenUpdateView_thenUpdateItemLayoutOnRowLayoutUpdater() {
 		int newItemLayoutId = anyInteger();
 
-		DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute(
-				rowLayoutUpdater, dataSetAdapterUpdater);
+		DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute(rowLayoutUpdater, dataSetAdapterUpdater);
 		dynamicLayoutAttribute.updateView(view, newItemLayoutId);
 
 		verify(rowLayoutUpdater).updateRowLayout(newItemLayoutId);
@@ -41,8 +40,7 @@ public class DynamicLayoutAttributeTest {
 	public void whenUpdateView_thenExecuteUpdateOnDataSetAdapterUpdater() {
 		int newItemLayoutId = anyInteger();
 
-		DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute(
-				rowLayoutUpdater, dataSetAdapterUpdater);
+		DynamicLayoutAttribute dynamicLayoutAttribute = new DynamicLayoutAttribute(rowLayoutUpdater, dataSetAdapterUpdater);
 		dynamicLayoutAttribute.updateView(view, newItemLayoutId);
 
 		verify(dataSetAdapterUpdater).update();

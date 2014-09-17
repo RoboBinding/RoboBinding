@@ -24,8 +24,7 @@ public class RatingBarListenersTest {
 	@Test
 	public void shouldSupportMultipleOnRatingBarChangeListenersInRatingBar() {
 		RatingBar ratingBar = new RatingBar(Robolectric.application);
-		RatingBarListeners ratingBarListeners = new RatingBarListeners(
-				ratingBar);
+		RatingBarListeners ratingBarListeners = new RatingBarListeners(ratingBar);
 
 		MockOnRatingBarChangeListener listener1 = new MockOnRatingBarChangeListener();
 		MockOnRatingBarChangeListener listener2 = new MockOnRatingBarChangeListener();
@@ -39,13 +38,11 @@ public class RatingBarListenersTest {
 		assertTrue(listener2.ratingBarEventFired);
 	}
 
-	private static class MockOnRatingBarChangeListener implements
-			OnRatingBarChangeListener {
+	private static class MockOnRatingBarChangeListener implements OnRatingBarChangeListener {
 		private boolean ratingBarEventFired;
 
 		@Override
-		public void onRatingChanged(RatingBar ratingBar, float rating,
-				boolean fromUser) {
+		public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 			ratingBarEventFired = true;
 		}
 

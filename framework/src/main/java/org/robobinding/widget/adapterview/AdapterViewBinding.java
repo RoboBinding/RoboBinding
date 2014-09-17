@@ -13,20 +13,20 @@ import org.robobinding.viewattribute.ViewBinding;
 import android.widget.AdapterView;
 
 /**
- *
+ * 
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
 public class AdapterViewBinding implements ViewBinding<AdapterView<?>> {
-    @Override
-    public void mapBindingAttributes(BindingAttributeMappings<AdapterView<?>> mappings) {
-	mappings.mapProperty(SelectedItemPositionAttribute.class, "selectedItemPosition");
+	@Override
+	public void mapBindingAttributes(BindingAttributeMappings<AdapterView<?>> mappings) {
+		mappings.mapProperty(SelectedItemPositionAttribute.class, "selectedItemPosition");
 
-	mappings.mapEvent(OnItemClickAttribute.class, "onItemClick");
-	mappings.mapEvent(OnItemSelectedAttribute.class, "onItemSelected");
+		mappings.mapEvent(OnItemClickAttribute.class, "onItemClick");
+		mappings.mapEvent(OnItemSelectedAttribute.class, "onItemSelected");
 
-	mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, SOURCE, ITEM_LAYOUT, ITEM_MAPPING);
-	mappings.mapGroupedAttribute(new EmptyViewAttributesFactory(), EMPTY_VIEW_LAYOUT, EMPTY_VIEW_PRESENTATION_MODEL, EMPTY_VIEW_VISIBILITY);
-    }
+		mappings.mapGroupedAttribute(AdaptedDataSetAttributes.class, SOURCE, ITEM_LAYOUT, ITEM_MAPPING);
+		mappings.mapGroupedAttribute(new EmptyViewAttributesFactory(), EMPTY_VIEW_LAYOUT, EMPTY_VIEW_PRESENTATION_MODEL, EMPTY_VIEW_VISIBILITY);
+	}
 }

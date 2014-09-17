@@ -16,17 +16,17 @@ import org.robolectric.shadows.ShadowView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class OnFocusChangeAttributeTest extends AbstractViewEventAttributeTest {
 	private OnFocusChangeAttribute attribute;
 	private EventCommand eventCommand;
-	
+
 	@Before
 	public void setUp() {
 		attribute = withListenersSet(new OnFocusChangeAttribute());
 		eventCommand = new EventCommand();
 	}
-	
+
 	@Test
 	public void givenBoundAttribute_whenChangeFocus_thenEventReceived() {
 		attribute.bind(view, eventCommand);

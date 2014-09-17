@@ -11,26 +11,26 @@ import android.widget.RatingBar;
  * @author Robert Taylor
  */
 public class RatingBarChangeEvent extends AbstractViewEvent {
-    private float rating;
-    private boolean fromUser;
+	private float rating;
+	private boolean fromUser;
 
-    public RatingBarChangeEvent(RatingBar ratingBar, float rating, boolean fromUser) {
-	super(ratingBar);
-	this.rating = rating;
-	this.fromUser = fromUser;
-    }
+	public RatingBarChangeEvent(RatingBar ratingBar, float rating, boolean fromUser) {
+		super(ratingBar);
+		this.rating = rating;
+		this.fromUser = fromUser;
+	}
 
-    @Override
-    public RatingBar getView() {
-        return (RatingBar) super.getView();
-    }
+	@Override
+	public RatingBar getView() {
+		return (RatingBar) super.getView();
+	}
 
-    public float getRating() {
-	return rating;
-    }
+	public float getRating() {
+		return rating;
+	}
 
-    public boolean isFromUser() {
-	return fromUser;
-    }
+	public boolean isFromUser() {
+		return fromUser;
+	}
 
 }

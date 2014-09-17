@@ -7,20 +7,20 @@ package org.robobinding.property;
  * @author Cheng Wei
  */
 public class PropertyWrapper implements Property {
-    private final Property property;
+	private final Property property;
 
-    public PropertyWrapper(Property property) {
-	this.property = property;
-    }
+	public PropertyWrapper(Property property) {
+		this.property = property;
+	}
 
-    @Override
-    public Class<?> getPropertyType() {
-	return property.getPropertyType();
-    }
+	@Override
+	public Class<?> getPropertyType() {
+		return property.getPropertyType();
+	}
 
-    @Override
-    public void checkReadWriteProperty(boolean isReadWriteProperty) {
-	property.checkReadWriteProperty(isReadWriteProperty);
-    }
+	@Override
+	public void checkReadWriteProperty(boolean isReadWriteProperty) {
+		property.checkReadWriteProperty(isReadWriteProperty);
+	}
 
 }

@@ -15,21 +15,19 @@ import com.google.android.collect.Lists;
 
 /**
  * @since 1.0
- * @version 
+ * @version
  * @author Cheng Wei
- *
+ * 
  */
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractProgressBarAttributeTest {
 	protected ProgressBar view;
-	
+
 	@Before
 	public void initializeView() {
-		view = new ProgressBar(Robolectric.application, new RoboAttributeSet(
-				Lists.newArrayList(
-						new Attribute(new ResName(TestUtil.SYSTEM_PACKAGE, "attr", "max"), "100", TestUtil.TEST_PACKAGE), 
-						new Attribute(new ResName(TestUtil.SYSTEM_PACKAGE, "attr", "indeterminate"), "false", TestUtil.TEST_PACKAGE),
-				        new Attribute(new ResName(TestUtil.SYSTEM_PACKAGE, "attr", "indeterminateOnly"), "false", TestUtil.TEST_PACKAGE)),
+		view = new ProgressBar(Robolectric.application, new RoboAttributeSet(Lists.newArrayList(new Attribute(new ResName(TestUtil.SYSTEM_PACKAGE, "attr",
+				"max"), "100", TestUtil.TEST_PACKAGE), new Attribute(new ResName(TestUtil.SYSTEM_PACKAGE, "attr", "indeterminate"), "false",
+				TestUtil.TEST_PACKAGE), new Attribute(new ResName(TestUtil.SYSTEM_PACKAGE, "attr", "indeterminateOnly"), "false", TestUtil.TEST_PACKAGE)),
 				Robolectric.application.getResources(), null));
 	}
 

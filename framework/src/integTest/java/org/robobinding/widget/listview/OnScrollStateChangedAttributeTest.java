@@ -14,19 +14,22 @@ import org.robolectric.annotation.Config;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class OnScrollStateChangedAttributeTest extends AbstractListViewAttributeTest {
 	private OnScrollStateChangedAttribute attribute;
 	private EventCommand eventCommand;
-	
+
 	@Before
 	public void setUp() {
 		attribute = withListenersSet(new OnScrollStateChangedAttribute());
 		eventCommand = new EventCommand();
 	}
-	
-	@Test
+
+	/**
+	 * TODO: Not supported by Robolectric 2.x yet.
+	 */
 	@Ignore
+	@Test
 	public void givenBoundAttribute_whenChangeScrollState_thenEventReceived() {
 		attribute.bind(view, eventCommand);
 

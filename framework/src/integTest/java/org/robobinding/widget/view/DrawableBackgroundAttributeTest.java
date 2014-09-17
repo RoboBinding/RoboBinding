@@ -20,7 +20,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class DrawableBackgroundAttributeTest {
 	@Test
@@ -31,7 +31,6 @@ public class DrawableBackgroundAttributeTest {
 
 		attribute.updateView(view, drawableData.drawable);
 
-		assertThat(Robolectric.shadowOf(view.getBackground()).getCreatedFromResId(), 
-				equalTo(drawableData.resourceId));
+		assertThat(Robolectric.shadowOf(view.getBackground()).getCreatedFromResId(), equalTo(drawableData.resourceId));
 	}
 }

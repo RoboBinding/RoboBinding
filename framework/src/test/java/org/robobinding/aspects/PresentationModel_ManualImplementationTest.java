@@ -21,34 +21,24 @@ import org.robobinding.property.PropertyChangeListener;
 @RunWith(Theories.class)
 public class PresentationModel_ManualImplementationTest {
 
-
 	@DataPoints
-	public static ObservableBean[] manualPresentationModelImplementations = {
-			new ByInterface(),
-			new BySubclassing() };
+	public static ObservableBean[] manualPresentationModelImplementations = { new ByInterface(), new BySubclassing() };
 
 	@Theory
-	public void whenImplementsPrensentationModelManually_thenNoAutoCodeGenerationTriggered(
-			ObservableBean manualPresentationModelImplementation) {
-		Assert.assertThat(
-				manualPresentationModelImplementation,
-				not(instanceOf(PresentationModelMixin.class)));
+	public void whenImplementsPrensentationModelManually_thenNoAutoCodeGenerationTriggered(ObservableBean manualPresentationModelImplementation) {
+		Assert.assertThat(manualPresentationModelImplementation, not(instanceOf(PresentationModelMixin.class)));
 	}
-	
+
 	public static class ByInterface implements ObservableBean {
 		@Override
-		public void addPropertyChangeListener(
-				String propertyName,
-				PropertyChangeListener listener) {
+		public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 		}
 
 		@Override
-		public void removePropertyChangeListener(
-				String propertyName,
-				PropertyChangeListener listener) {
+		public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 		}
 	}
-	
+
 	public static class BySubclassing extends AbstractPresentationModel {
 	}
 }

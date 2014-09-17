@@ -9,23 +9,23 @@ import org.robobinding.ViewResolutionErrors;
  * @author Cheng Wei
  */
 public class ViewResolutionResult {
-    private ResolvedBindingAttributesForView resolvedBindingAttributes;
-    private ViewResolutionErrors error;
+	private ResolvedBindingAttributesForView resolvedBindingAttributes;
+	private ViewResolutionErrors error;
 
-    public ViewResolutionResult(ResolvedBindingAttributesForView resolvedBindingAttributes, ViewResolutionErrors error) {
-	this.resolvedBindingAttributes = resolvedBindingAttributes;
-	this.error = error;
-    }
+	public ViewResolutionResult(ResolvedBindingAttributesForView resolvedBindingAttributes, ViewResolutionErrors error) {
+		this.resolvedBindingAttributes = resolvedBindingAttributes;
+		this.error = error;
+	}
 
-    public ResolvedBindingAttributesForView getResolvedBindingAttributes() {
-	return resolvedBindingAttributes;
-    }
+	public ResolvedBindingAttributesForView getResolvedBindingAttributes() {
+		return resolvedBindingAttributes;
+	}
 
-    public void addPotentialErrorTo(ViewHierarchyInflationErrorsException errors) {
-	errors.addViewResolutionError(error);
-    }
+	public void addPotentialErrorTo(ViewHierarchyInflationErrorsException errors) {
+		errors.addViewResolutionError(error);
+	}
 
-    public void assertNoErrors() {
-	error.assertNoErrors();
-    }
+	public void assertNoErrors() {
+		error.assertNoErrors();
+	}
 }

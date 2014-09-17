@@ -11,35 +11,34 @@ import com.google.common.collect.Sets;
  * @author Cheng Wei
  */
 public class PropertyChangeListeners {
-    private final Set<PropertyChangeListener> listeners;
+	private final Set<PropertyChangeListener> listeners;
 
-    public PropertyChangeListeners() {
-	this.listeners = Sets.newLinkedHashSet();
-    }
-
-    public void add(PropertyChangeListener listener) {
-	listeners.add(listener);
-    }
-
-    public boolean remove(PropertyChangeListener listener) {
-	return listeners.remove(listener);
-    }
-
-    public boolean contains(PropertyChangeListener listener) {
-	return listeners.contains(listener);
-    }
-
-    public void firePropertyChange() {
-	for (PropertyChangeListener listener : listeners) {
-	    listener.propertyChanged();
+	public PropertyChangeListeners() {
+		this.listeners = Sets.newLinkedHashSet();
 	}
-    }
 
-    /*
-    private static final PropertyChangeListeners EMPTY = new PropertyChangeListeners();
+	public void add(PropertyChangeListener listener) {
+		listeners.add(listener);
+	}
 
-    public static PropertyChangeListeners empty() {
-	return EMPTY;
-    }
-    */
+	public boolean remove(PropertyChangeListener listener) {
+		return listeners.remove(listener);
+	}
+
+	public boolean contains(PropertyChangeListener listener) {
+		return listeners.contains(listener);
+	}
+
+	public void firePropertyChange() {
+		for (PropertyChangeListener listener : listeners) {
+			listener.propertyChanged();
+		}
+	}
+
+	/*
+	 * private static final PropertyChangeListeners EMPTY = new
+	 * PropertyChangeListeners();
+	 * 
+	 * public static PropertyChangeListeners empty() { return EMPTY; }
+	 */
 }

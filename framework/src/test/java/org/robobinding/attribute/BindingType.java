@@ -7,5 +7,5 @@ package org.robobinding.attribute;
  * @author Robert Taylor
  */
 enum BindingType {
-    NO_BINDING, ONE_WAY, TWO_WAY
+	NO_BINDING, ONE_WAY, TWO_WAY
 }

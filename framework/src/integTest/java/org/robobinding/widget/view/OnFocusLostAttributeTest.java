@@ -15,17 +15,17 @@ import org.robolectric.shadows.ShadowView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class OnFocusLostAttributeTest extends AbstractViewEventAttributeTest {
 	private OnFocusLostAttribute attribute;
 	private EventCommand eventCommand;
-	
+
 	@Before
 	public void setUp() {
 		attribute = withListenersSet(new OnFocusLostAttribute());
 		eventCommand = new EventCommand();
 	}
-	
+
 	@Test
 	public void givenBoundAttribute_whenClearFocus_thenEventReceived() {
 		attribute.bind(view, eventCommand);

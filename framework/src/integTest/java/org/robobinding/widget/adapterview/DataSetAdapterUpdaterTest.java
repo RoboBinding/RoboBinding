@@ -32,8 +32,7 @@ public class DataSetAdapterUpdaterTest {
 		DataSetAdapter newDataSetAdapter = mock(DataSetAdapter.class);
 		when(dataSetAdapterBuilder.build()).thenReturn(newDataSetAdapter);
 
-		DataSetAdapterUpdater dataSetAdapterUpdater = new DataSetAdapterUpdater(
-				dataSetAdapterBuilder, adapterView);
+		DataSetAdapterUpdater dataSetAdapterUpdater = new DataSetAdapterUpdater(dataSetAdapterBuilder, adapterView);
 
 		dataSetAdapterUpdater.update();
 

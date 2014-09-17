@@ -11,21 +11,21 @@ import android.widget.CompoundButton;
 
 /**
  * @since 1.0
- * @version 
+ * @version
  * @author Cheng Wei
- *
+ * 
  */
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractCompoundButtonAttributeTest {
 	protected CompoundButton view;
 	protected MockCompoundButtonListeners viewListeners;
-	
+
 	@Before
 	public void initializeViewAndListeners() {
 		view = new CheckBox(Robolectric.application);
 		viewListeners = new MockCompoundButtonListeners(view);
 	}
-	
+
 	public <T extends ViewListenersAware<CompoundButtonListeners>> T withListenersSet(T attribute) {
 		attribute.setViewListeners(viewListeners);
 		return attribute;

@@ -15,19 +15,14 @@ import android.graphics.drawable.Drawable;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
-public class ImageSourceAttributeTest extends
-		AbstractMultiTypePropertyViewAttributeTest<ImageSourceAttribute> {
+@Config(manifest = Config.NONE)
+public class ImageSourceAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<ImageSourceAttribute> {
 	@Override
 	protected void setTypeMappingExpectations() {
-		forPropertyType(int.class).expectAttribute(
-				IntegerImageSourceAttribute.class);
-		forPropertyType(int.class).expectAttribute(
-				IntegerImageSourceAttribute.class);
-		forPropertyType(Bitmap.class).expectAttribute(
-				BitmapImageSourceAttribute.class);
-		forPropertyType(Drawable.class).expectAttribute(
-				DrawableImageSourceAttribute.class);
+		forPropertyType(int.class).expectAttribute(IntegerImageSourceAttribute.class);
+		forPropertyType(int.class).expectAttribute(IntegerImageSourceAttribute.class);
+		forPropertyType(Bitmap.class).expectAttribute(BitmapImageSourceAttribute.class);
+		forPropertyType(Drawable.class).expectAttribute(DrawableImageSourceAttribute.class);
 	}
 
 }

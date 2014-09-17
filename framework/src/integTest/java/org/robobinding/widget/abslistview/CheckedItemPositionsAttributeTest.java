@@ -27,17 +27,13 @@ import android.widget.AdapterView.OnItemClickListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
-public class CheckedItemPositionsAttributeTest extends
-		AbstractMultiTypePropertyViewAttributeTest<CheckedItemPositionsAttribute> {
+@Config(manifest = Config.NONE)
+public class CheckedItemPositionsAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<CheckedItemPositionsAttribute> {
 	@Override
 	protected void setTypeMappingExpectations() {
-		forPropertyType(SparseBooleanArray.class).expectAttribute(
-				SparseBooleanArrayCheckedItemPositionsAttribute.class);
-		forPropertyType(Set.class).expectAttribute(
-				SetCheckedItemPositionsAttribute.class);
-		forPropertyType(Map.class).expectAttribute(
-				MapCheckedItemPositionsAttribute.class);
+		forPropertyType(SparseBooleanArray.class).expectAttribute(SparseBooleanArrayCheckedItemPositionsAttribute.class);
+		forPropertyType(Set.class).expectAttribute(SetCheckedItemPositionsAttribute.class);
+		forPropertyType(Map.class).expectAttribute(MapCheckedItemPositionsAttribute.class);
 	}
 
 	@Test
@@ -48,20 +44,16 @@ public class CheckedItemPositionsAttributeTest extends
 
 		attribute.observeChangesOnTheView(null, null);
 
-		verify(mockAdapterViewListeners).addOnItemClickListener(
-				any(OnItemClickListener.class));
+		verify(mockAdapterViewListeners).addOnItemClickListener(any(OnItemClickListener.class));
 	}
 
-	class CheckedItemPositionsAttributeForTest extends
-			AbstractCheckedItemPositionsAttribute<Integer> {
+	class CheckedItemPositionsAttributeForTest extends AbstractCheckedItemPositionsAttribute<Integer> {
 		@Override
-		protected void updateView(AbsListViewBackCompatible view,
-				Integer newValue) {
+		protected void updateView(AbsListViewBackCompatible view, Integer newValue) {
 		}
 
 		@Override
-		protected void viewCheckedItemPositionsChanged(AbsListView view,
-				ValueModel<Integer> valueModel) {
+		protected void viewCheckedItemPositionsChanged(AbsListView view, ValueModel<Integer> valueModel) {
 		}
 	}
 }

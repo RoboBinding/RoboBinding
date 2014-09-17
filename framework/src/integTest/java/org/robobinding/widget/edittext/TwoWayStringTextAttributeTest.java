@@ -24,12 +24,12 @@ import android.widget.EditText;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class TwoWayStringTextAttributeTest {
 	private EditText view;
 	private TwoWayStringTextAttribute attribute;
-	
+
 	@Before
 	public void setUp() {
 		view = new EditText(Robolectric.application);

@@ -8,7 +8,7 @@ package org.robobinding.property;
  * 
  */
 public interface ObservableBean {
-    void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
+	void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
 
-    void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
+	void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
 }

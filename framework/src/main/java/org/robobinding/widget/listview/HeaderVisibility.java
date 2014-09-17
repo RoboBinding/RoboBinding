@@ -11,24 +11,24 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class HeaderVisibility extends AbstractVisibility {
-    private View headerView;
+	private View headerView;
 
-    public HeaderVisibility(View headerView) {
-	this.headerView = headerView;
-    }
+	public HeaderVisibility(View headerView) {
+		this.headerView = headerView;
+	}
 
-    @Override
-    public void makeGone() {
-	headerView.setVisibility(View.GONE);
-    }
+	@Override
+	public void makeGone() {
+		headerView.setVisibility(View.GONE);
+	}
 
-    @Override
-    public void makeVisible() {
-	headerView.setVisibility(View.VISIBLE);
-    }
+	@Override
+	public void makeVisible() {
+		headerView.setVisibility(View.VISIBLE);
+	}
 
-    @Override
-    protected void makeInvisible() {
-	headerView.setVisibility(View.INVISIBLE);
-    }
+	@Override
+	protected void makeInvisible() {
+		headerView.setVisibility(View.INVISIBLE);
+	}
 }

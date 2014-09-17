@@ -13,17 +13,17 @@ import org.robolectric.annotation.Config;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class OnCheckedChangeAttributeTest extends AbstractCompoundButtonAttributeTest {
 	private OnCheckedChangeAttribute attribute;
 	private EventCommand eventCommand;
-	
+
 	@Before
 	public void setUp() {
 		attribute = withListenersSet(new OnCheckedChangeAttribute());
 		eventCommand = new EventCommand();
 	}
-	
+
 	@Test
 	public void givenBoundAttribute_whenChangeChecked_thenEventReceived() {
 		attribute.bind(view, eventCommand);

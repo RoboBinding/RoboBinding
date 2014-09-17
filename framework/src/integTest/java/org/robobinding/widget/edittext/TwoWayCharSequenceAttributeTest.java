@@ -22,18 +22,18 @@ import android.widget.EditText;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class TwoWayCharSequenceAttributeTest {
 	private EditText view;
 	private TwoWayCharSequenceTextAttribute attribute;
-	
+
 	@Before
 	public void setUp() {
 		view = new EditText(Robolectric.application);
 		attribute = new TwoWayCharSequenceTextAttribute();
 	}
-	
+
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
 		CharSequence newText = RandomStringUtils.randomAlphanumeric(5);

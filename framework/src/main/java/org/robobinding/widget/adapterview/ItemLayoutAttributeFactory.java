@@ -9,12 +9,12 @@ import android.widget.AdapterView;
  * @author Cheng Wei
  */
 public class ItemLayoutAttributeFactory extends RowLayoutAttributeFactory {
-    public ItemLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapterBuilder dataSetAdapterBuilder) {
-	super(adapterView, dataSetAdapterBuilder);
-    }
+	public ItemLayoutAttributeFactory(AdapterView<?> adapterView, DataSetAdapterBuilder dataSetAdapterBuilder) {
+		super(adapterView, dataSetAdapterBuilder);
+	}
 
-    @Override
-    protected RowLayoutUpdater createRowLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
-	return new ItemLayoutUpdater(dataSetAdapterBuilder);
-    }
+	@Override
+	protected RowLayoutUpdater createRowLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
+		return new ItemLayoutUpdater(dataSetAdapterBuilder);
+	}
 }

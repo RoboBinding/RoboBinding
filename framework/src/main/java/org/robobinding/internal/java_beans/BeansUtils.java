@@ -20,19 +20,19 @@
 package org.robobinding.internal.java_beans;
 
 public class BeansUtils {
-    private BeansUtils() {
-    }
-
-    public static String toASCIIUpperCase(String string) {
-	char[] charArray = string.toCharArray();
-	StringBuilder sb = new StringBuilder(charArray.length);
-	for (int index = 0; index < charArray.length; index++) {
-	    if ('a' <= charArray[index] && charArray[index] <= 'z') {
-		sb.append((char) (charArray[index] - ('a' - 'A')));
-	    } else {
-		sb.append(charArray[index]);
-	    }
+	private BeansUtils() {
 	}
-	return sb.toString();
-    }
+
+	public static String toASCIIUpperCase(String string) {
+		char[] charArray = string.toCharArray();
+		StringBuilder sb = new StringBuilder(charArray.length);
+		for (int index = 0; index < charArray.length; index++) {
+			if ('a' <= charArray[index] && charArray[index] <= 'z') {
+				sb.append((char) (charArray[index] - ('a' - 'A')));
+			} else {
+				sb.append(charArray[index]);
+			}
+		}
+		return sb.toString();
+	}
 }

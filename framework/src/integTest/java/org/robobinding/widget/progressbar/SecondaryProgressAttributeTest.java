@@ -13,9 +13,9 @@ import org.robolectric.annotation.Config;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
-public class SecondaryProgressAttributeTest extends AbstractProgressBarAttributeTest{
-	
+@Config(manifest = Config.NONE)
+public class SecondaryProgressAttributeTest extends AbstractProgressBarAttributeTest {
+
 	@Test
 	public void whenUpdateView_thenSetSecondaryProgressOnProgressBar() {
 		SecondaryProgressAttribute attribute = new SecondaryProgressAttribute();

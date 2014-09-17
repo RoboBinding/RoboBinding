@@ -8,5 +8,5 @@ package org.robobinding.itempresentationmodel;
  * @author Robert Taylor
  */
 public interface ItemPresentationModel<T> {
-    void updateData(int index, T bean);
+	void updateData(int index, T bean);
 }

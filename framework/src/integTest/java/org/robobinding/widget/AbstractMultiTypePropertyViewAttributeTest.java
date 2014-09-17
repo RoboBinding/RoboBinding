@@ -8,8 +8,11 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import android.view.View;
 
@@ -22,6 +25,8 @@ import com.google.common.collect.Maps;
  * @author Robert Taylor
  * @author Cheng Wei
  */
+@Config(manifest = Config.NONE)
+@RunWith(RobolectricTestRunner.class)
 public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends MultiTypePropertyViewAttribute<? extends View>> {
 	private T attribute;
 	private Map<Class<?>, Class<? extends PropertyViewAttribute<? extends View, ?>>> propertyTypeToViewAttributeMappings;
@@ -35,8 +40,7 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Multi
 	}
 
 	protected T createAttribute() {
-		ParameterizedType attributeType = (ParameterizedType) getClass()
-				.getGenericSuperclass();
+		ParameterizedType attributeType = (ParameterizedType) getClass().getGenericSuperclass();
 		return ParameterizedTypeUtils.createTypeArgument(attributeType, 0);
 	}
 
@@ -44,14 +48,10 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Multi
 
 	@Test
 	public void givenPropertyType_whenCreate_thenReturnExpectedPropertyViewAttributeInstance() {
-		for (Class<?> propertyType : propertyTypeToViewAttributeMappings
-				.keySet()) {
-			PropertyViewAttribute<?, ?> propertyViewAttribute = attribute
-					.create(null, propertyType);
+		for (Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet()) {
+			PropertyViewAttribute<?, ?> propertyViewAttribute = attribute.create(null, propertyType);
 
-			assertThat(propertyViewAttribute,
-					instanceOf(propertyTypeToViewAttributeMappings
-							.get(propertyType)));
+			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
 		}
 	}
 
@@ -67,11 +67,8 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Multi
 		}
 
 		@SuppressWarnings("unchecked")
-		public void expectAttribute(
-				@SuppressWarnings("rawtypes") Class<? extends PropertyViewAttribute> attributeClass) {
-			propertyTypeToViewAttributeMappings
-					.put(propertyType,
-							(Class<? extends PropertyViewAttribute<? extends View, ?>>) attributeClass);
+		public void expectAttribute(@SuppressWarnings("rawtypes") Class<? extends PropertyViewAttribute> attributeClass) {
+			propertyTypeToViewAttributeMappings.put(propertyType, (Class<? extends PropertyViewAttribute<? extends View, ?>>) attributeClass);
 		}
 	}
 }

@@ -15,19 +15,14 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
-public class VisibilityAttributeTest extends
-		AbstractMultiTypePropertyViewAttributeTest<VisibilityAttribute<View>> {
+@Config(manifest = Config.NONE)
+public class VisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<VisibilityAttribute<View>> {
 	@Override
 	protected void setTypeMappingExpectations() {
-		forPropertyType(int.class).expectAttribute(
-				IntegerVisibilityAttribute.class);
-		forPropertyType(Integer.class).expectAttribute(
-				IntegerVisibilityAttribute.class);
-		forPropertyType(boolean.class).expectAttribute(
-				BooleanVisibilityAttribute.class);
-		forPropertyType(Boolean.class).expectAttribute(
-				BooleanVisibilityAttribute.class);
+		forPropertyType(int.class).expectAttribute(IntegerVisibilityAttribute.class);
+		forPropertyType(Integer.class).expectAttribute(IntegerVisibilityAttribute.class);
+		forPropertyType(boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
+		forPropertyType(Boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
 	}
 
 	@Override

@@ -20,7 +20,7 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class IntegerVisibilityAttributeTest {
 	private AbstractVisibility visibility;

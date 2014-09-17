@@ -7,14 +7,14 @@ package org.robobinding.widget.adapterview;
  * @author Robert Taylor
  */
 class DropdownLayoutUpdater implements RowLayoutUpdater {
-    private final DataSetAdapterBuilder dataSetAdapterBuilder;
+	private final DataSetAdapterBuilder dataSetAdapterBuilder;
 
-    public DropdownLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
-	this.dataSetAdapterBuilder = dataSetAdapterBuilder;
-    }
+	public DropdownLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
+		this.dataSetAdapterBuilder = dataSetAdapterBuilder;
+	}
 
-    @Override
-    public void updateRowLayout(int dropdownLayoutId) {
-	dataSetAdapterBuilder.setDropDownLayoutId(dropdownLayoutId);
-    }
+	@Override
+	public void updateRowLayout(int dropdownLayoutId) {
+		dataSetAdapterBuilder.setDropDownLayoutId(dropdownLayoutId);
+	}
 }

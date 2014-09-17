@@ -18,7 +18,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Aurélien Catinon
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class ActivatedAttributeTest {
 	@Test

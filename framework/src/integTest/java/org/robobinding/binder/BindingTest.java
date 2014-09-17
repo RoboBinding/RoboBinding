@@ -43,6 +43,7 @@ import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.widget.abslistview.SparseBooleanArrayUtils;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import android.R;
 import android.content.Context;
@@ -57,6 +58,7 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class BindingTest {
 	private BindingAttributeResolver bindingAttributeResolver;
@@ -65,51 +67,44 @@ public class BindingTest {
 
 	@Before
 	public void setUp() {
-		bindingAttributeResolver = new BindingAttributeResolverBuilder()
-				.mapView(BuggyCustomView.class, new BuggyCustomViewAttributeMapper())
-				.build();
+		bindingAttributeResolver = new BindingAttributeResolverBuilder().mapView(BuggyCustomView.class, new BuggyCustomViewAttributeMapper()).build();
 		bindingContext = newBindingContext();
 	}
 
 	@Test
 	public void whenBindingValidResolvedAttributes_thenShouldNotThrowException() {
-		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForEditText()
-				.withAttribute("text", "${name}").build());
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForEditText().withAttribute("text", "${name}")
+				.build());
 
-		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes
-				.bindTo(bindingContext);
+		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
 		viewBindingErrors.assertNoErrors();
 	}
 
 	@Test(expected = ViewBindingErrors.class)
 	public void whenBindingInvalidResolvedPropertyAttributes_thenThrowException() {
-		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForEditText()
-				.withAttribute("text", "${nonExistentProperties}").build());
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForEditText().withAttribute("text",
+				"${nonExistentProperties}").build());
 
-		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes
-				.bindTo(bindingContext);
+		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
 		viewBindingErrors.assertNoErrors();
 	}
 
 	@Test(expected = ViewBindingErrors.class)
 	public void whenBindingInvalidResolvedCommandAttributes_thenThrowException() {
-		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForEditText()
-				.withAttribute("onTextChanged", "setName").build());
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForEditText().withAttribute("onTextChanged",
+				"setName").build());
 
-		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes
-				.bindTo(bindingContext);
+		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
 		viewBindingErrors.assertNoErrors();
 	}
 
 	@Test
 	public void whenBindingMultipleInvalidResolvedAttributes_thenThrowExceptionReferringToEachOne() {
 		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForEditText()
-				.withAttribute("visibility", "{nonExistentProperty}")
-				.withAttribute("onTextChanged", "setName").build());
+				.withAttribute("visibility", "{nonExistentProperty}").withAttribute("onTextChanged", "setName").build());
 
 		try {
-			ViewBindingErrors viewBindingErrors = resolvedBindingAttributes
-					.bindTo(bindingContext);
+			ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
 			viewBindingErrors.assertNoErrors();
 			fail("Expected exception to be thrown");
 		} catch (ViewBindingErrors e) {
@@ -122,13 +117,10 @@ public class BindingTest {
 	@Test
 	public void whenBindingMultipleInvalidResolvedGroupChildAttributes_thenThrowExceptionReferringToEachOne() {
 		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForAdapterView()
-				.withAttribute("source", "{nonExistentProperty}")
-				.withAttribute("itemLayout", "@layout/non_existent_layout")
-				.build());
+				.withAttribute("source", "{nonExistentProperty}").withAttribute("itemLayout", "@layout/non_existent_layout").build());
 
 		try {
-			ViewBindingErrors viewBindingErrors = resolvedBindingAttributes
-					.bindTo(bindingContext);
+			ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
 			viewBindingErrors.assertNoErrors();
 			fail("Expected exception to be thrown");
 		} catch (ViewBindingErrors e) {
@@ -141,16 +133,11 @@ public class BindingTest {
 	@Test
 	public void whenBindingMultipleInvalidResolvedSubViewAttributes_thenThrowExceptionReferringToFirstFailure() {
 		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForAdapterView()
-				.withAttribute("itemLayout", "{layout}")
-				.withAttribute("source", "{dataSource}")
-				.withAttribute("footerLayout", "@layout/non_existent_layout")
-				.withAttribute("footerVisibility", "{nonExistentProperty}")
-				.withAttribute("footerPresentationModel",
-						"{nonExistentProperty}").build());
+				.withAttribute("itemLayout", "{layout}").withAttribute("source", "{dataSource}").withAttribute("footerLayout", "@layout/non_existent_layout")
+				.withAttribute("footerVisibility", "{nonExistentProperty}").withAttribute("footerPresentationModel", "{nonExistentProperty}").build());
 
 		try {
-			ViewBindingErrors viewBindingErrors = resolvedBindingAttributes
-					.bindTo(bindingContext);
+			ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
 			viewBindingErrors.assertNoErrors();
 			fail("Expected exception to be thrown");
 		} catch (ViewBindingErrors e) {
@@ -162,18 +149,17 @@ public class BindingTest {
 	@Ignore
 	@Test(expected = ProgrammingError.class)
 	public void whenAnUnexpectedExceptionIsThrownDuringBinding_thenErrorShouldNotBeSuppressed() {
-		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForBuggyCustomView()
-				.withAttribute(BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE,
-						"{name}").build());
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForBuggyCustomView().withAttribute(
+				BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE, "{name}").build());
 
 		resolvedBindingAttributes.bindTo(bindingContext);
+		resolvedBindingAttributes.preinitializeView(bindingContext);
 	}
 
 	@Test(expected = ProgrammingError.class)
 	public void whenAnUnexpectedExceptionIsThrownDuringGroupChildAttributeBinding_thenErrorShouldNotBeSuppressed() {
-		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForBuggyCustomView()
-				.withAttribute(BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE,
-						"{name}").build());
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForBuggyCustomView().withAttribute(
+				BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE, "{name}").build());
 
 		resolvedBindingAttributes.bindTo(bindingContext);
 	}
@@ -183,21 +169,16 @@ public class BindingTest {
 		ListView listView = new ListView(context);
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForView(
-				listView)
-				.withAttribute("checkedItemPositions", "{checkedItemPositions}")
-				.withAttribute("itemLayout", "{layout}")
+		ResolvedBindingAttributesForView resolvedBindingAttributes = resolveBindingAttributes(aPendingAttributesForView(listView)
+				.withAttribute("checkedItemPositions", "{checkedItemPositions}").withAttribute("itemLayout", "{layout}")
 				.withAttribute("source", "{dataSource}").build());
 
-		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes
-				.bindTo(bindingContext);
+		ViewBindingErrors viewBindingErrors = resolvedBindingAttributes.bindTo(bindingContext);
 		viewBindingErrors.assertNoErrors();
 		resolvedBindingAttributes.preinitializeView(bindingContext);
 		viewBindingErrors.assertNoErrors();
 
-		assertThat(SparseBooleanArrayUtils.toSet(listView
-				.getCheckedItemPositions()),
-				equalTo((Set<Integer>) newHashSet(0, 2)));
+		assertThat(SparseBooleanArrayUtils.toSet(listView.getCheckedItemPositions()), equalTo((Set<Integer>) newHashSet(0, 2)));
 	}
 
 	private PendingAttributesForViewBuilder aPendingAttributesForEditText() {
@@ -215,17 +196,14 @@ public class BindingTest {
 		return aPendingAttributesForView(buggyCustomView);
 	}
 
-	private ResolvedBindingAttributesForView resolveBindingAttributes(
-			PendingAttributesForView pendingAttributesForView) {
-		ViewResolutionResult resolutionResult = bindingAttributeResolver
-				.resolve(pendingAttributesForView);
+	private ResolvedBindingAttributesForView resolveBindingAttributes(PendingAttributesForView pendingAttributesForView) {
+		ViewResolutionResult resolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
 		resolutionResult.assertNoErrors();
 		return resolutionResult.getResolvedBindingAttributes();
 	}
 
 	private void assertHasAttributeError(ViewBindingErrors e, String attribute) {
-		Collection<AttributeBindingException> attributeErrors = e
-				.getAttributeErrors();
+		Collection<AttributeBindingException> attributeErrors = e.getAttributeErrors();
 		for (AttributeBindingException attributeError : attributeErrors) {
 			if (attributeError.getAttributeName().equals(attribute)) {
 				return;
@@ -239,22 +217,17 @@ public class BindingTest {
 	private BindingContext newBindingContext() {
 		BinderProvider binderFactory = mock(BinderProvider.class);
 		ItemBinder itemBinder = mock(ItemBinder.class);
-		when(itemBinder.inflateAndBind(anyInt(), anyObject(), anyCollection()))
-				.then(new Answer<View>() {
-					@Override
-					public View answer(InvocationOnMock invocation)
-							throws Throwable {
-						return new View(context);
-					}
-				});
+		when(itemBinder.inflateAndBind(anyInt(), anyObject(), anyCollection())).then(new Answer<View>() {
+			@Override
+			public View answer(InvocationOnMock invocation) throws Throwable {
+				return new View(context);
+			}
+		});
 		when(binderFactory.getItemBinder()).thenReturn(itemBinder);
-		return new BindingContext(binderFactory, context,
-				new PresentationModelAdapterFactory()
-						.create(new PresentationModelForTest()), true);
+		return new BindingContext(binderFactory, context, new PresentationModelAdapterFactory().create(new PresentationModelForTest()), true);
 	}
 
-	public static class PresentationModelForTest extends
-			AbstractPresentationModel {
+	public static class PresentationModelForTest extends AbstractPresentationModel {
 		private String name;
 
 		public String getName() {
@@ -295,48 +268,36 @@ public class BindingTest {
 		}
 	}
 
-	private static class BuggyCustomViewAttributeMapper implements
-			ViewBinding<BuggyCustomView> {
+	private static class BuggyCustomViewAttributeMapper implements ViewBinding<BuggyCustomView> {
 		@Override
-		public void mapBindingAttributes(
-				BindingAttributeMappings<BuggyCustomView> mappings) {
-			mappings.mapProperty(BuggyPropertyAttribute.class,
-					BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE);
-			mappings.mapGroupedAttribute(BuggyGroupedAttribute.class,
-					BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE);
+		public void mapBindingAttributes(BindingAttributeMappings<BuggyCustomView> mappings) {
+			mappings.mapProperty(BuggyPropertyAttribute.class, BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE);
+			mappings.mapGroupedAttribute(BuggyGroupedAttribute.class, BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE);
 		}
 	}
 
-	public static class BuggyPropertyAttribute implements
-			PropertyViewAttribute<BuggyCustomView, String> {
+	public static class BuggyPropertyAttribute implements PropertyViewAttribute<BuggyCustomView, String> {
 		@Override
 		public void updateView(BuggyCustomView view, String newValue) {
 			throw new ProgrammingError();
 		}
 	}
 
-	public static class BuggyGroupedAttribute extends
-			AbstractGroupedViewAttribute<BuggyCustomView> {
+	public static class BuggyGroupedAttribute extends AbstractGroupedViewAttribute<BuggyCustomView> {
 
 		@Override
-		public void mapChildAttributeResolvers(
-				ChildAttributeResolverMappings resolverMappings) {
-			resolverMappings.map(
-					ChildAttributeResolvers.propertyAttributeResolver(),
-					BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE);
+		public void mapChildAttributeResolvers(ChildAttributeResolverMappings resolverMappings) {
+			resolverMappings.map(ChildAttributeResolvers.propertyAttributeResolver(), BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE);
 		}
 
 		@Override
-		public void setupChildViewAttributes(
-				BuggyCustomView view,
-				ChildViewAttributesBuilder<BuggyCustomView> childViewAttributesBuilder,
+		public void setupChildViewAttributes(BuggyCustomView view, ChildViewAttributesBuilder<BuggyCustomView> childViewAttributesBuilder,
 				BindingContext bindingContext) {
 			throw new ProgrammingError();
 		}
 
 		@Override
-		public void validateResolvedChildAttributes(
-				ResolvedGroupAttributes groupAttributes) {
+		public void validateResolvedChildAttributes(ResolvedGroupAttributes groupAttributes) {
 		}
 	}
 

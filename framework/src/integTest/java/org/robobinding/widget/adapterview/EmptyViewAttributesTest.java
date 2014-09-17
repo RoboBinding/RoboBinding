@@ -23,7 +23,7 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class EmptyViewAttributesTest {
 	private EmptyViewAttributes emptyViewAttributes = new EmptyViewAttributes();
@@ -38,14 +38,12 @@ public class EmptyViewAttributesTest {
 
 	@Test
 	public void testSubViewPresentationModelAttribute() {
-		assertThat(emptyViewAttributes.subViewPresentationModelAttribute(),
-				is("emptyViewPresentationModel"));
+		assertThat(emptyViewAttributes.subViewPresentationModelAttribute(), is("emptyViewPresentationModel"));
 	}
 
 	@Test
 	public void testVisibilityAttribute() {
-		assertThat(emptyViewAttributes.visibilityAttribute(),
-				is("emptyViewVisibility"));
+		assertThat(emptyViewAttributes.visibilityAttribute(), is("emptyViewVisibility"));
 	}
 
 	@Test
@@ -55,8 +53,7 @@ public class EmptyViewAttributesTest {
 
 		emptyViewAttributes.addSubView(adapterView, emptyView, context);
 
-		assertNotNull(emptyViewAttributes.createVisibility(adapterView,
-				emptyView));
+		assertNotNull(emptyViewAttributes.createVisibility(adapterView, emptyView));
 	}
 
 	@Test(expected = IllegalStateException.class)

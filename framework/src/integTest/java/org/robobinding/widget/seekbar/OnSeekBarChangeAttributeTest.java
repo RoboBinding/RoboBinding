@@ -21,13 +21,13 @@ import org.robolectric.annotation.Config;
 public class OnSeekBarChangeAttributeTest extends AbstractSeekBarAttributeTest {
 	private OnSeekBarChangeAttribute attribute;
 	private EventCommand eventCommand;
-	
+
 	@Before
 	public void setUp() {
 		attribute = withListenersSet(new OnSeekBarChangeAttribute());
 		eventCommand = new EventCommand();
 	}
-	
+
 	@Test
 	public void givenBoundAttribute_whenUpdatingProgress_thenEventReceived() {
 		attribute.bind(view, eventCommand);

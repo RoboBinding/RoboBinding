@@ -20,7 +20,7 @@ import android.widget.ImageView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class DrawableImageSourceAttributeTest {
 	@Test
@@ -31,7 +31,6 @@ public class DrawableImageSourceAttributeTest {
 
 		attribute.updateView(view, drawableData.drawable);
 
-		assertThat(Robolectric.shadowOf(view.getDrawable()).getCreatedFromResId(), 
-				equalTo(drawableData.resourceId));
+		assertThat(Robolectric.shadowOf(view.getDrawable()).getCreatedFromResId(), equalTo(drawableData.resourceId));
 	}
 }

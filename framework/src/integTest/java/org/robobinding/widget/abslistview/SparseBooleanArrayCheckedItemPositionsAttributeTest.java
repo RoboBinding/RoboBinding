@@ -20,7 +20,7 @@ import android.util.SparseBooleanArray;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 public class SparseBooleanArrayCheckedItemPositionsAttributeTest extends AbstractCheckedItemPositionsAttributeTest {
 	private SparseBooleanArray checkedItemPositions;
 
@@ -34,8 +34,7 @@ public class SparseBooleanArrayCheckedItemPositionsAttributeTest extends Abstrac
 		SparseBooleanArrayCheckedItemPositionsAttribute attribute = new SparseBooleanArrayCheckedItemPositionsAttribute();
 		attribute.updateView(view, checkedItemPositions);
 
-		assertSparseBooleanArrayEquals(checkedItemPositions,
-				view.getCheckedItemPositions());
+		assertSparseBooleanArrayEquals(checkedItemPositions, view.getCheckedItemPositions());
 	}
 
 	@Test
@@ -50,8 +49,7 @@ public class SparseBooleanArrayCheckedItemPositionsAttributeTest extends Abstrac
 		assertSparseBooleanArrayEquals(checkedItemPositions, valueModel.getValue());
 	}
 
-	private void assertSparseBooleanArrayEquals(SparseBooleanArray expected,
-			SparseBooleanArray actual) {
+	private void assertSparseBooleanArrayEquals(SparseBooleanArray expected, SparseBooleanArray actual) {
 		Set<Integer> expectedSet = SparseBooleanArrayUtils.toSet(expected);
 		Set<Integer> actualSet = SparseBooleanArrayUtils.toSet(actual);
 		assertThat(actualSet, equalTo(expectedSet));

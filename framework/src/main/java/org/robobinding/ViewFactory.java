@@ -18,8 +18,7 @@ class ViewFactory implements Factory {
 	private final ViewNameResolver viewNameResolver;
 	private final ViewCreationListener listener;
 
-	public ViewFactory(LayoutInflater layoutInflater,
-			ViewNameResolver viewNameResolver, ViewCreationListener listener) {
+	public ViewFactory(LayoutInflater layoutInflater, ViewNameResolver viewNameResolver, ViewCreationListener listener) {
 		this.layoutInflater = layoutInflater;
 		this.viewNameResolver = viewNameResolver;
 		this.listener = listener;
