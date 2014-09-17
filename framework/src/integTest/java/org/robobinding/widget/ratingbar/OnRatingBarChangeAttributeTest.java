@@ -5,10 +5,10 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.Matchers.closeTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.robobinding.util.RandomValues.nextInt;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.util.RandomValues;
 import org.robobinding.widget.EventCommand;
 import org.robolectric.annotation.Config;
 
@@ -35,7 +35,7 @@ public class OnRatingBarChangeAttributeTest extends AbstractRatingBarAttributeTe
 	public void givenBoundAttribute_whenChangeChecked_thenEventReceived() {
 		attribute.bind(view, eventCommand);
 
-		int newNumStars = nextInt(NUM_STARS_TO_SHOW);
+		int newNumStars = RandomValues.nextIntegerGreaterThanZero(NUM_STARS_TO_SHOW);
 		updateRating(newNumStars);
 
 		assertEventReceived(newNumStars);
