@@ -1,0 +1,16 @@
+﻿Versions
+========
+:Revision: 0.8.6
+:toc:
+:numbered:
+:imagesdir: ./images
+:source-highlighter: pygments
+
+version 0.8.6(Not Release yet)
+------------------------------
+* Made a change to the PresentationModel AspectJ approach. 
+It is now required to explicitly define a PresentationModelChangeSupport field in a presentation model 
+in order to use the methods like firePropertyChange("propertyName");
+* Clean up the javadocs. Now it only includes the public APIs.
+* Upgraded framework and all sample projects to Gradle build.
+* Upgraded to Robolectric 2.3 for tests.
