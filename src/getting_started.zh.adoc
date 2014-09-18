@@ -1,6 +1,6 @@
 ﻿入门
 ====
-:Revision: 0.8.5
+:Revision: 0.8.6
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -34,9 +34,9 @@ activity_main.xml
 </LinearLayout>		
 ----
 
-Presentation Model
-~~~~~~~~~~~~~~~~~~
-在presentation model类中声明相应的属性与方法。
+Presentation Model(pure POJO)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+在presentation model类中声明相应的属性与方法。Presentation model 为纯POJO类。
 
 org.robobinding.androidmvvm.PresentationModel.java 
 [source,java]
@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
 }
 ----
 最简单的AndroidMVVM就完成了。这里我们用Binders工具类。在实际的开发中，我们推荐使用org.robobinding.binder.BinderFactoryBuilder。
-然后将BinderFactory保存在Android application实例里或由第三方类库如RoboGuice来管理，以便在整个应用中共享。
+然后将BinderFactory实例保存在Android application实例里或由第三方类库如RoboGuice来管理，以便在整个应用中共享。
 
 RoboBinding的介绍视频
 ~~~~~~~~~~~~~~~~~~~~~
@@ -87,8 +87,11 @@ Eclipse
 
 不使用AspectJ
 ^^^^^^^^^^^^^
-把'robobinding-[xxx].jar' 加入项目的libs目录，
-然后右击项目->Properties->Java Build Path->Libraries->Add Jars，将jar加入classpath。并在Order and Export中勾选上robobinding-[xxx].jar。
+把'robobinding-[version]-with-dependencies.jar' 或 'robobinding-[version].jar + [google guava]-[11.0.1+].jar' 加入项目的libs目录，
+然后右击项目->Properties->Java Build Path->Libraries->Add Jars，将jar加入classpath。并在Order and Export中勾选它(或它们)。
+
+.项目构建设置(以robobinding-[version]-with-dependencies.jar为例)
+image::eclipse_build_settings.png["Eclipse build settings"]
 
 使用AspectJ
 ^^^^^^^^^^^
@@ -96,19 +99,77 @@ RoboBinding aspects可以帮你自动的产生代码，以便减少工作量。
 首先安装http://developer.android.com/tools/sdk/eclipse-adt.html[Android Development Tools(ADT)] Eclipse 插件。
 右击项目->Configure->Convert to AspectJ Project。AspectJ natures将被添加到项目的.project文件。
 
-将 'robobinding-[xxx]-jar-with-dependencies.jar' 或 'robobinding-[xxx].jar' + AspectJ Runtime Library 加入项目的classpath。
-并在Order and Export中勾选了它(或它们)。
+将 'robobinding-[version]-with-aop-and-dependencies.jar' 或 'robobinding-[version]-with-aop.jar + [google guava]-[11.0.1+].jar' 加入项目的classpath。
+并在Order and Export中勾选它(或它们)。
 
-最后确认 RoboBinding jar在Aspect路径里，右击项目->Properties->AspectJ Build->Aspect Path->Add JARs。
+最后确认 robobinding jar在Aspect路径里，右击项目->Properties->AspectJ Build->Aspect Path->Add JARs。
 
-.以robobinding-[xxx]-jar-with-dependencies.jar为例
-image::eclipse_project_build_settings.png["Eclipse project build settings"]
+.AspectJ设置(以robobinding-[version]-with-aop-and-dependencies.jar为例)
+image::eclipse_aspectj_settings.png["Aspectj settings"]
 
-请参考https://github.com/RoboBinding/RoboBinding/[RoboBinding album sample]环境设置。
 
 Android Studio
 ~~~~~~~~~~~~~~
-Gradle的build file请参考https://github.com/weicheng113/album-sample_AndroidStudio/[这里]。
+不使用AspectJ
+^^^^^^^^^^^^^
+在gradle.build里添加robobinding依赖。
+[source,groovy]
+----
+dependencies {
+	...
+	compile"org.robobinding:robobinding:${robobindingVersion}"
+	
+	//或者使用with-dependencies jar(RoboBinding提供一个proguard过的体积小的with-dependencies jar。)。
+	compile("org.robobinding:robobinding:${robobindingVersion}:with-dependencies") {
+        exclude group: 'com.google.guava', module: 'guava'
+    }
+}
+----
+请参考https://github.com/RoboBinding[RoboBinding] 下的AndroidMVVM, RoboBinding-album-sample以及RoboBinding-gallery例子项目。
+
+使用AspectJ
+^^^^^^^^^^^
+在gradle.build里添加RoboBinding Android aspectj plugin。
+[source,groovy]
+----
+buildscript {
+	repositories {
+		...
+		maven() {
+			name 'RoboBinding AspectJPlugin Maven Repository'
+			url "https://github.com/RoboBinding/RoboBinding-aspectj-plugin/raw/master/mavenRepo"
+		}
+	}
+
+	dependencies {
+		...
+		classpath 'org.robobinding:aspectj-plugin:0.8.+'
+	}
+}
+
+...
+apply plugin: 'org.robobinding.android-aspectj'
+----
+
+在gradle.build里添加robobinding依赖。
+[source,groovy]
+----
+dependencies {
+	...
+	compile "org.robobinding:robobinding:$robobindingVersion"
+    aspectPath "org.robobinding:robobinding:$robobindingVersion"
+
+	//或者使用with-aop-and-dependencies jar(RoboBinding提供一个proguard过的体积小的with-aop-and-dependencies jar。)。
+	compile ("org.robobinding:robobinding:$robobindingVersion:with-aop-and-dependencies") {
+        exclude group: 'com.google.guava', module: 'guava'
+    }
+    aspectPath ("org.robobinding:robobinding:$robobindingVersion:with-aop-and-dependencies") {
+        exclude group: 'com.google.guava', module: 'guava'
+    }
+}
+----
+请参考https://github.com/RoboBinding[RoboBinding] 下的 RoboBinding-album-sample以及RoboBinding-gallery例子项目。
+
 
 ProGuard
 ~~~~~~~~
@@ -126,18 +187,19 @@ RoboBinding需要所有实现了org.robobinding.property.ObservableBean(如所�
 增加以下的内容，使ProGuard保留view listeners的构造函数名：
 [source,erlang]
 ----
--keepclassmembers class * extends org.robobinding.widget.view.ViewListeners {
+-keepclassmembers class * implements org.robobinding.viewattribute.ViewListeners {
 	public <init>(...);
 }
 ----
 
-增加以下的内容，抑制Android sdk一些兼容性警告。
+增加以下的内容，抑制Android sdk一些兼容性警告与google guava的javax.annotation.XX 引用警告。
 [source,erlang]
 ----
 -dontwarn android.widget.AbsListView, android.view.View
+-dontwarn javax.annotation.**
 ----
 
-请参考https://github.com/RoboBinding/RoboBinding/[RoboBinding album sample]与https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery]下的ProGuard配置文件proguard.cfg。
+请参考https://github.com/RoboBinding[RoboBinding] 下的 RoboBinding-album-sample或RoboBinding-gallery例子项目的ProGuard配置文件[project]/app/proguard-rules.pro。
 
 
 主要概念与特性
@@ -232,7 +294,7 @@ public class GalleryPresentationModel
 	}
 }
 ----
-当onClick 事件被触发时，showDemo方法被调用。showDemo方法可以带有相应的事件参数，这里为org.robobinding.widget.view.ClickEvent。
+当onClick 事件被触发时，showDemo方法被调用。showDemo方法可以带有可选的相应的事件参数，这里为org.robobinding.widget.view.ClickEvent。
 已支持的UI事件，请参考++API与支持的绑定属性JavaDocs++。
 
 AdapterViews绑定
@@ -264,7 +326,7 @@ public class AdapterViewPresentationModel
 	}
 ----
 
-以下提供数据项presentation model以及数据项layout。Android中Adapter实现了重用，所以数据项presentation model也会被重用，即需要实现updateData方法。
+以下提供ItemPresentationModel以及数据项layout。Android中Adapter实现了重用，所以ItemPresentationModel也会被重用，即需要实现updateData方法。
 
 org.robobinding.gallery.presentationmodel.StringItemPresentationModel.java
 [source,java]
@@ -285,12 +347,12 @@ public class StringItemPresentationModel implements ItemPresentationModel<String
 	}
 }
 ----
-例子中数据项layout为android提供的simple_list_item_1.xml。通过++bind:itemMapping="[text1.text:\{value\}]"++，
+例子中数据项layout为android系统提供的simple_list_item_1.xml。通过++bind:itemMapping="[text1.text:\{value\}]"++，
 我们指定了simple_list_item_1.xml的text1.text关联到StringItemPresentationModel.value属性。
 
 羽量级关系数据与对象cursor映射
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-AdapterViews绑定中，我们提到数据集属性类型的一种为++org.robobinding.itempresentationmodel.TypedCursor++。
+AdapterViews绑定中，我们提到数据集属性类型的其中一种为++org.robobinding.itempresentationmodel.TypedCursor++。
 由于应用中我们通常都习惯于操作对象并尽量隔离关系数据操作的那部分代码，RoboBinding加入了羽量级对象化的Cursor - TypedCursor。
 通过org.robobinding.itempresentationmodel.RowMapper<T>来将一行的关系数据映射为一个对象实例。
 
@@ -384,20 +446,54 @@ public class ContextMenuPresentationModel {
 
 Presentation Model
 ~~~~~~~~~~~~~~~~~~
-有两种实现Presentation Model的方式。
+有两种方式实现Presentation Model，即使用AspectJ与不使用AspectJ。
 
-* 使用@org.robobinding.aspects.PresentationModel AspectJ来标注你的Presentation Model类。
-其优点是Presentation Model不需要实现或扩展任何类，并且可为Presentation Model自动产生一些代码，减少工作量。缺点是必须依赖于AspectJ Runtime Library。
+使用AspectJ
+^^^^^^^^^^^
+* 使用robobinding-[version]-with-aop.jar或robobinding-[version]-with-aop-and-dependencies.jar
+* 使用@org.robobinding.aspects.PresentationModel来标注你的Presentation Model类。
+* 其优点是Presentation Model不需要实现或扩展任何类，并且可为Presentation Model自动产生一些代码，减少工作量。
+* 缺点是必须依赖于AspectJ Runtime Library。最后的apk大小会增加一点。
 
+org.robobinding.gallery.presentationmodel.ViewPresentationModel.java
+[source,java]
+----
+@PresentationModel
+public class ViewPresentationModel
+{
+    private PresentationModelChangeSupport changeSupport;
+	...
+}
+----
+
+不使用AspectJ
+^^^^^^^^^^^^^
+* 依赖于robobinding-[version].jar 或 robobinding-[version]-with-dependencies.jar
 * 让Presentation Model扩展org.robobinding.presentationmodel.AbstractPresentationModel或实现org.robobinding.property.ObservableBean。
-其优点是无需额外的AspectJ依赖。缺点是Presentation Model需要扩展或实现以上的类或接口，需要手动编写firePropertyChange("propertyName")等代码。
+* 其优点是无需额外的AspectJ依赖。最后的apk相对会小一点。
+* 缺点是Presentation Model需要扩展或实现以上的类或接口，需要手动编写如firePropertyChange("propertyName")等代码。
+
+org.robobinding.gallery.presentationmodel.PresentationModel_BySubclassNoAspectJ.java
+[source,java]
+----
+public class PresentationModel_BySubclassNoAspectJ extends AbstractPresentationModel {
+    ...
+}
+----
+
+org.robobinding.gallery.presentationmodel.PresentationModel_ByInterfaceNoAspectJ.java
+[source,java]
+----
+public class PresentationModel_ByInterfaceNoAspectJ implements ObservableBean {
+    private final PresentationModelChangeSupport changeSupport;
+	...
+}
+----
 
 Album唱片集例子项目学习
 -----------------------
-项目中所带的Album唱片集例子是将Martin Fowler的原始版本翻译成基于RoboBinding的Android版本(Martin Fowler基于.Net的 http://martinfowler.com/eaaDev/PresentationModel.html[原始版本] )。
-可以从 https://github.com/RoboBinding/RoboBinding[RoboBinding链接] 下找到robobinding-sample项目。
-
-将项目导入Eclipse。文件->导入->Android->已存在的Android代码到工作区->浏览选择robobinding-sample文件夹，导入即可。
+唱片集例子项目是Martin Fowler原始版本基于RoboBinding的Android翻译(Martin Fowler基于.Net的 http://martinfowler.com/eaaDev/PresentationModel.html[原始版本] )。
+项目地址 https://github.com/RoboBinding/RoboBinding-album-sample[RoboBinding-album-sample]。
 
 .Album唱片集例子原型
 image::album_sample_prototype.png[]
@@ -405,7 +501,7 @@ image::album_sample_prototype.png[]
 以下"."表示相对于org.robobinding.albumsample的包路径。
 
 以上是Album唱片集例子原型图。项目遵循RoboBinding应用的标准结构，即一个Activity由Activity主文件，Layout与PresentationModel Java文件组成。
-项目源代码中包含以下几个包：org.robobinding.albumsample.activity包含所有Activity的主Java文件，org.robobinding.albumsample.presentationmodel包含所有PresentationModel Java文件，
+项目源代码中包含以下几个包：org.robobinding.albumsample.activity包含所有Activity的主文件，org.robobinding.albumsample.presentationmodel包含所有PresentationModel文件，
 org.robobinding.albumsample.model仅包含一个Album实体实现文件，org.robobinding.albumsample.store包含一个基于内存Album实体存储实现AlbumStore。接下来列出上述五张图所对应的实现文件。
 
 图[Home Activity]由.activity.HomeActivity，home_activity.xml与.presentationmodel.HomePresentationModel组成。
@@ -461,7 +557,7 @@ Gallery 示例内容
 ----------------------
 以下的例子代码来自 https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery]。
 
-RoboBinding提供了两种视图绑定方式：静态绑定与动态绑定。静态绑定主要针对一些常用的属性绑定。
+RoboBinding提供了两种视图绑定方式：静态绑定与动态绑定。静态绑定主要针对一些常用的简单属性绑定。
 而动态绑定作为一种补充方式，可以快速的实现属性绑定，当这些属性RoboBinding还不支持时。
 
 自定义组件或第三方组件
@@ -620,6 +716,7 @@ BinderFactory binderFactory = new BinderFactoryBuilder()
 动态视图绑定
 ~~~~~~~~~~~~
 当框架没有实现一些属性绑定时，我们可以通过动态视图绑定的方式快速的实现或扩展已有的视图绑定实现。动态视图绑定主要是作为以上介绍的静态视图绑定的补允。
+动态绑定内部是通过Java的反射机制实现，对性能有一定的影响。主要用于快速实现一些不常用的简单属性绑定。
 
 新的视图绑定实现
 ^^^^^^^^^^^^^^^^
@@ -681,9 +778,9 @@ public class DynamicBindingActivity extends Activity {
 
 项目结构组织与最佳实践
 ----------------------
-Presentation Model(MVVM)模式的初终是在MVC模式的基础之上，进一步的解耦Presentation Model层，使它们成为普通的http://baike.baidu.com/view/183175.htm[POJO]，可被很容易的独立单元测试。
+Presentation Model(MVVM)模式的初终是在MVC模式的基础之上，进一步的解耦，将UI的状态与逻辑放入 http://baike.baidu.com/view/183175.htm[POJO] Presentation Model，可被很容易的独立单元测试。
 并使得View层->Presentation Model层->Model层 形成一个单向的依赖关系。当应用这个模式时，我们应该始终遵循这些基本原则。
-https://github.com/RoboBinding/RoboBinding[Album Sample] 是一个遵循最佳实践的例子。
+https://github.com/RoboBinding/RoboBinding-album-sample[Album Sample] 是一个遵循最佳实践的例子。
 推荐阅读Martin Fowler的原始 http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model文章]。
 
 总体项目结构
@@ -691,7 +788,7 @@ https://github.com/RoboBinding/RoboBinding[Album Sample] 是一个遵循最佳�
 .Project structure
 image::project_structure.png["Project structure"]
 
-在Android项目中，View层由Activity与Layout组成，Model层即业务模型层包含了各种的Services，持久化层，网络访问服务，以及业务服务等。
+在Android项目中，View层由Activity(Fragment)与Layout组成，Model层即业务模型层包含了各种的Services，持久化层，网络访问服务，以及业务服务等。
 各层之间的依赖与访问关系如上图的箭头所示，View层不直接调用业务模型层。
 
 常见设计问题的解决方案
@@ -699,7 +796,7 @@ image::project_structure.png["Project structure"]
 * 当没有使用第三方依赖注入库时，业务模型层对象可以由View层的Activity实例化后传入Presentation Model。但View层不直接调用业务模型层。
 只有Presentation Model与业务模型层交互。
 * 有些时候，Presentation Model层需要调用或使用View层的功能。我们通过给View层加入一个接口，然后让Presentation Model依赖于这个View接口的方式来解耦。
-使PresentationModel能继续保持可被方便的独立单元测试。如果需要的话，我们可以将MainView接口归在Presentation Model层或Presentation Model包内，
+使PresentationModel能继续保持可被方便的独立单元测试。如果需要的话，我们可以将这些View接口归在Presentation Model层或Presentation Model包内，
 使得依赖关系保持View->PresentationModel->Model的单向关系。以下是一个简单的示例：
 [source,java]
 ----
@@ -740,4 +837,12 @@ class PresentationModel {
 
 *2012年二月* 在London SkillsMatter，Robert Taylor作的RoboBinding介绍视频可以在 http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[这里]找到。
 
-*RoboBinding Gallery* https://github.com/RoboBinding/RoboBinding-gallery[RoboBinding Gallery]项目展示各功能与特性的用法。
+*2014年7月* Cheng Wei做的RoboBinding介绍视频可以在 https://www.youtube.com/watch?v=2sSBVaX77xA[这里]找到。
+
+*2014年9月* Adil在 MVVMhttp://adilmughal.github.io/YOW2014-Android-MVVM/[YOW 2014 Android MVVM] 演讲如何用MVVM模式写出干净，易维护，可测试的Android代码。
+
+*https://github.com/RoboBinding/AndroidMVVM[AndroidMVVM]* 是一个使用MVVM模式最小的例子。
+
+*https://github.com/RoboBinding/RoboBinding-album-sample[RoboBinding album sample]* 是Martin Fowler的 http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] 模式原始例子的基于RoboBinding的Android翻译版本。
+
+*https://github.com/RoboBinding/RoboBinding-gallery[RoboBinding Gallery]* 展示RoboBinding的各种功能与特性的用法。
