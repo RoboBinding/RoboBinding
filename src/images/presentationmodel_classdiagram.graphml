@@ -304,22 +304,22 @@ from RoboBinding-Sample project</y:NodeLabel>
               <y:Geometry height="402.66959635416697" width="590.281982421875" x="1015.3333333333333" y="66.33040364583303"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="386.23046875" modelName="custom" textColor="#000000" visible="true" width="485.8125" x="52.2347412109375" y="8.219563802083485">@PresentationModel
+              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="386.23046875" modelName="custom" textColor="#000000" visible="true" width="409.970703125" x="90.1556396484375" y="8.219563802083485">@PresentationModel
 public class ViewAlbumsPresentationModel {
+    private final ViewAlbumsView view;
+    ...
 
-    private final Context context;
-
-    public ViewAlbumsPresentationModel(Activity activity) {
-        this.context = activity;
+    public ViewAlbumsPresentationModel(ViewAlbumsView view) {
+        this.view = view;
     }
 
     public void createAlbum() {
-        context.startActivity(new Intent(context, CreateEditAlbumActivity.class));
+        view.createAlbum();
     }
 
     @ItemPresentationModel(AlbumItemPresentationModel.class)
     public List&lt;Album&gt; getAlbums() {
-        return Lists.newArrayList(AlbumStore.getAll());
+        return new ArrayList&lt;Album&gt;(albumStore.getAll());
     }
 
     public String getWindowTitle() {

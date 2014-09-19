@@ -782,7 +782,7 @@ asciidoc.install(2);
         </div>
 <div id="header">
 <h1>深入理解框架</h1>
-<span id="revnumber">version 0.8.4</span>
+<span id="revnumber">version 0.8.6</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -797,46 +797,49 @@ asciidoc.install(2);
 <div class="ulist"><ul>
 <li>
 <p>
-<a href="http://www.eclipse.org/">Eclipse</a> IDE for Java Developers或其超集
+<a href="http://www.eclipse.org/">Eclipse</a> IDE for Java Developers或其超集(下载Kepler或之前的版本，因为AJDT目前只支持到Kepler版本)。
 </p>
 </li>
 <li>
 <p>
-安装<a href="http://developer.android.com/tools/sdk/eclipse-adt.html">Android Development Tools(ADT)</a> plugin
+安装<a href="http://www.eclipse.org/ajdt/">AspectJ Development Tools(AJDT)</a> plugin(由于项目的部分代码用AspcectJ编写)。
 </p>
 </li>
 <li>
 <p>
-安装<a href="http://www.eclipse.org/ajdt/">AspectJ Development Tools(AJDT)</a> plugin(由于项目的部分代码用AspcectJ编写)
-</p>
-</li>
-<li>
-<p>
-安装the m2e build-helper connector。打开Eclipse&#8594;Window&#8594;Preferences&#8594;Maven&#8594;Discovery&#8594;open catalog，安装buildhelper
+安装<a href="https://github.com/spring-projects/eclipse-integration-gradle">Gradle Integration for Eclipse</a>，并更改Gradle设置如下图。
 </p>
 </li>
 </ul></div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/eclipse_gradle_settings.png" alt="eclipse_gradle_settings.png" />
+</div>
+<div class="title">Figure 1. Eclipse Gradle设置</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_导入项目">1.2. 导入项目</h3>
-<div class="paragraph"><p>下载项目，可以通过Eclipse Git客户端，或其它的Git客户端如TortoiseGit，git命令行等。项目地址为https://github.com/RoboBinding/RoboBinding。</p></div>
-<div class="paragraph"><p>下载完毕后按昭以下步骤将项目导入Eclipse。
-Window&#8594;Open Perspective&#8594;Other&#8594;Git Repository Exploring。点击Add an existing local Git repository(如果之前不是用eclipse git客户端下载项目的)，将本地的Git repositories加进来。
-展开RoboBinding repository，右击Working Directory&#8594;Import existing projects，选择[path to local git repository]\RoboBinding\robobinding，将项目导入Eclipse工作区。</p></div>
-<div class="paragraph"><p>导入之后项目的pom.xml会出现以下两个错误，右击他们Quick Fix&#8594;忽略他们就好了。</p></div>
+<div class="paragraph"><p>下载项目，可以通过Eclipse Git客户端，或其它的Git客户端如TortoiseGit，git命令行等。这是<a href="https://github.com/RoboBinding/RoboBinding">项目地址</a>。</p></div>
+<div class="paragraph"><p>下载完毕后按照以下步骤将项目导入Eclipse。</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:aspectj-maven-plugin:1.4:compile (execution: aspectj-compile, phase: compile)
+在command line下转到项目根路径。运行命令 'gradlew framework:cleanEclipse framework:eclipse'。
 </p>
 </li>
 <li>
 <p>
-Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:build-helper-maven-plugin:1.4:add-test-source (execution: add-generated-R-file-to-sources, phase: generate-sources)
+按Eclipse的Import 'Existing Projects into Workspace'，将项目下的framework子项目导入。
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>接下来右击src/test/java源代码目录&#8594;Run As&#8594;JUnit Test&#8594;Eclipse JUnit Launcher，运行所有的单元测试。如果所有的单元测试都是通过的，环境搭建完成。</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/eclipse_robobinding.png" alt="eclipse_robobinding.png" />
+</div>
+<div class="title">Figure 2. Eclipse下RoboBinding项目</div>
+</div>
 </div>
 </div>
 </div>
@@ -852,11 +855,11 @@ Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:build
 <div class="content">
 <img src="./images/architecture.png" alt="architecture.png" />
 </div>
-<div class="title">Figure 1. RoboBinding实现概要图</div>
+<div class="title">Figure 3. RoboBinding实现概要图</div>
 </div>
 <div class="paragraph"><p>以上为RoboBinding框架实现的概要。黄色背景的两张图(Client与PresentationModel)为应用代码，其它的三个为框架代码。图中只列举了来自一些包的核心类。
-Client(Activity，Dialog或Custom View)将Layout传递给对应的Binder(ActivityBinder, DialogBinder或ViewBinder)，
-Binder从给定的Layout文件构建起View层次结构(利用Android的内部android.view.LayoutInflater功能)以及RoboBinding绑定信息。
+Client(Activity，Dialog或Custom View)将Layout传递给ViewBinder，
+ViewBinder从Layout文件构建起View层次结构(利用Android的内部android.view.LayoutInflater功能)以及RoboBinding绑定信息。
 一个根View可能包含若干个子View，子View可能包含下级View，形成一个树状的结构。每一个View中可能包含若干个视图绑定属性。
 RoboBinding中定义了三类视图绑定属性，分别是.viewattribute.property.PropertyViewAttribute，
 .viewattribute.event.EventViewAttribute，
@@ -873,7 +876,7 @@ EventViewAttribute通过PresentationModelAdapter的.function.Function映射到Pr
 <div class="content">
 <img src="./images/architecture_sample.png" alt="architecture_sample.png" />
 </div>
-<div class="title">Figure 2. RoboBinding实现例子概要图</div>
+<div class="title">Figure 4. RoboBinding实现例子概要图</div>
 </div>
 <div class="paragraph"><p>上图以实例解释了框架的实现概要。黄色背景的三张图摘自RoboBinding-Sample项目的源代码，其它二个为应用运行时框架产生的对应的核心代码实例。
 ViewAlbumsActivity通过框架(.binder.Binders类)将layout与presentationModel绑定在一起。</p></div>
@@ -900,17 +903,18 @@ ViewAlbumsActivity通过框架(.binder.Binders类)将layout与presentationModel�
 </div>
 </div>
 <div class="paragraph"><p>如上图所示，应用开发者通过两个可能的入口点使用框架(以两种不同的颜色区分)，
-.binder.Binders工具类或者.binder.BinderFactoryBuilder。
+.binder.Binders工具类或者.binder.BinderFactoryBuilder(可定制)。
 不管是选择哪方式，其真正功能的入口类都是BinderFactory。
-根据应用程序的要求，调用org.robobinding.ActivityBinder/DialogBinder/InternalViewBinder，
-而这三个类内部又通过调用BinderImplementor(org.robobinding.BinderImplementor)的子类.binder.InternalBinder来实现layout的inflation以及绑定。</p></div>
+通过BinderFactory，创建一个ViewBinder实例。
+使用ViewBinder完成layout的inflation以及绑定。
+'接下来我们来说inflation的流程'。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/inflateview_sequence.png" alt="inflateview_sequence.png" />
 </div>
 </div>
 <div class="paragraph"><p>上图展示了框架对一个layout进行inflation的整个流程及其主要的参与类。
-接上述说到InternalBinder类，InternalBinder将layout inflation工作交给.binder.BindingViewInflater；
+接上述说到ViewBinder类，ViewBinder将layout inflation工作交给.binder.BindingViewInflater；
 而layout inflation工作又被转交给org.robobinding.NonBindingViewInflater。NonBindingViewInflater只做layout inflation工作，不做解析视图绑定属性的工作，
 它从layout文件创建视图集。当一个视图被创建时回调BindingViewInflater。
 BindingViewInflater通过.binder.BindingAttributeParser解析出该视图的待绑定视图属性集org.robobinding.PendingAttributesForView。
@@ -921,15 +925,16 @@ BindingAttributeResolver通过.binder.ByBindingAttributeMappingResolverFinder从
 BindingAttributeResolver通过调用所有匹配到的绑定属性解析器ByBindingAttributeMappingResolver得到最后的视图绑定属性集.binder.ResolvedBindingAttributesForView返回给BindingViewInflater。</p></div>
 <div class="paragraph"><p>BindingViewInflater接着添加所有预定义的待绑定视图属性集org.robobinding.PredefinedPendingAttributesForView，如果有的话。然后调用BindingAttributeResolver解析转化构建视图的绑定属性集，
 过程与之前解析待绑定视图属性集PendingAttributesForView一致，最后也得到视图绑定属性集ResolvedBindingAttributesForView。</p></div>
-<div class="paragraph"><p>BindingViewInflater将包含所有视图绑定属性集ResolvedBindingAttributesForView的.binder.InflatedView返回InternalBinder。整个layout的inflation工作结束。接着是下一步的绑定。</p></div>
+<div class="paragraph"><p>BindingViewInflater将包含所有视图绑定属性集ResolvedBindingAttributesForView的.binder.InflatedView返回给ViewBinder。整个layout的inflation工作结束。接着是下一步的绑定。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/bindview_sequence.png" alt="bindview_sequence.png" />
 </div>
 </div>
-<div class="paragraph"><p>上图展示了整个绑定的过程以及主要的参与类。InternalBinder通过调用上一步返回的InflatedView来绑定所有的视图绑定属性集ResolvedBindingAttributesForView。
+<div class="paragraph"><p>上图展示了整个绑定的过程以及主要的参与类。ViewBinder将绑定工作转给ViewBindingLifecycle。ViewBindingLifecycle运行并控制绑定生命周期。
+通过调用上一步返回的InflatedView来绑定所有的视图绑定属性集ResolvedBindingAttributesForView。
 而视图绑定属性集ResolvedBindingAttributesForView内部又调用各个视图绑定属性完成绑定。
-绑定完成之后，InternalBinder校验所有绑定是否都成功，不成功就终止并报告错误。如果成功，就接着预初始化视图值(如果需要的话)。
+绑定完成之后，ViewBindingLifecycle校验所有绑定是否都成功，不成功就终止并报告错误。如果成功，就接着预初始化视图值(如果需要的话)。
 预初始化视图值即将PresentationModel的初值设置到视图上。</p></div>
 </div>
 <div class="sect3">
@@ -939,7 +944,7 @@ BindingAttributeResolver通过调用所有匹配到的绑定属性解析器ByBin
 <div class="content">
 <img src="./images/viewattribute_hierarchy.png" alt="viewattribute_hierarchy.png" />
 </div>
-<div class="title">Figure 3. ViewAttribute类层次关系图</div>
+<div class="title">Figure 5. ViewAttribute类层次关系图</div>
 </div>
 <div class="paragraph"><p>视图属性主要包含三类：简单视图属性.property.PropertyViewAttribute，
 事件视图属性.event.EventViewAttribute，
@@ -957,24 +962,22 @@ BindingAttributeResolver通过调用所有匹配到的绑定属性解析器ByBin
 org.robobinding.widget.listview.FooterAttributes由子属性footerLayout以及可选的footerPresentationModel与footerVisibility构成。</p></div>
 <div class="paragraph"><p>org.robobinding.viewattribute包 包含了主要的概念抽象类，而org.robobinding.widget子包对应android.widget包下的各种widget的视图属性绑定实现。
 如org.robobinding.widget.textview包对应android.widget.TextView；org.robobinding.widget.seekbar包对应android.widget.SeekBar。</p></div>
-<div class="paragraph"><p>ViewAttribute生命周期方法：initialize&#8594;bindTo&#8594;preInitializeView。
-三种视图属性(即简单视图属性PropertyViewAttribute，事件视图属性EventViewAttribute以及复合视图属性GroupedViewAttribute)都存在着一致的生命周期方法。
-即初始化(initialize)，绑定(bindTo)以及可选的预初始化视图(preInitializeView)。三个方法由前至后的顺序被调用。预初始化视图方法只有在被要求的情况下才会被调用。</p></div>
+<div class="paragraph"><p>各种视图属性都有对应的Binder类组合完成绑定工作，如EventViewAttribute对应着EventViewAttributeBinder。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/childviewattribute_relationship.png" alt="childviewattribute_relationship.png" />
 </div>
-<div class="title">Figure 4. ChildViewAttributes类关系图</div>
+<div class="title">Figure 6. ChildViewAttributes类关系图</div>
 </div>
 <div class="paragraph"><p>以下"."表示相对于org.robobinding.viewattribute的包路径。</p></div>
-<div class="paragraph"><p>上图展示了.group.GroupedViewAttribute复合视图属性与子属性的关系。GroupedViewAttribute包含了各种类型的子属性，目前主要有三类，即.grouped.ChildViewAttribute，
-.grouped.DependentChildViewAttribute，property.PropertyViewAttribute。</p></div>
+<div class="paragraph"><p>上图展示了.group.GroupedViewAttribute复合视图属性与子属性的关系。GroupedViewAttribute包含了各种类型的子属性，目前主要包含这几类，即.grouped.ChildViewAttribute，
+.grouped.DependentChildViewAttribute，property.PropertyViewAttribute以及property.MultiTypePropertyValueAttribute。</p></div>
 <div class="paragraph"><p>ChildViewAttribute为普通的子视图属性，其下又包含了.grouped.ChildViewAttributeWithAttribute；ChildViewAttributeWithAttribute为带属性值的子视图属性，在该子属性被创建时，
 框架将赋予所需的属性值，例如：org.robobinding.widget.adapterview.SourceAttribute/SubViewLayoutAttribute。</p></div>
 <div class="paragraph"><p>DependentChildViewAttribute为依赖型子视图属性，该类型的子视图属性不能被简单的被创建，它们依赖于前面子属性的信息，
 而由一个.grouped.ChildViewAttributeFactory工厂创建；例如org.robobinding.widget.adapterview.SubViewAttributes.SubViewAttributeFactory，
 创建SubViewAttribute依赖于subViewLayoutAttribute.getLayoutId()。</p></div>
-<div class="paragraph"><p>PropertyViewAttribute为简单视图属性或其子类，前面已经提到过，可以重用系统中已有的简单视图属性作为复合视图属性的子属性。</p></div>
+<div class="paragraph"><p>PropertyViewAttribute与MultiTypePropertyViewAttribute为单值与多值简单视图属性，前面已经提到过，可以重用系统中已有的简单视图属性作为复合视图属性的子属性。</p></div>
 </div>
 <div class="sect3">
 <h4 id="_presentation_model概念实现">2.2.3. Presentation Model概念实现</h4>
@@ -983,14 +986,14 @@ org.robobinding.widget.listview.FooterAttributes由子属性footerLayout以及�
 <div class="content">
 <img src="./images/presentationmodel_classdiagram.png" alt="presentationmodel_classdiagram.png" />
 </div>
-<div class="title">Figure 5. PresentationModel类关系图</div>
+<div class="title">Figure 7. PresentationModel类关系图</div>
 </div>
 <div class="paragraph"><p>Presentation Model相关概念实现类主要来自org.robobinding.presentationmodel，org.robobinding.property，org.robobinding.itempresentationmodel以及org.robobinding.function这四个包。
 这些类主要用于包装应用程序的PresentationModel以便于绑定模块使用。.presentationmodel.PresentationModelAdapter为这几个包的入口类。
-框架为每一个应用程序PresentationModel生成一个对应的PresentationModelAdapter实例。目前框架通过两种方式识别应用程序PresentationModel，
-即所有.property.ObservableBean/.presentationmodel.AbstractPresentationModel的子类或有
-.presentationmodel.PresentationModel annotation 标识的类。</p></div>
-<div class="paragraph"><p>PresentationModelAdapter主要包装应用程序PresentationModel的三类信息，
+框架为应用程序的每一个PresentationModel生成一个对应的PresentationModelAdapter实例。目前框架通过两种方式识别应用程序PresentationModel，
+即所有.property.ObservableBean/.presentationmodel.AbstractPresentationModel的子类
+或有.aspects.PresentationModel annotation 标识的类。</p></div>
+<div class="paragraph"><p>PresentationModelAdapter主要包装PresentationModel的三类信息，
 即将SimpleProperty，DataSetProperty和Method包装为.property.PropertyValueModel，.property.DataSetValueModel
 和.function.Function。上图右边的例子中：<code>windowTitle</code>为SimpleProperty,<code>albums</code>为DataSetProperty，<code>createAlbum()</code>为Method。
 DataSetProperty是一个数据集属性，其中每一个数据项又会生成一个.itempresentationmodel.ItemPresentationModel实例，
@@ -1001,7 +1004,7 @@ DataSetProperty是一个数据集属性，其中每一个数据项又会生成�
 </div>
 <div class="sect3">
 <h4 id="_视图事件监听器聚集">2.2.4. 视图事件监听器聚集</h4>
-<div class="paragraph"><p>视图事件监听器聚集(即org.robobinding.viewattribute.view.ViewListeners或其子类)，这是由于android框架的事件设计而提供的一个workaround。
+<div class="paragraph"><p>视图事件监听器聚集(即org.robobinding.viewattribute.ViewListeners或其子类)，这是由于android框架的事件设计而提供的一个workaround。
 因为android框架中很多事件只能注册一个事件监听器如android.view.View.setOnFocusChangeListener，但应用中有时可能需要注册多个，
 为了使之前注册过的旧的事件监听器不被新的意外覆盖而提供了事件监听器聚集ViewListeners。</p></div>
 </div>
@@ -1009,50 +1012,28 @@ DataSetProperty是一个数据集属性，其中每一个数据项又会生成�
 </div>
 </div>
 <div class="sect1">
-<h2 id="_成为项目开发成员">3. 成为项目开发成员</h2>
+<h2 id="_贡献">3. 贡献</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>项目为免费的开源项目，纯粹出于我们的个人兴趣发起的，是没有任何报酬的，我们都是利用我们的个人空闲时间来开发与维护项目。
-项目的价值与宗旨是：通过参与项目，我们从中得到快乐(享受程序开发艺术以及顺畅的成员协作关系)，相互学习知识以及开发经验。
-如果该项目有幸被Android开发者们认可，为Android社区做出贡献，我们将从中得到及大的满足。通过robobinding at gmail.com联系我们。</p></div>
-<div class="sect2">
-<h3 id="_参与项目技能要求">3.1. 参与项目技能要求</h3>
 <div class="ulist"><ul>
 <li>
 <p>
-具有丰富的测试驱动开发与敏捷软件开发经验。
+所有的代码，特别是公共方法都必须有单元测试。如果没有办法提供单元测试必须明确说明理由。
 </p>
 </li>
 <li>
 <p>
-具有丰富的面向对象编程经验。
+代码的格式依照RoboBinding的要求。
 </p>
 </li>
 </ul></div>
-</div>
-<div class="sect2">
-<h3 id="_参与项目规则要求">3.2. 参与项目规则要求</h3>
-<div class="ulist"><ul>
-<li>
-<p>
-协作胜于个人主义。例如：当组员在开发一个任务时遇到困难，如果另一个组员有相应的知识时，应该帮助有困难的组员，但前提为不是替他完成这个任务；
-我们应该尽快的处理其他组员的email，合并请求等，尽可能的不耽搁其他组员的任务开发。
-</p>
-</li>
-<li>
-<p>
-参与以及知识分享的最大化。我们提倡组员分享和参与项目的所有部分。至少做到每一个部分都有两个以上的人参与。
-</p>
-</li>
-</ul></div>
-</div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.4<br />
-Last updated 2014-08-10 20:14:19 澳大利亚西部标准时间
+Version 0.8.6<br />
+Last updated 2014-09-19 15:09:22 澳大利亚西部标准时间
 </div>
 </div>
 </body>

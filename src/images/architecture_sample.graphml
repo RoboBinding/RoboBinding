@@ -450,22 +450,22 @@ from RoboBinding-Sample project</y:NodeLabel>
               <y:Geometry height="402.66959635416697" width="590.281982421875" x="-31.145193591455325" y="863.62646484375"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="386.23046875" modelName="custom" textColor="#000000" visible="true" width="485.8125" x="52.2347412109375" y="8.219563802083485">@PresentationModel
+              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="386.23046875" modelName="custom" textColor="#000000" visible="true" width="409.970703125" x="90.1556396484375" y="8.219563802083485">@PresentationModel
 public class ViewAlbumsPresentationModel {
+    private final ViewAlbumsView view;
+    ...
 
-    private final Context context;
-
-    public ViewAlbumsPresentationModel(Activity activity) {
-        this.context = activity;
+    public ViewAlbumsPresentationModel(ViewAlbumsView view) {
+        this.view = view;
     }
 
     public void createAlbum() {
-        context.startActivity(new Intent(context, CreateEditAlbumActivity.class));
+        view.createAlbum;
     }
 
     @ItemPresentationModel(AlbumItemPresentationModel.class)
     public List&lt;Album&gt; getAlbums() {
-        return Lists.newArrayList(AlbumStore.getAll());
+        return new ArrayList&lt;Album&gt;(albumStore.getAll());
     }
 
     public String getWindowTitle() {
@@ -486,7 +486,7 @@ public class ViewAlbumsPresentationModel {
         <node id="n4::n1">
           <data key="d6">
             <y:ShapeNode>
-              <y:Geometry height="22.5" width="23.75" x="242.63678883041968" y="1159.994140625"/>
+              <y:Geometry height="22.5" width="23.75" x="280.28444226002256" y="1159.994140625"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="custom" textColor="#000000" visible="true" width="10.673828125" x="6.5380859375" y="1.8994140625">3<y:LabelModel>
@@ -503,7 +503,7 @@ public class ViewAlbumsPresentationModel {
         <node id="n4::n2">
           <data key="d6">
             <y:ShapeNode>
-              <y:Geometry height="22.5" width="23.75" x="227.57428883041968" y="1012.9970703125"/>
+              <y:Geometry height="22.5" width="23.75" x="252.12079761948218" y="1012.9970703125"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="custom" textColor="#000000" visible="true" width="10.673828125" x="6.5380859375" y="1.8994140625">1<y:LabelModel>
@@ -520,7 +520,7 @@ public class ViewAlbumsPresentationModel {
         <node id="n4::n3">
           <data key="d6">
             <y:ShapeNode>
-              <y:Geometry height="22.5" width="23.75" x="436.3867888304197" y="1078.99560546875"/>
+              <y:Geometry height="22.5" width="23.75" x="465.53335922753155" y="1078.99560546875"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="custom" textColor="#000000" visible="true" width="10.673828125" x="6.5380859375" y="1.8994140625">2<y:LabelModel>
@@ -542,7 +542,7 @@ public class ViewAlbumsPresentationModel {
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="293.0973889665388" width="480.09506653402457" x="-571.6240449505591" y="717.8510051161965"/>
+              <y:Geometry height="297.720703125" width="480.09506653402457" x="-571.6240449505591" y="715.5393480369659"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
               <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="40.7529296875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="480.09506653402457" x="0.0" y="0.0">Modified version of  sample.robobinding.activity.ViewAlbumsActivity
@@ -574,7 +574,7 @@ from RoboBinding-Sample project</y:NodeLabel>
               <y:Geometry height="222.3444592790388" width="444.9468689372288" x="-556.6240449505591" y="773.6039348036965"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="211.04150390625" modelName="custom" textColor="#000000" visible="true" width="421.85986328125" x="11.543502827989414" y="5.651477686394401">public class ViewAlbumsActivity extends Activity {
+              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="226.9677734375" modelName="custom" textColor="#000000" visible="true" width="421.85986328125" x="11.543502827989414" y="-2.3116570792305993">public class ViewAlbumsActivity extends Activity {
     protected ViewAlbumsPresentationModel presentationModel;
 
     @Override
@@ -582,8 +582,9 @@ from RoboBinding-Sample project</y:NodeLabel>
         super.onCreate(savedInstanceState);
 
         presentationModel = new ViewAlbumsPresentationModel(this);
-        Binders.bindWithoutPreInitializingViews(this, 
+        View rootView = Binders.inflateAndBind(this, 
             R.layout.view_albums_activity, presentationModel);
+        setContentView(rootView);
     }
     ...
 }<y:LabelModel>

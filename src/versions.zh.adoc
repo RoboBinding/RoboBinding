@@ -9,6 +9,7 @@
 版本 0.8.6(Not Release yet)
 ---------------------------
 * 更新了以AspectJ方式实现Presentation Model。现在要调用像方法firePropertyChange("propertyName")，需要显示定义一个PresentationModelChangeSupport成员变量。
+* 对Proguard配置进行了小的更新。
 * 更新了JavaDocs，只包含公共的APIs。
 * 更新了所有的项目，都使用Gradle构建方式。
 * 将Robolectric升级到版本2.3。
