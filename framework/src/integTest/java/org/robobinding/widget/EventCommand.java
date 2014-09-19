@@ -14,14 +14,23 @@ import org.robobinding.attribute.Command;
  * @author Cheng Wei
  */
 public class EventCommand implements Command {
+	private final Object returnValue;
 	public Object lastArg;
 	public int invocationCount;
+	
+	public EventCommand(Object returnValue) {
+		this.returnValue = returnValue;
+	}
+	
+	public EventCommand() {
+		this(null);
+	}
 
 	@Override
 	public Object invoke(Object arg) {
 		lastArg = arg;
 		invocationCount++;
-		return null;
+		return returnValue;
 	}
 
 	public void assertEventReceived(Class<?> expectedEventClass) {

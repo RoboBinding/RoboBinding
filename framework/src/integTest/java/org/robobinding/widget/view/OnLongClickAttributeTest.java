@@ -3,11 +3,9 @@ package org.robobinding.widget.view;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robobinding.robolectric.DefaultTestRunner;
 import org.robobinding.widget.EventCommand;
+import org.robolectric.annotation.Config;
 
 /**
  * 
@@ -15,8 +13,7 @@ import org.robobinding.widget.EventCommand;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-// @Config(manifest=Config.NONE)
-@RunWith(DefaultTestRunner.class)
+@Config(manifest=Config.NONE)
 public class OnLongClickAttributeTest extends AbstractViewEventAttributeTest {
 	private OnLongClickAttribute attribute;
 	private EventCommand eventCommand;
@@ -24,14 +21,9 @@ public class OnLongClickAttributeTest extends AbstractViewEventAttributeTest {
 	@Before
 	public void setUp() {
 		attribute = withListenersSet(new OnLongClickAttribute());
-		eventCommand = new EventCommand();
+		eventCommand = new EventCommand(Boolean.TRUE);
 	}
 
-	/**
-	 * TODO: Difficulty in using view.performLongClick() in Robolectric 2.x.
-	 * Raised a question and waiting for answers.
-	 */
-	@Ignore
 	@Test
 	public void givenBoundAttribute_whenLongClickOnView_thenEventReceived() {
 		attribute.bind(view, eventCommand);

@@ -2,7 +2,6 @@ package org.robobinding.widget.view;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -44,18 +43,14 @@ public class ViewListenersForViewTest {
 		assertTrue(listener2.clickEventFired);
 	}
 
-	/**
-	 * TODO: Difficulty in using view.performLongClick() in Robolectric 2.x.
-	 * Raised a question and waiting for answers.
-	 */
-	@Ignore
 	@Test
 	public void shouldSupportMultipleOnLongClickListeners() {
 		View view = new View(Robolectric.application);
 		ViewListenersForView viewListeners = new ViewListenersForView(view);
 
 		MockOnLongClickListener listener1 = new MockOnLongClickListener();
-		MockOnLongClickListener listener2 = new MockOnLongClickListener();
+		boolean alreadyHandled = true;
+		MockOnLongClickListener listener2 = new MockOnLongClickListener(alreadyHandled);
 
 		viewListeners.addOnLongClickListener(listener1);
 		viewListeners.addOnLongClickListener(listener2);
@@ -112,11 +107,19 @@ public class ViewListenersForViewTest {
 
 	private static class MockOnLongClickListener implements OnLongClickListener {
 		private boolean longClickEventFired;
-
+		private boolean handled;
+		public MockOnLongClickListener(boolean handled) {
+			this.handled = handled;
+		}
+		
+		public MockOnLongClickListener() {
+			this(false);
+		}
+		
 		@Override
 		public boolean onLongClick(View v) {
 			longClickEventFired = true;
-			return false;
+			return handled;
 		}
 	}
 

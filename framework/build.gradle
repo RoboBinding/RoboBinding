@@ -304,7 +304,7 @@ uploadProguardArchives {
 			pom.withXml {
 				def dependenciesNode = it.asNode().dependencies[0];
 				//remove android sdk dependency node.
-				def androidDependencyNode = dependenciesNode.dependency.find{ it.groupId.text() == 'com.google.android' }
+				def androidDependencyNode = dependenciesNode.dependency.find{ it.artifactId.text() == 'android-all' }
 				dependenciesNode.remove androidDependencyNode
 				//remove aspectjrt dependency node.
 				def aspectjDependencyNode = dependenciesNode.dependency.find{ it.groupId.text() == 'org.aspectj' }
