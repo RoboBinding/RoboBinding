@@ -206,7 +206,7 @@ As an application may need to register multiple event listeners on a same event,
 to overcome the old listener not being erased by a new one accidentally, the concept of view event listener aggregate is implemented.
 
 
-Contribution
-------------
+Contributions
+-------------
 * We value code quality. So all source code committed requires to have proper unit tests along with it, especially public methods. If unit tests cannot be supplied for some reasons, explicit comments have to be given.
 * RoboBinding source code format needs to be followed, so that it is easier for contributions among us. It is basically Java standard code format.
