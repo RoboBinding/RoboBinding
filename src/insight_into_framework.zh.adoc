@@ -61,7 +61,8 @@ EventViewAttribute通过PresentationModelAdapter的.function.Function映射到Pr
 
 .RoboBinding实现例子概要图
 image::architecture_sample.png[]
-上图以实例解释了框架的实现概要。黄色背景的三张图摘自RoboBinding-Sample项目的源代码，其它二个为应用运行时框架产生的对应的核心代码实例。
+上图以实例解释了框架的实现概要。黄色背景的三张图摘自 https://github.com/RoboBinding/RoboBinding-album-sample[RoboBinding-album-sample]项目的源代码，
+其它二个为应用运行时框架产生的对应的核心代码实例。
 ViewAlbumsActivity通过框架(.binder.Binders类)将layout与presentationModel绑定在一起。
 
 图中的第一个为简单视图属性的绑定例子。框架为++\{windowsTitle\}++产生一个.widget.textview.TextAttribute实例，
@@ -195,5 +196,5 @@ DataSetProperty是一个数据集属性，其中每一个数据项又会生成�
 
 贡献
 ----
-* 所有的代码，特别是公共方法都必须有单元测试。如果没有办法提供单元测试必须明确说明理由。
-* 代码的格式依照RoboBinding的要求。
+* 我们注重代码质量。所有的代码，特别是公共方法都必须有单元测试。如果没有办法提供单元测试必须明确说明理由。
+* 代码依照RoboBinding的格式统一要求，这样方便大家一起协作贡献。我们所用的格式其实是Sun的标准格式。

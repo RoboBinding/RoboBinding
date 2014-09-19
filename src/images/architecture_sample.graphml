@@ -24,7 +24,7 @@
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
               <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="40.7529296875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="506.531982421875" x="0.0" y="0.0">Modified version of view_albums_activity.xml
-from RoboBinding-Sample project</y:NodeLabel>
+from RoboBinding-album-sample project</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
@@ -422,7 +422,7 @@ org.robobinding.function</y:NodeLabel>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
               <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="40.7529296875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="630.281982421875" x="0.0" y="0.0">Modified version of sample.robobinding.presentationmodel.ViewAlbumsPresentationModel
-from RoboBinding-Sample project</y:NodeLabel>
+from RoboBinding-album-sample project</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
@@ -546,7 +546,7 @@ public class ViewAlbumsPresentationModel {
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
               <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="40.7529296875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="480.09506653402457" x="0.0" y="0.0">Modified version of  sample.robobinding.activity.ViewAlbumsActivity
-from RoboBinding-Sample project</y:NodeLabel>
+from RoboBinding-album-sample project</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>

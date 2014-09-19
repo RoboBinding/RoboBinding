@@ -782,7 +782,7 @@ asciidoc.install(2);
         </div>
 <div id="header">
 <h1>Insight Into Framework</h1>
-<span id="revnumber">version 0.8.4</span>
+<span id="revnumber">version 0.8.6</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -797,67 +797,70 @@ asciidoc.install(2);
 <div class="ulist"><ul>
 <li>
 <p>
-Http://www.eclipse.org/ [Eclipse] IDE for Java Developers or a superset
+<a href="http://www.eclipse.org/">Eclipse</a> IDE for Java Developers or a superset(Use Kepler Packages or an older one, as AJDT only supports up till Kepler at the moment).
 </p>
 </li>
 <li>
 <p>
-Installing <a href="http://developer.android.com/tools/sdk/eclipse-adt.html">http://developer.android.com/tools/sdk/eclipse-adt.html</a> [Android Development Tools (ADT)] plugin
+Install <a href="http://www.eclipse.org/ajdt/">AspectJ Development Tools (AJDT)</a> plugin ( As part of the project code is written with AspcectJ)
 </p>
 </li>
 <li>
 <p>
-Installing <a href="http://www.eclipse.org/ajdt/">http://www.eclipse.org/ajdt/</a> [AspectJ Development Tools (AJDT)] plugin ( As part of the project code is written with AspcectJ)
-</p>
-</li>
-<li>
-<p>
-Installing the m2e build-helper connector. Open Eclipse&#8594; Window&#8594; Preferences&#8594; Maven&#8594; Discovery&#8594; open catalog, then install buildhelper
+Install <a href="https://github.com/spring-projects/eclipse-integration-gradle">Gradle Integration for Eclipse</a>, and make some changes to Gradle settings as follows.
 </p>
 </li>
 </ul></div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/eclipse_gradle_settings.png" alt="Eclipse Gradle settings" />
+</div>
+<div class="title">Figure 1. Eclipse Gradle settings</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_import_project">1.2. Import project</h3>
-<div class="paragraph"><p>Firstly download the project. The project can be downloaded through Eclipse eGit , Git command line or other clients such as TortoiseGit and so on. The Project URL is <a href="https://github.com/RoboBinding/RoboBinding">https://github.com/RoboBinding/RoboBinding</a>.</p></div>
-<div class="paragraph"><p>After the project is downloaded to local, follow the steps below to import into Eclipse:
-Window&#8594; Open Perspective&#8594; Other&#8594; Git Repository Exploring. Click Add an existing local Git repository (if eclipse eGit was not used to download the project before), which will add the local Git repositories.
-Expand RoboBinding repository, right-click on the Working Directory&#8594; Import existing projects, select [path to local git repository]\RoboBinding\robobinding, and import the project into Eclipse workspace.</p></div>
-<div class="paragraph"><p>After the project is imported, the pom.xml from the project will have the two errors below. Right-click on them and Quick Fix&#8594;just ignore them.</p></div>
+<div class="paragraph"><p>Firstly download the project. The project can be downloaded through Eclipse eGit , Git command line or other Git clients. Here is <a href="https://github.com/RoboBinding/RoboBinding">the Project</a>.</p></div>
+<div class="paragraph"><p>After the project is downloaded to local, follow the steps below to import into Eclipse:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Plugin execution not covered by lifecycle configuration: org.codehaus.mojo: aspectj-maven-plugin: 1.4: compile (execution: aspectj-compile, phase: compile)
+Goto the root directory of the project in command line, and run <em>gradlew framework:cleanEclipse framework:eclipse</em>.
 </p>
 </li>
 <li>
 <p>
-Plugin execution not covered by lifecycle configuration: org.codehaus.mojo: build-helper-maven-plugin: 1.4: add-test-source (execution: add-generated-R-file-to-sources, phase: generate-sources )
+In Eclipse, follow the Import <em>Existing Projects into Workspace</em> wizard to import the framework sub-project. After imported, the project should look similar to the screen shot below.
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>Then right-click on the src/test/java source code directory &#8594; Run As&#8594; JUnit Test&#8594; Eclipse JUnit Launcher to run all the unit tests. If all the unit tests are passed, the development environment set-up is completed.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/eclipse_robobinding.png" alt="eclipse_robobinding.png" />
+</div>
+<div class="title">Figure 2. RoboBinding project in Eclipse</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_robobinding_architecture_and_implementation">2. RoboBinding architecture and implementation</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>RoboBinding is a data-binding presentation model framework for the Android platform(Martin Fowler&#8217;s <a href="http://martinfowler.com/eaaDev/PresentationModel.html">Presentation Model</a>).
+<div class="paragraph"><p>RoboBinding is a data-binding <a href="http://martinfowler.com/eaaDev/PresentationModel.html">Presentation Model</a> framework for the Android platform.
 The aim of the project is to reduce the workload of Android application development, promote a clear project structure and make the project easier to test.</p></div>
 <div class="sect2">
-<h3 id="_observing_from_the_robobinding_overall_implementation">2.1. Observing from the RoboBinding overall implementation</h3>
+<h3 id="_observing_from_robobinding_overall_implementation">2.1. Observing from RoboBinding overall implementation</h3>
 <div class="paragraph"><p>In the following section, a package start with <em>.</em> is a relative path to org.robobinding.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/architecture.png" alt="architecture.png" />
 </div>
-<div class="title">Figure 1. RoboBinding overall implementation chart</div>
+<div class="title">Figure 3. RoboBinding overall implementation chart</div>
 </div>
-<div class="paragraph"><p>The above shows an overall implementation of the RoboBinding framework. The two blocks with yellow background (The Client and the PresentationModel) are the application code,
+<div class="paragraph"><p>The above shows the overall implementation of the RoboBinding framework. The two blocks with yellow background (The Client and the PresentationModel) are the application code,
 and the three others are the framework code. Note that the figure only shows some core classes from a number of RoboBinding packages.
-A client(can be a Activity, a Dialog or a Custom View) passes a layout to a corresponding Binder(an ActivityBinder, a DialogBinder or a ViewBinder),
-and the Binder inflates the given layout file to construct a view hierarchy(with the assistance of android.view.LayoutInflater) and extracts RoboBinding binding information.
+A client(can be a Activity, a Dialog or a Custom View) passes a layout to a ViewBinder.
+Then the ViewBinder inflates the given layout file to construct a view hierarchy(with the assistance of android.view.LayoutInflater) and extracts binding information.
 A root view may contain several sub-views, and a sub-view may have its child views, forming a tree structure. Each view may contain several view binding attributes.
 RoboBinding defines three types of view binding attributes, namely .viewattribute.property.PropertyViewAttribute,
 .viewattribute.event.EventViewAttribute, and .viewattribute.grouped.GroupedViewAttribute.</p></div>
@@ -871,30 +874,31 @@ A EventViewAttribute is mapped to a method of the PresentationModel through a .f
 <div class="content">
 <img src="./images/architecture_sample.png" alt="architecture_sample.png" />
 </div>
-<div class="title">Figure 2. Demonstrating RoboBinding internal running follow through an example</div>
+<div class="title">Figure 4. Demonstrating RoboBinding internal running follow through an example</div>
 </div>
-<div class="paragraph"><p>The chart above summarizes RoboBinding internal running follow through an example. The three blocks with yellow background were taken from RoboBinding-Sample project&#8217;s source code with slight modification,
-while the other two were the instances of the corresponding core classes generated by the framework at runtime.
+<div class="paragraph"><p>The chart above summarizes RoboBinding internal running follow through an example.
+The three blocks with yellow background are taken from <a href="https://github.com/RoboBinding/RoboBinding-album-sample">RoboBinding-album-sample</a> project&#8217;s source code with slight modification,
+while the other two are the instances of some core classes from the framework.
 ViewAlbumsActivity binds the layout to its presentationModel with the help of the framework(here is .binder.Binders class).</p></div>
 <div class="paragraph"><p>The part with the numbering [1] is an example of a simple view binding attribute(namely .viewattribute.property.PropertyViewAttribute).
-The framework generates a .widget.textview.TextAttribute instance for <code>{windowsTitle}</code>,
+The framework creates a .widget.textview.TextAttribute instance for <code>{windowsTitle}</code>,
 and then the TextAttribute instance binds <code>{windowTitle}</code> to ViewAlbumsPresentationModel.windowTitle through a PropertyValueModel from the PresentationModelAdapter.</p></div>
 <div class="paragraph"><p>The part with the numbering [2] is an example of a composite view binding attribute(namely .viewattribute.grouped.GroupedViewAttribute).
 Its child attributes of the source and the itemLayout form a composite ListView binding attribute.
-The framework generates a composite view attribute instance, a .widget.adapterview.AdaptedDataSetAttributes, for <code>{albums}</code> and<code>@layout/album_row</code>.
+The framework creates a composite view attribute instance, a .widget.adapterview.AdaptedDataSetAttributes, for <code>{albums}</code> and<code>@layout/album_row</code>.
 The composite view attribute contains two sub-view attributes, namely .widget.adapterview.SourceAttribute and .widget.adapterview.StaticLayoutAttribute,
 which map to <code>{albums}</code> and <code>@layout/album_row</code> respectively.
 The SourceAttribute instance binds <code>{albums}</code> to ViewAlbumsPresentationModel.albums with the help of a DataSetValueModel of the PresentationModelAdapter.
 The StaticLayoutAttribute links to the external file album_row.xml by parsing <code>@layout/album_row</code>.</p></div>
-<div class="paragraph"><p>The third one is an example of event binding attribute(namely .viewattribute.event.EventViewAttribute).
-The framework generates a .widget.view.OnClickAttribute instance for <code>createAlbum</code>,
+<div class="paragraph"><p>The third one is an example of an event binding attribute(namely .viewattribute.event.EventViewAttribute).
+The framework creates a .widget.view.OnClickAttribute instance for <code>createAlbum</code>,
 and then the OnClickAttribute binds <code>createAlbum</code> to ViewAlbumsPresentationModel.createAlbum through a Function of the PresentationModelAdapter.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_observing_from_robobinding_implementation_details">2.2. Observing from RoboBinding implementation details</h3>
 <div class="sect3">
 <h4 id="_implementing_view_inflation_and_binding">2.2.1. Implementing view inflation and binding</h4>
-<div class="paragraph"><p>Classes that implement view inflation and binding are in org.robobinding and org.robobinding.binder packages.
+<div class="paragraph"><p>The classes that implement view inflation and binding are in org.robobinding and org.robobinding.binder packages.
 In the following section, a package start with <em>.</em> is a relative path to org.robobinding.</p></div>
 <div class="imageblock">
 <div class="content">
@@ -902,41 +906,42 @@ In the following section, a package start with <em>.</em> is a relative path to 
 </div>
 </div>
 <div class="paragraph"><p>As shown above, application developers can use the framework in two potential ways(shown in two different colours),
-either through the utility class .binder.Binders or .binder.BinderFactoryBuilder to create a BinderFactory instance.
+either through the utility class .binder.Binders or .binder.BinderFactoryBuilder(with customization capability).
 In either way, the final actual entry class is the same, BinderFactory.
-With invocation from an application, one of the three classes, org.robobinding.ActivityBinder/DialogBinder/InternalViewBinder, will be called.
-The three classes internally call BinderImplementor(org.robobinding.BinderImplementor, an implementation of which is .binder.InternalBinder) to complete layout inflation and binding.</p></div>
+From BinderFactory, an instance of ViewBinder is created, which fulfils layout inflation and binding.
+Let us have a look at layout inflation process in the next.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/inflateview_sequence.png" alt="inflateview_sequence.png" />
 </div>
 </div>
 <div class="paragraph"><p>The figure shows the layout inflation process and the core classes involved.
-Carrying on with the class InternalBinder mentioned above, the InternalBinder further pass layout inflation work to .binder.BindingViewInflater
+Carrying on with the ViewBinder mentioned above, it further passes the layout inflation task to .binder.BindingViewInflater
 and the latter propagate to org.robobinding.NonBindingViewInflater. The only responsibility of NonBindingViewInflater is to inflate layout, constructing the view hierarchy from the given layout.
-When a view is created during inflation, a callback with view attributes to BindingViewInflater is fired
-and BindingViewInflater builds a set of pending view binding attributes, org.robobinding.PendingAttributesForView, with the help of .binder.BindingAttributeParser.
-Repeating the process, up till all PendingAttributesForViews are parsed from the layout.</p></div>
+When a view is created during inflation, a callback with view attributes to the BindingViewInflater is fired,
+and out of these view attributes, the BindingViewInflater builds a set of pending view binding attributes, org.robobinding.PendingAttributesForView,
+with the help of .binder.BindingAttributeParser.
+Repeating the process, until all PendingAttributesForViews are parsed from the layout.</p></div>
 <div class="paragraph"><p>Then the PendingAttributesForViews are passed to .binder.BindingAttributeResolver, which further tries to resolve them.
 BindingAttributeResolver uses .binder.ByBindingAttributeMappingResolverFinder to find a set of matched view binding attribute mapping resolver, .binder.ByBindingAttributeMappingResolver, according to the view hierarchy from top to bottom
 (e.g., android.widget.EditText inherits from android.widget.TextView, and TextView inherits from android.view.View. So a EditText instance matches three ByBindingAttributeMappingResolvers:
 A EditText ByBindingAttributeMappingResolver, a TextView ByBindingAttributeMappingResolver and a view ByBindingAttributeMappingResolver in order).
-BindingAttributeResolver calls all the matched ByBindingAttributeMappingResolvers in order to get a final set of .binder.ResolvedBindingAttributesForViews and then returns to BindingViewInflater.</p></div>
-<div class="paragraph"><p>Afterwards, BindingViewInflater add all the predefined pending attribute mappings, org.robobinding.PredefinedPendingAttributesForView, if there is.
+BindingAttributeResolver calls all the matched ByBindingAttributeMappingResolvers in order to get a final set of .binder.ResolvedBindingAttributesForViews and then returns to the BindingViewInflater.</p></div>
+<div class="paragraph"><p>Afterwards, the BindingViewInflater add all the predefined pending attribute mappings, org.robobinding.PredefinedPendingAttributesForView, if there is.
 And then call BindingAttributeResolver to resolve them also, which follows the same process as resolving PendingAttributesForView above.
 Finally it gets a set of ResolvedBindingAttributesForViews as well.</p></div>
-<div class="paragraph"><p>BindingViewInflater eventually hand a .binder.InflatedView containing all the ResolvedBindingAttributesForViews over to InternalBinder.
+<div class="paragraph"><p>The BindingViewInflater eventually hands a .binder.InflatedView containing all the ResolvedBindingAttributesForViews over to ViewBinder.
 The whole layout inflation work ends and the next binding stage starts.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/bindview_sequence.png" alt="bindview_sequence.png" />
 </div>
 </div>
-<div class="paragraph"><p>The figure shows the entire binding process and the core classes involved. The InternalBinder makes a call to the returned InflatedView to bind all its ResolvedBindingAttributesForViews.
+<div class="paragraph"><p>The figure shows the entire binding process and the core classes involved. The ViewBinder hands the binding task to its ViewBindingLifecycle. The ViewBindingLifecycle runs the binding life-cycle on the InflatedView. Firstly try to bind all the ResolvedBindingAttributesForViews in the InflatedView.
 Internally the ResolvedBindingAttributesForViews invoke each of its binding attributes to complete the binding.
-After completion of the binding, the InternalBinder validates the result. When an error is found, the whole process is terminated and the errors are reported.
+After completion of the binding, the ViewBindingLifecycle validates the result. When an error is found, the whole process is terminated and the errors are reported.
 If successful with no errors, pre-initializing the views is kicked off when specified.
-Pre-initializing views is to synchronize the values from a PresentationModel to its views.</p></div>
+Pre-initializing views is to synchronize values from a PresentationModel to its views.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_implementing_view_attribute_bindings">2.2.2. Implementing view attribute bindings</h4>
@@ -945,14 +950,14 @@ Pre-initializing views is to synchronize the values from a PresentationModel to 
 <div class="content">
 <img src="./images/viewattribute_hierarchy.png" alt="viewattribute_hierarchy.png" />
 </div>
-<div class="title">Figure 3. ViewAttribute class hierarchy diagram</div>
+<div class="title">Figure 5. ViewAttribute class hierarchy diagram</div>
 </div>
 <div class="paragraph"><p>There are three types of view attributes defined in the framework, namely a simple view attribute .property.PropertyViewAttribute,
 an event view attribute .event.EventViewAttribute and a composite view attribute .grouped.GroupedViewAttribute.</p></div>
 <div class="paragraph"><p>A PropertyViewAttribute implements binding for a simple view attribute.
-It has two subclasses, which are single value-typed, property.PropertyViewAttribute, and multiple value-typed, property.MultiTypePropertyViewAttribute.
+There are two kinds, which are single value-typed, property.PropertyViewAttribute, and multiple value-typed, property.MultiTypePropertyViewAttribute.
 A PropertyViewAttribute(in the figure with [1.1]marked, <code>{enabledSwitch}</code> and <code>{selectedSwitch}</code>)
-has only one possible value type such as EnabledAttribute(org.robobinding.widget.view.EnabledAttribute), having the only value type of Boolean.
+has only one possible value type such as EnabledAttribute(org.robobinding.widget.view.EnabledAttribute), having only one value type of Boolean.
 Whereas MultiTypePropertyViewAttribute(in the figure with [1.2] marked, <code>{visibilitySwitch}</code>)
 has multiple value types such as VisibilityAttribute(org.robobinding.widget.view.VisibilityAttribute), which can be a Integer or a Boolean.</p></div>
 <div class="paragraph"><p>A EventViewAttribute(in the figure with [2] marked, <code>onClick</code> and <code>onLongClick</code>) implements binding for a event view attribute,
@@ -962,28 +967,26 @@ implements binding for a composite view attribute such as a org.robobinding.widg
 a org.robobinding.widget.listview.FooterAttributes, which contains sub-attributes a footerLayout and two optional attributes, a footerPresentationModel and a footerVisibility.</p></div>
 <div class="paragraph"><p>org.robobinding.viewattribute package contains abstract classes of core concepts for view attributes, and org.robobinding.widget package contains various counterpart view attribute binding implementations for android.widget package.
 For example, org.robobinding.widget.textview package is for android.widget.TextView and org.robobinding.widget.seekbar package is for android.widget.SeekBar.</p></div>
-<div class="paragraph"><p>ViewAttribute life-cycle methods: initialize&#8594;bindTo&#8594;preInitializeView.
-The three view attributes(namely PropertyViewAttribute, EventViewAttribute and GroupedViewAttribute) have consistent life-cycle methods,
-which are initializing(initialize), binding(bindTo) and an optional pre-initializing the views(preInitializeView). The three methods are called in order.
-The preInitializeView method is only called when specified.</p></div>
+<div class="paragraph"><p>All kinds of view attributes have corresponding Binder classes. They work together to accomplish the binding task.
+For example, the counterpart of EventViewAttribute is EventViewAttributeBinder.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/childviewattribute_relationship.png" alt="childviewattribute_relationship.png" />
 </div>
-<div class="title">Figure 4. ChildViewAttributes class diagram</div>
+<div class="title">Figure 6. ChildViewAttributes class diagram</div>
 </div>
 <div class="paragraph"><p>In the following section, a package start with <em>.</em> is a relative path to org.robobinding.viewattribute.</p></div>
 <div class="paragraph"><p>The figure shows the relationship between a composite view attribute .grouped.GroupedViewAttribute and its child view attributes.
-A GroupedViewAttribute contains various types of child view attributes. Currently there are three kinds, namely .grouped.ChildViewAttribute,
-.grouped.DependentChildViewAttribute, .property.PropertyViewAttribute.</p></div>
+A GroupedViewAttribute contains various types of child view attributes. Currently the kinds of child view attributes in use are .grouped.ChildViewAttribute,
+.grouped.DependentChildViewAttribute, .property.PropertyViewAttribute and .property.MultiTypePropertyViewAttribute.</p></div>
 <div class="paragraph"><p>A ChildViewAttribute is an ordinary child view attribute and it has a subclass of .grouped.ChildViewAttributeWithAttribute.
 A ChildViewAttributeWithAttribute is a ChildViewAttribute but with a required attribute value, which will be set when the ChildViewAttributeWithAttribute is created,
 such as org.robobinding.widget.adapterview.SourceAttribute/SubViewLayoutAttribute.</p></div>
-<div class="paragraph"><p>DependentChildViewAttribute is a dependent child view attribute. It cannot be created in an ordinary way, as it depends on some information from its previous child attributes.
-It is, therefore, created via an .grouped.ChildViewAttributeFactory.
+<div class="paragraph"><p>DependentChildViewAttribute is a dependent child view attribute. It cannot be created in an ordinary way, as it depends on some runtime information from previous child attributes.
+It is, therefore, created via a .grouped.ChildViewAttributeFactory.
 Take org.robobinding.widget.adapterview.SubViewAttributes.SubViewAttributeFactory for example.
 It needs subViewLayoutAttribute.getLayoutId() to create a SubViewAttribute.</p></div>
-<div class="paragraph"><p>PropertyViewAttribute or any of its subclasses, as mentioned earlier, can be reused here as a child view attribute.</p></div>
+<div class="paragraph"><p>PropertyViewAttribute and MultiTypePropertyViewAttribute are single value-typed and multi value-typed view attributes. They are already discussed earlier, and can be reused here as a child view attribute.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_implementing_presentation_model_concepts">2.2.3. Implementing Presentation Model concepts</h4>
@@ -992,19 +995,19 @@ It needs subViewLayoutAttribute.getLayoutId() to create a SubViewAttribute.</p><
 <div class="content">
 <img src="./images/presentationmodel_classdiagram.png" alt="presentationmodel_classdiagram.png" />
 </div>
-<div class="title">Figure 5. PresentationModel class diagram</div>
+<div class="title">Figure 7. PresentationModel class diagram</div>
 </div>
 <div class="paragraph"><p>The four packages, org.robobinding.presentationmodel, org.robobinding.property, org.robobinding.itempresentationmodel and org.robobinding.function,
-are for wrapping a PresentationModel as a .presentationmodel.PresentationModelAdapter, which is used by binding module.
+are for wrapping a PresentationModel as a .presentationmodel.PresentationModelAdapter, which is used in binding process.
 The PresentationModelAdapter is the entry class of the packages.
-The framework generates a PresentationModelAdapter instance for each PresentationModel.
-Currently, there are two ways for the framework to identify a PresentationModel.
-Either is a subclass of .property.ObservableBean/.presentationmodel.AbstractPresentationModel,
-or is annotated by .presentationmodel.PresentationModel.</p></div>
-<div class="paragraph"><p>PresentationModelAdapter is mainly to wrap a PresentationModel and to expose as a provider of three kinds of information,
-namely wrapping SimpleProperty, DataSetProperty and Method, and then exposing as a provider of .property.PropertyValueModel, .property.DataSetValueModel
+The framework creates a PresentationModelAdapter instance for each PresentationModel.
+Currently, there are two ways for the framework to identify a class as a PresentationModel.
+Either the class is a subclass of .property.ObservableBean/.presentationmodel.AbstractPresentationModel,
+or is annotated by .aspects.PresentationModel.</p></div>
+<div class="paragraph"><p>A PresentationModelAdapter is created to wrap a PresentationModel and acts as a provider of three pieces of information,
+namely wrapping SimpleProperty, DataSetProperty and Method, and then acting as a provider of .property.PropertyValueModel, .property.DataSetValueModel
 and .function.Function. On the right hand side of the figure above, the property of <code>windowTitle</code> is a SimpleProperty, the property of <code>albums</code> is a DataSetProperty and <code>createAlbum()</code> is a Method.
-DataSetProperty is a data collection property. The framework will create a .itempresentationmodel.ItemPresentationModel instance for each data item in the collection.
+DataSetProperty is a data set property. The framework will create a .itempresentationmodel.ItemPresentationModel instance for each data item in the collection.
 In the given figure above, an AlbumItemPresentationModel will be created for each album item in albums collection and will be rendered to the screen according to the given row layout of <code>@layout/album_row</code>.</p></div>
 <div class="paragraph"><p>The framework utilizes <a href="http://eclipse.org/aspectj/">AspectJ</a> framework to auto-generate and inject some source code to reduce the workload.
 For example, a PresentationModel will be injected a PresentationModelAspect, mainly to append property value change event notification to the setters.
@@ -1012,7 +1015,7 @@ A ItemPresentationModel will be injected a ItemPresentationModelAspect, appendin
 </div>
 <div class="sect3">
 <h4 id="_view_event_listener_aggregates">2.2.4. View event listener aggregates</h4>
-<div class="paragraph"><p>The concept of view event listener aggregates(org.robobinding.viewattribute.view.ViewListeners or its subclasses),
+<div class="paragraph"><p>The concept of view event listener aggregates(org.robobinding.viewattribute.ViewListeners or its subclasses),
 is introduced to provide a workaround of registering multiple event listeners due to the fact that the Android framework can only allow register a single event listener in many cases(e.g., android.view.View.setOnFocusChangeListener).
 As an application may need to register multiple event listeners on a same event,
 to overcome the old listener not being erased by a new one accidentally, the concept of view event listener aggregate is implemented.</p></div>
@@ -1021,49 +1024,28 @@ to overcome the old listener not being erased by a new one accidentally, the con
 </div>
 </div>
 <div class="sect1">
-<h2 id="_becoming_a_regular_contributor">3. Becoming a regular contributor</h2>
+<h2 id="_contribution">3. Contribution</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The project is a free/non-profitable open source project, purely out of personal interests. we are devoting our personal time to the project development and maintenance.
-The value and purpose of the project is: By doing the project, we gain happiness(through enjoying the art of software development and smooth team cooperation), knowledge and experiences.
-If the project is successful and adopted by android users, we gain satisfactions of making contributions to the android community. Feel free to contact us via robobinding at gmail.com.</p></div>
-<div class="sect2">
-<h3 id="_skills_required_to_participate_in_the_project">3.1. Skills required to participate in the project</h3>
 <div class="ulist"><ul>
 <li>
 <p>
-Has rich experiences in TDD(test driven development) and Agile development.
+We value code quality. So all source code committed requires to have proper unit tests along with it, especially public methods. If unit tests cannot be supplied for some reasons, explicit comments have to be given.
 </p>
 </li>
 <li>
 <p>
-Has rich experiences in object-oriented programming.
+RoboBinding source code format needs to be followed, so that it is easier for contributions among us. It is basically Java standard code format.
 </p>
 </li>
 </ul></div>
-</div>
-<div class="sect2">
-<h3 id="_teamwork_practices_and_rules">3.2. Teamwork practices and rules</h3>
-<div class="ulist"><ul>
-<li>
-<p>
-Cooperation over individualism. We help with other&#8217;s tasks, instead of doing it. We try to handle emails, pull requests as priorities, so as not to block others' work.
-</p>
-</li>
-<li>
-<p>
-Maximum involvement and sharing. We encourage more contributors to involve in every part. It is good to have 2 or more major contributors to involve in a part.
-</p>
-</li>
-</ul></div>
-</div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.4<br />
-Last updated 2014-08-10 20:15:45 澳大利亚西部标准时间
+Version 0.8.6<br />
+Last updated 2014-09-19 21:11:23 澳大利亚西部标准时间
 </div>
 </div>
 </body>

@@ -839,7 +839,7 @@ class PresentationModel {
 
 *2014年7月* Cheng Wei做的RoboBinding介绍视频可以在 https://www.youtube.com/watch?v=2sSBVaX77xA[这里]找到。
 
-*2014年9月* Adil在 MVVMhttp://adilmughal.github.io/YOW2014-Android-MVVM/[YOW 2014 Android MVVM] 演讲如何用MVVM模式写出干净，易维护，可测试的Android代码。
+*2014年9月* Adil在 http://adilmughal.github.io/YOW2014-Android-MVVM/[YOW 2014 Android MVVM] 演讲如何用MVVM模式写出干净，易维护，可测试的Android代码。
 
 *https://github.com/RoboBinding/AndroidMVVM[AndroidMVVM]* 是一个使用MVVM模式最小的例子。
 
