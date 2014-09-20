@@ -11,6 +11,7 @@ buildscript {
 	dependencies {
 		classpath 'net.sf.proguard:proguard-gradle:4.11'
 		classpath 'org.robobinding:aspectj-plugin:0.8.+'
+		classpath 'com.github.townsfolk:gradle-release:1.2'
 	}
 }
 apply plugin: 'org.robobinding.aspectj'
@@ -231,10 +232,18 @@ artifacts {
 	proguardArchives javadocJar
 }
 
+apply plugin: 'signing'
+signing {
+	required { !version.endsWith('SNAPSHOT') && gradle.taskGraph.hasTask("uploadProguardArchives") }
+	sign configurations.proguardArchives
+}
+
 apply plugin: 'maven'
 uploadProguardArchives {
 	repositories {
 		mavenDeployer {
+			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+			
 			repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
 				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
 			}
@@ -313,6 +322,10 @@ uploadProguardArchives {
 		}
 	}
 }
+
+
+apply plugin: 'release'
+createReleaseTag.dependsOn uploadProguardArchives
 
 String getRepositoryUsername() {
 	return project.hasProperty('repositoryUserName')?project.property('repositoryUserName'):'noUserName';
