@@ -222,23 +222,25 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 artifacts {
-	proguardArchives proguardJar.outJarFileCollection.singleFile
-	proguardArchives proguardJarWithDependencies.outJarFileCollection.singleFile
-	proguardArchives proguardJarWithAop
-	proguardArchives proguardJarWithAopAndDependencies
+	archives proguardJar.outJarFileCollection.singleFile
+	archives proguardJarWithDependencies.outJarFileCollection.singleFile
+	archives proguardJarWithAop
+	archives proguardJarWithAopAndDependencies
 
-	proguardArchives sourcesJar
-	proguardArchives javadocJar
+	archives sourcesJar
+	archives javadocJar
 }
+
+configurations.archives.artifacts.removeAll { it.classifier == 'raw' }
 
 apply plugin: 'signing'
 signing {
-	required { !version.endsWith('SNAPSHOT') && gradle.taskGraph.hasTask("uploadProguardArchives") }
-	sign configurations.proguardArchives
+	required { !version.endsWith('SNAPSHOT') && gradle.taskGraph.hasTask("uploadArchives") }
+	sign configurations.archives
 }
 
 apply plugin: 'maven'
-uploadProguardArchives {
+uploadArchives {
 	repositories {
 		mavenDeployer {
 			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
