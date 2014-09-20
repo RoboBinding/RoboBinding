@@ -12,11 +12,10 @@ apply plugin: 'org.ajoberstar.grgit-release'
 import org.ajoberstar.grgit.*
 release {
 	grgit = Grgit.open(project.file('.'))
-	releaseTasks = ['framework:uploadProguardArchives']
-	version() {
-		toString()
-	}
+	releaseTasks = ['framework:signProguardArchives','framework:uploadProguardArchives']
+	version.toString()
 }
+
 
 subprojects {
 	apply plugin: 'java'
