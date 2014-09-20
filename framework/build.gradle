@@ -325,6 +325,7 @@ uploadProguardArchives {
 
 
 apply plugin: 'release'
+initScmPlugin.dependsOn += [proguardJar, proguardJarWithDependencies, proguardJarWithAop, proguardJarWithAopAndDependencies, sourcesJar, javadocJar]
 createReleaseTag.dependsOn uploadProguardArchives
 
 String getRepositoryUsername() {
