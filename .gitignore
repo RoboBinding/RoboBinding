@@ -23,3 +23,4 @@
 /framework/mavenRepo
 /aspects/mavenRepo
 /javadoc-taglet/target
+/release.bat
