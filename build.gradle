@@ -13,6 +13,9 @@ import org.ajoberstar.grgit.*
 release {
 	grgit = Grgit.open(project.file('.'))
 	releaseTasks = ['framework:uploadProguardArchives']
+	version() {
+		toString()
+	}
 }
 
 subprojects {
