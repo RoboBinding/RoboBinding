@@ -6,8 +6,8 @@
 :imagesdir: ./images
 :source-highlighter: pygments
 
-version 0.8.6(Not Release yet)
-------------------------------
+version 0.8.6(released 20/09/2014)
+----------------------------------
 * Made a change to the PresentationModel AspectJ approach. 
 It is now required to explicitly define a PresentationModelChangeSupport field in a presentation model 
 in order to use the methods like firePropertyChange("propertyName");

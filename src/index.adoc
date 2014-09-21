@@ -11,9 +11,10 @@ Apart from promoting well-structured projects, RoboBinding focuses the areas tha
 
 Let's watch http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[an introductory video] and then get started from link:getting_started.html[here].
 
-Similar Presentation Model/http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVM] frameworks for android: https://github.com/gueei/AndroidBinding[Android-Binding],
-https://github.com/depoll/bindroid[Bindroid]. We value *code quality* and RoboBinding comes with more than 300 unit tests, which makes difference. 
-We value and love to hear *any voices(negtive or positive) or suggestions* and invite you to post into our http://groups.google.com/group/robobinding[Google group].
+RoboBinding values *code quality*. The framework source code is very readable and comes with a complete set of tests,
+which makes contributing easy and enjoyable. Want contributing? start link:insight_into_framework.html#_set_up_eclipse_development_environment[here].
+
+RoboBinding loves to hear *any voices(negtive or positive) or suggestions* and invite you to post into RoboBinding http://groups.google.com/group/robobinding[Google group].
 
 
 image:http://www.iconpng.com/png/large-torrent/download.png[width=30, height=30] Download: http://search.maven.org/#search%7Cga%7C1%7Crobobinding[releases] on Maven Central and latest https://oss.sonatype.org/index.html#nexus-search;quick%7Erobobinding[snapshots] on Sonatype OSS Repo

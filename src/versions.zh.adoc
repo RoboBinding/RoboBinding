@@ -6,7 +6,7 @@
 :imagesdir: ./images
 :source-highlighter: pygments
 
-版本 0.8.6(Not Release yet)
+版本 0.8.6(2014-09-20发布)
 ---------------------------
 * 更新了以AspectJ方式实现Presentation Model。现在要调用像方法firePropertyChange("propertyName")，需要显示定义一个PresentationModelChangeSupport成员变量。
 * 对Proguard配置进行了小的更新。
