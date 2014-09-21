@@ -13,9 +13,10 @@ Apart from promoting well-structured projects, RoboBinding focuses the areas tha
 
 Let's watch http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[an introductory video] and then get started from link:http://robobinding.org/getting_started.html[here].
 
-Similar Presentation Model/ http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVM] frameworks for android: https://github.com/gueei/AndroidBinding[Android-Binding],
-https://github.com/depoll/bindroid[Bindroid]. We value *code quality* and RoboBinding comes with more than 300 unit tests, which makes difference. 
-We value and love to hear *any voices(negtive or positive) or suggestions* and invite you to post into our http://groups.google.com/group/robobinding[Google group].
+RoboBinding values *code quality*. The framework source code is very readable and comes with a complete set of tests,
+which makes contributing easy and enjoyable. Want contributing? start link:http://robobinding.org/insight_into_framework.html#_set_up_eclipse_development_environment[here].
+
+RoboBinding loves to hear *any voices(negtive or positive) or suggestions* and invite you to post into RoboBinding http://groups.google.com/group/robobinding[Google group].
 
 
 
@@ -23,11 +24,11 @@ We value and love to hear *any voices(negtive or positive) or suggestions* and i
 
 * link:http://robobinding.org/insight_into_framework.html[Insight Into Framework]
 
-* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.5/robobinding-0.8.5-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
+* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.6/robobinding-0.8.6-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
 
 * link:http://robobinding.org/about.html[About]
 
-* link:http://robobinding.org/versions.html[Versions]
+* link:http://robobinding.org/versions.html[Versions](latest 0.8.6)
 
 * link:http://robobinding.org/index.zh.html[Chinese中文] 及 image:http://qplus3.idqqimg.com/qun/portal/img/logo2.png["QQ群", width=60, height=25]：308303599
 
