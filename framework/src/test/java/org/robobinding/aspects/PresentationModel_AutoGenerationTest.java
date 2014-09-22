@@ -57,6 +57,11 @@ public class PresentationModel_AutoGenerationTest {
 	public void whenUserDefinePresentationModelChangeSupportTwice_thenThrowsException() {
 		new DoubleUserDefinedChangeSupport();
 	}
+	
+	@Test
+	public void whenInvokeASetterInContructor_thenNoExceptionIsThrown() {
+		new SetterInvocationInConstructor();
+	}
 
 	@PresentationModel
 	public static class AutoDefinedChangeSupport {
@@ -96,6 +101,17 @@ public class PresentationModel_AutoGenerationTest {
 		public DoubleUserDefinedChangeSupport() {
 			presentationModelChangeSupport = new PresentationModelChangeSupport(this);
 			presentationModelChangeSupport = new PresentationModelChangeSupport(this);
+		}
+	}
+	
+	@PresentationModel
+	public static class SetterInvocationInConstructor {
+		public SetterInvocationInConstructor() {
+			setProperty(true);
+		}
+
+		public void setProperty(boolean value) {
+
 		}
 	}
 }

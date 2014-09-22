@@ -1,5 +1,7 @@
 package org.robobinding.aspects;
 
+import java.text.MessageFormat;
+
 import org.aspectj.lang.annotation.AdviceName;
 import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.property.ObservableBean;
@@ -17,36 +19,37 @@ public interface PresentationModelMixin extends ObservableBean
 {
 	static aspect Impl
 	{
-		private PresentationModelChangeSupport PresentationModelMixin.__presentationModelChangeSupport;
+		private PresentationModelChangeSupport PresentationModelMixin.__changeSupport;
+		private boolean PresentationModelMixin.__isUserChangeSupportDefined;
 
 		public void PresentationModelMixin.addPropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener)
 		{
-			__presentationModelChangeSupport.addPropertyChangeListener(propertyName, propertyChangeListener);
+			__changeSupport.addPropertyChangeListener(propertyName, propertyChangeListener);
 		}
 
 		public void PresentationModelMixin.removePropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener)
 		{
-			__presentationModelChangeSupport.removePropertyChangeListener(propertyName, propertyChangeListener);
+			__changeSupport.removePropertyChangeListener(propertyName, propertyChangeListener);
 		}
 		
 		private void PresentationModelMixin.__firePropertyChange(String propertyName)
 		{
-			__presentationModelChangeSupport.firePropertyChange(propertyName);
+			__changeSupport.firePropertyChange(propertyName);
 		}
 		
 		void PresentationModelMixin.__refreshPresentationModel() {
-			__presentationModelChangeSupport.refreshPresentationModel();
+			__changeSupport.refreshPresentationModel();
 		}
 
-		pointcut presentationModelCreation(PresentationModelMixin presentationModel) : execution(
+		pointcut presentationModelCreation(PresentationModelMixin presentationModel) : initialization(
 				PresentationModelMixin+.new(..)) && this(presentationModel) && within(PresentationModelMixin+);
 
 		@AdviceName("initializePresentationModelChangeSupport")
-		after(PresentationModelMixin presentationModel) : presentationModelCreation(presentationModel)
+		before(PresentationModelMixin presentationModel) : presentationModelCreation(presentationModel)
 		{
-			if(presentationModel.__presentationModelChangeSupport == null)
+			if(presentationModel.__changeSupport == null)
 			{
-				presentationModel.__presentationModelChangeSupport = new PresentationModelChangeSupport(presentationModel);
+				presentationModel.__changeSupport = new PresentationModelChangeSupport(presentationModel);
 			}
 		}
 		
@@ -56,16 +59,20 @@ public interface PresentationModelMixin extends ObservableBean
 		pointcut setPresentationModelChangeSupport(PresentationModelMixin presentationModel, PresentationModelChangeSupport userDefinedChangeSupport) : set(
 				PresentationModelChangeSupport PresentationModelMixin+.*) && target(presentationModel) && args(userDefinedChangeSupport);
 			
-
 		@AdviceName("reuseUserDefindedPresentationModelChangeSupport")
-        after(PresentationModelMixin presentationModel, PresentationModelChangeSupport userDefinedChangeSupport) : setPresentationModelChangeSupport(presentationModel, userDefinedChangeSupport){
-        	if((userDefinedChangeSupport != null) && 
-        			(presentationModel.__presentationModelChangeSupport != userDefinedChangeSupport)) {
-        		
-        		if(presentationModel.__presentationModelChangeSupport != null) {
-        			throw new RuntimeException("A presentation model can only have one '" + PresentationModelChangeSupport.class.getSimpleName()+"'");
-        		}
-        		presentationModel.__presentationModelChangeSupport = userDefinedChangeSupport;
+		void around(PresentationModelMixin presentationModel, PresentationModelChangeSupport userDefinedChangeSupport) : setPresentationModelChangeSupport(presentationModel, userDefinedChangeSupport){
+			if((!"__changeSupport".equals(thisJoinPoint.getSignature().getName())) 
+					&& (userDefinedChangeSupport != null)) {
+				if(presentationModel.__isUserChangeSupportDefined)
+				{
+					throw new RuntimeException(MessageFormat.format("{0} defines more than one {1}, but only one is allowed in a PresentationModel.",
+							presentationModel.getClass().getName(), PresentationModelChangeSupport.class.getSimpleName()));
+				}
+				
+				presentationModel.__isUserChangeSupportDefined = true;
+        		proceed(presentationModel, presentationModel.__changeSupport);
+        	}else {
+        		proceed(presentationModel, userDefinedChangeSupport);
         	}
         }
 	}
