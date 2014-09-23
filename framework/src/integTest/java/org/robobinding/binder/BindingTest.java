@@ -31,7 +31,6 @@ import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.ChildAttributeResolvers;
 import org.robobinding.attribute.ResolvedGroupAttributes;
-import org.robobinding.itempresentationmodel.AbstractItemPresentationModel;
 import org.robobinding.presentationmodel.AbstractPresentationModel;
 import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 import org.robobinding.viewattribute.AttributeBindingException;
@@ -252,9 +251,9 @@ public class BindingTest {
 		}
 	}
 
-	public static class ItemPresentationModelForTest extends AbstractItemPresentationModel<String> {
+	public static class ItemPresentationModelForTest implements org.robobinding.itempresentationmodel.ItemPresentationModel<String> {
 		@Override
-		protected void doUpdateData(int index, String bean) {
+		public void updateData(int index, String bean) {
 		}
 	}
 

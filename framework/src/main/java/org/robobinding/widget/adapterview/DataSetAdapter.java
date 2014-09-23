@@ -1,6 +1,7 @@
 package org.robobinding.widget.adapterview;
 
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
+import org.robobinding.presentationmodel.AbstractPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.DataSetValueModelWrapper;
 import org.robobinding.property.PropertyChangeListener;
@@ -124,5 +125,8 @@ public class DataSetAdapter<T> extends BaseAdapter {
 		@SuppressWarnings("unchecked")
 		ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>) view.getTag();
 		itemPresentationModel.updateData(position, getItem(position));
+		if(itemPresentationModel instanceof AbstractPresentationModel) {
+			((AbstractPresentationModel)itemPresentationModel).refreshPresentationModel();
+		}
 	}
 }

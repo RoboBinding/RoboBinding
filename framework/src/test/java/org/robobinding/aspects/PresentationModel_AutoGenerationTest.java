@@ -29,8 +29,8 @@ public class PresentationModel_AutoGenerationTest {
 		propertyChangeListenerTester.assertPropertyChangedOnce();
 	}
 
-	private void observePropertyChange(ObservableBean presentationModel, String propertyName) {
-		presentationModel.addPropertyChangeListener(propertyName, propertyChangeListenerTester);
+	private void observePropertyChange(Object presentationModel, String propertyName) {
+		((ObservableBean)presentationModel).addPropertyChangeListener(propertyName, propertyChangeListenerTester);
 	}
 
 	@Test
