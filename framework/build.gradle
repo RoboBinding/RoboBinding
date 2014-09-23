@@ -25,7 +25,6 @@ configurations {
 	javadocTaglet
 	dependencyJar
 	aopDependencyJar
-	proguardArchives
 }
 
 sourceSets {
