@@ -24,11 +24,11 @@ RoboBinding loves to hear *any voices(negtive or positive) or suggestions* and i
 
 * link:http://robobinding.org/insight_into_framework.html[Insight Into Framework]
 
-* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.6/robobinding-0.8.6-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
+* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.7/robobinding-0.8.7-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
 
 * link:http://robobinding.org/about.html[About]
 
-* link:http://robobinding.org/versions.html[Versions](latest 0.8.6)
+* link:http://robobinding.org/versions.html[Versions](latest *0.8.7*)
 
 * link:http://robobinding.org/index.zh.html[Chinese中文] 及 image:http://qplus3.idqqimg.com/qun/portal/img/logo2.png["QQ群", width=60, height=25]：308303599
 
