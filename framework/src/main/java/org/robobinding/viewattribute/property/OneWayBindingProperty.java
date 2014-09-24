@@ -19,12 +19,14 @@ public class OneWayBindingProperty<ViewType, PropertyType> extends AbstractBindi
 	@Override
 	public void performBind(PresentationModelAdapter presentationModelAdapter) {
 		final ValueModel<PropertyType> valueModel = getPropertyValueModel(presentationModelAdapter);
-		valueModel.addPropertyChangeListener(new PropertyChangeListener() {
+		PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
 			@Override
 			public void propertyChanged() {
 				updateView(valueModel);
 			}
-		});
+		};
+		PropertyChangeListenerInUiThread inUiThread = new PropertyChangeListenerInUiThread(propertyChangeListener);
+		valueModel.addPropertyChangeListener(inUiThread);
 	}
 
 	@Override

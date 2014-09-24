@@ -30,13 +30,15 @@ public class TwoWayBindingProperty<ViewType, PropertyType> extends AbstractBindi
 	}
 
 	private void observeChangesOnTheValueModel(final ValueModel<PropertyType> valueModel) {
-		valueModel.addPropertyChangeListener(new PropertyChangeListener() {
+		PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
 			@Override
 			public void propertyChanged() {
 				if (viewUpdatePropagationLatch.tryToPass())
 					updateView(valueModel);
 			}
-		});
+		};
+		PropertyChangeListenerInUiThread inUiThread = new PropertyChangeListenerInUiThread(propertyChangeListener);
+		valueModel.addPropertyChangeListener(inUiThread);
 	}
 
 	@Override

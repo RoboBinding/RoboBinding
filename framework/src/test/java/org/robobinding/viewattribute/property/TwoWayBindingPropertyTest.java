@@ -8,14 +8,15 @@ import static org.robobinding.viewattribute.property.MockPresentationModelAdapte
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.Mockito;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.AbstractValueModel;
 import org.robobinding.property.ValueModel;
 import org.robobinding.property.ValueModelUtils;
 import org.robobinding.util.RandomValues;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import android.view.View;
 
@@ -25,16 +26,17 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-@RunWith(MockitoJUnitRunner.class)
+@Config(manifest=Config.NONE)
+@RunWith(RobolectricTestRunner.class)
 public class TwoWayBindingPropertyTest {
 	private static final String PROPERTY_NAME = "property2";
-	@Mock
-	View view;
+	private View view;
 	private PropertyViewAttributeSpy viewAttributeSpy;
 	private ValueModel<Integer> valueModel;
 
 	@Before
 	public void setUp() {
+		view = Mockito.mock(View.class);
 		viewAttributeSpy = new PropertyViewAttributeSpy();
 		valueModel = ValueModelUtils.create(-1);
 	}
