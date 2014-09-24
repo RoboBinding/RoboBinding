@@ -6,6 +6,15 @@
 :imagesdir: ./images
 :source-highlighter: pygments
 
+version 0.8.7(released 24/09/2014)
+----------------------------------
+* https://github.com/RoboBinding/RoboBinding/issues/172[bug #172]
+NullPointer when invoking a setter in the contructor of a PresentationModel with AspectJ.
+* https://github.com/RoboBinding/RoboBinding/issues/174[improvement #174] 
+Removed the need of org.robobinding.itempresentationmodel.AbstractItemPresentationModel to prevent confusion.
+* https://github.com/RoboBinding/RoboBinding/issues/170[new feature #170] 
+Safeguard the updates to PresentationModels only executed within UI thread.
+
 version 0.8.6(released 20/09/2014)
 ----------------------------------
 * Made a change to the PresentationModel AspectJ approach. 

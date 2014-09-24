@@ -837,14 +837,14 @@ asciidoc.install(2);
                 <a href="index.zh.html" class="menuitem">首页</a>
                 <a href="getting_started.zh.html" class="menuitem">入门</a>
                 <a href="insight_into_framework.zh.html" class="menuitem">深入理解框架</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.6/robobinding-0.8.6-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.7/robobinding-0.8.7-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
                 <a href="about.zh.html" class="menuitem">关于</a>
                 <a href="versions.zh.html" class="menuitem">版本更新</a>
                 <a href="index.html" class="menuitem">英文首页</a>
         </div>
 <div id="header">
 <h1>版本</h1>
-<span id="revnumber">version 0.8.6</span>
+<span id="revnumber">version 0.8.7</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -852,7 +852,32 @@ asciidoc.install(2);
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_版本_0_8_6_2014_09_20发布">1. 版本 0.8.6(2014-09-20发布)</h2>
+<h2 id="_版本_0_8_7_2014_09_24发布">1. 版本 0.8.7(2014-09-24发布)</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/172">bug #172</a>
+使用带有AspectJ的PresentationModel时，在构造函数里调用setter抛出NullPointer。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/174">优化 #174</a>
+去掉了org.robobinding.itempresentationmodel.AbstractItemPresentationModel，避免混淆。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/170">新特性 #170</a>
+增加了对Presentation 更新操作的限制，只能在UI thread里进行。
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_版本_0_8_6_2014_09_20发布">2. 版本 0.8.6(2014-09-20发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -887,8 +912,8 @@ asciidoc.install(2);
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.6<br />
-Last updated 2014-09-21 08:26:13 澳大利亚西部标准时间
+Version 0.8.7<br />
+Last updated 2014-09-24 14:19:48 澳大利亚西部标准时间
 </div>
 </div>
 </body>

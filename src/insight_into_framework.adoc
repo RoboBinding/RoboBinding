@@ -1,6 +1,6 @@
 ﻿Insight Into Framework
 ======================
-:Revision: 0.8.6
+:Revision: 0.8.7
 :toc:
 :numbered:
 :imagesdir: ./images
