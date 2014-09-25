@@ -58,16 +58,4 @@ public class OneWayBindingPropertyTest {
 		bindingProperty.performBind(presentationModelAdapter);
 		return bindingProperty;
 	}
-
-	@Test
-	public void givenABoundProperty_whenViewIsUpdated_thenValueModelShouldRemainUnChanged() {
-		aBoundProperty();
-		Integer initailValue = valueModel.getValue();
-
-		Integer newValue = RandomValues.anyInteger();
-		viewAttributeSpy.simulateViewUpdate(newValue);
-
-		assertThat(valueModel.getValue(), is(initailValue));
-	}
-
 }

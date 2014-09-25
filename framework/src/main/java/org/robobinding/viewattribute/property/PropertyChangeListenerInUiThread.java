@@ -6,7 +6,7 @@ import android.os.Looper;
 
 /**
  * @since 1.0
- * @version 
+ * @version $Revision: 1.0 $
  * @author Cheng Wei
  *
  */

@@ -13,12 +13,14 @@ import org.robobinding.property.ValueModel;
  */
 public class TwoWayBindingProperty<ViewType, PropertyType> extends AbstractBindingProperty<ViewType, PropertyType> {
 	private final TwoWayPropertyViewAttribute<ViewType, PropertyType> viewAttribute;
-	private final ViewUpdatePropagationLatch viewUpdatePropagationLatch;
+	private final UpdatePropagationLatch viewUpdatePropagationLatch;
+	private final UpdatePropagationLatch modelUpdatePropagationLatch;
 
 	public TwoWayBindingProperty(ViewType view, TwoWayPropertyViewAttribute<ViewType, PropertyType> viewAttribute, ValueModelAttribute attribute) {
 		super(view, viewAttribute, attribute);
 		this.viewAttribute = viewAttribute;
-		this.viewUpdatePropagationLatch = new ViewUpdatePropagationLatch();
+		this.viewUpdatePropagationLatch = new UpdatePropagationLatch();
+		this.modelUpdatePropagationLatch = new UpdatePropagationLatch();
 	}
 
 	@Override
@@ -33,8 +35,14 @@ public class TwoWayBindingProperty<ViewType, PropertyType> extends AbstractBindi
 		PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
 			@Override
 			public void propertyChanged() {
-				if (viewUpdatePropagationLatch.tryToPass())
-					updateView(valueModel);
+				modelUpdatePropagationLatch.turnOn();
+				try {
+					if (viewUpdatePropagationLatch.tryToPass())
+						updateView(valueModel);
+				} finally {
+					modelUpdatePropagationLatch.turnOff();
+				}
+
 			}
 		};
 		PropertyChangeListenerInUiThread inUiThread = new PropertyChangeListenerInUiThread(propertyChangeListener);
@@ -62,7 +70,8 @@ public class TwoWayBindingProperty<ViewType, PropertyType> extends AbstractBindi
 		public void setValue(PropertyType newValue) {
 			viewUpdatePropagationLatch.turnOn();
 			try {
-				propertyValueModel.setValue(newValue);
+				if (modelUpdatePropagationLatch.tryToPass())
+					propertyValueModel.setValue(newValue);
 			} finally {
 				viewUpdatePropagationLatch.turnOff();
 			}

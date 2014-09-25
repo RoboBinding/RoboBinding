@@ -6,10 +6,10 @@ package org.robobinding.viewattribute.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewUpdatePropagationLatch {
+public class UpdatePropagationLatch {
 	private State state;
 
-	public ViewUpdatePropagationLatch() {
+	public UpdatePropagationLatch() {
 		state = State.NEUTRAL;
 	}
 

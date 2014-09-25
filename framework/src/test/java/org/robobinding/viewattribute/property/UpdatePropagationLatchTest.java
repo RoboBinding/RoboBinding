@@ -12,8 +12,8 @@ import org.robobinding.util.RandomValues;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ViewUpdatePropagationLatchTest {
-	private ViewUpdatePropagationLatch latch = new ViewUpdatePropagationLatch();
+public class UpdatePropagationLatchTest {
+	private UpdatePropagationLatch latch = new UpdatePropagationLatch();
 
 	@Test
 	public void givenLatchIsOn_whenTryToPass_thenFailed() {

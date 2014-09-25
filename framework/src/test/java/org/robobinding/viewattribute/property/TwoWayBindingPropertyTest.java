@@ -31,19 +31,18 @@ import android.view.View;
 public class TwoWayBindingPropertyTest {
 	private static final String PROPERTY_NAME = "property2";
 	private View view;
-	private PropertyViewAttributeSpy viewAttributeSpy;
-	private ValueModel<Integer> valueModel;
+	private TwoWayPropertyViewAttributeSpy viewAttributeSpy;
 
 	@Before
 	public void setUp() {
 		view = Mockito.mock(View.class);
-		viewAttributeSpy = new PropertyViewAttributeSpy();
-		valueModel = ValueModelUtils.create(-1);
+		viewAttributeSpy = new TwoWayPropertyViewAttributeSpy();
 	}
 
 	@Test
 	public void givenABoundProperty_whenUpdateValueModel_thenViewIsSynchronized() {
-		aBoundProperty();
+		ValueModel<Integer> valueModel = ValueModelUtils.create(-1);
+		aBoundProperty(valueModel);
 
 		Integer newValue = RandomValues.anyInteger();
 		valueModel.setValue(newValue);
@@ -51,7 +50,7 @@ public class TwoWayBindingPropertyTest {
 		assertThat(viewAttributeSpy.viewValue, is(newValue));
 	}
 
-	private TwoWayBindingProperty<View, Integer> aBoundProperty() {
+	private TwoWayBindingProperty<View, Integer> aBoundProperty(ValueModel<Integer> valueModel) {
 		ValueModelAttribute attribute = aValueModelAttribute(PROPERTY_NAME);
 		TwoWayBindingProperty<View, Integer> bindingProperty = new TwoWayBindingProperty<View, Integer>(view, viewAttributeSpy, attribute);
 
@@ -59,10 +58,22 @@ public class TwoWayBindingPropertyTest {
 		bindingProperty.performBind(presentationModelAdapter);
 		return bindingProperty;
 	}
+	
+	@Test
+	public void givenABoundProperty_whenUpdateValueModel_thenShouldNotReceiveAReturnUpdateFromView() {
+		ValueModelSpy valueModel = new ValueModelSpy(0);
+		aBoundProperty(valueModel);
+
+		Integer newValue = RandomValues.anyInteger();
+		valueModel.setValue(newValue);
+
+		assertThat(valueModel.updateCount, is(1));
+	}
 
 	@Test
 	public void givenABoundProperty_whenTheViewIsUpdated_thenValueModelShouldBeUpdated() {
-		aBoundProperty();
+		ValueModel<Integer> valueModel = ValueModelUtils.create(-1);
+		aBoundProperty(valueModel);
 
 		Integer newValue = RandomValues.anyInteger();
 		viewAttributeSpy.simulateViewUpdate(newValue);
@@ -72,7 +83,8 @@ public class TwoWayBindingPropertyTest {
 
 	@Test
 	public void givenABoundProperty_whenTheViewIsUpdated_thenViewShouldNotReceiveAFurtherUpdate() {
-		aBoundProperty();
+		ValueModel<Integer> valueModel = ValueModelUtils.create(-1);
+		aBoundProperty(valueModel);
 
 		Integer newValue = RandomValues.anyInteger();
 		viewAttributeSpy.simulateViewUpdate(newValue);
@@ -82,7 +94,8 @@ public class TwoWayBindingPropertyTest {
 
 	@Test
 	public void givenABoundProperty_whenValueModelIsUpdated_thenViewShouldReceiveOnlyASingleUpdate() {
-		aBoundProperty();
+		ValueModel<Integer> valueModel = ValueModelUtils.create(-1);
+		aBoundProperty(valueModel);
 
 		Integer newValue = RandomValues.anyInteger();
 		valueModel.setValue(newValue);
@@ -92,8 +105,8 @@ public class TwoWayBindingPropertyTest {
 
 	@Test
 	public void givenABoundPropertyOfAlwaysRestoringValue_whenTheViewIsUpdated_thenViewShouldReceiveAnUpdateWithRestoredValue() {
-		valueModel = new AlwaysRestoreValueModel();
-		aBoundProperty();
+		ValueModel<Integer> valueModel = new AlwaysRestoreValueModel();
+		aBoundProperty(valueModel);
 
 		Integer newValue = RandomValues.anyInteger();
 		viewAttributeSpy.simulateViewUpdate(newValue);
@@ -116,6 +129,20 @@ public class TwoWayBindingPropertyTest {
 				this.value = ALWAYS_RESTORE_VALUE;
 				fireValueChange();
 			}
+		}
+	}
+	
+	public static class ValueModelSpy extends AbstractValueModel<Integer> {
+		int updateCount;
+		
+		public ValueModelSpy(int value) {
+			super(value);
+			updateCount = 0;
+		}
+		@Override
+		public void setValue(Integer newValue) {
+			updateCount++;
+			super.setValue(newValue);
 		}
 	}
 }
