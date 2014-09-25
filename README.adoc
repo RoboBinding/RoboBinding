@@ -24,11 +24,11 @@ RoboBinding loves to hear *any voices(negtive or positive) or suggestions* and i
 
 * link:http://robobinding.org/insight_into_framework.html[Insight Into Framework]
 
-* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.6/robobinding-0.8.6-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
+* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.7/robobinding-0.8.7-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
 
 * link:http://robobinding.org/about.html[About]
 
-* link:http://robobinding.org/versions.html[Versions](latest 0.8.6)
+* link:http://robobinding.org/versions.html[Versions](latest *0.8.7*)
 
 * link:http://robobinding.org/index.zh.html[Chinese中文] 及 image:http://qplus3.idqqimg.com/qun/portal/img/logo2.png["QQ群", width=60, height=25]：308303599
 
@@ -41,3 +41,5 @@ image:https://g.twimg.com/Twitter_logo_blue.png[width=30, height=30] Twitter: ht
 image:https://raw.github.com/github/media/master/octocats/blacktocat-32.png["GitHub", width=30, height=30] Issues: https://github.com/RoboBinding/RoboBinding/issues[Raising an issue]
 
 image:http://web-static-cloudfront.s3.amazonaws.com/images/badges/BuiltOnDEV.png[Build and tested on CloudBees DEV@cloud]
+
+image::https://img.shields.io/badge/Android%20Arsenal-RoboBinding-brightgreen.svg?style=flat[alt="Android Arsenal", link="https://android-arsenal.com/details/1/990"]
