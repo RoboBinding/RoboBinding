@@ -1,8 +1,7 @@
 package org.robobinding;
 
-import org.robobinding.property.ValueModel;
-
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * 
@@ -11,26 +10,20 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class SubViewBinder {
-	private ViewBinder viewBinder;
-	private BindingContext bindingContext;
+	private final NonBindingViewInflater nonBindingViewInflater;
+	private final ViewBinder viewBinder;
 
-	public SubViewBinder(ViewBinder viewBinder, BindingContext bindingContext) {
+	public SubViewBinder(NonBindingViewInflater nonBindingViewInflater, ViewBinder viewBinder) {
+		this.nonBindingViewInflater = nonBindingViewInflater;
 		this.viewBinder = viewBinder;
-		this.bindingContext = bindingContext;
+	}
+	
+	public View inflateWithoutAttachingToRoot(int layoutId, ViewGroup root) {
+		return nonBindingViewInflater.inflate(layoutId, root, false);
 	}
 
-	public View inflateAndBind(int layoutId, String presentationModelPropertyName) {
-		Object presentationModel = getPresentationModel(presentationModelPropertyName);
-		return viewBinder.inflateAndBind(layoutId, presentationModel);
-	}
-
-	private Object getPresentationModel(String presentationModelPropertyName) {
-		ValueModel<Object> valueModel = bindingContext.getReadOnlyPropertyValueModel(presentationModelPropertyName);
-		return valueModel.getValue();
-	}
-
-	public View inflate(int layoutId) {
-		return viewBinder.inflate(layoutId);
+	public View inflateAndBindWithoutAttachingToRoot(int layoutId, Object presentationModel, ViewGroup root) {
+		return viewBinder.inflateAndBindWithoutAttachingToRoot(layoutId, presentationModel, root);
 	}
 
 }

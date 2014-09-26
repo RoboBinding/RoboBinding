@@ -7,6 +7,7 @@ import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * 
@@ -25,7 +26,8 @@ public class ItemLayoutBinder {
 		this.predefinedPendingAttributesForViewGroup = predefinedPendingAttributesForViewGroup;
 	}
 
-	public View inflateAndBindTo(ItemPresentationModel<?> model) {
-		return itemBinder.inflateAndBind(layoutId, model, predefinedPendingAttributesForViewGroup);
+	public View inflateAndBindTo(ItemPresentationModel<?> model, ViewGroup root) {
+		return itemBinder.inflateAndBindWithoutAttachingToRoot(layoutId, model, 
+				predefinedPendingAttributesForViewGroup, root);
 	}
 }

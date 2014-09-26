@@ -28,6 +28,7 @@ import org.robolectric.annotation.Config;
 import android.app.Activity;
 import android.database.DataSetObserver;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * 
@@ -68,7 +69,7 @@ public class DataSetAdapterTest {
 	public void whenGenerateItemView_thenInflateTheCorrectViewWithItemPresentationModelAttached() {
 		View view = new View(new Activity());
 
-		when(itemLayoutBinder.inflateAndBindTo(any(ItemPresentationModel.class))).thenReturn(view);
+		when(itemLayoutBinder.inflateAndBindTo(any(ItemPresentationModel.class), any(ViewGroup.class))).thenReturn(view);
 
 		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(valueModel, itemLayoutBinder, null, true);
 
@@ -82,7 +83,7 @@ public class DataSetAdapterTest {
 	public void whenGenerateDropdownView_thenInflateTheCorrectViewWithItemPresentationModelAttached() {
 		View view = new View(new Activity());
 
-		when(dropdownLayoutBinder.inflateAndBindTo(any(ItemPresentationModel.class))).thenReturn(view);
+		when(dropdownLayoutBinder.inflateAndBindTo(any(ItemPresentationModel.class), any(ViewGroup.class))).thenReturn(view);
 
 		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(valueModel, null, dropdownLayoutBinder, true);
 

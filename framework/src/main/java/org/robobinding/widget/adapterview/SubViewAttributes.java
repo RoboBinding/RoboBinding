@@ -55,7 +55,7 @@ public class SubViewAttributes<T extends AdapterView<?>> implements GroupedViewA
 		childViewAttributesBuilder.add(layoutAttribute(), subViewLayoutAttribute);
 
 		boolean hasSubViewPresentationModel = childViewAttributesBuilder.hasAttribute(subViewPresentationModel());
-		childViewAttributesBuilder.addDependent(subViewPresentationModel(), new SubViewAttributeFactory(subViewLayoutAttribute, hasSubViewPresentationModel));
+		childViewAttributesBuilder.addDependent(subViewPresentationModel(), new SubViewAttributeFactory(view, subViewLayoutAttribute, hasSubViewPresentationModel));
 
 		if (childViewAttributesBuilder.hasAttribute(visibilityAttribute())) {
 			childViewAttributesBuilder.add(visibilityAttribute(), new VisibilityAttributeFactory<T>(new SubViewVisibilityFactory()));
@@ -85,10 +85,12 @@ public class SubViewAttributes<T extends AdapterView<?>> implements GroupedViewA
 	}
 
 	private class SubViewAttributeFactory implements ChildViewAttributeFactory {
+		private final T view;
 		private final SubViewLayoutAttribute subViewLayoutAttribute;
 		private final boolean hasSubViewPresentationModel;
 
-		public SubViewAttributeFactory(SubViewLayoutAttribute subViewLayoutAttribute, boolean hasSubViewPresentationModel) {
+		public SubViewAttributeFactory(T view, SubViewLayoutAttribute subViewLayoutAttribute, boolean hasSubViewPresentationModel) {
+			this.view = view;
 			this.subViewLayoutAttribute = subViewLayoutAttribute;
 			this.hasSubViewPresentationModel = hasSubViewPresentationModel;
 		}
@@ -96,8 +98,8 @@ public class SubViewAttributes<T extends AdapterView<?>> implements GroupedViewA
 		@Override
 		public ChildViewAttribute create() {
 			int layoutId = subViewLayoutAttribute.getLayoutId();
-			return hasSubViewPresentationModel ? new SubViewPresentationModelAttribute(layoutId, SubViewAttributes.this)
-					: new SubViewWithoutPresentationModelAttribute(layoutId, SubViewAttributes.this);
+			return hasSubViewPresentationModel ? new SubViewPresentationModelAttribute(view, layoutId, SubViewAttributes.this)
+					: new SubViewWithoutPresentationModelAttribute(view, layoutId, SubViewAttributes.this);
 		}
 	}
 

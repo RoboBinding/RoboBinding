@@ -82,24 +82,12 @@ public class BinderFactory {
 		public ViewBinder createViewBinder() {
 			createDependents();
 
-			BindingContextFactory bindingContextFactory = new BindingContextFactory(context, withPreInitializingViews, new PresentationModelAdapterFactory());
+			BindingContextFactory bindingContextFactory = createBindingContextFactory();
 			ViewBindingLifecycle viewBindingLifecycle = new ViewBindingLifecycle(bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
-			ViewBinder viewBinder = new ViewBinderImpl(nonBindingViewInflater, bindingViewInflater, viewBindingLifecycle);
-			bindingContextFactory.setBinderProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, viewBinder));
+			ViewBinder viewBinder = new ViewBinderImpl(bindingViewInflater, viewBindingLifecycle);
+			bindingContextFactory.setBinderProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, nonBindingViewInflater, viewBinder));
 
 			return viewBinder;
-		}
-
-		public MenuBinder createMenuBinder(MenuInflater menuInflater, Menu menu) {
-			createDependents();
-
-			BindingContextFactory bindingContextFactory = new BindingContextFactory(context, withPreInitializingViews, new PresentationModelAdapterFactory());
-			ViewBindingLifecycle viewBindingLifecycle = new ViewBindingLifecycle(bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
-			ViewBinder viewBinder = new ViewBinderImpl(nonBindingViewInflater, bindingViewInflater, viewBindingLifecycle);
-			bindingContextFactory.setBinderProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, viewBinder));
-
-			BindingMenuInflater bindingMenuInflater = new BindingMenuInflater(context, menu, menuInflater, bindingAttributeParser, bindingAttributeResolver);
-			return new MenuBinderImpl(bindingMenuInflater, viewBindingLifecycle);
 		}
 
 		private void createDependents() {
@@ -130,6 +118,22 @@ public class BinderFactory {
 
 			new ViewCreationListenerInstaller(layoutInflater).install(bindingViewInflater);
 			return bindingViewInflater;
+		}
+
+		private BindingContextFactory createBindingContextFactory() {
+			return new BindingContextFactory(context, withPreInitializingViews, new PresentationModelAdapterFactory());
+		}
+
+		public MenuBinder createMenuBinder(MenuInflater menuInflater, Menu menu) {
+			createDependents();
+		
+			BindingContextFactory bindingContextFactory = createBindingContextFactory();
+			ViewBindingLifecycle viewBindingLifecycle = new ViewBindingLifecycle(bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
+			ViewBinder viewBinder = new ViewBinderImpl(bindingViewInflater, viewBindingLifecycle);
+			bindingContextFactory.setBinderProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, nonBindingViewInflater, viewBinder));
+		
+			BindingMenuInflater bindingMenuInflater = new BindingMenuInflater(context, menu, menuInflater, bindingAttributeParser, bindingAttributeResolver);
+			return new MenuBinderImpl(bindingMenuInflater, viewBindingLifecycle);
 		}
 	}
 

@@ -2,13 +2,12 @@ package org.robobinding.binder;
 
 import static org.robobinding.util.Preconditions.checkValidResourceId;
 
-import org.robobinding.NonBindingViewInflater;
 import org.robobinding.ViewBinder;
-
-import com.google.common.base.Preconditions;
 
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.common.base.Preconditions;
 
 /**
  * 
@@ -17,35 +16,26 @@ import android.view.ViewGroup;
  * @author Cheng Wei
  */
 public class ViewBinderImpl implements ViewBinder {
-	private final NonBindingViewInflater nonBindingViewInflater;
 	private final BindingViewInflater bindingViewInflater;
 	private final ViewBindingLifecycle viewBindingLifecycle;
 
-	public ViewBinderImpl(NonBindingViewInflater nonBindingViewInflater, BindingViewInflater bindingViewInflater, ViewBindingLifecycle viewBindingLifecycle) {
-		this.nonBindingViewInflater = nonBindingViewInflater;
+	public ViewBinderImpl(BindingViewInflater bindingViewInflater, ViewBindingLifecycle viewBindingLifecycle) {
 		this.bindingViewInflater = bindingViewInflater;
 		this.viewBindingLifecycle = viewBindingLifecycle;
-	}
-
-	@Override
-	public View inflate(int layoutId) {
-		checkLayoutId(layoutId);
-
-		return nonBindingViewInflater.inflate(layoutId);
-	}
-
-	private void checkLayoutId(int layoutId) {
-		checkValidResourceId(layoutId, "invalid layoutId '" + layoutId + "'");
 	}
 
 	@Override
 	public View inflateAndBind(int layoutId, Object presentationModel) {
 		checkLayoutId(layoutId);
 		checkPresentationModel(presentationModel);
-
+	
 		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId);
 		viewBindingLifecycle.run(inflatedView, presentationModel);
 		return inflatedView.getRootView();
+	}
+
+	private void checkLayoutId(int layoutId) {
+		checkValidResourceId(layoutId, "invalid layoutId '" + layoutId + "'");
 	}
 
 	private void checkPresentationModel(Object presentationModel) {
@@ -53,17 +43,26 @@ public class ViewBinderImpl implements ViewBinder {
 	}
 
 	@Override
-	public View inflateAndBind(int layoutId, Object presentationModel, ViewGroup attachToRoot) {
+	public View inflateAndBind(int layoutId, Object presentationModel, ViewGroup root) {
+		return inflateAndBind(layoutId, presentationModel, root, true);
+	}
+	
+	private View inflateAndBind(int layoutId, Object presentationModel, ViewGroup root, boolean attachToRoot) {
 		checkLayoutId(layoutId);
 		checkPresentationModel(presentationModel);
-		checkAttachToRoot(attachToRoot);
+		checkRoot(root);
 
-		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, attachToRoot);
+		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, root, attachToRoot);
 		viewBindingLifecycle.run(inflatedView, presentationModel);
 		return inflatedView.getRootView();
 	}
+	
+	private void checkRoot(ViewGroup attachToRoot) {
+		Preconditions.checkNotNull(attachToRoot, "Root must not be null");
+	}
 
-	private void checkAttachToRoot(ViewGroup attachToRoot) {
-		Preconditions.checkNotNull(attachToRoot, "attachToRoot must not be null");
+	@Override
+	public View inflateAndBindWithoutAttachingToRoot(int layoutId, Object presentationModel, ViewGroup root) {
+		return inflateAndBind(layoutId, presentationModel, root, false);
 	}
 }

@@ -5,6 +5,7 @@ import org.robobinding.SubViewBinder;
 import org.robobinding.viewattribute.grouped.ChildViewAttribute;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * 
@@ -14,10 +15,12 @@ import android.view.View;
  * @author Cheng Wei
  */
 class SubViewWithoutPresentationModelAttribute implements ChildViewAttribute {
+	private final ViewGroup parent;
 	private final int layoutId;
 	private final SubViewHolder subViewHolder;
 
-	public SubViewWithoutPresentationModelAttribute(int layoutId, SubViewHolder subViewHolder) {
+	public SubViewWithoutPresentationModelAttribute(ViewGroup parent, int layoutId, SubViewHolder subViewHolder) {
+		this.parent = parent;
 		this.layoutId = layoutId;
 		this.subViewHolder = subViewHolder;
 	}
@@ -25,7 +28,7 @@ class SubViewWithoutPresentationModelAttribute implements ChildViewAttribute {
 	@Override
 	public void bindTo(BindingContext bindingContext) {
 		SubViewBinder viewBinder = bindingContext.createSubViewBinder();
-		View subView = viewBinder.inflate(layoutId);
+		View subView = viewBinder.inflateWithoutAttachingToRoot(layoutId, parent);
 		subViewHolder.setSubView(subView);
 	}
 }

@@ -20,20 +20,30 @@ import android.view.ViewGroup;
  */
 public class Binders {
 
+	/**
+	 * @see ViewBinder#inflateAndBind(int, Object)
+	 */
 	public static View inflateAndBind(Context context, int layoutId, Object presentationModel) {
 		return inflateAndBind(context, layoutId, presentationModel, true);
 	}
 
-	private static View inflateAndBind(Context context, int layoutId, Object presentationModel, boolean withPreInitializingViews) {
-		return inflateAndBind(context, layoutId, presentationModel, null, withPreInitializingViews);
+	public static View inflateAndBind(Context context, int layoutId, Object presentationModel, ViewGroup root, boolean attachToRoot) {
+		return inflateAndBind(context, layoutId, presentationModel, true, root, attachToRoot);
 	}
 
-	private static View inflateAndBind(Context context, int layoutId, Object presentationModel, ViewGroup attachToRoot, boolean withPreInitializingViews) {
+	private static View inflateAndBind(Context context, int layoutId, Object presentationModel, boolean withPreInitializingViews) {
+		return inflateAndBind(context, layoutId, presentationModel, withPreInitializingViews, null, false);
+	}
+
+	private static View inflateAndBind(Context context, int layoutId, Object presentationModel, boolean withPreInitializingViews, 
+			ViewGroup root, boolean attachToRoot) {
 		ViewBinder viewBinder = newBinderFactory().createViewBinder(context, withPreInitializingViews);
-		if (attachToRoot == null) {
+		if (root == null) {
 			return viewBinder.inflateAndBind(layoutId, presentationModel);
+		} else if(attachToRoot){
+			return viewBinder.inflateAndBind(layoutId, presentationModel, root);
 		} else {
-			return viewBinder.inflateAndBind(layoutId, presentationModel, attachToRoot);
+			return viewBinder.inflateAndBindWithoutAttachingToRoot(layoutId, presentationModel, root);
 		}
 	}
 
@@ -41,16 +51,16 @@ public class Binders {
 		return new BinderFactoryBuilder().build();
 	}
 
+	/**
+	 * @see ViewBinder#inflateAndBind(int, Object)
+	 */
 	public static View inflateAndBindWithoutPreInitializingViews(Context context, int layoutId, Object presentationModel) {
 		return inflateAndBind(context, layoutId, presentationModel, false);
 	}
 
-	public static View inflateAndBind(Context context, int layoutId, Object presentationModel, ViewGroup attachToRoot) {
-		return inflateAndBind(context, layoutId, presentationModel, attachToRoot, true);
-	}
-
-	public static View inflateAndBindWithoutPreInitializingViews(Context context, int layoutId, Object presentationModel, ViewGroup attachToRoot) {
-		return inflateAndBind(context, layoutId, presentationModel, attachToRoot, false);
+	public static View inflateAndBindWithoutPreInitializingViews(Context context, int layoutId, Object presentationModel, 
+			ViewGroup root, boolean attachToRoot) {
+		return inflateAndBind(context, layoutId, presentationModel, false, root, attachToRoot);
 	}
 
 	public static void inflateAndBindMenu(Menu menu, MenuInflater menuInflater, int menuRes, Object presentationModel, Context context) {

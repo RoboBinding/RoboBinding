@@ -113,9 +113,9 @@ public class DataSetAdapter<T> extends BaseAdapter {
 
 		View view;
 		if (viewType == ViewType.ITEM_LAYOUT) {
-			view = itemLayoutBinder.inflateAndBindTo(itemPresentationModel);
+			view = itemLayoutBinder.inflateAndBindTo(itemPresentationModel, parent);
 		} else {
-			view = dropdownLayoutBinder.inflateAndBindTo(itemPresentationModel);
+			view = dropdownLayoutBinder.inflateAndBindTo(itemPresentationModel, parent);
 		}
 		view.setTag(itemPresentationModel);
 		return view;

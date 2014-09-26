@@ -31,12 +31,11 @@ public class BindingContext implements PresentationModelAdapter {
 	}
 
 	public ItemBinder createItemBinder() {
-		return binderProvider.getItemBinder();
+		return binderProvider.createItemBinder();
 	}
 
 	public SubViewBinder createSubViewBinder() {
-		ViewBinder viewBinder = binderProvider.getViewBinder();
-		return new SubViewBinder(viewBinder, this);
+		return binderProvider.createSubViewBinder();
 	}
 
 	public boolean shouldPreInitializeViews() {

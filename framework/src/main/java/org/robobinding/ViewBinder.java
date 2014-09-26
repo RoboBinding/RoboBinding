@@ -12,10 +12,15 @@ import android.view.ViewGroup;
  * @author Cheng Wei
  */
 public interface ViewBinder {
-	View inflate(int layoutId);
-
+	/**
+	 * Note that: the use of this method should be limited to the views that don't have a parent view, like Activities, Fragments.
+	 * One who has a parent view should use {@link #inflateAndBindWithoutAttachingToRoot(int, Object, ViewGroup)} instead, 
+	 * so that {@link android.view.ViewGroup.LayoutParams} from the parent view can be inherited and applied.
+	 * 
+	 */
 	View inflateAndBind(int layoutId, Object presentationModel);
 
-	View inflateAndBind(int layoutId, Object presentationModel, ViewGroup attachToRoot);
+	View inflateAndBind(int layoutId, Object presentationModel, ViewGroup root);
 
+	View inflateAndBindWithoutAttachingToRoot(int layoutId, Object presentationModel, ViewGroup root);
 }

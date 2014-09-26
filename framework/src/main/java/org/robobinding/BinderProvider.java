@@ -7,7 +7,7 @@ package org.robobinding;
  * @author Cheng Wei
  */
 public interface BinderProvider {
-	ItemBinder getItemBinder();
+	ItemBinder createItemBinder();
 
-	ViewBinder getViewBinder();
+	SubViewBinder createSubViewBinder();
 }

@@ -47,6 +47,7 @@ import org.robolectric.annotation.Config;
 import android.R;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -216,13 +217,13 @@ public class BindingTest {
 	private BindingContext newBindingContext() {
 		BinderProvider binderFactory = mock(BinderProvider.class);
 		ItemBinder itemBinder = mock(ItemBinder.class);
-		when(itemBinder.inflateAndBind(anyInt(), anyObject(), anyCollection())).then(new Answer<View>() {
+		when(itemBinder.inflateAndBindWithoutAttachingToRoot(anyInt(), anyObject(), anyCollection(), (ViewGroup)anyObject())).then(new Answer<View>() {
 			@Override
 			public View answer(InvocationOnMock invocation) throws Throwable {
 				return new View(context);
 			}
 		});
-		when(binderFactory.getItemBinder()).thenReturn(itemBinder);
+		when(binderFactory.createItemBinder()).thenReturn(itemBinder);
 		return new BindingContext(binderFactory, context, new PresentationModelAdapterFactory().create(new PresentationModelForTest()), true);
 	}
 

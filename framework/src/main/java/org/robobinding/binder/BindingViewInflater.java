@@ -1,6 +1,7 @@
 package org.robobinding.binder;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -39,23 +40,24 @@ public class BindingViewInflater implements ViewCreationListener {
 	}
 
 	public InflatedViewWithRoot inflateView(int layoutId) {
-		return inflateView(layoutId, (ViewGroup) null);
-	}
-
-	public InflatedViewWithRoot inflateView(int layoutId, ViewGroup attachToRoot) {
 		resolvedBindingAttributesForChildViews = Lists.newArrayList();
 		errors = new ViewHierarchyInflationErrorsException();
 
-		View rootView = nonBindingViewInflater.inflate(layoutId, attachToRoot);
+		View rootView = nonBindingViewInflater.inflateWithoutRoot(layoutId);
 
 		return new InflatedViewWithRoot(rootView, resolvedBindingAttributesForChildViews, errors);
 	}
 
-	public InflatedViewWithRoot inflateView(int layoutId, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
+	public InflatedViewWithRoot inflateView(int layoutId, ViewGroup root, boolean attachToRoot) {
+		return inflateView(layoutId, Collections.<PredefinedPendingAttributesForView>emptyList(), root, attachToRoot);
+	}
+
+	public InflatedViewWithRoot inflateView(int layoutId, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup,
+			ViewGroup root, boolean attachToRoot) {
 		resolvedBindingAttributesForChildViews = Lists.newArrayList();
 		errors = new ViewHierarchyInflationErrorsException();
 
-		View rootView = nonBindingViewInflater.inflate(layoutId);
+		View rootView = nonBindingViewInflater.inflate(layoutId, root, attachToRoot);
 		addPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup, rootView);
 
 		return new InflatedViewWithRoot(rootView, resolvedBindingAttributesForChildViews, errors);

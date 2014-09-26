@@ -49,7 +49,7 @@ public class BindingViewInflaterTest {
 		ViewResolutionResult viewResolutionResult = emptyViewResolutionResult();
 		when(bindingAttributeResolver.resolve(any(PendingAttributesForView.class))).thenReturn(viewResolutionResult);
 
-		bindingViewInflater = new BindingViewInflater(new NonBindingViewInflaterWithOnViewCreationCall(mock(NonBindingViewInflater.class)),
+		bindingViewInflater = new BindingViewInflater(new NonBindingViewInflaterWithOnViewCreationCall(),
 				bindingAttributeResolver, bindingAttributeParser);
 	}
 
@@ -89,7 +89,7 @@ public class BindingViewInflaterTest {
 
 	@Test
 	public void givenAPredefinedPendingAttributesForView_whenInflateView_thenChildViewBindingAttributesIsAdded() {
-		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, createAPredefinedPendingAttributesForView());
+		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, createAPredefinedPendingAttributesForView(), null, false);
 
 		assertThat(numberOfChildViewBindingAttributes(inflatedView), equalTo(1));
 	}
@@ -108,16 +108,13 @@ public class BindingViewInflaterTest {
 	}
 
 	private class NonBindingViewInflaterWithOnViewCreationCall extends NonBindingViewInflater {
-		private final NonBindingViewInflater forwardingViewInflater;
-
-		public NonBindingViewInflaterWithOnViewCreationCall(NonBindingViewInflater nonBindingViewInflater) {
+		public NonBindingViewInflaterWithOnViewCreationCall() {
 			super(null);
-			this.forwardingViewInflater = nonBindingViewInflater;
 		}
 
 		@Override
-		public View inflate(int layoutId) {
-			View resultView = forwardingViewInflater.inflate(layoutId);
+		public View inflateWithoutRoot(int layoutId) {
+			View resultView = null;
 			performOnViewCreationCall(resultView);
 			return resultView;
 		}
@@ -127,8 +124,8 @@ public class BindingViewInflaterTest {
 		}
 
 		@Override
-		public View inflate(int layoutId, ViewGroup attachToRoot) {
-			View resultView = forwardingViewInflater.inflate(layoutId, attachToRoot);
+		public View inflate(int layoutId, ViewGroup root, boolean attachToRoot) {
+			View resultView = null;
 			performOnViewCreationCall(resultView);
 			return resultView;
 		}
