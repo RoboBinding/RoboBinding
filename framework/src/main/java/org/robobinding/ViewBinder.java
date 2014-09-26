@@ -13,7 +13,7 @@ import android.view.ViewGroup;
  */
 public interface ViewBinder {
 	/**
-	 * Note that: the use of this method should be limited to the views that don't have a parent view, like Activities, Dialogs.
+	 * Note that: the use of this method should be limited to the layouts that don't have a parent view, e.g., the layouts for Activities, Dialogs.
 	 * One who has a parent view should use {@link #inflateAndBindWithoutAttachingToRoot(int, Object, ViewGroup)} instead, 
 	 * so that {@link android.view.ViewGroup.LayoutParams} from the parent view can be inherited and applied.
 	 * 
