@@ -1,10 +1,18 @@
 ﻿Versions
 ========
-:Revision: 0.8.7
+:Revision: 0.8.8
 :toc:
 :numbered:
 :imagesdir: ./images
 :source-highlighter: pygments
+
+version 0.8.8(released 26/09/2014)
+----------------------------------
+* https://github.com/RoboBinding/RoboBinding/issues/176[bug #176]
+multiple two-way bindings to same property is not working.
+* https://github.com/RoboBinding/RoboBinding/issues/178[bug #178]
+NullPointer in Android 4.4 KitKat with spinner in horizontal oriented LinearLayout. 
+Affected by this bug, there are some *API changes* to org.robobinding.ViewBinder and org.robobinding.binder.Binders.
 
 version 0.8.7(released 24/09/2014)
 ----------------------------------

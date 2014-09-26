@@ -837,14 +837,14 @@ asciidoc.install(2);
                 <a href="index.zh.html" class="menuitem">首页</a>
                 <a href="getting_started.zh.html" class="menuitem">入门</a>
                 <a href="insight_into_framework.zh.html" class="menuitem">深入理解框架</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.7/robobinding-0.8.7-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.8/robobinding-0.8.8-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
                 <a href="about.zh.html" class="menuitem">关于</a>
                 <a href="versions.zh.html" class="menuitem">版本更新</a>
                 <a href="index.html" class="menuitem">英文首页</a>
         </div>
 <div id="header">
 <h1>版本</h1>
-<span id="revnumber">version 0.8.7</span>
+<span id="revnumber">version 0.8.8</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -852,7 +852,27 @@ asciidoc.install(2);
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_版本_0_8_7_2014_09_24发布">1. 版本 0.8.7(2014-09-24发布)</h2>
+<h2 id="_版本_0_8_8_2014_09_26发布">1. 版本 0.8.8(2014-09-26发布)</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/176">bug #176</a>
+多个双向视图属性同时绑定到PresentationModel的同一个属性时，有时候会出错。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/178">bug #178</a>
+在Android 4.4版本后，在LinearLayout里包含spinner并且orientation为horizontal时出现NullPointer。
+受这个bug的影响，org.robobinding.ViewBinder 与 org.robobinding.binder.Binders <strong>API有些变更</strong> 。
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_版本_0_8_7_2014_09_24发布">2. 版本 0.8.7(2014-09-24发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -877,7 +897,7 @@ asciidoc.install(2);
 </div>
 </div>
 <div class="sect1">
-<h2 id="_版本_0_8_6_2014_09_20发布">2. 版本 0.8.6(2014-09-20发布)</h2>
+<h2 id="_版本_0_8_6_2014_09_20发布">3. 版本 0.8.6(2014-09-20发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -912,8 +932,8 @@ asciidoc.install(2);
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.7<br />
-Last updated 2014-09-24 14:19:48 澳大利亚西部标准时间
+Version 0.8.8<br />
+Last updated 2014-09-26 16:38:36 澳大利亚西部标准时间
 </div>
 </div>
 </body>
