@@ -51,7 +51,7 @@ task funcTest(type: Test) {
 check.dependsOn integTest, funcTest
 
 ext {
-	guavaVersion = '11.0.1'
+	guavaVersion = '18.0'
 	androidVersion = '4.4_r1-robolectric-0'
 	aspectjVersion = '1.8.2'
 	

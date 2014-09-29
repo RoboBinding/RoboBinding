@@ -12,7 +12,7 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 public class SearchableClasses {
-	private Set<Class<?>> classes;
+	private final Set<Class<?>> classes;
 
 	public SearchableClasses(Set<Class<?>> classes) {
 		this.classes = classes;

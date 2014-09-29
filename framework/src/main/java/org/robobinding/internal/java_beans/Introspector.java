@@ -19,9 +19,7 @@
 
 package org.robobinding.internal.java_beans;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.WeakHashMap;
+
 
 /**
  * The <code>Introspector</code> is a utility for developers to figure out which
@@ -84,9 +82,10 @@ public class Introspector extends java.lang.Object {
 	private static String[] searchPath = { DEFAULT_BEANINFO_SEARCHPATH };
 
 	// The cache to store Bean Info objects that have been found or created
-	private static final int DEFAULT_CAPACITY = 128;
+	//private static final int DEFAULT_CAPACITY = 128;
 
-	private static Map<Class<?>, StandardBeanInfo> theCache = Collections.synchronizedMap(new WeakHashMap<Class<?>, StandardBeanInfo>(DEFAULT_CAPACITY));
+	//private static Map<Class<?>, StandardBeanInfo> theCache = Collections.synchronizedMap(new WeakHashMap<Class<?>, StandardBeanInfo>(DEFAULT_CAPACITY));
+	private static WeakCache<Class<?>, StandardBeanInfo> theCache = new WeakCache<Class<?>, StandardBeanInfo>();
 
 	private Introspector() {
 		super();

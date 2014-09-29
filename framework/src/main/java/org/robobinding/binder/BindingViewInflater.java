@@ -28,7 +28,6 @@ public class BindingViewInflater implements ViewCreationListener {
 	private final NonBindingViewInflater nonBindingViewInflater;
 	private final BindingAttributeResolver bindingAttributeResolver;
 	private final BindingAttributeParser bindingAttributeParser;
-
 	private ViewHierarchyInflationErrorsException errors;
 	private List<ResolvedBindingAttributesForView> resolvedBindingAttributesForChildViews;
 
@@ -45,7 +44,14 @@ public class BindingViewInflater implements ViewCreationListener {
 
 		View rootView = nonBindingViewInflater.inflateWithoutRoot(layoutId);
 
-		return new InflatedViewWithRoot(rootView, resolvedBindingAttributesForChildViews, errors);
+		return createInflatedViewWithRoot(rootView);
+	}
+
+	private InflatedViewWithRoot createInflatedViewWithRoot(View rootView) {
+		InflatedViewWithRoot inflatedView = new InflatedViewWithRoot(rootView, resolvedBindingAttributesForChildViews, errors);
+		resolvedBindingAttributesForChildViews = null;
+		errors = null;
+		return inflatedView;
 	}
 
 	public InflatedViewWithRoot inflateView(int layoutId, ViewGroup root, boolean attachToRoot) {
@@ -60,7 +66,7 @@ public class BindingViewInflater implements ViewCreationListener {
 		View rootView = nonBindingViewInflater.inflate(layoutId, root, attachToRoot);
 		addPredefinedPendingAttributesForViewGroup(predefinedPendingAttributesForViewGroup, rootView);
 
-		return new InflatedViewWithRoot(rootView, resolvedBindingAttributesForChildViews, errors);
+		return createInflatedViewWithRoot(rootView);
 	}
 
 	private void addPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup,
