@@ -6,7 +6,6 @@ import org.robobinding.binder.BindingViewInflater;
 import org.robobinding.binder.InflatedViewWithRoot;
 import org.robobinding.binder.ViewBindingLifecycle;
 
-import android.view.View;
 import android.view.ViewGroup;
 
 /**
@@ -25,12 +24,10 @@ public class ItemBinder {
 		this.viewBindingLifecycle = viewBindingLifecycle;
 	}
 
-	public View inflateAndBindWithoutAttachingToRoot(int layoutId, Object presentationModel, 
-			Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup, ViewGroup root) {
+	public BindableView inflateWithoutAttachingToRoot(int layoutId, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup, ViewGroup root) {
 		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, predefinedPendingAttributesForViewGroup, 
 				root, false);
 
-		viewBindingLifecycle.run(inflatedView, presentationModel);
-		return inflatedView.getRootView();
+		return new BindableView(viewBindingLifecycle, inflatedView);
 	}
 }

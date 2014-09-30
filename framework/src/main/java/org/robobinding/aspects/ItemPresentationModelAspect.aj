@@ -1,8 +1,9 @@
 package org.robobinding.aspects;
 
 import org.aspectj.lang.annotation.AdviceName;
-import org.robobinding.property.ObservableBean;
+import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
+import org.robobinding.property.ObservableBean;
 
 /**
  *
@@ -18,12 +19,15 @@ public aspect ItemPresentationModelAspect
 	/**
 	 * Fire itemPresentationModel refresh after updateData.
 	 */
-	pointcut updateData(PresentationModelMixin itemPresentationModel) : execution (* ItemPresentationModel+.updateData(int,*)) && this(itemPresentationModel) && within(PresentationModelMixin+);
+	pointcut updateData(PresentationModelMixin itemPresentationModel, ItemContext itemContext) : execution (* ItemPresentationModel+.updateData(*, ItemContext)) 
+		&& within(PresentationModelMixin+) && this(itemPresentationModel) && args(*, itemContext);
 
 	@AdviceName("fireItemPresentationModelRefresh")
-	after(PresentationModelMixin itemPresentationModel) : updateData(itemPresentationModel)
+	after(PresentationModelMixin itemPresentationModel, ItemContext itemContext) : updateData(itemPresentationModel, itemContext)
 	{
-		itemPresentationModel.__refreshPresentationModel();
+		if(itemContext.isPreInitializeViews()) {
+			itemPresentationModel.__refreshPresentationModel();
+		}
 	}
 
 }

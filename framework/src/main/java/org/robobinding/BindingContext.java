@@ -30,10 +30,16 @@ public class BindingContext implements PresentationModelAdapter {
 		return context;
 	}
 
+	/**
+	 * For framework internal use only.
+	 */
 	public ItemBinder createItemBinder() {
 		return binderProvider.createItemBinder();
 	}
 
+	/**
+	 * For framework internal use only.
+	 */
 	public SubViewBinder createSubViewBinder() {
 		return binderProvider.createSubViewBinder();
 	}

@@ -9,9 +9,9 @@ import org.robobinding.viewattribute.impl.BindingAttributeMappingsProvider;
 import org.robobinding.viewattribute.impl.BindingAttributeMappingsWithCreate;
 import org.robobinding.viewattribute.impl.InitailizedBindingAttributeMappings;
 
-import com.google.common.base.Preconditions;
-
 import android.view.View;
+
+import com.google.common.base.Preconditions;
 
 /**
  * 

@@ -12,6 +12,7 @@ import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.binder.BinderFactory;
 import org.robobinding.binder.BinderFactoryBuilder;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException;
+import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.presentationmodel.AbstractPresentationModel;
 import org.robobinding.robolectric.DefaultTestRunner;
 import org.robolectric.Robolectric;
@@ -100,7 +101,7 @@ public class ErrorReportingTest {
 
 	public static class StringItemPresentationModel implements org.robobinding.itempresentationmodel.ItemPresentationModel<String> {
 		@Override
-		public void updateData(int index, String bean) {
+		public void updateData(String bean, ItemContext itemContext) {
 		}
 	}
 }

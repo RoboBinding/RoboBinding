@@ -57,8 +57,8 @@ public class ViewBinderImpl implements ViewBinder {
 		return inflatedView.getRootView();
 	}
 	
-	private void checkRoot(ViewGroup attachToRoot) {
-		Preconditions.checkNotNull(attachToRoot, "Root must not be null");
+	private void checkRoot(ViewGroup root) {
+		Preconditions.checkNotNull(root, "Root must not be null");
 	}
 
 	@Override

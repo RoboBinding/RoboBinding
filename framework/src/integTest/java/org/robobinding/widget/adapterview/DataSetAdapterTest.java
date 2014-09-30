@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robobinding.BindableView;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.PropertyChangeListener;
@@ -69,7 +70,9 @@ public class DataSetAdapterTest {
 	public void whenGenerateItemView_thenInflateTheCorrectViewWithItemPresentationModelAttached() {
 		View view = new View(new Activity());
 
-		when(itemLayoutBinder.inflateAndBindTo(any(ItemPresentationModel.class), any(ViewGroup.class))).thenReturn(view);
+		BindableView bindableView = mock(BindableView.class);
+		when(bindableView.getRootView()).thenReturn(view);
+		when(itemLayoutBinder.inflate(any(ViewGroup.class))).thenReturn(bindableView);
 
 		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(valueModel, itemLayoutBinder, null, true);
 
@@ -83,7 +86,9 @@ public class DataSetAdapterTest {
 	public void whenGenerateDropdownView_thenInflateTheCorrectViewWithItemPresentationModelAttached() {
 		View view = new View(new Activity());
 
-		when(dropdownLayoutBinder.inflateAndBindTo(any(ItemPresentationModel.class), any(ViewGroup.class))).thenReturn(view);
+		BindableView bindableView = mock(BindableView.class);
+		when(bindableView.getRootView()).thenReturn(view);
+		when(dropdownLayoutBinder.inflate( any(ViewGroup.class))).thenReturn(bindableView);
 
 		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(valueModel, null, dropdownLayoutBinder, true);
 

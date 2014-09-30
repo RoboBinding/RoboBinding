@@ -60,7 +60,8 @@ public class DataSetAdapterBuilder {
 		ItemBinder itemBinder = bindingContext.createItemBinder();
 		ItemLayoutBinder itemLayoutBinder = new ItemLayoutBinder(itemBinder, itemLayoutId, itemPredefinedPendingAttributesForViewGroup);
 		ItemLayoutBinder dropdownLayoutBinder = new ItemLayoutBinder(itemBinder, dropDownLayoutId, dropdownPredefinedPendingAttributesForViewGroup);
-		DataSetAdapter<?> dataSetAdapter = new DataSetAdapter(valueModel, itemLayoutBinder, dropdownLayoutBinder, bindingContext.shouldPreInitializeViews());
+		DataSetAdapter<?> dataSetAdapter = new DataSetAdapter(valueModel, itemLayoutBinder, dropdownLayoutBinder, 
+				bindingContext.shouldPreInitializeViews());
 
 		dataSetAdapter.observeChangesOnTheValueModel();
 		return dataSetAdapter;

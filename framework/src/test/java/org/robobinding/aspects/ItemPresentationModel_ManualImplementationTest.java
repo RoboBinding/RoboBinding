@@ -8,6 +8,7 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
+import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.AbstractPresentationModel;
 import org.robobinding.property.ObservableBean;
@@ -42,13 +43,13 @@ public class ItemPresentationModel_ManualImplementationTest {
 		}
 
 		@Override
-		public void updateData(int index, Object bean) {
+		public void updateData(Object bean, ItemContext itemContext) {
 		}
 	}
 
 	public static class BySubclassing extends AbstractPresentationModel implements ItemPresentationModel<Object> {
 		@Override
-		public void updateData(int index, Object bean) {
+		public void updateData(Object bean, ItemContext itemContext) {
 		}
 	}
 

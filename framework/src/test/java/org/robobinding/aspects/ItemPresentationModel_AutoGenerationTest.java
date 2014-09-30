@@ -2,6 +2,7 @@ package org.robobinding.aspects;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.property.ObservableBean;
 
@@ -13,35 +14,42 @@ import org.robobinding.property.ObservableBean;
  */
 public class ItemPresentationModel_AutoGenerationTest {
 	private PropertyChangeListenerTester propertyChangeListenerTester;
+	private AutoCodeGeneration itemPresentationModel;
 
 	@Before
 	public void setUp() {
 		propertyChangeListenerTester = new PropertyChangeListenerTester();
+		itemPresentationModel = new AutoCodeGeneration();
+		observePropertyChange(itemPresentationModel);
 	}
 
 	@Test
-	public void givenObservePropertyChangeOnItemPresentationModel_whenSetData_thenListenerGetNotified() {
-		AutoCodeGeneration itemPresentationModel = new AutoCodeGeneration();
-		observePropertyChange(itemPresentationModel);
-
-		updateData(itemPresentationModel);
+	public void whenUpdateDataWithPreInitializeViews_thenListenerGetNotified() {
+		updateData(true);
 
 		propertyChangeListenerTester.assertPropertyChangedOnce();
 	}
+	
+	@Test
+	public void whenUpdateDataWithoutPreInitializeViews_thenListenerGetNoNotifications() {
+		updateData(false);
 
-	private void observePropertyChange(ObservableBean itemPresentationModel) {
-		itemPresentationModel.addPropertyChangeListener(AutoCodeGeneration.PROPERTY, propertyChangeListenerTester);
+		propertyChangeListenerTester.assertTimesOfPropertyChanged(0);
 	}
 
-	private void updateData(ItemPresentationModel<Object> itemPresentationModel) {
-		itemPresentationModel.updateData(0, new Object());
+	private void observePropertyChange(Object itemPresentationModel) {
+		((ObservableBean)itemPresentationModel).addPropertyChangeListener(AutoCodeGeneration.PROPERTY, propertyChangeListenerTester);
+	}
+
+	private void updateData(boolean preInitializeViews) {
+		itemPresentationModel.updateData(new Object(), new ItemContext(null, 0, preInitializeViews));
 	}
 
 	public static class AutoCodeGeneration implements ItemPresentationModel<Object> {
 		Object bean;
 		public static final String PROPERTY = "property";
 
-		public void updateData(int index, Object bean) {
+		public void updateData(Object bean, ItemContext itemContext) {
 			this.bean = bean;
 		}
 

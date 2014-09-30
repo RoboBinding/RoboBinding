@@ -1,5 +1,6 @@
 package org.robobinding.property;
 
+import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
 /**
@@ -10,6 +11,6 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
  */
 public class ItemPresentationModelWithDefaultConstructor implements ItemPresentationModel<Object> {
 	@Override
-	public void updateData(int index, Object bean) {
+	public void updateData(Object bean, ItemContext itemContext) {
 	}
 }

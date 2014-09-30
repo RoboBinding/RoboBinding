@@ -1,5 +1,7 @@
 package org.robobinding.widget.adapterview;
 
+import org.robobinding.BindableView;
+import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.presentationmodel.AbstractPresentationModel;
 import org.robobinding.property.DataSetValueModel;
@@ -21,18 +23,19 @@ public class DataSetAdapter<T> extends BaseAdapter {
 		ITEM_LAYOUT, DROPDOWN_LAYOUT
 	}
 
-	private final boolean preInitializeViews;
 	private final DataSetValueModel<T> dataSetValueModel;
 
 	private final ItemLayoutBinder itemLayoutBinder;
 	private final ItemLayoutBinder dropdownLayoutBinder;
 
+	private final boolean preInitializeViews;
+
 	private boolean propertyChangeEventOccurred;
 
-	public DataSetAdapter(DataSetValueModel<T> dataSetValueModel, ItemLayoutBinder itemLayoutBinder, ItemLayoutBinder dropdownLayoutBinder,
-			boolean preInitializeViews) {
+	public DataSetAdapter(DataSetValueModel<T> dataSetValueModel, ItemLayoutBinder itemLayoutBinder, 
+			ItemLayoutBinder dropdownLayoutBinder, boolean preInitializeViews) {
 		this.preInitializeViews = preInitializeViews;
-
+		
 		this.dataSetValueModel = createValueModelFrom(dataSetValueModel);
 		this.itemLayoutBinder = itemLayoutBinder;
 		this.dropdownLayoutBinder = dropdownLayoutBinder;
@@ -109,14 +112,18 @@ public class DataSetAdapter<T> extends BaseAdapter {
 
 	private View newView(int position, ViewGroup parent, ViewType viewType) {
 		ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
-		itemPresentationModel.updateData(position, getItem(position));
 
-		View view;
+		BindableView bindableView;
 		if (viewType == ViewType.ITEM_LAYOUT) {
-			view = itemLayoutBinder.inflateAndBindTo(itemPresentationModel, parent);
+			bindableView = itemLayoutBinder.inflate(parent);
 		} else {
-			view = dropdownLayoutBinder.inflateAndBindTo(itemPresentationModel, parent);
+			bindableView = dropdownLayoutBinder.inflate(parent);
 		}
+		
+		View view = bindableView.getRootView();
+		itemPresentationModel.updateData(getItem(position), new ItemContext(view, position, preInitializeViews));
+		bindableView.bindTo(itemPresentationModel);
+
 		view.setTag(itemPresentationModel);
 		return view;
 	}
@@ -124,8 +131,13 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	private void updateItemPresentationModel(View view, int position) {
 		@SuppressWarnings("unchecked")
 		ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>) view.getTag();
-		itemPresentationModel.updateData(position, getItem(position));
-		if(itemPresentationModel instanceof AbstractPresentationModel) {
+		itemPresentationModel.updateData(getItem(position), new ItemContext(view, position, preInitializeViews));
+		refreshIfRequired(itemPresentationModel);
+	}
+	
+	private void refreshIfRequired(ItemPresentationModel<T> itemPresentationModel) {
+		if((itemPresentationModel instanceof AbstractPresentationModel)
+				&& preInitializeViews){
 			((AbstractPresentationModel)itemPresentationModel).refreshPresentationModel();
 		}
 	}

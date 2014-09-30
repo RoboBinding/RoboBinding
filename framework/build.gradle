@@ -118,10 +118,7 @@ javadoc {
 	include 'org/robobinding/**/package-info.java'
 	
 	include 'org/robobinding/BindingContext.java'
-	include 'org/robobinding/ItemBinder.java'
 	include 'org/robobinding/MenuBinder.java'
-	include 'org/robobinding/PredefinedPendingAttributesForView.java'
-	include 'org/robobinding/SubViewBinder.java'
 	include 'org/robobinding/ViewBinder.java'
 	exclude 'org/robobinding/ViewResolutionErrors.java'
 	

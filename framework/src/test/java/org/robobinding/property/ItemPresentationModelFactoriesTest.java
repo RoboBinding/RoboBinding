@@ -8,6 +8,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.annotation.ItemPresentationModel;
+import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModelFactory;
 
 /**
@@ -118,7 +119,7 @@ public class ItemPresentationModelFactoriesTest {
 		}
 
 		@Override
-		public void updateData(int index, Object bean) {
+		public void updateData(Object bean, ItemContext itemContext) {
 		}
 	}
 }

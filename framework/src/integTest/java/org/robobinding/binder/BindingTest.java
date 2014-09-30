@@ -6,9 +6,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyCollection;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.robobinding.binder.PendingAttributesForViewBuilder.aPendingAttributesForView;
@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.robobinding.BindableView;
 import org.robobinding.BinderProvider;
 import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
@@ -31,6 +32,7 @@ import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.ChildAttributeResolvers;
 import org.robobinding.attribute.ResolvedGroupAttributes;
+import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.presentationmodel.AbstractPresentationModel;
 import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 import org.robobinding.viewattribute.AttributeBindingException;
@@ -216,13 +218,16 @@ public class BindingTest {
 	@SuppressWarnings("unchecked")
 	private BindingContext newBindingContext() {
 		BinderProvider binderFactory = mock(BinderProvider.class);
-		ItemBinder itemBinder = mock(ItemBinder.class);
-		when(itemBinder.inflateAndBindWithoutAttachingToRoot(anyInt(), anyObject(), anyCollection(), (ViewGroup)anyObject())).then(new Answer<View>() {
+		BindableView bindableView = mock(BindableView.class);
+		when(bindableView.getRootView()).then(new Answer<View>() {
 			@Override
 			public View answer(InvocationOnMock invocation) throws Throwable {
 				return new View(context);
 			}
 		});
+		
+		ItemBinder itemBinder = mock(ItemBinder.class);
+		when(itemBinder.inflateWithoutAttachingToRoot(anyInt(), anyCollection(), any(ViewGroup.class))).thenReturn(bindableView);
 		when(binderFactory.createItemBinder()).thenReturn(itemBinder);
 		return new BindingContext(binderFactory, context, new PresentationModelAdapterFactory().create(new PresentationModelForTest()), true);
 	}
@@ -254,7 +259,7 @@ public class BindingTest {
 
 	public static class ItemPresentationModelForTest implements org.robobinding.itempresentationmodel.ItemPresentationModel<String> {
 		@Override
-		public void updateData(int index, String bean) {
+		public void updateData(String bean, ItemContext itemContext) {
 		}
 	}
 

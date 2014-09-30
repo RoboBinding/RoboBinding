@@ -2,11 +2,10 @@ package org.robobinding.widget.adapterview;
 
 import java.util.Collection;
 
+import org.robobinding.BindableView;
 import org.robobinding.ItemBinder;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
-import android.view.View;
 import android.view.ViewGroup;
 
 /**
@@ -26,8 +25,8 @@ public class ItemLayoutBinder {
 		this.predefinedPendingAttributesForViewGroup = predefinedPendingAttributesForViewGroup;
 	}
 
-	public View inflateAndBindTo(ItemPresentationModel<?> model, ViewGroup root) {
-		return itemBinder.inflateAndBindWithoutAttachingToRoot(layoutId, model, 
+	public BindableView inflate(ViewGroup root) {
+		return itemBinder.inflateWithoutAttachingToRoot(layoutId, 
 				predefinedPendingAttributesForViewGroup, root);
 	}
 }
