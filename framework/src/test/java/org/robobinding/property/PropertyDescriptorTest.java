@@ -23,7 +23,7 @@ public class PropertyDescriptorTest {
 	}
 
 	private PropertyDescriptor newPropertyDescriptor(String propertyName) {
-		return PropertyUtils.findPropertyDescriptor(Bean.class, propertyName);
+		return PropertyUtils.findPropertyAccessor(Bean.class, propertyName);
 	}
 
 	@Test

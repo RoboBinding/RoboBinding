@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  * @author Robert Taylor
  * 
  */
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.METHOD)
 public @interface ItemPresentationModel {
 	Class<? extends org.robobinding.itempresentationmodel.ItemPresentationModel<?>> value();

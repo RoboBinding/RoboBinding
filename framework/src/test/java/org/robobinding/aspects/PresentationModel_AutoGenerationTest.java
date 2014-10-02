@@ -2,6 +2,7 @@ package org.robobinding.aspects;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.annotation.PresentationModel;
 import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.property.ObservableBean;
 

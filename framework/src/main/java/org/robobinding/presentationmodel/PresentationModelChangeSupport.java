@@ -3,6 +3,7 @@ package org.robobinding.presentationmodel;
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.PropertyChangeSupport;
 import org.robobinding.property.PropertyUtils;
+import org.robobinding.property.PropertyValidation;
 
 import com.google.common.base.Preconditions;
 
@@ -18,8 +19,20 @@ public class PresentationModelChangeSupport {
 	private final PropertyChangeSupport propertyChangeSupport;
 
 	public PresentationModelChangeSupport(Object presentationModel) {
+		this(checkAndReturnClass(presentationModel));
+	}
+	
+	private static Class<?> checkAndReturnClass(Object presentationModel) {
 		Preconditions.checkNotNull(presentationModel, "presentationModel must not be null");
-		propertyChangeSupport = new PropertyChangeSupport(presentationModel, PropertyUtils.getPropertyNames(presentationModel.getClass()));
+		return presentationModel.getClass();
+	}
+
+	public PresentationModelChangeSupport(Class<?> presentationModelClass) {
+		Preconditions.checkNotNull(presentationModelClass, "presentationModelClass must not be null");
+		
+		PropertyValidation propertyValidation = new PropertyValidation(presentationModelClass, 
+				PropertyUtils.getPropertyNames(presentationModelClass));
+		propertyChangeSupport = new PropertyChangeSupport(propertyValidation);
 	}
 
 	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {

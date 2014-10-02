@@ -1,0 +1,53 @@
+archivesBaseName = 'codegen'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+	codemodelVersion = '2.2.10-b140310.1920';
+}
+
+dependencies {
+	compile "org.glassfish.jaxb:codemodel:$codemodelVersion"
+	compile project(':framework')
+
+	testCompile ("junit:junit:$junitVersion")
+	testCompile("org.mockito:mockito-core:$mockitoVersion") {
+		exclude group: 'org.hamcrest', module: 'hamcrest-core'
+	}
+}
+
+javadoc {
+	enabled = false
+}
+
+apply plugin: 'eclipse'
+
+eclipse {
+	project {
+		name = 'RoboBinding-codegen'
+		comment = 'The RoboBinding code generator'
+		
+		natures 'org.springsource.ide.eclipse.gradle.core.nature'
+	}
+	
+	classpath {
+		containers 'org.springsource.ide.eclipse.gradle.classpathcontainer'
+		file {
+			whenMerged { classpath ->
+				classpath.entries.removeAll { entry ->
+					entry.kind == 'lib'
+				}
+			}
+		}
+		/*
+		file.withXml {
+			def node = it.asNode()
+			
+			node.appendNode('classpathentry kind="src" path="src/main/java"')
+			node.appendNode('classpathentry kind="src" path="src/test/java"')
+		}*/
+	}
+}
+  

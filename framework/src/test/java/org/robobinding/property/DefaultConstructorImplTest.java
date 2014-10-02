@@ -20,7 +20,7 @@ public class DefaultConstructorImplTest {
 	public void givenItemPresentationModelFactory_whenNewItemPresentationModel_thenReturnNewInstance() {
 		DefaultConstructorImpl factory = new DefaultConstructorImpl(getDefaultConstructor());
 
-		ItemPresentationModel<Object> itemPresentationModel = factory.newItemPresentationModel();
+		ItemPresentationModel<Object> itemPresentationModel = factory.newRefreshableItemPresentationModel();
 
 		assertNotNull(itemPresentationModel);
 	}

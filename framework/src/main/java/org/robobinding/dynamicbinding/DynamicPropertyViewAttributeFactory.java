@@ -1,6 +1,6 @@
 package org.robobinding.dynamicbinding;
 
-import org.robobinding.property.PropertyDescriptor.Setter;
+import org.robobinding.dynamicbinding.PropertyAccessor.Setter;
 import org.robobinding.viewattribute.property.PropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
 

@@ -170,7 +170,7 @@ public class DataSetAdapterTest {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public ItemPresentationModel<Object> newItemPresentationModel() {
+		public ItemPresentationModel<Object> newRefreshableItemPresentationModel() {
 			return mock(ItemPresentationModel.class);
 		}
 	}

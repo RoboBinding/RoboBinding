@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * @author Cheng Wei
  * @author Robert Taylor
  */
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.METHOD)
 public @interface DependsOnStateOf {
 	String[] value();

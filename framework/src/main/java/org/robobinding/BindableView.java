@@ -2,6 +2,7 @@ package org.robobinding;
 
 import org.robobinding.binder.InflatedViewWithRoot;
 import org.robobinding.binder.ViewBindingLifecycle;
+import org.robobinding.presentationmodel.AbstractPresentationModelObject;
 
 import android.view.View;
 
@@ -19,7 +20,7 @@ public class BindableView {
 		this.inflatedView = inflatedView;
 	}
 	
-	public void bindTo(Object presentationModel) {
+	public void bindTo(AbstractPresentationModelObject presentationModel) {
 		viewBindingLifecycle.run(inflatedView, presentationModel);
 	}
 	

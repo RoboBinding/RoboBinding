@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.codegen.DependencyValidation;
 
 import com.google.common.collect.Sets;
 

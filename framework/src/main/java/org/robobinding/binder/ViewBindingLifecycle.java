@@ -2,6 +2,7 @@ package org.robobinding.binder;
 
 import org.robobinding.BindingContext;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
+import org.robobinding.presentationmodel.AbstractPresentationModelObject;
 
 /**
  * 
@@ -18,7 +19,7 @@ public class ViewBindingLifecycle {
 		this.errorFormatter = errorFormatter;
 	}
 
-	public void run(InflatedView inflatedView, Object presentationModel) {
+	public void run(InflatedView inflatedView, AbstractPresentationModelObject presentationModel) {
 		BindingContext bindingContext = bindingContextFactory.create(presentationModel);
 
 		inflatedView.bindChildViews(bindingContext);

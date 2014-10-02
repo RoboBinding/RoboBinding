@@ -2,8 +2,8 @@ package org.robobinding.widget.adapterview;
 
 import org.robobinding.BindableView;
 import org.robobinding.itempresentationmodel.ItemContext;
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
-import org.robobinding.presentationmodel.AbstractPresentationModel;
+import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
+import org.robobinding.presentationmodel.AbstractPresentationModelObject;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.DataSetValueModelWrapper;
 import org.robobinding.property.PropertyChangeListener;
@@ -111,7 +111,7 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	}
 
 	private View newView(int position, ViewGroup parent, ViewType viewType) {
-		ItemPresentationModel<T> itemPresentationModel = dataSetValueModel.newItemPresentationModel();
+		RefreshableItemPresentationModel itemPresentationModel = dataSetValueModel.newRefreshableItemPresentationModel();
 
 		BindableView bindableView;
 		if (viewType == ViewType.ITEM_LAYOUT) {
@@ -121,24 +121,22 @@ public class DataSetAdapter<T> extends BaseAdapter {
 		}
 		
 		View view = bindableView.getRootView();
-		itemPresentationModel.updateData(getItem(position), new ItemContext(view, position, preInitializeViews));
-		bindableView.bindTo(itemPresentationModel);
+		itemPresentationModel.updateData(getItem(position), new ItemContext(view, position));
+		bindableView.bindTo((AbstractPresentationModelObject)itemPresentationModel);
 
 		view.setTag(itemPresentationModel);
 		return view;
 	}
 
 	private void updateItemPresentationModel(View view, int position) {
-		@SuppressWarnings("unchecked")
-		ItemPresentationModel<T> itemPresentationModel = (ItemPresentationModel<T>) view.getTag();
-		itemPresentationModel.updateData(getItem(position), new ItemContext(view, position, preInitializeViews));
+		RefreshableItemPresentationModel itemPresentationModel = (RefreshableItemPresentationModel) view.getTag();
+		itemPresentationModel.updateData(getItem(position), new ItemContext(view, position));
 		refreshIfRequired(itemPresentationModel);
 	}
 	
-	private void refreshIfRequired(ItemPresentationModel<T> itemPresentationModel) {
-		if((itemPresentationModel instanceof AbstractPresentationModel)
-				&& preInitializeViews){
-			((AbstractPresentationModel)itemPresentationModel).refreshPresentationModel();
+	private void refreshIfRequired(RefreshableItemPresentationModel itemPresentationModel) {
+		if(preInitializeViews) {
+			itemPresentationModel.refresh();
 		}
 	}
 }

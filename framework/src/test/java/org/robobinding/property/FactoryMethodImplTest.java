@@ -19,7 +19,7 @@ public class FactoryMethodImplTest {
 	public void givenItemPresentationModelFactory_whenNewPresentationModel_returnNewInstance() {
 		Bean bean = new Bean();
 		FactoryMethodImpl factoryMethod = new FactoryMethodImpl(bean, getFactoryMethod());
-		ItemPresentationModel<Object> itemPresentationModel = factoryMethod.newItemPresentationModel();
+		ItemPresentationModel<Object> itemPresentationModel = factoryMethod.newRefreshableItemPresentationModel();
 
 		assertNotNull(itemPresentationModel);
 	}

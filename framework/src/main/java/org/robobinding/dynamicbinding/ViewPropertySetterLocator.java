@@ -2,9 +2,7 @@ package org.robobinding.dynamicbinding;
 
 import java.text.MessageFormat;
 
-import org.robobinding.property.PropertyDescriptor;
-import org.robobinding.property.PropertyDescriptor.Setter;
-import org.robobinding.property.PropertyUtils;
+import org.robobinding.dynamicbinding.PropertyAccessor.Setter;
 
 import android.view.View;
 
@@ -22,7 +20,7 @@ class ViewPropertySetterLocator {
 	}
 
 	public Setter get(String attribute) {
-		PropertyDescriptor descriptor = PropertyUtils.findPropertyDescriptor(viewClass, attribute);
+		PropertyAccessor descriptor = PropertyAccessor.findPropertyAccessor(viewClass, attribute);
 
 		if (descriptor == null) {
 			throw new RuntimeException(MessageFormat.format("Cannot find the attribute ''{0}'' from the view ''{1}''", attribute, viewClass.getName()));

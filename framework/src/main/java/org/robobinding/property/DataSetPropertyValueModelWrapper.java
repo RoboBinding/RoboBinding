@@ -1,6 +1,6 @@
 package org.robobinding.property;
 
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
+import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 
 /**
  * 
@@ -27,8 +27,8 @@ class DataSetPropertyValueModelWrapper extends PropertyWrapper implements DataSe
 	}
 
 	@Override
-	public ItemPresentationModel<Object> newItemPresentationModel() {
-		return dataSetPropertyValueModel.newItemPresentationModel();
+	public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
+		return dataSetPropertyValueModel.newRefreshableItemPresentationModel();
 	}
 
 	@Override

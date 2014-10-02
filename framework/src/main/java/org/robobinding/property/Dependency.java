@@ -1,8 +1,7 @@
 package org.robobinding.property;
 
+import java.util.Collections;
 import java.util.Set;
-
-import com.google.common.base.Joiner;
 
 /**
  * 
@@ -30,9 +29,9 @@ public class Dependency {
 			observableBean.removePropertyChangeListener(dependentProperty, listener);
 		}
 	}
-
-	public String getDependencyDescription() {
-		return "dependentProperties:[" + Joiner.on(",").join(dependentProperties) + "]";
+	
+	public Set<String> getDependentProperties() {
+		return Collections.unmodifiableSet(dependentProperties);
 	}
 
 }
