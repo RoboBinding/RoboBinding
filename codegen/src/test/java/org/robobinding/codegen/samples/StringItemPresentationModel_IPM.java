@@ -17,8 +17,9 @@ import org.robobinding.property.SimpleProperty;
  *
  */
 public class StringItemPresentationModel_IPM extends AbstractItemPresentationModelObject {
-	public StringItemPresentationModel_IPM(StringItemPresentationModel itemPresentationModel, PresentationModelChangeSupport changeSupport) {
-		super(itemPresentationModel, changeSupport);
+	
+	public StringItemPresentationModel_IPM(StringItemPresentationModel itemPresentationModel) {
+		super(itemPresentationModel, new PresentationModelChangeSupport(itemPresentationModel));
 	}
 
 	@Override

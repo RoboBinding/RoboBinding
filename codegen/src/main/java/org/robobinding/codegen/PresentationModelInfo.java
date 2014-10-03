@@ -1,5 +1,6 @@
 package org.robobinding.codegen;
 
+import java.util.Collections;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -10,7 +11,24 @@ import com.google.common.collect.Sets;
  *
  */
 public class PresentationModelInfo {
+	private final Class<?> presentationModelClass;
+	private final String presentationModelObjectTypeName;
+	private final Set<PropertyInfo> properties;
+	private final Set<DataSetPropertyInfo> dataSetProperties;
+	private final Set<PropertyDependencyInfo> propertyDependencies;
+	private final Set<EventMethodInfo> eventMethods;
 	
+	public PresentationModelInfo(Class<?> presentationModelClass, String presentationModelObjectTypeName,
+			Set<PropertyInfo> properties, Set<DataSetPropertyInfo> dataSetProperties, 
+			Set<PropertyDependencyInfo> propertyDependencies, Set<EventMethodInfo> eventMethods) {
+		this.presentationModelClass = presentationModelClass;
+		this.presentationModelObjectTypeName = presentationModelObjectTypeName;
+		this.properties = properties;
+		this.dataSetProperties = dataSetProperties;
+		this.propertyDependencies = propertyDependencies;
+		this.eventMethods = eventMethods;
+	}
+
 	public Set<String> propertyNames() {
 		Set<String> names = Sets.newHashSet();
 		for(PropertyInfo propertyInfo : properties()) {
@@ -20,7 +38,7 @@ public class PresentationModelInfo {
 	}
 	
 	public Set<PropertyInfo> properties() {
-		return null;
+		return Collections.unmodifiableSet(properties);
 	}
 	
 	public Set<String> dataSetPropertyNames() {
@@ -32,14 +50,22 @@ public class PresentationModelInfo {
 	}
 	
 	public Set<DataSetPropertyInfo> dataSetProperties() {
-		return null;
+		return Collections.unmodifiableSet(dataSetProperties);
 	}
 	
 	public Set<PropertyDependencyInfo> propertyDependencies() {
-		return null;
+		return Collections.unmodifiableSet(propertyDependencies);
 	}
 	
 	public Set<EventMethodInfo> eventMethods() {
-		return null;
+		return Collections.unmodifiableSet(eventMethods);
+	}
+
+	public Class<?> getPresentationModelClass() {
+		return presentationModelClass;
+	}
+
+	public String getPresentationModelObjectTypeName() {
+		return presentationModelObjectTypeName;
 	}
 }

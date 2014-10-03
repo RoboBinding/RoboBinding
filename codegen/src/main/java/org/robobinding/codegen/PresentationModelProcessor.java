@@ -26,8 +26,7 @@ import com.sun.codemodel.writer.SingleStreamCodeWriter;
  * 
  */
 public class PresentationModelProcessor extends AbstractProcessor {
-	private static final String PRESENTATION_MODEL_SUFFIX = PresentationModelObjectLoader.CLASS_SUFFIX;
-	private static final String ITEM_PRESENTATION_MODEL_SUFFIX = "$$IPM";
+	private static final String PRESENTATION_MODEL_OBJECT_SUFFIX = PresentationModelObjectLoader.CLASS_SUFFIX;
 
 	@Override
 	public Set<String> getSupportedAnnotationTypes() {
@@ -72,16 +71,55 @@ public class PresentationModelProcessor extends AbstractProcessor {
 	private void generateClassFor(String typeName) throws IOException, JClassAlreadyExistsException, ClassNotFoundException {
 		Class<?> type = Class.forName(typeName);
 		if (ItemPresentationModel.class.isAssignableFrom(type)) {
-			new ItemPresentationModelObjectGen().writeTo(
-					createOutput(typeName+ITEM_PRESENTATION_MODEL_SUFFIX));
+			//Ignored. Only ItemPresentationModels used by PresentationModels are generated. 
+			//They are generated while dealing with PresentationModels.
 		} else {
-			new PresentationModelGen().writeTo(
-					createOutput(typeName+PRESENTATION_MODEL_SUFFIX));
+			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(type, type.getName()+PRESENTATION_MODEL_OBJECT_SUFFIX);
+			PresentationModelInfo presentationModelInfo = buildPresentationModelInfo(builder);
+			createItemPresentationModelObjectSourceFiles(presentationModelInfo);
+			createPresentationModelObjectSourceFiles(presentationModelInfo);
 		}
 	}
 	
+	private PresentationModelInfo buildPresentationModelInfo(AbstractPresentationModelInfoBuilder builder) {
+		builder.buildProperties();
+		builder.buildEventMethods();
+		return builder.getResult();
+	}
+	
+	private void createItemPresentationModelObjectSourceFiles(PresentationModelInfo presentationModelInfo) 
+			throws JClassAlreadyExistsException, IOException {
+		for(DataSetPropertyInfo info : presentationModelInfo.dataSetProperties()) {
+			ItemPresentationModelInfoBuilder builder = new ItemPresentationModelInfoBuilder(
+					info.itemPresentationModelType(), info.itemPresentationModelObjectTypeName());
+			PresentationModelInfo itemPresentationModelInfo = buildPresentationModelInfo(builder);
+			ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(itemPresentationModelInfo);
+			run(gen);
+			gen.writeTo(createOutput(itemPresentationModelInfo.getPresentationModelObjectTypeName()));
+		}
+	}
+
+	private void run(AbstractPresentationModelObjectClassGen gen) {
+		gen.defineFields();
+		gen.defineConstructor();
+		gen.definePropertyNames();
+		gen.defineDataSetPropertyNames();
+		gen.defineEventMethods();
+		gen.definePropertyDependencies();
+		gen.defineTryToCreateProperty();
+		gen.defineTryToCreateDataSetProperty();
+		gen.defineTryToCreateFunction();
+	}
+
 	private CodeWriter createOutput(String typeName) throws IOException, JClassAlreadyExistsException {
 		JavaFileObject sourceFile = processingEnv.getFiler().createSourceFile(typeName);
 		return new SingleStreamCodeWriter(sourceFile.openOutputStream());
+	}
+
+	private void createPresentationModelObjectSourceFiles(PresentationModelInfo presentationModelInfo) 
+			throws JClassAlreadyExistsException, IOException {
+		PresentationModelObjectClassGen gen = new PresentationModelObjectClassGen(presentationModelInfo);
+		run(gen);
+		gen.writeTo(createOutput(presentationModelInfo.getPresentationModelObjectTypeName()));
 	}
 }

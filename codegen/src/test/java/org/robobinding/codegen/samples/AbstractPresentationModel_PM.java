@@ -84,7 +84,9 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 			};
 			
 			return new SimpleProperty(this, descriptor, getSet);
-		} else if(name.equals(PROP2)) {
+		} 
+		
+		if(name.equals(PROP2)) {
 			PropertyDescriptor descriptor = createPropertyDescriptor(Integer.class, name, true, true);
 			
 			AbstractGetSet<?> getSet = new AbstractGetSet<Integer>(descriptor) {
@@ -100,25 +102,15 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 			};
 			
 			return new SimpleProperty(this, descriptor, getSet);
-		} else{
-			return null;
-		}
+		} 
+
+		return null;
 	}
 
 	@Override
 	public DataSetProperty tryToCreateDataSetProperty(String name) {
 		if(name.equals(DATA_SET_PROP)) {
 			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
-			
-			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
-				
-				@Override
-				public RefreshableItemPresentationModel create() {
-					StringItemPresentationModel itemPresentationModel = new StringItemPresentationModel();
-					return new StringItemPresentationModel_IPM(itemPresentationModel, 
-							new PresentationModelChangeSupport(itemPresentationModel));
-				}
-			};	
 			
 			AbstractGetSet<?> getSet = new AbstractGetSet<List<String>>(descriptor) {
 				@Override
@@ -127,18 +119,19 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 				}
 			};
 			
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
-		} else if(name.equals(DATA_SET_PROP_WITH_FACTORY_METHOD)) {
-			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
-			
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				
 				@Override
 				public RefreshableItemPresentationModel create() {
-					StringItemPresentationModel itemPresentationModel = presentationModel.newStringItemPresentationModel();
-					return new StringItemPresentationModel_IPM(itemPresentationModel, 
-							new PresentationModelChangeSupport(itemPresentationModel));
+					return new StringItemPresentationModel_IPM(new StringItemPresentationModel());
 				}
-			};
+			};	
+			
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+		}
+		
+		if(name.equals(DATA_SET_PROP_WITH_FACTORY_METHOD)) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
 			
 			AbstractGetSet<?> getSet = new AbstractGetSet<List<String>>(descriptor) {
 				@Override
@@ -147,10 +140,17 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 				}
 			};
 			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				@Override
+				public RefreshableItemPresentationModel create() {
+					return new StringItemPresentationModel_IPM(presentationModel.newStringItemPresentationModel());
+				}
+			};
+			
 			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
-		} else {
-			return null;
-		}
+		} 
+		
+		return null;
 	}
 
 	@Override
@@ -164,17 +164,19 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 					return null;
 				}
 			};
-		} else if(method.equals(getMethod(ON_CLICK_WITH_EVENT, AbstractViewEvent.class))){
+		}
+		
+		if(method.equals(getMethod(ON_CLICK_WITH_EVENT, AbstractViewEvent.class))){
 			return new Function() {
 				
 				@Override
 				public Object call(Object... args) {
 					boolean result = presentationModel.onLongClickWithEvent((AbstractViewEvent)args[0]);
-					return Boolean.valueOf(result);
+					return (Boolean)result;
 				}
 			};
-		} else {
-			return null;
 		}
+		
+		return null;
 	}
 }

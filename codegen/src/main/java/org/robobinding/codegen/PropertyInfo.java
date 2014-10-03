@@ -1,27 +1,40 @@
 package org.robobinding.codegen;
 
+
+
+
 /**
  * @since 1.0
  * @author Cheng Wei
  *
  */
 public class PropertyInfo {
+	private final PropertyDescriptor descriptor;
+	public PropertyInfo(PropertyDescriptor descriptor) {
+		this.descriptor = descriptor;
+	}
+	
 	public String name() {
-		return null;
+		return descriptor.getName();
 	}
 	
 	public boolean isWritable() {
-		return false;
+		return descriptor.isWritable();
 	}
 	
 	public boolean isReadable() {
-		return false;
+		return descriptor.isReadable();
 	}
 	
-	public String typeName() {
-		return type().getName();
+	public Class<?> type() {
+		return descriptor.getPropertyType();
 	}
-	private Class<?> type() {
-		return null;
+
+	public String getter() {
+		return descriptor.getReadMethodName();
+	}
+
+	public String setter() {
+		return descriptor.getWriteMethodName();
 	}
 }

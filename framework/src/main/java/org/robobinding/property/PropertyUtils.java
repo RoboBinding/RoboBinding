@@ -20,22 +20,40 @@ public class PropertyUtils {
 	private static final Set<String> EXCLUDED_PROPERTY_NAMES = Sets.newHashSet("class");
 
 	public static Set<String> getPropertyNames(Class<?> beanClass) {
+		PropertyDescriptor[] propertyDescriptorArray = getPropertyDescriptors0(beanClass);
+
+		Set<String> propertyNames = Sets.newHashSet();
+		for (PropertyDescriptor propertyDescriptor : propertyDescriptorArray) {
+			if (EXCLUDED_PROPERTY_NAMES.contains(propertyDescriptor.getName())) {
+				continue;
+			}
+			
+			propertyNames.add(propertyDescriptor.getName());
+		}
+		return propertyNames;
+	}
+	
+	private static PropertyDescriptor[] getPropertyDescriptors0(Class<?> beanClass) {
 		try {
 			BeanInfo info = Introspector.getBeanInfo(beanClass);
-			PropertyDescriptor[] propertyDescriptorArray = info.getPropertyDescriptors();
-
-			Set<String> propertyNames = Sets.newHashSet();
-			for (PropertyDescriptor propertyDescriptor : propertyDescriptorArray) {
-				if (EXCLUDED_PROPERTY_NAMES.contains(propertyDescriptor.getName())) {
-					continue;
-				}
-				
-				propertyNames.add(propertyDescriptor.getName());
-			}
-			return propertyNames;
+			return info.getPropertyDescriptors();
 		} catch (IntrospectionException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public static Set<PropertyDescriptor> getPropertyDescriptors(Class<?> beanClass) {
+		PropertyDescriptor[] propertyDescriptorArray = getPropertyDescriptors0(beanClass);
+
+		Set<PropertyDescriptor> propertyDescriptors = Sets.newHashSet();
+		for (PropertyDescriptor propertyDescriptor : propertyDescriptorArray) {
+			if (EXCLUDED_PROPERTY_NAMES.contains(propertyDescriptor.getName())) {
+				continue;
+			}
+			
+			propertyDescriptors.add(propertyDescriptor);
+		}
+		return propertyDescriptors;
 	}
 	
 	public static String shortDescription(Class<?> beanClass, String proeprtyName) {
