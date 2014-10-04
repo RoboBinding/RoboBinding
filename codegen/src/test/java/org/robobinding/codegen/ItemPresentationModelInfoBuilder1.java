@@ -9,8 +9,8 @@ import org.robobinding.annotation.DependsOnStateOf;
  * @author Cheng Wei
  *
  */
-public class ItemPresentationModelInfoBuilder extends AbstractPresentationModelInfoBuilder {
-	public ItemPresentationModelInfoBuilder(Class<?> presentationModelClass, String presentationModelObjectTypeName) {
+public class ItemPresentationModelInfoBuilder1 extends AbstractPresentationModelInfoBuilder1 {
+	public ItemPresentationModelInfoBuilder1(Class<?> presentationModelClass, String presentationModelObjectTypeName) {
 		super(presentationModelClass, presentationModelObjectTypeName);
 	}
 	
@@ -18,7 +18,7 @@ public class ItemPresentationModelInfoBuilder extends AbstractPresentationModelI
 	public void buildProperties() {
 		Set<PropertyDescriptor> descriptors = PropertyDescriptorUtils.getPropertyDescriptors(presentationModelClass);
 		for(PropertyDescriptor descriptor : descriptors) {
-			properties.add(new PropertyInfo(descriptor));
+			properties.add(new PropertyInfoForTest(descriptor));
 			
 			DependsOnStateOf dependsOnStateOfAnnotation = descriptor.getAnnotation(DependsOnStateOf.class);
 			Set<String> dependentProperties = dependentProperties(dependsOnStateOfAnnotation);

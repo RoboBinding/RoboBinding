@@ -1,6 +1,5 @@
 package org.robobinding.codegen;
 
-import java.lang.reflect.Method;
 
 
 /**
@@ -9,28 +8,28 @@ import java.lang.reflect.Method;
  *
  */
 public class EventMethodInfo {
-	private final Method method;
-	public EventMethodInfo(Method method) {
+	private final MethodElementWrapper method;
+	public EventMethodInfo(MethodElementWrapper method) {
 		this.method = method;
 	}
 	
 	public String name() {
-		return method.getName();
+		return method.methodName();
 	}
 	
 	public boolean hasEventArg() {
-		return method.getParameterTypes().length != 0;
+		return method.hasParameter();
 	}
 	
-	public Class<?> eventArgType() {
-		return method.getParameterTypes()[0];
+	public String eventArgType() {
+		return method.firstParameterTypeName();
 	}
 	
 	public boolean hasReturn() {
-		return !Void.TYPE.equals(method.getReturnType());
+		return method.hasReturn();
 	}
 
-	public Class<?> returnType() {
-		return method.getReturnType();
+	public String returnType() {
+		return method.returnTypeName();
 	}
 }

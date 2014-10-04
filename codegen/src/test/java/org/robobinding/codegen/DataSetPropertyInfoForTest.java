@@ -3,11 +3,11 @@ package org.robobinding.codegen;
 import java.text.MessageFormat;
 import java.util.List;
 
-import javax.lang.model.util.Types;
-
 import org.apache.commons.lang3.StringUtils;
 import org.robobinding.annotation.ItemPresentationModel;
+import org.robobinding.itempresentationmodel.TypedCursor;
 import org.robobinding.property.AbstractDataSet;
+import org.robobinding.property.ArrayDataSet;
 import org.robobinding.property.ListDataSet;
 import org.robobinding.property.TypedCursorDataSet;
 
@@ -17,13 +17,12 @@ import org.robobinding.property.TypedCursorDataSet;
  * @author Cheng Wei
  *
  */
-public class DataSetPropertyInfo {
-	private final Types types;
-	private final MethodElementWrapper getter;
+public class DataSetPropertyInfoForTest {
+	private final PropertyDescriptor descriptor;
 	private final ItemPresentationModel itemPresentationModelAnnotation;
 	private final String itemPresentationModelObjectTypeName;
 	
-	public DataSetPropertyInfo(PropertyDescriptor descriptor, ItemPresentationModel itemPresentationModelAnnotation,
+	public DataSetPropertyInfoForTest(PropertyDescriptor descriptor, ItemPresentationModel itemPresentationModelAnnotation,
 			String itemPresentationModelObjectTypeName) {
 		this.descriptor = descriptor;
 		this.itemPresentationModelAnnotation = itemPresentationModelAnnotation;
@@ -31,24 +30,26 @@ public class DataSetPropertyInfo {
 	}
 
 	public String name() {
-		return GetterUtils.propertyNameFromGetter(getter);
+		return descriptor.getName();
 	}
 	
-	public String type() {
-		return getter.returnTypeName();
+	public Class<?> type() {
+		return descriptor.getPropertyType();
 	}
 
 	public String getter() {
-		return getter.methodName();
+		return descriptor.getReadMethodName();
 	}
 
 	public Class<? extends AbstractDataSet> dataSetImplementationType() {
-		if(getter.isReturnTypeSubTypeOf(List.class)) {
+		if(List.class.isAssignableFrom(type())){
 			return ListDataSet.class;
-		} else if(getter.isReturnTypeSubTypeOf(type())) {
+		} else if(type().isArray()) {
+			return ArrayDataSet.class;
+		} else if(TypedCursor.class.isAssignableFrom(type())) {
 			return TypedCursorDataSet.class;
 		} else {
-			throw new RuntimeException(MessageFormat.format("Property {0} has an unsupported dataSet type", getter.toString()));
+			throw new RuntimeException(MessageFormat.format("Property {0} has an unsupported dataSet type", descriptor));
 		}
 	}
 

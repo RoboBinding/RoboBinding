@@ -13,13 +13,13 @@ import com.google.common.collect.Sets;
 public class PresentationModelInfo {
 	private final Class<?> presentationModelClass;
 	private final String presentationModelObjectTypeName;
-	private final Set<PropertyInfo> properties;
-	private final Set<DataSetPropertyInfo> dataSetProperties;
+	private final Set<PropertyInfoForTest> properties;
+	private final Set<DataSetPropertyInfoForTest> dataSetProperties;
 	private final Set<PropertyDependencyInfo> propertyDependencies;
 	private final Set<EventMethodInfo> eventMethods;
 	
 	public PresentationModelInfo(Class<?> presentationModelClass, String presentationModelObjectTypeName,
-			Set<PropertyInfo> properties, Set<DataSetPropertyInfo> dataSetProperties, 
+			Set<PropertyInfoForTest> properties, Set<DataSetPropertyInfoForTest> dataSetProperties, 
 			Set<PropertyDependencyInfo> propertyDependencies, Set<EventMethodInfo> eventMethods) {
 		this.presentationModelClass = presentationModelClass;
 		this.presentationModelObjectTypeName = presentationModelObjectTypeName;
@@ -31,25 +31,25 @@ public class PresentationModelInfo {
 
 	public Set<String> propertyNames() {
 		Set<String> names = Sets.newHashSet();
-		for(PropertyInfo propertyInfo : properties()) {
+		for(PropertyInfoForTest propertyInfo : properties()) {
 			names.add(propertyInfo.name());
 		}
 		return names;
 	}
 	
-	public Set<PropertyInfo> properties() {
+	public Set<PropertyInfoForTest> properties() {
 		return Collections.unmodifiableSet(properties);
 	}
 	
 	public Set<String> dataSetPropertyNames() {
 		Set<String> names = Sets.newHashSet();
-		for(DataSetPropertyInfo propertyInfo : dataSetProperties()) {
+		for(DataSetPropertyInfoForTest propertyInfo : dataSetProperties()) {
 			names.add(propertyInfo.name());
 		}
 		return names;
 	}
 	
-	public Set<DataSetPropertyInfo> dataSetProperties() {
+	public Set<DataSetPropertyInfoForTest> dataSetProperties() {
 		return Collections.unmodifiableSet(dataSetProperties);
 	}
 	

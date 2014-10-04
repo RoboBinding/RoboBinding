@@ -1,11 +1,12 @@
 package org.robobinding.codegen;
 
 import java.lang.reflect.Method;
-import java.util.Set;
+import java.util.Map;
+
+import javax.lang.model.element.ExecutableElement;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
-import org.robobinding.annotation.DependsOnStateOf;
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.function.MethodDescription;
 
@@ -15,40 +16,25 @@ import org.robobinding.function.MethodDescription;
  *
  */
 public class PresentationModelInfoBuilder extends AbstractPresentationModelInfoBuilder {
-	private static final String ITEM_PRESENTATION_MODEL_OBJECT_SUFFIX = "$$IPM";
-	public PresentationModelInfoBuilder(Class<?> presentationModelClass, String presentationModelObjectTypeName) {
-		super(presentationModelClass, presentationModelObjectTypeName);
-	}
+	private Map<String, PropertyInfoBuilder> propertyBuilders;
+	private Map<String, DataSetPropertyInfo> dataSetProperties;
 
 	@Override
-	public void buildProperties() {
-		Set<PropertyDescriptor> descriptors = PropertyDescriptorUtils.getPropertyDescriptors(presentationModelClass);
-		for(PropertyDescriptor descriptor : descriptors) {
-			if(isDataSetProperty(descriptor)) {
-				validateDataSetProperty(descriptor);
-				ItemPresentationModel itemPresentationModelAnnotation = descriptor.getAnnotation(ItemPresentationModel.class);
-				dataSetProperties.add(new DataSetPropertyInfo(descriptor, itemPresentationModelAnnotation, 
-						itemPresentationModelObjectTypeNameOf(itemPresentationModelAnnotation)));
-			} else {
-				properties.add(new PropertyInfo(descriptor));
-			}
-			
-			DependsOnStateOf dependsOnStateOfAnnotation = descriptor.getAnnotation(DependsOnStateOf.class);
-			Set<String> dependentProperties = dependentProperties(dependsOnStateOfAnnotation);
-			if(!dependentProperties.isEmpty()) {
-				validation.validate(descriptor, dependentProperties);
-				PropertyDependencyInfo dependencyInfo = new PropertyDependencyInfo(descriptor.getName(), dependentProperties);
-				propertyDependencies.add(dependencyInfo);
-			}
+	protected void addGetter(MethodElementWrapper getter) {
+		if(isDataSetProperty(getter)) {
+			ItemPresentationModel itemPresentationModelAnnotation = descriptor.getAnnotation(ItemPresentationModel.class);
+			dataSetProperties.add(new DataSetPropertyInfo(descriptor, itemPresentationModelAnnotation, 
+					itemPresentationModelObjectTypeNameOf(itemPresentationModelAnnotation)));
 		}
+
 	}
 	
-	private boolean isDataSetProperty(PropertyDescriptor descriptor) {
-		return descriptor.hastAnnotation(ItemPresentationModel.class);
+	private boolean isDataSetProperty(MethodElementWrapper getter) {
+		return getter.hasAnnotation(ItemPresentationModel.class);
 	}
 	
-	private void validateDataSetProperty(PropertyDescriptor descriptor) {
-		ItemPresentationModel itemPresentationModelAnnotation = descriptor.getAnnotation(ItemPresentationModel.class);
+	private void validateDataSetProperty(ExecutableElement getter) {
+		ItemPresentationModel itemPresentationModelAnnotation = getter.getAnnotation(ItemPresentationModel.class);
 		String factoryMethodName = StringUtils.trim(itemPresentationModelAnnotation.factoryMethod());
 		if(StringUtils.isNotBlank(factoryMethodName)) {
 			Method factoryMethod = MethodUtils.getAccessibleMethod(presentationModelClass, factoryMethodName, new Class<?>[0]);
@@ -59,7 +45,10 @@ public class PresentationModelInfoBuilder extends AbstractPresentationModelInfoB
 		}
 	}
 	
-	private String itemPresentationModelObjectTypeNameOf(ItemPresentationModel itemPresentationModelAnnotation) {
-		return itemPresentationModelAnnotation.value().getName() + ITEM_PRESENTATION_MODEL_OBJECT_SUFFIX;
+	@Override
+	protected void addSetter(ExecutableElement method) {
+		// TODO Auto-generated method stub
+
 	}
+
 }

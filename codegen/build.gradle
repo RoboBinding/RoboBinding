@@ -13,6 +13,7 @@ dependencies {
 	compile project(':framework')
 
 	testCompile ("junit:junit:$junitVersion")
+	testCompile 'com.google.testing.compile:compile-testing:0.5'
 	testCompile("org.mockito:mockito-core:$mockitoVersion") {
 		exclude group: 'org.hamcrest', module: 'hamcrest-core'
 	}
@@ -41,13 +42,12 @@ eclipse {
 				}
 			}
 		}
-		/*
+
 		file.withXml {
 			def node = it.asNode()
 			
-			node.appendNode('classpathentry kind="src" path="src/main/java"')
-			node.appendNode('classpathentry kind="src" path="src/test/java"')
-		}*/
+			node.appendNode('classpathentry excluding="**" kind="src" path="src/test/resources"')
+		}
 	}
 }
   

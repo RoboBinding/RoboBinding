@@ -1,88 +1,66 @@
 package org.robobinding.codegen;
 
-import java.lang.reflect.Method;
-import java.text.MessageFormat;
-import java.util.Collections;
+import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.robobinding.annotation.DependsOnStateOf;
-import org.robobinding.annotation.Event;
-import org.robobinding.function.MethodDescription;
-import org.robobinding.property.PropertyUtils;
-
-import com.google.common.collect.Sets;
 
 /**
  * @since 1.0
  * @author Cheng Wei
- *
+ * 
  */
 public abstract class AbstractPresentationModelInfoBuilder {
-	protected final Class<?> presentationModelClass;
-	private String presentationModelObjectTypeName;
-	protected final DependencyValidation validation;
+	private TypeElementWrapper typeElement;
+	private ProcessingContext context;
+
+	private Set<String> filteredMethodNames;
 	
-	protected final Set<PropertyInfo> properties;
-	protected final Set<DataSetPropertyInfo> dataSetProperties;
-	protected final Set<PropertyDependencyInfo> propertyDependencies;
-	private final Set<EventMethodInfo> eventMethods;
-	
-	public AbstractPresentationModelInfoBuilder(Class<?> presentationModelClass, String presentationModelObjectTypeName) {
-		this.presentationModelClass = presentationModelClass;
-		
-		validation = new DependencyValidation(PropertyUtils.getPropertyNames(presentationModelClass));
-		properties = Sets.newHashSet();
-		dataSetProperties = Sets.newHashSet();
-		propertyDependencies = Sets.newHashSet();
-		eventMethods = Sets.newHashSet();
+	private Set<EventMethodInfo> eventMethods;
+
+	public AbstractPresentationModelInfoBuilder() {
 	}
 	
-	public abstract void buildProperties();
-	
-	protected Set<String> dependentProperties(DependsOnStateOf dependsOnStateOfAnnotation) {
-		if((dependsOnStateOfAnnotation == null)
-				|| ArrayUtils.isEmpty(dependsOnStateOfAnnotation.value())) {
-			return Collections.emptySet();
-		}
-		
-		Set<String> dependentProperties = Sets.newHashSet();
-		for(String dependentProperty : dependsOnStateOfAnnotation.value()) {
-			if(StringUtils.isNotBlank(dependentProperty)) {
-				dependentProperties.add(StringUtils.trim(dependentProperty));
-			}
-		}
-		return dependentProperties;
+	public PresentationModelInfo build() {
+		visit(typeElement);
+		return null;
 	}
 
-	public void buildEventMethods() {
-		for(Method method : presentationModelClass.getMethods()) {
-			if(isEventMethod(method)) {
-				validateEventMethod(method);
-				eventMethods.add(new EventMethodInfo(method));
-			}
+	private void visit(TypeElementWrapper type) {
+		if (type.isObjectType()) {
+			return;
 		}
+
+		List<MethodElementWrapper> methods = type.getMethods();
+		classifyMethods(methods);
+
+		visit(type.getSuperclass());
 	}
 
-	private boolean isEventMethod(Method method) {
-		return method.getAnnotation(Event.class) != null;
-	}
-	
-	private void validateEventMethod(Method method) {
-		if(method.getParameterTypes().length > 1) {
-			MethodDescription description = new MethodDescription(presentationModelClass, method.getName(), method.getParameterTypes());
-			throw new RuntimeException(MessageFormat.format("Event method can either have zero or one parameter, but {0} has {} parameters",
-					description, method.getParameterTypes().length));
+	private void classifyMethods(List<MethodElementWrapper> methods) {
+		for(MethodElementWrapper method : methods) {
+			if(isFilteredMethod(method) || method.isStaticOrNonPublic() || method.hasMoreThanOneParameters()) {
+				continue;
+			}
+			
+			if(GetterUtils.isGetter(method)) {
+				addGetter(method);
+			} else if(GetterUtils.isSetter(method)) {
+				addSetter(method);
+			} else {//the rest are event methods.
+				addEventMethod(method);
+			}
 		}
+		
 	}
-	
-	public PresentationModelInfo getResult() {
-		return new PresentationModelInfo(presentationModelClass, presentationModelObjectTypeName(),
-				properties, dataSetProperties, propertyDependencies, eventMethods);
+
+	private boolean isFilteredMethod(MethodElementWrapper method) {
+		return filteredMethodNames.contains(method.methodName());
 	}
-	
-	private String presentationModelObjectTypeName() {
-		return presentationModelObjectTypeName;
+
+	protected abstract void addGetter(MethodElementWrapper method);
+
+	protected abstract void addSetter(MethodElementWrapper method);
+
+	private void addEventMethod(MethodElementWrapper method) {
+		eventMethods.add(new EventMethodInfo(method));
 	}
 }

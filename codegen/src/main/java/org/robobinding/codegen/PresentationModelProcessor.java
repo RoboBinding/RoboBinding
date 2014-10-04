@@ -9,6 +9,7 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeKind;
 import javax.tools.JavaFileObject;
 
 import org.robobinding.annotation.PresentationModel;
@@ -35,28 +36,40 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		return supportedAnnotationTypes;
 	}
 	
-	private Set<String> findClassNames(RoundEnvironment env) {
-	    Set<String> typeNames = Sets.newHashSet();
+	private Set<TypeElement> findPresentationModelTypeElements(RoundEnvironment env) {
+	    Set<TypeElement> typeElements = Sets.newHashSet();
 	    for (Element element : env.getElementsAnnotatedWith(PresentationModel.class)) {
 	    	TypeElement typeElement = (TypeElement)element;
-            String typeName = typeElement.getQualifiedName().toString();
             
-	    	if(!element.getKind().isClass() || element.getModifiers().contains(Modifier.ABSTRACT)){
-	    		throw new RuntimeException(MessageFormat.format("@{0} can only be used to annotate a concrete PresentationModel, '{1}' is not.", 
-	    				PresentationModel.class.getName(), typeName));
+	    	checkIsConcreteClass(typeElement);
+	    	
+	    	if(isNotItemPresentationModel(typeElement)) {
+	            typeElements.add(typeElement);
 	    	}
-
-	    	typeNames.add(typeName);
 	    }
-	    return typeNames;
+	    return typeElements;
 	  }
+
+	private void checkIsConcreteClass(TypeElement typeElement) {
+		if(!typeElement.getKind().isClass() || typeElement.getModifiers().contains(Modifier.ABSTRACT)){
+            String typeName = typeElement.getQualifiedName().toString();
+			throw new RuntimeException(MessageFormat.format("@{0} can only be used to annotate a concrete PresentationModel, '{1}' is not.", 
+					PresentationModel.class.getName(), typeName));
+		}
+	}
+
+	private boolean isNotItemPresentationModel(TypeElement typeElement) {
+		TypeElement itemPresentationModelInterface = processingEnv.getElementUtils().getTypeElement(ItemPresentationModel.class.getName());
+		return !processingEnv.getTypeUtils().isAssignable(typeElement.asType(), itemPresentationModelInterface.asType());
+	}
 
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		Set<String> typeNames = findClassNames(roundEnv);
-		for(String typeName : typeNames) {
+		Set<TypeElement> typeElements = findPresentationModelTypeElements(roundEnv);
+		for(TypeElement typeElement : typeElements) {
+			processingEnv.getTypeUtils().isSameType(typeElement.getSuperclass(), processingEnv.getTypeUtils().getNoType(TypeKind.NULL));
 			try {
-				generateClassFor(typeName);
+				generateClassFor(typeElement);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			} catch (JClassAlreadyExistsException e) {
@@ -68,20 +81,15 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		return true;
 	}
 
-	private void generateClassFor(String typeName) throws IOException, JClassAlreadyExistsException, ClassNotFoundException {
-		Class<?> type = Class.forName(typeName);
-		if (ItemPresentationModel.class.isAssignableFrom(type)) {
-			//Ignored. Only ItemPresentationModels used by PresentationModels are generated. 
-			//They are generated while dealing with PresentationModels.
-		} else {
-			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(type, type.getName()+PRESENTATION_MODEL_OBJECT_SUFFIX);
-			PresentationModelInfo presentationModelInfo = buildPresentationModelInfo(builder);
-			createItemPresentationModelObjectSourceFiles(presentationModelInfo);
-			createPresentationModelObjectSourceFiles(presentationModelInfo);
-		}
+	private void generateClassFor(TypeElement typeElement) throws IOException, JClassAlreadyExistsException, ClassNotFoundException {
+		
+		PresentationModelInfoBuilder1 builder = new PresentationModelInfoBuilder1(type, type.getName() + PRESENTATION_MODEL_OBJECT_SUFFIX);
+		PresentationModelInfo presentationModelInfo = buildPresentationModelInfo(builder);
+		createItemPresentationModelObjectSourceFiles(presentationModelInfo);
+		createPresentationModelObjectSourceFiles(presentationModelInfo);
 	}
 	
-	private PresentationModelInfo buildPresentationModelInfo(AbstractPresentationModelInfoBuilder builder) {
+	private PresentationModelInfo buildPresentationModelInfo(AbstractPresentationModelInfoBuilder1 builder) {
 		builder.buildProperties();
 		builder.buildEventMethods();
 		return builder.getResult();
@@ -89,8 +97,8 @@ public class PresentationModelProcessor extends AbstractProcessor {
 	
 	private void createItemPresentationModelObjectSourceFiles(PresentationModelInfo presentationModelInfo) 
 			throws JClassAlreadyExistsException, IOException {
-		for(DataSetPropertyInfo info : presentationModelInfo.dataSetProperties()) {
-			ItemPresentationModelInfoBuilder builder = new ItemPresentationModelInfoBuilder(
+		for(DataSetPropertyInfoForTest info : presentationModelInfo.dataSetProperties()) {
+			ItemPresentationModelInfoBuilder1 builder = new ItemPresentationModelInfoBuilder1(
 					info.itemPresentationModelType(), info.itemPresentationModelObjectTypeName());
 			PresentationModelInfo itemPresentationModelInfo = buildPresentationModelInfo(builder);
 			ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(itemPresentationModelInfo);

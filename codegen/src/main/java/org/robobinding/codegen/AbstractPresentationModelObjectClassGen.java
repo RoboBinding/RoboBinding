@@ -212,7 +212,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 		
 		JBlock body = method.body();
 		
-		for(PropertyInfo propertyInfo : presentationModelInfo.properties()) {
+		for(PropertyInfoForTest propertyInfo : presentationModelInfo.properties()) {
 			JConditional conditional = body._if(nameParam.invoke("equals").arg(propertyInfo.name()));
 			JBlock conditionalBody = conditional._then();
 			//create PropertyDescriptor.
@@ -307,7 +307,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 		
 		JBlock body = method.body();
 		
-		for(DataSetPropertyInfo propertyInfo : presentationModelInfo.dataSetProperties()) {
+		for(DataSetPropertyInfoForTest propertyInfo : presentationModelInfo.dataSetProperties()) {
 			JConditional conditional = body._if(nameParam.invoke("equals").arg(propertyInfo.name()));
 			JBlock conditionalBody = conditional._then();
 			//create createDataSetPropertyDescriptor.
