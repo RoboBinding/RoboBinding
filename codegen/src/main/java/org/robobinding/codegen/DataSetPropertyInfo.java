@@ -1,15 +1,6 @@
 package org.robobinding.codegen;
 
-import java.text.MessageFormat;
-import java.util.List;
-
-import javax.lang.model.util.Types;
-
-import org.apache.commons.lang3.StringUtils;
-import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.property.AbstractDataSet;
-import org.robobinding.property.ListDataSet;
-import org.robobinding.property.TypedCursorDataSet;
 
 
 /**
@@ -17,54 +8,21 @@ import org.robobinding.property.TypedCursorDataSet;
  * @author Cheng Wei
  *
  */
-public class DataSetPropertyInfo {
-	private final Types types;
-	private final MethodElementWrapper getter;
-	private final ItemPresentationModel itemPresentationModelAnnotation;
-	private final String itemPresentationModelObjectTypeName;
+public interface DataSetPropertyInfo {
+
+	String name();
 	
-	public DataSetPropertyInfo(PropertyDescriptor descriptor, ItemPresentationModel itemPresentationModelAnnotation,
-			String itemPresentationModelObjectTypeName) {
-		this.descriptor = descriptor;
-		this.itemPresentationModelAnnotation = itemPresentationModelAnnotation;
-		this.itemPresentationModelObjectTypeName = itemPresentationModelObjectTypeName;
-	}
+	String type();
 
-	public String name() {
-		return GetterUtils.propertyNameFromGetter(getter);
-	}
-	
-	public String type() {
-		return getter.returnTypeName();
-	}
+	String getter();
 
-	public String getter() {
-		return getter.methodName();
-	}
+	Class<? extends AbstractDataSet> dataSetImplementationType();
 
-	public Class<? extends AbstractDataSet> dataSetImplementationType() {
-		if(getter.isReturnTypeSubTypeOf(List.class)) {
-			return ListDataSet.class;
-		} else if(getter.isReturnTypeSubTypeOf(type())) {
-			return TypedCursorDataSet.class;
-		} else {
-			throw new RuntimeException(MessageFormat.format("Property {0} has an unsupported dataSet type", getter.toString()));
-		}
-	}
+	String itemPresentationModelTypeName();
 
-	public Class<?> itemPresentationModelType() {
-		return itemPresentationModelAnnotation.value();
-	}
+	boolean isCreatedByFactoryMethod();
 
-	public boolean isCreatedByFactoryMethod() {
-		return !StringUtils.isBlank(itemPresentationModelAnnotation.factoryMethod());
-	}
+	String factoryMethod();
 
-	public String factoryMethod() {
-		return StringUtils.trim(itemPresentationModelAnnotation.factoryMethod());
-	}
-
-	public String itemPresentationModelObjectTypeName() {
-		return itemPresentationModelObjectTypeName;
-	}
+	String itemPresentationModelObjectTypeName();
 }

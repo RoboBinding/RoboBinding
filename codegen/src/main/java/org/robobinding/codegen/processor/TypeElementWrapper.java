@@ -1,10 +1,10 @@
-package org.robobinding.codegen;
+package org.robobinding.codegen.processor;
 
+import java.lang.reflect.Modifier;
 import java.util.List;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Types;
@@ -29,7 +29,7 @@ public class TypeElementWrapper {
 	}
 
 	public boolean isObjectType() {
-		return types.isSameType(type.asType(), types.getNoType(TypeKind.NONE));
+		return types.isSameType(type.asType(), context.typeMirrorOf(Object.class));
 	}
 
 	public List<MethodElementWrapper> getMethods() {
@@ -43,7 +43,7 @@ public class TypeElementWrapper {
 	}
 
 	public TypeElementWrapper getSuperclass() {
-		return context.wrapper(type.getSuperclass());
+		return context.TypeElementOf(type.getSuperclass());
 	}
 
 	public String typeName() {
@@ -52,6 +52,14 @@ public class TypeElementWrapper {
 	
 	public boolean isAssignableTo(TypeMirror anotherType) {
 		return types.isAssignable(type.asType(), anotherType);
+	}
+
+	public boolean isAssignableTo(Class<?> anotherType) {
+		return isAssignableTo(context.typeMirrorOf(anotherType));
+	}
+	
+	public boolean isNotConcreteClass() {
+		return !type.getKind().isClass() || type.getModifiers().contains(Modifier.ABSTRACT);
 	}
 
 }

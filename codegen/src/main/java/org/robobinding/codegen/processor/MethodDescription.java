@@ -1,4 +1,4 @@
-package org.robobinding.function;
+package org.robobinding.codegen.processor;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -12,17 +12,11 @@ import com.google.common.collect.Lists;
  *
  */
 public class MethodDescription {
-	private final String targetTypeName;
 	private final String name;
 	private final String returnTypeName;
 	private final Class<?>[] parameterTypes;
 	
-	public MethodDescription(Class<?> targetType, String name, Class<?> returnType, Class<?>[] parameterTypes) {
-		this(targetType.getName(), name, returnType.getName(), parameterTypes);
-	}
-	
-	public MethodDescription(String targetTypeName, String name, String returnTypeName, Class<?>[] parameterTypes) {
-		this.targetTypeName = targetTypeName;
+	public MethodDescription(String name, String returnTypeName, Class<?>[] parameterTypes) {
 		this.name = name;
 		this.returnTypeName = returnTypeName;
 		this.parameterTypes = parameterTypes;
@@ -32,9 +26,8 @@ public class MethodDescription {
 	public String toString() {
 		List<String> parameterTypesInString = getParameterTypesInString();
 
-		return MessageFormat.format("{0} {1}.{2}({3})",
+		return MessageFormat.format("{0} {1}({2})",
 				returnTypeName,
-				targetTypeName, 
 				name, 
 				Joiner.on(", ").join(parameterTypesInString));
 

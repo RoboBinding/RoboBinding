@@ -35,7 +35,7 @@ import com.sun.codemodel.JVar;
  *
  */
 public abstract class AbstractPresentationModelObjectClassGen {
-	private final PresentationModelInfo presentationModelInfo;
+	protected final PresentationModelInfo presentationModelInfo;
 
 	protected final JCodeModel codeModel;
 	protected final JDefinedClass definedClass;
@@ -212,12 +212,13 @@ public abstract class AbstractPresentationModelObjectClassGen {
 		
 		JBlock body = method.body();
 		
-		for(PropertyInfoForTest propertyInfo : presentationModelInfo.properties()) {
+		for(PropertyInfo propertyInfo : presentationModelInfo.properties()) {
 			JConditional conditional = body._if(nameParam.invoke("equals").arg(propertyInfo.name()));
 			JBlock conditionalBody = conditional._then();
 			//create PropertyDescriptor.
+			JClass propertyClass = codeModel.ref(propertyInfo.typeName());
 			JInvocation createPropertyDescriptor = JExpr.invoke("createPropertyDescriptor")
-					.arg(codeModel.ref(propertyInfo.type()).dotclass())
+					.arg(propertyClass.dotclass())
 					.arg(propertyInfo.name())
 					.arg(JExpr.lit(propertyInfo.isReadable()))
 					.arg(JExpr.lit(propertyInfo.isWritable()));
@@ -226,18 +227,18 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			JDefinedClass anonymousGetSet = codeModel.anonymousClass(AbstractGetSet.class);
 			
 			if(propertyInfo.isReadable()) {
-				JMethod getter = declarePublicMethodOverride(anonymousGetSet, "getValue", propertyInfo.type());
+				JMethod getter = declarePublicMethodOverride(anonymousGetSet, "getValue", propertyClass);
 				getter.body()._return(presentationModelField.invoke(propertyInfo.getter()));
 			}
 			
 			if(propertyInfo.isWritable()) {
 				JMethod setter = declarePublicMethodOverride(anonymousGetSet, "setValue", Void.TYPE);
-				JVar newValueParam = setter.param(propertyInfo.type(), "newValue");
+				JVar newValueParam = setter.param(propertyClass, "newValue");
 				setter.body().add(presentationModelField.invoke(propertyInfo.setter()).arg(newValueParam));
 			}
 			
 			conditionalBody.decl(getSetClass, "getSet", 
-					JExpr._new(anonymousGetSet.narrow(propertyInfo.type())).arg(descriptorVar));
+					JExpr._new(anonymousGetSet.narrow(propertyClass)).arg(descriptorVar));
 			//return SimpleProperty.
 			conditionalBody._return(JExpr._new(simplePropertyClass).arg(JExpr._this()).arg(descriptorVar));
 		}
@@ -307,7 +308,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 		
 		JBlock body = method.body();
 		
-		for(DataSetPropertyInfoForTest propertyInfo : presentationModelInfo.dataSetProperties()) {
+		for(DataSetPropertyInfo propertyInfo : presentationModelInfo.dataSetProperties()) {
 			JConditional conditional = body._if(nameParam.invoke("equals").arg(propertyInfo.name()));
 			JBlock conditionalBody = conditional._then();
 			//create createDataSetPropertyDescriptor.
@@ -319,11 +320,12 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			//create AbstractGetSet.
 			JDefinedClass anonymousGetSet = codeModel.anonymousClass(AbstractGetSet.class);
 			
-			JMethod getter = declarePublicMethodOverride(anonymousGetSet, "getValue", propertyInfo.type());
+			JClass propertyClass = codeModel.ref(propertyInfo.type());
+			JMethod getter = declarePublicMethodOverride(anonymousGetSet, "getValue", propertyClass);
 			getter.body()._return(presentationModelField.invoke(propertyInfo.getter()));
 			
 			JVar getSetVar = conditionalBody.decl(getSetClass, "getSet", 
-					JExpr._new(anonymousGetSet.narrow(propertyInfo.type())).arg(descriptorVar));
+					JExpr._new(anonymousGetSet.narrow(propertyClass)).arg(descriptorVar));
 			//create RefreshableItemPresentationModelFactory.
 			JDefinedClass anonymousFactory = codeModel.anonymousClass(RefreshableItemPresentationModelFactory.class);
 			
@@ -334,7 +336,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			if (propertyInfo.isCreatedByFactoryMethod()) {
 				newItemPresentationModelObject.arg(presentationModelField.invoke(propertyInfo.factoryMethod()));
 			} else {
-				newItemPresentationModelObject.arg(JExpr._new(codeModel._ref(propertyInfo.itemPresentationModelType())));
+				newItemPresentationModelObject.arg(JExpr._new(codeModel.ref(propertyInfo.itemPresentationModelTypeName())));
 			}
 			create.body()._return(newItemPresentationModelObject);
 			
@@ -343,7 +345,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			conditionalBody._return(JExpr._new(dataSetPropertyClass)
 					.arg(JExpr._this())
 					.arg(descriptorVar)
-					.arg(JExpr._new(codeModel._ref(propertyInfo.dataSetImplementationType())).arg(factoryVar).arg(getSetVar)));
+					.arg(JExpr._new(codeModel.ref(propertyInfo.dataSetImplementationType())).arg(factoryVar).arg(getSetVar)));
 		}
 		
 		body._return(JExpr._null());

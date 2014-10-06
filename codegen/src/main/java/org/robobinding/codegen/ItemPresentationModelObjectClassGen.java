@@ -1,7 +1,6 @@
 package org.robobinding.codegen;
 
 import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
-import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
 import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 
 import com.sun.codemodel.JBlock;
@@ -10,6 +9,7 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 
 /**
@@ -18,11 +18,8 @@ import com.sun.codemodel.JVar;
  *
  */
 public class ItemPresentationModelObjectClassGen extends AbstractPresentationModelObjectClassGen {
-	private Class<?> itemPresentationModelClass;
 	public ItemPresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) throws JClassAlreadyExistsException {
 		super(presentationModelInfo);
-		
-		itemPresentationModelClass = presentationModelInfo.getPresentationModelClass();
 	}
 	
 	@Override
@@ -49,13 +46,14 @@ public class ItemPresentationModelObjectClassGen extends AbstractPresentationMod
 		definedClass._extends(AbstractItemPresentationModelObject.class);
 		
 		JMethod constructor = definedClass.constructor(JMod.PUBLIC);
+		JType itemPresentationModelClass = codeModel.ref(presentationModelInfo.getPresentationModelTypeName());
 		JVar itemPresentationModelParam = constructor.param(itemPresentationModelClass, "itemPresentationModel");
 		
 		JBlock block = constructor.body();
 		
 		JInvocation superInvocation = JExpr.invoke("super");
 		superInvocation.arg(itemPresentationModelParam);
-		if (HasPresentationModelChangeSupport.class.isAssignableFrom(itemPresentationModelClass)) {
+		if (presentationModelInfo.extendsHasPresentationModelChangeSupport()) {
 			superInvocation.arg(itemPresentationModelParam.invoke("getPresentationModelChangeSupport"));
 		} else {
 			superInvocation.arg(

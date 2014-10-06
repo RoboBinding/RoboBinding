@@ -9,6 +9,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.robobinding.annotation.DependsOnStateOf;
 import org.robobinding.annotation.Event;
+import org.robobinding.codegen.processor.DependencyValidation;
+import org.robobinding.codegen.processor.EventMethodInfoImpl;
 import org.robobinding.function.MethodDescription;
 import org.robobinding.property.PropertyUtils;
 
@@ -27,7 +29,7 @@ public abstract class AbstractPresentationModelInfoBuilder1 {
 	protected final Set<PropertyInfoForTest> properties;
 	protected final Set<DataSetPropertyInfoForTest> dataSetProperties;
 	protected final Set<PropertyDependencyInfo> propertyDependencies;
-	private final Set<EventMethodInfo> eventMethods;
+	private final Set<EventMethodInfoImpl> eventMethods;
 	
 	public AbstractPresentationModelInfoBuilder1(Class<?> presentationModelClass, String presentationModelObjectTypeName) {
 		this.presentationModelClass = presentationModelClass;
@@ -60,7 +62,7 @@ public abstract class AbstractPresentationModelInfoBuilder1 {
 		for(Method method : presentationModelClass.getMethods()) {
 			if(isEventMethod(method)) {
 				validateEventMethod(method);
-				eventMethods.add(new EventMethodInfo(method));
+				eventMethods.add(new EventMethodInfoImpl(method));
 			}
 		}
 	}

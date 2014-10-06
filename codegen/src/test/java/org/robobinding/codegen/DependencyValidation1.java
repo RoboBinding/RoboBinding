@@ -12,10 +12,10 @@ import com.google.common.collect.Lists;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class DependencyValidation {
+public class DependencyValidation1 {
 	private final Set<String> existingPropertyNames;
 
-	public DependencyValidation(Set<String> existingPropertyNames) {
+	public DependencyValidation1(Set<String> existingPropertyNames) {
 		this.existingPropertyNames = existingPropertyNames;
 	}
 

@@ -2,34 +2,21 @@ package org.robobinding.codegen;
 
 
 
+
 /**
  * @since 1.0
  * @author Cheng Wei
  *
  */
-public class EventMethodInfo {
-	private final MethodElementWrapper method;
-	public EventMethodInfo(MethodElementWrapper method) {
-		this.method = method;
-	}
+public interface EventMethodInfo {
 	
-	public String name() {
-		return method.methodName();
-	}
+	String name();
 	
-	public boolean hasEventArg() {
-		return method.hasParameter();
-	}
+	boolean hasEventArg();
 	
-	public String eventArgType() {
-		return method.firstParameterTypeName();
-	}
+	String eventArgType();
 	
-	public boolean hasReturn() {
-		return method.hasReturn();
-	}
+	boolean hasReturn();
 
-	public String returnType() {
-		return method.returnTypeName();
-	}
+	String returnType();
 }

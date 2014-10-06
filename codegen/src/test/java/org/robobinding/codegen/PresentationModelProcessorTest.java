@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.robobinding.codegen.processor.PresentationModelProcessor;
 
 import com.google.testing.compile.JavaFileObjects;
 /**

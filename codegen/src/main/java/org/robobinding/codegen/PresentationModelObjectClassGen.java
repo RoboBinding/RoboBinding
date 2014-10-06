@@ -5,6 +5,7 @@ import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
 import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldVar;
@@ -19,11 +20,11 @@ import com.sun.codemodel.JVar;
  *
  */
 public class PresentationModelObjectClassGen extends AbstractPresentationModelObjectClassGen {
-	private final Class<?> presentationModelClass;
+	private JClass presentationModelClass;
 	public PresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) throws JClassAlreadyExistsException {
 		super(presentationModelInfo);
 		
-		this.presentationModelClass = presentationModelInfo.getPresentationModelClass();
+		codeModel.ref(presentationModelInfo.getPresentationModelTypeName());
 	}
 	/**
 	 *	private final PresentationModelType presentationModel;
@@ -63,8 +64,8 @@ public class PresentationModelObjectClassGen extends AbstractPresentationModelOb
 		JBlock block = constructor.body();
 		
 		JInvocation superInvocation = JExpr.invoke("super");
-		superInvocation.arg(JExpr.dotclass(codeModel.ref(presentationModelClass)));
-		if (HasPresentationModelChangeSupport.class.isAssignableFrom(presentationModelClass)) {
+		superInvocation.arg(JExpr.dotclass(presentationModelClass));
+		if (presentationModelInfo.extendsHasPresentationModelChangeSupport()) {
 			superInvocation.arg(presentationModelParam.invoke("getPresentationModelChangeSupport"));
 		} else {
 			superInvocation.arg(
