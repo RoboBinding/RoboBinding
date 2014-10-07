@@ -17,6 +17,6 @@ public interface EventMethodInfo {
 	String eventArgType();
 	
 	boolean hasReturn();
-
-	String returnType();
+	
+	String nonPrimitiveReturnType();
 }

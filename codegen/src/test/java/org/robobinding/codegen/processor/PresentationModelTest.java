@@ -59,4 +59,11 @@ public class PresentationModelTest {
 		PresentationModelInfo result = processJavaFileOf(InvalidEventMethodIgnored.class);
 		assertThat(result.eventMethods().size(), is(0));
 	}
+	
+	@Test
+	public void shouldHierarchicalPresentationModelRecognized() {
+		PresentationModelInfo result = processJavaFileOf(HierarchicalPresentationModel.class);
+		assertThat(result.properties().size(), is(HierarchicalPresentationModel.numProperties));
+		assertThat(result.eventMethods().size(), is(HierarchicalPresentationModel.numEventMethods));
+	}
 }

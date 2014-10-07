@@ -1,11 +1,11 @@
 package org.robobinding.codegen;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
 import org.robobinding.function.Function;
+import org.robobinding.function.MethodDescriptor;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.property.AbstractGetSet;
@@ -43,28 +43,32 @@ public abstract class AbstractPresentationModelObjectClassGen {
 	
 	private JClass setClassWithString;
 	private JClass mapClassWithStringAndStringSet;
-	private JClass setClassWithMethod;
+	private JClass setClassWithMethodDescriptor;
 	private JClass propertyDescriptorClass;
 	private JClass simplePropertyClass;
 	private JClass getSetClass;
 	private JClass dataSetPropertyClass;
 	private JClass refreshableItemPresentationModelFactoryClass;
 	
-	public AbstractPresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) throws JClassAlreadyExistsException {
+	public AbstractPresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) {
 		this.presentationModelInfo = presentationModelInfo;
 		
 		codeModel = new JCodeModel();
 		
 		setClassWithString = codeModel.ref(Set.class).narrow(String.class);
 		mapClassWithStringAndStringSet = codeModel.ref(Map.class).narrow(codeModel.ref(String.class), setClassWithString);
-		setClassWithMethod = codeModel.ref(Set.class).narrow(Method.class);
+		setClassWithMethodDescriptor = codeModel.ref(Set.class).narrow(MethodDescriptor.class);
 		propertyDescriptorClass = codeModel.ref(PropertyDescriptor.class);
 		simplePropertyClass = codeModel.ref(SimpleProperty.class);
-		getSetClass = codeModel.ref(AbstractGetSet.class).wildcard();
+		getSetClass = codeModel.ref(AbstractGetSet.class).narrow(codeModel.wildcard());
 		dataSetPropertyClass = codeModel.ref(DataSetProperty.class);
 		refreshableItemPresentationModelFactoryClass = codeModel.ref(RefreshableItemPresentationModelFactory.class);
 
-		definedClass = codeModel._class(presentationModelInfo.getPresentationModelObjectTypeName());
+		try {
+			definedClass = codeModel._class(presentationModelInfo.getPresentationModelObjectTypeName());
+		} catch (JClassAlreadyExistsException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public void writeTo(CodeWriter output) throws IOException {
@@ -77,7 +81,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 	/**
 	 * 	@Override
 	 *	public Set<String> propertyNames() {
-	 *		return Sets.newArraySet("prop1", "prop2", ...);
+	 *		return Sets.newHasSet("prop1", "prop2", ...);
 	 *	}
 
 	 */
@@ -107,7 +111,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 	/**
 	 * 	@Override
 	 *	public Set<String> dataSetPropertyNames() {
-	 *		return Sets.newArraySet("dataSetProp1", "dataSetProp2");
+	 *		return Sets.newHasSet("dataSetProp1", "dataSetProp2");
 	 *	}
 	 *
 	 */
@@ -126,7 +130,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 	 *
 	 */
 	public void definePropertyDependencies() {
-		JMethod method = declarePublicMethodOverride("dataSetPropertyNames", mapClassWithStringAndStringSet);
+		JMethod method = declarePublicMethodOverride("propertyDependencies", mapClassWithStringAndStringSet);
 		
 		JBlock body = method.body();
 		
@@ -134,28 +138,28 @@ public abstract class AbstractPresentationModelObjectClassGen {
 				codeModel.ref(Maps.class).staticInvoke("newHashMap"));
 		
 		for(PropertyDependencyInfo propertyDependencyInfo : presentationModelInfo.propertyDependencies()) {
-			dependenciesVar.invoke("put")
-				.arg(propertyDependencyInfo.property())
-				.arg(newHashSetInvocation(propertyDependencyInfo.dependentProperties()));
+			body.add(dependenciesVar.invoke("put")
+					.arg(propertyDependencyInfo.property())
+					.arg(newHashSetInvocation(propertyDependencyInfo.dependentProperties())));
 		}
 		
 		body._return(dependenciesVar);
 	}
 	/**
 	 * 	@Override
-	 *	public Set<Method> eventMethods() {
+	 *	public Set<MethodDescriptor> eventMethods() {
 	 *		return Sets.newHashSet(
-	 *			getMethod(ON_CLICK),
-	 *			getMethod(ON_CLICK_WITH_EVENT, AbstractViewEvent.class));
+	 *			createMethodDescriptor(ON_CLICK),
+	 *			createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class));
 	 *	}
 	 *
 	 */
 	public void defineEventMethods() {
-		JMethod method = declarePublicMethodOverride("eventMethods", setClassWithMethod);
+		JMethod method = declarePublicMethodOverride("eventMethods", setClassWithMethodDescriptor);
 		
 		JInvocation invocation = codeModel.ref(Sets.class).staticInvoke("newHashSet");
 		for(EventMethodInfo eventMethod : presentationModelInfo.eventMethods()) {
-			JInvocation getMethodInvocation = JExpr.invoke("getMethod").arg(method.name());
+			JInvocation getMethodInvocation = JExpr.invoke("createMethodDescriptor").arg(eventMethod.name());
 			if(eventMethod.hasEventArg()) {
 				getMethodInvocation.arg(codeModel.ref(eventMethod.eventArgType()).dotclass());
 			}
@@ -219,7 +223,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			JClass propertyClass = codeModel.ref(propertyInfo.typeName());
 			JInvocation createPropertyDescriptor = JExpr.invoke("createPropertyDescriptor")
 					.arg(propertyClass.dotclass())
-					.arg(propertyInfo.name())
+					.arg(nameParam)
 					.arg(JExpr.lit(propertyInfo.isReadable()))
 					.arg(JExpr.lit(propertyInfo.isWritable()));
 			JVar descriptorVar = conditionalBody.decl(propertyDescriptorClass, "descriptor", createPropertyDescriptor);
@@ -236,11 +240,10 @@ public abstract class AbstractPresentationModelObjectClassGen {
 				JVar newValueParam = setter.param(propertyClass, "newValue");
 				setter.body().add(presentationModelField.invoke(propertyInfo.setter()).arg(newValueParam));
 			}
-			
-			conditionalBody.decl(getSetClass, "getSet", 
-					JExpr._new(anonymousGetSet.narrow(propertyClass)).arg(descriptorVar));
+			JVar getSetVar = conditionalBody.decl(getSetClass, "getSet", 
+					JExpr._new(anonymousGetSet).arg(descriptorVar));
 			//return SimpleProperty.
-			conditionalBody._return(JExpr._new(simplePropertyClass).arg(JExpr._this()).arg(descriptorVar));
+			conditionalBody._return(JExpr._new(simplePropertyClass).arg(JExpr._this()).arg(descriptorVar).arg(getSetVar));
 		}
 		
 		body._return(JExpr._null());
@@ -314,7 +317,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			//create createDataSetPropertyDescriptor.
 			JInvocation createDataSetPropertyDescriptor = JExpr.invoke("createDataSetPropertyDescriptor")
 					.arg(codeModel.ref(propertyInfo.type()).dotclass())
-					.arg(propertyInfo.name());
+					.arg(nameParam);
 			
 			JVar descriptorVar = conditionalBody.decl(propertyDescriptorClass, "descriptor", createDataSetPropertyDescriptor);
 			//create AbstractGetSet.
@@ -325,7 +328,9 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			getter.body()._return(presentationModelField.invoke(propertyInfo.getter()));
 			
 			JVar getSetVar = conditionalBody.decl(getSetClass, "getSet", 
-					JExpr._new(anonymousGetSet.narrow(propertyClass)).arg(descriptorVar));
+					JExpr._new(anonymousGetSet).arg(descriptorVar));
+			//JVar getSetVar = conditionalBody.decl(getSetClass, "getSet", 
+			//		JExpr._new(anonymousGetSet.narrow(propertyClass)).arg(descriptorVar));
 			//create RefreshableItemPresentationModelFactory.
 			JDefinedClass anonymousFactory = codeModel.anonymousClass(RefreshableItemPresentationModelFactory.class);
 			
@@ -352,8 +357,8 @@ public abstract class AbstractPresentationModelObjectClassGen {
 	}
 	/*
 	@Override
-	public Function tryToCreateFunction(Method method) {
-		if(method.equals(getMethod(ON_CLICK))) {
+	public Function tryToCreateFunction(MethodDescriptor methodDescriptor) {
+		if(methodDescriptor.equals(createMethodDescriptor(ON_CLICK))) {
 			return new Function() {
 				
 				@Override
@@ -364,13 +369,13 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			};
 		}
 		
-		if(method.equals(getMethod(ON_CLICK_WITH_EVENT, AbstractViewEvent.class))){
+		if(methodDescriptor.equals(createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class))){
 			return new Function() {
 				
 				@Override
 				public Object call(Object... args) {
 					boolean result = presentationModel.onLongClickWithEvent((AbstractViewEvent)args[0]);
-					return Boolean.valueOf(result);
+					return (Boolean)result;
 				}
 			};
 		}
@@ -380,16 +385,16 @@ public abstract class AbstractPresentationModelObjectClassGen {
 	 */
 	public void defineTryToCreateFunction() {
 		JMethod method = declarePublicMethodOverride("tryToCreateFunction", Function.class);
-		JVar methodParam = method.param(Method.class, "method");
+		JVar methodDescriptorParam = method.param(MethodDescriptor.class, "methodDescriptor");
 		
 		JBlock body = method.body();
 		
 		for(EventMethodInfo eventMethodInfo : presentationModelInfo.eventMethods()) {
-			JInvocation getMethod = JExpr.invoke("getMethod").arg(eventMethodInfo.name());
+			JInvocation getMethod = JExpr.invoke("createMethodDescriptor").arg(eventMethodInfo.name());
 			if(eventMethodInfo.hasEventArg()) {
 				getMethod.arg(codeModel.ref(eventMethodInfo.eventArgType()).dotclass());
 			}
-			JConditional conditional = body._if(methodParam.invoke("equals").arg(getMethod));
+			JConditional conditional = body._if(methodDescriptorParam.invoke("equals").arg(getMethod));
 			JBlock conditionalBody = conditional._then();
 			//create Function.
 			JDefinedClass anonymousFunction = codeModel.anonymousClass(Function.class);
@@ -397,19 +402,16 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			JMethod call = declarePublicMethodOverride(anonymousFunction, "call", Object.class);
 			JVar argsVar = call.varParam(Object.class, "args");
 			JBlock callBody = call.body();
-			//onEvent.
+			//call event method.
 			JInvocation onEvent = presentationModelField.invoke(eventMethodInfo.name());
 			if(eventMethodInfo.hasEventArg()) {
-				onEvent.arg(argsVar.component(JExpr.lit(0)));
+				JClass eventArgClass = codeModel.ref(eventMethodInfo.eventArgType());
+				onEvent.arg(JExpr.cast(eventArgClass, argsVar.component(JExpr.lit(0))));
 			}
 			//call return.
 			if(eventMethodInfo.hasReturn()) {
-				JVar returnVar = callBody.decl(codeModel.ref(eventMethodInfo.returnType()), "result", onEvent);
-				if(returnVar.type().isPrimitive()) {
-					callBody._return(JExpr.cast(returnVar.type().boxify(), returnVar));
-				} else {
-					callBody._return(returnVar);
-				}
+				JVar returnVar = callBody.decl(codeModel.ref(eventMethodInfo.nonPrimitiveReturnType()), "result", onEvent);
+				callBody._return(returnVar);
 			} else {
 				callBody.add(onEvent);
 				callBody._return(JExpr._null());

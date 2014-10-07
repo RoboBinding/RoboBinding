@@ -1,12 +1,10 @@
 package org.robobinding.presentationmodel;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
-import org.robobinding.function.Bug;
 import org.robobinding.function.FunctionSupply;
-import org.robobinding.function.MethodDescription;
+import org.robobinding.function.MethodDescriptor;
 import org.robobinding.property.ObservableBean;
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.PropertyDescriptor;
@@ -38,29 +36,16 @@ public abstract class AbstractPresentationModelObject implements PropertySupply,
 
 	public abstract Map<String, Set<String>> propertyDependencies();
 
-	public abstract Set<Method> eventMethods();
+	public abstract Set<MethodDescriptor> eventMethods();
 	
 	
-	protected Method getMethod(String name) {
-		return getMethod(name, new Class<?>[0]);
+	protected MethodDescriptor createMethodDescriptor(String name) {
+		return createMethodDescriptor(name, new Class<?>[0]);
 	}
 	
-	protected Method getMethod(String name, Class<?>... parameterTypes) {
-		try {
-			return presentationModelClass.getMethod(name, parameterTypes);
-		} catch (NoSuchMethodException e) {
-			MethodDescription description = createMethodDecription(name, parameterTypes);
-			throw new Bug("No known method '"+description+"' generated", e);
-		} catch (SecurityException e) {
-			MethodDescription description = createMethodDecription(name, parameterTypes);
-			throw new Bug("Incorrect method '"+description+"' generation", e);
-		}
+	protected MethodDescriptor createMethodDescriptor(String name, Class<?>... parameterTypes) {
+		return new MethodDescriptor(name, parameterTypes);
 	}
-	
-	private MethodDescription createMethodDecription(String name, Class<?>... parameterTypes) {
-		return  new MethodDescription(presentationModelClass, name, parameterTypes);
-	}
-
 	
 	protected PropertyDescriptor createPropertyDescriptor(Class<?> propertyType, String propertyName, boolean readable, boolean writable) {
 		return new PropertyDescriptor(presentationModelClass, propertyType, propertyName, readable, writable);

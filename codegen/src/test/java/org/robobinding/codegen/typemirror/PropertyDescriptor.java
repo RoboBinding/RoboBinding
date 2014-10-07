@@ -1,4 +1,4 @@
-package org.robobinding.codegen;
+package org.robobinding.codegen.typemirror;
 
 import java.lang.annotation.Annotation;
 
@@ -46,7 +46,7 @@ public class PropertyDescriptor {
 		}
 	}
 
-	public boolean hastAnnotation(Class<? extends Annotation> annotationClass) {
+	public boolean hasAnnotation(Class<? extends Annotation> annotationClass) {
 		return getAnnotation(annotationClass) != null;
 	}
 }

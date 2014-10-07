@@ -1,0 +1,11 @@
+-----------------------------------org.robobinding.codegen.DefineConstructorWithChangeSupport_IPM.java-----------------------------------
+package org.robobinding.codegen;
+
+import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
+
+public class DefineConstructorWithChangeSupport_IPM extends AbstractItemPresentationModelObject {
+	
+	public DefineConstructorWithChangeSupport_IPM(DefineConstructorWithChangeSupport itemPresentationModel) {
+		super(itemPresentationModel, itemPresentationModel.getPresentationModelChangeSupport());
+	}
+}

@@ -35,7 +35,7 @@ public class PropertyInfoImpl implements PropertyInfo {
 	}
 	
 	public String typeName() {
-		return getter.returnTypeName();
+		return getter.nonPrimitiveReturnTypeName();
 	}
 
 	public String getter() {

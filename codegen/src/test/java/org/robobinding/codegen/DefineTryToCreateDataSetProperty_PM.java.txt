@@ -1,0 +1,59 @@
+-----------------------------------org.robobinding.codegen.DefineTryToCreateDataSetProperty_PM.java-----------------------------------
+package org.robobinding.codegen;
+
+import java.util.List;
+import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
+import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
+import org.robobinding.property.AbstractGetSet;
+import org.robobinding.property.DataSetProperty;
+import org.robobinding.property.ListDataSet;
+import org.robobinding.property.PropertyDescriptor;
+
+public class DefineTryToCreateDataSetProperty_PM {
+	private final DefineTryToCreateDataSetProperty presentationModel;
+	@Override
+	public DataSetProperty tryToCreateDataSetProperty(String name) {
+		if(name.equals("dataSetProp")) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet(descriptor) {
+				@Override
+				public List getValue() {
+					return this.presentationModel.getDataSetProp();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				
+				@Override
+				public RefreshableItemPresentationModel create() {
+					return new org.robobinding.codegen.StringItemPresentationModel$$IPM(new StringItemPresentationModel());
+				}
+			};	
+			
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+		}
+		
+		if(name.equals("dataSetPropWithFactoryMethod")) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet(descriptor) {
+				@Override
+				public List getValue() {
+					return this.presentationModel.getDataSetPropWithFactoryMethod();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				@Override
+				public RefreshableItemPresentationModel create() {
+					return new org.robobinding.codegen.StringItemPresentationModel$$IPM(this.presentationModel.createStringItemPresentationModel());
+				}
+			};
+			
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+		} 
+		
+		return null;
+	}
+}

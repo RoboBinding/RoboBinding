@@ -1,4 +1,4 @@
-package org.robobinding.annotation;
+package org.robobinding.codegen.typemirror;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * @author Cheng Wei
  *
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Event {
 }

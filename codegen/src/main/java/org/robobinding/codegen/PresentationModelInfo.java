@@ -33,7 +33,7 @@ public class PresentationModelInfo {
 	}
 
 	public Set<String> propertyNames() {
-		Set<String> names = Sets.newHashSet();
+		Set<String> names = Sets.newTreeSet();
 		for(PropertyInfo propertyInfo : properties()) {
 			names.add(propertyInfo.name());
 		}
@@ -45,7 +45,7 @@ public class PresentationModelInfo {
 	}
 	
 	public Set<String> dataSetPropertyNames() {
-		Set<String> names = Sets.newHashSet();
+		Set<String> names = Sets.newTreeSet();
 		for(DataSetPropertyInfo propertyInfo : dataSetProperties()) {
 			names.add(propertyInfo.name());
 		}

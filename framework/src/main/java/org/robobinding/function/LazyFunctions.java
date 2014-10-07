@@ -16,10 +16,10 @@ import com.google.android.collect.Maps;
  */
 public class LazyFunctions implements Functions {
 	private final Class<?> beanClass;
-	private final Map<Method, Function> functions;
+	private final Map<MethodDescriptor, Function> functions;
 	private final FunctionSupply supply;
 
-	public LazyFunctions(Class<?> beanClass, Set<Method> methods, FunctionSupply supply) {
+	public LazyFunctions(Class<?> beanClass, Set<MethodDescriptor> methods, FunctionSupply supply) {
 		this.beanClass = beanClass;
 		this.functions = Maps.newHashMap();
 		this.supply = supply;
@@ -27,8 +27,8 @@ public class LazyFunctions implements Functions {
 		initializeFunctions(methods);
 	}
 
-	private void initializeFunctions(Set<Method> methods) {
-		for(Method method : methods) {
+	private void initializeFunctions(Set<MethodDescriptor> methods) {
+		for(MethodDescriptor method : methods) {
 			functions.put(method, null);
 		}
 	}
@@ -41,27 +41,25 @@ public class LazyFunctions implements Functions {
 			return null;
 		}
 		
+		MethodDescriptor methodDescriptor = new MethodDescriptor(method.getName(), method.getParameterTypes());
+		
 		Function function = functions.get(method);
 		
 		if (function == null) {
-			functions.put(method, createFunction(method));
+			functions.put(methodDescriptor, createFunction(method, methodDescriptor));
 			function = functions.get(method);
 		}
 
 		return function;
 	}
 	
-	private Function createFunction(Method method) {
-		Function function = supply.tryToCreateFunction(method);
+	private Function createFunction(Method method, MethodDescriptor methodDescriptor) {
+		Function function = supply.tryToCreateFunction(methodDescriptor);
 		if(function == null) {
-			MethodDescription description = createMethodDecription(method.getName(), method.getParameterTypes());
+			MethodDescription description = new MethodDescription(beanClass, method);
 			throw new Bug(MessageFormat.format("The method '{0}' is not generated", description));
 		} else {
 			return function;
 		}
-	}
-	
-	private MethodDescription createMethodDecription(String name, Class<?>... parameterTypes) {
-		return  new MethodDescription(beanClass, name, parameterTypes);
 	}
 }

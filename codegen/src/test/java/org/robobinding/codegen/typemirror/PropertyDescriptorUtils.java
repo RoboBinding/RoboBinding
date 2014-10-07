@@ -1,4 +1,4 @@
-package org.robobinding.codegen;
+package org.robobinding.codegen.typemirror;
 
 import java.util.Set;
 

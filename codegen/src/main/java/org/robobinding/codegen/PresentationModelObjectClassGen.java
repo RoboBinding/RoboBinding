@@ -6,7 +6,6 @@ import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
-import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
@@ -21,10 +20,10 @@ import com.sun.codemodel.JVar;
  */
 public class PresentationModelObjectClassGen extends AbstractPresentationModelObjectClassGen {
 	private JClass presentationModelClass;
-	public PresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) throws JClassAlreadyExistsException {
+	public PresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) {
 		super(presentationModelInfo);
 		
-		codeModel.ref(presentationModelInfo.getPresentationModelTypeName());
+		presentationModelClass = codeModel.ref(presentationModelInfo.getPresentationModelTypeName());
 	}
 	/**
 	 *	private final PresentationModelType presentationModel;

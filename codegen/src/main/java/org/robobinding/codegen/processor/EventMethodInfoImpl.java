@@ -31,8 +31,9 @@ public class EventMethodInfoImpl implements EventMethodInfo {
 	public boolean hasReturn() {
 		return method.hasReturn();
 	}
-
-	public String returnType() {
-		return method.returnTypeName();
+	
+	@Override
+	public String nonPrimitiveReturnType() {
+		return method.nonPrimitiveReturnTypeName();
 	}
 }

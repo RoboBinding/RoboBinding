@@ -1,5 +1,6 @@
 package org.robobinding.function;
 
+import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -12,20 +13,12 @@ import com.google.common.collect.Lists;
  *
  */
 public class MethodDescription {
-	private final String targetTypeName;
-	private final String name;
-	private final String returnTypeName;
-	private final Class<?>[] parameterTypes;
+	private final Class<?> targetType;
+	private final Method method;
 	
-	public MethodDescription(Class<?> targetType, String name, Class<?> returnType, Class<?>[] parameterTypes) {
-		this(targetType.getName(), name, returnType.getName(), parameterTypes);
-	}
-	
-	public MethodDescription(String targetTypeName, String name, String returnTypeName, Class<?>[] parameterTypes) {
-		this.targetTypeName = targetTypeName;
-		this.name = name;
-		this.returnTypeName = returnTypeName;
-		this.parameterTypes = parameterTypes;
+	public MethodDescription(Class<?> targetType, Method method) {
+		this.targetType = targetType;
+		this.method = method;
 	}
 	
 	@Override
@@ -33,16 +26,16 @@ public class MethodDescription {
 		List<String> parameterTypesInString = getParameterTypesInString();
 
 		return MessageFormat.format("{0} {1}.{2}({3})",
-				returnTypeName,
-				targetTypeName, 
-				name, 
+				method.getReturnType().getName(),
+				targetType.getName(), 
+				method.getName(), 
 				Joiner.on(", ").join(parameterTypesInString));
 
 	}
 
 	private List<String> getParameterTypesInString() {
 		List<String> parameterTypesInString = Lists.newArrayList();
-		for (Class<?> parameterType : parameterTypes) {
+		for (Class<?> parameterType : method.getParameterTypes()) {
 			parameterTypesInString.add(parameterType.getName());
 		}
 		return parameterTypesInString;

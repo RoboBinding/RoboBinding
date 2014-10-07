@@ -1,0 +1,14 @@
+-----------------------------------org.robobinding.codegen.DefineConstructorWithoutChangeSupport_PM.java-----------------------------------
+package org.robobinding.codegen;
+
+import org.robobinding.presentationmodel.AbstractPresentationModelObject;
+import org.robobinding.presentationmodel.PresentationModelChangeSupport;
+
+public class DefineConstructorWithoutChangeSupport_PM extends AbstractPresentationModelObject {
+	private final DefineConstructorWithoutChangeSupport presentationModel;
+	
+	public DefineConstructorWithoutChangeSupport_PM(DefineConstructorWithoutChangeSupport presentationModel) {
+		super(DefineConstructorWithoutChangeSupport.class, new PresentationModelChangeSupport(presentationModel));
+		this.presentationModel = presentationModel;
+	}
+}

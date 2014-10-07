@@ -1,11 +1,11 @@
 package org.robobinding.codegen.samples;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.robobinding.function.Function;
+import org.robobinding.function.MethodDescriptor;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
@@ -60,10 +60,10 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 	}
 
 	@Override
-	public Set<Method> eventMethods() {
+	public Set<MethodDescriptor> eventMethods() {
 		return Sets.newHashSet(
-				getMethod(ON_CLICK),
-				getMethod(ON_CLICK_WITH_EVENT, AbstractViewEvent.class));
+				createMethodDescriptor(ON_CLICK),
+				createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class));
 	}
 	
 	@Override
@@ -154,8 +154,8 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 	}
 
 	@Override
-	public Function tryToCreateFunction(Method method) {
-		if(method.equals(getMethod(ON_CLICK))) {
+	public Function tryToCreateFunction(MethodDescriptor methodDescriptor) {
+		if(methodDescriptor.equals(createMethodDescriptor(ON_CLICK))) {
 			return new Function() {
 				
 				@Override
@@ -166,7 +166,7 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 			};
 		}
 		
-		if(method.equals(getMethod(ON_CLICK_WITH_EVENT, AbstractViewEvent.class))){
+		if(methodDescriptor.equals(createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class))){
 			return new Function() {
 				
 				@Override

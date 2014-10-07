@@ -7,6 +7,7 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
@@ -70,12 +71,24 @@ public class MethodElementWrapper {
 				|| types.isSameType(method.getReturnType(), context.typeMirrorOf(Boolean.class));
 	}
 
+	private boolean isPrimitiveReturnType() {
+		return method.getReturnType().getKind().isPrimitive();
+	}
+
 	public boolean hasNoReturn() {
 		return method.getReturnType().getKind().equals(TypeKind.VOID);
 	}
 
 	public String returnTypeName() {
 		return context.TypeElementOf(method.getReturnType()).typeName();
+	}
+
+	public String nonPrimitiveReturnTypeName() {
+		if(isPrimitiveReturnType()) {
+			return context.wrapper(types.boxedClass((PrimitiveType)method.getReturnType())).typeName();
+		} else {
+			return returnTypeName();
+		}
 	}
 
 	public boolean isReturnTypeAssignableTo(Class<?> type) {

@@ -1,0 +1,63 @@
+-----------------------------------org.robobinding.codegen.DefineTryToCreateProperty_PM.java-----------------------------------
+package org.robobinding.codegen;
+
+import org.robobinding.property.AbstractGetSet;
+import org.robobinding.property.PropertyDescriptor;
+import org.robobinding.property.SimpleProperty;
+
+public class DefineTryToCreateProperty_PM {
+	private final DefineTryToCreateProperty presentationModel;
+	@Override
+	public SimpleProperty tryToCreateProperty(String name) {
+		if (name.equals("primitiveReadWriteProp")) {
+			PropertyDescriptor descriptor = createPropertyDescriptor(Integer.class, name, true, true);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet(descriptor) {
+				@Override
+				public Integer getValue() {
+					return this.presentationModel.getPrimitiveReadWriteProp();
+				}
+				
+				@Override
+				public void setValue(Integer newValue) {
+					this.presentationModel.setPrimitiveReadWriteProp(newValue);
+				}
+			};
+			
+			return new SimpleProperty(this, descriptor, getSet);
+		}
+		
+		if(name.equals("readOnlyProp")) {
+			PropertyDescriptor descriptor = createPropertyDescriptor(String.class, name, true, false);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet(descriptor) {
+				@Override
+				public String getValue() {
+					return this.presentationModel.getReadOnlyProp();
+				}
+			};
+			
+			return new SimpleProperty(this, descriptor, getSet);
+		}
+		
+		if (name.equals("readWriteProp")) {
+			PropertyDescriptor descriptor = createPropertyDescriptor(Object.class, name, true, true);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet(descriptor) {
+				@Override
+				public Object getValue() {
+					return this.presentationModel.getReadWriteProp();
+				}
+				
+				@Override
+				public void setValue(Object newValue) {
+					this.presentationModel.setReadWriteProp(newValue);
+				}
+			};
+			
+			return new SimpleProperty(this, descriptor, getSet);
+		} 
+		
+		return null;
+	}
+}

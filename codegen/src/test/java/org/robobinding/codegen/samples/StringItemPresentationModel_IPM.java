@@ -1,11 +1,11 @@
 package org.robobinding.codegen.samples;
 
-import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 import org.robobinding.function.Function;
+import org.robobinding.function.MethodDescriptor;
 import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
 import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.property.DataSetProperty;
@@ -38,7 +38,7 @@ public class StringItemPresentationModel_IPM extends AbstractItemPresentationMod
 	}
 
 	@Override
-	public Set<Method> eventMethods() {
+	public Set<MethodDescriptor> eventMethods() {
 		return Collections.emptySet();
 	}
 
@@ -53,7 +53,7 @@ public class StringItemPresentationModel_IPM extends AbstractItemPresentationMod
 	}
 
 	@Override
-	public Function tryToCreateFunction(Method method) {
+	public Function tryToCreateFunction(MethodDescriptor methodDescriptor) {
 		return null;
 	}
 
