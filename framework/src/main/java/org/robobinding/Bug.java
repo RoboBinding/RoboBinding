@@ -1,4 +1,4 @@
-package org.robobinding.function;
+package org.robobinding;
 
 /**
  * @since 1.0

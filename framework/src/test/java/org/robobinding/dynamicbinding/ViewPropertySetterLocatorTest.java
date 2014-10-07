@@ -5,7 +5,7 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.property.PropertyDescriptor.Setter;
+import org.robobinding.dynamicbinding.PropertyAccessor.Setter;
 
 import android.content.Context;
 import android.view.View;

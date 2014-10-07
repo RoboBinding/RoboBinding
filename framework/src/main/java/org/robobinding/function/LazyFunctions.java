@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Set;
 
+import org.robobinding.Bug;
 import org.robobinding.util.MethodUtils;
 
 import com.google.android.collect.Maps;
@@ -42,24 +43,21 @@ public class LazyFunctions implements Functions {
 		}
 		
 		MethodDescriptor methodDescriptor = new MethodDescriptor(method.getName(), method.getParameterTypes());
+		if(!functions.containsKey(methodDescriptor)) {
+			throw new RuntimeException("No such method '"+new MethodDescription(beanClass, method)+"'");
+		}
 		
-		Function function = functions.get(method);
+		Function function = functions.get(methodDescriptor);
 		
 		if (function == null) {
-			functions.put(methodDescriptor, createFunction(method, methodDescriptor));
-			function = functions.get(method);
+			function = supply.tryToCreateFunction(methodDescriptor);
+			if(function == null) {
+				throw new Bug(MessageFormat.format("The method '{0}' is not generated",  new MethodDescription(beanClass, method)));
+			}
+
+			functions.put(methodDescriptor, function);
 		}
 
 		return function;
-	}
-	
-	private Function createFunction(Method method, MethodDescriptor methodDescriptor) {
-		Function function = supply.tryToCreateFunction(methodDescriptor);
-		if(function == null) {
-			MethodDescription description = new MethodDescription(beanClass, method);
-			throw new Bug(MessageFormat.format("The method '{0}' is not generated", description));
-		} else {
-			return function;
-		}
 	}
 }

@@ -8,7 +8,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.property.ValueModelUtils;
+import org.robobinding.viewattribute.property.ValueModelUtils;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.SparseBooleanArrayCheckedItemPositionsAttribute;
 import org.robolectric.annotation.Config;
 

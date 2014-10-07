@@ -48,7 +48,7 @@ public class LazyProperties implements Properties {
 	}
 
 	private PropertyValueModel getProperty(String propertyName, boolean isReadWriteProperty) {
-		if(properties.containsKey(propertyName)) {
+		if(!properties.containsKey(propertyName)) {
 			throw new RuntimeException("No such property '"+describeProperty(propertyName)+"'");
 		}
 		
@@ -81,7 +81,7 @@ public class LazyProperties implements Properties {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> DataSetValueModel<T> getDataSetProperty(String propertyName) {
-		if(dataSetProperties.containsKey(propertyName)) {
+		if(!dataSetProperties.containsKey(propertyName)) {
 			throw new RuntimeException("No such dataSet property '"+describeProperty(propertyName)+"'");
 		}
 		

@@ -1,7 +1,7 @@
 package org.robobinding.codegen.processor;
 
 import org.apache.commons.lang3.StringUtils;
-import org.robobinding.function.Bug;
+import org.robobinding.Bug;
 import org.robobinding.internal.java_beans.Introspector;
 
 

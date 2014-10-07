@@ -1,7 +1,6 @@
 package org.robobinding.property;
 
 import static org.junit.Assert.assertSame;
-import static org.robobinding.property.MockPropertyAccessorBuilder.aPropertyAccessor;
 
 import org.junit.Test;
 
@@ -14,7 +13,8 @@ import org.junit.Test;
 public class AbstractDataSetPropertyTest {
 	@Test
 	public void givenGetDataSet_whenGetDataSetAgain_thenReturnSameInstance() {
-		DataSetProperty dataSetProperty = new DataSetProperty(aPropertyAccessor().withValue(new Object()).build());
+		GetSet getSet = new GetSet(new Object());
+		DataSet dataSetProperty = new DataSet(getSet);
 
 		Object dataSetFirstTime = dataSetProperty.getDataSet();
 
@@ -25,19 +25,19 @@ public class AbstractDataSetPropertyTest {
 
 	@Test
 	public void whenUpdateDataSet_thenDataSetPropertyReflectsChanges() {
-		MockPropertyAccessorBuilder propertyAccessorBuilder = aPropertyAccessor().withValue(new Object());
-		DataSetProperty dataSetProperty = new DataSetProperty(propertyAccessorBuilder.build());
+		GetSet getSet = new GetSet(new Object());
+		DataSet dataSetProperty = new DataSet(getSet);
 
 		Object newValue = new Object();
-		propertyAccessorBuilder.withValue(newValue);
+		getSet.value = newValue;
 		dataSetProperty.propertyChanged();
 
 		assertSame(newValue, dataSetProperty.getDataSet());
 	}
 
-	static class DataSetProperty extends AbstractDataSetProperty {
-		public DataSetProperty(PropertyAccessor propertyAccessor) {
-			super(null, propertyAccessor, null);
+	static class DataSet extends AbstractDataSet {
+		public DataSet(AbstractGetSet<?> getSet) {
+			super(null, getSet);
 		}
 
 		@Override
@@ -48,6 +48,19 @@ public class AbstractDataSetPropertyTest {
 		@Override
 		public Object getItem(int position) {
 			return null;
+		}
+	}
+	
+	static class GetSet extends AbstractGetSet<Object> {
+		public Object value;
+		public GetSet(Object value) {
+			super(null);
+			this.value = value;
+		}
+		
+		@Override
+		public Object getValue() {
+			return value;
 		}
 	}
 }

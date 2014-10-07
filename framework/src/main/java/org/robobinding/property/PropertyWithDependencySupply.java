@@ -2,7 +2,7 @@ package org.robobinding.property;
 
 import java.text.MessageFormat;
 
-import org.robobinding.function.Bug;
+import org.robobinding.Bug;
 
 /**
  * @since 1.0

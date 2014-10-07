@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.property.ValueModel;
-import org.robobinding.property.ValueModelUtils;
+import org.robobinding.viewattribute.property.ValueModelUtils;
 import org.robobinding.widget.edittext.TwoWayTextAttribute.TwoWayCharSequenceTextAttribute;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;

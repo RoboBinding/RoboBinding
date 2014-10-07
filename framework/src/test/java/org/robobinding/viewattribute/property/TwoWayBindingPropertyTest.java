@@ -13,7 +13,6 @@ import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.AbstractValueModel;
 import org.robobinding.property.ValueModel;
-import org.robobinding.property.ValueModelUtils;
 import org.robobinding.util.RandomValues;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;

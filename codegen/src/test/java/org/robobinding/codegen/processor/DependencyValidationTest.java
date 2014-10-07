@@ -1,12 +1,9 @@
-package org.robobinding.property;
-
-import static org.robobinding.property.MockPropertyAccessorBuilder.aPropertyAccessor;
+package org.robobinding.codegen.processor;
 
 import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.codegen.DependencyValidation;
 
 import com.google.common.collect.Sets;
 
@@ -30,17 +27,17 @@ public class DependencyValidationTest {
 
 	@Test
 	public void givenValidDependentProperties_thenSuccessful() {
-		validation.validate(aPropertyAccessor().withPropertyName(PROPERTY_NAME).build(), Sets.newHashSet("property1", "property2"));
+		validation.validate(PROPERTY_NAME, Sets.newHashSet("property1", "property2"));
 	}
 
 	@Test(expected = RuntimeException.class)
 	public void givenDependingOnSelf_thenThrowException() {
-		validation.validate(aPropertyAccessor().withPropertyName(PROPERTY_NAME).build(), Sets.newHashSet("property1", PROPERTY_NAME, "property2"));
+		validation.validate(PROPERTY_NAME, Sets.newHashSet("property1", PROPERTY_NAME, "property2"));
 	}
 
 	@Test(expected = RuntimeException.class)
 	public void whenCreateWithSomeNonExistingDependentProperties_thenThrowException() {
-		validation.validate(aPropertyAccessor().withPropertyName(PROPERTY_NAME).build(), Sets.newHashSet("property1", "nonExistingProperty", "property2"));
+		validation.validate(PROPERTY_NAME, Sets.newHashSet("property1", "nonExistingProperty", "property2"));
 	}
 
 }

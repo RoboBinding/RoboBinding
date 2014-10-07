@@ -15,13 +15,11 @@ import org.junit.Test;
  * @author Cheng Wei
  */
 public class PropertyChangeSupportTest {
-	private Bean bean;
 	private PropertyChangeSupport propertyChangeSupport;
 
 	@Before
 	public void setUp() {
-		bean = new Bean();
-		propertyChangeSupport = new PropertyChangeSupport(bean, PropertyUtils.getPropertyNames(Bean.class));
+		propertyChangeSupport = new PropertyChangeSupport(new PropertyValidation(Bean.class, PropertyUtils.getPropertyNames(Bean.class)));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -36,6 +34,12 @@ public class PropertyChangeSupportTest {
 		propertyChangeSupport.firePropertyChange(Bean.PROPERTY1);
 
 		assertTrue(mockListener.propertyChangedFired);
+	}
+
+	private MockPropertyChangeListener createListenerOnProperty(String propertyName) {
+		MockPropertyChangeListener mockListener = new MockPropertyChangeListener();
+		propertyChangeSupport.addPropertyChangeListener(propertyName, mockListener);
+		return mockListener;
 	}
 
 	@Test
@@ -68,12 +72,6 @@ public class PropertyChangeSupportTest {
 
 		assertTrue(listenerOnProperty1.propertyChangedFired);
 		assertTrue(listenerOnProperty2.propertyChangedFired);
-	}
-
-	private MockPropertyChangeListener createListenerOnProperty(String propertyName) {
-		MockPropertyChangeListener mockListener = new MockPropertyChangeListener();
-		propertyChangeSupport.addPropertyChangeListener(propertyName, mockListener);
-		return mockListener;
 	}
 
 	public static class Bean {

@@ -9,7 +9,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
-import org.robobinding.property.ValueModelUtils;
 import org.robobinding.util.RandomValues;
 
 import android.view.View;

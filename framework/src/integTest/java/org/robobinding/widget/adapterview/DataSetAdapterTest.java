@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robobinding.BindableView;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
+import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.PropertyChangeListeners;
@@ -168,10 +169,9 @@ public class DataSetAdapterTest {
 			return null;
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
-		public ItemPresentationModel<Object> newRefreshableItemPresentationModel() {
-			return mock(ItemPresentationModel.class);
+		public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
+			return mock(RefreshableItemPresentationModel.class);
 		}
 	}
 }

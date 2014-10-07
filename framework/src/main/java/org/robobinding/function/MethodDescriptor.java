@@ -32,6 +32,10 @@ public class MethodDescriptor {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(name, parameterTypes);
+		int sum = Objects.hashCode(name);
+		for(Class<?> parameterType : parameterTypes) {
+			sum += Objects.hashCode(parameterType);
+		}
+		return sum;
 	}
 }

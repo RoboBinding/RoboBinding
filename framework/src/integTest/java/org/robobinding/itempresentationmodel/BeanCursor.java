@@ -1,18 +1,19 @@
 package org.robobinding.itempresentationmodel;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.robobinding.property.PropertyAccessor;
-import org.robobinding.property.PropertyDescriptor;
+import org.robobinding.internal.java_beans.PropertyDescriptor;
 import org.robobinding.property.PropertyUtils;
 
 import android.database.AbstractCursor;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * 
@@ -84,16 +85,23 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T> {
 
 	private Object getColumnValue(int column) {
 		Preconditions.checkArgument(column < getNumColumns(), "column '" + column + "' is out of bound");
-		PropertyAccessor propertyAccesor = mapColumnToPropertyAccessor(column);
-		return propertyAccesor.getValue();
+		PropertyDescriptor descriptor = mapColumnToPropertyDescriptor(column);
+		try {
+			return descriptor.getReadMethod().invoke(getBean(), new Object[0]);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	private PropertyAccessor mapColumnToPropertyAccessor(int column) {
+	private PropertyDescriptor mapColumnToPropertyDescriptor(int column) {
 		String propertyName = mapColumnToPropertyName(column);
 		PropertyDescriptor descriptor = propertyDescriptorMap.get(propertyName);
 
-		PropertyAccessor propertyAccesor = new PropertyAccessor(getBean(), descriptor);
-		return propertyAccesor;
+		return descriptor;
 	}
 
 	private String mapColumnToPropertyName(int column) {
@@ -117,7 +125,14 @@ public class BeanCursor<T> extends AbstractCursor implements TypedCursor<T> {
 	public static <T> BeanCursor<T> create(Collection<T> beans, Class<T> beanClass) {
 		Preconditions.checkNotNull(beans, "beans can not be null");
 		Preconditions.checkNotNull(beanClass, "beanClass can not be null");
-		return new BeanCursor<T>(Lists.newArrayList(beans), PropertyUtils.getPropertyDescriptorMap(beanClass));
-
+		return new BeanCursor<T>(Lists.newArrayList(beans), getPropertyDescriptorMap(beanClass));
+	}
+	
+	private static Map<String, PropertyDescriptor> getPropertyDescriptorMap(Class<?> beanClass) {
+		Map<String, PropertyDescriptor> propertyDescriptorMap = Maps.newHashMap();
+		for(PropertyDescriptor descriptor : PropertyUtils.getPropertyDescriptors(beanClass)) {
+			propertyDescriptorMap.put(descriptor.getName(), descriptor);
+		}
+		return propertyDescriptorMap;
 	}
 }

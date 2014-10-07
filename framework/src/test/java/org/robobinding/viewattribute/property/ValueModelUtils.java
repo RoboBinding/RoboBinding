@@ -1,4 +1,7 @@
-package org.robobinding.property;
+package org.robobinding.viewattribute.property;
+
+import org.robobinding.property.AbstractValueModel;
+import org.robobinding.property.ValueModel;
 
 /**
  * @since 1.0

@@ -1,6 +1,6 @@
 package org.robobinding.property;
 
-import org.robobinding.function.Bug;
+import org.robobinding.Bug;
 
 /**
  * @since 1.0

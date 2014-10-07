@@ -7,8 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.property.ValueModelUtils;
 import org.robobinding.util.RandomValues;
+import org.robobinding.viewattribute.property.ValueModelUtils;
 import org.robolectric.annotation.Config;
 
 /**

@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.property.ValueModelUtils;
 import org.robobinding.util.RandomValues;
+import org.robobinding.viewattribute.property.ValueModelUtils;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 
