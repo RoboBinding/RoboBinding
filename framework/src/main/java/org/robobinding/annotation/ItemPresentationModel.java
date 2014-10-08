@@ -6,15 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used in presentation models to configure the ItemPresentationModel
- * information for a data-set property.
+ * Used on a Getter of a presentation model to configure the ItemPresentationModel information for the data-set property.
  * 
  * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
  * 
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface ItemPresentationModel {
 	Class<? extends org.robobinding.itempresentationmodel.ItemPresentationModel<?>> value();

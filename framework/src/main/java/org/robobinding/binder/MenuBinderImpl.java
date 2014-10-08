@@ -16,11 +16,13 @@ import com.google.common.base.Preconditions;
 public class MenuBinderImpl implements MenuBinder {
 	private final BindingMenuInflater bindingMenuInflater;
 	private final ViewBindingLifecycle viewBindingLifecycle;
-	private PresentationModelObjectLoader presentationModelObjectLoader;
+	private final PresentationModelObjectLoader presentationModelObjectLoader;
 
-	public MenuBinderImpl(BindingMenuInflater bindingMenuInflater, ViewBindingLifecycle viewBindingLifecycle) {
+	public MenuBinderImpl(BindingMenuInflater bindingMenuInflater, ViewBindingLifecycle viewBindingLifecycle,
+			PresentationModelObjectLoader presentationModelObjectLoader) {
 		this.bindingMenuInflater = bindingMenuInflater;
 		this.viewBindingLifecycle = viewBindingLifecycle;
+		this.presentationModelObjectLoader = presentationModelObjectLoader;
 	}
 
 	public void inflateAndBind(int menuRes, Object presentationModel) {

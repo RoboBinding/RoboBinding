@@ -19,11 +19,13 @@ import com.google.common.base.Preconditions;
 public class ViewBinderImpl implements ViewBinder {
 	private final BindingViewInflater bindingViewInflater;
 	private final ViewBindingLifecycle viewBindingLifecycle;
-	private PresentationModelObjectLoader presentationModelObjectLoader;
+	private final PresentationModelObjectLoader presentationModelObjectLoader;
 
-	public ViewBinderImpl(BindingViewInflater bindingViewInflater, ViewBindingLifecycle viewBindingLifecycle) {
+	public ViewBinderImpl(BindingViewInflater bindingViewInflater, ViewBindingLifecycle viewBindingLifecycle,
+			PresentationModelObjectLoader presentationModelObjectLoader) {
 		this.bindingViewInflater = bindingViewInflater;
 		this.viewBindingLifecycle = viewBindingLifecycle;
+		this.presentationModelObjectLoader = presentationModelObjectLoader;
 	}
 
 	@Override

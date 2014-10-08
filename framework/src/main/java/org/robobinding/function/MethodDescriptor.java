@@ -38,4 +38,12 @@ public class MethodDescriptor {
 		}
 		return sum;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Class<?>[] getParameterTypes() {
+		return parameterTypes;
+	}
 }

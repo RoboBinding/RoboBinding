@@ -27,7 +27,7 @@ public class PresentationModelChangeSupport {
 		return presentationModel.getClass();
 	}
 
-	public PresentationModelChangeSupport(Class<?> presentationModelClass) {
+	PresentationModelChangeSupport(Class<?> presentationModelClass) {
 		Preconditions.checkNotNull(presentationModelClass, "presentationModelClass must not be null");
 		
 		PropertyValidation propertyValidation = new PropertyValidation(presentationModelClass, 

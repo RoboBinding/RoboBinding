@@ -31,7 +31,7 @@ public class LazyFunctionsTest {
 	@Before
 	public void setUp() {
 		Set<MethodDescriptor> methods = Sets.newHashSet();
-		for(Method method : FunctionsBean.class.getDeclaredMethods()) {
+		for(Method method : FunctionsBean.class.getMethods()) {
 			methods.add(new MethodDescriptor(method.getName(), method.getParameterTypes()));
 		}
 		when(functionSupply.tryToCreateFunction(any(MethodDescriptor.class))).thenReturn(new MockFunction());

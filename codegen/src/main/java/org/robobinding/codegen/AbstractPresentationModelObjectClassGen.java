@@ -228,6 +228,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 					.arg(JExpr.lit(propertyInfo.isWritable()));
 			JVar descriptorVar = conditionalBody.decl(propertyDescriptorClass, "descriptor", createPropertyDescriptor);
 			//create AbstractGetSet.
+			//JClass narrowedGetSet = codeModel.ref(AbstractGetSet.class).narrow(codeModel.ref(propertyInfo.typeName()));
 			JDefinedClass anonymousGetSet = codeModel.anonymousClass(AbstractGetSet.class);
 			
 			if(propertyInfo.isReadable()) {

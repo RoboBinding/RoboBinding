@@ -31,7 +31,8 @@ public class PresentationModelTester {
 	public static PresentationModelPropertyChangeSpy spyPropertyChange(Object presentationModel, String propertyName) {
 		Preconditions.checkNotNull(presentationModel, "presentationModel must not be null");
 		checkNotBlank(propertyName, "propertyName must not be empty");
-		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterFactory().create(presentationModel);
+		PresentationModelAdapter presentationModelAdapter = new PresentationModelAdapterFactory().create(
+				new JavaReflectionPresentationModelObject(presentationModel));
 		PresentationModelTester presentationModelTester = new PresentationModelTester(presentationModelAdapter);
 		return presentationModelTester.spyPropertyChange(propertyName);
 	}

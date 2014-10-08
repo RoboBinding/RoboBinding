@@ -20,6 +20,7 @@ import org.mockito.MockitoAnnotations;
 import org.robobinding.BindableView;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
+import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.PropertyChangeListeners;
@@ -171,7 +172,7 @@ public class DataSetAdapterTest {
 
 		@Override
 		public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
-			return mock(RefreshableItemPresentationModel.class);
+			return mock(AbstractItemPresentationModelObject.class);
 		}
 	}
 }
