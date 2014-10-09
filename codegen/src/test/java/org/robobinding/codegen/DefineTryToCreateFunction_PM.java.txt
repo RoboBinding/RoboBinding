@@ -13,7 +13,7 @@ public class DefineTryToCreateFunction_PM {
 				
 				@Override
 				public Object call(Object... args) {
-					this.presentationModel.eventMethod1();
+					presentationModel.eventMethod1();
 					return null;
 				}
 			};
@@ -24,7 +24,7 @@ public class DefineTryToCreateFunction_PM {
 				
 				@Override
 				public Object call(Object... args) {
-					this.presentationModel.eventMethod2(((Object)args[0]));
+					presentationModel.eventMethod2(((Object)args[0]));
 					return null;
 				}
 			};
@@ -35,7 +35,7 @@ public class DefineTryToCreateFunction_PM {
 				
 				@Override
 				public Object call(Object... args) {
-					Boolean result = this.presentationModel.eventMethodWithReturn(((Object)args[0]));
+					Boolean result = presentationModel.eventMethodWithReturn(((Object)args[0]));
 					return result;
 				}
 			};

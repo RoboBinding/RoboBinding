@@ -5,10 +5,11 @@ import java.text.MessageFormat;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.tools.JavaFileObject;
 
 import org.robobinding.annotation.PresentationModel;
 import org.robobinding.binder.PresentationModelObjectLoader;
@@ -19,51 +20,27 @@ import org.robobinding.codegen.PresentationModelInfo;
 import org.robobinding.codegen.PresentationModelObjectClassGen;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
-import com.google.android.collect.Sets;
+import com.google.common.collect.Sets;
 import com.sun.codemodel.CodeWriter;
 import com.sun.codemodel.JClassAlreadyExistsException;
-import com.sun.codemodel.writer.SingleStreamCodeWriter;
 
 /**
  * @since 1.0
  * @author Cheng Wei
  * 
  */
+//@SupportedAnnotationTypes("org.robobinding.annotation.PresentationModel")
 public class PresentationModelProcessor extends AbstractProcessor {
 	private static final String PRESENTATION_MODEL_OBJECT_SUFFIX = PresentationModelObjectLoader.CLASS_SUFFIX;
-
+	private Set<String> processedItemPresentationModels;
+	
 	@Override
-	public Set<String> getSupportedAnnotationTypes() {
-		Set<String> supportedAnnotationTypes = Sets.newArraySet();
-		supportedAnnotationTypes.add(PresentationModel.class.getName());
-		return supportedAnnotationTypes;
+	public synchronized void init(ProcessingEnvironment processingEnv) {
+		super.init(processingEnv);
+		
+		processedItemPresentationModels = Sets.newHashSet();
 	}
 	
-	private Set<TypeElementWrapper> findPresentationModelTypeElements(RoundEnvironment env, ProcessingContext context) {
-	    Set<TypeElementWrapper> typeElements = Sets.newHashSet();
-	    for (Element element : env.getElementsAnnotatedWith(PresentationModel.class)) {
-	    	TypeElementWrapper typeElement = new TypeElementWrapper(context, processingEnv.getTypeUtils(), (TypeElement)element);
-            
-	    	checkIsConcreteClass(typeElement);
-	    	
-	    	if(isNotItemPresentationModel(typeElement)) {
-	            typeElements.add(typeElement);
-	    	}
-	    }
-	    return typeElements;
-	  }
-
-	private void checkIsConcreteClass(TypeElementWrapper typeElement) {
-		if(typeElement.isNotConcreteClass()){
-			throw new RuntimeException(MessageFormat.format("@{0} can only be used to annotate a concrete PresentationModel, '{1}' is not.", 
-					PresentationModel.class.getName(), typeElement.typeName()));
-		}
-	}
-
-	private boolean isNotItemPresentationModel(TypeElementWrapper typeElement) {
-		return !typeElement.isAssignableTo(ItemPresentationModel.class);
-	}
-
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 		ProcessingContext context = new ProcessingContext(processingEnv.getTypeUtils(), processingEnv.getElementUtils());
@@ -85,6 +62,31 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		return true;
 	}
 
+	private Set<TypeElementWrapper> findPresentationModelTypeElements(RoundEnvironment env, ProcessingContext context) {
+	    Set<TypeElementWrapper> typeElements = Sets.newHashSet();
+	    for (Element element : env.getElementsAnnotatedWith(PresentationModel.class)) {
+	    	TypeElementWrapper typeElement = new TypeElementWrapper(context, processingEnv.getTypeUtils(), (TypeElement)element);
+	        
+	    	checkIsConcreteClass(typeElement);
+	    	
+	    	if(isNotItemPresentationModel(typeElement)) {
+	            typeElements.add(typeElement);
+	    	}
+	    }
+	    return typeElements;
+	  }
+
+	private void checkIsConcreteClass(TypeElementWrapper typeElement) {
+		if(typeElement.isNotConcreteClass()){
+			throw new RuntimeException(MessageFormat.format("@{0} can only be used to annotate a concrete PresentationModel, '{1}' is not.", 
+					PresentationModel.class.getName(), typeElement.typeName()));
+		}
+	}
+
+	private boolean isNotItemPresentationModel(TypeElementWrapper typeElement) {
+		return !typeElement.isAssignableTo(ItemPresentationModel.class);
+	}
+
 	protected void generateClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context) throws IOException, JClassAlreadyExistsException, ClassNotFoundException {
 		createItemPresentationModelObjectSourceFiles(presentationModelInfo, context);
 		createPresentationModelObjectSourceFiles(presentationModelInfo);
@@ -93,14 +95,25 @@ public class PresentationModelProcessor extends AbstractProcessor {
 	private void createItemPresentationModelObjectSourceFiles(PresentationModelInfo presentationModelInfo, ProcessingContext context) 
 			throws JClassAlreadyExistsException, IOException {
 		for(DataSetPropertyInfo info : presentationModelInfo.dataSetProperties()) {
+			if(processedItemPresentationModels.contains(info.itemPresentationModelTypeName())) {
+				continue;
+			}
+			
 			TypeElementWrapper typeElement = context.TypeElementOf(info.itemPresentationModelTypeName());
 			
 			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(
 					typeElement, info.itemPresentationModelObjectTypeName(), false);
 			PresentationModelInfo itemPresentationModelInfo = builder.build();
-			ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(itemPresentationModelInfo);
-			run(gen);
-			gen.writeTo(createOutput(itemPresentationModelInfo.getPresentationModelObjectTypeName()));
+			try {
+				ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(itemPresentationModelInfo);
+				run(gen);
+				gen.writeTo(createOutput());
+			} catch (java.lang.NoClassDefFoundError e) {
+				throw new RuntimeException(
+						"an error occured when generating source code for '"+presentationModelInfo.getPresentationModelObjectTypeName()+"'", e);
+			}
+			
+			processedItemPresentationModels.add(info.itemPresentationModelTypeName());
 		}
 	}
 
@@ -116,15 +129,31 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		gen.defineTryToCreateFunction();
 	}
 
-	private CodeWriter createOutput(String typeName) throws IOException, JClassAlreadyExistsException {
-		JavaFileObject sourceFile = processingEnv.getFiler().createSourceFile(typeName);
-		return new SingleStreamCodeWriter(sourceFile.openOutputStream());
+	private CodeWriter createOutput() throws IOException, JClassAlreadyExistsException {
+		return new SourceCodeWriter(processingEnv.getFiler());
 	}
 
 	private void createPresentationModelObjectSourceFiles(PresentationModelInfo presentationModelInfo) 
 			throws JClassAlreadyExistsException, IOException {
-		PresentationModelObjectClassGen gen = new PresentationModelObjectClassGen(presentationModelInfo);
-		run(gen);
-		gen.writeTo(createOutput(presentationModelInfo.getPresentationModelObjectTypeName()));
+		try {
+			PresentationModelObjectClassGen gen = new PresentationModelObjectClassGen(presentationModelInfo);
+			run(gen);
+			gen.writeTo(createOutput());
+		} catch (java.lang.NoClassDefFoundError e) {
+			throw new RuntimeException(
+					"an error occured when generating source code for '"+presentationModelInfo.getPresentationModelObjectTypeName()+"'", e);
+		}
+	}
+
+	@Override
+	public Set<String> getSupportedAnnotationTypes() {
+		Set<String> supportedAnnotationTypes = Sets.newHashSet();
+		supportedAnnotationTypes.add(PresentationModel.class.getName());
+		return supportedAnnotationTypes;
+	}
+
+	@Override
+	public SourceVersion getSupportedSourceVersion() {
+		return SourceVersion.latest();
 	}
 }

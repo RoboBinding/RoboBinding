@@ -1,10 +1,11 @@
 package org.robobinding.codegen;
 
 import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
-import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
@@ -17,25 +18,28 @@ import com.sun.codemodel.JVar;
  *
  */
 public class ItemPresentationModelObjectClassGen extends AbstractPresentationModelObjectClassGen {
+	private JClass presentationModelClass;
 	public ItemPresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) {
 		super(presentationModelInfo);
+		
+		presentationModelClass = codeModel.ref(presentationModelInfo.getPresentationModelTypeName());
 	}
 	
+	/**
+	 *	private final ItemPresentationModelType itemPresentationModel;
+	 */
 	@Override
 	public void defineFields() {
-		//define a reference to AbstractItemPresentationModelObject.itemPresentationModel.
-		presentationModelField = JExpr.refthis("itemPresentationModel");
+		JFieldVar var = definedClass.field(JMod.PRIVATE + JMod.FINAL, presentationModelClass, "itemPresentationModel");
+		presentationModelField = JExpr.refthis(var.name());
+		presentationModelFieldWithoutThis = JExpr.ref(var.name());
 	}
 	/**
-	 * 1.
 	 *	public StringItemPresentationModel_IPM(StringItemPresentationModel itemPresentationModel) {
-	 *		super(itemPresentationModel, new PresentationModelChangeSupport(itemPresentationModel));
+	 *		super(itemPresentationModel);
+	 *		this.itemPresentationModel = itemPresentationModel;
 	 *	}
 	 * 
-	 * 2.
-	 *	public StringItemPresentationModel_IPM(StringItemPresentationModel itemPresentationModel) {
-	 *		super(itemPresentationModel, itemPresentationModel.getPresentationModelChangeSupport());
-	 *	}
 	 */
 	@Override
 	public void defineConstructor() {
@@ -50,14 +54,9 @@ public class ItemPresentationModelObjectClassGen extends AbstractPresentationMod
 		
 		JBlock block = constructor.body();
 		
-		JInvocation superInvocation = JExpr.invoke("super");
-		superInvocation.arg(itemPresentationModelParam);
-		if (presentationModelInfo.extendsHasPresentationModelChangeSupport()) {
-			superInvocation.arg(itemPresentationModelParam.invoke("getPresentationModelChangeSupport"));
-		} else {
-			superInvocation.arg(
-					JExpr._new(codeModel.ref(PresentationModelChangeSupport.class)).arg(itemPresentationModelParam));
-		}
+		JInvocation superInvocation = JExpr.invoke("super").arg(itemPresentationModelParam);
 		block.add(superInvocation);
+		
+		block.assign(presentationModelField, itemPresentationModelParam);
 	}
 }

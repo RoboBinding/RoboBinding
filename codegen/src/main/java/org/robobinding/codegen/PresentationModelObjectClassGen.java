@@ -1,8 +1,6 @@
 package org.robobinding.codegen;
 
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
-import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
-import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
@@ -32,20 +30,12 @@ public class PresentationModelObjectClassGen extends AbstractPresentationModelOb
 	public void defineFields() {
 		JFieldVar var = definedClass.field(JMod.PRIVATE + JMod.FINAL, presentationModelClass, "presentationModel");
 		presentationModelField = JExpr.refthis(var.name());
+		presentationModelFieldWithoutThis = JExpr.ref(var.name());
 	}
 	
 	/**
-	 * 1.When PresentationModelType implements {@link HasPresentationModelChangeSupport}
-	 * 
 	 * 	public PresentationModelType_PM(PresentationModelType presentationModel) {
-	 *		super(PresentationModelType.class, presentationModel.getPresentationModelChangeSupport());
-	 *		this.presentationModel = presentationModel;
-	 *	}
-	 *
-	 * 2.When PresentationModelType NOT implements {@link HasPresentationModelChangeSupport}
-	 * 
-	 * 	public PresentationModelType_PM(PresentationModelType presentationModel) {
-	 *		super(PresentationModelType.class, new PresentationModelChangeSupport(presentationModel));
+	 *		super(presentationModel);
 	 *		this.presentationModel = presentationModel;
 	 *	}
 	 *
@@ -62,14 +52,7 @@ public class PresentationModelObjectClassGen extends AbstractPresentationModelOb
 		
 		JBlock block = constructor.body();
 		
-		JInvocation superInvocation = JExpr.invoke("super");
-		superInvocation.arg(JExpr.dotclass(presentationModelClass));
-		if (presentationModelInfo.extendsHasPresentationModelChangeSupport()) {
-			superInvocation.arg(presentationModelParam.invoke("getPresentationModelChangeSupport"));
-		} else {
-			superInvocation.arg(
-					JExpr._new(codeModel.ref(PresentationModelChangeSupport.class)).arg(presentationModelParam));
-		}
+		JInvocation superInvocation = JExpr.invoke("super").arg(presentationModelParam);
 		block.add(superInvocation);
 		
 		block.assign(presentationModelField, presentationModelParam);

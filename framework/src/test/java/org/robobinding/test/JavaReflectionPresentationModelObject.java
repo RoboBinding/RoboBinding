@@ -19,8 +19,6 @@ import org.robobinding.function.MethodDescriptor;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
-import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
-import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.ListDataSet;
@@ -38,17 +36,9 @@ import com.google.common.collect.Sets;
 public class JavaReflectionPresentationModelObject extends AbstractPresentationModelObject {
 	private final Object presentationModel;
 	public JavaReflectionPresentationModelObject(Object presentationModel) {
-		super(presentationModel.getClass(), createPresentationModelChangeSupportIfRequired(presentationModel));
+		super(presentationModel);
 		
 		this.presentationModel = presentationModel;
-	}
-	
-	private static PresentationModelChangeSupport createPresentationModelChangeSupportIfRequired(Object presentationModel) {
-		if(presentationModel instanceof HasPresentationModelChangeSupport) {
-			return ((HasPresentationModelChangeSupport)presentationModel).getPresentationModelChangeSupport();
-		} else {
-			return new PresentationModelChangeSupport(presentationModel);
-		}
 	}
 	
 	@Override
@@ -202,7 +192,8 @@ public class JavaReflectionPresentationModelObject extends AbstractPresentationM
 	public DataSetProperty tryToCreateDataSetProperty(final String propertyName) {
 		Set<String> dataSetPropertyNames = dataSetPropertyNames();
 		if(dataSetPropertyNames.contains(propertyName)) {
-			org.robobinding.property.PropertyDescriptor descriptor = createDataSetPropertyDescriptor(getPropertyDescriptor(propertyName).getPropertyType(), propertyName);
+			org.robobinding.property.PropertyDescriptor descriptor = createDataSetPropertyDescriptor(
+					getPropertyDescriptor(propertyName).getPropertyType(), propertyName);
 			AbstractGetSet<?> getSet = new AbstractGetSet<Object>(descriptor) {
 				@Override
 				public Object getValue() {

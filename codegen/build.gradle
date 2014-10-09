@@ -4,15 +4,30 @@ repositories {
     mavenCentral()
 }
 
+compileTestJava {
+	options.compilerArgs << '-proc:none'
+}
+
 ext {
 	codemodelVersion = '2.2.10-b140310.1920';
+	androidVersion = '4.1.1.4'
+	commonsLangVersion = '3.3.2'
+	
+	hamcrestVersion = '1.3'	
 }
 
 dependencies {
+	compile(project(':framework')) {
+		exclude group: 'org.robolectric', module: 'android-all'
+	}
 	compile "org.glassfish.jaxb:codemodel:$codemodelVersion"
-	compile project(':framework')
-
-	testCompile ("junit:junit:$junitVersion")
+	compile "com.google.android:android:$androidVersion"
+	compile "org.apache.commons:commons-lang3:$commonsLangVersion"
+	
+	testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
+	testCompile ("junit:junit:$junitVersion") {
+		exclude group: 'org.hamcrest', module: 'hamcrest-core'
+	}
 	testCompile 'com.google.testing.compile:compile-testing:0.5'
 	testCompile("org.mockito:mockito-core:$mockitoVersion") {
 		exclude group: 'org.hamcrest', module: 'hamcrest-core'
@@ -22,6 +37,89 @@ dependencies {
 
 javadoc {
 	enabled = false
+}
+
+apply plugin: 'signing'
+signing {
+	required { !version.endsWith('SNAPSHOT') && gradle.taskGraph.hasTask("uploadArchives") }
+	sign configurations.archives
+}
+
+apply plugin: 'maven'
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+			
+			/*
+			repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+			}
+			
+			snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+			}*/
+			
+			repository(url: "file://$projectDir/mavenRepo")
+			pom.project {
+				name 'RoboBinding Code Generation'
+				description 'A set of RoboBinding Code Generation tools by utilizing Java annotation processors'
+				url 'http://robobinding.org'
+				
+				scm {
+					url 'https://github.com/RoboBinding/RoboBinding'
+					connection 'scm:git:git@github.com:RoboBinding/RoboBinding.git'
+					developerConnection 'scm:git:git@github.com:RoboBinding/RoboBinding.git'
+				}
+				
+				ciManagement {
+					system 'Cloudbees Jenkins'
+					url 'https://robobindingacc.ci.cloudbees.com/'
+				}
+
+				licenses {
+					license {
+						name 'Apache License Version 2.0'
+						url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+						distribution 'repo'
+						comments """
+						Copyright 2012-2014 Cheng Wei and RoboBinding Contributors
+						
+						Licensed under the Apache License, Version 2.0 (the "License");
+						you may not use this file except in compliance with the License.
+						You may obtain a copy of the License at
+						
+						  http://www.apache.org/licenses/LICENSE-2.0
+						
+						Unless required by applicable law or agreed to in writing, software
+						distributed under the License is distributed on an "AS IS" BASIS,
+						WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+						See the License for the specific language governing permissions
+						and limitations under the License.
+						"""
+					}
+				}
+
+				developers {
+					developer {
+						name 'Cheng Wei'
+						email 'weicheng112@gmail.com'
+						organization = 'RoboBinding Open Source'
+						organizationUrl 'http://robobinding.org'
+						roles {
+							role 'Developer'
+						}
+					}
+					developer {
+						name 'RoboBinding Contributors'
+						roles {
+							role 'Developer'
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 apply plugin: 'eclipse'
@@ -47,6 +145,7 @@ eclipse {
 		file.withXml {
 			def node = it.asNode()
 			
+			node.remove( node.find { it.@path == 'src/test/resources' } )
 			node.appendNode('classpathentry excluding="**" kind="src" path="src/test/resources"')
 		}
 	}

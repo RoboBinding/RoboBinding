@@ -10,7 +10,7 @@ import org.robobinding.widget.view.AbstractViewEvent;
  * @author Cheng Wei
  *
  */
-public abstract class AbstractPresentationModel {
+public class PresentationModelSample {
 	private String prop1;
 	private int prop2;
 	private List<String> dataSetProp;

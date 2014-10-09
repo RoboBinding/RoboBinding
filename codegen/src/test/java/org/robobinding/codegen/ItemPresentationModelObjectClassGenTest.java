@@ -11,12 +11,12 @@ import org.robobinding.codegen.typemirror.PresentationModelInfoBuilder;
 public class ItemPresentationModelObjectClassGenTest {
 	@Test
 	public void shouldDefineConstructorWithChangeSupport() {
-		PresentationModelInfo presentationModelInfo = createPresentationModelInfoFor(DefineConstructorWithChangeSupport.class);
+		PresentationModelInfo presentationModelInfo = createPresentationModelInfoFor(DefineConstructor.class);
 		ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(presentationModelInfo);
 		gen.defineFields();
 		gen.defineConstructor();
 
-		assertOutputSameTextFile(gen, "DefineConstructorWithChangeSupport_IPM.java.txt");
+		assertOutputSameTextFile(gen, "DefineConstructor_IPM.java.txt");
 	}
 
 	private PresentationModelInfo createPresentationModelInfoFor(Class<?> type) {
@@ -27,16 +27,6 @@ public class ItemPresentationModelObjectClassGenTest {
 
 	private void assertOutputSameTextFile(ItemPresentationModelObjectClassGen gen, String textFileName) {
 		GenAsserts.assertOutputSameTextFile(gen, textFileName);
-	}
-
-	@Test
-	public void shouldDefineConstructorWithoutChangeSupport() {
-		PresentationModelInfo presentationModelInfo = createPresentationModelInfoFor(DefineConstructorWithoutChangeSupport.class);
-		ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(presentationModelInfo);
-		gen.defineFields();
-		gen.defineConstructor();
-
-		assertOutputSameTextFile(gen, "DefineConstructorWithoutChangeSupport_IPM.java.txt");
 	}
 	
 }

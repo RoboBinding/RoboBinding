@@ -28,7 +28,6 @@ public class PresentationModelInfoBuilder {
 	private final TypeElementWrapper typeElement;
 	private final boolean dataSetPropertyEnabled;
 	private final String presentationModelObjectTypeName;
-	
 	private final Set<String> filteredMethodNames = Sets.newHashSet("getPresentationModelChangeSupport");
 	
 	private final Set<String> propertyNames;
@@ -82,7 +81,7 @@ public class PresentationModelInfoBuilder {
 			if(isFilteredMethod(method) || method.isStaticOrNonPublic() || method.hasMoreThanOneParameters()) {
 				continue;
 			}
-			
+
 			if(PropertyUtils.isGetter(method)) {
 				addGetter(method);
 			} else if(PropertyUtils.isSetter(method)) {

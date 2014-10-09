@@ -30,3 +30,4 @@
 /codegen/build
 /codegen/.classpath
 /codegen/.project
+/codegen/mavenRepo

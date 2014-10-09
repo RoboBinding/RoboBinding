@@ -2,8 +2,7 @@ package org.robobinding.codegen;
 
 import java.util.Collections;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
+import java.util.TreeSet;
 
 /**
  * @since 1.0
@@ -33,7 +32,7 @@ public class PresentationModelInfo {
 	}
 
 	public Set<String> propertyNames() {
-		Set<String> names = Sets.newTreeSet();
+		Set<String> names = new TreeSet<String>();
 		for(PropertyInfo propertyInfo : properties()) {
 			names.add(propertyInfo.name());
 		}
@@ -45,7 +44,7 @@ public class PresentationModelInfo {
 	}
 	
 	public Set<String> dataSetPropertyNames() {
-		Set<String> names = Sets.newTreeSet();
+		Set<String> names = new TreeSet<String>();
 		for(DataSetPropertyInfo propertyInfo : dataSetProperties()) {
 			names.add(propertyInfo.name());
 		}

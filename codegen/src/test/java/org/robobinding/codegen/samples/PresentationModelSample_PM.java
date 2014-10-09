@@ -9,7 +9,6 @@ import org.robobinding.function.MethodDescriptor;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
-import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.ListDataSet;
@@ -25,8 +24,8 @@ import com.google.common.collect.Sets;
  * @author Cheng Wei
  *
  */
-public class AbstractPresentationModel_PM extends AbstractPresentationModelObject {
-	private final AbstractPresentationModel presentationModel;
+public class PresentationModelSample_PM extends AbstractPresentationModelObject {
+	private final PresentationModelSample presentationModel;
 	
 	private static final String PROP1 = "prop1";
 	private static final String PROP2 = "prop2";
@@ -36,8 +35,8 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 	private static final String ON_CLICK_WITH_EVENT = "onClickWithEvent";
 
 	
-	public AbstractPresentationModel_PM(AbstractPresentationModel presentationModel, PresentationModelChangeSupport changeSupport) {
-		super(presentationModel.getClass(), changeSupport);
+	public PresentationModelSample_PM(PresentationModelSample presentationModel) {
+		super(presentationModel);
 		
 		this.presentationModel = presentationModel;
 	}
@@ -63,13 +62,13 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 	public Set<MethodDescriptor> eventMethods() {
 		return Sets.newHashSet(
 				createMethodDescriptor(ON_CLICK),
-				createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class));
+				createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class.getName()));
 	}
 	
 	@Override
 	public SimpleProperty tryToCreateProperty(String name) {
 		if(name.equals(PROP1)) {
-			PropertyDescriptor descriptor = createPropertyDescriptor(String.class, name, true, true);
+			PropertyDescriptor descriptor = createPropertyDescriptor(String.class.getName(), name, true, true);
 			
 			AbstractGetSet<?> getSet = new AbstractGetSet<String>(descriptor) {
 				@Override
@@ -87,7 +86,7 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 		} 
 		
 		if(name.equals(PROP2)) {
-			PropertyDescriptor descriptor = createPropertyDescriptor(Integer.class, name, true, true);
+			PropertyDescriptor descriptor = createPropertyDescriptor(Integer.class.getName(), name, true, true);
 			
 			AbstractGetSet<?> getSet = new AbstractGetSet<Integer>(descriptor) {
 				@Override
@@ -110,7 +109,7 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 	@Override
 	public DataSetProperty tryToCreateDataSetProperty(String name) {
 		if(name.equals(DATA_SET_PROP)) {
-			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class.getName(), name);
 			
 			AbstractGetSet<?> getSet = new AbstractGetSet<List<String>>(descriptor) {
 				@Override
@@ -131,7 +130,7 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 		}
 		
 		if(name.equals(DATA_SET_PROP_WITH_FACTORY_METHOD)) {
-			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class.getName(), name);
 			
 			AbstractGetSet<?> getSet = new AbstractGetSet<List<String>>(descriptor) {
 				@Override
@@ -166,7 +165,7 @@ public class AbstractPresentationModel_PM extends AbstractPresentationModelObjec
 			};
 		}
 		
-		if(methodDescriptor.equals(createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class))){
+		if(methodDescriptor.equals(createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class.getName()))){
 			return new Function() {
 				
 				@Override

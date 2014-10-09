@@ -40,6 +40,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 	protected final JCodeModel codeModel;
 	protected final JDefinedClass definedClass;
 	protected JFieldRef presentationModelField;
+	protected JFieldRef presentationModelFieldWithoutThis;
 	
 	private JClass setClassWithString;
 	private JClass mapClassWithStringAndStringSet;
@@ -228,18 +229,18 @@ public abstract class AbstractPresentationModelObjectClassGen {
 					.arg(JExpr.lit(propertyInfo.isWritable()));
 			JVar descriptorVar = conditionalBody.decl(propertyDescriptorClass, "descriptor", createPropertyDescriptor);
 			//create AbstractGetSet.
-			//JClass narrowedGetSet = codeModel.ref(AbstractGetSet.class).narrow(codeModel.ref(propertyInfo.typeName()));
-			JDefinedClass anonymousGetSet = codeModel.anonymousClass(AbstractGetSet.class);
+			JClass narrowedGetSet = codeModel.ref(AbstractGetSet.class).narrow(codeModel.ref(propertyInfo.typeName()));
+			JDefinedClass anonymousGetSet = codeModel.anonymousClass(narrowedGetSet);
 			
 			if(propertyInfo.isReadable()) {
 				JMethod getter = declarePublicMethodOverride(anonymousGetSet, "getValue", propertyClass);
-				getter.body()._return(presentationModelField.invoke(propertyInfo.getter()));
+				getter.body()._return(presentationModelFieldWithoutThis.invoke(propertyInfo.getter()));
 			}
 			
 			if(propertyInfo.isWritable()) {
 				JMethod setter = declarePublicMethodOverride(anonymousGetSet, "setValue", Void.TYPE);
 				JVar newValueParam = setter.param(propertyClass, "newValue");
-				setter.body().add(presentationModelField.invoke(propertyInfo.setter()).arg(newValueParam));
+				setter.body().add(presentationModelFieldWithoutThis.invoke(propertyInfo.setter()).arg(newValueParam));
 			}
 			JVar getSetVar = conditionalBody.decl(getSetClass, "getSet", 
 					JExpr._new(anonymousGetSet).arg(descriptorVar));
@@ -316,17 +317,18 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			JConditional conditional = body._if(nameParam.invoke("equals").arg(propertyInfo.name()));
 			JBlock conditionalBody = conditional._then();
 			//create createDataSetPropertyDescriptor.
+			JClass propertyClass = codeModel.ref(propertyInfo.type());
 			JInvocation createDataSetPropertyDescriptor = JExpr.invoke("createDataSetPropertyDescriptor")
-					.arg(codeModel.ref(propertyInfo.type()).dotclass())
+					.arg(propertyClass.dotclass())
 					.arg(nameParam);
 			
 			JVar descriptorVar = conditionalBody.decl(propertyDescriptorClass, "descriptor", createDataSetPropertyDescriptor);
 			//create AbstractGetSet.
-			JDefinedClass anonymousGetSet = codeModel.anonymousClass(AbstractGetSet.class);
+			JClass narrowedGetSet = codeModel.ref(AbstractGetSet.class).narrow(codeModel.ref(propertyInfo.type()));
+			JDefinedClass anonymousGetSet = codeModel.anonymousClass(narrowedGetSet);
 			
-			JClass propertyClass = codeModel.ref(propertyInfo.type());
 			JMethod getter = declarePublicMethodOverride(anonymousGetSet, "getValue", propertyClass);
-			getter.body()._return(presentationModelField.invoke(propertyInfo.getter()));
+			getter.body()._return(presentationModelFieldWithoutThis.invoke(propertyInfo.getter()));
 			
 			JVar getSetVar = conditionalBody.decl(getSetClass, "getSet", 
 					JExpr._new(anonymousGetSet).arg(descriptorVar));
@@ -340,7 +342,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			JClass itemPresentationModelObjectClass = codeModel.ref(propertyInfo.itemPresentationModelObjectTypeName());
 			JInvocation newItemPresentationModelObject = JExpr._new(itemPresentationModelObjectClass);
 			if (propertyInfo.isCreatedByFactoryMethod()) {
-				newItemPresentationModelObject.arg(presentationModelField.invoke(propertyInfo.factoryMethod()));
+				newItemPresentationModelObject.arg(presentationModelFieldWithoutThis.invoke(propertyInfo.factoryMethod()));
 			} else {
 				newItemPresentationModelObject.arg(JExpr._new(codeModel.ref(propertyInfo.itemPresentationModelTypeName())));
 			}
@@ -404,7 +406,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			JVar argsVar = call.varParam(Object.class, "args");
 			JBlock callBody = call.body();
 			//call event method.
-			JInvocation onEvent = presentationModelField.invoke(eventMethodInfo.name());
+			JInvocation onEvent = presentationModelFieldWithoutThis.invoke(eventMethodInfo.name());
 			if(eventMethodInfo.hasEventArg()) {
 				JClass eventArgClass = codeModel.ref(eventMethodInfo.eventArgType());
 				onEvent.arg(JExpr.cast(eventArgClass, argsVar.component(JExpr.lit(0))));

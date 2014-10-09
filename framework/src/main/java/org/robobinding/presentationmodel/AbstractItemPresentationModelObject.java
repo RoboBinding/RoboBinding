@@ -12,11 +12,11 @@ import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
  */
 public abstract class AbstractItemPresentationModelObject extends AbstractPresentationModelObject 
 	implements RefreshableItemPresentationModel {
-	protected final ItemPresentationModel<Object> itemPresentationModel;
+	private final ItemPresentationModel<Object> itemPresentationModel;
 	
 	@SuppressWarnings("unchecked")
-	public AbstractItemPresentationModelObject(ItemPresentationModel<?> itemPresentationModel, PresentationModelChangeSupport changeSupport) {
-		super(itemPresentationModel.getClass(), changeSupport);
+	public AbstractItemPresentationModelObject(ItemPresentationModel<?> itemPresentationModel) {
+		super(itemPresentationModel);
 		this.itemPresentationModel = (ItemPresentationModel<Object>)itemPresentationModel;
 	}
 	

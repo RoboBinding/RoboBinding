@@ -19,9 +19,13 @@ public abstract class AbstractPresentationModelObject implements PropertySupply,
 	private final Class<?> presentationModelClass;
 	protected final PresentationModelChangeSupport changeSupport;
 
-	protected AbstractPresentationModelObject(Class<?> presentationModelClass, PresentationModelChangeSupport changeSupport) {
-		this.presentationModelClass = presentationModelClass;
-		this.changeSupport = changeSupport;
+	protected AbstractPresentationModelObject(Object presentationModel) {
+		this.presentationModelClass = presentationModel.getClass();
+		if(presentationModel instanceof HasPresentationModelChangeSupport) {
+			this.changeSupport = ((HasPresentationModelChangeSupport)presentationModel).getPresentationModelChangeSupport();
+		} else {
+			this.changeSupport = new PresentationModelChangeSupport(presentationModel);
+		}
 	}
 
 	public abstract Set<String> propertyNames();
@@ -40,7 +44,7 @@ public abstract class AbstractPresentationModelObject implements PropertySupply,
 	
 	
 	protected MethodDescriptor createMethodDescriptor(String name) {
-		return createMethodDescriptor(name, new Class<?>[0]);
+		return new MethodDescriptor(name, new Class[0]);
 	}
 	
 	protected MethodDescriptor createMethodDescriptor(String name, Class<?>... parameterTypes) {

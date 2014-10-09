@@ -1,9 +1,11 @@
 package org.robobinding.codegen.processor;
 
 import java.util.List;
+import java.util.Set;
 
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.annotation.PresentationModel;
+import org.robobinding.itempresentationmodel.TypedCursor;
 
 /**
  * @since 1.0
@@ -12,8 +14,8 @@ import org.robobinding.annotation.PresentationModel;
  */
 @PresentationModel
 public class SelfDescribedPresentationModel {
-	public static final int numProperties = 3;
-	public static final int numDataSetProperties = 2;
+	public static final int numProperties = 5;
+	public static final int numDataSetProperties = 3;
 	public static final int numEventMethods = 4;
 
 	public String getProp() {
@@ -29,6 +31,17 @@ public class SelfDescribedPresentationModel {
 
 	public void setWriteOnlyProp(int prop) {
 	}
+	
+	public boolean isBooleanProp() {
+		return false;
+	}
+	
+	public Set<Integer> getSetProp() {
+		return null;
+	}
+	
+	public void setSetProp(Set<Integer> param) {
+	}
 
 	@ItemPresentationModel(value = StringItemPresentationModel.class)
 	public List<String> getDataSetProp() {
@@ -37,6 +50,11 @@ public class SelfDescribedPresentationModel {
 	
 	@ItemPresentationModel(value = StringItemPresentationModel.class, factoryMethod = "newStringItemPresentationModel")
 	public List<String> getDataSetPropWithFactoryMethod() {
+		return null;
+	}
+	
+	@ItemPresentationModel(value = StringItemPresentationModel.class)
+	public TypedCursor<String> getCursorDataSetProp() {
 		return null;
 	}
 	

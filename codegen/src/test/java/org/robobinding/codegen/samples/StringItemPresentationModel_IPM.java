@@ -7,7 +7,6 @@ import java.util.Set;
 import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
 import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
-import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.SimpleProperty;
 
@@ -17,9 +16,11 @@ import org.robobinding.property.SimpleProperty;
  *
  */
 public class StringItemPresentationModel_IPM extends AbstractItemPresentationModelObject {
-	
+	private final StringItemPresentationModel itemPresentationModel;
 	public StringItemPresentationModel_IPM(StringItemPresentationModel itemPresentationModel) {
-		super(itemPresentationModel, new PresentationModelChangeSupport(itemPresentationModel));
+		super(itemPresentationModel);
+		
+		this.itemPresentationModel = itemPresentationModel;
 	}
 
 	@Override
@@ -44,6 +45,7 @@ public class StringItemPresentationModel_IPM extends AbstractItemPresentationMod
 
 	@Override
 	public SimpleProperty tryToCreateProperty(String propertyName) {
+		itemPresentationModel.toString();
 		return null;
 	}
 

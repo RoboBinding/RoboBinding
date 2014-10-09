@@ -21,8 +21,9 @@ public @interface ItemPresentationModel {
 	/**
 	 * Optional. By default, a ItemPresentationModel is created using its
 	 * default constructor. When the factoryMethod is specified. A
-	 * ItemPresentationModel is created by invoking the
-	 * PresentationModel.factoryMethod().
+	 * {@link org.robobinding.itempresentationmodel.ItemPresentationModel} is created by invoking the
+	 * PresentationModel.factoryMethod(). In this way, the {@link org.robobinding.itempresentationmodel.ItemPresentationModel} 
+	 * instances can be configured freely.
 	 */
 	String factoryMethod() default "";
 }

@@ -9,7 +9,6 @@ import org.robobinding.function.MethodDescriptor;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
-import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.ListDataSet;
@@ -28,7 +27,7 @@ public class Sample1PresentationModel$$PM extends AbstractPresentationModelObjec
 	private Sample1PresentationModel presentationModel;
 	
 	public Sample1PresentationModel$$PM(Sample1PresentationModel presentationModel) {
-		super(Sample1PresentationModel.class, new PresentationModelChangeSupport(presentationModel));
+		super(presentationModel);
 	}
 	
 	@Override

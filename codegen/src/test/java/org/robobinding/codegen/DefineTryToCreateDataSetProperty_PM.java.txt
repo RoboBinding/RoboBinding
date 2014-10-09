@@ -4,22 +4,47 @@ package org.robobinding.codegen;
 import java.util.List;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
+import org.robobinding.itempresentationmodel.TypedCursor;
+import org.robobinding.property.AbstractGetSet;
+import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.ListDataSet;
 import org.robobinding.property.PropertyDescriptor;
+import org.robobinding.property.TypedCursorDataSet;
 
 public class DefineTryToCreateDataSetProperty_PM {
 	private final DefineTryToCreateDataSetProperty presentationModel;
 	@Override
 	public DataSetProperty tryToCreateDataSetProperty(String name) {
+		if(name.equals("cursorDataSetProp")) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(TypedCursor.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<TypedCursor>(descriptor) {
+				@Override
+				public TypedCursor getValue() {
+					return presentationModel.getCursorDataSetProp();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				
+				@Override
+				public RefreshableItemPresentationModel create() {
+					return new org.robobinding.codegen.StringItemPresentationModel$$IPM(new StringItemPresentationModel());
+				}
+			};	
+			
+			return new DataSetProperty(this, descriptor, new TypedCursorDataSet(factory, getSet));
+		}
+		
 		if(name.equals("dataSetProp")) {
 			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
 			
-			AbstractGetSet<?> getSet = new AbstractGetSet(descriptor) {
+			AbstractGetSet<?> getSet = new AbstractGetSet<List>(descriptor) {
 				@Override
 				public List getValue() {
-					return this.presentationModel.getDataSetProp();
+					return presentationModel.getDataSetProp();
 				}
 			};
 			
@@ -37,17 +62,17 @@ public class DefineTryToCreateDataSetProperty_PM {
 		if(name.equals("dataSetPropWithFactoryMethod")) {
 			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
 			
-			AbstractGetSet<?> getSet = new AbstractGetSet(descriptor) {
+			AbstractGetSet<?> getSet = new AbstractGetSet<List>(descriptor) {
 				@Override
 				public List getValue() {
-					return this.presentationModel.getDataSetPropWithFactoryMethod();
+					return presentationModel.getDataSetPropWithFactoryMethod();
 				}
 			};
 			
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				@Override
 				public RefreshableItemPresentationModel create() {
-					return new org.robobinding.codegen.StringItemPresentationModel$$IPM(this.presentationModel.createStringItemPresentationModel());
+					return new org.robobinding.codegen.StringItemPresentationModel$$IPM(presentationModel.createStringItemPresentationModel());
 				}
 			};
 			

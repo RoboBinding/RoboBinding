@@ -1,9 +1,9 @@
 package org.robobinding.codegen.processor;
 
 import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
-import static org.fest.assertions.api.Assertions.fail;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.truth0.Truth.ASSERT;
 
 import org.junit.Test;

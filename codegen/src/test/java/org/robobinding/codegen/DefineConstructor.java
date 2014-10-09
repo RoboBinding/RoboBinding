@@ -8,7 +8,7 @@ import org.robobinding.presentationmodel.PresentationModelChangeSupport;
  * @author Cheng Wei
  *
  */
-public class DefineConstructorWithChangeSupport implements HasPresentationModelChangeSupport {
+public class DefineConstructor implements HasPresentationModelChangeSupport {
 	@Override
 	public PresentationModelChangeSupport getPresentationModelChangeSupport() {
 		return null;

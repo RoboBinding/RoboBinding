@@ -63,11 +63,11 @@ public class MethodElementWrapper {
 	}
 	
 	public boolean isOfReturnType(TypeMirror returnType) {
-		return method.getReturnType().equals(returnType);
+		return types.isSameType(method.getReturnType(), returnType);
 	}
 	
 	public boolean isBooleanReturnType() {
-		return types.isSameType(method.getReturnType(), context.typeMirrorOf(boolean.class)) 
+		return method.getReturnType().getKind().equals(TypeKind.BOOLEAN) 
 				|| types.isSameType(method.getReturnType(), context.typeMirrorOf(Boolean.class));
 	}
 

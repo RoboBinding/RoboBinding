@@ -2,6 +2,9 @@
 package org.robobinding.codegen;
 
 import org.robobinding.property.AbstractGetSet;
+import org.robobinding.property.AbstractGetSet;
+import org.robobinding.property.AbstractGetSet;
+import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.PropertyDescriptor;
 import org.robobinding.property.SimpleProperty;
 
@@ -12,15 +15,15 @@ public class DefineTryToCreateProperty_PM {
 		if (name.equals("primitiveReadWriteProp")) {
 			PropertyDescriptor descriptor = createPropertyDescriptor(Integer.class, name, true, true);
 			
-			AbstractGetSet<?> getSet = new AbstractGetSet(descriptor) {
+			AbstractGetSet<?> getSet = new AbstractGetSet<Integer>(descriptor) {
 				@Override
 				public Integer getValue() {
-					return this.presentationModel.getPrimitiveReadWriteProp();
+					return presentationModel.getPrimitiveReadWriteProp();
 				}
 				
 				@Override
 				public void setValue(Integer newValue) {
-					this.presentationModel.setPrimitiveReadWriteProp(newValue);
+					presentationModel.setPrimitiveReadWriteProp(newValue);
 				}
 			};
 			
@@ -30,10 +33,10 @@ public class DefineTryToCreateProperty_PM {
 		if(name.equals("readOnlyProp")) {
 			PropertyDescriptor descriptor = createPropertyDescriptor(String.class, name, true, false);
 			
-			AbstractGetSet<?> getSet = new AbstractGetSet(descriptor) {
+			AbstractGetSet<?> getSet = new AbstractGetSet<String>(descriptor) {
 				@Override
 				public String getValue() {
-					return this.presentationModel.getReadOnlyProp();
+					return presentationModel.getReadOnlyProp();
 				}
 			};
 			
@@ -43,15 +46,15 @@ public class DefineTryToCreateProperty_PM {
 		if (name.equals("readWriteProp")) {
 			PropertyDescriptor descriptor = createPropertyDescriptor(Object.class, name, true, true);
 			
-			AbstractGetSet<?> getSet = new AbstractGetSet(descriptor) {
+			AbstractGetSet<?> getSet = new AbstractGetSet<Object>(descriptor) {
 				@Override
 				public Object getValue() {
-					return this.presentationModel.getReadWriteProp();
+					return presentationModel.getReadWriteProp();
 				}
 				
 				@Override
 				public void setValue(Object newValue) {
-					this.presentationModel.setReadWriteProp(newValue);
+					presentationModel.setReadWriteProp(newValue);
 				}
 			};
 			
