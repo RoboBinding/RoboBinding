@@ -7,32 +7,34 @@ import org.robobinding.property.Properties;
 import org.robobinding.property.ValueModel;
 
 /**
- * 
  * @since 1.0
- * @version $Revision: 1.0 $
  * @author Cheng Wei
+ *
  */
-class PresentationModelAdapterImpl implements PresentationModelAdapter {
-	private final Functions functions;
-	private final Properties properties;
+public class PresentationModelAdapterImpl implements PresentationModelAdapter {
 	private final Class<?> presentationModelClass;
-
-	public PresentationModelAdapterImpl(Properties properties, Functions functions, Class<?> presentationModelClass) {
+	private final Properties properties;
+	private final Functions functions;
+	
+	public PresentationModelAdapterImpl(Class<?> presentationModelClass, Properties properties, Functions functions) {
+		this.presentationModelClass = presentationModelClass;
 		this.properties = properties;
 		this.functions = functions;
-		this.presentationModelClass = presentationModelClass;
 	}
 
+	@Override
 	public Class<?> getPropertyType(String propertyName) {
 		return properties.getPropertyType(propertyName);
 	}
 
-	public <T> ValueModel<T> getPropertyValueModel(String propertyName) {
-		return properties.getReadWriteProperty(propertyName);
-	}
-
+	@Override
 	public <T> ValueModel<T> getReadOnlyPropertyValueModel(String propertyName) {
 		return properties.getReadOnlyProperty(propertyName);
+	}
+
+	@Override
+	public <T> ValueModel<T> getPropertyValueModel(String propertyName) {
+		return properties.getReadWriteProperty(propertyName);
 	}
 
 	@Override

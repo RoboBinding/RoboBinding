@@ -32,6 +32,14 @@ subprojects {
 	}
 }
 
+String getRepositoryUsername() {
+	return project.hasProperty('repositoryUserName')?project.property('repositoryUserName'):'noUserName';
+}
+
+String getRepositoryPassword() {
+	return project.hasProperty('repositoryPassword')?project.property('repositoryPassword'):'noPassword';
+}
+
 task wrapper(type: Wrapper) {
 	gradleVersion = '2.1'
 	description = 'Produces Gradle Wrapper for the project.'

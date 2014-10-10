@@ -1,7 +1,6 @@
 package org.robobinding.binder;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
+import org.robobinding.presentationmodel.AbstractPresentationModelObject;
 
 /**
  * 
@@ -26,12 +26,12 @@ public class ViewBindingLifecycleTest {
 	@Mock
 	private InflatedView inflatedView;
 	@Mock
-	private Object presentationModel;
+	private AbstractPresentationModelObject presentationModelObject;
 
 	@Test
 	public void whenRunBindingLifeCycle_thenChildViewsShouldBeBound() {
 		ViewBindingLifecycle lifecycle = new ViewBindingLifecycle(bindingContextFactoryWithoutPreInitializingViews(), errorFormatter);
-		lifecycle.run(inflatedView, presentationModel);
+		lifecycle.run(inflatedView, presentationModelObject);
 
 		verify(inflatedView).bindChildViews(any(BindingContext.class));
 	}
@@ -43,14 +43,14 @@ public class ViewBindingLifecycleTest {
 	private BindingContextFactory createBindingContextFactory(boolean preInitializeViews) {
 		BindingContextFactory factory = mock(BindingContextFactory.class);
 		BindingContext bindingContext = new BindingContext(null, null, null, preInitializeViews);
-		when(factory.create(anyObject())).thenReturn(bindingContext);
+		when(factory.create(any(AbstractPresentationModelObject.class))).thenReturn(bindingContext);
 		return factory;
 	}
 
 	@Test
 	public void whenRunBindingLifeCycle_thenViewInflationErrorsShouldBeAsserted() {
 		ViewBindingLifecycle lifecycle = new ViewBindingLifecycle(bindingContextFactoryWithoutPreInitializingViews(), errorFormatter);
-		lifecycle.run(inflatedView, presentationModel);
+		lifecycle.run(inflatedView, presentationModelObject);
 
 		verify(inflatedView).assertNoErrors(errorFormatter);
 	}
@@ -58,7 +58,7 @@ public class ViewBindingLifecycleTest {
 	@Test
 	public void whenInflateAndBind_thenChildViewsShouldBePreInitialized() {
 		ViewBindingLifecycle lifecycle = new ViewBindingLifecycle(bindingContextFactoryWithPreInitializingViews(), errorFormatter);
-		lifecycle.run(inflatedView, presentationModel);
+		lifecycle.run(inflatedView, presentationModelObject);
 
 		verify(inflatedView).preinitializeViews(any(BindingContext.class));
 	}

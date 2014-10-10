@@ -6,8 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used in presentation models to configure the ItemPresentationModel
- * information for a data-set property.
+ * Used on a Getter of a presentation model to configure the ItemPresentationModel information for the data-set property.
  * 
  * @since 1.0
  * @author Cheng Wei
@@ -22,8 +21,9 @@ public @interface ItemPresentationModel {
 	/**
 	 * Optional. By default, a ItemPresentationModel is created using its
 	 * default constructor. When the factoryMethod is specified. A
-	 * ItemPresentationModel is created by invoking the
-	 * PresentationModel.factoryMethod().
+	 * {@link org.robobinding.itempresentationmodel.ItemPresentationModel} is created by invoking the
+	 * PresentationModel.factoryMethod(). In this way, the {@link org.robobinding.itempresentationmodel.ItemPresentationModel} 
+	 * instances can be configured freely.
 	 */
 	String factoryMethod() default "";
 }

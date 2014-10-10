@@ -1,6 +1,6 @@
 package org.robobinding.property;
 
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
+import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 
 /**
  * 
@@ -26,8 +26,8 @@ public class DataSetValueModelWrapper<T> implements DataSetValueModel<T> {
 	}
 
 	@Override
-	public ItemPresentationModel<T> newItemPresentationModel() {
-		return valueModel.newItemPresentationModel();
+	public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
+		return valueModel.newRefreshableItemPresentationModel();
 	}
 
 	@Override

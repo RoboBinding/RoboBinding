@@ -28,7 +28,7 @@ import java.util.Map;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class ClassUtils {
+public class ClassUtils {
 	/**
 	 * Maps primitive {@code Class}es to their corresponding wrapper
 	 * {@code Class}.
@@ -360,4 +360,26 @@ class ClassUtils {
 		}
 		return classes;
 	}
+	
+	/*
+	private static final Map<String, Class<?>> PRIMITIVE_MAP = new HashMap<String, Class<?>>();
+	static {
+		PRIMITIVE_MAP.put("int", int.class);
+		PRIMITIVE_MAP.put("boolean", boolean.class);
+		PRIMITIVE_MAP.put("float", float.class);
+		PRIMITIVE_MAP.put("long", long.class);
+		PRIMITIVE_MAP.put("short", short.class);
+		PRIMITIVE_MAP.put("byte", byte.class);
+		PRIMITIVE_MAP.put("double", double.class);
+		PRIMITIVE_MAP.put("char", char.class);
+		PRIMITIVE_MAP.put("void", void.class);
+	}
+	
+	public static Class<?> forName(String className) throws ClassNotFoundException {
+		if(PRIMITIVE_MAP.containsKey(className)) {
+			return PRIMITIVE_MAP.get(className);
+		} else {
+			return Class.forName(className);
+		}
+	}*/
 }

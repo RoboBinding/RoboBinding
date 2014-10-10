@@ -8,7 +8,7 @@ import static org.robobinding.util.RandomValues.nextInt;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.property.ValueModelUtils;
+import org.robobinding.viewattribute.property.ValueModelUtils;
 import org.robobinding.widget.adapterview.AbstractAdapterViewAttributeTest;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;

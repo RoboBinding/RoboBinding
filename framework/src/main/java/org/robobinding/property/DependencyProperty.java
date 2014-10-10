@@ -6,11 +6,11 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class DependencyProperty extends PropertyValueModelWrapper {
-	private final AbstractProperty property;
+public class DependencyProperty extends PropertyValueModelWrapper {
+	private final SimpleProperty property;
 	private final Dependency dependency;
 
-	public DependencyProperty(AbstractProperty property, Dependency dependency) {
+	public DependencyProperty(SimpleProperty property, Dependency dependency) {
 		super(property);
 		this.property = property;
 		this.dependency = dependency;
@@ -30,6 +30,6 @@ class DependencyProperty extends PropertyValueModelWrapper {
 
 	@Override
 	public String toString() {
-		return property.decriptionWithExtraInformation(dependency.getDependencyDescription());
+		return property.decriptionWithDependencies(dependency.getDependentProperties());
 	}
 }

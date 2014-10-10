@@ -33,8 +33,8 @@ import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.ChildAttributeResolvers;
 import org.robobinding.attribute.ResolvedGroupAttributes;
 import org.robobinding.itempresentationmodel.ItemContext;
-import org.robobinding.presentationmodel.AbstractPresentationModel;
 import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
+import org.robobinding.test.JavaReflectionPresentationModelObject;
 import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.BindingAttributeMappings;
 import org.robobinding.viewattribute.ViewBinding;
@@ -229,10 +229,12 @@ public class BindingTest {
 		ItemBinder itemBinder = mock(ItemBinder.class);
 		when(itemBinder.inflateWithoutAttachingToRoot(anyInt(), anyCollection(), any(ViewGroup.class))).thenReturn(bindableView);
 		when(binderFactory.createItemBinder()).thenReturn(itemBinder);
-		return new BindingContext(binderFactory, context, new PresentationModelAdapterFactory().create(new PresentationModelForTest()), true);
+		return new BindingContext(binderFactory, context, 
+				new PresentationModelAdapterFactory().create(new JavaReflectionPresentationModelObject(new PresentationModelForTest())), 
+				true);
 	}
 
-	public static class PresentationModelForTest extends AbstractPresentationModel {
+	public static class PresentationModelForTest {
 		private String name;
 
 		public String getName() {

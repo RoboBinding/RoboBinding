@@ -6,11 +6,11 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-class DataSetDependencyProperty extends DataSetPropertyValueModelWrapper {
+public class DataSetDependencyProperty extends DataSetPropertyValueModelWrapper {
 	private final Dependency dependency;
-	private final AbstractDataSetProperty dataSetProperty;
+	private final DataSetProperty dataSetProperty;
 
-	public DataSetDependencyProperty(AbstractDataSetProperty dataSetProperty, Dependency dependency) {
+	public DataSetDependencyProperty(DataSetProperty dataSetProperty, Dependency dependency) {
 		super(dataSetProperty);
 		this.dataSetProperty = dataSetProperty;
 		this.dependency = dependency;
@@ -30,6 +30,6 @@ class DataSetDependencyProperty extends DataSetPropertyValueModelWrapper {
 
 	@Override
 	public String toString() {
-		return dataSetProperty.decriptionWithExtraInformation(dependency.getDependencyDescription());
+		return dataSetProperty.decriptionWithDependencies(dependency.getDependentProperties());
 	}
 }

@@ -25,3 +25,9 @@
 /javadoc-taglet/target
 /release.bat
 /publish-snapshot.bat
+/codegen/.settings
+/codegen/bin
+/codegen/build
+/codegen/.classpath
+/codegen/.project
+/codegen/mavenRepo

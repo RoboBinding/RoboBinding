@@ -7,7 +7,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.annotation.DependsOnStateOf;
-import org.robobinding.presentationmodel.AbstractPresentationModel;
+import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
+import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.util.RandomValues;
 
 /**
@@ -54,10 +55,15 @@ public class DependsOnStateOfUnitTest {
 		assertThat(spy.getPropertyChangedCount(), is(2));
 	}
 
-	public static class SamplePresentationModel extends AbstractPresentationModel {
+	public static class SamplePresentationModel implements HasPresentationModelChangeSupport{
 		private static final String PROPERTY1 = "property1";
 		private static final String PROPERTY2 = "property2";
+		private PresentationModelChangeSupport changeSupport;
 		private boolean property1Value;
+		
+		public SamplePresentationModel() {
+			changeSupport = new PresentationModelChangeSupport(this);
+		}
 
 		public boolean getProperty1() {
 			return property1Value;
@@ -65,12 +71,17 @@ public class DependsOnStateOfUnitTest {
 
 		public void changeProperty1() {
 			property1Value = RandomValues.trueOrFalse();
-			firePropertyChange(PROPERTY1);
+			changeSupport.firePropertyChange(PROPERTY1);
 		}
 
 		@DependsOnStateOf(PROPERTY1)
 		public boolean getProperty2() {
 			return !property1Value;
+		}
+		
+		@Override
+		public PresentationModelChangeSupport getPresentationModelChangeSupport() {
+			return changeSupport;
 		}
 	}
 }

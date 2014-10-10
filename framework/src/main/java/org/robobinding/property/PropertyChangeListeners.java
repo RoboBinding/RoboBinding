@@ -34,11 +34,4 @@ public class PropertyChangeListeners {
 			listener.propertyChanged();
 		}
 	}
-
-	/*
-	 * private static final PropertyChangeListeners EMPTY = new
-	 * PropertyChangeListeners();
-	 * 
-	 * public static PropertyChangeListeners empty() { return EMPTY; }
-	 */
 }

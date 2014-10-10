@@ -98,6 +98,7 @@ dependencies {
 	testCompile "commons-collections:commons-collections:$commonsCollectionsVersion"
 	testCompile fileTree(dir: 'libs', include: '*.jar')
 	testCompile "org.easytesting:fest-assert-core:2.0M10"
+	testCompile 'commons-beanutils:commons-beanutils:1.9.2'
 	//testCompile "org.jmockit:jmockit:1.11"
 	
 	javadocTaglet project(':javadoc-taglet')
@@ -115,6 +116,7 @@ javadoc {
 	
 	include 'org/robobinding/*Exception.*'
 	include 'org/robobinding/*Errors.*'
+	include 'org/robobinding/Bug.java'
 	include 'org/robobinding/**/package-info.java'
 	
 	include 'org/robobinding/BindingContext.java'
@@ -134,13 +136,11 @@ javadoc {
 	include 'org/robobinding/dynamicbinding/DynamicViewBindingDescription.java'
 	
 	include 'org/robobinding/itempresentationmodel/*.java'
-	exclude 'org/robobinding/itempresentationmodel/ItemPresentationModelFactory.java'
+	exclude 'org/robobinding/itempresentationmodel/RefreshableItemPresentationModel.java'
+	exclude 'org/robobinding/itempresentationmodel/RefreshableItemPresentationModelFactory.java'
 	
-	include 'org/robobinding/presentationmodel/AbstractPresentationModel.java'
-	include 'org/robobinding/presentationmodel/PresentationModelAdapter.java'
+	include 'org/robobinding/presentationmodel/HasPresentationModelChangeSupport.java'
 	include 'org/robobinding/presentationmodel/PresentationModelChangeSupport.java'
-	
-	include 'org/robobinding/test/*.java'
 	
 	include 'org/robobinding/viewattribute/**/*.java'
 	exclude 'org/robobinding/viewattribute/impl/**'
@@ -321,15 +321,6 @@ uploadArchives {
 }
 
 
-String getRepositoryUsername() {
-	return project.hasProperty('repositoryUserName')?project.property('repositoryUserName'):'noUserName';
-}
-
-String getRepositoryPassword() {
-	return project.hasProperty('repositoryPassword')?project.property('repositoryPassword'):'noPassword';
-}
-
-
 task lintCheck(type:Exec) {
 	description = 'Run Android lint to check if there are any violations'
 	group = 'other'
@@ -356,28 +347,20 @@ eclipse {
 	}
 	
 	classpath {
+		containers 'org.springsource.ide.eclipse.gradle.classpathcontainer'
 		file {
 			whenMerged { classpath ->
 				classpath.entries.removeAll { entry ->
-					return true
+					entry.kind == 'lib'
 				}
 			}
 		}
+
 		file.withXml {
 			def node = it.asNode()
-
-			node.appendNode('classpathentry kind="src" path="src/main/java"')
-			node.appendNode('classpathentry kind="src" path="src/main/resources"')
-			node.appendNode('classpathentry kind="src" path="src/test/java"')
+			
+			node.remove( node.find { it.@path == 'src/test/resources' } )
 			node.appendNode('classpathentry excluding="**" kind="src" path="src/test/resources"')
-		
-			node.appendNode('classpathentry kind="src" path="src/integTest/java"')
-			node.appendNode('classpathentry kind="src" path="src/funcTest/java"')
-			
-			node.appendNode('classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"')
-			node.appendNode('classpathentry kind="con" path="org.springsource.ide.eclipse.gradle.classpathcontainer" exported="true"')
-			
-			node.appendNode('classpathentry kind="output" path="build/bin"')
 		}
 	}
 }

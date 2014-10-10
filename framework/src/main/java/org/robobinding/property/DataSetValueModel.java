@@ -1,6 +1,6 @@
 package org.robobinding.property;
 
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
+import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 
 /**
  * 
@@ -13,7 +13,7 @@ public interface DataSetValueModel<T> {
 
 	T getItem(int position);
 
-	ItemPresentationModel<T> newItemPresentationModel();
+	RefreshableItemPresentationModel newRefreshableItemPresentationModel();
 
 	void addPropertyChangeListener(PropertyChangeListener listener);
 

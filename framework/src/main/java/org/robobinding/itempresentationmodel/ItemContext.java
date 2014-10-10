@@ -10,12 +10,10 @@ import android.view.View;
 public class ItemContext {
 	private final View itemView;
 	private final int position;
-	private final boolean preInitializeViews;
 	
-	public ItemContext(View itemView, int position, boolean preInitializeViews) {
+	public ItemContext(View itemView, int position) {
 		this.itemView = itemView;
 		this.position = position;
-		this.preInitializeViews = preInitializeViews;
 	}
 
 	/**
@@ -28,13 +26,4 @@ public class ItemContext {
 	public int getPosition() {
 		return position;
 	}
-
-	/**
-	 * @return This is exposed for framework use only for now.　It might be removed in future.
-	 */
-	@Deprecated
-	public boolean isPreInitializeViews() {
-		return preInitializeViews;
-	}
-
 }

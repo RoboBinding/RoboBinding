@@ -2,8 +2,9 @@ package org.robobinding.aspects;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robobinding.annotation.PresentationModel;
+import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
 import org.robobinding.presentationmodel.PresentationModelChangeSupport;
-import org.robobinding.property.ObservableBean;
 
 /**
  * @since 1.0
@@ -30,7 +31,8 @@ public class PresentationModel_AutoGenerationTest {
 	}
 
 	private void observePropertyChange(Object presentationModel, String propertyName) {
-		((ObservableBean)presentationModel).addPropertyChangeListener(propertyName, propertyChangeListenerTester);
+		PresentationModelChangeSupport changeSupport = ((HasPresentationModelChangeSupport)presentationModel).getPresentationModelChangeSupport();
+		changeSupport.addPropertyChangeListener(propertyName, propertyChangeListenerTester);
 	}
 
 	@Test
@@ -41,6 +43,16 @@ public class PresentationModel_AutoGenerationTest {
 		presentationModel.setCustomProperty(true);
 
 		propertyChangeListenerTester.assertTimesOfPropertyChanged(0);
+	}
+	
+	@Test
+	public void givenUserDefinedPresentationModelChangeSupport_whenSetProperty_thenReceivedChangeNotification() {
+		UserDefinedChangeSupport presentationModel = new UserDefinedChangeSupport();
+		observePropertyChange(presentationModel, UserDefinedChangeSupport.PROPERTY);
+
+		presentationModel.setProperty(true);
+
+		propertyChangeListenerTester.assertPropertyChangedOnce();
 	}
 
 	@Test
@@ -53,9 +65,14 @@ public class PresentationModel_AutoGenerationTest {
 		propertyChangeListenerTester.assertPropertyChangedOnce();
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void whenUserDefinePresentationModelChangeSupportTwice_thenThrowsException() {
-		new DoubleUserDefinedChangeSupport();
+	@Test
+	public void givenNoPresentationModelAnnotation_whenSetProperty_thenReceivedNoNotification() {
+		NoPresentationModelAnnotation presentationModel = new NoPresentationModelAnnotation();
+		observePropertyChange(presentationModel, UserDefinedChangeSupport.PROPERTY);
+
+		presentationModel.setProperty(true);
+
+		propertyChangeListenerTester.assertTimesOfPropertyChanged(0);
 	}
 	
 	@Test
@@ -77,33 +94,44 @@ public class PresentationModel_AutoGenerationTest {
 	}
 
 	@PresentationModel
-	public static class UserDefinedChangeSupport {
+	public static class UserDefinedChangeSupport implements HasPresentationModelChangeSupport {
 		public static final String PROPERTY = "property";
-		private final PresentationModelChangeSupport presentationModelChangeSupport;
+		private final PresentationModelChangeSupport changeSupport;
 
 		public UserDefinedChangeSupport() {
-			presentationModelChangeSupport = new PresentationModelChangeSupport(this);
+			changeSupport = new PresentationModelChangeSupport(this);
 		}
 
 		public void refresh() {
-			presentationModelChangeSupport.refreshPresentationModel();
+			changeSupport.refreshPresentationModel();
 		}
 
 		public void setProperty(boolean value) {
-
+			System.out.println("in setProperty()");
 		}
-	}
-
-	@PresentationModel
-	public static class DoubleUserDefinedChangeSupport {
-		PresentationModelChangeSupport presentationModelChangeSupport;
-
-		public DoubleUserDefinedChangeSupport() {
-			presentationModelChangeSupport = new PresentationModelChangeSupport(this);
-			presentationModelChangeSupport = new PresentationModelChangeSupport(this);
+		
+		public PresentationModelChangeSupport getPresentationModelChangeSupport() {
+			return changeSupport;
 		}
 	}
 	
+	public static class NoPresentationModelAnnotation implements HasPresentationModelChangeSupport {
+		public static final String PROPERTY = "property";
+		private final PresentationModelChangeSupport changeSupport;
+
+		public NoPresentationModelAnnotation() {
+			changeSupport = new PresentationModelChangeSupport(this);
+		}
+
+		public void setProperty(boolean value) {
+			System.out.println("in setProperty()");
+		}
+		
+		public PresentationModelChangeSupport getPresentationModelChangeSupport() {
+			return changeSupport;
+		}
+	}
+
 	@PresentationModel
 	public static class SetterInvocationInConstructor {
 		public SetterInvocationInConstructor() {
