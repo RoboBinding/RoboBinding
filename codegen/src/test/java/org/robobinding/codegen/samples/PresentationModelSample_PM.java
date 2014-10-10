@@ -62,13 +62,13 @@ public class PresentationModelSample_PM extends AbstractPresentationModelObject 
 	public Set<MethodDescriptor> eventMethods() {
 		return Sets.newHashSet(
 				createMethodDescriptor(ON_CLICK),
-				createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class.getName()));
+				createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class));
 	}
 	
 	@Override
 	public SimpleProperty tryToCreateProperty(String name) {
 		if(name.equals(PROP1)) {
-			PropertyDescriptor descriptor = createPropertyDescriptor(String.class.getName(), name, true, true);
+			PropertyDescriptor descriptor = createPropertyDescriptor(String.class, name, true, true);
 			
 			AbstractGetSet<?> getSet = new AbstractGetSet<String>(descriptor) {
 				@Override
@@ -86,7 +86,7 @@ public class PresentationModelSample_PM extends AbstractPresentationModelObject 
 		} 
 		
 		if(name.equals(PROP2)) {
-			PropertyDescriptor descriptor = createPropertyDescriptor(Integer.class.getName(), name, true, true);
+			PropertyDescriptor descriptor = createPropertyDescriptor(Integer.class, name, true, true);
 			
 			AbstractGetSet<?> getSet = new AbstractGetSet<Integer>(descriptor) {
 				@Override
@@ -109,7 +109,7 @@ public class PresentationModelSample_PM extends AbstractPresentationModelObject 
 	@Override
 	public DataSetProperty tryToCreateDataSetProperty(String name) {
 		if(name.equals(DATA_SET_PROP)) {
-			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class.getName(), name);
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
 			
 			AbstractGetSet<?> getSet = new AbstractGetSet<List<String>>(descriptor) {
 				@Override
@@ -130,7 +130,7 @@ public class PresentationModelSample_PM extends AbstractPresentationModelObject 
 		}
 		
 		if(name.equals(DATA_SET_PROP_WITH_FACTORY_METHOD)) {
-			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class.getName(), name);
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
 			
 			AbstractGetSet<?> getSet = new AbstractGetSet<List<String>>(descriptor) {
 				@Override
@@ -165,7 +165,7 @@ public class PresentationModelSample_PM extends AbstractPresentationModelObject 
 			};
 		}
 		
-		if(methodDescriptor.equals(createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class.getName()))){
+		if(methodDescriptor.equals(createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class))){
 			return new Function() {
 				
 				@Override

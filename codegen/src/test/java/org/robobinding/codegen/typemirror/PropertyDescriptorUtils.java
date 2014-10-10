@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.robobinding.property.PropertyUtils;
 
-import com.google.android.collect.Sets;
+import com.google.common.collect.Sets;
 
 /**
  * @since 1.0
