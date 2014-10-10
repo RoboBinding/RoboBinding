@@ -5,7 +5,7 @@ import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
 
 public class DefineTryToCreateFunction_PM {
-	private final DefineTryToCreateFunction presentationModel;
+	final DefineTryToCreateFunction presentationModel;
 	@Override
 	public Function tryToCreateFunction(MethodDescriptor methodDescriptor) {
 		if(methodDescriptor.equals(createMethodDescriptor("eventMethod1"))) {

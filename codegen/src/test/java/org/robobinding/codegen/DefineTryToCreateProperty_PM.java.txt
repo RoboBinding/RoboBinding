@@ -9,7 +9,7 @@ import org.robobinding.property.PropertyDescriptor;
 import org.robobinding.property.SimpleProperty;
 
 public class DefineTryToCreateProperty_PM {
-	private final DefineTryToCreateProperty presentationModel;
+	final DefineTryToCreateProperty presentationModel;
 	@Override
 	public SimpleProperty tryToCreateProperty(String name) {
 		if (name.equals("primitiveReadWriteProp")) {

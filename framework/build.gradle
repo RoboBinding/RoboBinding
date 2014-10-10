@@ -240,16 +240,16 @@ uploadArchives {
 	repositories {
 		mavenDeployer {
 			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-			/*
+			
 			repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
 				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
 			}
 			
 			snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
 				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-			}*/
+			}
 			
-			repository(url: "file://$projectDir/mavenRepo")
+			//repository(url: "file://$projectDir/mavenRepo")
 			pom.project {
 				name 'RoboBinding'
 				description 'A Presentation Model(MVVM) framework for the Android platform'

@@ -44,6 +44,16 @@ public class PresentationModel_AutoGenerationTest {
 
 		propertyChangeListenerTester.assertTimesOfPropertyChanged(0);
 	}
+	
+	@Test
+	public void givenUserDefinedPresentationModelChangeSupport_whenSetProperty_thenReceivedChangeNotification() {
+		UserDefinedChangeSupport presentationModel = new UserDefinedChangeSupport();
+		observePropertyChange(presentationModel, UserDefinedChangeSupport.PROPERTY);
+
+		presentationModel.setProperty(true);
+
+		propertyChangeListenerTester.assertPropertyChangedOnce();
+	}
 
 	@Test
 	public void givenUserDefinedPresentationModelChangeSupport_whenRefreshPresentationModel_thenReceivedChangeNotification() {
@@ -53,6 +63,16 @@ public class PresentationModel_AutoGenerationTest {
 		presentationModel.refresh();
 
 		propertyChangeListenerTester.assertPropertyChangedOnce();
+	}
+
+	@Test
+	public void givenNoPresentationModelAnnotation_whenSetProperty_thenReceivedNoNotification() {
+		NoPresentationModelAnnotation presentationModel = new NoPresentationModelAnnotation();
+		observePropertyChange(presentationModel, UserDefinedChangeSupport.PROPERTY);
+
+		presentationModel.setProperty(true);
+
+		propertyChangeListenerTester.assertTimesOfPropertyChanged(0);
 	}
 	
 	@Test
@@ -87,7 +107,24 @@ public class PresentationModel_AutoGenerationTest {
 		}
 
 		public void setProperty(boolean value) {
+			System.out.println("in setProperty()");
+		}
+		
+		public PresentationModelChangeSupport getPresentationModelChangeSupport() {
+			return changeSupport;
+		}
+	}
+	
+	public static class NoPresentationModelAnnotation implements HasPresentationModelChangeSupport {
+		public static final String PROPERTY = "property";
+		private final PresentationModelChangeSupport changeSupport;
 
+		public NoPresentationModelAnnotation() {
+			changeSupport = new PresentationModelChangeSupport(this);
+		}
+
+		public void setProperty(boolean value) {
+			System.out.println("in setProperty()");
 		}
 		
 		public PresentationModelChangeSupport getPresentationModelChangeSupport() {

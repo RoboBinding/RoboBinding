@@ -26,11 +26,13 @@ public class ItemPresentationModelObjectClassGen extends AbstractPresentationMod
 	}
 	
 	/**
-	 *	private final ItemPresentationModelType itemPresentationModel;
+	 * Note: not private in order to improve performance.
+	 * 
+	 * final ItemPresentationModelType itemPresentationModel;
 	 */
 	@Override
 	public void defineFields() {
-		JFieldVar var = definedClass.field(JMod.PRIVATE + JMod.FINAL, presentationModelClass, "itemPresentationModel");
+		JFieldVar var = definedClass.field(JMod.FINAL, presentationModelClass, "itemPresentationModel");
 		presentationModelField = JExpr.refthis(var.name());
 		presentationModelFieldWithoutThis = JExpr.ref(var.name());
 	}

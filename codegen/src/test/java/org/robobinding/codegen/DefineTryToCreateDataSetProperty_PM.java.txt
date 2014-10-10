@@ -14,7 +14,7 @@ import org.robobinding.property.PropertyDescriptor;
 import org.robobinding.property.TypedCursorDataSet;
 
 public class DefineTryToCreateDataSetProperty_PM {
-	private final DefineTryToCreateDataSetProperty presentationModel;
+	final DefineTryToCreateDataSetProperty presentationModel;
 	@Override
 	public DataSetProperty tryToCreateDataSetProperty(String name) {
 		if(name.equals("cursorDataSetProp")) {

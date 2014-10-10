@@ -1,5 +1,7 @@
 package org.robobinding.presentationmodel;
 
+import java.util.Set;
+
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.PropertyChangeSupport;
 import org.robobinding.property.PropertyUtils;
@@ -16,24 +18,22 @@ import com.google.common.base.Preconditions;
  * @author Cheng Wei
  */
 public class PresentationModelChangeSupport {
-	private final PropertyChangeSupport propertyChangeSupport;
+	private PropertyChangeSupport propertyChangeSupport;
 
 	public PresentationModelChangeSupport(Object presentationModel) {
-		this(checkAndReturnClass(presentationModel));
+		Preconditions.checkNotNull(presentationModel, "presentationModel must not be null");
+		initialize(presentationModel.getClass(), PropertyUtils.getPropertyNames(presentationModel.getClass()));
 	}
 	
-	private static Class<?> checkAndReturnClass(Object presentationModel) {
-		Preconditions.checkNotNull(presentationModel, "presentationModel must not be null");
-		return presentationModel.getClass();
+	PresentationModelChangeSupport(Class<?> presentationModelClass, Set<String> propertyNames) {
+		initialize(presentationModelClass, propertyNames);
 	}
 
-	PresentationModelChangeSupport(Class<?> presentationModelClass) {
-		Preconditions.checkNotNull(presentationModelClass, "presentationModelClass must not be null");
-		
-		PropertyValidation propertyValidation = new PropertyValidation(presentationModelClass, 
-				PropertyUtils.getPropertyNames(presentationModelClass));
+	private void initialize(Class<?> presentationModelClass, Set<String> propertyNames) {
+		PropertyValidation propertyValidation = new PropertyValidation(presentationModelClass, propertyNames);
 		propertyChangeSupport = new PropertyChangeSupport(propertyValidation);
 	}
+	
 
 	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);

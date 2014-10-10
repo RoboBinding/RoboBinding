@@ -10,6 +10,8 @@ import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.PropertyDescriptor;
 import org.robobinding.property.PropertySupply;
 
+import com.google.common.collect.Sets;
+
 /**
  * @since 1.0
  * @author Cheng Wei
@@ -24,8 +26,15 @@ public abstract class AbstractPresentationModelObject implements PropertySupply,
 		if(presentationModel instanceof HasPresentationModelChangeSupport) {
 			this.changeSupport = ((HasPresentationModelChangeSupport)presentationModel).getPresentationModelChangeSupport();
 		} else {
-			this.changeSupport = new PresentationModelChangeSupport(presentationModel);
+			this.changeSupport = new PresentationModelChangeSupport(presentationModelClass, allPropertyNames());
 		}
+	}
+	
+	private Set<String> allPropertyNames() {
+		Set<String> all = Sets.newHashSet();
+		all.addAll(propertyNames());
+		all.addAll(dataSetPropertyNames());
+		return all;
 	}
 
 	public abstract Set<String> propertyNames();

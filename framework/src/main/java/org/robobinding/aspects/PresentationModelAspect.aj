@@ -31,10 +31,10 @@ privileged public aspect PresentationModelAspect
 	/**
 	 * Append property change notifications for setters without {@link CustomSetter} annotation.
 	 */
-	pointcut nonCustomSetter(PresentationModelMixin presentationModel) : execution (!@CustomSetter public void @PresentationModel HasPresentationModelChangeSupport+.set*(*)) && this(presentationModel);
+	pointcut nonCustomSetter(HasPresentationModelChangeSupport presentationModel) : execution (!@CustomSetter public void @PresentationModel HasPresentationModelChangeSupport+.set*(*)) && this(presentationModel);
 
 	@AdviceName("firePropertyChange")
-	after (PresentationModelMixin presentationModel) : nonCustomSetter(presentationModel)
+	after (HasPresentationModelChangeSupport presentationModel) : nonCustomSetter(presentationModel)
 	{
 		String methodName = thisJoinPointStaticPart.getSignature().getName();
 		String propertyName = Introspector.decapitalize(methodName.substring(3));

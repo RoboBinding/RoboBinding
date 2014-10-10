@@ -4,7 +4,7 @@ package org.robobinding.codegen;
 import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
 
 public class DefineConstructor_IPM extends AbstractItemPresentationModelObject {
-	private final DefineConstructor itemPresentationModel;
+	final DefineConstructor itemPresentationModel;
 	
 	public DefineConstructor_IPM(DefineConstructor itemPresentationModel) {
 		super(itemPresentationModel);
