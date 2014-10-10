@@ -19,10 +19,9 @@ public class JavaFile {
 				"src/test/java/{0}.java", StringUtils.replace(type.getName(), ".", "/")));
 	}
 	
-	@SuppressWarnings("deprecation")
 	public URL toURL() {
 		try {
-			return file.toURL();
+			return file.toURI().toURL();
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		}
