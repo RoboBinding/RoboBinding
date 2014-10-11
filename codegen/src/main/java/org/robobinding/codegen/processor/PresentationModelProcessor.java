@@ -10,6 +10,7 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic.Kind;
 
 import org.robobinding.annotation.PresentationModel;
 import org.robobinding.binder.PresentationModelObjectLoader;
@@ -43,6 +44,7 @@ public class PresentationModelProcessor extends AbstractProcessor {
 	
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+		processingEnv.getMessager().printMessage(Kind.NOTE, "Start RoboBinding annotations processing...");
 		ProcessingContext context = new ProcessingContext(processingEnv.getTypeUtils(), processingEnv.getElementUtils());
 		Set<TypeElementWrapper> typeElements = findPresentationModelTypeElements(roundEnv, context);
 		for(TypeElementWrapper typeElement : typeElements) {

@@ -1,3 +1,13 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath 'net.sf.proguard:proguard-gradle:4.11'
+	}
+}
+
 archivesBaseName = 'codegen'
 
 repositories {
@@ -21,7 +31,13 @@ dependencies {
 		exclude group: 'org.robolectric', module: 'android-all'
 	}
 	compile "org.glassfish.jaxb:codemodel:$codemodelVersion"
-	compile "com.google.android:android:$androidVersion"
+	compile ("com.google.android:android:$androidVersion"){
+		exclude group: 'commons-logging', module: 'commons-logging'
+		exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+		exclude group: 'org.khronos', module: 'opengl-api'
+		exclude group: 'xerces', module: 'xmlParserAPIs'
+		exclude group: 'org.json', module: 'json'
+	}
 	compile "org.apache.commons:commons-lang3:$commonsLangVersion"
 	
 	testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
@@ -35,15 +51,37 @@ dependencies {
 	testCompile 'commons-io:commons-io:2.4'
 }
 
+task proguardJarWithDependencies(type: proguard.gradle.ProGuardTask, dependsOn: jar) {
+	ext{
+		oldClassifier = jar.classifier;
+		jar.classifier = 'with-dependencies'
+		outJar = jar.archivePath
+		jar.classifier = oldClassifier;
+	}
+	
+	configuration 'proguard-rules.pro'
+	injars files(jar.archivePath)
+	injars configurations.runtime, filter: '!META-INF/MANIFEST.MF'
+	outjars  outJar
+	libraryjars files("${System.properties['java.home']}/lib/rt.jar")
+}
+
 javadoc {
 	enabled = false
 }
+
+artifacts {
+	archives proguardJarWithDependencies.outJarFileCollection.singleFile
+}
+
+configurations.archives.artifacts.removeAll { it.classifier == 'raw' }
 
 apply plugin: 'signing'
 signing {
 	required { !version.endsWith('SNAPSHOT') && gradle.taskGraph.hasTask("uploadArchives") }
 	sign configurations.archives
 }
+signArchives.dependsOn proguardJarWithDependencies
 
 apply plugin: 'maven'
 uploadArchives {
