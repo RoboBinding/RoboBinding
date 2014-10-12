@@ -67,11 +67,19 @@ task proguardJarWithDependencies(type: proguard.gradle.ProGuardTask, dependsOn: 
 }
 
 javadoc {
-	enabled = false
+	source = sourceSets.main.allJava
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
 }
 
 artifacts {
 	archives proguardJarWithDependencies.outJarFileCollection.singleFile
+	
+	archives sourcesJar
+	archives javadocJar
 }
 
 configurations.archives.artifacts.removeAll { it.classifier == 'raw' }
