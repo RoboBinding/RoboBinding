@@ -17,8 +17,11 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class ViewNameResolverTest {
 	@DataPoints
-	public static ViewNameMapping[] viewNameMappings = { layoutTagName("View").shouldResolveTo("android.view.View"),
-			layoutTagName("ViewGroup").shouldResolveTo("android.view.ViewGroup"), layoutTagName("EditText").shouldResolveTo("android.widget.EditText"),
+	public static ViewNameMapping[] viewNameMappings = { 
+		layoutTagName("View").shouldResolveTo("android.view.View"),
+			layoutTagName("ViewGroup").shouldResolveTo("android.view.ViewGroup"), 
+			layoutTagName("WebView").shouldResolveTo("android.webkit.WebView"), 
+			layoutTagName("EditText").shouldResolveTo("android.widget.EditText"),
 			layoutTagName("ListView").shouldResolveTo("android.widget.ListView"),
 			layoutTagName("robobinding.widget.CustomWidget").shouldResolveTo("robobinding.widget.CustomWidget") };
 
