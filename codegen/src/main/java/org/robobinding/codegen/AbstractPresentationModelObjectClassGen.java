@@ -79,11 +79,11 @@ public abstract class AbstractPresentationModelObjectClassGen {
 	public abstract void defineFields();
 	
 	public abstract void defineConstructor();
-	/**
-	 * 	@Override
-	 *	public Set<String> propertyNames() {
-	 *		return Sets.newHasSet("prop1", "prop2", ...);
-	 *	}
+	/*
+	 	@Override
+	 	public Set<String> propertyNames() {
+	 		return Sets.newHasSet("prop1", "prop2", ...);
+	 	}
 
 	 */
 	public void definePropertyNames() {
@@ -109,26 +109,26 @@ public abstract class AbstractPresentationModelObjectClassGen {
 		}
 		return invocation;
 	}
-	/**
-	 * 	@Override
-	 *	public Set<String> dataSetPropertyNames() {
-	 *		return Sets.newHasSet("dataSetProp1", "dataSetProp2");
-	 *	}
-	 *
+	/*
+	  	@Override
+	 	public Set<String> dataSetPropertyNames() {
+	 		return Sets.newHasSet("dataSetProp1", "dataSetProp2");
+	 	}
+	 
 	 */
 	public void defineDataSetPropertyNames() {
 		JMethod method = declarePublicMethodOverride("dataSetPropertyNames", setClassWithString);
 
 		method.body()._return(newHashSetInvocation(presentationModelInfo.dataSetPropertyNames()));
 	}
-	/**
-	 * @Override
-	 * public Map<String, Set<String>> propertyDependencies() {
-	 *		Map<String, Set<String>> dependencies = Maps.newHashMap();
-	 *		dependencies.put(PROP1, Sets.newHashSet(PROP2));
-	 *		return dependencies;
-	 *	}
-	 *
+	/*
+	  	@Override
+	  	public Map<String, Set<String>> propertyDependencies() {
+	 		Map<String, Set<String>> dependencies = Maps.newHashMap();
+	 		dependencies.put(PROP1, Sets.newHashSet(PROP2));
+	 		return dependencies;
+	 	}
+	 
 	 */
 	public void definePropertyDependencies() {
 		JMethod method = declarePublicMethodOverride("propertyDependencies", mapClassWithStringAndStringSet);
@@ -146,14 +146,14 @@ public abstract class AbstractPresentationModelObjectClassGen {
 		
 		body._return(dependenciesVar);
 	}
-	/**
-	 * 	@Override
-	 *	public Set<MethodDescriptor> eventMethods() {
-	 *		return Sets.newHashSet(
-	 *			createMethodDescriptor(ON_CLICK),
-	 *			createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class));
-	 *	}
-	 *
+	/*
+	  	@Override
+	 	public Set<MethodDescriptor> eventMethods() {
+	 		return Sets.newHashSet(
+	 			createMethodDescriptor(ON_CLICK),
+	 			createMethodDescriptor(ON_CLICK_WITH_EVENT, AbstractViewEvent.class));
+	 	}
+	 
 	 */
 	public void defineEventMethods() {
 		JMethod method = declarePublicMethodOverride("eventMethods", setClassWithMethodDescriptor);
