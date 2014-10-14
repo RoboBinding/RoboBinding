@@ -1,10 +1,21 @@
 ﻿Versions
 ========
-:Revision: 0.8.8
+:Revision: 0.8.9
 :toc:
 :numbered:
 :imagesdir: ./images
 :source-highlighter: pygments
+
+version 0.8.9(released 14/10/2014)
+----------------------------------
+* https://github.com/RoboBinding/RoboBinding/issues/181[feature 181] 
+Expose itemView in ItemPresentationModel.updateData(), so that we can fall back to the standard android way when needed. 
+* https://github.com/RoboBinding/RoboBinding/issues/48[feature 48] 
+Utilize code generation instead of Java reflection to improve performance. 
+About code generation settings, please refer to doc under link:getting_started.html#_environment_setup[Environment Setup].
+With introduction of code generation, PresentationModel is further simplified. 
+It only needs to implement the interface org.robobinding.presentationmodel.HasPresentationModelChangeSupport(AbstractPresentationModel has been removed).
+For further information, please refer to link:getting_started.html#_presentation_models[Presentation Models].
 
 version 0.8.8(released 26/09/2014)
 ----------------------------------

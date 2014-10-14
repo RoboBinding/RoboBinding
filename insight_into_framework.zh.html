@@ -775,14 +775,14 @@ asciidoc.install(2);
                 <a href="index.zh.html" class="menuitem">首页</a>
                 <a href="getting_started.zh.html" class="menuitem">入门</a>
                 <a href="insight_into_framework.zh.html" class="menuitem">深入理解框架</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.8/robobinding-0.8.8-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.9/robobinding-0.8.9-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
                 <a href="about.zh.html" class="menuitem">关于</a>
                 <a href="versions.zh.html" class="menuitem">版本更新</a>
                 <a href="index.html" class="menuitem">英文首页</a>
         </div>
 <div id="header">
 <h1>深入理解框架</h1>
-<span id="revnumber">version 0.8.8</span>
+<span id="revnumber">version 0.8.9</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -831,6 +831,11 @@ asciidoc.install(2);
 <li>
 <p>
 按Eclipse的Import 'Existing Projects into Workspace'，将项目下的framework子项目导入。
+</p>
+</li>
+<li>
+<p>
+以同样的方式你可以导入codegen子项目，如果对源代码生成有兴趣的话。
 </p>
 </li>
 </ul></div>
@@ -991,17 +996,13 @@ org.robobinding.widget.listview.FooterAttributes由子属性footerLayout以及�
 </div>
 <div class="paragraph"><p>Presentation Model相关概念实现类主要来自org.robobinding.presentationmodel，org.robobinding.property，org.robobinding.itempresentationmodel以及org.robobinding.function这四个包。
 这些类主要用于包装应用程序的PresentationModel以便于绑定模块使用。.presentationmodel.PresentationModelAdapter为这几个包的入口类。
-框架为应用程序的每一个PresentationModel生成一个对应的PresentationModelAdapter实例。目前框架通过两种方式识别应用程序PresentationModel，
-即所有.property.ObservableBean/.presentationmodel.AbstractPresentationModel的子类
-或有.aspects.PresentationModel annotation 标识的类。</p></div>
+框架为应用程序的每一个PresentationModel生成一个对应的PresentationModelAdapter实例。
+框架通过@org.robobinding.presentationmodel.PresentationModel来识别应用程序PresentationModel。</p></div>
 <div class="paragraph"><p>PresentationModelAdapter主要包装PresentationModel的三类信息，
 即将SimpleProperty，DataSetProperty和Method包装为.property.PropertyValueModel，.property.DataSetValueModel
 和.function.Function。上图右边的例子中：<code>windowTitle</code>为SimpleProperty,<code>albums</code>为DataSetProperty，<code>createAlbum()</code>为Method。
 DataSetProperty是一个数据集属性，其中每一个数据项又会生成一个.itempresentationmodel.ItemPresentationModel实例，
 上图中即为AlbumItemPresentationModel，其与对应的<code>@layout/album_row</code>配合显示相应的行。</p></div>
-<div class="paragraph"><p>框架通过AspectJ为一些类自动的注入一些代码，以减少工作量。
-例如为PresentationModel注入PresentationModelAspect，主要为Setter方法尾部追加属性值变更事件通知代码；
-为ItemPresentationModel注入ItemPresentationModelAspect，即为ItemPresentationModel.updateData方法的尾部加上数据项变更刷新ItemPresentationModel来同步视图显示代码。</p></div>
 </div>
 <div class="sect3">
 <h4 id="_视图事件监听器聚集">2.2.4. 视图事件监听器聚集</h4>
@@ -1033,8 +1034,8 @@ DataSetProperty是一个数据集属性，其中每一个数据项又会生成�
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.8<br />
-Last updated 2014-09-26 16:20:11 澳大利亚西部标准时间
+Version 0.8.9<br />
+Last updated 2014-10-14 19:35:58 澳大利亚西部标准时间
 </div>
 </div>
 </body>

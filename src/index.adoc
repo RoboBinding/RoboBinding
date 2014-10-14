@@ -1,5 +1,5 @@
 A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model](MVVM) framework for the Android platform. 
-Apart from promoting well-structured projects, RoboBinding focuses the areas that Android app development suffers: 
+RoboBinding helps you write UI code that is easier to read, test and maintain without performance compromise(code generation instead of java reflection).
 
 * removes - *lots of unnecessary code(e.g., addXXListener(), findViewById()...)* - by binding.
 

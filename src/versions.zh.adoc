@@ -1,10 +1,21 @@
 ﻿版本
 ====
-:Revision: 0.8.8
+:Revision: 0.8.9
 :toc:
 :numbered:
 :imagesdir: ./images
 :source-highlighter: pygments
+
+版本 0.8.9(2014-10-14发布)
+--------------------------
+* https://github.com/RoboBinding/RoboBinding/issues/181[新特性 181] 
+ItemPresentationModel.updateData()增加了itemView的信息。这样当需要时可以用Android原生的方式。
+* https://github.com/RoboBinding/RoboBinding/issues/48[新特性 48] 
+用自动源代码生成来替代Java反射来提高性能。
+关于源代码生成的设置，请参考 link:getting_started.zh.html#_开发环境[环境设置]部分。
+通过引入源代码生成，编写PresentationModel得到进一步的简化。
+PresentationModel只需要实现org.robobinding.presentationmodel.HasPresentationModelChangeSupport接口(AbstractPresentationModel 已经被移除).
+详细信息，请参考 link:getting_started.zh.html#_presentation_models[Presentation Models].
 
 版本 0.8.8(2014-09-26发布)
 --------------------------

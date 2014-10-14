@@ -837,14 +837,14 @@ asciidoc.install(2);
                 <a href="index.zh.html" class="menuitem">首页</a>
                 <a href="getting_started.zh.html" class="menuitem">入门</a>
                 <a href="insight_into_framework.zh.html" class="menuitem">深入理解框架</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.8/robobinding-0.8.8-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.9/robobinding-0.8.9-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
                 <a href="about.zh.html" class="menuitem">关于</a>
                 <a href="versions.zh.html" class="menuitem">版本更新</a>
                 <a href="index.html" class="menuitem">英文首页</a>
         </div>
 <div id="header">
 <h1>入门</h1>
-<span id="revnumber">version 0.8.8</span>
+<span id="revnumber">version 0.8.9</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -884,7 +884,8 @@ asciidoc.install(2);
 <div class="paragraph"><p>在presentation model类中声明相应的属性与方法。Presentation model 为纯POJO类。</p></div>
 <div class="paragraph"><p>org.robobinding.androidmvvm.PresentationModel.java</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PresentationModel</span> <span class="kd">extends</span> <span class="n">AbstractPresentationModel</span> <span class="o">{</span>
+<div class="content"><div class="highlight"><pre><span class="nd">@org.robobinding.annotation.PresentationModel</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PresentationModel</span> <span class="kd">implements</span> <span class="n">HasPresentationModelChangeSupport</span> <span class="o">{</span>
     <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
     <span class="kd">public</span> <span class="n">String</span> <span class="nf">getHello</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">return</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&quot;: hello Android MVVM(Presentation Model)!&quot;</span><span class="o">;</span>
@@ -963,6 +964,16 @@ asciidoc.install(2);
 <div class="title">Figure 2. AspectJ设置(以robobinding-[version]-with-aop-and-dependencies.jar为例)</div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_annotaton_processing设置">3.1.3. Annotaton Processing设置</h4>
+<div class="paragraph"><p>下载RoboBinding的codegen-[version]-with-dependencies.jar。然后按照下图进行设置。codegen-XX.jar只用于代码产生，项目不依赖于这个jar。</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/eclipse_annotation_processing_settings.png" alt="Annotation processing settings" />
+</div>
+<div class="title">Figure 3. Annotaton Processing设置</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_android_studio">3.2. Android Studio</h3>
@@ -1022,17 +1033,48 @@ asciidoc.install(2);
 </pre></div></div></div>
 <div class="paragraph"><p>请参考<a href="https://github.com/RoboBinding">RoboBinding</a> 下的 RoboBinding-album-sample以及RoboBinding-gallery例子项目。</p></div>
 </div>
+<div class="sect3">
+<h4 id="_annotation_processing设置">3.2.3. Annotation processing设置</h4>
+<div class="paragraph"><p>在gradle.build里添加apt plugin。</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">buildscript</span> <span class="o">{</span>
+    <span class="n">repositories</span> <span class="o">{</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+
+    <span class="n">dependencies</span> <span class="o">{</span>
+        <span class="o">...</span>
+        <span class="n">classpath</span> <span class="s1">&#39;com.neenbedankt.gradle.plugins:android-apt:1.+&#39;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="o">...</span>
+<span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;com.neenbedankt.android-apt&#39;</span>
+</pre></div></div></div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_proguard">3.3. ProGuard</h3>
-<div class="paragraph"><p>RoboBinding需要所有实现了org.robobinding.property.ObservableBean(如所有的presentation model)类的类名与公共方法保持不变。保留所有的annoations。
-所以需要在项目的ProGuard配置里加入下面的指令：</p></div>
+<div class="paragraph"><p>保留PresentationModel的共公方法以及生成的代码的构造函数信息。保留所有的annoations。</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="p">-</span><span class="ni">keep</span> <span class="n">class</span> <span class="o">*</span> <span class="n">implements</span> <span class="n">org</span><span class="p">.</span><span class="n">robobinding</span><span class="p">.</span><span class="n">property</span><span class="p">.</span><span class="nv">ObservableBean</span> <span class="p">{</span>
+<div class="content"><div class="highlight"><pre><span class="p">-</span><span class="ni">keepattributes</span> <span class="o">*</span><span class="nv">Annotation</span><span class="o">*</span><span class="p">,</span><span class="nv">Signature</span>
+<span class="p">-</span><span class="ni">keep</span><span class="p">,</span><span class="n">allowobfuscation</span> <span class="p">@</span><span class="n">interface</span> <span class="n">org</span><span class="p">.</span><span class="n">robobinding</span><span class="p">.</span><span class="n">annotation</span><span class="p">.</span><span class="nv">PresentationModel</span>
+
+<span class="p">-</span><span class="ni">keep</span> <span class="p">@</span><span class="n">org</span><span class="p">.</span><span class="n">robobinding</span><span class="p">.</span><span class="n">annotation</span><span class="p">.</span><span class="nv">PresentationModel</span> <span class="n">class</span> <span class="o">*</span> <span class="p">{</span>
     <span class="n">public</span> <span class="o">***</span> <span class="o">*</span><span class="p">(...);</span>
 <span class="p">}</span>
 
-<span class="p">-</span><span class="ni">keepattributes</span> <span class="o">*</span><span class="nv">Annotation</span><span class="o">*</span><span class="p">,</span><span class="nv">Signature</span>
+<span class="p">-</span><span class="ni">keep</span> <span class="n">class</span> <span class="o">*</span> <span class="n">implements</span> <span class="n">org</span><span class="p">.</span><span class="n">robobinding</span><span class="p">.</span><span class="n">itempresentationmodel</span><span class="p">.</span><span class="nv">ItemPresentationModel</span><span class="p">{</span>
+    <span class="n">public</span> <span class="o">***</span> <span class="o">*</span><span class="p">(...);</span>
+<span class="p">}</span>
+
+<span class="p">-</span><span class="ni">keep</span> <span class="n">class</span> <span class="o">*</span> <span class="n">extends</span> <span class="n">org</span><span class="p">.</span><span class="n">robobinding</span><span class="p">.</span><span class="n">presentationmodel</span><span class="p">.</span><span class="nv">AbstractPresentationModelObject</span><span class="p">{</span>
+    <span class="n">public</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;</span><span class="p">(...);</span>
+<span class="p">}</span>
+
+<span class="p">-</span><span class="ni">keep</span> <span class="n">class</span> <span class="o">*</span> <span class="n">extends</span> <span class="n">org</span><span class="p">.</span><span class="n">robobinding</span><span class="p">.</span><span class="n">presentationmodel</span><span class="p">.</span><span class="nv">AbstractItemPresentationModelObject</span><span class="p">{</span>
+    <span class="n">public</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;</span><span class="p">(...);</span>
+<span class="p">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>增加以下的内容，使ProGuard保留view listeners的构造函数名：</p></div>
 <div class="listingblock">
@@ -1040,12 +1082,11 @@ asciidoc.install(2);
     <span class="n">public</span> <span class="o">&lt;</span><span class="n">init</span><span class="o">&gt;</span><span class="p">(...);</span>
 <span class="p">}</span>
 </pre></div></div></div>
-<div class="paragraph"><p>增加以下的内容，抑制Android sdk一些兼容性警告与google guava的javax.annotation.XX 引用警告。</p></div>
+<div class="paragraph"><p>增加以下的内容，抑制google guava的javax.annotation.XX 引用警告。</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="p">-</span><span class="ni">dontwarn</span> <span class="n">android</span><span class="p">.</span><span class="n">widget</span><span class="p">.</span><span class="nv">AbsListView</span><span class="p">,</span> <span class="n">android</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="nv">View</span>
-<span class="p">-</span><span class="ni">dontwarn</span> <span class="n">javax</span><span class="p">.</span><span class="n">annotation</span><span class="p">.</span><span class="o">**</span>
+<div class="content"><div class="highlight"><pre><span class="p">-</span><span class="ni">dontwarn</span> <span class="n">javax</span><span class="p">.</span><span class="n">annotation</span><span class="p">.</span><span class="o">**</span>
 </pre></div></div></div>
-<div class="paragraph"><p>请参考<a href="https://github.com/RoboBinding">RoboBinding</a> 下的 RoboBinding-album-sample或RoboBinding-gallery例子项目的ProGuard配置文件[project]/app/proguard-rules.pro。</p></div>
+<div class="paragraph"><p>请参考<a href="https://github.com/RoboBinding">RoboBinding</a> 下的 RoboBinding-album-sample例子项目的ProGuard配置文件[project]/app/proguard-rules.txt。</p></div>
 </div>
 </div>
 </div>
@@ -1056,7 +1097,7 @@ asciidoc.install(2);
 <div class="content">
 <img src="./images/robobinding_based_app.png" alt="robobinding_based_app.png" />
 </div>
-<div class="title">Figure 3. 基于RoboBinding的Android应用</div>
+<div class="title">Figure 4. 基于RoboBinding的Android应用</div>
 </div>
 <div class="paragraph"><p>一个Android应用包含了若干个Activity以及其它的元素。在基于RoboBinding的应用里一个Activity包含了Activity主文件，Layout以及PresentationModel类。
 (而Android普通应用一个Activity只包含了Activity主文件与Layout)。原先位于Activity内的显示层逻辑被提取到独立的文件PresentationModel内。
@@ -1176,6 +1217,24 @@ RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel a
 </pre></div></div></div>
 <div class="paragraph"><p>例子中数据项layout为android系统提供的simple_list_item_1.xml。通过<code>bind:itemMapping="[text1.text:{value}]"</code>，
 我们指定了simple_list_item_1.xml的text1.text关联到StringItemPresentationModel.value属性。</p></div>
+<div class="paragraph"><p>@ItemPresentationModel有一个factoryMethod属性。当ItemPresentationModel有一些外部的依赖时，
+我们可以在PresentationModel里提供一个factoryMethod方法来创建这些ItemPresentationModels。
+这样我们可以为这些ItemPresentationModel提供外部依赖并对其进行任意的配置。例如：</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nd">@PresentationModel</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PresentationModelSample</span>
+<span class="o">{</span>
+    <span class="o">...</span>
+    <span class="nd">@ItemPresentationModel</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="n">ItemPresentationModelSample</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">factoryMethod</span><span class="o">=</span><span class="s">&quot;createItemPresentationModelSample&quot;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getDynamicStrings</span><span class="o">()</span>
+    <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">getSelectedSource</span><span class="o">().</span><span class="na">getSample</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">ItemPresentationModelSample</span> <span class="nf">createItemPresentationModelSample</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">ItemPresentationModelSample</span><span class="o">(</span><span class="n">dependency1</span><span class="o">,</span> <span class="n">dependency2</span><span class="o">,</span> <span class="o">...);</span>
+    <span class="o">}</span>
+</pre></div></div></div>
 </div>
 <div class="sect2">
 <h3 id="_羽量级关系数据与对象cursor映射">4.5. 羽量级关系数据与对象cursor映射</h3>
@@ -1263,52 +1322,17 @@ RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel a
 </div>
 <div class="sect2">
 <h3 id="_presentation_model">4.7. Presentation Model</h3>
-<div class="paragraph"><p>有两种方式实现Presentation Model，即使用AspectJ与不使用AspectJ。</p></div>
+<div class="paragraph"><p>我们需要在每个PresentationModel上用@org.robobinding.annotation.PresentationModel进行标注。
+当在PresentationModel里需要用到org.robobinding.presentationmodel.PresentationModelChangeSupport时,
+我们的PresentationModel需要实现org.robobinding.presentationmodel.HasPresentationModelChangeSupport接口。
+这样框架内部通过这个接口来使用同一个PresentationModelChangeSupport实例。</p></div>
+<div class="paragraph"><p>有两种方式实现PresentationModel。即使用AspectJ与不使用AspectJ。以下为两种方式的对比。</p></div>
 <div class="sect3">
-<h4 id="_使用aspectj_3">4.7.1. 使用AspectJ</h4>
+<h4 id="_不使用aspectj_3">4.7.1. 不使用AspectJ</h4>
 <div class="ulist"><ul>
 <li>
 <p>
-使用robobinding-[version]-with-aop.jar或robobinding-[version]-with-aop-and-dependencies.jar
-</p>
-</li>
-<li>
-<p>
-使用@org.robobinding.aspects.PresentationModel来标注你的Presentation Model类。
-</p>
-</li>
-<li>
-<p>
-其优点是Presentation Model不需要实现或扩展任何类，并且可为Presentation Model自动产生一些代码，减少工作量。
-</p>
-</li>
-<li>
-<p>
-缺点是必须依赖于AspectJ Runtime Library。最后的apk大小会增加一点。
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>org.robobinding.gallery.presentationmodel.ViewPresentationModel.java</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nd">@PresentationModel</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ViewPresentationModel</span>
-<span class="o">{</span>
-    <span class="kd">private</span> <span class="n">PresentationModelChangeSupport</span> <span class="n">changeSupport</span><span class="o">;</span>
-    <span class="o">...</span>
-<span class="o">}</span>
-</pre></div></div></div>
-</div>
-<div class="sect3">
-<h4 id="_不使用aspectj_3">4.7.2. 不使用AspectJ</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-依赖于robobinding-[version].jar 或 robobinding-[version]-with-dependencies.jar
-</p>
-</li>
-<li>
-<p>
-让Presentation Model扩展org.robobinding.presentationmodel.AbstractPresentationModel或实现org.robobinding.property.ObservableBean。
+依赖于robobinding-[version].jar 或 robobinding-[version]-with-dependencies.jar。
 </p>
 </li>
 <li>
@@ -1318,23 +1342,32 @@ RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel a
 </li>
 <li>
 <p>
-缺点是Presentation Model需要扩展或实现以上的类或接口，需要手动编写如firePropertyChange("propertyName")等代码。
+需要手动编写firePropertyChange("propertyName")代码。
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>org.robobinding.gallery.presentationmodel.PresentationModel_BySubclassNoAspectJ.java</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PresentationModel_BySubclassNoAspectJ</span> <span class="kd">extends</span> <span class="n">AbstractPresentationModel</span> <span class="o">{</span>
-    <span class="o">...</span>
-<span class="o">}</span>
-</pre></div></div></div>
-<div class="paragraph"><p>org.robobinding.gallery.presentationmodel.PresentationModel_ByInterfaceNoAspectJ.java</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PresentationModel_ByInterfaceNoAspectJ</span> <span class="kd">implements</span> <span class="n">ObservableBean</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="n">PresentationModelChangeSupport</span> <span class="n">changeSupport</span><span class="o">;</span>
-    <span class="o">...</span>
-<span class="o">}</span>
-</pre></div></div></div>
+<div class="paragraph"><p>可以参考<a href="https://github.com/RoboBinding/AndroidMVVM">AndroidMVVM</a>与<a href="https://github.com/RoboBinding/Android-CleanArchitecture">Android-CleanArchitecture</a>项目。</p></div>
+</div>
+<div class="sect3">
+<h4 id="_使用aspectj_3">4.7.2. 使用AspectJ</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+使用robobinding-[version]-with-aop.jar或robobinding-[version]-with-aop-and-dependencies.jar。
+</p>
+</li>
+<li>
+<p>
+很多的firePropertyChange("propertyName")代码由aspectJ自动生成。
+</p>
+</li>
+<li>
+<p>
+缺点是必须依赖于AspectJ Runtime Library。最后的apk大小会增加一点。
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>可以参考<a href="https://github.com/RoboBinding/RoboBinding-album-sample">Album Sample</a>与<a href="https://github.com/RoboBinding/RoboBinding-gallery">Gallery</a>项目。</p></div>
 </div>
 </div>
 </div>
@@ -1348,7 +1381,7 @@ RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel a
 <div class="content">
 <img src="./images/album_sample_prototype.png" alt="album_sample_prototype.png" />
 </div>
-<div class="title">Figure 4. Album唱片集例子原型</div>
+<div class="title">Figure 5. Album唱片集例子原型</div>
 </div>
 <div class="paragraph"><p>以下"."表示相对于org.robobinding.albumsample的包路径。</p></div>
 <div class="paragraph"><p>以上是Album唱片集例子原型图。项目遵循RoboBinding应用的标准结构，即一个Activity由Activity主文件，Layout与PresentationModel Java文件组成。
@@ -1412,16 +1445,6 @@ ListView绑定属性示例。入口类为ListViewActivity。
 </li>
 <li>
 <p>
-不使用AspectJ, 以扩展方式实现PresentationModel示例。入口类为BySubclassNoAspectJActivity。
-</p>
-</li>
-<li>
-<p>
-不使用AspectJ, 以接口方式实现PresentationModel示例。入口类为ByInterfaceNoAspectJActivity。
-</p>
-</li>
-<li>
-<p>
 Fragment与ViewPager绑定示例。入口类为ListFragmentDemoActivity。
 </p>
 </li>
@@ -1457,7 +1480,7 @@ Contextual Action Mode绑定示例。入口类为ContextualActionModeActivity。
 <div class="content">
 <img src="./images/custom_component.png" alt="custom_component.png" />
 </div>
-<div class="title">Figure 5. 自定义 Title Description Bar</div>
+<div class="title">Figure 6. 自定义 Title Description Bar</div>
 </div>
 <div class="paragraph"><p>我们以上图的自定义组件TitleDescriptionBar为例。该组件包含了标题与描述两个部分。在输入新的标题与描述后，点击'Apply'，自定义组件的内容就更新为新的内容。</p></div>
 <div class="paragraph"><p>我们想使TitleDescriptonBar组件使用起来能像以下<code>示例一样简单</code>。</p></div>
@@ -1661,7 +1684,7 @@ Contextual Action Mode绑定示例。入口类为ContextualActionModeActivity。
 <div class="content">
 <img src="./images/project_structure.png" alt="Project structure" />
 </div>
-<div class="title">Figure 6. Project structure</div>
+<div class="title">Figure 7. Project structure</div>
 </div>
 <div class="paragraph"><p>在Android项目中，View层由Activity(Fragment)与Layout组成，Model层即业务模型层包含了各种的Services，持久化层，网络访问服务，以及业务服务等。
 各层之间的依赖与访问关系如上图的箭头所示，View层不直接调用业务模型层。</p></div>
@@ -1733,8 +1756,8 @@ Contextual Action Mode绑定示例。入口类为ContextualActionModeActivity。
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.8<br />
-Last updated 2014-09-26 16:20:22 澳大利亚西部标准时间
+Version 0.8.9<br />
+Last updated 2014-10-14 19:39:21 澳大利亚西部标准时间
 </div>
 </div>
 </body>

@@ -1,6 +1,6 @@
 ﻿Insight Into Framework
 ======================
-:Revision: 0.8.8
+:Revision: 0.8.9
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -25,6 +25,8 @@ After the project is downloaded to local, follow the steps below to import into 
 
 * Goto the root directory of the project in command line, and run 'gradlew framework:cleanEclipse framework:eclipse'.
 * In Eclipse, follow the Import 'Existing Projects into Workspace' wizard to import the framework sub-project. After imported, the project should look similar to the screen shot below.
+* If you are interested in source code generation, you can import codegen sub-project in the same way.
+
 
 .RoboBinding project in Eclipse
 image::eclipse_robobinding.png[]
@@ -184,19 +186,13 @@ The four packages, org.robobinding.presentationmodel, org.robobinding.property, 
 are for wrapping a PresentationModel as a .presentationmodel.PresentationModelAdapter, which is used in binding process.
 The PresentationModelAdapter is the entry class of the packages.
 The framework creates a PresentationModelAdapter instance for each PresentationModel.
-Currently, there are two ways for the framework to identify a class as a PresentationModel. 
-Either the class is a subclass of .property.ObservableBean/.presentationmodel.AbstractPresentationModel,
-or is annotated by .aspects.PresentationModel.
+Currently, there are two ways for the framework to identify a class as a PresentationModel through .presentation.PresentationModel annotation.
 
 A PresentationModelAdapter is created to wrap a PresentationModel and acts as a provider of three pieces of information,
 namely wrapping SimpleProperty, DataSetProperty and Method, and then acting as a provider of .property.PropertyValueModel, .property.DataSetValueModel
 and .function.Function. On the right hand side of the figure above, the property of ++windowTitle++ is a SimpleProperty, the property of ++albums++ is a DataSetProperty and ++createAlbum()++ is a Method.
 DataSetProperty is a data set property. The framework will create a .itempresentationmodel.ItemPresentationModel instance for each data item in the collection.
 In the given figure above, an AlbumItemPresentationModel will be created for each album item in albums collection and will be rendered to the screen according to the given row layout of ++@layout/album_row++.
-
-The framework utilizes http://eclipse.org/aspectj/[AspectJ] framework to auto-generate and inject some source code to reduce the workload.
-For example, a PresentationModel will be injected a PresentationModelAspect, mainly to append property value change event notification to the setters.
-A ItemPresentationModel will be injected a ItemPresentationModelAspect, appending some source code to ItemPresentationModel.updateData method to reflect data item change and to refresh the ItemPresentationModel so that the display is synchronized.
 
 View event listener aggregates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

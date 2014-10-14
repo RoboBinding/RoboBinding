@@ -1,6 +1,6 @@
 ﻿深入理解框架
 ============
-:Revision: 0.8.8
+:Revision: 0.8.9
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -25,6 +25,7 @@ image::eclipse_gradle_settings.png[]
 
 * 在command line下转到项目根路径。运行命令 'gradlew framework:cleanEclipse framework:eclipse'。
 * 按Eclipse的Import 'Existing Projects into Workspace'，将项目下的framework子项目导入。
+* 以同样的方式你可以导入codegen子项目，如果对源代码生成有兴趣的话。
 
 .Eclipse下RoboBinding项目
 image::eclipse_robobinding.png[]
@@ -173,19 +174,14 @@ Presentation Model概念实现
 image::presentationmodel_classdiagram.png[]
 Presentation Model相关概念实现类主要来自org.robobinding.presentationmodel，org.robobinding.property，org.robobinding.itempresentationmodel以及org.robobinding.function这四个包。
 这些类主要用于包装应用程序的PresentationModel以便于绑定模块使用。.presentationmodel.PresentationModelAdapter为这几个包的入口类。
-框架为应用程序的每一个PresentationModel生成一个对应的PresentationModelAdapter实例。目前框架通过两种方式识别应用程序PresentationModel，
-即所有.property.ObservableBean/.presentationmodel.AbstractPresentationModel的子类
-或有.aspects.PresentationModel annotation 标识的类。
+框架为应用程序的每一个PresentationModel生成一个对应的PresentationModelAdapter实例。
+框架通过@org.robobinding.presentationmodel.PresentationModel来识别应用程序PresentationModel。
 
 PresentationModelAdapter主要包装PresentationModel的三类信息，
 即将SimpleProperty，DataSetProperty和Method包装为.property.PropertyValueModel，.property.DataSetValueModel
 和.function.Function。上图右边的例子中：++windowTitle++为SimpleProperty,++albums++为DataSetProperty，++createAlbum()++为Method。
 DataSetProperty是一个数据集属性，其中每一个数据项又会生成一个.itempresentationmodel.ItemPresentationModel实例，
 上图中即为AlbumItemPresentationModel，其与对应的++@layout/album_row++配合显示相应的行。
-
-框架通过AspectJ为一些类自动的注入一些代码，以减少工作量。
-例如为PresentationModel注入PresentationModelAspect，主要为Setter方法尾部追加属性值变更事件通知代码；
-为ItemPresentationModel注入ItemPresentationModelAspect，即为ItemPresentationModel.updateData方法的尾部加上数据项变更刷新ItemPresentationModel来同步视图显示代码。
 
 视图事件监听器聚集
 ^^^^^^^^^^^^^^^^^^

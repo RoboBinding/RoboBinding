@@ -1,6 +1,6 @@
 ﻿Getting Started
 ===============
-:Revision: 0.8.8
+:Revision: 0.8.9
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -41,7 +41,8 @@ In presentation models, we declare corresponding properties and methods.
 org.robobinding.androidmvvm.PresentationModel.java 
 [source,java]
 ----
-public class PresentationModel extends AbstractPresentationModel {
+@org.robobinding.annotation.PresentationModel
+public class PresentationModel implements HasPresentationModelChangeSupport {
     private String name;
     public String getHello() {
 		return name + ": hello Android MVVM(Presentation Model)!";
@@ -111,6 +112,14 @@ Finally, make sure the RoboBinding jar is added to your project Aspect Path. Rig
 .AspectJ settings(An example using robobinding-[version]-with-aop-and-dependencies.jar)
 image::eclipse_aspectj_settings.png["Aspectj settings"]
 
+Annotaton Processing Settings
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Download RoboBinding codegen-[version]-with-dependencies.jar and update eclipse annotation processing settings as the following picture indicated. 
+codegen-XX.jar is for source code generation only. Projects do not depend on it.
+
+.Annotaton processing settings
+image::eclipse_annotation_processing_settings.png["Annotation processing settings"]
+
 Android Studio
 ~~~~~~~~~~~~~~
 Without AspectJ
@@ -174,18 +183,51 @@ dependencies {
 ----
 Please feel free to refer to the sample projects under https://github.com/RoboBinding[RoboBinding], e.g., RoboBinding-album-sample or RoboBinding-gallery.
 
+Annotation Processing Settings
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Add apt plugin to gradle.build.
+[source,groovy]
+----
+buildscript {
+	repositories {
+		...
+	}
+
+	dependencies {
+		...
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.+'
+	}
+}
+
+...
+apply plugin: 'com.neenbedankt.android-apt'
+----
+
 ProGuard
 ~~~~~~~~
-RoboBinding requires that all classes which implement org.robobinding.property.ObservableBean (i.e. presentation models) have their names and public methods left intact. Additionally, we need to preserve all annotations.
+Preserve public methods of PresentationModels as well as the constructors of generated source code. Additionally, we need to preserve all annotations.
 
 To achieve this, add the following directives to your ProGuard configuration:
 [source,erlang]
 ----
--keep class * implements org.robobinding.property.ObservableBean {
-	public *** *(...);
+-keepattributes *Annotation*,Signature
+-keep,allowobfuscation @interface org.robobinding.annotation.PresentationModel
+
+-keep @org.robobinding.annotation.PresentationModel class * {
+    public *** *(...);
 }
 
--keepattributes *Annotation*,Signature
+-keep class * implements org.robobinding.itempresentationmodel.ItemPresentationModel{
+    public *** *(...);
+}
+
+-keep class * extends org.robobinding.presentationmodel.AbstractPresentationModelObject{
+    public <init>(...);
+}
+
+-keep class * extends org.robobinding.presentationmodel.AbstractItemPresentationModelObject{
+    public <init>(...);
+}
 ----
 
 And add the following lines also to keep the constructors of view listeners.
@@ -196,14 +238,13 @@ And add the following lines also to keep the constructors of view listeners.
 }
 ----
 
-And add the following lines to avoid some android sdk back compatibility warnings and google guava javax.annotation.XX reference warnings.
+And add the following lines to suppress google guava javax.annotation.XX reference warnings.
 [source,erlang]
 ----
--dontwarn android.widget.AbsListView, android.view.View
 -dontwarn javax.annotation.**
 ----
 
-Examples of proguard.cfg/proguard-rules.pro settings can be found in RoboBinding-album-sample and RoboBinding-gallery sample projects under https://github.com/RoboBinding/[RoboBinding].
+An example of proguard rules settings can be found in RoboBinding-album-sample under https://github.com/RoboBinding/[RoboBinding organization].
 
 Concepts and Features
 ---------------------
@@ -361,6 +402,26 @@ We can then define a layout xml that will provide the view for each row in our A
 In the example, we use the Android predefined item layout simple_list_item_1.xml. 
 Through ++bind:itemMapping="[text1.text:\{value\}]"++, we map text1.text from simple_list_item_1.xml to StringItemPresentationModel.value.
 
+There is a ++factoryMethod++ property in @ItemPresentationModel. When ItemPresentationModels have some external dependencies, 
+we can add a factoryMethod to PresentationModel so that ItemPresentatonModels are created through the method. 
+In this way, can can pass any dependencies into ItemPresentatonModels and configure them freely. A simple example is as follows.
+[source,java]
+----
+@PresentationModel
+public class PresentationModelSample
+{
+	...
+	@ItemPresentationModel(value=ItemPresentationModelSample.class, factoryMethod="createItemPresentationModelSample")
+	public List<String> getDynamicStrings()
+	{
+		return getSelectedSource().getSample();
+	}
+	
+	public ItemPresentationModelSample createItemPresentationModelSample() {
+		return ItemPresentationModelSample(dependency1, dependency2, ...);
+	}
+----
+
 Featherweight relational cursor to object cursor mapping
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In ++Binding with AdapterViews++, we mentioned a data source type - ++org.robobinding.itempresentationmodel.TypedCursor++.
@@ -457,50 +518,28 @@ public class ContextMenuPresentationModel {
 
 Presentation Models
 ~~~~~~~~~~~~~~~~~~~
-There are two ways to implement a Presentation Model, namely with AspectJ and without AspectJ.
+We annotate each PresentationModel with @org.robobinding.annotation.PresentationModel. 
+When a org.robobinding.presentationmodel.PresentationModelChangeSupport is needed in a PresentationModel, 
+the PresentationModel has to implement org.robobinding.presentationmodel.HasPresentationModelChangeSupport interface,
+so that the framework can use the same PresentationModelChangeSupport instance internally.
 
-With AspectJ
-^^^^^^^^^^^^
-* Use robobinding-[version]-with-aop.jar or robobinding-[version]-with-aop-and-dependencies.jar
-* Annotate Presentation Model classes with the AspectJ annotation @org.robobinding.aspects.PresentationModel.
-* The advantage of the approach is that Presentation Models don't have to extend an extra super class or interface. 
-And at same time, some source code will be automatically weaved in to reduce the work.
-* The disadvantage is that there is a dependency on AspectJ Runtime Library, which slightly increases the size of the final apk.
-
-org.robobinding.gallery.presentationmodel.ViewPresentationModel.java
-[source,java]
-----
-@PresentationModel
-public class ViewPresentationModel
-{
-    private PresentationModelChangeSupport changeSupport;
-	...
-}
-----
+There are two ways to implement a Presentation Model, namely with AspectJ and without AspectJ. Below is the comparison.
 
 Without AspectJ
 ^^^^^^^^^^^^^^^
 * Use robobinding-[version].jar or robobinding-[version]-with-dependencies.jar
-* Let Presentation Models extends org.robobinding.presentationmodel.AbstractPresentationModel or implements org.robobinding.property.ObservableBean.
 * The advantage is that there is no extra dependency on AspectJ, which keeps the final apk relatively small.
-* The disadvantage is that Presentation Models have to extend or implement the class/interface above, as well as having to manually type in everything, e.g., firePropertyChange("propertyName").
+* The disadvantage is we need to type every firePropertyChange("propertyName") manually.
 
-org.robobinding.gallery.presentationmodel.PresentationModel_BySubclassNoAspectJ.java
-[source,java]
-----
-public class PresentationModel_BySubclassNoAspectJ extends AbstractPresentationModel {
-    ...
-}
-----
+https://github.com/RoboBinding/AndroidMVVM[AndroidMVVM] and https://github.com/RoboBinding/Android-CleanArchitecture[Android-CleanArchitecture] are the examples without AspectJ.
 
-org.robobinding.gallery.presentationmodel.PresentationModel_ByInterfaceNoAspectJ.java
-[source,java]
-----
-public class PresentationModel_ByInterfaceNoAspectJ implements ObservableBean {
-    private final PresentationModelChangeSupport changeSupport;
-	...
-}
-----
+With AspectJ
+^^^^^^^^^^^^
+* Use robobinding-[version]-with-aop.jar or robobinding-[version]-with-aop-and-dependencies.jar
+* The advantage is that many firePropertyChange("propertyName") are auto-generated.
+* The disadvantage is that there is a dependency on AspectJ Runtime Library, which slightly increases the size of the final apk.
+
+https://github.com/RoboBinding/RoboBinding-album-sample[Album Sample] and https://github.com/RoboBinding/RoboBinding-gallery[Gallery] are the examples with AspectJ.
 
 A Walk through Album Sample
 ---------------------------
@@ -555,10 +594,6 @@ The entry classes mentioned below are from the package org.robobinding.gallery.a
 * Demo for Object Cursor. The entry class is 'TypedCursorActivity'.
 
 * Demo for Dynamic Binding. The entry class is 'DynamicBindingActivity'.
-
-* Demo for PresentationModel implementation by Subclassing without AspectJ. The entry class is 'BySubclassNoAspectJActivity'.
-
-* Demo for PresentationModel implementation by Implementing Interface without AspectJ. The entry class is 'ByInterfaceNoAspectJActivity'.
 
 * Demo for Fragment & ViewPager Binding. The entry class is 'ListFragmentDemoActivity'.
 

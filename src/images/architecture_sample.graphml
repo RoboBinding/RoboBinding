@@ -418,10 +418,10 @@ org.robobinding.function</y:NodeLabel>
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="480.43863932291697" width="630.281982421875" x="-51.145193591455325" y="800.857421875"/>
+              <y:Geometry height="480.43863932291697" width="692.522054624041" x="-113.38526579362139" y="800.857421875"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
-              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="40.7529296875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="630.281982421875" x="0.0" y="0.0">Modified version of sample.robobinding.presentationmodel.ViewAlbumsPresentationModel
+              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="40.7529296875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="692.522054624041" x="0.0" y="0.0">Modified version of org.robobinding.albumsample.presentationmodel.ViewAlbumsPresentationModel
 from RoboBinding-album-sample project</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
@@ -447,10 +447,10 @@ from RoboBinding-album-sample project</y:NodeLabel>
           <data key="d4"/>
           <data key="d6">
             <y:UMLNoteNode>
-              <y:Geometry height="402.66959635416697" width="590.281982421875" x="-31.145193591455325" y="863.62646484375"/>
+              <y:Geometry height="402.66959635416697" width="652.5220546240411" x="-93.38526579362139" y="863.62646484375"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="386.23046875" modelName="custom" textColor="#000000" visible="true" width="409.970703125" x="90.1556396484375" y="8.219563802083485">@PresentationModel
+              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="386.23046875" modelName="custom" textColor="#000000" visible="true" width="409.970703125" x="121.27567574952053" y="8.219563802083485">@PresentationModel
 public class ViewAlbumsPresentationModel {
     private final ViewAlbumsView view;
     ...
@@ -542,15 +542,15 @@ public class ViewAlbumsPresentationModel {
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="297.720703125" width="480.09506653402457" x="-571.6240449505591" y="715.5393480369659"/>
+              <y:Geometry height="297.720703125" width="544.3592061248789" x="-676.4099172944592" y="715.5393480369659"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
-              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="40.7529296875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="480.09506653402457" x="0.0" y="0.0">Modified version of  sample.robobinding.activity.ViewAlbumsActivity
+              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="40.7529296875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="544.3592061248789" x="0.0" y="0.0">Modified version of  org.robobinding.albumsample.activity.ViewAlbumsActivity
 from RoboBinding-album-sample project</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-              <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="5" rightF="5.14819759679574" top="0" topF="0.0"/>
+              <y:BorderInsets bottom="0" bottomF="0.0" left="13" leftF="12.961008528083198" right="5" rightF="5.14819759679574" top="0" topF="0.0"/>
             </y:GroupNode>
             <y:GroupNode>
               <y:Geometry height="50.0" width="50.0" x="120.0" y="60.0"/>
@@ -571,10 +571,10 @@ from RoboBinding-album-sample project</y:NodeLabel>
           <data key="d4"/>
           <data key="d6">
             <y:UMLNoteNode>
-              <y:Geometry height="222.3444592790388" width="444.9468689372288" x="-556.6240449505591" y="773.6039348036965"/>
+              <y:Geometry height="222.3444592790388" width="496.25" x="-648.448908766376" y="773.6039348036965"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="226.9677734375" modelName="custom" textColor="#000000" visible="true" width="421.85986328125" x="11.543502827989414" y="-2.3116570792305993">public class ViewAlbumsActivity extends Activity {
+              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="226.9677734375" modelName="custom" textColor="#000000" visible="true" width="421.85986328125" x="37.195068359375" y="-2.3116570792305993">public class ViewAlbumsActivity extends Activity {
     protected ViewAlbumsPresentationModel presentationModel;
 
     @Override

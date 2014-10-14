@@ -1,6 +1,6 @@
 ﻿入门
 ====
-:Revision: 0.8.8
+:Revision: 0.8.9
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -41,7 +41,8 @@ Presentation Model(pure POJO)
 org.robobinding.androidmvvm.PresentationModel.java 
 [source,java]
 ----
-public class PresentationModel extends AbstractPresentationModel {
+@org.robobinding.annotation.PresentationModel
+public class PresentationModel implements HasPresentationModelChangeSupport {
     private String name;
     public String getHello() {
 		return name + ": hello Android MVVM(Presentation Model)!";
@@ -107,6 +108,12 @@ RoboBinding aspects可以帮你自动的产生代码，以便减少工作量。
 .AspectJ设置(以robobinding-[version]-with-aop-and-dependencies.jar为例)
 image::eclipse_aspectj_settings.png["Aspectj settings"]
 
+Annotaton Processing设置
+^^^^^^^^^^^^^^^^^^^^^^^^
+下载RoboBinding的codegen-[version]-with-dependencies.jar。然后按照下图进行设置。codegen-XX.jar只用于代码产生，项目不依赖于这个jar。
+
+.Annotaton Processing设置
+image::eclipse_annotation_processing_settings.png["Annotation processing settings"]
 
 Android Studio
 ~~~~~~~~~~~~~~
@@ -170,18 +177,49 @@ dependencies {
 ----
 请参考https://github.com/RoboBinding[RoboBinding] 下的 RoboBinding-album-sample以及RoboBinding-gallery例子项目。
 
+Annotation processing设置
+^^^^^^^^^^^^^^^^^^^^^^^^^
+在gradle.build里添加apt plugin。
+[source,groovy]
+----
+buildscript {
+	repositories {
+		...
+	}
+
+	dependencies {
+		...
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.+'
+	}
+}
+
+...
+apply plugin: 'com.neenbedankt.android-apt'
+----
 
 ProGuard
 ~~~~~~~~
-RoboBinding需要所有实现了org.robobinding.property.ObservableBean(如所有的presentation model)类的类名与公共方法保持不变。保留所有的annoations。
-所以需要在项目的ProGuard配置里加入下面的指令：
+保留PresentationModel的共公方法以及生成的代码的构造函数信息。保留所有的annoations。
 [source,erlang]
 ----
--keep class * implements org.robobinding.property.ObservableBean {
-	public *** *(...);
+-keepattributes *Annotation*,Signature
+-keep,allowobfuscation @interface org.robobinding.annotation.PresentationModel
+
+-keep @org.robobinding.annotation.PresentationModel class * {
+    public *** *(...);
 }
 
--keepattributes *Annotation*,Signature
+-keep class * implements org.robobinding.itempresentationmodel.ItemPresentationModel{
+    public *** *(...);
+}
+
+-keep class * extends org.robobinding.presentationmodel.AbstractPresentationModelObject{
+    public <init>(...);
+}
+
+-keep class * extends org.robobinding.presentationmodel.AbstractItemPresentationModelObject{
+    public <init>(...);
+}
 ----
 
 增加以下的内容，使ProGuard保留view listeners的构造函数名：
@@ -192,14 +230,13 @@ RoboBinding需要所有实现了org.robobinding.property.ObservableBean(如所�
 }
 ----
 
-增加以下的内容，抑制Android sdk一些兼容性警告与google guava的javax.annotation.XX 引用警告。
+增加以下的内容，抑制google guava的javax.annotation.XX 引用警告。
 [source,erlang]
 ----
--dontwarn android.widget.AbsListView, android.view.View
 -dontwarn javax.annotation.**
 ----
 
-请参考https://github.com/RoboBinding[RoboBinding] 下的 RoboBinding-album-sample或RoboBinding-gallery例子项目的ProGuard配置文件[project]/app/proguard-rules.pro。
+请参考https://github.com/RoboBinding[RoboBinding] 下的 RoboBinding-album-sample例子项目的ProGuard配置文件[project]/app/proguard-rules.txt。
 
 
 主要概念与特性
@@ -350,6 +387,26 @@ public class StringItemPresentationModel implements ItemPresentationModel<String
 例子中数据项layout为android系统提供的simple_list_item_1.xml。通过++bind:itemMapping="[text1.text:\{value\}]"++，
 我们指定了simple_list_item_1.xml的text1.text关联到StringItemPresentationModel.value属性。
 
+@ItemPresentationModel有一个factoryMethod属性。当ItemPresentationModel有一些外部的依赖时，
+我们可以在PresentationModel里提供一个factoryMethod方法来创建这些ItemPresentationModels。
+这样我们可以为这些ItemPresentationModel提供外部依赖并对其进行任意的配置。例如：
+[source,java]
+----
+@PresentationModel
+public class PresentationModelSample
+{
+	...
+	@ItemPresentationModel(value=ItemPresentationModelSample.class, factoryMethod="createItemPresentationModelSample")
+	public List<String> getDynamicStrings()
+	{
+		return getSelectedSource().getSample();
+	}
+	
+	public ItemPresentationModelSample createItemPresentationModelSample() {
+		return ItemPresentationModelSample(dependency1, dependency2, ...);
+	}
+----
+
 羽量级关系数据与对象cursor映射
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AdapterViews绑定中，我们提到数据集属性类型的其中一种为++org.robobinding.itempresentationmodel.TypedCursor++。
@@ -446,49 +503,28 @@ public class ContextMenuPresentationModel {
 
 Presentation Model
 ~~~~~~~~~~~~~~~~~~
-有两种方式实现Presentation Model，即使用AspectJ与不使用AspectJ。
+我们需要在每个PresentationModel上用@org.robobinding.annotation.PresentationModel进行标注。
+当在PresentationModel里需要用到org.robobinding.presentationmodel.PresentationModelChangeSupport时, 
+我们的PresentationModel需要实现org.robobinding.presentationmodel.HasPresentationModelChangeSupport接口。
+这样框架内部通过这个接口来使用同一个PresentationModelChangeSupport实例。
 
-使用AspectJ
-^^^^^^^^^^^
-* 使用robobinding-[version]-with-aop.jar或robobinding-[version]-with-aop-and-dependencies.jar
-* 使用@org.robobinding.aspects.PresentationModel来标注你的Presentation Model类。
-* 其优点是Presentation Model不需要实现或扩展任何类，并且可为Presentation Model自动产生一些代码，减少工作量。
-* 缺点是必须依赖于AspectJ Runtime Library。最后的apk大小会增加一点。
-
-org.robobinding.gallery.presentationmodel.ViewPresentationModel.java
-[source,java]
-----
-@PresentationModel
-public class ViewPresentationModel
-{
-    private PresentationModelChangeSupport changeSupport;
-	...
-}
-----
+有两种方式实现PresentationModel。即使用AspectJ与不使用AspectJ。以下为两种方式的对比。
 
 不使用AspectJ
 ^^^^^^^^^^^^^
-* 依赖于robobinding-[version].jar 或 robobinding-[version]-with-dependencies.jar
-* 让Presentation Model扩展org.robobinding.presentationmodel.AbstractPresentationModel或实现org.robobinding.property.ObservableBean。
+* 依赖于robobinding-[version].jar 或 robobinding-[version]-with-dependencies.jar。
 * 其优点是无需额外的AspectJ依赖。最后的apk相对会小一点。
-* 缺点是Presentation Model需要扩展或实现以上的类或接口，需要手动编写如firePropertyChange("propertyName")等代码。
+* 需要手动编写firePropertyChange("propertyName")代码。
 
-org.robobinding.gallery.presentationmodel.PresentationModel_BySubclassNoAspectJ.java
-[source,java]
-----
-public class PresentationModel_BySubclassNoAspectJ extends AbstractPresentationModel {
-    ...
-}
-----
+可以参考https://github.com/RoboBinding/AndroidMVVM[AndroidMVVM]与https://github.com/RoboBinding/Android-CleanArchitecture[Android-CleanArchitecture]项目。
 
-org.robobinding.gallery.presentationmodel.PresentationModel_ByInterfaceNoAspectJ.java
-[source,java]
-----
-public class PresentationModel_ByInterfaceNoAspectJ implements ObservableBean {
-    private final PresentationModelChangeSupport changeSupport;
-	...
-}
-----
+使用AspectJ
+^^^^^^^^^^^
+* 使用robobinding-[version]-with-aop.jar或robobinding-[version]-with-aop-and-dependencies.jar。
+* 很多的firePropertyChange("propertyName")代码由aspectJ自动生成。
+* 缺点是必须依赖于AspectJ Runtime Library。最后的apk大小会增加一点。
+
+可以参考https://github.com/RoboBinding/RoboBinding-album-sample[Album Sample]与https://github.com/RoboBinding/RoboBinding-gallery[Gallery]项目。
 
 Album唱片集例子项目学习
 -----------------------
@@ -540,10 +576,6 @@ Gallery 示例内容
 * 对象化Cursor示例。入口类为TypedCursorActivity。
 
 * 动态绑定示例。入口类为DynamicBindingActivity。
-
-* 不使用AspectJ, 以扩展方式实现PresentationModel示例。入口类为BySubclassNoAspectJActivity。
-
-* 不使用AspectJ, 以接口方式实现PresentationModel示例。入口类为ByInterfaceNoAspectJActivity。
 
 * Fragment与ViewPager绑定示例。入口类为ListFragmentDemoActivity。
 

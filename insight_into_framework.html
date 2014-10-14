@@ -775,14 +775,14 @@ asciidoc.install(2);
                 <a href="index.html" class="menuitem">Home</a>
                 <a href="getting_started.html" class="menuitem">Getting Started</a>
                 <a href="insight_into_framework.html" class="menuitem">Insight Into Framework</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.8/robobinding-0.8.8-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.9/robobinding-0.8.9-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
                 <a href="about.html" class="menuitem">About</a>
                 <a href="versions.html" class="menuitem">Versions</a>
                 <a href="index.zh.html" class="menuitem">Chinese中文</a>
         </div>
 <div id="header">
 <h1>Insight Into Framework</h1>
-<span id="revnumber">version 0.8.8</span>
+<span id="revnumber">version 0.8.9</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -831,6 +831,11 @@ Goto the root directory of the project in command line, and run <em>gradlew fram
 <li>
 <p>
 In Eclipse, follow the Import <em>Existing Projects into Workspace</em> wizard to import the framework sub-project. After imported, the project should look similar to the screen shot below.
+</p>
+</li>
+<li>
+<p>
+If you are interested in source code generation, you can import codegen sub-project in the same way.
 </p>
 </li>
 </ul></div>
@@ -1001,17 +1006,12 @@ It needs subViewLayoutAttribute.getLayoutId() to create a SubViewAttribute.</p><
 are for wrapping a PresentationModel as a .presentationmodel.PresentationModelAdapter, which is used in binding process.
 The PresentationModelAdapter is the entry class of the packages.
 The framework creates a PresentationModelAdapter instance for each PresentationModel.
-Currently, there are two ways for the framework to identify a class as a PresentationModel.
-Either the class is a subclass of .property.ObservableBean/.presentationmodel.AbstractPresentationModel,
-or is annotated by .aspects.PresentationModel.</p></div>
+Currently, there are two ways for the framework to identify a class as a PresentationModel through .presentation.PresentationModel annotation.</p></div>
 <div class="paragraph"><p>A PresentationModelAdapter is created to wrap a PresentationModel and acts as a provider of three pieces of information,
 namely wrapping SimpleProperty, DataSetProperty and Method, and then acting as a provider of .property.PropertyValueModel, .property.DataSetValueModel
 and .function.Function. On the right hand side of the figure above, the property of <code>windowTitle</code> is a SimpleProperty, the property of <code>albums</code> is a DataSetProperty and <code>createAlbum()</code> is a Method.
 DataSetProperty is a data set property. The framework will create a .itempresentationmodel.ItemPresentationModel instance for each data item in the collection.
 In the given figure above, an AlbumItemPresentationModel will be created for each album item in albums collection and will be rendered to the screen according to the given row layout of <code>@layout/album_row</code>.</p></div>
-<div class="paragraph"><p>The framework utilizes <a href="http://eclipse.org/aspectj/">AspectJ</a> framework to auto-generate and inject some source code to reduce the workload.
-For example, a PresentationModel will be injected a PresentationModelAspect, mainly to append property value change event notification to the setters.
-A ItemPresentationModel will be injected a ItemPresentationModelAspect, appending some source code to ItemPresentationModel.updateData method to reflect data item change and to refresh the ItemPresentationModel so that the display is synchronized.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_view_event_listener_aggregates">2.2.4. View event listener aggregates</h4>
@@ -1044,8 +1044,8 @@ RoboBinding source code format needs to be followed, so that it is easier for co
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.8<br />
-Last updated 2014-09-26 16:20:17 澳大利亚西部标准时间
+Version 0.8.9<br />
+Last updated 2014-10-12 09:33:18 澳大利亚西部标准时间
 </div>
 </div>
 </body>
