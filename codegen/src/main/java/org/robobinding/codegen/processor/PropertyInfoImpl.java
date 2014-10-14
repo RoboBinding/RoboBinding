@@ -35,7 +35,11 @@ public class PropertyInfoImpl implements PropertyInfo {
 	}
 	
 	public String typeName() {
-		return getter.nonPrimitiveReturnTypeName();
+		if(getter != null) {
+			return getter.nonPrimitiveReturnTypeName();
+		} else {
+			return setter.firstParameterTypeName();
+		}
 	}
 
 	public String getter() {

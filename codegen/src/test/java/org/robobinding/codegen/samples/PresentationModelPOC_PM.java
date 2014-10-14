@@ -24,8 +24,8 @@ import com.google.common.collect.Sets;
  * @author Cheng Wei
  *
  */
-public class PresentationModelSample_PM extends AbstractPresentationModelObject {
-	private final PresentationModelSample presentationModel;
+public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
+	private final PresentationModelPOC presentationModel;
 	
 	private static final String PROP1 = "prop1";
 	private static final String PROP2 = "prop2";
@@ -35,7 +35,7 @@ public class PresentationModelSample_PM extends AbstractPresentationModelObject 
 	private static final String ON_CLICK_WITH_EVENT = "onClickWithEvent";
 
 	
-	public PresentationModelSample_PM(PresentationModelSample presentationModel) {
+	public PresentationModelPOC_PM(PresentationModelPOC presentationModel) {
 		super(presentationModel);
 		
 		this.presentationModel = presentationModel;
@@ -122,7 +122,7 @@ public class PresentationModelSample_PM extends AbstractPresentationModelObject 
 				
 				@Override
 				public RefreshableItemPresentationModel create() {
-					return new StringItemPresentationModel_IPM(new StringItemPresentationModel());
+					return new StringItemPresentationModelPOC_IPM(new StringItemPresentationModelPOC());
 				}
 			};	
 			
@@ -142,7 +142,7 @@ public class PresentationModelSample_PM extends AbstractPresentationModelObject 
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				@Override
 				public RefreshableItemPresentationModel create() {
-					return new StringItemPresentationModel_IPM(presentationModel.newStringItemPresentationModel());
+					return new StringItemPresentationModelPOC_IPM(presentationModel.newStringItemPresentationModel());
 				}
 			};
 			

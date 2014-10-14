@@ -8,7 +8,7 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
  * @author Cheng Wei
  *
  */
-public class StringItemPresentationModel implements ItemPresentationModel<String> {
+public class StringItemPresentationModelPOC implements ItemPresentationModel<String> {
 	@Override
 	public void updateData(String bean, ItemContext itemContext) {
 		// TODO Auto-generated method stub

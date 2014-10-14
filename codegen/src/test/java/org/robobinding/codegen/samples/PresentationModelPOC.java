@@ -10,7 +10,7 @@ import org.robobinding.widget.view.AbstractViewEvent;
  * @author Cheng Wei
  *
  */
-public class PresentationModelSample {
+public class PresentationModelPOC {
 	private String prop1;
 	private int prop2;
 	private List<String> dataSetProp;
@@ -32,18 +32,18 @@ public class PresentationModelSample {
 		this.prop2 = prop2;
 	}
 
-	@ItemPresentationModel(value = StringItemPresentationModel.class)
+	@ItemPresentationModel(value = StringItemPresentationModelPOC.class)
 	public List<String> getDataSetProp() {
 		return dataSetProp;
 	}
 	
-	@ItemPresentationModel(value = StringItemPresentationModel.class, factoryMethod = "newStringItemPresentationModel")
+	@ItemPresentationModel(value = StringItemPresentationModelPOC.class, factoryMethod = "newStringItemPresentationModel")
 	public List<String> getDataSetPropWithFactoryMethod() {
 		return dataSetPropWithFactoryMethod;
 	}
 	
-	public StringItemPresentationModel newStringItemPresentationModel() {
-		return new StringItemPresentationModel();
+	public StringItemPresentationModelPOC newStringItemPresentationModel() {
+		return new StringItemPresentationModelPOC();
 	}
 	
 	public void onClick() {

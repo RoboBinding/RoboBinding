@@ -15,9 +15,9 @@ import org.robobinding.property.SimpleProperty;
  * @author Cheng Wei
  *
  */
-public class StringItemPresentationModel_IPM extends AbstractItemPresentationModelObject {
-	private final StringItemPresentationModel itemPresentationModel;
-	public StringItemPresentationModel_IPM(StringItemPresentationModel itemPresentationModel) {
+public class StringItemPresentationModelPOC_IPM extends AbstractItemPresentationModelObject {
+	private final StringItemPresentationModelPOC itemPresentationModel;
+	public StringItemPresentationModelPOC_IPM(StringItemPresentationModelPOC itemPresentationModel) {
 		super(itemPresentationModel);
 		
 		this.itemPresentationModel = itemPresentationModel;
