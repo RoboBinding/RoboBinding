@@ -5,6 +5,8 @@ import org.robobinding.NonBindingViewInflater;
 import org.robobinding.ViewBinder;
 import org.robobinding.ViewCreationListenerInstaller;
 import org.robobinding.attribute.PropertyAttributeParser;
+import org.robobinding.presentationmodel.AbstractPresentationModelObject;
+import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 import org.robobinding.viewattribute.ViewListenersMap;
 import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
@@ -16,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import com.google.common.base.Preconditions;
+import org.robobinding.widget.adapterview.DataSetAdapter;
+import org.robobinding.widget.adapterview.DataSetAdapterBuilder;
 
 /**
  * 
@@ -60,7 +64,13 @@ public class BinderFactory {
 		return creator.createMenuBinder(menuInflater, menu);
 	}
 
-	private static class SingleInstanceCreator {
+    public DataSetAdapter<?> createDataSet(Context context, AbstractPresentationModelObject presentationModel, int itemLayoutId, int dropDownLayoutId, String propertyName) {
+        SingleInstanceCreator creator = new SingleInstanceCreator(viewListenersMap, bindingAttributeMappingsProviderMap, context, true);
+        return creator.createDataSet(context, presentationModel, itemLayoutId, dropDownLayoutId, propertyName);
+    }
+
+
+        private static class SingleInstanceCreator {
 		private final ViewListenersMap viewListenersMap;
 		private final BindingAttributeMappingsProviderMap bindingAttributeMappingsProviderMap;
 		private final Context context;
@@ -137,6 +147,21 @@ public class BinderFactory {
 			BindingMenuInflater bindingMenuInflater = new BindingMenuInflater(context, menu, menuInflater, bindingAttributeParser, bindingAttributeResolver);
 			return new MenuBinderImpl(bindingMenuInflater, viewBindingLifecycle, presentationModelObjectLoader);
 		}
-	}
+
+        public DataSetAdapter<?> createDataSet(Context context, AbstractPresentationModelObject presentationModel, int itemLayoutId, int dropDownLayoutId, String propertyName) {
+            PresentationModelAdapterFactory presentationModelAdapterFactory = new PresentationModelAdapterFactory();
+            BindingContextFactory bindingContextFactory = new BindingContextFactory(context, true, presentationModelAdapterFactory);
+
+            PresentationModelAdapter presentationModelAdapter = presentationModelAdapterFactory.create(presentationModel);
+            DataSetAdapterBuilder builder = new DataSetAdapterBuilder(bindingContextFactory.create(presentationModel));
+
+            builder.setItemLayoutId(itemLayoutId);
+            builder.setDropDownLayoutId(dropDownLayoutId);
+            builder.setValueModel(presentationModelAdapter.getDataSetPropertyValueModel(propertyName));
+
+            return builder.build();
+        }
+
+    }
 
 }
