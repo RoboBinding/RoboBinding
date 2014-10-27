@@ -1,0 +1,47 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath 'org.ajoberstar:gradle-git:0.10.0'
+	}
+}
+
+apply plugin: 'org.ajoberstar.grgit-release'
+import org.ajoberstar.grgit.*
+release {
+	grgit = Grgit.open(project.file('.'))
+	releaseTasks = ['framework:signArchives','framework:uploadArchives','codegen:signArchives','codegen:uploadArchives']
+	version.toString()
+}
+
+
+subprojects {
+	apply plugin: 'java'
+	
+	group = 'org.robobinding'
+	//version = $version
+	sourceCompatibility = 1.6
+	targetCompatibility = 1.6
+	
+	ext {
+		junitVersion = '4.11+'
+		mockitoVersion = '1.9.+'
+		commonsLangVersion = '3.+'
+	}
+}
+
+String getRepositoryUsername() {
+	return project.hasProperty('repositoryUserName')?project.property('repositoryUserName'):'noUserName';
+}
+
+String getRepositoryPassword() {
+	return project.hasProperty('repositoryPassword')?project.property('repositoryPassword'):'noPassword';
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.1'
+	description = 'Produces Gradle Wrapper for the project.'
+	group = 'other'
+}

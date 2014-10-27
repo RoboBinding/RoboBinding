@@ -1,0 +1,9 @@
+<project name="RoboBinding Android SDK Back Compatibility Check" default="lint check" basedir=".">
+	<property environment="env" />
+	
+	<target name="lint check">
+		<exec executable="${env.ANDROID_HOME}/tools/lint.bat">
+			<arg line="--check NewApi ." />
+		</exec>
+	</target>
+</project>

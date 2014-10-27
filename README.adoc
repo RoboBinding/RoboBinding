@@ -1,11 +1,11 @@
 = image:http://robobinding.org/images/robobinding_logo.png[width=60, height=60] RoboBinding
 
 A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model](MVVM) framework for the Android platform. 
-Apart from promoting well-structured projects, RoboBinding focuses the areas that Android app development suffers: 
+RoboBinding helps you write UI code that is easier to read, test and maintain without performance compromise(code generation instead of java reflection).
 
 * removes - *lots of unnecessary code(e.g., addXXListener(), findViewById()...)* - by binding.
 
-* turns - *hard to unit tests and Android unit tests running for ages which makes unit tests impractical* - into pojo PresentationModels with normal JUnit tests.
+* turns - *hard to unit tests and Android unit tests running for ages which makes unit tests impractical* - into *pure POJO PresentationModels* with normal JUnit tests.
 
 * provides the object cursor as a replacement to - *the relational cursor but we are used to operating objects*.
 
@@ -13,8 +13,10 @@ Apart from promoting well-structured projects, RoboBinding focuses the areas tha
 
 Let's watch http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[an introductory video] and then get started from link:http://robobinding.org/getting_started.html[here].
 
-Similar Presentation Model/ http://en.wikipedia.org/wiki/Model_View_ViewModel[MVVP] frameworks for android: https://github.com/gueei/AndroidBinding[Android-Binding],
-https://github.com/depoll/bindroid[Bindroid]. We value *code quality* and RoboBinding comes with more than 300 unit tests, which makes difference.
+RoboBinding values *code quality*. The framework source code is very readable and comes with a complete set of tests,
+which makes contributing easy and enjoyable. Want contributing? start link:http://robobinding.org/insight_into_framework.html#_set_up_eclipse_development_environment[here].
+
+RoboBinding loves to hear *any voices(negtive or positive) or suggestions* and invite you to post into RoboBinding http://groups.google.com/group/robobinding[Google group].
 
 
 
@@ -22,11 +24,11 @@ https://github.com/depoll/bindroid[Bindroid]. We value *code quality* and RoboBi
 
 * link:http://robobinding.org/insight_into_framework.html[Insight Into Framework]
 
-* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.4/robobinding-0.8.4-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
+* link:https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.9/robobinding-0.8.9-javadoc.jar/!/index.html[API and Binding Attributes JavaDocs]
 
 * link:http://robobinding.org/about.html[About]
 
-* link:http://robobinding.org/old_index.html[The Old Documentations]
+* link:http://robobinding.org/versions.html[Versions](latest *0.8.9*)
 
 * link:http://robobinding.org/index.zh.html[Chinese中文] 及 image:http://qplus3.idqqimg.com/qun/portal/img/logo2.png["QQ群", width=60, height=25]：308303599
 
@@ -39,3 +41,5 @@ image:https://g.twimg.com/Twitter_logo_blue.png[width=30, height=30] Twitter: ht
 image:https://raw.github.com/github/media/master/octocats/blacktocat-32.png["GitHub", width=30, height=30] Issues: https://github.com/RoboBinding/RoboBinding/issues[Raising an issue]
 
 image:http://web-static-cloudfront.s3.amazonaws.com/images/badges/BuiltOnDEV.png[Build and tested on CloudBees DEV@cloud]
+
+image::https://img.shields.io/badge/Android%20Arsenal-RoboBinding-brightgreen.svg?style=flat[alt="Android Arsenal", link="https://android-arsenal.com/details/1/990"]

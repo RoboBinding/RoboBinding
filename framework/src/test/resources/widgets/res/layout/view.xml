@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" >
+
+    <View 
+        android:id="@+id/supportedAttributesOfView"
+        android:background="@android:color/darker_gray"
+        android:onClick="onClick"
+        android:visibility="visible"
+ 		>
+       	<!--
+       	bind:enabled="boolean" 
+       	bind:onLongClick="onLongClick()"
+       	bind:onGainFocus="onGainFocus()"
+       	bind:onLostFocus="onLostFocus()"
+       	bind:selected="boolean"
+       	bind:backgroundColor="integer"
+       	 -->
+    </View>
+
+    <View
+        android:id="@+id/allAttributesOfView"
+        style="aa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5px"
+        android:layout_marginBottom="1px"
+        android:layout_marginLeft="1px"
+        android:layout_marginRight="1px"
+        android:layout_marginTop="1px"
+        android:background="@drawable/icon"
+        android:clickable="true"
+        android:contentDescription="a view"
+        android:drawingCacheQuality="auto"
+        android:duplicateParentState="true"
+        android:fadeScrollbars="true"
+        android:fadingEdge="horizontal"
+        android:fadingEdgeLength="14.5sp"
+        android:fitsSystemWindows="false"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hapticFeedbackEnabled="true"
+        android:isScrollContainer="true"
+        android:keepScreenOn="true"
+        android:longClickable="true"
+        android:minHeight="50sp"
+        android:minWidth="50sp"
+        android:onClick="onClick()"
+        android:padding="5px"
+        android:paddingBottom="1px"
+        android:paddingLeft="1px"
+        android:paddingRight="1px"
+        android:paddingTop="1px"
+        android:saveEnabled="true"
+        android:scrollX="14.5sp"
+        android:scrollY="14.5sp"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarDefaultDelayBeforeFade="100"
+        android:scrollbarFadeDuration="100"
+        android:scrollbarSize="14.5sp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbarThumbHorizontal="@drawable/icon"
+        android:scrollbarThumbVertical="@drawable/icon"
+        android:scrollbarTrackHorizontal="@drawable/icon"
+        android:scrollbarTrackVertical="@drawable/icon"
+        android:scrollbars="horizontal"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/text"
+        android:visibility="visible" >
+
+        <!--
+    android:nextFocusDown="aa"
+    android:nextFocusLeft="bb"
+    android:nextFocusRight="cc"
+    android:nextFocusUp="dd"
+        -->
+    </View>
+
+</LinearLayout>
