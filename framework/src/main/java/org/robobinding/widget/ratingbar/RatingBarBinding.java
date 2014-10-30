@@ -1,7 +1,7 @@
 package org.robobinding.widget.ratingbar;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 
 import android.widget.RatingBar;
 
@@ -14,8 +14,8 @@ import android.widget.RatingBar;
 public class RatingBarBinding implements ViewBinding<RatingBar> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<RatingBar> mappings) {
-		mappings.mapMultiTypeProperty(RatingAttribute.class, "rating");
-		mappings.mapProperty(NumStarsAttribute.class, "numStars");
+		mappings.mapTwoWayMultiTypeProperty(RatingAttribute.class, "rating");
+		mappings.mapOneWayProperty(NumStarsAttribute.class, "numStars");
 
 		mappings.mapEvent(OnRatingBarChangeAttribute.class, "onRatingBarChange");
 	}

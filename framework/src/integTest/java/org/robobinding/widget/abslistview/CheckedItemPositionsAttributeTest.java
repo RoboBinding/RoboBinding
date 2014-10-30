@@ -14,7 +14,8 @@ import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.Abstract
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.MapCheckedItemPositionsAttribute;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.SetCheckedItemPositionsAttribute;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.SparseBooleanArrayCheckedItemPositionsAttribute;
-import org.robobinding.widget.adapterview.AdapterViewListeners;
+import org.robobinding.widgetaddon.abslistview.AbsListViewBackCompatible;
+import org.robobinding.widgetaddon.adapterview.AdapterViewListeners;
 import org.robolectric.annotation.Config;
 
 import android.util.SparseBooleanArray;
@@ -40,7 +41,7 @@ public class CheckedItemPositionsAttributeTest extends AbstractMultiTypeProperty
 	public void whenBinding_thenRegisterWithMulticastListener() {
 		CheckedItemPositionsAttributeForTest attribute = new CheckedItemPositionsAttributeForTest();
 		AdapterViewListeners mockAdapterViewListeners = mock(AdapterViewListeners.class);
-		attribute.setViewListeners(mockAdapterViewListeners);
+		attribute.setViewAddOn(mockAdapterViewListeners);
 
 		attribute.observeChangesOnTheView(null, null);
 

@@ -10,15 +10,15 @@ import org.robobinding.viewattribute.ViewAttributeBinder;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class GroupedViewAttributeBinder<ViewType> implements ViewAttributeBinder {
-	private final ViewType view;
-	private final InitializedGroupedViewAttribute<ViewType> viewAttribute;
-	private final ChildViewAttributesBuilderImpl<ViewType> childViewAttributesBuilder;
+public class GroupedViewAttributeBinder implements ViewAttributeBinder {
+	private final Object view;
+	private final InitializedGroupedViewAttribute<Object> viewAttribute;
+	private final ChildViewAttributesBuilderImpl<Object> childViewAttributesBuilder;
 
 	private ChildViewAttributes childViewAttributes;
 
-	public GroupedViewAttributeBinder(ViewType view, InitializedGroupedViewAttribute<ViewType> viewAttribute,
-			ChildViewAttributesBuilderImpl<ViewType> childViewAttributesBuilder) {
+	public GroupedViewAttributeBinder(Object view, InitializedGroupedViewAttribute<Object> viewAttribute,
+			ChildViewAttributesBuilderImpl<Object> childViewAttributesBuilder) {
 		this.view = view;
 		this.viewAttribute = viewAttribute;
 		this.childViewAttributesBuilder = childViewAttributesBuilder;

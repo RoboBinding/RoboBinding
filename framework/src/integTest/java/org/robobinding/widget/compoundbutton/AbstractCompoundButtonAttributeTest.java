@@ -2,7 +2,8 @@ package org.robobinding.widget.compoundbutton;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.ViewListenersAware;
+import org.robobinding.widgetaddon.ViewAddOnAware;
+import org.robobinding.widgetaddon.compoundbutton.CompoundButtonListeners;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -26,8 +27,8 @@ public abstract class AbstractCompoundButtonAttributeTest {
 		viewListeners = new MockCompoundButtonListeners(view);
 	}
 
-	public <T extends ViewListenersAware<CompoundButtonListeners>> T withListenersSet(T attribute) {
-		attribute.setViewListeners(viewListeners);
+	public <T extends ViewAddOnAware<CompoundButtonListeners>> T withListenersSet(T attribute) {
+		attribute.setViewAddOn(viewListeners);
 		return attribute;
 	}
 }

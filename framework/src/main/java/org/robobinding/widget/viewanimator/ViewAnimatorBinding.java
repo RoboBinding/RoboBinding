@@ -1,7 +1,7 @@
 package org.robobinding.widget.viewanimator;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 
 import android.widget.ViewAnimator;
 
@@ -15,6 +15,6 @@ public class ViewAnimatorBinding implements ViewBinding<ViewAnimator> {
 
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<ViewAnimator> mappings) {
-		mappings.mapProperty(DisplayedChildAttribute.class, "displayedChild");
+		mappings.mapOneWayProperty(DisplayedChildAttribute.class, "displayedChild");
 	}
 }

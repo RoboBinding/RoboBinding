@@ -1,5 +1,7 @@
 package org.robobinding.widget.adapterview;
 
+import org.robobinding.widgetaddon.adapterview.AdapterViewListeners;
+
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;

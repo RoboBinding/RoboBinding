@@ -1,8 +1,8 @@
 package org.robobinding.widget.menuitem;
 
 import org.robobinding.attribute.Command;
-import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.widgetaddon.menuitem.MenuItemAddOn;
 
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -11,20 +11,12 @@ import android.view.MenuItem.OnMenuItemClickListener;
  * 
  * @since 1.0
  * @version $Revision: 1.0 $
- * @author Robert Taylor
  * @author Cheng Wei
  */
-public class OnMenuItemClickAttribute implements EventViewAttribute<MenuItem>, ViewListenersAware<MenuItemListeners> {
-	private MenuItemListeners viewListeners;
-
+public class OnMenuItemClickAttribute implements EventViewAttribute<MenuItem, MenuItemAddOn> {
 	@Override
-	public void setViewListeners(MenuItemListeners viewListeners) {
-		this.viewListeners = viewListeners;
-	}
-
-	@Override
-	public void bind(MenuItem view, final Command command) {
-		viewListeners.addOnMenuItemClickListener(new OnMenuItemClickListener() {
+	public void bind(MenuItemAddOn viewAddOn, final Command command, MenuItem view) {
+		viewAddOn.addOnMenuItemClickListener(new OnMenuItemClickListener() {
 
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {

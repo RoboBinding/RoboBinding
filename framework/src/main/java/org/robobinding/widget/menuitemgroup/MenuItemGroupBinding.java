@@ -1,7 +1,7 @@
 package org.robobinding.widget.menuitemgroup;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 
 /**
  * 
@@ -12,7 +12,7 @@ import org.robobinding.viewattribute.ViewBinding;
 public class MenuItemGroupBinding implements ViewBinding<MenuItemGroup> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<MenuItemGroup> mappings) {
-		mappings.mapProperty(EnabledAttribute.class, "enabled");
-		mappings.mapProperty(VisibleAttribute.class, "visible");
+		mappings.mapOneWayProperty(EnabledAttribute.class, "enabled");
+		mappings.mapOneWayProperty(VisibleAttribute.class, "visible");
 	}
 }

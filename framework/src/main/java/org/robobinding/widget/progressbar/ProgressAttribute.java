@@ -1,6 +1,6 @@
 package org.robobinding.widget.progressbar;
 
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 
 import android.widget.ProgressBar;
 
@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class ProgressAttribute implements PropertyViewAttribute<ProgressBar, Integer> {
+public class ProgressAttribute implements OneWayPropertyViewAttribute<ProgressBar, Integer> {
 	@Override
 	public void updateView(ProgressBar view, Integer newProgress) {
 		view.setProgress(newProgress);

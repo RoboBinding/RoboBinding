@@ -9,8 +9,8 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -27,9 +27,9 @@ import com.google.common.collect.Maps;
  */
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
-public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends MultiTypePropertyViewAttribute<? extends View>> {
+public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends OneWayMultiTypePropertyViewAttribute<? extends View>> {
 	private T attribute;
-	private Map<Class<?>, Class<? extends PropertyViewAttribute<? extends View, ?>>> propertyTypeToViewAttributeMappings;
+	private Map<Class<?>, Class<? extends OneWayPropertyViewAttribute<? extends View, ?>>> propertyTypeToViewAttributeMappings;
 
 	@Before
 	public final void populateMappings() {
@@ -49,7 +49,7 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Multi
 	@Test
 	public void givenPropertyType_whenCreate_thenReturnExpectedPropertyViewAttributeInstance() {
 		for (Class<?> propertyType : propertyTypeToViewAttributeMappings.keySet()) {
-			PropertyViewAttribute<?, ?> propertyViewAttribute = attribute.create(null, propertyType);
+			OneWayPropertyViewAttribute<?, ?> propertyViewAttribute = attribute.create(null, propertyType);
 
 			assertThat(propertyViewAttribute, instanceOf(propertyTypeToViewAttributeMappings.get(propertyType)));
 		}
@@ -67,8 +67,8 @@ public abstract class AbstractMultiTypePropertyViewAttributeTest<T extends Multi
 		}
 
 		@SuppressWarnings("unchecked")
-		public void expectAttribute(@SuppressWarnings("rawtypes") Class<? extends PropertyViewAttribute> attributeClass) {
-			propertyTypeToViewAttributeMappings.put(propertyType, (Class<? extends PropertyViewAttribute<? extends View, ?>>) attributeClass);
+		public void expectAttribute(@SuppressWarnings("rawtypes") Class<? extends OneWayPropertyViewAttribute> attributeClass) {
+			propertyTypeToViewAttributeMappings.put(propertyType, (Class<? extends OneWayPropertyViewAttribute<? extends View, ?>>) attributeClass);
 		}
 	}
 }

@@ -1,7 +1,7 @@
 package org.robobinding.widget.progressbar;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 
 import android.widget.ProgressBar;
 
@@ -14,9 +14,9 @@ import android.widget.ProgressBar;
 public class ProgressBarBinding implements ViewBinding<ProgressBar> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<ProgressBar> mappings) {
-		mappings.mapProperty(MaxAttribute.class, "max");
-		mappings.mapProperty(ProgressAttribute.class, "progress");
-		mappings.mapProperty(SecondaryProgressAttribute.class, "secondaryProgress");
+		mappings.mapOneWayProperty(MaxAttribute.class, "max");
+		mappings.mapOneWayProperty(ProgressAttribute.class, "progress");
+		mappings.mapOneWayProperty(SecondaryProgressAttribute.class, "secondaryProgress");
 	}
 
 }

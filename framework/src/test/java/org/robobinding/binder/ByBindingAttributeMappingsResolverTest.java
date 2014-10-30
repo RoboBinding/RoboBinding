@@ -24,11 +24,11 @@ import org.robobinding.viewattribute.event.EventViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinder;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
-import org.robobinding.viewattribute.impl.InitailizedBindingAttributeMappings;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
-import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttributeFactory;
+import org.robobinding.viewbinding.InitailizedBindingAttributeMappings;
 
 import com.google.common.collect.Sets;
 
@@ -55,7 +55,7 @@ public class ByBindingAttributeMappingsResolverTest {
 		String propertyAttribute = "propertyAttribute";
 		PropertyViewAttributeBinder<Object, ?> viewAttributeBinder = Mockito.mock(PropertyViewAttributeBinder.class);
 		Mockito.<PropertyViewAttributeBinder<Object, ?>> when(
-				viewAttributeBinderFactory.createPropertyViewAttributeBinder(any(PropertyViewAttributeFactory.class), eq(propertyAttribute), anyString()))
+				viewAttributeBinderFactory.binderFor(any(OneWayPropertyViewAttributeFactory.class), eq(propertyAttribute), anyString()))
 				.thenReturn(viewAttributeBinder);
 
 		ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver = newByBindingAttributeMappingsResolver(aBindingAttributeMappings()
@@ -72,7 +72,7 @@ public class ByBindingAttributeMappingsResolverTest {
 		String propertyAttribute = "multiTypePropertyAttribute";
 		MultiTypePropertyViewAttributeBinder<Object> viewAttributeBinder = Mockito.mock(MultiTypePropertyViewAttributeBinder.class);
 		Mockito.<MultiTypePropertyViewAttributeBinder<Object>> when(
-				viewAttributeBinderFactory.createMultiTypePropertyViewAttributeBinder(any(MultiTypePropertyViewAttributeFactory.class), eq(propertyAttribute),
+				viewAttributeBinderFactory.binderFor(any(OneWayMultiTypePropertyViewAttributeFactory.class), eq(propertyAttribute),
 						anyString())).thenReturn(viewAttributeBinder);
 
 		ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver = newByBindingAttributeMappingsResolver(aBindingAttributeMappings()
@@ -89,7 +89,7 @@ public class ByBindingAttributeMappingsResolverTest {
 		String eventAttribute = "eventAttribute";
 		EventViewAttributeBinder<Object> viewAttributeBinder = Mockito.mock(EventViewAttributeBinder.class);
 		Mockito.<EventViewAttributeBinder<Object>> when(
-				viewAttributeBinderFactory.createEventViewAttributeBinder(any(EventViewAttributeFactory.class), eq(eventAttribute), anyString())).thenReturn(
+				viewAttributeBinderFactory.binderFor(any(EventViewAttributeFactory.class), eq(eventAttribute), anyString())).thenReturn(
 				viewAttributeBinder);
 		ByBindingAttributeMappingsResolver byBindingAttributeMappingsResolver = newByBindingAttributeMappingsResolver(aBindingAttributeMappings()
 				.withEventAttribute(eventAttribute).build());

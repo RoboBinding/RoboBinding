@@ -2,7 +2,8 @@ package org.robobinding.widget.adapterview;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.ViewListenersAware;
+import org.robobinding.widgetaddon.ViewAddOnAware;
+import org.robobinding.widgetaddon.adapterview.AdapterViewListeners;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -25,8 +26,8 @@ public abstract class AbstractAdapterViewAttributeTest {
 		viewListeners = new MockAdapterViewListeners(view);
 	}
 
-	public <T extends ViewListenersAware<AdapterViewListeners>> T withListenersSet(T attribute) {
-		attribute.setViewListeners(viewListeners);
+	public <T extends ViewAddOnAware<AdapterViewListeners>> T withListenersSet(T attribute) {
+		attribute.setViewAddOn(viewListeners);
 		return attribute;
 	}
 }

@@ -1,6 +1,6 @@
 package org.robobinding.widget.menuitem;
 
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 
 import android.view.MenuItem;
 
@@ -10,7 +10,7 @@ import android.view.MenuItem;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class VisibleAttribute implements PropertyViewAttribute<MenuItem, Boolean> {
+public class VisibleAttribute implements OneWayPropertyViewAttribute<MenuItem, Boolean> {
 	@Override
 	public void updateView(MenuItem view, Boolean newValue) {
 		view.setVisible(newValue);

@@ -11,8 +11,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.viewattribute.ViewListeners;
-import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.ViewListenersMap;
+import org.robobinding.viewbinding.ViewListenersProvider;
+import org.robobinding.widgetaddon.ViewAddOnAware;
 
 import android.content.Context;
 import android.view.View;
@@ -40,7 +41,7 @@ public class ViewListenersProviderTest {
 	@Test
 	public void whenInjectViewListenersAwareAttributeAgain_thenTheSameViewListenersInstanceIsInjected() {
 		ViewListenersMap viewListenersMap = mock(ViewListenersMap.class);
-		when(viewListenersMap.findMostSuitable(view.getClass())).thenReturn((Class) ViewListenersForView.class);
+		when(viewListenersMap.getMostSuitable(view.getClass())).thenReturn((Class) ViewListenersForView.class);
 		ViewListenersProvider viewListenersProvider = new ViewListenersProvider(viewListenersMap);
 
 		ViewListenersAwareAttribute viewAttribute = new ViewListenersAwareAttribute();
@@ -57,7 +58,7 @@ public class ViewListenersProviderTest {
 	@Test
 	public void whenInjectTwoDifferentViewListenersAwareAttributesThroughTheSameViewSubclass_thenTheSameViewSubclassListenersInstanceIsInjectedForBoth() {
 		ViewListenersMap viewListenersMap = mock(ViewListenersMap.class);
-		Mockito.when(viewListenersMap.findMostSuitable(viewSubclass.getClass())).thenReturn((Class) ViewListenersSubclass.class);
+		Mockito.when(viewListenersMap.getMostSuitable(viewSubclass.getClass())).thenReturn((Class) ViewListenersSubclass.class);
 		ViewListenersProvider viewListenersProvider = new ViewListenersProvider(viewListenersMap);
 
 		ViewListenersAwareAttribute viewAttribute = new ViewListenersAwareAttribute();
@@ -73,7 +74,7 @@ public class ViewListenersProviderTest {
 	@Test(expected = RuntimeException.class)
 	public void whenInjectViewListenersSubclassAwareAttributeThroughIncorrectView_thenThrowExceptionWithDetailedMessage() {
 		ViewListenersMap viewListenersMap = mock(ViewListenersMap.class);
-		when(viewListenersMap.findMostSuitable(view.getClass())).thenReturn((Class) ViewListenersForView.class);
+		when(viewListenersMap.getMostSuitable(view.getClass())).thenReturn((Class) ViewListenersForView.class);
 		ViewListenersProvider viewListenersProvider = new ViewListenersProvider(viewListenersMap);
 
 		ViewListenersSubclassAwareAttribute viewAttributeSubclass = new ViewListenersSubclassAwareAttribute();
@@ -83,20 +84,20 @@ public class ViewListenersProviderTest {
 	private static class NonViewListenersAwareAttribute {
 	}
 
-	private static class ViewListenersAwareAttribute implements ViewListenersAware<ViewListeners> {
+	private static class ViewListenersAwareAttribute implements ViewAddOnAware<ViewListeners> {
 		public ViewListeners viewListeners;
 
 		@Override
-		public void setViewListeners(ViewListeners viewListeners) {
+		public void setViewAddOn(ViewListeners viewListeners) {
 			this.viewListeners = viewListeners;
 		}
 	}
 
-	private static class ViewListenersSubclassAwareAttribute implements ViewListenersAware<ViewListenersSubclass> {
+	private static class ViewListenersSubclassAwareAttribute implements ViewAddOnAware<ViewListenersSubclass> {
 		public ViewListeners viewListeners;
 
 		@Override
-		public void setViewListeners(ViewListenersSubclass viewListeners) {
+		public void setViewAddOn(ViewListenersSubclass viewListeners) {
 			this.viewListeners = viewListeners;
 		}
 	}

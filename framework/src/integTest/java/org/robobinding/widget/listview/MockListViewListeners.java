@@ -1,5 +1,7 @@
 package org.robobinding.widget.listview;
 
+import org.robobinding.widgetaddon.listview.ListViewListeners;
+
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 

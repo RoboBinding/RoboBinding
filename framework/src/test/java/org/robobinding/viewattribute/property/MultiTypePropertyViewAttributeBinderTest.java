@@ -22,7 +22,7 @@ import android.view.View;
  */
 public class MultiTypePropertyViewAttributeBinderTest extends ViewAttributeContractTest<MultiTypePropertyViewAttributeBinder<View>> {
 	@Mock
-	PropertyViewAttributeBinderProvider<View> viewAttributeBinderProvider;
+	AbstractMultiTypePropertyViewAttributeBinderFactory<View> viewAttributeBinderProvider;
 	@Mock
 	ValueModelAttribute attribute;
 	@Mock

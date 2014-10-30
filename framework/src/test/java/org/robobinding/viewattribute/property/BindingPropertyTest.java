@@ -22,7 +22,7 @@ import android.view.View;
 @RunWith(MockitoJUnitRunner.class)
 public class BindingPropertyTest {
 	@Mock
-	PropertyViewAttribute<View, Integer> viewAttribute;
+	OneWayPropertyViewAttribute<View, Integer> viewAttribute;
 	@Mock
 	View view;
 	private Integer newValue;
@@ -38,7 +38,7 @@ public class BindingPropertyTest {
 	}
 
 	private class BindingPropertyForTest extends AbstractBindingProperty<View, Integer> {
-		public BindingPropertyForTest(View view, PropertyViewAttribute<View, Integer> viewAttribute, ValueModelAttribute attribute) {
+		public BindingPropertyForTest(View view, OneWayPropertyViewAttribute<View, Integer> viewAttribute, ValueModelAttribute attribute) {
 			super(view, viewAttribute, attribute);
 		}
 

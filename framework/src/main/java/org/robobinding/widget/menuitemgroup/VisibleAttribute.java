@@ -1,6 +1,6 @@
 package org.robobinding.widget.menuitemgroup;
 
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 
 /**
  * 
@@ -8,7 +8,7 @@ import org.robobinding.viewattribute.property.PropertyViewAttribute;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class VisibleAttribute implements PropertyViewAttribute<MenuItemGroup, Boolean> {
+public class VisibleAttribute implements OneWayPropertyViewAttribute<MenuItemGroup, Boolean> {
 	@Override
 	public void updateView(MenuItemGroup view, Boolean newValue) {
 		view.setVisible(newValue);

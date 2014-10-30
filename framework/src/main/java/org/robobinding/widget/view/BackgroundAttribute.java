@@ -1,8 +1,8 @@
 package org.robobinding.widget.view;
 
 import org.robobinding.util.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,8 +15,8 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class BackgroundAttribute implements MultiTypePropertyViewAttribute<View> {
-	public PropertyViewAttribute<View, ?> create(View view, Class<?> propertyType) {
+public class BackgroundAttribute implements OneWayMultiTypePropertyViewAttribute<View> {
+	public OneWayPropertyViewAttribute<View, ?> create(View view, Class<?> propertyType) {
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType)) {
 			return new ResourceIdBackgroundAttribute();
 		} else if (Bitmap.class.isAssignableFrom(propertyType)) {
@@ -28,21 +28,21 @@ public class BackgroundAttribute implements MultiTypePropertyViewAttribute<View>
 		return null;
 	}
 
-	static class ResourceIdBackgroundAttribute implements PropertyViewAttribute<View, Integer> {
+	static class ResourceIdBackgroundAttribute implements OneWayPropertyViewAttribute<View, Integer> {
 		@Override
 		public void updateView(View view, Integer newResourceId) {
 			view.setBackgroundResource(newResourceId);
 		}
 	}
 
-	static class BitmapBackgroundAttribute implements PropertyViewAttribute<View, Bitmap> {
+	static class BitmapBackgroundAttribute implements OneWayPropertyViewAttribute<View, Bitmap> {
 		@Override
 		public void updateView(View view, Bitmap newBitmap) {
 			view.setBackgroundDrawable(new BitmapDrawable(newBitmap));
 		}
 	}
 
-	static class DrawableBackgroundAttribute implements PropertyViewAttribute<View, Drawable> {
+	static class DrawableBackgroundAttribute implements OneWayPropertyViewAttribute<View, Drawable> {
 		@Override
 		public void updateView(View view, Drawable newDrawable) {
 			view.setBackgroundDrawable(newDrawable);

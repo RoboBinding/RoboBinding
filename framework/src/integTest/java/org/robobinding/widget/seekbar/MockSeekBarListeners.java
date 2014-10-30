@@ -1,5 +1,7 @@
 package org.robobinding.widget.seekbar;
 
+import org.robobinding.widgetaddon.seekbar.SeekBarListeners;
+
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 

@@ -1,7 +1,7 @@
 package org.robobinding.widget.adapterview;
 
 import org.robobinding.viewattribute.property.AlwaysPreInitializingView;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 
 import android.widget.AdapterView;
 
@@ -11,7 +11,7 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-class DynamicLayoutAttribute implements PropertyViewAttribute<AdapterView<?>, Integer>, AlwaysPreInitializingView {
+class DynamicLayoutAttribute implements OneWayPropertyViewAttribute<AdapterView<?>, Integer>, AlwaysPreInitializingView {
 	private final RowLayoutUpdater rowLayoutUpdater;
 	private final DataSetAdapterUpdater dataSetAdapterUpdater;
 

@@ -1,6 +1,6 @@
 package org.robobinding.widget.view;
 
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 
 import android.view.View;
 
@@ -10,7 +10,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class SelectedAttribute implements PropertyViewAttribute<View, Boolean> {
+public class SelectedAttribute implements OneWayPropertyViewAttribute<View, Boolean> {
 	@Override
 	public void updateView(View view, Boolean newValue) {
 		view.setSelected(newValue);

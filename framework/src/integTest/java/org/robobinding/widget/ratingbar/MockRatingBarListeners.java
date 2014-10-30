@@ -1,5 +1,7 @@
 package org.robobinding.widget.ratingbar;
 
+import org.robobinding.widgetaddon.ratingbar.RatingBarListeners;
+
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 

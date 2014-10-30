@@ -2,7 +2,8 @@ package org.robobinding.widget.ratingbar;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.ViewListenersAware;
+import org.robobinding.widgetaddon.ViewAddOnAware;
+import org.robobinding.widgetaddon.ratingbar.RatingBarListeners;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -25,8 +26,8 @@ public abstract class AbstractRatingBarAttributeTest {
 		viewListeners = new MockRatingBarListeners(view);
 	}
 
-	public <T extends ViewListenersAware<RatingBarListeners>> T withListenersSet(T attribute) {
-		attribute.setViewListeners(viewListeners);
+	public <T extends ViewAddOnAware<RatingBarListeners>> T withListenersSet(T attribute) {
+		attribute.setViewAddOn(viewListeners);
 		return attribute;
 	}
 }

@@ -1,8 +1,7 @@
 package org.robobinding.widget.view;
 
 import org.robobinding.attribute.Command;
-import org.robobinding.viewattribute.ViewListenersAware;
-import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.widgetaddon.view.ViewAddOnForView;
 
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -14,17 +13,10 @@ import android.view.View.OnLongClickListener;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class OnLongClickAttribute implements EventViewAttribute<View>, ViewListenersAware<ViewListenersForView> {
-	private ViewListenersForView viewListeners;
-
+public class OnLongClickAttribute implements EventViewAttributeForView {
 	@Override
-	public void setViewListeners(ViewListenersForView viewListeners) {
-		this.viewListeners = viewListeners;
-	}
-
-	@Override
-	public void bind(final View view, final Command command) {
-		viewListeners.addOnLongClickListener(new OnLongClickListener() {
+	public void bind(ViewAddOnForView viewAddOn, final Command command, View view) {
+		viewAddOn.addOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
 				ClickEvent clickEvent = new ClickEvent(v);

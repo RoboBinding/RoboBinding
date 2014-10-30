@@ -7,8 +7,8 @@ import static org.robobinding.widget.listview.HeaderAttributes.HEADER_LAYOUT;
 import static org.robobinding.widget.listview.HeaderAttributes.HEADER_PRESENTATION_MODEL;
 import static org.robobinding.widget.listview.HeaderAttributes.HEADER_VISIBILITY;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 
 import android.widget.ListView;
 

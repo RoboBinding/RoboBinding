@@ -36,11 +36,11 @@ import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 import org.robobinding.test.JavaReflectionPresentationModelObject;
 import org.robobinding.viewattribute.AttributeBindingException;
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.grouped.AbstractGroupedViewAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttributesBuilder;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 import org.robobinding.widget.abslistview.SparseBooleanArrayUtils;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
@@ -278,12 +278,12 @@ public class BindingTest {
 	private static class BuggyCustomViewAttributeMapper implements ViewBinding<BuggyCustomView> {
 		@Override
 		public void mapBindingAttributes(BindingAttributeMappings<BuggyCustomView> mappings) {
-			mappings.mapProperty(BuggyPropertyAttribute.class, BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE);
+			mappings.mapOneWayProperty(BuggyPropertyAttribute.class, BuggyCustomView.BUGGY_PROPERTY_ATTRIBUTE);
 			mappings.mapGroupedAttribute(BuggyGroupedAttribute.class, BuggyCustomView.BUGGY_GROUP_CHILD_ATTRIBUTE);
 		}
 	}
 
-	public static class BuggyPropertyAttribute implements PropertyViewAttribute<BuggyCustomView, String> {
+	public static class BuggyPropertyAttribute implements OneWayPropertyViewAttribute<BuggyCustomView, String> {
 		@Override
 		public void updateView(BuggyCustomView view, String newValue) {
 			throw new ProgrammingError();

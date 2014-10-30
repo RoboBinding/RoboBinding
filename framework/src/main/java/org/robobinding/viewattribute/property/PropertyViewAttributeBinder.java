@@ -11,37 +11,38 @@ import org.robobinding.viewattribute.ViewAttributeBinder;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class PropertyViewAttributeBinder<ViewType, PropertyType> implements ViewAttributeBinder {
-	private final boolean withAlwaysPreInitializingView;
-	private AbstractBindingProperty<ViewType, PropertyType> bindingProperty;
+public class PropertyViewAttributeBinder implements ViewAttributeBinder {
+	private final AbstractBindingProperty bindingProperty;
+	private final String attributeName;
 
-	public PropertyViewAttributeBinder(AbstractBindingProperty<ViewType, PropertyType> bindingProperty, boolean withAlwaysPreInitializingView) {
+	public PropertyViewAttributeBinder(AbstractBindingProperty bindingProperty, 
+			String attributeName) {
 		this.bindingProperty = bindingProperty;
-		this.withAlwaysPreInitializingView = withAlwaysPreInitializingView;
+		this.attributeName = attributeName;
 	}
 
 	@Override
 	public void bindTo(BindingContext bindingContext) {
 		try {
 			bindingProperty.performBind(bindingContext);
-			if (withAlwaysPreInitializingView) {
+			if (bindingProperty.isAlwaysPreInitializingView()) {
 				bindingProperty.preInitializeView(bindingContext);
 			}
 		} catch (RuntimeException e) {
-			throw new AttributeBindingException(bindingProperty.getAttributeName(), e);
+			throw new AttributeBindingException(attributeName, e);
 		}
 	}
 
 	@Override
 	public void preInitializeView(BindingContext bindingContext) {
-		if (withAlwaysPreInitializingView) {
+		if (bindingProperty.isAlwaysPreInitializingView()) {
 			return;
 		}
 
 		try {
 			bindingProperty.preInitializeView(bindingContext);
 		} catch (RuntimeException e) {
-			throw new AttributeBindingException(bindingProperty.getAttributeName(), e);
+			throw new AttributeBindingException(attributeName, e);
 		}
 	}
 }

@@ -1,8 +1,8 @@
 package org.robobinding.widget.ratingbar;
 
 import org.robobinding.attribute.Command;
-import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.widgetaddon.ratingbar.RatingBarAddOn;
 
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
@@ -13,12 +13,10 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnRatingBarChangeAttribute implements EventViewAttribute<RatingBar>, ViewListenersAware<RatingBarListeners> {
-	private RatingBarListeners ratingBarListeners;
-
+public class OnRatingBarChangeAttribute implements EventViewAttribute<RatingBar, RatingBarAddOn> {
 	@Override
-	public void bind(final RatingBar view, final Command command) {
-		ratingBarListeners.addOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+	public void bind(RatingBarAddOn viewAddOn, final Command command, RatingBar view) {
+		viewAddOn.addOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			@Override
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 				RatingBarChangeEvent ratingBarEvent = new RatingBarChangeEvent(ratingBar, rating, fromUser);
@@ -30,10 +28,5 @@ public class OnRatingBarChangeAttribute implements EventViewAttribute<RatingBar>
 	@Override
 	public Class<RatingBarChangeEvent> getEventType() {
 		return RatingBarChangeEvent.class;
-	}
-
-	@Override
-	public void setViewListeners(RatingBarListeners ratingBarListeners) {
-		this.ratingBarListeners = ratingBarListeners;
 	}
 }

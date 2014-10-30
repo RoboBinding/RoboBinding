@@ -1,5 +1,7 @@
 package org.robobinding.widget.compoundbutton;
 
+import org.robobinding.widgetaddon.compoundbutton.CompoundButtonListeners;
+
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 

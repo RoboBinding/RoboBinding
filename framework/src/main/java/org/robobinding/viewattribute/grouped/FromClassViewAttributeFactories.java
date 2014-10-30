@@ -2,10 +2,15 @@ package org.robobinding.viewattribute.grouped;
 
 import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.viewattribute.event.EventViewAttributeFactory;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFactory;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
-import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
+import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
+import org.robobinding.widgetaddon.ViewAddOn;
 
 /**
  * 
@@ -16,31 +21,51 @@ import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
  */
 public class FromClassViewAttributeFactories {
 
-	public static <ViewType> PropertyViewAttributeFactory<ViewType> propertyViewAttributeFactoryForClass(
-			final Class<? extends PropertyViewAttribute<ViewType, ?>> propertyViewAttributeClass) {
-		return new PropertyViewAttributeFactory<ViewType>() {
+	public static <ViewType> OneWayPropertyViewAttributeFactory<ViewType> oneWayPropertyViewAttributeFactoryForClass(
+			final Class<? extends OneWayPropertyViewAttribute<ViewType, ?>> propertyViewAttributeClass) {
+		return new OneWayPropertyViewAttributeFactory<ViewType>() {
 			@Override
-			public PropertyViewAttribute<ViewType, ?> create() {
+			public OneWayPropertyViewAttribute<ViewType, ?> create() {
 				return newViewAttribute(propertyViewAttributeClass);
 			}
 		};
 	}
 
-	public static <ViewType> MultiTypePropertyViewAttributeFactory<ViewType> multiTypePropertyViewAttributeFactoryForClass(
-			final Class<? extends MultiTypePropertyViewAttribute<ViewType>> multiTypePropertyViewAttributeClass) {
-		return new MultiTypePropertyViewAttributeFactory<ViewType>() {
+	public static <ViewType> TwoWayPropertyViewAttributeFactory<ViewType> twoWayPropertyViewAttributeFactoryForClass(
+			final Class<? extends TwoWayPropertyViewAttribute<ViewType, ?, ?>> propertyViewAttributeClass) {
+		return new TwoWayPropertyViewAttributeFactory<ViewType>() {
 			@Override
-			public MultiTypePropertyViewAttribute<ViewType> create() {
+			public TwoWayPropertyViewAttribute<ViewType, ?, ?> create() {
+				return newViewAttribute(propertyViewAttributeClass);
+			}
+		};
+	}
+
+	public static <ViewType> OneWayMultiTypePropertyViewAttributeFactory<ViewType> oneWayMultiTypePropertyViewAttributeFactoryForClass(
+			final Class<? extends OneWayMultiTypePropertyViewAttribute<ViewType>> multiTypePropertyViewAttributeClass) {
+		return new OneWayMultiTypePropertyViewAttributeFactory<ViewType>() {
+			@Override
+			public OneWayMultiTypePropertyViewAttribute<ViewType> create() {
+				return newViewAttribute(multiTypePropertyViewAttributeClass);
+			}
+		};
+	}
+
+	public static <ViewType> TwoWayMultiTypePropertyViewAttributeFactory<ViewType> twoWayMultiTypePropertyViewAttributeFactoryForClass(
+			final Class<? extends TwoWayMultiTypePropertyViewAttribute<ViewType>> multiTypePropertyViewAttributeClass) {
+		return new TwoWayMultiTypePropertyViewAttributeFactory<ViewType>() {
+			@Override
+			public TwoWayMultiTypePropertyViewAttribute<ViewType> create() {
 				return newViewAttribute(multiTypePropertyViewAttributeClass);
 			}
 		};
 	}
 
 	public static <ViewType> EventViewAttributeFactory<ViewType> eventViewAttributeFactoryForClass(
-			final Class<? extends EventViewAttribute<ViewType>> eventViewAttributeClass) {
+			final Class<? extends EventViewAttribute<ViewType, ? extends ViewAddOn>> eventViewAttributeClass) {
 		return new EventViewAttributeFactory<ViewType>() {
 			@Override
-			public EventViewAttribute<ViewType> create() {
+			public EventViewAttribute<ViewType, ? extends ViewAddOn> create() {
 				return newViewAttribute(eventViewAttributeClass);
 			}
 		};

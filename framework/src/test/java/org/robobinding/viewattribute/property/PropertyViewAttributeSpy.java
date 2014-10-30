@@ -9,7 +9,7 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class PropertyViewAttributeSpy implements PropertyViewAttribute<View, Integer> {
+public class PropertyViewAttributeSpy implements OneWayPropertyViewAttribute<View, Integer> {
 	int viewUpdateNotificationCount;
 	int viewValue;
 

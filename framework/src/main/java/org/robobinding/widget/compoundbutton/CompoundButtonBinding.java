@@ -1,7 +1,7 @@
 package org.robobinding.widget.compoundbutton;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 
 import android.widget.CompoundButton;
 
@@ -14,7 +14,7 @@ import android.widget.CompoundButton;
 public class CompoundButtonBinding implements ViewBinding<CompoundButton> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<CompoundButton> mappings) {
-		mappings.mapProperty(CheckedAttribute.class, "checked");
+		mappings.mapTwoWayProperty(CheckedAttribute.class, "checked");
 
 		mappings.mapEvent(OnCheckedChangeAttribute.class, "onCheckedChange");
 	}

@@ -2,7 +2,8 @@ package org.robobinding.widget.radiogroup;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.ViewListenersAware;
+import org.robobinding.widgetaddon.ViewAddOnAware;
+import org.robobinding.widgetaddon.radiogroup.RadioGroupListeners;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -25,8 +26,8 @@ public abstract class AbstractRadioGroupAttributeTest {
 		viewListeners = new MockRadioGroupListeners(view);
 	}
 
-	public <T extends ViewListenersAware<RadioGroupListeners>> T withListenersSet(T attribute) {
-		attribute.setViewListeners(viewListeners);
+	public <T extends ViewAddOnAware<RadioGroupListeners>> T withListenersSet(T attribute) {
+		attribute.setViewAddOn(viewListeners);
 		return attribute;
 	}
 }

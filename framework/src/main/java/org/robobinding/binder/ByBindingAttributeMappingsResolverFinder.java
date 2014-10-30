@@ -2,10 +2,9 @@ package org.robobinding.binder;
 
 import java.util.List;
 
-import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
-import org.robobinding.viewattribute.impl.BindingAttributeMappingsProvider;
-import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
-import org.robobinding.viewattribute.impl.InitailizedBindingAttributeMappings;
+import org.robobinding.viewbinding.InitailizedBindingAttributeMappings;
+import org.robobinding.viewbinding.InitializedBindingAttributeMappingsProvider;
+import org.robobinding.viewbinding.InitializedBindingAttributeMappingsProviders;
 
 import com.google.common.collect.Lists;
 
@@ -16,25 +15,19 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 public class ByBindingAttributeMappingsResolverFinder {
-	private final BindingAttributeMappingsProviderMap bindingAttributeMappingsProviderMap;
-	private final ViewAttributeBinderFactoryProvider viewAttributeBinderFactoryProvider;
+	private final InitializedBindingAttributeMappingsProviders initializedBindingAttributeMappingsProviders;
 
-	public ByBindingAttributeMappingsResolverFinder(BindingAttributeMappingsProviderMap bindingAttributeMappingsProviderMap,
-			ViewAttributeBinderFactoryProvider viewAttributeBinderFactoryProvider) {
-		this.bindingAttributeMappingsProviderMap = bindingAttributeMappingsProviderMap;
-		this.viewAttributeBinderFactoryProvider = viewAttributeBinderFactoryProvider;
+	public ByBindingAttributeMappingsResolverFinder(
+			InitializedBindingAttributeMappingsProviders initializedBindingAttributeMappingsProviders) {
+		this.initializedBindingAttributeMappingsProviders = initializedBindingAttributeMappingsProviders;
 	}
 
 	public Iterable<ByBindingAttributeMappingsResolver> findCandidates(Object view) {
-		ViewAttributeBinderFactory<Object> viewAttributeBinderFactory = viewAttributeBinderFactoryProvider.create(view);
-
 		List<ByBindingAttributeMappingsResolver> resolvers = Lists.newArrayList();
-		Iterable<BindingAttributeMappingsProvider<?>> providers = bindingAttributeMappingsProviderMap.findCandidates(view.getClass());
-		for (BindingAttributeMappingsProvider<?> provider : providers) {
-			@SuppressWarnings("unchecked")
-			BindingAttributeMappingsProvider<Object> bindingAttributeProvider = (BindingAttributeMappingsProvider<Object>) provider;
-			InitailizedBindingAttributeMappings<Object> bindingAttributeMappings = bindingAttributeProvider.createBindingAttributeMappings();
-			resolvers.add(new ByBindingAttributeMappingsResolver(bindingAttributeMappings, viewAttributeBinderFactory));
+		Iterable<InitializedBindingAttributeMappingsProvider> providers = initializedBindingAttributeMappingsProviders.findCandidates(view.getClass());
+		for (InitializedBindingAttributeMappingsProvider provider : providers) {
+			InitailizedBindingAttributeMappings bindingAttributeMappings = provider.create();
+			resolvers.add(new ByBindingAttributeMappingsResolver(bindingAttributeMappings));
 		}
 
 		return resolvers;

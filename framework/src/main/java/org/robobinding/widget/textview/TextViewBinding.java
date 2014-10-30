@@ -1,7 +1,7 @@
 package org.robobinding.widget.textview;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 
 import android.widget.TextView;
 
@@ -14,8 +14,8 @@ import android.widget.TextView;
 public class TextViewBinding implements ViewBinding<TextView> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<TextView> mappings) {
-		mappings.mapProperty(TextAttribute.class, "text");
+		mappings.mapOneWayProperty(TextAttribute.class, "text");
 
-		mappings.mapProperty(TextColorAttribute.class, "textColor");
+		mappings.mapOneWayProperty(TextColorAttribute.class, "textColor");
 	}
 }

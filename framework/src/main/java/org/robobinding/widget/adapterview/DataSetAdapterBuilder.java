@@ -5,7 +5,10 @@ import java.util.Collection;
 import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
+import org.robobinding.viewattribute.ViewTagger;
+import org.robobinding.viewattribute.ViewTags;
 
 import com.google.common.collect.Lists;
 
@@ -16,6 +19,8 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 public class DataSetAdapterBuilder {
+	private static final int ITEM_PRESENTATION_MODEL_KEY = ViewTagger.KEY1;
+	
 	private final BindingContext bindingContext;
 
 	private int itemLayoutId;
@@ -61,7 +66,7 @@ public class DataSetAdapterBuilder {
 		ItemLayoutBinder itemLayoutBinder = new ItemLayoutBinder(itemBinder, itemLayoutId, itemPredefinedPendingAttributesForViewGroup);
 		ItemLayoutBinder dropdownLayoutBinder = new ItemLayoutBinder(itemBinder, dropDownLayoutId, dropdownPredefinedPendingAttributesForViewGroup);
 		DataSetAdapter<?> dataSetAdapter = new DataSetAdapter(valueModel, itemLayoutBinder, dropdownLayoutBinder, 
-				bindingContext.shouldPreInitializeViews());
+				new ViewTags<RefreshableItemPresentationModel>(ITEM_PRESENTATION_MODEL_KEY), bindingContext.shouldPreInitializeViews());
 
 		dataSetAdapter.observeChangesOnTheValueModel();
 		return dataSetAdapter;

@@ -1,8 +1,8 @@
 package org.robobinding.widget.view;
 
 import org.robobinding.util.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 
 import android.view.View;
 
@@ -13,7 +13,7 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public final class VisibilityAttribute<T extends View> implements MultiTypePropertyViewAttribute<T> {
+public final class VisibilityAttribute<T extends View> implements OneWayMultiTypePropertyViewAttribute<T> {
 	private final VisibilityFactory<T> visibilityFactory;
 
 	public VisibilityAttribute(VisibilityFactory<T> visibilityFactory) {
@@ -21,7 +21,7 @@ public final class VisibilityAttribute<T extends View> implements MultiTypePrope
 	}
 
 	@Override
-	public PropertyViewAttribute<T, ?> create(final T view, Class<?> propertyType) {
+	public OneWayPropertyViewAttribute<T, ?> create(final T view, Class<?> propertyType) {
 		AbstractVisibility visibility = visibilityFactory.create(view);
 
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType)) {
@@ -33,7 +33,7 @@ public final class VisibilityAttribute<T extends View> implements MultiTypePrope
 		return null;
 	}
 
-	static class BooleanVisibilityAttribute<T extends View> implements PropertyViewAttribute<T, Boolean> {
+	static class BooleanVisibilityAttribute<T extends View> implements OneWayPropertyViewAttribute<T, Boolean> {
 		private AbstractVisibility visibility;
 
 		public BooleanVisibilityAttribute(AbstractVisibility visibility) {
@@ -50,7 +50,7 @@ public final class VisibilityAttribute<T extends View> implements MultiTypePrope
 		}
 	}
 
-	static class IntegerVisibilityAttribute<T extends View> implements PropertyViewAttribute<T, Integer> {
+	static class IntegerVisibilityAttribute<T extends View> implements OneWayPropertyViewAttribute<T, Integer> {
 		private AbstractVisibility visibility;
 
 		public IntegerVisibilityAttribute(AbstractVisibility visibility) {
