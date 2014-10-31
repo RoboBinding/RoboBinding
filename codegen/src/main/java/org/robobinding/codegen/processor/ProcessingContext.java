@@ -2,6 +2,7 @@ package org.robobinding.codegen.processor;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -24,20 +25,36 @@ public class ProcessingContext {
 		return new MethodElementWrapper(this, types, element);
 	}
 
-	public TypeElementWrapper TypeElementOf(TypeMirror type) {
+	public TypeElementWrapper typeElementOf(TypeMirror type) {
 		return wrapper((TypeElement) types.asElement(type));
 	}
 
-	public TypeElementWrapper TypeElementOf(Class<?> type) {
-		return TypeElementOf(type.getName());
+	public TypeElementWrapper typeElementOf(Class<?> type) {
+		return typeElementOf(type.getName());
 	}
 	
-	public TypeElementWrapper TypeElementOf(String typeName) {
+	public TypeElementWrapper typeElementOf(String typeName) {
 		return wrapper(elements.getTypeElement(typeName));
 	}
 	
 	public TypeElementWrapper wrapper(TypeElement typeElement) {
 		return new TypeElementWrapper(this, types, typeElement);
+	}
+	
+	public String typeName(TypeMirror type) {
+		if(type instanceof ArrayType) {
+			return nonArrayTypeName(((ArrayType)type).getComponentType())+"[]";
+		} else {
+			return typeElementOf(type).typeName();
+		}
+	}
+	
+	private String nonArrayTypeName(TypeMirror type) {
+		if(type.getKind().isPrimitive()) {
+			return String.valueOf(type.getKind()).toLowerCase();
+		} else {
+			return typeElementOf(type).typeName();
+		}
 	}
 
 	public TypeMirror typeMirrorOf(Class<?> type) {

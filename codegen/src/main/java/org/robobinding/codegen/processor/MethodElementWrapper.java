@@ -80,7 +80,7 @@ public class MethodElementWrapper {
 	}
 
 	public String returnTypeName() {
-		return context.TypeElementOf(method.getReturnType()).typeName();
+		return context.typeName(method.getReturnType());
 	}
 
 	public String nonPrimitiveReturnTypeName() {
@@ -92,7 +92,7 @@ public class MethodElementWrapper {
 	}
 
 	public boolean isReturnTypeAssignableTo(Class<?> type) {
-		return context.TypeElementOf(method.getReturnType()).isAssignableTo(context.typeMirrorOf(type));
+		return context.typeElementOf(method.getReturnType()).isAssignableTo(context.typeMirrorOf(type));
 	}
 	
 	public boolean isReturnTypeNotAssignableTo(String type) {
@@ -100,7 +100,7 @@ public class MethodElementWrapper {
 	}
 
 	public boolean isReturnTypeAssignableTo(String type) {
-		return context.TypeElementOf(method.getReturnType()).isAssignableTo(context.typeMirrorOf(type));
+		return context.typeElementOf(method.getReturnType()).isAssignableTo(context.typeMirrorOf(type));
 	}
 
 	public boolean hasMoreThanOneParameters() {
@@ -114,7 +114,7 @@ public class MethodElementWrapper {
 
 	public String firstParameterTypeName() {
 		TypeMirror parameterType = firstParameterType();
-		return context.TypeElementOf(parameterType).typeName();
+		return context.typeName(parameterType);
 	}
 	
 	public TypeMirror firstParameterType() {

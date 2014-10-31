@@ -19,7 +19,7 @@ public class PresentationModelItemInfoProcessor extends PresentationModelProcess
 	protected void generateClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context) throws IOException, JClassAlreadyExistsException,
 			ClassNotFoundException {
 		DataSetPropertyInfo dataSetProperty = presentationModelInfo.dataSetProperties().toArray(new DataSetPropertyInfo[0])[0];
-		TypeElementWrapper typeElement = context.TypeElementOf(dataSetProperty.itemPresentationModelTypeName());
+		TypeElementWrapper typeElement = context.typeElementOf(dataSetProperty.itemPresentationModelTypeName());
 
 		PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(typeElement, 
 				dataSetProperty.itemPresentationModelObjectTypeName(), false);

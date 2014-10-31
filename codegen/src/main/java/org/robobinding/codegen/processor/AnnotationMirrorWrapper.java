@@ -30,7 +30,7 @@ public class AnnotationMirrorWrapper {
 			return null;
 		}
 		
-		return context.TypeElementOf((TypeMirror)annotationValue.getValue());
+		return context.typeElementOf((TypeMirror)annotationValue.getValue());
 	}
 	
 	private AnnotationValue findAnnotationValue(String key) {

@@ -12,4 +12,8 @@ public class PresentationModelSample1 {
 	public void setWriteOnlyProp(String param) {
 		
 	}
+	
+    public byte[] getByteArray() {
+        return null;
+    }
 }

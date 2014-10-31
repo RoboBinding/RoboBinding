@@ -27,5 +27,4 @@ public class PresentationModelProcessorTest {
 			.processedWith(processor)
 			.compilesWithoutError();
 	}
-
 }

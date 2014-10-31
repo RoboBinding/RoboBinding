@@ -43,7 +43,7 @@ public class TypeElementWrapper {
 	}
 
 	public TypeElementWrapper getSuperclass() {
-		return context.TypeElementOf(type.getSuperclass());
+		return context.typeElementOf(type.getSuperclass());
 	}
 
 	public String typeName() {
