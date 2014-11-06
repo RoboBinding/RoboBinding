@@ -16,11 +16,14 @@ import org.robobinding.widget.compoundbutton.CompoundButtonListeners;
 import org.robobinding.widget.edittext.EditTextBinding;
 import org.robobinding.widget.imageview.ImageViewBinding;
 import org.robobinding.widget.listview.ListViewBinding;
+import org.robobinding.widget.listview.ListViewListeners;
 import org.robobinding.widget.menuitem.MenuItemBinding;
 import org.robobinding.widget.menuitem.MenuItemListeners;
 import org.robobinding.widget.menuitemgroup.MenuItemGroup;
 import org.robobinding.widget.menuitemgroup.MenuItemGroupBinding;
 import org.robobinding.widget.progressbar.ProgressBarBinding;
+import org.robobinding.widget.radiogroup.RadioGroupBinding;
+import org.robobinding.widget.radiogroup.RadioGroupListeners;
 import org.robobinding.widget.ratingbar.RatingBarBinding;
 import org.robobinding.widget.ratingbar.RatingBarListeners;
 import org.robobinding.widget.seekbar.SeekBarBinding;
@@ -40,6 +43,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -67,9 +71,11 @@ public class BinderFactoryBuilder {
 		ViewListenersMapBuilder builder = new ViewListenersMapBuilder();
 		builder.put(View.class, ViewListenersForView.class);
 		builder.put(AdapterView.class, AdapterViewListeners.class);
+		builder.put(ListView.class, ListViewListeners.class);
 		builder.put(CompoundButton.class, CompoundButtonListeners.class);
 		builder.put(SeekBar.class, SeekBarListeners.class);
 		builder.put(RatingBar.class, RatingBarListeners.class);
+		builder.put(RadioGroup.class, RadioGroupListeners.class);
 		builder.put(MenuItem.class, MenuItemListeners.class);
 
 		return builder;
@@ -93,6 +99,7 @@ public class BinderFactoryBuilder {
 		builder.put(AbsListView.class, new AbsListViewBinding());
 		builder.put(AbsSpinner.class, new AbsSpinnerBinding());
 		builder.put(ViewAnimator.class, new ViewAnimatorBinding());
+		builder.put(RadioGroup.class, new RadioGroupBinding());
 		builder.put(MenuItem.class, new MenuItemBinding());
 		builder.put(MenuItemGroup.class, new MenuItemGroupBinding());
 
