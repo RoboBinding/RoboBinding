@@ -64,7 +64,7 @@ public class BinderFactory {
 		return creator.createMenuBinder(menuInflater, menu);
 	}
 
-    public DataSetAdapter<?> createDataSet(Context context, AbstractPresentationModelObject presentationModel, int itemLayoutId, int dropDownLayoutId, String propertyName) {
+    public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, int itemLayoutId, int dropDownLayoutId, String propertyName) {
         SingleInstanceCreator creator = new SingleInstanceCreator(viewListenersMap, bindingAttributeMappingsProviderMap, context, true);
         return creator.createDataSet(context, presentationModel, itemLayoutId, dropDownLayoutId, propertyName);
     }
