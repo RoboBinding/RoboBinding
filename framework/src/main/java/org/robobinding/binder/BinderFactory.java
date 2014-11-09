@@ -149,6 +149,8 @@ public class BinderFactory {
 		}
 
         public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, int itemLayoutId, int dropDownLayoutId, String propertyName) {
+            createDependents();
+
             AbstractPresentationModelObject presentationModelObject = presentationModelObjectLoader.load(presentationModel);
             PresentationModelAdapterFactory presentationModelAdapterFactory = new PresentationModelAdapterFactory();
             BindingContextFactory bindingContextFactory = new BindingContextFactory(context, true, presentationModelAdapterFactory);

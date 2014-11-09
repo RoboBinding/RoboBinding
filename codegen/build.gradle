@@ -106,9 +106,7 @@ uploadArchives {
 				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
 			}
 			
-			snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
-				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-			}
+			snapshotRepository(url: "file:///home/aurel/.m2/repository/")
 			
 			//repository(url: "file://$projectDir/mavenRepo")
 			pom.project {
