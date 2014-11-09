@@ -154,6 +154,10 @@ public class BinderFactory {
             AbstractPresentationModelObject presentationModelObject = presentationModelObjectLoader.load(presentationModel);
             PresentationModelAdapterFactory presentationModelAdapterFactory = new PresentationModelAdapterFactory();
             BindingContextFactory bindingContextFactory = new BindingContextFactory(context, true, presentationModelAdapterFactory);
+            ViewBindingLifecycle viewBindingLifecycle = new ViewBindingLifecycle(bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
+            ViewBinder viewBinder = new ViewBinderImpl(bindingViewInflater, viewBindingLifecycle, presentationModelObjectLoader);
+
+            bindingContextFactory.setBinderProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, nonBindingViewInflater, viewBinder));
 
             PresentationModelAdapter presentationModelAdapter = presentationModelAdapterFactory.create(presentationModelObject);
             DataSetAdapterBuilder builder = new DataSetAdapterBuilder(bindingContextFactory.create(presentationModelObject));
