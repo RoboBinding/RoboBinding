@@ -148,12 +148,13 @@ public class BinderFactory {
 			return new MenuBinderImpl(bindingMenuInflater, viewBindingLifecycle, presentationModelObjectLoader);
 		}
 
-        public DataSetAdapter<?> createDataSet(Context context, AbstractPresentationModelObject presentationModel, int itemLayoutId, int dropDownLayoutId, String propertyName) {
+        public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, int itemLayoutId, int dropDownLayoutId, String propertyName) {
+            AbstractPresentationModelObject presentationModelObject = presentationModelObjectLoader.load(presentationModel);
             PresentationModelAdapterFactory presentationModelAdapterFactory = new PresentationModelAdapterFactory();
             BindingContextFactory bindingContextFactory = new BindingContextFactory(context, true, presentationModelAdapterFactory);
 
-            PresentationModelAdapter presentationModelAdapter = presentationModelAdapterFactory.create(presentationModel);
-            DataSetAdapterBuilder builder = new DataSetAdapterBuilder(bindingContextFactory.create(presentationModel));
+            PresentationModelAdapter presentationModelAdapter = presentationModelAdapterFactory.create(presentationModelObject);
+            DataSetAdapterBuilder builder = new DataSetAdapterBuilder(bindingContextFactory.create(presentationModelObject));
 
             builder.setItemLayoutId(itemLayoutId);
             builder.setDropDownLayoutId(dropDownLayoutId);
