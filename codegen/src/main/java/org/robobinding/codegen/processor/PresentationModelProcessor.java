@@ -104,7 +104,7 @@ public class PresentationModelProcessor extends AbstractProcessor {
 			TypeElementWrapper typeElement = context.TypeElementOf(info.itemPresentationModelTypeName());
 			
 			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(
-					typeElement, info.itemPresentationModelObjectTypeName(), false);
+					typeElement, info.itemPresentationModelObjectTypeName(), true);
 			PresentationModelInfo itemPresentationModelInfo = builder.build();
 			try {
 				ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(itemPresentationModelInfo);
