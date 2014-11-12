@@ -64,10 +64,14 @@ public class BinderFactory {
 		return creator.createMenuBinder(menuInflater, menu);
 	}
 
-    public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, int itemLayoutId, int dropDownLayoutId, String propertyName) {
-        SingleInstanceCreator creator = new SingleInstanceCreator(viewListenersMap, bindingAttributeMappingsProviderMap, context, true);
-        return creator.createDataSet(context, presentationModel, itemLayoutId, dropDownLayoutId, propertyName);
-    }
+	public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, String propertyName, int itemLayoutId) {
+		createDataSet(context, presentationModel, propertyName, null);
+	}
+
+	public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, String propertyName, int itemLayoutId, Integer dropDownLayoutId) {
+        	SingleInstanceCreator creator = new SingleInstanceCreator(viewListenersMap, bindingAttributeMappingsProviderMap, context, true);
+        	return creator.createDataSet(context, presentationModel, itemLayoutId, dropDownLayoutId, propertyName);
+	}
 
 
         private static class SingleInstanceCreator {
@@ -148,27 +152,27 @@ public class BinderFactory {
 			return new MenuBinderImpl(bindingMenuInflater, viewBindingLifecycle, presentationModelObjectLoader);
 		}
 
-        public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, int itemLayoutId, int dropDownLayoutId, String propertyName) {
-            createDependents();
+		public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, String propertyName, int itemLayoutId, Integer dropDownLayoutId) {
+			createDependents();
 
-            AbstractPresentationModelObject presentationModelObject = presentationModelObjectLoader.load(presentationModel);
-            PresentationModelAdapterFactory presentationModelAdapterFactory = new PresentationModelAdapterFactory();
-            BindingContextFactory bindingContextFactory = new BindingContextFactory(context, true, presentationModelAdapterFactory);
-            ViewBindingLifecycle viewBindingLifecycle = new ViewBindingLifecycle(bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
-            ViewBinder viewBinder = new ViewBinderImpl(bindingViewInflater, viewBindingLifecycle, presentationModelObjectLoader);
+			AbstractPresentationModelObject presentationModelObject = presentationModelObjectLoader.load(presentationModel);
+			PresentationModelAdapterFactory presentationModelAdapterFactory = new PresentationModelAdapterFactory();
+			BindingContextFactory bindingContextFactory = new BindingContextFactory(context, true, presentationModelAdapterFactory);
+			ViewBindingLifecycle viewBindingLifecycle = new ViewBindingLifecycle(bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
+			ViewBinder viewBinder = new ViewBinderImpl(bindingViewInflater, viewBindingLifecycle, presentationModelObjectLoader);
 
-            bindingContextFactory.setBinderProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, nonBindingViewInflater, viewBinder));
+			bindingContextFactory.setBinderProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, nonBindingViewInflater, viewBinder));
 
-            PresentationModelAdapter presentationModelAdapter = presentationModelAdapterFactory.create(presentationModelObject);
-            DataSetAdapterBuilder builder = new DataSetAdapterBuilder(bindingContextFactory.create(presentationModelObject));
+			PresentationModelAdapter presentationModelAdapter = presentationModelAdapterFactory.create(presentationModelObject);
+			DataSetAdapterBuilder builder = new DataSetAdapterBuilder(bindingContextFactory.create(presentationModelObject));
 
-            builder.setItemLayoutId(itemLayoutId);
-            builder.setDropDownLayoutId(dropDownLayoutId);
-            builder.setValueModel(presentationModelAdapter.getDataSetPropertyValueModel(propertyName));
+			builder.setItemLayoutId(itemLayoutId);
+			if (dropDownLayoutId != null) {
+				builder.setDropDownLayoutId(dropDownLayoutId);
+			}
+			builder.setValueModel(presentationModelAdapter.getDataSetPropertyValueModel(propertyName));
 
-            return builder.build();
-        }
-
-    }
-
+			return builder.build();
+		}
+	}
 }
