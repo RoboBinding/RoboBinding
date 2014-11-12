@@ -65,12 +65,12 @@ public class BinderFactory {
 	}
 
 	public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, String propertyName, int itemLayoutId) {
-		createDataSet(context, presentationModel, propertyName, null);
+		createDataSet(context, presentationModel, propertyName, itemLayoutId, null);
 	}
 
 	public DataSetAdapter<?> createDataSet(Context context, Object presentationModel, String propertyName, int itemLayoutId, Integer dropDownLayoutId) {
         	SingleInstanceCreator creator = new SingleInstanceCreator(viewListenersMap, bindingAttributeMappingsProviderMap, context, true);
-        	return creator.createDataSet(context, presentationModel, itemLayoutId, dropDownLayoutId, propertyName);
+        	return creator.createDataSet(context, presentationModel, propertyName, itemLayoutId, dropDownLayoutId);
 	}
 
 
