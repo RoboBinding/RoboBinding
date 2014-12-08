@@ -22,11 +22,11 @@ public class TwoWayCurrentHourAttributeTest extends AbstractTimePickerAttributeT
     @Test
     public void whenUpdateView_thenViewShouldReflectChanges() {
         TwoWayCurrentHourAttribute attribute = new TwoWayCurrentHourAttribute();
-        int newProgressValue = RandomValues.anyInteger();
+        int newCurrentHourValue = RandomValues.anyInteger();
 
-        attribute.updateView(view, newProgressValue);
+        attribute.updateView(view, newCurrentHourValue);
 
-        assertThat(view.getProgress(), is(newProgressValue));
+        assertThat(view.getCurrentHour(), is(newCurrentHourValue));
     }
 
     @Test
@@ -35,10 +35,10 @@ public class TwoWayCurrentHourAttributeTest extends AbstractTimePickerAttributeT
         ValueModel<Integer> valueModel = ValueModelUtils.create();
         attribute.observeChangesOnTheView(view, valueModel);
 
-        int newProgressValue = RandomValues.anyInteger();
-        view.setProgress(newProgressValue);
+        int newCurrentHourValue = RandomValues.anyInteger();
+        view.setCurrentHour(newCurrentHourValue);
 
-        assertThat(valueModel.getValue(), equalTo(newProgressValue));
+        assertThat(valueModel.getValue(), equalTo(newCurrentHourValue));
     }
 
     @Test

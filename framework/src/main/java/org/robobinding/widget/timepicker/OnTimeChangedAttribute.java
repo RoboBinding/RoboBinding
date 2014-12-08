@@ -13,7 +13,7 @@ import org.robobinding.viewattribute.event.EventViewAttribute;
  * @author Joachim Hill-Grannec
  */
 public class OnTimeChangedAttribute implements EventViewAttribute<TimePicker>, ViewListenersAware<TimePickerListeners> {
-    TimePickerListeners timePickerListeners;
+    private TimePickerListeners timePickerListeners;
 
     @Override
     public void setViewListeners(TimePickerListeners onTimeChangedListeners) {
@@ -22,7 +22,7 @@ public class OnTimeChangedAttribute implements EventViewAttribute<TimePicker>, V
 
     @Override
     public void bind(TimePicker view, final Command command) {
-        view.setOnTimeChangedListener( new TimePicker.OnTimeChangedListener() {
+        timePickerListeners.addOnTimeChangedListener( new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 TimeChangedEvent event = new TimeChangedEvent(view, hourOfDay, minute);
