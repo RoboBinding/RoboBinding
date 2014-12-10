@@ -16,7 +16,7 @@ import android.widget.TimePicker;
  */
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractTimePickerAttributeTest {
-    private TimePicker view;
+    protected TimePicker view;
     protected MockTimePickerListeners viewListeners;
 
     @Before

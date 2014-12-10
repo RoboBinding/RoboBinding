@@ -1,5 +1,4 @@
 package org.robobinding.widget.timepicker;
-import android.widget.RadioGroup;
 import android.widget.TimePicker;
 
 import org.robobinding.widget.view.AbstractViewEvent;
@@ -21,8 +20,8 @@ public class TimeChangedEvent extends AbstractViewEvent {
     }
 
     @Override
-    public RadioGroup getView() {
-        return (RadioGroup) super.getView();
+    public TimePicker getView() {
+        return (TimePicker) super.getView();
     }
 
     public int getCurrentHour() {
