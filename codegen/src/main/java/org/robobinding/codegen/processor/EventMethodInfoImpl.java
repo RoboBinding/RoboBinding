@@ -25,7 +25,7 @@ public class EventMethodInfoImpl implements EventMethodInfo {
 	}
 	
 	public String eventArgType() {
-		return method.firstParameterTypeName();
+		return method.firstParameterNonPrimitiveTypeName();
 	}
 	
 	public boolean hasReturn() {

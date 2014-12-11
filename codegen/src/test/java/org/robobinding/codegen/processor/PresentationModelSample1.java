@@ -13,6 +13,10 @@ public class PresentationModelSample1 {
 		
 	}
 	
+	public void setPrimitiveWriteOnlyProp(int param) {
+		
+	}
+	
     public byte[] getByteArray() {
         return null;
     }

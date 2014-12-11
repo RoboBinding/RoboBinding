@@ -38,7 +38,7 @@ public class PropertyInfoImpl implements PropertyInfo {
 		if(getter != null) {
 			return getter.nonPrimitiveReturnTypeName();
 		} else {
-			return setter.firstParameterTypeName();
+			return setter.firstParameterNonPrimitiveTypeName();
 		}
 	}
 

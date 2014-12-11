@@ -112,9 +112,14 @@ public class MethodElementWrapper {
 		return method.getParameters().size() == 1;
 	}
 
-	public String firstParameterTypeName() {
+	public String firstParameterNonPrimitiveTypeName() {
 		TypeMirror parameterType = firstParameterType();
-		return context.typeName(parameterType);
+		
+		if(isFirstParameterNotPrimitiveType()) {
+			return context.typeName(parameterType);
+		} else {
+			return context.wrapper(types.boxedClass((PrimitiveType)parameterType)).typeName();
+		}
 	}
 	
 	public TypeMirror firstParameterType() {
