@@ -22,7 +22,7 @@ public abstract class AbstractTimePickerAttributeTest {
     @Before
     public void initializeViewAndListeners() {
         view = new TimePicker(Robolectric.application);
-        viewListeners = new MockTimeBarListeners(view);
+        viewListeners = new MockTimePickerListeners(view);
     }
 
     public <T extends ViewListenersAware<SeekBarListeners>> T withListenersSet(T attribute) {
