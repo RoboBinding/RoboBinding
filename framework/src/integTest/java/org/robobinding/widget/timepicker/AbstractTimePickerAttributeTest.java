@@ -25,7 +25,7 @@ public abstract class AbstractTimePickerAttributeTest {
         viewListeners = new MockTimePickerListeners(view);
     }
 
-    public <T extends ViewListenersAware<SeekBarListeners>> T withListenersSet(T attribute) {
+    public <T extends ViewListenersAware<TimePickerListeners>> T withListenersSet(T attribute) {
         attribute.setViewListeners(viewListeners);
         return attribute;
     }

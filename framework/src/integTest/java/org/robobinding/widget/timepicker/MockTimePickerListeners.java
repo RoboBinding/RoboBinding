@@ -18,7 +18,7 @@ public class MockTimePickerListeners extends TimePickerListeners {
     }
 
     @Override
-    public void addOnTimeChangedListener(OnSeekBarChangeListener listener) {
+    public void addOnTimeChangedListener(OnTimeChangedListener listener) {
         addOnTimeChangedListenerInvoked = true;
         timePicker.setOnTimeChangedListener(listener);
     }
