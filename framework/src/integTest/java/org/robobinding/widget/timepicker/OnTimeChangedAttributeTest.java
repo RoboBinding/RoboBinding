@@ -21,38 +21,28 @@ import android.widget.TimePicker;
  */
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
-public class OnTimeChangedAttributeTest {
-    private TimePicker view;
+public class OnTimeChangedAttributeTest extends AbstractTimePickerAttributeTest {
+	private OnTimeChangedAttribute attribute;
     private EventCommand eventCommand;
 
     @Before
     public void setUp() {
-        view = new TimePicker(Robolectric.application);
         eventCommand = new EventCommand();
+        attribute = withListenersSet(new OnTimeChangedAttribute());
     }
 
     @Test
     public void givenBoundAttribute_whenChangeHourTime_thenEventReceived() {
-        OnTimeChangedAttribute attribute = new OnTimeChangedAttribute();
         attribute.bind(view, eventCommand);
-        changeHourText();
+        view.setCurrentHour(RandomValues.anyInteger());
         assertEventReceived();
     }
 
     @Test
     public void givenBoundAttribute_whenChangeMinuteTime_thenEventReceived() {
-        OnTimeChangedAttribute attribute = new OnTimeChangedAttribute();
         attribute.bind(view, eventCommand);
-        changeMinuteText();
-        assertEventReceived();
-    }
-
-    private void changeHourText() {
-       view.setCurrentHour(RandomValues.anyInteger());
-    }
-
-    private void changeMinuteText() {
         view.setCurrentMinute(RandomValues.anyInteger());
+        assertEventReceived();
     }
 
     private void assertEventReceived() {
