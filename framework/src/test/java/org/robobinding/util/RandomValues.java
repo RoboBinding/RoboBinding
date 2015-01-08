@@ -45,7 +45,7 @@ public class RandomValues {
 		return random.nextInt(100);
 	}
 	
-	public static int anyInteger(int minValue, int maxValue) {
+	public static int integerBetween(int minValue, int maxValue) {
 		return random.nextInt((maxValue - minValue) + 1) + minValue;
 	}
 

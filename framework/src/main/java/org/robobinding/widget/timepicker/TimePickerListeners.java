@@ -12,7 +12,7 @@ import org.robobinding.widget.view.ViewListenersForView;
  * @author Joachim Hill-Grannec
  */
 public class TimePickerListeners extends ViewListenersForView {
-    TimePicker timePicker;
+    private final TimePicker timePicker;
     private OnTimeChangedListeners onTimeChangedListeners;
 
     public TimePickerListeners(TimePicker timePicker) {

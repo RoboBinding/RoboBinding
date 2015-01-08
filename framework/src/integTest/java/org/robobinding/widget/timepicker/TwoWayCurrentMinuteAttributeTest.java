@@ -22,7 +22,7 @@ public class TwoWayCurrentMinuteAttributeTest extends AbstractTimePickerAttribut
     @Test
     public void whenUpdateView_thenViewShouldReflectChanges() {
         TwoWayCurrentMinuteAttribute attribute = new TwoWayCurrentMinuteAttribute();
-        int newCurrentMinuteValue = RandomValues.anyInteger(0,59);
+        int newCurrentMinuteValue = RandomValues.integerBetween(0,59);
 
         attribute.updateView(view, newCurrentMinuteValue);
 
@@ -35,7 +35,7 @@ public class TwoWayCurrentMinuteAttributeTest extends AbstractTimePickerAttribut
         ValueModel<Integer> valueModel = ValueModelUtils.create();
         attribute.observeChangesOnTheView(view, valueModel);
 
-        int newCurrentMinuteValue = RandomValues.anyInteger(0,59);
+        int newCurrentMinuteValue = RandomValues.integerBetween(0,59);
         view.setCurrentMinute(newCurrentMinuteValue);
 
         assertThat(valueModel.getValue(), equalTo(newCurrentMinuteValue));
