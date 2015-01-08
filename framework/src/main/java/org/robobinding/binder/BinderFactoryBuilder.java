@@ -29,6 +29,8 @@ import org.robobinding.widget.ratingbar.RatingBarListeners;
 import org.robobinding.widget.seekbar.SeekBarBinding;
 import org.robobinding.widget.seekbar.SeekBarListeners;
 import org.robobinding.widget.textview.TextViewBinding;
+import org.robobinding.widget.timepicker.TimePickerBinding;
+import org.robobinding.widget.timepicker.TimePickerListeners;
 import org.robobinding.widget.view.ViewBindingForView;
 import org.robobinding.widget.view.ViewListenersForView;
 import org.robobinding.widget.viewanimator.ViewAnimatorBinding;
@@ -47,6 +49,7 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.ViewAnimator;
 
 /**
@@ -77,6 +80,7 @@ public class BinderFactoryBuilder {
 		builder.put(RatingBar.class, RatingBarListeners.class);
 		builder.put(RadioGroup.class, RadioGroupListeners.class);
 		builder.put(MenuItem.class, MenuItemListeners.class);
+        builder.put(TimePicker.class, TimePickerListeners.class);
 
 		return builder;
 	}
@@ -102,6 +106,7 @@ public class BinderFactoryBuilder {
 		builder.put(RadioGroup.class, new RadioGroupBinding());
 		builder.put(MenuItem.class, new MenuItemBinding());
 		builder.put(MenuItemGroup.class, new MenuItemGroupBinding());
+        builder.put(TimePicker.class, new TimePickerBinding());
 
 		return builder;
 	}

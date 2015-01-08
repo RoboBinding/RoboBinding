@@ -44,6 +44,10 @@ public class RandomValues {
 	public static int anyInteger() {
 		return random.nextInt(100);
 	}
+	
+	public static int integerBetween(int minValue, int maxValue) {
+		return random.nextInt((maxValue - minValue) + 1) + minValue;
+	}
 
 	public static int anyIntegerGreaterThanZero() {
 		return random.nextInt(100) + 1;
