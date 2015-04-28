@@ -11,4 +11,6 @@ public interface PropertySupply {
 	SimpleProperty tryToCreateProperty(String propertyName);
 
 	DataSetProperty tryToCreateDataSetProperty(String propertyName);
+
+    GroupedDataSetProperty tryToCreateGroupedDataSetProperty(String propertyName);
 }

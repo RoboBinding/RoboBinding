@@ -55,4 +55,22 @@ public class PropertyWithDependencySupply {
 			return property;
 		}
 	}
+
+    public GroupedDataSetPropertyValueModel createGroupedDataSetProperty(String propertyName) {
+        GroupedDataSetProperty property = supply.tryToCreateGroupedDataSetProperty(propertyName);
+        if(property == null) {
+            throw new Bug(MessageFormat.format("no known grouped dataSet property '{0}' generated", describeProperty(propertyName)));
+        }
+
+        property.addPropertyChangeListener(property);
+
+        if(dependencies.hasDependency(propertyName)) {
+            Dependency dependency = dependencies.createDependency(propertyName);
+            GroupedDataSetDependencyProperty dataSetDependencyProperty = new GroupedDataSetDependencyProperty(property, dependency);
+            dependency.addListenerToDependentProperties(property);
+            return dataSetDependencyProperty;
+        } else {
+            return property;
+        }
+    }
 }

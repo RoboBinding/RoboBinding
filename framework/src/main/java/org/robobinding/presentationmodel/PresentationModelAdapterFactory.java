@@ -19,8 +19,9 @@ public class PresentationModelAdapterFactory {
 		Dependencies dependencies = new Dependencies(presentationModelObject, presentationModelObject.propertyDependencies());
 		PropertyWithDependencySupply propertyWithDependencySupply = new PropertyWithDependencySupply(
 				presentationModelClass, presentationModelObject, dependencies);
-		Properties properties = new LazyProperties(presentationModelClass, presentationModelObject.propertyNames(), 
-				presentationModelObject.dataSetPropertyNames(), propertyWithDependencySupply);
+		Properties properties = new LazyProperties(presentationModelClass, presentationModelObject.propertyNames(),
+				presentationModelObject.dataSetPropertyNames(), presentationModelObject.groupedDataSetPropertyNames(),
+                propertyWithDependencySupply);
 		
 		Functions functions = new LazyFunctions(presentationModelClass, 
 				presentationModelObject.eventMethods(), presentationModelObject);

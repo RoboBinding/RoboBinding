@@ -22,7 +22,7 @@ public class PresentationModelItemInfoProcessor extends PresentationModelProcess
 		TypeElementWrapper typeElement = context.typeElementOf(dataSetProperty.itemPresentationModelTypeName());
 
 		PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(typeElement, 
-				dataSetProperty.itemPresentationModelObjectTypeName(), false);
+				dataSetProperty.itemPresentationModelObjectTypeName(), false, false);
 		result = builder.build();
 	}
 }

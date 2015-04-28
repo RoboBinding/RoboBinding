@@ -1,5 +1,6 @@
 package org.robobinding.presentationmodel;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,6 +42,8 @@ public abstract class AbstractPresentationModelObject implements PropertySupply,
 	public abstract Set<String> propertyNames();
 
 	public abstract Set<String> dataSetPropertyNames();
+
+    public abstract Set<String> groupedDataSetPropertyNames();
 	/*
 	protected Set<String> allPropertyNames() {
 		Set<String> allPropertyNames = Sets.newHashSet(propertyNames());
@@ -66,6 +69,10 @@ public abstract class AbstractPresentationModelObject implements PropertySupply,
 	}
 	
 	protected PropertyDescriptor createDataSetPropertyDescriptor(Class<?> propertyType, String propertyName) {
+		return new PropertyDescriptor(presentationModelClass, propertyType, propertyName, true, false);
+	}
+
+	protected PropertyDescriptor createGroupedDataSetPropertyDescriptor(Class<?> propertyType, String propertyName) {
 		return new PropertyDescriptor(presentationModelClass, propertyType, propertyName, true, false);
 	}
 	

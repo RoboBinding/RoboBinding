@@ -6,12 +6,11 @@ import java.util.Set;
 
 import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
+import org.robobinding.groupeditempresentationmodel.RefreshableGroupedItemPresentationModel;
+import org.robobinding.groupeditempresentationmodel.RefreshableGroupedItemPresentationModelFactory;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
-import org.robobinding.property.AbstractGetSet;
-import org.robobinding.property.DataSetProperty;
-import org.robobinding.property.PropertyDescriptor;
-import org.robobinding.property.SimpleProperty;
+import org.robobinding.property.*;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -49,8 +48,10 @@ public abstract class AbstractPresentationModelObjectClassGen {
 	private JClass simplePropertyClass;
 	private JClass getSetClass;
 	private JClass dataSetPropertyClass;
+	private JClass groupedDataSetPropertyClass;
 	private JClass refreshableItemPresentationModelFactoryClass;
-	
+	private JClass refreshableGroupedItemPresentationModelFactoryClass;
+
 	public AbstractPresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) {
 		this.presentationModelInfo = presentationModelInfo;
 		
@@ -63,7 +64,9 @@ public abstract class AbstractPresentationModelObjectClassGen {
 		simplePropertyClass = codeModel.ref(SimpleProperty.class);
 		getSetClass = codeModel.ref(AbstractGetSet.class).narrow(codeModel.wildcard());
 		dataSetPropertyClass = codeModel.ref(DataSetProperty.class);
+		groupedDataSetPropertyClass = codeModel.ref(GroupedDataSetProperty.class);
 		refreshableItemPresentationModelFactoryClass = codeModel.ref(RefreshableItemPresentationModelFactory.class);
+		refreshableGroupedItemPresentationModelFactoryClass = codeModel.ref(RefreshableGroupedItemPresentationModelFactory.class);
 
 		try {
 			definedClass = codeModel._class(presentationModelInfo.getPresentationModelObjectTypeName());
@@ -121,6 +124,12 @@ public abstract class AbstractPresentationModelObjectClassGen {
 
 		method.body()._return(newHashSetInvocation(presentationModelInfo.dataSetPropertyNames()));
 	}
+
+	public void defineGroupedDataSetPropertyNames() {
+		JMethod method = declarePublicMethodOverride("groupedDataSetPropertyNames", setClassWithString);
+
+		method.body()._return(newHashSetInvocation(presentationModelInfo.groupedDataSetPropertyNames()));
+	}
 	/*
 	  	@Override
 	  	public Map<String, Set<String>> propertyDependencies() {
@@ -135,7 +144,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 		
 		JBlock body = method.body();
 		
-		JVar dependenciesVar = body.decl(mapClassWithStringAndStringSet, "dependencies", 
+		JVar dependenciesVar = body.decl(mapClassWithStringAndStringSet, "dependencies",
 				codeModel.ref(Maps.class).staticInvoke("newHashMap"));
 		
 		for(PropertyDependencyInfo propertyDependencyInfo : presentationModelInfo.propertyDependencies()) {
@@ -330,7 +339,7 @@ public abstract class AbstractPresentationModelObjectClassGen {
 			JMethod getter = declarePublicMethodOverride(anonymousGetSet, "getValue", propertyClass);
 			getter.body()._return(presentationModelFieldWithoutThis.invoke(propertyInfo.getter()));
 			
-			JVar getSetVar = conditionalBody.decl(getSetClass, "getSet", 
+			JVar getSetVar = conditionalBody.decl(getSetClass, "getSet",
 					JExpr._new(anonymousGetSet).arg(descriptorVar));
 			//JVar getSetVar = conditionalBody.decl(getSetClass, "getSet", 
 			//		JExpr._new(anonymousGetSet.narrow(propertyClass)).arg(descriptorVar));
@@ -357,6 +366,59 @@ public abstract class AbstractPresentationModelObjectClassGen {
 		}
 		
 		body._return(JExpr._null());
+	}
+
+	public void defineTryToCreateGroupedDataSetProperty() {
+		JMethod method = declarePublicMethodOverride("tryToCreateGroupedDataSetProperty", GroupedDataSetProperty.class);
+		JVar nameParam = method.param(String.class, "name");
+
+		JBlock body = method.body();
+
+		for(GroupedDataSetPropertyInfo propertyInfo : presentationModelInfo.groupedDataSetProperties()) {
+			JConditional conditional = body._if(nameParam.invoke("equals").arg(propertyInfo.name()));
+			JBlock conditionalBody = conditional._then();
+			//create createDataSetPropertyDescriptor.
+			JClass propertyClass = codeModel.ref(propertyInfo.type());
+			JInvocation createGroupedDataSetPropertyDescriptor = JExpr.invoke("createGroupedDataSetPropertyDescriptor")
+					.arg(propertyClass.dotclass())
+					.arg(nameParam);
+
+			JVar descriptorVar = conditionalBody.decl(propertyDescriptorClass, "descriptor", createGroupedDataSetPropertyDescriptor);
+			//create AbstractGetSet.
+			JClass narrowedGetSet = codeModel.ref(AbstractGetSet.class).narrow(codeModel.ref(propertyInfo.type()));
+			JDefinedClass anonymousGetSet = codeModel.anonymousClass(narrowedGetSet);
+
+			JMethod getter = declarePublicMethodOverride(anonymousGetSet, "getValue", propertyClass);
+			getter.body()._return(presentationModelFieldWithoutThis.invoke(propertyInfo.getter()));
+
+			JVar getSetVar = conditionalBody.decl(getSetClass, "getSet",
+					JExpr._new(anonymousGetSet).arg(descriptorVar));
+			//JVar getSetVar = conditionalBody.decl(getSetClass, "getSet",
+			//		JExpr._new(anonymousGetSet.narrow(propertyClass)).arg(descriptorVar));
+			//create RefreshableItemPresentationModelFactory.
+			JDefinedClass anonymousFactory = codeModel.anonymousClass(RefreshableGroupedItemPresentationModelFactory.class);
+
+			JMethod create = declarePublicMethodOverride(anonymousFactory, "create", RefreshableGroupedItemPresentationModel.class);
+
+			JClass itemPresentationModelObjectClass = codeModel.ref(propertyInfo.groupedItemPresentationModelObjectTypeName());
+			JInvocation newItemPresentationModelObject = JExpr._new(itemPresentationModelObjectClass);
+			if (propertyInfo.isCreatedByFactoryMethod()) {
+				newItemPresentationModelObject.arg(presentationModelFieldWithoutThis.invoke(propertyInfo.factoryMethod()));
+			} else {
+				newItemPresentationModelObject.arg(JExpr._new(codeModel.ref(propertyInfo.groupedItemPresentationModelTypeName())));
+			}
+			create.body()._return(newItemPresentationModelObject);
+
+			JVar factoryVar = conditionalBody.decl(refreshableGroupedItemPresentationModelFactoryClass, "factory", JExpr._new(anonymousFactory));
+			//return DataSetProperty.
+			conditionalBody._return(JExpr._new(groupedDataSetPropertyClass)
+					.arg(JExpr._this())
+					.arg(descriptorVar)
+					.arg(JExpr._new(codeModel.ref(propertyInfo.groupedDataSetImplementationType())).arg(factoryVar).arg(getSetVar)));
+		}
+
+		body._return(JExpr._null());
+
 	}
 	/*
 	@Override

@@ -1,21 +1,17 @@
 package org.robobinding.codegen.processor;
 
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import org.robobinding.annotation.DependsOnStateOf;
+import org.robobinding.annotation.GroupedItemPresentationModel;
+import org.robobinding.annotation.ItemPresentationModel;
+import org.robobinding.codegen.*;
+import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
+
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.robobinding.annotation.DependsOnStateOf;
-import org.robobinding.annotation.ItemPresentationModel;
-import org.robobinding.codegen.DataSetPropertyInfo;
-import org.robobinding.codegen.EventMethodInfo;
-import org.robobinding.codegen.PresentationModelInfo;
-import org.robobinding.codegen.PropertyDependencyInfo;
-import org.robobinding.codegen.PropertyInfo;
-import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
-
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * @since 1.0
@@ -24,30 +20,36 @@ import com.google.common.collect.Sets;
  */
 public class PresentationModelInfoBuilder {
 	private static final String ITEM_PRESENTATION_MODEL_OBJECT_SUFFIX = "$$IPM";
+	private static final String GROUPED_ITEM_PRESENTATION_MODEL_OBJECT_SUFFIX = "$$GIPM";
 	
 	private final TypeElementWrapper typeElement;
 	private final boolean dataSetPropertyEnabled;
+	private final boolean groupedDataSetPropertyEnabled;
 	private final String presentationModelObjectTypeName;
 	private final Set<String> filteredMethodNames = Sets.newHashSet("getPresentationModelChangeSupport");
 	
 	private final Set<String> propertyNames;
 	private final Map<String, PropertyInfoBuilder> propertyBuilders;
 	private final Map<String, DataSetPropertyInfoImpl> dataSetProperties;
+	private final Map<String, GroupedDataSetPropertyInfoImpl> groupedDataSetProperties;
 	private final Set<PropertyDependencyInfo> propertyDependencies;
 	private final Map<String, MethodElementWrapper> eventMethods;
 	
 	private final PresentationModelErrors errors;
 
-	
+
 	public PresentationModelInfoBuilder(TypeElementWrapper typeElement, 
-			String presentationModelObjectTypeName, boolean dataSetPropertyEnabled) {
+			String presentationModelObjectTypeName, boolean dataSetPropertyEnabled,
+										boolean groupedDataSetPropertyEnabled) {
 		this.typeElement = typeElement;
 		this.dataSetPropertyEnabled = dataSetPropertyEnabled;
+		this.groupedDataSetPropertyEnabled = groupedDataSetPropertyEnabled;
 		this.presentationModelObjectTypeName = presentationModelObjectTypeName;
 		
 		propertyNames = Sets.newHashSet();
 		propertyBuilders = Maps.newHashMap();
 		dataSetProperties = Maps.newHashMap();
+		groupedDataSetProperties = Maps.newHashMap();
 		propertyDependencies = Sets.newHashSet();
 		eventMethods = Maps.newHashMap();
 		
@@ -58,6 +60,7 @@ public class PresentationModelInfoBuilder {
 		analyzeFrom(typeElement);
 		
 		processDataSetProperties();
+		processGroupedDataSetProperties();
 		validateProperties();
 		validateDependencies();
 		
@@ -106,6 +109,12 @@ public class PresentationModelInfoBuilder {
 					annotation, 
 					itemPresentationModelObjectTypeNameOf(annotation));
 			dataSetProperties.put(propertyName, dataSetProperty);
+		} else if(isGroupedDataSetProperty(getter)) {
+			GroupedItemPresentationModelAnnotationMirror annotation = new GroupedItemPresentationModelAnnotationMirror(
+					getter.getAnnotation(GroupedItemPresentationModel.class));
+			GroupedDataSetPropertyInfoImpl groupedDataSetProperty = new GroupedDataSetPropertyInfoImpl(propertyName, getter,
+					annotation, groupedItemPresentationModelObjectTypeNameOf(annotation));
+			groupedDataSetProperties.put(propertyName, groupedDataSetProperty);
 		} else {
 			PropertyInfoBuilder propertyBuilder = getFromPropertyBuilders(propertyName);
 			propertyBuilder.setGetter(getter);
@@ -122,8 +131,17 @@ public class PresentationModelInfoBuilder {
 		return dataSetPropertyEnabled && getter.hasAnnotation(ItemPresentationModel.class);
 	}
 
+	private boolean isGroupedDataSetProperty(MethodElementWrapper getter) {
+		return groupedDataSetPropertyEnabled && getter.hasAnnotation(GroupedItemPresentationModel.class);
+	}
+
 	private String itemPresentationModelObjectTypeNameOf(ItemPresentationModelAnnotationMirror annotation) {
 		return annotation.itemPresentationModelTypeName() + ITEM_PRESENTATION_MODEL_OBJECT_SUFFIX;
+	}
+
+	private String groupedItemPresentationModelObjectTypeNameOf(
+			GroupedItemPresentationModelAnnotationMirror annotation) {
+		return annotation.groupedItemPresentationModelTypeName() + GROUPED_ITEM_PRESENTATION_MODEL_OBJECT_SUFFIX;
 	}
 
 	private PropertyInfoBuilder getFromPropertyBuilders(String propertyName) {
@@ -173,6 +191,19 @@ public class PresentationModelInfoBuilder {
 		}
 	}
 
+	private void processGroupedDataSetProperties() {
+		for(GroupedDataSetPropertyInfoImpl groupedDataSetProperty : groupedDataSetProperties.values()) {
+			try {
+				validateGroupedDataSetProperty(groupedDataSetProperty);
+			} catch(RuntimeException e) {
+				errors.addPropertyError(e.getMessage());
+				continue;
+			}
+			removeSetterOfGroupedDataSetProperty(groupedDataSetProperty);
+			removeGroupedItemPresentationModelFactoryMethod(groupedDataSetProperty);
+		}
+	}
+
 	private void validateDataSetProperty(DataSetPropertyInfoImpl dataSetProperty) {
 		if(dataSetProperty.isCreatedByFactoryMethod()) {
 			String factoryMethod = dataSetProperty.factoryMethod();
@@ -180,8 +211,21 @@ public class PresentationModelInfoBuilder {
 			if((eventMethod == null) || eventMethod.hasParameter() 
 					|| eventMethod.isReturnTypeNotAssignableTo(dataSetProperty.itemPresentationModelTypeName())) {
 				throw new RuntimeException(MessageFormat.format("The dataSet property ''{0}'' expects an non-existing factory method ''{1}''",
-						dataSetProperty.name(), 
+						dataSetProperty.name(),
 						new MethodDescription(factoryMethod, dataSetProperty.itemPresentationModelTypeName(), new Class<?>[0])));
+			}
+		}
+	}
+
+	private void validateGroupedDataSetProperty(GroupedDataSetPropertyInfoImpl groupedDataSetProperty) {
+		if(groupedDataSetProperty.isCreatedByFactoryMethod()) {
+			String factoryMethod = groupedDataSetProperty.factoryMethod();
+			MethodElementWrapper eventMethod = eventMethods.get(factoryMethod);
+			if((eventMethod == null) || eventMethod.hasParameter()
+					|| eventMethod.isReturnTypeNotAssignableTo(groupedDataSetProperty.groupedItemPresentationModelTypeName())) {
+				throw new RuntimeException(MessageFormat.format("The grouped dataSet property ''{0}'' expects an non-existing factory method ''{1}''",
+						groupedDataSetProperty.name(),
+						new MethodDescription(factoryMethod, groupedDataSetProperty.groupedItemPresentationModelTypeName(), new Class<?>[0])));
 			}
 		}
 	}
@@ -189,8 +233,16 @@ public class PresentationModelInfoBuilder {
 	private void removeSetterOfDataSetProperty(DataSetPropertyInfoImpl dataSetProperty) {
 		propertyBuilders.remove(dataSetProperty.name());
 	}
+
+	private void removeSetterOfGroupedDataSetProperty(GroupedDataSetPropertyInfoImpl dataSetProperty) {
+		propertyBuilders.remove(dataSetProperty.name());
+	}
 	
 	private void removeItemPresentationModelFactoryMethod(DataSetPropertyInfoImpl dataSetProperty) {
+		eventMethods.remove(dataSetProperty.factoryMethod());
+	}
+
+	private void removeGroupedItemPresentationModelFactoryMethod(GroupedDataSetPropertyInfoImpl dataSetProperty) {
 		eventMethods.remove(dataSetProperty.factoryMethod());
 	}
 
@@ -217,7 +269,7 @@ public class PresentationModelInfoBuilder {
 	private PresentationModelInfo createPresentationModelInfo() {
 		return new PresentationModelInfo(typeElement.typeName(), presentationModelObjectTypeName, 
 				typeElement.isAssignableTo(HasPresentationModelChangeSupport.class),
-				buildProperties(), buildDataSetProperties(), 
+				buildProperties(), buildDataSetProperties(), buildGroupedDataSetProperties(),
 				propertyDependencies, buildEventMethods());
 	}
 
@@ -234,6 +286,14 @@ public class PresentationModelInfoBuilder {
 		Set<DataSetPropertyInfo> result = Sets.newHashSet();
 		for(DataSetPropertyInfoImpl dataSetProperty : dataSetProperties.values()) {
 			result.add(dataSetProperty);
+		}
+		return result;
+	}
+
+	private Set<GroupedDataSetPropertyInfo> buildGroupedDataSetProperties() {
+		Set<GroupedDataSetPropertyInfo> result = Sets.newHashSet();
+		for(GroupedDataSetPropertyInfoImpl groupedDataSetProperty: groupedDataSetProperties.values()){
+			result.add(groupedDataSetProperty);
 		}
 		return result;
 	}

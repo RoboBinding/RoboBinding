@@ -1,5 +1,6 @@
 package org.robobinding.binder;
 
+import android.widget.*;
 import org.robobinding.dynamicbinding.DynamicViewBinding;
 import org.robobinding.dynamicbinding.DynamicViewBindingDescription;
 import org.robobinding.dynamicbinding.ViewBindingApplier;
@@ -14,6 +15,8 @@ import org.robobinding.widget.adapterview.AdapterViewListeners;
 import org.robobinding.widget.compoundbutton.CompoundButtonBinding;
 import org.robobinding.widget.compoundbutton.CompoundButtonListeners;
 import org.robobinding.widget.edittext.EditTextBinding;
+import org.robobinding.widget.expandablelistview.ExpandableListViewBinding;
+import org.robobinding.widget.expandablelistview.ExpandableListViewListeners;
 import org.robobinding.widget.imageview.ImageViewBinding;
 import org.robobinding.widget.listview.ListViewBinding;
 import org.robobinding.widget.listview.ListViewListeners;
@@ -37,20 +40,6 @@ import org.robobinding.widget.viewanimator.ViewAnimatorBinding;
 
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AbsSpinner;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RadioGroup;
-import android.widget.RatingBar;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.ViewAnimator;
 
 /**
  * The builder class allows customizing {@link BinderFactory} by adding new,
@@ -75,6 +64,7 @@ public class BinderFactoryBuilder {
 		builder.put(View.class, ViewListenersForView.class);
 		builder.put(AdapterView.class, AdapterViewListeners.class);
 		builder.put(ListView.class, ListViewListeners.class);
+        builder.put(ExpandableListView.class, ExpandableListViewListeners.class);
 		builder.put(CompoundButton.class, CompoundButtonListeners.class);
 		builder.put(SeekBar.class, SeekBarListeners.class);
 		builder.put(RatingBar.class, RatingBarListeners.class);
@@ -102,6 +92,7 @@ public class BinderFactoryBuilder {
 		builder.put(ListView.class, new ListViewBinding());
 		builder.put(AbsListView.class, new AbsListViewBinding());
 		builder.put(AbsSpinner.class, new AbsSpinnerBinding());
+        builder.put(ExpandableListView.class, new ExpandableListViewBinding());
 		builder.put(ViewAnimator.class, new ViewAnimatorBinding());
 		builder.put(RadioGroup.class, new RadioGroupBinding());
 		builder.put(MenuItem.class, new MenuItemBinding());

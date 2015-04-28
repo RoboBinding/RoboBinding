@@ -2,6 +2,7 @@ package org.robobinding.presentationmodel;
 
 import org.robobinding.function.Function;
 import org.robobinding.property.DataSetValueModel;
+import org.robobinding.property.GroupedDataSetValueModel;
 import org.robobinding.property.ValueModel;
 
 /**
@@ -19,6 +20,8 @@ public interface PresentationModelAdapter {
 	<T> ValueModel<T> getPropertyValueModel(String propertyName);
 
 	DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName);
+
+    GroupedDataSetValueModel<?> getGroupedDataSetValueModel(String propertyName);
 
 	Function findFunction(String functionName, Class<?>... parameterTypes);
 

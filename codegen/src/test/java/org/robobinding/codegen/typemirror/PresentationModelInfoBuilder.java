@@ -6,11 +6,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.robobinding.codegen.DataSetPropertyInfo;
-import org.robobinding.codegen.EventMethodInfo;
-import org.robobinding.codegen.PresentationModelInfo;
-import org.robobinding.codegen.PropertyDependencyInfo;
-import org.robobinding.codegen.PropertyInfo;
+import org.robobinding.codegen.*;
 import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
 
 import com.google.common.collect.Sets;
@@ -29,6 +25,7 @@ public class PresentationModelInfoBuilder {
 	
 	private final Set<PropertyInfo> properties;
 	private final Set<DataSetPropertyInfo> dataSetProperties;
+	private final Set<GroupedDataSetPropertyInfo> groupedDataSetProperties;
 	private final Set<PropertyDependencyInfo> propertyDependencies;
 	private final Set<EventMethodInfo> eventMethods;
 	
@@ -40,6 +37,7 @@ public class PresentationModelInfoBuilder {
 		
 		properties = Sets.newTreeSet(new PropertyInfoComparator());
 		dataSetProperties = Sets.newTreeSet(new DataSetPropertyInfoComparator());
+		groupedDataSetProperties = Sets.newTreeSet(new GroupedDataSetPropertyInfoComparator());
 		propertyDependencies = Sets.newTreeSet(new PropertyDependencyInfoComparator());
 		eventMethods = Sets.newTreeSet(new EventMethodInfoComparator());
 	}
@@ -50,7 +48,7 @@ public class PresentationModelInfoBuilder {
 
 		return new PresentationModelInfo(presentationModelClass.getName(), presentationModelObjectTypeName(),
 				HasPresentationModelChangeSupport.class.isAssignableFrom(presentationModelClass),
-				properties, dataSetProperties, propertyDependencies, eventMethods);
+				properties, dataSetProperties, groupedDataSetProperties, propertyDependencies, eventMethods);
 	}
 
 	

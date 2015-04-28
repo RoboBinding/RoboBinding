@@ -46,7 +46,16 @@ public class PresentationModelObjectClassGenTest {
 
 		assertOutputSameTextFile(gen, "DefineDataSetPropertyNames_PM.java.txt");
 	}
-	
+
+	@Test
+	public void shouldDefineGroupedDataSetPropertyNames() {
+		PresentationModelInfo presentationModelInfo = createPresentationModelInfoFor(DefineDataSetPropertyNames.class);
+		PresentationModelObjectClassGen gen = new PresentationModelObjectClassGen(presentationModelInfo);
+		gen.defineGroupedDataSetPropertyNames();
+
+//		assertOutputSameTextFile(gen, "DefineGroupedDataSetPropertyNames_PM.java.txt");
+	}
+
 	@Test
 	public void shouldDefinePropertyDependencies() {
 		PresentationModelInfo presentationModelInfo = createPresentationModelInfoFor(DefinePropertyDependencies.class);
@@ -84,7 +93,18 @@ public class PresentationModelObjectClassGenTest {
 		
 		assertOutputSameTextFile(gen, "DefineTryToCreateDataSetProperty_PM.java.txt");
 	}
-	
+
+	@Test
+	public void shouldDefineTryToCreateGroupedDataSetProperty() {
+		PresentationModelInfo presentationModelInfo = createPresentationModelInfoFor(DefineTryToCreateGroupedDataSetProperty.class);
+		PresentationModelObjectClassGen gen = new PresentationModelObjectClassGen(presentationModelInfo);
+		gen.defineFields();
+		gen.defineTryToCreateGroupedDataSetProperty();
+
+//		assertOutputSameTextFile(gen, "DefineTryToCreateDataSetProperty_PM.java.txt");
+	}
+
+
 	@Test
 	public void shouldDefineTryToCreateFunction() {
 		PresentationModelInfo presentationModelInfo = createPresentationModelInfoFor(DefineTryToCreateFunction.class);

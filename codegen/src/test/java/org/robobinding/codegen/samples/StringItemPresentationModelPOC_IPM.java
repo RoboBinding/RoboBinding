@@ -8,6 +8,7 @@ import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
 import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
 import org.robobinding.property.DataSetProperty;
+import org.robobinding.property.GroupedDataSetProperty;
 import org.robobinding.property.SimpleProperty;
 
 /**
@@ -33,7 +34,12 @@ public class StringItemPresentationModelPOC_IPM extends AbstractItemPresentation
 		return Collections.emptySet();
 	}
 
-	@Override
+    @Override
+    public Set<String> groupedDataSetPropertyNames() {
+        return Collections.emptySet();
+    }
+
+    @Override
 	public Map<String, Set<String>> propertyDependencies() {
 		return Collections.emptyMap();
 	}
@@ -54,7 +60,12 @@ public class StringItemPresentationModelPOC_IPM extends AbstractItemPresentation
 		return null;
 	}
 
-	@Override
+    @Override
+    public GroupedDataSetProperty tryToCreateGroupedDataSetProperty(String propertyName) {
+        return null;
+    }
+
+    @Override
 	public Function tryToCreateFunction(MethodDescriptor methodDescriptor) {
 		return null;
 	}

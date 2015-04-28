@@ -15,22 +15,24 @@ public class LazyProperties implements Properties {
 	private final Class<?> beanClass;
 	private final Map<String, PropertyValueModel> properties;
 	private final Map<String, DataSetPropertyValueModel> dataSetProperties;
+    private final Map<String, GroupedDataSetPropertyValueModel> groupedDataSetProperties;
 	
 	private final PropertyWithDependencySupply supply;
 	
-	public LazyProperties(Class<?> beanClass, Set<String> propertyNames, Set<String> dataSetPropertyNames, 
-			PropertyWithDependencySupply supply) {
+	public LazyProperties(Class<?> beanClass, Set<String> propertyNames, Set<String> dataSetPropertyNames,
+                          Set<String> groupedDataSetPropertyNames, PropertyWithDependencySupply supply) {
 		this.beanClass = beanClass;
 		this.supply = supply;
 		properties = Maps.newHashMap();
 		dataSetProperties = Maps.newHashMap();
-		
+		groupedDataSetProperties = Maps.newHashMap();
+
 		initializeProperties(propertyNames);
 		initializeDataSetProperties(dataSetPropertyNames);
+        initializeGroupedDataSetProperties(groupedDataSetPropertyNames);
 	}
 
-
-	private void initializeProperties(Set<String> propertyNames) {
+    private void initializeProperties(Set<String> propertyNames) {
 		for(String propertyName : propertyNames) {
 			properties.put(propertyName, null);
 		}
@@ -41,6 +43,12 @@ public class LazyProperties implements Properties {
 			dataSetProperties.put(propertyName, null);
 		}		
 	}
+
+    private void initializeGroupedDataSetProperties(Set<String> groupedDataSetPropertyNames) {
+        for(String propertyName : groupedDataSetPropertyNames) {
+            groupedDataSetProperties.put(propertyName, null);
+        }
+    }
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -93,4 +101,19 @@ public class LazyProperties implements Properties {
 		}
 		return (DataSetValueModel<T>) property;
 	}
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> GroupedDataSetValueModel<T> getGroupedDataSetProperty(String propertyName) {
+        if(!groupedDataSetProperties.containsKey(propertyName)) {
+            throw new RuntimeException("No such grouped dataSet property '"+describeProperty(propertyName)+"'");
+        }
+
+        GroupedDataSetPropertyValueModel property = groupedDataSetProperties.get(propertyName);
+        if (property == null) {
+            groupedDataSetProperties.put(propertyName, supply.createGroupedDataSetProperty(propertyName));
+            property = groupedDataSetProperties.get(propertyName);
+        }
+        return (GroupedDataSetValueModel<T>) property;
+    }
 }

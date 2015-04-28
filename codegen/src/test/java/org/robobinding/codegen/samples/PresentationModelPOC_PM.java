@@ -6,14 +6,12 @@ import java.util.Set;
 
 import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
+import org.robobinding.groupeditempresentationmodel.RefreshableGroupedItemPresentationModel;
+import org.robobinding.groupeditempresentationmodel.RefreshableGroupedItemPresentationModelFactory;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
-import org.robobinding.property.AbstractGetSet;
-import org.robobinding.property.DataSetProperty;
-import org.robobinding.property.ListDataSet;
-import org.robobinding.property.PropertyDescriptor;
-import org.robobinding.property.SimpleProperty;
+import org.robobinding.property.*;
 import org.robobinding.widget.view.AbstractViewEvent;
 
 import com.google.common.collect.Maps;
@@ -31,6 +29,8 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 	private static final String PROP2 = "prop2";
 	private static final String DATA_SET_PROP = "dataSetProp";
 	private static final String DATA_SET_PROP_WITH_FACTORY_METHOD = "dataSetPropWithFactoryMethod";
+    private static final String GROUPED_DATA_SET_PROP = "groupedDataSetProp";
+    private static final String GROUPED_DATA_SET_WITH_FACTORY_METHOD = "groupedDataSetPropWithFactoryMethod";
 	private static final String ON_CLICK = "onClick";
 	private static final String ON_CLICK_WITH_EVENT = "onClickWithEvent";
 
@@ -50,8 +50,13 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 	public Set<String> dataSetPropertyNames() {
 		return Sets.newHashSet(DATA_SET_PROP, DATA_SET_PROP_WITH_FACTORY_METHOD);
 	}
-	
-	@Override
+
+    @Override
+    public Set<String> groupedDataSetPropertyNames() {
+        return Sets.newHashSet(GROUPED_DATA_SET_PROP, GROUPED_DATA_SET_WITH_FACTORY_METHOD);
+    }
+
+    @Override
 	public Map<String, Set<String>> propertyDependencies() {
 		Map<String, Set<String>> dependencies = Maps.newHashMap();
 		dependencies.put(PROP1, Sets.newHashSet(PROP2));
@@ -151,6 +156,52 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 		
 		return null;
 	}
+
+    @Override
+    public GroupedDataSetProperty tryToCreateGroupedDataSetProperty(String name) {
+		if(name.equals(GROUPED_DATA_SET_PROP)) {
+			PropertyDescriptor descriptor = createGroupedDataSetPropertyDescriptor(List.class, name);
+
+			AbstractGetSet<?> getSet = new AbstractGetSet<List<List<String>>>(descriptor) {
+				@Override
+				public List<List<String>> getValue() {
+					return presentationModel.getGroupedDataSetProp();
+				}
+			};
+
+			RefreshableGroupedItemPresentationModelFactory factory = new RefreshableGroupedItemPresentationModelFactory() {
+
+				@Override
+				public RefreshableGroupedItemPresentationModel create() {
+					return new StringGroupedItemPresentationModelPOC_GIPM(new StringGroupedItemPresentationModelPOC());
+				}
+			};
+
+			return new GroupedDataSetProperty(this, descriptor, new ListGroupedDataSet(factory, getSet));
+		}
+
+		if(name.equals(GROUPED_DATA_SET_WITH_FACTORY_METHOD)) {
+			PropertyDescriptor descriptor = createGroupedDataSetPropertyDescriptor(List.class, name);
+
+			AbstractGetSet<?> getSet = new AbstractGetSet<List<String>>(descriptor) {
+				@Override
+				public List<String> getValue() {
+					return presentationModel.getDataSetPropWithFactoryMethod();
+				}
+			};
+
+			RefreshableGroupedItemPresentationModelFactory factory = new RefreshableGroupedItemPresentationModelFactory() {
+				@Override
+				public RefreshableGroupedItemPresentationModel create() {
+					return new StringGroupedItemPresentationModelPOC_GIPM(presentationModel.newStringGroupedItemPresentationModel());
+				}
+			};
+
+			return new GroupedDataSetProperty(this, descriptor, new ListGroupedDataSet(factory, getSet));
+		}
+
+		return null;
+    }
 
 	@Override
 	public Function tryToCreateFunction(MethodDescriptor methodDescriptor) {

@@ -25,8 +25,7 @@ privileged public aspect PresentationModelAspect
 	pointcut fieldDeclarationOfPropertyChangeSupport() : set(PropertyChangeSupport *.*);
 
 	declare error : fieldDeclarationOfPropertyChangeSupport() && !within(PresentationModelChangeSupport) && !within(org.robobinding.property.*)
-		: "PropertyChangeSupport is intented to be used internally by framework only. " +
-				"Please use org.robobinding.presentationmodel.PresentationModelChangeSupport instead.";
+		: "PropertyChangeSupport is intented to be used internally by framework only. Please use org.robobinding.presentationmodel.PresentationModelChangeSupport instead.";
 
 	/**
 	 * Append property change notifications for setters without {@link CustomSetter} annotation.

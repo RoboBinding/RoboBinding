@@ -34,7 +34,8 @@ public class LazyPropertiesTest {
 	}
 	
 	private LazyProperties createLazyProperties(PropertyWithDependencySupply supply) {
-		return new LazyProperties(getClass(), Sets.newHashSet(PROPERTY_NAME), Sets.newHashSet(PROPERTY_NAME), supply);
+		return new LazyProperties(getClass(), Sets.newHashSet(PROPERTY_NAME), Sets.newHashSet(PROPERTY_NAME),
+				Sets.newHashSet(PROPERTY_NAME), supply);
 	}
 
 	@Test

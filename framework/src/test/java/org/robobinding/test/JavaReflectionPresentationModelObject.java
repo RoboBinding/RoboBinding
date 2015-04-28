@@ -13,16 +13,16 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.robobinding.annotation.DependsOnStateOf;
+import org.robobinding.annotation.GroupedItemPresentationModel;
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
+import org.robobinding.groupeditempresentationmodel.RefreshableGroupedItemPresentationModel;
+import org.robobinding.groupeditempresentationmodel.RefreshableGroupedItemPresentationModelFactory;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
-import org.robobinding.property.AbstractGetSet;
-import org.robobinding.property.DataSetProperty;
-import org.robobinding.property.ListDataSet;
-import org.robobinding.property.SimpleProperty;
+import org.robobinding.property.*;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -83,6 +83,12 @@ public class JavaReflectionPresentationModelObject extends AbstractPresentationM
 	public Set<String> dataSetPropertyNames() {
 		List<PropertyDescriptor> descriptors = findPropertiesByAnnotation(ItemPresentationModel.class, true);
 		return propertyNames(descriptors); 
+	}
+
+	@Override
+	public Set<String> groupedDataSetPropertyNames() {
+		List<PropertyDescriptor> descriptors = findPropertiesByAnnotation(GroupedItemPresentationModel.class, true);
+		return propertyNames(descriptors);
 	}
 
 	@Override
@@ -209,6 +215,32 @@ public class JavaReflectionPresentationModelObject extends AbstractPresentationM
 				}
 			};
 			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+		}
+
+		return null;
+	}
+
+	@Override
+	public GroupedDataSetProperty tryToCreateGroupedDataSetProperty(final String propertyName) {
+		Set<String> dataSetPropertyNames = dataSetPropertyNames();
+		if(dataSetPropertyNames.contains(propertyName)) {
+			org.robobinding.property.PropertyDescriptor descriptor = createDataSetPropertyDescriptor(
+					getPropertyDescriptor(propertyName).getPropertyType(), propertyName);
+			AbstractGetSet<?> getSet = new AbstractGetSet<Object>(descriptor) {
+				@Override
+				public Object getValue() {
+					return getProperty(propertyName);
+				}
+			};
+
+			RefreshableGroupedItemPresentationModelFactory factory = new RefreshableGroupedItemPresentationModelFactory() {
+
+				@Override
+				public RefreshableGroupedItemPresentationModel create() {
+					throw new UnsupportedOperationException();
+				}
+			};
+			return new GroupedDataSetProperty(this, descriptor, new ListGroupedDataSet(factory, getSet));
 		}
 
 		return null;

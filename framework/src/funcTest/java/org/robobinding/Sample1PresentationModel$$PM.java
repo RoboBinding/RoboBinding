@@ -6,14 +6,12 @@ import java.util.Set;
 
 import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
+import org.robobinding.groupeditempresentationmodel.RefreshableGroupedItemPresentationModel;
+import org.robobinding.groupeditempresentationmodel.RefreshableGroupedItemPresentationModelFactory;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
-import org.robobinding.property.AbstractGetSet;
-import org.robobinding.property.DataSetProperty;
-import org.robobinding.property.ListDataSet;
-import org.robobinding.property.PropertyDescriptor;
-import org.robobinding.property.SimpleProperty;
+import org.robobinding.property.*;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -38,6 +36,11 @@ public class Sample1PresentationModel$$PM extends AbstractPresentationModelObjec
 	@Override
 	public Set<String> dataSetPropertyNames() {
 		return Sets.newHashSet("source");
+	}
+
+	@Override
+	public Set<String> groupedDataSetPropertyNames() {
+		return Sets.newHashSet("");
 	}
 
 	@Override
@@ -94,6 +97,31 @@ public class Sample1PresentationModel$$PM extends AbstractPresentationModelObjec
 			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
 		}
 		
+		return null;
+	}
+
+	@Override
+	public GroupedDataSetProperty tryToCreateGroupedDataSetProperty(String propertyName) {
+		if("childSource".equals(propertyName)) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, propertyName);
+
+			AbstractGetSet<?> getSet = new AbstractGetSet<List<? extends List<String>>>(descriptor) {
+				@Override
+				public List<? extends List<String>> getValue() {
+					return presentationModel.getChildSource();
+				}
+			};
+
+			RefreshableGroupedItemPresentationModelFactory factory = new RefreshableGroupedItemPresentationModelFactory() {
+
+				@Override
+				public RefreshableGroupedItemPresentationModel create() {
+					throw new UnsupportedOperationException();
+				}
+			};
+			return new GroupedDataSetProperty(this, descriptor, new ListGroupedDataSet(factory, getSet));
+		}
+
 		return null;
 	}
 

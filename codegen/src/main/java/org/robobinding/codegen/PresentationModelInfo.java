@@ -17,16 +17,18 @@ public class PresentationModelInfo {
 	private final Set<DataSetPropertyInfo> dataSetProperties;
 	private final Set<PropertyDependencyInfo> propertyDependencies;
 	private final Set<EventMethodInfo> eventMethods;
-	
+	private final Set<GroupedDataSetPropertyInfo> groupedDataSetProperties;
+
 	public PresentationModelInfo(String presentationModelTypeName, String presentationModelObjectTypeName,
-			boolean extendsHasPresentationModelChangeSupport,
-			Set<PropertyInfo> properties, Set<DataSetPropertyInfo> dataSetProperties, 
-			Set<PropertyDependencyInfo> propertyDependencies, Set<EventMethodInfo> eventMethods) {
+								 boolean extendsHasPresentationModelChangeSupport,
+								 Set<PropertyInfo> properties, Set<DataSetPropertyInfo> dataSetProperties,
+								 Set<GroupedDataSetPropertyInfo> groupedDataSetProperties, Set<PropertyDependencyInfo> propertyDependencies, Set<EventMethodInfo> eventMethods) {
 		this.presentationModelTypeName = presentationModelTypeName;
 		this.presentationModelObjectTypeName = presentationModelObjectTypeName;
 		this.extendsHasPresentationModelChangeSupport = extendsHasPresentationModelChangeSupport;
 		this.properties = properties;
 		this.dataSetProperties = dataSetProperties;
+		this.groupedDataSetProperties = groupedDataSetProperties;
 		this.propertyDependencies = propertyDependencies;
 		this.eventMethods = eventMethods;
 	}
@@ -50,9 +52,21 @@ public class PresentationModelInfo {
 		}
 		return names;
 	}
+
+	public Set<String> groupedDataSetPropertyNames() {
+		Set<String> names = new TreeSet<String>();
+		for(GroupedDataSetPropertyInfo propertyInfo : groupedDataSetProperties()) {
+			names.add(propertyInfo.name());
+		}
+		return names;
+	}
 	
 	public Set<DataSetPropertyInfo> dataSetProperties() {
 		return Collections.unmodifiableSet(dataSetProperties);
+	}
+
+	public Set<GroupedDataSetPropertyInfo> groupedDataSetProperties() {
+		return Collections.unmodifiableSet(groupedDataSetProperties);
 	}
 	
 	public Set<PropertyDependencyInfo> propertyDependencies() {

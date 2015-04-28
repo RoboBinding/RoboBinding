@@ -12,6 +12,8 @@
  		bind:onGroupClick="onGroupClick()"
  		bind:onGroupCollapse="onGroupCollapse()"
  		bind:onGroupExpand="onGroupExpand()"
+ 		bind:childSource="List/TypedCursor"
+ 		bind:groupSource="List/TypedCursor"
 	     -->
 	</ExpandableListView>
 	<ExpandableListView 

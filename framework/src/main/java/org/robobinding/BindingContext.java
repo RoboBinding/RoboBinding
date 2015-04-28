@@ -3,6 +3,7 @@ package org.robobinding;
 import org.robobinding.function.Function;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.DataSetValueModel;
+import org.robobinding.property.GroupedDataSetValueModel;
 import org.robobinding.property.ValueModel;
 
 import android.content.Context;
@@ -53,7 +54,12 @@ public class BindingContext implements PresentationModelAdapter {
 		return presentationModelAdapter.getDataSetPropertyValueModel(propertyName);
 	}
 
-	@Override
+    @Override
+    public GroupedDataSetValueModel<?> getGroupedDataSetValueModel(String propertyName) {
+        return presentationModelAdapter.getGroupedDataSetValueModel(propertyName);
+    }
+
+    @Override
 	public Class<?> getPropertyType(String propertyName) {
 		return presentationModelAdapter.getPropertyType(propertyName);
 	}

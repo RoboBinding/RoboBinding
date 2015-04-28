@@ -10,7 +10,7 @@ import org.robobinding.viewattribute.grouped.ChildViewAttribute;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-class StaticLayoutAttribute implements ChildViewAttribute {
+public class StaticLayoutAttribute implements ChildViewAttribute {
 	private final RowLayoutUpdater rowLayoutUpdater;
 	private final StaticResourceAttribute attribute;
 

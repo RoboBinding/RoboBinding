@@ -14,11 +14,8 @@ import javax.tools.Diagnostic.Kind;
 
 import org.robobinding.annotation.PresentationModel;
 import org.robobinding.binder.PresentationModelObjectLoader;
-import org.robobinding.codegen.AbstractPresentationModelObjectClassGen;
-import org.robobinding.codegen.DataSetPropertyInfo;
-import org.robobinding.codegen.ItemPresentationModelObjectClassGen;
-import org.robobinding.codegen.PresentationModelInfo;
-import org.robobinding.codegen.PresentationModelObjectClassGen;
+import org.robobinding.codegen.*;
+import org.robobinding.groupeditempresentationmodel.GroupedItemPresentationModel;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
 import com.google.common.collect.Sets;
@@ -33,12 +30,14 @@ import com.sun.codemodel.JClassAlreadyExistsException;
 //@SupportedAnnotationTypes("org.robobinding.annotation.PresentationModel")
 public class PresentationModelProcessor extends AbstractProcessor {
 	private static final String PRESENTATION_MODEL_OBJECT_SUFFIX = PresentationModelObjectLoader.CLASS_SUFFIX;
+	private Set<String> processedGroupedItemPresentationModels;
 	private Set<String> processedItemPresentationModels;
 	
 	@Override
 	public synchronized void init(ProcessingEnvironment processingEnv) {
 		super.init(processingEnv);
-		
+
+		processedGroupedItemPresentationModels = Sets.newHashSet();
 		processedItemPresentationModels = Sets.newHashSet();
 	}
 	
@@ -49,7 +48,7 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		Set<TypeElementWrapper> typeElements = findPresentationModelTypeElements(roundEnv, context);
 		for(TypeElementWrapper typeElement : typeElements) {
 			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(typeElement, 
-					typeElement.typeName() + PRESENTATION_MODEL_OBJECT_SUFFIX, true);
+					typeElement.typeName() + PRESENTATION_MODEL_OBJECT_SUFFIX, true, true);
 			PresentationModelInfo presentationModelInfo = builder.build();
 			try {
 				generateClasses(presentationModelInfo, context);
@@ -71,12 +70,12 @@ public class PresentationModelProcessor extends AbstractProcessor {
 	        
 	    	checkIsConcreteClass(typeElement);
 	    	
-	    	if(isNotItemPresentationModel(typeElement)) {
+	    	if(isNotItemPresentationModel(typeElement) || isNotGroupedItemPresentationModel(typeElement)) {
 	            typeElements.add(typeElement);
 	    	}
 	    }
 	    return typeElements;
-	  }
+	}
 
 	private void checkIsConcreteClass(TypeElementWrapper typeElement) {
 		if(typeElement.isNotConcreteClass()){
@@ -89,11 +88,44 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		return !typeElement.isAssignableTo(ItemPresentationModel.class);
 	}
 
+	private boolean isNotGroupedItemPresentationModel(TypeElementWrapper typeElement) {
+		return !typeElement.isAssignableTo(GroupedItemPresentationModel.class);
+	}
+
 	protected void generateClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context) throws IOException, JClassAlreadyExistsException, ClassNotFoundException {
+		createGroupedItemPresentationModelObjectSourceFiles(presentationModelInfo, context);
 		createItemPresentationModelObjectSourceFiles(presentationModelInfo, context);
 		createPresentationModelObjectSourceFiles(presentationModelInfo);
 	}
-	
+
+	private void createGroupedItemPresentationModelObjectSourceFiles(PresentationModelInfo presentationModelInfo, ProcessingContext context)
+			throws JClassAlreadyExistsException, IOException {
+		for(GroupedDataSetPropertyInfo info : presentationModelInfo.groupedDataSetProperties()) {
+			if(processedGroupedItemPresentationModels.contains(info.groupedItemPresentationModelTypeName())) {
+				continue;
+			}
+
+			TypeElementWrapper typeElement = context.typeElementOf(info.groupedItemPresentationModelTypeName());
+
+			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(
+					typeElement,
+					info.groupedItemPresentationModelObjectTypeName(),
+					true,
+					true);
+			PresentationModelInfo groupedItemPresentationModelInfo = builder.build();
+			try {
+				GroupedItemPresentationModelObjectClassGen gen = new GroupedItemPresentationModelObjectClassGen(groupedItemPresentationModelInfo);
+				run(gen);
+				gen.writeTo(createOutput());
+			} catch (java.lang.NoClassDefFoundError e) {
+				throw new RuntimeException(
+						"an error occured when generating source code for '"+presentationModelInfo.getPresentationModelObjectTypeName()+"'", e);
+			}
+
+			processedGroupedItemPresentationModels.add(info.groupedItemPresentationModelTypeName());
+		}
+	}
+
 	private void createItemPresentationModelObjectSourceFiles(PresentationModelInfo presentationModelInfo, ProcessingContext context) 
 			throws JClassAlreadyExistsException, IOException {
 		for(DataSetPropertyInfo info : presentationModelInfo.dataSetProperties()) {
@@ -104,7 +136,10 @@ public class PresentationModelProcessor extends AbstractProcessor {
 			TypeElementWrapper typeElement = context.typeElementOf(info.itemPresentationModelTypeName());
 			
 			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(
-					typeElement, info.itemPresentationModelObjectTypeName(), true);
+					typeElement,
+					info.itemPresentationModelObjectTypeName(),
+					true,
+					true);
 			PresentationModelInfo itemPresentationModelInfo = builder.build();
 			try {
 				ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(itemPresentationModelInfo);
@@ -124,10 +159,12 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		gen.defineConstructor();
 		gen.definePropertyNames();
 		gen.defineDataSetPropertyNames();
+		gen.defineGroupedDataSetPropertyNames();
 		gen.defineEventMethods();
 		gen.definePropertyDependencies();
 		gen.defineTryToCreateProperty();
 		gen.defineTryToCreateDataSetProperty();
+		gen.defineTryToCreateGroupedDataSetProperty();
 		gen.defineTryToCreateFunction();
 	}
 

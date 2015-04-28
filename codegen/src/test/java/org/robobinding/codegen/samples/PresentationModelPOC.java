@@ -2,6 +2,7 @@ package org.robobinding.codegen.samples;
 
 import java.util.List;
 
+import org.robobinding.annotation.GroupedItemPresentationModel;
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.widget.view.AbstractViewEvent;
 
@@ -15,6 +16,8 @@ public class PresentationModelPOC {
 	private int prop2;
 	private List<String> dataSetProp;
 	private List<String> dataSetPropWithFactoryMethod;
+	private List<List<String>> groupedDataSetProp;
+	private List<List<String>> groupedDataSetPropWithFactoryMethod;
 
 	public String getProp1() {
 		return prop1;
@@ -41,6 +44,11 @@ public class PresentationModelPOC {
 	public List<String> getDataSetPropWithFactoryMethod() {
 		return dataSetPropWithFactoryMethod;
 	}
+
+	@GroupedItemPresentationModel(value = StringGroupedItemPresentationModelPOC.class)
+	public List<List<String>> getGroupedDataSetProp() {
+		return groupedDataSetProp;
+	}
 	
 	public StringItemPresentationModelPOC newStringItemPresentationModel() {
 		return new StringItemPresentationModelPOC();
@@ -53,4 +61,6 @@ public class PresentationModelPOC {
 		return true;
 	}
 
+	public StringGroupedItemPresentationModelPOC newStringGroupedItemPresentationModel() { return new StringGroupedItemPresentationModelPOC();
+	}
 }

@@ -3,6 +3,7 @@ package org.robobinding.presentationmodel;
 import org.robobinding.function.Function;
 import org.robobinding.function.Functions;
 import org.robobinding.property.DataSetValueModel;
+import org.robobinding.property.GroupedDataSetValueModel;
 import org.robobinding.property.Properties;
 import org.robobinding.property.ValueModel;
 
@@ -42,7 +43,12 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter {
 		return properties.getDataSetProperty(propertyName);
 	}
 
-	@Override
+    @Override
+    public GroupedDataSetValueModel<?> getGroupedDataSetValueModel(String propertyName) {
+        return properties.getGroupedDataSetProperty(propertyName);
+    }
+
+    @Override
 	public Function findFunction(String functionName, Class<?>... parameterTypes) {
 		return functions.find(functionName, parameterTypes);
 	}
