@@ -9,6 +9,7 @@ import android.widget.AdapterView;
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Jihun Lee
  */
 public class EmptyViewAttributes implements SubViewAttributesStrategy<AdapterView<?>> {
 	static final String EMPTY_VIEW_LAYOUT = "emptyViewLayout";
@@ -33,14 +34,17 @@ public class EmptyViewAttributes implements SubViewAttributesStrategy<AdapterVie
 
 	@Override
 	public void addSubView(AdapterView<?> adapterView, View emptyView, Context context) {
-		emptyViewVisibility = new EmptyViewVisibility(adapterView, emptyView);
+		if(emptyViewVisibility == null) {
+			emptyViewVisibility = new EmptyViewVisibility(adapterView, emptyView);
+		}
+
 		emptyViewVisibility.makeVisible();
 	}
 
 	@Override
 	public EmptyViewVisibility createVisibility(AdapterView<?> adapterView, View emptyView) {
 		if (emptyViewVisibility == null)
-			throw new IllegalStateException("Expected addSubView() to be called first");
+			emptyViewVisibility = new EmptyViewVisibility(adapterView, emptyView);
 
 		return emptyViewVisibility;
 	}
