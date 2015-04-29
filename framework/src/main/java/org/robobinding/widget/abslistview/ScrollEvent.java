@@ -1,13 +1,14 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import org.robobinding.widget.view.AbstractViewEvent;
 
 import android.widget.AbsListView;
 
 /**
- * 
- * @author jihunlee
- * 
+ *
+ * @since 1.0
+ * @version $Revision: 1.0 $
+ * @author Jihun Lee
  */
 public class ScrollEvent extends AbstractViewEvent {
 

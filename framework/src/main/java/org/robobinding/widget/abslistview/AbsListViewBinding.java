@@ -10,6 +10,7 @@ import android.widget.AbsListView;
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Aurélien Catinon
+ * @author Jihun Lee
  */
 public class AbsListViewBinding implements ViewBinding<AbsListView> {
 	@Override
@@ -17,5 +18,8 @@ public class AbsListViewBinding implements ViewBinding<AbsListView> {
 		mappings.mapProperty(CheckedItemPositionAttribute.class, "checkedItemPosition");
 		mappings.mapMultiTypeProperty(CheckedItemPositionsAttribute.class, "checkedItemPositions");
 		mappings.mapProperty(ChoiceModeAttribute.class, "choiceMode");
+
+		mappings.mapEvent(OnScrollAttribute.class, "onScroll");
+		mappings.mapEvent(OnScrollStateChangedAttribute.class, "onScrollStateChanged");
 	}
 }

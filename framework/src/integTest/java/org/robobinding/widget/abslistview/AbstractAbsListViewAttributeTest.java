@@ -1,4 +1,4 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -15,17 +15,17 @@ import android.widget.ListView;
  * 
  */
 @RunWith(RobolectricTestRunner.class)
-public abstract class AbstractListViewAttributeTest {
+public abstract class AbstractAbsListViewAttributeTest {
 	protected ListView view;
-	protected MockListViewListeners viewListeners;
+	protected MockAbsListViewListeners viewListeners;
 
 	@Before
 	public void initializeViewAndListeners() {
 		view = new ListView(Robolectric.application);
-		viewListeners = new MockListViewListeners(view);
+		viewListeners = new MockAbsListViewListeners(view);
 	}
 
-	public <T extends ViewListenersAware<ListViewListeners>> T withListenersSet(T attribute) {
+	public <T extends ViewListenersAware<AbsListViewListeners>> T withListenersSet(T attribute) {
 		attribute.setViewListeners(viewListeners);
 		return attribute;
 	}

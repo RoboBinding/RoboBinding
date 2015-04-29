@@ -1,4 +1,4 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
@@ -9,10 +9,10 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class MockListViewListeners extends ListViewListeners {
+public class MockAbsListViewListeners extends AbsListViewListeners {
 	public boolean addOnScrollListenerInvoked = false;
 
-	public MockListViewListeners(ListView view) {
+	public MockAbsListViewListeners(ListView view) {
 		super(view);
 	}
 
