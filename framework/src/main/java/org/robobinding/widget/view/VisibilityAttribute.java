@@ -12,6 +12,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  * @author Cheng Wei
+ * @author Jihun Lee
  */
 public final class VisibilityAttribute<T extends View> implements MultiTypePropertyViewAttribute<T> {
 	private final VisibilityFactory<T> visibilityFactory;
@@ -42,10 +43,12 @@ public final class VisibilityAttribute<T extends View> implements MultiTypePrope
 
 		@Override
 		public void updateView(T view, Boolean newValue) {
-			if (newValue) {
-				visibility.makeVisible();
-			} else {
-				visibility.makeGone();
+			if(visibility != null) {
+				if (newValue) {
+					visibility.makeVisible();
+				} else {
+					visibility.makeGone();
+				}
 			}
 		}
 	}
