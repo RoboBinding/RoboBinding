@@ -1,31 +1,30 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.widget.view.AbstractViewEvent;
 
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.ListView;
-
 /**
- * 
- * @author jihunlee
- * 
+ *
+ * @since 1.0
+ * @version $Revision: 1.0 $
+ * @author Jihun Lee
  */
-public class OnScrollAttribute implements EventViewAttribute<ListView>, ViewListenersAware<ListViewListeners> {
-	private ListViewListeners listViewListeners;
+public class OnScrollAttribute implements EventViewAttribute<AbsListView>, ViewListenersAware<AbsListViewListeners> {
+	private AbsListViewListeners absListViewListeners;
 
 	@Override
-	public void setViewListeners(ListViewListeners listViewListeners) {
-		this.listViewListeners = listViewListeners;
+	public void setViewListeners(AbsListViewListeners absListViewListeners) {
+		this.absListViewListeners = absListViewListeners;
 
 	}
 
 	@Override
-	public void bind(ListView view, final Command command) {
-		listViewListeners.addOnScrollListener(new OnScrollListener() {
+	public void bind(AbsListView view, final Command command) {
+		absListViewListeners.addOnScrollListener(new OnScrollListener() {
 
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {

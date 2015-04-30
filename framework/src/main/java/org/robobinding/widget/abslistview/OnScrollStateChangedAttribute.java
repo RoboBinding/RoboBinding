@@ -1,31 +1,30 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.widget.view.AbstractViewEvent;
 
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.ListView;
-
 /**
- * 
- * @author jihunlee
- * 
+ *
+ * @since 1.0
+ * @version $Revision: 1.0 $
+ * @author Jihun Lee
  */
-public class OnScrollStateChangedAttribute implements EventViewAttribute<ListView>, ViewListenersAware<ListViewListeners> {
-	private ListViewListeners listViewListeners;
+public class OnScrollStateChangedAttribute implements EventViewAttribute<AbsListView>, ViewListenersAware<AbsListViewListeners> {
+	private AbsListViewListeners absListViewListeners;
 
 	@Override
-	public void setViewListeners(ListViewListeners viewListeners) {
-		this.listViewListeners = viewListeners;
+	public void setViewListeners(AbsListViewListeners viewListeners) {
+		this.absListViewListeners = viewListeners;
 
 	}
 
 	@Override
-	public void bind(ListView view, final Command command) {
-		listViewListeners.addOnScrollListener(new OnScrollListener() {
+	public void bind(AbsListView view, final Command command) {
+		absListViewListeners.addOnScrollListener(new OnScrollListener() {
 
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {

@@ -16,7 +16,7 @@ import org.robobinding.widget.compoundbutton.CompoundButtonListeners;
 import org.robobinding.widget.edittext.EditTextBinding;
 import org.robobinding.widget.imageview.ImageViewBinding;
 import org.robobinding.widget.listview.ListViewBinding;
-import org.robobinding.widget.listview.ListViewListeners;
+import org.robobinding.widget.abslistview.AbsListViewListeners;
 import org.robobinding.widget.menuitem.MenuItemBinding;
 import org.robobinding.widget.menuitem.MenuItemListeners;
 import org.robobinding.widget.menuitemgroup.MenuItemGroup;
@@ -74,7 +74,7 @@ public class BinderFactoryBuilder {
 		ViewListenersMapBuilder builder = new ViewListenersMapBuilder();
 		builder.put(View.class, ViewListenersForView.class);
 		builder.put(AdapterView.class, AdapterViewListeners.class);
-		builder.put(ListView.class, ListViewListeners.class);
+		builder.put(ListView.class, AbsListViewListeners.class);
 		builder.put(CompoundButton.class, CompoundButtonListeners.class);
 		builder.put(SeekBar.class, SeekBarListeners.class);
 		builder.put(RatingBar.class, RatingBarListeners.class);

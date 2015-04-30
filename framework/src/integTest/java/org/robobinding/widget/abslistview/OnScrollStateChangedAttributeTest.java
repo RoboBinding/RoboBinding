@@ -1,4 +1,4 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import static org.junit.Assert.assertTrue;
 
@@ -15,7 +15,7 @@ import org.robolectric.annotation.Config;
  * @author Cheng Wei
  */
 @Config(manifest = Config.NONE)
-public class OnScrollStateChangedAttributeTest extends AbstractListViewAttributeTest {
+public class OnScrollStateChangedAttributeTest extends AbstractAbsListViewAttributeTest {
 	private OnScrollStateChangedAttribute attribute;
 	private EventCommand eventCommand;
 

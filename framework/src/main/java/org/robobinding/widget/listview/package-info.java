@@ -8,8 +8,5 @@
  * @prop headerLayout; Static resource; no
  * @prop headerPresentationModel; Object; no
  * @prop headerVisibility; Boolean, Integer; no
- * 
- * @event onScroll; {@link org.robobinding.widget.listview.ScrollEvent}
- * @event onScrollStateChanged; {@link org.robobinding.widget.listview.ScrollStateChangedEvent}
  */
 package org.robobinding.widget.listview;
