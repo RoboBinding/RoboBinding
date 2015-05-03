@@ -166,7 +166,7 @@ public class DataSetExpandableListAdapter<T, E> extends BaseExpandableListAdapte
 
     @Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
-		return false;
+		return true;
 	}
 
     private View newGroupView(int groupPosition, boolean isExpanded, ViewGroup parent) {

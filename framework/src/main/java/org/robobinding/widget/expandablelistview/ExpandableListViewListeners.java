@@ -32,11 +32,13 @@ public class ExpandableListViewListeners extends ListViewListeners {
     }
 
     public void addOnGroupCollapseListener(ExpandableListView.OnGroupCollapseListener onGroupCollapseListener) {
-
+        ensureOnGroupCollapseListenerInitialized();
+        onGroupCollapseListeners.addListener(onGroupCollapseListener);
     }
 
     public void addOnGroupExpandListener(ExpandableListView.OnGroupExpandListener onGroupExpandListener){
-
+        ensureOnGroupExpandListenerInitialized();
+        onGroupExpandListeners.addListener(onGroupExpandListener);
     }
 
     private void ensureOnGroupClickListenerInitialized() {
@@ -62,7 +64,7 @@ public class ExpandableListViewListeners extends ListViewListeners {
 
     private void ensureOnGroupExpandListenerInitialized() {
         if(onGroupExpandListeners == null) {
-            onGroupCollapseListeners = new OnGroupCollapseListeners();
+            onGroupExpandListeners = new OnGroupExpandListeners();
             expandableListView.setOnGroupExpandListener(onGroupExpandListeners);
         }
     }
