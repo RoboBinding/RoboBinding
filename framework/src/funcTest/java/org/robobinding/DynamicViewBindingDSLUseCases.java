@@ -32,10 +32,6 @@ public class DynamicViewBindingDSLUseCases {
     
     @ViewBinding(simpleOneWayProperties={"imageAlpha", "maxWidth", "maxHeight"})
     private static class MyCustomViewBinding extends CustomViewBinding<ImageView> {
-    	@Override
-    	public String[] simpleOneWayProperties() {
-    		return new String[]{"imageAlpha", "maxWidth", "maxHeight"};
-    	}
     }
     
     private static class ImageViewAddOn implements ViewAddOn {

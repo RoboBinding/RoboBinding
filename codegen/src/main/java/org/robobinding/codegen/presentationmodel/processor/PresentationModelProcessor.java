@@ -10,7 +10,7 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic.Kind;
+import javax.lang.model.type.DeclaredType;
 
 import org.robobinding.annotation.PresentationModel;
 import org.robobinding.binder.PresentationModelObjectLoader;
@@ -22,6 +22,7 @@ import org.robobinding.codegen.presentationmodel.PresentationModelInfo;
 import org.robobinding.codegen.presentationmodel.PresentationModelObjectClassGen;
 import org.robobinding.codegen.typewrapper.AbstractTypeElementWrapper;
 import org.robobinding.codegen.typewrapper.DeclaredTypeElementWrapper;
+import org.robobinding.codegen.typewrapper.Logger;
 import org.robobinding.codegen.typewrapper.ProcessingContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
@@ -48,19 +49,25 @@ public class PresentationModelProcessor extends AbstractProcessor {
 	
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		ProcessingContext context = new ProcessingContext(processingEnv.getTypeUtils(), processingEnv.getElementUtils());
+		ProcessingContext context = new ProcessingContext(processingEnv.getTypeUtils(), 
+				processingEnv.getElementUtils(), processingEnv.getMessager());
 		Set<AbstractTypeElementWrapper> typeElements = findPresentationModelTypeElements(roundEnv, context);
 		for(AbstractTypeElementWrapper typeElement : typeElements) {
 			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(typeElement, 
 					typeElement.typeName() + PRESENTATION_MODEL_OBJECT_SUFFIX, true);
 			PresentationModelInfo presentationModelInfo = builder.build();
+			
+			Logger log = context.loggerFor(typeElement);
 			try {
-				generateClasses(presentationModelInfo, context);
+				generateClasses(presentationModelInfo, context, log);
 			} catch (IOException e) {
+				log.error(e);
 				throw new RuntimeException(e);
 			} catch (JClassAlreadyExistsException e) {
+				log.error(e);
 				throw new RuntimeException(e);
 			} catch (ClassNotFoundException e) {
+				log.error(e);
 				throw new RuntimeException(e);
 			}
 		}
@@ -70,7 +77,8 @@ public class PresentationModelProcessor extends AbstractProcessor {
 	private Set<AbstractTypeElementWrapper> findPresentationModelTypeElements(RoundEnvironment env, ProcessingContext context) {
 	    Set<AbstractTypeElementWrapper> typeElements = Sets.newHashSet();
 	    for (Element element : env.getElementsAnnotatedWith(PresentationModel.class)) {
-	    	AbstractTypeElementWrapper typeElement = new DeclaredTypeElementWrapper(context, processingEnv.getTypeUtils(), (TypeElement)element);
+	    	AbstractTypeElementWrapper typeElement = new DeclaredTypeElementWrapper(context, processingEnv.getTypeUtils(), 
+	    			(TypeElement)element, (DeclaredType)element.asType());
 	        
 	    	checkIsConcreteClass(typeElement);
 	    	
@@ -92,9 +100,10 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		return !typeElement.isAssignableTo(ItemPresentationModel.class);
 	}
 
-	protected void generateClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context) throws IOException, JClassAlreadyExistsException, ClassNotFoundException {
+	protected void generateClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context,
+			Logger log) throws IOException, JClassAlreadyExistsException, ClassNotFoundException {
 		createItemPresentationModelObjectSourceFiles(presentationModelInfo, context);
-		createPresentationModelObjectSourceFiles(presentationModelInfo);
+		createPresentationModelObjectSourceFiles(presentationModelInfo, log);
 	}
 	
 	private void createItemPresentationModelObjectSourceFiles(PresentationModelInfo presentationModelInfo, ProcessingContext context) 
@@ -104,19 +113,22 @@ public class PresentationModelProcessor extends AbstractProcessor {
 				continue;
 			}
 			
-			AbstractTypeElementWrapper typeElement = context.typeElementOf(info.itemPresentationModelTypeName());
+			AbstractTypeElementWrapper typeElement = context.declaredTypeElementOf(info.itemPresentationModelTypeName());
 			
 			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(
 					typeElement, info.itemPresentationModelObjectTypeName(), false);
 			PresentationModelInfo itemPresentationModelInfo = builder.build();
+			Logger log = context.loggerFor(typeElement);
 			try {
 				ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(itemPresentationModelInfo);
 				run(gen);
 				gen.writeTo(createOutput());
-				printMessage("ItemPresentationModel '"+itemPresentationModelInfo.getPresentationModelObjectTypeName() + "' generated.");
+				log.info("ItemPresentationModel '"+itemPresentationModelInfo.getPresentationModelObjectTypeName() + "' generated.");
 			} catch (java.lang.NoClassDefFoundError e) {
-				throw new RuntimeException(
+				RuntimeException error = new RuntimeException(
 						"an error occured when generating source code for '"+presentationModelInfo.getPresentationModelObjectTypeName()+"'", e);
+				log.error(error);
+				throw error;
 			}
 			
 			processedItemPresentationModels.add(info.itemPresentationModelTypeName());
@@ -135,24 +147,22 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		gen.defineTryToCreateFunction();
 	}
 	
-	private void printMessage(String message) {
-		processingEnv.getMessager().printMessage(Kind.NOTE, message);
-	}
-
 	private CodeWriter createOutput() throws IOException, JClassAlreadyExistsException {
 		return new SourceCodeWriter(processingEnv.getFiler());
 	}
 
-	private void createPresentationModelObjectSourceFiles(PresentationModelInfo presentationModelInfo) 
+	private void createPresentationModelObjectSourceFiles(PresentationModelInfo presentationModelInfo, Logger log) 
 			throws JClassAlreadyExistsException, IOException {
 		try {
 			PresentationModelObjectClassGen gen = new PresentationModelObjectClassGen(presentationModelInfo);
 			run(gen);
 			gen.writeTo(createOutput());
-			printMessage("PresentationModel '"+presentationModelInfo.getPresentationModelObjectTypeName() + "' generated.");
+			log.info("PresentationModel '"+presentationModelInfo.getPresentationModelObjectTypeName() + "' generated.");
 		} catch (java.lang.NoClassDefFoundError e) {
-			throw new RuntimeException(
+			RuntimeException error = new RuntimeException(
 					"an error occured when generating source code for '"+presentationModelInfo.getPresentationModelObjectTypeName()+"'", e);
+			log.error(error);
+			throw error;
 		}
 	}
 

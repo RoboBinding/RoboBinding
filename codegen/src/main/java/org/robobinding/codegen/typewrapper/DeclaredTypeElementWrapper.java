@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Types;
@@ -17,11 +18,13 @@ import com.google.common.collect.Lists;
  *
  */
 public class DeclaredTypeElementWrapper extends AbstractTypeElementWrapper {
-	private final TypeElement type;
+	private final TypeElement element;
+	private final DeclaredType type;
 
-	public DeclaredTypeElementWrapper(ProcessingContext context, Types types, TypeElement type) {
-		super(context, types, type);
+	public DeclaredTypeElementWrapper(ProcessingContext context, Types types, TypeElement element, DeclaredType type) {
+		super(context, types, element);
 		
+		this.element = element;
 		this.type = type;
 	}
 
@@ -31,12 +34,12 @@ public class DeclaredTypeElementWrapper extends AbstractTypeElementWrapper {
 	}
 	
 	private boolean isOfType(Class<?> anotherType) {
-		return types.isSameType(type.asType(), context.typeMirrorOf(anotherType));
+		return types.isSameType(element.asType(), context.typeMirrorOf(anotherType));
 	}
 
 	@Override
 	public List<MethodElementWrapper> getMethods() {
-		List<ExecutableElement> methods = ElementFilter.methodsIn(type.getEnclosedElements());
+		List<ExecutableElement> methods = ElementFilter.methodsIn(element.getEnclosedElements());
 		
 		List<MethodElementWrapper> result = Lists.newArrayList();
 		for(ExecutableElement method : methods) {
@@ -47,22 +50,22 @@ public class DeclaredTypeElementWrapper extends AbstractTypeElementWrapper {
 
 	@Override
 	public AbstractTypeElementWrapper getSuperclass() {
-		return context.typeElementOf(type.getSuperclass());
+		return context.typeElementOf(element.getSuperclass());
 	}
 	
 	@Override
 	public String typeName() {
-		return type.getQualifiedName().toString();
+		return element.getQualifiedName().toString();
 	}
 
 	@Override
 	public boolean isConcreteClass() {
-		return type.getKind().isClass() && (!type.getModifiers().contains(Modifier.ABSTRACT));
+		return element.getKind().isClass() && (!element.getModifiers().contains(Modifier.ABSTRACT));
 	}
 
 	@Override
-	protected TypeMirror asType() {
-		return type.asType();
+	protected DeclaredType asType() {
+		return type;
 	}
 
 	@Override
@@ -83,5 +86,21 @@ public class DeclaredTypeElementWrapper extends AbstractTypeElementWrapper {
 	@Override
 	public boolean isNotPrimitive() {
 		return true;
+	}
+	
+	public DeclaredTypeElementWrapper findDirectSuperclassOf(Class<?> superclass) {
+		TypeMirror wantedSuperType = types.erasure(context.typeMirrorOf(superclass));
+		DeclaredType superType = (DeclaredType)element.getSuperclass();
+		if(types.isSameType(wantedSuperType, types.erasure(superType))) {
+			return context.declaredTypeElementOf(superType);
+		} else {
+			return null;
+		}
+	}
+	
+	public String getFirstTypeArgumentClassName() {
+		TypeMirror firstTypeArgument = type.getTypeArguments().get(0);
+		DeclaredTypeElementWrapper typeElement = context.declaredTypeElementOf((DeclaredType)firstTypeArgument);
+		return typeElement.typeName();
 	}
 }

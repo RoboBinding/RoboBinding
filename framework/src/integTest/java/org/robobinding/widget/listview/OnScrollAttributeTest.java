@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.widget.EventCommand;
+import org.robobinding.widget.abslistview.OnScrollAttribute;
+import org.robobinding.widget.abslistview.ScrollEvent;
 import org.robolectric.annotation.Config;
 
 /**

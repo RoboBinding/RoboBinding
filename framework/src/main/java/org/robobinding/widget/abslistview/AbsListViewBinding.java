@@ -17,5 +17,8 @@ public class AbsListViewBinding implements ViewBinding<AbsListView> {
 		mappings.mapTwoWayProperty(CheckedItemPositionAttribute.class, "checkedItemPosition");
 		mappings.mapTwoWayMultiTypeProperty(CheckedItemPositionsAttribute.class, "checkedItemPositions");
 		mappings.mapOneWayProperty(ChoiceModeAttribute.class, "choiceMode");
+
+		mappings.mapEvent(OnScrollAttribute.class, "onScroll");
+		mappings.mapEvent(OnScrollStateChangedAttribute.class, "onScrollStateChanged");
 	}
 }

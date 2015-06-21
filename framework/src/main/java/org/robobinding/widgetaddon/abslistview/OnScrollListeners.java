@@ -1,4 +1,4 @@
-package org.robobinding.widgetaddon.listview;
+package org.robobinding.widgetaddon.abslistview;
 
 import org.robobinding.widgetaddon.AbstractListeners;
 

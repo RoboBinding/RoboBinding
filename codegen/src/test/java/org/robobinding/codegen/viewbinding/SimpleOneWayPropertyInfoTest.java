@@ -32,6 +32,6 @@ public class SimpleOneWayPropertyInfoTest {
 	@Test
 	public void shouldGetCorrectAttributeTypeName() {
 		SimpleOneWayPropertyInfo info = new SimpleOneWayPropertyInfo(null, "prop1");
-		assertThat(info.getAttributeTypeName(), equalTo("Prop1Attribute"));
+		assertThat(info.bindingTypeName(), equalTo("Prop1Attribute"));
 	}
 }

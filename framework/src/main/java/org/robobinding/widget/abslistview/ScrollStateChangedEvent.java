@@ -1,4 +1,4 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import org.robobinding.widget.view.AbstractViewEvent;
 

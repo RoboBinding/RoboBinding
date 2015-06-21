@@ -3,8 +3,7 @@ package org.robobinding.codegen.typewrapper;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import javax.lang.model.element.TypeElement;
-
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -16,26 +15,30 @@ import com.google.testing.compile.CompilationRule;
  *
  */
 public class DeclaredTypeElementWrapperTest {
+	@Rule public CompilationRule compilation = new CompilationRule();
+	private TypeTestHelper typeTestHelper;
+	
+	@Before
+	public void setUp() {
+		typeTestHelper = new TypeTestHelper(compilation);
+	}
+	
 	@Test
 	public void givenObjectType_thenReturnTrue() {
-		assertTrue(wrapperOf(Object.class).isObjectRoot());
+		assertTrue(declaredTypeElementOf(Object.class).isObjectRoot());
 	}
 	
 	@Test
 	public void givenObjectType_thenReturnFalse() {
-		assertFalse(wrapperOf(Boolean.class).isObjectRoot());
+		assertFalse(declaredTypeElementOf(Boolean.class).isObjectRoot());
 	}
 	
 	@Test
 	public void givenBooleanType_whenTestIsBoolean_thenReturnTrue() {
-		assertTrue(wrapperOf(Boolean.class).isBoolean());
+		assertTrue(declaredTypeElementOf(Boolean.class).isBoolean());
 	}
-	
-	@Rule public CompilationRule compilation = new CompilationRule();
-	
-	private AbstractTypeElementWrapper wrapperOf(Class<?> type) {
-		ProcessingContext context = new ProcessingContext(compilation.getTypes(), compilation.getElements());
-		TypeElement typeElement = compilation.getElements().getTypeElement(type.getCanonicalName());
-		return new DeclaredTypeElementWrapper(context, compilation.getTypes(), typeElement);
+
+	private DeclaredTypeElementWrapper declaredTypeElementOf(Class<?> type) {
+		return typeTestHelper.declaredTypeElementOf(type);
 	}
 }

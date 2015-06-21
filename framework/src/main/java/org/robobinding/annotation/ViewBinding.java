@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * @author Cheng Wei
  *
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 @Target({ ElementType.TYPE })
 public @interface ViewBinding {
 

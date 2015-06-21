@@ -8,12 +8,12 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic.Kind;
+import javax.lang.model.type.DeclaredType;
 
 import org.robobinding.annotation.ViewBinding;
 import org.robobinding.codegen.SourceCodeWriter;
-import org.robobinding.codegen.typewrapper.AbstractTypeElementWrapper;
 import org.robobinding.codegen.typewrapper.DeclaredTypeElementWrapper;
+import org.robobinding.codegen.typewrapper.Logger;
 import org.robobinding.codegen.typewrapper.ProcessingContext;
 import org.robobinding.customviewbinding.CustomViewBinding;
 
@@ -29,29 +29,36 @@ import com.sun.codemodel.JClassAlreadyExistsException;
 public class ViewBindingProcessor extends AbstractProcessor {
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		ProcessingContext context = new ProcessingContext(processingEnv.getTypeUtils(), processingEnv.getElementUtils());
-		Set<AbstractTypeElementWrapper> typeElements = findCustomViewBindingTypeElements(roundEnv, context);
-		for(AbstractTypeElementWrapper typeElement : typeElements) {
+		ProcessingContext context = new ProcessingContext(processingEnv.getTypeUtils(), 
+				processingEnv.getElementUtils(), processingEnv.getMessager());
+		Set<DeclaredTypeElementWrapper> typeElements = findCustomViewBindingTypeElements(roundEnv, context);
+		for(DeclaredTypeElementWrapper typeElement : typeElements) {
 			ViewBindingInfoBuilder builder = new ViewBindingInfoBuilder(typeElement, 
 					typeElement.typeName() + "$$VB");
 			ViewBindingInfo info = builder.build();
+			
+			Logger log = context.loggerFor(typeElement);
 			try {
-				generateViewBindingObjectSourceFile(info);
+				generateViewBindingObjectSourceFile(info, log);
 			} catch (IOException e) {
+				log.error(e);
 				throw new RuntimeException(e);
 			} catch (JClassAlreadyExistsException e) {
+				log.error(e);
 				throw new RuntimeException(e);
 			} catch (ClassNotFoundException e) {
+				log.error(e);
 				throw new RuntimeException(e);
 			}
 		}
 		return true;
 	}
 
-	private Set<AbstractTypeElementWrapper> findCustomViewBindingTypeElements(RoundEnvironment env, ProcessingContext context) {
-	    Set<AbstractTypeElementWrapper> typeElements = Sets.newHashSet();
+	private Set<DeclaredTypeElementWrapper> findCustomViewBindingTypeElements(RoundEnvironment env, ProcessingContext context) {
+	    Set<DeclaredTypeElementWrapper> typeElements = Sets.newHashSet();
 	    for (Element element : env.getElementsAnnotatedWith(ViewBinding.class)) {
-	    	AbstractTypeElementWrapper typeElement = new DeclaredTypeElementWrapper(context, processingEnv.getTypeUtils(), (TypeElement)element);
+	    	DeclaredTypeElementWrapper typeElement = new DeclaredTypeElementWrapper(context, processingEnv.getTypeUtils(), 
+	    			(TypeElement)element, (DeclaredType)element.asType());
 
 	    	if(typeElement.isAssignableTo(CustomViewBinding.class) && typeElement.isConcreteClass()) {
 	            typeElements.add(typeElement);
@@ -60,15 +67,17 @@ public class ViewBindingProcessor extends AbstractProcessor {
 	    return typeElements;
 	  }
 	
-	private void generateViewBindingObjectSourceFile(ViewBindingInfo info) throws IOException, JClassAlreadyExistsException, ClassNotFoundException {
+	private void generateViewBindingObjectSourceFile(ViewBindingInfo info, Logger log) throws IOException, JClassAlreadyExistsException, ClassNotFoundException {
 		try {
 			ViewBindingObjectClassGen gen = new ViewBindingObjectClassGen(info);
 			run(gen);
 			gen.writeTo(createOutput());
-			printMessage("ViewBinding '"+info.viewBindingObjectTypeName() + "' generated.");
+			log.info("ViewBinding '"+info.viewBindingObjectTypeName() + "' generated.");
 		} catch (java.lang.NoClassDefFoundError e) {
-			throw new RuntimeException(
+			RuntimeException error = new RuntimeException(
 					"an error occured when generating source code for '"+info.viewBindingObjectTypeName()+"'", e);
+			log.error(error);
+			throw error;
 		}
 	}
 
@@ -77,10 +86,6 @@ public class ViewBindingProcessor extends AbstractProcessor {
 		gen.defineConstructor();
 		gen.defineSimpleOneWayPropertyClasses();
 		gen.defineMapBindingAttributesMethod();
-	}
-	
-	private void printMessage(String message) {
-		processingEnv.getMessager().printMessage(Kind.NOTE, message);
 	}
 
 	private CodeWriter createOutput() throws IOException, JClassAlreadyExistsException {

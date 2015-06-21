@@ -1,11 +1,12 @@
 package org.robobinding.codegen.viewbinding;
 
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.robobinding.annotation.ViewBinding;
-import org.robobinding.codegen.typewrapper.AbstractTypeElementWrapper;
-import org.robobinding.codegen.typewrapper.AnnotationMirrorWrapper;
+import org.robobinding.codegen.typewrapper.DeclaredTypeElementWrapper;
+import org.robobinding.customviewbinding.CustomViewBinding;
 
 import com.google.common.collect.Lists;
 
@@ -15,10 +16,10 @@ import com.google.common.collect.Lists;
  *
  */
 public class ViewBindingInfoBuilder {
-	private final AbstractTypeElementWrapper typeElement;
+	private final DeclaredTypeElementWrapper typeElement;
 	private final String viewBindingObjectTypeName;
 	
-	public ViewBindingInfoBuilder(AbstractTypeElementWrapper typeElement, String viewBindingObjectTypeName) {
+	public ViewBindingInfoBuilder(DeclaredTypeElementWrapper typeElement, String viewBindingObjectTypeName) {
 		this.typeElement = typeElement;
 		this.viewBindingObjectTypeName = viewBindingObjectTypeName;
 	}
@@ -30,21 +31,31 @@ public class ViewBindingInfoBuilder {
 	}
 
 	private Class<?> extractViewType() {
-		AbstractTypeElementWrapper superclass = typeElement.getSuperclass();
-		return null;
+		DeclaredTypeElementWrapper customViewBinding = typeElement.findDirectSuperclassOf(CustomViewBinding.class);
+		if(customViewBinding == null) {
+			throw new RuntimeException(MessageFormat.format("{0} has to be direct SubClass of {1}", 
+					typeElement.typeName(), CustomViewBinding.class.getName()));
+		}
+		
+		String viewTypeName = customViewBinding.getFirstTypeArgumentClassName();
+		try {
+			return Class.forName(viewTypeName);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
 	}
 
 	private List<SimpleOneWayPropertyInfo> extractSimpleOneWayPropertyInfoList(Class<?> viewType) {
-		AnnotationMirrorWrapper annotationMirror = typeElement.getAnnotation(ViewBinding.class);
-		List<String> simpleOneWayProperties = annotationMirror.annotationValueAsList("simpleOneWayProperties");
+		ViewBindingAnnotationMirror annotation = new ViewBindingAnnotationMirror(typeElement.getAnnotation(ViewBinding.class));
+		List<String> simpleOneWayProperties = annotation.getSimpleOneWayProperties();
 		
+		BeanInfo viewBeanInfo = BeanInfo.create(viewType);
 		List<SimpleOneWayPropertyInfo> result = Lists.newArrayList();
 		for(String property : simpleOneWayProperties) {
-			List<Method> setters = PropertyUtils.findSetters(viewType, property);
-			if(setters.size() != 1) {
-				//report conflicts or zero setter.
+			Method setter = viewBeanInfo.findSetter(property);
+			if(setter == null) {
+				throw OneWayBindingPropertyGenerationException.noSetterFound(viewType, property);
 			}
-			Method setter = setters.get(0);
 			result.add(new SimpleOneWayPropertyInfo(setter.getParameterTypes()[0], property));
 		}
 		return result;

@@ -1,12 +1,11 @@
-package org.robobinding.widget.listview;
+package org.robobinding.widget.abslistview;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.widget.view.AbstractViewEvent;
-import org.robobinding.widgetaddon.listview.ListViewAddOn;
+import org.robobinding.widgetaddon.abslistview.AbsListViewAddOn;
 
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.ListView;
 
 /**
  * 
@@ -14,9 +13,9 @@ import android.widget.ListView;
  * @author jihunlee
  * @author Cheng Wei
  */
-public class OnScrollStateChangedAttribute implements EventViewAttributeForListView {
+public class OnScrollStateChangedAttribute implements EventViewAttributeForAbsListView {
 	@Override
-	public void bind(ListViewAddOn viewAddOn, final Command command, ListView view) {
+	public void bind(AbsListViewAddOn viewAddOn, final Command command, AbsListView view) {
 		viewAddOn.addOnScrollListener(new OnScrollListener() {
 
 			@Override

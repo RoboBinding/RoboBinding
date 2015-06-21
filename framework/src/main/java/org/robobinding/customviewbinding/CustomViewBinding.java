@@ -11,12 +11,6 @@ import com.google.common.base.Preconditions;
  *
  */
 public class CustomViewBinding<ViewType> {
-	private static final String[] NO_SIMPLE_ONE_WAY_PROPERTIES = new String[0];
-
-
-	public String[] simpleOneWayProperties() {
-		return NO_SIMPLE_ONE_WAY_PROPERTIES;
-	}
 	
 	public void mapBindingAttributes(BindingAttributeMappings<ViewType> mappings) {
 	}

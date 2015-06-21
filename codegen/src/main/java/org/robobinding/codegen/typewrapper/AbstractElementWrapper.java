@@ -14,7 +14,7 @@ import javax.lang.model.util.Types;
 public abstract class AbstractElementWrapper {
 	protected final ProcessingContext context;
 	protected final Types types;
-	private final Element element;
+	final Element element;
 	
 	public AbstractElementWrapper(ProcessingContext context, Types types, Element element) {
 		this.context = context;
@@ -31,7 +31,7 @@ public abstract class AbstractElementWrapper {
 		if(annotationMirror != null) {
 			return new AnnotationMirrorWrapper(context, annotationMirror);
 		} else {
-			throw new RuntimeException("Method '"+toString()+"' is not annotated with @"+annotationType.getName());
+			throw new RuntimeException("'"+element.toString()+"' is not annotated with @"+annotationType.getName());
 		}
 	}
 	

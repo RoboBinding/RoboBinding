@@ -96,21 +96,26 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
      *
 	 */
 	public void defineSimpleOneWayPropertyClasses() throws JClassAlreadyExistsException {
-		for(SimpleOneWayPropertyInfo info : viewBindingInfo.simpleOneWayPropertyInfoList()) {
-			JDefinedClass definedAttributeClass = definedClass._class(JMod.PUBLIC|JMod.STATIC, info.getAttributeTypeName());
-			info.setAttributeType(definedAttributeClass);
+		for(SimpleOneWayPropertyInfo propInfo : viewBindingInfo.simpleOneWayPropertyInfoList()) {
+			JDefinedClass definedBindingAttributeClass = propInfo.defineBindingClass(new ClassDefinitionCallback() {
+				@Override
+				public JDefinedClass define(String typeName) throws JClassAlreadyExistsException {
+					return definedClass._class(JMod.PUBLIC|JMod.STATIC, typeName);
+				}
+			});
+
 			
 			JClass oneWayPropertyInterface = codeModel.ref(OneWayPropertyViewAttribute.class).narrow(
-					viewBindingInfo.viewType(), info.getPropertyType());
-			definedAttributeClass._implements(oneWayPropertyInterface);
+					viewBindingInfo.viewType(), propInfo.getPropertyType());
+			definedBindingAttributeClass._implements(oneWayPropertyInterface);
 			
-			JMethod method = definedAttributeClass.method(JMod.PUBLIC, codeModel.VOID, "updateView");
+			JMethod method = definedBindingAttributeClass.method(JMod.PUBLIC, codeModel.VOID, "updateView");
 			method.annotate(Override.class);
 			JVar viewParam = method.param(viewBindingInfo.viewType(), "view");
-			JVar newValueParam = method.param(info.getPropertyType(), "newValue");
+			JVar newValueParam = method.param(propInfo.getPropertyType(), "newValue");
 			
 			JBlock body = method.body();
-			body.invoke(viewParam, info.getPropertySetter()).arg(newValueParam);
+			body.invoke(viewParam, propInfo.getPropertySetter()).arg(newValueParam);
 		}
 	}
 	
@@ -135,7 +140,7 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
 		JBlock body = method.body();
 		for(SimpleOneWayPropertyInfo info : viewBindingInfo.simpleOneWayPropertyInfoList()) {
 			body.invoke(mappingsParam, "mapOneWayProperty")
-				.arg(info.getAttributeType().dotclass())
+				.arg(info.getBindingClass().dotclass())
 				.arg(info.getPropertyName());
 		}
 		body.invoke(customViewBindingFieldWithoutThis, "mapBindingAttributes").arg(mappingsParam);
