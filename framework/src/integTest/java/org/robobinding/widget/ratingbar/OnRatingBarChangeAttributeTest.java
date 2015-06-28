@@ -27,18 +27,22 @@ public class OnRatingBarChangeAttributeTest extends AbstractRatingBarAttributeTe
 	@Before
 	public void setUp() {
 		view.setNumStars(NUM_STARS_TO_SHOW);
-		attribute = withListenersSet(new OnRatingBarChangeAttribute());
+		attribute = new OnRatingBarChangeAttribute();
 		eventCommand = new EventCommand();
 	}
 
 	@Test
 	public void givenBoundAttribute_whenChangeChecked_thenEventReceived() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		int newNumStars = RandomValues.nextIntegerGreaterThanZero(NUM_STARS_TO_SHOW);
 		updateRating(newNumStars);
 
 		assertEventReceived(newNumStars);
+	}
+
+	private void bindAttribute() {
+		attribute.bind(viewAddOn, eventCommand, view);
 	}
 
 	private void updateRating(int newNumStars) {
@@ -55,8 +59,8 @@ public class OnRatingBarChangeAttributeTest extends AbstractRatingBarAttributeTe
 
 	@Test
 	public void whenBinding_thenRegisterWithMulticastListener() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
-		assertTrue(viewListeners.addOnRatingBarChangeListenerInvoked);
+		assertTrue(viewAddOn.addOnRatingBarChangeListenerInvoked);
 	}
 }

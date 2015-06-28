@@ -16,8 +16,8 @@ import org.robobinding.viewattribute.grouped.GroupedViewAttribute;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinderFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.AbstractMultiTypePropertyViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.AbstractPropertyViewAttributeBinderFactory;
+import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinderFactory;
+import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
@@ -41,8 +41,8 @@ import com.google.common.collect.Maps;
 public class BindingAttributeMappingsImpl<ViewType> implements BindingAttributeMappingsWithCreate<ViewType> {
 	private final ViewAttributeBinderFactory viewAttributeBinderFactory;
 	
-	private final Map<String, AbstractPropertyViewAttributeBinderFactory> propertyViewAttributeMappings;
-	private final Map<String, AbstractMultiTypePropertyViewAttributeBinderFactory> multiTypePropertyViewAttributeMappings;
+	private final Map<String, PropertyViewAttributeBinderFactory> propertyViewAttributeMappings;
+	private final Map<String, MultiTypePropertyViewAttributeBinderFactory> multiTypePropertyViewAttributeMappings;
 	private final Map<String, EventViewAttributeBinderFactory> eventViewAttributeMappings;
 	private final Map<String[], GroupedViewAttributeBinderFactory> groupedViewAttributeMappings;
 
@@ -117,7 +117,7 @@ public class BindingAttributeMappingsImpl<ViewType> implements BindingAttributeM
 		addMultiTypePropertyViewAttributeMapping(viewAttributeBinderFactory.binderFactoryFor(factory), attributeName);
 	}
 
-	private void addMultiTypePropertyViewAttributeMapping(AbstractMultiTypePropertyViewAttributeBinderFactory factory,
+	private void addMultiTypePropertyViewAttributeMapping(MultiTypePropertyViewAttributeBinderFactory factory,
 			String attributeName) {
 		checkAttributeNameNotEmpty(attributeName);
 		multiTypePropertyViewAttributeMappings.put(attributeName, factory);

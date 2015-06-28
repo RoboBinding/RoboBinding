@@ -22,10 +22,13 @@ import org.robobinding.viewattribute.grouped.ChildViewAttributesBuilder;
 import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
 import org.robobinding.viewattribute.grouped.GroupedViewAttribute;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.OneWayPropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
+import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
 import org.robolectric.RobolectricTestRunner;
 
 import android.view.View;
@@ -179,7 +182,7 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 
 		@Override
 		public void add(String attributeName, OneWayMultiTypePropertyViewAttributeFactory<View> factory) {
-			childViewAttributeMap.put(attributeName, mock(MultiTypePropertyViewAttributeBinder.class));
+			childViewAttributeMap.put(attributeName, factory.create());
 		}
 
 		@Override
@@ -189,6 +192,26 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 
 		@Override
 		public void add(String attributeName, OneWayPropertyViewAttributeFactory<View> factory) {
+			childViewAttributeMap.put(attributeName, factory.create());
+		}
+
+		@Override
+		public void add(String attributeName, TwoWayPropertyViewAttribute<View, ?, ?> viewAttribute) {
+			childViewAttributeMap.put(attributeName, viewAttribute);
+		}
+
+		@Override
+		public void add(String attributeName, TwoWayPropertyViewAttributeFactory<View> factory) {
+			childViewAttributeMap.put(attributeName, factory.create());
+		}
+
+		@Override
+		public void add(String attributeName, TwoWayMultiTypePropertyViewAttribute<View> viewAttribute) {
+			childViewAttributeMap.put(attributeName, viewAttribute);
+		}
+
+		@Override
+		public void add(String attributeName, TwoWayMultiTypePropertyViewAttributeFactory<View> factory) {
 			childViewAttributeMap.put(attributeName, factory.create());
 		}
 

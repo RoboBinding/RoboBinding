@@ -32,7 +32,7 @@ public class OnTextChangedAttributeTest {
 	@Test
 	public void givenBoundAttribute_whenChangeText_thenEventReceived() {
 		OnTextChangedAttribute attribute = new OnTextChangedAttribute();
-		attribute.bind(view, eventCommand);
+		attribute.bind(null, eventCommand, view);
 
 		changeText();
 

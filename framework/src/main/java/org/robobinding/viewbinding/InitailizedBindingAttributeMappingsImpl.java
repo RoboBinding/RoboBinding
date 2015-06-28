@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.robobinding.viewattribute.event.EventViewAttributeBinderFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.AbstractMultiTypePropertyViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.AbstractPropertyViewAttributeBinderFactory;
+import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinderFactory;
+import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
 
 import com.google.common.collect.Maps;
 
@@ -16,13 +16,13 @@ import com.google.common.collect.Maps;
  * @author Cheng Wei
  */
 public class InitailizedBindingAttributeMappingsImpl implements InitailizedBindingAttributeMappings {
-	private final Map<String, AbstractPropertyViewAttributeBinderFactory> propertyViewAttributeMappings;
-	private final Map<String, AbstractMultiTypePropertyViewAttributeBinderFactory> multiTypePropertyViewAttributeMappings;
+	private final Map<String, PropertyViewAttributeBinderFactory> propertyViewAttributeMappings;
+	private final Map<String, MultiTypePropertyViewAttributeBinderFactory> multiTypePropertyViewAttributeMappings;
 	private final Map<String, EventViewAttributeBinderFactory> eventViewAttributeMappings;
 	private final Map<String[], GroupedViewAttributeBinderFactory> groupedViewAttributeMappings;
 
-	public InitailizedBindingAttributeMappingsImpl(Map<String, AbstractPropertyViewAttributeBinderFactory> propertyViewAttributeMappings,
-			Map<String, AbstractMultiTypePropertyViewAttributeBinderFactory> multiTypePropertyViewAttributeMappings,
+	public InitailizedBindingAttributeMappingsImpl(Map<String, PropertyViewAttributeBinderFactory> propertyViewAttributeMappings,
+			Map<String, MultiTypePropertyViewAttributeBinderFactory> multiTypePropertyViewAttributeMappings,
 			Map<String, EventViewAttributeBinderFactory> eventViewAttributeMappings,
 			Map<String[], GroupedViewAttributeBinderFactory> groupedViewAttributeMappings) {
 		this.propertyViewAttributeMappings = Maps.newHashMap(propertyViewAttributeMappings);
@@ -52,12 +52,12 @@ public class InitailizedBindingAttributeMappingsImpl implements InitailizedBindi
 	}
 
 	@Override
-	public AbstractPropertyViewAttributeBinderFactory getPropertyViewAttributeFactory(String attribute) {
+	public PropertyViewAttributeBinderFactory getPropertyViewAttributeFactory(String attribute) {
 		return propertyViewAttributeMappings.get(attribute);
 	}
 
 	@Override
-	public AbstractMultiTypePropertyViewAttributeBinderFactory getMultiTypePropertyViewAttributeFactory(String attribute) {
+	public MultiTypePropertyViewAttributeBinderFactory getMultiTypePropertyViewAttributeFactory(String attribute) {
 		return multiTypePropertyViewAttributeMappings.get(attribute);
 	}
 

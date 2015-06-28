@@ -1,7 +1,7 @@
 package org.robobinding.viewattribute.property;
 
-import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinderFactory.Implementor;
 import org.robobinding.widgetaddon.ViewAddOnInjector;
 
 /**
@@ -10,17 +10,14 @@ import org.robobinding.widgetaddon.ViewAddOnInjector;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OneWayMultiTypePropertyViewAttributeBinderFactory extends AbstractMultiTypePropertyViewAttributeBinderFactory {
+public class OneWayMultiTypePropertyViewAttributeBinderFactory implements Implementor {
 	private final OneWayMultiTypePropertyViewAttributeFactory<Object> factory;
 	private final ViewAddOnInjector viewAddOnInjector;
 
 	@SuppressWarnings("unchecked")
 	public OneWayMultiTypePropertyViewAttributeBinderFactory(
 			OneWayMultiTypePropertyViewAttributeFactory<?> factory,
-			ViewAddOnInjector viewAddOnInjector,
-			PropertyAttributeParser propertyAttributeParser) {
-		super(propertyAttributeParser);
-		
+			ViewAddOnInjector viewAddOnInjector) {
 		this.factory = (OneWayMultiTypePropertyViewAttributeFactory<Object>)factory;
 		this.viewAddOnInjector = viewAddOnInjector;
 	}

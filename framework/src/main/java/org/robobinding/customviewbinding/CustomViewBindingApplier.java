@@ -24,7 +24,6 @@ public class CustomViewBindingApplier {
 
 	public void applyBindingAttributeMapper(ViewBindingMap bindingAttributeProviderMapBuilder) {
 		bindingAttributeMapperApplier.apply(bindingAttributeProviderMapBuilder);
-		//bindingAttributeProviderMapBuilder.put((Class<Object>)viewType, (BindingAttributeMappingsProvider<Object>)bindingAttributeMappingsProvider);
 	}
 
 	public void applyViewAddOnIfExists(ViewAddOnsBuilder builder) {

@@ -22,17 +22,21 @@ public class OnTouchAttributeTest extends AbstractViewEventAttributeTest {
 
 	@Before
 	public void setUp() {
-		attribute = withListenersSet(new OnTouchAttribute());
+		attribute = new OnTouchAttribute();
 		eventCommand = new EventCommand();
 	}
 
 	@Test
 	public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		touchView();
 
 		assertEventReceived();
+	}
+
+	private void bindAttribute() {
+		attribute.bind(viewAddOn, eventCommand, view);
 	}
 
 	private void touchView() {
@@ -51,8 +55,8 @@ public class OnTouchAttributeTest extends AbstractViewEventAttributeTest {
 
 	@Test
 	public void whenBinding_thenRegisterWithViewListeners() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
-		assertTrue(viewListeners.addOnTouchListenerInvoked);
+		assertTrue(viewAddOn.addOnTouchListenerInvoked);
 	}
 }

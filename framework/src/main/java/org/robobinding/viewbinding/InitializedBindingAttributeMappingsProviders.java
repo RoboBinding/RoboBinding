@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Queue;
 
 import org.robobinding.util.SearchableClasses;
-import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -18,14 +17,10 @@ import com.google.common.collect.Maps;
 public class InitializedBindingAttributeMappingsProviders {
 	private final Map<Class<?>, ViewBinding<?>> mappings;
 	private final SearchableClasses searchableViewClasses;
-	private final ViewAttributeBinderFactory viewAttributeBinderFactory;
 
-	public InitializedBindingAttributeMappingsProviders(Map<Class<?>, ViewBinding<?>> mappings,
-			ViewAttributeBinderFactory viewAttributeBinderFactory) {
+	public InitializedBindingAttributeMappingsProviders(Map<Class<?>, ViewBinding<?>> mappings) {
 		this.mappings = Maps.newHashMap(mappings);
 		searchableViewClasses = new SearchableClasses(mappings.keySet());
-		
-		this.viewAttributeBinderFactory = viewAttributeBinderFactory;
 	}
 
 	public Iterable<InitializedBindingAttributeMappingsProvider> findCandidates(Class<?> viewClass) {
@@ -35,7 +30,7 @@ public class InitializedBindingAttributeMappingsProviders {
 		for (Class<?> foundViewClass : foundViewClasses) {
 			ViewBinding<?> viewBinding = mappings.get(foundViewClass);
 			
-			candidates.add(new ViewBindingAdapter(viewBinding, viewAttributeBinderFactory));
+			candidates.add(new ViewBindingAdapter(viewBinding));
 		}
 
 		return candidates;

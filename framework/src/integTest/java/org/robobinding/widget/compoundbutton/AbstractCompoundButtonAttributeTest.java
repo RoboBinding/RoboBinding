@@ -2,8 +2,6 @@ package org.robobinding.widget.compoundbutton;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.widgetaddon.ViewAddOnAware;
-import org.robobinding.widgetaddon.compoundbutton.CompoundButtonListeners;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -19,16 +17,11 @@ import android.widget.CompoundButton;
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractCompoundButtonAttributeTest {
 	protected CompoundButton view;
-	protected MockCompoundButtonListeners viewListeners;
+	protected MockCompoundButtonAddOn viewAddOn;
 
 	@Before
 	public void initializeViewAndListeners() {
 		view = new CheckBox(Robolectric.application);
-		viewListeners = new MockCompoundButtonListeners(view);
-	}
-
-	public <T extends ViewAddOnAware<CompoundButtonListeners>> T withListenersSet(T attribute) {
-		attribute.setViewAddOn(viewListeners);
-		return attribute;
+		viewAddOn = new MockCompoundButtonAddOn(view);
 	}
 }

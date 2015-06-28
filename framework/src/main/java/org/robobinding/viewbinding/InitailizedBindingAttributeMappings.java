@@ -2,8 +2,8 @@ package org.robobinding.viewbinding;
 
 import org.robobinding.viewattribute.event.EventViewAttributeBinderFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.AbstractMultiTypePropertyViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.AbstractPropertyViewAttributeBinderFactory;
+import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinderFactory;
+import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
 
 /**
  * 
@@ -20,9 +20,9 @@ public interface InitailizedBindingAttributeMappings {
 
 	Iterable<String[]> getAttributeGroups();
 
-	AbstractPropertyViewAttributeBinderFactory getPropertyViewAttributeFactory(String attribute);
+	PropertyViewAttributeBinderFactory getPropertyViewAttributeFactory(String attribute);
 
-	AbstractMultiTypePropertyViewAttributeBinderFactory getMultiTypePropertyViewAttributeFactory(String attribute);
+	MultiTypePropertyViewAttributeBinderFactory getMultiTypePropertyViewAttributeFactory(String attribute);
 
 	EventViewAttributeBinderFactory getEventViewAttributeFactory(String attribute);
 

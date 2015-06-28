@@ -12,7 +12,7 @@ import org.junit.Test;
 public class BindingMenuInflaterTest {
 	@Test
 	@Ignore
-	// TODO: Tests will be implemented once Robolectric is upgraded.
+	// TODO: Tests will be implemented once Robolectric has started supporting it.
 	public void test() {
 
 	}

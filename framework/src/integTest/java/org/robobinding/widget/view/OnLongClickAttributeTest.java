@@ -20,17 +20,21 @@ public class OnLongClickAttributeTest extends AbstractViewEventAttributeTest {
 
 	@Before
 	public void setUp() {
-		attribute = withListenersSet(new OnLongClickAttribute());
+		attribute = new OnLongClickAttribute();
 		eventCommand = new EventCommand(Boolean.TRUE);
 	}
 
 	@Test
 	public void givenBoundAttribute_whenLongClickOnView_thenEventReceived() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		view.performLongClick();
 
 		assertEventReceived();
+	}
+
+	private void bindAttribute() {
+		attribute.bind(viewAddOn, eventCommand, view);
 	}
 
 	private void assertEventReceived() {
@@ -41,8 +45,8 @@ public class OnLongClickAttributeTest extends AbstractViewEventAttributeTest {
 
 	@Test
 	public void whenBinding_thenRegisterWithViewListeners() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
-		assertTrue(viewListeners.addOnLongClickListenerInvoked);
+		assertTrue(viewAddOn.addOnLongClickListenerInvoked);
 	}
 }

@@ -1,5 +1,7 @@
 package org.robobinding.widgetaddon;
 
+import java.text.MessageFormat;
+
 
 /**
  * 
@@ -17,16 +19,20 @@ public class ViewAddOnInjector implements ViewAddOns {
 	@SuppressWarnings("unchecked")
 	public void injectIfRequired(Object viewAttribute, Object view) {
 		if (viewAttribute instanceof ViewAddOnAware) {
-			ViewAddOn viewAddOn = viewAddOns.getMostSuitable(view);
+			ViewAddOn viewAddOn = getMostSuitable(view);
 
 			ViewAddOnAware<ViewAddOn> viewAddOnAwareAttribute = (ViewAddOnAware<ViewAddOn>) viewAttribute;
 
 			try {
 				viewAddOnAwareAttribute.setViewAddOn(viewAddOn);
 			} catch (ClassCastException e) {
-				throw new RuntimeException("Is '" + viewAttribute.getClass().getName() + "' a view attribute of view '" + view.getClass().getName()
-						+ "'; or did you forget to register viewListeners by org.robobinding.binder.BinderFactoryBuilder? The closest viewListeners '"
-						+ viewAddOn.getClass().getName() + "' we found does not match the view attribute.", e);
+				String  message = MessageFormat.format("Is ''{0}'' a view attribute of view ''{1}''; "
+						+ "or did you forget to register the ViewAddOn by org.robobinding.binder.BinderFactoryBuilder? "
+						+ "The closest ViewAddOn ''{2}'' we found does not match the view attribute.", 
+						viewAttribute.getClass().getName(), 
+						view.getClass().getName(), 
+						viewAddOn.getClass().getName());
+				throw new RuntimeException(message, e);
 			}
 		}
 	}

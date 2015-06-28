@@ -15,12 +15,6 @@ public class ViewBindingForView implements ViewBinding<View> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<View> mappings) {
 		mappings.mapOneWayMultiTypeProperty(new VisibilityAttributeFactory<View>(new ViewVisibilityFactory()), "visibility");
-		mappings.mapOneWayProperty(ActivatedAttribute.class, "activated");
-		mappings.mapOneWayProperty(ContentDescriptionAttribute.class, "contentDescription");
-		mappings.mapOneWayProperty(EnabledAttribute.class, "enabled");
-		mappings.mapOneWayMultiTypeProperty(BackgroundAttribute.class, "background");
-		mappings.mapOneWayProperty(BackgroundColorAttribute.class, "backgroundColor");
-		mappings.mapOneWayProperty(FocusableAttribute.class, "focusable");
 		mappings.mapOneWayProperty(LayoutMarginAttribute.class, "layoutMargin");
 		mappings.mapOneWayProperty(PaddingAttribute.class, "padding");
 

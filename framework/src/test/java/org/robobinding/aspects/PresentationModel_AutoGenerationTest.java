@@ -107,7 +107,6 @@ public class PresentationModel_AutoGenerationTest {
 		}
 
 		public void setProperty(boolean value) {
-			System.out.println("in setProperty()");
 		}
 		
 		public PresentationModelChangeSupport getPresentationModelChangeSupport() {
@@ -124,7 +123,6 @@ public class PresentationModel_AutoGenerationTest {
 		}
 
 		public void setProperty(boolean value) {
-			System.out.println("in setProperty()");
 		}
 		
 		public PresentationModelChangeSupport getPresentationModelChangeSupport() {

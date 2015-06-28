@@ -1,5 +1,7 @@
 package org.robobinding.viewbinding;
 
+import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
+
 /**
  * 
  * @since 1.0
@@ -7,5 +9,5 @@ package org.robobinding.viewbinding;
  * @author Robert Taylor
  */
 public interface InitializedBindingAttributeMappingsProvider {
-	InitailizedBindingAttributeMappings create();
+	InitailizedBindingAttributeMappings create(ViewAttributeBinderFactory viewAttributeBinderFactory);
 }

@@ -28,11 +28,6 @@ class AbsListView_Froyo implements AbsListViewVariant {
 	}
 
 	@Override
-	public void setChoiceMode(int choiceMode) {
-		view.setChoiceMode(choiceMode);
-	}
-
-	@Override
 	public SparseBooleanArray getCheckedItemPositions() {
 		return view.getCheckedItemPositions();
 	}

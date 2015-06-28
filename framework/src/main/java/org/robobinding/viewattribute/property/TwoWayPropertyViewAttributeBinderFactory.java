@@ -1,8 +1,7 @@
 package org.robobinding.viewattribute.property;
 
-import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.widgetaddon.ViewAddOn;
+import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory.Implementor;
 import org.robobinding.widgetaddon.ViewAddOns;
 
 /**
@@ -10,23 +9,17 @@ import org.robobinding.widgetaddon.ViewAddOns;
  * @author Cheng Wei
  *
  */
-public class TwoWayPropertyViewAttributeBinderFactory extends AbstractPropertyViewAttributeBinderFactory {
+public class TwoWayPropertyViewAttributeBinderFactory extends AbstractTwoWayPropertyViewAttributeBinderFactory implements Implementor {
 	private final TwoWayPropertyViewAttributeFactory<?> factory;
-	private final ViewAddOns viewAddOns;
 	
-	public TwoWayPropertyViewAttributeBinderFactory(TwoWayPropertyViewAttributeFactory<?> factory, ViewAddOns viewAddOns, 
-			PropertyAttributeParser propertyAttributeParser) {
-		super(propertyAttributeParser);
-		
+	public TwoWayPropertyViewAttributeBinderFactory(TwoWayPropertyViewAttributeFactory<?> factory, ViewAddOns viewAddOns) {
+		super(viewAddOns);
 		this.factory = factory;
-		this.viewAddOns = viewAddOns;
 	}
 	
 	@Override
 	public PropertyViewAttributeBinder create(Object view, ValueModelAttribute attribute) {
 		TwoWayPropertyViewAttribute<?, ?, ?> viewAttribute = factory.create();
-		ViewAddOn viewAddOn = viewAddOns.getMostSuitable(view);
-		AbstractBindingProperty bindingProperty = new TwoWayBindingProperty(view, viewAddOn, viewAttribute, attribute);
-		return new PropertyViewAttributeBinder(bindingProperty, attribute.getName());
+		return super.create(view, viewAttribute, attribute);
 	}
 }

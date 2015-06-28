@@ -51,8 +51,7 @@ public class ChildViewAttributesBuilderImplTest {
 	@Before
 	public void setUp() {
 		ResolvedGroupAttributes resolvedGroupAttributes = mock(ResolvedGroupAttributes.class);
-		@SuppressWarnings("unchecked")
-		ViewAttributeBinderFactory<View> viewAttributeBinderFactory = mock(ViewAttributeBinderFactory.class);
+		ViewAttributeBinderFactory viewAttributeBinderFactory = mock(ViewAttributeBinderFactory.class);
 		childViewAttributesBuilder = new ChildViewAttributesBuilderImpl<View>(resolvedGroupAttributes, viewAttributeBinderFactory);
 	}
 

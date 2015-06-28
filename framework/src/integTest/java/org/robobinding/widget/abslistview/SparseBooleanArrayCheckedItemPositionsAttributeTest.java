@@ -8,7 +8,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.property.ValueModelUtils;
+import org.robobinding.viewattribute.ValueModelUtils;
 import org.robobinding.widget.abslistview.CheckedItemPositionsAttribute.SparseBooleanArrayCheckedItemPositionsAttribute;
 import org.robolectric.annotation.Config;
 
@@ -22,27 +22,28 @@ import android.util.SparseBooleanArray;
  */
 @Config(manifest = Config.NONE)
 public class SparseBooleanArrayCheckedItemPositionsAttributeTest extends AbstractCheckedItemPositionsAttributeTest {
+	private SparseBooleanArrayCheckedItemPositionsAttribute attribute;
 	private SparseBooleanArray checkedItemPositions;
 
 	@Before
-	public void setUpTestData() {
+	public void setUp() {
+		attribute = new SparseBooleanArrayCheckedItemPositionsAttribute();
+		
 		checkedItemPositions = anySparseBooleanArray();
 	}
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
-		SparseBooleanArrayCheckedItemPositionsAttribute attribute = new SparseBooleanArrayCheckedItemPositionsAttribute();
-		attribute.updateView(view, checkedItemPositions);
+		attribute.updateView(view, checkedItemPositions, viewAddOn);
 
 		assertSparseBooleanArrayEquals(checkedItemPositions, view.getCheckedItemPositions());
 	}
 
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-		SparseBooleanArrayCheckedItemPositionsAttribute attribute = withListenersSet(new SparseBooleanArrayCheckedItemPositionsAttribute());
 		SparseBooleanArray emptySparseBooleanArray = new SparseBooleanArray();
 		ValueModel<SparseBooleanArray> valueModel = ValueModelUtils.create(emptySparseBooleanArray);
-		attribute.observeChangesOnTheView(view, valueModel);
+		attribute.observeChangesOnTheView(viewAddOn, valueModel, view);
 
 		setItemsChecked(SparseBooleanArrayUtils.toSet(checkedItemPositions));
 

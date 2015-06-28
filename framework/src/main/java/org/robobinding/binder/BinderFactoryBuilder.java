@@ -10,16 +10,11 @@ import org.robobinding.widget.absspinner.AbsSpinnerBinding;
 import org.robobinding.widget.adapterview.AdapterViewBinding;
 import org.robobinding.widget.compoundbutton.CompoundButtonBinding;
 import org.robobinding.widget.edittext.EditTextBinding;
-import org.robobinding.widget.imageview.ImageViewBinding;
 import org.robobinding.widget.listview.ListViewBinding;
 import org.robobinding.widget.menuitem.MenuItemBinding;
-import org.robobinding.widget.menuitemgroup.MenuItemGroup;
-import org.robobinding.widget.menuitemgroup.MenuItemGroupBinding;
-import org.robobinding.widget.progressbar.ProgressBarBinding;
 import org.robobinding.widget.radiogroup.RadioGroupBinding;
 import org.robobinding.widget.ratingbar.RatingBarBinding;
 import org.robobinding.widget.seekbar.SeekBarBinding;
-import org.robobinding.widget.textview.TextViewBinding;
 import org.robobinding.widget.view.ViewBindingForView;
 import org.robobinding.widget.viewanimator.ViewAnimatorBinding;
 import org.robobinding.widgetaddon.DefaultViewAddOnFactory;
@@ -28,7 +23,6 @@ import org.robobinding.widgetaddon.abslistview.AbsListViewAddOnFactory_Froyo;
 import org.robobinding.widgetaddon.abslistview.AbsListViewAddOnFactory_HoneyComb;
 import org.robobinding.widgetaddon.adapterview.AdapterViewAddOn;
 import org.robobinding.widgetaddon.compoundbutton.CompoundButtonAddOn;
-import org.robobinding.widgetaddon.listview.ListViewAddOn;
 import org.robobinding.widgetaddon.menuitem.MenuItemAddOn;
 import org.robobinding.widgetaddon.radiogroup.RadioGroupAddOn;
 import org.robobinding.widgetaddon.ratingbar.RatingBarAddOn;
@@ -43,13 +37,10 @@ import android.widget.AbsSpinner;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 /**
@@ -73,7 +64,6 @@ public class BinderFactoryBuilder {
 		ViewAddOnsBuilder builder = new ViewAddOnsBuilder();
 		builder.put(View.class, new DefaultViewAddOnFactory(ViewAddOnForView.class));
 		builder.put(AdapterView.class, new DefaultViewAddOnFactory(AdapterViewAddOn.class));
-		builder.put(ListView.class, new DefaultViewAddOnFactory(ListViewAddOn.class));
 		builder.put(CompoundButton.class, new DefaultViewAddOnFactory(CompoundButtonAddOn.class));
 		builder.put(SeekBar.class, new DefaultViewAddOnFactory(SeekBarAddOn.class));
 		builder.put(RatingBar.class, new DefaultViewAddOnFactory(RatingBarAddOn.class));
@@ -95,12 +85,9 @@ public class BinderFactoryBuilder {
 		ViewBindingMap builder = new ViewBindingMap();
 
 		builder.put(View.class, new ViewBindingForView());
-		builder.put(TextView.class, new TextViewBinding());
 		builder.put(EditText.class, new EditTextBinding());
 		builder.put(AdapterView.class, (ViewBinding) new AdapterViewBinding());
 		builder.put(CompoundButton.class, new CompoundButtonBinding());
-		builder.put(ImageView.class, new ImageViewBinding());
-		builder.put(ProgressBar.class, new ProgressBarBinding());
 		builder.put(SeekBar.class, new SeekBarBinding());
 		builder.put(RatingBar.class, new RatingBarBinding());
 		builder.put(ListView.class, new ListViewBinding());
@@ -109,7 +96,6 @@ public class BinderFactoryBuilder {
 		builder.put(ViewAnimator.class, new ViewAnimatorBinding());
 		builder.put(RadioGroup.class, new RadioGroupBinding());
 		builder.put(MenuItem.class, new MenuItemBinding());
-		builder.put(MenuItemGroup.class, new MenuItemGroupBinding());
 
 		return builder;
 	}

@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.robobinding.util.RandomValues;
-import org.robobinding.widget.adapterview.AbstractAdapterViewAttributeTest;
 import org.robolectric.Robolectric;
 
 import android.util.SparseBooleanArray;
@@ -17,7 +16,7 @@ import android.widget.ListView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractCheckedItemPositionsAttributeTest extends AbstractAdapterViewAttributeTest {
+public abstract class AbstractCheckedItemPositionsAttributeTest extends AbstractAbsListViewAttributeTest {
 	private ListAdapter adapter;
 
 	@Before

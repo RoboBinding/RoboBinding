@@ -44,10 +44,6 @@ public class AbsListViewAddOn extends AdapterViewAddOn {
 		return variant.getCheckedItemPosition();
 	}
 
-	public void setChoiceMode(int choiceMode) {
-		variant.setChoiceMode(choiceMode);
-	}
-
 	public SparseBooleanArray getCheckedItemPositions() {
 		return variant.getCheckedItemPositions();
 	}

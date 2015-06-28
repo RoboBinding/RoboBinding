@@ -14,8 +14,6 @@ import android.view.MenuItem;
 public class MenuItemBinding implements ViewBinding<MenuItem> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<MenuItem> mappings) {
-		mappings.mapOneWayProperty(EnabledAttribute.class, "enabled");
-		mappings.mapOneWayProperty(VisibleAttribute.class, "visible");
 		mappings.mapOneWayMultiTypeProperty(TitleAttribute.class, "title");
 
 		mappings.mapEvent(OnMenuItemClickAttribute.class, "onMenuItemClick");

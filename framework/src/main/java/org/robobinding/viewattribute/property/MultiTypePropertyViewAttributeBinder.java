@@ -29,11 +29,11 @@ public class MultiTypePropertyViewAttributeBinder implements ViewAttributeBinder
 	public void bindTo(BindingContext bindingContext) {
 		try {
 			initializeViewAttributeBinder(bindingContext);
+			
+			performBind(bindingContext);
 		} catch (RuntimeException e) {
 			throw new AttributeBindingException(attribute.getName(), e);
 		}
-		
-		performBind(bindingContext);
 	}
 
 	private void initializeViewAttributeBinder(PresentationModelAdapter presentationModelAdapter) {

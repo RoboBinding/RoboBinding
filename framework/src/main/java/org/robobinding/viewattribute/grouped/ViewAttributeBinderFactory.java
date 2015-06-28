@@ -5,9 +5,8 @@ import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.event.EventViewAttributeBinder;
 import org.robobinding.viewattribute.event.EventViewAttributeBinderFactory;
 import org.robobinding.viewattribute.event.EventViewAttributeFactory;
-import org.robobinding.viewattribute.property.AbstractMultiTypePropertyViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.AbstractPropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
+import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
@@ -15,6 +14,7 @@ import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.OneWayPropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.OneWayPropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
+import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttributeFactory;
@@ -30,31 +30,39 @@ import org.robobinding.widgetaddon.ViewAddOnInjector;
  * @author Cheng Wei
  */
 public class ViewAttributeBinderFactory {
+	private final Object view;
 	private final PropertyAttributeParser propertyAttributeParser;
 	private final GroupAttributesResolver groupAttributesResolver;
 	private final ViewAddOnInjector viewAddOnInjector;
 
-	public ViewAttributeBinderFactory(PropertyAttributeParser propertyAttributeParser, 
-			GroupAttributesResolver resolvedGroupAttributesFactory, ViewAddOnInjector viewListenersInjector) {
+	public ViewAttributeBinderFactory(Object view, PropertyAttributeParser propertyAttributeParser, 
+			GroupAttributesResolver groupAttributesResolver, ViewAddOnInjector viewAddOnInjector) {
+		this.view = view;
 		this.propertyAttributeParser = propertyAttributeParser;
-		this.groupAttributesResolver = resolvedGroupAttributesFactory;
-		this.viewAddOnInjector = viewListenersInjector;
+		this.groupAttributesResolver = groupAttributesResolver;
+		this.viewAddOnInjector = viewAddOnInjector;
 	}
 	
-	public AbstractPropertyViewAttributeBinderFactory binderFactoryFor(OneWayPropertyViewAttributeFactory<?> factory) {
-		return new OneWayPropertyViewAttributeBinderFactory(factory, viewAddOnInjector, propertyAttributeParser);
+	public PropertyViewAttributeBinderFactory binderFactoryFor(OneWayPropertyViewAttributeFactory<?> factory) {
+		return new PropertyViewAttributeBinderFactory(new OneWayPropertyViewAttributeBinderFactory(factory, viewAddOnInjector),
+				propertyAttributeParser);
 	}
 	
-	public AbstractPropertyViewAttributeBinderFactory binderFactoryFor(TwoWayPropertyViewAttributeFactory<?> factory) {
-		return new TwoWayPropertyViewAttributeBinderFactory(factory, viewAddOnInjector, propertyAttributeParser);
+	public PropertyViewAttributeBinderFactory binderFactoryFor(TwoWayPropertyViewAttributeFactory<?> factory) {
+		return new PropertyViewAttributeBinderFactory(new TwoWayPropertyViewAttributeBinderFactory(factory, viewAddOnInjector),
+				propertyAttributeParser);
 	}
 	
-	public AbstractMultiTypePropertyViewAttributeBinderFactory binderFactoryFor(OneWayMultiTypePropertyViewAttributeFactory<?> factory) {
-		return new OneWayMultiTypePropertyViewAttributeBinderFactory(factory, viewAddOnInjector, propertyAttributeParser);
+	public MultiTypePropertyViewAttributeBinderFactory binderFactoryFor(OneWayMultiTypePropertyViewAttributeFactory<?> factory) {
+		return new MultiTypePropertyViewAttributeBinderFactory(
+				new OneWayMultiTypePropertyViewAttributeBinderFactory(factory, viewAddOnInjector),
+				propertyAttributeParser);
 	}
 	
-	public AbstractMultiTypePropertyViewAttributeBinderFactory binderFactoryFor(TwoWayMultiTypePropertyViewAttributeFactory<?> factory) {
-		return new TwoWayMultiTypePropertyViewAttributeBinderFactory(factory, viewAddOnInjector, propertyAttributeParser);
+	public MultiTypePropertyViewAttributeBinderFactory binderFactoryFor(TwoWayMultiTypePropertyViewAttributeFactory<?> factory) {
+		return new MultiTypePropertyViewAttributeBinderFactory(
+				new TwoWayMultiTypePropertyViewAttributeBinderFactory(factory, viewAddOnInjector), 
+				propertyAttributeParser);
 	}
 	
 	public EventViewAttributeBinderFactory binderFactoryFor(EventViewAttributeFactory<?> factory) {
@@ -78,8 +86,8 @@ public class ViewAttributeBinderFactory {
 
 	public PropertyViewAttributeBinder binderFor(OneWayPropertyViewAttributeFactory<?> factory,
 			ValueModelAttribute attribute) {
-		AbstractPropertyViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
-		return binderFactory.create(binderFactory, attribute);
+		PropertyViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
+		return binderFactory.create(view, attribute);
 	}
 
 	public PropertyViewAttributeBinder binderFor(final TwoWayPropertyViewAttribute<?, ?, ?> viewAttribute,
@@ -95,8 +103,8 @@ public class ViewAttributeBinderFactory {
 
 	public PropertyViewAttributeBinder binderFor(TwoWayPropertyViewAttributeFactory<?> factory,
 			ValueModelAttribute attribute) {
-		AbstractPropertyViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
-		return binderFactory.create(binderFactory, attribute);
+		PropertyViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
+		return binderFactory.create(view, attribute);
 	}
 
 	public MultiTypePropertyViewAttributeBinder binderFor(final OneWayMultiTypePropertyViewAttribute<?> viewAttribute,
@@ -112,8 +120,8 @@ public class ViewAttributeBinderFactory {
 
 	public MultiTypePropertyViewAttributeBinder binderFor(
 			OneWayMultiTypePropertyViewAttributeFactory<?> factory, ValueModelAttribute attribute) {
-		AbstractMultiTypePropertyViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
-		return binderFactory.create(binderFactory, attribute);
+		MultiTypePropertyViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
+		return binderFactory.create(view, attribute);
 	}
 
 	public MultiTypePropertyViewAttributeBinder binderFor(final TwoWayMultiTypePropertyViewAttribute<?> viewAttribute,
@@ -129,13 +137,13 @@ public class ViewAttributeBinderFactory {
 
 	public MultiTypePropertyViewAttributeBinder binderFor(
 			TwoWayMultiTypePropertyViewAttributeFactory<?> factory, ValueModelAttribute attribute) {
-		AbstractMultiTypePropertyViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
-		return binderFactory.create(binderFactory, attribute);
+		MultiTypePropertyViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
+		return binderFactory.create(view, attribute);
 	}
 
 	public EventViewAttributeBinder binderFor(EventViewAttributeFactory<?> factory, String attributeName,
 			String attributeValue) {
 		EventViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
-		return binderFactory.create(binderFactory, attributeName, attributeValue);
+		return binderFactory.create(view, attributeName, attributeValue);
 	}
 }

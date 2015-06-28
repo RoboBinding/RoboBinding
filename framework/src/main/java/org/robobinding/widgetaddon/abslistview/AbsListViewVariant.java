@@ -12,8 +12,6 @@ public interface AbsListViewVariant {
 
 	int getCheckedItemPosition();
 
-	void setChoiceMode(int choiceMode);
-
 	SparseBooleanArray getCheckedItemPositions();
 
 	void clearChoices();

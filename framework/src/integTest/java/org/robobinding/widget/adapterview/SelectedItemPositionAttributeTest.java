@@ -9,7 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.util.RandomValues;
-import org.robobinding.viewattribute.property.ValueModelUtils;
+import org.robobinding.viewattribute.ValueModelUtils;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 
@@ -24,20 +24,22 @@ import android.widget.ArrayAdapter;
  */
 @Config(manifest = Config.NONE)
 public class SelectedItemPositionAttributeTest extends AbstractAdapterViewAttributeTest {
+	private SelectedItemPositionAttribute attribute;
 	private ArrayAdapter<String> arrayAdapter;
 
 	@Before
-	public void setUpAdapter() {
+	public void setUp() {
+		attribute = new SelectedItemPositionAttribute();
+
 		arrayAdapter = new MockArrayAdapter(Robolectric.application);
 		view.setAdapter(arrayAdapter);
 	}
 
 	@Test
 	public void whenUpdatView_thenSelectedItemShouldBeUpdated() {
-		SelectedItemPositionAttribute attribute = new SelectedItemPositionAttribute();
 		int index = RandomValues.anyIndex(arrayAdapter.getCount());
 
-		attribute.updateView(view, index);
+		attribute.updateView(view, index, null);
 
 		assertThat(view.getSelectedItemPosition(), is(index));
 	}
@@ -50,10 +52,9 @@ public class SelectedItemPositionAttributeTest extends AbstractAdapterViewAttrib
 	@Ignore
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChangeFromView() {
-		SelectedItemPositionAttribute attribute = withListenersSet(new SelectedItemPositionAttribute());
 		int index = RandomValues.anyIndex(arrayAdapter.getCount());
 		ValueModel<Integer> valueModel = ValueModelUtils.create();
-		attribute.observeChangesOnTheView(view, valueModel);
+		attribute.observeChangesOnTheView(viewAddOn, valueModel, view);
 
 		view.setSelection(index);
 
@@ -66,9 +67,8 @@ public class SelectedItemPositionAttributeTest extends AbstractAdapterViewAttrib
 	@Ignore
 	@Test
 	public void whenAllItemsAreRemovedFromAdapter_thenSelectedItemPositionShouldEqualInvalidPosition() {
-		SelectedItemPositionAttribute attribute = withListenersSet(new SelectedItemPositionAttribute());
 		ValueModel<Integer> valueModel = ValueModelUtils.create();
-		attribute.observeChangesOnTheView(view, valueModel);
+		attribute.observeChangesOnTheView(viewAddOn, valueModel, view);
 
 		arrayAdapter.clear();
 		// arrayAdapter.notifyDataSetChanged();
@@ -78,8 +78,7 @@ public class SelectedItemPositionAttributeTest extends AbstractAdapterViewAttrib
 
 	@Test
 	public void whenBinding_thenRegisterWithMulticastListener() {
-		SelectedItemPositionAttribute attribute = withListenersSet(new SelectedItemPositionAttribute());
-		attribute.observeChangesOnTheView(view, null);
-		assertTrue(viewListeners.addOnItemSelectedListenerInvoked);
+		attribute.observeChangesOnTheView(viewAddOn, null, view);
+		assertTrue(viewAddOn.addOnItemSelectedListenerInvoked);
 	}
 }

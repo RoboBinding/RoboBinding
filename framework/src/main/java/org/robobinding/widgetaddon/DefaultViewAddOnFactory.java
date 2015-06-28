@@ -21,14 +21,14 @@ public class DefaultViewAddOnFactory implements ViewAddOnFactory {
 		try {
 			return ConstructorUtils.invokeConstructor(viewAddOnType, view);
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("ViewAddOn class " + viewAddOnType.getName() + " does not have a constructor with a view parameter");
 		} catch (InvocationTargetException e) {
 			throw new RuntimeException(e);
 		} catch (InstantiationException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("ViewAddOn class " + viewAddOnType.getName() + " could not be instantiated: " + e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException("ViewAddOn class " + viewAddOnType.getName() + " is not public");
 		}
+
 	}
 }

@@ -18,7 +18,7 @@ public class CheckedItemPositionAttribute implements TwoWayPropertyViewAttribute
 
 	@Override
 	public void updateView(AbsListView view, Integer newValue, AbsListViewAddOn viewAddOn) {
-		view.setItemChecked(newValue, true);
+		viewAddOn.setItemChecked(newValue, true);
 	}
 
 	@Override

@@ -24,18 +24,22 @@ public class OnSeekBarChangeAttributeTest extends AbstractSeekBarAttributeTest {
 
 	@Before
 	public void setUp() {
-		attribute = withListenersSet(new OnSeekBarChangeAttribute());
+		attribute = new OnSeekBarChangeAttribute();
 		eventCommand = new EventCommand();
 	}
 
 	@Test
 	public void givenBoundAttribute_whenUpdatingProgress_thenEventReceived() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		int newProgressValue = RandomValues.anyInteger();
 		updateProgressOnSeekBar(newProgressValue);
 
 		assertEventReceived(newProgressValue);
+	}
+
+	private void bindAttribute() {
+		attribute.bind(viewAddOn, eventCommand, view);
 	}
 
 	private void updateProgressOnSeekBar(int newProgressValue) {
@@ -51,8 +55,8 @@ public class OnSeekBarChangeAttributeTest extends AbstractSeekBarAttributeTest {
 
 	@Test
 	public void whenBinding_thenRegisterWithViewListeners() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
-		assertTrue(viewListeners.addOnSeekBarChangeListenerInvoked);
+		assertTrue(viewAddOn.addOnSeekBarChangeListenerInvoked);
 	}
 }

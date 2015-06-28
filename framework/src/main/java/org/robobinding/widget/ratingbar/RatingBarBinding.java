@@ -15,7 +15,6 @@ public class RatingBarBinding implements ViewBinding<RatingBar> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<RatingBar> mappings) {
 		mappings.mapTwoWayMultiTypeProperty(RatingAttribute.class, "rating");
-		mappings.mapOneWayProperty(NumStarsAttribute.class, "numStars");
 
 		mappings.mapEvent(OnRatingBarChangeAttribute.class, "onRatingBarChange");
 	}

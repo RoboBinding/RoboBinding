@@ -2,8 +2,6 @@ package org.robobinding.viewbinding;
 
 import java.util.Map;
 
-import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
-
 import com.google.common.collect.Maps;
 
 /**
@@ -29,8 +27,7 @@ public class ViewBindingMap {
 		return (ViewBinding<ViewType>)mappings.get(viewClass);
 	}
 
-	public InitializedBindingAttributeMappingsProviders buildInitializedBindingAttributeMappingsProviders(
-			ViewAttributeBinderFactory viewAttributeBinderFactory) {
-		return new InitializedBindingAttributeMappingsProviders(mappings, viewAttributeBinderFactory);
+	public InitializedBindingAttributeMappingsProviders buildInitializedBindingAttributeMappingsProviders() {
+		return new InitializedBindingAttributeMappingsProviders(mappings);
 	}
 }

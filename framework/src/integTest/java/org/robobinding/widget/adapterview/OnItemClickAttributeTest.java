@@ -29,7 +29,7 @@ public class OnItemClickAttributeTest extends AbstractAdapterViewAttributeTest {
 
 	@Before
 	public void setUp() {
-		attribute = withListenersSet(new OnItemClickAttribute());
+		attribute = new OnItemClickAttribute();
 		eventCommand = new EventCommand();
 
 		ListAdapter arrayAdapter = new SingleChoiceAdapter(Robolectric.application);
@@ -40,11 +40,15 @@ public class OnItemClickAttributeTest extends AbstractAdapterViewAttributeTest {
 
 	@Test
 	public void givenBoundAttribute_whenClickingOnAnItem_thenEventReceived() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		clickOnAnItem();
 
 		assertEventReceived();
+	}
+
+	private void bindAttribute() {
+		attribute.bind(viewAddOn, eventCommand, view);
 	}
 
 	private void clickOnAnItem() {
@@ -62,8 +66,8 @@ public class OnItemClickAttributeTest extends AbstractAdapterViewAttributeTest {
 
 	@Test
 	public void whenBinding_thenRegisterWithMulticastListener() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
-		assertTrue(viewListeners.addOnItemClickListenerInvoked);
+		assertTrue(viewAddOn.addOnItemClickListenerInvoked);
 	}
 }

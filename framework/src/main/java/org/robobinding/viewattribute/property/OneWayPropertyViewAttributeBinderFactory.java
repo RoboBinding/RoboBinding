@@ -1,7 +1,7 @@
 package org.robobinding.viewattribute.property;
 
-import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory.Implementor;
 import org.robobinding.widgetaddon.ViewAddOnInjector;
 
 /**
@@ -9,14 +9,12 @@ import org.robobinding.widgetaddon.ViewAddOnInjector;
  * @author Cheng Wei
  *
  */
-public class OneWayPropertyViewAttributeBinderFactory extends AbstractPropertyViewAttributeBinderFactory {
+public class OneWayPropertyViewAttributeBinderFactory implements Implementor {
 	private final OneWayPropertyViewAttributeFactory<?> factory;
 	private final ViewAddOnInjector viewAddOnInjector;
 	
 	public OneWayPropertyViewAttributeBinderFactory(OneWayPropertyViewAttributeFactory<?> factory, 
-			ViewAddOnInjector viewAddOnInjector, PropertyAttributeParser propertyAttributeParser) {
-		super(propertyAttributeParser);
-		
+			ViewAddOnInjector viewAddOnInjector) {
 		this.factory = factory;
 		this.viewAddOnInjector = viewAddOnInjector;
 	}

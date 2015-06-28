@@ -7,7 +7,7 @@ import org.robobinding.ViewCreationListenerInstaller;
 import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.presentationmodel.PresentationModelAdapterFactory;
 import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
-import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
+import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactories;
 import org.robobinding.viewbinding.ViewBindingMap;
 import org.robobinding.widgetaddon.ViewAddOnInjector;
 import org.robobinding.widgetaddon.ViewAddOns;
@@ -65,10 +65,10 @@ class SingletonAssembler {
 	}
 
 	private BindingAttributeResolver createBindingAttributeResolver() {
-		ViewAttributeBinderFactory viewAttributeBinderFactory = new ViewAttributeBinderFactory(new PropertyAttributeParser(),
+		ViewAttributeBinderFactories viewAttributeBinderFactories = new ViewAttributeBinderFactories(new PropertyAttributeParser(),
 				new GroupAttributesResolver(), new ViewAddOnInjector(viewAddOns));
 		ByBindingAttributeMappingsResolverFinder byBindingAttributeProviderResolverFinder = new ByBindingAttributeMappingsResolverFinder(
-				viewBindingMap.buildInitializedBindingAttributeMappingsProviders(viewAttributeBinderFactory));
+				viewBindingMap.buildInitializedBindingAttributeMappingsProviders(),	viewAttributeBinderFactories);
 		BindingAttributeResolver bindingAttributeResolver = new BindingAttributeResolver(byBindingAttributeProviderResolverFinder);
 		return bindingAttributeResolver;
 	}

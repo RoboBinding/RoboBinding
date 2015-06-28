@@ -1,5 +1,7 @@
 package org.robobinding.customviewbinding;
 
+import org.robobinding.widgetaddon.DefaultViewAddOnFactory;
+import org.robobinding.widgetaddon.ViewAddOn;
 import org.robobinding.widgetaddon.ViewAddOnFactory;
 
 /**
@@ -15,6 +17,10 @@ public class CustomViewBindingDescription {
 	CustomViewBindingDescription(Class<?> viewType, ViewBindingApplier bindingAttributeMapperApplier) {
 		this.viewType = viewType;
 		this.viewBindingApplier = bindingAttributeMapperApplier;
+	}
+	
+	public CustomViewBindingDescription withViewAddOn(Class<? extends ViewAddOn> viewAddOnType) {
+		return withViewAddOn(new DefaultViewAddOnFactory(viewAddOnType));
 	}
 	
 	public CustomViewBindingDescription withViewAddOn(ViewAddOnFactory factory) {

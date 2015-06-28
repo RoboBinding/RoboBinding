@@ -12,8 +12,8 @@ import org.robobinding.viewattribute.event.EventViewAttributeBinder;
 import org.robobinding.viewattribute.event.EventViewAttributeBinderFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinder;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.AbstractMultiTypePropertyViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.AbstractPropertyViewAttributeBinderFactory;
+import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinderFactory;
+import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
 import org.robobinding.viewbinding.InitailizedBindingAttributeMappings;
@@ -85,7 +85,7 @@ public class ByBindingAttributeMappingsResolver {
 	private class PropertyViewAttributeResolver implements AttributeResolver {
 		@Override
 		public void resolve(Object view, String attribute, String attributeValue) {
-			AbstractPropertyViewAttributeBinderFactory factory = bindingAttributeMappings.getPropertyViewAttributeFactory(attribute);
+			PropertyViewAttributeBinderFactory factory = bindingAttributeMappings.getPropertyViewAttributeFactory(attribute);
 			PropertyViewAttributeBinder viewAttributeBinder = factory.create(view, attribute, attributeValue);
 			resolvedViewAttributes.add(viewAttributeBinder);
 		}
@@ -94,7 +94,7 @@ public class ByBindingAttributeMappingsResolver {
 	private class MultiTypePropertyViewAttributeResolver implements AttributeResolver {
 		@Override
 		public void resolve(Object view, String attribute, String attributeValue) {
-			AbstractMultiTypePropertyViewAttributeBinderFactory factory = bindingAttributeMappings.getMultiTypePropertyViewAttributeFactory(attribute);
+			MultiTypePropertyViewAttributeBinderFactory factory = bindingAttributeMappings.getMultiTypePropertyViewAttributeFactory(attribute);
 			MultiTypePropertyViewAttributeBinder viewAttributeBinder = factory.create(view, attribute, attributeValue);
 			resolvedViewAttributes.add(viewAttributeBinder);
 		}

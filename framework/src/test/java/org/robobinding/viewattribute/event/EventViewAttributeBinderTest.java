@@ -16,9 +16,7 @@ import org.robobinding.attribute.Command;
 import org.robobinding.attribute.EventAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.ViewAttributeContractTest;
-import org.robobinding.widget.view.ClickEvent;
-
-import android.view.View;
+import org.robobinding.widgetaddon.ViewAddOn;
 
 /**
  * 
@@ -27,31 +25,33 @@ import android.view.View;
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-public final class EventViewAttributeBinderTest extends ViewAttributeContractTest<EventViewAttributeBinder<View>> {
+public final class EventViewAttributeBinderTest extends ViewAttributeContractTest<EventViewAttributeBinder> {
 	@Mock
 	private BindingContext bindingContext;
 	@Mock
-	private View view;
+	private Object view;
 	@Mock
-	private EventViewAttribute<View> viewAttribute;
+	private ViewAddOn viewAddOn;
+	@Mock
+	private EventViewAttribute<Object, ViewAddOn> viewAttribute;
 	@Mock
 	private EventAttribute attribute;
-	private EventViewAttributeBinder<View> viewAttributeBinder;
+	private EventViewAttributeBinder viewAttributeBinder;
 
 	@Before
 	public void setUp() {
-		viewAttributeBinder = new EventViewAttributeBinder<View>(view, viewAttribute, attribute);
+		viewAttributeBinder = new EventViewAttributeBinder(view, viewAddOn, viewAttribute, attribute);
 	}
 
 	@Test
 	public void givenAMatchingCommandWithArgs_whenBinding_thenBindWithTheCommand() {
 		Command commandWithArgs = mock(Command.class);
-		Mockito.<Class<?>> when(viewAttribute.getEventType()).thenReturn(ClickEvent.class);
-		when(attribute.findCommand(bindingContext, ClickEvent.class)).thenReturn(commandWithArgs);
+		Mockito.<Class<?>> when(viewAttribute.getEventType()).thenReturn(EventType.class);
+		when(attribute.findCommand(bindingContext, EventType.class)).thenReturn(commandWithArgs);
 
 		viewAttributeBinder.bindTo(bindingContext);
 
-		verify(viewAttribute).bind(view, commandWithArgs);
+		verify(viewAttribute).bind(viewAddOn, commandWithArgs, view);
 	}
 
 	@Test
@@ -61,34 +61,34 @@ public final class EventViewAttributeBinderTest extends ViewAttributeContractTes
 
 		viewAttributeBinder.bindTo(bindingContext);
 
-		verify(viewAttribute).bind(view, commandWithNoArgs);
-	}
-
-	@Test
-	@Ignore
-	@Override
-	public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrowAsBindingException() {
-		// Ignored as PreInitializingView is not supported by event attribute.
+		verify(viewAttribute).bind(viewAddOn, commandWithNoArgs, view);
 	}
 
 	@Override
-	protected EventViewAttributeBinder<View> throwsExceptionDuringPreInitializingView() {
-		throw new UnsupportedOperationException();
+	protected EventViewAttributeBinder throwsExceptionDuringBinding() {
+		return new ExceptionDuringBinding(attribute);
 	}
 
-	@Override
-	protected EventViewAttributeBinder<View> throwsExceptionDuringBinding() {
-		return new ExceptionDuringBinding(null, null, attribute);
-	}
-
-	private static class ExceptionDuringBinding extends EventViewAttributeBinder<View> {
-		public ExceptionDuringBinding(View view, EventViewAttribute<View> viewAttribute, EventAttribute attribute) {
-			super(view, viewAttribute, attribute);
+	private static class ExceptionDuringBinding extends EventViewAttributeBinder {
+		public ExceptionDuringBinding(EventAttribute attribute) {
+			super(null, null, null, attribute);
 		}
-
+	
 		@Override
 		void performBind(PresentationModelAdapter presentationModelAdapter) {
 			throw new RuntimeException();
 		}
 	}
+
+	@Test@Ignore("as PreInitializingView is not supported by event attribute")
+	@Override
+	public void whenAnExceptionIsThrownDuringPreInitializingView_thenCatchAndRethrowAsBindingException() {
+	}
+
+	@Override
+	protected EventViewAttributeBinder throwsExceptionDuringPreInitializingView() {
+		throw new UnsupportedOperationException();
+	}
+
+	public static class EventType{}
 }

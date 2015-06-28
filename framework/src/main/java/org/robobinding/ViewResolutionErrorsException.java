@@ -77,10 +77,32 @@ public class ViewResolutionErrorsException extends RuntimeException implements V
 	}
 
 	@Override
-	public Collection<Exception> getErrors() {
+	public List<Exception> getErrors() {
 		List<Exception> errors = Lists.newArrayList();
 		errors.addAll(attributeErrors);
 		errors.addAll(missingRequiredAttributeErrors);
 		return errors;
+	}
+	
+	@Override
+	public String getMessage() {
+		if(hasErrors()) {
+			return firstError().getMessage();
+		}
+		
+		return super.getMessage();
+	}
+
+	private Throwable firstError() {
+		return getErrors().get(0);
+	}
+	
+	@Override
+	public synchronized Throwable getCause() {
+		if(hasErrors()) {
+			return firstError();
+		}
+		
+		return super.getCause();
 	}
 }
