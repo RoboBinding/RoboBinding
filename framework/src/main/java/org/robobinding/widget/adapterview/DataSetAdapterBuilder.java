@@ -7,7 +7,6 @@ import org.robobinding.ItemBinder;
 import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
-import org.robobinding.viewattribute.ViewTagger;
 import org.robobinding.viewattribute.ViewTags;
 
 import com.google.common.collect.Lists;
@@ -19,7 +18,7 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 public class DataSetAdapterBuilder {
-	private static final int ITEM_PRESENTATION_MODEL_KEY = ViewTagger.KEY1;
+	private static final int ITEM_PRESENTATION_MODEL_KEY = ViewTags.USED_KEY1;
 	
 	private final BindingContext bindingContext;
 

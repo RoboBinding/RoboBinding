@@ -27,93 +27,107 @@ import com.google.common.collect.Sets;
  */
 class KeepFirstAttributes<ViewType> implements BindingAttributeMappings<ViewType> {
 	private final BindingAttributeMappings<ViewType> forwarding;
-	private final Set<String> attributes;
+	private final Set<String> propertyAttributes;
+	private final Set<String> multiTypePropertyAttributes;
+	private final Set<String> eventAttributes;
 	private final Set<String[]> attributeGroups;
 
 	public KeepFirstAttributes(BindingAttributeMappings<ViewType> forwarding) {
 		this.forwarding = forwarding;
-		this.attributes = Sets.newHashSet();
+		this.propertyAttributes = Sets.newHashSet();
+		this.multiTypePropertyAttributes = Sets.newHashSet();
+		this.eventAttributes = Sets.newHashSet();
 		this.attributeGroups = Sets.newHashSet();
 	}
 
 	@Override
 	public void mapOneWayProperty(Class<? extends OneWayPropertyViewAttribute<ViewType, ?>> viewAttributeClass, String attributeName) {
-		if (attributes.contains(attributeName))
+		if (propertyAttributes.contains(attributeName))
 			return;
 
 		forwarding.mapOneWayProperty(viewAttributeClass, attributeName);
+		propertyAttributes.add(attributeName);
 	}
 
 	@Override
 	public void mapOneWayProperty(OneWayPropertyViewAttributeFactory<ViewType> factory, String attributeName) {
-		if (attributes.contains(attributeName))
+		if (propertyAttributes.contains(attributeName))
 			return;
 
 		forwarding.mapOneWayProperty(factory, attributeName);
+		propertyAttributes.add(attributeName);
 	}
 
 	@Override
 	public void mapTwoWayProperty(Class<? extends TwoWayPropertyViewAttribute<ViewType, ?, ?>> viewAttributeClass, String attributeName) {
-		if (attributes.contains(attributeName))
+		if (propertyAttributes.contains(attributeName))
 			return;
 
 		forwarding.mapTwoWayProperty(viewAttributeClass, attributeName);
+		propertyAttributes.add(attributeName);
 	}
 
 	@Override
 	public void mapTwoWayProperty(TwoWayPropertyViewAttributeFactory<ViewType> factory, String attributeName) {
-		if (attributes.contains(attributeName))
+		if (propertyAttributes.contains(attributeName))
 			return;
 
 		forwarding.mapTwoWayProperty(factory, attributeName);
+		propertyAttributes.add(attributeName);
 	}
 
 	@Override
 	public void mapOneWayMultiTypeProperty(Class<? extends OneWayMultiTypePropertyViewAttribute<ViewType>> viewAttributeClass, String attributeName) {
-		if (attributes.contains(attributeName))
+		if (multiTypePropertyAttributes.contains(attributeName))
 			return;
 
 		forwarding.mapOneWayMultiTypeProperty(viewAttributeClass, attributeName);
+		multiTypePropertyAttributes.add(attributeName);
 	}
 
 	@Override
 	public void mapOneWayMultiTypeProperty(OneWayMultiTypePropertyViewAttributeFactory<ViewType> factory, String attributeName) {
-		if (attributes.contains(attributeName))
+		if (multiTypePropertyAttributes.contains(attributeName))
 			return;
 
 		forwarding.mapOneWayMultiTypeProperty(factory, attributeName);
+		multiTypePropertyAttributes.add(attributeName);
 	}
 
 	@Override
 	public void mapTwoWayMultiTypeProperty(Class<? extends TwoWayMultiTypePropertyViewAttribute<ViewType>> viewAttributeClass, String attributeName) {
-		if (attributes.contains(attributeName))
+		if (multiTypePropertyAttributes.contains(attributeName))
 			return;
 
 		forwarding.mapTwoWayMultiTypeProperty(viewAttributeClass, attributeName);
+		multiTypePropertyAttributes.add(attributeName);
 	}
 
 	@Override
 	public void mapTwoWayMultiTypeProperty(TwoWayMultiTypePropertyViewAttributeFactory<ViewType> factory, String attributeName) {
-		if (attributes.contains(attributeName))
+		if (multiTypePropertyAttributes.contains(attributeName))
 			return;
 
 		forwarding.mapTwoWayMultiTypeProperty(factory, attributeName);
+		multiTypePropertyAttributes.add(attributeName);
 	}
 
 	@Override
 	public void mapEvent(Class<? extends EventViewAttribute<ViewType, ? extends ViewAddOn>> viewAttributeClass, String attributeName) {
-		if (attributes.contains(attributeName))
+		if (eventAttributes.contains(attributeName))
 			return;
 
 		forwarding.mapEvent(viewAttributeClass, attributeName);
+		eventAttributes.add(attributeName);
 	}
 
 	@Override
 	public void mapEvent(EventViewAttributeFactory<ViewType> factory, String attributeName) {
-		if (attributes.contains(attributeName))
+		if (eventAttributes.contains(attributeName))
 			return;
 
 		forwarding.mapEvent(factory, attributeName);
+		eventAttributes.add(attributeName);
 	}
 
 	@Override
@@ -122,6 +136,7 @@ class KeepFirstAttributes<ViewType> implements BindingAttributeMappings<ViewType
 			return;
 
 		forwarding.mapGroupedAttribute(viewAttributeClass, attributeGroup);
+		attributeGroups.add(attributeGroup);
 	}
 
 	@Override
@@ -130,5 +145,6 @@ class KeepFirstAttributes<ViewType> implements BindingAttributeMappings<ViewType
 			return;
 
 		forwarding.mapGroupedAttribute(factory, attributeGroup);
+		attributeGroups.add(attributeGroup);
 	}
 }

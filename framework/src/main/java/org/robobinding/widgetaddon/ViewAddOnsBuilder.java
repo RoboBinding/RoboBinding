@@ -2,7 +2,6 @@ package org.robobinding.widgetaddon;
 
 import java.util.Map;
 
-import org.robobinding.viewattribute.ViewTagger;
 import org.robobinding.viewattribute.ViewTags;
 
 import com.google.common.collect.Maps;
@@ -14,7 +13,7 @@ import com.google.common.collect.Maps;
  * @author Cheng Wei
  */
 public class ViewAddOnsBuilder {
-	private static final int VIEW_ADDON_KEY = ViewTagger.KEY2;
+	private static final int VIEW_ADDON_KEY = ViewTags.USED_KEY2;
 	private final Map<Class<?>, ViewAddOnFactory> mappings;
 
 	public ViewAddOnsBuilder() {
@@ -26,6 +25,7 @@ public class ViewAddOnsBuilder {
 	}
 
 	public ViewAddOns build() {
-		return new ViewAddOnsImpl(mappings, new ViewTags<ViewAddOn>(VIEW_ADDON_KEY));
+		ViewAddOnFactories factories = new ViewAddOnFactories(mappings);
+		return new ViewTagsBasedViewAddOns(factories, new ViewTags<ViewAddOn>(VIEW_ADDON_KEY));
 	}
 }

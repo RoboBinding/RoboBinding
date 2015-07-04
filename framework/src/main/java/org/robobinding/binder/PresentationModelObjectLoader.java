@@ -29,7 +29,7 @@ public class PresentationModelObjectLoader {
 			presentationModelObjectType = Class.forName(presentationModelObjectClassName);
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(MessageFormat.format(
-					"The generated class ''{0}'' cannot be found. Is Java annotation processing correctly configured?",
+					"The source code for ''{0}'' is not generated. Is Java annotation processing(source code generation) correctly configured?",
 					presentationModelObjectClassName));
 		}
 			

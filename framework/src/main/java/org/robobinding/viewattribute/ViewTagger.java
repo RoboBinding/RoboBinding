@@ -8,10 +8,7 @@ import android.util.SparseArray;
  * 
  * http://code.google.com/p/android/issues/detail?id=18273
  */
-public class ViewTagger {
-	public static final int KEY1 = 1;
-	public static final int KEY2 = 2;
-	
+class ViewTagger {
 	private SparseArray<Object> tags = null;
 
 	ViewTagger() {

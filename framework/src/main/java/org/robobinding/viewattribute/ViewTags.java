@@ -8,6 +8,9 @@ import android.view.View;
  *
  */
 public class ViewTags<TagType> {
+	public static final int USED_KEY1 = 1;
+	public static final int USED_KEY2 = 2;
+	
 	private final int key;
 
 	public ViewTags(int key) {
