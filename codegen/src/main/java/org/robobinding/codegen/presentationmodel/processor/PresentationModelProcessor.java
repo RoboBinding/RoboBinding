@@ -11,6 +11,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
+import javax.lang.model.util.Elements;
 
 import org.robobinding.annotation.PresentationModel;
 import org.robobinding.binder.PresentationModelObjectLoader;
@@ -24,6 +25,7 @@ import org.robobinding.codegen.typewrapper.AbstractTypeElementWrapper;
 import org.robobinding.codegen.typewrapper.DeclaredTypeElementWrapper;
 import org.robobinding.codegen.typewrapper.Logger;
 import org.robobinding.codegen.typewrapper.ProcessingContext;
+import org.robobinding.codegen.typewrapper.TypesWrapper;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
 import com.google.common.collect.Sets;
@@ -49,9 +51,10 @@ public class PresentationModelProcessor extends AbstractProcessor {
 	
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		ProcessingContext context = new ProcessingContext(processingEnv.getTypeUtils(), 
-				processingEnv.getElementUtils(), processingEnv.getMessager());
-		Set<AbstractTypeElementWrapper> typeElements = findPresentationModelTypeElements(roundEnv, context);
+		Elements elements = processingEnv.getElementUtils();
+		TypesWrapper types = new TypesWrapper(processingEnv.getTypeUtils(), elements);
+		ProcessingContext context = new ProcessingContext(types, elements, processingEnv.getMessager());
+		Set<AbstractTypeElementWrapper> typeElements = findPresentationModelTypeElements(roundEnv, context, types);
 		for(AbstractTypeElementWrapper typeElement : typeElements) {
 			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(typeElement, 
 					typeElement.typeName() + PRESENTATION_MODEL_OBJECT_SUFFIX, true);
@@ -74,10 +77,11 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		return true;
 	}
 
-	private Set<AbstractTypeElementWrapper> findPresentationModelTypeElements(RoundEnvironment env, ProcessingContext context) {
+	private Set<AbstractTypeElementWrapper> findPresentationModelTypeElements(RoundEnvironment env, 
+			ProcessingContext context, TypesWrapper types) {
 	    Set<AbstractTypeElementWrapper> typeElements = Sets.newHashSet();
 	    for (Element element : env.getElementsAnnotatedWith(PresentationModel.class)) {
-	    	AbstractTypeElementWrapper typeElement = new DeclaredTypeElementWrapper(context, processingEnv.getTypeUtils(), 
+	    	AbstractTypeElementWrapper typeElement = new DeclaredTypeElementWrapper(context, types, 
 	    			(TypeElement)element, (DeclaredType)element.asType());
 	        
 	    	checkIsConcreteClass(typeElement);

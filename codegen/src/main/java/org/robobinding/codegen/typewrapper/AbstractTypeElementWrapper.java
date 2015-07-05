@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.Types;
 
 
 /**
@@ -13,20 +12,21 @@ import javax.lang.model.util.Types;
  *
  */
 public abstract class AbstractTypeElementWrapper extends AbstractElementWrapper {
-	public AbstractTypeElementWrapper(ProcessingContext context, Types types, Element element) {
+	public AbstractTypeElementWrapper(ProcessingContext context, TypesWrapper types, Element element) {
 		super(context, types, element);
 	}
 	
+	/*
 	public boolean isAssignableTo(TypeMirror anotherType) {
 		return types.isAssignable(asType(), anotherType);
-	}
+	}*/
 
 	public boolean isAssignableTo(Class<?> anotherType) {
-		return isAssignableTo(context.typeMirrorOf(anotherType));
+		return types.isAssignableTo(asType(), anotherType);
 	}
 
 	public boolean isAssignableTo(String anotherType) {
-		return isAssignableTo(context.typeMirrorOf(anotherType));
+		return types.isAssignableTo(asType(), anotherType);
 	}
 
 	public boolean isNotAssignableTo(String anotherType) {

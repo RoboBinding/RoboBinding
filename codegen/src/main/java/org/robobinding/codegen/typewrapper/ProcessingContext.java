@@ -4,10 +4,10 @@ import javax.annotation.processing.Messager;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
-import javax.lang.model.util.Types;
 
 /**
  * @since 1.0
@@ -15,11 +15,11 @@ import javax.lang.model.util.Types;
  *
  */
 public class ProcessingContext {
-	private final Types types;
+	private final TypesWrapper types;
 	private final Elements elements;
 	private final Messager messager;
 	
-	public ProcessingContext(Types types, Elements elements, Messager messager) {
+	public ProcessingContext(TypesWrapper types, Elements elements, Messager messager) {
 		this.types = types;
 		this.elements = elements;
 		this.messager = messager;
@@ -35,6 +35,10 @@ public class ProcessingContext {
 		} else {
 			return new NonDeclaredTypeElementWrapper(this, types, type);
 		}
+	}
+	
+	public DeclaredTypeElementWrapper boxedClassTypeElementOf(PrimitiveType type) {
+		return wrapper(types.boxedClass(type));
 	}
 
 	public DeclaredTypeElementWrapper declaredTypeElementOf(DeclaredType type) {
@@ -53,13 +57,14 @@ public class ProcessingContext {
 		return new DeclaredTypeElementWrapper(this, types, typeElement, (DeclaredType)typeElement.asType());
 	}
 	
+	/*
 	public TypeMirror typeMirrorOf(Class<?> type) {
 		return typeMirrorOf(type.getName());
 	}
 
 	public TypeMirror typeMirrorOf(String type) {
 		return elements.getTypeElement(type).asType();
-	}
+	}*/
 	
 	public Logger loggerFor(AbstractElementWrapper element) {
 		return new MessagerLogger(messager, element.element);

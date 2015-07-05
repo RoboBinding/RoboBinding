@@ -2,7 +2,8 @@ package org.robobinding.widgetaddon;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.robobinding.util.ConstructorUtils;
+
 
 /**
  * @since 1.0

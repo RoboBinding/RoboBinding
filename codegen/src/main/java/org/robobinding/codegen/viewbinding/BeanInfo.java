@@ -17,50 +17,45 @@ import com.google.common.collect.Sets;
  *
  */
 public class BeanInfo {
-	private final Map<String, PropertyDescriptor> uniquePropertyMap;
-	public BeanInfo(Map<String, PropertyDescriptor> uniquePropertyMap) {
-		this.uniquePropertyMap = uniquePropertyMap;
+	private final Class<?> beanClass;
+	
+	public BeanInfo(Class<?> beanClass) {
+		this.beanClass = beanClass;
 	}
 	
-	public Method findSetter(String property) {
-		PropertyDescriptor descriptor = uniquePropertyMap.get(property);
-		if(descriptor == null) {
-			return null;
+	public Setters parseSingleParameterSetters() {
+		Map<String, Method> singleParameterSetters = Maps.newHashMap();
+		Set<String> propertiesWithAmbiguousSetters = Sets.newHashSet();
+		PropertyDescriptor[] propertyDescriptorArray = propertyDescriptorArray();
+		for (PropertyDescriptor propertyDescriptor : propertyDescriptorArray) {
+			if(!hasSingleParameterSetter(propertyDescriptor)) {
+				continue;
+			}
+			
+			if(singleParameterSetters.containsKey(propertyDescriptor.getName())) {
+				propertiesWithAmbiguousSetters.add(propertyDescriptor.getName());
+			}
+			singleParameterSetters.put(propertyDescriptor.getName(), propertyDescriptor.getWriteMethod());
+		}
+
+		for(String propertyWithAmbiguousSetters : propertiesWithAmbiguousSetters) {
+			singleParameterSetters.remove(propertyWithAmbiguousSetters);
 		}
 		
-		Method setter = descriptor.getWriteMethod();
-		if((setter != null) && (setter.getParameterTypes().length == 1)) {
-			return setter;
-		}
-		
-		return null;
+		return new Setters(singleParameterSetters, propertiesWithAmbiguousSetters);
 	}
 	
-	public static BeanInfo create(Class<?> beanClass) {
+	private PropertyDescriptor[] propertyDescriptorArray() {
 		try {
 			org.robobinding.internal.java_beans.BeanInfo info = Introspector.getBeanInfo(beanClass);
-			return new BeanInfo(uniquePropertyMap(info.getPropertyDescriptors()));
+			return info.getPropertyDescriptors();
 		} catch (IntrospectionException e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 
-	private static Map<String, PropertyDescriptor> uniquePropertyMap(PropertyDescriptor[] propertyDescriptorArray) {
-
-		Map<String, PropertyDescriptor> uniquePropertyMap = Maps.newHashMap();
-		Set<String> duplicatedPropertyNames = Sets.newHashSet();
-		for (PropertyDescriptor propertyDescriptor : propertyDescriptorArray) {
-			if(uniquePropertyMap.containsKey(propertyDescriptor.getName())) {
-				duplicatedPropertyNames.add(propertyDescriptor.getName());
-			} else {
-				uniquePropertyMap.put(propertyDescriptor.getName(), propertyDescriptor);
-			}
-		}
-		
-		for(String duplicatedPropertyName : duplicatedPropertyNames) {
-			uniquePropertyMap.remove(duplicatedPropertyName);
-		}
-		
-		return uniquePropertyMap;
+	private boolean hasSingleParameterSetter(PropertyDescriptor propertyDescriptor) {
+		Method writeMethod = propertyDescriptor.getWriteMethod();
+		return (writeMethod != null) && (writeMethod.getParameterTypes().length == 1);
 	}
 }

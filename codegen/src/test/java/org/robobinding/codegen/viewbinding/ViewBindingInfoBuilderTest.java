@@ -6,6 +6,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.theories.DataPoints;
+import org.junit.experimental.theories.FromDataPoints;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.robobinding.codegen.typewrapper.DeclaredTypeElementWrapper;
 import org.robobinding.codegen.typewrapper.TypeTestHelper;
 
@@ -17,8 +23,11 @@ import com.google.testing.compile.CompilationRule;
  * @author Cheng Wei
  *
  */
+@RunWith(Theories.class)
 public class ViewBindingInfoBuilderTest {
-	@Rule final public CompilationRule compilation = new CompilationRule();
+	@Rule public final CompilationRule compilation = new CompilationRule();
+	@Rule public final ExpectedException thrownException = ExpectedException.none();
+	
 	private final String viewBindingObjectTypeName = "ViewBinding$$VB";
 
 	private TypeTestHelper typeTestHelper;
@@ -49,19 +58,19 @@ public class ViewBindingInfoBuilderTest {
     	return typeTestHelper.declaredTypeElementOf(type);
     }
     
-    @Test(expected=OneWayBindingPropertyGenerationException.class)
-    public void givenViewBindingWithNonExistingProperty_whenBuildViewBindingInfo_thenThrowBindingPropertyCreationError() {
-		DeclaredTypeElementWrapper typeElement = declaredTypeElementOf(ViewBindingWithNonExistingProperty.class);
-		ViewBindingInfoBuilder builder = new ViewBindingInfoBuilder(typeElement, viewBindingObjectTypeName);
-		
-		builder.build();
-    }
+    @DataPoints("invalidViewBindings")
+    public static Class<?>[] invalidViewBindings = {
+    		ViewBindingWithNonExistingProperty.class, 
+    		ViewBindingWithNonExistingProperty.class,
+    		/*ViewBindingWithAmbiguousSetter.class*/};
     
-    @Test(expected=OneWayBindingPropertyGenerationException.class)
-    public void givenViewBindingWithNonExistingSetter_whenBuildViewBindingInfo_thenThrowBindingPropertyCreationError() {
-		DeclaredTypeElementWrapper typeElement = declaredTypeElementOf(ViewBindingWithNonExistingSetter.class);
+    @Theory
+    public void givenInvalidViewBinding_whenBuildViewBindingInfo_thenThrowBindingPropertyCreationError(
+    		@FromDataPoints("invalidViewBindings") Class<?> invalidViewBinding) {
+		DeclaredTypeElementWrapper typeElement = declaredTypeElementOf(invalidViewBinding);
 		ViewBindingInfoBuilder builder = new ViewBindingInfoBuilder(typeElement, viewBindingObjectTypeName);
 		
+		thrownException.expect(OneWayBindingPropertyGenerationException.class);
 		builder.build();
     }
     

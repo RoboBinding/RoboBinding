@@ -8,7 +8,6 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
-import javax.lang.model.util.Types;
 
 import com.google.common.collect.Lists;
 
@@ -21,7 +20,7 @@ public class DeclaredTypeElementWrapper extends AbstractTypeElementWrapper {
 	private final TypeElement element;
 	private final DeclaredType type;
 
-	public DeclaredTypeElementWrapper(ProcessingContext context, Types types, TypeElement element, DeclaredType type) {
+	public DeclaredTypeElementWrapper(ProcessingContext context, TypesWrapper types, TypeElement element, DeclaredType type) {
 		super(context, types, element);
 		
 		this.element = element;
@@ -34,7 +33,7 @@ public class DeclaredTypeElementWrapper extends AbstractTypeElementWrapper {
 	}
 	
 	private boolean isOfType(Class<?> anotherType) {
-		return types.isSameType(element.asType(), context.typeMirrorOf(anotherType));
+		return types.isSameType(element.asType(), anotherType);
 	}
 
 	@Override
@@ -89,9 +88,8 @@ public class DeclaredTypeElementWrapper extends AbstractTypeElementWrapper {
 	}
 	
 	public DeclaredTypeElementWrapper findDirectSuperclassOf(Class<?> superclass) {
-		TypeMirror wantedSuperType = types.erasure(context.typeMirrorOf(superclass));
 		DeclaredType superType = (DeclaredType)element.getSuperclass();
-		if(types.isSameType(wantedSuperType, types.erasure(superType))) {
+		if(types.isSameType(superclass, superType)) {
 			return context.declaredTypeElementOf(superType);
 		} else {
 			return null;

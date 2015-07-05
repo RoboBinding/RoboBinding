@@ -22,13 +22,17 @@ public class TypeTestHelper {
 	private final Elements elements;
 	
 	public TypeTestHelper(CompilationRule compilation) {
-		this.context = new ProcessingContext(compilation.getTypes(), compilation.getElements(), null);
 		this.types = compilation.getTypes();
 		this.elements = compilation.getElements();
+		this.context = new ProcessingContext(newTypesWraper(), compilation.getElements(), null);
+	}
+	
+	private TypesWrapper newTypesWraper() {
+		return new TypesWrapper(types, elements);
 	}
 	
 	public NonDeclaredTypeElementWrapper primitiveTypeElementOf(TypeKind kind) {
-		return new NonDeclaredTypeElementWrapper(context, types, primitiveTypeOf(kind));
+		return new NonDeclaredTypeElementWrapper(context, newTypesWraper(), primitiveTypeOf(kind));
 	}
 
 	public PrimitiveType primitiveTypeOf(TypeKind kind) {

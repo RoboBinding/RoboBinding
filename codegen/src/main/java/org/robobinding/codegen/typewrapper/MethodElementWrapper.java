@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Types;
 
 /**
  * @since 1.0
@@ -14,7 +13,7 @@ import javax.lang.model.util.Types;
  */
 public class MethodElementWrapper extends AbstractElementWrapper {
 	private final ExecutableElement method;
-	public MethodElementWrapper(ProcessingContext context, Types types, ExecutableElement method) {
+	public MethodElementWrapper(ProcessingContext context, TypesWrapper types, ExecutableElement method) {
 		super(context, types, method);
 		
 		this.method = method;

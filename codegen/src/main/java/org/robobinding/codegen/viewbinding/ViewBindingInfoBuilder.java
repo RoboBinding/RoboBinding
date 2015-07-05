@@ -49,10 +49,14 @@ public class ViewBindingInfoBuilder {
 		ViewBindingAnnotationMirror annotation = new ViewBindingAnnotationMirror(typeElement.getAnnotation(ViewBinding.class));
 		List<String> simpleOneWayProperties = annotation.getSimpleOneWayProperties();
 		
-		BeanInfo viewBeanInfo = BeanInfo.create(viewType);
+		Setters setters = new BeanInfo(viewType).parseSingleParameterSetters();
+		if(setters.hasPropertyWithAmbiguousSetters()) {
+			OneWayBindingPropertyGenerationException.setterWithDifferentParameterTypes(viewType, setters.getPropertiesWithAmbiguousSetters());
+		}
+		
 		List<SimpleOneWayPropertyInfo> result = Lists.newArrayList();
 		for(String property : simpleOneWayProperties) {
-			Method setter = viewBeanInfo.findSetter(property);
+			Method setter = setters.find(property);
 			if(setter == null) {
 				throw OneWayBindingPropertyGenerationException.noSetterFound(viewType, property);
 			}

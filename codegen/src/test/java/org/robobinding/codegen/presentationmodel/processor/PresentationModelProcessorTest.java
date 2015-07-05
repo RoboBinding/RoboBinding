@@ -1,12 +1,11 @@
 package org.robobinding.codegen.presentationmodel.processor;
 
-import static com.google.testing.compile.JavaSourceSubjectFactory.javaSource;
-import static org.truth0.Truth.ASSERT;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.codegen.presentationmodel.processor.PresentationModelProcessor;
-
-import com.google.testing.compile.JavaFileObjects;
 
 /**
  * @since 1.0
@@ -14,18 +13,27 @@ import com.google.testing.compile.JavaFileObjects;
  *
  */
 public class PresentationModelProcessorTest {
+	private PresentationModelProcessor processor;
+	
+	@Before
+	public void setUp() {
+		processor = new PresentationModelProcessor();
+	}
 	
 	@Test
 	public void shouldSuccessWhenProcessSample1() {
-		processJavaFileOf(PresentationModelSample1.class);
+		ProcessorAssert.compilesWithoutErrorWhenProcess(PresentationModelSample1.class, processor);
 	}
 	
-	private void processJavaFileOf(Class<?> type) {
-		PresentationModelProcessor processor = new PresentationModelProcessor();
-		
-		ASSERT.about(javaSource())
-			.that(JavaFileObjects.forResource(new JavaFile(type).toURL()))
-			.processedWith(processor)
-			.compilesWithoutError();
+	@Test
+	public void shouldGetExpectedErrors() {
+		try
+		{
+			ProcessorAssert.failsToCompileWhenProcess(PresentationModelWithErrors.class, processor);
+			fail("expect errors");
+		} catch(PresentationModelErrors errors) {
+			assertThat(errors.propertyErrors.size(), is(PresentationModelWithErrors.numPropertyErrors));
+			assertThat(errors.propertyDependencyErrors.size(), is(PresentationModelWithErrors.numPropertyDependencyErrors));
+		}
 	}
 }

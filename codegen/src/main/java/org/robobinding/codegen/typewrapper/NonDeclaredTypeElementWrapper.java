@@ -14,7 +14,6 @@ import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.Types;
 
 /**
  * @since 1.0
@@ -24,7 +23,7 @@ import javax.lang.model.util.Types;
 public class NonDeclaredTypeElementWrapper extends AbstractTypeElementWrapper {
 	private final TypeMirror type;
 	
-	public NonDeclaredTypeElementWrapper(ProcessingContext context, Types types, TypeMirror type) {
+	public NonDeclaredTypeElementWrapper(ProcessingContext context, TypesWrapper types, TypeMirror type) {
 		super(context, types, new NullElement());
 		
 		this.type = type;
@@ -68,7 +67,7 @@ public class NonDeclaredTypeElementWrapper extends AbstractTypeElementWrapper {
 	@Override
 	public String nonPrimitiveTypeName() {
 		if(isPrimitive()) {
-			return context.wrapper(types.boxedClass((PrimitiveType)type)).typeName();
+			return context.boxedClassTypeElementOf((PrimitiveType)type).typeName();
 		} else {
 			return typeName();
 		}

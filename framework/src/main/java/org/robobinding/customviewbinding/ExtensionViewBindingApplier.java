@@ -25,10 +25,14 @@ public class ExtensionViewBindingApplier<ViewType> implements ViewBindingApplier
 
 	@Override
 	public void apply(final ViewBindingMap viewBindingMap) {
-		ViewBinding<ViewType> old = viewBindingMap.find(viewClass);
 		List<ViewBinding<ViewType>> viewBindings = Lists.newArrayList();
 		viewBindings.add(viewBinding);
-		viewBindings.add(old);
+		
+		ViewBinding<ViewType> old = viewBindingMap.find(viewClass);
+		if(old != null) {
+			viewBindings.add(old);
+		}
+		
 		viewBindingMap.put(viewClass, new PriorityViewBinding<ViewType>(viewBindings));
 	}
 }

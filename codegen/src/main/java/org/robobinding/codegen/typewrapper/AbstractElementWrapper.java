@@ -4,7 +4,6 @@ import java.lang.annotation.Annotation;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
-import javax.lang.model.util.Types;
 
 /**
  * @since 1.0
@@ -13,10 +12,10 @@ import javax.lang.model.util.Types;
  */
 public abstract class AbstractElementWrapper {
 	protected final ProcessingContext context;
-	protected final Types types;
+	protected final TypesWrapper types;
 	final Element element;
 	
-	public AbstractElementWrapper(ProcessingContext context, Types types, Element element) {
+	public AbstractElementWrapper(ProcessingContext context, TypesWrapper types, Element element) {
 		this.context = context;
 		this.types = types;
 		this.element = element;
@@ -37,7 +36,7 @@ public abstract class AbstractElementWrapper {
 	
 	private  <A extends Annotation> AnnotationMirror findAnnotationMirror(Class<A> annotationType) {
 		for(AnnotationMirror m : element.getAnnotationMirrors()) {
-			if(types.isSameType(m.getAnnotationType(), context.typeMirrorOf(annotationType))) {
+			if(types.isSameType(m.getAnnotationType(), annotationType)) {
 				return m;
 			}
 		}
