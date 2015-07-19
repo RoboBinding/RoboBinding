@@ -1,7 +1,10 @@
 package org.robobinding.codegen.presentationmodel.processor;
 
+import org.robobinding.codegen.apt.element.GetterElement;
+import org.robobinding.codegen.apt.element.SetterElement;
+import org.robobinding.codegen.apt.type.WrappedPrimitiveType;
+import org.robobinding.codegen.apt.type.WrappedTypeMirror;
 import org.robobinding.codegen.presentationmodel.PropertyInfo;
-import org.robobinding.codegen.typewrapper.MethodElementWrapper;
 
 
 
@@ -14,10 +17,10 @@ import org.robobinding.codegen.typewrapper.MethodElementWrapper;
  */
 public class PropertyInfoImpl implements PropertyInfo {
 	private final String name;
-	private final MethodElementWrapper getter;
-	private final MethodElementWrapper setter;
+	private GetterElement getter;
+	private SetterElement setter;
 	
-	public PropertyInfoImpl(String name, MethodElementWrapper getter, MethodElementWrapper setter) {
+	public PropertyInfoImpl(String name, GetterElement getter, SetterElement setter) {
 		this.name = name;
 		this.getter = getter;
 		this.setter = setter;
@@ -36,10 +39,17 @@ public class PropertyInfoImpl implements PropertyInfo {
 	}
 	
 	public String typeName() {
+		WrappedTypeMirror type = null;
 		if(getter != null) {
-			return getter.getReturnType().nonPrimitiveTypeName();
+			type = getter.returnType();
 		} else {
-			return setter.firstParameterType().typeName();
+			type = setter.parameterType();
+		}
+		
+		if(type.isPrimitive()) {
+			return ((WrappedPrimitiveType)type).boxedClassName();
+		} else {
+			return type.className();
 		}
 	}
 

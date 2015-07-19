@@ -5,6 +5,7 @@ import static org.robobinding.util.Preconditions.checkValidResourceId;
 import org.robobinding.ViewBinder;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -70,5 +71,10 @@ public class ViewBinderImpl implements ViewBinder {
 	@Override
 	public View inflateAndBindWithoutAttachingToRoot(int layoutId, Object presentationModel, ViewGroup root) {
 		return inflateAndBind(layoutId, presentationModel, root, false);
+	}
+	
+	public ViewBinder with(LayoutInflater layoutInflater) {
+		return new ViewBinderImpl(bindingViewInflater.with(layoutInflater), 
+				viewBindingLifecycle, presentationModelObjectLoader);
 	}
 }

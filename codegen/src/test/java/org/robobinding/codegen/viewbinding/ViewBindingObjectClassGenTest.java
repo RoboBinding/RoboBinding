@@ -3,13 +3,19 @@ package org.robobinding.codegen.viewbinding;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.robobinding.codegen.SourceCodeAssert;
+import org.robobinding.codegen.apt.element.AptTestHelper;
+import org.robobinding.codegen.apt.element.SetterElement;
+import org.robobinding.codegen.apt.element.WrappedTypeElement;
 import org.robobinding.customviewbinding.CustomViewBinding;
 
 import android.widget.ImageView;
 
 import com.google.common.collect.Lists;
+import com.google.testing.compile.CompilationRule;
 import com.sun.codemodel.JClassAlreadyExistsException;
 
 /**
@@ -18,6 +24,14 @@ import com.sun.codemodel.JClassAlreadyExistsException;
  *
  */
 public class ViewBindingObjectClassGenTest {
+	@Rule public final CompilationRule compilation = new CompilationRule();
+	private AptTestHelper aptTestHelper;
+	
+	@Before
+	public void setUp() {
+		aptTestHelper = new AptTestHelper(compilation);
+	}
+	
 	@Test
 	public void shouldDefineConstructor() {
 		ViewBindingInfo info = createViewBindingInfo(DefineConstructor.class);
@@ -37,7 +51,11 @@ public class ViewBindingObjectClassGenTest {
 		String viewBindingTypeName = viewBindingType.getName();
 		String viewBindingObjectTypeName = viewBindingTypeName + "_VB";
 		return new ViewBindingInfo(viewBindingTypeName, viewBindingObjectTypeName,
-				ImageView.class, simpleOneWayPropertyInfoList);
+				viewElementType(), simpleOneWayPropertyInfoList);
+	}
+	
+	private WrappedTypeElement viewElementType() {
+		return aptTestHelper.typeElementOf(ImageView.class);
 	}
 
 	private void assertOutputSameTextFile(ViewBindingObjectClassGen gen, String textFileName) {
@@ -47,19 +65,23 @@ public class ViewBindingObjectClassGenTest {
 	@Test
 	public void shouldDefineSimpleOneWayPropertyClasses() throws JClassAlreadyExistsException {
 		ViewBindingInfo info = createViewBindingInfo(DefineSimpleOneWayPropertyClasses.class, 
-				Lists.newArrayList(new SimpleOneWayPropertyInfo(int.class, "imageAlpha"),
-						new SimpleOneWayPropertyInfo(ImageView.ScaleType.class, "scaleType")));
+				Lists.newArrayList(new SimpleOneWayPropertyInfo(setterOf("imageAlpha")),
+						new SimpleOneWayPropertyInfo(setterOf("scaleType"))));
 		ViewBindingObjectClassGen gen = new ViewBindingObjectClassGen(info);
 		gen.defineSimpleOneWayPropertyClasses();
 
 		assertOutputSameTextFile(gen, "DefineSimpleOneWayPropertyClasses_VB.java.txt");
 	}
+	
+	private SetterElement setterOf(String propertyName) {
+		return aptTestHelper.looseSetterOf(ImageView.class, propertyName);
+	}
 
 	@Test
 	public void shouldDefineMapBindingAttributesMethod() throws JClassAlreadyExistsException {
 		ViewBindingInfo info = createViewBindingInfo(DefineMapBindingAttributesMethod.class, 
-				Lists.newArrayList(new SimpleOneWayPropertyInfo(int.class, "imageAlpha"),
-						new SimpleOneWayPropertyInfo(ImageView.ScaleType.class, "scaleType")));
+				Lists.newArrayList(new SimpleOneWayPropertyInfo(setterOf("imageAlpha")),
+						new SimpleOneWayPropertyInfo(setterOf("scaleType"))));
 		ViewBindingObjectClassGen gen = new ViewBindingObjectClassGen(info);
 		gen.defineFields();
 		gen.defineSimpleOneWayPropertyClasses();

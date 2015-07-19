@@ -1,8 +1,8 @@
 package org.robobinding.codegen.presentationmodel.processor;
 
+import org.robobinding.codegen.apt.Logger;
+import org.robobinding.codegen.apt.ProcessingContext;
 import org.robobinding.codegen.presentationmodel.PresentationModelInfo;
-import org.robobinding.codegen.typewrapper.Logger;
-import org.robobinding.codegen.typewrapper.ProcessingContext;
 
 /**
  * @since 1.0

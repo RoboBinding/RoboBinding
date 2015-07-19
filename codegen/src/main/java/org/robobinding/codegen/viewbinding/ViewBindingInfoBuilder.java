@@ -1,11 +1,11 @@
 package org.robobinding.codegen.viewbinding;
 
-import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.List;
 
 import org.robobinding.annotation.ViewBinding;
-import org.robobinding.codegen.typewrapper.DeclaredTypeElementWrapper;
+import org.robobinding.codegen.apt.element.SetterElement;
+import org.robobinding.codegen.apt.element.WrappedTypeElement;
 import org.robobinding.customviewbinding.CustomViewBinding;
 
 import com.google.common.collect.Lists;
@@ -16,52 +16,52 @@ import com.google.common.collect.Lists;
  *
  */
 public class ViewBindingInfoBuilder {
-	private final DeclaredTypeElementWrapper typeElement;
+	private final WrappedTypeElement typeElement;
 	private final String viewBindingObjectTypeName;
 	
-	public ViewBindingInfoBuilder(DeclaredTypeElementWrapper typeElement, String viewBindingObjectTypeName) {
+	public ViewBindingInfoBuilder(WrappedTypeElement typeElement, String viewBindingObjectTypeName) {
 		this.typeElement = typeElement;
 		this.viewBindingObjectTypeName = viewBindingObjectTypeName;
 	}
 	
 	public ViewBindingInfo build() {
-		Class<?> viewType = extractViewType();
+		WrappedTypeElement viewType = extractViewType();
 		List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList = extractSimpleOneWayPropertyInfoList(viewType);
-		return new ViewBindingInfo(typeElement.typeName(), viewBindingObjectTypeName, viewType, simpleOneWayPropertyInfoList);
+		return new ViewBindingInfo(typeElement.qName(), viewBindingObjectTypeName, viewType, simpleOneWayPropertyInfoList);
 	}
 
-	private Class<?> extractViewType() {
-		DeclaredTypeElementWrapper customViewBinding = typeElement.findDirectSuperclassOf(CustomViewBinding.class);
+	private WrappedTypeElement extractViewType() {
+		WrappedTypeElement customViewBinding = typeElement.findDirectSuperclassOf(CustomViewBinding.class);
 		if(customViewBinding == null) {
 			throw new RuntimeException(MessageFormat.format("{0} has to be direct SubClass of {1}", 
-					typeElement.typeName(), CustomViewBinding.class.getName()));
+					typeElement.qName(), CustomViewBinding.class.getName()));
 		}
 		
-		String viewTypeName = customViewBinding.getFirstTypeArgumentClassName();
-		try {
-			return Class.forName(viewTypeName);
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
+		return customViewBinding.firstTypeArgument();
 	}
 
-	private List<SimpleOneWayPropertyInfo> extractSimpleOneWayPropertyInfoList(Class<?> viewType) {
+	private List<SimpleOneWayPropertyInfo> extractSimpleOneWayPropertyInfoList(WrappedTypeElement viewType) {
 		ViewBindingAnnotationMirror annotation = new ViewBindingAnnotationMirror(typeElement.getAnnotation(ViewBinding.class));
 		List<String> simpleOneWayProperties = annotation.getSimpleOneWayProperties();
 		
-		Setters setters = new BeanInfo(viewType).parseSingleParameterSetters();
-		if(setters.hasPropertyWithAmbiguousSetters()) {
-			OneWayBindingPropertyGenerationException.setterWithDifferentParameterTypes(viewType, setters.getPropertiesWithAmbiguousSetters());
+		SetterElements setters = new SetterElements(
+				viewType.looseSetters(new SimpleOneWayPropertySetterFilter(simpleOneWayProperties)));
+
+		if(setters.hasAmbiguousSetters()) {
+			throw OneWayBindingPropertyGenerationException.setterWithDifferentParameterTypes(viewType, 
+					setters.getPropertiesWithAmbiguousSetters());
+		}
+		
+		if(!setters.containsAll(simpleOneWayProperties)) {
+			throw OneWayBindingPropertyGenerationException.noSettersFound(viewType, 
+					setters.findMissingProperties(simpleOneWayProperties));
 		}
 		
 		List<SimpleOneWayPropertyInfo> result = Lists.newArrayList();
-		for(String property : simpleOneWayProperties) {
-			Method setter = setters.find(property);
-			if(setter == null) {
-				throw OneWayBindingPropertyGenerationException.noSetterFound(viewType, property);
-			}
-			result.add(new SimpleOneWayPropertyInfo(setter.getParameterTypes()[0], property));
+		for(SetterElement setter : setters) {
+			result.add(new SimpleOneWayPropertyInfo(setter));
 		}
+		
 		return result;
 	}
 }

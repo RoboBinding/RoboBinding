@@ -12,8 +12,9 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.robobinding.codegen.typewrapper.DeclaredTypeElementWrapper;
-import org.robobinding.codegen.typewrapper.TypeTestHelper;
+import org.robobinding.codegen.apt.element.AptTestHelper;
+import org.robobinding.codegen.apt.element.SetterElement;
+import org.robobinding.codegen.apt.element.WrappedTypeElement;
 
 import com.google.common.collect.Lists;
 import com.google.testing.compile.CompilationRule;
@@ -30,16 +31,16 @@ public class ViewBindingInfoBuilderTest {
 	
 	private final String viewBindingObjectTypeName = "ViewBinding$$VB";
 
-	private TypeTestHelper typeTestHelper;
+	private AptTestHelper aptTestHelper;
 	
 	@Before
 	public void setUp() {
-		typeTestHelper = new TypeTestHelper(compilation);
+		aptTestHelper = new AptTestHelper(compilation);
 	}
 	
 	@Test
 	public void givenValidImageViewBinding_whenBuildViewBindingInfo_thenReturnExpectedResult() {
-		DeclaredTypeElementWrapper typeElement = declaredTypeElementOf(ViewBindingWithVariousProperties.class);
+		WrappedTypeElement typeElement = typeElementOf(ViewBindingWithVariousProperties.class);
 		ViewBindingInfoBuilder builder = new ViewBindingInfoBuilder(typeElement, viewBindingObjectTypeName);
 		
 		ViewBindingInfo viewBindingInfo = builder.build();
@@ -47,27 +48,31 @@ public class ViewBindingInfoBuilderTest {
 		ViewBindingInfo expectedViewBindingInfo = new ViewBindingInfo(
 				ViewBindingWithVariousProperties.class.getName(), 
 				viewBindingObjectTypeName, 
-				ViewWithProperties.class, 
-				Lists.newArrayList(new SimpleOneWayPropertyInfo(int.class, ViewWithProperties.PRIMITIVE_PROP), 
-						new SimpleOneWayPropertyInfo(Object.class, ViewWithProperties.OBJECT_PROP)));
+				typeElementOf(ViewWithProperties.class), 
+				Lists.newArrayList(new SimpleOneWayPropertyInfo(looseSetterOf(ViewWithProperties.PRIMITIVE_PROP)), 
+						new SimpleOneWayPropertyInfo(looseSetterOf(ViewWithProperties.OBJECT_PROP))));
 		Assert.assertThat(viewBindingInfo, equalTo(expectedViewBindingInfo));
 	}
 	
     
-    private DeclaredTypeElementWrapper declaredTypeElementOf(Class<?> type) {
-    	return typeTestHelper.declaredTypeElementOf(type);
+    private WrappedTypeElement typeElementOf(Class<?> type) {
+    	return aptTestHelper.typeElementOf(type);
+    }
+    
+    private SetterElement looseSetterOf(String propertyName) {
+    	return aptTestHelper.looseSetterOf(ViewWithProperties.class, propertyName);
     }
     
     @DataPoints("invalidViewBindings")
     public static Class<?>[] invalidViewBindings = {
     		ViewBindingWithNonExistingProperty.class, 
     		ViewBindingWithNonExistingProperty.class,
-    		/*ViewBindingWithAmbiguousSetter.class*/};
+    		ViewBindingWithAmbiguousSetter.class};
     
     @Theory
     public void givenInvalidViewBinding_whenBuildViewBindingInfo_thenThrowBindingPropertyCreationError(
     		@FromDataPoints("invalidViewBindings") Class<?> invalidViewBinding) {
-		DeclaredTypeElementWrapper typeElement = declaredTypeElementOf(invalidViewBinding);
+    	WrappedTypeElement typeElement = typeElementOf(invalidViewBinding);
 		ViewBindingInfoBuilder builder = new ViewBindingInfoBuilder(typeElement, viewBindingObjectTypeName);
 		
 		thrownException.expect(OneWayBindingPropertyGenerationException.class);
@@ -76,7 +81,7 @@ public class ViewBindingInfoBuilderTest {
     
     @Test(expected=RuntimeException.class)
     public void givenNotCustomViewBindingSubclass_whenBuildViewBindingInfo_thenThrowUnsupportedViewBindingError() {
-		DeclaredTypeElementWrapper typeElement = declaredTypeElementOf(NotCustomViewBindingSubclass.class);
+    	WrappedTypeElement typeElement = typeElementOf(NotCustomViewBindingSubclass.class);
 		ViewBindingInfoBuilder builder = new ViewBindingInfoBuilder(typeElement, viewBindingObjectTypeName);
 		
 		builder.build();

@@ -1,7 +1,8 @@
 package org.robobinding.codegen.presentationmodel.processor;
 
-import org.robobinding.codegen.typewrapper.MethodElementWrapper;
-import org.robobinding.codegen.typewrapper.AbstractTypeElementWrapper;
+import org.robobinding.codegen.apt.element.GetterElement;
+import org.robobinding.codegen.apt.element.SetterElement;
+import org.robobinding.codegen.apt.type.WrappedTypeMirror;
 
 
 /**
@@ -11,28 +12,29 @@ import org.robobinding.codegen.typewrapper.AbstractTypeElementWrapper;
  */
 public class PropertyInfoBuilder {
 	private final String propertyName;
-	private MethodElementWrapper getter;
-	private MethodElementWrapper setter;
+	private GetterElement getter;
+	private SetterElement setter;
 
 	public PropertyInfoBuilder(String propertyName) {
 		this.propertyName = propertyName;
 	}
 
-	public PropertyInfoBuilder setGetter(MethodElementWrapper getter) {
+	public PropertyInfoBuilder setGetter(GetterElement getter) {
 		this.getter = getter;
 		return this;
 	}
 
-	public PropertyInfoBuilder setSetter(MethodElementWrapper setter) {
+	public PropertyInfoBuilder setSetter(SetterElement setter) {
 		this.setter = setter;
 		return this;
 	}
 
 	public boolean isGetterSetterTypeInconsistent() {
 		if((getter != null) && (setter != null)) {
-			AbstractTypeElementWrapper returnType = getter.getReturnType();
-			return !returnType.isSameType(setter.firstParameterType());
+			WrappedTypeMirror returnType = getter.returnType();
+			return !returnType.equals(setter.parameterType());
 		}
+		
 		return false;
 	}
 

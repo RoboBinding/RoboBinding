@@ -1,6 +1,5 @@
 package org.robobinding.codegen.viewbinding;
 
-import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDefinedClass;
 
 /**
@@ -9,5 +8,5 @@ import com.sun.codemodel.JDefinedClass;
  *
  */
 public interface ClassDefinitionCallback {
-	JDefinedClass define(String typeName) throws JClassAlreadyExistsException;
+	JDefinedClass define(String typeName);
 }

@@ -3,6 +3,8 @@ package org.robobinding.codegen.viewbinding;
 import java.util.Collections;
 import java.util.List;
 
+import org.robobinding.codegen.apt.element.WrappedTypeElement;
+
 import com.google.common.base.Objects;
 
 /**
@@ -13,11 +15,11 @@ import com.google.common.base.Objects;
 public class ViewBindingInfo {
 	private final String viewBindingTypeName;
 	private final String viewBindingObjectTypeName;
-	private final Class<?> viewType;
+	private final WrappedTypeElement viewType;
 	private final List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList;
 	
 	public ViewBindingInfo(String viewBindingTypeName, String viewBindingObjectTypeName, 
-			Class<?> viewType,
+			WrappedTypeElement viewType,
 			List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList) {
 		this.viewBindingTypeName = viewBindingTypeName;
 		this.viewBindingObjectTypeName = viewBindingObjectTypeName;
@@ -33,8 +35,8 @@ public class ViewBindingInfo {
 		return viewBindingObjectTypeName;
 	}
 	
-	public Class<?> viewType() {
-		return viewType;
+	public String viewType() {
+		return viewType.qName();
 	}
 
 	public List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList() {

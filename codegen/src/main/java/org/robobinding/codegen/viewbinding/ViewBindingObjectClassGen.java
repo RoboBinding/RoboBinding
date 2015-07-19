@@ -1,6 +1,7 @@
 package org.robobinding.codegen.viewbinding;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.robobinding.codegen.SourceCodeWritable;
 import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
@@ -26,17 +27,18 @@ import com.sun.codemodel.JVar;
  *
  */
 public class ViewBindingObjectClassGen implements SourceCodeWritable {
-	private final ViewBindingInfo viewBindingInfo;
+	private final List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList;
 
 	private final JCodeModel codeModel;
 	private final JDefinedClass definedClass;
 	
 	private JClass customViewBindingClass;
+	private JClass viewClass;
 	protected JFieldRef customViewBindingField;
 	protected JFieldRef customViewBindingFieldWithoutThis;
 	
 	public ViewBindingObjectClassGen(ViewBindingInfo viewBindingInfo) {
-		this.viewBindingInfo = viewBindingInfo;
+		this.simpleOneWayPropertyInfoList = viewBindingInfo.simpleOneWayPropertyInfoList();
 		
 		codeModel = new JCodeModel();
 		try {
@@ -44,7 +46,8 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
 			/*
 			 public class MyCustomViewBinding$$VB implements org.robobinding.viewbinding.ViewBinding<ImageView> {
 			 */
-			JClass viewBindingInterface = codeModel.ref(ViewBinding.class).narrow(viewBindingInfo.viewType());
+			viewClass = codeModel.ref(viewBindingInfo.viewType());
+			JClass viewBindingInterface = codeModel.ref(ViewBinding.class).narrow(viewClass);
 			definedClass._implements(viewBindingInterface);
 		} catch (JClassAlreadyExistsException e) {
 			throw new RuntimeException(e);
@@ -95,27 +98,32 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
     	}
      *
 	 */
-	public void defineSimpleOneWayPropertyClasses() throws JClassAlreadyExistsException {
-		for(SimpleOneWayPropertyInfo propInfo : viewBindingInfo.simpleOneWayPropertyInfoList()) {
+	public void defineSimpleOneWayPropertyClasses() {
+		for(SimpleOneWayPropertyInfo propInfo : simpleOneWayPropertyInfoList) {
 			JDefinedClass definedBindingAttributeClass = propInfo.defineBindingClass(new ClassDefinitionCallback() {
 				@Override
-				public JDefinedClass define(String typeName) throws JClassAlreadyExistsException {
-					return definedClass._class(JMod.PUBLIC|JMod.STATIC, typeName);
+				public JDefinedClass define(String typeName) {
+					try{
+						return definedClass._class(JMod.PUBLIC|JMod.STATIC, typeName);
+					}catch(JClassAlreadyExistsException e) {
+						throw new RuntimeException("Class '"+typeName+"' already exists", e);
+					}
 				}
 			});
 
 			
+			JClass propertyClass = codeModel.ref(propInfo.propertyType());
 			JClass oneWayPropertyInterface = codeModel.ref(OneWayPropertyViewAttribute.class).narrow(
-					viewBindingInfo.viewType(), propInfo.getPropertyType());
+					viewClass, propertyClass);
 			definedBindingAttributeClass._implements(oneWayPropertyInterface);
 			
 			JMethod method = definedBindingAttributeClass.method(JMod.PUBLIC, codeModel.VOID, "updateView");
 			method.annotate(Override.class);
-			JVar viewParam = method.param(viewBindingInfo.viewType(), "view");
-			JVar newValueParam = method.param(propInfo.getPropertyType(), "newValue");
+			JVar viewParam = method.param(viewClass, "view");
+			JVar newValueParam = method.param(propertyClass, "newValue");
 			
 			JBlock body = method.body();
-			body.invoke(viewParam, propInfo.getPropertySetter()).arg(newValueParam);
+			body.invoke(viewParam, propInfo.propertySetter()).arg(newValueParam);
 		}
 	}
 	
@@ -134,14 +142,14 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
 	public void defineMapBindingAttributesMethod() {
 		JMethod method = definedClass.method(JMod.PUBLIC, codeModel.VOID, "mapBindingAttributes");
 		method.annotate(Override.class);
-		JClass bindingAttributeMappingsType = codeModel.ref(BindingAttributeMappings.class).narrow(viewBindingInfo.viewType());
+		JClass bindingAttributeMappingsType = codeModel.ref(BindingAttributeMappings.class).narrow(viewClass);
 		JVar mappingsParam = method.param(bindingAttributeMappingsType, "mappings");
 		
 		JBlock body = method.body();
-		for(SimpleOneWayPropertyInfo info : viewBindingInfo.simpleOneWayPropertyInfoList()) {
+		for(SimpleOneWayPropertyInfo info : simpleOneWayPropertyInfoList) {
 			body.invoke(mappingsParam, "mapOneWayProperty")
 				.arg(info.getBindingClass().dotclass())
-				.arg(info.getPropertyName());
+				.arg(info.propertyName());
 		}
 		body.invoke(customViewBindingFieldWithoutThis, "mapBindingAttributes").arg(mappingsParam);
 	}

@@ -15,6 +15,7 @@ import org.robobinding.widget.menuitem.MenuItemBinding;
 import org.robobinding.widget.radiogroup.RadioGroupBinding;
 import org.robobinding.widget.ratingbar.RatingBarBinding;
 import org.robobinding.widget.seekbar.SeekBarBinding;
+import org.robobinding.widget.textview.TextViewBinding;
 import org.robobinding.widget.view.ViewBindingForView;
 import org.robobinding.widget.viewanimator.ViewAnimatorBinding;
 import org.robobinding.widgetaddon.DefaultViewAddOnFactory;
@@ -41,6 +42,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 /**
@@ -85,6 +87,7 @@ public class BinderFactoryBuilder {
 		ViewBindingMap builder = new ViewBindingMap();
 
 		builder.put(View.class, new ViewBindingForView());
+		builder.put(TextView.class, new TextViewBinding());
 		builder.put(EditText.class, new EditTextBinding());
 		builder.put(AdapterView.class, (ViewBinding) new AdapterViewBinding());
 		builder.put(CompoundButton.class, new CompoundButtonBinding());

@@ -1,32 +1,26 @@
 package org.robobinding.codegen.presentationmodel.processor;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.DeclaredType;
-import javax.lang.model.util.Elements;
 
 import org.robobinding.annotation.PresentationModel;
 import org.robobinding.binder.PresentationModelObjectLoader;
 import org.robobinding.codegen.SourceCodeWriter;
+import org.robobinding.codegen.apt.Logger;
+import org.robobinding.codegen.apt.ProcessingContext;
+import org.robobinding.codegen.apt.RoundContext;
+import org.robobinding.codegen.apt.element.WrappedTypeElement;
 import org.robobinding.codegen.presentationmodel.AbstractPresentationModelObjectClassGen;
 import org.robobinding.codegen.presentationmodel.DataSetPropertyInfo;
 import org.robobinding.codegen.presentationmodel.ItemPresentationModelObjectClassGen;
 import org.robobinding.codegen.presentationmodel.PresentationModelInfo;
 import org.robobinding.codegen.presentationmodel.PresentationModelObjectClassGen;
-import org.robobinding.codegen.typewrapper.AbstractTypeElementWrapper;
-import org.robobinding.codegen.typewrapper.DeclaredTypeElementWrapper;
-import org.robobinding.codegen.typewrapper.Logger;
-import org.robobinding.codegen.typewrapper.ProcessingContext;
-import org.robobinding.codegen.typewrapper.TypesWrapper;
-import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
 import com.google.common.collect.Sets;
 import com.sun.codemodel.CodeWriter;
@@ -51,16 +45,20 @@ public class PresentationModelProcessor extends AbstractProcessor {
 	
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		Elements elements = processingEnv.getElementUtils();
-		TypesWrapper types = new TypesWrapper(processingEnv.getTypeUtils(), elements);
-		ProcessingContext context = new ProcessingContext(types, elements, processingEnv.getMessager());
-		Set<AbstractTypeElementWrapper> typeElements = findPresentationModelTypeElements(roundEnv, context, types);
-		for(AbstractTypeElementWrapper typeElement : typeElements) {
+		RoundContext roundContext = new RoundContext(roundEnv, processingEnv.getTypeUtils(), 
+				processingEnv.getElementUtils(), processingEnv.getMessager());
+		Set<WrappedTypeElement> typeElements = roundContext.typeElementsAnnotatedWith(PresentationModel.class, 
+				new PresentationModelFilter());
+		
+		for(WrappedTypeElement typeElement : typeElements) {
+			String presentationModelObjectTypeName = typeElement.qName() + PRESENTATION_MODEL_OBJECT_SUFFIX;
 			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(typeElement, 
-					typeElement.typeName() + PRESENTATION_MODEL_OBJECT_SUFFIX, true);
+					presentationModelObjectTypeName, true);
 			PresentationModelInfo presentationModelInfo = builder.build();
 			
-			Logger log = context.loggerFor(typeElement);
+			Logger log = typeElement.logger();
+			ProcessingContext context = new ProcessingContext(processingEnv.getTypeUtils(), processingEnv.getElementUtils(),
+					processingEnv.getMessager());
 			try {
 				generateClasses(presentationModelInfo, context, log);
 			} catch (IOException e) {
@@ -77,32 +75,6 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		return true;
 	}
 
-	private Set<AbstractTypeElementWrapper> findPresentationModelTypeElements(RoundEnvironment env, 
-			ProcessingContext context, TypesWrapper types) {
-	    Set<AbstractTypeElementWrapper> typeElements = Sets.newHashSet();
-	    for (Element element : env.getElementsAnnotatedWith(PresentationModel.class)) {
-	    	AbstractTypeElementWrapper typeElement = new DeclaredTypeElementWrapper(context, types, 
-	    			(TypeElement)element, (DeclaredType)element.asType());
-	        
-	    	checkIsConcreteClass(typeElement);
-	    	
-	    	if(isNotItemPresentationModel(typeElement)) {
-	            typeElements.add(typeElement);
-	    	}
-	    }
-	    return typeElements;
-	  }
-
-	private void checkIsConcreteClass(AbstractTypeElementWrapper typeElement) {
-		if(typeElement.isNotConcreteClass()){
-			throw new RuntimeException(MessageFormat.format("@{0} can only be used to annotate a concrete PresentationModel, '{1}' is not.", 
-					PresentationModel.class.getName(), typeElement.typeName()));
-		}
-	}
-
-	private boolean isNotItemPresentationModel(AbstractTypeElementWrapper typeElement) {
-		return !typeElement.isAssignableTo(ItemPresentationModel.class);
-	}
 
 	protected void generateClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context,
 			Logger log) throws IOException, JClassAlreadyExistsException, ClassNotFoundException {
@@ -117,12 +89,12 @@ public class PresentationModelProcessor extends AbstractProcessor {
 				continue;
 			}
 			
-			AbstractTypeElementWrapper typeElement = context.declaredTypeElementOf(info.itemPresentationModelTypeName());
+			WrappedTypeElement typeElement = context.typeElementOf(info.itemPresentationModelTypeName());
 			
 			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(
 					typeElement, info.itemPresentationModelObjectTypeName(), false);
 			PresentationModelInfo itemPresentationModelInfo = builder.build();
-			Logger log = context.loggerFor(typeElement);
+			Logger log = typeElement.logger();
 			try {
 				ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(itemPresentationModelInfo);
 				run(gen);

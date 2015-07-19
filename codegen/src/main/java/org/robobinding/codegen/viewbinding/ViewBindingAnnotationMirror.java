@@ -2,7 +2,7 @@ package org.robobinding.codegen.viewbinding;
 
 import java.util.List;
 
-import org.robobinding.codegen.typewrapper.AnnotationMirrorWrapper;
+import org.robobinding.codegen.apt.element.WrappedAnnotationMirror;
 
 import com.google.common.collect.Lists;
 
@@ -12,9 +12,9 @@ import com.google.common.collect.Lists;
  *
  */
 public class ViewBindingAnnotationMirror {
-	private final AnnotationMirrorWrapper annotationMirror;
+	private final WrappedAnnotationMirror annotationMirror;
 	
-	public ViewBindingAnnotationMirror(AnnotationMirrorWrapper annotationMirror) {
+	public ViewBindingAnnotationMirror(WrappedAnnotationMirror annotationMirror) {
 		this.annotationMirror = annotationMirror;
 	}
 	

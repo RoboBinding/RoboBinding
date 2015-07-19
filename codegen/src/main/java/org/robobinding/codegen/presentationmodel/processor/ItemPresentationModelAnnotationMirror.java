@@ -1,6 +1,6 @@
 package org.robobinding.codegen.presentationmodel.processor;
 
-import org.robobinding.codegen.typewrapper.AnnotationMirrorWrapper;
+import org.robobinding.codegen.apt.element.WrappedAnnotationMirror;
 
 
 /**
@@ -9,13 +9,13 @@ import org.robobinding.codegen.typewrapper.AnnotationMirrorWrapper;
  *
  */
 public class ItemPresentationModelAnnotationMirror {
-	private final AnnotationMirrorWrapper annotationMirror;
-	public ItemPresentationModelAnnotationMirror(AnnotationMirrorWrapper annotationMirror) {
+	private final WrappedAnnotationMirror annotationMirror;
+	public ItemPresentationModelAnnotationMirror(WrappedAnnotationMirror annotationMirror) {
 		this.annotationMirror = annotationMirror;
 	}
 	
 	public String itemPresentationModelTypeName() {
-		return annotationMirror.annotationValueAsType("value").typeName();
+		return annotationMirror.annotationValueAsType("value").className();
 	}
 	
 	public boolean hasFactoryMethod() {

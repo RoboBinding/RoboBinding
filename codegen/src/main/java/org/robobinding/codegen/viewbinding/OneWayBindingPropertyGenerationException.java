@@ -3,6 +3,8 @@ package org.robobinding.codegen.viewbinding;
 import java.text.MessageFormat;
 import java.util.Collection;
 
+import org.robobinding.codegen.apt.element.WrappedTypeElement;
+
 import com.google.common.base.Joiner;
 
 /**
@@ -18,16 +20,16 @@ public class OneWayBindingPropertyGenerationException extends RuntimeException {
 		super(message);
 	}
 	
-	public static OneWayBindingPropertyGenerationException noSetterFound(Class<?> viewClass, String propertyName) {
+	public static OneWayBindingPropertyGenerationException noSettersFound(WrappedTypeElement viewType, Collection<String> properties) {
 		return new OneWayBindingPropertyGenerationException(
-				MessageFormat.format("No public accessible unique setter ''{0}.{1}()'' with a single parameter found", 
-						viewClass.getName(), PropertyUtils.setterNameOf(propertyName)));
+				MessageFormat.format("No public accessible setters with a single parameter found for properties: ''{0}.{1}''", 
+						viewType.qName(), Joiner.on("/").join(properties)));
 	}
 	
-	public static OneWayBindingPropertyGenerationException setterWithDifferentParameterTypes(Class<?> viewClass, 
+	public static OneWayBindingPropertyGenerationException setterWithDifferentParameterTypes(WrappedTypeElement viewType, 
 			Collection<String> propertyNames) {
 		return new OneWayBindingPropertyGenerationException(
 				MessageFormat.format("The properties ''{0}.{1}'' have multiple setters with different parameter types, which cannot be auto-generated", 
-						viewClass.getName(), Joiner.on("/").join(propertyNames)));
+						viewType.qName(), Joiner.on("/").join(propertyNames)));
 	}
 }

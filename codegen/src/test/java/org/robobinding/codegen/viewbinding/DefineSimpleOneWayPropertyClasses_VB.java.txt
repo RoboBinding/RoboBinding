@@ -2,6 +2,7 @@
 package org.robobinding.codegen.viewbinding;
 
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 importorg.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 import org.robobinding.viewbinding.ViewBinding;
 
@@ -13,9 +14,9 @@ public class DefineSimpleOneWayPropertyClasses_VB implements ViewBinding<ImageVi
 		}
 	}
 
-	public static class ScaleTypeAttribute implements OneWayPropertyViewAttribute<ImageView, ImageView.ScaleType> {
+	public static class ScaleTypeAttribute implements OneWayPropertyViewAttribute<ImageView, ScaleType> {
 		@Override
-		public void updateView(ImageView view, ImageView.ScaleType newValue) {
+		public void updateView(ImageView view, ScaleType newValue) {
 			view.setScaleType(newValue);
 		}
 	}

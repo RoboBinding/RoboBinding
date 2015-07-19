@@ -1,7 +1,9 @@
 package org.robobinding.codegen.presentationmodel.processor;
 
+import org.robobinding.codegen.apt.element.MethodElement;
+import org.robobinding.codegen.apt.type.WrappedPrimitiveType;
+import org.robobinding.codegen.apt.type.WrappedTypeMirror;
 import org.robobinding.codegen.presentationmodel.EventMethodInfo;
-import org.robobinding.codegen.typewrapper.MethodElementWrapper;
 
 
 
@@ -12,8 +14,8 @@ import org.robobinding.codegen.typewrapper.MethodElementWrapper;
  *
  */
 public class EventMethodInfoImpl implements EventMethodInfo {
-	private final MethodElementWrapper method;
-	public EventMethodInfoImpl(MethodElementWrapper method) {
+	private final MethodElement method;
+	public EventMethodInfoImpl(MethodElement method) {
 		this.method = method;
 	}
 	
@@ -26,7 +28,7 @@ public class EventMethodInfoImpl implements EventMethodInfo {
 	}
 	
 	public String eventArgType() {
-		return method.firstParameterType().typeName();
+		return method.firstParameterType().className();
 	}
 	
 	public boolean hasReturn() {
@@ -35,6 +37,11 @@ public class EventMethodInfoImpl implements EventMethodInfo {
 	
 	@Override
 	public String nonPrimitiveReturnType() {
-		return method.getReturnType().nonPrimitiveTypeName();
+		WrappedTypeMirror type = method.returnType();
+		if (type.isPrimitive()) {
+			return ((WrappedPrimitiveType)type).boxedClassName();
+		} else {
+			return type.className();
+		}
 	}
 }

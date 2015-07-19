@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.robobinding.codegen.typewrapper.AnnotationMirrorWrapper;
+import org.robobinding.codegen.apt.element.WrappedAnnotationMirror;
 
 import com.google.common.collect.Sets;
 
@@ -14,9 +14,9 @@ import com.google.common.collect.Sets;
  *
  */
 public class DependsOnStateOfAnnotationMirror {
-	private final AnnotationMirrorWrapper annotationMirror;
+	private final WrappedAnnotationMirror annotationMirror;
 	
-	public DependsOnStateOfAnnotationMirror(AnnotationMirrorWrapper annotationMirror) {
+	public DependsOnStateOfAnnotationMirror(WrappedAnnotationMirror annotationMirror) {
 		this.annotationMirror = annotationMirror;
 	}
 	

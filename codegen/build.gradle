@@ -45,10 +45,12 @@ dependencies {
 		exclude group: 'org.hamcrest', module: 'hamcrest-core'
 	}
 	testCompile 'com.google.testing.compile:compile-testing:0.5'
+	/*
 	testCompile("org.mockito:mockito-core:$mockitoVersion") {
 		exclude group: 'org.hamcrest', module: 'hamcrest-core'
-	}
+	}*/
 	testCompile 'commons-io:commons-io:2.4'
+	testCompile 'org.jmock:jmock-legacy:2.8.1'
 }
 
 task proguardJarWithDependencies(type: proguard.gradle.ProGuardTask, dependsOn: jar) {
