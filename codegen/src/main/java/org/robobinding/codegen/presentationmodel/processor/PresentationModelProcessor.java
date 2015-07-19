@@ -92,7 +92,7 @@ public class PresentationModelProcessor extends AbstractProcessor {
 			WrappedTypeElement typeElement = context.typeElementOf(info.itemPresentationModelTypeName());
 			
 			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(
-					typeElement, info.itemPresentationModelObjectTypeName(), false);
+					typeElement, info.itemPresentationModelObjectTypeName(), true);
 			PresentationModelInfo itemPresentationModelInfo = builder.build();
 			Logger log = typeElement.logger();
 			try {
