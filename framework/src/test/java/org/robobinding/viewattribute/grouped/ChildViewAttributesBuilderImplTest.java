@@ -16,10 +16,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ResolvedGroupAttributes;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFactory;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
-import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttributeFactory;
 
 import android.view.View;
 
@@ -38,21 +38,20 @@ public class ChildViewAttributesBuilderImplTest {
 	@Mock
 	private ChildViewAttribute childViewAttribute;
 	@Mock
-	private PropertyViewAttribute<View, ?> propertyViewAttribute;
+	private OneWayPropertyViewAttribute<View, ?> propertyViewAttribute;
 	@Mock
 	private ChildViewAttributeFactory childViewAttributeFactory;
 	@Mock
-	private PropertyViewAttributeFactory<View> propertyViewAttributeFactory;
+	private OneWayPropertyViewAttributeFactory<View> propertyViewAttributeFactory;
 	@Mock
-	private MultiTypePropertyViewAttribute<View> multiTypePropertyViewAttribute;
+	private OneWayMultiTypePropertyViewAttribute<View> multiTypePropertyViewAttribute;
 	@Mock
-	private MultiTypePropertyViewAttributeFactory<View> multiTypePropertyViewAttributeFactory;
+	private OneWayMultiTypePropertyViewAttributeFactory<View> multiTypePropertyViewAttributeFactory;
 
 	@Before
 	public void setUp() {
 		ResolvedGroupAttributes resolvedGroupAttributes = mock(ResolvedGroupAttributes.class);
-		@SuppressWarnings("unchecked")
-		ViewAttributeBinderFactory<View> viewAttributeBinderFactory = mock(ViewAttributeBinderFactory.class);
+		ViewAttributeBinderFactory viewAttributeBinderFactory = mock(ViewAttributeBinderFactory.class);
 		childViewAttributesBuilder = new ChildViewAttributesBuilderImpl<View>(resolvedGroupAttributes, viewAttributeBinderFactory);
 	}
 

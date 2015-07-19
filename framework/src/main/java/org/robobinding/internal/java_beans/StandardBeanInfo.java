@@ -631,14 +631,18 @@ class StandardBeanInfo extends SimpleBeanInfo {
 			return;
 		}
 		String propertyName;
-		Class returnType;
 		Class[] paramTypes;
 
 		// setter method should never return type other than void
+		/**
+		 * Comment out by Cheng
+		 */
+		/*
+		Class returnType;
 		returnType = theMethod.getReturnType();
 		if (returnType != void.class) {
 			return;
-		}
+		}*/
 
 		if (methodName == null || !methodName.startsWith(PREFIX_SET)) {
 			return;

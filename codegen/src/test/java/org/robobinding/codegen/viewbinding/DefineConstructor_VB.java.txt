@@ -1,0 +1,13 @@
+-----------------------------------org.robobinding.codegen.viewbinding.DefineConstructor_VB.java-----------------------------------
+package org.robobinding.codegen.viewbinding;
+
+import android.widget.ImageView;
+import org.robobinding.viewbinding.ViewBinding;
+
+public class DefineConstructor_VB implements ViewBinding<ImageView> {
+	final DefineConstructor customViewBinding;
+	
+	public DefineConstructor_VB(DefineConstructor customViewBinding) {
+		this.customViewBinding = customViewBinding;
+	}
+}

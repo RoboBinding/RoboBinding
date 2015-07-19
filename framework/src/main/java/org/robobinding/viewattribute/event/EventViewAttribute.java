@@ -1,6 +1,7 @@
 package org.robobinding.viewattribute.event;
 
 import org.robobinding.attribute.Command;
+import org.robobinding.widgetaddon.ViewAddOn;
 
 /**
  * 
@@ -8,8 +9,8 @@ import org.robobinding.attribute.Command;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface EventViewAttribute<ViewType> {
-	void bind(ViewType view, Command command);
+public interface EventViewAttribute<ViewType, ViewAddOnType extends ViewAddOn> {
+	void bind(ViewAddOnType viewAddOn, Command command, ViewType view);
 
 	Class<?> getEventType();
 }

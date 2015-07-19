@@ -2,7 +2,6 @@ package org.robobinding.widget.view;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.ViewListenersAware;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -17,16 +16,11 @@ import android.view.View;
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractViewEventAttributeTest {
 	protected View view;
-	protected MockViewListenersForView viewListeners;
+	protected MockViewAddOnForView viewAddOn;
 
 	@Before
 	public void initializeViewAndListeners() {
 		view = new View(Robolectric.application);
-		viewListeners = new MockViewListenersForView(view);
-	}
-
-	public <T extends ViewListenersAware<ViewListenersForView>> T withListenersSet(T attribute) {
-		attribute.setViewListeners(viewListeners);
-		return attribute;
+		viewAddOn = new MockViewAddOnForView(view);
 	}
 }

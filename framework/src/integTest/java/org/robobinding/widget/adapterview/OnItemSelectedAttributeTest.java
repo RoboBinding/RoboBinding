@@ -29,7 +29,7 @@ public class OnItemSelectedAttributeTest extends AbstractAdapterViewAttributeTes
 
 	@Before
 	public void setUp() {
-		attribute = withListenersSet(new OnItemSelectedAttribute());
+		attribute = new OnItemSelectedAttribute();
 		eventCommand = new EventCommand();
 
 		adapter = new MockArrayAdapter(Robolectric.application);
@@ -46,18 +46,22 @@ public class OnItemSelectedAttributeTest extends AbstractAdapterViewAttributeTes
 	@Ignore
 	@Test
 	public void givenBoundAttribute_whenSelectingAnItem_thenEventReceived() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		selectAnItem();
 
 		assertEventReceived();
 	}
 
+	private void bindAttribute() {
+		attribute.bind(viewAddOn, eventCommand, view);
+	}
+
 	@Test
 	public void whenBinding_thenRegisterWithMulticastListener() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
-		assertTrue(viewListeners.addOnItemSelectedListenerInvoked);
+		assertTrue(viewAddOn.addOnItemSelectedListenerInvoked);
 	}
 
 	private void selectAnItem() {
@@ -82,7 +86,7 @@ public class OnItemSelectedAttributeTest extends AbstractAdapterViewAttributeTes
 	@Ignore
 	@Test
 	public void whenAllItemsAreRemovedFromAdapter_thenInvokeCommandPassingClickEventWithPositionAsInvalidPosition() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		adapter.clear();
 
@@ -97,7 +101,7 @@ public class OnItemSelectedAttributeTest extends AbstractAdapterViewAttributeTes
 	@Ignore
 	@Test
 	public void whenAdapterDataSetIsChanged_andSelectedItemPositionHasNotChanged_thenInvokeEvent() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		adapter.notifyDataSetChanged();
 
@@ -112,7 +116,7 @@ public class OnItemSelectedAttributeTest extends AbstractAdapterViewAttributeTes
 	@Ignore
 	@Test
 	public void whenAdapterDataSetIsChanged_andSelectedItemPositionHasChanged_thenOnlyInvokeEventOnce() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		selectLastItem();
 		adapter.removeLastItem();

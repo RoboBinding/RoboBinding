@@ -8,8 +8,7 @@ import static org.robobinding.util.RandomValues.nextInt;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.property.ValueModelUtils;
-import org.robobinding.widget.adapterview.AbstractAdapterViewAttributeTest;
+import org.robobinding.viewattribute.ValueModelUtils;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 
@@ -23,11 +22,14 @@ import android.widget.ListView;
  * @author Robert Taylor
  */
 @Config(manifest = Config.NONE)
-public class CheckedItemPositionAttributeTest extends AbstractAdapterViewAttributeTest {
+public class CheckedItemPositionAttributeTest extends AbstractAbsListViewAttributeTest {
+	private CheckedItemPositionAttribute attribute;
 	private int checkedItemPosition;
 
 	@Before
-	public void setUpAdapter() {
+	public void setUp() {
+		attribute = new CheckedItemPositionAttribute();
+
 		ListAdapter adapter = new SingleChoiceAdapter(Robolectric.application);
 		view.setAdapter(adapter);
 		view.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -37,17 +39,15 @@ public class CheckedItemPositionAttributeTest extends AbstractAdapterViewAttribu
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
-		CheckedItemPositionAttribute attribute = new CheckedItemPositionAttribute();
-		attribute.updateView(view, checkedItemPosition);
+		attribute.updateView(view, checkedItemPosition, viewAddOn);
 
 		assertThat(view.getCheckedItemPosition(), equalTo(checkedItemPosition));
 	}
 
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-		CheckedItemPositionAttribute attribute = withListenersSet(new CheckedItemPositionAttribute());
 		ValueModel<Integer> valueModel = ValueModelUtils.create();
-		attribute.observeChangesOnTheView(view, valueModel);
+		attribute.observeChangesOnTheView(viewAddOn, valueModel, view);
 
 		setItemChecked();
 
@@ -60,9 +60,8 @@ public class CheckedItemPositionAttributeTest extends AbstractAdapterViewAttribu
 
 	@Test
 	public void whenObserveChangesOnTheView_thenRegisterWithMulticastListener() {
-		CheckedItemPositionAttribute attribute = withListenersSet(new CheckedItemPositionAttribute());
-		attribute.observeChangesOnTheView(view, null);
+		attribute.observeChangesOnTheView(viewAddOn, null, view);
 
-		assertTrue(viewListeners.addOnItemClickListenerInvoked);
+		assertTrue(viewAddOn.addOnItemClickListenerInvoked);
 	}
 }

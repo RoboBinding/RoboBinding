@@ -1,8 +1,8 @@
 package org.robobinding.widget.radiogroup;
 
 import org.robobinding.attribute.Command;
-import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.widgetaddon.radiogroup.RadioGroupAddOn;
 
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -13,12 +13,10 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnCheckedChangeAttribute implements EventViewAttribute<RadioGroup>, ViewListenersAware<RadioGroupListeners> {
-	private RadioGroupListeners radioGroupListeners;
-
+public class OnCheckedChangeAttribute implements EventViewAttribute<RadioGroup, RadioGroupAddOn> {
 	@Override
-	public void bind(RadioGroup view, final Command command) {
-		radioGroupListeners.addOnCheckedChangeListener(new OnCheckedChangeListener() {
+	public void bind(RadioGroupAddOn viewAddOn, final Command command, RadioGroup view) {
+		viewAddOn.addOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -31,10 +29,5 @@ public class OnCheckedChangeAttribute implements EventViewAttribute<RadioGroup>,
 	@Override
 	public Class<CheckedChangeEvent> getEventType() {
 		return CheckedChangeEvent.class;
-	}
-
-	@Override
-	public void setViewListeners(RadioGroupListeners viewListeners) {
-		this.radioGroupListeners = viewListeners;
 	}
 }

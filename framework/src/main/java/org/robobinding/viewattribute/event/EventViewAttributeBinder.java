@@ -6,6 +6,7 @@ import org.robobinding.attribute.EventAttribute;
 import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.ViewAttributeBinder;
+import org.robobinding.widgetaddon.ViewAddOn;
 
 /**
  * 
@@ -14,13 +15,16 @@ import org.robobinding.viewattribute.ViewAttributeBinder;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class EventViewAttributeBinder<ViewType> implements ViewAttributeBinder {
-	private final ViewType view;
-	private final EventViewAttribute<ViewType> viewAttribute;
+public class EventViewAttributeBinder implements ViewAttributeBinder {
+	private final Object view;
+	private final ViewAddOn viewAddOn;
+	private final EventViewAttribute<Object, ViewAddOn> viewAttribute;
 	private final EventAttribute attribute;
 
-	public EventViewAttributeBinder(ViewType view, EventViewAttribute<ViewType> viewAttribute, EventAttribute attribute) {
+	public EventViewAttributeBinder(Object view, ViewAddOn viewAddOn, 
+			EventViewAttribute<Object, ViewAddOn> viewAttribute, EventAttribute attribute) {
 		this.view = view;
+		this.viewAddOn = viewAddOn;
 		this.viewAttribute = viewAttribute;
 		this.attribute = attribute;
 	}
@@ -37,9 +41,9 @@ public class EventViewAttributeBinder<ViewType> implements ViewAttributeBinder {
 	void performBind(PresentationModelAdapter presentationModelAdapter) {
 		Command command = attribute.findCommand(presentationModelAdapter, viewAttribute.getEventType());
 		if (command != null) {
-			viewAttribute.bind(view, command);
+			viewAttribute.bind(viewAddOn, command, view);
 		} else {
-			viewAttribute.bind(view, getNoArgsCommand(presentationModelAdapter));
+			viewAttribute.bind(viewAddOn, getNoArgsCommand(presentationModelAdapter), view);
 		}
 	}
 

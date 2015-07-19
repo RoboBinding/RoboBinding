@@ -11,14 +11,21 @@ import org.robobinding.property.ValueModel;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OneWayBindingProperty<ViewType, PropertyType> extends AbstractBindingProperty<ViewType, PropertyType> {
-	public OneWayBindingProperty(ViewType view, PropertyViewAttribute<ViewType, PropertyType> viewAttribute, ValueModelAttribute attribute) {
-		super(view, viewAttribute, attribute);
+public class OneWayBindingProperty extends AbstractBindingProperty {
+	private final OneWayPropertyViewAttribute<Object, Object> viewAttribute;
+	
+	@SuppressWarnings("unchecked")
+	public OneWayBindingProperty(Object view, 
+			OneWayPropertyViewAttribute<?, ?> viewAttribute, 
+			ValueModelAttribute attribute) {
+		super(view, attribute, isAlwaysPreInitializingView(viewAttribute));
+		
+		this.viewAttribute = (OneWayPropertyViewAttribute<Object, Object>)viewAttribute;
 	}
 
 	@Override
 	public void performBind(PresentationModelAdapter presentationModelAdapter) {
-		final ValueModel<PropertyType> valueModel = getPropertyValueModel(presentationModelAdapter);
+		final ValueModel<Object> valueModel = getPropertyValueModel(presentationModelAdapter);
 		PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
 			@Override
 			public void propertyChanged() {
@@ -30,7 +37,12 @@ public class OneWayBindingProperty<ViewType, PropertyType> extends AbstractBindi
 	}
 
 	@Override
-	public ValueModel<PropertyType> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter) {
+	public ValueModel<Object> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter) {
 		return presentationModelAdapter.getReadOnlyPropertyValueModel(attribute.getPropertyName());
+	}
+
+	@Override
+	protected void updateView(ValueModel<Object> valueModel) {
+		viewAttribute.updateView(view, valueModel.getValue());
 	}
 }

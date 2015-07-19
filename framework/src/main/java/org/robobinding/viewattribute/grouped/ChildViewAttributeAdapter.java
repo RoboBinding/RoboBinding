@@ -2,11 +2,10 @@ package org.robobinding.viewattribute.grouped;
 
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.AbstractBindingProperty;
+import org.robobinding.viewattribute.property.OneWayBindingProperty;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
-import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
-
-import android.view.View;
 
 /**
  * 
@@ -14,12 +13,12 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class ChildViewAttributeAdapter<T extends View> implements ChildViewAttribute {
-	private PropertyViewAttributeBinder<T, ?> viewAttributeBinder;
+public class ChildViewAttributeAdapter implements ChildViewAttribute {
+	private PropertyViewAttributeBinder viewAttributeBinder;
 
-	public ChildViewAttributeAdapter(T view, PropertyViewAttribute<T, ?> viewAttribute, ValueModelAttribute attribute) {
-		PropertyViewAttributeBinderFactory<T> viewAttributeBinderFactory = new PropertyViewAttributeBinderFactory<T>(view);
-		viewAttributeBinder = viewAttributeBinderFactory.create(viewAttribute, attribute);
+	public ChildViewAttributeAdapter(Object view, OneWayPropertyViewAttribute<?, ?> viewAttribute, ValueModelAttribute attribute) {
+		AbstractBindingProperty bindingProperty = new OneWayBindingProperty(view, viewAttribute, attribute);
+		viewAttributeBinder = new PropertyViewAttributeBinder(bindingProperty, attribute.getName());
 	}
 
 	@Override

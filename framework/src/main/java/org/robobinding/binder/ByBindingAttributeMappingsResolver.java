@@ -9,11 +9,14 @@ import org.robobinding.PendingAttributesForView.AttributeGroupResolver;
 import org.robobinding.PendingAttributesForView.AttributeResolver;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 import org.robobinding.viewattribute.event.EventViewAttributeBinder;
+import org.robobinding.viewattribute.event.EventViewAttributeBinderFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinder;
-import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
-import org.robobinding.viewattribute.impl.InitailizedBindingAttributeMappings;
+import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinderFactory;
+import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinderFactory;
+import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
+import org.robobinding.viewbinding.InitailizedBindingAttributeMappings;
 
 import com.google.common.collect.Lists;
 
@@ -24,8 +27,7 @@ import com.google.common.collect.Lists;
  * @author Cheng Wei
  */
 public class ByBindingAttributeMappingsResolver {
-	private final InitailizedBindingAttributeMappings<Object> bindingAttributeMappings;
-	private final ViewAttributeBinderFactory<Object> viewAttributeBinderFactory;
+	private final InitailizedBindingAttributeMappings bindingAttributeMappings;
 
 	private final PropertyViewAttributeResolver propertyViewAttributeResolver;
 	private final MultiTypePropertyViewAttributeResolver multiTypePropertyViewAttributeResolver;
@@ -34,10 +36,8 @@ public class ByBindingAttributeMappingsResolver {
 
 	private List<ViewAttributeBinder> resolvedViewAttributes;
 
-	public ByBindingAttributeMappingsResolver(InitailizedBindingAttributeMappings<Object> bindingAttributeMappings,
-			ViewAttributeBinderFactory<Object> viewAttributeBinderFactory) {
+	public ByBindingAttributeMappingsResolver(InitailizedBindingAttributeMappings bindingAttributeMappings) {
 		this.bindingAttributeMappings = bindingAttributeMappings;
-		this.viewAttributeBinderFactory = viewAttributeBinderFactory;
 
 		this.propertyViewAttributeResolver = new PropertyViewAttributeResolver();
 		this.multiTypePropertyViewAttributeResolver = new MultiTypePropertyViewAttributeResolver();
@@ -53,7 +53,9 @@ public class ByBindingAttributeMappingsResolver {
 		resolveCommandViewAttributes(pendingAttributesForView);
 		resolveGroupedViewAttributes(pendingAttributesForView);
 
-		return resolvedViewAttributes;
+		List<ViewAttributeBinder> temp = resolvedViewAttributes;
+		resolvedViewAttributes = null;
+		return temp;
 	}
 
 	private void resolvePropertyViewAttributes(PendingAttributesForView pendingAttributesForView) {
@@ -83,8 +85,8 @@ public class ByBindingAttributeMappingsResolver {
 	private class PropertyViewAttributeResolver implements AttributeResolver {
 		@Override
 		public void resolve(Object view, String attribute, String attributeValue) {
-			PropertyViewAttributeBinder<Object, ?> viewAttributeBinder = viewAttributeBinderFactory.createPropertyViewAttributeBinder(
-					bindingAttributeMappings.getPropertyViewAttributeFactory(attribute), attribute, attributeValue);
+			PropertyViewAttributeBinderFactory factory = bindingAttributeMappings.getPropertyViewAttributeFactory(attribute);
+			PropertyViewAttributeBinder viewAttributeBinder = factory.create(view, attribute, attributeValue);
 			resolvedViewAttributes.add(viewAttributeBinder);
 		}
 	}
@@ -92,8 +94,8 @@ public class ByBindingAttributeMappingsResolver {
 	private class MultiTypePropertyViewAttributeResolver implements AttributeResolver {
 		@Override
 		public void resolve(Object view, String attribute, String attributeValue) {
-			MultiTypePropertyViewAttributeBinder<Object> viewAttributeBinder = viewAttributeBinderFactory.createMultiTypePropertyViewAttributeBinder(
-					bindingAttributeMappings.getMultiTypePropertyViewAttributeFactory(attribute), attribute, attributeValue);
+			MultiTypePropertyViewAttributeBinderFactory factory = bindingAttributeMappings.getMultiTypePropertyViewAttributeFactory(attribute);
+			MultiTypePropertyViewAttributeBinder viewAttributeBinder = factory.create(view, attribute, attributeValue);
 			resolvedViewAttributes.add(viewAttributeBinder);
 		}
 	}
@@ -101,8 +103,8 @@ public class ByBindingAttributeMappingsResolver {
 	private class EventViewAttributeResolver implements AttributeResolver {
 		@Override
 		public void resolve(Object view, String attribute, String attributeValue) {
-			EventViewAttributeBinder<Object> viewAttributeBinder = viewAttributeBinderFactory.createEventViewAttributeBinder(
-					bindingAttributeMappings.getEventViewAttributeFactory(attribute), attribute, attributeValue);
+			EventViewAttributeBinderFactory factory = bindingAttributeMappings.getEventViewAttributeFactory(attribute);
+			EventViewAttributeBinder viewAttributeBinder = factory.create(view, attribute, attributeValue);
 			resolvedViewAttributes.add(viewAttributeBinder);
 		}
 	}
@@ -110,8 +112,8 @@ public class ByBindingAttributeMappingsResolver {
 	private class GroupedViewAttributeResolver implements AttributeGroupResolver {
 		@Override
 		public void resolve(Object view, String[] attributeGroup, Map<String, String> presentAttributeMappings) {
-			GroupedViewAttributeBinder<Object> groupedViewAttribute = viewAttributeBinderFactory.createGroupedViewAttributeBinder(
-					bindingAttributeMappings.getGroupedViewAttributeFactory(attributeGroup), attributeGroup, presentAttributeMappings);
+			GroupedViewAttributeBinderFactory factory = bindingAttributeMappings.getGroupedViewAttributeFactory(attributeGroup);
+			GroupedViewAttributeBinder groupedViewAttribute = factory.create(view, presentAttributeMappings);
 			resolvedViewAttributes.add(groupedViewAttribute);
 		}
 	}

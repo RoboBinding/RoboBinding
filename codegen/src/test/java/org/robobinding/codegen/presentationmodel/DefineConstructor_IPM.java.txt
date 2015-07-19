@@ -1,0 +1,14 @@
+-----------------------------------org.robobinding.codegen.presentationmodel.DefineConstructor_IPM.java-----------------------------------
+package org.robobinding.codegen.presentationmodel;
+
+import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
+
+public class DefineConstructor_IPM extends AbstractItemPresentationModelObject {
+	final DefineConstructor itemPresentationModel;
+	
+	public DefineConstructor_IPM(DefineConstructor itemPresentationModel) {
+		super(itemPresentationModel);
+		
+		this.itemPresentationModel = itemPresentationModel;
+	}
+}

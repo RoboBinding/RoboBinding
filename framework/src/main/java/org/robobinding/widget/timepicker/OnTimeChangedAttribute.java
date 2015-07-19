@@ -1,10 +1,10 @@
 package org.robobinding.widget.timepicker;
 
-import android.widget.TimePicker;
-
 import org.robobinding.attribute.Command;
-import org.robobinding.viewattribute.ViewListenersAware;
 import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.widgetaddon.timepicker.TimePickerAddOn;
+
+import android.widget.TimePicker;
 
 /**
  *
@@ -12,17 +12,10 @@ import org.robobinding.viewattribute.event.EventViewAttribute;
  * @version $Revision: 1.0 $
  * @author Joachim Hill-Grannec
  */
-public class OnTimeChangedAttribute implements EventViewAttribute<TimePicker>, ViewListenersAware<TimePickerListeners> {
-    private TimePickerListeners viewListeners;
-
+public class OnTimeChangedAttribute implements EventViewAttribute<TimePicker, TimePickerAddOn> {
     @Override
-    public void setViewListeners(TimePickerListeners viewListeners) {
-        this.viewListeners = viewListeners;
-    }
-
-    @Override
-    public void bind(final TimePicker view, final Command command) {
-        viewListeners.addOnTimeChangedListener( new TimePicker.OnTimeChangedListener() {
+    public void bind(TimePickerAddOn viewAddOn, final Command command, TimePicker view) {
+    	viewAddOn.addOnTimeChangedListener( new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hourOfDay, int minute) {
                 TimeChangedEvent event = new TimeChangedEvent(timePicker, hourOfDay, minute);
@@ -35,7 +28,4 @@ public class OnTimeChangedAttribute implements EventViewAttribute<TimePicker>, V
     public Class<TimeChangedEvent> getEventType() {
         return TimeChangedEvent.class;
     }
-
-
-
 }

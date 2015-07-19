@@ -1,9 +1,9 @@
 package org.robobinding.widget.timepicker;
 
-import android.widget.TimePicker;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
+import android.widget.TimePicker;
 
 /**
  *
@@ -14,8 +14,9 @@ import org.robobinding.viewattribute.ViewBinding;
 public class TimePickerBinding implements ViewBinding<TimePicker> {
     @Override
     public void mapBindingAttributes(BindingAttributeMappings<TimePicker> mappings) {
-        mappings.mapProperty(TwoWayCurrentMinuteAttribute.class, "currentMinute");
-        mappings.mapProperty(TwoWayCurrentHourAttribute.class, "currentHour");
+        mappings.mapTwoWayProperty(TwoWayCurrentMinuteAttribute.class, "currentMinute");
+        mappings.mapTwoWayProperty(TwoWayCurrentHourAttribute.class, "currentHour");
+        
         mappings.mapEvent(OnTimeChangedAttribute.class, "onTimeChanged");
     }
 

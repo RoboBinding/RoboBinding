@@ -1,6 +1,6 @@
 package org.robobinding.widget.viewanimator;
 
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 
 import android.widget.ViewAnimator;
 
@@ -10,7 +10,7 @@ import android.widget.ViewAnimator;
  * @version $Revision: 1.0 $
  * @author Aurélien Catinon
  */
-public class DisplayedChildAttribute implements PropertyViewAttribute<ViewAnimator, Integer> {
+public class DisplayedChildAttribute implements OneWayPropertyViewAttribute<ViewAnimator, Integer> {
 
 	@Override
 	public void updateView(ViewAnimator view, Integer newValue) {

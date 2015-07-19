@@ -1,10 +1,11 @@
 package org.robobinding.binder;
 
 import org.robobinding.attribute.PropertyAttributeParser;
-import org.robobinding.viewattribute.ViewBinding;
 import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
-import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMap;
-import org.robobinding.viewattribute.impl.BindingAttributeMappingsProviderMapBuilder;
+import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactories;
+import org.robobinding.viewbinding.ViewBinding;
+import org.robobinding.viewbinding.ViewBindingMap;
+import org.robobinding.widgetaddon.ViewAddOnInjector;
 
 import android.view.View;
 
@@ -15,23 +16,23 @@ import android.view.View;
  * @author Cheng Wei
  */
 public class BindingAttributeResolverBuilder {
-	private BindingAttributeMappingsProviderMapBuilder bindingAttributeMappingsProviderMapBuilder;
+	private ViewBindingMap viewBindingMap;
 
 	public BindingAttributeResolverBuilder() {
-		bindingAttributeMappingsProviderMapBuilder = BinderFactoryBuilder.defaultBindingAttributeMappingsProviderMapBuilder();
+		viewBindingMap = BinderFactoryBuilder.defaultViewBindingMap();
 	}
 
 	public <T extends View> BindingAttributeResolverBuilder mapView(Class<T> viewClass, ViewBinding<T> bindingAttributeMapper) {
-		bindingAttributeMappingsProviderMapBuilder.put(viewClass, bindingAttributeMapper);
+		viewBindingMap.put(viewClass, bindingAttributeMapper);
 		return this;
 	}
 
 	public BindingAttributeResolver build() {
-		BindingAttributeMappingsProviderMap providerMap = bindingAttributeMappingsProviderMapBuilder.build();
-		ViewAttributeBinderFactoryProvider viewAttributeBinderFactoryProvider = new ViewAttributeBinderFactoryProvider(new PropertyAttributeParser(),
-				new GroupAttributesResolver(), BinderFactoryBuilder.defaultViewListenersMapBuilder().build());
-		ByBindingAttributeMappingsResolverFinder resolverFinder = new ByBindingAttributeMappingsResolverFinder(providerMap, viewAttributeBinderFactoryProvider);
-		return new BindingAttributeResolver(resolverFinder);
+		ViewAttributeBinderFactories viewAttributeBinderFactories = new ViewAttributeBinderFactories(new PropertyAttributeParser(),
+				new GroupAttributesResolver(), new ViewAddOnInjector(BinderFactoryBuilder.defaultViewAddOnsBuilder().build()));
+		ByBindingAttributeMappingsResolverFinder byBindingAttributeProviderResolverFinder = new ByBindingAttributeMappingsResolverFinder(
+				viewBindingMap.buildInitializedBindingAttributeMappingsProviders(), viewAttributeBinderFactories);
+		return new BindingAttributeResolver(byBindingAttributeProviderResolverFinder);
 	}
 
 }

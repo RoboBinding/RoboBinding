@@ -22,11 +22,13 @@ subprojects {
 	
 	group = 'org.robobinding'
 	//version = $version
-	sourceCompatibility = 1.6
-	targetCompatibility = 1.6
+	compileJava {
+		sourceCompatibility = 1.6
+		targetCompatibility = 1.6
+	}
 	
 	ext {
-		junitVersion = '4.11+'
+		junitVersion = '4.12'
 		mockitoVersion = '1.9.+'
 		commonsLangVersion = '3.+'
 	}

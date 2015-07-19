@@ -1,8 +1,9 @@
 package org.robobinding.widget.edittext;
 
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
+import org.robobinding.widgetaddon.ViewAddOn;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,12 +16,13 @@ import android.widget.EditText;
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Robert Taylor
+ * @author Cheng Wei
  */
-public class TwoWayTextAttribute implements MultiTypePropertyViewAttribute<EditText> {
+public class TwoWayTextAttribute implements TwoWayMultiTypePropertyViewAttribute<EditText> {
 	ValueCommitMode valueCommitMode = ValueCommitMode.ON_CHANGE;
 
 	@Override
-	public TwoWayPropertyViewAttribute<EditText, ?> create(EditText view, Class<?> propertyType) {
+	public TwoWayPropertyViewAttribute<EditText, ?, ?> create(EditText view, Class<?> propertyType) {
 		if (String.class.isAssignableFrom(propertyType)) {
 			return createNewStringAttribute();
 		} else if (CharSequence.class.isAssignableFrom(propertyType)) {
@@ -47,16 +49,16 @@ public class TwoWayTextAttribute implements MultiTypePropertyViewAttribute<EditT
 	}
 
 	private abstract static class AbstractTwoWayCharSequenceTextAttribute<PropertyType extends CharSequence> implements
-			TwoWayPropertyViewAttribute<EditText, PropertyType> {
+			TwoWayPropertyViewAttribute<EditText, ViewAddOn, PropertyType> {
 		private ValueCommitMode valueCommitMode;
 
 		@Override
-		public void updateView(EditText view, PropertyType newValue) {
+		public void updateView(EditText view, PropertyType newValue, ViewAddOn viewAddOn) {
 			view.setText(newValue);
 		}
 
 		@Override
-		public void observeChangesOnTheView(final EditText view, final ValueModel<PropertyType> valueModel) {
+		public void observeChangesOnTheView(ViewAddOn viewAddOn, final ValueModel<PropertyType> valueModel, final EditText view) {
 			if (valueCommitMode == ValueCommitMode.ON_FOCUS_LOST) {
 				view.setOnFocusChangeListener(new OnFocusChangeListener() {
 

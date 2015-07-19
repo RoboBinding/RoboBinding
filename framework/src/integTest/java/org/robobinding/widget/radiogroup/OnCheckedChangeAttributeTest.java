@@ -21,17 +21,21 @@ public class OnCheckedChangeAttributeTest extends AbstractRadioGroupAttributeTes
 
 	@Before
 	public void setUp() {
-		attribute = withListenersSet(new OnCheckedChangeAttribute());
+		attribute = new OnCheckedChangeAttribute();
 		eventCommand = new EventCommand();
 	}
 
 	@Test
 	public void givenBoundAttribute_whenChangeChecked_thenEventReceived() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		changeCheckedId();
 
 		assertEventReceived();
+	}
+
+	private void bindAttribute() {
+		attribute.bind(viewAddOn, eventCommand, view);
 	}
 
 	private void changeCheckedId() {
@@ -44,8 +48,8 @@ public class OnCheckedChangeAttributeTest extends AbstractRadioGroupAttributeTes
 
 	@Test
 	public void whenBinding_thenRegisterWithViewListeners() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
-		assertTrue(viewListeners.addOnCheckedChangeListenerInvoked);
+		assertTrue(viewAddOn.addOnCheckedChangeListenerInvoked);
 	}
 }

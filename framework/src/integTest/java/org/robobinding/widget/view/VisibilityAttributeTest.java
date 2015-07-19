@@ -2,6 +2,7 @@ package org.robobinding.widget.view;
 
 import static org.mockito.Mockito.mock;
 
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 import org.robobinding.widget.AbstractMultiTypePropertyViewAttributeTest;
 import org.robobinding.widget.view.VisibilityAttribute.BooleanVisibilityAttribute;
 import org.robobinding.widget.view.VisibilityAttribute.IntegerVisibilityAttribute;
@@ -16,20 +17,20 @@ import android.view.View;
  * @author Robert Taylor
  */
 @Config(manifest = Config.NONE)
-public class VisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest<VisibilityAttribute<View>> {
+public class VisibilityAttributeTest extends AbstractMultiTypePropertyViewAttributeTest {
 	@Override
 	protected void setTypeMappingExpectations() {
-		forPropertyType(int.class).expectAttribute(IntegerVisibilityAttribute.class);
-		forPropertyType(Integer.class).expectAttribute(IntegerVisibilityAttribute.class);
-		forPropertyType(boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
-		forPropertyType(Boolean.class).expectAttribute(BooleanVisibilityAttribute.class);
+		forPropertyType(int.class).expectAttributeType(IntegerVisibilityAttribute.class);
+		forPropertyType(Integer.class).expectAttributeType(IntegerVisibilityAttribute.class);
+		forPropertyType(boolean.class).expectAttributeType(BooleanVisibilityAttribute.class);
+		forPropertyType(Boolean.class).expectAttributeType(BooleanVisibilityAttribute.class);
 	}
 
 	@Override
-	protected VisibilityAttribute<View> createAttribute() {
+	protected OneWayPropertyViewAttribute<View, ?> createViewAttribute(Class<?> propertyType) {
 		@SuppressWarnings("unchecked")
 		VisibilityFactory<View> visibilityFactory = mock(VisibilityFactory.class);
-		return new VisibilityAttribute<View>(visibilityFactory);
+		return new VisibilityAttribute<View>(visibilityFactory).create(null, propertyType);
 	}
 
 }

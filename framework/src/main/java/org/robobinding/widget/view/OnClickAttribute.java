@@ -1,8 +1,7 @@
 package org.robobinding.widget.view;
 
 import org.robobinding.attribute.Command;
-import org.robobinding.viewattribute.ViewListenersAware;
-import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.widgetaddon.view.ViewAddOnForView;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,17 +13,11 @@ import android.view.View.OnClickListener;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class OnClickAttribute implements EventViewAttribute<View>, ViewListenersAware<ViewListenersForView> {
-	private ViewListenersForView viewListeners;
-
+public class OnClickAttribute implements EventViewAttributeForView {
+	
 	@Override
-	public void setViewListeners(ViewListenersForView viewListeners) {
-		this.viewListeners = viewListeners;
-	}
-
-	@Override
-	public void bind(View view, final Command command) {
-		viewListeners.addOnClickListener(new OnClickListener() {
+	public void bind(ViewAddOnForView viewAddOn, final Command command, View view) {
+		viewAddOn.addOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				ClickEvent clickEvent = new ClickEvent(v);

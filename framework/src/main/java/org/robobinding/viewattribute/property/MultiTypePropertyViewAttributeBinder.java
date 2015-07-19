@@ -13,13 +13,14 @@ import org.robobinding.viewattribute.ViewAttributeBinder;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public class MultiTypePropertyViewAttributeBinder<ViewType> implements ViewAttributeBinder {
-	private final PropertyViewAttributeBinderProvider<ViewType> viewAttributeBinderProvider;
+public class MultiTypePropertyViewAttributeBinder implements ViewAttributeBinder {
+	private final PropertyViewAttributeBinderProvider viewAttributeBinderProvider;
 	private final ValueModelAttribute attribute;
 
-	private PropertyViewAttributeBinder<ViewType, ?> viewAttributeBinder;
+	private PropertyViewAttributeBinder viewAttributeBinder;
 
-	public MultiTypePropertyViewAttributeBinder(PropertyViewAttributeBinderProvider<ViewType> viewAttributeBinderProvider, ValueModelAttribute attribute) {
+	public MultiTypePropertyViewAttributeBinder(PropertyViewAttributeBinderProvider viewAttributeBinderProvider, 
+			ValueModelAttribute attribute) {
 		this.viewAttributeBinderProvider = viewAttributeBinderProvider;
 		this.attribute = attribute;
 	}
@@ -28,6 +29,7 @@ public class MultiTypePropertyViewAttributeBinder<ViewType> implements ViewAttri
 	public void bindTo(BindingContext bindingContext) {
 		try {
 			initializeViewAttributeBinder(bindingContext);
+			
 			performBind(bindingContext);
 		} catch (RuntimeException e) {
 			throw new AttributeBindingException(attribute.getName(), e);
@@ -48,10 +50,6 @@ public class MultiTypePropertyViewAttributeBinder<ViewType> implements ViewAttri
 
 	@Override
 	public void preInitializeView(BindingContext bindingContext) {
-		try {
-			viewAttributeBinder.preInitializeView(bindingContext);
-		} catch (RuntimeException e) {
-			throw new AttributeBindingException(attribute.getName(), e);
-		}
+		viewAttributeBinder.preInitializeView(bindingContext);
 	}
 }

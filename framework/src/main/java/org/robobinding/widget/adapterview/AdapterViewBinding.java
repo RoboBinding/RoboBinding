@@ -7,8 +7,8 @@ import static org.robobinding.widget.adapterview.EmptyViewAttributes.EMPTY_VIEW_
 import static org.robobinding.widget.adapterview.EmptyViewAttributes.EMPTY_VIEW_PRESENTATION_MODEL;
 import static org.robobinding.widget.adapterview.EmptyViewAttributes.EMPTY_VIEW_VISIBILITY;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 
 import android.widget.AdapterView;
 
@@ -21,7 +21,7 @@ import android.widget.AdapterView;
 public class AdapterViewBinding implements ViewBinding<AdapterView<?>> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<AdapterView<?>> mappings) {
-		mappings.mapProperty(SelectedItemPositionAttribute.class, "selectedItemPosition");
+		mappings.mapTwoWayProperty(SelectedItemPositionAttribute.class, "selectedItemPosition");
 
 		mappings.mapEvent(OnItemClickAttribute.class, "onItemClick");
 		mappings.mapEvent(OnItemSelectedAttribute.class, "onItemSelected");

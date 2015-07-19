@@ -1,6 +1,6 @@
 package org.robobinding.widget.view;
 
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
 
 import android.view.View;
 
@@ -10,7 +10,7 @@ import android.view.View;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class VisibilityAttributeFactory<T extends View> implements MultiTypePropertyViewAttributeFactory<T> {
+public class VisibilityAttributeFactory<T extends View> implements OneWayMultiTypePropertyViewAttributeFactory<T> {
 	private VisibilityFactory<T> visibilityFactory;
 
 	public VisibilityAttributeFactory(VisibilityFactory<T> visibilityFactory) {

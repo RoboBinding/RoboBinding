@@ -1,1 +1,2 @@
-org.robobinding.codegen.processor.PresentationModelProcessor
+org.robobinding.codegen.presentationmodel.processor.PresentationModelProcessor
+org.robobinding.codegen.viewbinding.ViewBindingProcessor

@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.util.RandomValues;
-import org.robobinding.viewattribute.property.ValueModelUtils;
+import org.robobinding.viewattribute.ValueModelUtils;
 import org.robobinding.widget.ratingbar.RatingAttribute.FloatRatingAttribute;
 import org.robolectric.annotation.Config;
 
@@ -21,28 +21,28 @@ import org.robolectric.annotation.Config;
 @Config(manifest = Config.NONE)
 public class FloatRatingAttributeTest extends AbstractRatingBarAttributeTest {
 	private static final int NUM_STARS_TO_SHOW = 5;
+	private FloatRatingAttribute attribute;
 	private float newRating;
 
 	@Before
 	public void prepareRatingBar() {
+		attribute = new FloatRatingAttribute();
+
 		view.setNumStars(NUM_STARS_TO_SHOW);
 		newRating = RandomValues.nextIntegerGreaterThanZero(NUM_STARS_TO_SHOW);
 	}
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
-		FloatRatingAttribute attribute = new FloatRatingAttribute();
-
-		attribute.updateView(view, newRating);
+		attribute.updateView(view, newRating, null);
 
 		assertThat((double) view.getRating(), closeTo(newRating, 0.1));
 	}
 
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-		FloatRatingAttribute attribute = withListenersSet(new FloatRatingAttribute());
 		ValueModel<Float> valueModel = ValueModelUtils.create();
-		attribute.observeChangesOnTheView(view, valueModel);
+		attribute.observeChangesOnTheView(viewAddOn, valueModel, view);
 
 		view.setRating(newRating);
 
@@ -51,9 +51,9 @@ public class FloatRatingAttributeTest extends AbstractRatingBarAttributeTest {
 
 	@Test
 	public void whenObserveChangesOnTheView_thenRegisterWithMulticastListener() {
-		FloatRatingAttribute attribute = withListenersSet(new FloatRatingAttribute());
-		attribute.observeChangesOnTheView(view, null);
+		FloatRatingAttribute attribute = new FloatRatingAttribute();
+		attribute.observeChangesOnTheView(viewAddOn, null, view);
 
-		assertTrue(viewListeners.addOnRatingBarChangeListenerInvoked);
+		assertTrue(viewAddOn.addOnRatingBarChangeListenerInvoked);
 	}
 }

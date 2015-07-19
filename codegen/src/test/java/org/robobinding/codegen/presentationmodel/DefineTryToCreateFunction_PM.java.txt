@@ -1,0 +1,47 @@
+-----------------------------------org.robobinding.codegen.presentationmodel.DefineTryToCreateFunction_PM.java-----------------------------------
+package org.robobinding.codegen.presentationmodel;
+
+import org.robobinding.function.Function;
+import org.robobinding.function.MethodDescriptor;
+
+public class DefineTryToCreateFunction_PM {
+	final DefineTryToCreateFunction presentationModel;
+	@Override
+	public Function tryToCreateFunction(MethodDescriptor methodDescriptor) {
+		if(methodDescriptor.equals(createMethodDescriptor("eventMethod1"))) {
+			return new Function() {
+				
+				@Override
+				public Object call(Object... args) {
+					presentationModel.eventMethod1();
+					return null;
+				}
+			};
+		}
+		
+		if(methodDescriptor.equals(createMethodDescriptor("eventMethod2", Object.class))){
+			return new Function() {
+				
+				@Override
+				public Object call(Object... args) {
+					presentationModel.eventMethod2(((Object)args[0]));
+					return null;
+				}
+			};
+		}
+		
+		if(methodDescriptor.equals(createMethodDescriptor("eventMethodWithReturn", Object.class))){
+			return new Function() {
+				
+				@Override
+				public Object call(Object... args) {
+					Boolean result = presentationModel.eventMethodWithReturn(((Object)args[0]));
+					return result;
+				}
+			};
+		}
+		
+		return null;
+	}
+
+}

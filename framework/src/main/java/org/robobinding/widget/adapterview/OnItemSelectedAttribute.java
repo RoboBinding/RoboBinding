@@ -1,8 +1,7 @@
 package org.robobinding.widget.adapterview;
 
 import org.robobinding.attribute.Command;
-import org.robobinding.viewattribute.ViewListenersAware;
-import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.widgetaddon.adapterview.AdapterViewAddOn;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,17 +13,10 @@ import android.widget.AdapterView.OnItemSelectedListener;
  * @version $Revision: 1.0 $
  * @author Robert Taylor
  */
-public class OnItemSelectedAttribute implements EventViewAttribute<AdapterView<?>>, ViewListenersAware<AdapterViewListeners> {
-	private AdapterViewListeners adapterViewListeners;
-
+public class OnItemSelectedAttribute implements EventViewAttributeForAdapterView {
 	@Override
-	public void setViewListeners(AdapterViewListeners adapterViewListeners) {
-		this.adapterViewListeners = adapterViewListeners;
-	}
-
-	@Override
-	public void bind(final AdapterView<?> view, final Command command) {
-		adapterViewListeners.addOnItemSelectedListener(new OnItemSelectedListener() {
+	public void bind(AdapterViewAddOn viewAddOn, final Command command, AdapterView<?> view) {
+		viewAddOn.addOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				ItemClickEvent itemClickEvent = new ItemClickEvent(parent, view, position, id);

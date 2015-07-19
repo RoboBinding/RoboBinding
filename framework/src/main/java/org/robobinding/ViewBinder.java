@@ -1,5 +1,6 @@
 package org.robobinding;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,4 +24,10 @@ public interface ViewBinder {
 	View inflateAndBind(int layoutId, Object presentationModel, ViewGroup root);
 
 	View inflateAndBindWithoutAttachingToRoot(int layoutId, Object presentationModel, ViewGroup root);
+	
+	/**
+	 * The fix for https://github.com/RoboBinding/RoboBinding/issues/200.
+	 */
+	ViewBinder with(LayoutInflater layoutInflater);
+
 }

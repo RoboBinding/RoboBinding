@@ -22,17 +22,21 @@ public class OnFocusAttributeTest extends AbstractViewEventAttributeTest {
 
 	@Before
 	public void setUp() {
-		attribute = withListenersSet(new OnFocusAttribute());
+		attribute = new OnFocusAttribute();
 		eventCommand = new EventCommand();
 	}
 
 	@Test
 	public void givenBoundAttribute_whenApplyFocus_thenEventReceived() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		setViewFocus();
 
 		assertEventReceived();
+	}
+
+	private void bindAttribute() {
+		attribute.bind(viewAddOn, eventCommand, view);
 	}
 
 	private void setViewFocus() {
@@ -46,9 +50,9 @@ public class OnFocusAttributeTest extends AbstractViewEventAttributeTest {
 
 	@Test
 	public void whenBinding_thenRegisterWithViewListeners() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
-		assertTrue(viewListeners.addOnFocusChangeListenerInvoked);
+		assertTrue(viewAddOn.addOnFocusChangeListenerInvoked);
 	}
 
 }

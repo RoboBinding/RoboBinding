@@ -1,5 +1,7 @@
 package org.robobinding.viewattribute.event;
 
+import org.robobinding.widgetaddon.ViewAddOn;
+
 /**
  * 
  * @since 1.0
@@ -8,5 +10,5 @@ package org.robobinding.viewattribute.event;
  * @author Cheng Wei
  */
 public interface EventViewAttributeFactory<ViewType> {
-	EventViewAttribute<ViewType> create();
+	EventViewAttribute<ViewType, ? extends ViewAddOn> create();
 }

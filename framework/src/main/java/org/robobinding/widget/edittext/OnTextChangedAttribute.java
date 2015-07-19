@@ -2,6 +2,7 @@ package org.robobinding.widget.edittext;
 
 import org.robobinding.attribute.Command;
 import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.widgetaddon.ViewAddOn;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,9 +14,9 @@ import android.widget.EditText;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class OnTextChangedAttribute implements EventViewAttribute<EditText> {
+public class OnTextChangedAttribute implements EventViewAttribute<EditText, ViewAddOn> {
 	@Override
-	public void bind(final EditText view, final Command command) {
+	public void bind(ViewAddOn viewAddOn, final Command command, final EditText view) {
 		view.addTextChangedListener(new TextWatcher() {
 
 			@Override

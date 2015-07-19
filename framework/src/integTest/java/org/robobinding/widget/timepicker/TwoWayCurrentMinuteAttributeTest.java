@@ -5,10 +5,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.util.RandomValues;
-import org.robobinding.viewattribute.property.ValueModelUtils;
+import org.robobinding.viewattribute.ValueModelUtils;
 import org.robolectric.annotation.Config;
 
 /**
@@ -19,21 +20,25 @@ import org.robolectric.annotation.Config;
  */
 @Config(manifest = Config.NONE)
 public class TwoWayCurrentMinuteAttributeTest extends AbstractTimePickerAttributeTest {
+	private TwoWayCurrentMinuteAttribute attribute;
+	
+	@Before
+	public void setUp() {
+		attribute = new TwoWayCurrentMinuteAttribute();
+	}
     @Test
     public void whenUpdateView_thenViewShouldReflectChanges() {
-        TwoWayCurrentMinuteAttribute attribute = new TwoWayCurrentMinuteAttribute();
         int newCurrentMinuteValue = RandomValues.integerBetween(0,59);
 
-        attribute.updateView(view, newCurrentMinuteValue);
+        attribute.updateView(view, newCurrentMinuteValue, null);
 
         assertThat(view.getCurrentMinute(), is(newCurrentMinuteValue));
     }
 
     @Test
     public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-        TwoWayCurrentMinuteAttribute attribute = withListenersSet(new TwoWayCurrentMinuteAttribute());
         ValueModel<Integer> valueModel = ValueModelUtils.create();
-        attribute.observeChangesOnTheView(view, valueModel);
+        attribute.observeChangesOnTheView(viewAddOn, valueModel, view);
 
         int newCurrentMinuteValue = RandomValues.integerBetween(0,59);
         view.setCurrentMinute(newCurrentMinuteValue);
@@ -43,9 +48,8 @@ public class TwoWayCurrentMinuteAttributeTest extends AbstractTimePickerAttribut
 
     @Test
     public void whenObserveChangesOnTheView_thenRegisterWithViewListeners() {
-        TwoWayCurrentMinuteAttribute attribute = withListenersSet(new TwoWayCurrentMinuteAttribute());
-        attribute.observeChangesOnTheView(null, null);
+        attribute.observeChangesOnTheView(viewAddOn, null, null);
 
-        assertTrue(viewListeners.addOnTimeChangedListenerInvoked);
+        assertTrue(viewAddOn.addOnTimeChangedListenerInvoked);
     }
 }

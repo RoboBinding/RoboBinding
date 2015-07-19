@@ -1,7 +1,7 @@
 package org.robobinding.widget.abslistview;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 
 import android.widget.AbsListView;
 
@@ -10,12 +10,15 @@ import android.widget.AbsListView;
  * @since 1.0
  * @version $Revision: 1.0 $
  * @author Aurélien Catinon
+ * @author Cheng Wei
  */
 public class AbsListViewBinding implements ViewBinding<AbsListView> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<AbsListView> mappings) {
-		mappings.mapProperty(CheckedItemPositionAttribute.class, "checkedItemPosition");
-		mappings.mapMultiTypeProperty(CheckedItemPositionsAttribute.class, "checkedItemPositions");
-		mappings.mapProperty(ChoiceModeAttribute.class, "choiceMode");
+		mappings.mapTwoWayProperty(CheckedItemPositionAttribute.class, "checkedItemPosition");
+		mappings.mapTwoWayMultiTypeProperty(CheckedItemPositionsAttribute.class, "checkedItemPositions");
+
+		mappings.mapEvent(OnScrollAttribute.class, "onScroll");
+		mappings.mapEvent(OnScrollStateChangedAttribute.class, "onScrollStateChanged");
 	}
 }

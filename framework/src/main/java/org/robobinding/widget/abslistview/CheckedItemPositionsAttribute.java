@@ -4,10 +4,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.ViewListenersAware;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
-import org.robobinding.widget.adapterview.AdapterViewListeners;
+import org.robobinding.widgetaddon.abslistview.AbsListViewAddOn;
 
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -20,10 +19,10 @@ import android.widget.AdapterView;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class CheckedItemPositionsAttribute implements MultiTypePropertyViewAttribute<AbsListView> {
+public class CheckedItemPositionsAttribute implements TwoWayMultiTypePropertyViewAttribute<AbsListView> {
 
 	@Override
-	public TwoWayPropertyViewAttribute<AbsListView, ?> create(AbsListView view, Class<?> propertyType) {
+	public TwoWayPropertyViewAttribute<AbsListView, ?, ?> create(AbsListView view, Class<?> propertyType) {
 		if (SparseBooleanArray.class.isAssignableFrom(propertyType)) {
 			return new SparseBooleanArrayCheckedItemPositionsAttribute();
 		} else if (Set.class.isAssignableFrom(propertyType)) {
@@ -35,79 +34,71 @@ public class CheckedItemPositionsAttribute implements MultiTypePropertyViewAttri
 		throw new RuntimeException("Could not find a suitable checkedItemPositions attribute class for property type: " + propertyType);
 	}
 
-	abstract static class AbstractCheckedItemPositionsAttribute<PropertyType> implements TwoWayPropertyViewAttribute<AbsListView, PropertyType>,
-			ViewListenersAware<AdapterViewListeners> {
-		private AdapterViewListeners adapterViewListeners;
-
+	abstract static class AbstractCheckedItemPositionsAttribute<PropertyType> 
+		implements TwoWayPropertyViewAttribute<AbsListView, AbsListViewAddOn, PropertyType> {
 		@Override
-		public void setViewListeners(AdapterViewListeners adapterViewListeners) {
-			this.adapterViewListeners = adapterViewListeners;
-		}
-
-		@Override
-		public void observeChangesOnTheView(final AbsListView view, final ValueModel<PropertyType> valueModel) {
-			adapterViewListeners.addOnItemClickListener(new AdapterView.OnItemClickListener() {
+		public void observeChangesOnTheView(final AbsListViewAddOn viewAddOn, final ValueModel<PropertyType> valueModel, AbsListView view) {
+			viewAddOn.addOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View itemView, int position, long id) {
-					viewCheckedItemPositionsChanged(view, valueModel);
+					viewCheckedItemPositionsChanged(viewAddOn, valueModel);
 				}
 			});
 		}
 
-		protected abstract void viewCheckedItemPositionsChanged(AbsListView view, ValueModel<PropertyType> valueModel);
+		protected abstract void viewCheckedItemPositionsChanged(AbsListViewAddOn viewAddOn, ValueModel<PropertyType> valueModel);
 
 		@Override
-		public void updateView(AbsListView view, PropertyType newValue) {
-			AbsListViewBackCompatible viewBackCompatible = new AbsListViewBackCompatible(view);
-			viewBackCompatible.clearChoices();
-			updateView(viewBackCompatible, newValue);
+		public void updateView(AbsListView view, PropertyType newValue, AbsListViewAddOn viewAddOn) {
+			viewAddOn.clearChoices();
+			updateView(viewAddOn, newValue);
 		}
 
-		protected abstract void updateView(AbsListViewBackCompatible view, PropertyType newValue);
+		protected abstract void updateView(AbsListViewAddOn viewAddOn, PropertyType newValue);
 	}
 
 	static class SparseBooleanArrayCheckedItemPositionsAttribute extends AbstractCheckedItemPositionsAttribute<SparseBooleanArray> {
 		@Override
-		protected void viewCheckedItemPositionsChanged(AbsListView view, ValueModel<SparseBooleanArray> valueModel) {
-			SparseBooleanArray checkedItemPositions = new AbsListViewBackCompatible(view).getCheckedItemPositions();
+		protected void viewCheckedItemPositionsChanged(AbsListViewAddOn viewAddOn, ValueModel<SparseBooleanArray> valueModel) {
+			SparseBooleanArray checkedItemPositions = viewAddOn.getCheckedItemPositions();
 			valueModel.setValue(checkedItemPositions);
 		}
 
 		@Override
-		protected void updateView(AbsListViewBackCompatible viewBackCompatible, SparseBooleanArray newArray) {
+		protected void updateView(AbsListViewAddOn viewAddOn, SparseBooleanArray newArray) {
 			for (int i = 0; i < newArray.size(); i++) {
-				viewBackCompatible.setItemChecked(newArray.keyAt(i), newArray.valueAt(i));
+				viewAddOn.setItemChecked(newArray.keyAt(i), newArray.valueAt(i));
 			}
 		}
 	}
 
 	static class SetCheckedItemPositionsAttribute extends AbstractCheckedItemPositionsAttribute<Set<Integer>> {
 		@Override
-		protected void viewCheckedItemPositionsChanged(AbsListView view, ValueModel<Set<Integer>> valueModel) {
-			SparseBooleanArray checkedItemPositions = new AbsListViewBackCompatible(view).getCheckedItemPositions();
+		protected void viewCheckedItemPositionsChanged(AbsListViewAddOn viewAddOn, ValueModel<Set<Integer>> valueModel) {
+			SparseBooleanArray checkedItemPositions = viewAddOn.getCheckedItemPositions();
 			valueModel.setValue(SparseBooleanArrayUtils.toSet(checkedItemPositions));
 		}
 
 		@Override
-		public void updateView(AbsListViewBackCompatible viewBackCompatible, Set<Integer> newValue) {
+		public void updateView(AbsListViewAddOn viewAddOn, Set<Integer> newValue) {
 			for (int position : newValue) {
-				viewBackCompatible.setItemChecked(position, true);
+				viewAddOn.setItemChecked(position, true);
 			}
 		}
 	}
 
 	static class MapCheckedItemPositionsAttribute extends AbstractCheckedItemPositionsAttribute<Map<Integer, Boolean>> {
 		@Override
-		protected void viewCheckedItemPositionsChanged(AbsListView view, ValueModel<Map<Integer, Boolean>> valueModel) {
-			SparseBooleanArray checkedItemPositions = new AbsListViewBackCompatible(view).getCheckedItemPositions();
+		protected void viewCheckedItemPositionsChanged(AbsListViewAddOn viewAddOn, ValueModel<Map<Integer, Boolean>> valueModel) {
+			SparseBooleanArray checkedItemPositions = viewAddOn.getCheckedItemPositions();
 			valueModel.setValue(SparseBooleanArrayUtils.toMap(checkedItemPositions));
 		}
 
 		@Override
-		public void updateView(AbsListViewBackCompatible viewBackCompatible, Map<Integer, Boolean> newValue) {
+		public void updateView(AbsListViewAddOn viewAddOn, Map<Integer, Boolean> newValue) {
 			for (Integer position : newValue.keySet()) {
 				Boolean checked = newValue.get(position);
-				viewBackCompatible.setItemChecked(position, checked);
+				viewAddOn.setItemChecked(position, checked);
 			}
 		}
 	}

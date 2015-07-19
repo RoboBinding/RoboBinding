@@ -4,10 +4,11 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.util.RandomValues;
-import org.robobinding.viewattribute.property.ValueModelUtils;
+import org.robobinding.viewattribute.ValueModelUtils;
 import org.robolectric.annotation.Config;
 
 /**
@@ -18,21 +19,26 @@ import org.robolectric.annotation.Config;
  */
 @Config(manifest = Config.NONE)
 public class CheckedAttributeTest extends AbstractCompoundButtonAttributeTest {
+	private CheckedAttribute attribute;
+	
+	@Before
+	public void setUp() {
+		attribute = new CheckedAttribute();
+	}
+	
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
-		CheckedAttribute attribute = new CheckedAttribute();
-		boolean checked = RandomValues.trueOrFalse();
+		boolean newState = RandomValues.trueOrFalse();
 
-		attribute.updateView(view, checked);
+		attribute.updateView(view, newState, viewAddOn);
 
-		assertThat(view.isChecked(), equalTo(checked));
+		assertThat(view.isChecked(), equalTo(newState));
 	}
 
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-		CheckedAttribute attribute = withListenersSet(new CheckedAttribute());
 		ValueModel<Boolean> valueModel = ValueModelUtils.create();
-		attribute.observeChangesOnTheView(view, valueModel);
+		attribute.observeChangesOnTheView(viewAddOn, valueModel, view);
 
 		boolean newValue = !view.isChecked();
 		view.setChecked(newValue);
@@ -42,9 +48,8 @@ public class CheckedAttributeTest extends AbstractCompoundButtonAttributeTest {
 
 	@Test
 	public void whenObserveChangesOnTheView_thenRegisterWithViewListeners() {
-		CheckedAttribute attribute = withListenersSet(new CheckedAttribute());
-		attribute.observeChangesOnTheView(view, null);
+		attribute.observeChangesOnTheView(viewAddOn, null, view);
 
-		assertTrue(viewListeners.addOnCheckedChangeListenerInvoked);
+		assertTrue(viewAddOn.addOnCheckedChangeListenerInvoked);
 	}
 }

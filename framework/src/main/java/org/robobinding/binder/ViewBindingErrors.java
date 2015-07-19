@@ -56,4 +56,24 @@ public class ViewBindingErrors extends RuntimeException {
 	public Collection<AttributeBindingException> getAttributeErrors() {
 		return Collections.unmodifiableCollection(attributeErrors);
 	}
+	
+	@Override
+	public String getMessage() {
+		if(hasErrors()) {
+			return firstAttributeError().getMessage();
+		}
+		return super.getMessage();
+	}
+	
+	private Throwable firstAttributeError() {
+		return attributeErrors.get(0);
+	}
+	
+	@Override
+	public synchronized Throwable getCause() {
+		if(hasErrors()) {
+			return firstAttributeError();
+		}
+		return super.getCause();
+	}
 }

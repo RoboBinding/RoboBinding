@@ -5,10 +5,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.util.RandomValues;
-import org.robobinding.viewattribute.property.ValueModelUtils;
+import org.robobinding.viewattribute.ValueModelUtils;
 import org.robolectric.annotation.Config;
 
 /**
@@ -19,21 +20,26 @@ import org.robolectric.annotation.Config;
  */
 @Config(manifest = Config.NONE)
 public class TwoWayProgressAttributeTest extends AbstractSeekBarAttributeTest {
+	private TwoWayProgressAttribute attribute;
+	
+	@Before
+	public void setUp() {
+		attribute = new TwoWayProgressAttribute();
+	}
+	
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
-		TwoWayProgressAttribute attribute = new TwoWayProgressAttribute();
 		int newProgressValue = RandomValues.anyInteger();
 
-		attribute.updateView(view, newProgressValue);
+		attribute.updateView(view, newProgressValue, null);
 
 		assertThat(view.getProgress(), is(newProgressValue));
 	}
 
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
-		TwoWayProgressAttribute attribute = withListenersSet(new TwoWayProgressAttribute());
 		ValueModel<Integer> valueModel = ValueModelUtils.create();
-		attribute.observeChangesOnTheView(view, valueModel);
+		attribute.observeChangesOnTheView(viewAddOn, valueModel, view);
 
 		int newProgressValue = RandomValues.anyInteger();
 		view.setProgress(newProgressValue);
@@ -43,9 +49,8 @@ public class TwoWayProgressAttributeTest extends AbstractSeekBarAttributeTest {
 
 	@Test
 	public void whenObserveChangesOnTheView_thenRegisterWithViewListeners() {
-		TwoWayProgressAttribute attribute = withListenersSet(new TwoWayProgressAttribute());
-		attribute.observeChangesOnTheView(null, null);
+		attribute.observeChangesOnTheView(viewAddOn, null, null);
 
-		assertTrue(viewListeners.addOnSeekBarChangeListenerInvoked);
+		assertTrue(viewAddOn.addOnSeekBarChangeListenerInvoked);
 	}
 }

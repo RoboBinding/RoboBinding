@@ -21,11 +21,14 @@ import org.robobinding.viewattribute.grouped.ChildViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.ChildViewAttributesBuilder;
 import org.robobinding.viewattribute.grouped.GroupAttributesResolver;
 import org.robobinding.viewattribute.grouped.GroupedViewAttribute;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeFactory;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
-import org.robobinding.viewattribute.property.PropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
+import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
 import org.robolectric.RobolectricTestRunner;
 
 import android.view.View;
@@ -173,22 +176,42 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 		}
 
 		@Override
-		public void add(String attributeName, MultiTypePropertyViewAttribute<View> viewAttribute) {
+		public void add(String attributeName, OneWayMultiTypePropertyViewAttribute<View> viewAttribute) {
 			childViewAttributeMap.put(attributeName, viewAttribute);
 		}
 
 		@Override
-		public void add(String attributeName, MultiTypePropertyViewAttributeFactory<View> factory) {
-			childViewAttributeMap.put(attributeName, mock(MultiTypePropertyViewAttributeBinder.class));
+		public void add(String attributeName, OneWayMultiTypePropertyViewAttributeFactory<View> factory) {
+			childViewAttributeMap.put(attributeName, factory.create());
 		}
 
 		@Override
-		public void add(String attributeName, PropertyViewAttribute<View, ?> viewAttribute) {
+		public void add(String attributeName, OneWayPropertyViewAttribute<View, ?> viewAttribute) {
 			childViewAttributeMap.put(attributeName, viewAttribute);
 		}
 
 		@Override
-		public void add(String attributeName, PropertyViewAttributeFactory<View> factory) {
+		public void add(String attributeName, OneWayPropertyViewAttributeFactory<View> factory) {
+			childViewAttributeMap.put(attributeName, factory.create());
+		}
+
+		@Override
+		public void add(String attributeName, TwoWayPropertyViewAttribute<View, ?, ?> viewAttribute) {
+			childViewAttributeMap.put(attributeName, viewAttribute);
+		}
+
+		@Override
+		public void add(String attributeName, TwoWayPropertyViewAttributeFactory<View> factory) {
+			childViewAttributeMap.put(attributeName, factory.create());
+		}
+
+		@Override
+		public void add(String attributeName, TwoWayMultiTypePropertyViewAttribute<View> viewAttribute) {
+			childViewAttributeMap.put(attributeName, viewAttribute);
+		}
+
+		@Override
+		public void add(String attributeName, TwoWayMultiTypePropertyViewAttributeFactory<View> factory) {
 			childViewAttributeMap.put(attributeName, factory.create());
 		}
 

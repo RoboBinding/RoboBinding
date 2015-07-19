@@ -37,7 +37,7 @@ public abstract class RowLayoutAttributeFactory {
 
 	private ChildViewAttribute createDynamicLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater rowLayoutUpdater) {
 		DataSetAdapterUpdater dataSetAdapterUpdater = new DataSetAdapterUpdater(dataSetAdapterBuilder, adapterView);
-		return new ChildViewAttributeAdapter<AdapterView<?>>(adapterView, new DynamicLayoutAttribute(rowLayoutUpdater, dataSetAdapterUpdater),
+		return new ChildViewAttributeAdapter(adapterView, new DynamicLayoutAttribute(rowLayoutUpdater, dataSetAdapterUpdater),
 				attribute.asValueModelAttribute());
 	}
 

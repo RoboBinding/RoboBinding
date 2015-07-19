@@ -1,7 +1,7 @@
 package org.robobinding.widget.menuitem;
 
-import org.robobinding.viewattribute.BindingAttributeMappings;
-import org.robobinding.viewattribute.ViewBinding;
+import org.robobinding.viewbinding.BindingAttributeMappings;
+import org.robobinding.viewbinding.ViewBinding;
 
 import android.view.MenuItem;
 
@@ -14,9 +14,7 @@ import android.view.MenuItem;
 public class MenuItemBinding implements ViewBinding<MenuItem> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<MenuItem> mappings) {
-		mappings.mapProperty(EnabledAttribute.class, "enabled");
-		mappings.mapProperty(VisibleAttribute.class, "visible");
-		mappings.mapMultiTypeProperty(TitleAttribute.class, "title");
+		mappings.mapOneWayMultiTypeProperty(TitleAttribute.class, "title");
 
 		mappings.mapEvent(OnMenuItemClickAttribute.class, "onMenuItemClick");
 

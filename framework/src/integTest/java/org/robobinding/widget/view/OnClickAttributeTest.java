@@ -20,17 +20,21 @@ public class OnClickAttributeTest extends AbstractViewEventAttributeTest {
 
 	@Before
 	public void setUp() {
-		attribute = withListenersSet(new OnClickAttribute());
+		attribute = new OnClickAttribute();
 		eventCommand = new EventCommand();
 	}
 
 	@Test
 	public void givenBoundAttribute_whenClickingOnView_thenEventReceived() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		clickOnView();
 
 		assertEventReceived();
+	}
+
+	private void bindAttribute() {
+		attribute.bind(viewAddOn, eventCommand, view);
 	}
 
 	private void clickOnView() {
@@ -45,8 +49,8 @@ public class OnClickAttributeTest extends AbstractViewEventAttributeTest {
 
 	@Test
 	public void whenBinding_thenRegisterWithViewListeners() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
-		assertTrue(viewListeners.addOnClickListenerInvoked);
+		assertTrue(viewAddOn.addOnClickListenerInvoked);
 	}
 }

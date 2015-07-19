@@ -10,31 +10,33 @@ import org.robobinding.property.ValueModel;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public abstract class AbstractBindingProperty<ViewType, PropertyType> {
-	private final PropertyViewAttribute<ViewType, PropertyType> viewAttribute;
-	protected final ViewType view;
+public abstract class AbstractBindingProperty {
+	protected final Object view;
 	protected final ValueModelAttribute attribute;
+	private final boolean withAlwaysPreInitializingView;
 
-	public AbstractBindingProperty(ViewType view, PropertyViewAttribute<ViewType, PropertyType> viewAttribute, ValueModelAttribute attribute) {
-		this.viewAttribute = viewAttribute;
+	public AbstractBindingProperty(Object view, ValueModelAttribute attribute, boolean withAlwaysPreInitializingView) {
 		this.view = view;
 		this.attribute = attribute;
+		this.withAlwaysPreInitializingView = withAlwaysPreInitializingView;
+	}
+	
+	protected static boolean isAlwaysPreInitializingView(Object viewAttribute) {
+		return viewAttribute instanceof AlwaysPreInitializingView;
 	}
 
+	public abstract void performBind(PresentationModelAdapter presentationModelAdapter);
+
 	public void preInitializeView(PresentationModelAdapter presentationModelAdapter) {
-		ValueModel<PropertyType> valueModel = getPropertyValueModel(presentationModelAdapter);
+		ValueModel<Object> valueModel = getPropertyValueModel(presentationModelAdapter);
 		updateView(valueModel);
 	}
 
-	public String getAttributeName() {
-		return attribute.getName();
+	public boolean isAlwaysPreInitializingView() {
+		return withAlwaysPreInitializingView;
 	}
 
-	protected void updateView(ValueModel<PropertyType> valueModel) {
-		viewAttribute.updateView(view, valueModel.getValue());
-	}
+	protected abstract void updateView(ValueModel<Object> valueModel);
 
-	public abstract ValueModel<PropertyType> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter);
-
-	public abstract void performBind(PresentationModelAdapter presentationModelAdapter);
+	protected abstract ValueModel<Object> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter);
 }

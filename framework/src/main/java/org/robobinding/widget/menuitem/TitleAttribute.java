@@ -1,8 +1,8 @@
 package org.robobinding.widget.menuitem;
 
 import org.robobinding.util.PrimitiveTypeUtils;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttribute;
-import org.robobinding.viewattribute.property.PropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
+import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 
 import android.view.MenuItem;
 
@@ -12,9 +12,9 @@ import android.view.MenuItem;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class TitleAttribute implements MultiTypePropertyViewAttribute<MenuItem> {
+public class TitleAttribute implements OneWayMultiTypePropertyViewAttribute<MenuItem> {
 	@Override
-	public PropertyViewAttribute<MenuItem, ?> create(MenuItem view, Class<?> propertyType) {
+	public OneWayPropertyViewAttribute<MenuItem, ?> create(MenuItem view, Class<?> propertyType) {
 		if (PrimitiveTypeUtils.integerIsAssignableFrom(propertyType)) {
 			return new ResourceIdTitleAttrbite();
 		} else if (String.class.isAssignableFrom(propertyType)) {
@@ -24,14 +24,14 @@ public class TitleAttribute implements MultiTypePropertyViewAttribute<MenuItem> 
 		return null;
 	}
 
-	public static class ResourceIdTitleAttrbite implements PropertyViewAttribute<MenuItem, Integer> {
+	public static class ResourceIdTitleAttrbite implements OneWayPropertyViewAttribute<MenuItem, Integer> {
 		@Override
 		public void updateView(MenuItem view, Integer newValue) {
 			view.setTitle(newValue);
 		}
 	}
 
-	public static class StringTitleAttribute implements PropertyViewAttribute<MenuItem, String> {
+	public static class StringTitleAttribute implements OneWayPropertyViewAttribute<MenuItem, String> {
 		@Override
 		public void updateView(MenuItem view, String newValue) {
 			view.setTitle(newValue);

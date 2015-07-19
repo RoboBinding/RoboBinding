@@ -32,11 +32,15 @@ class SubViewPresentationModelAttribute implements ChildViewAttributeWithAttribu
 	public void bindTo(BindingContext bindingContext) {
 		SubViewBinder viewBinder = bindingContext.createSubViewBinder();
 		Object presentationModel = getPresentationModel(bindingContext, attribute.getPropertyName());
+		bind(viewBinder, presentationModel);
+	}
+
+	void bind(SubViewBinder viewBinder, Object presentationModel) {
 		View subView = viewBinder.inflateAndBindWithoutAttachingToRoot(layoutId, presentationModel, parent);
 		subViewHolder.setSubView(subView);
 	}
 	
-	private Object getPresentationModel(BindingContext bindingContext, String presentationModelPropertyName) {
+	Object getPresentationModel(BindingContext bindingContext, String presentationModelPropertyName) {
 		ValueModel<Object> valueModel = bindingContext.getReadOnlyPropertyValueModel(presentationModelPropertyName);
 		return valueModel.getValue();
 	}

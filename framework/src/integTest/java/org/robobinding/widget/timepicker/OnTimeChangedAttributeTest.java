@@ -1,17 +1,12 @@
 package org.robobinding.widget.timepicker;
 
-import org.robobinding.util.RandomValues;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robobinding.util.RandomValues;
 import org.robobinding.widget.EventCommand;
-import org.robobinding.widget.timepicker.OnTimeChangedAttribute;
-import org.robobinding.widget.timepicker.TimeChangedEvent;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-
-import android.widget.TimePicker;
 
 /**
  *
@@ -27,20 +22,24 @@ public class OnTimeChangedAttributeTest extends AbstractTimePickerAttributeTest 
 
     @Before
     public void setUp() {
+        attribute = new OnTimeChangedAttribute();
         eventCommand = new EventCommand();
-        attribute = withListenersSet(new OnTimeChangedAttribute());
     }
 
     @Test
     public void givenBoundAttribute_whenChangeHourTime_thenEventReceived() {
-        attribute.bind(view, eventCommand);
+    	bindAttribute();
         view.setCurrentHour(RandomValues.anyInteger());
         assertEventReceived();
     }
 
+	private void bindAttribute() {
+		attribute.bind(viewAddOn, eventCommand, view);
+	}
+
     @Test
     public void givenBoundAttribute_whenChangeMinuteTime_thenEventReceived() {
-        attribute.bind(view, eventCommand);
+    	bindAttribute();
         view.setCurrentMinute(RandomValues.anyInteger());
         assertEventReceived();
     }

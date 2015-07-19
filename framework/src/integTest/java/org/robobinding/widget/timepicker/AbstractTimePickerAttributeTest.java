@@ -2,7 +2,6 @@ package org.robobinding.widget.timepicker;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.viewattribute.ViewListenersAware;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -17,16 +16,11 @@ import android.widget.TimePicker;
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractTimePickerAttributeTest {
     protected TimePicker view;
-    protected MockTimePickerListeners viewListeners;
+    protected MockTimePickerAddOn viewAddOn;
 
     @Before
     public void initializeViewAndListeners() {
         view = new TimePicker(Robolectric.application);
-        viewListeners = new MockTimePickerListeners(view);
-    }
-
-    public <T extends ViewListenersAware<TimePickerListeners>> T withListenersSet(T attribute) {
-        attribute.setViewListeners(viewListeners);
-        return attribute;
+        viewAddOn = new MockTimePickerAddOn(view);
     }
 }

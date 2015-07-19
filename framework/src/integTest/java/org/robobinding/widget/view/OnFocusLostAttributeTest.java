@@ -22,17 +22,21 @@ public class OnFocusLostAttributeTest extends AbstractViewEventAttributeTest {
 
 	@Before
 	public void setUp() {
-		attribute = withListenersSet(new OnFocusLostAttribute());
+		attribute = new OnFocusLostAttribute();
 		eventCommand = new EventCommand();
 	}
 
 	@Test
 	public void givenBoundAttribute_whenClearFocus_thenEventReceived() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
 		clearViewFocus();
 
 		assertEventReceived();
+	}
+
+	private void bindAttribute() {
+		attribute.bind(viewAddOn, eventCommand, view);
 	}
 
 	private void clearViewFocus() {
@@ -46,8 +50,8 @@ public class OnFocusLostAttributeTest extends AbstractViewEventAttributeTest {
 
 	@Test
 	public void whenBinding_thenRegisterWithViewListeners() {
-		attribute.bind(view, eventCommand);
+		bindAttribute();
 
-		assertTrue(viewListeners.addOnFocusChangeListenerInvoked);
+		assertTrue(viewAddOn.addOnFocusChangeListenerInvoked);
 	}
 }

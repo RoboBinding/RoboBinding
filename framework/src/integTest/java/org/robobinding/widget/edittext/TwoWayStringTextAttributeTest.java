@@ -2,14 +2,14 @@ package org.robobinding.widget.edittext;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
-import static org.robobinding.widget.textview.CharSequenceMatcher.sameAs;
+import static org.robobinding.widget.edittext.CharSequenceMatcher.sameAs;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.property.ValueModelUtils;
+import org.robobinding.viewattribute.ValueModelUtils;
 import org.robobinding.widget.edittext.TwoWayTextAttribute.TwoWayStringTextAttribute;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
@@ -40,7 +40,7 @@ public class TwoWayStringTextAttributeTest {
 	public void whenUpdateView_thenViewShouldReflectChanges() {
 		String newText = RandomStringUtils.randomAlphanumeric(5);
 
-		attribute.updateView(view, newText);
+		attribute.updateView(view, newText, null);
 
 		assertThat(view.getText(), sameAs(newText));
 	}
@@ -48,7 +48,7 @@ public class TwoWayStringTextAttributeTest {
 	@Test
 	public void whenObserveChangesOnTheView_thenValueModelShouldReceiveTheChange() {
 		ValueModel<String> valueModel = ValueModelUtils.create();
-		attribute.observeChangesOnTheView(view, valueModel);
+		attribute.observeChangesOnTheView(null, valueModel, view);
 
 		view.setText(RandomStringUtils.random(5));
 
@@ -60,7 +60,7 @@ public class TwoWayStringTextAttributeTest {
 		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
 		String newText = RandomStringUtils.randomAlphanumeric(5);
 		ValueModel<String> valueModel = ValueModelUtils.create();
-		attribute.observeChangesOnTheView(view, valueModel);
+		attribute.observeChangesOnTheView(null, valueModel, view);
 
 		view.setText(newText);
 
@@ -72,7 +72,7 @@ public class TwoWayStringTextAttributeTest {
 		attribute.setValueCommitMode(ValueCommitMode.ON_FOCUS_LOST);
 		String newText = RandomStringUtils.randomAlphanumeric(5);
 		ValueModel<String> valueModel = ValueModelUtils.create();
-		attribute.observeChangesOnTheView(view, valueModel);
+		attribute.observeChangesOnTheView(null, valueModel, view);
 
 		view.setText(newText);
 

@@ -1,0 +1,12 @@
+-----------------------------------org.robobinding.codegen.presentationmodel.DefinePropertyNames_PM.java-----------------------------------
+package org.robobinding.codegen.presentationmodel;
+
+import java.util.Set;
+import com.google.common.collect.Sets;
+
+public class DefinePropertyNames_PM {
+	@Override
+	public Set<String> propertyNames() {
+		return Sets.newHashSet("prop1", "prop2");
+	}
+}

@@ -1,6 +1,7 @@
 package org.robobinding.viewattribute.property;
 
 import org.robobinding.property.ValueModel;
+import org.robobinding.widgetaddon.ViewAddOn;
 
 /**
  * 
@@ -8,6 +9,7 @@ import org.robobinding.property.ValueModel;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface TwoWayPropertyViewAttribute<ViewType, PropertyType> extends PropertyViewAttribute<ViewType, PropertyType> {
-	void observeChangesOnTheView(ViewType view, ValueModel<PropertyType> valueModel);
+public interface TwoWayPropertyViewAttribute<ViewType, ViewAddOnType extends ViewAddOn, PropertyType> {
+	void updateView(ViewType view, PropertyType newValue, ViewAddOnType viewAddOn);
+	void observeChangesOnTheView(ViewAddOnType viewAddOn, ValueModel<PropertyType> valueModel, ViewType view);
 }

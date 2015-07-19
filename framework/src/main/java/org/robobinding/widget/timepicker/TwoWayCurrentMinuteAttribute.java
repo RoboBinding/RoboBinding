@@ -1,11 +1,11 @@
 package org.robobinding.widget.timepicker;
 
+import org.robobinding.property.ValueModel;
+import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
+import org.robobinding.widgetaddon.timepicker.TimePickerAddOn;
+
 import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
-
-import org.robobinding.property.ValueModel;
-import org.robobinding.viewattribute.ViewListenersAware;
-import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 
 /**
  *
@@ -13,23 +13,19 @@ import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
  * @version $Revision: 1.0 $
  * @author Joachim Hill-Grannec
  */
-public class TwoWayCurrentMinuteAttribute implements TwoWayPropertyViewAttribute<TimePicker, Integer>, ViewListenersAware<TimePickerListeners> {
-    private TimePickerListeners viewListeners;
-    @Override
-    public void setViewListeners(TimePickerListeners viewListeners) {
-        this.viewListeners = viewListeners;
-    }
-    @Override
-    public void updateView(TimePicker view, Integer newValue) {
+public class TwoWayCurrentMinuteAttribute implements TwoWayPropertyViewAttribute<TimePicker, TimePickerAddOn, Integer> {
+
+	@Override
+    public void updateView(TimePicker view, Integer newValue, TimePickerAddOn viewAddOn) {
         view.setCurrentMinute(newValue);
     }
 
     @Override
-    public void observeChangesOnTheView(TimePicker timePicker, final ValueModel<Integer> integerValueModel) {
-        viewListeners.addOnTimeChangedListener(new OnTimeChangedListener() {
+    public void observeChangesOnTheView(TimePickerAddOn viewAddOn, final ValueModel<Integer> valueModel, TimePicker view) {
+    	viewAddOn.addOnTimeChangedListener(new OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                integerValueModel.setValue(minute);
+            	valueModel.setValue(minute);
             }
         });
     }
