@@ -13,7 +13,7 @@ public class PresentationModelInfoProcessor extends PresentationModelProcessor {
 	public PresentationModelInfo result;
 	
 	@Override
-	protected void generateClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context, Logger log) {
+	protected void generateAllClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context, Logger log) {
 		this.result = presentationModelInfo;
 	}
 }

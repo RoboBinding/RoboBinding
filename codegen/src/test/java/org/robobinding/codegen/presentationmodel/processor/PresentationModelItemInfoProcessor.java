@@ -19,7 +19,7 @@ public class PresentationModelItemInfoProcessor extends PresentationModelProcess
 	public PresentationModelInfo result;
 
 	@Override
-	protected void generateClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context,
+	protected void generateAllClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context,
 			Logger log) throws IOException, JClassAlreadyExistsException,
 			ClassNotFoundException {
 		DataSetPropertyInfo dataSetProperty = presentationModelInfo.dataSetProperties().toArray(new DataSetPropertyInfo[0])[0];

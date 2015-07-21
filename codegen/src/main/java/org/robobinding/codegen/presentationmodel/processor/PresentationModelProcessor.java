@@ -21,6 +21,7 @@ import org.robobinding.codegen.presentationmodel.DataSetPropertyInfo;
 import org.robobinding.codegen.presentationmodel.ItemPresentationModelObjectClassGen;
 import org.robobinding.codegen.presentationmodel.PresentationModelInfo;
 import org.robobinding.codegen.presentationmodel.PresentationModelObjectClassGen;
+import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
 import com.google.common.collect.Sets;
 import com.sun.codemodel.CodeWriter;
@@ -60,7 +61,11 @@ public class PresentationModelProcessor extends AbstractProcessor {
 			ProcessingContext context = new ProcessingContext(processingEnv.getTypeUtils(), processingEnv.getElementUtils(),
 					processingEnv.getMessager());
 			try {
-				generateClasses(presentationModelInfo, context, log);
+				if (isItemPresentationModelAlso(typeElement)) {
+					createItemPresentationModelObjectSourceFiles(presentationModelInfo, context);
+				} else {
+					generateAllClasses(presentationModelInfo, context, log);
+				}
 			} catch (IOException e) {
 				log.error(e);
 				throw new RuntimeException(e);
@@ -74,9 +79,13 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		}
 		return true;
 	}
+	
+	private boolean isItemPresentationModelAlso(WrappedTypeElement typeElement) {
+		return typeElement.isAssignableTo(ItemPresentationModel.class);
+	}
 
 
-	protected void generateClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context,
+	protected void generateAllClasses(PresentationModelInfo presentationModelInfo, ProcessingContext context,
 			Logger log) throws IOException, JClassAlreadyExistsException, ClassNotFoundException {
 		createItemPresentationModelObjectSourceFiles(presentationModelInfo, context);
 		createPresentationModelObjectSourceFiles(presentationModelInfo, log);
