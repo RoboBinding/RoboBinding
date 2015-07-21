@@ -9,7 +9,7 @@ import java.util.List;
 import javax.annotation.processing.Processor;
 import javax.tools.JavaFileObject;
 
-import com.google.android.collect.Lists;
+import com.google.common.collect.Lists;
 import com.google.testing.compile.JavaFileObjects;
 
 /**
