@@ -15,5 +15,6 @@ public class TextViewBinding implements ViewBinding<TextView> {
 	@Override
 	public void mapBindingAttributes(BindingAttributeMappings<TextView> mappings) {
 		mappings.mapOneWayProperty(TextAttribute.class, "text");
+		mappings.mapOneWayProperty(TextColorAttribute.class, "textColor");
 	}
 }
