@@ -3,7 +3,7 @@ package org.robobinding;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.LayoutInflater.Factory;
+import android.view.LayoutInflater.Factory2;
 import android.view.View;
 
 /**
@@ -13,7 +13,7 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class ViewFactory implements Factory {
+class ViewFactory implements Factory2 {
 	private final LayoutInflater layoutInflater;
 	private final ViewNameResolver viewNameResolver;
 	private final ViewCreationListener listener;
@@ -37,6 +37,11 @@ class ViewFactory implements Factory {
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	@Override
+	public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+		return onCreateView(name, context, attrs);
 	}
 
 	private void notifyViewCreated(AttributeSet attrs, View view) {
