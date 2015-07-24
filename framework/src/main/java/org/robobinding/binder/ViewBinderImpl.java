@@ -3,6 +3,7 @@ package org.robobinding.binder;
 import static org.robobinding.util.Preconditions.checkValidResourceId;
 
 import org.robobinding.ViewBinder;
+import org.robobinding.ViewCreationListenerInstaller;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
 
 import android.view.LayoutInflater;
@@ -74,7 +75,10 @@ public class ViewBinderImpl implements ViewBinder {
 	}
 	
 	public ViewBinder with(LayoutInflater layoutInflater) {
-		return new ViewBinderImpl(bindingViewInflater.with(layoutInflater), 
-				viewBindingLifecycle, presentationModelObjectLoader);
+		LayoutInflater newLayoutInflater = layoutInflater.cloneInContext(layoutInflater.getContext());
+		BindingViewInflater newBindingViewInflater = bindingViewInflater.with(newLayoutInflater);
+		new ViewCreationListenerInstaller(newLayoutInflater).install(newBindingViewInflater);
+		
+		return new ViewBinderImpl(newBindingViewInflater, viewBindingLifecycle, presentationModelObjectLoader);
 	}
 }
