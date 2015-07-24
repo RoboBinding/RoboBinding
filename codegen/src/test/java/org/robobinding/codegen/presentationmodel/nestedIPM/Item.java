@@ -1,4 +1,4 @@
-package org.robobinding.codegen.presentationmodel.nestedIPMexample;
+package org.robobinding.codegen.presentationmodel.nestedIPM;
 
 /**
  * @since 1.0

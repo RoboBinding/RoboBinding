@@ -1,4 +1,4 @@
-package org.robobinding.codegen.presentationmodel.nestedIPMexample;
+package org.robobinding.codegen.presentationmodel.nestedIPM;
 
 import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;

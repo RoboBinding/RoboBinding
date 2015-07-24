@@ -1,6 +1,7 @@
 package org.robobinding.codegen.presentationmodel.processor;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -156,8 +157,9 @@ public class PresentationModelInfoBuilder {
 				continue;
 			}
 			removeSetterOfDataSetProperty(dataSetProperty);
-			removeItemPresentationModelFactoryMethod(dataSetProperty);
 		}
+		
+		removeItemPresentationModelFactoryMethod(dataSetProperties.values());
 	}
 
 	private void validateDataSetProperty(DataSetPropertyInfoImpl dataSetProperty) {
@@ -180,11 +182,17 @@ public class PresentationModelInfoBuilder {
 				new MethodDescription(factoryMethodName, dataSetProperty.itemPresentationModelTypeName(), new Class<?>[0])));
 	}
 	
-	private void removeSetterOfDataSetProperty(DataSetPropertyInfoImpl dataSetProperty) {
+	private void removeSetterOfDataSetProperty(DataSetPropertyInfo dataSetProperty) {
 		propertyBuilders.remove(dataSetProperty.name());
 	}
 	
-	private void removeItemPresentationModelFactoryMethod(DataSetPropertyInfoImpl dataSetProperty) {
+	private void removeItemPresentationModelFactoryMethod(Collection<DataSetPropertyInfoImpl> dataSetProperties) {
+		for(DataSetPropertyInfo dataSetProperty : dataSetProperties) {
+			removeItemPresentationModelFactoryMethod(dataSetProperty);
+		}
+	}
+	
+	private void removeItemPresentationModelFactoryMethod(DataSetPropertyInfo dataSetProperty) {
 		eventMethods.remove(dataSetProperty.factoryMethod());
 	}
 

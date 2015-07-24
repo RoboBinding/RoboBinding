@@ -6,8 +6,9 @@ import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robobinding.codegen.presentationmodel.nestedIPMexample.ItemPresentationModelExample;
-import org.robobinding.codegen.presentationmodel.nestedIPMexample.PresentationModelExample;
+import org.robobinding.codegen.presentationmodel.nestedIPM.ItemPresentationModelExample;
+import org.robobinding.codegen.presentationmodel.nestedIPM.PresentationModelExample;
+import org.robobinding.codegen.presentationmodel.sharedfactorymethod.SharedFacotryMethodPresentationModel;
 
 /**
  * @since 1.0
@@ -30,6 +31,11 @@ public class PresentationModelProcessorTest {
 	@Test
 	public void shouldSuccessWhenProcessNestedIPMExample() {
 		ProcessorAssert.compilesWithoutErrorWhenProcess(processor, PresentationModelExample.class, ItemPresentationModelExample.class);
+	}
+	
+	@Test
+	public void shouldSuccessWhenProcessSharedFactoryMethodExample() {
+		ProcessorAssert.compilesWithoutErrorWhenProcess(processor, SharedFacotryMethodPresentationModel.class);
 	}
 	
 	@Test
