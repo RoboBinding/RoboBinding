@@ -14,37 +14,56 @@ import android.view.View;
  * @author Cheng Wei
  */
 class ViewFactory implements Factory2 {
-	private final LayoutInflater layoutInflater;
+	private final Factory2 original;
+	private LayoutInflater layoutInflater;
 	private final ViewNameResolver viewNameResolver;
 	private final ViewCreationListener listener;
 
-	public ViewFactory(LayoutInflater layoutInflater, ViewNameResolver viewNameResolver, ViewCreationListener listener) {
+	public ViewFactory(LayoutInflater layoutInflater, Factory2 original, 
+			ViewNameResolver viewNameResolver, ViewCreationListener listener) {
 		this.layoutInflater = layoutInflater;
+		this.original = original;
 		this.viewNameResolver = viewNameResolver;
 		this.listener = listener;
 	}
 
 	@Override
 	public View onCreateView(String name, Context context, AttributeSet attrs) {
+		View view = original.onCreateView(name, context, attrs);
+		
+		view = createViewByInflaterIfNull(view, name, attrs);
+
+		notifyViewCreatedIfNotNull(attrs, view);
+
+		return view;
+	}
+	
+	private View createViewByInflaterIfNull(View viewOrNull, String name, AttributeSet attrs) {
+		if(viewOrNull != null) return viewOrNull;
+		
+		String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
 		try {
-			String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
-
-			View view = layoutInflater.createView(viewFullName, null, attrs);
-
-			notifyViewCreated(attrs, view);
-
-			return view;
+			System.out.println("viewFullName: " + viewFullName);
+			return layoutInflater.createView(viewFullName, null, attrs);
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	@Override
 	public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-		return onCreateView(name, context, attrs);
+		View view = original.onCreateView(parent, name, context, attrs);
+		
+		view = createViewByInflaterIfNull(view, name, attrs);
+
+		notifyViewCreatedIfNotNull(attrs, view);
+
+		return view;
 	}
 
-	private void notifyViewCreated(AttributeSet attrs, View view) {
-		listener.onViewCreated(view, attrs);
+	private void notifyViewCreatedIfNotNull(AttributeSet attrs, View view) {
+		if(view != null) {
+			listener.onViewCreated(view, attrs);
+		}
 	}
 }

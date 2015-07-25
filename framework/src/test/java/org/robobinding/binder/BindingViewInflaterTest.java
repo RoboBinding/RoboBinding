@@ -107,11 +107,7 @@ public class BindingViewInflaterTest {
 		return Lists.newArrayList(predefinedPendingAttributesForView);
 	}
 
-	private class NonBindingViewInflaterWithOnViewCreationCall extends NonBindingViewInflater {
-		public NonBindingViewInflaterWithOnViewCreationCall() {
-			super(null);
-		}
-
+	private class NonBindingViewInflaterWithOnViewCreationCall implements NonBindingViewInflater {
 		@Override
 		public View inflateWithoutRoot(int layoutId) {
 			View resultView = null;

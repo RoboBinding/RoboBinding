@@ -1,6 +1,5 @@
 package org.robobinding;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,6 +27,7 @@ public interface ViewBinder {
 	/**
 	 * The fix for https://github.com/RoboBinding/RoboBinding/issues/200.
 	 */
-	ViewBinder with(LayoutInflater layoutInflater);
+	/*
+	ViewBinder with(LayoutInflater layoutInflater);*/
 
 }

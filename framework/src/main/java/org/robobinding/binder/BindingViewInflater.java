@@ -12,7 +12,6 @@ import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.ViewCreationListener;
 
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -91,9 +90,5 @@ public class BindingViewInflater implements ViewCreationListener {
 		ViewResolutionResult viewResolutionResult = bindingAttributeResolver.resolve(pendingAttributesForView);
 		viewResolutionResult.addPotentialErrorTo(errors);
 		resolvedBindingAttributesForChildViews.add(viewResolutionResult.getResolvedBindingAttributes());
-	}
-	
-	public BindingViewInflater with(LayoutInflater layoutInflater) {
-		return new BindingViewInflater(new NonBindingViewInflater(layoutInflater), bindingAttributeResolver, bindingAttributeParser);
 	}
 }

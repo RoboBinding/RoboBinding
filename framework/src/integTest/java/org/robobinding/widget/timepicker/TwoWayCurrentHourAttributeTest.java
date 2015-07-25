@@ -41,7 +41,8 @@ public class TwoWayCurrentHourAttributeTest extends AbstractTimePickerAttributeT
         ValueModel<Integer> valueModel = ValueModelUtils.create();
         attribute.observeChangesOnTheView(viewAddOn, valueModel, view);
 
-        int newCurrentHourValue = RandomValues.integerBetween(1,24);
+        view.setIs24HourView(true);
+        int newCurrentHourValue = RandomValues.integerBetween(0,23);
         view.setCurrentHour(newCurrentHourValue);
 
         assertThat(valueModel.getValue(), equalTo(newCurrentHourValue));

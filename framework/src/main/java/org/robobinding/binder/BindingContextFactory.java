@@ -18,15 +18,13 @@ public class BindingContextFactory {
 	private final Context context;
 	private final boolean preInitializeViews;
 	private final PresentationModelAdapterFactory presentationModelAdapterFactory;
-	private BinderProvider binderProvider;
+	private final BinderProvider binderProvider;
 
-	public BindingContextFactory(Context context, boolean preInitializeViews, PresentationModelAdapterFactory presentationModelAdapterFactory) {
+	public BindingContextFactory(Context context, boolean preInitializeViews, 
+			PresentationModelAdapterFactory presentationModelAdapterFactory, BinderProvider binderProvider) {
 		this.context = context;
 		this.preInitializeViews = preInitializeViews;
 		this.presentationModelAdapterFactory = presentationModelAdapterFactory;
-	}
-
-	public void setBinderProvider(BinderProvider binderProvider) {
 		this.binderProvider = binderProvider;
 	}
 
