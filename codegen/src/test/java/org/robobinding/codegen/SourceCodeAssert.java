@@ -10,7 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.robobinding.codegen.presentationmodel.TextFile;
 
-import com.sun.codemodel.writer.SingleStreamCodeWriter;
+import com.helger.jcodemodel.writer.SingleStreamCodeWriter;
 
 /**
  * @since 1.0

@@ -1,6 +1,8 @@
 -----------------------------------org.robobinding.codegen.presentationmodel.DefineTryToCreateProperty_PM.java-----------------------------------
 package org.robobinding.codegen.presentationmodel;
 
+import org.robobinding.codegen.presentationmodel.differentpackage.CustomClass;
+import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.AbstractGetSet;
@@ -12,6 +14,30 @@ public class DefineTryToCreateProperty_PM {
 	final DefineTryToCreateProperty presentationModel;
 	@Override
 	public SimpleProperty tryToCreateProperty(String name) {
+		if (name.equals("customClass1")) {
+			PropertyDescriptor descriptor = createPropertyDescriptor(CustomClass.class,name,true,false);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<CustomClass>(descriptor) {
+				@Override
+				public CustomClass getValue() {
+					return presentationModel.getCustomClass1();
+				}
+			};
+			return new SimpleProperty(this, descriptor, getSet);
+		}
+		
+		if (name.equals("customClass2")) {
+			PropertyDescriptor descriptor = createPropertyDescriptor(CustomClass.class,name,true,false);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<CustomClass>(descriptor) {
+				@Override
+				public CustomClass getValue() {
+					return presentationModel.getCustomClass2();
+				}
+			};
+			return new SimpleProperty(this, descriptor, getSet);
+		}
+		
 		if (name.equals("primitiveReadWriteProp")) {
 			PropertyDescriptor descriptor = createPropertyDescriptor(Integer.class, name, true, true);
 			

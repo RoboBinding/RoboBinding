@@ -6,7 +6,7 @@ import org.robobinding.codegen.apt.type.WrappedPrimitiveType;
 import org.robobinding.codegen.apt.type.WrappedTypeMirror;
 
 import com.google.common.base.Objects;
-import com.sun.codemodel.JDefinedClass;
+import com.helger.jcodemodel.JDefinedClass;
 
 
 

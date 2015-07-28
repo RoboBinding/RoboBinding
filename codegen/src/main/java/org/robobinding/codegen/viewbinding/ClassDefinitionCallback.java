@@ -1,6 +1,6 @@
 package org.robobinding.codegen.viewbinding;
 
-import com.sun.codemodel.JDefinedClass;
+import com.helger.jcodemodel.JDefinedClass;
 
 /**
  * @since 1.0

@@ -2,7 +2,7 @@ package org.robobinding.codegen;
 
 import java.io.IOException;
 
-import com.sun.codemodel.CodeWriter;
+import com.helger.jcodemodel.AbstractCodeWriter;
 
 /**
  * @since 1.0
@@ -10,5 +10,5 @@ import com.sun.codemodel.CodeWriter;
  *
  */
 public interface SourceCodeWritable {
-	void writeTo(CodeWriter output) throws IOException;
+	void writeTo(AbstractCodeWriter output) throws IOException;
 }

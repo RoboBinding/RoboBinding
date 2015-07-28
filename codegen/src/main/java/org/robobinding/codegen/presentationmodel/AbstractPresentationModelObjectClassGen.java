@@ -16,19 +16,19 @@ import org.robobinding.property.SimpleProperty;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.sun.codemodel.CodeWriter;
-import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JClass;
-import com.sun.codemodel.JClassAlreadyExistsException;
-import com.sun.codemodel.JCodeModel;
-import com.sun.codemodel.JConditional;
-import com.sun.codemodel.JDefinedClass;
-import com.sun.codemodel.JExpr;
-import com.sun.codemodel.JFieldRef;
-import com.sun.codemodel.JInvocation;
-import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
-import com.sun.codemodel.JVar;
+import com.helger.jcodemodel.AbstractCodeWriter;
+import com.helger.jcodemodel.AbstractJClass;
+import com.helger.jcodemodel.JBlock;
+import com.helger.jcodemodel.JClassAlreadyExistsException;
+import com.helger.jcodemodel.JCodeModel;
+import com.helger.jcodemodel.JConditional;
+import com.helger.jcodemodel.JDefinedClass;
+import com.helger.jcodemodel.JExpr;
+import com.helger.jcodemodel.JFieldRef;
+import com.helger.jcodemodel.JInvocation;
+import com.helger.jcodemodel.JMethod;
+import com.helger.jcodemodel.JMod;
+import com.helger.jcodemodel.JVar;
 
 /**
  * @since 1.0
@@ -43,14 +43,15 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 	protected JFieldRef presentationModelField;
 	protected JFieldRef presentationModelFieldWithoutThis;
 	
-	private JClass setClassWithString;
-	private JClass mapClassWithStringAndStringSet;
-	private JClass setClassWithMethodDescriptor;
-	private JClass propertyDescriptorClass;
-	private JClass simplePropertyClass;
-	private JClass getSetClass;
-	private JClass dataSetPropertyClass;
-	private JClass refreshableItemPresentationModelFactoryClass;
+	private AbstractJClass setClassWithString;
+	private AbstractJClass mapClassWithStringAndStringSet;
+	private AbstractJClass setClassWithMethodDescriptor;
+	private AbstractJClass propertyDescriptorClass;
+	private AbstractJClass simplePropertyClass;
+	private AbstractJClass getSetClass;
+	private AbstractJClass wildcardGetSetClass;
+	private AbstractJClass dataSetPropertyClass;
+	private AbstractJClass refreshableItemPresentationModelFactoryClass;
 	
 	public AbstractPresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) {
 		this.presentationModelInfo = presentationModelInfo;
@@ -62,7 +63,8 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 		setClassWithMethodDescriptor = codeModel.ref(Set.class).narrow(MethodDescriptor.class);
 		propertyDescriptorClass = codeModel.ref(PropertyDescriptor.class);
 		simplePropertyClass = codeModel.ref(SimpleProperty.class);
-		getSetClass = codeModel.ref(AbstractGetSet.class).narrow(codeModel.wildcard());
+		getSetClass = codeModel.ref(AbstractGetSet.class);
+		wildcardGetSetClass = getSetClass.narrow(codeModel.wildcard());
 		dataSetPropertyClass = codeModel.ref(DataSetProperty.class);
 		refreshableItemPresentationModelFactoryClass = codeModel.ref(RefreshableItemPresentationModelFactory.class);
 
@@ -74,7 +76,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 	}
 	
 	@Override
-	public void writeTo(CodeWriter output) throws IOException {
+	public void writeTo(AbstractCodeWriter output) throws IOException {
 		codeModel.build(output);
 	}
 	
@@ -94,11 +96,11 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 		method.body()._return(newHashSetInvocation(presentationModelInfo.propertyNames()));
 	}
 	
-	private JMethod declarePublicMethodOverride(String methodName, JClass returnType) {
+	private JMethod declarePublicMethodOverride(String methodName, AbstractJClass returnType) {
 		return declarePublicMethodOverride(definedClass, methodName, returnType);
 	}
 	
-	private static JMethod declarePublicMethodOverride(JDefinedClass definedClass, String methodName, JClass returnType) {
+	private static JMethod declarePublicMethodOverride(JDefinedClass definedClass, String methodName, AbstractJClass returnType) {
 		JMethod method = definedClass.method(JMod.PUBLIC, returnType, methodName);
 		method.annotate(Override.class);
 		return method;
@@ -214,6 +216,8 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 	}
 	 */
 	public void defineTryToCreateProperty() {
+		try{
+		
 		JMethod method = declarePublicMethodOverride("tryToCreateProperty", SimpleProperty.class);
 		JVar nameParam = method.param(String.class, "name");
 		
@@ -223,7 +227,8 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 			JConditional conditional = body._if(nameParam.invoke("equals").arg(propertyInfo.name()));
 			JBlock conditionalBody = conditional._then();
 			//create PropertyDescriptor.
-			JClass propertyClass = codeModel.ref(propertyInfo.typeName());
+			AbstractJClass propertyClass = codeModel.ref(propertyInfo.typeName());
+			
 			JInvocation createPropertyDescriptor = JExpr.invoke("createPropertyDescriptor")
 					.arg(propertyClass.dotclass())
 					.arg(nameParam)
@@ -231,7 +236,8 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 					.arg(JExpr.lit(propertyInfo.isWritable()));
 			JVar descriptorVar = conditionalBody.decl(propertyDescriptorClass, "descriptor", createPropertyDescriptor);
 			//create AbstractGetSet.
-			JClass narrowedGetSet = codeModel.ref(AbstractGetSet.class).narrow(codeModel.ref(propertyInfo.typeName()));
+			//JClass narrowedGetSet = getSetClass.narrow(codeModel.ref(propertyInfo.typeName()));
+			AbstractJClass narrowedGetSet = getSetClass.narrow(propertyClass);
 			JDefinedClass anonymousGetSet = codeModel.anonymousClass(narrowedGetSet);
 			
 			if(propertyInfo.isReadable()) {
@@ -244,13 +250,18 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 				JVar newValueParam = setter.param(propertyClass, "newValue");
 				setter.body().add(presentationModelFieldWithoutThis.invoke(propertyInfo.setter()).arg(newValueParam));
 			}
-			JVar getSetVar = conditionalBody.decl(getSetClass, "getSet", 
+			JVar getSetVar = conditionalBody.decl(wildcardGetSetClass, "getSet", 
 					JExpr._new(anonymousGetSet).arg(descriptorVar));
 			//return SimpleProperty.
 			conditionalBody._return(JExpr._new(simplePropertyClass).arg(JExpr._this()).arg(descriptorVar).arg(getSetVar));
 		}
 		
 		body._return(JExpr._null());
+		
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 	
 	private JMethod declarePublicMethodOverride(String methodName, Class<?> returnType) {
@@ -319,20 +330,20 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 			JConditional conditional = body._if(nameParam.invoke("equals").arg(propertyInfo.name()));
 			JBlock conditionalBody = conditional._then();
 			//create createDataSetPropertyDescriptor.
-			JClass propertyClass = codeModel.ref(propertyInfo.type());
+			AbstractJClass propertyClass = codeModel.ref(propertyInfo.type());
 			JInvocation createDataSetPropertyDescriptor = JExpr.invoke("createDataSetPropertyDescriptor")
 					.arg(propertyClass.dotclass())
 					.arg(nameParam);
 			
 			JVar descriptorVar = conditionalBody.decl(propertyDescriptorClass, "descriptor", createDataSetPropertyDescriptor);
 			//create AbstractGetSet.
-			JClass narrowedGetSet = codeModel.ref(AbstractGetSet.class).narrow(codeModel.ref(propertyInfo.type()));
+			AbstractJClass narrowedGetSet = getSetClass.narrow(codeModel.ref(propertyInfo.type()));
 			JDefinedClass anonymousGetSet = codeModel.anonymousClass(narrowedGetSet);
 			
 			JMethod getter = declarePublicMethodOverride(anonymousGetSet, "getValue", propertyClass);
 			getter.body()._return(presentationModelFieldWithoutThis.invoke(propertyInfo.getter()));
 			
-			JVar getSetVar = conditionalBody.decl(getSetClass, "getSet", 
+			JVar getSetVar = conditionalBody.decl(wildcardGetSetClass, "getSet", 
 					JExpr._new(anonymousGetSet).arg(descriptorVar));
 			//JVar getSetVar = conditionalBody.decl(getSetClass, "getSet", 
 			//		JExpr._new(anonymousGetSet.narrow(propertyClass)).arg(descriptorVar));
@@ -341,7 +352,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 			
 			JMethod create = declarePublicMethodOverride(anonymousFactory, "create", RefreshableItemPresentationModel.class);
 
-			JClass itemPresentationModelObjectClass = codeModel.ref(propertyInfo.itemPresentationModelObjectTypeName());
+			AbstractJClass itemPresentationModelObjectClass = codeModel.ref(propertyInfo.itemPresentationModelObjectTypeName());
 			JInvocation newItemPresentationModelObject = JExpr._new(itemPresentationModelObjectClass);
 			if (propertyInfo.isCreatedByFactoryMethod()) {
 				newItemPresentationModelObject.arg(presentationModelFieldWithoutThis.invoke(propertyInfo.factoryMethod()));
@@ -410,7 +421,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 			//call event method.
 			JInvocation onEvent = presentationModelFieldWithoutThis.invoke(eventMethodInfo.name());
 			if(eventMethodInfo.hasEventArg()) {
-				JClass eventArgClass = codeModel.ref(eventMethodInfo.eventArgType());
+				AbstractJClass eventArgClass = codeModel.ref(eventMethodInfo.eventArgType());
 				onEvent.arg(JExpr.cast(eventArgClass, argsVar.component(JExpr.lit(0))));
 			}
 			//call return.

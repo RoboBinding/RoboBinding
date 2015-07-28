@@ -8,18 +8,18 @@ import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 import org.robobinding.viewbinding.BindingAttributeMappings;
 import org.robobinding.viewbinding.ViewBinding;
 
-import com.sun.codemodel.CodeWriter;
-import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JClass;
-import com.sun.codemodel.JClassAlreadyExistsException;
-import com.sun.codemodel.JCodeModel;
-import com.sun.codemodel.JDefinedClass;
-import com.sun.codemodel.JExpr;
-import com.sun.codemodel.JFieldRef;
-import com.sun.codemodel.JFieldVar;
-import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
-import com.sun.codemodel.JVar;
+import com.helger.jcodemodel.AbstractCodeWriter;
+import com.helger.jcodemodel.AbstractJClass;
+import com.helger.jcodemodel.JBlock;
+import com.helger.jcodemodel.JClassAlreadyExistsException;
+import com.helger.jcodemodel.JCodeModel;
+import com.helger.jcodemodel.JDefinedClass;
+import com.helger.jcodemodel.JExpr;
+import com.helger.jcodemodel.JFieldRef;
+import com.helger.jcodemodel.JFieldVar;
+import com.helger.jcodemodel.JMethod;
+import com.helger.jcodemodel.JMod;
+import com.helger.jcodemodel.JVar;
 
 /**
  * @since 1.0
@@ -32,8 +32,8 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
 	private final JCodeModel codeModel;
 	private final JDefinedClass definedClass;
 	
-	private JClass customViewBindingClass;
-	private JClass viewClass;
+	private AbstractJClass customViewBindingClass;
+	private AbstractJClass viewClass;
 	protected JFieldRef customViewBindingField;
 	protected JFieldRef customViewBindingFieldWithoutThis;
 	
@@ -47,7 +47,7 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
 			 public class MyCustomViewBinding$$VB implements org.robobinding.viewbinding.ViewBinding<ImageView> {
 			 */
 			viewClass = codeModel.ref(viewBindingInfo.viewType());
-			JClass viewBindingInterface = codeModel.ref(ViewBinding.class).narrow(viewClass);
+			AbstractJClass viewBindingInterface = codeModel.ref(ViewBinding.class).narrow(viewClass);
 			definedClass._implements(viewBindingInterface);
 		} catch (JClassAlreadyExistsException e) {
 			throw new RuntimeException(e);
@@ -57,7 +57,7 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
 	}
 	
 	@Override
-	public void writeTo(CodeWriter output) throws IOException {
+	public void writeTo(AbstractCodeWriter output) throws IOException {
 		codeModel.build(output);
 	}
 	
@@ -112,8 +112,8 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
 			});
 
 			
-			JClass propertyClass = codeModel.ref(propInfo.propertyType());
-			JClass oneWayPropertyInterface = codeModel.ref(OneWayPropertyViewAttribute.class).narrow(
+			AbstractJClass propertyClass = codeModel.ref(propInfo.propertyType());
+			AbstractJClass oneWayPropertyInterface = codeModel.ref(OneWayPropertyViewAttribute.class).narrow(
 					viewClass, propertyClass);
 			definedBindingAttributeClass._implements(oneWayPropertyInterface);
 			
@@ -142,7 +142,7 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
 	public void defineMapBindingAttributesMethod() {
 		JMethod method = definedClass.method(JMod.PUBLIC, codeModel.VOID, "mapBindingAttributes");
 		method.annotate(Override.class);
-		JClass bindingAttributeMappingsType = codeModel.ref(BindingAttributeMappings.class).narrow(viewClass);
+		AbstractJClass bindingAttributeMappingsType = codeModel.ref(BindingAttributeMappings.class).narrow(viewClass);
 		JVar mappingsParam = method.param(bindingAttributeMappingsType, "mappings");
 		
 		JBlock body = method.body();

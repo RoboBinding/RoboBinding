@@ -19,7 +19,7 @@ compileTestJava {
 }
 
 ext {
-	codemodelVersion = '2.2.10-b140310.1920';
+	codemodelVersion = '2.7.10';
 	androidVersion = '4.1.1.4'
 	commonsLangVersion = '3.3.2'
 	
@@ -30,7 +30,8 @@ dependencies {
 	compile(project(':framework')) {
 		exclude group: 'org.robolectric', module: 'android-all'
 	}
-	compile "org.glassfish.jaxb:codemodel:$codemodelVersion"
+	compile "com.helger:jcodemodel:$codemodelVersion"
+	//compile "org.glassfish.jaxb:codemodel:$codemodelVersion"
 	compile ("com.google.android:android:$androidVersion"){
 		exclude group: 'commons-logging', module: 'commons-logging'
 		exclude group: 'org.apache.httpcomponents', module: 'httpclient'

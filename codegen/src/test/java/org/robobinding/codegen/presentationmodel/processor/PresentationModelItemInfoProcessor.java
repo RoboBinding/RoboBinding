@@ -8,7 +8,7 @@ import org.robobinding.codegen.apt.element.WrappedTypeElement;
 import org.robobinding.codegen.presentationmodel.DataSetPropertyInfo;
 import org.robobinding.codegen.presentationmodel.PresentationModelInfo;
 
-import com.sun.codemodel.JClassAlreadyExistsException;
+import com.helger.jcodemodel.JClassAlreadyExistsException;
 
 /**
  * @since 1.0

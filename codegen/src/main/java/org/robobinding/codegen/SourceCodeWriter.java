@@ -2,23 +2,25 @@ package org.robobinding.codegen;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 import javax.annotation.processing.Filer;
 import javax.tools.JavaFileObject;
 
-import com.sun.codemodel.CodeWriter;
-import com.sun.codemodel.JPackage;
+import com.helger.jcodemodel.AbstractCodeWriter;
+import com.helger.jcodemodel.JPackage;
 
 /**
  * @since 1.0
  * @author Cheng Wei
  *
  */
-public class SourceCodeWriter extends CodeWriter {
+public class SourceCodeWriter extends AbstractCodeWriter {
 
 	private final Filer filer;
 
 	public SourceCodeWriter(Filer filer) {
+		super(Charset.forName("UTF-8"));
 		this.filer = filer;
 	}
 

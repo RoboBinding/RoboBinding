@@ -2,14 +2,14 @@ package org.robobinding.codegen.presentationmodel;
 
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
 
-import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JClass;
-import com.sun.codemodel.JExpr;
-import com.sun.codemodel.JFieldVar;
-import com.sun.codemodel.JInvocation;
-import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JMod;
-import com.sun.codemodel.JVar;
+import com.helger.jcodemodel.AbstractJClass;
+import com.helger.jcodemodel.JBlock;
+import com.helger.jcodemodel.JExpr;
+import com.helger.jcodemodel.JFieldVar;
+import com.helger.jcodemodel.JInvocation;
+import com.helger.jcodemodel.JMethod;
+import com.helger.jcodemodel.JMod;
+import com.helger.jcodemodel.JVar;
 
 /**
  * @since 1.0
@@ -17,7 +17,7 @@ import com.sun.codemodel.JVar;
  *
  */
 public class PresentationModelObjectClassGen extends AbstractPresentationModelObjectClassGen {
-	private JClass presentationModelClass;
+	private AbstractJClass presentationModelClass;
 	public PresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) {
 		super(presentationModelInfo);
 		

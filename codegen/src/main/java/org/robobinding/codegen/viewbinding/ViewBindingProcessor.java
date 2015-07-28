@@ -16,8 +16,8 @@ import org.robobinding.codegen.apt.element.WrappedTypeElement;
 import org.robobinding.customviewbinding.ViewBindingLoader;
 
 import com.google.common.collect.Sets;
-import com.sun.codemodel.CodeWriter;
-import com.sun.codemodel.JClassAlreadyExistsException;
+import com.helger.jcodemodel.AbstractCodeWriter;
+import com.helger.jcodemodel.JClassAlreadyExistsException;
 
 /**
  * @since 1.0
@@ -76,7 +76,7 @@ public class ViewBindingProcessor extends AbstractProcessor {
 		gen.defineMapBindingAttributesMethod();
 	}
 
-	private CodeWriter createOutput() throws IOException, JClassAlreadyExistsException {
+	private AbstractCodeWriter createOutput() throws IOException, JClassAlreadyExistsException {
 		return new SourceCodeWriter(processingEnv.getFiler());
 	}
 

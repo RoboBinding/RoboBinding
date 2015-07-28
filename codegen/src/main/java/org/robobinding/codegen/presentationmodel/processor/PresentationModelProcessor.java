@@ -24,8 +24,8 @@ import org.robobinding.codegen.presentationmodel.PresentationModelObjectClassGen
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
 import com.google.common.collect.Sets;
-import com.sun.codemodel.CodeWriter;
-import com.sun.codemodel.JClassAlreadyExistsException;
+import com.helger.jcodemodel.AbstractCodeWriter;
+import com.helger.jcodemodel.JClassAlreadyExistsException;
 
 /**
  * @since 1.0
@@ -132,7 +132,7 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		gen.defineTryToCreateFunction();
 	}
 	
-	private CodeWriter createOutput() throws IOException, JClassAlreadyExistsException {
+	private AbstractCodeWriter createOutput() throws IOException, JClassAlreadyExistsException {
 		return new SourceCodeWriter(processingEnv.getFiler());
 	}
 

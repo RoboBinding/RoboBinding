@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import com.google.common.collect.Lists;
 import com.google.testing.compile.CompilationRule;
-import com.sun.codemodel.JClassAlreadyExistsException;
+import com.helger.jcodemodel.JClassAlreadyExistsException;
 
 /**
  * @since 1.0
