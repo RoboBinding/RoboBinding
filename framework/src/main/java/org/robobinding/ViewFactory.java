@@ -43,7 +43,6 @@ class ViewFactory implements Factory2 {
 		
 		String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
 		try {
-			System.out.println("viewFullName: " + viewFullName);
 			return layoutInflater.createView(viewFullName, null, attrs);
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);

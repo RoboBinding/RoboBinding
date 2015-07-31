@@ -27,6 +27,7 @@ public class ViewCreationListenerInstaller {
 			ViewFactory factory = createViewFactory(newLayoutInflater, layoutInflater.getFactory2());
 			
 			newLayoutInflater.setFactory2(factory);
+			forceSetFactory2IfRequired(newLayoutInflater);
 		} else if(layoutInflater.getFactory() != null) {
 			ViewFactory factory = createViewFactory(newLayoutInflater, new FactoryToFactory2(layoutInflater.getFactory()));
 			
@@ -46,6 +47,17 @@ public class ViewCreationListenerInstaller {
 		return newLayoutInflater;
 	}
 	
+	/**
+	 * A fix to android.view.LayoutInflater.setFactory2 bug in early versions
+	 *  - https://code.google.com/p/android/issues/detail?id=73779
+	 */
+	private void forceSetFactory2IfRequired(LayoutInflater newLayoutInflater) {
+		if(newLayoutInflater.getFactory() != newLayoutInflater.getFactory2()) {
+			ReflectionUtils.setField(newLayoutInflater, "mFactory2", 
+					LayoutInflater.Factory2.class, (LayoutInflater.Factory2)newLayoutInflater.getFactory());
+		}
+	}
+
 	private LayoutInflater clone(LayoutInflater layoutInflater) {
 		return layoutInflater.cloneInContext(layoutInflater.getContext());
 	}
