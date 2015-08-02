@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
 <meta name="keywords" content="presentation model, android mvc, mvvm, mvp, android, binding, android binding, android-binding, Bindroid, MvvmCross, android mvvm" />
 <title>入门</title>
 <style type="text/css">
@@ -837,14 +837,14 @@ asciidoc.install(2);
                 <a href="index.zh.html" class="menuitem">首页</a>
                 <a href="getting_started.zh.html" class="menuitem">入门</a>
                 <a href="insight_into_framework.zh.html" class="menuitem">深入理解框架</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.9/robobinding-0.8.9-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.10/robobinding-0.8.10-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
                 <a href="about.zh.html" class="menuitem">关于</a>
                 <a href="versions.zh.html" class="menuitem">版本更新</a>
                 <a href="index.html" class="menuitem">英文首页</a>
         </div>
 <div id="header">
 <h1>入门</h1>
-<span id="revnumber">version 0.8.9</span>
+<span id="revnumber">version 0.8.10</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -1193,7 +1193,7 @@ RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel a
     <span class="nd">@ItemPresentationModel</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="n">StringItemPresentationModel</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
     <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getDynamicStrings</span><span class="o">()</span>
     <span class="o">{</span>
-        <span class="k">return</span> <span class="nf">getSelectedSource</span><span class="o">().</span><span class="na">getSample</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">getSelectedSource</span><span class="o">().</span><span class="na">getSample</span><span class="o">();</span>
     <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>以下提供ItemPresentationModel以及数据项layout。Android中Adapter实现了重用，所以ItemPresentationModel也会被重用，即需要实现updateData方法。</p></div>
@@ -1228,11 +1228,11 @@ RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel a
     <span class="nd">@ItemPresentationModel</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="n">ItemPresentationModelSample</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">factoryMethod</span><span class="o">=</span><span class="s">&quot;createItemPresentationModelSample&quot;</span><span class="o">)</span>
     <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getDynamicStrings</span><span class="o">()</span>
     <span class="o">{</span>
-        <span class="k">return</span> <span class="nf">getSelectedSource</span><span class="o">().</span><span class="na">getSample</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">getSelectedSource</span><span class="o">().</span><span class="na">getSample</span><span class="o">();</span>
     <span class="o">}</span>
 
     <span class="kd">public</span> <span class="n">ItemPresentationModelSample</span> <span class="nf">createItemPresentationModelSample</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="nf">ItemPresentationModelSample</span><span class="o">(</span><span class="n">dependency1</span><span class="o">,</span> <span class="n">dependency2</span><span class="o">,</span> <span class="o">...);</span>
+        <span class="k">return</span> <span class="n">ItemPresentationModelSample</span><span class="o">(</span><span class="n">dependency1</span><span class="o">,</span> <span class="n">dependency2</span><span class="o">,</span> <span class="o">...);</span>
     <span class="o">}</span>
 </pre></div></div></div>
 </div>
@@ -1288,7 +1288,7 @@ RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel a
     <span class="kd">public</span> <span class="n">Product</span> <span class="nf">mapRow</span><span class="o">(</span><span class="n">Cursor</span> <span class="n">cursor</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">getColumnIndex</span><span class="o">(</span><span class="n">ProductTable</span><span class="o">.</span><span class="na">NAME</span><span class="o">));</span>
         <span class="n">String</span> <span class="n">description</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">getColumnIndex</span><span class="o">(</span><span class="n">ProductTable</span><span class="o">.</span><span class="na">DESCRIPTION</span><span class="o">));</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="nf">Product</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">description</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">Product</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">description</span><span class="o">);</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
@@ -1373,114 +1373,78 @@ RoboBinding里，我们通过在数据集属性上使用@ItemPresentationModel a
 </div>
 </div>
 <div class="sect1">
-<h2 id="_album唱片集例子项目学习">5. Album唱片集例子项目学习</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>唱片集例子项目是Martin Fowler原始版本基于RoboBinding的Android翻译(Martin Fowler基于.Net的 <a href="http://martinfowler.com/eaaDev/PresentationModel.html">原始版本</a> )。
-项目地址 <a href="https://github.com/RoboBinding/RoboBinding-album-sample">RoboBinding-album-sample</a>。</p></div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/album_sample_prototype.png" alt="album_sample_prototype.png" />
-</div>
-<div class="title">Figure 5. Album唱片集例子原型</div>
-</div>
-<div class="paragraph"><p>以下"."表示相对于org.robobinding.albumsample的包路径。</p></div>
-<div class="paragraph"><p>以上是Album唱片集例子原型图。项目遵循RoboBinding应用的标准结构，即一个Activity由Activity主文件，Layout与PresentationModel Java文件组成。
-项目源代码中包含以下几个包：org.robobinding.albumsample.activity包含所有Activity的主文件，org.robobinding.albumsample.presentationmodel包含所有PresentationModel文件，
-org.robobinding.albumsample.model仅包含一个Album实体实现文件，org.robobinding.albumsample.store包含一个基于内存Album实体存储实现AlbumStore。接下来列出上述五张图所对应的实现文件。</p></div>
-<div class="paragraph"><p>图[Home Activity]由.activity.HomeActivity，home_activity.xml与.presentationmodel.HomePresentationModel组成。</p></div>
-<div class="paragraph"><p>图[View Albums Activity]由.activity.ViewAlbumsActivity，view_albums_activity.xml与.presentationmodel.ViewAlbumsPresentationModel组成;
-其唱片集每行的唱片信息由.presentationmodel.AlbumItemPresentationModel与album_row.xml组成；以及一个当唱片集为空时Layout显示文件albums_empty_view.xml。</p></div>
-<div class="paragraph"><p>图[Create Album Activity]与图[Edit Album Activity]由相同的.activity.CreateEditAlbumActivity，create_edit_album_activity.xml与.presentationmodel.CreateEditAlbumPresentationModel组成。</p></div>
-<div class="paragraph"><p>图[View Album Activity]由.activity.ViewAlbumActivity，view_album_activity.xml与.presentationmodel.ViewAlbumPresentationModel组成；
-其删除对话框由.activity.DeleteAlbumDialog，delete_album_dialog.xml与.presentationmodel.DeleteAlbumDialogPresentationModel组成。</p></div>
-<div class="paragraph"><p>以下以[View Albums Activity]为例，对源代码做简单介绍。Activity类ViewAlbumsActivity只做了一件事，就是把Layout view_albums_activity.xml与ViewAlbumsPresentationModel关联起来。
-view_albums_activity.xml里包含了三个子视图按顺序为TextView, ListView与Button。TextView没有包含任何绑定信息。
-ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationModel.albums数据集属性。
-<code>bind:onItemClick="viewAlbum"</code>绑定到ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent)方法，单击某个唱片项时，该事件方法将被调用。
-<code>bind:emptyViewLayout="@layout/albums_empty_view"</code>设置了当唱片集为空时的显示内容Layout。
-<code>bind:itemLayout="@layout/album_row"</code>设置了唱片项的行显示Layout，结合在ViewAlbumsPresentationModel.albums上给出的数据项PresentationModel，即<code>@ItemPresentationModel(AlbumItemPresentationModel.class)</code>，
-来显示每一个唱片行。在album_row.xml里包含了两个简单的TextView，其<code>bind:text="{title}"</code>与<code>bind:text="{artist}"</code>分别绑定到AlbumItemPresentationModel.title/artist属性。
-在view_albums_activity.xml里的最后一个Button视图，<code>bind:onClick="createAlbum"</code>绑定到ViewAlbumsPresentationModel.createAlbum()方法。</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_gallery_示例内容">6. Gallery 示例内容</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>以下的入口类都位于<a href="https://github.com/RoboBinding/RoboBinding-gallery/">Robobinding Gallery</a>项目的org.robobinding.gallery.activity包下。</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-View绑定属性示例。入口类为ViewActivity。
-</p>
-</li>
-<li>
-<p>
-EditText绑定属性示例。入口类为EditTextActivity。
-</p>
-</li>
-<li>
-<p>
-AdapterView绑定属性示例。入口类为AdapterViewActivity。
-</p>
-</li>
-<li>
-<p>
-ListView绑定属性示例。入口类为ListViewActivity。
-</p>
-</li>
-<li>
-<p>
-自定义组件绑定属性示例。入口类为CustomComponentActivity。
-</p>
-</li>
-<li>
-<p>
-对象化Cursor示例。入口类为TypedCursorActivity。
-</p>
-</li>
-<li>
-<p>
-动态绑定示例。入口类为DynamicBindingActivity。
-</p>
-</li>
-<li>
-<p>
-Fragment与ViewPager绑定示例。入口类为ListFragmentDemoActivity。
-</p>
-</li>
-<li>
-<p>
-Options Menu绑定示例。入口类为OptionsMenuActivity。
-</p>
-</li>
-<li>
-<p>
-Context Menu绑定示例。入口类为ContextMenuDemoActivity。
-</p>
-</li>
-<li>
-<p>
-Contextual Action Mode绑定示例。入口类为ContextualActionModeActivity。
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_创建自己的视图绑定实现">7. 创建自己的视图绑定实现</h2>
+<h2 id="_创建视图绑定实现">5. 创建视图绑定实现</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>以下的例子代码来自 <a href="https://github.com/RoboBinding/RoboBinding-gallery/">Robobinding Gallery</a>。</p></div>
-<div class="paragraph"><p>RoboBinding提供了两种视图绑定方式：静态绑定与动态绑定。静态绑定主要针对一些常用的简单属性绑定。
-而动态绑定作为一种补充方式，可以快速的实现属性绑定，当这些属性RoboBinding还不支持时。</p></div>
 <div class="sect2">
-<h3 id="_自定义组件或第三方组件">7.1. 自定义组件或第三方组件</h3>
-<div class="paragraph"><p>通过为自定义组件，第三方组件或未实现绑定的Android widget提供视图绑定实现，使它们更易于使用。在RoboBinding中，视图绑定实现方法是一致的。
-当我们创建自己的视图绑定实现时，可以参考RoboBinding下的任何一个Android widget的视图绑定实现，如<code>org.robobinding.widget.imageview</code>包与包下的<code>ImageViewBinding</code>类。</p></div>
+<h3 id="_简单的单向绑定属性">5.1. 简单的单向绑定属性</h3>
+<div class="paragraph"><p>例如我们为android.View添加一个enabled绑定属性
+- <a href="https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/ViewBindingForView.java">源代码</a>。</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nd">@ViewBinding</span><span class="o">(</span><span class="n">simpleOneWayProperties</span> <span class="o">=</span> <span class="o">{</span><span class="s">&quot;enabled&quot;</span><span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ViewBindingForView</span> <span class="kd">extends</span> <span class="n">CustomViewBinding</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>然后在BinderFactoryBuilder加入
+- <a href="https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/GalleryApp.java">源代码</a>。</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ViewBindingForView</span><span class="o">().</span><span class="na">extend</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">class</span><span class="o">))</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div></div></div>
+<div class="paragraph"><p>RoboBinding 为我们自动产生以下代码。</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ViewBindingForView$$VB</span> <span class="kd">implements</span> <span class="n">ViewBinding</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;{</span>
+    <span class="kd">final</span> <span class="n">ViewBindingForView</span> <span class="n">customViewBinding</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ViewBindingForView$$VB</span><span class="o">(</span><span class="n">ViewBindingForView</span> <span class="n">customViewBinding</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">customViewBinding</span> <span class="o">=</span> <span class="n">customViewBinding</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mappings</span><span class="o">.</span><span class="na">mapOneWayProperty</span><span class="o">(</span><span class="n">ViewBindingForView$$VB</span><span class="o">.</span><span class="na">EnabledAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;enabled&quot;</span><span class="o">);</span>
+        <span class="n">customViewBinding</span><span class="o">.</span><span class="na">mapBindingAttributes</span><span class="o">(</span><span class="n">mappings</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">EnabledAttribute</span> <span class="kd">implements</span> <span class="n">OneWayPropertyViewAttribute</span><span class="o">&lt;</span><span class="n">View</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;</span>
+    <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateView</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="n">Boolean</span> <span class="n">newValue</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">view</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="n">newValue</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>由于所有的绑定都是静态的，对性能没有影响。</p></div>
+</div>
+<div class="sect2">
+<h3 id="_其它绑定实现">5.2. 其它绑定实现</h3>
+<div class="paragraph"><p>除了以上简单单向属性绑定之外，还有事件绑定，多值属性绑定与复合属性绑定。当要实现这些绑定时，我们需要自己扩展CustomViewBinding实现绑定。
+例如实现事件绑定如下。</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nd">@ViewBinding</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyCustomViewBinding</span> <span class="kd">extends</span> <span class="n">CustomViewBinding</span><span class="o">&lt;</span><span class="n">CustomView</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">CustomView</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mappings</span><span class="o">.</span><span class="na">mapEvent</span><span class="o">(</span><span class="n">OnCustomEventAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;onCustomEvent&quot;</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">OnCustomEventAttribute</span> <span class="kd">implements</span> <span class="n">EventViewAttributeForView</span> <span class="o">{</span>
+    <span class="o">...</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>其它的绑定实现，可以参考RoboBinding的绑定属性实现 - <a href="https://github.com/RoboBinding/RoboBinding/tree/develop/framework/src/main/java/org/robobinding/widget">widget包下的源代码</a>。</p></div>
+</div>
+<div class="sect2">
+<h3 id="_自定义组件或第三方组件">5.3. 自定义组件或第三方组件</h3>
+<div class="paragraph"><p>通过为自定义组件，第三方组件或未实现绑定的Android widget提供视图绑定实现，使它们更易于使用。在RoboBinding中，视图绑定实现方法是一致的。</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/custom_component.png" alt="custom_component.png" />
 </div>
-<div class="title">Figure 6. 自定义 Title Description Bar</div>
+<div class="title">Figure 5. 自定义 Title Description Bar</div>
 </div>
 <div class="paragraph"><p>我们以上图的自定义组件TitleDescriptionBar为例。该组件包含了标题与描述两个部分。在输入新的标题与描述后，点击'Apply'，自定义组件的内容就更新为新的内容。</p></div>
 <div class="paragraph"><p>我们想使TitleDescriptonBar组件使用起来能像以下<code>示例一样简单</code>。</p></div>
@@ -1529,146 +1493,144 @@ Contextual Action Mode绑定示例。入口类为ContextualActionModeActivity。
     <span class="nt">&lt;TextView</span> <span class="na">android:id=</span><span class="s">&quot;@+id/description&quot;</span><span class="nt">/&gt;</span>
 </pre></div></div></div>
 <div class="sect3">
-<h4 id="_实现绑定属性">7.1.1. 实现绑定属性</h4>
-<div class="paragraph"><p>TitleDescriptionBar有标题与描述两个绑定属性，对应的实现分别是TitleAttribute与DescriptionAttribute。最后视图绑定实现类TitleDescriptionBarBinding。</p></div>
-<div class="paragraph"><p>org.robobinding.gallery.model.customcomponent.TitleAttribute.java/DescriptionAttribute.java/TitleDescriptionBarBinding.java</p></div>
+<h4 id="_实现绑定属性">5.3.1. 实现绑定属性</h4>
+<div class="paragraph"><p>TitleDescriptionBar有标题与描述两个简单单向属性绑定
+- <a href="https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/model/customcomponent/TitleDescriptionBarBinding.java">源代码</a>。</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleAttribute</span> <span class="kd">implements</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">,</span> <span class="n">CharSequence</span><span class="o">&gt;</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateView</span><span class="o">(</span><span class="n">TitleDescriptionBar</span> <span class="n">view</span><span class="o">,</span> <span class="n">CharSequence</span> <span class="n">newText</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">view</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">newText</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DescriptionAttribute</span> <span class="kd">implements</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">,</span> <span class="n">CharSequence</span><span class="o">&gt;</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateView</span><span class="o">(</span><span class="n">TitleDescriptionBar</span> <span class="n">view</span><span class="o">,</span> <span class="n">CharSequence</span> <span class="n">newText</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">view</span><span class="o">.</span><span class="na">setDescription</span><span class="o">(</span><span class="n">newText</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleDescriptionBarBinding</span> <span class="kd">implements</span> <span class="n">ViewBinding</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">&gt;</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">mappings</span><span class="o">.</span><span class="na">mapProperty</span><span class="o">(</span><span class="n">TitleAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;title&quot;</span><span class="o">);</span>
-        <span class="n">mappings</span><span class="o">.</span><span class="na">mapProperty</span><span class="o">(</span><span class="n">DescriptionAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;description&quot;</span><span class="o">);</span>
-    <span class="o">}</span>
+<div class="content"><div class="highlight"><pre><span class="nd">@ViewBinding</span><span class="o">(</span><span class="n">simpleOneWayProperties</span> <span class="o">=</span> <span class="o">{</span><span class="s">&quot;title&quot;</span><span class="o">,</span> <span class="s">&quot;description&quot;</span><span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleDescriptionBarBinding</span> <span class="kd">extends</span> <span class="n">CustomViewBinding</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">&gt;</span> <span class="o">{</span>
 <span class="o">}</span>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_注册视图绑定实现">7.1.2. 注册视图绑定实现</h4>
-<div class="paragraph"><p>通过org.robobinding.binder.BinderFactoryBuilder注册视图绑定实现。</p></div>
-<div class="paragraph"><p>org.robobinding.gallery.activity.CustomComponentActivity.java</p></div>
+<h4 id="_注册视图绑定实现">5.3.2. 注册视图绑定实现</h4>
+<div class="paragraph"><p>通过org.robobinding.binder.BinderFactoryBuilder注册视图绑定实现
+- <a href="https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/CustomComponentActivity.java">源代码</a>。</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
-            <span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">TitleDescriptionBar</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">TitleDescriptionBarBinding</span><span class="o">())</span>
-            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
-<span class="n">ActivityBinder</span> <span class="n">activityBinder</span> <span class="o">=</span> <span class="n">binderFactory</span><span class="o">.</span><span class="na">createActivityBinder</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
-<span class="n">activityBinder</span><span class="o">.</span><span class="na">inflateAndBind</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">custom_component_activity</span><span class="o">,</span> <span class="n">presentationModel</span><span class="o">);</span>
+  <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">TitleDescriptionBarBinding</span><span class="o">().</span><span class="na">forView</span><span class="o">(</span><span class="n">TitleDescriptionBar</span><span class="o">.</span><span class="na">class</span><span class="o">))</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
 </pre></div></div></div>
 <div class="paragraph"><p>这样我们很容易的就完成了视图绑定实现。我们以同样的方式可以为任何第三方组件或未实现绑定的Android widget提供视图绑定实现。</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_覆盖已有的视图绑定实现">7.2. 覆盖已有的视图绑定实现</h3>
-<div class="paragraph"><p>当RoboBinding框架已有的绑定属性不满足需求或没有相应的属性绑定实现时，我们有两种选择。第一种是修改框架代码，增加缺少的绑定属性(希望大家都参与贡献更多的绑定属性实现)。
-第二种是不更改框架，实现相应的视图绑定及其属性绑定，然后注册覆盖已有的框架所提供的默认实现。
-以第二种方式为例，我们来覆盖框架已有的<a href="http://developer.android.com/reference/android/widget/ImageView.html">ImageView</a>视图绑定实现<code>org.robobinding.widget.imageview</code>。</p></div>
-<div class="sect3">
-<h4 id="_实现新的视图绑定与绑定属性">7.2.1. 实现新的视图绑定与绑定属性</h4>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyImageViewBinding</span> <span class="kd">extends</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">widget</span><span class="o">.</span><span class="na">imageview</span><span class="o">.</span><span class="na">ImageViewBinding</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">mappings</span><span class="o">.</span><span class="na">mapProperty</span><span class="o">(</span><span class="n">MyImageSourceAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;src&quot;</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyImageSourceAttribute</span> <span class="kd">extends</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">widget</span><span class="o">.</span><span class="na">imageview</span><span class="o">.</span><span class="na">ImageSourceAttribute</span> <span class="o">{</span>
-     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">,</span> <span class="o">?&gt;</span> <span class="n">create</span><span class="o">(</span><span class="n">ImageView</span> <span class="n">view</span><span class="o">,</span> <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">propertyType</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isAssignableFrom</span><span class="o">(</span><span class="n">propertyType</span><span class="o">))</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="k">new</span> <span class="nf">UrlImageSourceAttribute</span><span class="o">();</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">createPropertyViewAttribute</span><span class="o">(</span><span class="n">propertyType</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-
-    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">UrlImageSourceAttribute</span> <span class="kd">implements</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="o">{</span>
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateView</span><span class="o">(</span><span class="n">ImageView</span> <span class="n">view</span><span class="o">,</span> <span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">Bitmap</span> <span class="n">image</span> <span class="o">=</span> <span class="n">loadBitmapFromUrl</span><span class="o">(</span><span class="n">url</span><span class="o">);</span><span class="c1">//load image from given url.</span>
-            <span class="n">view</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">image</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</pre></div></div></div>
-</div>
-<div class="sect3">
-<h4 id="_注册覆盖框架已有的实现">7.2.2. 注册覆盖框架已有的实现</h4>
+<h3 id="_覆盖已有的视图绑定实现">5.4. 覆盖已有的视图绑定实现</h3>
+<div class="paragraph"><p>当RoboBinding框架已有的视图绑定实现不满足需求, 我们可以注册覆盖已有的框架所提供的默认实现。</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
-            <span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">ImageView</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">MyImageViewBinding</span><span class="o">())</span>
-            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+  <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">MyViewBindingForView</span><span class="o">().</span><span class="na">forView</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">class</span><span class="o">))</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nd">@ViewBinding</span>
+<span class="kd">static</span> <span class="kd">class</span> <span class="nc">MyViewBindingForView</span> <span class="kd">extends</span> <span class="n">CustomViewBinding</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="o">...</span>
+<span class="o">}</span>
 </pre></div></div></div>
-</div>
 </div>
 <div class="sect2">
-<h3 id="_动态视图绑定">7.3. 动态视图绑定</h3>
-<div class="paragraph"><p>当框架没有实现一些属性绑定时，我们可以通过动态视图绑定的方式快速的实现或扩展已有的视图绑定实现。动态视图绑定主要是作为以上介绍的静态视图绑定的补允。
-动态绑定内部是通过Java的反射机制实现，对性能有一定的影响。主要用于快速实现一些不常用的简单属性绑定。</p></div>
-<div class="sect3">
-<h4 id="_新的视图绑定实现">7.3.1. 新的视图绑定实现</h4>
-<div class="paragraph"><p>为CustomOrThirdPartyComponent创建动态视图绑定并增加textAttribute属性绑定。</p></div>
-<div class="paragraph"><p>activity_dynamic_binding.xml</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;org.robobinding.gallery.model.dynamicbinding.CustomOrThirdPartyComponent</span>
-    <span class="na">bind:textAttribute=</span><span class="s">&quot;{textAttributeValue}&quot;</span><span class="nt">/&gt;</span>
-</pre></div></div></div>
-<div class="paragraph"><p>org.robobinding.gallery.activity.DynamicBindingActivity.java</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DynamicBindingActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-        <span class="o">...</span>
-        <span class="n">BinderFactoryBuilder</span> <span class="n">binderFactoryBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
-            <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">DynamicViewBinding</span><span class="o">().</span><span class="na">forView</span><span class="o">(</span><span class="n">CustomOrThirdPartyComponent</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">oneWayProperties</span><span class="o">(</span><span class="s">&quot;textAttribute&quot;</span><span class="o">));</span>
-        <span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="n">binderFactoryBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
-        <span class="n">ActivityBinder</span> <span class="n">activityBinder</span> <span class="o">=</span> <span class="n">binderFactory</span><span class="o">.</span><span class="na">createActivityBinder</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
-        <span class="n">activityBinder</span><span class="o">.</span><span class="na">inflateAndBind</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_dynamic_binding</span><span class="o">,</span> <span class="n">presentationModel</span><span class="o">);</span>
-    <span class="o">}</span>
-    <span class="o">...</span>
-<span class="o">}</span>
-</pre></div></div></div>
-</div>
-<div class="sect3">
-<h4 id="_扩展已有的视图绑定实现">7.3.2. 扩展已有的视图绑定实现</h4>
+<h3 id="_扩展已有的视图绑定实现">5.5. 扩展已有的视图绑定实现</h3>
 <div class="paragraph"><p>扩展已有的TextViewBinding并添加typeface属性绑定。</p></div>
-<div class="paragraph"><p>activity_dynamic_binding.xml</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;TextView</span>
-    <span class="na">bind:typeface=</span><span class="s">&quot;{typeface}&quot;</span><span class="nt">/&gt;</span>
-</pre></div></div></div>
-<div class="paragraph"><p>org.robobinding.gallery.activity.DynamicBindingActivity.java</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DynamicBindingActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-        <span class="o">...</span>
-        <span class="n">BinderFactoryBuilder</span> <span class="n">binderFactoryBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
-            <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">DynamicViewBinding</span><span class="o">().</span><span class="na">extend</span><span class="o">(</span><span class="n">TextView</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">TextViewBinding</span><span class="o">())</span>
-                <span class="o">.</span><span class="na">oneWayProperties</span><span class="o">(</span><span class="s">&quot;typeface&quot;</span><span class="o">));</span>
-        <span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="n">binderFactoryBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
-        <span class="n">ActivityBinder</span> <span class="n">activityBinder</span> <span class="o">=</span> <span class="n">binderFactory</span><span class="o">.</span><span class="na">createActivityBinder</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
-        <span class="n">activityBinder</span><span class="o">.</span><span class="na">inflateAndBind</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_dynamic_binding</span><span class="o">,</span> <span class="n">presentationModel</span><span class="o">);</span>
-    <span class="o">}</span>
-    <span class="o">...</span>
+<div class="content"><div class="highlight"><pre><span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">MyTextViewBinding</span><span class="o">().</span><span class="na">extend</span><span class="o">(</span><span class="n">TextView</span><span class="o">.</span><span class="na">class</span><span class="o">))</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nd">@ViewBinding</span><span class="o">(</span><span class="n">simpleOneWayProperties</span><span class="o">={</span><span class="s">&quot;typeface&quot;</span><span class="o">})</span>
+<span class="kd">static</span> <span class="kd">class</span> <span class="nc">MyTextViewBinding</span> <span class="kd">extends</span> <span class="n">CustomViewBinding</span><span class="o">&lt;</span><span class="n">TextView</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="o">...</span>
 <span class="o">}</span>
 </pre></div></div></div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_album唱片集例子项目学习">6. Album唱片集例子项目学习</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>唱片集例子项目是Martin Fowler原始版本基于RoboBinding的Android翻译(Martin Fowler基于.Net的 <a href="http://martinfowler.com/eaaDev/PresentationModel.html">原始版本</a> )。
+项目地址 <a href="https://github.com/RoboBinding/RoboBinding-album-sample">RoboBinding-album-sample</a>。</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/album_sample_prototype.png" alt="album_sample_prototype.png" />
+</div>
+<div class="title">Figure 6. Album唱片集例子原型</div>
+</div>
+<div class="paragraph"><p>以下"."表示相对于org.robobinding.albumsample的包路径。</p></div>
+<div class="paragraph"><p>以上是Album唱片集例子原型图。项目遵循RoboBinding应用的标准结构，即一个Activity由Activity主文件，Layout与PresentationModel Java文件组成。
+项目源代码中包含以下几个包：org.robobinding.albumsample.activity包含所有Activity的主文件，org.robobinding.albumsample.presentationmodel包含所有PresentationModel文件，
+org.robobinding.albumsample.model仅包含一个Album实体实现文件，org.robobinding.albumsample.store包含一个基于内存Album实体存储实现AlbumStore。接下来列出上述五张图所对应的实现文件。</p></div>
+<div class="paragraph"><p>图[Home Activity]由.activity.HomeActivity，home_activity.xml与.presentationmodel.HomePresentationModel组成。</p></div>
+<div class="paragraph"><p>图[View Albums Activity]由.activity.ViewAlbumsActivity，view_albums_activity.xml与.presentationmodel.ViewAlbumsPresentationModel组成;
+其唱片集每行的唱片信息由.presentationmodel.AlbumItemPresentationModel与album_row.xml组成；以及一个当唱片集为空时Layout显示文件albums_empty_view.xml。</p></div>
+<div class="paragraph"><p>图[Create Album Activity]与图[Edit Album Activity]由相同的.activity.CreateEditAlbumActivity，create_edit_album_activity.xml与.presentationmodel.CreateEditAlbumPresentationModel组成。</p></div>
+<div class="paragraph"><p>图[View Album Activity]由.activity.ViewAlbumActivity，view_album_activity.xml与.presentationmodel.ViewAlbumPresentationModel组成；
+其删除对话框由.activity.DeleteAlbumDialog，delete_album_dialog.xml与.presentationmodel.DeleteAlbumDialogPresentationModel组成。</p></div>
+<div class="paragraph"><p>以下以[View Albums Activity]为例，对源代码做简单介绍。Activity类ViewAlbumsActivity只做了一件事，就是把Layout view_albums_activity.xml与ViewAlbumsPresentationModel关联起来。
+view_albums_activity.xml里包含了三个子视图按顺序为TextView, ListView与Button。TextView没有包含任何绑定信息。
+ListView的<code>bind:source="{albums}"</code>绑定到ViewAlbumsPresentationModel.albums数据集属性。
+<code>bind:onItemClick="viewAlbum"</code>绑定到ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent)方法，单击某个唱片项时，该事件方法将被调用。
+<code>bind:emptyViewLayout="@layout/albums_empty_view"</code>设置了当唱片集为空时的显示内容Layout。
+<code>bind:itemLayout="@layout/album_row"</code>设置了唱片项的行显示Layout，结合在ViewAlbumsPresentationModel.albums上给出的数据项PresentationModel，即<code>@ItemPresentationModel(AlbumItemPresentationModel.class)</code>，
+来显示每一个唱片行。在album_row.xml里包含了两个简单的TextView，其<code>bind:text="{title}"</code>与<code>bind:text="{artist}"</code>分别绑定到AlbumItemPresentationModel.title/artist属性。
+在view_albums_activity.xml里的最后一个Button视图，<code>bind:onClick="createAlbum"</code>绑定到ViewAlbumsPresentationModel.createAlbum()方法。</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gallery_示例内容">7. Gallery 示例内容</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>以下的入口类都位于<a href="https://github.com/RoboBinding/RoboBinding-gallery/">Robobinding Gallery</a>项目的org.robobinding.gallery.activity包下。</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+View绑定属性示例。入口类为ViewActivity。
+</p>
+</li>
+<li>
+<p>
+EditText绑定属性示例。入口类为EditTextActivity。
+</p>
+</li>
+<li>
+<p>
+AdapterView绑定属性示例。入口类为AdapterViewActivity。
+</p>
+</li>
+<li>
+<p>
+ListView绑定属性示例。入口类为ListViewActivity。
+</p>
+</li>
+<li>
+<p>
+自定义组件绑定属性示例。入口类为CustomComponentActivity。
+</p>
+</li>
+<li>
+<p>
+对象化Cursor示例。入口类为TypedCursorActivity。
+</p>
+</li>
+<li>
+<p>
+Fragment与ViewPager绑定示例。入口类为ListFragmentDemoActivity。
+</p>
+</li>
+<li>
+<p>
+Options Menu绑定示例。入口类为OptionsMenuActivity。
+</p>
+</li>
+<li>
+<p>
+Context Menu绑定示例。入口类为ContextMenuDemoActivity。
+</p>
+</li>
+<li>
+<p>
+Contextual Action Mode绑定示例。入口类为ContextualActionModeActivity。
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
@@ -1756,8 +1718,8 @@ Contextual Action Mode绑定示例。入口类为ContextualActionModeActivity。
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.9<br />
-Last updated 2014-10-14 19:39:21 澳大利亚西部标准时间
+Version 0.8.10<br />
+Last updated 2015-08-02 10:12:17 澳大利亚东部标准时间
 </div>
 </div>
 </body>

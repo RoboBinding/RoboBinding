@@ -1,6 +1,6 @@
 ﻿入门
 ====
-:Revision: 0.8.9
+:Revision: 0.8.10
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -19,7 +19,7 @@ Layout
 ~~~~~~
 在layout中声明RoboBinding命名空间，属性与事件绑定。
 
-activity_main.xml 
+activity_main.xml
 [source,xml]
 ----
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,17 +28,17 @@ activity_main.xml
 	<TextView
         bind:text="{hello}" />
 		...
-	<Button 
+	<Button
         android:text="Say Hello"
         bind:onClick="sayHello"/>
-</LinearLayout>		
+</LinearLayout>
 ----
 
 Presentation Model(pure POJO)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 在presentation model类中声明相应的属性与方法。Presentation model 为纯POJO类。
 
-org.robobinding.androidmvvm.PresentationModel.java 
+org.robobinding.androidmvvm.PresentationModel.java
 [source,java]
 ----
 @org.robobinding.annotation.PresentationModel
@@ -58,7 +58,7 @@ Activity Class
 ~~~~~~~~~~~~~~
 在activity类中将layout与对应的presentation model绑定在一起。
 
-org.robobinding.androidmvvm.MainActivity.java 
+org.robobinding.androidmvvm.MainActivity.java
 [source,java]
 ----
 public class MainActivity extends Activity {
@@ -125,7 +125,7 @@ Android Studio
 dependencies {
 	...
 	compile"org.robobinding:robobinding:${robobindingVersion}"
-	
+
 	//或者使用with-dependencies jar(RoboBinding提供一个proguard过的体积小的with-dependencies jar。)。
 	compile("org.robobinding:robobinding:${robobindingVersion}:with-dependencies") {
         exclude group: 'com.google.guava', module: 'guava'
@@ -284,7 +284,7 @@ EditText的text属性是支持双向绑定的一个例子。双向绑定的语�
 activity_edittext.xml
 [source,xml]
 ----
-<EditText 
+<EditText
 	bind:text="${text}"/>
 ----
 
@@ -294,11 +294,11 @@ org.robobinding.gallery.presentationmodel.EditTextPresentationModel.java
 @PresentationModel
 public class EditTextPresentationModel {
     private String text;
-    
+
     public String getText() {
 		return text;
     }
-    
+
     public void setText(String text) {
 		this.text = text;
     }
@@ -314,7 +314,7 @@ public class EditTextPresentationModel {
 activity_gallery.xml
 [source,xml]
 ----
-<Button 
+<Button
 	bind:onClick="showDemo"/>
 ----
 
@@ -401,7 +401,7 @@ public class PresentationModelSample
 	{
 		return getSelectedSource().getSample();
 	}
-	
+
 	public ItemPresentationModelSample createItemPresentationModelSample() {
 		return ItemPresentationModelSample(dependency1, dependency2, ...);
 	}
@@ -435,7 +435,7 @@ public class GetAllQuery<T>
 	private final RowMapper<T> rowMapper;
 
 	public GetAllQuery(String tableName, RowMapper<T> rowMapper)
-	{   
+	{
 	    ...
 		this.tableName = tableName;
 	    this.rowMapper = rowMapper;
@@ -494,7 +494,7 @@ org.robobinding.gallery.presentationmodel.ContextMenuPresentationModel.java
 ----
 @PresentationModel
 public class ContextMenuPresentationModel {
-    ...    
+    ...
     public void deleteProduct(MenuItem menuItem) {
 		...
     }
@@ -504,7 +504,7 @@ public class ContextMenuPresentationModel {
 Presentation Model
 ~~~~~~~~~~~~~~~~~~
 我们需要在每个PresentationModel上用@org.robobinding.annotation.PresentationModel进行标注。
-当在PresentationModel里需要用到org.robobinding.presentationmodel.PresentationModelChangeSupport时, 
+当在PresentationModel里需要用到org.robobinding.presentationmodel.PresentationModelChangeSupport时,
 我们的PresentationModel需要实现org.robobinding.presentationmodel.HasPresentationModelChangeSupport接口。
 这样框架内部通过这个接口来使用同一个PresentationModelChangeSupport实例。
 
@@ -526,76 +526,85 @@ Presentation Model
 
 可以参考https://github.com/RoboBinding/RoboBinding-album-sample[Album Sample]与https://github.com/RoboBinding/RoboBinding-gallery[Gallery]项目。
 
-Album唱片集例子项目学习
------------------------
-唱片集例子项目是Martin Fowler原始版本基于RoboBinding的Android翻译(Martin Fowler基于.Net的 http://martinfowler.com/eaaDev/PresentationModel.html[原始版本] )。
-项目地址 https://github.com/RoboBinding/RoboBinding-album-sample[RoboBinding-album-sample]。
-
-.Album唱片集例子原型
-image::album_sample_prototype.png[]
-
-以下"."表示相对于org.robobinding.albumsample的包路径。
-
-以上是Album唱片集例子原型图。项目遵循RoboBinding应用的标准结构，即一个Activity由Activity主文件，Layout与PresentationModel Java文件组成。
-项目源代码中包含以下几个包：org.robobinding.albumsample.activity包含所有Activity的主文件，org.robobinding.albumsample.presentationmodel包含所有PresentationModel文件，
-org.robobinding.albumsample.model仅包含一个Album实体实现文件，org.robobinding.albumsample.store包含一个基于内存Album实体存储实现AlbumStore。接下来列出上述五张图所对应的实现文件。
-
-图[Home Activity]由.activity.HomeActivity，home_activity.xml与.presentationmodel.HomePresentationModel组成。
-
-图[View Albums Activity]由.activity.ViewAlbumsActivity，view_albums_activity.xml与.presentationmodel.ViewAlbumsPresentationModel组成;
-其唱片集每行的唱片信息由.presentationmodel.AlbumItemPresentationModel与album_row.xml组成；以及一个当唱片集为空时Layout显示文件albums_empty_view.xml。
-
-图[Create Album Activity]与图[Edit Album Activity]由相同的.activity.CreateEditAlbumActivity，create_edit_album_activity.xml与.presentationmodel.CreateEditAlbumPresentationModel组成。
-
-图[View Album Activity]由.activity.ViewAlbumActivity，view_album_activity.xml与.presentationmodel.ViewAlbumPresentationModel组成；
-其删除对话框由.activity.DeleteAlbumDialog，delete_album_dialog.xml与.presentationmodel.DeleteAlbumDialogPresentationModel组成。
-
-以下以[View Albums Activity]为例，对源代码做简单介绍。Activity类ViewAlbumsActivity只做了一件事，就是把Layout view_albums_activity.xml与ViewAlbumsPresentationModel关联起来。
-view_albums_activity.xml里包含了三个子视图按顺序为TextView, ListView与Button。TextView没有包含任何绑定信息。
-ListView的++bind:source="\{albums\}"++绑定到ViewAlbumsPresentationModel.albums数据集属性。
-++bind:onItemClick="viewAlbum"++绑定到ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent)方法，单击某个唱片项时，该事件方法将被调用。
-++bind:emptyViewLayout="@layout/albums_empty_view"++设置了当唱片集为空时的显示内容Layout。
-++bind:itemLayout="@layout/album_row"++设置了唱片项的行显示Layout，结合在ViewAlbumsPresentationModel.albums上给出的数据项PresentationModel，即++@ItemPresentationModel(AlbumItemPresentationModel.class)++，
-来显示每一个唱片行。在album_row.xml里包含了两个简单的TextView，其++bind:text="\{title\}"++与++bind:text="\{artist\}"++分别绑定到AlbumItemPresentationModel.title/artist属性。
-在view_albums_activity.xml里的最后一个Button视图，++bind:onClick="createAlbum"++绑定到ViewAlbumsPresentationModel.createAlbum()方法。
-
-Gallery 示例内容
-----------------
-以下的入口类都位于https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery]项目的org.robobinding.gallery.activity包下。
-
-* View绑定属性示例。入口类为ViewActivity。
-
-* EditText绑定属性示例。入口类为EditTextActivity。
-
-* AdapterView绑定属性示例。入口类为AdapterViewActivity。
-
-* ListView绑定属性示例。入口类为ListViewActivity。
-
-* 自定义组件绑定属性示例。入口类为CustomComponentActivity。
-
-* 对象化Cursor示例。入口类为TypedCursorActivity。
-
-* 动态绑定示例。入口类为DynamicBindingActivity。
-
-* Fragment与ViewPager绑定示例。入口类为ListFragmentDemoActivity。
-
-* Options Menu绑定示例。入口类为OptionsMenuActivity。
-
-* Context Menu绑定示例。入口类为ContextMenuDemoActivity。
-
-* Contextual Action Mode绑定示例。入口类为ContextualActionModeActivity。
-
-创建自己的视图绑定实现
-----------------------
+创建视图绑定实现
+--------------
 以下的例子代码来自 https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery]。
 
-RoboBinding提供了两种视图绑定方式：静态绑定与动态绑定。静态绑定主要针对一些常用的简单属性绑定。
-而动态绑定作为一种补充方式，可以快速的实现属性绑定，当这些属性RoboBinding还不支持时。
+简单的单向绑定属性
+~~~~~~~~~~~~~~~~
+例如我们为android.View添加一个enabled绑定属性
+- https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/ViewBindingForView.java[源代码]。
+
+[source,java]
+----
+@ViewBinding(simpleOneWayProperties = {"enabled"})
+public class ViewBindingForView extends CustomViewBinding<View> {
+}
+----
+
+然后在BinderFactoryBuilder加入
+- https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/GalleryApp.java[源代码]。
+[source,java]
+----
+new BinderFactoryBuilder()
+  .add(new ViewBindingForView().extend(View.class))
+  .build();
+----
+
+RoboBinding 为我们自动产生以下代码。
+
+[source,java]
+----
+public class ViewBindingForView$$VB implements ViewBinding<View>{
+    final ViewBindingForView customViewBinding;
+
+    public ViewBindingForView$$VB(ViewBindingForView customViewBinding) {
+        this.customViewBinding = customViewBinding;
+    }
+
+    @Override
+    public void mapBindingAttributes(BindingAttributeMappings<View> mappings) {
+        mappings.mapOneWayProperty(ViewBindingForView$$VB.EnabledAttribute.class, "enabled");
+        customViewBinding.mapBindingAttributes(mappings);
+    }
+
+    public static class EnabledAttribute implements OneWayPropertyViewAttribute<View, Boolean>
+    {
+        @Override
+        public void updateView(View view, Boolean newValue) {
+            view.setEnabled(newValue);
+        }
+    }
+}
+----
+由于所有的绑定都是静态的，对性能没有影响。
+
+其它绑定实现
+~~~~~~~~~~~
+除了以上简单单向属性绑定之外，还有事件绑定，多值属性绑定与复合属性绑定。当要实现这些绑定时，我们需要自己扩展CustomViewBinding实现绑定。
+例如实现事件绑定如下。
+
+[source,java]
+----
+@ViewBinding
+public class MyCustomViewBinding extends CustomViewBinding<CustomView> {
+  @Override
+  public void mapBindingAttributes(BindingAttributeMappings<CustomView> mappings) {
+    mappings.mapEvent(OnCustomEventAttribute.class, "onCustomEvent");
+  }
+
+  public class OnCustomEventAttribute implements EventViewAttributeForView {
+	...
+  }
+}
+----
+
+其它的绑定实现，可以参考RoboBinding的绑定属性实现 - https://github.com/RoboBinding/RoboBinding/tree/develop/framework/src/main/java/org/robobinding/widget[widget包下的源代码]。
+
 
 自定义组件或第三方组件
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 通过为自定义组件，第三方组件或未实现绑定的Android widget提供视图绑定实现，使它们更易于使用。在RoboBinding中，视图绑定实现方法是一致的。
-当我们创建自己的视图绑定实现时，可以参考RoboBinding下的任何一个Android widget的视图绑定实现，如++org.robobinding.widget.imageview++包与包下的++ImageViewBinding++类。
 
 .自定义 Title Description Bar
 image::custom_component.png[]
@@ -656,160 +665,123 @@ public class TitleDescriptionBar extends LinearLayout {
 ----
 
 实现绑定属性
-^^^^^^^^^^^^
-TitleDescriptionBar有标题与描述两个绑定属性，对应的实现分别是TitleAttribute与DescriptionAttribute。最后视图绑定实现类TitleDescriptionBarBinding。
+^^^^^^^^^^^
+TitleDescriptionBar有标题与描述两个简单单向属性绑定
+- https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/model/customcomponent/TitleDescriptionBarBinding.java[源代码]。
 
-org.robobinding.gallery.model.customcomponent.TitleAttribute.java/DescriptionAttribute.java/TitleDescriptionBarBinding.java
 [source,java]
 ----
-public class TitleAttribute implements PropertyViewAttribute<TitleDescriptionBar, CharSequence> {
-    @Override
-    public void updateView(TitleDescriptionBar view, CharSequence newText) {
-		view.setTitle(newText);
-    }
-}
-
-public class DescriptionAttribute implements PropertyViewAttribute<TitleDescriptionBar, CharSequence> {
-    @Override
-    public void updateView(TitleDescriptionBar view, CharSequence newText) {
-		view.setDescription(newText);
-    }
-}
-
-public class TitleDescriptionBarBinding implements ViewBinding<TitleDescriptionBar> {
-    @Override
-    public void mapBindingAttributes(BindingAttributeMappings<TitleDescriptionBar> mappings) {
-        mappings.mapProperty(TitleAttribute.class, "title");
-        mappings.mapProperty(DescriptionAttribute.class, "description");
-    }
+@ViewBinding(simpleOneWayProperties = {"title", "description"})
+public class TitleDescriptionBarBinding extends CustomViewBinding<TitleDescriptionBar> {
 }
 ----
 
 注册视图绑定实现
-^^^^^^^^^^^^^^^^
-通过org.robobinding.binder.BinderFactoryBuilder注册视图绑定实现。
+^^^^^^^^^^^^^^^
+通过org.robobinding.binder.BinderFactoryBuilder注册视图绑定实现
+- https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/CustomComponentActivity.java[源代码]。
 
-org.robobinding.gallery.activity.CustomComponentActivity.java
 [source,java]
 ----
 BinderFactory binderFactory = new BinderFactoryBuilder()
-        	.mapView(TitleDescriptionBar.class, new TitleDescriptionBarBinding())
-        	.build();
-ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
-activityBinder.inflateAndBind(R.layout.custom_component_activity, presentationModel);
+  .add(new TitleDescriptionBarBinding().forView(TitleDescriptionBar.class))
+  .build();
 ----
+
 这样我们很容易的就完成了视图绑定实现。我们以同样的方式可以为任何第三方组件或未实现绑定的Android widget提供视图绑定实现。
 
 覆盖已有的视图绑定实现
-~~~~~~~~~~~~~~~~~~~~~~
-当RoboBinding框架已有的绑定属性不满足需求或没有相应的属性绑定实现时，我们有两种选择。第一种是修改框架代码，增加缺少的绑定属性(希望大家都参与贡献更多的绑定属性实现)。
-第二种是不更改框架，实现相应的视图绑定及其属性绑定，然后注册覆盖已有的框架所提供的默认实现。
-以第二种方式为例，我们来覆盖框架已有的http://developer.android.com/reference/android/widget/ImageView.html[ImageView]视图绑定实现++org.robobinding.widget.imageview++。
+~~~~~~~~~~~~~~~~~~~~
+当RoboBinding框架已有的视图绑定实现不满足需求, 我们可以注册覆盖已有的框架所提供的默认实现。
 
-实现新的视图绑定与绑定属性
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-[source,java]
-----
-public class MyImageViewBinding extends org.robobinding.widget.imageview.ImageViewBinding {
-    @Override
-    public void mapBindingAttributes(BindingAttributeMappings<ImageView> mappings) {
-		mappings.mapProperty(MyImageSourceAttribute.class, "src");
-    }
-}
-
-public class MyImageSourceAttribute extends org.robobinding.widget.imageview.ImageSourceAttribute {
-     @Override
-    public PropertyViewAttribute<ImageView, ?> create(ImageView view, Class<?> propertyType) {
-		if (String.class.isAssignableFrom(propertyType)) {
-			return new UrlImageSourceAttribute();
-		} else {
-			return super.createPropertyViewAttribute(propertyType);
-		}
-    }
-
-    static class UrlImageSourceAttribute implements PropertyViewAttribute<ImageView, Integer> {
-		@Override
-		public void updateView(ImageView view, String url) {
-			Bitmap image = loadBitmapFromUrl(url);//load image from given url.
-			view.setImageBitmap(image);
-		}
-	}
-}
-----
-注册覆盖框架已有的实现
-^^^^^^^^^^^^^^^^^^^^^^
 [source,java]
 ----
 BinderFactory binderFactory = new BinderFactoryBuilder()
-        	.mapView(ImageView.class, new MyImageViewBinding())
-        	.build();
-----
+  .add(new MyViewBindingForView().forView(View.class))
+  .build();
 
-动态视图绑定
-~~~~~~~~~~~~
-当框架没有实现一些属性绑定时，我们可以通过动态视图绑定的方式快速的实现或扩展已有的视图绑定实现。动态视图绑定主要是作为以上介绍的静态视图绑定的补允。
-动态绑定内部是通过Java的反射机制实现，对性能有一定的影响。主要用于快速实现一些不常用的简单属性绑定。
-
-新的视图绑定实现
-^^^^^^^^^^^^^^^^
-为CustomOrThirdPartyComponent创建动态视图绑定并增加textAttribute属性绑定。
-
-activity_dynamic_binding.xml
-[source,xml]
-----
-<org.robobinding.gallery.model.dynamicbinding.CustomOrThirdPartyComponent 
-	bind:textAttribute="{textAttributeValue}"/>
-----
-
-org.robobinding.gallery.activity.DynamicBindingActivity.java
-[source,java]
-----
-public class DynamicBindingActivity extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-		...
-		BinderFactoryBuilder binderFactoryBuilder = new BinderFactoryBuilder()
-			.add(new DynamicViewBinding().forView(CustomOrThirdPartyComponent.class)
-				.oneWayProperties("textAttribute"));
-		BinderFactory binderFactory = binderFactoryBuilder.build();
-		ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
-		activityBinder.inflateAndBind(R.layout.activity_dynamic_binding, presentationModel);
-    }
-	...
+@ViewBinding
+static class MyViewBindingForView extends CustomViewBinding<View> {
+  ...
 }
 ----
 
 扩展已有的视图绑定实现
-^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~
 扩展已有的TextViewBinding并添加typeface属性绑定。
 
-activity_dynamic_binding.xml
-[source,xml]
-----
-<TextView
-	bind:typeface="{typeface}"/>
-----
-
-org.robobinding.gallery.activity.DynamicBindingActivity.java
 [source,java]
 ----
-public class DynamicBindingActivity extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-		...
-		BinderFactoryBuilder binderFactoryBuilder = new BinderFactoryBuilder()
-			.add(new DynamicViewBinding().extend(TextView.class, new TextViewBinding())
-				.oneWayProperties("typeface"));
-		BinderFactory binderFactory = binderFactoryBuilder.build();
-		ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
-		activityBinder.inflateAndBind(R.layout.activity_dynamic_binding, presentationModel);
-    }
-	...
+BinderFactory binderFactory = new BinderFactoryBuilder()
+  .add(new MyTextViewBinding().extend(TextView.class))
+  .build();
+
+@ViewBinding(simpleOneWayProperties={"typeface"})
+static class MyTextViewBinding extends CustomViewBinding<TextView> {
+  ...
 }
 ----
 
+Album唱片集例子项目学习
+-----------------------
+唱片集例子项目是Martin Fowler原始版本基于RoboBinding的Android翻译(Martin Fowler基于.Net的 http://martinfowler.com/eaaDev/PresentationModel.html[原始版本] )。
+项目地址 https://github.com/RoboBinding/RoboBinding-album-sample[RoboBinding-album-sample]。
+
+.Album唱片集例子原型
+image::album_sample_prototype.png[]
+
+以下"."表示相对于org.robobinding.albumsample的包路径。
+
+以上是Album唱片集例子原型图。项目遵循RoboBinding应用的标准结构，即一个Activity由Activity主文件，Layout与PresentationModel Java文件组成。
+项目源代码中包含以下几个包：org.robobinding.albumsample.activity包含所有Activity的主文件，org.robobinding.albumsample.presentationmodel包含所有PresentationModel文件，
+org.robobinding.albumsample.model仅包含一个Album实体实现文件，org.robobinding.albumsample.store包含一个基于内存Album实体存储实现AlbumStore。接下来列出上述五张图所对应的实现文件。
+
+图[Home Activity]由.activity.HomeActivity，home_activity.xml与.presentationmodel.HomePresentationModel组成。
+
+图[View Albums Activity]由.activity.ViewAlbumsActivity，view_albums_activity.xml与.presentationmodel.ViewAlbumsPresentationModel组成;
+其唱片集每行的唱片信息由.presentationmodel.AlbumItemPresentationModel与album_row.xml组成；以及一个当唱片集为空时Layout显示文件albums_empty_view.xml。
+
+图[Create Album Activity]与图[Edit Album Activity]由相同的.activity.CreateEditAlbumActivity，create_edit_album_activity.xml与.presentationmodel.CreateEditAlbumPresentationModel组成。
+
+图[View Album Activity]由.activity.ViewAlbumActivity，view_album_activity.xml与.presentationmodel.ViewAlbumPresentationModel组成；
+其删除对话框由.activity.DeleteAlbumDialog，delete_album_dialog.xml与.presentationmodel.DeleteAlbumDialogPresentationModel组成。
+
+以下以[View Albums Activity]为例，对源代码做简单介绍。Activity类ViewAlbumsActivity只做了一件事，就是把Layout view_albums_activity.xml与ViewAlbumsPresentationModel关联起来。
+view_albums_activity.xml里包含了三个子视图按顺序为TextView, ListView与Button。TextView没有包含任何绑定信息。
+ListView的++bind:source="\{albums\}"++绑定到ViewAlbumsPresentationModel.albums数据集属性。
+++bind:onItemClick="viewAlbum"++绑定到ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent)方法，单击某个唱片项时，该事件方法将被调用。
+++bind:emptyViewLayout="@layout/albums_empty_view"++设置了当唱片集为空时的显示内容Layout。
+++bind:itemLayout="@layout/album_row"++设置了唱片项的行显示Layout，结合在ViewAlbumsPresentationModel.albums上给出的数据项PresentationModel，即++@ItemPresentationModel(AlbumItemPresentationModel.class)++，
+来显示每一个唱片行。在album_row.xml里包含了两个简单的TextView，其++bind:text="\{title\}"++与++bind:text="\{artist\}"++分别绑定到AlbumItemPresentationModel.title/artist属性。
+在view_albums_activity.xml里的最后一个Button视图，++bind:onClick="createAlbum"++绑定到ViewAlbumsPresentationModel.createAlbum()方法。
+
+Gallery 示例内容
+----------------
+以下的入口类都位于https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery]项目的org.robobinding.gallery.activity包下。
+
+* View绑定属性示例。入口类为ViewActivity。
+
+* EditText绑定属性示例。入口类为EditTextActivity。
+
+* AdapterView绑定属性示例。入口类为AdapterViewActivity。
+
+* ListView绑定属性示例。入口类为ListViewActivity。
+
+* 自定义组件绑定属性示例。入口类为CustomComponentActivity。
+
+* 对象化Cursor示例。入口类为TypedCursorActivity。
+
+* Fragment与ViewPager绑定示例。入口类为ListFragmentDemoActivity。
+
+* Options Menu绑定示例。入口类为OptionsMenuActivity。
+
+* Context Menu绑定示例。入口类为ContextMenuDemoActivity。
+
+* Contextual Action Mode绑定示例。入口类为ContextualActionModeActivity。
+
+
 项目结构组织与最佳实践
-----------------------
+--------------------
 Presentation Model(MVVM)模式的初终是在MVC模式的基础之上，进一步的解耦，将UI的状态与逻辑放入 http://baike.baidu.com/view/183175.htm[POJO] Presentation Model，可被很容易的独立单元测试。
 并使得View层->Presentation Model层->Model层 形成一个单向的依赖关系。当应用这个模式时，我们应该始终遵循这些基本原则。
 https://github.com/RoboBinding/RoboBinding-album-sample[Album Sample] 是一个遵循最佳实践的例子。
@@ -844,7 +816,7 @@ class MainActivity extends Activity implements MainView {
 		PresentationModel presentationModel = new PresentationModel(this);
 		...
 	}
-	
+
 	public void doSomeViewLogic() {
 		...
 	}
@@ -852,11 +824,11 @@ class MainActivity extends Activity implements MainView {
 
 class PresentationModel {
 	private MainView mainView;
-	
+
 	public PresentationModel(MainView mainView) {
 		this.mainView = mainView;
 	}
-	
+
 	public void someEvent() {
 		mainView.doSomeViewLogic();
 	}

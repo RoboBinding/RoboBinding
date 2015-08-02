@@ -1,19 +1,44 @@
 ﻿Versions
 ========
-:Revision: 0.8.9
+:Revision: 0.8.10
 :toc:
 :numbered:
 :imagesdir: ./images
 :source-highlighter: pygments
 
+version 0.8.10(released 02/08/2015)
+----------------------------------
+* https://github.com/RoboBinding/RoboBinding/issues/185[feature #185]
+codegen ViewBinding to replace old DynamicViewBinding. There is a change to
+https://github.com/RoboBinding/RoboBinding/blob/develop/framework/src/main/java/org/robobinding/viewbinding/ViewBinding.java[ViewBinding] interface.
+And the https://github.com/RoboBinding/RoboBinding/blob/develop/framework/src/main/java/org/robobinding/customviewbinding/CustomViewBinding.java[CustomViewBinding] interface
+was added to replace the old DynamicViewBinding interface. As a result, some simple one-way property bindings for Android views were also removed
+as they can be declared easily when needed,
+e.g., https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/GalleryApp.java[ViewBindingForView, MenuItemBinding and MenuItemGroupBinding] declarations,
+as well as https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/model/customcomponent/TitleDescriptionBarBinding.java[Custom component binding declaration].
+* https://github.com/RoboBinding/RoboBinding/issues/210[feature #210]
+Enable Sourcegraph
+* https://github.com/RoboBinding/RoboBinding/issues/217[issue #217]
+  https://github.com/RoboBinding/RoboBinding/issues/222[issue #222]
+  https://github.com/RoboBinding/RoboBinding/issues/218[issue #218]
+Binding not working with buildToolsVersion v21 onwards.
+* https://github.com/RoboBinding/RoboBinding/issues/221[issue #221]
+Imports in generated code disappear when a custom class is bound more than once.
+* https://github.com/RoboBinding/RoboBinding/issues/209[issue #209]
+Compile error when using a ItemPresentationModel factory method for multiple lists.
+* https://github.com/RoboBinding/RoboBinding/issues/200[issue #200]
+appcompat-v7 -- lost styles.
+* https://github.com/RoboBinding/RoboBinding/issues/194[issue #194]
+java.lang.ClassNotFoundException: Didn't find class "android.widget.fragment".
+
 version 0.8.9(released 14/10/2014)
 ----------------------------------
-* https://github.com/RoboBinding/RoboBinding/issues/181[feature 181] 
-Expose itemView in ItemPresentationModel.updateData(), so that we can fall back to the standard android way when needed. 
-* https://github.com/RoboBinding/RoboBinding/issues/48[feature 48] 
-Utilize code generation instead of Java reflection to improve performance. 
+* https://github.com/RoboBinding/RoboBinding/issues/181[feature 181]
+Expose itemView in ItemPresentationModel.updateData(), so that we can fall back to the standard android way when needed.
+* https://github.com/RoboBinding/RoboBinding/issues/48[feature 48]
+Utilize code generation instead of Java reflection to improve performance.
 About code generation settings, please refer to doc under link:getting_started.html#_environment_setup[Environment Setup].
-With introduction of code generation, PresentationModel is further simplified. 
+With introduction of code generation, PresentationModel is further simplified.
 It only needs to implement the interface org.robobinding.presentationmodel.HasPresentationModelChangeSupport(AbstractPresentationModel has been removed).
 For further information, please refer to link:getting_started.html#_presentation_models[Presentation Models].
 
@@ -22,22 +47,22 @@ version 0.8.8(released 26/09/2014)
 * https://github.com/RoboBinding/RoboBinding/issues/176[bug #176]
 multiple two-way bindings to same property is not working.
 * https://github.com/RoboBinding/RoboBinding/issues/178[bug #178]
-NullPointer in Android 4.4 KitKat with spinner in horizontal oriented LinearLayout. 
+NullPointer in Android 4.4 KitKat with spinner in horizontal oriented LinearLayout.
 Affected by this bug, there are some *API changes* to org.robobinding.ViewBinder and org.robobinding.binder.Binders.
 
 version 0.8.7(released 24/09/2014)
 ----------------------------------
 * https://github.com/RoboBinding/RoboBinding/issues/172[bug #172]
 NullPointer when invoking a setter in the contructor of a PresentationModel with AspectJ.
-* https://github.com/RoboBinding/RoboBinding/issues/174[improvement #174] 
+* https://github.com/RoboBinding/RoboBinding/issues/174[improvement #174]
 Removed the need of org.robobinding.itempresentationmodel.AbstractItemPresentationModel to prevent confusion.
-* https://github.com/RoboBinding/RoboBinding/issues/170[new feature #170] 
+* https://github.com/RoboBinding/RoboBinding/issues/170[new feature #170]
 Safeguard the updates to PresentationModels only executed within UI thread.
 
 version 0.8.6(released 20/09/2014)
 ----------------------------------
-* Made a change to the PresentationModel AspectJ approach. 
-It is now required to explicitly define a PresentationModelChangeSupport field in a presentation model 
+* Made a change to the PresentationModel AspectJ approach.
+It is now required to explicitly define a PresentationModelChangeSupport field in a presentation model
 in order to use the methods like firePropertyChange("propertyName");
 * Made a minor change to proguard config.
 * Clean up the javadocs. Now it only includes the public APIs.

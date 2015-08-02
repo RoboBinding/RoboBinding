@@ -1,6 +1,6 @@
 ﻿Getting Started
 ===============
-:Revision: 0.8.9
+:Revision: 0.8.10
 :toc:
 :numbered:
 :imagesdir: ./images
@@ -19,7 +19,7 @@ Layout
 ~~~~~~
 In layout files, we declare RoboBinding namespace, property and event attribute bindings.
 
-activity_main.xml 
+activity_main.xml
 [source,xml]
 ----
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,17 +28,17 @@ activity_main.xml
 	<TextView
         bind:text="{hello}" />
 		...
-	<Button 
+	<Button
         android:text="Say Hello"
         bind:onClick="sayHello"/>
-</LinearLayout>		
+</LinearLayout>
 ----
 
 Presentation Model(pure POJO)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In presentation models, we declare corresponding properties and methods.
 
-org.robobinding.androidmvvm.PresentationModel.java 
+org.robobinding.androidmvvm.PresentationModel.java
 [source,java]
 ----
 @org.robobinding.annotation.PresentationModel
@@ -58,7 +58,7 @@ Activity Class
 ~~~~~~~~~~~~~~
 Activities bind layouts and presentation models together with the help of RoboBinding.
 
-org.robobinding.androidmvvm.MainActivity.java 
+org.robobinding.androidmvvm.MainActivity.java
 [source,java]
 ----
 public class MainActivity extends Activity {
@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
 }
 ----
 
-The simplest AndroidMVVM is done. We use the utility class ++Binders++ for simplicity here. 
+The simplest AndroidMVVM is done. We use the utility class ++Binders++ for simplicity here.
 In read-world application development, we recommend using ++org.robobinding.binder.BinderFactoryBuilder++ instead.
 We can keep the BinderFactory instance in Android application or let a third-party library like https://github.com/roboguice/roboguice[RoboGuice] manage the BinderFactory instance,
 so that we can share and reuse the instance across the whole application.
@@ -91,7 +91,7 @@ Install http://eclipse.org/[Eclipse].
 
 Without AspectJ
 ^^^^^^^^^^^^^^^
-Add the 'robobinding-[version]-with-dependencies.jar' or 'robobinding-[version].jar + [google guava]-[11.0.1+].jar' to the libs folder of your project, then add it(or them) to classpath by right-clicking on the project→Properties→Java Build Path→Libraries→Add JARs. 
+Add the 'robobinding-[version]-with-dependencies.jar' or 'robobinding-[version].jar + [google guava]-[11.0.1+].jar' to the libs folder of your project, then add it(or them) to classpath by right-clicking on the project→Properties→Java Build Path→Libraries→Add JARs.
 In Order and Export tab, check the jar(or jars).
 
 .Project build settings(An example using robobinding-[version]-with-dependencies.jar)
@@ -99,12 +99,12 @@ image::eclipse_build_settings.png["Eclipse build settings"]
 
 With AspectJ
 ^^^^^^^^^^^^
-RoboBinding aspects will reduce the work by auto weaving in some source code for us. 
+RoboBinding aspects will reduce the work by auto weaving in some source code for us.
 If we want to take the advantage, firstly get http://developer.android.com/tools/sdk/eclipse-adt.html[Android Development Tools] plugin installed.
 Once having it installed, right-click on the project→Configure→Convert to AspectJ Project. This will add the AspectJ natures to .project file.
 
-Start by adding either the 'robobinding-[version]-with-aop-and-dependencies.jar' or the 'robobinding-[version]-with-aop.jar + [google guava]-[11.0.1+].jar' to the libs folder of your project, 
-then add it(or them) to classpath by right-clicking on the project→Properties→Java Build Path→Libraries→Add JARs. 
+Start by adding either the 'robobinding-[version]-with-aop-and-dependencies.jar' or the 'robobinding-[version]-with-aop.jar + [google guava]-[11.0.1+].jar' to the libs folder of your project,
+then add it(or them) to classpath by right-clicking on the project→Properties→Java Build Path→Libraries→Add JARs.
 In Order and Export tab, check it(them).
 
 Finally, make sure the RoboBinding jar is added to your project Aspect Path. Right click on your project→Properties→AspectJ Build→Aspect Path→Add JARs.
@@ -114,7 +114,7 @@ image::eclipse_aspectj_settings.png["Aspectj settings"]
 
 Annotaton Processing Settings
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Download RoboBinding codegen-[version]-with-dependencies.jar and update eclipse annotation processing settings as the following picture indicated. 
+Download RoboBinding codegen-[version]-with-dependencies.jar and update eclipse annotation processing settings as the following picture indicated.
 codegen-XX.jar is for source code generation only. Projects do not depend on it.
 
 .Annotaton processing settings
@@ -131,7 +131,7 @@ Add robobinding dependencies to gradle.build.
 dependencies {
 	...
 	compile"org.robobinding:robobinding:${robobindingVersion}"
-	
+
 	//alternatively we can use with-dependencies jar(RoboBinding provide a minimal Proguarded with-dependencies jar.).
 	compile("org.robobinding:robobinding:${robobindingVersion}:with-dependencies") {
         exclude group: 'com.google.guava', module: 'guava'
@@ -292,7 +292,7 @@ To use two-way binding, we simply prepend a dollar ($) sign before the curly bra
 activity_edittext.xml
 [source,xml]
 ----
-<EditText 
+<EditText
 	bind:text="${text}"/>
 ----
 
@@ -304,11 +304,11 @@ org.robobinding.gallery.presentationmodel.EditTextPresentationModel.java
 @PresentationModel
 public class EditTextPresentationModel {
     private String text;
-    
+
     public String getText() {
 		return text;
     }
-    
+
     public void setText(String text) {
 		this.text = text;
     }
@@ -322,7 +322,7 @@ Bind view events to presentation model methods.
 activity_gallery.xml
 [source,xml]
 ----
-<Button 
+<Button
 	bind:onClick="showDemo"/>
 ----
 
@@ -339,17 +339,17 @@ public class GalleryPresentationModel
 	}
 }
 ----
-When the onClick event is fired, showDemo() method will be invoked. We can optionally supply an event parameter. 
+When the onClick event is fired, showDemo() method will be invoked. We can optionally supply an event parameter.
 It will be a org.robobinding.widget.view.ClickEvent in this case.
 
 For supported UI events, please refer to ++API and Binding Attributes JavaDocs++.
 
 Binding with AdapterViews
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-When binding with AdapterViews, RoboBinding first requires you to expose the underlying data from your presentation model. 
-This can be in the form of an Array, List or ++org.robobinding.itempresentationmodel.TypedCursor++. 
+When binding with AdapterViews, RoboBinding first requires you to expose the underlying data from your presentation model.
+This can be in the form of an Array, List or ++org.robobinding.itempresentationmodel.TypedCursor++.
 
-As well as providing the data, RoboBinding needs to know the type of presentation model each child view of the AdapterView should bind onto. 
+As well as providing the data, RoboBinding needs to know the type of presentation model each child view of the AdapterView should bind onto.
 We declare this in our code with the @ItemPresentationModel annotation.
 
 
@@ -398,12 +398,12 @@ public class StringItemPresentationModel implements ItemPresentationModel<String
 }
 ----
 
-We can then define a layout xml that will provide the view for each row in our AdapterView. 
-In the example, we use the Android predefined item layout simple_list_item_1.xml. 
+We can then define a layout xml that will provide the view for each row in our AdapterView.
+In the example, we use the Android predefined item layout simple_list_item_1.xml.
 Through ++bind:itemMapping="[text1.text:\{value\}]"++, we map text1.text from simple_list_item_1.xml to StringItemPresentationModel.value.
 
-There is a ++factoryMethod++ property in @ItemPresentationModel. When ItemPresentationModels have some external dependencies, 
-we can add a factoryMethod to PresentationModel so that ItemPresentatonModels are created through the method. 
+There is a ++factoryMethod++ property in @ItemPresentationModel. When ItemPresentationModels have some external dependencies,
+we can add a factoryMethod to PresentationModel so that ItemPresentatonModels are created through the method.
 In this way, can can pass any dependencies into ItemPresentatonModels and configure them freely. A simple example is as follows.
 [source,java]
 ----
@@ -416,7 +416,7 @@ public class PresentationModelSample
 	{
 		return getSelectedSource().getSample();
 	}
-	
+
 	public ItemPresentationModelSample createItemPresentationModelSample() {
 		return ItemPresentationModelSample(dependency1, dependency2, ...);
 	}
@@ -426,7 +426,7 @@ Featherweight relational cursor to object cursor mapping
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In ++Binding with AdapterViews++, we mentioned a data source type - ++org.robobinding.itempresentationmodel.TypedCursor++.
 As we are so used to operating objects over relational data and want to isolate the code that involves relational database operations, RoboBinding added a featherweight object Cursor - TypedCursor.
-Through org.robobinding.itempresentationmodel.RowMapper<T>, we translate a row of relational data into an object. 
+Through org.robobinding.itempresentationmodel.RowMapper<T>, we translate a row of relational data into an object.
 
 org.robobinding.gallery.presentationmodel.TypedCursorPresentationModel.java
 [source,java]
@@ -450,7 +450,7 @@ public class GetAllQuery<T>
 	private final RowMapper<T> rowMapper;
 
 	public GetAllQuery(String tableName, RowMapper<T> rowMapper)
-	{   
+	{
 	    ...
 		this.tableName = tableName;
 	    this.rowMapper = rowMapper;
@@ -509,7 +509,7 @@ org.robobinding.gallery.presentationmodel.ContextMenuPresentationModel.java
 ----
 @PresentationModel
 public class ContextMenuPresentationModel {
-    ...    
+    ...
     public void deleteProduct(MenuItem menuItem) {
 		...
     }
@@ -518,8 +518,8 @@ public class ContextMenuPresentationModel {
 
 Presentation Models
 ~~~~~~~~~~~~~~~~~~~
-We annotate each PresentationModel with @org.robobinding.annotation.PresentationModel. 
-When a org.robobinding.presentationmodel.PresentationModelChangeSupport is needed in a PresentationModel, 
+We annotate each PresentationModel with @org.robobinding.annotation.PresentationModel.
+When a org.robobinding.presentationmodel.PresentationModelChangeSupport is needed in a PresentationModel,
 the PresentationModel has to implement org.robobinding.presentationmodel.HasPresentationModelChangeSupport interface,
 so that the framework can use the same PresentationModelChangeSupport instance internally.
 
@@ -540,6 +540,203 @@ With AspectJ
 * The disadvantage is that there is a dependency on AspectJ Runtime Library, which slightly increases the size of the final apk.
 
 https://github.com/RoboBinding/RoboBinding-album-sample[Album Sample] and https://github.com/RoboBinding/RoboBinding-gallery[Gallery] are the examples with AspectJ.
+
+Create own view binding implementation
+--------------------------------------
+The sample code for the section is from https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery].
+
+Simple one-way binding attributes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We add 'enabled' attribute binding for Android.View for example
+- https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/ViewBindingForView.java[source code].
+
+[source,java]
+----
+@ViewBinding(simpleOneWayProperties = {"enabled"})
+public class ViewBindingForView extends CustomViewBinding<View> {
+}
+----
+
+Then add it to BinderFactoryBuilder
+- https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/GalleryApp.java[source code].
+[source,java]
+----
+new BinderFactoryBuilder()
+  .add(new ViewBindingForView().extend(View.class))
+  .build();
+----
+
+RoboBinding will generate the following for us.
+
+[source,java]
+----
+public class ViewBindingForView$$VB implements ViewBinding<View>{
+    final ViewBindingForView customViewBinding;
+
+    public ViewBindingForView$$VB(ViewBindingForView customViewBinding) {
+        this.customViewBinding = customViewBinding;
+    }
+
+    @Override
+    public void mapBindingAttributes(BindingAttributeMappings<View> mappings) {
+        mappings.mapOneWayProperty(ViewBindingForView$$VB.EnabledAttribute.class, "enabled");
+        customViewBinding.mapBindingAttributes(mappings);
+    }
+
+    public static class EnabledAttribute implements OneWayPropertyViewAttribute<View, Boolean>
+    {
+        @Override
+        public void updateView(View view, Boolean newValue) {
+            view.setEnabled(newValue);
+        }
+    }
+}
+----
+All bindings are static, which means no performance impact.
+
+Other types of bindings
+~~~~~~~~~~~~~~~~~~~~~~~
+Except for simple one-way attribute binding, there are event binding, multi-typed attribute binding, and grouped attribute binding.
+To implement these bindings, we will extend CustomViewBinding and implement them manually. Take event binding as an example below.
+
+[source,java]
+----
+@ViewBinding
+public class MyCustomViewBinding extends CustomViewBinding<CustomView> {
+  @Override
+  public void mapBindingAttributes(BindingAttributeMappings<CustomView> mappings) {
+    mappings.mapEvent(OnCustomEventAttribute.class, "onCustomEvent");
+  }
+
+  public class OnCustomEventAttribute implements EventViewAttributeForView {
+	...
+  }
+}
+----
+
+For these bindings, you can always refer to RoboBinding implemenations
+- https://github.com/RoboBinding/RoboBinding/tree/develop/framework/src/main/java/org/robobinding/widget[source code under widget package].
+
+Custom component or third-party component
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We can create view bindings for any custom components, third-party components or Android widgets to make them easier for use.
+In RoboBinding, the way to create an view binding implementation is consistent.
+
+.custom Title Description Bar
+image::custom_component.png[]
+
+Let us take a simple custom component, the view with white border above, as an example. The component consists of a title and a description.
+After we input new title and description, and click 'Apply', the component content will be updated accordingly.
+
+We want the usage can be 'as simple as follows':
+
+activity_custom_component.xml
+[source,xml]
+----
+<org.robobinding.gallery.model.customcomponent.TitleDescriptionBar
+	    bind:title="{title}"
+	    bind:description="{description}"/>
+----
+
+The major part of the source code for TitleDescriptionBar is shown below(for how to implement a custom component,
+please refer to http://developer.android.com/guide/topics/ui/custom-components.html[Android Reference]):
+[source,java]
+----
+public class TitleDescriptionBar extends LinearLayout {
+    private TextView title;
+    private TextView description;
+
+    public TitleDescriptionBar(Context context, AttributeSet attrs) {
+		this(context, attrs, R.layout.title_description_bar);
+    }
+
+    protected TitleDescriptionBar(Context context, AttributeSet attrs, int layoutId) {
+		super(context, attrs);
+
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(layoutId, this);
+		title = (TextView) findViewById(R.id.title);
+		description = (TextView) findViewById(R.id.description);
+		...
+    }
+
+    public void setTitle(CharSequence titleText) {
+		title.setText(titleText);
+    }
+
+    public void setDescription(CharSequence descriptionText) {
+		description.setText(descriptionText);
+    }
+}
+----
+Its layout ++title_description_bar.xml++:
+[source,xml]
+----
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android">
+    <TextView android:id="@+id/title"/>
+    <TextView android:text=": "/>
+  	<TextView android:id="@+id/description"/>
+----
+
+Implementing the binding attributes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The component has two simple one-way attribute bindings
+- https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/model/customcomponent/TitleDescriptionBarBinding.java[source code].
+
+[source,java]
+----
+@ViewBinding(simpleOneWayProperties = {"title", "description"})
+public class TitleDescriptionBarBinding extends CustomViewBinding<TitleDescriptionBar> {
+}
+----
+
+
+Registering ViewBindings
+^^^^^^^^^^^^^^^^^^^^^^^^
+ViewBindings can be registered through org.robobinding.binder.BinderFactoryBuilder
+- https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/CustomComponentActivity.java[source code].
+
+[source,java]
+----
+BinderFactory binderFactory = new BinderFactoryBuilder()
+  .add(new TitleDescriptionBarBinding().forView(TitleDescriptionBar.class))
+  .build();
+----
+
+It is done. We can create view binding implementations for any third-party components or Android widgets in the same approach.
+
+Replace an existing view binding implemenation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When an existing view binding implementation does not satisfy our requirement, we can register to replace the default implementations from the framework.
+
+[source,java]
+----
+BinderFactory binderFactory = new BinderFactoryBuilder()
+  .add(new MyViewBindingForView().forView(View.class))
+  .build();
+
+@ViewBinding
+static class MyViewBindingForView extends CustomViewBinding<View> {
+  ...
+}
+----
+
+Extend an existing view binding
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Extend the existing TextViewBinding and add the attribute binding for typeface.
+
+[source,java]
+----
+BinderFactory binderFactory = new BinderFactoryBuilder()
+  .add(new MyTextViewBinding().extend(TextView.class))
+  .build();
+
+@ViewBinding(simpleOneWayProperties={"typeface"})
+static class MyTextViewBinding extends CustomViewBinding<TextView> {
+  ...
+}
+----
 
 A Walk through Album Sample
 ---------------------------
@@ -593,8 +790,6 @@ The entry classes mentioned below are from the package org.robobinding.gallery.a
 
 * Demo for Object Cursor. The entry class is 'TypedCursorActivity'.
 
-* Demo for Dynamic Binding. The entry class is 'DynamicBindingActivity'.
-
 * Demo for Fragment & ViewPager Binding. The entry class is 'ListFragmentDemoActivity'.
 
 * Demo for Options Menu Binding. The entry class is 'OptionsMenuActivity'.
@@ -603,236 +798,11 @@ The entry classes mentioned below are from the package org.robobinding.gallery.a
 
 * Demo for Contextual Action Mode Binding. The entry class is 'ContextualActionModeActivity'.
 
-Create own view binding implementation
---------------------------------------
-The sample code for the section is from https://github.com/RoboBinding/RoboBinding-gallery/[Robobinding Gallery].
-
-There are two ways available to implement a view binding, ++Static++ view binding and ++Dynamic++ view binding.
-Static view binding approach targets for commonly-used view attributes, 
-whereas dynamic view binding acts as a supplement to quickly create simple attribute bindings when they are not yet implemented by RoboBinding.
-
-Custom component or third-party component
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-We can create view bindings for any custom components, third-party components or Android widgets to make them easier for use. 
-In RoboBinding, the way to create an view binding implementation is consistent. 
-When creating an own view binding implementation, we can refer to an existing one in RoboBinding, e.g., ++org.robobinding.widget.imageview++ package and its ++ImageViewBinding++ class.
-
-.custom Title Description Bar
-image::custom_component.png[] 
-
-Let us take a simple custom component, the view with white border above, as an example. The component consists of a title and a description. 
-After we input new title and description, and click 'Apply', the component content will be updated accordingly.
-
-We want the usage can be 'as simple as follows':
-
-activity_custom_component.xml
-[source,xml]
-----
-<org.robobinding.gallery.model.customcomponent.TitleDescriptionBar
-	    bind:title="{title}"
-	    bind:description="{description}"/>
-----
-
-The major part of the source code for TitleDescriptionBar is shown below(for how to implement a custom component, 
-please refer to http://developer.android.com/guide/topics/ui/custom-components.html[Android Reference]):
-[source,java]
-----
-public class TitleDescriptionBar extends LinearLayout {
-    private TextView title;
-    private TextView description;
-
-    public TitleDescriptionBar(Context context, AttributeSet attrs) {
-		this(context, attrs, R.layout.title_description_bar);
-    }
-
-    protected TitleDescriptionBar(Context context, AttributeSet attrs, int layoutId) {
-		super(context, attrs);
-
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(layoutId, this);
-		title = (TextView) findViewById(R.id.title);
-		description = (TextView) findViewById(R.id.description);
-		...
-    }
-
-    public void setTitle(CharSequence titleText) {
-		title.setText(titleText);
-    }
-
-    public void setDescription(CharSequence descriptionText) {
-		description.setText(descriptionText);
-    }
-}
-----
-Its layout ++title_description_bar.xml++:
-[source,xml]
-----
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://robobinding.org/android">
-    <TextView android:id="@+id/title"/>
-    <TextView android:text=": "/>
-  	<TextView android:id="@+id/description"/>
-----
-
-Implementing the binding attributes
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The component has two binding attributes, TitleAttribute for the title and DescriptionAttribute for the description. 
-And the ViewBinding, TitleDescriptionBarBinding, maps the attributes to its corresponding binding attribute implementations.
-[source,java]
-----
-public class TitleAttribute implements PropertyViewAttribute<TitleDescriptionBar, CharSequence> {
-    @Override
-    public void updateView(TitleDescriptionBar view, CharSequence newText) {
-		view.setTitle(newText);
-    }
-}
-
-public class DescriptionAttribute implements PropertyViewAttribute<TitleDescriptionBar, CharSequence> {
-    @Override
-    public void updateView(TitleDescriptionBar view, CharSequence newText) {
-		view.setDescription(newText);
-    }
-}
-
-public class TitleDescriptionBarBinding implements ViewBinding<TitleDescriptionBar> {
-    @Override
-    public void mapBindingAttributes(BindingAttributeMappings<TitleDescriptionBar> mappings) {
-        mappings.mapProperty(TitleAttribute.class, "title");
-        mappings.mapProperty(DescriptionAttribute.class, "description");
-    }
-}
-----
-
-Registering ViewBindings
-^^^^^^^^^^^^^^^^^^^^^^^^
-ViewBindings can be registered through org.robobinding.binder.BinderFactoryBuilder.
-
-org.robobinding.gallery.activity.CustomComponentActivity.java
-[source,java]
-----
-BinderFactory binderFactory = new BinderFactoryBuilder()
-        	.mapView(TitleDescriptionBar.class, new TitleDescriptionBarBinding())
-        	.build();
-ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
-activityBinder.inflateAndBind(R.layout.custom_component_activity, presentationModel);
-----
-
-It is done. We can create view binding implementations for any third-party components or Android widgets in the same approach.
-
-Overriding an existing view binding implemenation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When an existing view binding implementation does not satisfy our requirement or some of binding attributes have not been implemented, we have two options. 
-Firstly, we can directly modify the framework(we hope more people make contributions to the framework and help add more binding attributes). 
-Alternatively, instead of modifying the framework, we implement new ViewBindings and their binding attributes, and then register to replace the default implementations from framework.
-Take the second approach as an example, we try to replace the existing http://developer.android.com/reference/android/widget/ImageView.html[ImageView] view binding implementation from ++org.robobinding.widget.imageview++.
-
-Implementing new ViewBinding and binding attributes
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[source,java]
-----
-public class MyImageViewBinding extends org.robobinding.widget.imageview.ImageViewBinding {
-    @Override
-    public void mapBindingAttributes(BindingAttributeMappings<ImageView> mappings) {
-		mappings.mapProperty(MyImageSourceAttribute.class, "src");
-    }
-}
-
-public class MyImageSourceAttribute extends org.robobinding.widget.imageview.ImageSourceAttribute {
-     @Override
-    public PropertyViewAttribute<ImageView, ?> create(ImageView view, Class<?> propertyType) {
-		if (String.class.isAssignableFrom(propertyType)) {
-			return new UrlImageSourceAttribute();
-		} else {
-			return super.createPropertyViewAttribute(propertyType);
-		}
-    }
-
-    static class UrlImageSourceAttribute implements PropertyViewAttribute<ImageView, Integer> {
-		@Override
-		public void updateView(ImageView view, String url) {
-			Bitmap image = loadBitmapFromUrl(url);//load image from given url.
-			view.setImageBitmap(image);
-		}
-	}
-}
-----
-
-Register to replace the existing one
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[source,java]
-----
-BinderFactory binderFactory = new BinderFactoryBuilder()
-        	.mapView(ImageView.class, new MyImageViewBinding())
-        	.build();
-----
-
-Dynamic view binding
-~~~~~~~~~~~~~~~~~~~~
-When RoboBinding has not implemented some attribute bindings, with dynamic view binding we can quickly implement new or extend existing view bindings. 
-Dynamic view binding acts as a supplement to static view binding.
-
-Create a new view binding
-^^^^^^^^^^^^^^^^^^^^^^^^^
-Create a new dynamic view binding for CustomOrThirdPartyComponent and add the attribute binding for textAttribute.
-
-activity_dynamic_binding.xml
-[source,xml]
-----
-<org.robobinding.gallery.model.dynamicbinding.CustomOrThirdPartyComponent 
-	bind:textAttribute="{textAttributeValue}"/>
-----
-
-org.robobinding.gallery.activity.DynamicBindingActivity.java
-[source,java]
-----
-public class DynamicBindingActivity extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-		...
-		BinderFactoryBuilder binderFactoryBuilder = new BinderFactoryBuilder()
-			.add(new DynamicViewBinding().forView(CustomOrThirdPartyComponent.class)
-				.oneWayProperties("textAttribute"));
-		BinderFactory binderFactory = binderFactoryBuilder.build();
-		ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
-		activityBinder.inflateAndBind(R.layout.activity_dynamic_binding, presentationModel);
-    }
-	...
-}
-----
-
-Extend an existing view binding
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Extend the existing TextViewBinding and add the attribute binding for typeface.
-
-activity_dynamic_binding.xml
-[source,xml]
-----
-<TextView
-	bind:typeface="{typeface}"/>
-----
-
-org.robobinding.gallery.activity.DynamicBindingActivity.java
-[source,java]
-----
-public class DynamicBindingActivity extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-		...
-		BinderFactoryBuilder binderFactoryBuilder = new BinderFactoryBuilder()
-			.add(new DynamicViewBinding().extend(TextView.class, new TextViewBinding())
-				.oneWayProperties("typeface"));
-		BinderFactory binderFactory = binderFactoryBuilder.build();
-		ActivityBinder activityBinder = binderFactory.createActivityBinder(this, true);
-		activityBinder.inflateAndBind(R.layout.activity_dynamic_binding, presentationModel);
-    }
-	...
-}
-----
 
 Project structure and best practices
 ------------------------------------
-Involved from MVC pattern, the major motive of Presentation Model(MVVM) pattern is to further decouple UI state and logic into a pure POJO Presentation Model, which can be 
-easily Unit tested. Meanwhile, the dependency of View->Presentation Model->Model becomes unidirectional. 
+Involved from MVC pattern, the major motive of Presentation Model(MVVM) pattern is to further decouple UI state and logic into a pure POJO Presentation Model, which can be
+easily Unit tested. Meanwhile, the dependency of View->Presentation Model->Model becomes unidirectional.
 When applying the pattern, these are the basic rules we will follow. https://github.com/RoboBinding/RoboBinding[Album Sample] is an example that follows the best practices.
 Recommend to read Martin Fowler's original article on http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model].
 
@@ -841,7 +811,7 @@ Overall project structure
 .Project structure
 image::project_structure.png["Project structure"]
 
-In Android app, the view layer consists of activities(fragments) and their layouts and the model layer(or business model layer) consists of various services, 
+In Android app, the view layer consists of activities(fragments) and their layouts and the model layer(or business model layer) consists of various services,
 persistence layer, networking services, business services and so on.
 The diagram indicates the dependency between different layers. The view layer for example never directly accesses the business model.
 
@@ -851,7 +821,7 @@ The solutions for some common design issues
  but the view layer(or any activities) will not directly access any business model objects.
 
 * Sometimes presentation models may need to call some functionalities in the view layer. We can add view interfaces in between to decouple the relationship.
-Presentation models depends on view interfaces instead of the view layer, which keeps the testability of presentation models. 
+Presentation models depends on view interfaces instead of the view layer, which keeps the testability of presentation models.
 If you prefer, you can shift these view interfaces into presentation model layer or presentation model package, so that the dependency remains unidirectional.
 Let us have a look a simple example below:
 
@@ -869,7 +839,7 @@ class MainActivity extends Activity implements MainView {
 		PresentationModel presentationModel = new PresentationModel(this);
 		...
 	}
-	
+
 	public void doSomeViewLogic() {
 		...
 	}
@@ -877,11 +847,11 @@ class MainActivity extends Activity implements MainView {
 
 class PresentationModel {
 	private MainView mainView;
-	
+
 	public PresentationModel(MainView mainView) {
 		this.mainView = mainView;
 	}
-	
+
 	public void someEvent() {
 		mainView.doSomeViewLogic();
 	}

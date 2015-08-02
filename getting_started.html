@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
 <meta name="keywords" content="presentation model, android mvc, mvvm, mvp, android, binding, android binding, android-binding, Bindroid, MvvmCross, android mvvm" />
 <title>Getting Started</title>
 <style type="text/css">
@@ -837,14 +837,14 @@ asciidoc.install(2);
                 <a href="index.html" class="menuitem">Home</a>
                 <a href="getting_started.html" class="menuitem">Getting Started</a>
                 <a href="insight_into_framework.html" class="menuitem">Insight Into Framework</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.9/robobinding-0.8.9-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.10/robobinding-0.8.10-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
                 <a href="about.html" class="menuitem">About</a>
                 <a href="versions.html" class="menuitem">Versions</a>
                 <a href="index.zh.html" class="menuitem">Chinese中文</a>
         </div>
 <div id="header">
 <h1>Getting Started</h1>
-<span id="revnumber">version 0.8.9</span>
+<span id="revnumber">version 0.8.10</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -1201,7 +1201,7 @@ We declare this in our code with the @ItemPresentationModel annotation.</p></div
     <span class="nd">@ItemPresentationModel</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="n">StringItemPresentationModel</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
     <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getDynamicStrings</span><span class="o">()</span>
     <span class="o">{</span>
-        <span class="k">return</span> <span class="nf">getSelectedSource</span><span class="o">().</span><span class="na">getSample</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">getSelectedSource</span><span class="o">().</span><span class="na">getSample</span><span class="o">();</span>
     <span class="o">}</span>
 </pre></div></div></div>
 <div class="paragraph"><p>The class we use for our item presentation model will need to implement the ItemPresentationModel interface, parameterized to the type of data we are displaying at each index.</p></div>
@@ -1237,11 +1237,11 @@ In this way, can can pass any dependencies into ItemPresentatonModels and config
     <span class="nd">@ItemPresentationModel</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="n">ItemPresentationModelSample</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">factoryMethod</span><span class="o">=</span><span class="s">&quot;createItemPresentationModelSample&quot;</span><span class="o">)</span>
     <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getDynamicStrings</span><span class="o">()</span>
     <span class="o">{</span>
-        <span class="k">return</span> <span class="nf">getSelectedSource</span><span class="o">().</span><span class="na">getSample</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">getSelectedSource</span><span class="o">().</span><span class="na">getSample</span><span class="o">();</span>
     <span class="o">}</span>
 
     <span class="kd">public</span> <span class="n">ItemPresentationModelSample</span> <span class="nf">createItemPresentationModelSample</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="nf">ItemPresentationModelSample</span><span class="o">(</span><span class="n">dependency1</span><span class="o">,</span> <span class="n">dependency2</span><span class="o">,</span> <span class="o">...);</span>
+        <span class="k">return</span> <span class="n">ItemPresentationModelSample</span><span class="o">(</span><span class="n">dependency1</span><span class="o">,</span> <span class="n">dependency2</span><span class="o">,</span> <span class="o">...);</span>
     <span class="o">}</span>
 </pre></div></div></div>
 </div>
@@ -1297,7 +1297,7 @@ Through org.robobinding.itempresentationmodel.RowMapper&lt;T&gt;, we translate a
     <span class="kd">public</span> <span class="n">Product</span> <span class="nf">mapRow</span><span class="o">(</span><span class="n">Cursor</span> <span class="n">cursor</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">getColumnIndex</span><span class="o">(</span><span class="n">ProductTable</span><span class="o">.</span><span class="na">NAME</span><span class="o">));</span>
         <span class="n">String</span> <span class="n">description</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">getColumnIndex</span><span class="o">(</span><span class="n">ProductTable</span><span class="o">.</span><span class="na">DESCRIPTION</span><span class="o">));</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="nf">Product</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">description</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">Product</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">description</span><span class="o">);</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
@@ -1382,119 +1382,80 @@ The disadvantage is that there is a dependency on AspectJ Runtime Library, which
 </div>
 </div>
 <div class="sect1">
-<h2 id="_a_walk_through_album_sample">5. A Walk through Album Sample</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Album Sample project is a translated version of Martin Fowler&#8217;s <a href="http://martinfowler.com/eaaDev/PresentationModel.html">original one</a>.
-The source code can be found <a href="https://github.com/RoboBinding/RoboBinding-album-sample">here</a>.</p></div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/album_sample_prototype.png" alt="album_sample_prototype.png" />
-</div>
-<div class="title">Figure 5. Album Sample project prototype</div>
-</div>
-<div class="paragraph"><p>In the following section, a package start with <em>.</em> is a relative path to org.robobinding.albumsample.</p></div>
-<div class="paragraph"><p>The above is the prototype of the project. The project follows the standard RoboBinding project structure, an Activity comprising of an Activity class, layout xml and presentation model pojo.
-Inside the project, you can see the following packages: org.robobinding.albumsample.activity, which contains all Activity classes;
-org.robobinding.albumsample.presentationmodel, which contains all presentation models; org.robobinding.albumsample.model, which contains a Album entity implementation;
-and org.robobinding.albumsample.store, which contains a AlbumStore implementation based on memory. In the prototype, there are five diagrams, which are described separately below.</p></div>
-<div class="paragraph"><p>The diagram [Home Activity] consists of .activity.HomeActivity, home_activity.xml and .presentationmodel.HomePresentationModel.</p></div>
-<div class="paragraph"><p>The diagram [View Albums Activity] consists of .activity.ViewAlbumsActivity, view_albums_activity.xml and .presentationmodel.ViewAlbumsPresentationModel;
-and the view of each album item is backed by .presentationmodel.AlbumItemPresentationModel and album_row.xml; when the album list is empty, albums_empty_view.xml is applied.</p></div>
-<div class="paragraph"><p>The diagram [Create Album Activity] and [Edit Album Activity] share the same components of .activity.CreateEditAlbumActivity, create_edit_album_activity.xml and .presentationmodel.CreateEditAlbumPresentationModel.</p></div>
-<div class="paragraph"><p>The diagram [View Album Activity] consists of .activity.ViewAlbumActivity, view_album_activity.xml and .presentationmodel.ViewAlbumPresentationModel;
-and its album deletion dialog is backed by .activity.DeleteAlbumDialog, delete_album_dialog.xml and .presentationmodel.DeleteAlbumDialogPresentationModel.</p></div>
-<div class="paragraph"><p>Take [View Albums Activity] as an example to give a brief explanation on source code.
-The only thing the Activity class, ViewAlbumsActivity, does is to link the Layout view_albums_activity.xml and ViewAlbumsPresentationModel together.
-view_albums_activity.xml contains three sub-views a TextView, a ListView and a Button. The TextView does not contain any binding information.
-In the ListView, <code>bind:source="{albums}"</code> binds to ViewAlbumsPresentationModel.albums dataset property.
-<code>bind:onItemClick="viewAlbum"</code> binds to ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent) method. When an album item is clicked, the method will be invoked.
-<code>bind:emptyViewLayout="@layout/albums_empty_view"</code> sets the display when the album list is empty.
-<code>bind:itemLayout="@layout/album_row"</code> sets album item row layout, which will be bound to an ItemPresentationModel,
-as indicated by the annotation, <code>@ItemPresentationModel(AlbumItemPresentationModel.class)</code>, on top of the ViewAlbumsPresentationModel.albums property.
-Inside the row layout file album_row.xml, there are two simple TextViews. Their <code>bind:text="{title}"</code> and <code>bind:text="{artist}"</code> bind to AlbumItemPresentationModel.title/artist respectively.
-The last sub-view in view_albums_activity.xml is a Button. Its <code>bind:onClick="createAlbum"</code> binds to ViewAlbumsPresentationModel.createAlbum() method.</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_contents_of_gallery_demos">6. Contents of Gallery Demos</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>The entry classes mentioned below are from the package org.robobinding.gallery.activity of <a href="https://github.com/RoboBinding/RoboBinding-gallery/">Robobinding Gallery</a> project.</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-Binding attributes demo for View. The entry class is <em>ViewActivity</em>.
-</p>
-</li>
-<li>
-<p>
-Binding attributes demo for EditText. The entry class is <em>EditTextActivity</em>.
-</p>
-</li>
-<li>
-<p>
-Binding attributes demo for AdapterView. The entry class is <em>AdapterViewActivity</em>.
-</p>
-</li>
-<li>
-<p>
-Binding attributes demo for ListView. The entry class is <em>ListViewActivity</em>.
-</p>
-</li>
-<li>
-<p>
-Binding attributes demo for Custom Components. The entry class is <em>CustomComponentActivity</em>.
-</p>
-</li>
-<li>
-<p>
-Demo for Object Cursor. The entry class is <em>TypedCursorActivity</em>.
-</p>
-</li>
-<li>
-<p>
-Demo for Dynamic Binding. The entry class is <em>DynamicBindingActivity</em>.
-</p>
-</li>
-<li>
-<p>
-Demo for Fragment &amp; ViewPager Binding. The entry class is <em>ListFragmentDemoActivity</em>.
-</p>
-</li>
-<li>
-<p>
-Demo for Options Menu Binding. The entry class is <em>OptionsMenuActivity</em>.
-</p>
-</li>
-<li>
-<p>
-Demo for Context Menu Binding. The entry class is <em>ContextMenuDemoActivity</em>.
-</p>
-</li>
-<li>
-<p>
-Demo for Contextual Action Mode Binding. The entry class is <em>ContextualActionModeActivity</em>.
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_create_own_view_binding_implementation">7. Create own view binding implementation</h2>
+<h2 id="_create_own_view_binding_implementation">5. Create own view binding implementation</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>The sample code for the section is from <a href="https://github.com/RoboBinding/RoboBinding-gallery/">Robobinding Gallery</a>.</p></div>
-<div class="paragraph"><p>There are two ways available to implement a view binding, <code>Static</code> view binding and <code>Dynamic</code> view binding.
-Static view binding approach targets for commonly-used view attributes,
-whereas dynamic view binding acts as a supplement to quickly create simple attribute bindings when they are not yet implemented by RoboBinding.</p></div>
 <div class="sect2">
-<h3 id="_custom_component_or_third_party_component">7.1. Custom component or third-party component</h3>
+<h3 id="_simple_one_way_binding_attributes">5.1. Simple one-way binding attributes</h3>
+<div class="paragraph"><p>We add <em>enabled</em> attribute binding for Android.View for example
+- <a href="https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/ViewBindingForView.java">source code</a>.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nd">@ViewBinding</span><span class="o">(</span><span class="n">simpleOneWayProperties</span> <span class="o">=</span> <span class="o">{</span><span class="s">&quot;enabled&quot;</span><span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ViewBindingForView</span> <span class="kd">extends</span> <span class="n">CustomViewBinding</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Then add it to BinderFactoryBuilder
+- <a href="https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/GalleryApp.java">source code</a>.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ViewBindingForView</span><span class="o">().</span><span class="na">extend</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">class</span><span class="o">))</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div></div></div>
+<div class="paragraph"><p>RoboBinding will generate the following for us.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ViewBindingForView$$VB</span> <span class="kd">implements</span> <span class="n">ViewBinding</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;{</span>
+    <span class="kd">final</span> <span class="n">ViewBindingForView</span> <span class="n">customViewBinding</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ViewBindingForView$$VB</span><span class="o">(</span><span class="n">ViewBindingForView</span> <span class="n">customViewBinding</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">customViewBinding</span> <span class="o">=</span> <span class="n">customViewBinding</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mappings</span><span class="o">.</span><span class="na">mapOneWayProperty</span><span class="o">(</span><span class="n">ViewBindingForView$$VB</span><span class="o">.</span><span class="na">EnabledAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;enabled&quot;</span><span class="o">);</span>
+        <span class="n">customViewBinding</span><span class="o">.</span><span class="na">mapBindingAttributes</span><span class="o">(</span><span class="n">mappings</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">EnabledAttribute</span> <span class="kd">implements</span> <span class="n">OneWayPropertyViewAttribute</span><span class="o">&lt;</span><span class="n">View</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;</span>
+    <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateView</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="n">Boolean</span> <span class="n">newValue</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">view</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="n">newValue</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>All bindings are static, which means no performance impact.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_other_types_of_bindings">5.2. Other types of bindings</h3>
+<div class="paragraph"><p>Except for simple one-way attribute binding, there are event binding, multi-typed attribute binding, and grouped attribute binding.
+To implement these bindings, we will extend CustomViewBinding and implement them manually. Take event binding as an example below.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nd">@ViewBinding</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyCustomViewBinding</span> <span class="kd">extends</span> <span class="n">CustomViewBinding</span><span class="o">&lt;</span><span class="n">CustomView</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">CustomView</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mappings</span><span class="o">.</span><span class="na">mapEvent</span><span class="o">(</span><span class="n">OnCustomEventAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;onCustomEvent&quot;</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">OnCustomEventAttribute</span> <span class="kd">implements</span> <span class="n">EventViewAttributeForView</span> <span class="o">{</span>
+    <span class="o">...</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>For these bindings, you can always refer to RoboBinding implemenations
+- <a href="https://github.com/RoboBinding/RoboBinding/tree/develop/framework/src/main/java/org/robobinding/widget">source code under widget package</a>.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_custom_component_or_third_party_component">5.3. Custom component or third-party component</h3>
 <div class="paragraph"><p>We can create view bindings for any custom components, third-party components or Android widgets to make them easier for use.
-In RoboBinding, the way to create an view binding implementation is consistent.
-When creating an own view binding implementation, we can refer to an existing one in RoboBinding, e.g., <code>org.robobinding.widget.imageview</code> package and its <code>ImageViewBinding</code> class.</p></div>
+In RoboBinding, the way to create an view binding implementation is consistent.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/custom_component.png" alt="custom_component.png" />
 </div>
-<div class="title">Figure 6. custom Title Description Bar</div>
+<div class="title">Figure 5. custom Title Description Bar</div>
 </div>
 <div class="paragraph"><p>Let us take a simple custom component, the view with white border above, as an example. The component consists of a title and a description.
 After we input new title and description, and click <em>Apply</em>, the component content will be updated accordingly.</p></div>
@@ -1544,147 +1505,147 @@ please refer to <a href="http://developer.android.com/guide/topics/ui/custom-com
     <span class="nt">&lt;TextView</span> <span class="na">android:id=</span><span class="s">&quot;@+id/description&quot;</span><span class="nt">/&gt;</span>
 </pre></div></div></div>
 <div class="sect3">
-<h4 id="_implementing_the_binding_attributes">7.1.1. Implementing the binding attributes</h4>
-<div class="paragraph"><p>The component has two binding attributes, TitleAttribute for the title and DescriptionAttribute for the description.
-And the ViewBinding, TitleDescriptionBarBinding, maps the attributes to its corresponding binding attribute implementations.</p></div>
+<h4 id="_implementing_the_binding_attributes">5.3.1. Implementing the binding attributes</h4>
+<div class="paragraph"><p>The component has two simple one-way attribute bindings
+- <a href="https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/model/customcomponent/TitleDescriptionBarBinding.java">source code</a>.</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleAttribute</span> <span class="kd">implements</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">,</span> <span class="n">CharSequence</span><span class="o">&gt;</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateView</span><span class="o">(</span><span class="n">TitleDescriptionBar</span> <span class="n">view</span><span class="o">,</span> <span class="n">CharSequence</span> <span class="n">newText</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">view</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">newText</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DescriptionAttribute</span> <span class="kd">implements</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">,</span> <span class="n">CharSequence</span><span class="o">&gt;</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateView</span><span class="o">(</span><span class="n">TitleDescriptionBar</span> <span class="n">view</span><span class="o">,</span> <span class="n">CharSequence</span> <span class="n">newText</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">view</span><span class="o">.</span><span class="na">setDescription</span><span class="o">(</span><span class="n">newText</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleDescriptionBarBinding</span> <span class="kd">implements</span> <span class="n">ViewBinding</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">&gt;</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">mappings</span><span class="o">.</span><span class="na">mapProperty</span><span class="o">(</span><span class="n">TitleAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;title&quot;</span><span class="o">);</span>
-        <span class="n">mappings</span><span class="o">.</span><span class="na">mapProperty</span><span class="o">(</span><span class="n">DescriptionAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;description&quot;</span><span class="o">);</span>
-    <span class="o">}</span>
+<div class="content"><div class="highlight"><pre><span class="nd">@ViewBinding</span><span class="o">(</span><span class="n">simpleOneWayProperties</span> <span class="o">=</span> <span class="o">{</span><span class="s">&quot;title&quot;</span><span class="o">,</span> <span class="s">&quot;description&quot;</span><span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TitleDescriptionBarBinding</span> <span class="kd">extends</span> <span class="n">CustomViewBinding</span><span class="o">&lt;</span><span class="n">TitleDescriptionBar</span><span class="o">&gt;</span> <span class="o">{</span>
 <span class="o">}</span>
 </pre></div></div></div>
 </div>
 <div class="sect3">
-<h4 id="_registering_viewbindings">7.1.2. Registering ViewBindings</h4>
-<div class="paragraph"><p>ViewBindings can be registered through org.robobinding.binder.BinderFactoryBuilder.</p></div>
-<div class="paragraph"><p>org.robobinding.gallery.activity.CustomComponentActivity.java</p></div>
+<h4 id="_registering_viewbindings">5.3.2. Registering ViewBindings</h4>
+<div class="paragraph"><p>ViewBindings can be registered through org.robobinding.binder.BinderFactoryBuilder
+- <a href="https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/CustomComponentActivity.java">source code</a>.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
-            <span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">TitleDescriptionBar</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">TitleDescriptionBarBinding</span><span class="o">())</span>
-            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
-<span class="n">ActivityBinder</span> <span class="n">activityBinder</span> <span class="o">=</span> <span class="n">binderFactory</span><span class="o">.</span><span class="na">createActivityBinder</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
-<span class="n">activityBinder</span><span class="o">.</span><span class="na">inflateAndBind</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">custom_component_activity</span><span class="o">,</span> <span class="n">presentationModel</span><span class="o">);</span>
+  <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">TitleDescriptionBarBinding</span><span class="o">().</span><span class="na">forView</span><span class="o">(</span><span class="n">TitleDescriptionBar</span><span class="o">.</span><span class="na">class</span><span class="o">))</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
 </pre></div></div></div>
 <div class="paragraph"><p>It is done. We can create view binding implementations for any third-party components or Android widgets in the same approach.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_overriding_an_existing_view_binding_implemenation">7.2. Overriding an existing view binding implemenation</h3>
-<div class="paragraph"><p>When an existing view binding implementation does not satisfy our requirement or some of binding attributes have not been implemented, we have two options.
-Firstly, we can directly modify the framework(we hope more people make contributions to the framework and help add more binding attributes).
-Alternatively, instead of modifying the framework, we implement new ViewBindings and their binding attributes, and then register to replace the default implementations from framework.
-Take the second approach as an example, we try to replace the existing <a href="http://developer.android.com/reference/android/widget/ImageView.html">ImageView</a> view binding implementation from <code>org.robobinding.widget.imageview</code>.</p></div>
-<div class="sect3">
-<h4 id="_implementing_new_viewbinding_and_binding_attributes">7.2.1. Implementing new ViewBinding and binding attributes</h4>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyImageViewBinding</span> <span class="kd">extends</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">widget</span><span class="o">.</span><span class="na">imageview</span><span class="o">.</span><span class="na">ImageViewBinding</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mapBindingAttributes</span><span class="o">(</span><span class="n">BindingAttributeMappings</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">&gt;</span> <span class="n">mappings</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">mappings</span><span class="o">.</span><span class="na">mapProperty</span><span class="o">(</span><span class="n">MyImageSourceAttribute</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;src&quot;</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyImageSourceAttribute</span> <span class="kd">extends</span> <span class="n">org</span><span class="o">.</span><span class="na">robobinding</span><span class="o">.</span><span class="na">widget</span><span class="o">.</span><span class="na">imageview</span><span class="o">.</span><span class="na">ImageSourceAttribute</span> <span class="o">{</span>
-     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">,</span> <span class="o">?&gt;</span> <span class="n">create</span><span class="o">(</span><span class="n">ImageView</span> <span class="n">view</span><span class="o">,</span> <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">propertyType</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isAssignableFrom</span><span class="o">(</span><span class="n">propertyType</span><span class="o">))</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="k">new</span> <span class="nf">UrlImageSourceAttribute</span><span class="o">();</span>
-        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">createPropertyViewAttribute</span><span class="o">(</span><span class="n">propertyType</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-
-    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">UrlImageSourceAttribute</span> <span class="kd">implements</span> <span class="n">PropertyViewAttribute</span><span class="o">&lt;</span><span class="n">ImageView</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="o">{</span>
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateView</span><span class="o">(</span><span class="n">ImageView</span> <span class="n">view</span><span class="o">,</span> <span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">Bitmap</span> <span class="n">image</span> <span class="o">=</span> <span class="n">loadBitmapFromUrl</span><span class="o">(</span><span class="n">url</span><span class="o">);</span><span class="c1">//load image from given url.</span>
-            <span class="n">view</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">image</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</pre></div></div></div>
-</div>
-<div class="sect3">
-<h4 id="_register_to_replace_the_existing_one">7.2.2. Register to replace the existing one</h4>
+<h3 id="_replace_an_existing_view_binding_implemenation">5.4. Replace an existing view binding implemenation</h3>
+<div class="paragraph"><p>When an existing view binding implementation does not satisfy our requirement, we can register to replace the default implementations from the framework.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
-            <span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">ImageView</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">MyImageViewBinding</span><span class="o">())</span>
-            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
-</pre></div></div></div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_dynamic_view_binding">7.3. Dynamic view binding</h3>
-<div class="paragraph"><p>When RoboBinding has not implemented some attribute bindings, with dynamic view binding we can quickly implement new or extend existing view bindings.
-Dynamic view binding acts as a supplement to static view binding.</p></div>
-<div class="sect3">
-<h4 id="_create_a_new_view_binding">7.3.1. Create a new view binding</h4>
-<div class="paragraph"><p>Create a new dynamic view binding for CustomOrThirdPartyComponent and add the attribute binding for textAttribute.</p></div>
-<div class="paragraph"><p>activity_dynamic_binding.xml</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;org.robobinding.gallery.model.dynamicbinding.CustomOrThirdPartyComponent</span>
-    <span class="na">bind:textAttribute=</span><span class="s">&quot;{textAttributeValue}&quot;</span><span class="nt">/&gt;</span>
-</pre></div></div></div>
-<div class="paragraph"><p>org.robobinding.gallery.activity.DynamicBindingActivity.java</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DynamicBindingActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-        <span class="o">...</span>
-        <span class="n">BinderFactoryBuilder</span> <span class="n">binderFactoryBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
-            <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">DynamicViewBinding</span><span class="o">().</span><span class="na">forView</span><span class="o">(</span><span class="n">CustomOrThirdPartyComponent</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">oneWayProperties</span><span class="o">(</span><span class="s">&quot;textAttribute&quot;</span><span class="o">));</span>
-        <span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="n">binderFactoryBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
-        <span class="n">ActivityBinder</span> <span class="n">activityBinder</span> <span class="o">=</span> <span class="n">binderFactory</span><span class="o">.</span><span class="na">createActivityBinder</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
-        <span class="n">activityBinder</span><span class="o">.</span><span class="na">inflateAndBind</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_dynamic_binding</span><span class="o">,</span> <span class="n">presentationModel</span><span class="o">);</span>
-    <span class="o">}</span>
-    <span class="o">...</span>
+  <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">MyViewBindingForView</span><span class="o">().</span><span class="na">forView</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">class</span><span class="o">))</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nd">@ViewBinding</span>
+<span class="kd">static</span> <span class="kd">class</span> <span class="nc">MyViewBindingForView</span> <span class="kd">extends</span> <span class="n">CustomViewBinding</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="o">...</span>
 <span class="o">}</span>
 </pre></div></div></div>
-</div>
 <div class="sect3">
-<h4 id="_extend_an_existing_view_binding">7.3.2. Extend an existing view binding</h4>
+<h4 id="_extend_an_existing_view_binding">5.4.1. Extend an existing view binding</h4>
 <div class="paragraph"><p>Extend the existing TextViewBinding and add the attribute binding for typeface.</p></div>
-<div class="paragraph"><p>activity_dynamic_binding.xml</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nt">&lt;TextView</span>
-    <span class="na">bind:typeface=</span><span class="s">&quot;{typeface}&quot;</span><span class="nt">/&gt;</span>
-</pre></div></div></div>
-<div class="paragraph"><p>org.robobinding.gallery.activity.DynamicBindingActivity.java</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DynamicBindingActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-        <span class="o">...</span>
-        <span class="n">BinderFactoryBuilder</span> <span class="n">binderFactoryBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
-            <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">DynamicViewBinding</span><span class="o">().</span><span class="na">extend</span><span class="o">(</span><span class="n">TextView</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">TextViewBinding</span><span class="o">())</span>
-                <span class="o">.</span><span class="na">oneWayProperties</span><span class="o">(</span><span class="s">&quot;typeface&quot;</span><span class="o">));</span>
-        <span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="n">binderFactoryBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
-        <span class="n">ActivityBinder</span> <span class="n">activityBinder</span> <span class="o">=</span> <span class="n">binderFactory</span><span class="o">.</span><span class="na">createActivityBinder</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
-        <span class="n">activityBinder</span><span class="o">.</span><span class="na">inflateAndBind</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_dynamic_binding</span><span class="o">,</span> <span class="n">presentationModel</span><span class="o">);</span>
-    <span class="o">}</span>
-    <span class="o">...</span>
+<div class="content"><div class="highlight"><pre><span class="n">BinderFactory</span> <span class="n">binderFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinderFactoryBuilder</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">MyTextViewBinding</span><span class="o">().</span><span class="na">extend</span><span class="o">(</span><span class="n">TextView</span><span class="o">.</span><span class="na">class</span><span class="o">))</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nd">@ViewBinding</span><span class="o">(</span><span class="n">simpleOneWayProperties</span><span class="o">={</span><span class="s">&quot;typeface&quot;</span><span class="o">})</span>
+<span class="kd">static</span> <span class="kd">class</span> <span class="nc">MyTextViewBinding</span> <span class="kd">extends</span> <span class="n">CustomViewBinding</span><span class="o">&lt;</span><span class="n">TextView</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="o">...</span>
 <span class="o">}</span>
 </pre></div></div></div>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_a_walk_through_album_sample">6. A Walk through Album Sample</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Album Sample project is a translated version of Martin Fowler&#8217;s <a href="http://martinfowler.com/eaaDev/PresentationModel.html">original one</a>.
+The source code can be found <a href="https://github.com/RoboBinding/RoboBinding-album-sample">here</a>.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/album_sample_prototype.png" alt="album_sample_prototype.png" />
+</div>
+<div class="title">Figure 6. Album Sample project prototype</div>
+</div>
+<div class="paragraph"><p>In the following section, a package start with <em>.</em> is a relative path to org.robobinding.albumsample.</p></div>
+<div class="paragraph"><p>The above is the prototype of the project. The project follows the standard RoboBinding project structure, an Activity comprising of an Activity class, layout xml and presentation model pojo.
+Inside the project, you can see the following packages: org.robobinding.albumsample.activity, which contains all Activity classes;
+org.robobinding.albumsample.presentationmodel, which contains all presentation models; org.robobinding.albumsample.model, which contains a Album entity implementation;
+and org.robobinding.albumsample.store, which contains a AlbumStore implementation based on memory. In the prototype, there are five diagrams, which are described separately below.</p></div>
+<div class="paragraph"><p>The diagram [Home Activity] consists of .activity.HomeActivity, home_activity.xml and .presentationmodel.HomePresentationModel.</p></div>
+<div class="paragraph"><p>The diagram [View Albums Activity] consists of .activity.ViewAlbumsActivity, view_albums_activity.xml and .presentationmodel.ViewAlbumsPresentationModel;
+and the view of each album item is backed by .presentationmodel.AlbumItemPresentationModel and album_row.xml; when the album list is empty, albums_empty_view.xml is applied.</p></div>
+<div class="paragraph"><p>The diagram [Create Album Activity] and [Edit Album Activity] share the same components of .activity.CreateEditAlbumActivity, create_edit_album_activity.xml and .presentationmodel.CreateEditAlbumPresentationModel.</p></div>
+<div class="paragraph"><p>The diagram [View Album Activity] consists of .activity.ViewAlbumActivity, view_album_activity.xml and .presentationmodel.ViewAlbumPresentationModel;
+and its album deletion dialog is backed by .activity.DeleteAlbumDialog, delete_album_dialog.xml and .presentationmodel.DeleteAlbumDialogPresentationModel.</p></div>
+<div class="paragraph"><p>Take [View Albums Activity] as an example to give a brief explanation on source code.
+The only thing the Activity class, ViewAlbumsActivity, does is to link the Layout view_albums_activity.xml and ViewAlbumsPresentationModel together.
+view_albums_activity.xml contains three sub-views a TextView, a ListView and a Button. The TextView does not contain any binding information.
+In the ListView, <code>bind:source="{albums}"</code> binds to ViewAlbumsPresentationModel.albums dataset property.
+<code>bind:onItemClick="viewAlbum"</code> binds to ViewAlbumsPresentationModel.viewAlbum(ItemClickEvent) method. When an album item is clicked, the method will be invoked.
+<code>bind:emptyViewLayout="@layout/albums_empty_view"</code> sets the display when the album list is empty.
+<code>bind:itemLayout="@layout/album_row"</code> sets album item row layout, which will be bound to an ItemPresentationModel,
+as indicated by the annotation, <code>@ItemPresentationModel(AlbumItemPresentationModel.class)</code>, on top of the ViewAlbumsPresentationModel.albums property.
+Inside the row layout file album_row.xml, there are two simple TextViews. Their <code>bind:text="{title}"</code> and <code>bind:text="{artist}"</code> bind to AlbumItemPresentationModel.title/artist respectively.
+The last sub-view in view_albums_activity.xml is a Button. Its <code>bind:onClick="createAlbum"</code> binds to ViewAlbumsPresentationModel.createAlbum() method.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contents_of_gallery_demos">7. Contents of Gallery Demos</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The entry classes mentioned below are from the package org.robobinding.gallery.activity of <a href="https://github.com/RoboBinding/RoboBinding-gallery/">Robobinding Gallery</a> project.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Binding attributes demo for View. The entry class is <em>ViewActivity</em>.
+</p>
+</li>
+<li>
+<p>
+Binding attributes demo for EditText. The entry class is <em>EditTextActivity</em>.
+</p>
+</li>
+<li>
+<p>
+Binding attributes demo for AdapterView. The entry class is <em>AdapterViewActivity</em>.
+</p>
+</li>
+<li>
+<p>
+Binding attributes demo for ListView. The entry class is <em>ListViewActivity</em>.
+</p>
+</li>
+<li>
+<p>
+Binding attributes demo for Custom Components. The entry class is <em>CustomComponentActivity</em>.
+</p>
+</li>
+<li>
+<p>
+Demo for Object Cursor. The entry class is <em>TypedCursorActivity</em>.
+</p>
+</li>
+<li>
+<p>
+Demo for Fragment &amp; ViewPager Binding. The entry class is <em>ListFragmentDemoActivity</em>.
+</p>
+</li>
+<li>
+<p>
+Demo for Options Menu Binding. The entry class is <em>OptionsMenuActivity</em>.
+</p>
+</li>
+<li>
+<p>
+Demo for Context Menu Binding. The entry class is <em>ContextMenuDemoActivity</em>.
+</p>
+</li>
+<li>
+<p>
+Demo for Contextual Action Mode Binding. The entry class is <em>ContextualActionModeActivity</em>.
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
@@ -1774,8 +1735,8 @@ Let us have a look a simple example below:
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.9<br />
-Last updated 2014-10-14 19:38:38 澳大利亚西部标准时间
+Version 0.8.10<br />
+Last updated 2015-08-02 10:14:50 澳大利亚东部标准时间
 </div>
 </div>
 </body>

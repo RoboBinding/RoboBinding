@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
 <meta name="keywords" content="presentation model, android mvc, mvvm, mvp, android, binding, android binding, android-binding, Bindroid, MvvmCross, android mvvm" />
 <title>版本</title>
 <style type="text/css">
@@ -837,14 +837,14 @@ asciidoc.install(2);
                 <a href="index.zh.html" class="menuitem">首页</a>
                 <a href="getting_started.zh.html" class="menuitem">入门</a>
                 <a href="insight_into_framework.zh.html" class="menuitem">深入理解框架</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.9/robobinding-0.8.9-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.10/robobinding-0.8.10-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
                 <a href="about.zh.html" class="menuitem">关于</a>
                 <a href="versions.zh.html" class="menuitem">版本更新</a>
                 <a href="index.html" class="menuitem">英文首页</a>
         </div>
 <div id="header">
 <h1>版本</h1>
-<span id="revnumber">version 0.8.9</span>
+<span id="revnumber">version 0.8.10</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -852,7 +852,65 @@ asciidoc.install(2);
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_版本_0_8_9_2014_10_14发布">1. 版本 0.8.9(2014-10-14发布)</h2>
+<h2 id="_版本_0_8_10_02_08_2015发布">1. 版本 0.8.10(02/08/2015发布)</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/185">feature #185</a>
+静态源代码产生 ViewBinding 的方式替代旧的动态绑定 DynamicViewBinding。对
+<a href="https://github.com/RoboBinding/RoboBinding/blob/develop/framework/src/main/java/org/robobinding/viewbinding/ViewBinding.java">ViewBinding</a>接口进行了更新。
+新的
+<a href="https://github.com/RoboBinding/RoboBinding/blob/develop/framework/src/main/java/org/robobinding/customviewbinding/CustomViewBinding.java">CustomViewBinding</a>
+接口替代了旧的 DynamicViewBinding 接口。 移除了一些简单的单向绑定实现，RoboBinding不需要包含这些，因为要使用它们的时候，只要简单的声明即可。
+如
+<a href="https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/activity/GalleryApp.java">ViewBindingForView, MenuItemBinding and MenuItemGroupBinding</a>
+示例。还有 <a href="https://github.com/RoboBinding/RoboBinding-gallery/blob/master/app/src/main/java/org/robobinding/gallery/model/customcomponent/TitleDescriptionBarBinding.java">自定义组件</a>绑定声明示例。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/210">feature #210</a>
+启用 Sourcegraph。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/217">issue #217</a>
+  <a href="https://github.com/RoboBinding/RoboBinding/issues/222">issue #222</a>
+  <a href="https://github.com/RoboBinding/RoboBinding/issues/218">issue #218</a>
+buildToolsVersion v21以上绑定失效。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/221">issue #221</a>
+当一个自定义类在两个以上绑定属性上使用时，产生的源代码编译出错，因为自定义类的import语句不见了。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/209">issue #209</a>
+当一个itemPresentationModel factory方法被多个lists用时，编译出错。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/200">issue #200</a>
+appcompat-v7&#8201;&#8212;&#8201;lost styles，在appcompat-v7下styles没了。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/194">issue #194</a>
+java.lang.ClassNotFoundException: 找不到 "android.widget.fragment" 类。
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_版本_0_8_9_2014_10_14发布">2. 版本 0.8.9(2014-10-14发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -875,7 +933,7 @@ PresentationModel只需要实现org.robobinding.presentationmodel.HasPresentatio
 </div>
 </div>
 <div class="sect1">
-<h2 id="_版本_0_8_8_2014_09_26发布">2. 版本 0.8.8(2014-09-26发布)</h2>
+<h2 id="_版本_0_8_8_2014_09_26发布">3. 版本 0.8.8(2014-09-26发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -895,7 +953,7 @@ PresentationModel只需要实现org.robobinding.presentationmodel.HasPresentatio
 </div>
 </div>
 <div class="sect1">
-<h2 id="_版本_0_8_7_2014_09_24发布">3. 版本 0.8.7(2014-09-24发布)</h2>
+<h2 id="_版本_0_8_7_2014_09_24发布">4. 版本 0.8.7(2014-09-24发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -920,7 +978,7 @@ PresentationModel只需要实现org.robobinding.presentationmodel.HasPresentatio
 </div>
 </div>
 <div class="sect1">
-<h2 id="_版本_0_8_6_2014_09_20发布">4. 版本 0.8.6(2014-09-20发布)</h2>
+<h2 id="_版本_0_8_6_2014_09_20发布">5. 版本 0.8.6(2014-09-20发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -955,8 +1013,8 @@ PresentationModel只需要实现org.robobinding.presentationmodel.HasPresentatio
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.9<br />
-Last updated 2014-10-14 19:47:42 澳大利亚西部标准时间
+Version 0.8.10<br />
+Last updated 2015-08-02 10:33:45 澳大利亚东部标准时间
 </div>
 </div>
 </body>
