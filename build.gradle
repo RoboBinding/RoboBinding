@@ -29,8 +29,8 @@ subprojects {
 	
 	ext {
 		junitVersion = '4.12'
-		mockitoVersion = '1.9.+'
-		commonsLangVersion = '3.+'
+		mockitoVersion = '1.10.19'
+		commonsLangVersion = '3.4'
 	}
 }
 
