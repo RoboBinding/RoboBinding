@@ -64,6 +64,22 @@ public class WrappedAnnotationMirror {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<WrappedAnnotationMirror> annotationValueAsAnnotationList(String key) {
+		AnnotationValue annotationValue = findAnnotationValue(key);
+		if (annotationValue == null) {
+			return null;
+		}
+
+		List<? extends AnnotationValue> annotationValues = (List<? extends AnnotationValue>) annotationValue.getValue();
+		List<WrappedAnnotationMirror> result = Lists.newArrayList();
+		for (AnnotationValue innerAnnotationValue : annotationValues) {
+			AnnotationMirror annotationMirror = (AnnotationMirror) innerAnnotationValue.getValue();
+			result.add(new WrappedAnnotationMirror(annotationMirror, wrapper));
+		}
+		return result;
+	}
+
 	public boolean hasAnnotationValue(String key) {
 		return findAnnotationValue(key) != null;
 	}

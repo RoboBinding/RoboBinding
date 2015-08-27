@@ -7,7 +7,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.robobinding.codegen.SourceCodeAssert;
+import org.robobinding.codegen.apt.MethodElementFilter;
 import org.robobinding.codegen.apt.element.AptTestHelper;
+import org.robobinding.codegen.apt.element.MethodElement;
 import org.robobinding.codegen.apt.element.SetterElement;
 import org.robobinding.codegen.apt.element.WrappedTypeElement;
 import org.robobinding.customviewbinding.CustomViewBinding;
@@ -43,15 +45,17 @@ public class ViewBindingObjectClassGenTest {
 	}
 
 	private ViewBindingInfo createViewBindingInfo(Class<? extends CustomViewBinding<?>> viewBindingType) {
-		return createViewBindingInfo(viewBindingType, Collections.<SimpleOneWayPropertyInfo>emptyList());
+		return createViewBindingInfo(viewBindingType, Collections.<SimpleOneWayPropertyInfo>emptyList(),
+				Collections.<TwoWayPropertyInfo>emptyList());
 	}
 
 	private ViewBindingInfo createViewBindingInfo(Class<? extends CustomViewBinding<?>> viewBindingType, 
-			List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList) {
+			List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList,
+			List<TwoWayPropertyInfo> twoWayPropertyInfoList) {
 		String viewBindingTypeName = viewBindingType.getName();
 		String viewBindingObjectTypeName = viewBindingTypeName + "_VB";
 		return new ViewBindingInfo(viewBindingTypeName, viewBindingObjectTypeName,
-				viewElementType(), simpleOneWayPropertyInfoList);
+				viewElementType(), simpleOneWayPropertyInfoList, twoWayPropertyInfoList);
 	}
 	
 	private WrappedTypeElement viewElementType() {
@@ -66,7 +70,8 @@ public class ViewBindingObjectClassGenTest {
 	public void shouldDefineSimpleOneWayPropertyClasses() throws JClassAlreadyExistsException {
 		ViewBindingInfo info = createViewBindingInfo(DefineSimpleOneWayPropertyClasses.class, 
 				Lists.newArrayList(new SimpleOneWayPropertyInfo(setterOf("imageAlpha")),
-						new SimpleOneWayPropertyInfo(setterOf("scaleType"))));
+						new SimpleOneWayPropertyInfo(setterOf("scaleType"))),
+				Collections.<TwoWayPropertyInfo>emptyList());
 		ViewBindingObjectClassGen gen = new ViewBindingObjectClassGen(info);
 		gen.defineSimpleOneWayPropertyClasses();
 
@@ -81,7 +86,8 @@ public class ViewBindingObjectClassGenTest {
 	public void shouldDefineMapBindingAttributesMethod() throws JClassAlreadyExistsException {
 		ViewBindingInfo info = createViewBindingInfo(DefineMapBindingAttributesMethod.class, 
 				Lists.newArrayList(new SimpleOneWayPropertyInfo(setterOf("imageAlpha")),
-						new SimpleOneWayPropertyInfo(setterOf("scaleType"))));
+						new SimpleOneWayPropertyInfo(setterOf("scaleType"))),
+				Lists.newArrayList(new TwoWayPropertyInfo("twoWayProp", DefineMapBindingAttributesMethod.CustomTwoWayProp.class.getCanonicalName())));
 		ViewBindingObjectClassGen gen = new ViewBindingObjectClassGen(info);
 		gen.defineFields();
 		gen.defineSimpleOneWayPropertyClasses();

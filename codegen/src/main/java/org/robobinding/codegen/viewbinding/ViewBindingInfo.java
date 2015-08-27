@@ -17,14 +17,17 @@ public class ViewBindingInfo {
 	private final String viewBindingObjectTypeName;
 	private final WrappedTypeElement viewType;
 	private final List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList;
+	private final List<TwoWayPropertyInfo> twoWayPropertyInfoList;
 	
 	public ViewBindingInfo(String viewBindingTypeName, String viewBindingObjectTypeName, 
 			WrappedTypeElement viewType,
-			List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList) {
+			List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList,
+			List<TwoWayPropertyInfo> twoWayPropertyInfoList) {
 		this.viewBindingTypeName = viewBindingTypeName;
 		this.viewBindingObjectTypeName = viewBindingObjectTypeName;
 		this.viewType = viewType;
 		this.simpleOneWayPropertyInfoList = simpleOneWayPropertyInfoList;
+		this.twoWayPropertyInfoList = twoWayPropertyInfoList;
 	}
 
 	public String viewBindingTypeName() {
@@ -43,6 +46,10 @@ public class ViewBindingInfo {
 		return Collections.unmodifiableList(simpleOneWayPropertyInfoList);
 	}
 
+	public List<TwoWayPropertyInfo> twoWayPropertyInfoList() {
+		return Collections.unmodifiableList(twoWayPropertyInfoList);
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if (this == other)
@@ -54,7 +61,8 @@ public class ViewBindingInfo {
 		return Objects.equal(viewBindingTypeName, that.viewBindingTypeName)
 				&& Objects.equal(viewBindingObjectTypeName, that.viewBindingObjectTypeName)
 				&& Objects.equal(viewType, that.viewType)
-				&& Objects.equal(simpleOneWayPropertyInfoList, that.simpleOneWayPropertyInfoList);
+				&& Objects.equal(simpleOneWayPropertyInfoList, that.simpleOneWayPropertyInfoList)
+				&& Objects.equal(twoWayPropertyInfoList, that.twoWayPropertyInfoList);
 	}
 
 	@Override
@@ -62,6 +70,7 @@ public class ViewBindingInfo {
 		return Objects.hashCode(viewBindingTypeName)
 				+ Objects.hashCode(viewBindingObjectTypeName)
 				+ Objects.hashCode(viewType)
-				+ Objects.hashCode(simpleOneWayPropertyInfoList);
+				+ Objects.hashCode(simpleOneWayPropertyInfoList)
+				+ Objects.hashCode(twoWayPropertyInfoList);
 	}
 }

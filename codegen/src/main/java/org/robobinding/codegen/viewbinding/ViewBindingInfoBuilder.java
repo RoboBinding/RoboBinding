@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.robobinding.annotation.ViewBinding;
 import org.robobinding.codegen.apt.element.SetterElement;
+import org.robobinding.codegen.apt.element.WrappedAnnotationMirror;
 import org.robobinding.codegen.apt.element.WrappedTypeElement;
+import org.robobinding.codegen.apt.type.WrappedDeclaredType;
 import org.robobinding.customviewbinding.CustomViewBinding;
 
 import com.google.common.collect.Lists;
@@ -27,7 +29,9 @@ public class ViewBindingInfoBuilder {
 	public ViewBindingInfo build() {
 		WrappedTypeElement viewType = extractViewType();
 		List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList = extractSimpleOneWayPropertyInfoList(viewType);
-		return new ViewBindingInfo(typeElement.qName(), viewBindingObjectTypeName, viewType, simpleOneWayPropertyInfoList);
+		List<TwoWayPropertyInfo> twoWayPropertyInfoList = extractTwoWayPropertyInfoList(typeElement);
+		return new ViewBindingInfo(typeElement.qName(), viewBindingObjectTypeName, viewType,
+				simpleOneWayPropertyInfoList, twoWayPropertyInfoList);
 	}
 
 	private WrappedTypeElement extractViewType() {
@@ -64,4 +68,17 @@ public class ViewBindingInfoBuilder {
 		
 		return result;
 	}
+
+	private List<TwoWayPropertyInfo> extractTwoWayPropertyInfoList(WrappedTypeElement typeElement) {
+		ViewBindingAnnotationMirror annotation = new ViewBindingAnnotationMirror(typeElement.getAnnotation(ViewBinding.class));
+		List<WrappedAnnotationMirror> twoWayProperties = annotation.getTwoWayProperties();
+		List<TwoWayPropertyInfo> result = Lists.newArrayList();
+		for (WrappedAnnotationMirror annotationMirror : twoWayProperties) {
+			String propertyName = annotationMirror.annotationValueAsText("name");
+			WrappedDeclaredType propertyType = annotationMirror.annotationValueAsType("type");
+			result.add(new TwoWayPropertyInfo(propertyName, propertyType.className()));
+		}
+		return result;
+	}
+
 }

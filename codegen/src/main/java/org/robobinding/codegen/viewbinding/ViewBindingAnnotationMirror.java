@@ -25,4 +25,13 @@ public class ViewBindingAnnotationMirror {
 		}
 		return simpleOneWayProperties;
 	}
+
+	public List<WrappedAnnotationMirror> getTwoWayProperties() {
+		List<WrappedAnnotationMirror> twoWayProperties = annotationMirror.annotationValueAsAnnotationList("twoWayProperties");
+		if (twoWayProperties == null) {
+			return Lists.newArrayList();
+		}
+		return twoWayProperties;
+	}
+
 }
