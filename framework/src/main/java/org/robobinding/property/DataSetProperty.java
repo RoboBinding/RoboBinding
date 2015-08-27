@@ -41,8 +41,8 @@ public class DataSetProperty implements DataSetPropertyValueModel, PropertyChang
 	}
 
 	@Override
-	public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
-		return dataSet.newRefreshableItemPresentationModel();
+	public RefreshableItemPresentationModel newRefreshableItemPresentationModel(Object item) {
+		return dataSet.newRefreshableItemPresentationModel(item);
 	}
 
 	@Override
@@ -69,4 +69,18 @@ public class DataSetProperty implements DataSetPropertyValueModel, PropertyChang
 		return descriptor.decriptionWithDependencies(dependentProperties);
 	}
 
+	@Override
+	public int getItemViewTypeCount() {
+		return dataSet.getItemViewTypeCount();
+	}
+
+	@Override
+	public int getItemViewType(int position, Object item) {
+		return dataSet.getItemViewType(position, item);
+	}
+
+	@Override
+	public int getItemLayoutId(int position, Object item) {
+		return dataSet.getItemLayoutId(position, item);
+	}
 }

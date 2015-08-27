@@ -40,7 +40,8 @@ public class PresentationModelInfoBuilder {
 	private final Map<String, DataSetPropertyInfoImpl> dataSetProperties;
 	private final Set<PropertyDependencyInfo> propertyDependencies;
 	private final Map<String, MethodElement> eventMethods;
-	
+	private final Map<String, MethodElement> allMethods;
+
 	private final PresentationModelErrors errors;
 
 	
@@ -55,7 +56,8 @@ public class PresentationModelInfoBuilder {
 		dataSetProperties = Maps.newHashMap();
 		propertyDependencies = Sets.newHashSet();
 		eventMethods = Maps.newHashMap();
-		
+		allMethods = Maps.newHashMap();
+
 		errors = new PresentationModelErrors(typeElement.qName());
 	}
 
@@ -80,6 +82,7 @@ public class PresentationModelInfoBuilder {
 			} else if(isEventMethod(method)){//the rest are event methods.
 				addEventMethod(method);
 			}
+			allMethods.put(method.methodName(), method);
 		}
 		
 	}
@@ -176,7 +179,15 @@ public class PresentationModelInfoBuilder {
 				return;
 			}
 		}
-		
+		factoryMethod = allMethods.get(factoryMethodName);
+		if((factoryMethod != null) && factoryMethod.hasParameter()) {
+			WrappedTypeMirror returnType = factoryMethod.returnType();
+			if(returnType.isDeclaredType()
+					&& ((WrappedDeclaredType)returnType).isAssignableTo(dataSetProperty.itemPresentationModelTypeName())) {
+				return;
+			}
+		}
+
 		throw new RuntimeException(MessageFormat.format("The dataSet property ''{0}'' expects an non-existing factory method ''{1}''",
 				dataSetProperty.name(), 
 				new MethodDescription(factoryMethodName, dataSetProperty.itemPresentationModelTypeName(), new Class<?>[0])));
@@ -187,13 +198,19 @@ public class PresentationModelInfoBuilder {
 	}
 	
 	private void removeItemPresentationModelFactoryMethod(Collection<DataSetPropertyInfoImpl> dataSetProperties) {
-		for(DataSetPropertyInfo dataSetProperty : dataSetProperties) {
+		for(DataSetPropertyInfoImpl dataSetProperty : dataSetProperties) {
 			removeItemPresentationModelFactoryMethod(dataSetProperty);
 		}
 	}
 	
-	private void removeItemPresentationModelFactoryMethod(DataSetPropertyInfo dataSetProperty) {
-		eventMethods.remove(dataSetProperty.factoryMethod());
+	private void removeItemPresentationModelFactoryMethod(DataSetPropertyInfoImpl dataSetProperty) {
+		if (allMethods.containsKey(dataSetProperty.factoryMethod())) {
+			MethodElement methodElement = allMethods.get(dataSetProperty.factoryMethod());
+			if (methodElement.hasParameter()) {
+				dataSetProperty.setFactoryMethodHasArg(true);
+			}
+			eventMethods.remove(dataSetProperty.factoryMethod());
+		}
 	}
 
 	private void validateProperties() {

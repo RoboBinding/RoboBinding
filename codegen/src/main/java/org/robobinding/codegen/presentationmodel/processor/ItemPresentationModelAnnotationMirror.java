@@ -17,6 +17,14 @@ public class ItemPresentationModelAnnotationMirror {
 	public String itemPresentationModelTypeName() {
 		return annotationMirror.annotationValueAsType("value").className();
 	}
+
+	public boolean hasItemViewFactory() {
+		return annotationMirror.hasAnnotationValue("viewFactory");
+	}
+
+	public String itemViewFactoryTypeName() {
+		return annotationMirror.annotationValueAsType("viewFactory").className();
+	}
 	
 	public boolean hasFactoryMethod() {
 		return annotationMirror.hasAnnotationValue("factoryMethod");

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.robobinding.codegen.presentationmodel.DataSetPropertyInfo;
+import org.robobinding.itempresentationmodel.ItemViewFactory;
 import org.robobinding.itempresentationmodel.TypedCursor;
 import org.robobinding.property.AbstractDataSet;
 import org.robobinding.property.ListDataSet;
@@ -20,6 +21,7 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 	private final PropertyDescriptor descriptor;
 	private final ItemPresentationModel itemPresentationModelAnnotation;
 	private final String itemPresentationModelObjectTypeName;
+	private boolean factoryMethodHasArg;
 	
 	public DataSetPropertyInfoImpl(PropertyDescriptor descriptor, ItemPresentationModel itemPresentationModelAnnotation,
 			String itemPresentationModelObjectTypeName) {
@@ -60,8 +62,25 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 	}
 
 	@Override
+	public String itemViewFactoryTypeName() {
+		if (itemPresentationModelAnnotation.viewFactory().isAssignableFrom(ItemViewFactory.Default.class)) {
+			return null;
+		}
+		return itemPresentationModelAnnotation.viewFactory().getName();
+	}
+
+	@Override
 	public boolean isCreatedByFactoryMethod() {
 		return !StringUtils.isBlank(itemPresentationModelAnnotation.factoryMethod());
+	}
+
+	@Override
+	public boolean factoryMethodHasArg() {
+		return factoryMethodHasArg;
+	}
+
+	public void setFactoryMethodHasArg(boolean hasArg) {
+		factoryMethodHasArg = hasArg;
 	}
 
 	@Override

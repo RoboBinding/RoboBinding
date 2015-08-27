@@ -1,5 +1,7 @@
 package org.robobinding.codegen.presentationmodel.typemirror;
 
+import org.robobinding.itempresentationmodel.ItemViewFactory;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -26,4 +28,11 @@ public @interface ItemPresentationModel {
 	 * PresentationModel.factoryMethod().
 	 */
 	String factoryMethod() default "";
+
+	/**
+	 * Optional. When the ItemViewFactory is specified, you can configure item view layout freely.
+	 * @return
+	 */
+	Class<? extends org.robobinding.itempresentationmodel.ItemViewFactory> viewFactory() default ItemViewFactory.Default.class;
+
 }

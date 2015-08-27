@@ -97,6 +97,17 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	}
 
 	@Override
+	public int getViewTypeCount() {
+		return dataSetValueModel.getItemViewTypeCount();
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		T item = getItem(position);
+		return dataSetValueModel.getItemViewType(position, item);
+	}
+
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		return createViewFromResource(position, convertView, parent, ViewType.ITEM_LAYOUT);
 	}
@@ -116,11 +127,13 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	}
 
 	private View newView(int position, ViewGroup parent, ViewType viewType) {
-		RefreshableItemPresentationModel itemPresentationModel = dataSetValueModel.newRefreshableItemPresentationModel();
+		T item = getItem(position);
+		RefreshableItemPresentationModel itemPresentationModel = dataSetValueModel.newRefreshableItemPresentationModel(item);
 
 		BindableView bindableView;
 		if (viewType == ViewType.ITEM_LAYOUT) {
-			bindableView = itemLayoutBinder.inflate(parent);
+			int layoutId = dataSetValueModel.getItemLayoutId(position, item);
+			bindableView = itemLayoutBinder.inflate(parent, layoutId);
 		} else {
 			bindableView = dropdownLayoutBinder.inflate(parent);
 		}

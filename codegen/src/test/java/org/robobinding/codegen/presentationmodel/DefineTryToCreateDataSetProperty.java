@@ -3,6 +3,7 @@ package org.robobinding.codegen.presentationmodel;
 import java.util.List;
 
 import org.robobinding.codegen.presentationmodel.typemirror.ItemPresentationModel;
+import org.robobinding.itempresentationmodel.ItemViewFactory;
 import org.robobinding.itempresentationmodel.TypedCursor;
 
 /**
@@ -28,5 +29,37 @@ public class DefineTryToCreateDataSetProperty {
 	
 	public StringItemPresentationModel createStringItemPresentationModel() {
 		return null;
+	}
+
+	public StringItemPresentationModel createStringItemPresentationModelWithArg(Object item) {
+		return null;
+	}
+
+	@ItemPresentationModel(value=StringItemPresentationModel.class, factoryMethod="createStringItemPresentationModelWithArg")
+	public List<String> getDataSetPropWithFactoryMethodWithArg() {
+		return null;
+	}
+
+	@ItemPresentationModel(value=StringItemPresentationModel.class, viewFactory=CustomItemViewFactory.class)
+	public List<String> getDataSetPropWithItemViewFactory() {
+		return null;
+	}
+
+	public static class CustomItemViewFactory implements ItemViewFactory {
+
+		@Override
+		public int getItemViewTypeCount() {
+			return 2;
+		}
+
+		@Override
+		public int getItemViewType(int position, Object item) {
+			return position % 2;
+		}
+
+		@Override
+		public int getItemLayoutId(int position, Object item) {
+			return position % 2;
+		}
 	}
 }

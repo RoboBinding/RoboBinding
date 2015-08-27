@@ -57,8 +57,15 @@ public class PresentationModelInfoBuilder {
 		for(PropertyDescriptor descriptor : descriptors) {
 			if(isDataSetProperty(descriptor)) {
 				ItemPresentationModel itemPresentationModelAnnotation = descriptor.getAnnotation(ItemPresentationModel.class);
-				dataSetProperties.add(new DataSetPropertyInfoImpl(descriptor, itemPresentationModelAnnotation, 
-						itemPresentationModelObjectTypeNameOf(itemPresentationModelAnnotation)));
+				DataSetPropertyInfoImpl dataSetPropertyInfo = new DataSetPropertyInfoImpl(descriptor, itemPresentationModelAnnotation,
+						itemPresentationModelObjectTypeNameOf(itemPresentationModelAnnotation));
+				try {
+					presentationModelClass.getMethod(itemPresentationModelAnnotation.factoryMethod(), Object.class);
+					dataSetPropertyInfo.setFactoryMethodHasArg(true);
+				} catch (NoSuchMethodException e) {
+					dataSetPropertyInfo.setFactoryMethodHasArg(false);
+				}
+				dataSetProperties.add(dataSetPropertyInfo);
 			} else {
 				properties.add(new PropertyInfoImpl(descriptor));
 			}

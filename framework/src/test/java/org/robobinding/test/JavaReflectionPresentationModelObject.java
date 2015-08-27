@@ -204,7 +204,7 @@ public class JavaReflectionPresentationModelObject extends AbstractPresentationM
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(Object item) {
 					throw new UnsupportedOperationException();
 				}
 			};
