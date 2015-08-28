@@ -35,8 +35,17 @@ public class DefineTryToCreateDataSetProperty {
 		return null;
 	}
 
+	public org.robobinding.itempresentationmodel.ItemPresentationModel<String> createStringItemPresentationModelReturnItemPresentationModel() {
+		return null;
+	}
+
 	@ItemPresentationModel(value=StringItemPresentationModel.class, factoryMethod="createStringItemPresentationModelWithArg")
 	public List<String> getDataSetPropWithFactoryMethodWithArg() {
+		return null;
+	}
+
+	@ItemPresentationModel(value=StringItemPresentationModel.class, factoryMethod="createStringItemPresentationModelReturnItemPresentationModel")
+	public List<String> getDataSetPropWithFactoryMethodReturnItemPresentationModel() {
 		return null;
 	}
 

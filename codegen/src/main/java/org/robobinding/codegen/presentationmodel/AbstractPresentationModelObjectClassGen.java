@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+import org.robobinding.binder.ItemPresentationModelObjectLoader;
 import org.robobinding.codegen.SourceCodeWritable;
 import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
-import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemViewFactory;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
@@ -56,6 +56,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 	private AbstractJClass refreshableItemPresentationModelFactoryClass;
 	private AbstractJClass itemViewFactoryClass;
 	private AbstractJClass objectClass;
+	private AbstractJClass itemPresentationModelObjectLoaderClass;
 
 	public AbstractPresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) {
 		this.presentationModelInfo = presentationModelInfo;
@@ -73,6 +74,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 		refreshableItemPresentationModelFactoryClass = codeModel.ref(RefreshableItemPresentationModelFactory.class);
 		itemViewFactoryClass = codeModel.ref(ItemViewFactory.class);
 		objectClass = codeModel.ref(Object.class);
+		itemPresentationModelObjectLoaderClass = codeModel.ref(ItemPresentationModelObjectLoader.class);
 
 		try {
 			definedClass = codeModel._class(presentationModelInfo.getPresentationModelObjectTypeName());
@@ -360,7 +362,12 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 			JVar item = create.param(objectClass, "item");
 
 			AbstractJClass itemPresentationModelObjectClass = codeModel.ref(propertyInfo.itemPresentationModelObjectTypeName());
-			JInvocation newItemPresentationModelObject = JExpr._new(itemPresentationModelObjectClass);
+			JInvocation newItemPresentationModelObject;
+			if (propertyInfo.isCreatedByFactoryMethod() && !propertyInfo.itemPresentationModelTypeName().equals(propertyInfo.factoryMethodReturnTypeName())) {
+				newItemPresentationModelObject = itemPresentationModelObjectLoaderClass.staticInvoke("load");
+			} else {
+				newItemPresentationModelObject = JExpr._new(itemPresentationModelObjectClass);
+			}
 			if (propertyInfo.isCreatedByFactoryMethod()) {
 				JInvocation callFactotyMethod = presentationModelFieldWithoutThis.invoke(propertyInfo.factoryMethod());
 				if(propertyInfo.factoryMethodHasArg()) {

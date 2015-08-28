@@ -22,6 +22,7 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 	private final ItemPresentationModelAnnotationMirror annotation;
 	private final String itemPresentationModelObjectTypeName;
 	private boolean factoryMethodHasArg;
+	private String factoryMethodReturnTypeName;
 
 	public DataSetPropertyInfoImpl(GetterElement getter, 
 			ItemPresentationModelAnnotationMirror annotation,
@@ -88,6 +89,15 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 
 	public void setFactoryMethodHasArg(boolean hasArg) {
 		factoryMethodHasArg = hasArg;
+	}
+
+	@Override
+	public String factoryMethodReturnTypeName() {
+		return factoryMethodReturnTypeName;
+	}
+
+	public void setFactoryMethodReturnTypeName(String typeName) {
+		this.factoryMethodReturnTypeName = typeName;
 	}
 
 	@Override

@@ -22,6 +22,7 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 	private final ItemPresentationModel itemPresentationModelAnnotation;
 	private final String itemPresentationModelObjectTypeName;
 	private boolean factoryMethodHasArg;
+	private String factoryMethodReturnTypeName;
 	
 	public DataSetPropertyInfoImpl(PropertyDescriptor descriptor, ItemPresentationModel itemPresentationModelAnnotation,
 			String itemPresentationModelObjectTypeName) {
@@ -81,6 +82,15 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 
 	public void setFactoryMethodHasArg(boolean hasArg) {
 		factoryMethodHasArg = hasArg;
+	}
+
+	@Override
+	public String factoryMethodReturnTypeName() {
+		return factoryMethodReturnTypeName;
+	}
+
+	public void setFactoryMethodReturnTypeName(String typeName) {
+		this.factoryMethodReturnTypeName = typeName;
 	}
 
 	@Override

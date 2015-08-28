@@ -26,6 +26,8 @@ public interface DataSetPropertyInfo {
 
 	boolean factoryMethodHasArg();
 
+	String factoryMethodReturnTypeName();
+
 	String factoryMethod();
 
 	String itemPresentationModelObjectTypeName();

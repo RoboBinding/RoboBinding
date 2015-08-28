@@ -159,6 +159,7 @@ public class PresentationModelInfoBuilder {
 				errors.addPropertyError(e.getMessage());
 				continue;
 			}
+			setupDataSetProperties(dataSetProperty);
 			removeSetterOfDataSetProperty(dataSetProperty);
 		}
 		
@@ -175,7 +176,7 @@ public class PresentationModelInfoBuilder {
 		if((factoryMethod != null) && factoryMethod.hasNoParameter()) {
 			WrappedTypeMirror returnType = factoryMethod.returnType();
 			if(returnType.isDeclaredType()
-					&& ((WrappedDeclaredType)returnType).isAssignableTo(dataSetProperty.itemPresentationModelTypeName())) {
+					&& ((WrappedDeclaredType)returnType).isAssignableTo(org.robobinding.itempresentationmodel.ItemPresentationModel.class)) {
 				return;
 			}
 		}
@@ -183,7 +184,7 @@ public class PresentationModelInfoBuilder {
 		if((factoryMethod != null) && factoryMethod.hasParameter()) {
 			WrappedTypeMirror returnType = factoryMethod.returnType();
 			if(returnType.isDeclaredType()
-					&& ((WrappedDeclaredType)returnType).isAssignableTo(dataSetProperty.itemPresentationModelTypeName())) {
+					&& ((WrappedDeclaredType)returnType).isAssignableTo(org.robobinding.itempresentationmodel.ItemPresentationModel.class)) {
 				return;
 			}
 		}
@@ -191,6 +192,21 @@ public class PresentationModelInfoBuilder {
 		throw new RuntimeException(MessageFormat.format("The dataSet property ''{0}'' expects an non-existing factory method ''{1}''",
 				dataSetProperty.name(), 
 				new MethodDescription(factoryMethodName, dataSetProperty.itemPresentationModelTypeName(), new Class<?>[0])));
+	}
+
+	private void setupDataSetProperties(DataSetPropertyInfoImpl dataSetProperty) {
+		if(!dataSetProperty.isCreatedByFactoryMethod()) {
+			return;
+		}
+		String factoryMethodName = dataSetProperty.factoryMethod();
+		if (allMethods.containsKey(factoryMethodName)) {
+			MethodElement factoryMethod = allMethods.get(factoryMethodName);
+			if (factoryMethod.hasParameter()) {
+				dataSetProperty.setFactoryMethodHasArg(true);
+			}
+			WrappedTypeMirror returnType = factoryMethod.returnType();
+			dataSetProperty.setFactoryMethodReturnTypeName(returnType.className());
+		}
 	}
 	
 	private void removeSetterOfDataSetProperty(DataSetPropertyInfo dataSetProperty) {
@@ -204,13 +220,7 @@ public class PresentationModelInfoBuilder {
 	}
 	
 	private void removeItemPresentationModelFactoryMethod(DataSetPropertyInfoImpl dataSetProperty) {
-		if (allMethods.containsKey(dataSetProperty.factoryMethod())) {
-			MethodElement methodElement = allMethods.get(dataSetProperty.factoryMethod());
-			if (methodElement.hasParameter()) {
-				dataSetProperty.setFactoryMethodHasArg(true);
-			}
-			eventMethods.remove(dataSetProperty.factoryMethod());
-		}
+		eventMethods.remove(dataSetProperty.factoryMethod());
 	}
 
 	private void validateProperties() {

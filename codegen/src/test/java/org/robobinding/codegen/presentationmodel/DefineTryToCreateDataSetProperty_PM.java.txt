@@ -2,6 +2,7 @@
 package org.robobinding.codegen.presentationmodel;
 
 import java.util.List;
+import org.robobinding.binder.ItemPresentationModelObjectLoader;
 import org.robobinding.itempresentationmodel.ItemViewFactory;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
@@ -80,6 +81,26 @@ public class DefineTryToCreateDataSetProperty_PM {
 			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
 		}
 
+		if(name.equals("dataSetPropWithFactoryMethodReturnItemPresentationModel")) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+
+			AbstractGetSet<?> getSet = new AbstractGetSet<List>(descriptor) {
+				@Override
+				public List getValue() {
+					return presentationModel.getDataSetPropWithFactoryMethodReturnItemPresentationModel();
+				}
+			};
+
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				@Override
+				public RefreshableItemPresentationModel create(Object item) {
+					return ItemPresentationModelObjectLoader.load(presentationModel.createStringItemPresentationModelReturnItemPresentationModel());
+				}
+			};
+
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+		}
+
 		if(name.equals("dataSetPropWithFactoryMethodWithArg")) {
 			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
 
@@ -120,7 +141,7 @@ public class DefineTryToCreateDataSetProperty_PM {
 			ItemViewFactory viewFactory = new DefineTryToCreateDataSetProperty.CustomItemViewFactory();
 			return new DataSetProperty(this, descriptor, new ListDataSet(factory, viewFactory, getSet));
 		}
-		
+
 		return null;
 	}
 }

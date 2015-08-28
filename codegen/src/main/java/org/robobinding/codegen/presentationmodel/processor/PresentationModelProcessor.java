@@ -10,6 +10,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 
 import org.robobinding.annotation.PresentationModel;
+import org.robobinding.binder.ItemPresentationModelObjectLoader;
 import org.robobinding.binder.PresentationModelObjectLoader;
 import org.robobinding.codegen.SourceCodeWriter;
 import org.robobinding.codegen.apt.Logger;
@@ -35,6 +36,7 @@ import com.helger.jcodemodel.JClassAlreadyExistsException;
 //@SupportedAnnotationTypes("org.robobinding.annotation.PresentationModel")
 public class PresentationModelProcessor extends AbstractProcessor {
 	private static final String PRESENTATION_MODEL_OBJECT_SUFFIX = PresentationModelObjectLoader.CLASS_SUFFIX;
+	private static final String ITEM_PRESENTATION_MODEL_OBJECT_SUFFIX = ItemPresentationModelObjectLoader.CLASS_SUFFIX;
 	private Set<String> processedItemPresentationModels;
 	
 	@Override
@@ -63,6 +65,8 @@ public class PresentationModelProcessor extends AbstractProcessor {
 			try {
 				if (isItemPresentationModelAlso(typeElement)) {
 					createItemPresentationModelObjectSourceFiles(presentationModelInfo, context);
+					createItemPresentationModelObjectSourceFiles(typeElement.qName(),
+							typeElement.qName() + ITEM_PRESENTATION_MODEL_OBJECT_SUFFIX, context);
 				} else {
 					generateAllClasses(presentationModelInfo, context, log);
 				}
@@ -94,30 +98,38 @@ public class PresentationModelProcessor extends AbstractProcessor {
 	private void createItemPresentationModelObjectSourceFiles(PresentationModelInfo presentationModelInfo, ProcessingContext context) 
 			throws JClassAlreadyExistsException, IOException {
 		for(DataSetPropertyInfo info : presentationModelInfo.dataSetProperties()) {
-			if(processedItemPresentationModels.contains(info.itemPresentationModelTypeName())) {
-				continue;
-			}
-			
-			WrappedTypeElement typeElement = context.typeElementOf(info.itemPresentationModelTypeName());
-			
-			PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(
-					typeElement, info.itemPresentationModelObjectTypeName(), true);
-			PresentationModelInfo itemPresentationModelInfo = builder.build();
-			Logger log = typeElement.logger();
-			try {
-				ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(itemPresentationModelInfo);
-				run(gen);
-				gen.writeTo(createOutput());
-				log.info("ItemPresentationModel '"+itemPresentationModelInfo.getPresentationModelObjectTypeName() + "' generated.");
-			} catch (java.lang.NoClassDefFoundError e) {
-				RuntimeException error = new RuntimeException(
-						"an error occured when generating source code for '"+presentationModelInfo.getPresentationModelObjectTypeName()+"'", e);
-				log.error(error);
-				throw error;
-			}
-			
-			processedItemPresentationModels.add(info.itemPresentationModelTypeName());
+			createItemPresentationModelObjectSourceFiles(info.itemPresentationModelTypeName(),
+					info.itemPresentationModelObjectTypeName(), context);
 		}
+	}
+
+	private void createItemPresentationModelObjectSourceFiles(String itemPresentationModelTypeName,
+															  String itemPresentationModelObjectTypeName,
+															  ProcessingContext context)
+			throws JClassAlreadyExistsException, IOException {
+		if(processedItemPresentationModels.contains(itemPresentationModelTypeName)) {
+			return;
+		}
+
+		WrappedTypeElement typeElement = context.typeElementOf(itemPresentationModelTypeName);
+
+		PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(
+				typeElement, itemPresentationModelObjectTypeName, true);
+		PresentationModelInfo itemPresentationModelInfo = builder.build();
+		Logger log = typeElement.logger();
+		try {
+			ItemPresentationModelObjectClassGen gen = new ItemPresentationModelObjectClassGen(itemPresentationModelInfo);
+			run(gen);
+			gen.writeTo(createOutput());
+			log.info("ItemPresentationModel '"+itemPresentationModelInfo.getPresentationModelObjectTypeName() + "' generated.");
+		} catch (java.lang.NoClassDefFoundError e) {
+			RuntimeException error = new RuntimeException(
+					"an error occured when generating source code for '"+itemPresentationModelInfo.getPresentationModelObjectTypeName()+"'", e);
+			log.error(error);
+			throw error;
+		}
+
+		processedItemPresentationModels.add(itemPresentationModelTypeName);
 	}
 
 	private void run(AbstractPresentationModelObjectClassGen gen) {
