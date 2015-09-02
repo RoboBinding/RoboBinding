@@ -17,13 +17,19 @@ import com.google.common.base.Preconditions;
  */
 public class PresentationModelObjectLoader {
 	public static final String CLASS_SUFFIX = "$$PM";
+	public static final String ITEM_CLASS_SUFFIX = "$$IPM";
+	public static String getObjectClassName(String binaryName) {
+		return binaryName.replace('$', '_') + CLASS_SUFFIX;
+	}public static String getItemObjectClassName(String binaryName) {
+		return binaryName.replace('$', '_') + ITEM_CLASS_SUFFIX;
+	}
 	public AbstractPresentationModelObject load(Object presentationModel) {
 		if(presentationModel instanceof HasPresentationModelChangeSupport) {
 			Preconditions.checkNotNull(((HasPresentationModelChangeSupport)presentationModel).getPresentationModelChangeSupport(), 
 					"The PresentationModelChangeSupport from presentationModel.getPresentationModelChangeSupport() must not be null");
 		}
 		
-		String presentationModelObjectClassName = presentationModel.getClass().getName()+CLASS_SUFFIX;
+		String presentationModelObjectClassName = getObjectClassName(presentationModel.getClass().getName());
 		Class<?> presentationModelObjectType;
 		try {
 			presentationModelObjectType = Class.forName(presentationModelObjectClassName);

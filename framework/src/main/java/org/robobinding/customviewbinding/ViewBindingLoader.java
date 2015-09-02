@@ -14,10 +14,12 @@ import org.robobinding.viewbinding.ViewBinding;
  */
 public class ViewBindingLoader {
 	public static final String CLASS_SUFFIX = "$$VB";
-	
+	public static String getViewBindingClassName(String binaryName) {
+		return binaryName.replace('$', '_') + CLASS_SUFFIX;
+	}
 	@SuppressWarnings("unchecked")
 	public <ViewType> ViewBinding<ViewType> load(CustomViewBinding<ViewType> customViewBinding) {
-		String viewBindingClassName = customViewBinding.getClass().getName() + CLASS_SUFFIX;
+		String viewBindingClassName = getViewBindingClassName(customViewBinding.getClass().getName());
 		Class<?> viewBindingType;
 		try {
 			viewBindingType = Class.forName(viewBindingClassName);

@@ -25,7 +25,6 @@ import com.helger.jcodemodel.JClassAlreadyExistsException;
  *
  */
 public class ViewBindingProcessor extends AbstractProcessor {
-	private static final String VIEW_BINDING_OBJECT_SUFFIX = ViewBindingLoader.CLASS_SUFFIX;
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 		RoundContext roundContext = new RoundContext(roundEnv, processingEnv.getTypeUtils(), 
@@ -34,7 +33,7 @@ public class ViewBindingProcessor extends AbstractProcessor {
 				new ViewBindingFilter());
 		
 		for(WrappedTypeElement typeElement : typeElements) {
-			String viewBindingObjectTypeName = typeElement.qName() + VIEW_BINDING_OBJECT_SUFFIX;
+			String viewBindingObjectTypeName = ViewBindingLoader.getViewBindingClassName(typeElement.binaryName());
 			ViewBindingInfoBuilder builder = new ViewBindingInfoBuilder(typeElement, viewBindingObjectTypeName);
 			ViewBindingInfo info = builder.build();
 			

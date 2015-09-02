@@ -108,6 +108,10 @@ public class WrappedTypeElement extends AbstractWrappedElement {
 		return element.getQualifiedName().toString();
 	}
 
+	public String binaryName() {
+		return this.type.binaryName();
+	}
+
 	public boolean isAssignableTo(Class<?> type) {
 		return this.type.isAssignableTo(type);
 	}

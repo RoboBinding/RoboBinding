@@ -25,6 +25,10 @@ public class WrappedDeclaredType extends WrappedTypeMirror {
 	public String className() {
 		return ((TypeElement)type.asElement()).getQualifiedName().toString();
 	}
+
+	public String binaryName() {
+		return elements.getBinaryName((TypeElement)type.asElement()).toString();
+	}
 	
 	@Override
 	public boolean isBoolean() {
