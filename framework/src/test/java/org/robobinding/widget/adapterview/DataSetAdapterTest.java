@@ -161,7 +161,7 @@ public class DataSetAdapterTest {
 		assertThat(dataSetAdapter.getCount(), is(0));
 	}
 
-	public static class MockDataSetValueModel implements DataSetValueModel<Object> {
+	public static class MockDataSetValueModel implements DataSetValueModel {
 		private PropertyChangeListeners presentationModelPropertyChangeListeners;
 		private List<Object> items;
 

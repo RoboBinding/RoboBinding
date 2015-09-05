@@ -15,6 +15,6 @@ class DropdownLayoutUpdater implements RowLayoutUpdater {
 
 	@Override
 	public void updateRowLayout(int dropdownLayoutId) {
-		dataSetAdapterBuilder.setDropDownLayoutId(dropdownLayoutId);
+		dataSetAdapterBuilder.setDropdownLayoutId(dropdownLayoutId);
 	}
 }

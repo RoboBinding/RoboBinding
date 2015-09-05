@@ -8,10 +8,10 @@ import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class DataSetValueModelWrapper<T> implements DataSetValueModel<T> {
-	private final DataSetValueModel<T> valueModel;
+public class DataSetValueModelWrapper implements DataSetValueModel {
+	private final DataSetValueModel valueModel;
 
-	public DataSetValueModelWrapper(DataSetValueModel<T> valueModel) {
+	public DataSetValueModelWrapper(DataSetValueModel valueModel) {
 		this.valueModel = valueModel;
 	}
 
@@ -21,7 +21,7 @@ public class DataSetValueModelWrapper<T> implements DataSetValueModel<T> {
 	}
 
 	@Override
-	public T getItem(int position) {
+	public Object getItem(int position) {
 		return valueModel.getItem(position);
 	}
 

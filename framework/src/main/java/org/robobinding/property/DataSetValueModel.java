@@ -8,10 +8,10 @@ import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface DataSetValueModel<T> {
+public interface DataSetValueModel {
 	int size();
 
-	T getItem(int position);
+	Object getItem(int position);
 
 	RefreshableItemPresentationModel newRefreshableItemPresentationModel();
 

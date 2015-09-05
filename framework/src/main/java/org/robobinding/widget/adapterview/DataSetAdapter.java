@@ -25,30 +25,32 @@ public class DataSetAdapter<T> extends BaseAdapter {
 		ITEM_LAYOUT, DROPDOWN_LAYOUT
 	}
 
-	private final DataSetValueModel<T> dataSetValueModel;
+	private final DataSetValueModel dataSetValueModel;
 
 	private final ItemLayoutBinder itemLayoutBinder;
 	private final ItemLayoutBinder dropdownLayoutBinder;
+	private final ItemLayoutSelector layoutSelector;
 	private final ViewTags<RefreshableItemPresentationModel> viewTags;
 
 	private final boolean preInitializeViews;
 
 	private boolean propertyChangeEventOccurred;
 
-	public DataSetAdapter(DataSetValueModel<T> dataSetValueModel, ItemLayoutBinder itemLayoutBinder, 
-			ItemLayoutBinder dropdownLayoutBinder, ViewTags<RefreshableItemPresentationModel> viewTags, 
-			boolean preInitializeViews) {
+	public DataSetAdapter(DataSetValueModel dataSetValueModel, ItemLayoutBinder itemLayoutBinder, 
+			ItemLayoutBinder dropdownLayoutBinder, ItemLayoutSelector layoutSelector, 
+			ViewTags<RefreshableItemPresentationModel> viewTags, boolean preInitializeViews) {
 		this.preInitializeViews = preInitializeViews;
 		
 		this.dataSetValueModel = createValueModelFrom(dataSetValueModel);
 		this.itemLayoutBinder = itemLayoutBinder;
 		this.dropdownLayoutBinder = dropdownLayoutBinder;
+		this.layoutSelector = layoutSelector;
 		this.viewTags = viewTags;
 
 		propertyChangeEventOccurred = false;
 	}
 
-	private DataSetValueModel<T> createValueModelFrom(DataSetValueModel<T> valueModel) {
+	private DataSetValueModel createValueModelFrom(DataSetValueModel valueModel) {
 		if (!preInitializeViews) {
 			return wrapAsZeroSizeDataSetUntilPropertyChangeEvent(valueModel);
 		} else {
@@ -66,8 +68,8 @@ public class DataSetAdapter<T> extends BaseAdapter {
 		});
 	}
 
-	private DataSetValueModel<T> wrapAsZeroSizeDataSetUntilPropertyChangeEvent(final DataSetValueModel<T> valueModel) {
-		return new DataSetValueModelWrapper<T>(valueModel) {
+	private DataSetValueModel wrapAsZeroSizeDataSetUntilPropertyChangeEvent(final DataSetValueModel valueModel) {
+		return new DataSetValueModelWrapper(valueModel) {
 			@Override
 			public int size() {
 				if (propertyChangeEventOccurred)
@@ -87,7 +89,7 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	}
 
 	@Override
-	public T getItem(int position) {
+	public Object getItem(int position) {
 		return dataSetValueModel.getItem(position);
 	}
 
@@ -116,16 +118,17 @@ public class DataSetAdapter<T> extends BaseAdapter {
 	}
 
 	private View newView(int position, ViewGroup parent, ViewType viewType) {
-		RefreshableItemPresentationModel itemPresentationModel = dataSetValueModel.newRefreshableItemPresentationModel();
-
-		BindableView bindableView;
+		BindableView bindableView; 
 		if (viewType == ViewType.ITEM_LAYOUT) {
-			bindableView = itemLayoutBinder.inflate(parent);
+			int layoutId = layoutSelector.selectItemLayout(getItem(position), position);
+			bindableView = itemLayoutBinder.inflate(parent, layoutId);
 		} else {
-			bindableView = dropdownLayoutBinder.inflate(parent);
+			int layoutId = layoutSelector.selectDropdownLayout(getItem(position), position);
+			bindableView = dropdownLayoutBinder.inflate(parent, layoutId);
 		}
 		
 		View view = bindableView.getRootView();
+		RefreshableItemPresentationModel itemPresentationModel = dataSetValueModel.newRefreshableItemPresentationModel();
 		itemPresentationModel.updateData(getItem(position), new ItemContext(view, position));
 		bindableView.bindTo((AbstractPresentationModelObject)itemPresentationModel);
 
@@ -145,5 +148,15 @@ public class DataSetAdapter<T> extends BaseAdapter {
 		if(preInitializeViews) {
 			itemPresentationModel.refresh();
 		}
+	}
+	
+	@Override
+	public int getViewTypeCount() {
+		return layoutSelector.getViewTypeCount();
+	}
+	
+	@Override
+	public int getItemViewType(int position) {
+		return layoutSelector.getItemViewType(getItem(position), position);
 	}
 }

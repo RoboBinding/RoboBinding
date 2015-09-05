@@ -26,7 +26,7 @@ public class SourceAttribute implements ChildViewAttributeWithAttribute<ValueMod
 
 	@Override
 	public void bindTo(BindingContext bindingContext) {
-		DataSetValueModel<?> valueModel = bindingContext.getDataSetPropertyValueModel(attribute.getPropertyName());
+		DataSetValueModel valueModel = bindingContext.getDataSetPropertyValueModel(attribute.getPropertyName());
 		dataSetAdapterBuilder.setValueModel(valueModel);
 	}
 }

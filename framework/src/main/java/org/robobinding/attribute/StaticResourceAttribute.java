@@ -13,6 +13,7 @@ import android.content.Context;
  * @author Cheng Wei
  */
 public class StaticResourceAttribute extends AbstractPropertyAttribute {
+	public static final int RESOURCE_ID_NOT_EXIST = 0;
 	private static final Pattern RESOURCE_ATTRIBUTE_PATTERN = Pattern.compile("^@([\\w\\.]+:)?(\\w+)/(\\w+)$");
 
 	String resourceName;
@@ -44,14 +45,14 @@ public class StaticResourceAttribute extends AbstractPropertyAttribute {
 		int resourceId = context.getResources().getIdentifier(
 				resourceName, resourceType, (resourcePackage == null) ? context.getPackageName() : resourcePackage);
 
-		if (!checkValid(resourceId))
-			throw new RuntimeException("No such resource was found");
+		checkResource(resourceId);
 
 		return resourceId;
 	}
 
-	private boolean checkValid(int resourceId) {
-		return resourceId != 0;
+	private void checkResource(int resourceId) {
+		if (resourceId == RESOURCE_ID_NOT_EXIST)
+			throw new RuntimeException("No such resource was found");
 	}
 
 	@Override

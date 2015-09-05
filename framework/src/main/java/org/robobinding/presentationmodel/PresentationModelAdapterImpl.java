@@ -38,7 +38,7 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter {
 	}
 
 	@Override
-	public DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName) {
+	public DataSetValueModel getDataSetPropertyValueModel(String propertyName) {
 		return properties.getDataSetProperty(propertyName);
 	}
 
