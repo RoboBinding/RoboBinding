@@ -9,6 +9,8 @@ import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
+import org.robobinding.itempresentationmodel.ViewTypeSelectable;
+import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.PropertyDescriptor;
@@ -52,6 +54,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 	private AbstractJClass wildcardGetSetClass;
 	private AbstractJClass dataSetPropertyClass;
 	private AbstractJClass refreshableItemPresentationModelFactoryClass;
+	private AbstractJClass viewTypeSelectableClass;
 	
 	public AbstractPresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) {
 		this.presentationModelInfo = presentationModelInfo;
@@ -67,6 +70,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 		wildcardGetSetClass = getSetClass.narrow(codeModel.wildcard());
 		dataSetPropertyClass = codeModel.ref(DataSetProperty.class);
 		refreshableItemPresentationModelFactoryClass = codeModel.ref(RefreshableItemPresentationModelFactory.class);
+		viewTypeSelectableClass = codeModel.ref(ViewTypeSelectable.class);
 
 		try {
 			definedClass = codeModel._class(presentationModelInfo.getPresentationModelObjectTypeName());
@@ -289,7 +293,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(int itemViewType) {
 					return new StringItemPresentationModel_IPM(new StringItemPresentationModel());
 				}
 			};	
@@ -309,13 +313,71 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 			
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(int itemViewType) {
 					return new StringItemPresentationModel_IPM(presentationModel.newStringItemPresentationModel());
 				}
 			};
 			
 			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
 		} 
+		
+		
+		if(name.equals(DATA_SET_PROP_WITH_VIEW_TYPE_SELECTOR)) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<List<String>>(descriptor) {
+				@Override
+				public List<String> getValue() {
+					return presentationModel.getDataSetPropWithViewTypeSelector();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				@Override
+				public RefreshableItemPresentationModel create(int itemViewType) {
+					return new StringItemPresentationModelPOC_IPM(new StringItemPresentationModelPOC());
+				}
+			};
+			
+			ViewTypeSelectable viewTypeSelector = new ViewTypeSelectable() {
+				@Override
+				@SuppressWarnings({ "rawtypes", "unchecked" }) 
+				public int selectViewType(ViewTypeSelectionContext context) {
+					return presentationModel.selectViewTypeWithParameter(context);
+				}
+			};
+			
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector);
+		} 
+		
+		if(name.equals(DATA_SET_PROP_WITH_FACTORY_METHOD_AND_VIEW_TYPE_SELECTOR)) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<List<String>>(descriptor) {
+				@Override
+				public List<String> getValue() {
+					return presentationModel.getDataSetPropWithViewTypeSelector();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				@Override
+				public RefreshableItemPresentationModel create(int itemViewType) {
+					return new StringItemPresentationModelPOC_IPM(
+							presentationModel.createStringItemPresentationModelWithParameter(itemViewType));
+				}
+			};
+			
+			ViewTypeSelectable viewTypeSelector = new ViewTypeSelectable() {
+				@Override
+				@SuppressWarnings({ "rawtypes", "unchecked" }) 
+				public int selectViewType(ViewTypeSelectionContext context) {
+					return presentationModel.selectViewTypeWithParameter(context);
+				}
+			};
+			
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector);
+		}
 		
 		return null;
 	}
@@ -351,10 +413,13 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 			JDefinedClass anonymousFactory = codeModel.anonymousClass(RefreshableItemPresentationModelFactory.class);
 			
 			JMethod create = declarePublicMethodOverride(anonymousFactory, "create", RefreshableItemPresentationModel.class);
+			JVar itemViewTypeParam = create.param(int.class, "itemViewType");
 
 			AbstractJClass itemPresentationModelObjectClass = codeModel.ref(propertyInfo.itemPresentationModelObjectTypeName());
 			JInvocation newItemPresentationModelObject = JExpr._new(itemPresentationModelObjectClass);
-			if (propertyInfo.isCreatedByFactoryMethod()) {
+			if (propertyInfo.isCreatedByFactoryMethodWithArg()) {
+				newItemPresentationModelObject.arg(presentationModelFieldWithoutThis.invoke(propertyInfo.factoryMethod()).arg(itemViewTypeParam));
+			} else if (propertyInfo.isCreatedByFactoryMethodWithoutArg()) {
 				newItemPresentationModelObject.arg(presentationModelFieldWithoutThis.invoke(propertyInfo.factoryMethod()));
 			} else {
 				newItemPresentationModelObject.arg(JExpr._new(codeModel.ref(propertyInfo.itemPresentationModelTypeName())));
@@ -362,11 +427,32 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 			create.body()._return(newItemPresentationModelObject);
 			
 			JVar factoryVar = conditionalBody.decl(refreshableItemPresentationModelFactoryClass, "factory", JExpr._new(anonymousFactory));
+			//new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+			JInvocation newDataSetProperty = JExpr._new(dataSetPropertyClass)
+				.arg(JExpr._this())
+				.arg(descriptorVar)
+				.arg(JExpr._new(codeModel.ref(propertyInfo.dataSetImplementationType())).arg(factoryVar).arg(getSetVar));
+			//create viewTypeSelector.
+			if(propertyInfo.hasViewTypeSelector()) {
+				JDefinedClass anonymousViewTypeSelector = codeModel.anonymousClass(ViewTypeSelectable.class);
+				
+				JMethod selectViewType = declarePublicMethodOverride(anonymousViewTypeSelector, "selectViewType", int.class);
+				JVar contextParam = selectViewType.param(ViewTypeSelectionContext.class, "context");
+
+				JInvocation userSelectViewTypeCall;
+				if (propertyInfo.viewTypeSelectorAcceptsArg()) {
+					userSelectViewTypeCall = presentationModelFieldWithoutThis.invoke(propertyInfo.viewTypeSelector()).arg(contextParam);
+				} else {
+					userSelectViewTypeCall = presentationModelFieldWithoutThis.invoke(propertyInfo.viewTypeSelector());
+				}
+				
+				selectViewType.body()._return(userSelectViewTypeCall);
+				
+				JVar viewTypeSelectorVar = conditionalBody.decl(viewTypeSelectableClass, "factory", JExpr._new(anonymousViewTypeSelector));
+				newDataSetProperty.arg(viewTypeSelectorVar);
+			}
 			//return DataSetProperty.
-			conditionalBody._return(JExpr._new(dataSetPropertyClass)
-					.arg(JExpr._this())
-					.arg(descriptorVar)
-					.arg(JExpr._new(codeModel.ref(propertyInfo.dataSetImplementationType())).arg(factoryVar).arg(getSetVar)));
+			conditionalBody._return();
 		}
 		
 		body._return(JExpr._null());

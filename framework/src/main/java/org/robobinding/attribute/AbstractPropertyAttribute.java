@@ -13,6 +13,7 @@ public abstract class AbstractPropertyAttribute extends AbstractAttribute {
 
 	public abstract boolean isTwoWayBinding();
 
+	/*
 	public final ValueModelAttribute asValueModelAttribute() {
 		if (isValueModel()) {
 			return (ValueModelAttribute) this;
@@ -20,7 +21,7 @@ public abstract class AbstractPropertyAttribute extends AbstractAttribute {
 			throw new RuntimeException("Not a value model attribute");
 		}
 	}
-
+	
 	boolean isValueModel() {
 		return ValueModelAttribute.class.isInstance(this);
 	}
@@ -36,4 +37,7 @@ public abstract class AbstractPropertyAttribute extends AbstractAttribute {
 	public boolean isStaticResource() {
 		return StaticResourceAttribute.class.isInstance(this);
 	}
+	*/
+	
+	public abstract <T> T accept(PropertyAttributeVisitor<T> visitor);
 }

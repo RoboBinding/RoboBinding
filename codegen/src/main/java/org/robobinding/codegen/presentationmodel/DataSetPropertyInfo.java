@@ -20,9 +20,19 @@ public interface DataSetPropertyInfo {
 
 	String itemPresentationModelTypeName();
 
-	boolean isCreatedByFactoryMethod();
+	//boolean isCreatedByFactoryMethod();
 
 	String factoryMethod();
 
 	String itemPresentationModelObjectTypeName();
+
+	boolean isCreatedByFactoryMethodWithArg();
+
+	boolean isCreatedByFactoryMethodWithoutArg();
+
+	boolean hasViewTypeSelector();
+
+	boolean viewTypeSelectorAcceptsArg();
+
+	String viewTypeSelector();
 }

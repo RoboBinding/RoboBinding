@@ -7,10 +7,11 @@ import java.util.List;
 import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.viewattribute.ViewTags;
+
+import com.google.common.collect.Lists;
 
 /**
  * 
@@ -24,7 +25,7 @@ public class DataSetAdapterBuilder {
 	private final BindingContext bindingContext;
 
 	private List<Integer> itemLayoutIds;
-	private List<Integer>  dropdownLayoutIds;
+	private int  dropdownLayoutId;
 	private Collection<PredefinedPendingAttributesForView> itemPredefinedPendingAttributesForViewGroup;
 	private Collection<PredefinedPendingAttributesForView> dropdownPredefinedPendingAttributesForViewGroup;
 	private DataSetValueModel valueModel;
@@ -33,17 +34,18 @@ public class DataSetAdapterBuilder {
 		this.bindingContext = bindingContext;
 		this.itemPredefinedPendingAttributesForViewGroup = Collections.emptyList();
 		this.dropdownPredefinedPendingAttributesForViewGroup = Collections.emptyList();
-		this.dropdownLayoutIds = Collections.emptyList();
+	}
+
+	public void setItemLayoutId(int itemLayoutId) {
+		setItemLayoutIds(Lists.newArrayList(itemLayoutId));
 	}
 
 	public void setItemLayoutIds(List<Integer> itemLayoutIds) {
 		this.itemLayoutIds = itemLayoutIds;
 	}
 
-	public void setDropdownLayoutIds(List<Integer> dropdownLayoutIds) {
-		if(dropdownLayoutIds != null) {
-			this.dropdownLayoutIds = dropdownLayoutIds;
-		}
+	public void setDropdownLayoutId(int dropdownLayoutId) {
+		this.dropdownLayoutId = dropdownLayoutId;
 	}
 
 	public void setItemPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> itemPredefinedPendingAttributesForViewGroup) {
@@ -79,14 +81,13 @@ public class DataSetAdapterBuilder {
 	
 	private ItemLayoutSelector buildItemLayoutSelector() {
 		if (isSingleItemLayout()) {
-			return new SingleItemLayoutSelector(itemLayoutIds.get(0), 
-					dropdownLayoutIds.isEmpty()? StaticResourceAttribute.RESOURCE_ID_NOT_EXIST : dropdownLayoutIds.get(0));
+			return new SingleItemLayoutSelector(itemLayoutIds.get(0), dropdownLayoutId);
 		} else {
-			return new MultiItemLayoutSelector(itemLayoutIds, dropdownLayoutIds);
+			return new MultiItemLayoutSelector(itemLayoutIds, dropdownLayoutId);
 		}
 	}
 	
 	private boolean isSingleItemLayout() {
-		return (itemLayoutIds.size() == 1) && (dropdownLayoutIds.size() <= 1);
+		return itemLayoutIds.size() == 1;
 	}
 }

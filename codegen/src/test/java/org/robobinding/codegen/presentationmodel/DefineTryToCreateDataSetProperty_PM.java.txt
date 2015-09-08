@@ -30,7 +30,7 @@ public class DefineTryToCreateDataSetProperty_PM {
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(int itemViewType) {
 					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(new StringItemPresentationModel());
 				}
 			};	
@@ -51,7 +51,7 @@ public class DefineTryToCreateDataSetProperty_PM {
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(int itemViewType) {
 					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(new StringItemPresentationModel());
 				}
 			};	
@@ -71,7 +71,27 @@ public class DefineTryToCreateDataSetProperty_PM {
 			
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(int itemViewType) {
+					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(presentationModel.createStringItemPresentationModel());
+				}
+			};
+			
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+		} 
+		
+		if(name.equals("dataSetPropWithViewTypeSelector")) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<List>(descriptor) {
+				@Override
+				public List getValue() {
+					return presentationModel.getDataSetPropWithFactoryMethod();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				@Override
+				public RefreshableItemPresentationModel create(int itemViewType) {
 					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(presentationModel.createStringItemPresentationModel());
 				}
 			};

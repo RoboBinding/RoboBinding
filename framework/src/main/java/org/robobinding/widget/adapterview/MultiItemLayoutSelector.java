@@ -2,6 +2,8 @@ package org.robobinding.widget.adapterview;
 
 import java.util.List;
 
+import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
+
 /**
  * @since 1.0
  * @author Cheng Wei
@@ -9,13 +11,13 @@ import java.util.List;
  */
 public class MultiItemLayoutSelector implements ItemLayoutSelector {
 	private final List<Integer> itemLayoutIds;
-	private final List<Integer> dropdownLayoutIds;
+	private final int dropdownLayoutId;
 	private final int viewTypeCount;
 	
-	public MultiItemLayoutSelector(List<Integer> itemLayoutIds, List<Integer> dropdownLayoutIds) {
+	public MultiItemLayoutSelector(List<Integer> itemLayoutIds, int dropdownLayoutId) {
 		this.itemLayoutIds = itemLayoutIds;
-		this.dropdownLayoutIds = dropdownLayoutIds;
-		this.viewTypeCount = Math.max(itemLayoutIds.size(), dropdownLayoutIds.size());
+		this.dropdownLayoutId = dropdownLayoutId;
+		this.viewTypeCount = itemLayoutIds.size();
 	}
 	
 	@Override
@@ -25,7 +27,8 @@ public class MultiItemLayoutSelector implements ItemLayoutSelector {
 
 	@Override
 	public int getItemViewType(Object item, int position) {
-		int selectedViewType = userSelectViewType(getViewTypeCount(), item, position);
+		ViewTypeSelectionContext<Object> context = new ViewTypeSelectionContext<Object>(getViewTypeCount(), item, position);
+		int selectedViewType = userSelectViewType(context);
 		if(isInvalidViewType(selectedViewType)) {
 			String errorMessage = String.format("invalid selected view type ''%s''. The view type should be in the range [0 ~ %s]", 
 					selectedViewType, getViewTypeCount()-1);
@@ -38,7 +41,7 @@ public class MultiItemLayoutSelector implements ItemLayoutSelector {
 	/**
 	 * It is inappropriate to pass in either itemLayoutIds or dropdownLayoutIds, as we don't know view type.
 	 */
-	private int userSelectViewType(int viewTypeCount, Object item, int position) {
+	private int userSelectViewType(ViewTypeSelectionContext<Object> context) {
 		return 0;
 	}
 	
@@ -64,6 +67,6 @@ public class MultiItemLayoutSelector implements ItemLayoutSelector {
 
 	@Override
 	public int selectDropdownLayout(Object item, int position) {
-		return selectLayout(dropdownLayoutIds, item, position);
+		return dropdownLayoutId;
 	}
 }

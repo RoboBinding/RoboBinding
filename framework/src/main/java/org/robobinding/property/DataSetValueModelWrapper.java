@@ -1,6 +1,7 @@
 package org.robobinding.property;
 
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
+import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 
 /**
  * 
@@ -26,8 +27,13 @@ public class DataSetValueModelWrapper implements DataSetValueModel {
 	}
 
 	@Override
-	public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
-		return valueModel.newRefreshableItemPresentationModel();
+	public RefreshableItemPresentationModel newRefreshableItemPresentationModel(int itemViewType) {
+		return valueModel.newRefreshableItemPresentationModel(itemViewType);
+	}
+	
+	@Override
+	public int selectViewType(ViewTypeSelectionContext<Object> context) {
+		return valueModel.selectViewType(context);
 	}
 
 	@Override

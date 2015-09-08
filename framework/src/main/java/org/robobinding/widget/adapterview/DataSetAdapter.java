@@ -21,7 +21,7 @@ import android.widget.BaseAdapter;
  * @author Robert Taylor
  */
 public class DataSetAdapter<T> extends BaseAdapter {
-	private enum ViewType {
+	private enum DisplayType {
 		ITEM_LAYOUT, DROPDOWN_LAYOUT
 	}
 
@@ -100,36 +100,38 @@ public class DataSetAdapter<T> extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		return createViewFromResource(position, convertView, parent, ViewType.ITEM_LAYOUT);
+		return createViewFromResource(position, convertView, parent, DisplayType.ITEM_LAYOUT);
 	}
 
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		return createViewFromResource(position, convertView, parent, ViewType.DROPDOWN_LAYOUT);
+		return createViewFromResource(position, convertView, parent, DisplayType.DROPDOWN_LAYOUT);
 	}
 
-	private View createViewFromResource(int position, View convertView, ViewGroup parent, ViewType viewType) {
+	private View createViewFromResource(int position, View convertView, ViewGroup parent, DisplayType displayType) {
 		if (convertView == null) {
-			return newView(position, parent, viewType);
+			return newView(position, parent, displayType);
 		} else {
 			updateItemPresentationModel(convertView, position);
 			return convertView;
 		}
 	}
 
-	private View newView(int position, ViewGroup parent, ViewType viewType) {
-		BindableView bindableView; 
-		if (viewType == ViewType.ITEM_LAYOUT) {
-			int layoutId = layoutSelector.selectItemLayout(getItem(position), position);
+	private View newView(int position, ViewGroup parent, DisplayType displayType) {
+		BindableView bindableView;
+		Object item = getItem(position);
+		if (displayType == DisplayType.ITEM_LAYOUT) {
+			int layoutId = layoutSelector.selectItemLayout(item, position);
 			bindableView = itemLayoutBinder.inflate(parent, layoutId);
 		} else {
-			int layoutId = layoutSelector.selectDropdownLayout(getItem(position), position);
+			int layoutId = layoutSelector.selectDropdownLayout(item, position);
 			bindableView = dropdownLayoutBinder.inflate(parent, layoutId);
 		}
 		
 		View view = bindableView.getRootView();
-		RefreshableItemPresentationModel itemPresentationModel = dataSetValueModel.newRefreshableItemPresentationModel();
-		itemPresentationModel.updateData(getItem(position), new ItemContext(view, position));
+		RefreshableItemPresentationModel itemPresentationModel = dataSetValueModel.newRefreshableItemPresentationModel(
+				getItemViewType(position));
+		itemPresentationModel.updateData(item, new ItemContext(view, position));
 		bindableView.bindTo((AbstractPresentationModelObject)itemPresentationModel);
 
 		ViewTag<RefreshableItemPresentationModel> viewTag = viewTags.tagFor(view);

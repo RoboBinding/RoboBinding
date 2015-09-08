@@ -1,6 +1,10 @@
 package org.robobinding.widget.adapterview;
 
 import org.robobinding.attribute.AbstractPropertyAttribute;
+import org.robobinding.attribute.PropertyAttributeVisitor;
+import org.robobinding.attribute.StaticResourceAttribute;
+import org.robobinding.attribute.StaticResourcesAttribute;
+import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttributeAdapter;
 
@@ -13,7 +17,7 @@ import android.widget.AdapterView;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-public abstract class RowLayoutAttributeFactory {
+public abstract class RowLayoutAttributeFactory implements PropertyAttributeVisitor<ChildViewAttribute> {
 	private final AdapterView<?> adapterView;
 	private final DataSetAdapterBuilder dataSetAdapterBuilder;
 
@@ -23,23 +27,27 @@ public abstract class RowLayoutAttributeFactory {
 	}
 
 	public ChildViewAttribute createRowLayoutAttribute(AbstractPropertyAttribute attribute) {
-		RowLayoutUpdater rowLayoutUpdater = createRowLayoutUpdater(dataSetAdapterBuilder);
-		if (attribute.isStaticResource()) {
-			return createStaticLayoutAttribute(attribute, rowLayoutUpdater);
-		} else {
-			return createDynamicLayoutAttribute(attribute, rowLayoutUpdater);
-		}
+		return attribute.accept(this);
 	}
-
-	private ChildViewAttribute createStaticLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater rowLayoutUpdater) {
-		return new StaticLayoutAttribute(rowLayoutUpdater, attribute.asStaticResourceAttribute());
-	}
-
-	private ChildViewAttribute createDynamicLayoutAttribute(AbstractPropertyAttribute attribute, RowLayoutUpdater rowLayoutUpdater) {
+	
+	@Override
+	public ChildViewAttribute visitValueModel(ValueModelAttribute attribute) {
 		DataSetAdapterUpdater dataSetAdapterUpdater = new DataSetAdapterUpdater(dataSetAdapterBuilder, adapterView);
-		return new ChildViewAttributeAdapter(adapterView, new DynamicLayoutAttribute(rowLayoutUpdater, dataSetAdapterUpdater),
-				attribute.asValueModelAttribute());
+		DynamicLayoutAttribute layoutAttribute = new DynamicLayoutAttribute(createRowLayoutUpdater(dataSetAdapterBuilder), 
+				dataSetAdapterUpdater);
+		return new ChildViewAttributeAdapter(adapterView, layoutAttribute, attribute);
+	}
+	
+	@Override
+	public ChildViewAttribute visitStaticResource(StaticResourceAttribute attribute) {
+		return new StaticLayoutAttribute(createRowLayoutUpdater(dataSetAdapterBuilder), attribute);
+	}
+	
+	@Override
+	public ChildViewAttribute visitStaticResources(StaticResourcesAttribute attribute) {
+		return new StaticLayoutsAttribute(createRowLayoutsUpdater(dataSetAdapterBuilder), attribute);
 	}
 
 	protected abstract RowLayoutUpdater createRowLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder);
+	protected abstract RowLayoutsUpdater createRowLayoutsUpdater(DataSetAdapterBuilder dataSetAdapterBuilder);
 }

@@ -40,8 +40,8 @@ public abstract class AbstractDataSet implements PropertyChangeListener {
 		return getDataSet() == null;
 	}
 
-	public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
-		return factory.create();
+	public RefreshableItemPresentationModel newRefreshableItemPresentationModel(int itemViewType) {
+		return factory.create(itemViewType);
 	}
 
 	@Override
