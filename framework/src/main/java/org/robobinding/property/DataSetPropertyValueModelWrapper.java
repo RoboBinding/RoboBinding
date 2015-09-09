@@ -27,8 +27,8 @@ class DataSetPropertyValueModelWrapper extends PropertyWrapper implements DataSe
 	}
 
 	@Override
-	public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
-		return dataSetPropertyValueModel.newRefreshableItemPresentationModel();
+	public RefreshableItemPresentationModel newRefreshableItemPresentationModel(Object item) {
+		return dataSetPropertyValueModel.newRefreshableItemPresentationModel(item);
 	}
 
 	@Override
@@ -39,5 +39,20 @@ class DataSetPropertyValueModelWrapper extends PropertyWrapper implements DataSe
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		dataSetPropertyValueModel.removePropertyChangeListener(listener);
+	}
+
+	@Override
+	public int getItemViewTypeCount() {
+		return dataSetPropertyValueModel.getItemViewTypeCount();
+	}
+
+	@Override
+	public int getItemViewType(int position, Object item) {
+		return dataSetPropertyValueModel.getItemViewType(position, item);
+	}
+
+	@Override
+	public int getItemLayoutId(int position, Object item) {
+		return dataSetPropertyValueModel.getItemLayoutId(position, item);
 	}
 }

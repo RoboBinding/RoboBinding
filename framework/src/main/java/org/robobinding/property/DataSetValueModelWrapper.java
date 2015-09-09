@@ -26,8 +26,8 @@ public class DataSetValueModelWrapper<T> implements DataSetValueModel<T> {
 	}
 
 	@Override
-	public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
-		return valueModel.newRefreshableItemPresentationModel();
+	public RefreshableItemPresentationModel newRefreshableItemPresentationModel(T item) {
+		return valueModel.newRefreshableItemPresentationModel(item);
 	}
 
 	@Override
@@ -40,4 +40,19 @@ public class DataSetValueModelWrapper<T> implements DataSetValueModel<T> {
 		valueModel.removePropertyChangeListener(listener);
 	}
 
+
+	@Override
+	public int getItemViewTypeCount() {
+		return valueModel.getItemViewTypeCount();
+	}
+
+	@Override
+	public int getItemViewType(int position, Object item) {
+		return valueModel.getItemViewType(position, item);
+	}
+
+	@Override
+	public int getItemLayoutId(int position, Object item) {
+		return valueModel.getItemLayoutId(position, item);
+	}
 }

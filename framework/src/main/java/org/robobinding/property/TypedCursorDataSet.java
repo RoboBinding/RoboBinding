@@ -1,5 +1,6 @@
 package org.robobinding.property;
 
+import org.robobinding.itempresentationmodel.ItemViewFactory;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.itempresentationmodel.TypedCursor;
 
@@ -11,6 +12,10 @@ import org.robobinding.itempresentationmodel.TypedCursor;
 public class TypedCursorDataSet extends AbstractDataSet {
 	public TypedCursorDataSet(RefreshableItemPresentationModelFactory factory, AbstractGetSet<?> getSet) {
 		super(factory, getSet);
+	}
+
+	public TypedCursorDataSet(RefreshableItemPresentationModelFactory factory, ItemViewFactory viewFactory, AbstractGetSet<?> getSet) {
+		super(factory, viewFactory, getSet);
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.anyInt;
 
 import java.util.List;
 
@@ -92,7 +93,8 @@ public class DataSetAdapterTest {
 			BindableView bindableView = mock(BindableView.class);
 			when(bindableView.getRootView()).thenReturn(rootView);
 			when(itemLayoutBinder.inflate(any(ViewGroup.class))).thenReturn(bindableView);
-			
+			when(itemLayoutBinder.inflate(any(ViewGroup.class), anyInt())).thenReturn(bindableView);
+
 			return itemLayoutBinder;
 		}
 	}
@@ -201,8 +203,23 @@ public class DataSetAdapterTest {
 		}
 
 		@Override
-		public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
+		public RefreshableItemPresentationModel newRefreshableItemPresentationModel(Object item) {
 			return mock(AbstractItemPresentationModelObject.class);
+		}
+
+		@Override
+		public int getItemViewTypeCount() {
+			return 1;
+		}
+
+		@Override
+		public int getItemViewType(int position, Object item) {
+			return 0;
+		}
+
+		@Override
+		public int getItemLayoutId(int position, Object item) {
+			return 0;
 		}
 	}
 }

@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+import org.robobinding.binder.ItemPresentationModelObjectLoader;
 import org.robobinding.codegen.SourceCodeWritable;
 import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
+import org.robobinding.itempresentationmodel.ItemViewFactory;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.property.AbstractGetSet;
@@ -52,7 +54,10 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 	private AbstractJClass wildcardGetSetClass;
 	private AbstractJClass dataSetPropertyClass;
 	private AbstractJClass refreshableItemPresentationModelFactoryClass;
-	
+	private AbstractJClass itemViewFactoryClass;
+	private AbstractJClass objectClass;
+	private AbstractJClass itemPresentationModelObjectLoaderClass;
+
 	public AbstractPresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) {
 		this.presentationModelInfo = presentationModelInfo;
 		
@@ -67,6 +72,9 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 		wildcardGetSetClass = getSetClass.narrow(codeModel.wildcard());
 		dataSetPropertyClass = codeModel.ref(DataSetProperty.class);
 		refreshableItemPresentationModelFactoryClass = codeModel.ref(RefreshableItemPresentationModelFactory.class);
+		itemViewFactoryClass = codeModel.ref(ItemViewFactory.class);
+		objectClass = codeModel.ref(Object.class);
+		itemPresentationModelObjectLoaderClass = codeModel.ref(ItemPresentationModelObjectLoader.class);
 
 		try {
 			definedClass = codeModel._class(presentationModelInfo.getPresentationModelObjectTypeName());
@@ -139,7 +147,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 		
 		JBlock body = method.body();
 		
-		JVar dependenciesVar = body.decl(mapClassWithStringAndStringSet, "dependencies", 
+		JVar dependenciesVar = body.decl(mapClassWithStringAndStringSet, "dependencies",
 				codeModel.ref(Maps.class).staticInvoke("newHashMap"));
 		
 		for(PropertyDependencyInfo propertyDependencyInfo : presentationModelInfo.propertyDependencies()) {
@@ -351,22 +359,45 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 			JDefinedClass anonymousFactory = codeModel.anonymousClass(RefreshableItemPresentationModelFactory.class);
 			
 			JMethod create = declarePublicMethodOverride(anonymousFactory, "create", RefreshableItemPresentationModel.class);
+			JVar item = create.param(objectClass, "item");
 
 			AbstractJClass itemPresentationModelObjectClass = codeModel.ref(propertyInfo.itemPresentationModelObjectTypeName());
-			JInvocation newItemPresentationModelObject = JExpr._new(itemPresentationModelObjectClass);
+			JInvocation newItemPresentationModelObject;
+			if (propertyInfo.isCreatedByFactoryMethod() && !propertyInfo.itemPresentationModelTypeName().equals(propertyInfo.factoryMethodReturnTypeName())) {
+				newItemPresentationModelObject = itemPresentationModelObjectLoaderClass.staticInvoke("load");
+			} else {
+				newItemPresentationModelObject = JExpr._new(itemPresentationModelObjectClass);
+			}
 			if (propertyInfo.isCreatedByFactoryMethod()) {
-				newItemPresentationModelObject.arg(presentationModelFieldWithoutThis.invoke(propertyInfo.factoryMethod()));
+				JInvocation callFactotyMethod = presentationModelFieldWithoutThis.invoke(propertyInfo.factoryMethod());
+				if(propertyInfo.factoryMethodHasArg()) {
+					callFactotyMethod.arg(item);
+				}
+				newItemPresentationModelObject.arg(callFactotyMethod);
 			} else {
 				newItemPresentationModelObject.arg(JExpr._new(codeModel.ref(propertyInfo.itemPresentationModelTypeName())));
 			}
 			create.body()._return(newItemPresentationModelObject);
 			
 			JVar factoryVar = conditionalBody.decl(refreshableItemPresentationModelFactoryClass, "factory", JExpr._new(anonymousFactory));
+
+			String viewFactoryTypeName = propertyInfo.itemViewFactoryTypeName();
+			JVar viewFactoryVar = null;
+			if (viewFactoryTypeName != null && !viewFactoryTypeName.isEmpty()) {
+				viewFactoryVar = conditionalBody.decl(itemViewFactoryClass, "viewFactory", JExpr._new(codeModel.ref(viewFactoryTypeName)));
+			}
 			//return DataSetProperty.
-			conditionalBody._return(JExpr._new(dataSetPropertyClass)
-					.arg(JExpr._this())
-					.arg(descriptorVar)
-					.arg(JExpr._new(codeModel.ref(propertyInfo.dataSetImplementationType())).arg(factoryVar).arg(getSetVar)));
+			if (viewFactoryVar == null) {
+				conditionalBody._return(JExpr._new(dataSetPropertyClass)
+						.arg(JExpr._this())
+						.arg(descriptorVar)
+						.arg(JExpr._new(codeModel.ref(propertyInfo.dataSetImplementationType())).arg(factoryVar).arg(getSetVar)));
+			} else {
+				conditionalBody._return(JExpr._new(dataSetPropertyClass)
+						.arg(JExpr._this())
+						.arg(descriptorVar)
+						.arg(JExpr._new(codeModel.ref(propertyInfo.dataSetImplementationType())).arg(factoryVar).arg(viewFactoryVar).arg(getSetVar)));
+			}
 		}
 		
 		body._return(JExpr._null());

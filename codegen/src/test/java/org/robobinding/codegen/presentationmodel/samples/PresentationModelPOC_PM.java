@@ -121,7 +121,7 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(Object item) {
 					return new StringItemPresentationModelPOC_IPM(new StringItemPresentationModelPOC());
 				}
 			};	
@@ -141,7 +141,7 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 			
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(Object item) {
 					return new StringItemPresentationModelPOC_IPM(presentationModel.newStringItemPresentationModel());
 				}
 			};

@@ -2,6 +2,7 @@ package org.robobinding.property;
 
 import java.util.List;
 
+import org.robobinding.itempresentationmodel.ItemViewFactory;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 
 
@@ -13,6 +14,10 @@ import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFac
 public class ListDataSet extends AbstractDataSet {
 	public ListDataSet(RefreshableItemPresentationModelFactory factory, AbstractGetSet<?> getSet) {
 		super(factory, getSet);
+	}
+
+	public ListDataSet(RefreshableItemPresentationModelFactory factory, ItemViewFactory viewFactory, AbstractGetSet<?> getSet) {
+		super(factory, viewFactory, getSet);
 	}
 	
 	@Override

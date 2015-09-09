@@ -26,7 +26,14 @@ public class ItemLayoutBinder {
 	}
 
 	public BindableView inflate(ViewGroup root) {
-		return itemBinder.inflateWithoutAttachingToRoot(layoutId, 
+		return inflate(root, this.layoutId);
+	}
+
+	public BindableView inflate(ViewGroup root, int layoutId) {
+		if (layoutId == 0) {
+			layoutId = this.layoutId;
+		}
+		return itemBinder.inflateWithoutAttachingToRoot(layoutId,
 				predefinedPendingAttributesForViewGroup, root);
 	}
 }

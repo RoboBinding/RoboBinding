@@ -6,5 +6,5 @@ package org.robobinding.itempresentationmodel;
  *
  */
 public interface RefreshableItemPresentationModelFactory {
-	RefreshableItemPresentationModel create();
+	RefreshableItemPresentationModel create(Object item);
 }
