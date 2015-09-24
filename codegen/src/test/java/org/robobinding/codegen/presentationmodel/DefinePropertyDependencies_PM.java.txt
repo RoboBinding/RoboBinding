@@ -10,7 +10,7 @@ public class DefinePropertyDependencies_PM {
 	@Override
 	public Map<String, Set<String>> propertyDependencies() {
 		Map<String, Set<String>> dependencies = Maps.newHashMap();
-		dependencies.put("prop1", Sets.newHashSet("prop2", "prop3", "prop6"));
+		dependencies.put("prop1", Sets.newHashSet("prop2", "prop6", "prop3"));
 		dependencies.put("prop4", Sets.newHashSet("prop1", "prop5", "prop6"));
 		return dependencies;
 

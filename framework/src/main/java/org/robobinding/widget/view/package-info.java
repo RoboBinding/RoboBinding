@@ -2,13 +2,7 @@
  * Binding implementations and Supported Binding Attributes for
  * <a href="http://developer.android.com/reference/android/view/View.html">android.view.View</a>.
  *
- * @prop background; Integer, android.graphics.Bitmap, android.graphics.drawable.Drawable; no
- * @prop backgroundColor; Integer; no
- * @prop contentDescription; CharSequence; no
- * @prop enabled; Boolean; no
  * @prop visibility; Boolean, Integer; no
- * @prop focusable; Boolean; no
- * @prop activated; Boolean; no
  * @prop layouMargin; Integer; no
  * @prop padding; Integer; no
  *

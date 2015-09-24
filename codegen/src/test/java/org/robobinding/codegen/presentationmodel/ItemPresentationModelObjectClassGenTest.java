@@ -1,10 +1,13 @@
 package org.robobinding.codegen.presentationmodel;
 
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.robobinding.codegen.SourceCodeAssert;
-import org.robobinding.codegen.presentationmodel.ItemPresentationModelObjectClassGen;
-import org.robobinding.codegen.presentationmodel.PresentationModelInfo;
-import org.robobinding.codegen.presentationmodel.typemirror.PresentationModelInfoBuilder;
+import org.robobinding.codegen.apt.element.AptTestHelper;
+import org.robobinding.codegen.apt.element.WrappedTypeElement;
+import org.robobinding.codegen.presentationmodel.processor.PresentationModelInfoBuilder;
+
+import com.google.testing.compile.CompilationRule;
 
 /**
  * @since 1.0
@@ -12,6 +15,8 @@ import org.robobinding.codegen.presentationmodel.typemirror.PresentationModelInf
  *
  */
 public class ItemPresentationModelObjectClassGenTest {
+	@ClassRule public static final CompilationRule compilation = new CompilationRule();
+	
 	@Test
 	public void shouldDefineConstructorWithChangeSupport() {
 		PresentationModelInfo presentationModelInfo = createPresentationModelInfoFor(DefineConstructor.class);
@@ -23,9 +28,10 @@ public class ItemPresentationModelObjectClassGenTest {
 	}
 
 	private PresentationModelInfo createPresentationModelInfoFor(Class<?> type) {
-		PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(type, 
+		WrappedTypeElement typeElement = new AptTestHelper(compilation).typeElementOf(type);
+		PresentationModelInfoBuilder builder = new PresentationModelInfoBuilder(typeElement, 
 				type.getName()+"_IPM", false);
-		return builder.build();
+		return new OrderedPresentationModelInfo(builder.build());
 	}
 
 	private void assertOutputSameTextFile(ItemPresentationModelObjectClassGen gen, String textFileName) {

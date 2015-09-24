@@ -8,34 +8,46 @@ public class DefineTryToCreateFunction_PM {
 	final DefineTryToCreateFunction presentationModel;
 	@Override
 	public Function tryToCreateFunction(MethodDescriptor methodDescriptor) {
-		if(methodDescriptor.equals(createMethodDescriptor("eventMethod1"))) {
+		if(methodDescriptor.equals(createMethodDescriptor("eventMethod"))) {
 			return new Function() {
 				
 				@Override
 				public Object call(Object... args) {
-					presentationModel.eventMethod1();
+					presentationModel.eventMethod();
 					return null;
 				}
 			};
 		}
 		
-		if(methodDescriptor.equals(createMethodDescriptor("eventMethod2", Object.class))){
+		if(methodDescriptor.equals(createMethodDescriptor("eventMethodWithArg", Object.class))){
 			return new Function() {
 				
 				@Override
 				public Object call(Object... args) {
-					presentationModel.eventMethod2(((Object)args[0]));
+					presentationModel.eventMethodWithArg(((Object)args[0]));
 					return null;
 				}
 			};
 		}
 		
-		if(methodDescriptor.equals(createMethodDescriptor("eventMethodWithReturn", Object.class))){
+		if(methodDescriptor.equals(createMethodDescriptor("eventMethodWithReturn"))) {
 			return new Function() {
 				
 				@Override
 				public Object call(Object... args) {
-					Boolean result = presentationModel.eventMethodWithReturn(((Object)args[0]));
+					Integer result = presentationModel.eventMethodWithReturn();
+					return result;
+				}
+			};
+		}
+		
+		
+		if(methodDescriptor.equals(createMethodDescriptor("eventMethodWithReturnAndArg", Object.class))){
+			return new Function() {
+				
+				@Override
+				public Object call(Object... args) {
+					Integer result = presentationModel.eventMethodWithReturnAndArg(((Object)args[0]));
 					return result;
 				}
 			};

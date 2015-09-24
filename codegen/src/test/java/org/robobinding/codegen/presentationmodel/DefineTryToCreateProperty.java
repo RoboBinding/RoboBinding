@@ -1,5 +1,7 @@
 package org.robobinding.codegen.presentationmodel;
 
+import java.util.Set;
+
 import org.robobinding.codegen.presentationmodel.differentpackage.CustomClass;
 
 /**
@@ -7,31 +9,48 @@ import org.robobinding.codegen.presentationmodel.differentpackage.CustomClass;
  * @author Cheng Wei
  *
  */
-public class DefineTryToCreateProperty {
-	public String getReadOnlyProp() {
+public class DefineTryToCreateProperty implements VariousProperties {
+
+	@Override
+	public String getProp() {
 		return null;
-	}
-	
-	public Object getReadWriteProp() {
-		return null;
-	}
-	
-	public void setReadWriteProp(Object param) {
-	}
-	
-	public int getPrimitiveReadWriteProp() {
-		return 0;
-	}
-	
-	public void setPrimitiveReadWriteProp(int param) {
 	}
 
+	@Override
+	public void setProp(String prop) {
+	}
+
+	@Override
+	public int getReadOnlyProp() {
+		return 0;
+	}
+
+	@Override
+	public void setWriteOnlyProp(int prop) {
+	}
+
+	@Override
+	public boolean isBooleanProp() {
+		return false;
+	}
+
+	@Override
+	public Set<Integer> getSetProp() {
+		return null;
+	}
+
+	@Override
+	public void setSetProp(Set<Integer> param) {
+	}
+
+	@Override
 	public CustomClass getCustomClass1() {
 		return null;
 	}
-	
 
+	@Override
 	public CustomClass getCustomClass2() {
 		return null;
 	}
+	
 }

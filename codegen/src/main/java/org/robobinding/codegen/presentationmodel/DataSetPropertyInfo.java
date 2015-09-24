@@ -20,8 +20,6 @@ public interface DataSetPropertyInfo {
 
 	String itemPresentationModelTypeName();
 
-	//boolean isCreatedByFactoryMethod();
-
 	String factoryMethod();
 
 	String itemPresentationModelObjectTypeName();

@@ -66,7 +66,7 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 
 	@Override
 	public String itemPresentationModelTypeName() {
-		return annotation.itemPresentationModelTypeName();
+		return itemPresentationModelTypeName;
 	}
 
 	@Override

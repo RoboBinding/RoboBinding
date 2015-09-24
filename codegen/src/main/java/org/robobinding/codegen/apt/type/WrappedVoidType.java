@@ -28,4 +28,14 @@ public class WrappedVoidType extends WrappedTypeMirror {
 	private String keyword() {
 		return String.valueOf(type.getKind()).toLowerCase();
 	}
+	
+	@Override
+	public boolean isOfType(Class<?> type) {
+		return className().equals(type.getName());
+	}
+	
+	@Override
+	public boolean isAssignableTo(String typeName) {
+		return className().equals(typeName);
+	}
 }

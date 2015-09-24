@@ -30,18 +30,22 @@ public class WrappedPrimitiveTypeTest {
 	
 	@Test
 	public void givenBooleanType_whenIsBoolean_thenReturnTrue() {
-		PrimitiveType booleanType = primitiveTypeOf(TypeKind.BOOLEAN);
-		WrappedPrimitiveType type = wrappedPrimitiveType(booleanType);
+		WrappedPrimitiveType type = wrappedPrimitiveType(TypeKind.BOOLEAN);
 		
 		assertThat(type.isBoolean(), equalTo(true));
+	}
+
+	private static WrappedPrimitiveType wrappedPrimitiveType(TypeKind primitiveKind) {
+		PrimitiveType primitiveType = primitiveTypeOf(primitiveKind);
+		return new WrappedPrimitiveType(primitiveType, compilation.getTypes(), null);
 	}
 
 	private static PrimitiveType primitiveTypeOf(TypeKind kind) {
 		return compilation.getTypes().getPrimitiveType(kind);
 	}
 
-	private WrappedPrimitiveType wrappedPrimitiveType(PrimitiveType booleanType) {
-		return new WrappedPrimitiveType(booleanType, compilation.getTypes(), null);
+	private static WrappedPrimitiveType wrappedPrimitiveType(PrimitiveType primitiveType) {
+		return new WrappedPrimitiveType(primitiveType, compilation.getTypes(), null);
 	}
 	
 	@Theory
@@ -123,4 +127,41 @@ public class WrappedPrimitiveTypeTest {
 		}
 	}
 	
+	@Theory
+	public void shouldAllIsOfTypePassed(@FromDataPoints("primitiveClasses") ClassToPrimitiveType classToPrimitiveType) {
+		assertThat(classToPrimitiveType.isOfType(), equalTo(true));
+	}
+
+	@DataPoints("primitiveClasses")
+	public static ClassToPrimitiveType[] primitiveClasses() {
+		return new ClassToPrimitiveType[] {
+				aClass(int.class).itsPrimitiveType(wrappedPrimitiveType(TypeKind.INT)),
+				aClass(long.class).itsPrimitiveType(wrappedPrimitiveType(TypeKind.LONG)),
+				aClass(boolean.class).itsPrimitiveType(wrappedPrimitiveType(TypeKind.BOOLEAN)),
+				aClass(byte.class).itsPrimitiveType(wrappedPrimitiveType(TypeKind.BYTE))
+		};
+	}
+	
+	private static ClassToPrimitiveType aClass(Class<?> klass) {
+		return new ClassToPrimitiveType(klass);
+	}
+	
+	
+	private static class ClassToPrimitiveType {
+		public final Class<?> klass;
+		public WrappedPrimitiveType type;
+		
+		public ClassToPrimitiveType(Class<?> klass) {
+			this.klass = klass;
+		}
+		
+		public boolean isOfType() {
+			return type.isOfType(klass);
+		}
+
+		public ClassToPrimitiveType itsPrimitiveType(WrappedPrimitiveType type) {
+			this.type = type;
+			return this;
+		}
+	}
 }

@@ -7,6 +7,6 @@ import com.google.common.collect.Sets;
 public class DefinePropertyNames_PM {
 	@Override
 	public Set<String> propertyNames() {
-		return Sets.newHashSet("prop1", "prop2");
+		return Sets.newHashSet("booleanProp", "customClass1", "customClass2", "prop", "readOnlyProp", "setProp", "writeOnlyProp");
 	}
 }

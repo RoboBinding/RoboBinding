@@ -9,6 +9,9 @@ import org.robobinding.codegen.apt.element.WrappedAnnotationMirror;
  *
  */
 public class ItemPresentationModelAnnotationMirror {
+	private static final String FACTORY_METHOD = "factoryMethod";
+	private static final String VIEW_TYPE_SELECTOR = "viewTypeSelector";
+	
 	private final WrappedAnnotationMirror annotationMirror;
 	public ItemPresentationModelAnnotationMirror(WrappedAnnotationMirror annotationMirror) {
 		this.annotationMirror = annotationMirror;
@@ -19,10 +22,18 @@ public class ItemPresentationModelAnnotationMirror {
 	}
 	
 	public boolean hasFactoryMethod() {
-		return annotationMirror.hasAnnotationValue("factoryMethod");
+		return annotationMirror.hasAnnotationValue(FACTORY_METHOD);
 	}
 
 	public String factoryMethod() {
-		return annotationMirror.annotationValueAsText("factoryMethod");
+		return annotationMirror.annotationValueAsText(FACTORY_METHOD);
+	}
+
+	public boolean hasViewTypeSelector() {
+		return annotationMirror.hasAnnotationValue(VIEW_TYPE_SELECTOR);
+	}
+	
+	public String viewTypeSelector() {
+		return annotationMirror.annotationValueAsText(VIEW_TYPE_SELECTOR);
 	}
 }

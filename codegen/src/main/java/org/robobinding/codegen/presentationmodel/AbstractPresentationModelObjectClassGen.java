@@ -437,6 +437,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 				JDefinedClass anonymousViewTypeSelector = codeModel.anonymousClass(ViewTypeSelectable.class);
 				
 				JMethod selectViewType = declarePublicMethodOverride(anonymousViewTypeSelector, "selectViewType", int.class);
+				selectViewType.annotate(codeModel.ref(SuppressWarnings.class)).paramArray("value", "rawtypes", "unchecked");
 				JVar contextParam = selectViewType.param(ViewTypeSelectionContext.class, "context");
 
 				JInvocation userSelectViewTypeCall;
@@ -448,11 +449,11 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 				
 				selectViewType.body()._return(userSelectViewTypeCall);
 				
-				JVar viewTypeSelectorVar = conditionalBody.decl(viewTypeSelectableClass, "factory", JExpr._new(anonymousViewTypeSelector));
+				JVar viewTypeSelectorVar = conditionalBody.decl(viewTypeSelectableClass, "viewTypeSelector", JExpr._new(anonymousViewTypeSelector));
 				newDataSetProperty.arg(viewTypeSelectorVar);
 			}
 			//return DataSetProperty.
-			conditionalBody._return();
+			conditionalBody._return(newDataSetProperty);
 		}
 		
 		body._return(JExpr._null());
