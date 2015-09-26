@@ -1,11 +1,12 @@
 package org.robobinding.codegen.presentationmodel.processor;
 
-import java.util.List;
 import java.util.Set;
 
-import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.annotation.PresentationModel;
-import org.robobinding.itempresentationmodel.TypedCursor;
+import org.robobinding.codegen.presentationmodel.DefineTryToCreateDataSetProperty;
+import org.robobinding.codegen.presentationmodel.VariousEventMethods;
+import org.robobinding.codegen.presentationmodel.VariousProperties;
+import org.robobinding.codegen.presentationmodel.differentpackage.CustomClass;
 
 /**
  * @since 1.0
@@ -13,66 +14,67 @@ import org.robobinding.itempresentationmodel.TypedCursor;
  *
  */
 @PresentationModel
-public class SelfDescribedPresentationModel {
-	public static final int numProperties = 5;
-	public static final int numDataSetProperties = 3;
-	public static final int numEventMethods = 4;
+public class SelfDescribedPresentationModel extends DefineTryToCreateDataSetProperty
+	implements VariousProperties, VariousEventMethods  {
 
+	@Override
+	public void eventMethod() {
+	}
+
+	@Override
+	public void eventMethodWithArg(Object event) {
+	}
+
+	@Override
+	public int eventMethodWithReturn() {
+		return 0;
+	}
+
+	@Override
+	public int eventMethodWithReturnAndArg(Object event) {
+		return 0;
+	}
+
+	@Override
 	public String getProp() {
 		return null;
 	}
 
+	@Override
 	public void setProp(String prop) {
 	}
-	
+
+	@Override
 	public int getReadOnlyProp() {
 		return 0;
 	}
 
+	@Override
 	public void setWriteOnlyProp(int prop) {
 	}
-	
+
+	@Override
 	public boolean isBooleanProp() {
 		return false;
 	}
-	
+
+	@Override
 	public Set<Integer> getSetProp() {
 		return null;
 	}
-	
+
+	@Override
 	public void setSetProp(Set<Integer> param) {
 	}
 
-	@ItemPresentationModel(value = StringItemPresentationModel.class)
-	public List<String> getDataSetProp() {
+	@Override
+	public CustomClass getCustomClass1() {
 		return null;
 	}
-	
-	@ItemPresentationModel(value = StringItemPresentationModel.class, factoryMethod = "newStringItemPresentationModel")
-	public List<String> getDataSetPropWithFactoryMethod() {
+
+	@Override
+	public CustomClass getCustomClass2() {
 		return null;
 	}
-	
-	@ItemPresentationModel(value = StringItemPresentationModel.class)
-	public TypedCursor<String> getCursorDataSetProp() {
-		return null;
-	}
-	
-	public StringItemPresentationModel newStringItemPresentationModel() {
-		return new StringItemPresentationModel();
-	}
-	
-	public void eventMethod() {
-	}
-	
-	public void eventMethodWithArg(Object event) {
-	}
-	
-	public int eventMethodWithReturn() {
-		return 0;
-	}
-	
-	public int eventMethodWithReturnAndArg(Object event) {
-		return 0;
-	}
+
 }

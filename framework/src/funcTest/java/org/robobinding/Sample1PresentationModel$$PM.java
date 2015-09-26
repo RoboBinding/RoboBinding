@@ -87,7 +87,7 @@ public class Sample1PresentationModel$$PM extends AbstractPresentationModelObjec
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(int itemViewType) {
 					throw new UnsupportedOperationException();
 				}
 			};	

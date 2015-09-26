@@ -49,8 +49,8 @@ public class PresentationModelTest {
 	}
 	
 	@Test
-	public void shouldSetterOfDataSetPropertyIgnored() {
-		PresentationModelInfo result = processJavaFileOf(SetterOfDataSetPropertyIgnored.class);
+	public void shouldMethodForDataSetPropertyIgnored() {
+		PresentationModelInfo result = processJavaFileOf(MethodsForDataSetPropertyIgnored.class);
 		assertThat(result.properties().size(), is(0));
 	}
 	

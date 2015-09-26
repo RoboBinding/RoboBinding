@@ -1,23 +1,27 @@
 package org.robobinding.codegen.presentationmodel;
 
-import org.robobinding.codegen.presentationmodel.typemirror.Event;
 
 /**
  * @since 1.0
  * @author Cheng Wei
  *
  */
-public class DefineTryToCreateFunction {
-	@Event
-	public void eventMethod1() {
+public class DefineTryToCreateFunction implements VariousEventMethods {
+	@Override
+	public void eventMethod() {
 	}
-	
-	@Event
-	public void eventMethod2(Object event) {
+
+	@Override
+	public void eventMethodWithArg(Object event) {
 	}
-	
-	@Event
-	public boolean eventMethodWithReturn(Object event) {
-		return true;
+
+	@Override
+	public int eventMethodWithReturn() {
+		return 0;
+	}
+
+	@Override
+	public int eventMethodWithReturnAndArg(Object event) {
+		return 0;
 	}
 }

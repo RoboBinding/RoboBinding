@@ -17,4 +17,9 @@ public class DropdownLayoutAttributeFactory extends RowLayoutAttributeFactory {
 	protected RowLayoutUpdater createRowLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
 		return new DropdownLayoutUpdater(dataSetAdapterBuilder);
 	}
+	
+	@Override
+	protected RowLayoutsUpdater createRowLayoutsUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
+		throw new UnsupportedOperationException("multiple dropdown layouts is not supported yet");
+	}
 }

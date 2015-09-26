@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 public class DefineDataSetPropertyNames_PM {
 	@Override
 	public Set<String> dataSetPropertyNames() {
-		return Sets.newHashSet("dataSetProp1", "dataSetProp2");
+		return Sets.newHashSet("cursorDataSetProp", "dataSetProp", "dataSetPropWithFactoryMethod",
+			"dataSetPropWithFactoryMethodWithParameter", "dataSetPropWithViewTypeSelector");
 	}
 }

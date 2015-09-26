@@ -79,9 +79,8 @@ public class LazyProperties implements Properties {
 		return property.getPropertyType();
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
-	public <T> DataSetValueModel<T> getDataSetProperty(String propertyName) {
+	public DataSetValueModel getDataSetProperty(String propertyName) {
 		if(!dataSetProperties.containsKey(propertyName)) {
 			throw new RuntimeException("No such dataSet property '"+describeProperty(propertyName)+"'");
 		}
@@ -91,6 +90,6 @@ public class LazyProperties implements Properties {
 			dataSetProperties.put(propertyName, supply.createDataSetProperty(propertyName));
 			property = dataSetProperties.get(propertyName);
 		}
-		return (DataSetValueModel<T>) property;
+		return property;
 	}
 }

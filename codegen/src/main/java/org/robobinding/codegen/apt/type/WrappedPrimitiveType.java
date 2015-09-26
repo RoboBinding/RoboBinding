@@ -38,4 +38,14 @@ public class WrappedPrimitiveType extends WrappedTypeMirror {
 		WrappedDeclaredType boxed = wrapper.wrap(types.boxedClass(type).asType());
 		return boxed.className();
 	}
+	
+	@Override
+	public boolean isOfType(Class<?> type) {
+		return className().equals(type.getName());
+	}
+	
+	@Override
+	public boolean isAssignableTo(String typeName) {
+		return className().equals(typeName);
+	}
 }

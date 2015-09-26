@@ -1,6 +1,8 @@
 package org.robobinding.widget.adapterview;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
@@ -22,24 +24,28 @@ public class DataSetAdapterBuilder {
 	
 	private final BindingContext bindingContext;
 
-	private int itemLayoutId;
-	private int dropDownLayoutId;
+	private List<Integer> itemLayoutIds;
+	private int  dropdownLayoutId;
 	private Collection<PredefinedPendingAttributesForView> itemPredefinedPendingAttributesForViewGroup;
 	private Collection<PredefinedPendingAttributesForView> dropdownPredefinedPendingAttributesForViewGroup;
-	private DataSetValueModel<?> valueModel;
+	private DataSetValueModel valueModel;
 
 	public DataSetAdapterBuilder(BindingContext bindingContext) {
 		this.bindingContext = bindingContext;
-		this.itemPredefinedPendingAttributesForViewGroup = Lists.newArrayList();
-		this.dropdownPredefinedPendingAttributesForViewGroup = Lists.newArrayList();
+		this.itemPredefinedPendingAttributesForViewGroup = Collections.emptyList();
+		this.dropdownPredefinedPendingAttributesForViewGroup = Collections.emptyList();
 	}
 
 	public void setItemLayoutId(int itemLayoutId) {
-		this.itemLayoutId = itemLayoutId;
+		setItemLayoutIds(Lists.newArrayList(itemLayoutId));
 	}
 
-	public void setDropDownLayoutId(int dropDownLayoutId) {
-		this.dropDownLayoutId = dropDownLayoutId;
+	public void setItemLayoutIds(List<Integer> itemLayoutIds) {
+		this.itemLayoutIds = itemLayoutIds;
+	}
+
+	public void setDropdownLayoutId(int dropdownLayoutId) {
+		this.dropdownLayoutId = dropdownLayoutId;
 	}
 
 	public void setItemPredefinedPendingAttributesForViewGroup(Collection<PredefinedPendingAttributesForView> itemPredefinedPendingAttributesForViewGroup) {
@@ -55,19 +61,33 @@ public class DataSetAdapterBuilder {
 		}
 	}
 
-	public void setValueModel(DataSetValueModel<?> valueModel) {
+	public void setValueModel(DataSetValueModel valueModel) {
 		this.valueModel = valueModel;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public DataSetAdapter<?> build() {
 		ItemBinder itemBinder = bindingContext.createItemBinder();
-		ItemLayoutBinder itemLayoutBinder = new ItemLayoutBinder(itemBinder, itemLayoutId, itemPredefinedPendingAttributesForViewGroup);
-		ItemLayoutBinder dropdownLayoutBinder = new ItemLayoutBinder(itemBinder, dropDownLayoutId, dropdownPredefinedPendingAttributesForViewGroup);
+		ItemLayoutBinder itemLayoutBinder = new ItemLayoutBinder(itemBinder, itemPredefinedPendingAttributesForViewGroup);
+		ItemLayoutBinder dropdownLayoutBinder = new ItemLayoutBinder(itemBinder, dropdownPredefinedPendingAttributesForViewGroup);
+		ItemLayoutSelector itemLayoutSelector = buildItemLayoutSelector();
 		DataSetAdapter<?> dataSetAdapter = new DataSetAdapter(valueModel, itemLayoutBinder, dropdownLayoutBinder, 
-				new ViewTags<RefreshableItemPresentationModel>(ITEM_PRESENTATION_MODEL_KEY), bindingContext.shouldPreInitializeViews());
+				itemLayoutSelector, new ViewTags<RefreshableItemPresentationModel>(ITEM_PRESENTATION_MODEL_KEY), 
+				bindingContext.shouldPreInitializeViews());
 
 		dataSetAdapter.observeChangesOnTheValueModel();
 		return dataSetAdapter;
+	}
+	
+	private ItemLayoutSelector buildItemLayoutSelector() {
+		if (isSingleItemLayout()) {
+			return new SingleItemLayoutSelector(itemLayoutIds.get(0), dropdownLayoutId);
+		} else {
+			return new MultiItemLayoutSelector(itemLayoutIds, dropdownLayoutId, valueModel);
+		}
+	}
+	
+	private boolean isSingleItemLayout() {
+		return itemLayoutIds.size() == 1;
 	}
 }

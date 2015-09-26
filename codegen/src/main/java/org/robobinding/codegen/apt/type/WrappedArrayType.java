@@ -28,4 +28,14 @@ public class WrappedArrayType extends WrappedTypeMirror {
 	public WrappedTypeMirror componentType() {
 		return wrapper.wrap(type.getComponentType());
 	}
+	
+	@Override
+	public boolean isOfType(Class<?> type) {
+		return className().equals(type.getName());
+	}
+	
+	@Override
+	public boolean isAssignableTo(String typeName) {
+		return className().equals(typeName);
+	}
 }

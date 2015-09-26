@@ -69,6 +69,10 @@ public class MethodElement extends AbstractWrappedElement {
 		return method.getParameters().size() == 1;
 	}
 	
+	public boolean hasSingleParameterTyped(Class<?> type) {
+		return hasSingleParameter() && firstParameterType().isOfType(type);
+	}
+
 	public WrappedTypeMirror firstParameterType() {
 		return typeWrapper.wrap(method.getParameters().get(0).asType());
 	}

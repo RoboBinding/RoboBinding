@@ -9,7 +9,9 @@ public class DefineEventMethods_PM {
 	@Override
 	public Set<MethodDescriptor> eventMethods() {
 		return Sets.newHashSet(
-			createMethodDescriptor("event1"),
-			createMethodDescriptor("event2", Object.class));
+			createMethodDescriptor("eventMethod"),
+			createMethodDescriptor("eventMethodWithArg", Object.class),
+			createMethodDescriptor("eventMethodWithReturn"),
+			createMethodDescriptor("eventMethodWithReturnAndArg",Object.class));
 	}
 }

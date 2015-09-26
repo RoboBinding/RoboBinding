@@ -1,6 +1,6 @@
 package org.robobinding.codegen.presentationmodel;
 
-import org.robobinding.codegen.presentationmodel.typemirror.DependsOnStateOf;
+import org.robobinding.annotation.DependsOnStateOf;
 
 
 /**

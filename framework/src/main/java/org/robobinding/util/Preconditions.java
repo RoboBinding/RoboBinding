@@ -1,5 +1,7 @@
 package org.robobinding.util;
 
+import java.util.Collection;
+
 import com.google.common.base.Strings;
 
 /**
@@ -25,5 +27,11 @@ public class Preconditions {
 
 	public static void checkValidResourceId(int resourceId, String errorMessage) {
 		com.google.common.base.Preconditions.checkArgument(resourceId != 0, errorMessage);
+	}
+	
+	public static void checkNotEmpty(Collection<?> c, String errorMessage) {
+		if((c == null) || c.isEmpty()) {
+			throw new IllegalArgumentException(errorMessage);
+		}
 	}
 }

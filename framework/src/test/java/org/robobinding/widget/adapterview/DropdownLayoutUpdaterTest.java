@@ -26,6 +26,6 @@ public class DropdownLayoutUpdaterTest {
 
 		dropdownLayoutUpdater.updateRowLayout(layoutId);
 
-		verify(dataSetAdapterBuilder).setDropDownLayoutId(layoutId);
+		verify(dataSetAdapterBuilder).setDropdownLayoutId(layoutId);
 	}
 }

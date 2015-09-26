@@ -5,6 +5,8 @@ import java.util.List;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.itempresentationmodel.TypedCursor;
+import org.robobinding.itempresentationmodel.ViewTypeSelectable;
+import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.AbstractGetSet;
@@ -30,7 +32,7 @@ public class DefineTryToCreateDataSetProperty_PM {
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(int itemViewType) {
 					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(new StringItemPresentationModel());
 				}
 			};	
@@ -51,7 +53,7 @@ public class DefineTryToCreateDataSetProperty_PM {
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(int itemViewType) {
 					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(new StringItemPresentationModel());
 				}
 			};	
@@ -71,12 +73,62 @@ public class DefineTryToCreateDataSetProperty_PM {
 			
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				@Override
-				public RefreshableItemPresentationModel create() {
-					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(presentationModel.createStringItemPresentationModel());
+				public RefreshableItemPresentationModel create(int itemViewType) {
+					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(
+						presentationModel.createStringItemPresentationModel());
 				}
 			};
 			
 			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+		} 
+		
+		if(name.equals("dataSetPropWithFactoryMethodWithParameter")) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<List>(descriptor) {
+				@Override
+				public List getValue() {
+					return presentationModel.getDataSetPropWithFactoryMethodWithParameter();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				@Override
+				public RefreshableItemPresentationModel create(int itemViewType) {
+					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(
+						presentationModel.createStringItemPresentationModelWithParameter(itemViewType));
+				}
+			};
+			
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+		} 
+		
+		if(name.equals("dataSetPropWithViewTypeSelector")) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<List>(descriptor) {
+				@Override
+				public List getValue() {
+					return presentationModel.getDataSetPropWithViewTypeSelector();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				@Override
+				public RefreshableItemPresentationModel create(int itemViewType) {
+					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(new StringItemPresentationModel());
+				}
+			};
+			
+			ViewTypeSelectable viewTypeSelector = new ViewTypeSelectable() {
+				@Override
+				@SuppressWarnings({ "rawtypes", "unchecked" }) 
+				public int selectViewType(ViewTypeSelectionContext context) {
+					return presentationModel.selectViewType(context);
+				}
+			};
+			
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector);
 		} 
 		
 		return null;

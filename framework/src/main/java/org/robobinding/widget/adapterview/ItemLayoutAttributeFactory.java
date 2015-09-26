@@ -17,4 +17,9 @@ public class ItemLayoutAttributeFactory extends RowLayoutAttributeFactory {
 	protected RowLayoutUpdater createRowLayoutUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
 		return new ItemLayoutUpdater(dataSetAdapterBuilder);
 	}
+	
+	@Override
+	protected RowLayoutsUpdater createRowLayoutsUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
+		return new ItemLayoutsUpdater(dataSetAdapterBuilder);
+	}
 }

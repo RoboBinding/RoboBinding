@@ -21,4 +21,8 @@ public class Attributes {
 	public static StaticResourceAttribute aStaticResourceAttribute(String value) {
 		return new StaticResourceAttribute("name", value);
 	}
+
+	public static StaticResourcesAttribute aStaticResourcesAttribute(String value) {
+		return new StaticResourcesAttribute("name", value);
+	}
 }
