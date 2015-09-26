@@ -19,7 +19,7 @@ public class PropertyAttributeParser {
 		if (isValueModelAttribute(value)) {
 			return new ValueModelAttribute(name, value);
 		} else if (isStaticResourcesAttribute(value)) {
-			return new StaticResourceAttribute(name, value);
+			return new StaticResourcesAttribute(name, value);
 		} else if (isStaticResourceAttribute(value)) {
 			return new StaticResourceAttribute(name, value);
 		}

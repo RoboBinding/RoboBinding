@@ -14,8 +14,9 @@ import com.google.common.collect.Lists;
  *
  */
 public class StaticResourcesAttribute extends AbstractPropertyAttribute {
-	private static final Pattern RESOURCE_ATTRIBUTE_PATTERN = Pattern.compile("^@([\\w\\.]+:)?(\\w+)/(\\w+)(,@([\\w\\.]+:)?(\\w+)/(\\w+))?$");
-	
+	private static final Pattern RESOURCES_ATTRIBUTE_PATTERN = 
+			Pattern.compile("^\\[" + StaticResource.PATTERN + "(,\\s?" + StaticResource.PATTERN + ")*\\]$");
+
 	private final List<StaticResource> resources;
 	
 	public StaticResourcesAttribute(String name, String value) {
@@ -26,7 +27,8 @@ public class StaticResourcesAttribute extends AbstractPropertyAttribute {
 		}
 		
 		resources = Lists.newArrayList();
-		String[] resourceValues = value.split(",");
+		
+		String[] resourceValues = value.substring(1, value.length()-1).split(",");
 		for (String resourceValue : resourceValues) {
 			resources.add(new StaticResource(resourceValue.trim()));
 		}
@@ -51,7 +53,7 @@ public class StaticResourcesAttribute extends AbstractPropertyAttribute {
 	}
 
 	static boolean isStaticResourcesAttribute(String value) {
-		Matcher matcher = RESOURCE_ATTRIBUTE_PATTERN.matcher(value);
+		Matcher matcher = RESOURCES_ATTRIBUTE_PATTERN.matcher(value);
 
 		return matcher.matches();
 	}

@@ -1,8 +1,8 @@
 package org.robobinding.attribute;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
@@ -10,7 +10,7 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.robobinding.attribute.StaticResourceAttributeTest.LegalStaticResourceAttributeValue;
+import org.robobinding.attribute.StaticResourceTest.LegalStaticResource;
 import org.robobinding.attribute.ValueModelAttributeTest.LegalValueModelAttributeValue;
 
 /**
@@ -25,7 +25,7 @@ public class PropertyAttributeParserTest {
 	public static LegalValueModelAttributeValue[] legalValueModelAttributeValues = ValueModelAttributeTest.legalAttributeValues;
 
 	@DataPoints
-	public static LegalStaticResourceAttributeValue[] legalStaticResourceAttributeValues = StaticResourceAttributeTest.legalAttributeValues;
+	public static LegalStaticResource[] legalStaticResourceAttributeValues = StaticResourceTest.legalStaticResources;
 
 	@DataPoints
 	public static IllegalValueModelAttributeValue[] illegalValueModelAttributeValues = {
@@ -50,14 +50,14 @@ public class PropertyAttributeParserTest {
 	public void whenParseLegalValueModelAttributeValue_thenReturnValueModelAttribute(LegalValueModelAttributeValue legalValueModelAttributeValue) {
 		AbstractPropertyAttribute attribute = parse(legalValueModelAttributeValue.value);
 
-		assertTrue(attribute.isValueModel());
+		assertThat(attribute, instanceOf(ValueModelAttribute.class));
 	}
 
 	@Theory
-	public void whenParseLegalStaticResourceAttributeValue_thenReturnStaticResourceAttribute(LegalStaticResourceAttributeValue legalStaticResourceAttributeValue) {
+	public void whenParseLegalStaticResourceAttributeValue_thenReturnStaticResourceAttribute(LegalStaticResource legalStaticResourceAttributeValue) {
 		AbstractPropertyAttribute attribute = parse(legalStaticResourceAttributeValue.value);
 
-		assertTrue(attribute.isStaticResource());
+		assertThat(attribute, instanceOf(StaticResourceAttribute.class));
 	}
 
 	@Theory
@@ -96,7 +96,7 @@ public class PropertyAttributeParserTest {
 
 	@Theory
 	public void givenLegalStaticResourceAttributeValue_whenParseAsValueModelAttribute_thenSuccessful(
-			LegalStaticResourceAttributeValue legalStaticResourceAttributeValue) {
+			LegalStaticResource legalStaticResourceAttributeValue) {
 		parseAsStaticResourceAttribute(legalStaticResourceAttributeValue.value);
 	}
 

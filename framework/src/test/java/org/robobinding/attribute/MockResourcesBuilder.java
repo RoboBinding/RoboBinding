@@ -41,6 +41,10 @@ public class MockResourcesBuilder {
 	public int declareLayoutResource(String resourceName) {
 		return declareResource(resourceName, LAYOUT_RESOURCE_TYPE, DEFAULT_RESOURCE_PACKAGE);
 	}
+	
+	public int declareResource(String resourceName, String resourceType) {
+		return declareResource(resourceName, resourceType, DEFAULT_RESOURCE_PACKAGE);
+	}
 
 	public int declareResource(String resourceName, String resourceType, String resourcePackage) {
 		int layoutId = nextResourceId();

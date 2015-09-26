@@ -38,7 +38,7 @@ public class PredefinedMappingsAttributeTest {
 			attribute("[text1.text:{title}]").shouldMapTo(viewMapping("text1", TEXT_1_ID, "text", "{title}")),
 			attribute("[text2.text:{artist}]").shouldMapTo(viewMapping("text2", TEXT_2_ID, "text", "{artist}")),
 
-			attribute("[text1.text:{title},text2.text:{artist}]").shouldMapTo(viewMapping("text1", TEXT_1_ID, "text", "{title}"),
+			attribute("[text1.text:{title}, text2.text:{artist}]").shouldMapTo(viewMapping("text1", TEXT_1_ID, "text", "{title}"),
 					viewMapping("text2", TEXT_2_ID, "text", "{artist}")),
 
 			attribute("[text1.visibility:{titleVisible},text2.enabled:{artistEnabled}]").shouldMapTo(
@@ -46,7 +46,7 @@ public class PredefinedMappingsAttributeTest {
 
 	@DataPoints
 	public static String[] illegalAttributeValues = { "[text1.text: {title}", "text:{title}", "[text1.text:title]",
-			"[text1.text:{title}, text2.text:{artist}]", "[text1.text:{title}],text2.text:{artist}]", "[text1.text:{title},text2..text:{artist}]" };
+			"[text1.text:{title}],text2.text:{artist}]", "[text1.text:{title},text2..text:{artist}]" };
 
 	@Mock
 	Context context;

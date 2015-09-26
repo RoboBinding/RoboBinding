@@ -83,7 +83,7 @@ public class DataSetAdapterBuilder {
 		if (isSingleItemLayout()) {
 			return new SingleItemLayoutSelector(itemLayoutIds.get(0), dropdownLayoutId);
 		} else {
-			return new MultiItemLayoutSelector(itemLayoutIds, dropdownLayoutId);
+			return new MultiItemLayoutSelector(itemLayoutIds, dropdownLayoutId, valueModel);
 		}
 	}
 	

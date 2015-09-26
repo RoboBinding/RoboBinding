@@ -25,7 +25,7 @@ import com.google.common.collect.Maps;
 public class PredefinedMappingsAttribute extends AbstractAttribute {
 	private static final String MAPPING_PATTERN = "(\\w+)\\.(\\w+):($?\\{\\w+\\})";
 	private static final Pattern MAPPING_COMPILED_PATTERN = Pattern.compile(MAPPING_PATTERN);
-	private static final Pattern MAPPING_ATTRIBUTE_COMPILED_PATTERN = Pattern.compile("^\\[" + MAPPING_PATTERN + "(?:," + MAPPING_PATTERN + ")*\\]$");
+	private static final Pattern MAPPING_ATTRIBUTE_COMPILED_PATTERN = Pattern.compile("^\\[" + MAPPING_PATTERN + "(?:(,\\s?)" + MAPPING_PATTERN + ")*\\]$");
 	private final String attributeValue;
 
 	public PredefinedMappingsAttribute(String name, String value) {

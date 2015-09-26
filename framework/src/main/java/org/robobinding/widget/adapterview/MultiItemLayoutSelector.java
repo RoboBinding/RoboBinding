@@ -2,6 +2,7 @@ package org.robobinding.widget.adapterview;
 
 import java.util.List;
 
+import org.robobinding.itempresentationmodel.ViewTypeSelectable;
 import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 
 /**
@@ -12,11 +13,13 @@ import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 public class MultiItemLayoutSelector implements ItemLayoutSelector {
 	private final List<Integer> itemLayoutIds;
 	private final int dropdownLayoutId;
+	private final ViewTypeSelectable viewTypeSelector;
 	private final int viewTypeCount;
 	
-	public MultiItemLayoutSelector(List<Integer> itemLayoutIds, int dropdownLayoutId) {
+	public MultiItemLayoutSelector(List<Integer> itemLayoutIds, int dropdownLayoutId, ViewTypeSelectable viewTypeSelector) {
 		this.itemLayoutIds = itemLayoutIds;
 		this.dropdownLayoutId = dropdownLayoutId;
+		this.viewTypeSelector = viewTypeSelector;
 		this.viewTypeCount = itemLayoutIds.size();
 	}
 	
@@ -42,7 +45,7 @@ public class MultiItemLayoutSelector implements ItemLayoutSelector {
 	 * It is inappropriate to pass in either itemLayoutIds or dropdownLayoutIds, as we don't know view type.
 	 */
 	private int userSelectViewType(ViewTypeSelectionContext<Object> context) {
-		return 0;
+		return viewTypeSelector.selectViewType(context);
 	}
 	
 	private boolean isInvalidViewType(int viewType) {
@@ -51,18 +54,8 @@ public class MultiItemLayoutSelector implements ItemLayoutSelector {
 
 	@Override
 	public int selectItemLayout(Object item, int position) {
-		return selectLayout(itemLayoutIds, item, position);
-	}
-	
-	private int selectLayout(List<Integer> layoutIds, Object item, int position) {
 		int index = getItemViewType(item, position);
-		int adjustedIndex = adjustIndex(index, layoutIds.size()-1);
-		return layoutIds.get(adjustedIndex);
-	}
-	
-	private int adjustIndex(int index, int maxIndex) {
-		int defaultIndex = 0;
-		return index > maxIndex ? defaultIndex : index;
+		return itemLayoutIds.get(index);
 	}
 
 	@Override

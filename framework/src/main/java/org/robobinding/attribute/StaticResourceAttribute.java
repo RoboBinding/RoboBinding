@@ -1,7 +1,5 @@
 package org.robobinding.attribute;
 
-import java.util.regex.Matcher;
-
 import android.content.Context;
 
 /**
@@ -36,8 +34,6 @@ public class StaticResourceAttribute extends AbstractPropertyAttribute {
 	}
 
 	static boolean isStaticResourceAttribute(String value) {
-		Matcher matcher = StaticResource.RESOURCE_ATTRIBUTE_PATTERN.matcher(value);
-
-		return matcher.matches();
+		return StaticResource.isStaticResource(value);
 	}
 }
