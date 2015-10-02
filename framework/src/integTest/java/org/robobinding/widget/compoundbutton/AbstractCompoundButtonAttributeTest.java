@@ -2,8 +2,8 @@ package org.robobinding.widget.compoundbutton;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -21,7 +21,7 @@ public abstract class AbstractCompoundButtonAttributeTest {
 
 	@Before
 	public void initializeViewAndListeners() {
-		view = new CheckBox(Robolectric.application);
+		view = new CheckBox(RuntimeEnvironment.application);
 		viewAddOn = new MockCompoundButtonAddOn(view);
 	}
 }

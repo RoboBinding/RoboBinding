@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.util.RandomValues;
 import org.robobinding.widget.EventCommand;
-import org.robolectric.Robolectric;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowView;
 
@@ -41,7 +41,7 @@ public class OnFocusChangeAttributeTest extends AbstractViewEventAttributeTest {
 	}
 
 	private void changeViewFocus() {
-		ShadowView shadowView = Robolectric.shadowOf(view);
+		ShadowView shadowView = Shadows.shadowOf(view);
 		shadowView.setViewFocus(RandomValues.trueOrFalse());
 	}
 

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.widget.EventCommand;
-import org.robolectric.Robolectric;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowView;
 
@@ -40,7 +40,7 @@ public class OnFocusAttributeTest extends AbstractViewEventAttributeTest {
 	}
 
 	private void setViewFocus() {
-		ShadowView shadowView = Robolectric.shadowOf(view);
+		ShadowView shadowView = Shadows.shadowOf(view);
 		shadowView.setViewFocus(true);
 	}
 

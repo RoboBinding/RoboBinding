@@ -6,8 +6,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.widget.TextView;
@@ -23,7 +23,7 @@ import android.widget.TextView;
 public class TextColorAttributeTest {
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
-		TextView view = new TextView(Robolectric.application);
+		TextView view = new TextView(RuntimeEnvironment.application);
 		TextColorAttribute attribute = new TextColorAttribute();
 		int newColor = RandomValues.anyColor();
 

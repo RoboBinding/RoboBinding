@@ -4,8 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.widget.CheckBox;
@@ -23,7 +23,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 public class CompoundButtonAddOnTest {
 	@Test
 	public void shouldSupportMultipleOnCheckedChangeListeners() {
-		CheckBox view = new CheckBox(Robolectric.application);
+		CheckBox view = new CheckBox(RuntimeEnvironment.application);
 		CompoundButtonAddOn viewAddOn = new CompoundButtonAddOn(view);
 
 		MockOnCheckedChangeListener listener1 = new MockOnCheckedChangeListener();

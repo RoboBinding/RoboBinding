@@ -2,8 +2,8 @@ package org.robobinding.widget.ratingbar;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import android.widget.RatingBar;
 
@@ -20,7 +20,7 @@ public abstract class AbstractRatingBarAttributeTest {
 
 	@Before
 	public void initializeViewAndListeners() {
-		view = new RatingBar(Robolectric.application);
+		view = new RatingBar(RuntimeEnvironment.application);
 		viewAddOn = new MockRatingBarAddOn(view);
 	}
 }

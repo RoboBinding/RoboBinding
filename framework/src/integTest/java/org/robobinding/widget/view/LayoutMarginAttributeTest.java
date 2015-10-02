@@ -6,8 +6,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.view.View;
@@ -26,7 +26,7 @@ public class LayoutMarginAttributeTest {
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
-		View view = new View(Robolectric.application);
+		View view = new View(RuntimeEnvironment.application);
 		LayoutMarginAttribute attribute = new LayoutMarginAttribute();
 		int margin = RandomValues.anyIntegerGreaterThanZero();
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

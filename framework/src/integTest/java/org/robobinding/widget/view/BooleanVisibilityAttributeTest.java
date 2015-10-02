@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.widget.view.VisibilityAttribute.BooleanVisibilityAttribute;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.view.View;
@@ -29,7 +29,7 @@ public class BooleanVisibilityAttributeTest {
 
 	@Before
 	public void setUp() {
-		view = new View(Robolectric.application);
+		view = new View(RuntimeEnvironment.application);
 		visibility = mock(AbstractVisibility.class);
 		attribute = new BooleanVisibilityAttribute<View>(visibility);
 	}

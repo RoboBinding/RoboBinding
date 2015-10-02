@@ -9,7 +9,8 @@ import org.junit.Test;
 import org.robobinding.util.RandomValues;
 import org.robobinding.widget.EventCommand;
 import org.robobinding.widget.abslistview.SingleChoiceAdapter;
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowListView;
 
@@ -32,7 +33,7 @@ public class OnItemClickAttributeTest extends AbstractAdapterViewAttributeTest {
 		attribute = new OnItemClickAttribute();
 		eventCommand = new EventCommand();
 
-		ListAdapter arrayAdapter = new SingleChoiceAdapter(Robolectric.application);
+		ListAdapter arrayAdapter = new SingleChoiceAdapter(RuntimeEnvironment.application);
 		view.setAdapter(arrayAdapter);
 
 		indexToClick = RandomValues.anyIndex(arrayAdapter.getCount());
@@ -52,7 +53,7 @@ public class OnItemClickAttributeTest extends AbstractAdapterViewAttributeTest {
 	}
 
 	private void clickOnAnItem() {
-		ShadowListView shadowListView = Robolectric.shadowOf(view);
+		ShadowListView shadowListView = Shadows.shadowOf(view);
 		shadowListView.performItemClick(indexToClick);
 	}
 

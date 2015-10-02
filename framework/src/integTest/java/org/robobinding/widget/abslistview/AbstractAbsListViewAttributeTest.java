@@ -2,8 +2,8 @@ package org.robobinding.widget.abslistview;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -21,7 +21,7 @@ public abstract class AbstractAbsListViewAttributeTest {
 
 	@Before
 	public void initializeViewAndListeners() {
-		view = new ListView(Robolectric.application);
+		view = new ListView(RuntimeEnvironment.application);
 		viewAddOn = new MockAbsListViewAddOn(view);
 	}
 }

@@ -8,8 +8,9 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.widget.abslistview.SingleChoiceAdapter;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 
 import android.content.Context;
@@ -26,7 +27,7 @@ import android.widget.ListView;
 @Config(manifest = Config.NONE)
 public class FooterAttributesTest {
 	private FooterAttributes footerAttributes = new FooterAttributes();
-	private Context context = Robolectric.application;
+	private Context context = RuntimeEnvironment.application;
 	private ListView listView = new ListView(context);
 	private View subView = new View(context);
 
@@ -35,7 +36,7 @@ public class FooterAttributesTest {
 		footerAttributes.addSubView(listView, subView, context);
 		listView.setAdapter(new SingleChoiceAdapter(context));
 
-		List<View> footerViews = Robolectric.shadowOf(listView).getFooterViews();
+		List<View> footerViews = Shadows.shadowOf(listView).getFooterViews();
 		assertThat(footerViews.size(), is(1));
 		assertThat(footerViews.get(0), is(subView));
 	}

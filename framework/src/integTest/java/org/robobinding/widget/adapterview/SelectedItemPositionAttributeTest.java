@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.util.RandomValues;
 import org.robobinding.viewattribute.ValueModelUtils;
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.widget.AdapterView;
@@ -31,7 +31,7 @@ public class SelectedItemPositionAttributeTest extends AbstractAdapterViewAttrib
 	public void setUp() {
 		attribute = new SelectedItemPositionAttribute();
 
-		arrayAdapter = new MockArrayAdapter(Robolectric.application);
+		arrayAdapter = new MockArrayAdapter(RuntimeEnvironment.application);
 		view.setAdapter(arrayAdapter);
 	}
 

@@ -7,11 +7,6 @@ repositories {
 dependencies {
 	compile files("${System.getenv('JAVA_HOME')}/lib/tools.jar")
 	compile "org.apache.commons:commons-lang3:$commonsLangVersion"
-
-	testCompile ("junit:junit:$junitVersion")
-	testCompile("org.mockito:mockito-core:$mockitoVersion") {
-		exclude group: 'org.hamcrest', module: 'hamcrest-core'
-	}
 }
 
 javadoc {

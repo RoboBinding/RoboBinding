@@ -2,8 +2,8 @@ package org.robobinding.widget.view;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import android.view.View;
 
@@ -20,7 +20,7 @@ public abstract class AbstractViewEventAttributeTest {
 
 	@Before
 	public void initializeViewAndListeners() {
-		view = new View(Robolectric.application);
+		view = new View(RuntimeEnvironment.application);
 		viewAddOn = new MockViewAddOnForView(view);
 	}
 }

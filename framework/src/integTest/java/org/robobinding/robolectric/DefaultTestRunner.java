@@ -3,9 +3,9 @@ package org.robobinding.robolectric;
 import static org.robobinding.robolectric.TestUtil.resourceFile;
 
 import org.junit.runners.model.InitializationError;
-import org.robolectric.AndroidManifest;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.manifest.AndroidManifest;
 
 /**
  * @since 1.0

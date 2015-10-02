@@ -28,9 +28,31 @@ subprojects {
 	}
 	
 	ext {
-		junitVersion = '4.12'
-		mockitoVersion = '1.9.+'
-		commonsLangVersion = '3.+'
+		guavaVersion = '18.0'
+		robolectricAndroidVersion = '4.4_r1-robolectric-1'
+		aspectjVersion = '1.8.2'
+		jcodemodelVersion = '2.7.11'
+
+		commonsLangVersion = '3.4'
+		
+		robolectricVersion = '3.+'
+		junitVersion = '4.+'
+		hamcrestVersion = '1.3'	
+		mockitoVersion = '1.+'
+		commonsCollectionsVersion = '3.+'
+	}
+	
+	dependencies {
+		testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
+		testCompile ("junit:junit:$junitVersion") {
+			exclude group: 'org.hamcrest', module: 'hamcrest-core'
+		}
+		testCompile 'org.jmock:jmock-legacy:2.8.1'
+		testCompile("org.mockito:mockito-core:$mockitoVersion") {
+			exclude group: 'org.hamcrest', module: 'hamcrest-core'
+		}
+		testCompile "org.apache.commons:commons-lang3:$commonsLangVersion"
+		testCompile "commons-collections:commons-collections:$commonsCollectionsVersion"
 	}
 }
 
@@ -43,7 +65,7 @@ String getRepositoryPassword() {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.1'
+	gradleVersion = '2.7'
 	description = 'Produces Gradle Wrapper for the project.'
 	group = 'other'
 }

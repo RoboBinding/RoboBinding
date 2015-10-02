@@ -6,8 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.widget.view.OnTouchAttributeTest;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowView;
 
@@ -33,7 +34,7 @@ public class ViewAddOnForViewTest {
 	
 	@Before
 	public void setUp() {
-		view = new View(Robolectric.application);
+		view = new View(RuntimeEnvironment.application);
 		viewAddOn = new ViewAddOnForView(view);
 	}
 	
@@ -74,7 +75,7 @@ public class ViewAddOnForViewTest {
 		viewAddOn.addOnFocusChangeListener(listener1);
 		viewAddOn.addOnFocusChangeListener(listener2);
 
-		ShadowView shadowView = (ShadowView) Robolectric.shadowOf_(view);
+		ShadowView shadowView = Shadows.shadowOf(view);
 		shadowView.setViewFocus(!view.isFocused());
 
 		assertTrue(listener1.focusChangeEventFired);

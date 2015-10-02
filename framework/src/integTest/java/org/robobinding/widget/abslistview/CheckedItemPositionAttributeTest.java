@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.ValueModelUtils;
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.widget.ListAdapter;
@@ -30,7 +30,7 @@ public class CheckedItemPositionAttributeTest extends AbstractAbsListViewAttribu
 	public void setUp() {
 		attribute = new CheckedItemPositionAttribute();
 
-		ListAdapter adapter = new SingleChoiceAdapter(Robolectric.application);
+		ListAdapter adapter = new SingleChoiceAdapter(RuntimeEnvironment.application);
 		view.setAdapter(adapter);
 		view.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 

@@ -2,8 +2,8 @@ package org.robobinding.widget.timepicker;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import android.widget.TimePicker;
 
@@ -20,7 +20,7 @@ public abstract class AbstractTimePickerAttributeTest {
 
     @Before
     public void initializeViewAndListeners() {
-        view = new TimePicker(Robolectric.application);
+        view = new TimePicker(RuntimeEnvironment.application);
         viewAddOn = new MockTimePickerAddOn(view);
     }
 }
