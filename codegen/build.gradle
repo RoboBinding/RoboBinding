@@ -90,7 +90,7 @@ uploadArchives {
 	repositories {
 		mavenDeployer {
 			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-			/*
+			
 			repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
 				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
 			}
@@ -98,8 +98,8 @@ uploadArchives {
 			snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
 				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
 			}
-			*/
-			repository(url: "file://$projectDir/mavenRepo")
+			
+			//repository(url: "file://$projectDir/mavenRepo")
 			pom.project {
 				name 'RoboBinding Code Generation'
 				description 'A set of RoboBinding Code Generation tools by utilizing Java annotation processors'

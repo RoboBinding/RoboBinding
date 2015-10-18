@@ -1,8 +1,8 @@
-package org.robobinding.supportwidget.recyclerView;
+package org.robobinding.supportwidget.recyclerview;
 
-import static org.robobinding.supportwidget.recyclerView.AdaptedDataSetAttributes.ITEM_LAYOUT;
-import static org.robobinding.supportwidget.recyclerView.AdaptedDataSetAttributes.ITEM_MAPPING;
-import static org.robobinding.supportwidget.recyclerView.AdaptedDataSetAttributes.SOURCE;
+import static org.robobinding.supportwidget.recyclerview.AdaptedDataSetAttributes.ITEM_LAYOUT;
+import static org.robobinding.supportwidget.recyclerview.AdaptedDataSetAttributes.ITEM_MAPPING;
+import static org.robobinding.supportwidget.recyclerview.AdaptedDataSetAttributes.SOURCE;
 
 import org.robobinding.viewbinding.BindingAttributeMappings;
 import org.robobinding.viewbinding.ViewBinding;

@@ -13,6 +13,31 @@ repositories {
 dependencies {
 	compile(project(':framework'))
 	compile fileTree(dir: 'libs', include: '*.jar')
+	
+	testCompile project(':framework').sourceSets.test.output
+	//testCompile files(project(':framework').sourceSets.test.output.classesDir)
+	//testCompile project(path: ':framework', configuration: 'testOutput')
+	testCompile ("org.robolectric:robolectric:$robolectricVersion") {
+		exclude group: 'com.google.android.maps', module: 'maps'
+		exclude group: 'com.android.support', module: 'support-v4'
+		exclude module: 'classworlds'
+		exclude module: 'maven-artifact'
+		exclude module: 'maven-artifact-manager'
+		exclude module: 'maven-error-diagnostics'
+		exclude module: 'maven-model'
+		exclude module: 'maven-plugin-registry'
+		exclude module: 'maven-profile'
+		exclude module: 'maven-project'
+		exclude module: 'maven-settings'
+		exclude module: 'nekohtml'
+		exclude module: 'plexus-container-default'
+		exclude module: 'plexus-interpolation'
+		exclude module: 'plexus-utils'
+		exclude module: 'wagon-file'
+		exclude module: 'wagon-http-lightweight'
+		exclude module: 'wagon-http-shared'
+		exclude module: 'wagon-provider-api'
+	}
 }
 
 apply plugin: 'signing'
@@ -26,16 +51,16 @@ uploadArchives {
 	repositories {
 		mavenDeployer {
 			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-			/*
+			
 			repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
 				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
 			}
 			
 			snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
 				authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-			}*/
+			}
 			
-			repository(url: "file://$projectDir/mavenRepo")
+			//repository(url: "file://$projectDir/mavenRepo")
 			pom.project {
 				name 'RoboBinding Code Generation'
 				description 'A set of RoboBinding Code Generation tools by utilizing Java annotation processors'
@@ -92,6 +117,13 @@ uploadArchives {
 						}
 					}
 				}
+			}
+			
+			pom.withXml {
+				def dependenciesNode = it.asNode().dependencies[0];
+				//remove android sdk dependency node.
+				def robobindingDependencyNode = dependenciesNode.dependency.find{ it.artifactId.text() == 'robobinding' }
+				dependenciesNode.remove robobindingDependencyNode
 			}
 		}
 	}

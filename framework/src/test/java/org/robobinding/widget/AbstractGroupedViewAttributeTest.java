@@ -29,6 +29,7 @@ import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribu
 import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
+import org.robobinding.widget.ParameterizedTypeUtils;
 import org.robolectric.RobolectricTestRunner;
 
 import android.view.View;

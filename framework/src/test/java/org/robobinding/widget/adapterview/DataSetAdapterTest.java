@@ -18,17 +18,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindableView;
+import org.robobinding.itempresentationmodel.DataSetChangeListener;
+import org.robobinding.itempresentationmodel.DataSetChangeListeners;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
 import org.robobinding.property.DataSetValueModel;
-import org.robobinding.property.PropertyChangeListener;
-import org.robobinding.property.PropertyChangeListeners;
 import org.robobinding.util.RandomValues;
 import org.robobinding.viewattribute.ViewTag;
 import org.robobinding.viewattribute.ViewTags;
 
-import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -48,30 +47,13 @@ public class DataSetAdapterTest {
 	}
 
 	@Test
-	public void whenUpdateTheValueModel_thenNotifyDataSetChanged() {
-		DataSetAdapter<Object> dataSetAdapter = aDataSetAdapter().withPreInitializeViews(true).build();
-		dataSetAdapter.observeChangesOnTheValueModel();
-
-		DataSetObserver dataSetObserver = mock(DataSetObserver.class);
-		dataSetAdapter.registerDataSetObserver(dataSetObserver);
-
-		valueModel.update();
-
-		verify(dataSetObserver).onChanged();
-	}
-	
-	private ObjectDataSetAdapterBuilder aDataSetAdapter() {
-		return new ObjectDataSetAdapterBuilder(valueModel);
-	}
-
-	@Test
 	public void whenGenerateItemView_thenInflateTheCorrectViewWithItemPresentationModelAttached() {
 		View view = mock(View.class);
 		ItemLayoutBinder itemLayoutBinder = aItemLayoutBinder().inflateAndReturnRootView(view);
 		ViewTag<RefreshableItemPresentationModel> viewTag = mockViewTag();
 		ViewTags<RefreshableItemPresentationModel> viewTags = aViewTags().tagForViewAndReturn(view, viewTag);
 
-		DataSetAdapter<Object> dataSetAdapter = aDataSetAdapter()
+		DataSetAdapter dataSetAdapter = aDataSetAdapter()
 				.withItemLayoutBinder(itemLayoutBinder)
 				.withViewTags(viewTags)
 				.build();
@@ -79,6 +61,10 @@ public class DataSetAdapterTest {
 
 		assertThat(result, sameInstance(view));
 		verify(viewTag).set(notNull(RefreshableItemPresentationModel.class));
+	}
+	
+	private ObjectDataSetAdapterBuilder aDataSetAdapter() {
+		return new ObjectDataSetAdapterBuilder(valueModel);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -131,7 +117,7 @@ public class DataSetAdapterTest {
 		ViewTag<RefreshableItemPresentationModel> viewTag = mockViewTag();
 		ViewTags<RefreshableItemPresentationModel> viewTags = aViewTags().tagForViewAndReturn(view, viewTag);
 
-		DataSetAdapter<Object> dataSetAdapter = aDataSetAdapter()
+		DataSetAdapter dataSetAdapter = aDataSetAdapter()
 				.withDropdownLayoutBinder(dropdownLayoutBinder)
 				.withViewTags(viewTags)
 				.build();
@@ -143,44 +129,19 @@ public class DataSetAdapterTest {
 	}
 
 	@Test
-	public void givenPreInitializeViewsIsTrue_whenInitialize_thenDataSetAdapterCountShouldReflectValueModel() {
-		DataSetAdapter<Object> dataSetAdapter = aDataSetAdapter()
-				.withPreInitializeViews(true)
+	public void dataSetAdapterCountShouldReflectValueModel() {
+		DataSetAdapter dataSetAdapter = aDataSetAdapter()
 				.build();
 
 		assertThat(dataSetAdapter.getCount(), is(valueModel.size()));
 	}
 
-	@Test
-	public void givenPreInitializeViewsIsFalse_whenValueModelHasNotBeenUpdated_thenDataSetAdapterCountShouldBeZero() {
-		DataSetAdapter<Object> dataSetAdapter = aDataSetAdapter().build();
-
-		assertThat(dataSetAdapter.getCount(), is(0));
-	}
-
-	@Test
-	public void givenPreInitializeViewsIsFalse_whenValueModelFireChange_thenDataSetAdapterCountShouldReflectValueModel() {
-		DataSetAdapter<Object> dataSetAdapter = aDataSetAdapter().build();
-		dataSetAdapter.observeChangesOnTheValueModel();
-
-		valueModel.update();
-
-		assertThat(dataSetAdapter.getCount(), is(valueModel.size()));
-	}
-
-	@Test
-	public void givenValueModelIsNull_thenCountShouldBeZero() {
-		DataSetAdapter<Object> dataSetAdapter = new DataSetAdapter<Object>(null, null, null, null, null, false);
-
-		assertThat(dataSetAdapter.getCount(), is(0));
-	}
-
 	public static class MockDataSetValueModel implements DataSetValueModel {
-		private PropertyChangeListeners presentationModelPropertyChangeListeners;
+		private DataSetChangeListeners listeners;
 		private List<Object> items;
 
 		public MockDataSetValueModel() {
-			presentationModelPropertyChangeListeners = new PropertyChangeListeners();
+			listeners = new DataSetChangeListeners();
 			initializeItems();
 		}
 
@@ -192,16 +153,12 @@ public class DataSetAdapterTest {
 		}
 
 		@Override
-		public void addPropertyChangeListener(PropertyChangeListener listener) {
-			presentationModelPropertyChangeListeners.add(listener);
-		}
-
-		public void update() {
-			presentationModelPropertyChangeListeners.firePropertyChange();
+		public void addListener(DataSetChangeListener listener) {
+			listeners.add(listener);
 		}
 
 		@Override
-		public void removePropertyChangeListener(PropertyChangeListener listener) {
+		public void removeListener(DataSetChangeListener listener) {
 		}
 
 		@Override
@@ -210,7 +167,7 @@ public class DataSetAdapterTest {
 		}
 
 		@Override
-		public Object getItem(int position) {
+		public Object get(int position) {
 			return null;
 		}
 
@@ -230,6 +187,7 @@ public class DataSetAdapterTest {
 		private ItemLayoutBinder itemLayoutBinder;
 		private ItemLayoutBinder dropdownLayoutBinder;
 		private ItemLayoutSelector layoutSelector;
+		private int dropdownLayoutId;
 		private ViewTags<RefreshableItemPresentationModel> viewTags;
 		private boolean preInitializeViews;
 		
@@ -237,7 +195,8 @@ public class DataSetAdapterTest {
 			this.valueModel = valueModel;
 			itemLayoutBinder = null;
 			dropdownLayoutBinder = null;
-			layoutSelector = new SingleItemLayoutSelector(1, 1);
+			layoutSelector = new SingleItemLayoutSelector(1);
+			dropdownLayoutId = 1;
 			viewTags = null;
 			preInitializeViews = false;
 		}
@@ -257,14 +216,9 @@ public class DataSetAdapterTest {
 			return this;
 		}
 
-		public ObjectDataSetAdapterBuilder withPreInitializeViews(boolean newValue) {
-			this.preInitializeViews = newValue;
-			return this;
-		}
-
-		public DataSetAdapter<Object> build() {
-			return new DataSetAdapter<Object>(valueModel, itemLayoutBinder, 
-					dropdownLayoutBinder, layoutSelector, 
+		public DataSetAdapter build() {
+			return new DataSetAdapter(valueModel, itemLayoutBinder, 
+					dropdownLayoutBinder, layoutSelector, dropdownLayoutId,
 					viewTags, preInitializeViews);
 		}
 	}

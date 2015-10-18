@@ -1,4 +1,4 @@
-package org.robobinding.supportwidget.recyclerView;
+package org.robobinding.supportwidget.recyclerview;
 
 import java.util.Collection;
 import java.util.Collections;

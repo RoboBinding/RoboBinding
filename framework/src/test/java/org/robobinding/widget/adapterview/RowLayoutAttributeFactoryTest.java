@@ -2,6 +2,7 @@ package org.robobinding.widget.adapterview;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.robobinding.attribute.Attributes.aStaticResourceAttribute;
 import static org.robobinding.attribute.Attributes.aStaticResourcesAttribute;
 import static org.robobinding.attribute.Attributes.aValueModelAttribute;
@@ -14,6 +15,9 @@ import org.junit.runner.RunWith;
 import org.robobinding.attribute.AbstractPropertyAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttributeAdapter;
+import org.robobinding.widget.adapterview.RowLayoutAttributeFactory.UpdaterProvider;
+
+import android.view.View;
 
 /**
  * 
@@ -27,7 +31,9 @@ public class RowLayoutAttributeFactoryTest {
 	
 	@Before
 	public void setUp() {
-		rowLayoutAttributeFactory = new ItemLayoutUpdaterProvider(null, null);
+		View view = mock(View.class);
+		UpdaterProvider updaterProvider = mock(UpdaterProvider.class);
+		rowLayoutAttributeFactory = new RowLayoutAttributeFactory(view, updaterProvider);
 	}
 	
 	@DataPoints

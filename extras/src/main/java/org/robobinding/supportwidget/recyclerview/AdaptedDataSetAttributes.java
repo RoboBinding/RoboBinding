@@ -1,4 +1,4 @@
-package org.robobinding.supportwidget.recyclerView;
+package org.robobinding.supportwidget.recyclerview;
 
 import static org.robobinding.attribute.ChildAttributeResolvers.predefinedMappingsAttributeResolver;
 import static org.robobinding.attribute.ChildAttributeResolvers.propertyAttributeResolver;

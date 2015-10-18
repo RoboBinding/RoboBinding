@@ -1,4 +1,4 @@
-package org.robobinding.supportwidget.recyclerView;
+package org.robobinding.supportwidget.recyclerview;
 
 import org.robobinding.widget.adapterview.DataSetAdapterUpdater;
 import org.robobinding.widget.adapterview.ItemLayoutUpdater;

@@ -36,7 +36,7 @@ public class MultiItemLayoutSelectorTest {
 	
 	@Test
 	public void shouldViewTypeCountEqualsNumItemLayouts() {
-		MultiItemLayoutSelector layoutSelector = new MultiItemLayoutSelector(itemLayoutIds, 1, null);
+		MultiItemLayoutSelector layoutSelector = new MultiItemLayoutSelector(itemLayoutIds, null);
 		
 		assertThat(layoutSelector.getViewTypeCount(), equalTo(itemLayoutIds.size()));
 	}
@@ -46,7 +46,7 @@ public class MultiItemLayoutSelectorTest {
 		int userSelectedViewType = RandomValues.nextInt(itemLayoutIds.size());
 		ViewTypeSelectable viewTypeSelector = withUserSelectedViewType(userSelectedViewType);
 		
-		MultiItemLayoutSelector layoutSelector = new MultiItemLayoutSelector(itemLayoutIds, 1, viewTypeSelector);
+		MultiItemLayoutSelector layoutSelector = new MultiItemLayoutSelector(itemLayoutIds, viewTypeSelector);
 		int actualViewType = layoutSelector.getItemViewType(anyItem(), anyPosition());
 		
 		assertThat(actualViewType, equalTo(userSelectedViewType));
@@ -75,7 +75,7 @@ public class MultiItemLayoutSelectorTest {
 		int invalidUserSelectedViewType = itemLayoutIds.size() + RandomValues.anyInteger();
 		ViewTypeSelectable viewTypeSelector = withUserSelectedViewType(invalidUserSelectedViewType);
 		
-		MultiItemLayoutSelector layoutSelector = new MultiItemLayoutSelector(itemLayoutIds, 1, viewTypeSelector);
+		MultiItemLayoutSelector layoutSelector = new MultiItemLayoutSelector(itemLayoutIds, viewTypeSelector);
 		layoutSelector.getItemViewType(anyItem(), anyPosition());
 	}
 	
@@ -84,8 +84,8 @@ public class MultiItemLayoutSelectorTest {
 		int userSelectedViewType = RandomValues.nextInt(itemLayoutIds.size());
 		ViewTypeSelectable viewTypeSelector = withUserSelectedViewType(userSelectedViewType);
 		
-		MultiItemLayoutSelector layoutSelector = new MultiItemLayoutSelector(itemLayoutIds, 1, viewTypeSelector);
-		int actualItemLayout = layoutSelector.selectItemLayout(anyItem(), anyPosition());
+		MultiItemLayoutSelector layoutSelector = new MultiItemLayoutSelector(itemLayoutIds, viewTypeSelector);
+		int actualItemLayout = layoutSelector.selectLayout(userSelectedViewType);
 		
 		assertThat(actualItemLayout, equalTo(itemLayoutIds.get(userSelectedViewType)));
 	}
