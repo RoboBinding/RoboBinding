@@ -7,9 +7,11 @@ import org.robobinding.codegen.apt.element.GetterElement;
 import org.robobinding.codegen.apt.element.MethodElement;
 import org.robobinding.codegen.apt.type.WrappedDeclaredType;
 import org.robobinding.codegen.presentationmodel.DataSetPropertyInfo;
+import org.robobinding.itempresentationmodel.DataSetObservable;
 import org.robobinding.itempresentationmodel.TypedCursor;
 import org.robobinding.property.AbstractDataSet;
 import org.robobinding.property.ListDataSet;
+import org.robobinding.property.ObservableDataSet;
 import org.robobinding.property.TypedCursorDataSet;
 
 
@@ -55,7 +57,9 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 	@Override
 	public Class<? extends AbstractDataSet> dataSetImplementationType() {
 		WrappedDeclaredType returnType = getter.returnType();
-		if(returnType.isAssignableTo(List.class)) {
+		if(returnType.isAssignableTo(DataSetObservable.class)) {
+			return ObservableDataSet.class;
+		} else if(returnType.isAssignableTo(List.class)) {
 			return ListDataSet.class;
 		} else if(returnType.isAssignableTo(TypedCursor.class)) {
 			return TypedCursorDataSet.class;

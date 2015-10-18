@@ -29,6 +29,6 @@ public class DropdownMappingUpdaterTest {
 
 		updater.updateViewMappings(viewMappings);
 
-		verify(dataSetAdapterBuilder).setDropdownPredefinedPendingAttributesForViewGroup(viewMappings);
+		verify(dataSetAdapterBuilder).setDropdownPredefinedMappings(viewMappings);
 	}
 }

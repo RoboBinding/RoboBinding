@@ -96,6 +96,11 @@ public class PredefinedMappingsAttribute extends AbstractAttribute {
 		@Override
 		public PendingAttributesForView createPendingAttributesForView(View rootView) {
 			View childView = rootView.findViewById(viewId);
+			if(childView == null) {
+				String resName = rootView.getResources().getResourceName(viewId);
+				throw new RuntimeException("predefined mapping viewId '"+resName+"' cannot be found");
+			}
+			
 			return new PendingAttributesForViewImpl(childView, bindingAttributes);
 		}
 

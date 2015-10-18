@@ -8,6 +8,7 @@ public class DefineDataSetPropertyNames_PM {
 	@Override
 	public Set<String> dataSetPropertyNames() {
 		return Sets.newHashSet("cursorDataSetProp", "dataSetProp", "dataSetPropWithFactoryMethod",
-			"dataSetPropWithFactoryMethodWithParameter", "dataSetPropWithViewTypeSelector");
+			"dataSetPropWithFactoryMethodWithParameter", "dataSetPropWithViewTypeSelector",
+			"listObservableProp");
 	}
 }

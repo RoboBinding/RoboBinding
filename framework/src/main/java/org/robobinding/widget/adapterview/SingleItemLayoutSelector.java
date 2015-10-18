@@ -7,11 +7,9 @@ package org.robobinding.widget.adapterview;
  */
 public class SingleItemLayoutSelector implements ItemLayoutSelector {
 	private final int itemLayoutId;
-	private final int dropdownLayoutId;
 	
-	public SingleItemLayoutSelector(int itemLayoutId, int dropdownLayoutId) {
+	public SingleItemLayoutSelector(int itemLayoutId) {
 		this.itemLayoutId = itemLayoutId;
-		this.dropdownLayoutId = dropdownLayoutId;
 	}
 
 	@Override
@@ -25,13 +23,7 @@ public class SingleItemLayoutSelector implements ItemLayoutSelector {
 	}
 
 	@Override
-	public int selectItemLayout(Object item, int position) {
+	public int selectLayout(int viewType) {
 		return itemLayoutId;
 	}
-
-	@Override
-	public int selectDropdownLayout(Object item, int position) {
-		return dropdownLayoutId;
-	}
-
 }

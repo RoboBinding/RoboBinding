@@ -2,6 +2,7 @@ package org.robobinding.property;
 
 import java.util.Set;
 
+import org.robobinding.itempresentationmodel.DataSetChangeListener;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.ViewTypeSelectable;
 import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
@@ -45,8 +46,8 @@ public class DataSetProperty implements DataSetPropertyValueModel, PropertyChang
 	}
 
 	@Override
-	public Object getItem(int position) {
-		return dataSet.getItem(position);
+	public Object get(int position) {
+		return dataSet.get(position);
 	}
 
 	@Override
@@ -60,11 +61,21 @@ public class DataSetProperty implements DataSetPropertyValueModel, PropertyChang
 	}
 
 	@Override
+	public void addListener(DataSetChangeListener listener) {
+		addPropertyChangeListener(PropertyChangeListenerAdapters.adapt(listener));
+		dataSet.addListener(listener);
+	}
+	
+	@Override
+	public void removeListener(DataSetChangeListener listener) {
+		removePropertyChangeListener(PropertyChangeListenerAdapters.adapt(listener));
+		dataSet.removeListener(listener);
+	}
+	
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		bean.addPropertyChangeListener(descriptor.getName(), listener);
 	}
 
-	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		bean.removePropertyChangeListener(descriptor.getName(), listener);
 	}

@@ -2,6 +2,7 @@
 package org.robobinding.codegen.presentationmodel;
 
 import java.util.List;
+import org.robobinding.itempresentationmodel.ListObservable;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.itempresentationmodel.TypedCursor;
@@ -10,8 +11,10 @@ import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.AbstractGetSet;
+import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.ListDataSet;
+import org.robobinding.property.ObservableDataSet;
 import org.robobinding.property.PropertyDescriptor;
 import org.robobinding.property.TypedCursorDataSet;
 
@@ -130,6 +133,27 @@ public class DefineTryToCreateDataSetProperty_PM {
 			
 			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector);
 		} 
+		
+		if(name.equals("listObservableProp")) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(ListObservable.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<ListObservable>(descriptor) {
+				@Override
+				public ListObservable getValue() {
+					return presentationModel.getListObservableProp();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				
+				@Override
+				public RefreshableItemPresentationModel create(int itemViewType) {
+					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(new StringItemPresentationModel());
+				}
+			};	
+			
+			return new DataSetProperty(this, descriptor, new ObservableDataSet(factory, getSet));
+		}
 		
 		return null;
 	}

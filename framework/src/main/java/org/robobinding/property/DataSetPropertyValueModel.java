@@ -7,4 +7,8 @@ package org.robobinding.property;
  * @author Cheng Wei
  */
 public interface DataSetPropertyValueModel extends Property, DataSetValueModel {
+	
+	void addPropertyChangeListener(PropertyChangeListener listener);
+
+	void removePropertyChangeListener(PropertyChangeListener listener);
 }

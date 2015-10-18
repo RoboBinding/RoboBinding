@@ -27,7 +27,7 @@ public class RowLayoutAttributeFactoryTest {
 	
 	@Before
 	public void setUp() {
-		rowLayoutAttributeFactory = new ItemLayoutAttributeFactory(null, null);
+		rowLayoutAttributeFactory = new ItemLayoutUpdaterProvider(null, null);
 	}
 	
 	@DataPoints

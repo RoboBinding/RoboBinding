@@ -7,15 +7,19 @@ import java.util.List;
  * @since 1.0
  * @author Cheng Wei
  */
-class ItemLayoutsUpdater implements RowLayoutsUpdater {
-	private final DataSetAdapterBuilder dataSetAdapterBuilder;
+public class ItemLayoutsUpdater implements RowLayoutsUpdater {
+	private final RequiresItemLayoutIds receiver;
 
-	public ItemLayoutsUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
-		this.dataSetAdapterBuilder = dataSetAdapterBuilder;
+	public ItemLayoutsUpdater(RequiresItemLayoutIds receiver) {
+		this.receiver = receiver;
 	}
 
 	@Override
 	public void updateRowLayouts(List<Integer> itemLayoutIds) {
-		dataSetAdapterBuilder.setItemLayoutIds(itemLayoutIds);
+		receiver.setItemLayoutIds(itemLayoutIds);
+	}
+	
+	public static interface RequiresItemLayoutIds {
+		void setItemLayoutIds(List<Integer> itemLayoutIds);
 	}
 }

@@ -1,5 +1,6 @@
 package org.robobinding.property;
 
+import org.robobinding.itempresentationmodel.DataSetObservable;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.ViewTypeSelectable;
 
@@ -9,14 +10,6 @@ import org.robobinding.itempresentationmodel.ViewTypeSelectable;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface DataSetValueModel extends ViewTypeSelectable {
-	int size();
-
-	Object getItem(int position);
-
+public interface DataSetValueModel extends ViewTypeSelectable, DataSetObservable {
 	RefreshableItemPresentationModel newRefreshableItemPresentationModel(int itemViewType);
-
-	void addPropertyChangeListener(PropertyChangeListener listener);
-
-	void removePropertyChangeListener(PropertyChangeListener listener);
 }

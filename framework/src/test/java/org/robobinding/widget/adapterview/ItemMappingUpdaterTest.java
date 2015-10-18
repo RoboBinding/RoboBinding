@@ -29,6 +29,6 @@ public class ItemMappingUpdaterTest {
 
 		updater.updateViewMappings(viewMappings);
 
-		verify(dataSetAdapterBuilder).setItemPredefinedPendingAttributesForViewGroup(viewMappings);
+		verify(dataSetAdapterBuilder).setItemPredefinedMappings(viewMappings);
 	}
 }

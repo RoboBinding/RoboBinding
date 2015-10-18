@@ -1,5 +1,6 @@
 package org.robobinding.property;
 
+import org.robobinding.itempresentationmodel.DataSetChangeListener;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 
@@ -22,8 +23,8 @@ public class DataSetValueModelWrapper implements DataSetValueModel {
 	}
 
 	@Override
-	public Object getItem(int position) {
-		return valueModel.getItem(position);
+	public Object get(int position) {
+		return valueModel.get(position);
 	}
 
 	@Override
@@ -37,13 +38,13 @@ public class DataSetValueModelWrapper implements DataSetValueModel {
 	}
 
 	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		valueModel.addPropertyChangeListener(listener);
+	public void addListener(DataSetChangeListener listener) {
+		valueModel.addListener(listener);
 	}
 
 	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		valueModel.removePropertyChangeListener(listener);
+	public void removeListener(DataSetChangeListener listener) {
+		valueModel.removeListener(listener);
 	}
 
 }

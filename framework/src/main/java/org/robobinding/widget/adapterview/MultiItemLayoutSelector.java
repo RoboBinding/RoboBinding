@@ -12,31 +12,24 @@ import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
  */
 public class MultiItemLayoutSelector implements ItemLayoutSelector {
 	private final List<Integer> itemLayoutIds;
-	private final int dropdownLayoutId;
 	private final ViewTypeSelectable viewTypeSelector;
-	private final int viewTypeCount;
 	
-	public MultiItemLayoutSelector(List<Integer> itemLayoutIds, int dropdownLayoutId, ViewTypeSelectable viewTypeSelector) {
+	public MultiItemLayoutSelector(List<Integer> itemLayoutIds, ViewTypeSelectable viewTypeSelector) {
 		this.itemLayoutIds = itemLayoutIds;
-		this.dropdownLayoutId = dropdownLayoutId;
 		this.viewTypeSelector = viewTypeSelector;
-		this.viewTypeCount = itemLayoutIds.size();
 	}
 	
 	@Override
 	public int getViewTypeCount() {
-		return viewTypeCount;
+		return itemLayoutIds.size();
 	}
 
 	@Override
 	public int getItemViewType(Object item, int position) {
 		ViewTypeSelectionContext<Object> context = new ViewTypeSelectionContext<Object>(getViewTypeCount(), item, position);
 		int selectedViewType = userSelectViewType(context);
-		if(isInvalidViewType(selectedViewType)) {
-			String errorMessage = String.format("invalid selected view type ''%s''. The view type should be in the range [0 ~ %s]", 
-					selectedViewType, getViewTypeCount()-1);
-			throw new RuntimeException(errorMessage);
-		}
+		
+		checkViewType(selectedViewType);
 		
 		return selectedViewType;
 	}
@@ -48,18 +41,20 @@ public class MultiItemLayoutSelector implements ItemLayoutSelector {
 		return viewTypeSelector.selectViewType(context);
 	}
 	
+	private void checkViewType(int viewType) {
+		if(isInvalidViewType(viewType)) {
+			String errorMessage = String.format("invalid selected view type ''%s''. The view type should be in the range [0 ~ %s]", 
+					viewType, getViewTypeCount()-1);
+			throw new RuntimeException(errorMessage);
+		}
+	}
 	private boolean isInvalidViewType(int viewType) {
 		return (viewType < 0) || (viewType >= getViewTypeCount());
 	}
 
 	@Override
-	public int selectItemLayout(Object item, int position) {
-		int index = getItemViewType(item, position);
-		return itemLayoutIds.get(index);
-	}
-
-	@Override
-	public int selectDropdownLayout(Object item, int position) {
-		return dropdownLayoutId;
+	public int selectLayout(int viewType) {
+		checkViewType(viewType);
+		return itemLayoutIds.get(viewType);
 	}
 }

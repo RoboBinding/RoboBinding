@@ -1,5 +1,6 @@
 package org.robobinding.property;
 
+import org.robobinding.itempresentationmodel.DataSetChangeListener;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 
@@ -23,8 +24,8 @@ class DataSetPropertyValueModelWrapper extends PropertyWrapper implements DataSe
 	}
 
 	@Override
-	public Object getItem(int position) {
-		return valueModel.getItem(position);
+	public Object get(int position) {
+		return valueModel.get(position);
 	}
 
 	@Override
@@ -35,6 +36,16 @@ class DataSetPropertyValueModelWrapper extends PropertyWrapper implements DataSe
 	@Override
 	public int selectViewType(ViewTypeSelectionContext<Object> context) {
 		return valueModel.selectViewType(context);
+	}
+
+	@Override
+	public void addListener(DataSetChangeListener listener) {
+		valueModel.addListener(listener);
+	}
+
+	@Override
+	public void removeListener(DataSetChangeListener listener) {
+		valueModel.removeListener(listener);
 	}
 
 	@Override

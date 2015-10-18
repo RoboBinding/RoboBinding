@@ -2,6 +2,7 @@ package org.robobinding.property;
 
 import java.util.List;
 
+import org.robobinding.itempresentationmodel.DataSetChangeListener;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 
 
@@ -25,8 +26,18 @@ public class ListDataSet extends AbstractDataSet {
 	}
 
 	@Override
-	public Object getItem(int index) {
+	public Object get(int index) {
 		List<Object> list = getDataSet();
 		return list.get(index);
+	}
+	
+	@Override
+	public void addListener(DataSetChangeListener listener) {
+		//not supported
+	}
+	
+	@Override
+	public void removeListener(DataSetChangeListener listener) {
+		//not supported.
 	}
 }

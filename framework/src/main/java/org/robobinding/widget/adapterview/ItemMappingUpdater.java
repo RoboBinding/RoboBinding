@@ -11,15 +11,18 @@ import org.robobinding.PredefinedPendingAttributesForView;
  * @author Cheng Wei
  */
 public class ItemMappingUpdater implements PredefinedMappingUpdater {
-	private final DataSetAdapterBuilder dataSetAdapterBuilder;
+	private final RequiresItemPredefinedMappings receiver;
 
-	public ItemMappingUpdater(DataSetAdapterBuilder dataSetAdapterBuilder) {
-		this.dataSetAdapterBuilder = dataSetAdapterBuilder;
+	public ItemMappingUpdater(RequiresItemPredefinedMappings receiver) {
+		this.receiver = receiver;
 	}
 
 	@Override
 	public void updateViewMappings(Collection<PredefinedPendingAttributesForView> viewMappings) {
-		dataSetAdapterBuilder.setItemPredefinedPendingAttributesForViewGroup(viewMappings);
+		receiver.setItemPredefinedMappings(viewMappings);
 	}
 
+	public static interface RequiresItemPredefinedMappings {
+		void setItemPredefinedMappings(Collection<PredefinedPendingAttributesForView> itemPredefinedMappings);
+	}
 }

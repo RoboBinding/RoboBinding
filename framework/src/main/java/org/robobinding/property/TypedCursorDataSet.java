@@ -1,5 +1,6 @@
 package org.robobinding.property;
 
+import org.robobinding.itempresentationmodel.DataSetChangeListener;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 import org.robobinding.itempresentationmodel.TypedCursor;
 
@@ -23,7 +24,7 @@ public class TypedCursorDataSet extends AbstractDataSet {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public Object get(int position) {
 		TypedCursor<Object> cursor = getDataSet();
 		return cursor.getObjectAtPosition(position);
 	}
@@ -38,5 +39,15 @@ public class TypedCursorDataSet extends AbstractDataSet {
 				oldCursor.close();
 			}
 		}
+	}
+	
+	@Override
+	public void addListener(DataSetChangeListener listener) {
+		//not supported.	
+	}
+	
+	@Override
+	public void removeListener(DataSetChangeListener listener) {
+		//not supported.	
 	}
 }

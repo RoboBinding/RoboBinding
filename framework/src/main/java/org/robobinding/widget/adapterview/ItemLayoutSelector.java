@@ -10,7 +10,5 @@ public interface ItemLayoutSelector {
 
 	int getItemViewType(Object item, int position);
 
-	int selectItemLayout(Object item, int position);
-
-	int selectDropdownLayout(Object item, int position);
+	int selectLayout(int viewType);
 }
