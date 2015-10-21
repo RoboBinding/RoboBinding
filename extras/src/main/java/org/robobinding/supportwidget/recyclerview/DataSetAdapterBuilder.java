@@ -76,7 +76,7 @@ public class DataSetAdapterBuilder implements RequiresDataSetValueModel, Require
 				new ViewTags<RefreshableItemPresentationModel>(ITEM_PRESENTATION_MODEL_KEY), 
 				bindingContext.shouldPreInitializeViews());
 
-		valueModel.addListener(new DataSetChangeListenerAdapter(dataSetAdapter));
+		valueModel.addPropertyChangeListener(new DataSetPropertyChangeListenerAdapter(dataSetAdapter));
 		return dataSetAdapter;
 	}
 	

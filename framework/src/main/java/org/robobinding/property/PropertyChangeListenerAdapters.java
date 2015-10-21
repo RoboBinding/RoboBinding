@@ -9,8 +9,13 @@ import org.robobinding.itempresentationmodel.DataSetObservable;
  *
  */
 public class PropertyChangeListenerAdapters {
-	public static DataSetChangeListener adapt(final PropertyChangeListener listener) {
-		return new DataSetChangeListener() {
+	public static DataSetPropertyChangeListener adapt(final PropertyChangeListener listener) {
+		return new DataSetPropertyChangeListener() {
+			@Override
+			public void propertyChanged() {
+				listener.propertyChanged();
+			}
+			
 			@Override
 			public void onChanged(DataSetObservable sender) {
 				listener.propertyChanged();
@@ -68,6 +73,7 @@ public class PropertyChangeListenerAdapters {
 		}
 	};
 	
+	/*
 	public static PropertyChangeListener adapt(final DataSetChangeListener listener) {
 		return new PropertyChangeListener() {
 			
@@ -77,6 +83,6 @@ public class PropertyChangeListenerAdapters {
 			}
 		};
 	}
-	
+	*/
 	private PropertyChangeListenerAdapters() {}
 }

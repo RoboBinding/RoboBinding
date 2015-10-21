@@ -1,7 +1,7 @@
 package org.robobinding.supportwidget.recyclerview;
 
-import org.robobinding.itempresentationmodel.DataSetChangeListener;
 import org.robobinding.itempresentationmodel.DataSetObservable;
+import org.robobinding.property.DataSetPropertyChangeListener;
 
 import android.support.v7.widget.RecyclerView;
 
@@ -10,11 +10,16 @@ import android.support.v7.widget.RecyclerView;
  * @author Cheng Wei
  *
  */
-public class DataSetChangeListenerAdapter implements DataSetChangeListener {
+public class DataSetPropertyChangeListenerAdapter implements DataSetPropertyChangeListener {
 	private RecyclerView.Adapter<?> delegate;
 	
-	public DataSetChangeListenerAdapter(RecyclerView.Adapter<?> delegate) {
+	public DataSetPropertyChangeListenerAdapter(RecyclerView.Adapter<?> delegate) {
 		this.delegate = delegate;
+	}
+	
+	@Override
+	public void propertyChanged() {
+		delegate.notifyDataSetChanged();
 	}
 	
 	@Override

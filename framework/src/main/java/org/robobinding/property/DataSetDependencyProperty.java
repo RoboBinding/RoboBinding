@@ -1,5 +1,6 @@
 package org.robobinding.property;
 
+
 /**
  * 
  * @since 1.0
@@ -15,15 +16,15 @@ public class DataSetDependencyProperty extends DataSetPropertyValueModelWrapper 
 		this.dataSetProperty = dataSetProperty;
 		this.dependency = dependency;
 	}
-
+	
 	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
+	public void addPropertyChangeListener(DataSetPropertyChangeListener listener) {
 		super.addPropertyChangeListener(listener);
 		dependency.addListenerToDependentProperties(listener);
 	}
 
 	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
+	public void removePropertyChangeListener(DataSetPropertyChangeListener listener) {
 		super.removePropertyChangeListener(listener);
 		dependency.removeListenerOffDependentProperties(listener);
 	}

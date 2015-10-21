@@ -18,11 +18,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindableView;
-import org.robobinding.itempresentationmodel.DataSetChangeListener;
 import org.robobinding.itempresentationmodel.DataSetChangeListeners;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
+import org.robobinding.property.DataSetPropertyChangeListener;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.util.RandomValues;
 import org.robobinding.viewattribute.ViewTag;
@@ -153,12 +153,12 @@ public class DataSetAdapterTest {
 		}
 
 		@Override
-		public void addListener(DataSetChangeListener listener) {
+		public void addPropertyChangeListener(DataSetPropertyChangeListener listener) {
 			listeners.add(listener);
 		}
 
 		@Override
-		public void removeListener(DataSetChangeListener listener) {
+		public void removePropertyChangeListener(DataSetPropertyChangeListener listener) {
 		}
 
 		@Override

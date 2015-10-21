@@ -7,8 +7,8 @@ import java.util.List;
 import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
 import org.robobinding.PredefinedPendingAttributesForView;
-import org.robobinding.itempresentationmodel.DataSetChangeListener;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
+import org.robobinding.property.DataSetPropertyChangeListener;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.PropertyChangeListenerAdapters;
@@ -89,7 +89,7 @@ public class DataSetAdapterBuilder implements RequiresItemLayoutId, RequiresItem
 				new ViewTags<RefreshableItemPresentationModel>(ITEM_PRESENTATION_MODEL_KEY), 
 				bindingContext.shouldPreInitializeViews());
 
-		valueModel.addListener(createDataSetChangeListenerFor(dataSetAdapter));
+		valueModel.addPropertyChangeListener(createDataSetPropertyChangeListenerFor(dataSetAdapter));
 		return dataSetAdapter;
 	}
 	
@@ -113,7 +113,7 @@ public class DataSetAdapterBuilder implements RequiresItemLayoutId, RequiresItem
 		}
 	}
 	
-	private DataSetChangeListener createDataSetChangeListenerFor(final DataSetAdapter dataSetAdapter) {
+	private DataSetPropertyChangeListener createDataSetPropertyChangeListenerFor(final DataSetAdapter dataSetAdapter) {
 		return PropertyChangeListenerAdapters.adapt(new PropertyChangeListener() {
 			
 			@Override

@@ -4,10 +4,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.robobinding.itempresentationmodel.DataSetChangeListener;
 import org.robobinding.itempresentationmodel.DataSetChangeListeners;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
+import org.robobinding.property.DataSetPropertyChangeListener;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.util.RandomValues;
 
@@ -50,17 +50,17 @@ public class LazyDataSetValueModelTest {
 		}
 
 		@Override
-		public void addListener(DataSetChangeListener listener) {
+		public void addPropertyChangeListener(DataSetPropertyChangeListener listener) {
 			listeners.add(listener);
 		}
 
 		@Override
-		public void removeListener(DataSetChangeListener listener) {
+		public void removePropertyChangeListener(DataSetPropertyChangeListener listener) {
 			listeners.remove(listener);
 		}
 
 		public void fireChange() {
-			listeners.notifyChanged(this);
+			listeners.notifyChanged(null);
 		}
 
 		@Override

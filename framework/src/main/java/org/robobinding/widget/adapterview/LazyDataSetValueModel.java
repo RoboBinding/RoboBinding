@@ -1,6 +1,6 @@
 package org.robobinding.widget.adapterview;
 
-import org.robobinding.itempresentationmodel.DataSetChangeListener;
+import org.robobinding.property.DataSetPropertyChangeListener;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.DataSetValueModelWrapper;
 import org.robobinding.property.PropertyChangeListener;
@@ -26,14 +26,14 @@ public class LazyDataSetValueModel extends DataSetValueModelWrapper {
 			}
 		};
 		
-		DataSetChangeListener listener = PropertyChangeListenerAdapters.adapt(new PropertyChangeListener() {
+		DataSetPropertyChangeListener listener = PropertyChangeListenerAdapters.adapt(new PropertyChangeListener() {
 			
 			@Override
 			public void propertyChanged() {
 				sizeState = sizeOfValueModel;
 			}
 		});
-		delegate.addListener(listener);
+		delegate.addPropertyChangeListener(listener);
 	}
 	
 	@Override
