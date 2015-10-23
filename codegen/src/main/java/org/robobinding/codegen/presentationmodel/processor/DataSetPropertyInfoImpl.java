@@ -4,11 +4,14 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.robobinding.codegen.apt.element.GetterElement;
+import org.robobinding.codegen.apt.element.MethodElement;
 import org.robobinding.codegen.apt.type.WrappedDeclaredType;
 import org.robobinding.codegen.presentationmodel.DataSetPropertyInfo;
+import org.robobinding.itempresentationmodel.DataSetObservable;
 import org.robobinding.itempresentationmodel.TypedCursor;
 import org.robobinding.property.AbstractDataSet;
 import org.robobinding.property.ListDataSet;
+import org.robobinding.property.ObservableDataSet;
 import org.robobinding.property.TypedCursorDataSet;
 
 
@@ -19,15 +22,21 @@ import org.robobinding.property.TypedCursorDataSet;
  */
 public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 	private final GetterElement getter;
-	private final ItemPresentationModelAnnotationMirror annotation;
+	private final String itemPresentationModelTypeName;
 	private final String itemPresentationModelObjectTypeName;
+	private final MethodElement factoryMethod;
+	private final MethodElement viewTypeSelector;
 	
 	public DataSetPropertyInfoImpl(GetterElement getter, 
-			ItemPresentationModelAnnotationMirror annotation,
-			String itemPresentationModelObjectTypeName) {
+			String itemPresentationModelTypeName,
+			String itemPresentationModelObjectTypeName,
+			MethodElement factoryMethod, 
+			MethodElement viewTypeSelector) {
 		this.getter = getter;
-		this.annotation = annotation;
+		this.itemPresentationModelTypeName = itemPresentationModelTypeName;
 		this.itemPresentationModelObjectTypeName = itemPresentationModelObjectTypeName;
+		this.factoryMethod = factoryMethod;
+		this.viewTypeSelector = viewTypeSelector;
 	}
 
 	@Override
@@ -48,7 +57,9 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 	@Override
 	public Class<? extends AbstractDataSet> dataSetImplementationType() {
 		WrappedDeclaredType returnType = getter.returnType();
-		if(returnType.isAssignableTo(List.class)) {
+		if(returnType.isAssignableTo(DataSetObservable.class)) {
+			return ObservableDataSet.class;
+		} else if(returnType.isAssignableTo(List.class)) {
 			return ListDataSet.class;
 		} else if(returnType.isAssignableTo(TypedCursor.class)) {
 			return TypedCursorDataSet.class;
@@ -59,21 +70,45 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 
 	@Override
 	public String itemPresentationModelTypeName() {
-		return annotation.itemPresentationModelTypeName();
-	}
-
-	@Override
-	public boolean isCreatedByFactoryMethod() {
-		return annotation.hasFactoryMethod();
+		return itemPresentationModelTypeName;
 	}
 
 	@Override
 	public String factoryMethod() {
-		return annotation.factoryMethod();
+		return factoryMethod.methodName();
 	}
 
 	@Override
 	public String itemPresentationModelObjectTypeName() {
 		return itemPresentationModelObjectTypeName;
+	}
+
+	private boolean hasFactoryMethod() {
+		return factoryMethod != null;
+	}
+
+	@Override
+	public boolean isCreatedByFactoryMethodWithArg() {
+		return hasFactoryMethod() && factoryMethod.hasParameter();
+	}
+
+	@Override
+	public boolean isCreatedByFactoryMethodWithoutArg() {
+		return hasFactoryMethod() && factoryMethod.hasNoParameter();
+	}
+
+	@Override
+	public boolean hasViewTypeSelector() {
+		return viewTypeSelector != null;
+	}
+
+	@Override
+	public boolean viewTypeSelectorAcceptsArg() {
+		return viewTypeSelector.hasParameter();
+	}
+
+	@Override
+	public String viewTypeSelector() {
+		return viewTypeSelector.methodName();
 	}
 }

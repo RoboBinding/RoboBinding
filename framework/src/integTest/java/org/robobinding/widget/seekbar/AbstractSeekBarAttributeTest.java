@@ -2,8 +2,8 @@ package org.robobinding.widget.seekbar;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import android.widget.SeekBar;
 
@@ -20,7 +20,7 @@ public abstract class AbstractSeekBarAttributeTest {
 
 	@Before
 	public void initializeViewAndListeners() {
-		view = new SeekBar(Robolectric.application);
+		view = new SeekBar(RuntimeEnvironment.application);
 		viewAddOn = new MockSeekBarAddOn(view);
 	}
 }

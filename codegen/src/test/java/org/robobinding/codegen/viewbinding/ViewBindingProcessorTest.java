@@ -2,7 +2,6 @@ package org.robobinding.codegen.viewbinding;
 
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.FromDataPoints;
 import org.junit.experimental.theories.Theories;
@@ -26,9 +25,14 @@ public class ViewBindingProcessorTest {
 		processor = new ViewBindingProcessor();
 	}
 	
-	@Test
-	public void shouldProcessSuccessfully() {
-		ProcessorAssert.compilesWithoutErrorWhenProcess(SimpleOneWayPropertyViewBinding.class, processor);
+	@DataPoints("validViewBindings")
+	public static Class<?>[] validViewBindings = {
+		SimpleOneWayPropertyViewBinding.class, 
+		NoSimpleOneWayPropertyViewBinding.class};
+	
+	@Theory
+	public void shouldProcessSuccessfully(@FromDataPoints("validViewBindings") Class<?> validViewBinding) {
+		ProcessorAssert.compilesWithoutErrorWhenProcess(validViewBinding, processor);
 	}
 	
 	@DataPoints("invalidViewBindings")

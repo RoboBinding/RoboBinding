@@ -20,7 +20,7 @@ public class DropdownMappingUpdater implements PredefinedMappingUpdater {
 
 	@Override
 	public void updateViewMappings(Collection<PredefinedPendingAttributesForView> viewMappings) {
-		dataSetAdapterBuilder.setDropdownPredefinedPendingAttributesForViewGroup(viewMappings);
+		dataSetAdapterBuilder.setDropdownPredefinedMappings(viewMappings);
 	}
 
 }

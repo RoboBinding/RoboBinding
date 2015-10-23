@@ -41,6 +41,11 @@ public class ValueModelAttribute extends AbstractPropertyAttribute {
 	public boolean isTwoWayBinding() {
 		return twoWayBinding;
 	}
+	
+	@Override
+	public <T> T accept(PropertyAttributeVisitor<T> visitor) {
+		return visitor.visitValueModel(this);
+	}
 
 	static boolean isValueModelAttribute(String value) {
 		Matcher matcher = PROPERTY_ATTRIBUTE_PATTERN.matcher(value);

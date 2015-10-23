@@ -31,3 +31,6 @@
 /codegen/.classpath
 /codegen/.project
 /codegen/mavenRepo
+/extras/.project
+/extras/.classpath
+/extras/.settings

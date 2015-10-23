@@ -3,7 +3,7 @@ package org.robobinding;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.LayoutInflater.Factory2;
+import android.view.LayoutInflater.Factory;
 import android.view.View;
 
 /**
@@ -13,13 +13,13 @@ import android.view.View;
  * @author Robert Taylor
  * @author Cheng Wei
  */
-class ViewFactory implements Factory2 {
-	private final Factory2 original;
-	private LayoutInflater layoutInflater;
+class ViewFactory implements Factory {
+	private final Factory original;
+	private final LayoutInflater layoutInflater;
 	private final ViewNameResolver viewNameResolver;
 	private final ViewCreationListener listener;
 
-	public ViewFactory(LayoutInflater layoutInflater, Factory2 original, 
+	public ViewFactory(LayoutInflater layoutInflater, Factory original, 
 			ViewNameResolver viewNameResolver, ViewCreationListener listener) {
 		this.layoutInflater = layoutInflater;
 		this.original = original;
@@ -38,7 +38,7 @@ class ViewFactory implements Factory2 {
 		return view;
 	}
 	
-	private View createViewByInflaterIfNull(View viewOrNull, String name, AttributeSet attrs) {
+	protected View createViewByInflaterIfNull(View viewOrNull, String name, AttributeSet attrs) {
 		if(viewOrNull != null) return viewOrNull;
 		
 		String viewFullName = viewNameResolver.getViewNameFromLayoutTag(name);
@@ -49,18 +49,7 @@ class ViewFactory implements Factory2 {
 		}
 	}
 
-	@Override
-	public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-		View view = original.onCreateView(parent, name, context, attrs);
-		
-		view = createViewByInflaterIfNull(view, name, attrs);
-
-		notifyViewCreatedIfNotNull(attrs, view);
-
-		return view;
-	}
-
-	private void notifyViewCreatedIfNotNull(AttributeSet attrs, View view) {
+	protected void notifyViewCreatedIfNotNull(AttributeSet attrs, View view) {
 		if(view != null) {
 			listener.onViewCreated(view, attrs);
 		}

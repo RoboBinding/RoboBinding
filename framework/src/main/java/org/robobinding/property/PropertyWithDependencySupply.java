@@ -44,7 +44,7 @@ public class PropertyWithDependencySupply {
 			throw new Bug(MessageFormat.format("no known dataSet property '{0}' generated", describeProperty(propertyName)));
 		}
 
-		property.addPropertyChangeListener(property);
+		property.addListener(property);
 		
 		if(dependencies.hasDependency(propertyName)) {
 			Dependency dependency = dependencies.createDependency(propertyName);

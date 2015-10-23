@@ -18,7 +18,7 @@ public interface PresentationModelAdapter {
 
 	<T> ValueModel<T> getPropertyValueModel(String propertyName);
 
-	DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName);
+	DataSetValueModel getDataSetPropertyValueModel(String propertyName);
 
 	Function findFunction(String functionName, Class<?>... parameterTypes);
 

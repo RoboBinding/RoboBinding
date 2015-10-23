@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.widget.RadioGroup;
@@ -23,7 +23,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 public class RadioGroupAddOnTest {
 	@Test
 	public void shouldSupportMultipleOnCheckedChangeListeners() {
-		RadioGroup view = new RadioGroup(Robolectric.application);
+		RadioGroup view = new RadioGroup(RuntimeEnvironment.application);
 		RadioGroupAddOn viewAddOn = new RadioGroupAddOn(view);
 
 		MockOnCheckedChangeListener listener1 = new MockOnCheckedChangeListener();

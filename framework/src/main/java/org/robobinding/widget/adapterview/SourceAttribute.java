@@ -12,11 +12,11 @@ import org.robobinding.viewattribute.grouped.ChildViewAttributeWithAttribute;
  * @author Robert Taylor
  */
 public class SourceAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute> {
-	private final DataSetAdapterBuilder dataSetAdapterBuilder;
+	private final RequiresDataSetValueModel receiver;
 	private ValueModelAttribute attribute;
 
-	public SourceAttribute(final DataSetAdapterBuilder dataSetAdapterBuilder) {
-		this.dataSetAdapterBuilder = dataSetAdapterBuilder;
+	public SourceAttribute(final RequiresDataSetValueModel receiver) {
+		this.receiver = receiver;
 	}
 
 	@Override
@@ -26,7 +26,11 @@ public class SourceAttribute implements ChildViewAttributeWithAttribute<ValueMod
 
 	@Override
 	public void bindTo(BindingContext bindingContext) {
-		DataSetValueModel<?> valueModel = bindingContext.getDataSetPropertyValueModel(attribute.getPropertyName());
-		dataSetAdapterBuilder.setValueModel(valueModel);
+		DataSetValueModel valueModel = bindingContext.getDataSetPropertyValueModel(attribute.getPropertyName());
+		receiver.setValueModel(valueModel);
+	}
+	
+	public static interface RequiresDataSetValueModel {
+		void setValueModel(DataSetValueModel valueModel);
 	}
 }

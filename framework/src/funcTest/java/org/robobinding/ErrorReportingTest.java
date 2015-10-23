@@ -10,7 +10,7 @@ import org.robobinding.binder.BinderFactory;
 import org.robobinding.binder.BinderFactoryBuilder;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException;
 import org.robobinding.robolectric.DefaultTestRunner;
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 
 import android.widget.Button;
 import android.widget.ListView;
@@ -35,7 +35,7 @@ public class ErrorReportingTest {
 	
 	@Test
 	public void whenInflateAndBindSample1_thenThrowsExpectedErrors() {
-		ViewBinder viewBinder = binderFactory.createViewBinder(Robolectric.application);
+		ViewBinder viewBinder = binderFactory.createViewBinder(RuntimeEnvironment.application);
 		try{
 			viewBinder.inflateAndBind(R.layout.error_reporting_sample1, new Sample1PresentationModel());
 			fail("Expect an exception thrown");

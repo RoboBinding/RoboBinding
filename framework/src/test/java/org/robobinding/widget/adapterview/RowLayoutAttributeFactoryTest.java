@@ -3,14 +3,21 @@ package org.robobinding.widget.adapterview;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.robobinding.attribute.Attributes.aStaticResourceAttribute;
+import static org.robobinding.attribute.Attributes.aStaticResourcesAttribute;
 import static org.robobinding.attribute.Attributes.aValueModelAttribute;
 
-import org.junit.Test;
-import org.robobinding.attribute.StaticResourceAttribute;
-import org.robobinding.attribute.ValueModelAttribute;
+import org.junit.Before;
+import org.junit.experimental.theories.DataPoints;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
+import org.robobinding.attribute.AbstractPropertyAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttributeAdapter;
+import org.robobinding.widget.adapterview.RowLayoutAttributeFactory.UpdaterProvider;
+
+import android.view.View;
 
 /**
  * 
@@ -18,25 +25,50 @@ import org.robobinding.viewattribute.grouped.ChildViewAttributeAdapter;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
+@RunWith(Theories.class)
 public class RowLayoutAttributeFactoryTest {
-	@Test
-	public void whenCreateWithStaticResourceAttribute_thenReturnStaticLayoutAttribute() {
-		StaticResourceAttribute staticResourceAttribute = mock(StaticResourceAttribute.class);
-		when(staticResourceAttribute.isStaticResource()).thenReturn(true);
-
-		RowLayoutAttributeFactory rowLayoutAttributeFactory = new ItemLayoutAttributeFactory(null, null);
-		ChildViewAttribute viewAttribute = rowLayoutAttributeFactory.createRowLayoutAttribute(staticResourceAttribute);
-
-		assertThat(viewAttribute, instanceOf(StaticLayoutAttribute.class));
+	private RowLayoutAttributeFactory rowLayoutAttributeFactory;
+	
+	@Before
+	public void setUp() {
+		View view = mock(View.class);
+		UpdaterProvider updaterProvider = mock(UpdaterProvider.class);
+		rowLayoutAttributeFactory = new RowLayoutAttributeFactory(view, updaterProvider);
 	}
-
-	@Test
-	public void whenCreateWithValueModelAttribute_thenReturnDynamicLayoutAttribute() {
-		ValueModelAttribute valueModelAttribute = aValueModelAttribute("{itemLayout}");
-
-		RowLayoutAttributeFactory rowLayoutAttributeFactory = new ItemLayoutAttributeFactory(null, null);
-		ChildViewAttribute viewAttribute = rowLayoutAttributeFactory.createRowLayoutAttribute(valueModelAttribute);
-
-		assertThat(viewAttribute, instanceOf(ChildViewAttributeAdapter.class));
+	
+	@DataPoints
+	public static RowLayoutAttributeExpectation[] expectations = {
+		aPropertyAttribute(aStaticResourceAttribute("@layout/layout1")).itsLayoutAttributeType(StaticLayoutAttribute.class),
+		aPropertyAttribute(aValueModelAttribute("{itemLayout}")).itsLayoutAttributeType(ChildViewAttributeAdapter.class),
+		aPropertyAttribute(aStaticResourcesAttribute("[@layout/layout1, @layout/layout2]")).itsLayoutAttributeType(StaticLayoutsAttribute.class),
+	};
+	
+	@Theory
+	public void shouldCreateExpectedLayoutAttribute(RowLayoutAttributeExpectation expectation) {
+		ChildViewAttribute viewAttribute = rowLayoutAttributeFactory.createRowLayoutAttribute(expectation.propertyAttribute);
+		
+		expectation.assertLayoutAttributeType(viewAttribute);
+	}
+	
+	private static RowLayoutAttributeExpectation aPropertyAttribute(AbstractPropertyAttribute propertyAttribute) {
+		return new RowLayoutAttributeExpectation(propertyAttribute);
+	}
+	
+	private static class RowLayoutAttributeExpectation {
+		public final AbstractPropertyAttribute propertyAttribute;
+		private Class<?> type;
+		
+		public RowLayoutAttributeExpectation(AbstractPropertyAttribute propertyAttribute) {
+			this.propertyAttribute = propertyAttribute;
+		}
+		
+		public RowLayoutAttributeExpectation itsLayoutAttributeType(Class<?> type) {
+			this.type = type;
+			return this;
+		}
+		
+		public void assertLayoutAttributeType(ChildViewAttribute viewAttribute) {
+			assertThat(viewAttribute, instanceOf(type));
+		}
 	}
 }

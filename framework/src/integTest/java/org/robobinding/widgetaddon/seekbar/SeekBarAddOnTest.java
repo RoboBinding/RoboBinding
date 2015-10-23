@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.widget.SeekBar;
@@ -27,7 +27,7 @@ public class SeekBarAddOnTest {
 	
 	@Before
 	public void setUp() {
-		view = new SeekBar(Robolectric.application);
+		view = new SeekBar(RuntimeEnvironment.application);
 		viewListeners = new SeekBarAddOn(view);
 	}
 	

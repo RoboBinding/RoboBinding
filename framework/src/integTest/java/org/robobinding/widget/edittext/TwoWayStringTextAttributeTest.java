@@ -11,8 +11,9 @@ import org.junit.runner.RunWith;
 import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.ValueModelUtils;
 import org.robobinding.widget.edittext.TwoWayTextAttribute.TwoWayStringTextAttribute;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowTextView;
 
@@ -32,7 +33,7 @@ public class TwoWayStringTextAttributeTest {
 
 	@Before
 	public void setUp() {
-		view = new EditText(Robolectric.application);
+		view = new EditText(RuntimeEnvironment.application);
 		attribute = new TwoWayStringTextAttribute();
 	}
 
@@ -76,7 +77,7 @@ public class TwoWayStringTextAttributeTest {
 
 		view.setText(newText);
 
-		ShadowTextView shadowTextView = Robolectric.shadowOf(view);
+		ShadowTextView shadowTextView = Shadows.shadowOf(view);
 		shadowTextView.setViewFocus(false);
 
 		assertThat(valueModel.getValue(), sameAs(newText));

@@ -15,8 +15,8 @@ import org.junit.runner.RunWith;
 import org.robobinding.AttributeResolutionException;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.ViewResolutionErrorsException;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.content.Context;
@@ -34,7 +34,7 @@ import android.widget.ListView;
 @RunWith(RobolectricTestRunner.class)
 public class ResolutionTest {
 	private BindingAttributeResolver bindingAttributeResolver;
-	private Context context = Robolectric.application;
+	private Context context = RuntimeEnvironment.application;
 
 	@Before
 	public void setUp() {

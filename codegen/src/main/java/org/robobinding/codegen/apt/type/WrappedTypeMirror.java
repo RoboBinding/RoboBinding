@@ -35,6 +35,18 @@ public abstract class WrappedTypeMirror {
 	}
 
 	public abstract String className();
+	
+	public abstract boolean isOfType(Class<?> type);
+
+	public boolean isAssignableTo(Class<?> type) {
+		return isAssignableTo(type.getName());
+	}
+
+	public abstract boolean isAssignableTo(String typeName);
+	
+	protected boolean sameErasedTypeAs(TypeMirror type) {
+		return types.isSameType(types.erasure(this.type), types.erasure(type));
+	}
 
 	@Override
 	public boolean equals(Object other) {
@@ -45,11 +57,6 @@ public abstract class WrappedTypeMirror {
 	
 		final WrappedTypeMirror that = (WrappedTypeMirror) other;
 		return sameErasedTypeAs(that.type);
-	
-	}
-	
-	protected boolean sameErasedTypeAs(TypeMirror type) {
-		return types.isSameType(types.erasure(this.type), types.erasure(type));
 	}
 
 	@Override

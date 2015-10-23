@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
 import org.robobinding.widget.view.VisibilityAttribute.IntegerVisibilityAttribute;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.view.View;
@@ -27,7 +27,7 @@ public class IntegerVisibilityAttributeTest {
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
-		View view = new View(Robolectric.application);
+		View view = new View(RuntimeEnvironment.application);
 		IntegerVisibilityAttribute<View> attribute = createAttribute();
 		int visibilityValue = RandomValues.anyVisibility();
 

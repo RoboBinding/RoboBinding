@@ -5,8 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.widget.EventCommand;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.widget.EditText;
@@ -25,7 +25,7 @@ public class OnTextChangedAttributeTest {
 
 	@Before
 	public void setUp() {
-		view = new EditText(Robolectric.application);
+		view = new EditText(RuntimeEnvironment.application);
 		eventCommand = new EventCommand();
 	}
 

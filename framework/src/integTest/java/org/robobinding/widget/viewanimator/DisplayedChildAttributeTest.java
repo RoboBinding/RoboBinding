@@ -6,8 +6,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.widget.TextView;
@@ -25,7 +25,7 @@ public class DisplayedChildAttributeTest {
 
 	@Test
 	public void whenUpdateView_thenViewShouldReflectChanges() {
-		ViewAnimator view = new ViewAnimator(Robolectric.application);
+		ViewAnimator view = new ViewAnimator(RuntimeEnvironment.application);
 		DisplayedChildAttribute attribute = new DisplayedChildAttribute();
 		int numChilds = 5;
 		int displayedChild = RandomValues.nextInt(numChilds);

@@ -9,7 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.robobinding.util.RandomValues;
 import org.robobinding.widget.EventCommand;
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.widget.AdapterView;
@@ -32,7 +32,7 @@ public class OnItemSelectedAttributeTest extends AbstractAdapterViewAttributeTes
 		attribute = new OnItemSelectedAttribute();
 		eventCommand = new EventCommand();
 
-		adapter = new MockArrayAdapter(Robolectric.application);
+		adapter = new MockArrayAdapter(RuntimeEnvironment.application);
 		view.setAdapter(adapter);
 
 		indexToSelect = RandomValues.anyIndex(adapter.getCount());

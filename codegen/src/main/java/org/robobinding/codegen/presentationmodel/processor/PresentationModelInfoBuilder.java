@@ -1,6 +1,5 @@
 package org.robobinding.codegen.presentationmodel.processor;
 
-import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +11,6 @@ import org.robobinding.codegen.apt.element.GetterElement;
 import org.robobinding.codegen.apt.element.MethodElement;
 import org.robobinding.codegen.apt.element.SetterElement;
 import org.robobinding.codegen.apt.element.WrappedTypeElement;
-import org.robobinding.codegen.apt.type.WrappedDeclaredType;
-import org.robobinding.codegen.apt.type.WrappedTypeMirror;
 import org.robobinding.codegen.presentationmodel.DataSetPropertyInfo;
 import org.robobinding.codegen.presentationmodel.EventMethodInfo;
 import org.robobinding.codegen.presentationmodel.PresentationModelInfo;
@@ -37,9 +34,10 @@ public class PresentationModelInfoBuilder {
 	
 	private final Set<String> propertyNames;
 	private final Map<String, PropertyInfoBuilder> propertyBuilders;
-	private final Map<String, DataSetPropertyInfoImpl> dataSetProperties;
+	private final Map<String, DataSetPropertyInfoBuilder> dataSetProperties;
 	private final Set<PropertyDependencyInfo> propertyDependencies;
 	private final Map<String, MethodElement> eventMethods;
+	private final Map<String, MethodElement> methods;
 	
 	private final PresentationModelErrors errors;
 
@@ -55,6 +53,7 @@ public class PresentationModelInfoBuilder {
 		dataSetProperties = Maps.newHashMap();
 		propertyDependencies = Sets.newHashSet();
 		eventMethods = Maps.newHashMap();
+		methods = Maps.newHashMap();
 		
 		errors = new PresentationModelErrors(typeElement.qName());
 	}
@@ -64,7 +63,7 @@ public class PresentationModelInfoBuilder {
 		classifyMethods(methods);
 		
 		processDataSetProperties();
-		validateProperties();
+		processProperties();
 		validateDependencies();
 		
 		errors.assertNoErrors();
@@ -79,6 +78,9 @@ public class PresentationModelInfoBuilder {
 				addSetter(method.asSetter());
 			} else if(isEventMethod(method)){//the rest are event methods.
 				addEventMethod(method);
+				addMethod(method);
+			} else {
+				addMethod(method);
 			}
 		}
 		
@@ -90,9 +92,8 @@ public class PresentationModelInfoBuilder {
 		if(isDataSetProperty(getter)) {
 			ItemPresentationModelAnnotationMirror annotation = new ItemPresentationModelAnnotationMirror(
 					getter.getAnnotation(ItemPresentationModel.class));
-			DataSetPropertyInfoImpl dataSetProperty = new DataSetPropertyInfoImpl(getter, 
-					annotation, 
-					itemPresentationModelObjectTypeNameOf(annotation));
+			DataSetPropertyInfoBuilder dataSetProperty = new DataSetPropertyInfoBuilder(getter, 
+					annotation, itemPresentationModelObjectTypeNameOf(annotation));
 			dataSetProperties.put(propertyName, dataSetProperty);
 		} else {
 			PropertyInfoBuilder propertyBuilder = getFromPropertyBuilders(propertyName);
@@ -147,60 +148,38 @@ public class PresentationModelInfoBuilder {
 	private void addEventMethod(MethodElement method) {
 		eventMethods.put(method.methodName(), method);
 	}
+	
+	private void addMethod(MethodElement method) {
+		methods.put(method.methodName(), method);
+	}
 
 	private void processDataSetProperties() {
-		for(DataSetPropertyInfoImpl dataSetProperty : dataSetProperties.values()) {
+		for(DataSetPropertyInfoBuilder dataSetProperty : dataSetProperties.values()) {
 			try {
-				validateDataSetProperty(dataSetProperty);
+				dataSetProperty.supplyRequiredMethodsFrom(methods);
 			} catch(RuntimeException e) {
 				errors.addPropertyError(e.getMessage());
-				continue;
-			}
-			removeSetterOfDataSetProperty(dataSetProperty);
-		}
-		
-		removeItemPresentationModelFactoryMethod(dataSetProperties.values());
-	}
-
-	private void validateDataSetProperty(DataSetPropertyInfoImpl dataSetProperty) {
-		if(!dataSetProperty.isCreatedByFactoryMethod()) {
-			return;
-		}
-		
-		String factoryMethodName = dataSetProperty.factoryMethod();
-		MethodElement factoryMethod = eventMethods.get(factoryMethodName);
-		if((factoryMethod != null) && factoryMethod.hasNoParameter()) {
-			WrappedTypeMirror returnType = factoryMethod.returnType();
-			if(returnType.isDeclaredType()
-					&& ((WrappedDeclaredType)returnType).isAssignableTo(dataSetProperty.itemPresentationModelTypeName())) {
-				return;
 			}
 		}
 		
-		throw new RuntimeException(MessageFormat.format("The dataSet property ''{0}'' expects an non-existing factory method ''{1}''",
-				dataSetProperty.name(), 
-				new MethodDescription(factoryMethodName, dataSetProperty.itemPresentationModelTypeName(), new Class<?>[0])));
+		removeDataSetPropertyRelatedMethods(dataSetProperties.values());
 	}
 	
-	private void removeSetterOfDataSetProperty(DataSetPropertyInfo dataSetProperty) {
-		propertyBuilders.remove(dataSetProperty.name());
-	}
-	
-	private void removeItemPresentationModelFactoryMethod(Collection<DataSetPropertyInfoImpl> dataSetProperties) {
-		for(DataSetPropertyInfo dataSetProperty : dataSetProperties) {
-			removeItemPresentationModelFactoryMethod(dataSetProperty);
+	private void removeDataSetPropertyRelatedMethods(Collection<DataSetPropertyInfoBuilder> dataSetProperties) {
+		for(DataSetPropertyInfoBuilder dataSetProperty : dataSetProperties) {
+			propertyBuilders.remove(dataSetProperty.propertyName());
+
+			eventMethods.remove(dataSetProperty.factoryMethod());
+			eventMethods.remove(dataSetProperty.viewTypeSelector());
 		}
 	}
-	
-	private void removeItemPresentationModelFactoryMethod(DataSetPropertyInfo dataSetProperty) {
-		eventMethods.remove(dataSetProperty.factoryMethod());
-	}
 
-	private void validateProperties() {
+	private void processProperties() {
 		for(PropertyInfoBuilder builder : propertyBuilders.values()) {
-			if(builder.isGetterSetterTypeInconsistent()) {
-				errors.addPropertyError(MessageFormat.format("The property ''{0}'' has an inconsistent type in getter and setter",
-						builder.getPropertyName()));
+			try {
+				builder.validateGetterSetterTypeConsistency();
+			} catch(RuntimeException e) {
+				errors.addPropertyError(e.getMessage());
 			}
 		}
 	}
@@ -233,8 +212,8 @@ public class PresentationModelInfoBuilder {
 	
 	private Set<DataSetPropertyInfo> buildDataSetProperties() {
 		Set<DataSetPropertyInfo> result = Sets.newHashSet();
-		for(DataSetPropertyInfoImpl dataSetProperty : dataSetProperties.values()) {
-			result.add(dataSetProperty);
+		for(DataSetPropertyInfoBuilder dataSetProperty : dataSetProperties.values()) {
+			result.add(dataSetProperty.build());
 		}
 		return result;
 	}

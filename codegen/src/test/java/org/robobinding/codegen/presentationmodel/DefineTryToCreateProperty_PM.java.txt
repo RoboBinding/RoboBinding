@@ -1,7 +1,9 @@
 -----------------------------------org.robobinding.codegen.presentationmodel.DefineTryToCreateProperty_PM.java-----------------------------------
 package org.robobinding.codegen.presentationmodel;
 
+import java.util.Set;
 import org.robobinding.codegen.presentationmodel.differentpackage.CustomClass;
+import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.AbstractGetSet;
@@ -14,6 +16,19 @@ public class DefineTryToCreateProperty_PM {
 	final DefineTryToCreateProperty presentationModel;
 	@Override
 	public SimpleProperty tryToCreateProperty(String name) {
+		if (name.equals("booleanProp")) {
+			PropertyDescriptor descriptor = createPropertyDescriptor(Boolean.class, name, true, false);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<Boolean>(descriptor) {
+				@Override
+				public Boolean getValue() {
+					return presentationModel.isBooleanProp();
+				}
+			};
+			
+			return new SimpleProperty(this, descriptor, getSet);
+		}
+		
 		if (name.equals("customClass1")) {
 			PropertyDescriptor descriptor = createPropertyDescriptor(CustomClass.class,name,true,false);
 			
@@ -38,18 +53,18 @@ public class DefineTryToCreateProperty_PM {
 			return new SimpleProperty(this, descriptor, getSet);
 		}
 		
-		if (name.equals("primitiveReadWriteProp")) {
-			PropertyDescriptor descriptor = createPropertyDescriptor(Integer.class, name, true, true);
+		if (name.equals("prop")) {
+			PropertyDescriptor descriptor = createPropertyDescriptor(String.class, name, true, true);
 			
-			AbstractGetSet<?> getSet = new AbstractGetSet<Integer>(descriptor) {
+			AbstractGetSet<?> getSet = new AbstractGetSet<String>(descriptor) {
 				@Override
-				public Integer getValue() {
-					return presentationModel.getPrimitiveReadWriteProp();
+				public String getValue() {
+					return presentationModel.getProp();
 				}
 				
 				@Override
-				public void setValue(Integer newValue) {
-					presentationModel.setPrimitiveReadWriteProp(newValue);
+				public void setValue(String newValue) {
+					presentationModel.setProp(newValue);
 				}
 			};
 			
@@ -57,11 +72,11 @@ public class DefineTryToCreateProperty_PM {
 		}
 		
 		if(name.equals("readOnlyProp")) {
-			PropertyDescriptor descriptor = createPropertyDescriptor(String.class, name, true, false);
+			PropertyDescriptor descriptor = createPropertyDescriptor(Integer.class, name, true, false);
 			
-			AbstractGetSet<?> getSet = new AbstractGetSet<String>(descriptor) {
+			AbstractGetSet<?> getSet = new AbstractGetSet<Integer>(descriptor) {
 				@Override
-				public String getValue() {
+				public Integer getValue() {
 					return presentationModel.getReadOnlyProp();
 				}
 			};
@@ -69,18 +84,32 @@ public class DefineTryToCreateProperty_PM {
 			return new SimpleProperty(this, descriptor, getSet);
 		}
 		
-		if (name.equals("readWriteProp")) {
-			PropertyDescriptor descriptor = createPropertyDescriptor(Object.class, name, true, true);
+		if (name.equals("setProp")) {
+			PropertyDescriptor descriptor = createPropertyDescriptor(Set.class, name, true, true);
 			
-			AbstractGetSet<?> getSet = new AbstractGetSet<Object>(descriptor) {
+			AbstractGetSet<?> getSet = new AbstractGetSet<Set>(descriptor) {
 				@Override
-				public Object getValue() {
-					return presentationModel.getReadWriteProp();
+				public Set getValue() {
+					return presentationModel.getSetProp();
 				}
 				
 				@Override
-				public void setValue(Object newValue) {
-					presentationModel.setReadWriteProp(newValue);
+				public void setValue(Set newValue) {
+					presentationModel.setSetProp(newValue);
+				}
+			};
+			
+			return new SimpleProperty(this, descriptor, getSet);
+		} 
+		
+		
+		if (name.equals("writeOnlyProp")) {
+			PropertyDescriptor descriptor = createPropertyDescriptor(Integer.class, name, false, true);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<Integer>(descriptor) {
+				@Override
+				public void setValue(Integer newValue) {
+					presentationModel.setWriteOnlyProp(newValue);
 				}
 			};
 			

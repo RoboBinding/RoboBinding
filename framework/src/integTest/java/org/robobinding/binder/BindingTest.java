@@ -42,8 +42,8 @@ import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 import org.robobinding.viewbinding.BindingAttributeMappings;
 import org.robobinding.viewbinding.ViewBinding;
 import org.robobinding.widget.abslistview.SparseBooleanArrayUtils;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.R;
@@ -65,7 +65,7 @@ import android.widget.ListView;
 public class BindingTest {
 	private BindingAttributeResolver bindingAttributeResolver;
 	private BindingContext bindingContext;
-	private Context context = Robolectric.application;
+	private Context context = RuntimeEnvironment.application;
 
 	@Before
 	public void setUp() {
@@ -189,7 +189,7 @@ public class BindingTest {
 	}
 
 	private PendingAttributesForViewBuilder aPendingAttributesForAdapterView() {
-		AdapterView<?> adapterView = new ListView(Robolectric.application);
+		AdapterView<?> adapterView = new ListView(context);
 		return aPendingAttributesForView(adapterView);
 	}
 

@@ -1,6 +1,7 @@
 package org.robobinding.property;
 
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
+import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 
 /**
  * 
@@ -8,10 +9,10 @@ import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class DataSetValueModelWrapper<T> implements DataSetValueModel<T> {
-	private final DataSetValueModel<T> valueModel;
+public class DataSetValueModelWrapper implements DataSetValueModel {
+	private final DataSetValueModel valueModel;
 
-	public DataSetValueModelWrapper(DataSetValueModel<T> valueModel) {
+	public DataSetValueModelWrapper(DataSetValueModel valueModel) {
 		this.valueModel = valueModel;
 	}
 
@@ -21,22 +22,27 @@ public class DataSetValueModelWrapper<T> implements DataSetValueModel<T> {
 	}
 
 	@Override
-	public T getItem(int position) {
-		return valueModel.getItem(position);
+	public Object get(int position) {
+		return valueModel.get(position);
 	}
 
 	@Override
-	public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
-		return valueModel.newRefreshableItemPresentationModel();
+	public RefreshableItemPresentationModel newRefreshableItemPresentationModel(int itemViewType) {
+		return valueModel.newRefreshableItemPresentationModel(itemViewType);
+	}
+	
+	@Override
+	public int selectViewType(ViewTypeSelectionContext<Object> context) {
+		return valueModel.selectViewType(context);
 	}
 
 	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
+	public void addPropertyChangeListener(DataSetPropertyChangeListener listener) {
 		valueModel.addPropertyChangeListener(listener);
 	}
 
 	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
+	public void removePropertyChangeListener(DataSetPropertyChangeListener listener) {
 		valueModel.removePropertyChangeListener(listener);
 	}
 

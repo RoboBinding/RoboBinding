@@ -1,5 +1,6 @@
 package org.robobinding.property;
 
+import org.robobinding.itempresentationmodel.DataSetObservable;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 
@@ -8,7 +9,7 @@ import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFac
  * @author Cheng Wei
  *
  */
-public abstract class AbstractDataSet implements PropertyChangeListener {
+public abstract class AbstractDataSet implements PropertyChangeListener, DataSetObservable {
 	private final RefreshableItemPresentationModelFactory factory;
 	private final AbstractGetSet<Object> getSet;
 	
@@ -40,15 +41,12 @@ public abstract class AbstractDataSet implements PropertyChangeListener {
 		return getDataSet() == null;
 	}
 
-	public RefreshableItemPresentationModel newRefreshableItemPresentationModel() {
-		return factory.create();
+	public RefreshableItemPresentationModel newRefreshableItemPresentationModel(int itemViewType) {
+		return factory.create(itemViewType);
 	}
 
 	@Override
 	public void propertyChanged() {
 		updateDataSet();
 	}
-	
-	public abstract int size();
-	public abstract Object getItem(int position);
 }

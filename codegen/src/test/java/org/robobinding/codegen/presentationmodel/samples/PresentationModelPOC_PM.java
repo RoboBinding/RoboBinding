@@ -8,6 +8,8 @@ import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
+import org.robobinding.itempresentationmodel.ViewTypeSelectable;
+import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
 import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.DataSetProperty;
@@ -31,6 +33,8 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 	private static final String PROP2 = "prop2";
 	private static final String DATA_SET_PROP = "dataSetProp";
 	private static final String DATA_SET_PROP_WITH_FACTORY_METHOD = "dataSetPropWithFactoryMethod";
+	private static final String DATA_SET_PROP_WITH_VIEW_TYPE_SELECTOR = "dataSetPropWithViewTypeSelector";
+	private static final String DATA_SET_PROP_WITH_FACTORY_METHOD_AND_VIEW_TYPE_SELECTOR = "dataSetPropWithFactoryMethodAndViewTypeSelector";
 	private static final String ON_CLICK = "onClick";
 	private static final String ON_CLICK_WITH_EVENT = "onClickWithEvent";
 
@@ -121,7 +125,7 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(int itemViewType) {
 					return new StringItemPresentationModelPOC_IPM(new StringItemPresentationModelPOC());
 				}
 			};	
@@ -141,12 +145,69 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 			
 			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
 				@Override
-				public RefreshableItemPresentationModel create() {
+				public RefreshableItemPresentationModel create(int itemViewType) {
 					return new StringItemPresentationModelPOC_IPM(presentationModel.newStringItemPresentationModel());
 				}
 			};
 			
 			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+		} 
+		
+		if(name.equals(DATA_SET_PROP_WITH_VIEW_TYPE_SELECTOR)) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<List<String>>(descriptor) {
+				@Override
+				public List<String> getValue() {
+					return presentationModel.getDataSetPropWithViewTypeSelector();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				@Override
+				public RefreshableItemPresentationModel create(int itemViewType) {
+					return new StringItemPresentationModelPOC_IPM(new StringItemPresentationModelPOC());
+				}
+			};
+			
+			ViewTypeSelectable viewTypeSelector = new ViewTypeSelectable() {
+				@Override
+				@SuppressWarnings({ "rawtypes", "unchecked" }) 
+				public int selectViewType(ViewTypeSelectionContext context) {
+					return presentationModel.selectViewTypeWithParameter(context);
+				}
+			};
+			
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector);
+		} 
+		
+		if(name.equals(DATA_SET_PROP_WITH_FACTORY_METHOD_AND_VIEW_TYPE_SELECTOR)) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<List<String>>(descriptor) {
+				@Override
+				public List<String> getValue() {
+					return presentationModel.getDataSetPropWithViewTypeSelector();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				@Override
+				public RefreshableItemPresentationModel create(int itemViewType) {
+					return new StringItemPresentationModelPOC_IPM(
+							presentationModel.createStringItemPresentationModelWithParameter(itemViewType));
+				}
+			};
+			
+			ViewTypeSelectable viewTypeSelector = new ViewTypeSelectable() {
+				@Override
+				@SuppressWarnings({ "rawtypes", "unchecked" }) 
+				public int selectViewType(ViewTypeSelectionContext context) {
+					return presentationModel.selectViewTypeWithParameter(context);
+				}
+			};
+			
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector);
 		} 
 		
 		return null;

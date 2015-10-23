@@ -1,1 +1,1 @@
-include 'framework', 'codegen', 'javadoc-taglet'
+include 'framework', 'extras', 'codegen', 'javadoc-taglet'

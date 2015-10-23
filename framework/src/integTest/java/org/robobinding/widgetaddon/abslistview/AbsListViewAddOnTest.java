@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.widget.AbsListView;
@@ -28,7 +28,7 @@ public class AbsListViewAddOnTest {
 	@Test
 	@Ignore
 	public void shouldSupportMultipleOnOnScrollListeners() {
-		AbsListView view = new ListView(Robolectric.application);
+		AbsListView view = new ListView(RuntimeEnvironment.application);
 		AbsListViewAddOn viewAddOn = new AbsListViewAddOn(view, null);
 
 		MockOnScrollListener listener1 = new MockOnScrollListener();

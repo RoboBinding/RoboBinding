@@ -6,5 +6,5 @@ package org.robobinding.property;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public interface DataSetPropertyValueModel extends Property, DataSetValueModel<Object> {
+public interface DataSetPropertyValueModel extends Property, DataSetValueModel {
 }

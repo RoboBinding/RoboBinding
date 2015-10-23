@@ -2,8 +2,8 @@ package org.robobinding.widget.adapterview;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import android.widget.ListView;
 
@@ -20,7 +20,7 @@ public abstract class AbstractAdapterViewAttributeTest {
 
 	@Before
 	public void initializeViewAndListeners() {
-		view = new ListView(Robolectric.application);
+		view = new ListView(RuntimeEnvironment.application);
 		viewAddOn = new MockAdapterViewAddOn(view);
 	}
 }

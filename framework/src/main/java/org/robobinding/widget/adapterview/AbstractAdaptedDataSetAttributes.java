@@ -45,7 +45,10 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 		dataSetAdapterBuilder = new DataSetAdapterBuilder(bindingContext);
 
 		childViewAttributesBuilder.add(SOURCE, new SourceAttribute(dataSetAdapterBuilder));
-		childViewAttributesBuilder.add(ITEM_LAYOUT, new RowLayoutAttributeAdapter(new ItemLayoutAttributeFactory(view, dataSetAdapterBuilder)));
+		
+		RowLayoutAttributeFactory factory = new RowLayoutAttributeFactory(view, 
+				new ItemLayoutUpdaterProvider(view, dataSetAdapterBuilder));
+		childViewAttributesBuilder.add(ITEM_LAYOUT, new RowLayoutAttributeAdapter(factory));
 
 		if (childViewAttributesBuilder.hasAttribute(ITEM_MAPPING))
 			childViewAttributesBuilder.add(ITEM_MAPPING, new ItemMappingAttribute(new ItemMappingUpdater(dataSetAdapterBuilder)));
@@ -54,7 +57,7 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void postBind(T view, BindingContext bindingContext) {
-		DataSetAdapter<?> dataSetAdapter = dataSetAdapterBuilder.build();
+		DataSetAdapter dataSetAdapter = dataSetAdapterBuilder.build();
 
 		((AdapterView) view).setAdapter(dataSetAdapter);
 	}

@@ -49,7 +49,7 @@ public class BindingContext implements PresentationModelAdapter {
 	}
 
 	@Override
-	public DataSetValueModel<?> getDataSetPropertyValueModel(String propertyName) {
+	public DataSetValueModel getDataSetPropertyValueModel(String propertyName) {
 		return presentationModelAdapter.getDataSetPropertyValueModel(propertyName);
 	}
 

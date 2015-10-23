@@ -7,16 +7,11 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.DeclaredType;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.robobinding.codegen.apt.MethodElementFilter;
 import org.robobinding.codegen.apt.SetterElementFilter;
-import org.robobinding.codegen.apt.type.TypeMirrorWrapper;
-import org.robobinding.codegen.apt.type.WrappedDeclaredType;
 
 import com.google.testing.compile.CompilationRule;
 
@@ -36,17 +31,7 @@ public class WrappedTypeElementTest {
 	}
 	
 	private WrappedTypeElement typeElement(Class<?> klass) {
-		TypeElement element = compilation.getElements().getTypeElement(klass.getName());
-		DeclaredType type = (DeclaredType)element.asType();
-		TypeMirrorWrapper typeWrapper = new TypeMirrorWrapper(compilation.getTypes(), compilation.getElements());
-		ElementWrapper elementWrapper = new ElementWrapper(typeWrapper, null, compilation.getTypes());
-		
-		return new WrappedTypeElement(
-				element, 
-				new WrappedDeclaredType(type, compilation.getTypes(), compilation.getElements()), 
-				typeWrapper, null, 
-				elementWrapper, 
-				compilation.getTypes());
+		return new AptTestHelper(compilation).typeElementOf(klass);
 	}
 	
 	@Test

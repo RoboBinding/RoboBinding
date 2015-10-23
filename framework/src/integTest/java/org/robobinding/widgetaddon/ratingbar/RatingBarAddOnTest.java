@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robobinding.util.RandomValues;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.widget.RatingBar;
@@ -23,7 +23,7 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 public class RatingBarAddOnTest {
 	@Test
 	public void shouldSupportMultipleOnRatingBarChangeListenersInRatingBar() {
-		RatingBar ratingBar = new RatingBar(Robolectric.application);
+		RatingBar ratingBar = new RatingBar(RuntimeEnvironment.application);
 		RatingBarAddOn ratingBarAddOn = new RatingBarAddOn(ratingBar);
 
 		MockOnRatingBarChangeListener listener1 = new MockOnRatingBarChangeListener();

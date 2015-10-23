@@ -1,5 +1,6 @@
 package org.robobinding.property;
 
+import org.robobinding.itempresentationmodel.DataSetChangeListener;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
 
 
@@ -23,9 +24,18 @@ public class ArrayDataSet extends AbstractDataSet {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public Object get(int position) {
 		Object[] array = getDataSet();
 		return array[position];
 	}
+	
+	@Override
+	public void addListener(DataSetChangeListener listener) {
+		//not supported.
+	}
 
+	@Override
+	public void removeListener(DataSetChangeListener listener) {
+		//not supported.
+	}
 }

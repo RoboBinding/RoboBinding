@@ -6,8 +6,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.content.Context;
@@ -27,7 +27,7 @@ import android.widget.ListView;
 @RunWith(RobolectricTestRunner.class)
 public class EmptyViewAttributesTest {
 	private EmptyViewAttributes emptyViewAttributes = new EmptyViewAttributes();
-	private Context context = Robolectric.application;
+	private Context context = RuntimeEnvironment.application;
 	private AdapterView<?> adapterView = new ListView(context);
 	private View emptyView = new View(context);
 

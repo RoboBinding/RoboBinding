@@ -16,16 +16,14 @@ import android.view.ViewGroup;
  */
 public class ItemLayoutBinder {
 	private final ItemBinder itemBinder;
-	private final int layoutId;
 	private final Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup;
 
-	public ItemLayoutBinder(ItemBinder itemBinder, int layoutId, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
+	public ItemLayoutBinder(ItemBinder itemBinder, Collection<PredefinedPendingAttributesForView> predefinedPendingAttributesForViewGroup) {
 		this.itemBinder = itemBinder;
-		this.layoutId = layoutId;
 		this.predefinedPendingAttributesForViewGroup = predefinedPendingAttributesForViewGroup;
 	}
 
-	public BindableView inflate(ViewGroup root) {
+	public BindableView inflate(ViewGroup root, int layoutId) {
 		return itemBinder.inflateWithoutAttachingToRoot(layoutId, 
 				predefinedPendingAttributesForViewGroup, root);
 	}

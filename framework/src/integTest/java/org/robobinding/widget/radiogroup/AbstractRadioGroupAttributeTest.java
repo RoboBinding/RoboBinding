@@ -2,8 +2,8 @@ package org.robobinding.widget.radiogroup;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import android.widget.RadioGroup;
 
@@ -20,7 +20,7 @@ public abstract class AbstractRadioGroupAttributeTest {
 
 	@Before
 	public void initializeViewAndListeners() {
-		view = new RadioGroup(Robolectric.application);
+		view = new RadioGroup(RuntimeEnvironment.application);
 		viewAddOn = new MockRadioGroupAddOn(view);
 	}
 }

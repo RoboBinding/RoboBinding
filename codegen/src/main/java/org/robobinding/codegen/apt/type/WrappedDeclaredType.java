@@ -36,28 +36,26 @@ public class WrappedDeclaredType extends WrappedTypeMirror {
 		return true;
 	}
 	
+	public List<? extends TypeMirror> getTypeArguments() {
+		return type.getTypeArguments();
+	}
+	
+	@Override
 	public boolean isOfType(Class<?> type) {
 		return sameErasedTypeAs(typeOf(type.getName()));
 	}
 
-	public boolean isAssignableTo(Class<?> type) {
-		return isAssignableTo(type.getName());
+	private TypeMirror typeOf(String typeName) {
+		return elements.getTypeElement(typeName).asType();
 	}
 
+	@Override
 	public boolean isAssignableTo(String typeName) {
 		TypeMirror type = typeOf(typeName);
 		return isAssignableTo(type);
 	}
 
-	private DeclaredType typeOf(String typeName) {
-		return (DeclaredType)elements.getTypeElement(typeName).asType();
-	}
-
 	private boolean isAssignableTo(TypeMirror type) {
 		return types.isAssignable(types.erasure(this.type), types.erasure(type));
-	}
-
-	public List<? extends TypeMirror> getTypeArguments() {
-		return type.getTypeArguments();
 	}
 }

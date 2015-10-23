@@ -10,7 +10,7 @@ import com.google.common.base.Preconditions;
  * @author Cheng Wei
  *
  */
-public class CustomViewBinding<ViewType> {
+public abstract class CustomViewBinding<ViewType> {
 	
 	/**
 	 * Implement the method to supply any other binding implementations that are not simple one-way property attributes 
@@ -24,30 +24,44 @@ public class CustomViewBinding<ViewType> {
 	 * more attribute binding implementations or override some of them.
 	 */
 	public final CustomViewBindingDescription extend(Class<ViewType> viewClass) {
-		checkViewClass(viewClass);
-		
 		ViewBinding<ViewType> viewBinding = loadViewBinding();
-		return new CustomViewBindingDescription(viewClass, 
-				new ExtensionViewBindingApplier<ViewType>(viewClass, viewBinding));
+		return extend(viewClass, viewBinding);
 	}
-
-	private void checkViewClass(Class<ViewType> viewClass) {
-		Preconditions.checkNotNull(viewClass, "viewClass must not be null");
-	}
-
+	
 	private ViewBinding<ViewType> loadViewBinding() {
 		ViewBindingLoader loader = new ViewBindingLoader();
 		return loader.load(this);
 	}
+
+	public static <ViewType> CustomViewBindingDescription extend(Class<ViewType> viewClass, ViewBinding<ViewType> viewBinding) {
+		checkViewClass(viewClass);
+		checkViewBinding(viewBinding);
+		
+		return new CustomViewBindingDescription(viewClass, 
+				new ExtensionViewBindingApplier<ViewType>(viewClass, viewBinding));
+	}
+
+	private static <ViewType> void checkViewClass(Class<ViewType> viewClass) {
+		Preconditions.checkNotNull(viewClass, "viewClass must not be null");
+	}
 	
+	private static <ViewType> void checkViewBinding(ViewBinding<ViewType> viewBinding) {
+		Preconditions.checkNotNull(viewBinding, "viewBinding must not be null");
+	}
+
 	/**
 	 * When you want to override the existing ViewBinding implementation currently registered in the framework.
 	 * Use the your own one instead.
 	 */
-	public final CustomViewBindingDescription forView(final Class<ViewType> viewClass) {
-		checkViewClass(viewClass);
-		
+	public final CustomViewBindingDescription forView(Class<ViewType> viewClass) {
 		ViewBinding<ViewType> viewBinding = loadViewBinding();
+		return forView(viewClass, viewBinding);
+	}
+	
+	public static <ViewType> CustomViewBindingDescription forView(Class<ViewType> viewClass, ViewBinding<ViewType> viewBinding) {
+		checkViewClass(viewClass);
+		checkViewBinding(viewBinding);
+		
 		return new CustomViewBindingDescription(viewClass, 
 				new OverridingViewBindingApplier<ViewType>(viewClass, viewBinding));
 	}

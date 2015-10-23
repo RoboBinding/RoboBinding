@@ -5,12 +5,5 @@ package org.robobinding.codegen.presentationmodel;
  * @author Cheng Wei
  *
  */
-public class DefinePropertyNames {
-	public String getProp1() {
-		return null;
-	}
-	
-	public String getProp2() {
-		return null;
-	}
+public class DefinePropertyNames extends DefineTryToCreateProperty {
 }

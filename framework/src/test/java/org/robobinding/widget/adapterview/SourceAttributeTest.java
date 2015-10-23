@@ -18,7 +18,6 @@ import org.robobinding.property.DataSetValueModel;
  * @author Robert Taylor
  */
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings({ "rawtypes", "unchecked" })
 public class SourceAttributeTest {
 	private final String attributeValue = "{property_name}";
 	private final String propertyName = "property_name";
