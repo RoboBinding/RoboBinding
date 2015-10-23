@@ -8,6 +8,7 @@ import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
 import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
+import org.robobinding.property.DataSetPropertyChangeListener;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.viewattribute.ViewTags;
 import org.robobinding.widget.adapterview.ItemLayoutBinder;
@@ -37,6 +38,8 @@ public class DataSetAdapterBuilder implements RequiresDataSetValueModel, Require
 	private List<Integer> itemLayoutIds;
 	private Collection<PredefinedPendingAttributesForView> itemPredefinedMappings;
 	private DataSetValueModel valueModel;
+	
+	private DataSetPropertyChangeListener oldListener;
 
 	public DataSetAdapterBuilder(BindingContext bindingContext) {
 		this.bindingContext = bindingContext;
@@ -75,8 +78,8 @@ public class DataSetAdapterBuilder implements RequiresDataSetValueModel, Require
 				itemLayoutBinder, itemLayoutSelector, 
 				new ViewTags<RefreshableItemPresentationModel>(ITEM_PRESENTATION_MODEL_KEY), 
 				bindingContext.shouldPreInitializeViews());
-
-		valueModel.addPropertyChangeListener(new DataSetPropertyChangeListenerAdapter(dataSetAdapter));
+		
+		registerPropertyChangeListener(dataSetAdapter);
 		return dataSetAdapter;
 	}
 	
@@ -98,5 +101,12 @@ public class DataSetAdapterBuilder implements RequiresDataSetValueModel, Require
 		} else {
 			return new LazyDataSetValueModel(valueModel);
 		}
+	}
+	
+	private void registerPropertyChangeListener(DataSetAdapter dataSetAdapter) {
+		valueModel.removePropertyChangeListener(oldListener);
+		DataSetPropertyChangeListener listener = new DataSetPropertyChangeListenerAdapter(dataSetAdapter);
+		valueModel.addPropertyChangeListener(listener);
+		oldListener = listener;
 	}
 }

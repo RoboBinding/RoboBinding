@@ -37,6 +37,8 @@ public class DataSetAdapterBuilder implements RequiresItemLayoutId, RequiresItem
 	private Collection<PredefinedPendingAttributesForView> itemPredefinedMappings;
 	private Collection<PredefinedPendingAttributesForView> dropdownPredefinedMappings;
 	private DataSetValueModel valueModel;
+	
+	private DataSetPropertyChangeListener oldListener;
 
 	public DataSetAdapterBuilder(BindingContext bindingContext) {
 		this.bindingContext = bindingContext;
@@ -89,7 +91,7 @@ public class DataSetAdapterBuilder implements RequiresItemLayoutId, RequiresItem
 				new ViewTags<RefreshableItemPresentationModel>(ITEM_PRESENTATION_MODEL_KEY), 
 				bindingContext.shouldPreInitializeViews());
 
-		valueModel.addPropertyChangeListener(createDataSetPropertyChangeListenerFor(dataSetAdapter));
+		registerPropertyChangeListener(dataSetAdapter);
 		return dataSetAdapter;
 	}
 	
@@ -111,6 +113,13 @@ public class DataSetAdapterBuilder implements RequiresItemLayoutId, RequiresItem
 		} else {
 			return new LazyDataSetValueModel(valueModel);
 		}
+	}
+	
+	private void registerPropertyChangeListener(DataSetAdapter dataSetAdapter) {
+		valueModel.removePropertyChangeListener(oldListener);
+		DataSetPropertyChangeListener listener = createDataSetPropertyChangeListenerFor(dataSetAdapter);
+		valueModel.addPropertyChangeListener(listener);
+		oldListener = listener;
 	}
 	
 	private DataSetPropertyChangeListener createDataSetPropertyChangeListenerFor(final DataSetAdapter dataSetAdapter) {
