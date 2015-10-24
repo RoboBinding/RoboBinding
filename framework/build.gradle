@@ -101,8 +101,12 @@ javadoc {
 	dependsOn project(':javadoc-taglet').jar
 	source = sourceSets.main.allJava
 	
-	options.taglets = ['org.robobinding.doctaglet.EventTaglet', 'org.robobinding.doctaglet.PropTaglet']
-	options.addStringOption "tagletpath", configurations.javadocTaglet.asPath
+	options {
+		locale = 'en_US'
+		encoding = 'UTF-8'
+		taglets = ['org.robobinding.doctaglet.EventTaglet', 'org.robobinding.doctaglet.PropTaglet']
+		addStringOption "tagletpath", configurations.javadocTaglet.asPath
+	}
 	
 	include 'org/robobinding/*Exception.*'
 	include 'org/robobinding/*Errors.*'

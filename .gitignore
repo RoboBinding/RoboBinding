@@ -34,3 +34,6 @@
 /extras/.project
 /extras/.classpath
 /extras/.settings
+/extras/build
+/extras/bin
+/extras/mavenRepo
