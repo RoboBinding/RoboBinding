@@ -837,14 +837,14 @@ asciidoc.install(2);
                 <a href="index.zh.html" class="menuitem">首页</a>
                 <a href="getting_started.zh.html" class="menuitem">入门</a>
                 <a href="insight_into_framework.zh.html" class="menuitem">深入理解框架</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.10/robobinding-0.8.10-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.11/robobinding-0.8.11-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
                 <a href="about.zh.html" class="menuitem">关于</a>
                 <a href="versions.zh.html" class="menuitem">版本更新</a>
                 <a href="index.html" class="menuitem">英文首页</a>
         </div>
 <div id="header">
 <h1>版本</h1>
-<span id="revnumber">version 0.8.10</span>
+<span id="revnumber">version 0.8.11</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -852,7 +852,45 @@ asciidoc.install(2);
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_版本_0_8_10_02_08_2015发布">1. 版本 0.8.10(02/08/2015发布)</h2>
+<h2 id="_版本_0_8_11_24_10_2015发布">1. 版本 0.8.11(24/10/2015发布)</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/179">feature #179</a>
+多item view layout选择器支持. 像网易新闻列表那样有的是新闻项有的是图片项。
+感谢 @derron 对这个特性的贡献 - <a href="https://github.com/RoboBinding/RoboBinding/pull/230">https://github.com/RoboBinding/RoboBinding/pull/230</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/184">feature #184, #206, #220</a>
+增加RecyclerView支持。并为末来有Adapter/DataSet的View提供了通用的解释方案，非常容易实现RecyclerView就是一个例子。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/229">bug #229</a>
+LayoutInflater.Factory2直到API11才引入。需要保持与API10以及之前版本的兼容性。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/234">improvement #234</a>
+Javadoc的一个小更正。
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/236">improvement #236</a>
+Javadoc页面编码的更正。
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_版本_0_8_10_02_08_2015发布">2. 版本 0.8.10(02/08/2015发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -910,7 +948,7 @@ java.lang.ClassNotFoundException: 找不到 "android.widget.fragment" 类。
 </div>
 </div>
 <div class="sect1">
-<h2 id="_版本_0_8_9_2014_10_14发布">2. 版本 0.8.9(2014-10-14发布)</h2>
+<h2 id="_版本_0_8_9_2014_10_14发布">3. 版本 0.8.9(2014-10-14发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -933,7 +971,7 @@ PresentationModel只需要实现org.robobinding.presentationmodel.HasPresentatio
 </div>
 </div>
 <div class="sect1">
-<h2 id="_版本_0_8_8_2014_09_26发布">3. 版本 0.8.8(2014-09-26发布)</h2>
+<h2 id="_版本_0_8_8_2014_09_26发布">4. 版本 0.8.8(2014-09-26发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -953,7 +991,7 @@ PresentationModel只需要实现org.robobinding.presentationmodel.HasPresentatio
 </div>
 </div>
 <div class="sect1">
-<h2 id="_版本_0_8_7_2014_09_24发布">4. 版本 0.8.7(2014-09-24发布)</h2>
+<h2 id="_版本_0_8_7_2014_09_24发布">5. 版本 0.8.7(2014-09-24发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -978,7 +1016,7 @@ PresentationModel只需要实现org.robobinding.presentationmodel.HasPresentatio
 </div>
 </div>
 <div class="sect1">
-<h2 id="_版本_0_8_6_2014_09_20发布">5. 版本 0.8.6(2014-09-20发布)</h2>
+<h2 id="_版本_0_8_6_2014_09_20发布">6. 版本 0.8.6(2014-09-20发布)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -1013,8 +1051,8 @@ PresentationModel只需要实现org.robobinding.presentationmodel.HasPresentatio
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.10<br />
-Last updated 2015-08-02 10:33:45 澳大利亚东部标准时间
+Version 0.8.11<br />
+Last updated 2015-10-24 16:42:51 
 </div>
 </div>
 </body>

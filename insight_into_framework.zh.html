@@ -775,7 +775,7 @@ asciidoc.install(2);
                 <a href="index.zh.html" class="menuitem">首页</a>
                 <a href="getting_started.zh.html" class="menuitem">入门</a>
                 <a href="insight_into_framework.zh.html" class="menuitem">深入理解框架</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.10/robobinding-0.8.10-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.11/robobinding-0.8.11-javadoc.jar/!/index.html" class="menuitem">API与绑定属性JavaDocs</a>
                 <a href="about.zh.html" class="menuitem">关于</a>
                 <a href="versions.zh.html" class="menuitem">版本更新</a>
                 <a href="index.html" class="menuitem">英文首页</a>
@@ -863,13 +863,13 @@ asciidoc.install(2);
 <div class="title">Figure 3. RoboBinding实现概要图</div>
 </div>
 <div class="paragraph"><p>以上为RoboBinding框架实现的概要。黄色背景的两张图(Client与PresentationModel)为应用代码，其它的三个为框架代码。图中只列举了来自一些包的核心类。
-Client(Activity，Dialog或Custom View)将Layout传递给ViewBinder，
+Client(Activity, Fragment或Menu)将Layout传递给ViewBinder(或MenuBinder)，
 ViewBinder从Layout文件构建起View层次结构(利用Android的内部android.view.LayoutInflater功能)以及RoboBinding绑定信息。
 一个根View可能包含若干个子View，子View可能包含下级View，形成一个树状的结构。每一个View中可能包含若干个视图绑定属性。
-RoboBinding中定义了三类视图绑定属性，分别是.viewattribute.property.PropertyViewAttribute，
+RoboBinding中定义了三类视图绑定属性，分别是.viewattribute.property.[XX]PropertyViewAttribute，
 .viewattribute.event.EventViewAttribute，
 以及.viewattribute.grouped.GroupedViewAttribute。</p></div>
-<div class="paragraph"><p>PropertyViewAttribute实现Layout中的显示数据与PresentationModel中的属性绑定；
+<div class="paragraph"><p>[XX]PropertyViewAttribute实现Layout中的显示数据与PresentationModel中的属性绑定；
 EventViewAttribute实现Layout中的事件与PresentationModel中的方法绑定；
 而GroupedViewAttribute由若干个PropertyViewAttribute与EventViewAttribute组成，用于实现一个复合视图属性由多个子属性构成的情况。
 PropertyViewAttribute通过.presentationmodel.PresentationModelAdapter
@@ -1035,7 +1035,7 @@ DataSetProperty是一个数据集属性，其中每一个数据项又会生成�
 <div id="footer">
 <div id="footer-text">
 Version 0.8.9<br />
-Last updated 2014-10-14 21:35:58 澳大利亚东部标准时间
+Last updated 2015-08-16 10:55:52 
 </div>
 </div>
 </body>

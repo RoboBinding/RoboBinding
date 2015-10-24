@@ -837,14 +837,14 @@ asciidoc.install(2);
                 <a href="index.html" class="menuitem">Home</a>
                 <a href="getting_started.html" class="menuitem">Getting Started</a>
                 <a href="insight_into_framework.html" class="menuitem">Insight Into Framework</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.10/robobinding-0.8.10-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.11/robobinding-0.8.11-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
                 <a href="about.html" class="menuitem">About</a>
                 <a href="versions.html" class="menuitem">Versions</a>
                 <a href="index.zh.html" class="menuitem">Chinese中文</a>
         </div>
 <div id="header">
 <h1>Versions</h1>
-<span id="revnumber">version 0.8.10</span>
+<span id="revnumber">version 0.8.11</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -852,7 +852,46 @@ asciidoc.install(2);
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_version_0_8_10_released_02_08_2015">1. version 0.8.10(released 02/08/2015)</h2>
+<h2 id="_version_0_8_11_released_24_10_2015">1. version 0.8.11(released 24/10/2015)</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/179">feature #179</a>
+multiple item view layout selection support. Many thanks for @derron&#8217;s effort,
+which makes the feature avaiable - <a href="https://github.com/RoboBinding/RoboBinding/pull/230">https://github.com/RoboBinding/RoboBinding/pull/230</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/184">feature #184, #206, #220</a>
+Added RecyclerView binding. This also provided a general solution for any future Adapter/DataSet view binding implementation.
+Like RecyclerView Binding implementation, it becomes too easy.
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/229">bug #229</a>
+LayoutInflater.Factory2 is not introduced until API11. So need to keep back compatibility with apps using API10 or before.
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/234">improvement #234</a>
+A small fix to javadoc.
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/RoboBinding/RoboBinding/issues/236">improvement #236</a>
+A fix to javadoc page encoding problem.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_version_0_8_10_released_02_08_2015">2. version 0.8.10(released 02/08/2015)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -909,7 +948,7 @@ java.lang.ClassNotFoundException: Didn&#8217;t find class "android.widget.fragme
 </div>
 </div>
 <div class="sect1">
-<h2 id="_version_0_8_9_released_14_10_2014">2. version 0.8.9(released 14/10/2014)</h2>
+<h2 id="_version_0_8_9_released_14_10_2014">3. version 0.8.9(released 14/10/2014)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -932,7 +971,7 @@ For further information, please refer to <a href="getting_started.html#_presenta
 </div>
 </div>
 <div class="sect1">
-<h2 id="_version_0_8_8_released_26_09_2014">3. version 0.8.8(released 26/09/2014)</h2>
+<h2 id="_version_0_8_8_released_26_09_2014">4. version 0.8.8(released 26/09/2014)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -952,7 +991,7 @@ Affected by this bug, there are some <strong>API changes</strong> to org.robobin
 </div>
 </div>
 <div class="sect1">
-<h2 id="_version_0_8_7_released_24_09_2014">4. version 0.8.7(released 24/09/2014)</h2>
+<h2 id="_version_0_8_7_released_24_09_2014">5. version 0.8.7(released 24/09/2014)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -977,7 +1016,7 @@ Safeguard the updates to PresentationModels only executed within UI thread.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_version_0_8_6_released_20_09_2014">5. version 0.8.6(released 20/09/2014)</h2>
+<h2 id="_version_0_8_6_released_20_09_2014">6. version 0.8.6(released 20/09/2014)</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -1014,8 +1053,8 @@ Upgraded to Robolectric 2.3 for tests.
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.10<br />
-Last updated 2015-08-02 10:19:50 澳大利亚东部标准时间
+Version 0.8.11<br />
+Last updated 2015-10-24 16:41:31 
 </div>
 </div>
 </body>

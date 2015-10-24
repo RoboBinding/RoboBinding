@@ -1,10 +1,25 @@
 ﻿Versions
 ========
-:Revision: 0.8.10
+:Revision: 0.8.11
 :toc:
 :numbered:
 :imagesdir: ./images
 :source-highlighter: pygments
+
+version 0.8.11(released 24/10/2015)
+----------------------------------
+* https://github.com/RoboBinding/RoboBinding/issues/179[feature #179]
+multiple item view layout selection support. Many thanks for @derron's effort,
+which makes the feature avaiable - https://github.com/RoboBinding/RoboBinding/pull/230
+* https://github.com/RoboBinding/RoboBinding/issues/184[feature #184, #206, #220]
+Added RecyclerView binding. This also provided a general solution for any future Adapter/DataSet view binding implementation.
+Like RecyclerView Binding implementation, it becomes too easy.
+* https://github.com/RoboBinding/RoboBinding/issues/229[bug #229]
+LayoutInflater.Factory2 is not introduced until API11. So need to keep back compatibility with apps using API10 or before.
+* https://github.com/RoboBinding/RoboBinding/issues/234[improvement #234]
+A small fix to javadoc.
+* https://github.com/RoboBinding/RoboBinding/issues/236[improvement #236]
+A fix to javadoc page encoding problem.
 
 version 0.8.10(released 02/08/2015)
 ----------------------------------

@@ -786,6 +786,8 @@ The entry classes mentioned below are from the package org.robobinding.gallery.a
 
 * Binding attributes demo for ListView. The entry class is 'ListViewActivity'.
 
+* Binding attributes demo for RecyclerView. The entry class is 'RecyclerViewActivity'.
+
 * Binding attributes demo for Custom Components. The entry class is 'CustomComponentActivity'.
 
 * Demo for Object Cursor. The entry class is 'TypedCursorActivity'.

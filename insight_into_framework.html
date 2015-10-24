@@ -775,7 +775,7 @@ asciidoc.install(2);
                 <a href="index.html" class="menuitem">Home</a>
                 <a href="getting_started.html" class="menuitem">Getting Started</a>
                 <a href="insight_into_framework.html" class="menuitem">Insight Into Framework</a>
-                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.10/robobinding-0.8.10-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
+                <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/robobinding/robobinding/0.8.11/robobinding-0.8.11-javadoc.jar/!/index.html" class="menuitem">API and Binding Attributes JavaDocs</a>
                 <a href="about.html" class="menuitem">About</a>
                 <a href="versions.html" class="menuitem">Versions</a>
                 <a href="index.zh.html" class="menuitem">Chinese中文</a>
@@ -864,12 +864,12 @@ The aim of the project is to reduce the workload of Android application developm
 </div>
 <div class="paragraph"><p>The above shows the overall implementation of the RoboBinding framework. The two blocks with yellow background (The Client and the PresentationModel) are the application code,
 and the three others are the framework code. Note that the figure only shows some core classes from a number of RoboBinding packages.
-A client(can be a Activity, a Dialog or a Custom View) passes a layout to a ViewBinder.
+A client(can be a Activity, a Fragment or a Menu) passes a layout to a ViewBinder(or MenuBinder).
 Then the ViewBinder inflates the given layout file to construct a view hierarchy(with the assistance of android.view.LayoutInflater) and extracts binding information.
 A root view may contain several sub-views, and a sub-view may have its child views, forming a tree structure. Each view may contain several view binding attributes.
-RoboBinding defines three types of view binding attributes, namely .viewattribute.property.PropertyViewAttribute,
+RoboBinding defines three types of view binding attributes, namely .viewattribute.property.[XX]PropertyViewAttribute,
 .viewattribute.event.EventViewAttribute, and .viewattribute.grouped.GroupedViewAttribute.</p></div>
-<div class="paragraph"><p>A PropertyViewAttribute implements the binding between a view attribute and a property of a PresentationModel.
+<div class="paragraph"><p>A [XX]PropertyViewAttribute implements the binding between a view attribute and a property of a PresentationModel.
 A EventViewAttribute implements the binding between a view event and a method of a PresentationModel.
 A GroupedViewAttribute, or a composite view binding attribute, consists of a number of sub-attributes, which can be PropertyViewAttributes and EventViewAttributes.
 A PropertyViewAttribute is mapped to a property or a dataset-property of the PresentationModel through a .property.PropertyValueModel(when it is a simple property)
@@ -1045,7 +1045,7 @@ RoboBinding source code format needs to be followed, so that it is easier for co
 <div id="footer">
 <div id="footer-text">
 Version 0.8.9<br />
-Last updated 2014-10-12 11:33:18 澳大利亚东部标准时间
+Last updated 2015-08-16 10:56:00 
 </div>
 </div>
 </body>

@@ -767,6 +767,8 @@ Gallery 示例内容
 
 * ListView绑定属性示例。入口类为ListViewActivity。
 
+* RecyclerView绑定属性示例。入口类为RecyclerViewActivity。
+
 * 自定义组件绑定属性示例。入口类为CustomComponentActivity。
 
 * 对象化Cursor示例。入口类为TypedCursorActivity。

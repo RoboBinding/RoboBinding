@@ -1,10 +1,24 @@
 ﻿版本
 ====
-:Revision: 0.8.10
+:Revision: 0.8.11
 :toc:
 :numbered:
 :imagesdir: ./images
 :source-highlighter: pygments
+
+版本 0.8.11(24/10/2015发布)
+---------------------------
+* https://github.com/RoboBinding/RoboBinding/issues/179[feature #179]
+多item view layout选择器支持. 像网易新闻列表那样有的是新闻项有的是图片项。
+感谢 @derron 对这个特性的贡献 - https://github.com/RoboBinding/RoboBinding/pull/230
+* https://github.com/RoboBinding/RoboBinding/issues/184[feature #184, #206, #220]
+增加RecyclerView支持。并为末来有Adapter/DataSet的View提供了通用的解释方案，非常容易实现RecyclerView就是一个例子。
+* https://github.com/RoboBinding/RoboBinding/issues/229[bug #229]
+LayoutInflater.Factory2直到API11才引入。需要保持与API10以及之前版本的兼容性。
+* https://github.com/RoboBinding/RoboBinding/issues/234[improvement #234]
+Javadoc的一个小更正。
+* https://github.com/RoboBinding/RoboBinding/issues/236[improvement #236]
+Javadoc页面编码的更正。
 
 版本 0.8.10(02/08/2015发布)
 ---------------------------

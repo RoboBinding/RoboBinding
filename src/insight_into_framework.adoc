@@ -35,7 +35,7 @@ RoboBinding architecture and implementation
 -------------------------------------------
 
 RoboBinding is a data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] framework for the Android platform.
-The aim of the project is to reduce the workload of Android application development, promote a clear project structure and make the project easier to test. 
+The aim of the project is to reduce the workload of Android application development, promote a clear project structure and make the project easier to test.
 
 Observing from RoboBinding overall implementation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -46,13 +46,13 @@ image::architecture.png[]
 
 The above shows the overall implementation of the RoboBinding framework. The two blocks with yellow background (The Client and the PresentationModel) are the application code,
 and the three others are the framework code. Note that the figure only shows some core classes from a number of RoboBinding packages.
-A client(can be a Activity, a Dialog or a Custom View) passes a layout to a ViewBinder.
+A client(can be a Activity, a Fragment or a Menu) passes a layout to a ViewBinder(or MenuBinder).
 Then the ViewBinder inflates the given layout file to construct a view hierarchy(with the assistance of android.view.LayoutInflater) and extracts binding information.
 A root view may contain several sub-views, and a sub-view may have its child views, forming a tree structure. Each view may contain several view binding attributes.
-RoboBinding defines three types of view binding attributes, namely .viewattribute.property.PropertyViewAttribute,
+RoboBinding defines three types of view binding attributes, namely .viewattribute.property.[XX]PropertyViewAttribute,
 .viewattribute.event.EventViewAttribute, and .viewattribute.grouped.GroupedViewAttribute.
 
-A PropertyViewAttribute implements the binding between a view attribute and a property of a PresentationModel.
+A [XX]PropertyViewAttribute implements the binding between a view attribute and a property of a PresentationModel.
 A EventViewAttribute implements the binding between a view event and a method of a PresentationModel.
 A GroupedViewAttribute, or a composite view binding attribute, consists of a number of sub-attributes, which can be PropertyViewAttributes and EventViewAttributes.
 A PropertyViewAttribute is mapped to a property or a dataset-property of the PresentationModel through a .property.PropertyValueModel(when it is a simple property)
@@ -61,7 +61,7 @@ A EventViewAttribute is mapped to a method of the PresentationModel through a .f
 
 .Demonstrating RoboBinding internal running follow through an example
 image::architecture_sample.png[]
-The chart above summarizes RoboBinding internal running follow through an example. 
+The chart above summarizes RoboBinding internal running follow through an example.
 The three blocks with yellow background are taken from https://github.com/RoboBinding/RoboBinding-album-sample[RoboBinding-album-sample] project's source code with slight modification,
 while the other two are the instances of some core classes from the framework.
 ViewAlbumsActivity binds the layout to its presentationModel with the help of the framework(here is .binder.Binders class).
@@ -87,7 +87,7 @@ Observing from RoboBinding implementation details
 
 Implementing view inflation and binding
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The classes that implement view inflation and binding are in org.robobinding and org.robobinding.binder packages. 
+The classes that implement view inflation and binding are in org.robobinding and org.robobinding.binder packages.
 In the following section, a package start with '.' is a relative path to org.robobinding.
 
 image::developer_usecase_sequence.png[]
@@ -102,7 +102,7 @@ The figure shows the layout inflation process and the core classes involved.
 Carrying on with the ViewBinder mentioned above, it further passes the layout inflation task to .binder.BindingViewInflater
 and the latter propagate to org.robobinding.NonBindingViewInflater. The only responsibility of NonBindingViewInflater is to inflate layout, constructing the view hierarchy from the given layout.
 When a view is created during inflation, a callback with view attributes to the BindingViewInflater is fired,
-and out of these view attributes, the BindingViewInflater builds a set of pending view binding attributes, org.robobinding.PendingAttributesForView, 
+and out of these view attributes, the BindingViewInflater builds a set of pending view binding attributes, org.robobinding.PendingAttributesForView,
 with the help of .binder.BindingAttributeParser.
 Repeating the process, until all PendingAttributesForViews are parsed from the layout.
 
@@ -152,7 +152,7 @@ a org.robobinding.widget.listview.FooterAttributes, which contains sub-attribute
 org.robobinding.viewattribute package contains abstract classes of core concepts for view attributes, and org.robobinding.widget package contains various counterpart view attribute binding implementations for android.widget package.
 For example, org.robobinding.widget.textview package is for android.widget.TextView and org.robobinding.widget.seekbar package is for android.widget.SeekBar.
 
-All kinds of view attributes have corresponding Binder classes. They work together to accomplish the binding task. 
+All kinds of view attributes have corresponding Binder classes. They work together to accomplish the binding task.
 For example, the counterpart of EventViewAttribute is EventViewAttributeBinder.
 
 

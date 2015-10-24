@@ -44,14 +44,14 @@ RoboBinding是一个实现Martin Fowler的http://martinfowler.com/eaaDev/Present
 image::architecture.png[]
 
 以上为RoboBinding框架实现的概要。黄色背景的两张图(Client与PresentationModel)为应用代码，其它的三个为框架代码。图中只列举了来自一些包的核心类。
-Client(Activity，Dialog或Custom View)将Layout传递给ViewBinder，
+Client(Activity, Fragment或Menu)将Layout传递给ViewBinder(或MenuBinder)，
 ViewBinder从Layout文件构建起View层次结构(利用Android的内部android.view.LayoutInflater功能)以及RoboBinding绑定信息。
 一个根View可能包含若干个子View，子View可能包含下级View，形成一个树状的结构。每一个View中可能包含若干个视图绑定属性。
-RoboBinding中定义了三类视图绑定属性，分别是.viewattribute.property.PropertyViewAttribute，
+RoboBinding中定义了三类视图绑定属性，分别是.viewattribute.property.[XX]PropertyViewAttribute，
 .viewattribute.event.EventViewAttribute，
 以及.viewattribute.grouped.GroupedViewAttribute。
 
-PropertyViewAttribute实现Layout中的显示数据与PresentationModel中的属性绑定；
+[XX]PropertyViewAttribute实现Layout中的显示数据与PresentationModel中的属性绑定；
 EventViewAttribute实现Layout中的事件与PresentationModel中的方法绑定；
 而GroupedViewAttribute由若干个PropertyViewAttribute与EventViewAttribute组成，用于实现一个复合视图属性由多个子属性构成的情况。
 PropertyViewAttribute通过.presentationmodel.PresentationModelAdapter
