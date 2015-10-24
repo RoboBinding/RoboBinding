@@ -37,11 +37,11 @@ subprojects {
 
 		commonsLangVersion = '3.4'
 		
-		robolectricVersion = '3.+'
-		junitVersion = '4.+'
+		robolectricVersion = '3.0'
+		junitVersion = '4.12'
 		hamcrestVersion = '1.3'	
-		mockitoVersion = '1.+'
-		commonsCollectionsVersion = '3.+'
+		mockitoVersion = '1.10.19'
+		commonsCollectionsVersion = '3.2.1'
 	}
 	
 	dependencies {
