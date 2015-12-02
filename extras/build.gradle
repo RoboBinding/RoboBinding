@@ -38,6 +38,7 @@ dependencies {
 		exclude module: 'wagon-http-shared'
 		exclude module: 'wagon-provider-api'
 	}
+	testCompile "org.robolectric:shadows-support-v4:$robolectricVersion"
 }
 
 javadoc {
