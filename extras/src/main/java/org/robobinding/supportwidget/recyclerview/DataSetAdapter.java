@@ -11,7 +11,6 @@ import org.robobinding.widget.adapterview.ItemLayoutBinder;
 import org.robobinding.widget.adapterview.ItemLayoutSelector;
 
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,7 +19,7 @@ import android.view.ViewGroup;
  * @since 1.0
  * @author Cheng Wei
  */
-public class DataSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DataSetAdapter extends RecyclerView.Adapter<DataSetAdapter.ViewHolder> {
 	private final DataSetValueModel dataSetValueModel;
 
 	private final ItemLayoutBinder itemLayoutBinder;
@@ -54,23 +53,24 @@ public class DataSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 		View view = bindableView.getRootView();
 		RefreshableItemPresentationModel itemPresentationModel = 
 				dataSetValueModel.newRefreshableItemPresentationModel(viewType);
-		bindableView.bindTo((AbstractPresentationModelObject)itemPresentationModel);
 
 		ViewTag<RefreshableItemPresentationModel> viewTag = viewTags.tagFor(view);
 		viewTag.set(itemPresentationModel);
-		return new RecyclerView.ViewHolder(view){};
+		return new ViewHolder(view, bindableView, (AbstractPresentationModelObject)itemPresentationModel);
 	}
 
 	@Override
 	public void onBindViewHolder(ViewHolder viewHolder, int position) {
-		updateItemPresentationModel(viewHolder.itemView, position);		
-	}
-
-	private void updateItemPresentationModel(View view, int position) {
+		View view = viewHolder.itemView;
 		ViewTag<RefreshableItemPresentationModel> viewTag = viewTags.tagFor(view);
 		RefreshableItemPresentationModel itemPresentationModel = viewTag.get();
 		itemPresentationModel.updateData(getItem(position), new ItemContext(view, position));
-		refreshIfRequired(itemPresentationModel);
+
+		if(viewHolder.isNewView()) {
+			viewHolder.bindView();
+		} else {
+			refreshIfRequired(itemPresentationModel);
+		}
 	}
 	
 	private void refreshIfRequired(RefreshableItemPresentationModel itemPresentationModel) {
@@ -86,5 +86,29 @@ public class DataSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 	@Override
 	public int getItemViewType(int position) {
 		return layoutSelector.getItemViewType(getItem(position), position);
+	}
+	
+	public static class ViewHolder extends RecyclerView.ViewHolder {
+		private final BindableView bindableView;
+		private final AbstractPresentationModelObject itemPresentationModel;
+		private boolean notBound;
+		public ViewHolder(View view, BindableView bindableView, AbstractPresentationModelObject itemPresentationModel) {
+			super(view);
+			
+			this.bindableView = bindableView;
+			this.itemPresentationModel = itemPresentationModel;
+			this.notBound = true;
+		}
+		
+		private boolean isNewView() {
+			return notBound;
+		}
+		
+		private void bindView() {
+			if(notBound) {
+				bindableView.bindTo(itemPresentationModel);
+				notBound = false;
+			}
+		}
 	}
 }
