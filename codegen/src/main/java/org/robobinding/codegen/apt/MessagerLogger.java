@@ -22,7 +22,8 @@ public class MessagerLogger implements Logger {
 
 	@Override
 	public void info(String message) {
-		messager.printMessage(Kind.NOTE, message, element);
+		System.out.println(message);
+		//messager.printMessage(Kind.NOTE, message, element);
 	}
 
 	@Override
