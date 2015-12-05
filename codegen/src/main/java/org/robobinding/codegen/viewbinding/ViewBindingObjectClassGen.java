@@ -28,6 +28,7 @@ import com.helger.jcodemodel.JVar;
  */
 public class ViewBindingObjectClassGen implements SourceCodeWritable {
 	private final List<SimpleOneWayPropertyInfo> simpleOneWayPropertyInfoList;
+	private final List<TwoWayPropertyInfo> twoWayPropertyInfoList;
 
 	private final JCodeModel codeModel;
 	private final JDefinedClass definedClass;
@@ -39,6 +40,7 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
 	
 	public ViewBindingObjectClassGen(ViewBindingInfo viewBindingInfo) {
 		this.simpleOneWayPropertyInfoList = viewBindingInfo.simpleOneWayPropertyInfoList();
+		this.twoWayPropertyInfoList = viewBindingInfo.twoWayPropertyInfoList();
 		
 		codeModel = new JCodeModel();
 		try {
@@ -149,6 +151,12 @@ public class ViewBindingObjectClassGen implements SourceCodeWritable {
 		for(SimpleOneWayPropertyInfo info : simpleOneWayPropertyInfoList) {
 			body.invoke(mappingsParam, "mapOneWayProperty")
 				.arg(info.getBindingClass().dotclass())
+				.arg(info.propertyName());
+		}
+		for (TwoWayPropertyInfo info : twoWayPropertyInfoList) {
+			AbstractJClass propertyClass = codeModel.ref(info.propertyTypeName());
+			body.invoke(mappingsParam, "mapTwoWayProperty")
+				.arg(propertyClass.dotclass())
 				.arg(info.propertyName());
 		}
 		body.invoke(customViewBindingFieldWithoutThis, "mapBindingAttributes").arg(mappingsParam);

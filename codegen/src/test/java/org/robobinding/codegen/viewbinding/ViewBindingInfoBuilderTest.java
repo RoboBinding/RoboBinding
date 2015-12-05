@@ -12,12 +12,17 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.robobinding.codegen.apt.MethodElementFilter;
 import org.robobinding.codegen.apt.element.AptTestHelper;
+import org.robobinding.codegen.apt.element.MethodElement;
 import org.robobinding.codegen.apt.element.SetterElement;
 import org.robobinding.codegen.apt.element.WrappedTypeElement;
 
 import com.google.common.collect.Lists;
 import com.google.testing.compile.CompilationRule;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @since 1.0
@@ -44,13 +49,14 @@ public class ViewBindingInfoBuilderTest {
 		ViewBindingInfoBuilder builder = new ViewBindingInfoBuilder(typeElement, viewBindingObjectTypeName);
 		
 		ViewBindingInfo viewBindingInfo = builder.build();
-		
+
 		ViewBindingInfo expectedViewBindingInfo = new ViewBindingInfo(
 				ViewBindingWithVariousProperties.class.getName(), 
 				viewBindingObjectTypeName, 
 				typeElementOf(ViewWithProperties.class), 
 				Lists.newArrayList(new SimpleOneWayPropertyInfo(looseSetterOf(ViewWithProperties.PRIMITIVE_PROP)), 
-						new SimpleOneWayPropertyInfo(looseSetterOf(ViewWithProperties.OBJECT_PROP))));
+						new SimpleOneWayPropertyInfo(looseSetterOf(ViewWithProperties.OBJECT_PROP))),
+				Lists.newArrayList(new TwoWayPropertyInfo(ViewWithProperties.TWO_WAY_PROP, ViewWithProperties.CustomTwoWayProp.class.getCanonicalName())));
 		Assert.assertThat(viewBindingInfo, equalTo(expectedViewBindingInfo));
 	}
 	
@@ -62,7 +68,7 @@ public class ViewBindingInfoBuilderTest {
     private SetterElement looseSetterOf(String propertyName) {
     	return aptTestHelper.looseSetterOf(ViewWithProperties.class, propertyName);
     }
-    
+
     @DataPoints("invalidViewBindings")
     public static Class<?>[] invalidViewBindings = {
     		ViewBindingWithNonExistingProperty.class, 

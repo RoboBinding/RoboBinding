@@ -16,4 +16,6 @@ public @interface ViewBinding {
 
 	String[] simpleOneWayProperties() default {};
 
+	TwoWayProperty[] twoWayProperties() default {};
+
 }
