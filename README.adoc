@@ -1,7 +1,7 @@
 = image:http://robobinding.org/images/robobinding_logo.png[width=60, height=60] RoboBinding
 
-A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model](MVVM) framework for the Android platform.
-RoboBinding helps you write UI code that is easier to read, test and maintain without performance compromise(code generation instead of java reflection).
+A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] (MVVM) framework for the Android platform.
+RoboBinding helps you write UI code that is easier to read, test and maintain without performance compromise (code generation instead of java reflection).
 
 * removes - *lots of unnecessary code(e.g., addXXListener(), findViewById()...)* - by binding.
 
@@ -14,9 +14,9 @@ RoboBinding helps you write UI code that is easier to read, test and maintain wi
 Let's watch http://skillsmatter.com/podcast/os-mobile-server/core-dev-talk-robobinding[an introductory video] and then get started from link:http://robobinding.org/getting_started.html[here].
 
 RoboBinding values *code quality*. The framework source code is very readable and comes with a complete set of tests,
-which makes contributing easy and enjoyable. Want contributing? start link:http://robobinding.org/insight_into_framework.html#_set_up_eclipse_development_environment[here].
+which makes contributing easy and enjoyable. Want to contribute? Start link:http://robobinding.org/insight_into_framework.html#_set_up_eclipse_development_environment[here].
 
-RoboBinding loves to hear *any voices(negtive or positive) or suggestions* and invite you to post into RoboBinding http://groups.google.com/group/robobinding[Google group].
+RoboBinding loves to hear *any voices (negative or positive) or suggestions* and invite you to post into RoboBinding http://groups.google.com/group/robobinding[Google group].
 
 
 
@@ -28,7 +28,7 @@ RoboBinding loves to hear *any voices(negtive or positive) or suggestions* and i
 
 * link:http://robobinding.org/about.html[About]
 
-* link:http://robobinding.org/versions.html[Versions](latest *0.8.12*)
+* link:http://robobinding.org/versions.html[Versions] (latest *0.8.12*)
 
 * link:http://robobinding.org/index.zh.html[Chinese中文] 及 image:http://qplus3.idqqimg.com/qun/portal/img/logo2.png["QQ群", width=60, height=25]：308303599
 
