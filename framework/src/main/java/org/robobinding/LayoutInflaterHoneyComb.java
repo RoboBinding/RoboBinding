@@ -20,7 +20,7 @@ public class LayoutInflaterHoneyComb extends LayoutInflaterPreHoneyComb {
 			forceSetFactory2IfRequired();
 		}
 		
-		setPrivateFactory(privateFactory2);
+		setPrivateFactory2(privateFactory2);
 	}
 	/**
 	 * A fix to android.view.LayoutInflater.setFactory2 bug in early versions
@@ -29,8 +29,14 @@ public class LayoutInflaterHoneyComb extends LayoutInflaterPreHoneyComb {
 	private void forceSetFactory2IfRequired() {
 		if(getFactory() != getFactory2()) {
 			ReflectionUtils.setField(this, "mFactory2", 
-					LayoutInflater.Factory2.class, (LayoutInflater.Factory2)getFactory());
+					Factory2.class, (Factory2)getFactory());
 		}
+	}
+	/**
+	 * Fix for proguard warning.
+	 */
+	private void setPrivateFactory2(Factory2 factory2) {
+		ReflectionUtils.setField(this, "mPrivateFactory", Factory2.class, factory2);
 	}
 	
 	public static LayoutInflater create(LayoutInflater original, ViewCreationListener listener, 
