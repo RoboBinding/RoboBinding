@@ -48,4 +48,21 @@ class ReflectionUtils {
 			field.setAccessible(true);
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T getField(Object target, String fieldName, Class<T> fieldType) {
+		Field field = findField(target.getClass(), fieldName, fieldType);
+		if(field == null) {
+			throw new RuntimeException("unknown given field '"+fieldName+"'");
+		}
+		
+		makeAccessible(field);
+		try {
+			return (T)field.get(target);
+		}
+		catch (IllegalAccessException ex) {
+			throw new IllegalStateException(
+					"Unexpected reflection exception - " + ex.getClass().getName() + ": " + ex.getMessage(), ex);
+		}
+	}
 }
