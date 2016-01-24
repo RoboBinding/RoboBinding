@@ -2,10 +2,6 @@ buildscript {
 	repositories {
 		mavenCentral()
 	}
-
-	dependencies {
-		classpath 'net.sf.proguard:proguard-gradle:4.11'
-	}
 }
 
 archivesBaseName = 'codegen'
@@ -40,6 +36,7 @@ dependencies {
 	testCompile 'commons-io:commons-io:2.4'
 }
 
+/*
 task proguardJarWithDependencies(type: proguard.gradle.ProGuardTask, dependsOn: jar) {
 	ext{
 		oldClassifier = jar.classifier;
@@ -53,7 +50,7 @@ task proguardJarWithDependencies(type: proguard.gradle.ProGuardTask, dependsOn: 
 	injars configurations.runtime, filter: '!META-INF/MANIFEST.MF'
 	outjars  outJar
 	libraryjars files("${System.properties['java.home']}/lib/rt.jar")
-}
+}*/
 
 javadoc {
 	source = sourceSets.main.allJava
@@ -70,7 +67,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 artifacts {
-	archives proguardJarWithDependencies.outJarFileCollection.singleFile
+	/*archives proguardJarWithDependencies.outJarFileCollection.singleFile*/
 	
 	archives sourcesJar
 	archives javadocJar
@@ -83,7 +80,6 @@ signing {
 	required { !version.endsWith('SNAPSHOT') && gradle.taskGraph.hasTask("uploadArchives") }
 	sign configurations.archives
 }
-signArchives.dependsOn proguardJarWithDependencies
 
 apply plugin: 'maven'
 uploadArchives {
@@ -156,6 +152,12 @@ uploadArchives {
 						}
 					}
 				}
+			}
+			pom.withXml {
+				def dependenciesNode = it.asNode().dependencies[0];
+				//remove robobinding dependency node.
+				def androidDependencyNode = dependenciesNode.dependency.find{ it.artifactId.text() == 'robobinding' }
+				dependenciesNode.remove androidDependencyNode
 			}
 		}
 	}
