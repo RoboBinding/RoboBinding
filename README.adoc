@@ -28,7 +28,7 @@ RoboBinding loves to hear *any voices (negative or positive) or suggestions* and
 
 * link:http://robobinding.org/about.html[About]
 
-* link:http://robobinding.org/versions.html[Versions] (latest *0.8.12*)
+* link:http://robobinding.org/versions.html[Versions] (latest *0.8.13*)
 
 * link:http://robobinding.org/index.zh.html[Chinese中文] 及 image:http://qplus3.idqqimg.com/qun/portal/img/logo2.png["QQ群", width=60, height=25]：308303599
 
