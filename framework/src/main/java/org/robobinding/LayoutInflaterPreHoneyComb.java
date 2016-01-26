@@ -3,6 +3,7 @@ package org.robobinding;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.LayoutInflater.Factory;
 import android.view.View;
 
 /**
@@ -10,33 +11,27 @@ import android.view.View;
  * @author Cheng Wei
  *
  */
-public class LayoutInflaterPreHoneyComb extends LayoutInflater {
-	public LayoutInflaterPreHoneyComb(Context context, Factory factory, Filter filter) {
-        super(context);
-        if (factory != null) {
-        	setFactory(factory);
-        }
-        setFilter(filter);
-    }
-	
-	@Override
-	public LayoutInflater cloneInContext(Context newContext) {
-		throw new UnsupportedOperationException();
-	}
+public class LayoutInflaterPreHoneyComb {
+	LayoutInflaterPreHoneyComb() {}
 	
 	public static LayoutInflater create(LayoutInflater original, ViewCreationListener listener, 
 			ViewNameResolver viewNameResolver) {
-		return new LayoutInflaterPreHoneyComb(
-				original.getContext(),
-				wrapFactory(original, viewNameResolver, listener),
-				original.getFilter());
+		LayoutInflater newLayoutInflater = clone(original);
+		newLayoutInflater.setFactory(wrapFactory(original, newLayoutInflater, viewNameResolver, listener));
+		return newLayoutInflater;
+	}
+	
+	protected static LayoutInflater clone(LayoutInflater original) {
+		LayoutInflater newLayoutInflater = original.cloneInContext(original.getContext());
+		newLayoutInflater.setFilter(original.getFilter());
+		return newLayoutInflater;
 	}
 
-	private static Factory wrapFactory(LayoutInflater original, ViewNameResolver viewNameResolver, 
-			ViewCreationListener listener) {
-		Factory factory = (original.getFactory() != null) ? original.getFactory() : EMPTY_FACTORY;
+	private static Factory wrapFactory(LayoutInflater original, LayoutInflater layoutInflater,
+			ViewNameResolver viewNameResolver, ViewCreationListener listener) {
+		Factory safeFactory = (original.getFactory() != null) ? original.getFactory() : EMPTY_FACTORY;
 		return new WithViewCreatedNotification(
-				new WithViewCreationIfNull(factory, viewNameResolver, original), 
+				new WithViewCreationIfNull(safeFactory, viewNameResolver, layoutInflater), 
 				listener);
 	}
 	
