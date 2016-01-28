@@ -88,8 +88,8 @@ public class DataSetAdapterBuilder implements RequiresItemLayoutId, RequiresItem
 		DataSetAdapter dataSetAdapter = new DataSetAdapter(
 				valueModelWithPreInitializeViews(valueModel, bindingContext.shouldPreInitializeViews()),
 				itemLayoutBinder, dropdownLayoutBinder, itemLayoutSelector, dropdownLayoutId,
-				new ViewTags<RefreshableItemPresentationModel>(ITEM_PRESENTATION_MODEL_KEY), 
-				bindingContext.shouldPreInitializeViews());
+				new ViewTags<RefreshableItemPresentationModel>(ITEM_PRESENTATION_MODEL_KEY)
+		);
 
 		registerPropertyChangeListener(dataSetAdapter);
 		return dataSetAdapter;

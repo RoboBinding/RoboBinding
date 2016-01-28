@@ -219,7 +219,7 @@ public class DataSetAdapterTest {
 		public DataSetAdapter build() {
 			return new DataSetAdapter(valueModel, itemLayoutBinder, 
 					dropdownLayoutBinder, layoutSelector, dropdownLayoutId,
-					viewTags, preInitializeViews);
+					viewTags);
 		}
 	}
 }
