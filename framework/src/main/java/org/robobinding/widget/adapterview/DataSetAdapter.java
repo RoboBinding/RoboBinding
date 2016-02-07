@@ -1,9 +1,9 @@
 package org.robobinding.widget.adapterview;
 
 import org.robobinding.BindableView;
-import org.robobinding.annotation.DoNotPreinitialize;
 import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
+import org.robobinding.presentationmodel.AbstractItemPresentationModelObject;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.viewattribute.ViewTag;
@@ -14,9 +14,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 /**
+ * 
+ * @since 1.0
  * @author Cheng Wei
  * @author Robert Taylor
- * @since 1.0
  */
 public class DataSetAdapter extends BaseAdapter {
 	private enum DisplayType {
@@ -31,11 +32,10 @@ public class DataSetAdapter extends BaseAdapter {
 	private final int dropdownLayoutId;
 	private final ViewTags<RefreshableItemPresentationModel> viewTags;
 
-	public DataSetAdapter(DataSetValueModel dataSetValueModel,
-						  ItemLayoutBinder itemLayoutBinder, ItemLayoutBinder dropdownLayoutBinder,
-						  ItemLayoutSelector itemLayoutSelector, int dropdownLayoutId,
-						  ViewTags<RefreshableItemPresentationModel> viewTags) {
-
+	public DataSetAdapter(DataSetValueModel dataSetValueModel, 
+			ItemLayoutBinder itemLayoutBinder, ItemLayoutBinder dropdownLayoutBinder, 
+			ItemLayoutSelector itemLayoutSelector, int dropdownLayoutId,
+			ViewTags<RefreshableItemPresentationModel> viewTags) {		
 		this.dataSetValueModel = dataSetValueModel;
 		this.itemLayoutBinder = itemLayoutBinder;
 		this.dropdownLayoutBinder = dropdownLayoutBinder;
@@ -87,42 +87,34 @@ public class DataSetAdapter extends BaseAdapter {
 		} else {
 			bindableView = dropdownLayoutBinder.inflate(parent, dropdownLayoutId);
 		}
-
+		
 		View view = bindableView.getRootView();
-		RefreshableItemPresentationModel itemPresentationModel = dataSetValueModel.newRefreshableItemPresentationModel(
-				getItemViewType(position));
-		bindableView.bindTo((AbstractPresentationModelObject) itemPresentationModel);
+		AbstractItemPresentationModelObject itemPresentationModel = createPresentationModel(position);
 		itemPresentationModel.updateData(item, new ItemContext(view, position));
-		refreshIfRequired(itemPresentationModel);
+		bindableView.bindTo(itemPresentationModel);
 
 		ViewTag<RefreshableItemPresentationModel> viewTag = viewTags.tagFor(view);
 		viewTag.set(itemPresentationModel);
 		return view;
 	}
 
-	private boolean isPreinitializable(RefreshableItemPresentationModel itemPresentationModel) {
-		final Class<?> presentationModelClass = ((AbstractPresentationModelObject) itemPresentationModel).getPresentationModelClass();
-		return !presentationModelClass.isAnnotationPresent(DoNotPreinitialize.class);
+	private AbstractItemPresentationModelObject createPresentationModel(int position) {
+		return (AbstractItemPresentationModelObject) dataSetValueModel.newRefreshableItemPresentationModel(
+				getItemViewType(position));
 	}
 
 	private void updateItemPresentationModel(View view, int position) {
 		ViewTag<RefreshableItemPresentationModel> viewTag = viewTags.tagFor(view);
 		RefreshableItemPresentationModel itemPresentationModel = viewTag.get();
 		itemPresentationModel.updateData(getItem(position), new ItemContext(view, position));
-		refreshIfRequired(itemPresentationModel);
+		itemPresentationModel.refresh();
 	}
-
-	private void refreshIfRequired(RefreshableItemPresentationModel itemPresentationModel) {
-		if (isPreinitializable(itemPresentationModel)) {
-			itemPresentationModel.refresh();
-		}
-	}
-
+	
 	@Override
 	public int getViewTypeCount() {
 		return itemLayoutSelector.getViewTypeCount();
 	}
-
+	
 	@Override
 	public int getItemViewType(int position) {
 		return itemLayoutSelector.getItemViewType(getItem(position), position);

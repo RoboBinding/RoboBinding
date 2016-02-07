@@ -26,6 +26,8 @@ public abstract class AbstractItemPresentationModelObject extends AbstractPresen
 	
 	@Override
 	public void refresh() {
-		changeSupport.refreshPresentationModel();
+		if(shouldPreInitializeViews()){
+			changeSupport.refreshPresentationModel();
+		}
 	}
 }

@@ -16,20 +16,18 @@ import android.content.Context;
  */
 public class BindingContextFactory {
 	private final Context context;
-	private final boolean preInitializeViews;
 	private final PresentationModelAdapterFactory presentationModelAdapterFactory;
 	private final BinderProvider binderProvider;
 
-	public BindingContextFactory(Context context, boolean preInitializeViews, 
-			PresentationModelAdapterFactory presentationModelAdapterFactory, BinderProvider binderProvider) {
+	public BindingContextFactory(Context context,PresentationModelAdapterFactory presentationModelAdapterFactory,
+								 BinderProvider binderProvider) {
 		this.context = context;
-		this.preInitializeViews = preInitializeViews;
 		this.presentationModelAdapterFactory = presentationModelAdapterFactory;
 		this.binderProvider = binderProvider;
 	}
 
 	public BindingContext create(AbstractPresentationModelObject presentationModel) {
 		PresentationModelAdapter presentationModelAdapter = presentationModelAdapterFactory.create(presentationModel);
-		return new BindingContext(binderProvider, context, presentationModelAdapter, preInitializeViews);
+		return new BindingContext(binderProvider, context, presentationModelAdapter);
 	}
 }

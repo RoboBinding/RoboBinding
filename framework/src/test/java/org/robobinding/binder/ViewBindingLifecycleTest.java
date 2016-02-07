@@ -42,7 +42,8 @@ public class ViewBindingLifecycleTest {
 
 	private BindingContextFactory createBindingContextFactory(boolean preInitializeViews) {
 		BindingContextFactory factory = mock(BindingContextFactory.class);
-		BindingContext bindingContext = new BindingContext(null, null, null, preInitializeViews);
+		BindingContext bindingContext = mock(BindingContext.class);
+		when(bindingContext.shouldPreInitializeViews()).thenReturn(preInitializeViews);
 		when(factory.create(any(AbstractPresentationModelObject.class))).thenReturn(bindingContext);
 		return factory;
 	}

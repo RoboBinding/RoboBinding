@@ -28,13 +28,9 @@ public class BinderFactory {
 	}
 
 	public ViewBinder createViewBinder(Context context) {
-		return createViewBinder(context, true);
-	}
-
-	public ViewBinder createViewBinder(Context context, boolean withPreInitializingViews) {
 		checkContext(context);
 
-		SingletonAssembler assembler = new SingletonAssembler(viewBindingMap, viewAddOns, context, withPreInitializingViews);
+		SingletonAssembler assembler = new SingletonAssembler(viewBindingMap, viewAddOns, context);
 		return assembler.createViewBinder();
 	}
 
@@ -43,15 +39,11 @@ public class BinderFactory {
 	}
 
 	public MenuBinder createMenuBinder(Menu menu, MenuInflater menuInflater, Context context) {
-		return createMenuBinder(menu, menuInflater, context, true);
-	}
-
-	public MenuBinder createMenuBinder(Menu menu, MenuInflater menuInflater, Context context, boolean withPreInitializingViews) {
 		Preconditions.checkNotNull(menuInflater, "menuInflater must not be null");
 		Preconditions.checkNotNull(menu, "menu must not be null");
 		checkContext(context);
 
-		SingletonAssembler assembler = new SingletonAssembler(viewBindingMap, viewAddOns, context, withPreInitializingViews);
+		SingletonAssembler assembler = new SingletonAssembler(viewBindingMap, viewAddOns, context);
 		return assembler.createMenuBinder(menuInflater, menu);
 	}
 	

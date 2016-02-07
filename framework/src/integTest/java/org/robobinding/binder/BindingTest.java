@@ -230,8 +230,8 @@ public class BindingTest {
 		when(itemBinder.inflateWithoutAttachingToRoot(anyInt(), anyCollection(), any(ViewGroup.class))).thenReturn(bindableView);
 		when(binderFactory.createItemBinder()).thenReturn(itemBinder);
 		return new BindingContext(binderFactory, context, 
-				new PresentationModelAdapterFactory().create(new JavaReflectionPresentationModelObject(new PresentationModelForTest())), 
-				true);
+				new PresentationModelAdapterFactory().create(new JavaReflectionPresentationModelObject(new PresentationModelForTest()))
+		);
 	}
 
 	public static class PresentationModelForTest {

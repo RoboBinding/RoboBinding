@@ -3,6 +3,7 @@ package org.robobinding.presentationmodel;
 import java.util.Map;
 import java.util.Set;
 
+import org.robobinding.annotation.DoNotPreinitialize;
 import org.robobinding.function.FunctionSupply;
 import org.robobinding.function.MethodDescriptor;
 import org.robobinding.property.ObservableBean;
@@ -81,5 +82,9 @@ public abstract class AbstractPresentationModelObject implements PropertySupply,
 
 	public Class<?> getPresentationModelClass() {
 		return presentationModelClass;
+	}
+
+	public boolean shouldPreInitializeViews() {
+		return !presentationModelClass.isAnnotationPresent(DoNotPreinitialize.class);
 	}
 }
