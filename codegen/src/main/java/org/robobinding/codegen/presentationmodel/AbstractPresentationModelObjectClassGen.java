@@ -525,4 +525,13 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 		
 		body._return(JExpr._null());
 	}
+
+	public void defineShouldPreInitializeViews() {
+		JMethod method = declarePublicMethodOverride("shouldPreInitializeViews", boolean.class);
+		
+		JBlock body = method.body();
+		
+		body._return(presentationModelInfo.shoulPreinitializeViews() ? JExpr.TRUE : JExpr.FALSE);
+		
+	}
 }

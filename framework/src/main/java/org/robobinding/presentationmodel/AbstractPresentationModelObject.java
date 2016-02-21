@@ -85,6 +85,6 @@ public abstract class AbstractPresentationModelObject implements PropertySupply,
 	}
 
 	public boolean shouldPreInitializeViews() {
-		return !presentationModelClass.isAnnotationPresent(DoNotPreinitialize.class);
+		return true;
 	}
 }

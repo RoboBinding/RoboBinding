@@ -103,4 +103,22 @@ public class PresentationModelObjectClassGenTest {
 		
 		assertOutputSameTextFile(gen, "DefineTryToCreateFunction_PM.java.txt");
 	}
+	
+	@Test
+	public void shouldDefineShouldPreInitializeViewsTrue() {
+		PresentationModelInfo presentationModelInfo = createPresentationModelInfoFor(DefineShouldPreInitializeViewsFalse.class);
+		PresentationModelObjectClassGen gen = new PresentationModelObjectClassGen(presentationModelInfo);
+		gen.defineShouldPreInitializeViews();
+		
+		assertOutputSameTextFile(gen, "DefineShouldPreInitializeViewsFalse_PM.java.txt");
+	}
+	
+	@Test
+	public void shouldDefineShouldPreInitializeViewsFalse() {
+		PresentationModelInfo presentationModelInfo = createPresentationModelInfoFor(DefineShouldPreInitializeViewsTrue.class);
+		PresentationModelObjectClassGen gen = new PresentationModelObjectClassGen(presentationModelInfo);
+		gen.defineShouldPreInitializeViews();
+		
+		assertOutputSameTextFile(gen, "DefineShouldPreInitializeViewsTrue_PM.java.txt");
+	}
 }
