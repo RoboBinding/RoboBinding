@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.robobinding.annotation.DependsOnStateOf;
+import org.robobinding.annotation.DoNotPreinitialize;
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.binder.PresentationModelObjectLoader;
 import org.robobinding.codegen.apt.element.GetterElement;
@@ -198,7 +199,11 @@ public class PresentationModelInfoBuilder {
 	private PresentationModelInfo createPresentationModelInfo() {
 		return new PresentationModelInfo(typeElement.qName(), presentationModelObjectTypeName,
 				buildProperties(), buildDataSetProperties(), 
-				propertyDependencies, buildEventMethods());
+				propertyDependencies, buildEventMethods(), shouldPreinitializeViews());
+	}
+
+	private boolean shouldPreinitializeViews() {
+		return !typeElement.hasAnnotation(DoNotPreinitialize.class);
 	}
 
 	private Set<PropertyInfo> buildProperties() {

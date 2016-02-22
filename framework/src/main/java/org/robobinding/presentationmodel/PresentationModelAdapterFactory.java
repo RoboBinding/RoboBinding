@@ -25,6 +25,6 @@ public class PresentationModelAdapterFactory {
 		Functions functions = new LazyFunctions(presentationModelClass, 
 				presentationModelObject.eventMethods(), presentationModelObject);
 		
-		return new PresentationModelAdapterImpl(presentationModelClass, properties, functions);
+		return new PresentationModelAdapterImpl(presentationModelClass, properties, functions, presentationModelObject.shouldPreInitializeViews());
 	}
 }

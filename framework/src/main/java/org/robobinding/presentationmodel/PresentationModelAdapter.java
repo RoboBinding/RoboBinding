@@ -23,4 +23,6 @@ public interface PresentationModelAdapter {
 	Function findFunction(String functionName, Class<?>... parameterTypes);
 
 	String getPresentationModelClassName();
+
+	boolean shouldPreInitializeViews();
 }

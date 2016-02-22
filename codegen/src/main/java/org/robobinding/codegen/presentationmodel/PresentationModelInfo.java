@@ -16,16 +16,18 @@ public class PresentationModelInfo {
 	private final Set<DataSetPropertyInfo> dataSetProperties;
 	private final Set<PropertyDependencyInfo> propertyDependencies;
 	private final Set<EventMethodInfo> eventMethods;
+	private final boolean shouldPreinitializeViews;
 	
 	public PresentationModelInfo(String presentationModelTypeName, String presentationModelObjectTypeName,
 			Set<PropertyInfo> properties, Set<DataSetPropertyInfo> dataSetProperties, 
-			Set<PropertyDependencyInfo> propertyDependencies, Set<EventMethodInfo> eventMethods) {
+			Set<PropertyDependencyInfo> propertyDependencies, Set<EventMethodInfo> eventMethods, boolean shouldPreinitializeViews) {
 		this.presentationModelTypeName = presentationModelTypeName;
 		this.presentationModelObjectTypeName = presentationModelObjectTypeName;
 		this.properties = properties;
 		this.dataSetProperties = dataSetProperties;
 		this.propertyDependencies = propertyDependencies;
 		this.eventMethods = eventMethods;
+		this.shouldPreinitializeViews = shouldPreinitializeViews;
 	}
 
 	public Set<String> propertyNames() {
@@ -66,5 +68,9 @@ public class PresentationModelInfo {
 
 	public String getPresentationModelObjectTypeName() {
 		return presentationModelObjectTypeName;
+	}
+	
+	public boolean shoulPreinitializeViews(){
+		return shouldPreinitializeViews;
 	}
 }

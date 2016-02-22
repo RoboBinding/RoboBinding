@@ -24,20 +24,12 @@ public class Binders {
 	 * @see ViewBinder#inflateAndBind(int, Object)
 	 */
 	public static View inflateAndBind(Context context, int layoutId, Object presentationModel) {
-		return inflateAndBind(context, layoutId, presentationModel, true);
+		return inflateAndBind(context, layoutId, presentationModel, null, true);
 	}
 
-	public static View inflateAndBind(Context context, int layoutId, Object presentationModel, ViewGroup root, boolean attachToRoot) {
-		return inflateAndBind(context, layoutId, presentationModel, true, root, attachToRoot);
-	}
-
-	private static View inflateAndBind(Context context, int layoutId, Object presentationModel, boolean withPreInitializingViews) {
-		return inflateAndBind(context, layoutId, presentationModel, withPreInitializingViews, null, false);
-	}
-
-	private static View inflateAndBind(Context context, int layoutId, Object presentationModel, boolean withPreInitializingViews, 
+	private static View inflateAndBind(Context context, int layoutId, Object presentationModel, 
 			ViewGroup root, boolean attachToRoot) {
-		ViewBinder viewBinder = newBinderFactory().createViewBinder(context, withPreInitializingViews);
+		ViewBinder viewBinder = newBinderFactory().createViewBinder(context);
 		if (root == null) {
 			return viewBinder.inflateAndBind(layoutId, presentationModel);
 		} else if(attachToRoot){
@@ -51,26 +43,8 @@ public class Binders {
 		return new BinderFactoryBuilder().build();
 	}
 
-	/**
-	 * @see ViewBinder#inflateAndBind(int, Object)
-	 */
-	public static View inflateAndBindWithoutPreInitializingViews(Context context, int layoutId, Object presentationModel) {
-		return inflateAndBind(context, layoutId, presentationModel, false);
-	}
-
-	public static View inflateAndBindWithoutPreInitializingViews(Context context, int layoutId, Object presentationModel, 
-			ViewGroup root, boolean attachToRoot) {
-		return inflateAndBind(context, layoutId, presentationModel, false, root, attachToRoot);
-	}
-
 	public static void inflateAndBindMenu(Menu menu, MenuInflater menuInflater, int menuRes, Object presentationModel, Context context) {
 		MenuBinder menuBinder = newBinderFactory().createMenuBinder(menu, menuInflater, context);
-		menuBinder.inflateAndBind(menuRes, presentationModel);
-	}
-
-	public static void inflateAndBindMenuWithoutPreInitializingViews(Menu menu, MenuInflater menuInflater, int menuRes, Object presentationModel,
-			Context context) {
-		MenuBinder menuBinder = newBinderFactory().createMenuBinder(menu, menuInflater, context, false);
 		menuBinder.inflateAndBind(menuRes, presentationModel);
 	}
 

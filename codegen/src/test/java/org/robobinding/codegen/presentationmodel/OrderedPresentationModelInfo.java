@@ -18,7 +18,8 @@ public class OrderedPresentationModelInfo extends PresentationModelInfo {
 			newTreeSet(new PropertyInfoComparator(), presentationModelInfo.properties()), 
 			newTreeSet(new DataSetPropertyInfoComparator(), presentationModelInfo.dataSetProperties()), 
 			newTreeSet(new PropertyDependencyInfoComparator(), presentationModelInfo.propertyDependencies()), 
-			newTreeSet(new EventMethodInfoComparator(), presentationModelInfo.eventMethods()));
+			newTreeSet(new EventMethodInfoComparator(), presentationModelInfo.eventMethods()),
+			presentationModelInfo.shoulPreinitializeViews());
 	}
 	
 	private static <E> TreeSet<E> newTreeSet(Comparator<? super E> comparator, Collection<? extends E> elements) {

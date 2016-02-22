@@ -29,7 +29,6 @@ class SingletonAssembler {
 	private final ViewBindingMap viewBindingMap;
 	private final ViewAddOns viewAddOns;
 	private final Context context;
-	private final boolean withPreInitializingViews;
 
 	private BindingAttributeParser bindingAttributeParser;
 	private BindingAttributeResolver bindingAttributeResolver;
@@ -37,12 +36,10 @@ class SingletonAssembler {
 	private BindingViewInflater bindingViewInflater;
 	private PresentationModelObjectLoader presentationModelObjectLoader;
 
-	public SingletonAssembler(ViewBindingMap viewBindingMap, ViewAddOns viewAddOns,
-			Context context, boolean withPreInitializingViews) {
+	public SingletonAssembler(ViewBindingMap viewBindingMap, ViewAddOns viewAddOns, Context context) {
 		this.viewBindingMap = viewBindingMap;
 		this.viewAddOns = viewAddOns;
 		this.context = context;
-		this.withPreInitializingViews = withPreInitializingViews;
 	}
 
 	public ViewBinder createViewBinder() {
@@ -89,7 +86,7 @@ class SingletonAssembler {
 	}
 
 	private BindingContextFactory createBindingContextFactory(BinderProvider binderProvider) {
-		return new BindingContextFactory(context, withPreInitializingViews, 
+		return new BindingContextFactory(context,
 				new PresentationModelAdapterFactory(), binderProvider);
 	}
 

@@ -1,5 +1,6 @@
 package org.robobinding.presentationmodel;
 
+import org.robobinding.annotation.DoNotPreinitialize;
 import org.robobinding.function.Function;
 import org.robobinding.function.Functions;
 import org.robobinding.property.DataSetValueModel;
@@ -15,11 +16,14 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter {
 	private final Class<?> presentationModelClass;
 	private final Properties properties;
 	private final Functions functions;
-	
-	public PresentationModelAdapterImpl(Class<?> presentationModelClass, Properties properties, Functions functions) {
+	private boolean withPreInitializingViews;
+
+	public PresentationModelAdapterImpl(Class<?> presentationModelClass,
+			Properties properties, Functions functions, boolean withPreInitializingViews) {
 		this.presentationModelClass = presentationModelClass;
 		this.properties = properties;
 		this.functions = functions;
+		this.withPreInitializingViews = withPreInitializingViews;
 	}
 
 	@Override
@@ -43,12 +47,18 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter {
 	}
 
 	@Override
-	public Function findFunction(String functionName, Class<?>... parameterTypes) {
+	public Function findFunction(String functionName,
+			Class<?>... parameterTypes) {
 		return functions.find(functionName, parameterTypes);
 	}
 
 	@Override
 	public String getPresentationModelClassName() {
 		return presentationModelClass.getName();
+	}
+
+	@Override
+	public boolean shouldPreInitializeViews() {
+		return withPreInitializingViews;
 	}
 }

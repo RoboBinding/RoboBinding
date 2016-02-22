@@ -1,0 +1,10 @@
+-----------------------------------org.robobinding.codegen.presentationmodel.DefineShouldPreInitializeViewsFalse_PM.java-----------------------------------
+package org.robobinding.codegen.presentationmodel;
+
+public class DefineShouldPreInitializeViewsFalse_PM {
+
+    @Override
+    public boolean shouldPreInitializeViews() {
+        return false;
+    }
+}

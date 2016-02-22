@@ -129,6 +129,7 @@ public class PresentationModelProcessor extends AbstractProcessor {
 		gen.defineTryToCreateProperty();
 		gen.defineTryToCreateDataSetProperty();
 		gen.defineTryToCreateFunction();
+		gen.defineShouldPreInitializeViews();
 	}
 	
 	private AbstractCodeWriter createOutput() throws IOException, JClassAlreadyExistsException {

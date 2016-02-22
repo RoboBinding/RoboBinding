@@ -17,13 +17,11 @@ public class BindingContext implements PresentationModelAdapter {
 	private final BinderProvider binderProvider;
 	private final Context context;
 	private final PresentationModelAdapter presentationModelAdapter;
-	private final boolean preInitializeViews;
 
-	public BindingContext(BinderProvider binderProvider, Context context, PresentationModelAdapter presentationModelAdapter, boolean preInitializeViews) {
+	public BindingContext(BinderProvider binderProvider, Context context, PresentationModelAdapter presentationModelAdapter) {
 		this.binderProvider = binderProvider;
 		this.context = context;
 		this.presentationModelAdapter = presentationModelAdapter;
-		this.preInitializeViews = preInitializeViews;
 	}
 
 	public Context getContext() {
@@ -45,7 +43,7 @@ public class BindingContext implements PresentationModelAdapter {
 	}
 
 	public boolean shouldPreInitializeViews() {
-		return preInitializeViews;
+		return presentationModelAdapter.shouldPreInitializeViews();
 	}
 
 	@Override
