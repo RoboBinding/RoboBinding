@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
-import org.robobinding.property.DataSetValueModel;
+import org.robobinding.ItemBindingContext;
 
 /**
  * 
@@ -26,16 +26,16 @@ public class SourceAttributeTest {
 	@Mock
 	private BindingContext bindingContext;
 	@Mock
-	private DataSetValueModel dataSetValueModel;
+	private ItemBindingContext itemBindingContext;
 
 	@Test
 	public void whenBinding_thenSetDataSetValueModelOnDataSetAdapterBuilder() {
-		when(bindingContext.getDataSetPropertyValueModel(propertyName)).thenReturn(dataSetValueModel);
+		when(bindingContext.navigateToItemContext(propertyName)).thenReturn(itemBindingContext);
 		SourceAttribute sourceAttribute = new SourceAttribute(dataSetAdapterBuilder);
 		sourceAttribute.setAttribute(aValueModelAttribute(attributeValue));
 
 		sourceAttribute.bindTo(bindingContext);
 
-		verify(dataSetAdapterBuilder).setValueModel(dataSetValueModel);
+		verify(dataSetAdapterBuilder).setBindingContext(itemBindingContext);
 	}
 }

@@ -1,7 +1,7 @@
 package org.robobinding.viewattribute.property;
 
+import org.robobinding.BindingContext;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 
 /**
@@ -25,9 +25,9 @@ public abstract class AbstractBindingProperty {
 		return viewAttribute instanceof AlwaysPreInitializingView;
 	}
 
-	public abstract void performBind(PresentationModelAdapter presentationModelAdapter);
+	public abstract void performBind(BindingContext presentationModelAdapter);
 
-	public void preInitializeView(PresentationModelAdapter presentationModelAdapter) {
+	public void preInitializeView(BindingContext presentationModelAdapter) {
 		ValueModel<Object> valueModel = getPropertyValueModel(presentationModelAdapter);
 		updateView(valueModel);
 	}
@@ -38,5 +38,5 @@ public abstract class AbstractBindingProperty {
 
 	protected abstract void updateView(ValueModel<Object> valueModel);
 
-	protected abstract ValueModel<Object> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter);
+	protected abstract ValueModel<Object> getPropertyValueModel(BindingContext presentationModelAdapter);
 }

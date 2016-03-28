@@ -1,7 +1,7 @@
 package org.robobinding.attribute;
 
+import org.robobinding.BindingContext;
 import org.robobinding.function.Function;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 
 /**
  * 
@@ -28,8 +28,8 @@ public class EventAttribute extends AbstractAttribute {
 		return commandName.contains("{") || commandName.contains("}");
 	}
 
-	public Command findCommand(PresentationModelAdapter presentationModelAdapter, Class<?>... parameterTypes) {
-		Function function = presentationModelAdapter.findFunction(commandName, parameterTypes);
+	public Command findCommand(BindingContext bindingContext, Class<?>... parameterTypes) {
+		Function function = bindingContext.findFunction(commandName, parameterTypes);
 
 		if (function != null) {
 			return isArrayNotEmpty(parameterTypes) ? new CommandImpl(function, true) : new CommandImpl(function, false);

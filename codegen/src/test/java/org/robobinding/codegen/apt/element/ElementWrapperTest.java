@@ -48,7 +48,7 @@ public class ElementWrapperTest {
 			allowing(typeWrapper).wrap(with(any(TypeMirror.class))); will(returnValue(null));
 		}});
 		
-		ElementWrapper wrapper = new ElementWrapper(typeWrapper, null, null);
+		ElementWrapper wrapper = new ElementWrapper(typeWrapper, null, null, null);
 		
 		AbstractWrappedElement wrapped = wrapper.wrap(elementToWrapped.element);
 		
@@ -75,7 +75,7 @@ public class ElementWrapperTest {
 			@FromDataPoints("unsupportedElements") Element element) {
 		thrownException.expect(UnsupportedOperationException.class);
 		
-		ElementWrapper wrapper = new ElementWrapper(null, null, null);
+		ElementWrapper wrapper = new ElementWrapper(null, null, null, null);
 		
 		wrapper.wrap(element);
 	}

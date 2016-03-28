@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.robobinding.BindingContext;
 import org.robobinding.ItemBinder;
+import org.robobinding.ItemBindingContext;
 import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.property.DataSetPropertyChangeListener;
@@ -19,7 +19,7 @@ import org.robobinding.widget.adapterview.ItemMappingUpdater.RequiresItemPredefi
 import org.robobinding.widget.adapterview.LazyDataSetValueModel;
 import org.robobinding.widget.adapterview.MultiItemLayoutSelector;
 import org.robobinding.widget.adapterview.SingleItemLayoutSelector;
-import org.robobinding.widget.adapterview.SourceAttribute.RequiresDataSetValueModel;
+import org.robobinding.widget.adapterview.SourceAttribute.RequiresItemBindingContext;
 
 import com.google.common.collect.Lists;
 
@@ -29,20 +29,18 @@ import com.google.common.collect.Lists;
  * @version $Revision: 1.0 $
  * @author Cheng Wei
  */
-public class DataSetAdapterBuilder implements RequiresDataSetValueModel, RequiresItemLayoutId, 
+public class DataSetAdapterBuilder implements RequiresItemBindingContext, RequiresItemLayoutId, 
 	RequiresItemLayoutIds, RequiresItemPredefinedMappings {
 	private static final int ITEM_PRESENTATION_MODEL_KEY = ViewTags.USED_KEY1;
 	
-	private final BindingContext bindingContext;
-
+	private ItemBindingContext bindingContext;
+	private DataSetValueModel valueModel;
 	private List<Integer> itemLayoutIds;
 	private Collection<PredefinedPendingAttributesForView> itemPredefinedMappings;
-	private DataSetValueModel valueModel;
 	
 	private DataSetPropertyChangeListener oldListener;
 
-	public DataSetAdapterBuilder(BindingContext bindingContext) {
-		this.bindingContext = bindingContext;
+	public DataSetAdapterBuilder() {
 		this.itemLayoutIds = Collections.emptyList();
 		this.itemPredefinedMappings = Collections.emptyList();
 	}
@@ -65,8 +63,9 @@ public class DataSetAdapterBuilder implements RequiresDataSetValueModel, Require
 	}
 	
 	@Override
-	public void setValueModel(DataSetValueModel valueModel) {
-		this.valueModel = valueModel;
+	public void setBindingContext(ItemBindingContext bindingContext) {
+		this.bindingContext = bindingContext;
+		this.valueModel = bindingContext.valueModel();
 	}
 
 	public DataSetAdapter build() {
@@ -74,7 +73,7 @@ public class DataSetAdapterBuilder implements RequiresDataSetValueModel, Require
 		ItemLayoutBinder itemLayoutBinder = new ItemLayoutBinder(itemBinder,itemPredefinedMappings);
 		ItemLayoutSelector itemLayoutSelector = buildItemLayoutSelector();
 		DataSetAdapter dataSetAdapter = new DataSetAdapter(
-				valueModelWithPreInitializeViews(valueModel, bindingContext.shouldPreInitializeViews()), 
+				valueModelWithPreInitializeViews(), 
 				itemLayoutBinder, itemLayoutSelector, 
 				new ViewTags<RefreshableItemPresentationModel>(ITEM_PRESENTATION_MODEL_KEY), 
 				bindingContext.shouldPreInitializeViews());
@@ -95,8 +94,8 @@ public class DataSetAdapterBuilder implements RequiresDataSetValueModel, Require
 		return itemLayoutIds.size() == 1;
 	}
 
-	private DataSetValueModel valueModelWithPreInitializeViews(DataSetValueModel valueModel, boolean preInitializeViews) {
-		if (preInitializeViews) {
+	private DataSetValueModel valueModelWithPreInitializeViews() {
+		if (bindingContext.shouldPreInitializeViews()) {
 			return valueModel;
 		} else {
 			return new LazyDataSetValueModel(valueModel);

@@ -1,7 +1,6 @@
 package org.robobinding.binder;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -11,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
 import org.robobinding.binder.ViewHierarchyInflationErrorsException.ErrorFormatter;
-import org.robobinding.presentationmodel.AbstractPresentationModelObject;
 
 /**
  * 
@@ -26,44 +24,41 @@ public class ViewBindingLifecycleTest {
 	@Mock
 	private InflatedView inflatedView;
 	@Mock
-	private AbstractPresentationModelObject presentationModelObject;
+	private BindingContext bindingContext;
 
 	@Test
 	public void whenRunBindingLifeCycle_thenChildViewsShouldBeBound() {
-		ViewBindingLifecycle lifecycle = new ViewBindingLifecycle(bindingContextFactoryWithoutPreInitializingViews(), errorFormatter);
-		lifecycle.run(inflatedView, presentationModelObject);
+		ViewBindingLifecycle lifecycle = new ViewBindingLifecycle(errorFormatter);
+		lifecycle.run(inflatedView, bindingContext);
 
-		verify(inflatedView).bindChildViews(any(BindingContext.class));
-	}
-
-	private BindingContextFactory bindingContextFactoryWithoutPreInitializingViews() {
-		return createBindingContextFactory(false);
-	}
-
-	private BindingContextFactory createBindingContextFactory(boolean preInitializeViews) {
-		BindingContextFactory factory = mock(BindingContextFactory.class);
-		BindingContext bindingContext = new BindingContext(null, null, null, preInitializeViews);
-		when(factory.create(any(AbstractPresentationModelObject.class))).thenReturn(bindingContext);
-		return factory;
+		verify(inflatedView).bindChildViews(bindingContext);
 	}
 
 	@Test
 	public void whenRunBindingLifeCycle_thenViewInflationErrorsShouldBeAsserted() {
-		ViewBindingLifecycle lifecycle = new ViewBindingLifecycle(bindingContextFactoryWithoutPreInitializingViews(), errorFormatter);
-		lifecycle.run(inflatedView, presentationModelObject);
+		ViewBindingLifecycle lifecycle = new ViewBindingLifecycle(errorFormatter);
+		lifecycle.run(inflatedView, bindingContext);
 
 		verify(inflatedView).assertNoErrors(errorFormatter);
 	}
 
 	@Test
-	public void whenInflateAndBind_thenChildViewsShouldBePreInitialized() {
-		ViewBindingLifecycle lifecycle = new ViewBindingLifecycle(bindingContextFactoryWithPreInitializingViews(), errorFormatter);
-		lifecycle.run(inflatedView, presentationModelObject);
+	public void whenInflateAndBindWithPreInitalizingViews_thenChildViewsShouldBePreInitialized() {
+		when(bindingContext.shouldPreInitializeViews()).thenReturn(true);
+		
+		ViewBindingLifecycle lifecycle = new ViewBindingLifecycle(errorFormatter);
+		lifecycle.run(inflatedView, bindingContext);
 
-		verify(inflatedView).preinitializeViews(any(BindingContext.class));
+		verify(inflatedView).preinitializeViews(bindingContext);
 	}
 
-	private BindingContextFactory bindingContextFactoryWithPreInitializingViews() {
-		return createBindingContextFactory(true);
+	@Test
+	public void whenInflateAndBindWithoutPreInitalizingViews_thenChildViewsShouldBePreInitialized() {
+		when(bindingContext.shouldPreInitializeViews()).thenReturn(false);
+		
+		ViewBindingLifecycle lifecycle = new ViewBindingLifecycle(errorFormatter);
+		lifecycle.run(inflatedView, bindingContext);
+
+		verify(inflatedView, never()).preinitializeViews(bindingContext);
 	}
 }

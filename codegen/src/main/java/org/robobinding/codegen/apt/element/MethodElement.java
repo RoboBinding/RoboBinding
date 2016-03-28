@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.util.Elements;
 
 import org.apache.commons.lang3.StringUtils;
 import org.robobinding.codegen.apt.MessagerLoggerFactory;
@@ -23,8 +24,9 @@ public class MethodElement extends AbstractWrappedElement {
 	private final TypeMirrorWrapper typeWrapper;
 	
 	public MethodElement(ExecutableElement method, TypeMirrorWrapper typeWrapper, 
-			MessagerLoggerFactory loggerFactory, WrappedTypeElement typeElement) {
-		super(method, typeWrapper, loggerFactory);
+			MessagerLoggerFactory loggerFactory, Elements elements,
+			WrappedTypeElement typeElement) {
+		super(method, typeWrapper, loggerFactory, elements);
 		
 		this.method = method;
 		this.typeElement = typeElement;

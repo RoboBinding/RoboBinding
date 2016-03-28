@@ -26,13 +26,13 @@ public class GroupedViewAttributeBinder implements ViewAttributeBinder {
 
 	@Override
 	public void bindTo(BindingContext bindingContext) {
-		childViewAttributes = initializeChildViewAttributes(bindingContext);
+		childViewAttributes = initializeChildViewAttributes();
 		childViewAttributes.bindTo(bindingContext);
 		viewAttribute.postBind(view, bindingContext);
 	}
 
-	private ChildViewAttributes initializeChildViewAttributes(BindingContext bindingContext) {
-		viewAttribute.setupChildViewAttributes(view, childViewAttributesBuilder, bindingContext);
+	private ChildViewAttributes initializeChildViewAttributes() {
+		viewAttribute.setupChildViewAttributes(view, childViewAttributesBuilder);
 		return childViewAttributesBuilder.build();
 	}
 

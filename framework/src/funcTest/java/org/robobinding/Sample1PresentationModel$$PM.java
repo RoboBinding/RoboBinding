@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.robobinding.annotation.PreInitializingViews;
 import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
@@ -91,7 +92,7 @@ public class Sample1PresentationModel$$PM extends AbstractPresentationModelObjec
 					throw new UnsupportedOperationException();
 				}
 			};	
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), PreInitializingViews.DEFAULT);
 		}
 		
 		return null;

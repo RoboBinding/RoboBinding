@@ -41,6 +41,12 @@ public class PresentationModelAdapterImpl implements PresentationModelAdapter {
 	public DataSetValueModel getDataSetPropertyValueModel(String propertyName) {
 		return properties.getDataSetProperty(propertyName);
 	}
+	
+	@Override
+	public Object getSubPresentationModelProperty(String propertyName) {
+		ValueModel<Object> valueModel = properties.getReadOnlyProperty(propertyName);
+		return valueModel.getValue();
+	}
 
 	@Override
 	public Function findFunction(String functionName, Class<?>... parameterTypes) {

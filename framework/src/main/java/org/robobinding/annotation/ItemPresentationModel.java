@@ -38,4 +38,9 @@ public @interface ItemPresentationModel {
 	 * viewTypeSelector return type is int, ranging from 0 to ({@link ViewTypeSelectionContext#getViewTypeCount()} - 1).
 	 */
 	String viewTypeSelector() default "";
+	
+	/**
+	 * Optional. Used to change preInitializingViews behavior. Default to {@link PreInitializingViews#YES}.
+	 */
+	PreInitializingViews preInitializingViews() default PreInitializingViews.YES;
 }

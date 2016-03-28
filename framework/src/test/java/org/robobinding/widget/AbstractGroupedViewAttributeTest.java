@@ -3,14 +3,12 @@ package org.robobinding.widget;
 import static com.google.common.collect.Maps.newHashMap;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robobinding.BindingContext;
 import org.robobinding.attribute.EnumAttribute;
 import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ResolvedGroupAttributes;
@@ -29,7 +27,6 @@ import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribu
 import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
-import org.robobinding.widget.ParameterizedTypeUtils;
 import org.robolectric.RobolectricTestRunner;
 
 import android.view.View;
@@ -76,9 +73,7 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 		ResolvedGroupAttributes resolvedGroupAttributes = resolvedGroupAttributesFactory.resolve(pendingGroupAttributes, attribute);
 		ChildViewAttributesBuilder<View> childViewAttributesBuilder = new ChildViewAttributesBuilderForTest(childViewAttributeMap, resolvedGroupAttributes);
 
-		BindingContext bindingContext = mock(BindingContext.class);
-
-		((GroupedViewAttribute<View>) attribute).setupChildViewAttributes(view, childViewAttributesBuilder, bindingContext);
+		((GroupedViewAttribute<View>) attribute).setupChildViewAttributes(view, childViewAttributesBuilder);
 	}
 
 	protected Attribute attribute(String attribute) {

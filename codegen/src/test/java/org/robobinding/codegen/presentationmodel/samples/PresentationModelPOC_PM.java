@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.robobinding.annotation.PreInitializingViews;
 import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
@@ -130,7 +131,7 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 				}
 			};	
 			
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), PreInitializingViews.DEFAULT);
 		}
 		
 		if(name.equals(DATA_SET_PROP_WITH_FACTORY_METHOD)) {
@@ -150,7 +151,7 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 				}
 			};
 			
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), PreInitializingViews.DEFAULT);
 		} 
 		
 		if(name.equals(DATA_SET_PROP_WITH_VIEW_TYPE_SELECTOR)) {
@@ -178,7 +179,7 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 				}
 			};
 			
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector);
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector, PreInitializingViews.DEFAULT);
 		} 
 		
 		if(name.equals(DATA_SET_PROP_WITH_FACTORY_METHOD_AND_VIEW_TYPE_SELECTOR)) {
@@ -207,7 +208,7 @@ public class PresentationModelPOC_PM extends AbstractPresentationModelObject {
 				}
 			};
 			
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector);
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector, PreInitializingViews.DEFAULT);
 		} 
 		
 		return null;

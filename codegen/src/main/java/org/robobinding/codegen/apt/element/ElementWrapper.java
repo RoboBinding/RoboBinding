@@ -25,12 +25,15 @@ public class ElementWrapper {
 	private final TypeMirrorWrapper typeWrapper;
 	private final MessagerLoggerFactory loggerFactory;
 	private final Types types;
+	private final Elements elements;
 	private final WrapperVisitor visitor;
 
-	public ElementWrapper(TypeMirrorWrapper typeWrapper, MessagerLoggerFactory loggerFactory, Types types) {
+	public ElementWrapper(TypeMirrorWrapper typeWrapper, MessagerLoggerFactory loggerFactory, Types types,
+			Elements elements) {
 		this.typeWrapper = typeWrapper;
 		this.loggerFactory = loggerFactory;
 		this.types = types;
+		this.elements = elements;
 		
 		this.visitor = new WrapperVisitor();
 	}
@@ -49,7 +52,8 @@ public class ElementWrapper {
 		ElementWrapper elementWrapper = new ElementWrapper(
 				typeWrapper,
 				new MessagerLoggerFactory(messager),
-				types);
+				types,
+				elements);
 		
 		return elementWrapper;
 	}
@@ -58,13 +62,13 @@ public class ElementWrapper {
 		@Override
 		public WrappedTypeElement visitType(TypeElement e, Void p) {
 			WrappedDeclaredType type = typeWrapper.wrap(e.asType());
-			return new WrappedTypeElement(e, type, typeWrapper, loggerFactory, ElementWrapper.this, types);
+			return new WrappedTypeElement(e, type, typeWrapper, loggerFactory, elements, ElementWrapper.this, types);
 		}
 
 		@Override
 		public MethodElement visitExecutable(ExecutableElement e, Void p) {
 			WrappedTypeElement typeElement = wrap(e.getEnclosingElement());
-			return new MethodElement(e, typeWrapper, loggerFactory, typeElement);
+			return new MethodElement(e, typeWrapper, loggerFactory, elements, typeElement);
 		}
 
 		@Override

@@ -26,8 +26,10 @@ import org.mockito.stubbing.Answer;
 import org.robobinding.BindableView;
 import org.robobinding.BinderProvider;
 import org.robobinding.BindingContext;
+import org.robobinding.BindingContextFactory;
 import org.robobinding.ItemBinder;
 import org.robobinding.PendingAttributesForView;
+import org.robobinding.PreInitializingViews;
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.ChildAttributeResolvers;
@@ -217,7 +219,7 @@ public class BindingTest {
 
 	@SuppressWarnings("unchecked")
 	private BindingContext newBindingContext() {
-		BinderProvider binderFactory = mock(BinderProvider.class);
+		BinderProvider binderProvider = mock(BinderProvider.class);
 		BindableView bindableView = mock(BindableView.class);
 		when(bindableView.getRootView()).then(new Answer<View>() {
 			@Override
@@ -228,10 +230,10 @@ public class BindingTest {
 		
 		ItemBinder itemBinder = mock(ItemBinder.class);
 		when(itemBinder.inflateWithoutAttachingToRoot(anyInt(), anyCollection(), any(ViewGroup.class))).thenReturn(bindableView);
-		when(binderFactory.createItemBinder()).thenReturn(itemBinder);
-		return new BindingContext(binderFactory, context, 
+		when(binderProvider.createItemBinder(any(BindingContextFactory.class))).thenReturn(itemBinder);
+		return new BindingContext(binderProvider, context, 
 				new PresentationModelAdapterFactory().create(new JavaReflectionPresentationModelObject(new PresentationModelForTest())), 
-				true);
+				PreInitializingViews.initial(true));
 	}
 
 	public static class PresentationModelForTest {
@@ -298,8 +300,7 @@ public class BindingTest {
 		}
 
 		@Override
-		public void setupChildViewAttributes(BuggyCustomView view, ChildViewAttributesBuilder<BuggyCustomView> childViewAttributesBuilder,
-				BindingContext bindingContext) {
+		public void setupChildViewAttributes(BuggyCustomView view, ChildViewAttributesBuilder<BuggyCustomView> childViewAttributesBuilder) {
 			throw new ProgrammingError();
 		}
 

@@ -1,9 +1,8 @@
 package org.robobinding.widget.adapterview;
 
 import org.robobinding.BindingContext;
-import org.robobinding.SubViewBinder;
+import org.robobinding.SubBindingContext;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.property.ValueModel;
 import org.robobinding.viewattribute.grouped.ChildViewAttributeWithAttribute;
 
 import android.view.View;
@@ -30,19 +29,9 @@ class SubViewPresentationModelAttribute implements ChildViewAttributeWithAttribu
 
 	@Override
 	public void bindTo(BindingContext bindingContext) {
-		SubViewBinder viewBinder = bindingContext.createSubViewBinder();
-		Object presentationModel = getPresentationModel(bindingContext, attribute.getPropertyName());
-		bind(viewBinder, presentationModel);
-	}
-
-	void bind(SubViewBinder viewBinder, Object presentationModel) {
-		View subView = viewBinder.inflateAndBindWithoutAttachingToRoot(layoutId, presentationModel, parent);
+		SubBindingContext subBindingContext = bindingContext.navigateToSubContext(attribute.getPropertyName());
+		View subView = subBindingContext.inflateAndBindWithoutAttachingToRoot(layoutId, parent);
 		subViewHolder.setSubView(subView);
-	}
-	
-	Object getPresentationModel(BindingContext bindingContext, String presentationModelPropertyName) {
-		ValueModel<Object> valueModel = bindingContext.getReadOnlyPropertyValueModel(presentationModelPropertyName);
-		return valueModel.getValue();
 	}
 
 	@Override

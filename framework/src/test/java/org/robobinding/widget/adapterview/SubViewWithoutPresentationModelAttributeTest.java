@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
-import org.robobinding.SubViewBinder;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +31,7 @@ public class SubViewWithoutPresentationModelAttributeTest {
 	@Test
 	public void whenBindTo_thenStaticSubViewIsSetOnHolder() {
 		BindingContext bindingContext = mock(BindingContext.class);
-		SubViewBinder viewBinder = mock(SubViewBinder.class);
-		when(bindingContext.createSubViewBinder()).thenReturn(viewBinder);
-		when(viewBinder.inflateWithoutAttachingToRoot(anyInt(), any(ViewGroup.class))).thenReturn(staticSubView);
+		when(bindingContext.inflateWithoutAttachingToRoot(anyInt(), any(ViewGroup.class))).thenReturn(staticSubView);
 		SubViewWithoutPresentationModelAttribute attribute = new SubViewWithoutPresentationModelAttribute(null, 0, subViewHolder);
 
 		attribute.bindTo(bindingContext);

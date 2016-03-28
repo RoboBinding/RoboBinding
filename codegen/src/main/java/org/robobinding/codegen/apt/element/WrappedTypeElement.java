@@ -9,6 +9,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
+import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
 import org.robobinding.codegen.apt.MessagerLoggerFactory;
@@ -30,16 +31,18 @@ public class WrappedTypeElement extends AbstractWrappedElement {
 	private final ElementWrapper wrapper;
 	private final Types types;
 	private final TypeMirrorWrapper typeWrapper;
+	private final Elements elements;
 	private final MessagerLoggerFactory loggerFactory;
 	
 	public WrappedTypeElement(TypeElement element, WrappedDeclaredType type, TypeMirrorWrapper typeWrapper, 
-			MessagerLoggerFactory loggerFactory, ElementWrapper wrapper, Types types) {
-		super(element, typeWrapper, loggerFactory);
+			MessagerLoggerFactory loggerFactory, Elements elements, ElementWrapper wrapper, Types types) {
+		super(element, typeWrapper, loggerFactory, elements);
 		
 		this.element = element;
 		this.type = type;
 		this.wrapper = wrapper;
 		this.types = types;
+		this.elements = elements;
 		this.typeWrapper = typeWrapper;
 		this.loggerFactory = loggerFactory;
 	}
@@ -92,7 +95,7 @@ public class WrappedTypeElement extends AbstractWrappedElement {
 	private WrappedTypeElement typeElementOf(DeclaredType declaredType) {
 		WrappedDeclaredType type = typeWrapper.wrap(declaredType);
 		TypeElement element = (TypeElement)types.asElement(declaredType);
-		return new WrappedTypeElement(element, type, typeWrapper, loggerFactory, wrapper, types);
+		return new WrappedTypeElement(element, type, typeWrapper, loggerFactory, elements, wrapper, types);
 	}
 
 	public WrappedTypeElement findDirectSuperclassOf(Class<?> type) {

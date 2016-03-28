@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.robobinding.annotation.DependsOnStateOf;
 import org.robobinding.annotation.ItemPresentationModel;
+import org.robobinding.annotation.PreInitializingViews;
 import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
@@ -208,7 +209,7 @@ public class JavaReflectionPresentationModelObject extends AbstractPresentationM
 					throw new UnsupportedOperationException();
 				}
 			};
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), PreInitializingViews.DEFAULT);
 		}
 
 		return null;

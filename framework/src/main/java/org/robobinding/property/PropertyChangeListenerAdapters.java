@@ -1,6 +1,5 @@
 package org.robobinding.property;
 
-import org.robobinding.itempresentationmodel.DataSetChangeListener;
 import org.robobinding.itempresentationmodel.DataSetObservable;
 
 /**
@@ -57,32 +56,5 @@ public class PropertyChangeListenerAdapters {
 			}
 		};
 	}
-	
-	private static DataSetObservable KNOWN_SENDER = new DataSetObservable(){
-		@Override
-		public void addListener(DataSetChangeListener listener) {};
-		@Override
-		public void removeListener(DataSetChangeListener listener) {};
-		@Override
-		public Object get(int index) {
-			throw new UnsupportedOperationException();
-		}
-		@Override
-		public int size() {
-			throw new UnsupportedOperationException();
-		}
-	};
-	
-	/*
-	public static PropertyChangeListener adapt(final DataSetChangeListener listener) {
-		return new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChanged() {
-				listener.onChanged(KNOWN_SENDER);
-			}
-		};
-	}
-	*/
 	private PropertyChangeListenerAdapters() {}
 }

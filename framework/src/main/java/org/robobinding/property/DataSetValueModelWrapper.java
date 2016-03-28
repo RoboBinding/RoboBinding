@@ -46,4 +46,8 @@ public class DataSetValueModelWrapper implements DataSetValueModel {
 		valueModel.removePropertyChangeListener(listener);
 	}
 
+	@Override
+	public boolean preInitializingViewsWithDefault(boolean defaultValue) {
+		return valueModel.preInitializingViewsWithDefault(defaultValue);
+	}
 }

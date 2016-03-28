@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+import org.robobinding.annotation.PreInitializingViews;
 import org.robobinding.codegen.SourceCodeWritable;
 import org.robobinding.function.Function;
 import org.robobinding.function.MethodDescriptor;
@@ -55,6 +56,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 	private AbstractJClass dataSetPropertyClass;
 	private AbstractJClass refreshableItemPresentationModelFactoryClass;
 	private AbstractJClass viewTypeSelectableClass;
+	private AbstractJClass preInitializingViewsClass;
 	
 	public AbstractPresentationModelObjectClassGen(PresentationModelInfo presentationModelInfo) {
 		this.presentationModelInfo = presentationModelInfo;
@@ -71,6 +73,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 		dataSetPropertyClass = codeModel.ref(DataSetProperty.class);
 		refreshableItemPresentationModelFactoryClass = codeModel.ref(RefreshableItemPresentationModelFactory.class);
 		viewTypeSelectableClass = codeModel.ref(ViewTypeSelectable.class);
+		preInitializingViewsClass = codeModel.ref(PreInitializingViews.class);
 
 		try {
 			definedClass = codeModel._class(presentationModelInfo.getPresentationModelObjectTypeName());
@@ -376,7 +379,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 				}
 			};
 			
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector);
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector, PreInitializingViews.DEFAULT);
 		}
 		
 		return null;
@@ -452,6 +455,7 @@ public abstract class AbstractPresentationModelObjectClassGen implements SourceC
 				JVar viewTypeSelectorVar = conditionalBody.decl(viewTypeSelectableClass, "viewTypeSelector", JExpr._new(anonymousViewTypeSelector));
 				newDataSetProperty.arg(viewTypeSelectorVar);
 			}
+			newDataSetProperty.arg(JExpr.enumConstantRef(preInitializingViewsClass, propertyInfo.preInitializingViews().name()));
 			//return DataSetProperty.
 			conditionalBody._return(newDataSetProperty);
 		}

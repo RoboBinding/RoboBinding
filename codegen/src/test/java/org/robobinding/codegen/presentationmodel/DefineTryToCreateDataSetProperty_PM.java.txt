@@ -2,6 +2,7 @@
 package org.robobinding.codegen.presentationmodel;
 
 import java.util.List;
+import org.robobinding.annotation.PreInitializingViews;
 import org.robobinding.itempresentationmodel.ListObservable;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModelFactory;
@@ -40,7 +41,7 @@ public class DefineTryToCreateDataSetProperty_PM {
 				}
 			};	
 			
-			return new DataSetProperty(this, descriptor, new TypedCursorDataSet(factory, getSet));
+			return new DataSetProperty(this, descriptor, new TypedCursorDataSet(factory, getSet), PreInitializingViews.YES);
 		}
 		
 		if(name.equals("dataSetProp")) {
@@ -61,7 +62,7 @@ public class DefineTryToCreateDataSetProperty_PM {
 				}
 			};	
 			
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), PreInitializingViews.YES);
 		}
 		
 		if(name.equals("dataSetPropWithFactoryMethod")) {
@@ -82,7 +83,7 @@ public class DefineTryToCreateDataSetProperty_PM {
 				}
 			};
 			
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), PreInitializingViews.YES);
 		} 
 		
 		if(name.equals("dataSetPropWithFactoryMethodWithParameter")) {
@@ -103,7 +104,27 @@ public class DefineTryToCreateDataSetProperty_PM {
 				}
 			};
 			
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet));
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), PreInitializingViews.YES);
+		} 
+		
+		if(name.equals("dataSetPropWithPreInitializingViews")) {
+			PropertyDescriptor descriptor = createDataSetPropertyDescriptor(List.class, name);
+			
+			AbstractGetSet<?> getSet = new AbstractGetSet<List>(descriptor) {
+				@Override
+				public List getValue() {
+					return presentationModel.getDataSetPropWithPreInitializingViews();
+				}
+			};
+			
+			RefreshableItemPresentationModelFactory factory = new RefreshableItemPresentationModelFactory() {
+				@Override
+				public RefreshableItemPresentationModel create(int itemViewType) {
+					return new org.robobinding.codegen.presentationmodel.StringItemPresentationModel$$IPM(new StringItemPresentationModel());
+				}
+			};
+			
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), PreInitializingViews.DEFAULT);
 		} 
 		
 		if(name.equals("dataSetPropWithViewTypeSelector")) {
@@ -131,7 +152,7 @@ public class DefineTryToCreateDataSetProperty_PM {
 				}
 			};
 			
-			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector);
+			return new DataSetProperty(this, descriptor, new ListDataSet(factory, getSet), viewTypeSelector, PreInitializingViews.YES);
 		} 
 		
 		if(name.equals("listObservableProp")) {
@@ -152,7 +173,7 @@ public class DefineTryToCreateDataSetProperty_PM {
 				}
 			};	
 			
-			return new DataSetProperty(this, descriptor, new ObservableDataSet(factory, getSet));
+			return new DataSetProperty(this, descriptor, new ObservableDataSet(factory, getSet), PreInitializingViews.YES);
 		}
 		
 		return null;

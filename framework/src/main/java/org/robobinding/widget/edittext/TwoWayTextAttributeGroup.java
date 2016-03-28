@@ -52,7 +52,7 @@ public class TwoWayTextAttributeGroup implements GroupedViewAttribute<EditText> 
 	}
 
 	@Override
-	public void setupChildViewAttributes(EditText view, ChildViewAttributesBuilder<EditText> childViewAttributesBuilder, BindingContext bindingContext) {
+	public void setupChildViewAttributes(EditText view, ChildViewAttributesBuilder<EditText> childViewAttributesBuilder) {
 		TwoWayTextAttribute textAttribute = new TwoWayTextAttribute();
 		childViewAttributesBuilder.add(TEXT, textAttribute);
 		textAttribute.setValueCommitMode(determineValueCommitMode(childViewAttributesBuilder));

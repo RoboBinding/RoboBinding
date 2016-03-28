@@ -3,7 +3,6 @@ package org.robobinding.viewattribute.event;
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.Command;
 import org.robobinding.attribute.EventAttribute;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 import org.robobinding.widgetaddon.ViewAddOn;
@@ -38,22 +37,22 @@ public class EventViewAttributeBinder implements ViewAttributeBinder {
 		}
 	}
 
-	void performBind(PresentationModelAdapter presentationModelAdapter) {
-		Command command = attribute.findCommand(presentationModelAdapter, viewAttribute.getEventType());
+	void performBind(BindingContext bindingContext) {
+		Command command = attribute.findCommand(bindingContext, viewAttribute.getEventType());
 		if (command != null) {
 			viewAttribute.bind(viewAddOn, command, view);
 		} else {
-			viewAttribute.bind(viewAddOn, getNoArgsCommand(presentationModelAdapter), view);
+			viewAttribute.bind(viewAddOn, getNoArgsCommand(bindingContext), view);
 		}
 	}
 
-	private Command getNoArgsCommand(PresentationModelAdapter presentationModelAdapter) {
-		Command noArgsCommand = attribute.findCommand(presentationModelAdapter);
+	private Command getNoArgsCommand(BindingContext bindingContext) {
+		Command noArgsCommand = attribute.findCommand(bindingContext);
 
 		if (noArgsCommand == null) {
 			String commandName = attribute.getCommandName();
 			throw new IllegalArgumentException("Could not find method " + commandName + "() or " + commandName + "(" + getAcceptedParameterTypesDescription()
-					+ ") in class " + presentationModelAdapter.getPresentationModelClassName());
+					+ ") in class " + bindingContext.getPresentationModelClassName());
 		}
 
 		return noArgsCommand;

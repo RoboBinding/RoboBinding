@@ -104,6 +104,7 @@ public class RandomValues {
 		return random.nextFloat() * nextInt(n);
 	}
 
+	@SafeVarargs
 	public static <T> T either(T... objects) {
 		return objects[nextInt(objects.length)];
 	}

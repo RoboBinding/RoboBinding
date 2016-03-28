@@ -41,8 +41,8 @@ public abstract class AbstractAdaptedDataSetAttributes<T extends AdapterView<?>>
 	}
 
 	@Override
-	public void setupChildViewAttributes(T view, ChildViewAttributesBuilder<T> childViewAttributesBuilder, BindingContext bindingContext) {
-		dataSetAdapterBuilder = new DataSetAdapterBuilder(bindingContext);
+	public void setupChildViewAttributes(T view, ChildViewAttributesBuilder<T> childViewAttributesBuilder) {
+		dataSetAdapterBuilder = new DataSetAdapterBuilder();
 
 		childViewAttributesBuilder.add(SOURCE, new SourceAttribute(dataSetAdapterBuilder));
 		

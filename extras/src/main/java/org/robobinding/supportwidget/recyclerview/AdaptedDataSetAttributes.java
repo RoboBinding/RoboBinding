@@ -47,8 +47,8 @@ public class AdaptedDataSetAttributes implements GroupedViewAttribute<RecyclerVi
 
 	@Override
 	public void setupChildViewAttributes(RecyclerView view, 
-			ChildViewAttributesBuilder<RecyclerView> childViewAttributesBuilder, BindingContext bindingContext) {
-		dataSetAdapterBuilder = new DataSetAdapterBuilder(bindingContext);
+			ChildViewAttributesBuilder<RecyclerView> childViewAttributesBuilder) {
+		dataSetAdapterBuilder = new DataSetAdapterBuilder();
 
 		childViewAttributesBuilder.add(SOURCE, new SourceAttribute(dataSetAdapterBuilder));
 		

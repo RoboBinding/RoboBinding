@@ -3,6 +3,7 @@ package org.robobinding.codegen.presentationmodel.processor;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.robobinding.annotation.PreInitializingViews;
 import org.robobinding.codegen.apt.element.GetterElement;
 import org.robobinding.codegen.apt.element.MethodElement;
 import org.robobinding.codegen.apt.type.WrappedDeclaredType;
@@ -26,17 +27,20 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 	private final String itemPresentationModelObjectTypeName;
 	private final MethodElement factoryMethod;
 	private final MethodElement viewTypeSelector;
+	private final PreInitializingViews preInitializingViews;
 	
 	public DataSetPropertyInfoImpl(GetterElement getter, 
 			String itemPresentationModelTypeName,
 			String itemPresentationModelObjectTypeName,
 			MethodElement factoryMethod, 
-			MethodElement viewTypeSelector) {
+			MethodElement viewTypeSelector,
+			PreInitializingViews preInitializingViews) {
 		this.getter = getter;
 		this.itemPresentationModelTypeName = itemPresentationModelTypeName;
 		this.itemPresentationModelObjectTypeName = itemPresentationModelObjectTypeName;
 		this.factoryMethod = factoryMethod;
 		this.viewTypeSelector = viewTypeSelector;
+		this.preInitializingViews = preInitializingViews;
 	}
 
 	@Override
@@ -110,5 +114,10 @@ public class DataSetPropertyInfoImpl implements DataSetPropertyInfo {
 	@Override
 	public String viewTypeSelector() {
 		return viewTypeSelector.methodName();
+	}
+	
+	@Override
+	public PreInitializingViews preInitializingViews() {
+		return preInitializingViews;
 	}
 }

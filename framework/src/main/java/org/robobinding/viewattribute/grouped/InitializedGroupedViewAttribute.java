@@ -9,7 +9,7 @@ import org.robobinding.BindingContext;
  * @author Cheng Wei
  */
 public interface InitializedGroupedViewAttribute<ViewType> {
-	void setupChildViewAttributes(ViewType view, ChildViewAttributesBuilder<ViewType> childViewAttributesBuilder, BindingContext bindingContext);
+	void setupChildViewAttributes(ViewType view, ChildViewAttributesBuilder<ViewType> childViewAttributesBuilder);
 
 	void postBind(ViewType view, BindingContext bindingContext);
 }

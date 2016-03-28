@@ -1,7 +1,7 @@
 package org.robobinding.viewattribute.property;
 
+import org.robobinding.BindingContext;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.ValueModel;
 import org.robobinding.widgetaddon.ViewAddOn;
@@ -33,8 +33,8 @@ public class TwoWayBindingProperty extends AbstractBindingProperty {
 	}
 
 	@Override
-	public void performBind(PresentationModelAdapter presentationModelAdapter) {
-		ValueModel<Object> valueModel = getPropertyValueModel(presentationModelAdapter);
+	public void performBind(BindingContext context) {
+		ValueModel<Object> valueModel = getPropertyValueModel(context);
 		valueModel = new PropertyValueModelWrapper(valueModel);
 		observeChangesOnTheValueModel(valueModel);
 		viewAttribute.observeChangesOnTheView(viewAddOn, valueModel, view);
@@ -64,8 +64,8 @@ public class TwoWayBindingProperty extends AbstractBindingProperty {
 	}
 	
 	@Override
-	public ValueModel<Object> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter) {
-		return presentationModelAdapter.getPropertyValueModel(attribute.getPropertyName());
+	public ValueModel<Object> getPropertyValueModel(BindingContext context) {
+		return context.getPropertyValueModel(attribute.getPropertyName());
 	}
 
 	private class PropertyValueModelWrapper implements ValueModel<Object> {

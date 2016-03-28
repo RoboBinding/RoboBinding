@@ -23,11 +23,4 @@ public interface ViewBinder {
 	View inflateAndBind(int layoutId, Object presentationModel, ViewGroup root);
 
 	View inflateAndBindWithoutAttachingToRoot(int layoutId, Object presentationModel, ViewGroup root);
-	
-	/**
-	 * The fix for https://github.com/RoboBinding/RoboBinding/issues/200.
-	 */
-	/*
-	ViewBinder with(LayoutInflater layoutInflater);*/
-
 }
