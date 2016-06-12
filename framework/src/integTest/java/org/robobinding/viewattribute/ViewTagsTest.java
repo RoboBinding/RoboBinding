@@ -33,19 +33,19 @@ public class ViewTagsTest {
 	
 	@Test
 	public void givenViewWithoutTagSet_whenAskForTag_thenNewTagIsSetOnView() {
-		ViewTag<TagType>  tag = viewTags.tagFor(view);
+		ViewTag<TagType> tag = viewTags.tagFor(view);
 		
 		assertThat(tag, notNullValue());
-		assertThat(view.getTag(), notNullValue());
+		assertThat(ViewTags.getTag(view), notNullValue());
 	}
 	
 	@Test
 	public void givenViewWithTagSet_whenAskForTagAgain_thenReuseTheOldTag() {
 		viewTags.tagFor(view);
-		Object oldTag = view.getTag();
+		Object oldTag = ViewTags.getTag(view);
 
 		viewTags.tagFor(view);
-		Object newTag = view.getTag();
+		Object newTag = ViewTags.getTag(view);
 		
 		assertThat(newTag, sameInstance(oldTag));
 	}
@@ -53,7 +53,7 @@ public class ViewTagsTest {
 	@Test(expected=RuntimeException.class)
 	public void givenViewWithUserSetTag_whenAskForTag_thenThrowError() {
 		Object userDefinedTag = new Object();
-		view.setTag(userDefinedTag);
+		ViewTags.setTag(view, userDefinedTag);
 		
 		viewTags.tagFor(view);
 	}
