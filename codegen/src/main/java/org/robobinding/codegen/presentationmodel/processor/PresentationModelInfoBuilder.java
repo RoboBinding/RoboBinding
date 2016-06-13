@@ -17,9 +17,8 @@ import org.robobinding.codegen.presentationmodel.EventMethodInfo;
 import org.robobinding.codegen.presentationmodel.PresentationModelInfo;
 import org.robobinding.codegen.presentationmodel.PropertyDependencyInfo;
 import org.robobinding.codegen.presentationmodel.PropertyInfo;
-
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import org.robobinding.util.Maps;
+import org.robobinding.util.Sets;
 
 /**
  * @since 1.0

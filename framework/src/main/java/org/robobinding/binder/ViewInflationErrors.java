@@ -4,8 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.robobinding.ViewResolutionErrors;
-
-import com.google.common.collect.Lists;
+import org.robobinding.util.Lists;
 
 /**
  * 

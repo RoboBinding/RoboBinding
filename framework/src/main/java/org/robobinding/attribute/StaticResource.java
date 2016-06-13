@@ -3,9 +3,9 @@ package org.robobinding.attribute;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.content.Context;
+import org.robobinding.util.Strings;
 
-import com.google.common.base.Strings;
+import android.content.Context;
 
 /**
  * @since 1.0

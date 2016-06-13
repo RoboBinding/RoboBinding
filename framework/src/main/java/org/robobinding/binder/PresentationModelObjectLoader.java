@@ -7,8 +7,7 @@ import org.robobinding.Bug;
 import org.robobinding.presentationmodel.AbstractPresentationModelObject;
 import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
 import org.robobinding.util.ConstructorUtils;
-
-import com.google.common.base.Preconditions;
+import org.robobinding.util.Preconditions;
 
 /**
  * @since 1.0

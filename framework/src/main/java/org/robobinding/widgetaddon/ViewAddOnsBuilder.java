@@ -2,9 +2,8 @@ package org.robobinding.widgetaddon;
 
 import java.util.Map;
 
+import org.robobinding.util.Maps;
 import org.robobinding.viewattribute.ViewTags;
-
-import com.google.common.collect.Maps;
 
 /**
  * 

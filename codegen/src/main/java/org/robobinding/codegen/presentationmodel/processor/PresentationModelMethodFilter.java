@@ -4,8 +4,7 @@ import java.util.Set;
 
 import org.robobinding.codegen.apt.MethodElementFilter;
 import org.robobinding.codegen.apt.element.MethodElement;
-
-import com.google.common.collect.Sets;
+import org.robobinding.util.Sets;
 
 public class PresentationModelMethodFilter implements MethodElementFilter {
 	private static final Set<String> filteredMethodNames = Sets.newHashSet("getPresentationModelChangeSupport");

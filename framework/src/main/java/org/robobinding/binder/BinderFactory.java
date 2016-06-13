@@ -2,6 +2,7 @@ package org.robobinding.binder;
 
 import org.robobinding.MenuBinder;
 import org.robobinding.ViewBinder;
+import org.robobinding.util.Preconditions;
 import org.robobinding.viewbinding.ViewBindingMap;
 import org.robobinding.widgetaddon.ViewAddOn;
 import org.robobinding.widgetaddon.ViewAddOns;
@@ -9,8 +10,6 @@ import org.robobinding.widgetaddon.ViewAddOns;
 import android.content.Context;
 import android.view.Menu;
 import android.view.MenuInflater;
-
-import com.google.common.base.Preconditions;
 
 /**
  * 

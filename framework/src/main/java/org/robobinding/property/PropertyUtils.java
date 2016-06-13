@@ -7,8 +7,7 @@ import org.robobinding.internal.java_beans.BeanInfo;
 import org.robobinding.internal.java_beans.IntrospectionException;
 import org.robobinding.internal.java_beans.Introspector;
 import org.robobinding.internal.java_beans.PropertyDescriptor;
-
-import com.google.common.collect.Sets;
+import org.robobinding.util.Sets;
 
 /**
  * 

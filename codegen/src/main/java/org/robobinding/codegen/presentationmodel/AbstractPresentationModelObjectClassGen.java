@@ -16,9 +16,9 @@ import org.robobinding.property.AbstractGetSet;
 import org.robobinding.property.DataSetProperty;
 import org.robobinding.property.PropertyDescriptor;
 import org.robobinding.property.SimpleProperty;
+import org.robobinding.util.Maps;
+import org.robobinding.util.Sets;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.helger.jcodemodel.AbstractCodeWriter;
 import com.helger.jcodemodel.AbstractJClass;
 import com.helger.jcodemodel.JBlock;

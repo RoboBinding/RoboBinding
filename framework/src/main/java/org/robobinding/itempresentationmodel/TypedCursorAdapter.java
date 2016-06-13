@@ -1,6 +1,6 @@
 package org.robobinding.itempresentationmodel;
 
-import com.google.common.base.Preconditions;
+import org.robobinding.util.Preconditions;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;

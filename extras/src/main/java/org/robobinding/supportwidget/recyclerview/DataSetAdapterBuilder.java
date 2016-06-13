@@ -10,6 +10,7 @@ import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.property.DataSetPropertyChangeListener;
 import org.robobinding.property.DataSetValueModel;
+import org.robobinding.util.Lists;
 import org.robobinding.viewattribute.ViewTags;
 import org.robobinding.widget.adapterview.ItemLayoutBinder;
 import org.robobinding.widget.adapterview.ItemLayoutSelector;
@@ -20,8 +21,6 @@ import org.robobinding.widget.adapterview.LazyDataSetValueModel;
 import org.robobinding.widget.adapterview.MultiItemLayoutSelector;
 import org.robobinding.widget.adapterview.SingleItemLayoutSelector;
 import org.robobinding.widget.adapterview.SourceAttribute.RequiresItemBindingContext;
-
-import com.google.common.collect.Lists;
 
 /**
  * 

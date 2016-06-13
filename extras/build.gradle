@@ -39,6 +39,7 @@ dependencies {
 		exclude module: 'wagon-provider-api'
 	}
 	testCompile "org.robolectric:shadows-support-v4:$robolectricVersion"
+	testCompile "com.google.guava:guava:$guavaVersion"
 }
 
 javadoc {

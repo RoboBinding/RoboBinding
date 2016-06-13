@@ -1,6 +1,5 @@
 package org.robobinding.widget;
 
-import static com.google.common.collect.Maps.newHashMap;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -31,6 +30,8 @@ import org.robolectric.RobolectricTestRunner;
 
 import android.view.View;
 
+import com.google.common.collect.Maps;
+
 /**
  * 
  * @since 1.0
@@ -52,8 +53,8 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 		view = ParameterizedTypeUtils.createTypeArgument(superclass, 0);
 		attribute = createAttributeUnderTest();
 
-		presentAttributeMappings = newHashMap();
-		childViewAttributeMap = newHashMap();
+		presentAttributeMappings = Maps.newHashMap();
+		childViewAttributeMap = Maps.newHashMap();
 
 	}
 

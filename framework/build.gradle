@@ -51,7 +51,6 @@ task funcTest(type: Test) {
 check.dependsOn integTest, funcTest
 
 dependencies {
-	compile "com.google.guava:guava:$guavaVersion"
 	compile "org.robolectric:android-all:$robolectricAndroidVersion"
 	//compile "com.google.android:android:$androidVersion"
 	compile "org.aspectj:aspectjrt:$aspectjVersion"
@@ -77,6 +76,7 @@ dependencies {
 		exclude module: 'wagon-http-shared'
 		exclude module: 'wagon-provider-api'
 	}
+	testCompile "com.google.guava:guava:$guavaVersion"
 	testCompile fileTree(dir: 'libs', include: '*.jar')
 	testCompile "org.easytesting:fest-assert-core:2.0M10"
 	testCompile 'commons-beanutils:commons-beanutils:1.9.2'
@@ -84,7 +84,7 @@ dependencies {
 	
 	javadocTaglet project(':javadoc-taglet')
 	
-	dependencyJar "com.google.guava:guava:$guavaVersion"
+	//dependencyJar "com.google.guava:guava:$guavaVersion"
 	aopDependencyJar "org.aspectj:aspectjrt:$aspectjVersion"
 }
 

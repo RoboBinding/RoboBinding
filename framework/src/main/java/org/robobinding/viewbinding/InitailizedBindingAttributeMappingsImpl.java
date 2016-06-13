@@ -2,12 +2,11 @@ package org.robobinding.viewbinding;
 
 import java.util.Map;
 
+import org.robobinding.util.Maps;
 import org.robobinding.viewattribute.event.EventViewAttributeBinderFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
-
-import com.google.common.collect.Maps;
 
 /**
  * 

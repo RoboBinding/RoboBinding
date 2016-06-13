@@ -4,8 +4,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 
 import org.robobinding.codegen.apt.element.WrappedTypeElement;
-
-import com.google.common.base.Joiner;
+import org.robobinding.util.Joiner;
 
 /**
  * @since 1.0

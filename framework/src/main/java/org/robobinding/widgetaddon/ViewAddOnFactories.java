@@ -2,9 +2,8 @@ package org.robobinding.widgetaddon;
 
 import java.util.Map;
 
+import org.robobinding.util.Maps;
 import org.robobinding.util.SearchableClasses;
-
-import com.google.common.collect.Maps;
 
 /**
  * @since 1.0

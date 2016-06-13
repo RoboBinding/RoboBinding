@@ -9,8 +9,7 @@ import org.robobinding.attribute.ChildAttributeResolver;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ResolvedGroupAttributes;
-
-import com.google.common.collect.Maps;
+import org.robobinding.util.Maps;
 
 /**
  * 

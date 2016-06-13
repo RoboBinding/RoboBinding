@@ -1,11 +1,9 @@
 package org.robobinding.property;
 
-import static org.robobinding.util.Preconditions.checkNotBlank;
-
 import java.text.MessageFormat;
 import java.util.Set;
 
-import com.google.common.base.Preconditions;
+import org.robobinding.util.Preconditions;
 
 /**
  * @since 1.0
@@ -22,7 +20,7 @@ public class PropertyValidation {
 	}
 
 	public void checkValid(String propertyName) {
-		checkNotBlank(propertyName, "propertyName cannot be empty");
+		Preconditions.checkNotBlank(propertyName, "propertyName cannot be empty");
 		Preconditions.checkArgument(propertyNames.contains(propertyName), 
 				MessageFormat.format("No such property ''{0}''", PropertyUtils.shortDescription(beanClass, propertyName)));
 	}

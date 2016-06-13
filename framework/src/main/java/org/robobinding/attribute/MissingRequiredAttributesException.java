@@ -3,7 +3,7 @@ package org.robobinding.attribute;
 import java.util.Collection;
 import java.util.Collections;
 
-import com.google.common.base.Joiner;
+import org.robobinding.util.Joiner;
 
 /**
  * 

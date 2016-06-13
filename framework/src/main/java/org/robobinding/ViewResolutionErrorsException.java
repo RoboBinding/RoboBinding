@@ -7,8 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.robobinding.attribute.MissingRequiredAttributesException;
-
-import com.google.common.collect.Lists;
+import org.robobinding.util.Lists;
 
 /**
  * 

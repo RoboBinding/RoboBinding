@@ -5,11 +5,10 @@ import static org.robobinding.util.Preconditions.checkValidResourceId;
 import org.robobinding.BindingContext;
 import org.robobinding.BindingContextFactoryB;
 import org.robobinding.ViewBinder;
+import org.robobinding.util.Preconditions;
 
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.common.base.Preconditions;
 
 /**
  * 

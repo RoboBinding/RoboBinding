@@ -3,8 +3,8 @@ package org.robobinding.codegen.presentationmodel.processor;
 import java.text.MessageFormat;
 import java.util.List;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
+import org.robobinding.util.Joiner;
+import org.robobinding.util.Lists;
 
 /**
  * @since 1.0

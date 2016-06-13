@@ -4,7 +4,7 @@ import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
-import com.google.common.collect.Maps;
+import org.robobinding.util.Maps;
 
 /**
  * @since 1.0

@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Set;
 
-import com.google.common.base.Joiner;
+import org.robobinding.util.Joiner;
 
 
 /**

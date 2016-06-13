@@ -3,10 +3,10 @@ package org.robobinding.widget.abslistview;
 import java.util.Map;
 import java.util.Set;
 
-import android.util.SparseBooleanArray;
+import org.robobinding.util.Maps;
+import org.robobinding.util.Sets;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import android.util.SparseBooleanArray;
 
 /**
  * 

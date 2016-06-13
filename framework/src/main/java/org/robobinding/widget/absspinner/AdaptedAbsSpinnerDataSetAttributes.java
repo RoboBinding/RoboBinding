@@ -14,7 +14,7 @@ import org.robobinding.widget.adapterview.RowLayoutAttributeFactory;
 
 import android.widget.AbsSpinner;
 
-import com.google.common.collect.ObjectArrays;
+import org.robobinding.util.ObjectArrays;
 
 /**
  * 

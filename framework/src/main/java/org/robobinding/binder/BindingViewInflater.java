@@ -10,12 +10,11 @@ import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
 import org.robobinding.ViewCreationListener;
+import org.robobinding.util.Lists;
 
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.common.collect.Lists;
 
 /**
  * 

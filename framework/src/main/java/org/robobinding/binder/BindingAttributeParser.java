@@ -2,9 +2,9 @@ package org.robobinding.binder;
 
 import java.util.Map;
 
-import android.util.AttributeSet;
+import org.robobinding.util.Maps;
 
-import com.google.common.collect.Maps;
+import android.util.AttributeSet;
 
 /**
  * 

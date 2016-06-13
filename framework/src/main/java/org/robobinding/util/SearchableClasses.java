@@ -3,8 +3,6 @@ package org.robobinding.util;
 import java.util.Queue;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
-
 /**
  * 
  * @since 1.0

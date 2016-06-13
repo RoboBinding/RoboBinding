@@ -5,8 +5,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.robobinding.codegen.apt.element.WrappedAnnotationMirror;
-
-import com.google.common.collect.Sets;
+import org.robobinding.util.Sets;
 
 /**
  * @since 1.0

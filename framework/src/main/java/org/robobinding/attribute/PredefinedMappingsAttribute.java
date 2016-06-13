@@ -8,13 +8,12 @@ import java.util.regex.Pattern;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForViewImpl;
 import org.robobinding.PredefinedPendingAttributesForView;
+import org.robobinding.util.Lists;
+import org.robobinding.util.Maps;
+import org.robobinding.util.Objects;
 
 import android.content.Context;
 import android.view.View;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * 

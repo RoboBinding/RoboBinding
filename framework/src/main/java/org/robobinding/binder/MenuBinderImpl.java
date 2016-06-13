@@ -5,8 +5,7 @@ import static org.robobinding.util.Preconditions.checkValidResourceId;
 import org.robobinding.BindingContext;
 import org.robobinding.BindingContextFactoryB;
 import org.robobinding.MenuBinder;
-
-import com.google.common.base.Preconditions;
+import org.robobinding.util.Preconditions;
 
 /**
  * 

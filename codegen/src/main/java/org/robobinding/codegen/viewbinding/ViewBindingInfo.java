@@ -4,8 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.robobinding.codegen.apt.element.WrappedTypeElement;
-
-import com.google.common.base.Objects;
+import org.robobinding.util.Objects;
 
 /**
  * @since 1.0

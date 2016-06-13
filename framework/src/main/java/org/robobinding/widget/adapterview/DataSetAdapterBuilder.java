@@ -12,13 +12,12 @@ import org.robobinding.property.DataSetPropertyChangeListener;
 import org.robobinding.property.DataSetValueModel;
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.PropertyChangeListenerAdapters;
+import org.robobinding.util.Lists;
 import org.robobinding.viewattribute.ViewTags;
 import org.robobinding.widget.adapterview.ItemLayoutUpdater.RequiresItemLayoutId;
 import org.robobinding.widget.adapterview.ItemLayoutsUpdater.RequiresItemLayoutIds;
 import org.robobinding.widget.adapterview.ItemMappingUpdater.RequiresItemPredefinedMappings;
 import org.robobinding.widget.adapterview.SourceAttribute.RequiresItemBindingContext;
-
-import com.google.common.collect.Lists;
 
 /**
  * 

@@ -17,8 +17,7 @@ import org.robobinding.codegen.apt.MethodElementFilter;
 import org.robobinding.codegen.apt.SetterElementFilter;
 import org.robobinding.codegen.apt.type.TypeMirrorWrapper;
 import org.robobinding.codegen.apt.type.WrappedDeclaredType;
-
-import com.google.common.collect.Lists;
+import org.robobinding.util.Lists;
 
 /**
  * @since 1.0

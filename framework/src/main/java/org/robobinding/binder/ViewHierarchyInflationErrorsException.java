@@ -4,8 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.robobinding.ViewResolutionErrors;
-
-import com.google.common.collect.Maps;
+import org.robobinding.util.Maps;
 
 /**
  * 

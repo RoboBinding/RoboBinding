@@ -3,7 +3,7 @@ package org.robobinding.property;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Maps;
+import org.robobinding.util.Maps;
 
 
 /**

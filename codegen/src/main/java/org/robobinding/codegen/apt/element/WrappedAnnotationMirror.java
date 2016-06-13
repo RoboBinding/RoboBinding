@@ -10,8 +10,7 @@ import javax.lang.model.type.TypeMirror;
 
 import org.robobinding.codegen.apt.type.TypeMirrorWrapper;
 import org.robobinding.codegen.apt.type.WrappedDeclaredType;
-
-import com.google.common.collect.Lists;
+import org.robobinding.util.Lists;
 
 public class WrappedAnnotationMirror {
 	private final AnnotationMirror annotationMirror;
