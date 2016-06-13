@@ -1,10 +1,13 @@
 package org.robobinding.binder;
 
 import org.robobinding.BinderProvider;
+import org.robobinding.BindingContextFactory;
+import org.robobinding.BindingContextFactoryImpl;
 import org.robobinding.MenuBinder;
 import org.robobinding.NonBindingViewInflater;
 import org.robobinding.NonBindingViewInflaterImpl;
 import org.robobinding.NonBindingViewInflaterProxy;
+import org.robobinding.PreInitializingViews;
 import org.robobinding.ViewBinder;
 import org.robobinding.ViewCreationListenerInstaller;
 import org.robobinding.attribute.PropertyAttributeParser;
@@ -35,7 +38,7 @@ class SingletonAssembler {
 	private BindingAttributeResolver bindingAttributeResolver;
 	private NonBindingViewInflater nonBindingViewInflater;
 	private BindingViewInflater bindingViewInflater;
-	private PresentationModelObjectLoader presentationModelObjectLoader;
+	private BindingContextFactoryAdapters bindingContextFactoryAdapters;
 
 	public SingletonAssembler(ViewBindingMap viewBindingMap, ViewAddOns viewAddOns,
 			Context context, boolean withPreInitializingViews) {
@@ -50,9 +53,11 @@ class SingletonAssembler {
 
 		BinderProviderProxy proxy = new BinderProviderProxy();
 		BindingContextFactory bindingContextFactory = createBindingContextFactory(proxy);
-		ViewBindingLifecycle viewBindingLifecycle = new ViewBindingLifecycle(bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
-		ViewBinder viewBinder = new ViewBinderImpl(bindingViewInflater, viewBindingLifecycle, presentationModelObjectLoader);
-		proxy.setProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, nonBindingViewInflater, viewBinder));
+		ViewBindingLifecycle viewBindingLifecycle = new ViewBindingLifecycle(new ErrorFormatterWithFirstErrorStackTrace());
+		ViewBinderImpl viewBinder = new ViewBinderImpl(bindingViewInflater, viewBindingLifecycle, 
+				bindingContextFactoryAdapters.adaptB(bindingContextFactory));
+		proxy.setProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, 
+				nonBindingViewInflater, viewBinder, bindingContextFactoryAdapters));
 
 		return viewBinder;
 	}
@@ -63,7 +68,8 @@ class SingletonAssembler {
 
 		createViewInflaters();
 		
-		presentationModelObjectLoader = new PresentationModelObjectLoader();
+		bindingContextFactoryAdapters = new BindingContextFactoryAdapters(
+				new PresentationModelAdapterFactory(), new PresentationModelObjectLoader());
 	}
 
 	private BindingAttributeResolver createBindingAttributeResolver() {
@@ -88,9 +94,8 @@ class SingletonAssembler {
 		proxy.setInflater(nonBindingViewInflater);
 	}
 
-	private BindingContextFactory createBindingContextFactory(BinderProvider binderProvider) {
-		return new BindingContextFactory(context, withPreInitializingViews, 
-				new PresentationModelAdapterFactory(), binderProvider);
+	private BindingContextFactoryImpl createBindingContextFactory(BinderProvider binderProvider) {
+		return new BindingContextFactoryImpl(binderProvider, context, PreInitializingViews.initial(withPreInitializingViews));
 	}
 
 	public MenuBinder createMenuBinder(MenuInflater menuInflater, Menu menu) {
@@ -98,11 +103,13 @@ class SingletonAssembler {
 	
 		BinderProviderProxy proxy = new BinderProviderProxy();
 		BindingContextFactory bindingContextFactory = createBindingContextFactory(proxy);
-		ViewBindingLifecycle viewBindingLifecycle = new ViewBindingLifecycle(bindingContextFactory, new ErrorFormatterWithFirstErrorStackTrace());
-		ViewBinder viewBinder = new ViewBinderImpl(bindingViewInflater, viewBindingLifecycle, presentationModelObjectLoader);
-		proxy.setProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, nonBindingViewInflater, viewBinder));
+		ViewBindingLifecycle viewBindingLifecycle = new ViewBindingLifecycle(new ErrorFormatterWithFirstErrorStackTrace());
+		ViewBinderImpl viewBinder = new ViewBinderImpl(bindingViewInflater, viewBindingLifecycle, 
+				bindingContextFactoryAdapters.adaptB(bindingContextFactory));
+		proxy.setProvider(new BinderProviderImpl(bindingViewInflater, viewBindingLifecycle, 
+				nonBindingViewInflater, viewBinder, bindingContextFactoryAdapters));
 	
 		BindingMenuInflater bindingMenuInflater = new BindingMenuInflater(context, menu, menuInflater, bindingAttributeParser, bindingAttributeResolver);
-		return new MenuBinderImpl(bindingMenuInflater, viewBindingLifecycle, presentationModelObjectLoader);
+		return new MenuBinderImpl(bindingMenuInflater, viewBindingLifecycle, bindingContextFactoryAdapters.adaptB(bindingContextFactory));
 	}
 }

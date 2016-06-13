@@ -6,8 +6,7 @@ import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.PropertyChangeSupport;
 import org.robobinding.property.PropertyUtils;
 import org.robobinding.property.PropertyValidation;
-
-import com.google.common.base.Preconditions;
+import org.robobinding.util.Preconditions;
 
 /**
  * To notify presentation model changes.

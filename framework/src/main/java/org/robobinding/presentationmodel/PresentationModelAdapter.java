@@ -23,4 +23,6 @@ public interface PresentationModelAdapter {
 	Function findFunction(String functionName, Class<?>... parameterTypes);
 
 	String getPresentationModelClassName();
+
+	Object getSubPresentationModelProperty(String propertyName);
 }

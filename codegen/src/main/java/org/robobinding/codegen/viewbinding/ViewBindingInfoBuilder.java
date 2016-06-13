@@ -7,8 +7,7 @@ import org.robobinding.annotation.ViewBinding;
 import org.robobinding.codegen.apt.element.SetterElement;
 import org.robobinding.codegen.apt.element.WrappedTypeElement;
 import org.robobinding.customviewbinding.CustomViewBinding;
-
-import com.google.common.collect.Lists;
+import org.robobinding.util.Lists;
 
 /**
  * @since 1.0

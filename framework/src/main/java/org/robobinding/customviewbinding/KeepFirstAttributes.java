@@ -2,6 +2,7 @@ package org.robobinding.customviewbinding;
 
 import java.util.Set;
 
+import org.robobinding.util.Sets;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.viewattribute.event.EventViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttribute;
@@ -16,8 +17,6 @@ import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
 import org.robobinding.viewbinding.BindingAttributeMappings;
 import org.robobinding.widgetaddon.ViewAddOn;
-
-import com.google.common.collect.Sets;
 
 /**
  * 

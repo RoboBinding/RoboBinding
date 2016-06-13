@@ -6,9 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.robobinding.Bug;
+import org.robobinding.util.Maps;
 import org.robobinding.util.MethodUtils;
-
-import com.google.common.collect.Maps;
 
 /**
  * @since 1.0

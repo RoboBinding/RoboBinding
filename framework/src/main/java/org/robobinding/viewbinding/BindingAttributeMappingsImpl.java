@@ -9,6 +9,8 @@ import static org.robobinding.viewattribute.grouped.FromClassViewAttributeFactor
 
 import java.util.Map;
 
+import org.robobinding.util.Maps;
+import org.robobinding.util.Preconditions;
 import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.viewattribute.event.EventViewAttributeBinderFactory;
 import org.robobinding.viewattribute.event.EventViewAttributeFactory;
@@ -17,19 +19,16 @@ import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinderFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.ViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.OneWayPropertyViewAttributeFactory;
+import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
 import org.robobinding.widgetaddon.ViewAddOn;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 
 /**
  * 

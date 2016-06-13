@@ -37,4 +37,15 @@ public class MockBindingContextBuilder {
 	public static MockBindingContextBuilder aBindingContext() {
 		return new MockBindingContextBuilder();
 	}
+	
+	public static <PropertyType> BindingContext aBindingContextWithReadOnlyProperty(String propertyName,
+			ValueModel<PropertyType> propertyValueModel) {
+		return aBindingContext().withReadOnlyProperty(propertyName, propertyValueModel).build();
+	}
+
+
+	public static <PropertyType> BindingContext aBindingContextWithProperty(String propertyName, 
+			ValueModel<PropertyType> propertyValueModel) {
+		return aBindingContext().withProperty(propertyName, propertyValueModel).build();
+	}
 }

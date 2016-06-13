@@ -22,8 +22,8 @@ import org.robobinding.codegen.presentationmodel.ItemPresentationModelObjectClas
 import org.robobinding.codegen.presentationmodel.PresentationModelInfo;
 import org.robobinding.codegen.presentationmodel.PresentationModelObjectClassGen;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
+import org.robobinding.util.Sets;
 
-import com.google.common.collect.Sets;
 import com.helger.jcodemodel.AbstractCodeWriter;
 import com.helger.jcodemodel.JClassAlreadyExistsException;
 

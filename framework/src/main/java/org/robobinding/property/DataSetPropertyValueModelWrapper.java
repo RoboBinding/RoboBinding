@@ -46,4 +46,9 @@ class DataSetPropertyValueModelWrapper extends PropertyWrapper implements DataSe
 	public void removePropertyChangeListener(DataSetPropertyChangeListener listener) {
 		valueModel.removePropertyChangeListener(listener);
 	}
+	
+	@Override
+	public boolean preInitializingViewsWithDefault(boolean defaultValue) {
+		return valueModel.preInitializingViewsWithDefault(defaultValue);
+	}
 }

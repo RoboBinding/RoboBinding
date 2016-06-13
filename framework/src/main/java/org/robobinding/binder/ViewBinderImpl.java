@@ -2,13 +2,13 @@ package org.robobinding.binder;
 
 import static org.robobinding.util.Preconditions.checkValidResourceId;
 
+import org.robobinding.BindingContext;
+import org.robobinding.BindingContextFactoryB;
 import org.robobinding.ViewBinder;
-import org.robobinding.presentationmodel.AbstractPresentationModelObject;
+import org.robobinding.util.Preconditions;
 
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.common.base.Preconditions;
 
 /**
  * 
@@ -19,23 +19,23 @@ import com.google.common.base.Preconditions;
 public class ViewBinderImpl implements ViewBinder {
 	private final BindingViewInflater bindingViewInflater;
 	private final ViewBindingLifecycle viewBindingLifecycle;
-	private final PresentationModelObjectLoader presentationModelObjectLoader;
+	private final BindingContextFactoryB bindingContextFactory;
 
 	public ViewBinderImpl(BindingViewInflater bindingViewInflater, ViewBindingLifecycle viewBindingLifecycle,
-			PresentationModelObjectLoader presentationModelObjectLoader) {
+			BindingContextFactoryB bindingContextFactory) {
 		this.bindingViewInflater = bindingViewInflater;
 		this.viewBindingLifecycle = viewBindingLifecycle;
-		this.presentationModelObjectLoader = presentationModelObjectLoader;
+		this.bindingContextFactory = bindingContextFactory;
 	}
 
 	@Override
 	public View inflateAndBind(int layoutId, Object presentationModel) {
 		checkLayoutId(layoutId);
 		checkPresentationModel(presentationModel);
-		AbstractPresentationModelObject presentationModelObject = presentationModelObjectLoader.load(presentationModel);
+		BindingContext bindingContext = bindingContextFactory.create(presentationModel);
 	
 		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId);
-		viewBindingLifecycle.run(inflatedView, presentationModelObject);
+		viewBindingLifecycle.run(inflatedView, bindingContext);
 		return inflatedView.getRootView();
 	}
 
@@ -56,10 +56,10 @@ public class ViewBinderImpl implements ViewBinder {
 		checkLayoutId(layoutId);
 		checkPresentationModel(presentationModel);
 		checkRoot(root);
-		AbstractPresentationModelObject presentationModelObject = presentationModelObjectLoader.load(presentationModel);
+		BindingContext bindingContext = bindingContextFactory.create(presentationModel);
 
 		InflatedViewWithRoot inflatedView = bindingViewInflater.inflateView(layoutId, root, attachToRoot);
-		viewBindingLifecycle.run(inflatedView, presentationModelObject);
+		viewBindingLifecycle.run(inflatedView, bindingContext);
 		return inflatedView.getRootView();
 	}
 	
@@ -72,12 +72,7 @@ public class ViewBinderImpl implements ViewBinder {
 		return inflateAndBind(layoutId, presentationModel, root, false);
 	}
 	
-	/*
-	public ViewBinder with(LayoutInflater newLayoutInflater) {
-		//LayoutInflater newLayoutInflater = layoutInflater.cloneInContext(layoutInflater.getContext());
-		BindingViewInflater newBindingViewInflater = bindingViewInflater.with(newLayoutInflater);
-		new ViewCreationListenerInstaller(newLayoutInflater).install(newBindingViewInflater);
-		
-		return new ViewBinderImpl(newBindingViewInflater, viewBindingLifecycle, presentationModelObjectLoader);
-	}*/
+	public ViewBinder with(BindingContextFactoryB bindingContextFactory) {
+		return new ViewBinderImpl(bindingViewInflater, viewBindingLifecycle, bindingContextFactory);
+	}
 }

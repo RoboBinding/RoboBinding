@@ -2,8 +2,8 @@
 package org.robobinding.codegen.presentationmodel;
 
 import java.util.Set;
-import com.google.common.collect.Sets;
 import org.robobinding.function.MethodDescriptor;
+import org.robobinding.util.Sets;
 
 public class DefineEventMethods_PM {
 	@Override

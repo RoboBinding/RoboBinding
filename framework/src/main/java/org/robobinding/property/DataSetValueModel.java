@@ -15,4 +15,5 @@ public interface DataSetValueModel extends ViewTypeSelectable {
 	void addPropertyChangeListener(DataSetPropertyChangeListener listener);
 	void removePropertyChangeListener(DataSetPropertyChangeListener listener);
 	RefreshableItemPresentationModel newRefreshableItemPresentationModel(int itemViewType);
+	boolean preInitializingViewsWithDefault(boolean defaultValue);
 }

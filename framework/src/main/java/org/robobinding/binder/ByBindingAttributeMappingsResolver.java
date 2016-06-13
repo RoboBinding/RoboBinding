@@ -7,18 +7,17 @@ import java.util.Map;
 import org.robobinding.PendingAttributesForView;
 import org.robobinding.PendingAttributesForView.AttributeGroupResolver;
 import org.robobinding.PendingAttributesForView.AttributeResolver;
+import org.robobinding.util.Lists;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 import org.robobinding.viewattribute.event.EventViewAttributeBinder;
 import org.robobinding.viewattribute.event.EventViewAttributeBinderFactory;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinder;
 import org.robobinding.viewattribute.grouped.GroupedViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinderFactory;
-import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
+import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.PropertyViewAttributeBinder;
+import org.robobinding.viewattribute.property.PropertyViewAttributeBinderFactory;
 import org.robobinding.viewbinding.InitailizedBindingAttributeMappings;
-
-import com.google.common.collect.Lists;
 
 /**
  * 

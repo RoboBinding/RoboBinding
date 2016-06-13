@@ -3,7 +3,7 @@ package org.robobinding.codegen.apt.type;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
 
-import com.google.common.base.Objects;
+import org.robobinding.util.Objects;
 
 public abstract class WrappedTypeMirror {
 	private final TypeMirror type;

@@ -3,7 +3,6 @@ package org.robobinding.widget.absspinner;
 import static org.robobinding.attribute.ChildAttributeResolvers.predefinedMappingsAttributeResolver;
 import static org.robobinding.attribute.ChildAttributeResolvers.propertyAttributeResolver;
 
-import org.robobinding.BindingContext;
 import org.robobinding.attribute.ChildAttributeResolverMappings;
 import org.robobinding.viewattribute.grouped.ChildViewAttributesBuilder;
 import org.robobinding.widget.adapterview.AbstractAdaptedDataSetAttributes;
@@ -15,7 +14,7 @@ import org.robobinding.widget.adapterview.RowLayoutAttributeFactory;
 
 import android.widget.AbsSpinner;
 
-import com.google.common.collect.ObjectArrays;
+import org.robobinding.util.ObjectArrays;
 
 /**
  * 
@@ -40,8 +39,8 @@ public class AdaptedAbsSpinnerDataSetAttributes extends AbstractAdaptedDataSetAt
 	}
 
 	@Override
-	public void setupChildViewAttributes(AbsSpinner view, ChildViewAttributesBuilder<AbsSpinner> childViewAttributes, BindingContext bindingContext) {
-		super.setupChildViewAttributes(view, childViewAttributes, bindingContext);
+	public void setupChildViewAttributes(AbsSpinner view, ChildViewAttributesBuilder<AbsSpinner> childViewAttributes) {
+		super.setupChildViewAttributes(view, childViewAttributes);
 
 		if (childViewAttributes.hasAttribute(DROPDOWN_LAYOUT)) {
 			RowLayoutAttributeFactory factory = new RowLayoutAttributeFactory(view, 

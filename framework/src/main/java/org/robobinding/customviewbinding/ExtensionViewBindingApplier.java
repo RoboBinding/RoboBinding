@@ -3,10 +3,9 @@ package org.robobinding.customviewbinding;
 
 import java.util.List;
 
+import org.robobinding.util.Lists;
 import org.robobinding.viewbinding.ViewBinding;
 import org.robobinding.viewbinding.ViewBindingMap;
-
-import com.google.common.collect.Lists;
 
 /**
  * @since 1.0

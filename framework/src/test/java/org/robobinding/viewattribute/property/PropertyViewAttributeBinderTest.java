@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.ViewAttributeContractTest;
 
 /**
@@ -59,13 +58,13 @@ public final class PropertyViewAttributeBinderTest extends ViewAttributeContract
 
 	@Override
 	protected PropertyViewAttributeBinder throwsExceptionDuringPreInitializingView() {
-		doThrow(new RuntimeException()).when(bindingProperty).preInitializeView(any(PresentationModelAdapter.class));
+		doThrow(new RuntimeException()).when(bindingProperty).preInitializeView(any(BindingContext.class));
 		return new PropertyViewAttributeBinder(bindingProperty, null);
 	}
 
 	@Override
 	protected PropertyViewAttributeBinder throwsExceptionDuringBinding() {
-		doThrow(new RuntimeException()).when(bindingProperty).performBind(any(PresentationModelAdapter.class));
+		doThrow(new RuntimeException()).when(bindingProperty).performBind(any(BindingContext.class));
 		return new PropertyViewAttributeBinder(bindingProperty, null);
 	}
 

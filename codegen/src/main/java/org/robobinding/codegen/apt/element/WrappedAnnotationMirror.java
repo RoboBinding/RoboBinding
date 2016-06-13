@@ -10,20 +10,23 @@ import javax.lang.model.type.TypeMirror;
 
 import org.robobinding.codegen.apt.type.TypeMirrorWrapper;
 import org.robobinding.codegen.apt.type.WrappedDeclaredType;
-
-import com.google.common.collect.Lists;
+import org.robobinding.util.Lists;
 
 public class WrappedAnnotationMirror {
-	private final TypeMirrorWrapper wrapper;
 	private final AnnotationMirror annotationMirror;
+	private final Map<? extends ExecutableElement, ? extends AnnotationValue> withDefaultValues;
+	private final TypeMirrorWrapper wrapper;
 
-	public WrappedAnnotationMirror(AnnotationMirror annotationMirror, TypeMirrorWrapper wrapper) {
+	public WrappedAnnotationMirror(AnnotationMirror annotationMirror,
+			Map<? extends ExecutableElement, ? extends AnnotationValue> withDefaultValues, 
+			TypeMirrorWrapper wrapper) {
 		this.annotationMirror = annotationMirror;
+		this.withDefaultValues = withDefaultValues;
 		this.wrapper = wrapper;
 	}
 
 	public WrappedDeclaredType annotationValueAsType(String key) {
-		AnnotationValue annotationValue = findAnnotationValue(key);
+		AnnotationValue annotationValue = findWithDefaltValues(key);
 		if (annotationValue == null) {
 			return null;
 		}
@@ -31,7 +34,8 @@ public class WrappedAnnotationMirror {
 		return wrapper.wrap((TypeMirror) annotationValue.getValue());
 	}
 
-	private AnnotationValue findAnnotationValue(String key) {
+	private AnnotationValue find(String key) {
+		
 		for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : annotationMirror.getElementValues().entrySet()) {
 			if (entry.getKey().getSimpleName().toString().equals(key)) {
 				return entry.getValue();
@@ -40,8 +44,20 @@ public class WrappedAnnotationMirror {
 		return null;
 	}
 
+	private AnnotationValue findWithDefaltValues(String key) {
+		
+		for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : withDefaultValues.entrySet()) {
+			if (entry.getKey().getSimpleName().toString().equals(key)) {
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
+	
+	
+
 	public String annotationValueAsText(String key) {
-		AnnotationValue annotationValue = findAnnotationValue(key);
+		AnnotationValue annotationValue = findWithDefaltValues(key);
 		if (annotationValue == null) {
 			return null;
 		}
@@ -51,7 +67,7 @@ public class WrappedAnnotationMirror {
 
 	@SuppressWarnings("unchecked")
 	public <T> List<T> annotationValueAsList(String key) {
-		AnnotationValue annotationValue = findAnnotationValue(key);
+		AnnotationValue annotationValue = findWithDefaltValues(key);
 		if (annotationValue == null) {
 			return null;
 		}
@@ -65,7 +81,16 @@ public class WrappedAnnotationMirror {
 	}
 
 	public boolean hasAnnotationValue(String key) {
-		return findAnnotationValue(key) != null;
+		return find(key) != null;
+	}
+	
+	public <T extends Enum<T>> T annotationValueAsEnum(Class<T> type, String key) {
+		AnnotationValue annotationValue = findWithDefaltValues(key);
+		if (annotationValue == null) {
+			return null;
+		}
+		
+		return Enum.valueOf(type, annotationValue.getValue().toString());
 	}
 
 }

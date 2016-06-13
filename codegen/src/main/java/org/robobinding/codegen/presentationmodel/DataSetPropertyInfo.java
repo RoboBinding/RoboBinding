@@ -1,5 +1,6 @@
 package org.robobinding.codegen.presentationmodel;
 
+import org.robobinding.annotation.PreInitializingViews;
 import org.robobinding.property.AbstractDataSet;
 
 
@@ -33,4 +34,6 @@ public interface DataSetPropertyInfo {
 	boolean viewTypeSelectorAcceptsArg();
 
 	String viewTypeSelector();
+	
+	PreInitializingViews preInitializingViews();
 }

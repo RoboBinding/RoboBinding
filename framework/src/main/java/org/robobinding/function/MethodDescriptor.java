@@ -2,7 +2,7 @@ package org.robobinding.function;
 
 import java.util.Arrays;
 
-import com.google.common.base.Objects;
+import org.robobinding.util.Objects;
 
 /**
  * @since 1.0

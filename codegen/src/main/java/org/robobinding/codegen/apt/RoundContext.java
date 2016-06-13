@@ -11,8 +11,7 @@ import javax.lang.model.util.Types;
 
 import org.robobinding.codegen.apt.element.ElementWrapper;
 import org.robobinding.codegen.apt.element.WrappedTypeElement;
-
-import com.google.common.collect.Sets;
+import org.robobinding.util.Sets;
 
 public class RoundContext {
 	private final RoundEnvironment env;

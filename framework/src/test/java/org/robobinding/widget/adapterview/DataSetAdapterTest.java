@@ -180,6 +180,11 @@ public class DataSetAdapterTest {
 		public int selectViewType(ViewTypeSelectionContext<Object> context) {
 			return 0;
 		}
+
+		@Override
+		public boolean preInitializingViewsWithDefault(boolean defaultValue) {
+			return false;
+		}
 	}
 	
 	private static class ObjectDataSetAdapterBuilder {

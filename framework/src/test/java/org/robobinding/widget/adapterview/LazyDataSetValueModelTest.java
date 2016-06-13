@@ -78,5 +78,10 @@ public class LazyDataSetValueModelTest {
 			return null;
 		}
 		
+		@Override
+		public boolean preInitializingViewsWithDefault(boolean defaultValue) {
+			return false;
+		}
+		
 	}
 }

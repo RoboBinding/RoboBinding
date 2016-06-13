@@ -3,10 +3,9 @@ package org.robobinding.viewbinding;
 import java.util.Map;
 import java.util.Queue;
 
+import org.robobinding.util.Lists;
+import org.robobinding.util.Maps;
 import org.robobinding.util.SearchableClasses;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * 

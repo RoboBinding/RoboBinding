@@ -1,5 +1,6 @@
 package org.robobinding.codegen.presentationmodel.processor;
 
+import org.robobinding.annotation.PreInitializingViews;
 import org.robobinding.codegen.apt.element.WrappedAnnotationMirror;
 
 
@@ -11,6 +12,7 @@ import org.robobinding.codegen.apt.element.WrappedAnnotationMirror;
 public class ItemPresentationModelAnnotationMirror {
 	private static final String FACTORY_METHOD = "factoryMethod";
 	private static final String VIEW_TYPE_SELECTOR = "viewTypeSelector";
+	private static final String PRE_INITIALIZING_VIEWS = "preInitializingViews";
 	
 	private final WrappedAnnotationMirror annotationMirror;
 	public ItemPresentationModelAnnotationMirror(WrappedAnnotationMirror annotationMirror) {
@@ -39,5 +41,9 @@ public class ItemPresentationModelAnnotationMirror {
 	
 	public String viewTypeSelector() {
 		return annotationMirror.annotationValueAsText(VIEW_TYPE_SELECTOR);
+	}
+
+	public PreInitializingViews preInitializingViews() {
+		return annotationMirror.annotationValueAsEnum(PreInitializingViews.class, PRE_INITIALIZING_VIEWS);
 	}
 }

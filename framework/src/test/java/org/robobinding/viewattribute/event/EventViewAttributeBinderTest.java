@@ -14,7 +14,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.Command;
 import org.robobinding.attribute.EventAttribute;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.ViewAttributeContractTest;
 import org.robobinding.widgetaddon.ViewAddOn;
 
@@ -75,7 +74,7 @@ public final class EventViewAttributeBinderTest extends ViewAttributeContractTes
 		}
 	
 		@Override
-		void performBind(PresentationModelAdapter presentationModelAdapter) {
+		void performBind(BindingContext context) {
 			throw new RuntimeException();
 		}
 	}

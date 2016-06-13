@@ -29,7 +29,7 @@ public class TwoWayCurrentHourAttributeTest extends AbstractTimePickerAttributeT
 	
     @Test
     public void whenUpdateView_thenViewShouldReflectChanges() {
-        int newCurrentHourValue = RandomValues.integerBetween(1,24);
+        int newCurrentHourValue = RandomValues.integerBetween(1,23);
         
         attribute.updateView(view, newCurrentHourValue, null);
         

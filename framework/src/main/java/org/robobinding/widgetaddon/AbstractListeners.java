@@ -2,7 +2,7 @@ package org.robobinding.widgetaddon;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
+import org.robobinding.util.Lists;
 
 /**
  * 

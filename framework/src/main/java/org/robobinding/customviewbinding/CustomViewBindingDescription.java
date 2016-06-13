@@ -1,10 +1,9 @@
 package org.robobinding.customviewbinding;
 
+import org.robobinding.util.Preconditions;
 import org.robobinding.widgetaddon.DefaultViewAddOnFactory;
 import org.robobinding.widgetaddon.ViewAddOn;
 import org.robobinding.widgetaddon.ViewAddOnFactory;
-
-import com.google.common.base.Preconditions;
 
 /**
  * @since 1.0

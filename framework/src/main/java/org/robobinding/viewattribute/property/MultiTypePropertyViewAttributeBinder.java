@@ -2,7 +2,6 @@ package org.robobinding.viewattribute.property;
 
 import org.robobinding.BindingContext;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.viewattribute.AttributeBindingException;
 import org.robobinding.viewattribute.ViewAttributeBinder;
 
@@ -36,7 +35,7 @@ public class MultiTypePropertyViewAttributeBinder implements ViewAttributeBinder
 		}
 	}
 
-	private void initializeViewAttributeBinder(PresentationModelAdapter presentationModelAdapter) {
+	private void initializeViewAttributeBinder(BindingContext presentationModelAdapter) {
 		Class<?> propertyType = presentationModelAdapter.getPropertyType(attribute.getPropertyName());
 		viewAttributeBinder = viewAttributeBinderProvider.create(propertyType);
 

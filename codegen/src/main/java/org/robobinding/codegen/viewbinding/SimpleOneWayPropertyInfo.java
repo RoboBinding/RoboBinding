@@ -4,8 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.robobinding.codegen.apt.element.SetterElement;
 import org.robobinding.codegen.apt.type.WrappedPrimitiveType;
 import org.robobinding.codegen.apt.type.WrappedTypeMirror;
+import org.robobinding.util.Objects;
 
-import com.google.common.base.Objects;
 import com.helger.jcodemodel.JDefinedClass;
 
 

@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.content.Context;
+import org.robobinding.util.Lists;
 
-import com.google.common.collect.Lists;
+import android.content.Context;
 
 /**
  * @since 1.0

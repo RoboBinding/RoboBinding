@@ -4,8 +4,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.apache.commons.lang3.text.StrBuilder;
-
-import com.google.common.collect.Lists;
+import org.robobinding.util.Lists;
 
 /**
  * @since 1.0

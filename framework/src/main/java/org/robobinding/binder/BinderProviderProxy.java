@@ -1,6 +1,7 @@
 package org.robobinding.binder;
 
 import org.robobinding.BinderProvider;
+import org.robobinding.BindingContextFactory;
 import org.robobinding.ItemBinder;
 import org.robobinding.SubViewBinder;
 
@@ -13,13 +14,13 @@ class BinderProviderProxy implements BinderProvider {
 	private BinderProvider delegate = NULL;
 	
 	@Override
-	public ItemBinder createItemBinder() {
-		return delegate.createItemBinder();
+	public ItemBinder createItemBinder(BindingContextFactory factory) {
+		return delegate.createItemBinder(factory);
 	}
 
 	@Override
-	public SubViewBinder createSubViewBinder() {
-		return delegate.createSubViewBinder();
+	public SubViewBinder createSubViewBinder(BindingContextFactory factory) {
+		return delegate.createSubViewBinder(factory);
 	}
 	
 	public void setProvider(BinderProvider provider) {
@@ -29,12 +30,12 @@ class BinderProviderProxy implements BinderProvider {
 	private static final BinderProvider NULL = new BinderProvider() {
 		
 		@Override
-		public SubViewBinder createSubViewBinder() {
+		public SubViewBinder createSubViewBinder(BindingContextFactory factory) {
 			throw new UnsupportedOperationException();
 		}
 		
 		@Override
-		public ItemBinder createItemBinder() {
+		public ItemBinder createItemBinder(BindingContextFactory factory) {
 			throw new UnsupportedOperationException();
 		}
 	};

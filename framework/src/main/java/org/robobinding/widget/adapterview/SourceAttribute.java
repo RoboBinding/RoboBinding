@@ -1,8 +1,8 @@
 package org.robobinding.widget.adapterview;
 
 import org.robobinding.BindingContext;
+import org.robobinding.ItemBindingContext;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.property.DataSetValueModel;
 import org.robobinding.viewattribute.grouped.ChildViewAttributeWithAttribute;
 
 /**
@@ -12,10 +12,10 @@ import org.robobinding.viewattribute.grouped.ChildViewAttributeWithAttribute;
  * @author Robert Taylor
  */
 public class SourceAttribute implements ChildViewAttributeWithAttribute<ValueModelAttribute> {
-	private final RequiresDataSetValueModel receiver;
+	private final RequiresItemBindingContext receiver;
 	private ValueModelAttribute attribute;
 
-	public SourceAttribute(final RequiresDataSetValueModel receiver) {
+	public SourceAttribute(final RequiresItemBindingContext receiver) {
 		this.receiver = receiver;
 	}
 
@@ -26,11 +26,11 @@ public class SourceAttribute implements ChildViewAttributeWithAttribute<ValueMod
 
 	@Override
 	public void bindTo(BindingContext bindingContext) {
-		DataSetValueModel valueModel = bindingContext.getDataSetPropertyValueModel(attribute.getPropertyName());
-		receiver.setValueModel(valueModel);
+		ItemBindingContext itemBindingContext = bindingContext.navigateToItemContext(attribute.getPropertyName());
+		receiver.setBindingContext(itemBindingContext);
 	}
 	
-	public static interface RequiresDataSetValueModel {
-		void setValueModel(DataSetValueModel valueModel);
+	public static interface RequiresItemBindingContext {
+		void setBindingContext(ItemBindingContext bindingContext);
 	}
 }

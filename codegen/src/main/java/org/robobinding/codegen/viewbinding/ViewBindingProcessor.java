@@ -14,8 +14,8 @@ import org.robobinding.codegen.apt.Logger;
 import org.robobinding.codegen.apt.RoundContext;
 import org.robobinding.codegen.apt.element.WrappedTypeElement;
 import org.robobinding.customviewbinding.ViewBindingLoader;
+import org.robobinding.util.Sets;
 
-import com.google.common.collect.Sets;
 import com.helger.jcodemodel.AbstractCodeWriter;
 import com.helger.jcodemodel.JClassAlreadyExistsException;
 

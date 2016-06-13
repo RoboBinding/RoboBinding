@@ -2,10 +2,10 @@ package org.robobinding.binder;
 
 import static org.robobinding.util.Preconditions.checkValidResourceId;
 
+import org.robobinding.BindingContext;
+import org.robobinding.BindingContextFactoryB;
 import org.robobinding.MenuBinder;
-import org.robobinding.presentationmodel.AbstractPresentationModelObject;
-
-import com.google.common.base.Preconditions;
+import org.robobinding.util.Preconditions;
 
 /**
  * 
@@ -16,23 +16,23 @@ import com.google.common.base.Preconditions;
 public class MenuBinderImpl implements MenuBinder {
 	private final BindingMenuInflater bindingMenuInflater;
 	private final ViewBindingLifecycle viewBindingLifecycle;
-	private final PresentationModelObjectLoader presentationModelObjectLoader;
+	private final BindingContextFactoryB bindingContextFactory;
 
 	public MenuBinderImpl(BindingMenuInflater bindingMenuInflater, ViewBindingLifecycle viewBindingLifecycle,
-			PresentationModelObjectLoader presentationModelObjectLoader) {
+			BindingContextFactoryB bindingContextFactory) {
 		this.bindingMenuInflater = bindingMenuInflater;
 		this.viewBindingLifecycle = viewBindingLifecycle;
-		this.presentationModelObjectLoader = presentationModelObjectLoader;
+		this.bindingContextFactory = bindingContextFactory;
 	}
 
 	public void inflateAndBind(int menuRes, Object presentationModel) {
 		checkMenuRes(menuRes);
 		checkPresentationModel(presentationModel);
-		AbstractPresentationModelObject presentationModelObject = presentationModelObjectLoader.load(presentationModel);
+		BindingContext bindingContext = bindingContextFactory.create(presentationModel);
 		
 		InflatedView inflatedView = bindingMenuInflater.inflate(menuRes);
 
-		viewBindingLifecycle.run(inflatedView, presentationModelObject);
+		viewBindingLifecycle.run(inflatedView, bindingContext);
 	}
 
 	private void checkMenuRes(int menuRes) {

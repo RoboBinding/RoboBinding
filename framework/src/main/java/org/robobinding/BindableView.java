@@ -14,14 +14,18 @@ import android.view.View;
 public class BindableView {
 	private final ViewBindingLifecycle viewBindingLifecycle;
 	private final InflatedViewWithRoot inflatedView;
+	private final BindingContextFactoryA bindingContextFactory;
 	
-	public BindableView(ViewBindingLifecycle viewBindingLifecycle, InflatedViewWithRoot inflatedView) {
+	public BindableView(ViewBindingLifecycle viewBindingLifecycle, 
+			InflatedViewWithRoot inflatedView, BindingContextFactoryA bindingContextFactory) {
 		this.viewBindingLifecycle = viewBindingLifecycle;
 		this.inflatedView = inflatedView;
+		this.bindingContextFactory = bindingContextFactory;
 	}
 	
 	public void bindTo(AbstractPresentationModelObject presentationModel) {
-		viewBindingLifecycle.run(inflatedView, presentationModel);
+		BindingContext bindingContext = bindingContextFactory.create(presentationModel);
+		viewBindingLifecycle.run(inflatedView, bindingContext);
 	}
 	
 	public View getRootView() {

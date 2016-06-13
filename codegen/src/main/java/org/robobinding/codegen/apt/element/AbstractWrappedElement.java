@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.util.Elements;
 
 import org.robobinding.codegen.apt.Logger;
 import org.robobinding.codegen.apt.MessagerLoggerFactory;
@@ -19,12 +20,14 @@ public abstract class AbstractWrappedElement implements WrappedElement {
 	private final Element element;
 	private final TypeMirrorWrapper typeWrapper;
 	private final MessagerLoggerFactory loggerFactory;
+	private final Elements elements;
 	
-	public AbstractWrappedElement(Element element, 
-			TypeMirrorWrapper typeWrapper, MessagerLoggerFactory loggerFactory) {
+	public AbstractWrappedElement(Element element, TypeMirrorWrapper typeWrapper, 
+			MessagerLoggerFactory loggerFactory, Elements elements) {
 		this.element = element;
 		this.typeWrapper = typeWrapper;
 		this.loggerFactory = loggerFactory;
+		this.elements = elements;
 	}
 
 	public boolean hasAnnotation(Class<? extends Annotation> annotationType) {
@@ -34,7 +37,7 @@ public abstract class AbstractWrappedElement implements WrappedElement {
 	public <A extends Annotation> WrappedAnnotationMirror getAnnotation(Class<A> annotationType) {
 		AnnotationMirror annotationMirror = findAnnotationMirror(annotationType);
 		if(annotationMirror != null) {
-			return new WrappedAnnotationMirror(annotationMirror, typeWrapper);
+			return new WrappedAnnotationMirror(annotationMirror, elements.getElementValuesWithDefaults(annotationMirror), typeWrapper);
 		} else {
 			throw new RuntimeException("'"+element.toString()+"' is not annotated with @"+annotationType.getName());
 		}

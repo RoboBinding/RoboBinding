@@ -3,8 +3,7 @@ package org.robobinding.codegen.viewbinding;
 import java.util.List;
 
 import org.robobinding.codegen.apt.element.WrappedAnnotationMirror;
-
-import com.google.common.collect.Lists;
+import org.robobinding.util.Lists;
 
 /**
  * @since 1.0

@@ -2,7 +2,7 @@ package org.robobinding.itempresentationmodel;
 
 import java.util.Set;
 
-import com.google.common.collect.Sets;
+import org.robobinding.util.Sets;
 
 /**
  * @since 1.0

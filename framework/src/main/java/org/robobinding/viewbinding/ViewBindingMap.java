@@ -2,7 +2,7 @@ package org.robobinding.viewbinding;
 
 import java.util.Map;
 
-import com.google.common.collect.Maps;
+import org.robobinding.util.Maps;
 
 /**
  * 

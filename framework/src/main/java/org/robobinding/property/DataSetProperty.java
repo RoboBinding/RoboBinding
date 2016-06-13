@@ -2,6 +2,7 @@ package org.robobinding.property;
 
 import java.util.Set;
 
+import org.robobinding.annotation.PreInitializingViews;
 import org.robobinding.itempresentationmodel.RefreshableItemPresentationModel;
 import org.robobinding.itempresentationmodel.ViewTypeSelectable;
 import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
@@ -16,17 +17,21 @@ public class DataSetProperty implements DataSetPropertyValueModel, PropertyChang
 	private final PropertyDescriptor descriptor;
 	private final AbstractDataSet dataSet;
 	private final ViewTypeSelectable viewTypeSelector;
+	private final PreInitializingViews preInitializingViews;
 	
 	public DataSetProperty(ObservableBean bean, PropertyDescriptor descriptor, 
-			AbstractDataSet dataSet, ViewTypeSelectable viewTypeSelector) {
+			AbstractDataSet dataSet, ViewTypeSelectable viewTypeSelector, 
+			PreInitializingViews preInitializingViews) {
 		this.bean = bean;
 		this.descriptor = descriptor;
 		this.dataSet = dataSet;
 		this.viewTypeSelector = viewTypeSelector;
+		this.preInitializingViews = preInitializingViews;
 	}
 	
-	public DataSetProperty(ObservableBean bean, PropertyDescriptor descriptor, AbstractDataSet dataSet) {
-		this(bean, descriptor, dataSet, ALWAYS_FIRST_VIEW_TYPE);
+	public DataSetProperty(ObservableBean bean, PropertyDescriptor descriptor, 
+			AbstractDataSet dataSet, PreInitializingViews preInitializingViews) {
+		this(bean, descriptor, dataSet, ALWAYS_FIRST_VIEW_TYPE, preInitializingViews);
 	}
 
 	@Override
@@ -82,6 +87,11 @@ public class DataSetProperty implements DataSetPropertyValueModel, PropertyChang
 	@Override
 	public void propertyChanged() {
 		dataSet.propertyChanged();
+	}
+	
+	@Override
+	public boolean preInitializingViewsWithDefault(boolean defaultValue) {
+		return preInitializingViews.asBooleanWithDefault(defaultValue);
 	}
 	
 	@Override

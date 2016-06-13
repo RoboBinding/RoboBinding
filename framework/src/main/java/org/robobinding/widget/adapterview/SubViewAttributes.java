@@ -48,7 +48,7 @@ public class SubViewAttributes<T extends AdapterView<?>> implements GroupedViewA
 	}
 
 	@Override
-	public void setupChildViewAttributes(T view, ChildViewAttributesBuilder<T> childViewAttributesBuilder, BindingContext bindingContext) {
+	public void setupChildViewAttributes(T view, ChildViewAttributesBuilder<T> childViewAttributesBuilder) {
 		childViewAttributesBuilder.failOnFirstBindingError();
 
 		SubViewLayoutAttribute subViewLayoutAttribute = new SubViewLayoutAttribute();

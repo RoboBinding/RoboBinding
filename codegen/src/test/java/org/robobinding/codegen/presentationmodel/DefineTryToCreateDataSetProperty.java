@@ -3,6 +3,7 @@ package org.robobinding.codegen.presentationmodel;
 import java.util.List;
 
 import org.robobinding.annotation.ItemPresentationModel;
+import org.robobinding.annotation.PreInitializingViews;
 import org.robobinding.itempresentationmodel.ListObservable;
 import org.robobinding.itempresentationmodel.TypedCursor;
 import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
@@ -13,10 +14,15 @@ import org.robobinding.itempresentationmodel.ViewTypeSelectionContext;
  *
  */
 public class DefineTryToCreateDataSetProperty {
-	public static final int numDataSetProperties = 6;
+	public static final int numDataSetProperties = 7;
 
 	@ItemPresentationModel(value=StringItemPresentationModel.class)
 	public List<String> getDataSetProp() {
+		return null;
+	}
+
+	@ItemPresentationModel(value=StringItemPresentationModel.class, preInitializingViews=PreInitializingViews.DEFAULT)
+	public List<String> getDataSetPropWithPreInitializingViews() {
 		return null;
 	}
 	

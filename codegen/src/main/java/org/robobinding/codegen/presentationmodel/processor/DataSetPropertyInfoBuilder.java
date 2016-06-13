@@ -93,6 +93,6 @@ public class DataSetPropertyInfoBuilder {
 
 	public DataSetPropertyInfo build() {
 		return new DataSetPropertyInfoImpl(getter, annotation.itemPresentationModelTypeName(), itemPresentationModelObjectTypeName, 
-				factoryMethod, viewTypeSelector);
+				factoryMethod, viewTypeSelector, annotation.preInitializingViews());
 	}
 }

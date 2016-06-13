@@ -1,9 +1,8 @@
 package org.robobinding.customviewbinding;
 
+import org.robobinding.util.Preconditions;
 import org.robobinding.viewbinding.BindingAttributeMappings;
 import org.robobinding.viewbinding.ViewBinding;
-
-import com.google.common.base.Preconditions;
 
 /**
  * @since 1.0

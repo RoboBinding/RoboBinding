@@ -1,5 +1,6 @@
 package org.robobinding;
 
+
 /**
  * 
  * @since 1.0
@@ -7,7 +8,7 @@ package org.robobinding;
  * @author Cheng Wei
  */
 public interface BinderProvider {
-	ItemBinder createItemBinder();
+	ItemBinder createItemBinder(BindingContextFactory factory);
 
-	SubViewBinder createSubViewBinder();
+	SubViewBinder createSubViewBinder(BindingContextFactory factory);
 }

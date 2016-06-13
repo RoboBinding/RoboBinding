@@ -1,7 +1,7 @@
 package org.robobinding.viewattribute.property;
 
+import org.robobinding.BindingContext;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.PropertyChangeListener;
 import org.robobinding.property.ValueModel;
 
@@ -24,8 +24,8 @@ public class OneWayBindingProperty extends AbstractBindingProperty {
 	}
 
 	@Override
-	public void performBind(PresentationModelAdapter presentationModelAdapter) {
-		final ValueModel<Object> valueModel = getPropertyValueModel(presentationModelAdapter);
+	public void performBind(BindingContext context) {
+		final ValueModel<Object> valueModel = getPropertyValueModel(context);
 		PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
 			@Override
 			public void propertyChanged() {
@@ -37,8 +37,8 @@ public class OneWayBindingProperty extends AbstractBindingProperty {
 	}
 
 	@Override
-	public ValueModel<Object> getPropertyValueModel(PresentationModelAdapter presentationModelAdapter) {
-		return presentationModelAdapter.getReadOnlyPropertyValueModel(attribute.getPropertyName());
+	public ValueModel<Object> getPropertyValueModel(BindingContext context) {
+		return context.getReadOnlyPropertyValueModel(attribute.getPropertyName());
 	}
 
 	@Override

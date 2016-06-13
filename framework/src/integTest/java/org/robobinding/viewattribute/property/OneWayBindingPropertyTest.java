@@ -3,14 +3,14 @@ package org.robobinding.viewattribute.property;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.robobinding.attribute.Attributes.aValueModelAttribute;
-import static org.robobinding.viewattribute.MockPresentationModelAdapterBuilder.aPresentationModelAdapterWithReadOnlyProperty;
+import static org.robobinding.viewattribute.MockBindingContextBuilder.aBindingContextWithReadOnlyProperty;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.robobinding.BindingContext;
 import org.robobinding.attribute.ValueModelAttribute;
-import org.robobinding.presentationmodel.PresentationModelAdapter;
 import org.robobinding.property.ValueModel;
 import org.robobinding.util.RandomValues;
 import org.robobinding.viewattribute.ValueModelUtils;
@@ -54,8 +54,8 @@ public class OneWayBindingPropertyTest {
 		ValueModelAttribute attribute = aValueModelAttribute(PROPERTY_NAME);
 		OneWayBindingProperty bindingProperty = new OneWayBindingProperty(view, viewAttributeSpy, attribute);
 
-		PresentationModelAdapter presentationModelAdapter = aPresentationModelAdapterWithReadOnlyProperty(PROPERTY_NAME, valueModel);
-		bindingProperty.performBind(presentationModelAdapter);
+		BindingContext bindingContext = aBindingContextWithReadOnlyProperty(PROPERTY_NAME, valueModel);
+		bindingProperty.performBind(bindingContext);
 		return bindingProperty;
 	}
 }
