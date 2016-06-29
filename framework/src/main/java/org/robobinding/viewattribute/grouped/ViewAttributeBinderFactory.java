@@ -2,6 +2,7 @@ package org.robobinding.viewattribute.grouped;
 
 import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.viewattribute.event.EventViewAttributeBinder;
 import org.robobinding.viewattribute.event.EventViewAttributeBinderFactory;
 import org.robobinding.viewattribute.event.EventViewAttributeFactory;
@@ -139,6 +140,11 @@ public class ViewAttributeBinderFactory {
 			TwoWayMultiTypePropertyViewAttributeFactory<?> factory, ValueModelAttribute attribute) {
 		MultiTypePropertyViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
 		return binderFactory.create(view, attribute);
+	}
+
+	public EventViewAttributeBinder binderFor(EventViewAttribute<?, ?> viewAttribute, String attributeName,
+	                                          String attributeValue) {
+		return binderFor(viewAttribute, attributeName, attributeValue);
 	}
 
 	public EventViewAttributeBinder binderFor(EventViewAttributeFactory<?> factory, String attributeName,
