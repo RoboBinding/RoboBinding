@@ -22,6 +22,7 @@ import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribu
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
+import org.robobinding.widgetaddon.ViewAddOn;
 import org.robobinding.widgetaddon.ViewAddOnInjector;
 
 /**
@@ -142,9 +143,15 @@ public class ViewAttributeBinderFactory {
 		return binderFactory.create(view, attribute);
 	}
 
-	public EventViewAttributeBinder binderFor(EventViewAttribute<?, ?> viewAttribute, String attributeName,
+	public EventViewAttributeBinder binderFor(final EventViewAttribute<?, ?> viewAttribute, String attributeName,
 	                                          String attributeValue) {
-		return binderFor(viewAttribute, attributeName, attributeValue);
+		return binderFor(new EventViewAttributeFactory<Object>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public EventViewAttribute<Object, ViewAddOn> create() {
+				return (EventViewAttribute<Object, ViewAddOn>)viewAttribute;
+			}
+		}, attributeName, attributeValue);
 	}
 
 	public EventViewAttributeBinder binderFor(EventViewAttributeFactory<?> factory, String attributeName,
