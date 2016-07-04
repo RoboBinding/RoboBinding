@@ -1,9 +1,8 @@
 package org.robobinding.viewattribute.grouped;
 
-import java.util.Map;
-
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.EnumAttribute;
+import org.robobinding.attribute.EventAttribute;
 import org.robobinding.attribute.ResolvedGroupAttributes;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
@@ -23,6 +22,8 @@ import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribu
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
 import org.robobinding.widgetaddon.ViewAddOn;
+
+import java.util.Map;
 
 /**
  * 
@@ -128,17 +129,15 @@ class ChildViewAttributesBuilderImpl<ViewType> implements ChildViewAttributesBui
 
 	@Override
 	public void add(String attributeName, EventViewAttribute<ViewType, ? extends ViewAddOn> viewAttribute) {
-		ValueModelAttribute attribute = resolvedGroupAttributes.valueModelAttributeFor(attributeName);
-		EventViewAttributeBinder viewAttributeBinder = viewAttributeBinderFactory.binderFor(
-				viewAttribute, attributeName, attribute.getPropertyName());
+		EventAttribute attribute = resolvedGroupAttributes.eventAttributeFor(attributeName);
+		EventViewAttributeBinder viewAttributeBinder = viewAttributeBinderFactory.binderFor(viewAttribute, attribute);
 		childViewAttributeMap.put(attributeName, viewAttributeBinder);
 	}
 
 	@Override
 	public void add(String attributeName, EventViewAttributeFactory<ViewType> factory) {
-		ValueModelAttribute attribute = resolvedGroupAttributes.valueModelAttributeFor(attributeName);
-		EventViewAttributeBinder viewAttributeBinder = viewAttributeBinderFactory.binderFor(factory,
-				attributeName, attribute.getPropertyName());
+		EventAttribute attribute = resolvedGroupAttributes.eventAttributeFor(attributeName);
+		EventViewAttributeBinder viewAttributeBinder = viewAttributeBinderFactory.binderFor(factory, attribute);
 		childViewAttributeMap.put(attributeName, viewAttributeBinder);
 	}
 

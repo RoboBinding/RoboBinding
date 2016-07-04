@@ -1,5 +1,6 @@
 package org.robobinding.viewattribute.grouped;
 
+import org.robobinding.attribute.EventAttribute;
 import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.viewattribute.event.EventViewAttribute;
@@ -143,20 +144,18 @@ public class ViewAttributeBinderFactory {
 		return binderFactory.create(view, attribute);
 	}
 
-	public EventViewAttributeBinder binderFor(final EventViewAttribute<?, ?> viewAttribute, String attributeName,
-	                                          String attributeValue) {
+	public EventViewAttributeBinder binderFor(final EventViewAttribute<?, ?> viewAttribute, EventAttribute attribute) {
 		return binderFor(new EventViewAttributeFactory<Object>() {
 			@SuppressWarnings("unchecked")
 			@Override
 			public EventViewAttribute<Object, ViewAddOn> create() {
 				return (EventViewAttribute<Object, ViewAddOn>)viewAttribute;
 			}
-		}, attributeName, attributeValue);
+		}, attribute);
 	}
 
-	public EventViewAttributeBinder binderFor(EventViewAttributeFactory<?> factory, String attributeName,
-			String attributeValue) {
+	public EventViewAttributeBinder binderFor(EventViewAttributeFactory<?> factory, EventAttribute attribute) {
 		EventViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
-		return binderFactory.create(view, attributeName, attributeValue);
+		return binderFactory.create(view, attribute);
 	}
 }
