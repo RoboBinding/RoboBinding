@@ -1,7 +1,9 @@
 package org.robobinding.viewattribute.grouped;
 
+import org.robobinding.attribute.EventAttribute;
 import org.robobinding.attribute.PropertyAttributeParser;
 import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.viewattribute.event.EventViewAttribute;
 import org.robobinding.viewattribute.event.EventViewAttributeBinder;
 import org.robobinding.viewattribute.event.EventViewAttributeBinderFactory;
 import org.robobinding.viewattribute.event.EventViewAttributeFactory;
@@ -21,6 +23,7 @@ import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribu
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeBinderFactory;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
+import org.robobinding.widgetaddon.ViewAddOn;
 import org.robobinding.widgetaddon.ViewAddOnInjector;
 
 /**
@@ -141,9 +144,18 @@ public class ViewAttributeBinderFactory {
 		return binderFactory.create(view, attribute);
 	}
 
-	public EventViewAttributeBinder binderFor(EventViewAttributeFactory<?> factory, String attributeName,
-			String attributeValue) {
+	public EventViewAttributeBinder binderFor(final EventViewAttribute<?, ?> viewAttribute, EventAttribute attribute) {
+		return binderFor(new EventViewAttributeFactory<Object>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public EventViewAttribute<Object, ViewAddOn> create() {
+				return (EventViewAttribute<Object, ViewAddOn>)viewAttribute;
+			}
+		}, attribute);
+	}
+
+	public EventViewAttributeBinder binderFor(EventViewAttributeFactory<?> factory, EventAttribute attribute) {
 		EventViewAttributeBinderFactory binderFactory = binderFactoryFor(factory);
-		return binderFactory.create(view, attributeName, attributeValue);
+		return binderFactory.create(view, attribute);
 	}
 }

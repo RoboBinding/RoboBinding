@@ -27,6 +27,10 @@ public class ResolvedGroupAttributes {
 		return attributeFor(attributeName);
 	}
 
+	public EventAttribute eventAttributeFor(String attributeName) {
+		return attributeFor(attributeName);
+	}
+
 	public boolean hasAttribute(String attributeName) {
 		return resolvedChildAttributes.containsKey(attributeName);
 	}

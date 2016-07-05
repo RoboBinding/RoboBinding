@@ -1,14 +1,16 @@
 package org.robobinding.viewattribute.grouped;
 
-import java.util.Map;
-
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.EnumAttribute;
+import org.robobinding.attribute.EventAttribute;
 import org.robobinding.attribute.ResolvedGroupAttributes;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
 import org.robobinding.util.Maps;
 import org.robobinding.viewattribute.Bindable;
+import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.viewattribute.event.EventViewAttributeBinder;
+import org.robobinding.viewattribute.event.EventViewAttributeFactory;
 import org.robobinding.viewattribute.property.MultiTypePropertyViewAttributeBinder;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
@@ -19,6 +21,9 @@ import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribu
 import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
+import org.robobinding.widgetaddon.ViewAddOn;
+
+import java.util.Map;
 
 /**
  * 
@@ -119,6 +124,20 @@ class ChildViewAttributesBuilderImpl<ViewType> implements ChildViewAttributesBui
 		ValueModelAttribute attribute = resolvedGroupAttributes.valueModelAttributeFor(attributeName);
 		MultiTypePropertyViewAttributeBinder viewAttributeBinder = viewAttributeBinderFactory.binderFor(factory,
 				attribute);
+		childViewAttributeMap.put(attributeName, viewAttributeBinder);
+	}
+
+	@Override
+	public void add(String attributeName, EventViewAttribute<ViewType, ? extends ViewAddOn> viewAttribute) {
+		EventAttribute attribute = resolvedGroupAttributes.eventAttributeFor(attributeName);
+		EventViewAttributeBinder viewAttributeBinder = viewAttributeBinderFactory.binderFor(viewAttribute, attribute);
+		childViewAttributeMap.put(attributeName, viewAttributeBinder);
+	}
+
+	@Override
+	public void add(String attributeName, EventViewAttributeFactory<ViewType> factory) {
+		EventAttribute attribute = resolvedGroupAttributes.eventAttributeFor(attributeName);
+		EventViewAttributeBinder viewAttributeBinder = viewAttributeBinderFactory.binderFor(factory, attribute);
 		childViewAttributeMap.put(attributeName, viewAttributeBinder);
 	}
 

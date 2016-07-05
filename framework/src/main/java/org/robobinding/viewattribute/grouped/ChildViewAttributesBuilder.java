@@ -3,6 +3,8 @@ package org.robobinding.viewattribute.grouped;
 import org.robobinding.attribute.EnumAttribute;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.viewattribute.event.EventViewAttributeFactory;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
@@ -11,6 +13,7 @@ import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribu
 import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
+import org.robobinding.widgetaddon.ViewAddOn;
 
 /**
  * 
@@ -40,6 +43,10 @@ public interface ChildViewAttributesBuilder<ViewType> {
 	void add(String attributeName, TwoWayMultiTypePropertyViewAttribute<ViewType> viewAttribute);
 
 	void add(String attributeName, TwoWayMultiTypePropertyViewAttributeFactory<ViewType> factory);
+
+	void add(String attributeName, EventViewAttribute<ViewType, ? extends ViewAddOn> viewAttribute);
+
+	void add(String attributeName, EventViewAttributeFactory<ViewType> factory);
 
 	void failOnFirstBindingError();
 

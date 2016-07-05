@@ -13,6 +13,8 @@ import org.robobinding.attribute.PendingGroupAttributes;
 import org.robobinding.attribute.ResolvedGroupAttributes;
 import org.robobinding.attribute.StaticResourceAttribute;
 import org.robobinding.attribute.ValueModelAttribute;
+import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.viewattribute.event.EventViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.ChildViewAttribute;
 import org.robobinding.viewattribute.grouped.ChildViewAttributeFactory;
 import org.robobinding.viewattribute.grouped.ChildViewAttributesBuilder;
@@ -26,6 +28,7 @@ import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttribu
 import org.robobinding.viewattribute.property.TwoWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.TwoWayPropertyViewAttributeFactory;
+import org.robobinding.widgetaddon.ViewAddOn;
 import org.robolectric.RobolectricTestRunner;
 
 import android.view.View;
@@ -209,6 +212,16 @@ public abstract class AbstractGroupedViewAttributeTest<ViewType extends View, Vi
 
 		@Override
 		public void add(String attributeName, TwoWayMultiTypePropertyViewAttributeFactory<View> factory) {
+			childViewAttributeMap.put(attributeName, factory.create());
+		}
+
+		@Override
+		public void add(String attributeName, EventViewAttribute<View, ? extends ViewAddOn> viewAttribute) {
+			childViewAttributeMap.put(attributeName, viewAttribute);
+		}
+
+		@Override
+		public void add(String attributeName, EventViewAttributeFactory<View> factory) {
 			childViewAttributeMap.put(attributeName, factory.create());
 		}
 

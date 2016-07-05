@@ -16,10 +16,13 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.robobinding.attribute.AbstractAttribute;
 import org.robobinding.attribute.ResolvedGroupAttributes;
+import org.robobinding.viewattribute.event.EventViewAttribute;
+import org.robobinding.viewattribute.event.EventViewAttributeFactory;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttribute;
 import org.robobinding.viewattribute.property.OneWayMultiTypePropertyViewAttributeFactory;
 import org.robobinding.viewattribute.property.OneWayPropertyViewAttribute;
 import org.robobinding.viewattribute.property.OneWayPropertyViewAttributeFactory;
+import org.robobinding.widgetaddon.ViewAddOn;
 
 import android.view.View;
 
@@ -31,7 +34,7 @@ import android.view.View;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ChildViewAttributesBuilderImplTest {
-	private static final int NUM_KINDS_OF_CHILD_VIEW_ATTRIBUTES = 6;
+	private static final int NUM_KINDS_OF_CHILD_VIEW_ATTRIBUTES = 8;
 
 	private ChildViewAttributesBuilderImpl<View> childViewAttributesBuilder;
 
@@ -47,6 +50,10 @@ public class ChildViewAttributesBuilderImplTest {
 	private OneWayMultiTypePropertyViewAttribute<View> multiTypePropertyViewAttribute;
 	@Mock
 	private OneWayMultiTypePropertyViewAttributeFactory<View> multiTypePropertyViewAttributeFactory;
+	@Mock
+	private EventViewAttribute<View, ViewAddOn> eventViewAttribute;
+	@Mock
+	private EventViewAttributeFactory<View> eventViewAttributeFactory;
 
 	@Before
 	public void setUp() {
@@ -83,6 +90,12 @@ public class ChildViewAttributesBuilderImplTest {
 		case 4:
 			childViewAttributesBuilder.add(attributeName, multiTypePropertyViewAttribute);
 			break;
+		case 5:
+			childViewAttributesBuilder.add(attributeName, eventViewAttribute);
+			break;
+		case 6:
+			childViewAttributesBuilder.add(attributeName, eventViewAttributeFactory);
+			break;
 		default:
 			childViewAttributesBuilder.add(attributeName, multiTypePropertyViewAttributeFactory);
 			break;
@@ -105,6 +118,8 @@ public class ChildViewAttributesBuilderImplTest {
 		String attribute4 = "attribute4";
 		String attribute5 = "attribute5";
 		String attribute6 = "attribute6";
+		String attribute7 = "attribute7";
+		String attribute8 = "attribute8";
 
 		childViewAttributesBuilder.add(attribute1, childViewAttribute);
 		childViewAttributesBuilder.add(attribute2, childViewAttributeFactory);
@@ -112,6 +127,8 @@ public class ChildViewAttributesBuilderImplTest {
 		childViewAttributesBuilder.add(attribute4, propertyViewAttributeFactory);
 		childViewAttributesBuilder.add(attribute5, multiTypePropertyViewAttribute);
 		childViewAttributesBuilder.add(attribute6, multiTypePropertyViewAttributeFactory);
+		childViewAttributesBuilder.add(attribute7, eventViewAttribute);
+		childViewAttributesBuilder.add(attribute8, eventViewAttributeFactory);
 
 		assertThat(numOfChildViewAttributes(), is(NUM_KINDS_OF_CHILD_VIEW_ATTRIBUTES));
 		assertTrue(hasChildViewAttribute(attribute1));
@@ -120,6 +137,8 @@ public class ChildViewAttributesBuilderImplTest {
 		assertTrue(hasChildViewAttribute(attribute4));
 		assertTrue(hasChildViewAttribute(attribute5));
 		assertTrue(hasChildViewAttribute(attribute6));
+		assertTrue(hasChildViewAttribute(attribute7));
+		assertTrue(hasChildViewAttribute(attribute8));
 	}
 
 	@Test
