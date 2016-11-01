@@ -67,7 +67,7 @@ String getRepositoryPassword() {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.7'
+	gradleVersion = '3.1'
 	description = 'Produces Gradle Wrapper for the project.'
 	group = 'other'
 }
