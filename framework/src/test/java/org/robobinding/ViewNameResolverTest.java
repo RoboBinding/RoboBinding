@@ -20,6 +20,7 @@ public class ViewNameResolverTest {
 	public static ViewNameMapping[] viewNameMappings = { 
 		layoutTagName("View").shouldResolveTo("android.view.View"),
 			layoutTagName("ViewGroup").shouldResolveTo("android.view.ViewGroup"), 
+			layoutTagName("SurfaceView").shouldResolveTo("android.view.SurfaceView"), 
 			layoutTagName("WebView").shouldResolveTo("android.webkit.WebView"), 
 			layoutTagName("EditText").shouldResolveTo("android.widget.EditText"),
 			layoutTagName("ListView").shouldResolveTo("android.widget.ListView"),

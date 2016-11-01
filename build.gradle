@@ -25,14 +25,14 @@ subprojects {
 	group = 'org.robobinding'
 	//version = $version
 	compileJava {
-		sourceCompatibility = 1.6
-		targetCompatibility = 1.6
+		sourceCompatibility = JavaVersion.VERSION_1_6
+		targetCompatibility = JavaVersion.VERSION_1_6
 	}
 	
 	ext {
 		guavaVersion = '18.0'
 		robolectricAndroidVersion = '4.4_r1-robolectric-1'
-		aspectjVersion = '1.8.2'
+		aspectjVersion = '1.8.9'
 		jcodemodelVersion = '2.7.11'
 
 		commonsLangVersion = '3.4'

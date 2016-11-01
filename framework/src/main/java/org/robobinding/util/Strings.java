@@ -1,5 +1,6 @@
 package org.robobinding.util;
 
+
 /**
  * Migrated from {@link com.google.common.base.Strings}
  * @since 1.0
@@ -20,5 +21,29 @@ public class Strings {
    */
   public static boolean isNullOrEmpty(String string) {
     return string == null || string.isEmpty();
+  }
+  
+  public static boolean equalsAny(final String string, final String... strings) {
+	  if (isNullOrEmpty(string) || ArrayUtils.isEmpty(strings)) {
+          return false;
+      }
+	  
+      for (String searchString : strings) {
+          if (equals(string, searchString)) {
+              return true;
+          }
+      }
+      return false;
+  }
+  
+  public static boolean equals(final String string, final String searchString) {
+      if (string == searchString) {
+          return true;
+      }
+      if (string == null || searchString == null) {
+          return false;
+      }
+      
+      return string.equals(searchString);
   }
 }

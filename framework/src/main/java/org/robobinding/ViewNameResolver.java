@@ -1,5 +1,7 @@
 package org.robobinding;
 
+import org.robobinding.util.Strings;
+
 /**
  * 
  * @since 1.0
@@ -10,7 +12,7 @@ public class ViewNameResolver {
 	public String getViewNameFromLayoutTag(String tagName) {
 		StringBuilder nameBuilder = new StringBuilder();
 
-		if ("View".equals(tagName) || "ViewGroup".equals(tagName)) {
+		if (Strings.equalsAny(tagName, "View", "ViewGroup", "SurfaceView")) {
 			nameBuilder.append("android.view.");
 		} else if("WebView".equals(tagName)) {
 			nameBuilder.append("android.webkit.");
