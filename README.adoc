@@ -1,3 +1,7 @@
+PLEASE NOTE, THIS PROJECT IS NO LONGER BEING MAINTAINED.
+As personal time contraints, I am currently unable to keep up. Please use link:https://developer.android.com/topic/libraries/data-binding/index.html[official android databinding] instead.
+-----
+
 = image:http://robobinding.org/images/robobinding_logo.png[width=60, height=60] RoboBinding
 
 A data-binding http://martinfowler.com/eaaDev/PresentationModel.html[Presentation Model] (MVVM) framework for the Android platform.
